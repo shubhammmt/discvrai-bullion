@@ -30,7 +30,7 @@ const KeyMetrics = () => {
     { label: 'P/E Ratio', value: '28.5', subtext: 'vs Industry 24.2', trend: 'up' as const },
     { label: 'Volume', value: '89.2M', subtext: 'vs Avg 67.8M', trend: 'up' as const },
     { label: '52W High', value: '$182.94', subtext: '-11.2% from high', trend: 'down' as const },
-    { label: '52W Low', value: '$124.17', value: '$162.80', subtext: '+31.1% from low', trend: 'up' as const },
+    { label: '52W Low', value: '$162.80', subtext: '+31.1% from low', trend: 'up' as const },
     { label: 'Dividend Yield', value: '0.43%', subtext: 'Annual: $0.70' }
   ];
 

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
 import QuickChart from '@/components/QuickChart';
-import KeyMetrics from '@/components/KeyMetrics';
+import CompanyOverview from '@/components/CompanyOverview';
 import LatestNews from '@/components/LatestNews';
 import ViewToggle from '@/components/ViewToggle';
-import DetailedView from '@/components/DetailedView';
+import EnhancedDetailedView from '@/components/EnhancedDetailedView';
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
@@ -35,17 +35,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="max-w-6xl mx-auto p-4 md:p-6">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            StockSnap
-          </h1>
-          <p className="text-gray-600 text-lg">Smart investing decisions in 30 seconds</p>
-        </div>
-
-        {/* View Toggle */}
-        <div className="flex justify-center mb-6">
+      <div className="max-w-6xl mx-auto p-4">
+        {/* Compact Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              StockSnap
+            </h1>
+            <p className="text-gray-600 text-sm">Smart investing decisions in 30 seconds</p>
+          </div>
           <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
         </div>
 
@@ -58,17 +56,21 @@ const Index = () => {
             <AIInsight {...aiInsightData} />
             <QuickChart />
             <div className="grid lg:grid-cols-2 gap-6">
-              <KeyMetrics />
+              <CompanyOverview />
               <LatestNews />
             </div>
           </div>
         ) : (
-          // Detailed View - Comprehensive analysis
-          <DetailedView />
+          // Enhanced Detailed View - Comprehensive analysis
+          <div className="space-y-6">
+            <AIInsight {...aiInsightData} />
+            <QuickChart />
+            <EnhancedDetailedView />
+          </div>
         )}
 
         {/* Footer */}
-        <footer className="text-center mt-12 py-8 border-t border-gray-200">
+        <footer className="text-center mt-8 py-6 border-t border-gray-200">
           <p className="text-gray-500 text-sm">
             StockSnap • Making smart investing decisions simple and fast
           </p>
