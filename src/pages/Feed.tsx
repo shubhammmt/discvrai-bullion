@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Filter, TrendingUp, Heart, BarChart3, Bell } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import FeedSearch from '@/components/FeedSearch';
 import AssetCard from '@/components/AssetCard';
 import PersonalizedSection from '@/components/PersonalizedSection';
@@ -12,7 +12,16 @@ import PersonalizedSection from '@/components/PersonalizedSection';
 const Feed = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  // Set filter based on URL parameter
+  useEffect(() => {
+    const filterParam = searchParams.get('filter');
+    if (filterParam) {
+      setActiveFilter(filterParam);
+    }
+  }, [searchParams]);
 
   // Mock user profile from onboarding
   const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
@@ -23,6 +32,8 @@ const Feed = () => {
     { id: 'mutual-funds', label: 'Mutual Funds' },
     { id: 'etfs', label: 'ETFs' },
     { id: 'ipo', label: 'IPOs' },
+    { id: 'credit', label: 'Credit' },
+    { id: 'insurance', label: 'Insurance' },
     { id: 'crypto', label: 'Crypto' }
   ];
 
@@ -54,17 +65,49 @@ const Feed = () => {
     },
     {
       id: 3,
-      name: 'Bitcoin',
-      symbol: 'BTC',
-      type: 'crypto',
-      price: 43250.00,
-      change: 1250.50,
-      changePercent: 2.98,
-      volume: '892K',
-      latestEvent: 'ETF Approval',
-      news: 'New Bitcoin ETF approved by SEC'
+      name: 'TechCorp IPO',
+      symbol: 'TECH',
+      type: 'ipo',
+      price: 290.00,
+      change: 15.00,
+      changePercent: 5.45,
+      volume: '1.2M',
+      latestEvent: 'IPO Opening',
+      news: 'Subscription opens today'
+    },
+    {
+      id: 4,
+      name: 'HDFC Personal Loan',
+      symbol: 'HDFC-PL',
+      type: 'credit',
+      price: 10.5,
+      change: -0.25,
+      changePercent: -2.27,
+      volume: '500K',
+      latestEvent: 'Rate Reduction',
+      news: 'Interest rates reduced by 0.25%'
+    },
+    {
+      id: 5,
+      name: 'Max Life Term Plan',
+      symbol: 'MAX-TERM',
+      type: 'insurance',
+      price: 24000,
+      change: 0,
+      changePercent: 0,
+      volume: '100K',
+      latestEvent: 'New Features',
+      news: 'Added critical illness cover'
     }
   ];
+
+  // Filter assets based on active filter
+  const filteredAssets = activeFilter === 'all' 
+    ? trendingAssets 
+    : trendingAssets.filter(asset => {
+        if (activeFilter === 'mutual-funds') return asset.type === 'mutual-fund';
+        return asset.type === activeFilter;
+      });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -125,14 +168,19 @@ const Feed = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="w-5 h-5 text-green-600" />
-                  Trending Now
+                  {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {trendingAssets.map((asset) => (
+                  {filteredAssets.map((asset) => (
                     <AssetCard key={asset.id} asset={asset} />
                   ))}
+                  {filteredAssets.length === 0 && (
+                    <div className="text-center py-8 text-gray-500">
+                      No assets found for the selected filter.
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

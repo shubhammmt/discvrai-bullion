@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Heart, Share2, Bell, TrendingUp, PieChart, Target } from 'lucide-react';
+import { ArrowLeft, Plus, Heart, Bell, TrendingUp, PieChart, Target } from 'lucide-react';
 import ViewToggle from '@/components/ViewToggle';
+import MutualFundDetailedView from '@/components/MutualFundDetailedView';
 
 const MutualFundResearch = () => {
   const { fundId } = useParams();
@@ -45,23 +46,24 @@ const MutualFundResearch = () => {
           
           <div className="flex items-center gap-4">
             <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
-            <div className="flex items-center gap-2">
-              <Button 
-                variant="outline" 
-                className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20"
-              >
+            
+            <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-lg p-1 border border-white/20">
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                 <Bell size={16} />
-                Alert
               </Button>
               <Button 
-                variant={isInWatchlist ? "default" : "outline"}
+                size="sm" 
+                variant="ghost" 
+                className="h-8 w-8 p-0"
                 onClick={() => setIsInWatchlist(!isInWatchlist)}
-                className="flex items-center gap-2"
               >
-                {isInWatchlist ? <Heart size={16} fill="currentColor" /> : <Plus size={16} />}
-                {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+                <Heart size={16} fill={isInWatchlist ? "currentColor" : "none"} />
               </Button>
             </div>
+            
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              Invest Now
+            </Button>
           </div>
         </div>
 
@@ -85,11 +87,6 @@ const MutualFundResearch = () => {
                 <div className="text-2xl font-bold text-gray-900">₹{fundData.nav}</div>
                 <div className="text-green-600 text-sm">
                   +₹{fundData.change} (+{fundData.changePercent}%)
-                </div>
-                <div className="mt-2">
-                  <Button className="bg-blue-600 hover:bg-blue-700">
-                    Invest Now
-                  </Button>
                 </div>
               </div>
             </div>
@@ -192,10 +189,7 @@ const MutualFundResearch = () => {
             </Card>
           </div>
         ) : (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-semibold mb-4">Detailed Analysis Coming Soon</h3>
-            <p className="text-gray-600">Advanced mutual fund analysis features will be available in the next update.</p>
-          </div>
+          <MutualFundDetailedView />
         )}
       </div>
     </div>

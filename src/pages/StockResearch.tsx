@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Bell, Eye, TrendingUp, MoreHorizontal } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { ArrowLeft, Plus, Bell, Eye, TrendingUp, Heart, BarChart3 } from 'lucide-react';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
 import QuickChart from '@/components/QuickChart';
@@ -60,37 +59,27 @@ const StockResearch = () => {
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+            
+            {/* Actionable Icons */}
+            <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-lg p-1 border border-white/20">
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                <Bell size={16} />
+              </Button>
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                <Heart size={16} />
+              </Button>
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                <BarChart3 size={16} />
+              </Button>
+            </div>
             
             {/* Primary Action */}
             <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md">
               <Plus size={16} className="mr-2" />
               Buy Stock
             </Button>
-            
-            {/* Secondary Actions Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="bg-white/70 backdrop-blur-md border-white/20">
-                  <MoreHorizontal size={16} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>
-                  <Bell size={14} className="mr-2" />
-                  Set Price Alert
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Eye size={14} className="mr-2" />
-                  Add to Watchlist
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <TrendingUp size={14} className="mr-2" />
-                  Add to Portfolio
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
 

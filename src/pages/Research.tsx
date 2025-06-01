@@ -16,7 +16,7 @@ const Research = () => {
       icon: TrendingUp,
       color: 'bg-blue-100 text-blue-600',
       popular: ['AAPL', 'MSFT', 'GOOGL', 'TSLA'],
-      route: '/research/stock'
+      route: '/feed?filter=stocks'
     },
     {
       id: 'mutual-funds',
@@ -25,7 +25,7 @@ const Research = () => {
       icon: Building,
       color: 'bg-green-100 text-green-600',
       popular: ['HDFC Top 100', 'SBI Bluechip', 'ICICI Prudential'],
-      route: '/research/mutual-fund'
+      route: '/feed?filter=mutual-funds'
     },
     {
       id: 'ipo',
@@ -34,7 +34,7 @@ const Research = () => {
       icon: Zap,
       color: 'bg-purple-100 text-purple-600',
       popular: ['TechCorp IPO', 'GreenEnergy IPO', 'FinTech IPO'],
-      route: '/research/ipo'
+      route: '/feed?filter=ipo'
     },
     {
       id: 'credit',
@@ -43,7 +43,7 @@ const Research = () => {
       icon: CreditCard,
       color: 'bg-orange-100 text-orange-600',
       popular: ['Personal Loan', 'Credit Cards', 'Business Loan'],
-      route: '/research/credit'
+      route: '/feed?filter=credit'
     },
     {
       id: 'insurance',
@@ -52,25 +52,12 @@ const Research = () => {
       icon: Shield,
       color: 'bg-red-100 text-red-600',
       popular: ['Term Life', 'Health Insurance', 'ULIP'],
-      route: '/research/insurance'
+      route: '/feed?filter=insurance'
     }
   ];
 
   const handleCategoryExplore = (category: any) => {
-    switch (category.id) {
-      case 'stocks':
-        navigate('/research/stock/aapl');
-        break;
-      case 'mutual-funds':
-        navigate('/research/mutual-fund/hdfc-top-100');
-        break;
-      case 'ipo':
-        navigate('/research/ipo/techcorp');
-        break;
-      default:
-        // For now, redirect to stocks as placeholder
-        navigate('/research/stock/aapl');
-    }
+    navigate(category.route);
   };
 
   const handlePopularItemClick = (category: any, item: string) => {
@@ -86,8 +73,16 @@ const Research = () => {
         const ipoSlug = item.toLowerCase().replace(/\s+/g, '-');
         navigate(`/research/ipo/${ipoSlug}`);
         break;
+      case 'credit':
+        const creditSlug = item.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/research/credit/${creditSlug}`);
+        break;
+      case 'insurance':
+        const insuranceSlug = item.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/research/insurance/${insuranceSlug}`);
+        break;
       default:
-        navigate('/research/stock/aapl');
+        navigate('/feed');
     }
   };
 

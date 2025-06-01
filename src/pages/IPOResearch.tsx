@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Heart, Share2, Bell, TrendingUp, Calendar, Users } from 'lucide-react';
+import { ArrowLeft, Plus, Heart, Bell, TrendingUp, Calendar, Users } from 'lucide-react';
+import ViewToggle from '@/components/ViewToggle';
+import IPODetailedView from '@/components/IPODetailedView';
 
 const IPOResearch = () => {
   const { symbol } = useParams();
   const navigate = useNavigate();
   const [isInWatchlist, setIsInWatchlist] = useState(false);
+  const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
 
   const ipoData = {
     companyName: symbol ? `${symbol.toUpperCase()} Ltd.` : 'TechCorp Ltd.',
@@ -30,7 +33,7 @@ const IPOResearch = () => {
             <Button 
               variant="outline" 
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20"
             >
               <ArrowLeft size={16} />
               Back
@@ -41,27 +44,31 @@ const IPOResearch = () => {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2"
-            >
-              <Bell size={16} />
-              Set Alert
-            </Button>
-            <Button 
-              variant={isInWatchlist ? "default" : "outline"}
-              onClick={() => setIsInWatchlist(!isInWatchlist)}
-              className="flex items-center gap-2"
-            >
-              {isInWatchlist ? <Heart size={16} fill="currentColor" /> : <Plus size={16} />}
-              {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+          <div className="flex items-center gap-4">
+            <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+            
+            <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-lg p-1 border border-white/20">
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                <Bell size={16} />
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="h-8 w-8 p-0"
+                onClick={() => setIsInWatchlist(!isInWatchlist)}
+              >
+                <Heart size={16} fill={isInWatchlist ? "currentColor" : "none"} />
+              </Button>
+            </div>
+            
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              Apply Now
             </Button>
           </div>
         </div>
 
         {/* IPO Header */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-white/70 backdrop-blur-md border-white/20">
           <CardContent className="p-6">
             <div className="flex justify-between items-center">
               <div>
@@ -79,119 +86,120 @@ const IPOResearch = () => {
               <div className="text-right">
                 <div className="text-2xl font-bold text-gray-900">{ipoData.priceRange}</div>
                 <p className="text-gray-600">Price Band</p>
-                <div className="mt-2">
-                  <Button className="bg-blue-600 hover:bg-blue-700">
-                    Apply Now
-                  </Button>
-                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Key Details */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-              <div className="text-xl font-bold">{ipoData.issueSize}</div>
-              <div className="text-sm text-gray-600">Issue Size</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Users className="w-8 h-8 mx-auto mb-2 text-green-600" />
-              <div className="text-xl font-bold">{ipoData.lotSize}</div>
-              <div className="text-sm text-gray-600">Lot Size</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Calendar className="w-8 h-8 mx-auto mb-2 text-purple-600" />
-              <div className="text-xl font-bold">{ipoData.listingDate}</div>
-              <div className="text-sm text-gray-600">Listing Date</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-orange-600" />
-              <div className="text-xl font-bold">8.5/10</div>
-              <div className="text-sm text-gray-600">AI Rating</div>
-            </CardContent>
-          </Card>
-        </div>
+        {currentView === 'quick' ? (
+          <div className="space-y-6">
+            {/* Key Details */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <TrendingUp className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+                  <div className="text-xl font-bold">{ipoData.issueSize}</div>
+                  <div className="text-sm text-gray-600">Issue Size</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <Users className="w-8 h-8 mx-auto mb-2 text-green-600" />
+                  <div className="text-xl font-bold">{ipoData.lotSize}</div>
+                  <div className="text-sm text-gray-600">Lot Size</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <Calendar className="w-8 h-8 mx-auto mb-2 text-purple-600" />
+                  <div className="text-xl font-bold">{ipoData.listingDate}</div>
+                  <div className="text-sm text-gray-600">Listing Date</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <TrendingUp className="w-8 h-8 mx-auto mb-2 text-orange-600" />
+                  <div className="text-xl font-bold">8.5/10</div>
+                  <div className="text-sm text-gray-600">AI Rating</div>
+                </CardContent>
+              </Card>
+            </div>
 
-        {/* AI Analysis */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>AI Analysis</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
-              <h4 className="font-semibold text-green-800 mb-2">Recommendation: SUBSCRIBE</h4>
-              <p className="text-green-700">
-                Strong fundamentals with growing market opportunity. Reasonable valuation compared to peers.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <p className="text-sm">Strong revenue growth of 45% CAGR over last 3 years</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <p className="text-sm">Market leader in emerging tech segment</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
-                <p className="text-sm">High valuation compared to traditional players</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            {/* AI Analysis */}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader>
+                <CardTitle>AI Analysis</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                  <h4 className="font-semibold text-green-800 mb-2">Recommendation: SUBSCRIBE</h4>
+                  <p className="text-green-700">
+                    Strong fundamentals with growing market opportunity. Reasonable valuation compared to peers.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <p className="text-sm">Strong revenue growth of 45% CAGR over last 3 years</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <p className="text-sm">Market leader in emerging tech segment</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+                    <p className="text-sm">High valuation compared to traditional players</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Company Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Company Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-700 mb-4">
-              TechCorp Ltd. is a leading technology company specializing in AI-driven solutions for enterprises. 
-              The company has shown consistent growth and innovation in the rapidly expanding tech sector.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Industry</span>
-                  <span className="font-medium">Technology</span>
+            {/* Company Overview */}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader>
+                <CardTitle>Company Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700 mb-4">
+                  TechCorp Ltd. is a leading technology company specializing in AI-driven solutions for enterprises. 
+                  The company has shown consistent growth and innovation in the rapidly expanding tech sector.
+                </p>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Industry</span>
+                      <span className="font-medium">Technology</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Founded</span>
+                      <span className="font-medium">2018</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Employees</span>
+                      <span className="font-medium">2,500+</span>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Revenue (FY23)</span>
+                      <span className="font-medium">₹1,200 Cr</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Net Profit (FY23)</span>
+                      <span className="font-medium">₹180 Cr</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">ROE</span>
+                      <span className="font-medium">18.5%</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Founded</span>
-                  <span className="font-medium">2018</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Employees</span>
-                  <span className="font-medium">2,500+</span>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Revenue (FY23)</span>
-                  <span className="font-medium">₹1,200 Cr</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Net Profit (FY23)</span>
-                  <span className="font-medium">₹180 Cr</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">ROE</span>
-                  <span className="font-medium">18.5%</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          <IPODetailedView />
+        )}
       </div>
     </div>
   );
