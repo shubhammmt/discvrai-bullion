@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Heart, Share2, Bell } from 'lucide-react';
+import { ArrowLeft, Plus, Heart, Share2, Bell, Eye, TrendingUp } from 'lucide-react';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
 import QuickChart from '@/components/QuickChart';
@@ -19,7 +19,6 @@ const StockResearch = () => {
   const [isInShortlist, setIsInShortlist] = useState(false);
   const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
 
-  // Mock data - in real app, this would come from API based on symbol
   const stockData = {
     symbol: symbol?.toUpperCase() || 'AAPL',
     companyName: symbol?.toUpperCase() === 'AAPL' ? 'Apple Inc.' : `${symbol?.toUpperCase()} Inc.`,
@@ -45,20 +44,16 @@ const StockResearch = () => {
     setIsInShortlist(!isInShortlist);
   };
 
-  const handleSetAlert = () => {
-    console.log('Setting alert for', symbol);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-6xl mx-auto p-4">
-        {/* Header with Navigation */}
+        {/* Header with Navigation and View Toggle */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <Button 
               variant="outline" 
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20"
             >
               <ArrowLeft size={16} />
               Back
@@ -69,53 +64,57 @@ const StockResearch = () => {
             </div>
           </div>
           
-          {/* Action Buttons */}
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              onClick={handleSetAlert}
-              className="flex items-center gap-2"
-            >
-              <Bell size={16} />
-              Set Alert
-            </Button>
-            <Button 
-              variant={isInShortlist ? "default" : "outline"}
-              onClick={handleAddToShortlist}
-              className="flex items-center gap-2"
-            >
-              {isInShortlist ? <Heart size={16} fill="currentColor" /> : <Plus size={16} />}
-              {isInShortlist ? 'In Shortlist' : 'Add to Shortlist'}
-            </Button>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Share2 size={16} />
-              Share
-            </Button>
+          {/* View Toggle and Action Buttons */}
+          <div className="flex items-center gap-4">
+            <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+            <div className="flex items-center gap-2">
+              <Button 
+                size="sm" 
+                className="bg-blue-600 hover:bg-blue-700 text-white shadow-md"
+              >
+                <Plus size={14} className="mr-1" />
+                Buy
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="bg-white/70 backdrop-blur-md border-orange-200 text-orange-600 hover:bg-orange-50"
+              >
+                <Bell size={14} className="mr-1" />
+                Alert
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="bg-white/70 backdrop-blur-md border-purple-200 text-purple-600 hover:bg-purple-50"
+              >
+                <Eye size={14} className="mr-1" />
+                Watch
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="bg-white/70 backdrop-blur-md border-green-200 text-green-600 hover:bg-green-50"
+              >
+                <TrendingUp size={14} className="mr-1" />
+                Portfolio
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Stock Header */}
         <StockHeader {...stockData} />
 
-        {/* View Toggle */}
-        <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
-
         {/* Content based on view */}
         {currentView === 'quick' ? (
           <div className="space-y-6">
-            {/* AI Insights - Primary Focus */}
             <AIInsight {...aiInsightData} />
-
-            {/* Chart */}
             <QuickChart />
-
-            {/* Grid Layout for Additional Information */}
             <div className="grid lg:grid-cols-2 gap-6">
               <div className="space-y-6">
                 <CompanyOverview />
-                
-                {/* Risk Profile Card */}
-                <Card>
+                <Card className="bg-white/70 backdrop-blur-md border-white/20">
                   <CardHeader>
                     <CardTitle className="text-lg">Risk Assessment</CardTitle>
                   </CardHeader>
@@ -142,12 +141,9 @@ const StockResearch = () => {
                   </CardContent>
                 </Card>
               </div>
-
               <div className="space-y-6">
                 <StockQA />
-                
-                {/* Key Metrics Card */}
-                <Card>
+                <Card className="bg-white/70 backdrop-blur-md border-white/20">
                   <CardHeader>
                     <CardTitle className="text-lg">Key Metrics</CardTitle>
                   </CardHeader>
@@ -179,7 +175,6 @@ const StockResearch = () => {
           <EnhancedDetailedView />
         )}
 
-        {/* Finance Copilot */}
         <FinanceCopilot />
       </div>
     </div>

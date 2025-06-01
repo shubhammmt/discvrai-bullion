@@ -4,11 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus, Heart, Share2, Bell, TrendingUp, PieChart, Target } from 'lucide-react';
+import ViewToggle from '@/components/ViewToggle';
 
 const MutualFundResearch = () => {
   const { fundId } = useParams();
   const navigate = useNavigate();
   const [isInWatchlist, setIsInWatchlist] = useState(false);
+  const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
 
   const fundData = {
     name: fundId ? `${fundId.replace('-', ' ').toUpperCase()} Fund` : 'HDFC Top 100 Fund',
@@ -30,7 +32,7 @@ const MutualFundResearch = () => {
             <Button 
               variant="outline" 
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20"
             >
               <ArrowLeft size={16} />
               Back
@@ -41,27 +43,30 @@ const MutualFundResearch = () => {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2"
-            >
-              <Bell size={16} />
-              Set Alert
-            </Button>
-            <Button 
-              variant={isInWatchlist ? "default" : "outline"}
-              onClick={() => setIsInWatchlist(!isInWatchlist)}
-              className="flex items-center gap-2"
-            >
-              {isInWatchlist ? <Heart size={16} fill="currentColor" /> : <Plus size={16} />}
-              {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
-            </Button>
+          <div className="flex items-center gap-4">
+            <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20"
+              >
+                <Bell size={16} />
+                Alert
+              </Button>
+              <Button 
+                variant={isInWatchlist ? "default" : "outline"}
+                onClick={() => setIsInWatchlist(!isInWatchlist)}
+                className="flex items-center gap-2"
+              >
+                {isInWatchlist ? <Heart size={16} fill="currentColor" /> : <Plus size={16} />}
+                {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Fund Header */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-white/70 backdrop-blur-md border-white/20">
           <CardContent className="p-6">
             <div className="flex justify-between items-center">
               <div>
@@ -91,98 +96,107 @@ const MutualFundResearch = () => {
           </CardContent>
         </Card>
 
-        {/* Key Metrics */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-              <div className="text-xl font-bold">{fundData.aum}</div>
-              <div className="text-sm text-gray-600">AUM</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <PieChart className="w-8 h-8 mx-auto mb-2 text-green-600" />
-              <div className="text-xl font-bold">{fundData.expenseRatio}</div>
-              <div className="text-sm text-gray-600">Expense Ratio</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Target className="w-8 h-8 mx-auto mb-2 text-purple-600" />
-              <div className="text-xl font-bold">12.5%</div>
-              <div className="text-sm text-gray-600">3Y Returns</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="w-8 h-8 mx-auto mb-2 text-orange-600" />
-              <div className="text-xl font-bold">9.2/10</div>
-              <div className="text-sm text-gray-600">AI Score</div>
-            </CardContent>
-          </Card>
-        </div>
+        {currentView === 'quick' ? (
+          <div className="space-y-6">
+            {/* Key Metrics */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <TrendingUp className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+                  <div className="text-xl font-bold">{fundData.aum}</div>
+                  <div className="text-sm text-gray-600">AUM</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <PieChart className="w-8 h-8 mx-auto mb-2 text-green-600" />
+                  <div className="text-xl font-bold">{fundData.expenseRatio}</div>
+                  <div className="text-sm text-gray-600">Expense Ratio</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <Target className="w-8 h-8 mx-auto mb-2 text-purple-600" />
+                  <div className="text-xl font-bold">12.5%</div>
+                  <div className="text-sm text-gray-600">3Y Returns</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 text-center">
+                  <TrendingUp className="w-8 h-8 mx-auto mb-2 text-orange-600" />
+                  <div className="text-xl font-bold">9.2/10</div>
+                  <div className="text-sm text-gray-600">AI Score</div>
+                </CardContent>
+              </Card>
+            </div>
 
-        {/* AI Analysis */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>AI Analysis</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
-              <h4 className="font-semibold text-green-800 mb-2">Recommendation: BUY</h4>
-              <p className="text-green-700">
-                Excellent track record with consistent outperformance. Low expense ratio and strong fund management team.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <p className="text-sm">Consistently outperformed benchmark by 2-3% annually</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <p className="text-sm">Strong portfolio of quality large-cap stocks</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <p className="text-sm">Experienced fund manager with 15+ years track record</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            {/* AI Analysis */}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader>
+                <CardTitle>AI Analysis</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                  <h4 className="font-semibold text-green-800 mb-2">Recommendation: BUY</h4>
+                  <p className="text-green-700">
+                    Excellent track record with consistent outperformance. Low expense ratio and strong fund management team.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <p className="text-sm">Consistently outperformed benchmark by 2-3% annually</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <p className="text-sm">Strong portfolio of quality large-cap stocks</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <p className="text-sm">Experienced fund manager with 15+ years track record</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Performance Chart */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Performance Comparison</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span>1 Year</span>
-                <div className="flex gap-4">
-                  <span className="text-blue-600 font-medium">Fund: 18.5%</span>
-                  <span className="text-gray-600">Benchmark: 15.2%</span>
+            {/* Performance Chart */}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader>
+                <CardTitle>Performance Comparison</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span>1 Year</span>
+                    <div className="flex gap-4">
+                      <span className="text-blue-600 font-medium">Fund: 18.5%</span>
+                      <span className="text-gray-600">Benchmark: 15.2%</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>3 Years</span>
+                    <div className="flex gap-4">
+                      <span className="text-blue-600 font-medium">Fund: 12.5%</span>
+                      <span className="text-gray-600">Benchmark: 10.1%</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>5 Years</span>
+                    <div className="flex gap-4">
+                      <span className="text-blue-600 font-medium">Fund: 14.8%</span>
+                      <span className="text-gray-600">Benchmark: 12.3%</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>3 Years</span>
-                <div className="flex gap-4">
-                  <span className="text-blue-600 font-medium">Fund: 12.5%</span>
-                  <span className="text-gray-600">Benchmark: 10.1%</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>5 Years</span>
-                <div className="flex gap-4">
-                  <span className="text-blue-600 font-medium">Fund: 14.8%</span>
-                  <span className="text-gray-600">Benchmark: 12.3%</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <h3 className="text-xl font-semibold mb-4">Detailed Analysis Coming Soon</h3>
+            <p className="text-gray-600">Advanced mutual fund analysis features will be available in the next update.</p>
+          </div>
+        )}
       </div>
     </div>
   );

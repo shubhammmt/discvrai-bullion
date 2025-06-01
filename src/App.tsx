@@ -13,6 +13,8 @@ import Research from "./pages/Research";
 import StockResearch from "./pages/StockResearch";
 import MutualFundResearch from "./pages/MutualFundResearch";
 import IPOResearch from "./pages/IPOResearch";
+import CreditResearch from "./pages/CreditResearch";
+import InsuranceResearch from "./pages/InsuranceResearch";
 import Organize from "./pages/Organize";
 import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
@@ -36,6 +38,8 @@ const App = () => (
               <Route path="/research/stock/:symbol" element={<StockResearch />} />
               <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
               <Route path="/research/ipo/:symbol" element={<IPOResearch />} />
+              <Route path="/research/credit/:productId" element={<CreditResearch />} />
+              <Route path="/research/insurance/:productId" element={<InsuranceResearch />} />
               <Route path="/organize" element={<Organize />} />
               <Route path="/portfolio" element={<Portfolio />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
