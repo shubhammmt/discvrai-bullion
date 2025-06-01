@@ -7,6 +7,8 @@ import CompanyOverview from '@/components/CompanyOverview';
 import LatestNews from '@/components/LatestNews';
 import ViewToggle from '@/components/ViewToggle';
 import EnhancedDetailedView from '@/components/EnhancedDetailedView';
+import StockQA from '@/components/StockQA';
+import FinanceCopilot from '@/components/FinanceCopilot';
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
@@ -23,14 +25,14 @@ const Index = () => {
   const aiInsightData = {
     sentiment: 'bullish' as const,
     confidence: 78,
-    summary: 'Strong fundamentals with solid earnings growth, robust cash position, and expanding services revenue. Recent AI integration announcements and product innovation cycle support positive outlook despite broader market volatility.',
+    summary: 'Strong quality fundamentals with robust cash position and expanding services revenue. Recent AI integration and product innovation support positive outlook despite moderate growth concerns and market volatility.',
     keyPoints: [
-      'Services revenue growing at 16.9% YoY, highest margin segment',
-      'Strong iPhone 15 launch cycle with AI features driving upgrade demand',
-      'Cash position of $162B provides flexibility for growth investments',
-      'Trading at reasonable 28.5x P/E vs historical average of 24x'
+      'Exceptional quality score (8.5/10) driven by $162B cash and 25% net margins',
+      'Services revenue growing at 16.9% YoY, highest margin business segment',
+      'Strong technical momentum above key support levels',
+      'Moderate risk from China dependency and market saturation concerns'
     ],
-    recommendation: 'BUY with 12-month price target of $195 (+19.8% upside). Consider accumulating on any weakness below $155.'
+    recommendation: 'ACCUMULATE for long-term investors seeking quality growth. Best suited for moderate risk tolerance with 3-5 year investment horizon.'
   };
 
   return (
@@ -57,7 +59,10 @@ const Index = () => {
             <QuickChart />
             <div className="grid lg:grid-cols-2 gap-6">
               <CompanyOverview />
-              <LatestNews />
+              <div className="space-y-6">
+                <StockQA />
+                <LatestNews />
+              </div>
             </div>
           </div>
         ) : (
@@ -65,9 +70,13 @@ const Index = () => {
           <div className="space-y-6">
             <AIInsight {...aiInsightData} />
             <QuickChart />
+            <StockQA />
             <EnhancedDetailedView />
           </div>
         )}
+
+        {/* Finance Copilot - Always available */}
+        <FinanceCopilot />
 
         {/* Footer */}
         <footer className="text-center mt-8 py-6 border-t border-gray-200">
