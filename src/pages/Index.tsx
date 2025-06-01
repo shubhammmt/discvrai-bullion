@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
 import QuickChart from '@/components/QuickChart';
@@ -12,6 +14,10 @@ import FinanceCopilot from '@/components/FinanceCopilot';
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
+  const navigate = useNavigate();
+
+  // Check if user has completed onboarding
+  const userProfile = localStorage.getItem('userProfile');
 
   // Mock data for Apple Inc (AAPL)
   const stockData = {
@@ -46,7 +52,18 @@ const Index = () => {
             </h1>
             <p className="text-gray-600 text-sm">Smart investing decisions in 30 seconds</p>
           </div>
-          <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+          <div className="flex items-center gap-3">
+            <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+            {!userProfile ? (
+              <Button onClick={() => navigate('/onboarding')} className="ml-3">
+                Get Started
+              </Button>
+            ) : (
+              <Button onClick={() => navigate('/feed')} variant="outline" className="ml-3">
+                Go to Feed
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Stock Header - Always visible */}

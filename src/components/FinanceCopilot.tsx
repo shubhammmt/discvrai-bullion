@@ -5,13 +5,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 
+type Message = {
+  id: number;
+  type: 'bot' | 'user';
+  content: string;
+};
+
 const FinanceCopilot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      type: 'bot' as const,
+      type: 'bot',
       content: "Hi! I'm your Finance Copilot. Ask me anything about AAPL's fundamentals, growth prospects, or investment rationale!"
     }
   ]);
@@ -19,15 +25,15 @@ const FinanceCopilot = () => {
   const handleSendMessage = () => {
     if (!message.trim()) return;
     
-    const newUserMessage = {
+    const newUserMessage: Message = {
       id: Date.now(),
-      type: 'user' as const,
+      type: 'user',
       content: message
     };
     
-    const botResponse = {
+    const botResponse: Message = {
       id: Date.now() + 1,
-      type: 'bot' as const,
+      type: 'bot',
       content: getBotResponse(message)
     };
     
