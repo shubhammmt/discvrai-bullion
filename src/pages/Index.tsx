@@ -167,7 +167,7 @@ const Index = () => {
           <p className="text-gray-500">
             discvr.ai • Making smart investment discovery simple and fast
           </p>
-        </div>
+        </footer>
       </div>
     </div>
   );
