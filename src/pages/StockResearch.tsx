@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Heart, Share2, Bell, Eye, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Plus, Bell, Eye, TrendingUp, MoreHorizontal } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
 import QuickChart from '@/components/QuickChart';
@@ -16,7 +17,6 @@ import EnhancedDetailedView from '@/components/EnhancedDetailedView';
 const StockResearch = () => {
   const { symbol } = useParams();
   const navigate = useNavigate();
-  const [isInShortlist, setIsInShortlist] = useState(false);
   const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
 
   const stockData = {
@@ -40,14 +40,10 @@ const StockResearch = () => {
     recommendation: 'Suitable for moderate risk investors seeking quality growth. Best for 3-5 year investment horizon based on your profile.'
   };
 
-  const handleAddToShortlist = () => {
-    setIsInShortlist(!isInShortlist);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-6xl mx-auto p-4">
-        {/* Header with Navigation and View Toggle */}
+        {/* Header with Navigation and Actions */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <Button 
@@ -64,42 +60,37 @@ const StockResearch = () => {
             </div>
           </div>
           
-          {/* View Toggle and Action Buttons */}
           <div className="flex items-center gap-4">
             <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
-            <div className="flex items-center gap-2">
-              <Button 
-                size="sm" 
-                className="bg-blue-600 hover:bg-blue-700 text-white shadow-md"
-              >
-                <Plus size={14} className="mr-1" />
-                Buy
-              </Button>
-              <Button 
-                size="sm" 
-                variant="outline" 
-                className="bg-white/70 backdrop-blur-md border-orange-200 text-orange-600 hover:bg-orange-50"
-              >
-                <Bell size={14} className="mr-1" />
-                Alert
-              </Button>
-              <Button 
-                size="sm" 
-                variant="outline" 
-                className="bg-white/70 backdrop-blur-md border-purple-200 text-purple-600 hover:bg-purple-50"
-              >
-                <Eye size={14} className="mr-1" />
-                Watch
-              </Button>
-              <Button 
-                size="sm" 
-                variant="outline" 
-                className="bg-white/70 backdrop-blur-md border-green-200 text-green-600 hover:bg-green-50"
-              >
-                <TrendingUp size={14} className="mr-1" />
-                Portfolio
-              </Button>
-            </div>
+            
+            {/* Primary Action */}
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+              <Plus size={16} className="mr-2" />
+              Buy Stock
+            </Button>
+            
+            {/* Secondary Actions Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="bg-white/70 backdrop-blur-md border-white/20">
+                  <MoreHorizontal size={16} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <Bell size={14} className="mr-2" />
+                  Set Price Alert
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Eye size={14} className="mr-2" />
+                  Add to Watchlist
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <TrendingUp size={14} className="mr-2" />
+                  Add to Portfolio
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
