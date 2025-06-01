@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Bell, User, Moon, Sun, Brain } from 'lucide-react';
+import { Search, Bell, User, Moon, Sun, Brain, Presentation } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
@@ -82,6 +82,14 @@ const Header = () => {
             className={location.pathname === '/portfolio' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
           >
             Portfolio
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate('/pitch')}
+            className={location.pathname === '/pitch' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+          >
+            <Presentation size={16} className="mr-1" />
+            Pitch
           </Button>
         </nav>
 
