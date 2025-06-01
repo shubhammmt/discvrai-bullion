@@ -32,7 +32,9 @@ const Feed = () => {
     { id: 'mutual-funds', label: 'Mutual Funds' },
     { id: 'etfs', label: 'ETFs' },
     { id: 'ipo', label: 'IPOs' },
+    { id: 'smallcase', label: 'Smallcase' },
     { id: 'credit', label: 'Credit' },
+    { id: 'credit-cards', label: 'Credit Cards' },
     { id: 'insurance', label: 'Insurance' },
     { id: 'crypto', label: 'Crypto' }
   ];
@@ -77,6 +79,18 @@ const Feed = () => {
     },
     {
       id: 4,
+      name: 'Electric Mobility Smallcase',
+      symbol: 'ELEC-MOB',
+      type: 'smallcase',
+      price: 24.5,
+      change: 2.1,
+      changePercent: 9.38,
+      volume: '800K',
+      latestEvent: 'Rebalancing',
+      news: 'Portfolio rebalanced with new EV stocks'
+    },
+    {
+      id: 5,
       name: 'HDFC Personal Loan',
       symbol: 'HDFC-PL',
       type: 'credit',
@@ -88,7 +102,19 @@ const Feed = () => {
       news: 'Interest rates reduced by 0.25%'
     },
     {
-      id: 5,
+      id: 6,
+      name: 'HDFC Regalia Credit Card',
+      symbol: 'HDFC-REG',
+      type: 'credit-cards',
+      price: 4.0,
+      change: 0,
+      changePercent: 0,
+      volume: '200K',
+      latestEvent: 'New Benefits',
+      news: 'Added airport lounge access'
+    },
+    {
+      id: 7,
       name: 'Max Life Term Plan',
       symbol: 'MAX-TERM',
       type: 'insurance',
@@ -106,11 +132,12 @@ const Feed = () => {
     ? trendingAssets 
     : trendingAssets.filter(asset => {
         if (activeFilter === 'mutual-funds') return asset.type === 'mutual-fund';
+        if (activeFilter === 'credit-cards') return asset.type === 'credit-cards';
         return asset.type === activeFilter;
       });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -118,7 +145,7 @@ const Feed = () => {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Investment Feed
             </h1>
-            <p className="text-gray-600">Discover opportunities tailored for you</p>
+            <p className="text-gray-600 dark:text-gray-400">Discover opportunities tailored for you</p>
           </div>
           <div className="flex items-center gap-3">
             <Button 
@@ -164,9 +191,9 @@ const Feed = () => {
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-6">
             {/* Trending Section */}
-            <Card>
+            <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 dark:text-white">
                   <TrendingUp className="w-5 h-5 text-green-600" />
                   {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
                 </CardTitle>
@@ -177,7 +204,7 @@ const Feed = () => {
                     <AssetCard key={asset.id} asset={asset} />
                   ))}
                   {filteredAssets.length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                       No assets found for the selected filter.
                     </div>
                   )}
@@ -186,20 +213,20 @@ const Feed = () => {
             </Card>
 
             {/* AI Recommendations */}
-            <Card>
+            <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 dark:text-white">
                   <Heart className="w-5 h-5 text-purple-600" />
                   Recommended for You
-                  <span className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full ml-2">
+                  <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
                     AI Powered
                   </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-700 mb-2">
+                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                       <strong>Why we recommend these:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile and preference for {userProfile.preferredInstruments?.join(', ')}.
                     </p>
                   </div>

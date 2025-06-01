@@ -14,6 +14,8 @@ import StockResearch from "./pages/StockResearch";
 import MutualFundResearch from "./pages/MutualFundResearch";
 import IPOResearch from "./pages/IPOResearch";
 import CreditResearch from "./pages/CreditResearch";
+import CreditCardResearch from "./pages/CreditCardResearch";
+import SmallcaseResearch from "./pages/SmallcaseResearch";
 import InsuranceResearch from "./pages/InsuranceResearch";
 import Organize from "./pages/Organize";
 import Portfolio from "./pages/Portfolio";
@@ -27,7 +29,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
           <Header />
           <main className="pb-16 md:pb-0">
             <Routes>
@@ -39,6 +41,8 @@ const App = () => (
               <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
               <Route path="/research/ipo/:symbol" element={<IPOResearch />} />
               <Route path="/research/credit/:productId" element={<CreditResearch />} />
+              <Route path="/research/credit-card/:cardId" element={<CreditCardResearch />} />
+              <Route path="/research/smallcase/:smallcaseId" element={<SmallcaseResearch />} />
               <Route path="/research/insurance/:productId" element={<InsuranceResearch />} />
               <Route path="/organize" element={<Organize />} />
               <Route path="/portfolio" element={<Portfolio />} />
