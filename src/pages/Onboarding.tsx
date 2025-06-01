@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, TrendingUp } from 'lucide-react';
+import { ArrowRight, Brain } from 'lucide-react';
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -193,9 +192,11 @@ const Onboarding = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <TrendingUp className="w-8 h-8 text-blue-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <Brain className="w-8 h-8 text-white" />
+            </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              StockSnap
+              discvr.ai
             </h1>
           </div>
           <Progress value={progress} className="w-full" />
