@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Building, CreditCard, Shield } from 'lucide-react';
+import { TrendingUp, Building, CreditCard, Shield, Zap, Banknote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Research = () => {
@@ -15,7 +15,8 @@ const Research = () => {
       description: 'Research individual stocks with AI-powered insights',
       icon: TrendingUp,
       color: 'bg-blue-100 text-blue-600',
-      popular: ['AAPL', 'MSFT', 'GOOGL', 'TSLA']
+      popular: ['AAPL', 'MSFT', 'GOOGL', 'TSLA'],
+      route: '/research/stock'
     },
     {
       id: 'mutual-funds',
@@ -23,25 +24,72 @@ const Research = () => {
       description: 'Diversified investment options with expert management',
       icon: Building,
       color: 'bg-green-100 text-green-600',
-      popular: ['HDFC Top 100', 'SBI Bluechip', 'ICICI Prudential']
+      popular: ['HDFC Top 100', 'SBI Bluechip', 'ICICI Prudential'],
+      route: '/research/mutual-fund'
+    },
+    {
+      id: 'ipo',
+      title: 'IPOs',
+      description: 'New listing opportunities and detailed IPO analysis',
+      icon: Zap,
+      color: 'bg-purple-100 text-purple-600',
+      popular: ['TechCorp IPO', 'GreenEnergy IPO', 'FinTech IPO'],
+      route: '/research/ipo'
     },
     {
       id: 'credit',
       title: 'Credit Products',
       description: 'Micro loans, credit cards, and financial services',
       icon: CreditCard,
-      color: 'bg-purple-100 text-purple-600',
-      popular: ['Personal Loan', 'Credit Cards', 'Business Loan']
+      color: 'bg-orange-100 text-orange-600',
+      popular: ['Personal Loan', 'Credit Cards', 'Business Loan'],
+      route: '/research/credit'
     },
     {
       id: 'insurance',
       title: 'Insurance',
       description: 'Protect your investments and secure your future',
       icon: Shield,
-      color: 'bg-orange-100 text-orange-600',
-      popular: ['Term Life', 'Health Insurance', 'ULIP']
+      color: 'bg-red-100 text-red-600',
+      popular: ['Term Life', 'Health Insurance', 'ULIP'],
+      route: '/research/insurance'
     }
   ];
+
+  const handleCategoryExplore = (category: any) => {
+    switch (category.id) {
+      case 'stocks':
+        navigate('/research/stock/aapl');
+        break;
+      case 'mutual-funds':
+        navigate('/research/mutual-fund/hdfc-top-100');
+        break;
+      case 'ipo':
+        navigate('/research/ipo/techcorp');
+        break;
+      default:
+        // For now, redirect to stocks as placeholder
+        navigate('/research/stock/aapl');
+    }
+  };
+
+  const handlePopularItemClick = (category: any, item: string) => {
+    switch (category.id) {
+      case 'stocks':
+        navigate(`/research/stock/${item.toLowerCase()}`);
+        break;
+      case 'mutual-funds':
+        const fundSlug = item.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/research/mutual-fund/${fundSlug}`);
+        break;
+      case 'ipo':
+        const ipoSlug = item.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/research/ipo/${ipoSlug}`);
+        break;
+      default:
+        navigate('/research/stock/aapl');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -57,7 +105,7 @@ const Research = () => {
         </div>
 
         {/* Research Categories */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {researchCategories.map((category) => {
             const IconComponent = category.icon;
             return (
@@ -83,12 +131,7 @@ const Research = () => {
                             key={index}
                             variant="outline"
                             size="sm"
-                            onClick={() => {
-                              if (category.id === 'stocks') {
-                                navigate(`/research/stock/${item.toLowerCase()}`);
-                              }
-                              // Add navigation for other categories later
-                            }}
+                            onClick={() => handlePopularItemClick(category, item)}
                             className="text-xs"
                           >
                             {item}
@@ -98,12 +141,7 @@ const Research = () => {
                     </div>
                     <Button 
                       className="w-full"
-                      onClick={() => {
-                        if (category.id === 'stocks') {
-                          navigate('/research/stock/aapl');
-                        }
-                        // Add navigation for other categories later
-                      }}
+                      onClick={() => handleCategoryExplore(category)}
                     >
                       Explore {category.title}
                     </Button>
@@ -131,19 +169,19 @@ const Research = () => {
               </Button>
               <Button 
                 variant="outline" 
-                onClick={() => navigate('/research/stock/tsla')}
+                onClick={() => navigate('/research/mutual-fund/hdfc-top-100')}
                 className="justify-start"
               >
-                <TrendingUp size={16} className="mr-2" />
-                Tesla Inc. (TSLA)
+                <Building size={16} className="mr-2" />
+                HDFC Top 100 Fund
               </Button>
               <Button 
                 variant="outline" 
-                onClick={() => navigate('/research/stock/msft')}
+                onClick={() => navigate('/research/ipo/techcorp')}
                 className="justify-start"
               >
-                <TrendingUp size={16} className="mr-2" />
-                Microsoft Corp. (MSFT)
+                <Zap size={16} className="mr-2" />
+                TechCorp IPO
               </Button>
             </div>
           </CardContent>

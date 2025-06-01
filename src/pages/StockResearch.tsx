@@ -10,11 +10,14 @@ import QuickChart from '@/components/QuickChart';
 import CompanyOverview from '@/components/CompanyOverview';
 import StockQA from '@/components/StockQA';
 import FinanceCopilot from '@/components/FinanceCopilot';
+import ViewToggle from '@/components/ViewToggle';
+import EnhancedDetailedView from '@/components/EnhancedDetailedView';
 
 const StockResearch = () => {
   const { symbol } = useParams();
   const navigate = useNavigate();
   const [isInShortlist, setIsInShortlist] = useState(false);
+  const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
 
   // Mock data - in real app, this would come from API based on symbol
   const stockData = {
@@ -40,11 +43,9 @@ const StockResearch = () => {
 
   const handleAddToShortlist = () => {
     setIsInShortlist(!isInShortlist);
-    // In real app, this would update the user's shortlist
   };
 
   const handleSetAlert = () => {
-    // In real app, this would open alert creation modal
     console.log('Setting alert for', symbol);
   };
 
@@ -96,80 +97,87 @@ const StockResearch = () => {
         {/* Stock Header */}
         <StockHeader {...stockData} />
 
-        {/* Main Content */}
-        <div className="space-y-6">
-          {/* AI Insights - Primary Focus */}
-          <AIInsight {...aiInsightData} />
+        {/* View Toggle */}
+        <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
 
-          {/* Chart */}
-          <QuickChart />
+        {/* Content based on view */}
+        {currentView === 'quick' ? (
+          <div className="space-y-6">
+            {/* AI Insights - Primary Focus */}
+            <AIInsight {...aiInsightData} />
 
-          {/* Grid Layout for Additional Information */}
-          <div className="grid lg:grid-cols-2 gap-6">
-            <div className="space-y-6">
-              <CompanyOverview />
-              
-              {/* Risk Profile Card */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Risk Assessment</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Overall Risk Score</span>
-                      <span className="font-semibold text-yellow-600">6/10 (Moderate)</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Volatility</span>
-                      <span className="font-semibold">Medium</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Liquidity</span>
-                      <span className="font-semibold text-green-600">High</span>
-                    </div>
-                    <div className="bg-blue-50 p-3 rounded-lg">
-                      <p className="text-sm text-blue-700">
-                        <strong>Suitability:</strong> Matches your moderate risk profile and long-term investment horizon.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Chart */}
+            <QuickChart />
 
-            <div className="space-y-6">
-              <StockQA />
-              
-              {/* Key Metrics Card */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Key Metrics</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-600">Market Cap</span>
-                      <p className="font-semibold">$2.89T</p>
+            {/* Grid Layout for Additional Information */}
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div className="space-y-6">
+                <CompanyOverview />
+                
+                {/* Risk Profile Card */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Risk Assessment</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">Overall Risk Score</span>
+                        <span className="font-semibold text-yellow-600">6/10 (Moderate)</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">Volatility</span>
+                        <span className="font-semibold">Medium</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600">Liquidity</span>
+                        <span className="font-semibold text-green-600">High</span>
+                      </div>
+                      <div className="bg-blue-50 p-3 rounded-lg">
+                        <p className="text-sm text-blue-700">
+                          <strong>Suitability:</strong> Matches your moderate risk profile and long-term investment horizon.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-gray-600">P/E Ratio</span>
-                      <p className="font-semibold">28.4</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="space-y-6">
+                <StockQA />
+                
+                {/* Key Metrics Card */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Key Metrics</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-gray-600">Market Cap</span>
+                        <p className="font-semibold">$2.89T</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">P/E Ratio</span>
+                        <p className="font-semibold">28.4</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Dividend Yield</span>
+                        <p className="font-semibold">0.52%</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">52W Range</span>
+                        <p className="font-semibold">$124-$199</p>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-gray-600">Dividend Yield</span>
-                      <p className="font-semibold">0.52%</p>
-                    </div>
-                    <div>
-                      <span className="text-gray-600">52W Range</span>
-                      <p className="font-semibold">$124-$199</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <EnhancedDetailedView />
+        )}
 
         {/* Finance Copilot */}
         <FinanceCopilot />

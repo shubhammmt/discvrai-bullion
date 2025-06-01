@@ -2,147 +2,99 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Brain, Search, BarChart3, BookmarkPlus, Wallet, User, Menu } from 'lucide-react';
-import { useState } from 'react';
+import { Brain, Search, User, Bell } from 'lucide-react';
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // Check if user has completed onboarding
   const userProfile = localStorage.getItem('userProfile');
-  
-  // Mock subscription state - will be replaced with real state management
-  const isSubscribed = false; // Initially disabled for 3 months
-  
+
   const navigationItems = [
-    { path: '/feed', label: 'Feed', icon: BarChart3 },
-    { path: '/research', label: 'Research', icon: Search },
-    { path: '/organize', label: 'Organize', icon: BookmarkPlus },
-    { path: '/portfolio', label: 'Portfolio', icon: Wallet },
+    { path: '/feed', label: 'Feed' },
+    { path: '/research', label: 'Research' },
+    { path: '/organize', label: 'Organize' },
+    { path: '/portfolio', label: 'Portfolio' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname.startsWith(path);
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div 
-            className="flex items-center space-x-2 cursor-pointer"
+            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => navigate('/')}
           >
             <div className="relative">
-              <Brain className="w-8 h-8 text-blue-600" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full opacity-80"></div>
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <Brain className="w-6 h-6 text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full opacity-80"></div>
+              <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-gradient-to-br from-green-400 to-blue-400 rounded-full opacity-60"></div>
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              discvr.ai
-            </span>
+            <div className="hidden sm:block">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                discvr.ai
+              </h1>
+              <p className="text-xs text-gray-500 -mt-1">AI Investment Discovery</p>
+            </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              return (
+          {/* Navigation - Desktop */}
+          {userProfile && (
+            <nav className="hidden md:flex items-center space-x-8">
+              {navigationItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors hover:text-blue-600 ${
                     isActive(item.path)
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                      ? 'text-blue-600 border-b-2 border-blue-600 pb-1'
+                      : 'text-gray-700'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
+                  {item.label}
                 </button>
-              );
-            })}
-          </nav>
+              ))}
+            </nav>
+          )}
 
-          {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
-            {/* Subscription Status - Hidden for initial 3 months */}
-            {false && ( // Will be enabled after 3 months
-              <div className="hidden md:block">
-                {isSubscribed ? (
-                  <span className="text-sm text-green-600 font-medium">Pro Plan</span>
-                ) : (
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => navigate('/subscription')}
-                  >
-                    Upgrade
-                  </Button>
-                )}
+          {/* Right side actions */}
+          <div className="flex items-center gap-3">
+            {userProfile ? (
+              <>
+                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                  <Search className="w-4 h-4 mr-2" />
+                  Search
+                </Button>
+                <Button variant="ghost" size="sm">
+                  <Bell className="w-4 h-4" />
+                </Button>
+                <Button variant="ghost" size="sm">
+                  <User className="w-4 h-4" />
+                </Button>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="ghost" 
+                  onClick={() => navigate('/research')}
+                  className="text-sm"
+                >
+                  Explore
+                </Button>
+                <Button 
+                  onClick={() => navigate('/onboarding')}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                >
+                  Get Started
+                </Button>
               </div>
             )}
-
-            {/* User Actions */}
-            {userProfile ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  localStorage.removeItem('userProfile');
-                  navigate('/');
-                }}
-                className="flex items-center space-x-1"
-              >
-                <User className="w-4 h-4" />
-                <span className="hidden md:block">Profile</span>
-              </Button>
-            ) : (
-              <Button 
-                size="sm"
-                onClick={() => navigate('/onboarding')}
-              >
-                Sign In
-              </Button>
-            )}
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <Menu className="w-5 h-5" />
-            </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
-            <div className="space-y-2">
-              {navigationItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.path}
-                    onClick={() => {
-                      navigate(item.path);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center space-x-2 w-full px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive(item.path)
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );

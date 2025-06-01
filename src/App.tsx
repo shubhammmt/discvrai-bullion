@@ -11,6 +11,8 @@ import Onboarding from "./pages/Onboarding";
 import Feed from "./pages/Feed";
 import Research from "./pages/Research";
 import StockResearch from "./pages/StockResearch";
+import MutualFundResearch from "./pages/MutualFundResearch";
+import IPOResearch from "./pages/IPOResearch";
 import Organize from "./pages/Organize";
 import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
@@ -32,6 +34,8 @@ const App = () => (
               <Route path="/feed" element={<Feed />} />
               <Route path="/research" element={<Research />} />
               <Route path="/research/stock/:symbol" element={<StockResearch />} />
+              <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
+              <Route path="/research/ipo/:symbol" element={<IPOResearch />} />
               <Route path="/organize" element={<Organize />} />
               <Route path="/portfolio" element={<Portfolio />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
