@@ -9,6 +9,8 @@ import Onboarding from "./pages/Onboarding";
 import Feed from "./pages/Feed";
 import Research from "./pages/Research";
 import StockResearch from "./pages/StockResearch";
+import Organize from "./pages/Organize";
+import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +27,8 @@ const App = () => (
           <Route path="/feed" element={<Feed />} />
           <Route path="/research" element={<Research />} />
           <Route path="/research/stock/:symbol" element={<StockResearch />} />
+          <Route path="/organize" element={<Organize />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

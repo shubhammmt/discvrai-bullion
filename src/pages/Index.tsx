@@ -1,103 +1,164 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import StockHeader from '@/components/StockHeader';
-import AIInsight from '@/components/AIInsight';
-import QuickChart from '@/components/QuickChart';
-import CompanyOverview from '@/components/CompanyOverview';
-import LatestNews from '@/components/LatestNews';
-import ViewToggle from '@/components/ViewToggle';
-import EnhancedDetailedView from '@/components/EnhancedDetailedView';
-import StockQA from '@/components/StockQA';
-import FinanceCopilot from '@/components/FinanceCopilot';
+import { Card, CardContent } from '@/components/ui/card';
+import { Brain, Zap, Target, TrendingUp, Shield, Globe } from 'lucide-react';
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
   const navigate = useNavigate();
 
   // Check if user has completed onboarding
   const userProfile = localStorage.getItem('userProfile');
 
-  // Mock data for Apple Inc (AAPL)
-  const stockData = {
-    symbol: 'AAPL',
-    companyName: 'Apple Inc.',
-    price: 162.80,
-    change: 3.25,
-    changePercent: 2.04
-  };
+  const features = [
+    {
+      icon: Brain,
+      title: "AI-Powered Insights",
+      description: "Get personalized investment recommendations in 30 seconds with our advanced AI engine"
+    },
+    {
+      icon: Zap,
+      title: "Lightning Fast Decisions",
+      description: "Make smart investment choices quickly with instant analysis and clear recommendations"
+    },
+    {
+      icon: Target,
+      title: "Personalized Strategy",
+      description: "AI learns your preferences and risk tolerance to suggest perfect opportunities"
+    }
+  ];
 
-  const aiInsightData = {
-    sentiment: 'bullish' as const,
-    confidence: 78,
-    summary: 'Strong quality fundamentals with robust cash position and expanding services revenue. Recent AI integration and product innovation support positive outlook despite moderate growth concerns and market volatility.',
-    keyPoints: [
-      'Exceptional quality score (8.5/10) driven by $162B cash and 25% net margins',
-      'Services revenue growing at 16.9% YoY, highest margin business segment',
-      'Strong technical momentum above key support levels',
-      'Moderate risk from China dependency and market saturation concerns'
-    ],
-    recommendation: 'ACCUMULATE for long-term investors seeking quality growth. Best suited for moderate risk tolerance with 3-5 year investment horizon.'
-  };
+  const offerings = [
+    { name: "Stocks", description: "Individual company shares with AI analysis" },
+    { name: "Mutual Funds", description: "Diversified portfolios managed by experts" },
+    { name: "ETFs", description: "Exchange-traded funds for broad market exposure" },
+    { name: "Credit Products", description: "Smart lending and credit solutions" },
+    { name: "Insurance", description: "AI-recommended protection plans" },
+    { name: "IPOs", description: "New listing opportunities and analysis" }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="max-w-6xl mx-auto p-4">
-        {/* Compact Header */}
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              StockSnap
-            </h1>
-            <p className="text-gray-600 text-sm">Smart investing decisions in 30 seconds</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+      {/* Hero Section */}
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            StockSnap
+          </h1>
+          <p className="text-xl text-gray-600 mb-4">
+            AI-first, agentic investment platform
+          </p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            Smart investing decisions in 30 seconds
+          </h2>
+          <p className="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
+            Built ground-up with AI at every layer. Your intelligent investment assistant that learns, analyzes, and acts on your behalf across all financial instruments.
+          </p>
+          
+          <div className="flex justify-center gap-4">
             {!userProfile ? (
-              <Button onClick={() => navigate('/onboarding')} className="ml-3">
-                Get Started
+              <Button size="lg" onClick={() => navigate('/onboarding')} className="px-8 py-4 text-lg">
+                Get Started Free
               </Button>
             ) : (
-              <Button onClick={() => navigate('/feed')} variant="outline" className="ml-3">
-                Go to Feed
+              <Button size="lg" onClick={() => navigate('/feed')} className="px-8 py-4 text-lg">
+                Go to Dashboard
               </Button>
             )}
+            <Button size="lg" variant="outline" onClick={() => navigate('/research')} className="px-8 py-4 text-lg">
+              Explore Research
+            </Button>
           </div>
         </div>
 
-        {/* Stock Header - Always visible */}
-        <StockHeader {...stockData} />
+        {/* Key Features */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {features.map((feature, index) => (
+            <Card key={index} className="text-center hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <feature.icon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-        {currentView === 'quick' ? (
-          // Quick View - Decision-making viewport
-          <div className="space-y-6">
-            <AIInsight {...aiInsightData} />
-            <QuickChart />
-            <div className="grid lg:grid-cols-2 gap-6">
-              <CompanyOverview />
-              <div className="space-y-6">
-                <StockQA />
-                <LatestNews />
-              </div>
+        {/* Product Offerings */}
+        <div className="mb-16">
+          <h3 className="text-3xl font-bold text-center mb-12">Complete Investment Universe</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {offerings.map((offering, index) => (
+              <Card key={index} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h4 className="text-lg font-semibold mb-2">{offering.name}</h4>
+                  <p className="text-gray-600">{offering.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* AI-First Messaging */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center mb-16">
+          <h3 className="text-2xl font-bold mb-4">Why StockSnap is Different</h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div>
+              <Shield className="w-8 h-8 mx-auto mb-3" />
+              <h4 className="font-semibold mb-2">Built Ground-Up with AI</h4>
+              <p className="text-blue-100">Unlike traditional platforms that add AI features, we're AI-native from the core</p>
+            </div>
+            <div>
+              <Brain className="w-8 h-8 mx-auto mb-3" />
+              <h4 className="font-semibold mb-2">Agentic Behavior</h4>
+              <p className="text-blue-100">Your AI assistant learns your preferences and proactively suggests opportunities</p>
+            </div>
+            <div>
+              <Globe className="w-8 h-8 mx-auto mb-3" />
+              <h4 className="font-semibold mb-2">Comprehensive Coverage</h4>
+              <p className="text-blue-100">Single platform for stocks, funds, credit, insurance, crypto, and IPOs</p>
             </div>
           </div>
-        ) : (
-          // Enhanced Detailed View - Comprehensive analysis
-          <div className="space-y-6">
-            <AIInsight {...aiInsightData} />
-            <QuickChart />
-            <StockQA />
-            <EnhancedDetailedView />
-          </div>
-        )}
+        </div>
 
-        {/* Finance Copilot - Always available */}
-        <FinanceCopilot />
+        {/* Social Proof */}
+        <div className="text-center mb-16">
+          <h3 className="text-2xl font-bold mb-8">Trusted by Smart Investors</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="p-6">
+              <p className="text-4xl font-bold text-blue-600 mb-2">30s</p>
+              <p className="text-gray-600">Average decision time</p>
+            </div>
+            <div className="p-6">
+              <p className="text-4xl font-bold text-blue-600 mb-2">95%</p>
+              <p className="text-gray-600">User satisfaction rate</p>
+            </div>
+            <div className="p-6">
+              <p className="text-4xl font-bold text-blue-600 mb-2">24/7</p>
+              <p className="text-gray-600">AI assistant availability</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Final CTA */}
+        <div className="text-center">
+          <h3 className="text-2xl font-bold mb-4">Ready to Make Smarter Investment Decisions?</h3>
+          <p className="text-gray-600 mb-6">Join thousands of investors using AI to optimize their portfolios</p>
+          {!userProfile ? (
+            <Button size="lg" onClick={() => navigate('/onboarding')} className="px-8 py-4 text-lg">
+              Start Your AI Journey
+            </Button>
+          ) : (
+            <Button size="lg" onClick={() => navigate('/feed')} className="px-8 py-4 text-lg">
+              Access Your Dashboard
+            </Button>
+          )}
+        </div>
 
         {/* Footer */}
-        <footer className="text-center mt-8 py-6 border-t border-gray-200">
-          <p className="text-gray-500 text-sm">
+        <footer className="text-center mt-16 py-8 border-t border-gray-200">
+          <p className="text-gray-500">
             StockSnap • Making smart investing decisions simple and fast
           </p>
         </footer>
