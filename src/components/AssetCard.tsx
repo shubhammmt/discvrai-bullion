@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Heart, TrendingUp, TrendingDown, Plus, BarChart3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Asset {
   id: number;
@@ -23,6 +24,7 @@ interface AssetCardProps {
 }
 
 const AssetCard = ({ asset, showReason }: AssetCardProps) => {
+  const navigate = useNavigate();
   const isPositive = asset.change > 0;
 
   const getTypeColor = (type: string) => {
@@ -46,6 +48,13 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
       default:
         return "Recommended based on your investment preferences and market analysis.";
     }
+  };
+
+  const handleAnalyze = () => {
+    if (asset.type === 'stock') {
+      navigate(`/research/stock/${asset.symbol.toLowerCase()}`);
+    }
+    // Add navigation for other asset types later
   };
 
   return (
@@ -100,7 +109,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
             <Plus size={14} className="mr-1" />
             Add to Watchlist
           </Button>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" onClick={handleAnalyze}>
             <BarChart3 size={14} className="mr-1" />
             Analyze
           </Button>

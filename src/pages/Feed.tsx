@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Filter, TrendingUp, Heart, BarChart3, Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import FeedSearch from '@/components/FeedSearch';
 import AssetCard from '@/components/AssetCard';
 import PersonalizedSection from '@/components/PersonalizedSection';
@@ -11,6 +12,7 @@ import PersonalizedSection from '@/components/PersonalizedSection';
 const Feed = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const navigate = useNavigate();
 
   // Mock user profile from onboarding
   const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
@@ -76,6 +78,14 @@ const Feed = () => {
             <p className="text-gray-600">Discover opportunities tailored for you</p>
           </div>
           <div className="flex items-center gap-3">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate('/research')}
+            >
+              <Search size={16} className="mr-2" />
+              Research
+            </Button>
             <Button variant="outline" size="sm">
               <Bell size={16} className="mr-2" />
               Alerts
