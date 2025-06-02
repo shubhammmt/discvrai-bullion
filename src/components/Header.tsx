@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Bell, User, Moon, Sun, Brain, Presentation } from 'lucide-react';
+import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
@@ -45,10 +45,15 @@ const Header = () => {
           className="flex items-center gap-2 cursor-pointer" 
           onClick={() => navigate('/')}
         >
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <Brain className="w-5 h-5 text-white" />
+          <div className="relative">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-lg flex items-center justify-center">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+              <Zap className="w-1.5 h-1.5 text-white" />
+            </div>
           </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
             discvr.ai
           </span>
         </div>

@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Presentation, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Presentation, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, CheckCircle, XCircle, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PitchPresentation = () => {
@@ -20,6 +19,27 @@ const PitchPresentation = () => {
     },
     {
       id: 2,
+      title: "What We Do vs. What We Don't",
+      subtitle: "Asset-Light Digital Enablement Platform",
+      type: "business-model",
+      icon: Zap,
+      whatWeDo: [
+        { title: "AI-Powered Discovery", description: "Help users find the right financial products through intelligent recommendations" },
+        { title: "Transparent Comparison", description: "Provide unbiased comparison of products across providers" },
+        { title: "Decision Acceleration", description: "Guide users from research to execution in minutes, not hours" },
+        { title: "Seamless Referrals", description: "Connect users directly to licensed providers for execution" },
+        { title: "Portfolio Tracking", description: "Monitor and optimize user investments across all providers" }
+      ],
+      whatWeDont: [
+        { title: "Direct Insurance Sales", description: "We don't sell insurance policies directly" },
+        { title: "Demat Account Management", description: "We don't open or manage demat accounts" },
+        { title: "Fund Management", description: "We don't manage user funds or assets" },
+        { title: "Regulatory Compliance", description: "Partners handle all licensing and compliance" },
+        { title: "Customer Support", description: "Product-specific support handled by providers" }
+      ]
+    },
+    {
+      id: 3,
       title: "The Financial Complexity Crisis",
       type: "problem",
       icon: Target,
@@ -30,7 +50,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 3,
+      id: 4,
       title: "AI-Powered Discovery → One-Click Execution",
       type: "solution",
       icon: Rocket,
@@ -43,7 +63,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 4,
+      id: 5,
       title: "Market Opportunity",
       subtitle: "$300 Billion Digital Financial Services",
       type: "market",
@@ -56,7 +76,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 5,
+      id: 6,
       title: "Revenue Model",
       subtitle: "Transaction-Based, High-Margin Focus",
       type: "revenue",
@@ -86,7 +106,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 6,
+      id: 7,
       title: "Competitive Analysis",
       subtitle: "Clear Differentiation",
       type: "competition",
@@ -102,7 +122,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 7,
+      id: 8,
       title: "Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
@@ -115,7 +135,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 8,
+      id: 9,
       title: "Go-to-Market Strategy",
       subtitle: "Multi-Product Discovery Platform",
       type: "gtm",
@@ -142,7 +162,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 9,
+      id: 10,
       title: "Vision",
       subtitle: "India's Financial Operating System",
       type: "vision",
@@ -156,7 +176,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 10,
+      id: 11,
       title: "Key Risks",
       type: "risks",
       icon: Target,
@@ -169,7 +189,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 11,
+      id: 12,
       title: "Team",
       type: "team",
       icon: Users,
@@ -183,7 +203,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 12,
+      id: 13,
       title: "Funding Requirements",
       subtitle: "$4M Seed Round",
       type: "funding",
@@ -237,12 +257,80 @@ const PitchPresentation = () => {
       case 'title':
         return (
           <div className="text-center space-y-8">
-            <IconComponent className="w-24 h-24 mx-auto text-blue-600" />
-            <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="w-32 h-32 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-2xl flex items-center justify-center shadow-2xl">
+                  <IconComponent className="w-20 h-20 text-white" />
+                </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+              </div>
+            </div>
+            <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
               {slide.title}
             </h1>
             <p className="text-2xl text-gray-600">{slide.subtitle}</p>
             <p className="text-lg text-gray-500">{slide.author}</p>
+          </div>
+        );
+
+      case 'business-model':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* What We Do */}
+              <Card className="p-6 border-2 border-green-200 bg-green-50">
+                <CardContent className="space-y-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                    <h3 className="text-2xl font-bold text-green-800">What We Do</h3>
+                  </div>
+                  <div className="space-y-4">
+                    {slide.whatWeDo.map((item: any, index: number) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <div>
+                          <h4 className="font-semibold text-green-800">{item.title}</h4>
+                          <p className="text-green-700 text-sm">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* What We Don't Do */}
+              <Card className="p-6 border-2 border-red-200 bg-red-50">
+                <CardContent className="space-y-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <XCircle className="w-8 h-8 text-red-600" />
+                    <h3 className="text-2xl font-bold text-red-800">What We Don't Do</h3>
+                  </div>
+                  <div className="space-y-4">
+                    {slide.whatWeDont.map((item: any, index: number) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <div>
+                          <h4 className="font-semibold text-red-800">{item.title}</h4>
+                          <p className="text-red-700 text-sm">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="text-center bg-blue-50 p-6 rounded-lg">
+              <p className="text-lg text-blue-800 font-semibold">
+                We are the intelligent bridge between users and financial providers - enabling faster, smarter decisions without the operational complexity.
+              </p>
+            </div>
           </div>
         );
 
@@ -562,7 +650,14 @@ const PitchPresentation = () => {
           </Button>
           
           <div className="flex items-center gap-3">
-            <Presentation className="w-6 h-6 text-blue-600" />
+            <div className="relative">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 rounded-lg flex items-center justify-center">
+                <Brain className="w-5 h-5 text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                <Zap className="w-1.5 h-1.5 text-white" />
+              </div>
+            </div>
             <h1 className="text-xl font-semibold">Pitch Presentation</h1>
           </div>
 
