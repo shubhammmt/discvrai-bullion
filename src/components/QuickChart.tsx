@@ -22,47 +22,49 @@ const QuickChart = () => {
   const isPositive = mockChartData[mockChartData.length - 1].price > mockChartData[0].price;
   
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-gray-900">Today's Performance</h2>
-        <div className="flex gap-3 text-sm">
-          <button className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">1D</button>
-          <button className="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-full">1W</button>
-          <button className="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-full">1M</button>
-          <button className="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-full">1Y</button>
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 h-fit">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900">Today's Performance</h2>
+        <div className="flex gap-2 sm:gap-3 text-sm overflow-x-auto w-full sm:w-auto">
+          <button className="px-2 sm:px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium whitespace-nowrap">1D</button>
+          <button className="px-2 sm:px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-full whitespace-nowrap">1W</button>
+          <button className="px-2 sm:px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-full whitespace-nowrap">1M</button>
+          <button className="px-2 sm:px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-full whitespace-nowrap">1Y</button>
         </div>
       </div>
       
-      <div className="h-64">
+      <div className="h-48 sm:h-64">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={mockChartData}>
             <XAxis 
               dataKey="time" 
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: '#6B7280' }}
+              tick={{ fontSize: 10, fill: '#6B7280' }}
+              interval="preserveStartEnd"
             />
             <YAxis 
               domain={['dataMin - 1', 'dataMax + 1']}
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: '#6B7280' }}
+              tick={{ fontSize: 10, fill: '#6B7280' }}
             />
             <Tooltip 
               contentStyle={{
                 background: '#fff',
                 border: '1px solid #e5e7eb',
                 borderRadius: '8px',
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                fontSize: '12px'
               }}
             />
             <Line 
               type="monotone" 
               dataKey="price" 
               stroke={isPositive ? '#059669' : '#DC2626'}
-              strokeWidth={3}
+              strokeWidth={2}
               dot={false}
-              activeDot={{ r: 6, fill: isPositive ? '#059669' : '#DC2626' }}
+              activeDot={{ r: 4, fill: isPositive ? '#059669' : '#DC2626' }}
             />
           </LineChart>
         </ResponsiveContainer>

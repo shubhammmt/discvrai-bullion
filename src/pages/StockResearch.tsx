@@ -13,6 +13,8 @@ import StockQA from '@/components/StockQA';
 import FinanceCopilot from '@/components/FinanceCopilot';
 import ViewToggle from '@/components/ViewToggle';
 import EnhancedDetailedView from '@/components/EnhancedDetailedView';
+import KeyMetrics from '@/components/KeyMetrics';
+import LatestNews from '@/components/LatestNews';
 
 const StockResearch = () => {
   const { symbol } = useParams();
@@ -43,33 +45,33 @@ const StockResearch = () => {
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="max-w-6xl mx-auto p-4">
+        <div className="max-w-6xl mx-auto p-2 sm:p-4">
           {/* Header with Navigation and Actions */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
               <Button 
                 variant="outline" 
                 onClick={() => navigate(-1)}
-                className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20"
+                className="flex items-center gap-2 bg-white/70 backdrop-blur-md border-white/20 text-sm"
               >
-                <ArrowLeft size={16} />
-                Back
+                <ArrowLeft size={14} />
+                <span className="hidden sm:inline">Back</span>
               </Button>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Stock Research</h1>
-                <p className="text-gray-600 text-sm">AI-powered investment insights</p>
+              <div className="flex-1 sm:flex-none">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Stock Research</h1>
+                <p className="text-gray-600 text-xs sm:text-sm">AI-powered investment insights</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
               <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
               
               {/* Actionable Icons with Tooltips */}
-              <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md rounded-lg p-1 border border-white/20">
+              <div className="flex items-center gap-1 sm:gap-2 bg-white/70 backdrop-blur-md rounded-lg p-1 border border-white/20">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                      <Bell size={16} />
+                    <Button size="sm" variant="ghost" className="h-7 w-7 sm:h-8 sm:w-8 p-0">
+                      <Bell size={14} className="sm:w-4 sm:h-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -79,8 +81,8 @@ const StockResearch = () => {
                 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                      <Heart size={16} />
+                    <Button size="sm" variant="ghost" className="h-7 w-7 sm:h-8 sm:w-8 p-0">
+                      <Heart size={14} className="sm:w-4 sm:h-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -90,8 +92,8 @@ const StockResearch = () => {
                 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                      <BarChart3 size={16} />
+                    <Button size="sm" variant="ghost" className="h-7 w-7 sm:h-8 sm:w-8 p-0">
+                      <BarChart3 size={14} className="sm:w-4 sm:h-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -103,9 +105,10 @@ const StockResearch = () => {
               {/* Primary Action */}
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md">
-                    <Plus size={16} className="mr-2" />
-                    Buy Stock
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md text-sm">
+                    <Plus size={14} className="mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Buy Stock</span>
+                    <span className="sm:hidden">Buy</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -120,13 +123,26 @@ const StockResearch = () => {
 
           {/* Content based on view */}
           {currentView === 'quick' ? (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <AIInsight {...aiInsightData} />
-              <QuickChart />
-              <div className="grid lg:grid-cols-2 gap-6">
+              
+              {/* Integrated Chart and Key Metrics */}
+              <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="lg:col-span-2">
+                  <QuickChart />
+                </div>
+                <div className="lg:col-span-1">
+                  <KeyMetrics />
+                </div>
+              </div>
+              
+              <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
                 <CompanyOverview />
                 <StockQA />
               </div>
+              
+              {/* Recent News Section */}
+              <LatestNews />
             </div>
           ) : (
             <EnhancedDetailedView />

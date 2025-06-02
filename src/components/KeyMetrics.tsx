@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Building2, Globe, MapPin } from 'lucide-react';
 
 interface MetricCardProps {
   label: string;
@@ -16,9 +17,9 @@ const MetricCard = ({ label, value, subtext, trend }: MetricCardProps) => {
   }[trend || 'neutral'];
 
   return (
-    <div className="bg-gray-50 rounded-lg p-4">
-      <div className="text-sm text-gray-600 mb-1">{label}</div>
-      <div className="text-lg font-bold text-gray-900">{value}</div>
+    <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+      <div className="text-xs sm:text-sm text-gray-600 mb-1">{label}</div>
+      <div className="text-sm sm:text-lg font-bold text-gray-900">{value}</div>
       {subtext && <div className={`text-xs ${trendColor}`}>{subtext}</div>}
     </div>
   );
@@ -35,9 +36,35 @@ const KeyMetrics = () => {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Key Metrics</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 h-fit">
+      <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Key Metrics & Company Info</h2>
+      
+      {/* Company Information Section */}
+      <div className="mb-4 pb-4 border-b border-gray-200">
+        <div className="flex items-center gap-2 mb-3">
+          <Building2 className="w-4 h-4 text-blue-600" />
+          <span className="font-semibold text-sm">Company Details</span>
+        </div>
+        <div className="space-y-2 text-xs sm:text-sm">
+          <div className="flex items-center gap-2">
+            <Globe className="w-3 h-3 text-gray-500" />
+            <span className="text-gray-600">Technology & Consumer Electronics</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="w-3 h-3 text-gray-500" />
+            <span className="text-gray-600">Cupertino, California</span>
+          </div>
+          <div className="text-gray-700">
+            <span className="font-medium">CEO:</span> Tim Cook
+          </div>
+          <div className="text-gray-700">
+            <span className="font-medium">Employees:</span> 164,000+
+          </div>
+        </div>
+      </div>
+
+      {/* Key Metrics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {metrics.map((metric, index) => (
           <MetricCard key={index} {...metric} />
         ))}
