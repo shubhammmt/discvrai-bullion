@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Presentation, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, CheckCircle, XCircle, Zap } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Presentation, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, CheckCircle, XCircle, Zap, ArrowRight, Smartphone, CreditCard, FileText, MousePointer } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PitchPresentation = () => {
@@ -19,27 +19,6 @@ const PitchPresentation = () => {
     },
     {
       id: 2,
-      title: "What We Do vs. What We Don't",
-      subtitle: "Asset-Light Digital Enablement Platform",
-      type: "business-model",
-      icon: Zap,
-      whatWeDo: [
-        { title: "AI-Powered Discovery", description: "Help users find the right financial products through intelligent recommendations" },
-        { title: "Transparent Comparison", description: "Provide unbiased comparison of products across providers" },
-        { title: "Decision Acceleration", description: "Guide users from research to execution in minutes, not hours" },
-        { title: "Seamless Referrals", description: "Connect users directly to licensed providers for execution" },
-        { title: "Portfolio Tracking", description: "Monitor and optimize user investments across all providers" }
-      ],
-      whatWeDont: [
-        { title: "Direct Insurance Sales", description: "We don't sell insurance policies directly" },
-        { title: "Demat Account Management", description: "We don't open or manage demat accounts" },
-        { title: "Fund Management", description: "We don't manage user funds or assets" },
-        { title: "Regulatory Compliance", description: "Partners handle all licensing and compliance" },
-        { title: "Customer Support", description: "Product-specific support handled by providers" }
-      ]
-    },
-    {
-      id: 3,
       title: "The Financial Complexity Crisis",
       type: "problem",
       icon: Target,
@@ -50,7 +29,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 4,
+      id: 3,
       title: "AI-Powered Discovery → One-Click Execution",
       type: "solution",
       icon: Rocket,
@@ -63,7 +42,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 5,
+      id: 4,
       title: "Market Opportunity",
       subtitle: "$300 Billion Digital Financial Services",
       type: "market",
@@ -76,7 +55,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 6,
+      id: 5,
       title: "Revenue Model",
       subtitle: "Transaction-Based, High-Margin Focus",
       type: "revenue",
@@ -106,7 +85,58 @@ const PitchPresentation = () => {
       ]
     },
     {
+      id: 6,
+      title: "What We Do vs. What We Don't",
+      subtitle: "Asset-Light Digital Enablement Platform",
+      type: "business-model",
+      icon: Zap,
+      whatWeDo: [
+        { title: "AI-Powered Discovery", description: "Help users find the right financial products through intelligent recommendations" },
+        { title: "Transparent Comparison", description: "Provide unbiased comparison of products across providers" },
+        { title: "Decision Acceleration", description: "Guide users from research to execution in minutes, not hours" },
+        { title: "Seamless Referrals", description: "Connect users directly to licensed providers for execution" },
+        { title: "Portfolio Tracking", description: "Monitor and optimize user investments across all providers" }
+      ],
+      whatWeDont: [
+        { title: "Direct Insurance Sales", description: "We don't sell insurance policies directly" },
+        { title: "Demat Account Management", description: "We don't open or manage demat accounts" },
+        { title: "Fund Management", description: "We don't manage user funds or assets" },
+        { title: "Regulatory Compliance", description: "Partners handle all licensing and compliance" },
+        { title: "Customer Support", description: "Product-specific support handled by providers" }
+      ]
+    },
+    {
       id: 7,
+      title: "User Flow",
+      subtitle: "From Discovery to Execution in 3 Simple Steps",
+      type: "user-flow",
+      icon: MousePointer,
+      steps: [
+        {
+          step: "1",
+          title: "Discovery & Personalization",
+          description: "AI analyzes user profile, goals, and risk appetite",
+          details: ["Income assessment", "Goal mapping", "Risk profiling", "Preference analysis"],
+          icon: Brain
+        },
+        {
+          step: "2", 
+          title: "Intelligent Recommendations",
+          description: "Get personalized product suggestions with transparent comparisons",
+          details: ["AI-powered matching", "Real-time pricing", "Performance data", "Fee comparison"],
+          icon: Target
+        },
+        {
+          step: "3",
+          title: "One-Click Execution",
+          description: "Seamless redirect to partner platforms for instant purchase",
+          details: ["Partner integration", "Pre-filled forms", "Instant execution", "Portfolio tracking"],
+          icon: Zap
+        }
+      ]
+    },
+    {
+      id: 8,
       title: "Competitive Analysis",
       subtitle: "Clear Differentiation",
       type: "competition",
@@ -122,7 +152,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 8,
+      id: 9,
       title: "Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
@@ -135,7 +165,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 9,
+      id: 10,
       title: "Go-to-Market Strategy",
       subtitle: "Multi-Product Discovery Platform",
       type: "gtm",
@@ -162,7 +192,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 10,
+      id: 11,
       title: "Vision",
       subtitle: "India's Financial Operating System",
       type: "vision",
@@ -176,7 +206,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 11,
+      id: 12,
       title: "Key Risks",
       type: "risks",
       icon: Target,
@@ -189,7 +219,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 12,
+      id: 13,
       title: "Team",
       type: "team",
       icon: Users,
@@ -203,7 +233,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 13,
+      id: 14,
       title: "Funding Requirements",
       subtitle: "$4M Seed Round",
       type: "funding",
@@ -219,6 +249,132 @@ const PitchPresentation = () => {
         "Achieving $1.2M annual revenue by Month 12", 
         "Series A ready by Month 18 with 500K users"
       ]
+    },
+    {
+      id: 15,
+      title: "Appendix: End-to-End Execution",
+      subtitle: "Mutual Fund Investment Example",
+      type: "execution-example",
+      icon: FileText,
+      example: {
+        title: "Mutual Fund Investment Journey",
+        steps: [
+          {
+            step: "Discovery",
+            description: "User searches for 'best mutual funds for retirement'",
+            screenshot: "AI shows personalized SIP recommendations based on 30-year timeline",
+            time: "30 seconds"
+          },
+          {
+            step: "Comparison", 
+            description: "Compare top 3 recommended funds",
+            screenshot: "Side-by-side comparison of returns, expense ratios, and risk metrics",
+            time: "2 minutes"
+          },
+          {
+            step: "Selection",
+            description: "User selects HDFC Equity Fund",
+            screenshot: "Detailed fund overview with investment amount selector",
+            time: "1 minute"
+          },
+          {
+            step: "Execution",
+            description: "Redirect to Groww/Zerodha with pre-filled details",
+            screenshot: "Partner platform opens with fund selected and KYC details pre-filled",
+            time: "2 minutes"
+          },
+          {
+            step: "Tracking",
+            description: "Investment appears in Discvr portfolio",
+            screenshot: "Real-time portfolio tracking with performance analytics",
+            time: "Ongoing"
+          }
+        ]
+      }
+    },
+    {
+      id: 16,
+      title: "Appendix: End-to-End Execution",
+      subtitle: "Term Insurance Purchase Example",
+      type: "execution-example",
+      icon: Shield,
+      example: {
+        title: "Term Insurance Purchase Journey",
+        steps: [
+          {
+            step: "Need Assessment",
+            description: "AI calculates insurance requirement based on income and dependents",
+            screenshot: "Smart calculator showing ₹1.5Cr coverage recommendation",
+            time: "1 minute"
+          },
+          {
+            step: "Product Discovery",
+            description: "Compare policies from top insurers",
+            screenshot: "Premium comparison across HDFC Life, ICICI Pru, and Max Life",
+            time: "3 minutes"
+          },
+          {
+            step: "Customization",
+            description: "Adjust coverage amount and riders",
+            screenshot: "Policy builder with critical illness and accidental death riders",
+            time: "2 minutes"
+          },
+          {
+            step: "Execution",
+            description: "Redirect to PolicyBazaar/insurer with details",
+            screenshot: "Partner platform with application form 80% pre-filled",
+            time: "5 minutes"
+          },
+          {
+            step: "Tracking",
+            description: "Policy status and premium reminders",
+            screenshot: "Insurance dashboard with renewal alerts and claim assistance",
+            time: "Ongoing"
+          }
+        ]
+      }
+    },
+    {
+      id: 17,
+      title: "Appendix: End-to-End Execution", 
+      subtitle: "Personal Loan Application Example",
+      type: "execution-example",
+      icon: CreditCard,
+      example: {
+        title: "Personal Loan Application Journey",
+        steps: [
+          {
+            step: "Eligibility Check",
+            description: "AI pre-qualifies user based on income and credit profile",
+            screenshot: "Instant eligibility for ₹5L loan at 11.5% interest",
+            time: "30 seconds"
+          },
+          {
+            step: "Lender Comparison",
+            description: "Compare offers from multiple banks",
+            screenshot: "Rate comparison from HDFC, ICICI, and Kotak with processing fees",
+            time: "2 minutes"
+          },
+          {
+            step: "Application",
+            description: "Select preferred lender and loan terms",
+            screenshot: "Loan configurator with EMI calculator and tenure selector",
+            time: "1 minute"
+          },
+          {
+            step: "Execution",
+            description: "Redirect to bank's digital application",
+            screenshot: "Bank portal with income details and documents auto-populated",
+            time: "10 minutes"
+          },
+          {
+            step: "Tracking",
+            description: "Application status and disbursement tracking",
+            screenshot: "Loan dashboard showing approval status and EMI schedule",
+            time: "Ongoing"
+          }
+        ]
+      }
     }
   ];
 
@@ -627,6 +783,103 @@ const PitchPresentation = () => {
                 </div>
               </div>
             </div>
+          </div>
+        );
+
+      case 'user-flow':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+            
+            <div className="relative">
+              {/* Flow Steps */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                {slide.steps.map((step: any, index: number) => {
+                  const StepIcon = step.icon;
+                  return (
+                    <div key={index} className="relative">
+                      <Card className="p-6 h-full">
+                        <CardContent className="space-y-4 text-center">
+                          <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <StepIcon className="w-8 h-8 text-white" />
+                          </div>
+                          <div className="text-3xl font-bold text-blue-600">{step.step}</div>
+                          <h3 className="text-xl font-bold">{step.title}</h3>
+                          <p className="text-gray-600">{step.description}</p>
+                          <div className="space-y-2">
+                            {step.details.map((detail: string, i: number) => (
+                              <div key={i} className="flex items-center justify-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+                                <span className="text-sm text-gray-500">{detail}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                      
+                      {/* Arrow to next step */}
+                      {index < slide.steps.length - 1 && (
+                        <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                          <ArrowRight className="w-8 h-8 text-blue-600" />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+            <div className="text-center bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
+              <p className="text-lg text-gray-700 font-semibold">
+                <span className="text-blue-600">Average Time:</span> Under 5 minutes from discovery to execution
+              </p>
+              <p className="text-md text-gray-600 mt-2">
+                Traditional process takes 40+ hours • Our AI-powered flow reduces it by 99%
+              </p>
+            </div>
+          </div>
+        );
+
+      case 'execution-example':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <IconComponent className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+            
+            <Card className="p-6 bg-gradient-to-r from-purple-50 to-blue-50">
+              <CardContent>
+                <h3 className="text-2xl font-bold text-center mb-8 text-purple-800">{slide.example.title}</h3>
+                
+                <div className="space-y-6">
+                  {slide.example.steps.map((step: any, index: number) => (
+                    <div key={index} className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm">
+                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-lg font-semibold text-purple-800 mb-2">{step.step}</h4>
+                        <p className="text-gray-700 mb-2">{step.description}</p>
+                        <p className="text-sm text-gray-600 italic mb-2">"{step.screenshot}"</p>
+                        <div className="text-xs text-purple-600 font-medium">⏱️ {step.time}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-6 text-center bg-purple-100 p-4 rounded-lg">
+                  <p className="text-purple-800 font-semibold">
+                    Total Time: {slide.example.steps.reduce((acc: any, step: any) => acc + " + " + step.time, "").slice(3)}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
