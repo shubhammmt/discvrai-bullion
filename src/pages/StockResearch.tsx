@@ -125,14 +125,9 @@ const StockResearch = () => {
             <div className="space-y-4 sm:space-y-6">
               <AIInsight {...aiInsightData} />
               
-              {/* Chart and Key Metrics Layout */}
-              <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
-                <div className="lg:col-span-2">
-                  <QuickChart />
-                </div>
-                <div className="lg:col-span-1">
-                  <KeyMetrics />
-                </div>
+              {/* Chart Layout */}
+              <div className="grid lg:grid-cols-1 gap-4 sm:gap-6">
+                <QuickChart />
               </div>
               
               <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
@@ -141,6 +136,9 @@ const StockResearch = () => {
               </div>
               
               <LatestNews />
+              
+              {/* Key Metrics & Company Info Section */}
+              <KeyMetrics />
             </div>
           ) : (
             <EnhancedDetailedView />
