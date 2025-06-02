@@ -25,21 +25,61 @@ const StockHeader = ({ symbol, companyName, price, change, changePercent }: Stoc
   const isPositive = change >= 0;
   
   return (
-    <div className="bg-white/70 backdrop-blur-md rounded-lg shadow-md border border-white/20 p-3 sm:p-4 mb-4 sm:mb-6" style={{ height: '15vh', minHeight: '120px', maxHeight: '180px' }}>
-      {/* Top Row: Symbol & Exchange + Price & Change */}
-      <div className="flex items-start justify-between mb-2 sm:mb-3">
-        {/* Left: Symbol and Exchange */}
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{symbol}</h1>
-            <span className="text-xs sm:text-sm bg-gray-100 px-2 py-1 rounded text-gray-600">NASDAQ</span>
+    <div className="bg-white/70 backdrop-blur-md rounded-lg shadow-md border border-white/20 p-3 sm:p-4 mb-4 sm:mb-6" style={{ height: '12vh', minHeight: '100px', maxHeight: '140px' }}>
+      <div className="flex items-start justify-between h-full">
+        {/* Left Section: Symbol, Company, and Key Metrics */}
+        <div className="flex flex-col justify-between h-full flex-1 min-w-0">
+          {/* Symbol and Exchange */}
+          <div className="flex flex-col mb-2">
+            <div className="flex items-center gap-2 mb-1">
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900">{symbol}</h1>
+              <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">NASDAQ</span>
+            </div>
+            <p className="text-gray-600 text-xs sm:text-sm truncate">{companyName}</p>
           </div>
-          <p className="text-gray-600 text-xs sm:text-sm">{companyName}</p>
+          
+          {/* Key Metrics - placed below company name */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-2 text-xs">
+            <div className="text-center">
+              <span className="text-gray-500 block">MCap</span>
+              <span className="font-medium">$2.89T</span>
+            </div>
+            <div className="text-center">
+              <span className="text-gray-500 block">P/E</span>
+              <span className="font-medium">28.4</span>
+            </div>
+            <div className="text-center">
+              <span className="text-gray-500 block">EPS</span>
+              <span className="font-medium">$6.16</span>
+            </div>
+            <div className="text-center">
+              <span className="text-gray-500 block">52W</span>
+              <span className="font-medium">$124-$199</span>
+            </div>
+          </div>
         </div>
         
-        {/* Right: Price and Change */}
-        <div className="text-right">
-          <div className="text-xl sm:text-2xl font-bold text-gray-900">${price.toFixed(2)}</div>
+        {/* Middle Section: Mini Chart */}
+        <div className="flex-1 flex justify-center items-center px-2 sm:px-4 max-w-[200px] sm:max-w-[300px]">
+          <div className="w-full h-12 sm:h-16">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={mockMiniChartData}>
+                <Line 
+                  type="monotone" 
+                  dataKey="price" 
+                  stroke={isPositive ? '#059669' : '#DC2626'}
+                  strokeWidth={1.5}
+                  dot={false}
+                  activeDot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        
+        {/* Right Section: Price and Change */}
+        <div className="text-right flex flex-col justify-center h-full">
+          <div className="text-lg sm:text-xl font-bold text-gray-900">${price.toFixed(2)}</div>
           <div className={`flex items-center justify-end gap-1 text-xs sm:text-sm ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
             {isPositive ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
             <span className="font-semibold">
@@ -47,44 +87,6 @@ const StockHeader = ({ symbol, companyName, price, change, changePercent }: Stoc
             </span>
           </div>
           <div className="text-xs text-gray-500 mt-1">Today's Change</div>
-        </div>
-      </div>
-      
-      {/* Middle: Mini Price Chart */}
-      <div className="flex justify-center mb-2 sm:mb-3">
-        <div className="w-full max-w-[300px] h-8 sm:h-10">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={mockMiniChartData}>
-              <Line 
-                type="monotone" 
-                dataKey="price" 
-                stroke={isPositive ? '#059669' : '#DC2626'}
-                strokeWidth={1.5}
-                dot={false}
-                activeDot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-      
-      {/* Bottom Row: Key Metrics */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 text-xs sm:text-sm">
-        <div className="text-center">
-          <span className="text-gray-500 block">MCap</span>
-          <span className="font-medium">$2.89T</span>
-        </div>
-        <div className="text-center">
-          <span className="text-gray-500 block">P/E</span>
-          <span className="font-medium">28.4</span>
-        </div>
-        <div className="text-center">
-          <span className="text-gray-500 block">EPS</span>
-          <span className="font-medium">$6.16</span>
-        </div>
-        <div className="text-center">
-          <span className="text-gray-500 block">52W</span>
-          <span className="font-medium">$124-$199</span>
         </div>
       </div>
     </div>
