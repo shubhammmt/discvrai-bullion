@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, Brain } from 'lucide-react';
+import { ArrowRight, Brain, Shield, Target, TrendingUp } from 'lucide-react';
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -27,7 +28,6 @@ const Onboarding = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Save onboarding data and navigate to feed
       localStorage.setItem('userProfile', JSON.stringify(formData));
       navigate('/feed');
     }
@@ -48,38 +48,47 @@ const Onboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Let's get to know you</h2>
-              <p className="text-gray-600">Tell us about your financial background</p>
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Target className="w-8 h-8 text-blue-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Tell us about yourself</h2>
+              <p className="text-gray-600 text-sm">This helps us personalize investment recommendations just for you</p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="age">Age</Label>
+                <Label htmlFor="age" className="text-sm font-medium">Your Age</Label>
+                <p className="text-xs text-gray-500 mb-2">Age helps us suggest appropriate investment timelines</p>
                 <Input
                   id="age"
                   type="number"
                   value={formData.age}
                   onChange={(e) => setFormData(prev => ({ ...prev, age: e.target.value }))}
-                  placeholder="Enter your age"
+                  placeholder="e.g., 28"
+                  className="h-12"
                 />
               </div>
               <div>
-                <Label htmlFor="income">Annual Income (₹)</Label>
+                <Label htmlFor="income" className="text-sm font-medium">Monthly Income (₹)</Label>
+                <p className="text-xs text-gray-500 mb-2">We'll suggest investments that fit your budget</p>
                 <Input
                   id="income"
                   type="number"
                   value={formData.income}
                   onChange={(e) => setFormData(prev => ({ ...prev, income: e.target.value }))}
-                  placeholder="Enter your annual income"
+                  placeholder="e.g., 50,000"
+                  className="h-12"
                 />
               </div>
               <div>
-                <Label htmlFor="amount">Initial Investment Amount (₹)</Label>
+                <Label htmlFor="amount" className="text-sm font-medium">How much do you want to start with? (₹)</Label>
+                <p className="text-xs text-gray-500 mb-2">Even small amounts can grow over time</p>
                 <Input
                   id="amount"
                   type="number"
                   value={formData.investmentAmount}
                   onChange={(e) => setFormData(prev => ({ ...prev, investmentAmount: e.target.value }))}
-                  placeholder="How much do you plan to invest?"
+                  placeholder="e.g., 5,000"
+                  className="h-12"
                 />
               </div>
             </div>
@@ -90,29 +99,45 @@ const Onboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Risk & Timeline</h2>
-              <p className="text-gray-600">Help us understand your investment preferences</p>
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8 text-green-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Your comfort with risk</h2>
+              <p className="text-gray-600 text-sm">This ensures we only show investments you're comfortable with</p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label>Risk Tolerance</Label>
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {['Conservative', 'Moderate', 'Aggressive'].map((risk) => (
+                <Label className="text-sm font-medium">How do you feel about market ups and downs?</Label>
+                <div className="grid grid-cols-1 gap-3 mt-3">
+                  {[
+                    { key: 'Conservative', label: 'Play it safe', desc: 'Stable returns, lower risk' },
+                    { key: 'Moderate', label: 'Balanced approach', desc: 'Mix of safety and growth' },
+                    { key: 'Aggressive', label: 'Go for growth', desc: 'Higher potential, more risk' }
+                  ].map((risk) => (
                     <Button
-                      key={risk}
-                      variant={formData.riskTolerance === risk ? 'default' : 'outline'}
-                      onClick={() => setFormData(prev => ({ ...prev, riskTolerance: risk }))}
-                      className="h-12"
+                      key={risk.key}
+                      variant={formData.riskTolerance === risk.key ? 'default' : 'outline'}
+                      onClick={() => setFormData(prev => ({ ...prev, riskTolerance: risk.key }))}
+                      className="h-16 text-left justify-start p-4"
                     >
-                      {risk}
+                      <div>
+                        <div className="font-medium">{risk.label}</div>
+                        <div className="text-xs opacity-70">{risk.desc}</div>
+                      </div>
                     </Button>
                   ))}
                 </div>
               </div>
               <div>
-                <Label>Investment Horizon</Label>
+                <Label className="text-sm font-medium">When do you need this money?</Label>
+                <p className="text-xs text-gray-500 mb-2">Longer timelines allow for better growth potential</p>
                 <div className="grid grid-cols-2 gap-2 mt-2">
-                  {['Short-term (1-3 years)', 'Medium-term (3-7 years)', 'Long-term (7+ years)', 'Mixed'].map((horizon) => (
+                  {[
+                    'Short-term (1-3 years)', 
+                    'Medium-term (3-7 years)', 
+                    'Long-term (7+ years)', 
+                    'Mixed timeline'
+                  ].map((horizon) => (
                     <Button
                       key={horizon}
                       variant={formData.investmentHorizon === horizon ? 'default' : 'outline'}
@@ -132,21 +157,32 @@ const Onboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Learning Preferences</h2>
-              <p className="text-gray-600">How do you prefer to learn about investments?</p>
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Brain className="w-8 h-8 text-purple-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">How do you like to learn?</h2>
+              <p className="text-gray-600 text-sm">We'll present information in your preferred style</p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label>Preferred Learning Mode</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {['Visual Charts', 'Detailed Analysis', 'Quick Summaries', 'Video Content'].map((mode) => (
+                <Label className="text-sm font-medium">Choose your learning style</Label>
+                <div className="grid grid-cols-2 gap-3 mt-3">
+                  {[
+                    { key: 'Visual Charts', desc: 'Graphs and visual data' },
+                    { key: 'Detailed Analysis', desc: 'In-depth explanations' },
+                    { key: 'Quick Summaries', desc: 'Key points only' },
+                    { key: 'Video Content', desc: 'Video explanations' }
+                  ].map((mode) => (
                     <Button
-                      key={mode}
-                      variant={formData.learningMode === mode ? 'default' : 'outline'}
-                      onClick={() => setFormData(prev => ({ ...prev, learningMode: mode }))}
-                      className="h-12"
+                      key={mode.key}
+                      variant={formData.learningMode === mode.key ? 'default' : 'outline'}
+                      onClick={() => setFormData(prev => ({ ...prev, learningMode: mode.key }))}
+                      className="h-16 text-left justify-start p-3"
                     >
-                      {mode}
+                      <div>
+                        <div className="font-medium text-sm">{mode.key}</div>
+                        <div className="text-xs opacity-70">{mode.desc}</div>
+                      </div>
                     </Button>
                   ))}
                 </div>
@@ -159,21 +195,34 @@ const Onboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Investment Instruments</h2>
-              <p className="text-gray-600">What would you like to invest in?</p>
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="w-8 h-8 text-orange-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">What interests you?</h2>
+              <p className="text-gray-600 text-sm">We'll focus on these investment types for you</p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label>Select your preferred investment instruments</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {['Stocks', 'Mutual Funds', 'ETFs', 'IPOs', 'Crypto', 'Bonds'].map((instrument) => (
+                <Label className="text-sm font-medium">Select what you'd like to explore (choose multiple)</Label>
+                <div className="grid grid-cols-2 gap-3 mt-3">
+                  {[
+                    { key: 'Stocks', desc: 'Individual companies' },
+                    { key: 'Mutual Funds', desc: 'Professionally managed' },
+                    { key: 'ETFs', desc: 'Market tracking funds' },
+                    { key: 'IPOs', desc: 'New company listings' },
+                    { key: 'Crypto', desc: 'Digital currencies' },
+                    { key: 'Bonds', desc: 'Fixed income options' }
+                  ].map((instrument) => (
                     <Button
-                      key={instrument}
-                      variant={formData.preferredInstruments.includes(instrument) ? 'default' : 'outline'}
-                      onClick={() => handleInstrumentToggle(instrument)}
-                      className="h-12"
+                      key={instrument.key}
+                      variant={formData.preferredInstruments.includes(instrument.key) ? 'default' : 'outline'}
+                      onClick={() => handleInstrumentToggle(instrument.key)}
+                      className="h-16 text-left justify-start p-3"
                     >
-                      {instrument}
+                      <div>
+                        <div className="font-medium text-sm">{instrument.key}</div>
+                        <div className="text-xs opacity-70">{instrument.desc}</div>
+                      </div>
                     </Button>
                   ))}
                 </div>
@@ -189,7 +238,7 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -213,7 +262,7 @@ const Onboarding = () => {
               Back
             </Button>
             <Button onClick={handleNext} className="flex items-center gap-2">
-              {currentStep === totalSteps ? 'Complete' : 'Next'}
+              {currentStep === totalSteps ? 'Complete Setup' : 'Continue'}
               <ArrowRight size={16} />
             </Button>
           </div>

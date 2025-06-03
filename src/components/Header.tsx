@@ -1,15 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap } from 'lucide-react';
+import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDark, setIsDark] = useState(false);
+  
+  // Check if user is logged in
+  const userProfile = localStorage.getItem('userProfile');
+  const isLoggedIn = !!userProfile;
 
-  // Initialize dark mode from localStorage or system preference
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -58,65 +61,72 @@ const Header = () => {
           </span>
         </div>
 
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/feed')}
-            className={location.pathname === '/feed' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-          >
-            Feed
-          </Button>
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/research')}
-            className={location.pathname.includes('/research') ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-          >
-            Research
-          </Button>
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/organize')}
-            className={location.pathname === '/organize' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-          >
-            Organize
-          </Button>
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/portfolio')}
-            className={location.pathname === '/portfolio' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-          >
-            Portfolio
-          </Button>
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/pitch')}
-            className={location.pathname === '/pitch' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-          >
-            <Presentation size={16} className="mr-1" />
-            Pitch
-          </Button>
-        </nav>
+        {/* Navigation - only show if logged in */}
+        {isLoggedIn && (
+          <nav className="hidden md:flex items-center gap-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/feed')}
+              className={location.pathname === '/feed' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              Feed
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/research')}
+              className={location.pathname.includes('/research') ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              Research
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/organize')}
+              className={location.pathname === '/organize' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              Organize
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/portfolio')}
+              className={location.pathname === '/portfolio' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              Portfolio
+            </Button>
+          </nav>
+        )}
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={toggleDarkMode}
-            className="w-9 h-9 p-0"
-          >
-            {isDark ? <Sun size={16} /> : <Moon size={16} />}
-          </Button>
-          <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
-            <Search size={16} />
-          </Button>
-          <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
-            <Bell size={16} />
-          </Button>
-          <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
-            <User size={16} />
-          </Button>
+          {!isLoggedIn ? (
+            /* Show onboarding CTA for non-logged users */
+            <Button 
+              onClick={() => navigate('/onboarding')}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+            >
+              Get Started <ArrowRight size={14} className="ml-1" />
+            </Button>
+          ) : (
+            /* Show normal actions for logged in users */
+            <>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={toggleDarkMode}
+                className="w-9 h-9 p-0"
+              >
+                {isDark ? <Sun size={16} /> : <Moon size={16} />}
+              </Button>
+              <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
+                <Search size={16} />
+              </Button>
+              <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
+                <Bell size={16} />
+              </Button>
+              <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
+                <User size={16} />
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>
