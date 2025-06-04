@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +15,7 @@ import EnhancedDetailedView from '@/components/EnhancedDetailedView';
 import KeyMetrics from '@/components/KeyMetrics';
 import LatestNews from '@/components/LatestNews';
 import ResearchSharing from '@/components/ResearchSharing';
+import ResearchCTA from '@/components/ResearchCTA';
 
 const StockResearch = () => {
   const { symbol } = useParams();
@@ -142,6 +142,9 @@ const StockResearch = () => {
           {/* Stock Header */}
           <StockHeader {...stockData} />
 
+          {/* Research CTA */}
+          <ResearchCTA />
+
           {/* Content based on view */}
           {currentView === 'quick' ? (
             <div className="space-y-4 sm:space-y-6">
@@ -204,6 +207,11 @@ const StockResearch = () => {
                 <KeyMetrics />
               </div>
 
+              {/* Research Sharing - Moved toward bottom */}
+              <div id="research-sharing">
+                <ResearchSharing />
+              </div>
+
               {/* Detailed View CTA */}
               <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
                 <CardContent className="p-6 text-center">
@@ -225,7 +233,9 @@ const StockResearch = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <ResearchSharing />
+              <div id="research-sharing">
+                <ResearchSharing />
+              </div>
               <EnhancedDetailedView />
             </div>
           )}

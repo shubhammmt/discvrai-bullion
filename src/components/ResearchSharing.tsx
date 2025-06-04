@@ -36,122 +36,151 @@ const ResearchSharing = () => {
     if (url) window.open(url, '_blank');
   };
 
+  const handleSaveNotes = () => {
+    // Save notes functionality
+    console.log('Saving notes:', notes);
+    setShowNotes(false);
+  };
+
   return (
-    <Card className="mb-6">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-3">
-          <Share2 className="w-5 h-5 text-blue-600" />
+    <Card className="mb-6 bg-white/80 backdrop-blur-sm border-gray-200">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          <Share2 className="w-4 h-4 text-gray-600" />
           Share Research & Community
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {/* Research Actions */}
-          <div className="flex gap-3 flex-wrap">
-            <Button variant="outline" className="border-blue-500 text-blue-600">
-              <Share2 size={16} className="mr-2" />
-              Share Analysis
-            </Button>
-            <Button variant="outline" className="border-green-500 text-green-600">
-              <Download size={16} className="mr-2" />
-              Export PDF
-            </Button>
-            <Button variant="outline" className="border-purple-500 text-purple-600">
-              <FileText size={16} className="mr-2" />
-              Save Report
-            </Button>
-            <Button 
-              variant="outline" 
-              className="border-orange-500 text-orange-600"
-              onClick={() => setShowNotes(!showNotes)}
-            >
-              <MessageSquare size={16} className="mr-2" />
-              Add Notes
-            </Button>
-          </div>
+      <CardContent className="space-y-4">
+        {/* Research Actions */}
+        <div className="flex gap-2 flex-wrap">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+          >
+            <Share2 size={14} className="mr-1.5" />
+            Share
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+          >
+            <Download size={14} className="mr-1.5" />
+            Export
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+          >
+            <FileText size={14} className="mr-1.5" />
+            Save
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+            onClick={() => setShowNotes(!showNotes)}
+          >
+            <MessageSquare size={14} className="mr-1.5" />
+            Add Notes
+          </Button>
+        </div>
 
-          {/* Social Sharing */}
-          <div className="border-t pt-4">
-            <h4 className="font-medium text-gray-900 mb-3">Share on Social Platforms</h4>
-            <div className="flex gap-2 flex-wrap">
+        {/* Notes Section */}
+        {showNotes && (
+          <div className="space-y-3 border-t pt-4">
+            <h4 className="font-medium text-gray-800 text-sm">Research Notes</h4>
+            <Textarea
+              placeholder="Add your research notes, observations, or investment thesis..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="min-h-[100px] text-sm border-gray-300 focus:border-blue-400"
+            />
+            <div className="flex gap-2">
+              <Button 
+                size="sm" 
+                onClick={handleSaveNotes}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5"
+              >
+                Save Notes
+              </Button>
               <Button 
                 size="sm" 
                 variant="outline"
                 onClick={() => handleShareToSocial('twitter')}
-                className="border-blue-400 text-blue-600 hover:bg-blue-50"
+                className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
               >
-                𝕏 Twitter
+                Share Notes
               </Button>
               <Button 
                 size="sm" 
-                variant="outline"
-                onClick={() => handleShareToSocial('linkedin')}
-                className="border-blue-600 text-blue-700 hover:bg-blue-50"
+                variant="outline" 
+                onClick={() => setShowNotes(false)}
+                className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
               >
-                💼 LinkedIn
-              </Button>
-              <Button 
-                size="sm" 
-                variant="outline"
-                onClick={() => handleShareToSocial('whatsapp')}
-                className="border-green-500 text-green-600 hover:bg-green-50"
-              >
-                📱 WhatsApp
+                Cancel
               </Button>
             </div>
           </div>
+        )}
 
-          {/* Subscription CTAs */}
-          <div className="border-t pt-4">
-            <h4 className="font-medium text-gray-900 mb-3">Stay Updated</h4>
-            <div className="grid sm:grid-cols-2 gap-3">
-              <Button 
-                onClick={handleTelegramSubscribe}
-                className="bg-blue-500 hover:bg-blue-600 text-white justify-start"
-              >
-                <Send size={16} className="mr-2" />
-                Subscribe to Telegram Updates
-              </Button>
-              <Button 
-                onClick={handleWhatsAppSubscribe}
-                className="bg-green-500 hover:bg-green-600 text-white justify-start"
-              >
-                <MessageCircle size={16} className="mr-2" />
-                Get WhatsApp Alerts
-              </Button>
-            </div>
-            <p className="text-sm text-gray-600 mt-2">
-              Get daily market insights and personalized stock alerts
-            </p>
+        {/* Social Sharing */}
+        <div className="border-t pt-4">
+          <h4 className="font-medium text-gray-800 mb-3 text-sm">Share on Social Platforms</h4>
+          <div className="flex gap-2 flex-wrap">
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => handleShareToSocial('twitter')}
+              className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+            >
+              𝕏 Twitter
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => handleShareToSocial('linkedin')}
+              className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+            >
+              💼 LinkedIn
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => handleShareToSocial('whatsapp')}
+              className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+            >
+              📱 WhatsApp
+            </Button>
           </div>
+        </div>
 
-          {/* Notes Section */}
-          {showNotes && (
-            <div className="space-y-3 border-t pt-4">
-              <h4 className="font-medium text-gray-900">Research Notes</h4>
-              <Textarea
-                placeholder="Add your research notes, observations, or investment thesis..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                className="min-h-[120px]"
-              />
-              <div className="flex gap-2">
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                  Save Notes
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  onClick={() => handleShareToSocial('twitter')}
-                >
-                  Share Notes
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => setShowNotes(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          )}
+        {/* Subscription CTAs */}
+        <div className="border-t pt-4">
+          <h4 className="font-medium text-gray-800 mb-3 text-sm">Stay Updated</h4>
+          <div className="grid sm:grid-cols-2 gap-2">
+            <Button 
+              size="sm"
+              onClick={handleTelegramSubscribe}
+              className="bg-blue-500 hover:bg-blue-600 text-white justify-start text-xs px-3 py-2"
+            >
+              <Send size={14} className="mr-1.5" />
+              Telegram Updates
+            </Button>
+            <Button 
+              size="sm"
+              onClick={handleWhatsAppSubscribe}
+              className="bg-green-500 hover:bg-green-600 text-white justify-start text-xs px-3 py-2"
+            >
+              <MessageCircle size={14} className="mr-1.5" />
+              WhatsApp Alerts
+            </Button>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            Get daily market insights and personalized stock alerts
+          </p>
         </div>
       </CardContent>
     </Card>
