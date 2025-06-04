@@ -566,7 +566,7 @@ const PitchPresentation = () => {
   ];
 
   const handlePrint = useReactToPrint({
-    content: () => printRef.current,
+    contentRef: printRef,
     documentTitle: 'DISCVR-AI-Pitch-Presentation',
     onBeforeGetContent: () => {
       setIsDownloading(true);
@@ -590,7 +590,9 @@ const PitchPresentation = () => {
   });
 
   const downloadPDF = () => {
-    handlePrint();
+    if (handlePrint) {
+      handlePrint();
+    }
   };
 
   const nextSlide = () => {
