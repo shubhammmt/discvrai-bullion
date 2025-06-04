@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, Zap, MousePointer, CreditCard, FileText, Globe, BarChart, Cpu, Database, Network } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, Zap, MousePointer, CreditCard, FileText, Globe, BarChart, Cpu, Database, Network, Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const PitchPresentation = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const slides = [
     {
@@ -561,6 +564,53 @@ const PitchPresentation = () => {
     }
   ];
 
+  const downloadPDF = async () => {
+    setIsDownloading(true);
+    try {
+      const pdf = new jsPDF('landscape', 'mm', 'a4');
+      const slideWidth = 297; // A4 landscape width in mm
+      const slideHeight = 210; // A4 landscape height in mm
+
+      for (let i = 0; i < slides.length; i++) {
+        // Temporarily switch to the slide we want to capture
+        setCurrentSlide(i);
+        
+        // Wait for the slide to render
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Find the slide content
+        const slideElement = document.querySelector('[data-slide-content]') as HTMLElement;
+        if (!slideElement) continue;
+
+        // Capture the slide as canvas
+        const canvas = await html2canvas(slideElement, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff'
+        });
+
+        // Convert canvas to image
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        
+        // Add new page for each slide except the first
+        if (i > 0) {
+          pdf.addPage();
+        }
+        
+        // Add image to PDF
+        pdf.addImage(imgData, 'JPEG', 0, 0, slideWidth, slideHeight);
+      }
+
+      // Download the PDF
+      pdf.save('DISCVR-AI-Pitch-Presentation.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
@@ -615,8 +665,19 @@ const PitchPresentation = () => {
             <h1 className="text-xl font-semibold">Pitch Presentation</h1>
           </div>
 
-          <div className="text-sm text-gray-500">
-            {currentSlide + 1} / {slides.length}
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="outline" 
+              onClick={downloadPDF}
+              disabled={isDownloading}
+              className="flex items-center gap-2"
+            >
+              <Download size={16} />
+              {isDownloading ? 'Generating PDF...' : 'Download PDF'}
+            </Button>
+            <div className="text-sm text-gray-500">
+              {currentSlide + 1} / {slides.length}
+            </div>
           </div>
         </div>
       </div>
@@ -624,7 +685,7 @@ const PitchPresentation = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto p-6">
         <Card className="min-h-[600px] p-8">
-          <CardContent className="h-full">
+          <CardContent className="h-full" data-slide-content>
             <SlideRenderer slide={slides[currentSlide]} />
           </CardContent>
         </Card>
