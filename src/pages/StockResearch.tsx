@@ -13,7 +13,6 @@ import StockQA from '@/components/StockQA';
 import FinanceCopilot from '@/components/FinanceCopilot';
 import ViewToggle from '@/components/ViewToggle';
 import EnhancedDetailedView from '@/components/EnhancedDetailedView';
-import KeyMetrics from '@/components/KeyMetrics';
 import LatestNews from '@/components/LatestNews';
 import ResearchSharing from '@/components/ResearchSharing';
 import ResearchCTA from '@/components/ResearchCTA';
@@ -202,11 +201,8 @@ const StockResearch = () => {
                 </div>
               </div>
               
-              {/* Latest News & Key Metrics Section - Now properly aligned */}
-              <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
-                <LatestNews />
-                <KeyMetrics />
-              </div>
+              {/* Latest News Section */}
+              <LatestNews />
 
               {/* Research Sharing - Moved toward bottom */}
               <div id="research-sharing">
@@ -234,9 +230,6 @@ const StockResearch = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <div id="research-sharing">
-                <ResearchSharing />
-              </div>
               <EnhancedDetailedView />
             </div>
           )}
