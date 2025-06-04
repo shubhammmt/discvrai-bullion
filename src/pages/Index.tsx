@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3 } from 'lucide-react';
+import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -69,13 +69,24 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
               {!userProfile ? (
-                <Button 
-                  size="lg" 
-                  onClick={() => navigate('/onboarding')} 
-                  className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Start Discovering <ArrowRight className="ml-2" size={20} />
-                </Button>
+                <>
+                  <Button 
+                    size="lg" 
+                    onClick={() => navigate('/onboarding')} 
+                    className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  >
+                    Start Discovering <ArrowRight className="ml-2" size={20} />
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    onClick={() => navigate('/feed')} 
+                    className="px-8 py-4 text-lg border-2"
+                  >
+                    <LogIn className="mr-2" size={20} />
+                    Sign In
+                  </Button>
+                </>
               ) : (
                 <Button 
                   size="lg" 
@@ -183,13 +194,24 @@ const Index = () => {
         <h3 className="text-3xl font-bold mb-6">Ready to Discover Smarter Investments?</h3>
         <p className="text-xl text-gray-600 mb-8">Join thousands using AI to optimize their portfolios</p>
         {!userProfile ? (
-          <Button 
-            size="lg" 
-            onClick={() => navigate('/onboarding')} 
-            className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-          >
-            Start Your Journey <ArrowRight className="ml-2" size={20} />
-          </Button>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button 
+              size="lg" 
+              onClick={() => navigate('/onboarding')} 
+              className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            >
+              Start Your Journey <ArrowRight className="ml-2" size={20} />
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={() => navigate('/feed')} 
+              className="px-8 py-4 text-lg border-2"
+            >
+              <LogIn className="mr-2" size={20} />
+              Already have an account?
+            </Button>
+          </div>
         ) : (
           <Button 
             size="lg" 
