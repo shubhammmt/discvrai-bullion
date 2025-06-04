@@ -6,6 +6,42 @@ interface PDFExportViewProps {
   slides: any[];
 }
 
+// Define content density categories for different slide types
+const getSlideScaling = (slide: any) => {
+  const contentHeavySlides = [
+    'revenue', 'ai-tech-stack', 'competition', 'big-tech', 
+    'risks', 'team', 'funding', 'execution-example'
+  ];
+  
+  const mediumContentSlides = [
+    'business-model', 'solution', 'user-flow', 'gtm'
+  ];
+  
+  const lightContentSlides = [
+    'title', 'problem', 'market', 'vision', 'moats'
+  ];
+
+  if (contentHeavySlides.includes(slide.type)) {
+    return {
+      scale: '0.6',
+      fontSize: 'small',
+      padding: '8mm'
+    };
+  } else if (mediumContentSlides.includes(slide.type)) {
+    return {
+      scale: '0.7',
+      fontSize: 'medium', 
+      padding: '10mm'
+    };
+  } else {
+    return {
+      scale: '0.8',
+      fontSize: 'large',
+      padding: '12mm'
+    };
+  }
+};
+
 export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
   return (
     <div className="pdf-export-container">
@@ -39,7 +75,6 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
               width: 210mm !important;
               height: 297mm !important;
               margin: 0 !important;
-              padding: 10mm !important;
               box-sizing: border-box !important;
               display: flex !important;
               align-items: flex-start !important;
@@ -52,50 +87,139 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
               page-break-after: avoid !important;
             }
             
+            /* Heavy content slides - most compressed */
+            .slide-page.heavy-content {
+              padding: 8mm !important;
+            }
+            
+            .slide-page.heavy-content .slide-content {
+              transform: scale(0.6) !important;
+            }
+            
+            .slide-page.heavy-content .slide-content h1 {
+              font-size: 1.5rem !important;
+              line-height: 1.1 !important;
+              margin-bottom: 0.25rem !important;
+            }
+            
+            .slide-page.heavy-content .slide-content h2 {
+              font-size: 1.2rem !important;
+              line-height: 1.2 !important;
+              margin-bottom: 0.25rem !important;
+            }
+            
+            .slide-page.heavy-content .slide-content h3 {
+              font-size: 1rem !important;
+              line-height: 1.3 !important;
+              margin-bottom: 0.2rem !important;
+            }
+            
+            .slide-page.heavy-content .slide-content p {
+              font-size: 0.75rem !important;
+              line-height: 1.2 !important;
+              margin-bottom: 0.15rem !important;
+            }
+            
+            .slide-page.heavy-content .slide-content .grid {
+              gap: 0.25rem !important;
+            }
+            
+            .slide-page.heavy-content .slide-content table {
+              font-size: 0.6rem !important;
+            }
+            
+            .slide-page.heavy-content .slide-content td,
+            .slide-page.heavy-content .slide-content th {
+              padding: 0.15rem !important;
+            }
+            
+            /* Medium content slides */
+            .slide-page.medium-content {
+              padding: 10mm !important;
+            }
+            
+            .slide-page.medium-content .slide-content {
+              transform: scale(0.7) !important;
+            }
+            
+            .slide-page.medium-content .slide-content h1 {
+              font-size: 1.8rem !important;
+              line-height: 1.2 !important;
+              margin-bottom: 0.4rem !important;
+            }
+            
+            .slide-page.medium-content .slide-content h2 {
+              font-size: 1.4rem !important;
+              line-height: 1.3 !important;
+              margin-bottom: 0.4rem !important;
+            }
+            
+            .slide-page.medium-content .slide-content h3 {
+              font-size: 1.1rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 0.3rem !important;
+            }
+            
+            .slide-page.medium-content .slide-content p {
+              font-size: 0.8rem !important;
+              line-height: 1.3 !important;
+              margin-bottom: 0.2rem !important;
+            }
+            
+            .slide-page.medium-content .slide-content .grid {
+              gap: 0.4rem !important;
+            }
+            
+            /* Light content slides - least compressed */
+            .slide-page.light-content {
+              padding: 12mm !important;
+            }
+            
+            .slide-page.light-content .slide-content {
+              transform: scale(0.8) !important;
+            }
+            
+            .slide-page.light-content .slide-content h1 {
+              font-size: 2.2rem !important;
+              line-height: 1.2 !important;
+              margin-bottom: 0.6rem !important;
+            }
+            
+            .slide-page.light-content .slide-content h2 {
+              font-size: 1.8rem !important;
+              line-height: 1.3 !important;
+              margin-bottom: 0.6rem !important;
+            }
+            
+            .slide-page.light-content .slide-content h3 {
+              font-size: 1.4rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 0.4rem !important;
+            }
+            
+            .slide-page.light-content .slide-content p {
+              font-size: 1rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 0.3rem !important;
+            }
+            
+            .slide-page.light-content .slide-content .grid {
+              gap: 0.6rem !important;
+            }
+            
+            /* Common styles for all slides */
             .slide-content {
               width: 100% !important;
               height: auto !important;
               max-width: 100% !important;
-              transform: scale(0.75) !important;
               transform-origin: top center !important;
               overflow: visible !important;
             }
             
-            /* Ensure all content is visible and properly sized */
             .slide-content * {
               max-width: 100% !important;
               word-wrap: break-word !important;
               overflow-wrap: break-word !important;
-            }
-            
-            /* Adjust font sizes for better fit */
-            .slide-content h1 {
-              font-size: 2rem !important;
-              line-height: 1.2 !important;
-              margin-bottom: 0.5rem !important;
-            }
-            
-            .slide-content h2 {
-              font-size: 1.5rem !important;
-              line-height: 1.3 !important;
-              margin-bottom: 0.5rem !important;
-            }
-            
-            .slide-content h3 {
-              font-size: 1.25rem !important;
-              line-height: 1.4 !important;
-              margin-bottom: 0.25rem !important;
-            }
-            
-            .slide-content p {
-              font-size: 0.9rem !important;
-              line-height: 1.4 !important;
-              margin-bottom: 0.25rem !important;
-            }
-            
-            /* Adjust spacing for cards and grid layouts */
-            .slide-content .grid {
-              gap: 0.5rem !important;
             }
             
             .slide-content [class*="space-y"] {
@@ -103,7 +227,7 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
             }
             
             .slide-content [class*="space-y"] > * + * {
-              margin-top: 0.5rem !important;
+              margin-top: 0.3rem !important;
             }
             
             /* Hide navigation and other non-printable elements */
@@ -113,11 +237,13 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
             
             /* Ensure proper table formatting */
             .slide-content table {
-              font-size: 0.8rem !important;
+              font-size: 0.7rem !important;
+              width: 100% !important;
             }
             
             .slide-content td, .slide-content th {
-              padding: 0.25rem !important;
+              padding: 0.2rem !important;
+              vertical-align: top !important;
             }
           }
           
@@ -128,13 +254,19 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
           }
         `}
       </style>
-      {slides.map((slide, index) => (
-        <div key={`slide-${index}`} className="slide-page">
-          <div className="slide-content">
-            <SlideRenderer slide={slide} />
+      {slides.map((slide, index) => {
+        const scaling = getSlideScaling(slide);
+        const contentClass = scaling.scale === '0.6' ? 'heavy-content' : 
+                           scaling.scale === '0.7' ? 'medium-content' : 'light-content';
+        
+        return (
+          <div key={`slide-${index}`} className={`slide-page ${contentClass}`}>
+            <div className="slide-content">
+              <SlideRenderer slide={slide} />
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
