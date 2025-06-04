@@ -568,7 +568,7 @@ const PitchPresentation = () => {
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: 'DISCVR-AI-Pitch-Presentation',
-    onBeforeGetContent: () => {
+    onBeforePrint: () => {
       setIsDownloading(true);
       return Promise.resolve();
     },
