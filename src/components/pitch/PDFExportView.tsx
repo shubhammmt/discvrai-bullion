@@ -39,10 +39,10 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
               width: 210mm !important;
               height: 297mm !important;
               margin: 0 !important;
-              padding: 15mm !important;
+              padding: 10mm !important;
               box-sizing: border-box !important;
               display: flex !important;
-              align-items: center !important;
+              align-items: flex-start !important;
               justify-content: center !important;
               background: white !important;
               position: relative !important;
@@ -54,23 +54,70 @@ export const PDFExportView: React.FC<PDFExportViewProps> = ({ slides }) => {
             
             .slide-content {
               width: 100% !important;
-              height: 100% !important;
+              height: auto !important;
               max-width: 100% !important;
-              max-height: 100% !important;
-              transform: scale(0.85) !important;
-              transform-origin: center center !important;
-              overflow: hidden !important;
+              transform: scale(0.75) !important;
+              transform-origin: top center !important;
+              overflow: visible !important;
             }
             
-            /* Ensure all content is visible */
+            /* Ensure all content is visible and properly sized */
             .slide-content * {
               max-width: 100% !important;
               word-wrap: break-word !important;
+              overflow-wrap: break-word !important;
+            }
+            
+            /* Adjust font sizes for better fit */
+            .slide-content h1 {
+              font-size: 2rem !important;
+              line-height: 1.2 !important;
+              margin-bottom: 0.5rem !important;
+            }
+            
+            .slide-content h2 {
+              font-size: 1.5rem !important;
+              line-height: 1.3 !important;
+              margin-bottom: 0.5rem !important;
+            }
+            
+            .slide-content h3 {
+              font-size: 1.25rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 0.25rem !important;
+            }
+            
+            .slide-content p {
+              font-size: 0.9rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 0.25rem !important;
+            }
+            
+            /* Adjust spacing for cards and grid layouts */
+            .slide-content .grid {
+              gap: 0.5rem !important;
+            }
+            
+            .slide-content [class*="space-y"] {
+              --tw-space-y-reverse: 0 !important;
+            }
+            
+            .slide-content [class*="space-y"] > * + * {
+              margin-top: 0.5rem !important;
             }
             
             /* Hide navigation and other non-printable elements */
             button, .fixed, .absolute {
               display: none !important;
+            }
+            
+            /* Ensure proper table formatting */
+            .slide-content table {
+              font-size: 0.8rem !important;
+            }
+            
+            .slide-content td, .slide-content th {
+              padding: 0.25rem !important;
             }
           }
           

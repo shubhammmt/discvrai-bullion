@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -590,8 +591,7 @@ const PitchPresentation = () => {
           print-color-adjust: exact;
         }
       }
-    `,
-    removeAfterPrint: false
+    `
   });
 
   const downloadPDF = () => {
