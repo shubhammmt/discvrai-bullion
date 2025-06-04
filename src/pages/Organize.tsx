@@ -17,7 +17,9 @@ import {
   Clock,
   Shield,
   CreditCard,
-  Target
+  Target,
+  Send,
+  MessageCircle
 } from 'lucide-react';
 
 const Organize = () => {
@@ -58,6 +60,14 @@ const Organize = () => {
     { date: 'Feb 12', event: 'Home Loan EMI', type: 'emi', stock: 'HDFC Bank', category: 'credit' }
   ];
 
+  const handleTelegramSubscribe = () => {
+    window.open('https://t.me/your_channel', '_blank');
+  };
+
+  const handleWhatsAppSubscribe = () => {
+    window.open('https://wa.me/your_number', '_blank');
+  };
+
   const getItemIcon = (type: string) => {
     switch (type) {
       case 'insurance': return <Shield size={16} className="text-purple-600" />;
@@ -82,6 +92,36 @@ const Organize = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Organize</h1>
           <p className="text-gray-600">Manage your watchlists, alerts, research, and financial calendar</p>
         </div>
+
+        {/* Subscription CTA - Always visible */}
+        <Card className="mb-6 bg-gradient-to-r from-blue-50 to-green-50 border-blue-200">
+          <CardContent className="p-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">Stay Updated with Your Portfolio</h3>
+                <p className="text-sm text-gray-600">Get instant alerts for your watchlist items and market updates</p>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm"
+                  onClick={handleTelegramSubscribe}
+                  className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-2"
+                >
+                  <Send size={14} className="mr-1.5" />
+                  Telegram
+                </Button>
+                <Button 
+                  size="sm"
+                  onClick={handleWhatsAppSubscribe}
+                  className="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-2"
+                >
+                  <MessageCircle size={14} className="mr-1.5" />
+                  WhatsApp
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="watchlists" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
@@ -205,6 +245,40 @@ const Organize = () => {
                 </Card>
               ))}
             </div>
+
+            {/* Enhanced Subscription CTA for Alerts */}
+            <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+              <CardContent className="p-6">
+                <div className="text-center">
+                  <Bell className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Never Miss Important Alerts
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Get instant notifications for price movements, earnings, renewals, and market updates
+                  </p>
+                  <div className="flex justify-center gap-3">
+                    <Button 
+                      onClick={handleTelegramSubscribe}
+                      className="bg-blue-500 hover:bg-blue-600 text-white"
+                    >
+                      <Send size={16} className="mr-2" />
+                      Join Telegram
+                    </Button>
+                    <Button 
+                      onClick={handleWhatsAppSubscribe}
+                      className="bg-green-500 hover:bg-green-600 text-white"
+                    >
+                      <MessageCircle size={16} className="mr-2" />
+                      WhatsApp Updates
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-3">
+                    Real-time alerts • Daily market summaries • Personalized insights
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Saved Research Tab */}
