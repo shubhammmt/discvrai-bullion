@@ -198,10 +198,11 @@ const StockResearch = () => {
                 </div>
               </div>
               
-              <LatestNews />
-              
-              {/* Key Metrics & Company Info Section */}
-              <KeyMetrics />
+              {/* Latest News & Key Metrics Section - Now with matching heights */}
+              <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
+                <LatestNews />
+                <KeyMetrics />
+              </div>
 
               {/* Detailed View CTA */}
               <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">

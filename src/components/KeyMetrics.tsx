@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Building2, Globe, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import React from 'react';
+import { Building2, Globe, MapPin } from 'lucide-react';
 
 interface MetricCardProps {
   label: string;
@@ -26,8 +26,6 @@ const MetricCard = ({ label, value, subtext, trend }: MetricCardProps) => {
 };
 
 const KeyMetrics = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   const metrics = [
     { label: 'Market Cap', value: '$2.8T', subtext: 'Large Cap' },
     { label: 'P/E Ratio', value: '28.5', subtext: 'vs Industry 24.2', trend: 'up' as const },
@@ -38,53 +36,39 @@ const KeyMetrics = () => {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 h-fit">
-      <div 
-        className="flex items-center justify-between cursor-pointer mb-4"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <h2 className="text-lg sm:text-xl font-bold text-gray-900">Key Metrics & Company Info</h2>
-        {isExpanded ? (
-          <ChevronUp className="w-5 h-5 text-gray-500" />
-        ) : (
-          <ChevronDown className="w-5 h-5 text-gray-500" />
-        )}
-      </div>
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 h-full">
+      <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Key Metrics & Company Info</h2>
       
-      {isExpanded && (
-        <>
-          {/* Company Information Section */}
-          <div className="mb-4 pb-4 border-b border-gray-200">
-            <div className="flex items-center gap-2 mb-3">
-              <Building2 className="w-4 h-4 text-blue-600" />
-              <span className="font-semibold text-sm">Company Details</span>
-            </div>
-            <div className="space-y-2 text-xs sm:text-sm">
-              <div className="flex items-center gap-2">
-                <Globe className="w-3 h-3 text-gray-500" />
-                <span className="text-gray-600">Technology & Consumer Electronics</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-3 h-3 text-gray-500" />
-                <span className="text-gray-600">Cupertino, California</span>
-              </div>
-              <div className="text-gray-700">
-                <span className="font-medium">CEO:</span> Tim Cook
-              </div>
-              <div className="text-gray-700">
-                <span className="font-medium">Employees:</span> 164,000+
-              </div>
-            </div>
+      {/* Company Information Section */}
+      <div className="mb-4 pb-4 border-b border-gray-200">
+        <div className="flex items-center gap-2 mb-3">
+          <Building2 className="w-4 h-4 text-blue-600" />
+          <span className="font-semibold text-sm">Company Details</span>
+        </div>
+        <div className="space-y-2 text-xs sm:text-sm">
+          <div className="flex items-center gap-2">
+            <Globe className="w-3 h-3 text-gray-500" />
+            <span className="text-gray-600">Technology & Consumer Electronics</span>
           </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="w-3 h-3 text-gray-500" />
+            <span className="text-gray-600">Cupertino, California</span>
+          </div>
+          <div className="text-gray-700">
+            <span className="font-medium">CEO:</span> Tim Cook
+          </div>
+          <div className="text-gray-700">
+            <span className="font-medium">Employees:</span> 164,000+
+          </div>
+        </div>
+      </div>
 
-          {/* Key Metrics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {metrics.map((metric, index) => (
-              <MetricCard key={index} {...metric} />
-            ))}
-          </div>
-        </>
-      )}
+      {/* Key Metrics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        {metrics.map((metric, index) => (
+          <MetricCard key={index} {...metric} />
+        ))}
+      </div>
     </div>
   );
 };
