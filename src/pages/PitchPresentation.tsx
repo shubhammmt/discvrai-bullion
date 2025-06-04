@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Presentation, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, CheckCircle, XCircle, Zap, ArrowRight, Smartphone, CreditCard, FileText, MousePointer } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Presentation, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, CheckCircle, XCircle, Zap, ArrowRight, Smartphone, CreditCard, FileText, MousePointer, Database, Network, Cpu, BarChart, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PitchPresentation = () => {
@@ -107,6 +107,76 @@ const PitchPresentation = () => {
     },
     {
       id: 7,
+      title: "AI Technology Stack",
+      subtitle: "Four-Layer Intelligence Engine That Creates Exponential Moats",
+      type: "ai-tech-stack",
+      icon: Brain,
+      aiLayers: [
+        {
+          layer: "Layer 4",
+          title: "Communication Intelligence",
+          description: "Financial NLP & Multi-language Processing",
+          capabilities: ["Document Analysis", "Conversational AI", "Regional Language Support"],
+          icon: Globe,
+          color: "from-purple-600 to-purple-800"
+        },
+        {
+          layer: "Layer 3", 
+          title: "Market Intelligence",
+          description: "Real-time Sentiment & Predictive Analytics",
+          capabilities: ["100+ Data Sources", "Alternative Data", "Volatility Prediction"],
+          icon: BarChart,
+          color: "from-blue-600 to-blue-800"
+        },
+        {
+          layer: "Layer 2",
+          title: "Risk Profiling & Asset Matching", 
+          description: "Dynamic Risk Assessment & Portfolio AI",
+          capabilities: ["Behavioral Risk Models", "Multi-Asset Optimization", "Tax Intelligence"],
+          icon: Target,
+          color: "from-green-600 to-green-800"
+        },
+        {
+          layer: "Layer 1",
+          title: "Personalization Engine",
+          description: "Behavioral Learning & Financial DNA",
+          capabilities: ["50+ Interaction Patterns", "Adaptive Learning", "Cultural Insights"],
+          icon: Brain,
+          color: "from-orange-600 to-orange-800"
+        }
+      ],
+      networkEffects: {
+        title: "Exponential Learning Network",
+        effects: [
+          { label: "500K+ User Patterns", value: "Cold Start Elimination" },
+          { label: "Real Transaction Data", value: "Behavioral Intelligence" },
+          { label: "Cross-Asset Learning", value: "Holistic Optimization" },
+          { label: "Cultural Finance Patterns", value: "India-Specific Insights" }
+        ]
+      },
+      competitiveMoats: [
+        { 
+          type: "Data Moat", 
+          description: "Actual transaction behavior vs stated preferences",
+          strength: "Impossible to replicate without real money decisions",
+          icon: Database
+        },
+        { 
+          type: "Network Moat", 
+          description: "Each user improves recommendations for all users", 
+          strength: "Exponential value creation with scale",
+          icon: Network
+        },
+        { 
+          type: "Technology Moat", 
+          description: "Indian Financial AI models & cultural intelligence",
+          strength: "Years of R&D investment to match",
+          icon: Cpu
+        }
+      ]
+    },
+    {
+      id: 8,
       title: "User Flow",
       subtitle: "From Discovery to Execution in 3 Simple Steps",
       type: "user-flow",
@@ -136,7 +206,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 8,
+      id: 9,
       title: "Competitive Analysis",
       subtitle: "Clear Differentiation",
       type: "competition",
@@ -152,7 +222,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 9,
+      id: 10,
       title: "Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
@@ -165,7 +235,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 10,
+      id: 11,
       title: "Go-to-Market Strategy",
       subtitle: "Multi-Product Discovery Platform",
       type: "gtm",
@@ -192,7 +262,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 11,
+      id: 12,
       title: "Vision",
       subtitle: "India's Financial Operating System",
       type: "vision",
@@ -206,7 +276,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 12,
+      id: 13,
       title: "Key Risks",
       type: "risks",
       icon: Target,
@@ -219,7 +289,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 13,
+      id: 14,
       title: "Team",
       type: "team",
       icon: Users,
@@ -233,7 +303,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 14,
+      id: 15,
       title: "Funding Requirements",
       subtitle: "$4M Seed Round",
       type: "funding",
@@ -251,7 +321,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 15,
+      id: 16,
       title: "Appendix: End-to-End Execution",
       subtitle: "Mutual Fund Investment Example",
       type: "execution-example",
@@ -293,7 +363,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 16,
+      id: 17,
       title: "Appendix: End-to-End Execution",
       subtitle: "Term Insurance Purchase Example",
       type: "execution-example",
@@ -335,7 +405,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 17,
+      id: 18,
       title: "Appendix: End-to-End Execution", 
       subtitle: "Personal Loan Application Example",
       type: "execution-example",
@@ -410,6 +480,117 @@ const PitchPresentation = () => {
     const IconComponent = slide.icon;
 
     switch (slide.type) {
+      case 'ai-tech-stack':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+
+            {/* AI Layers Stack */}
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-center mb-6">Four-Layer AI Intelligence Stack</h3>
+              <div className="space-y-3">
+                {slide.aiLayers.map((layer: any, index: number) => {
+                  const LayerIcon = layer.icon;
+                  return (
+                    <Card key={index} className={`p-4 bg-gradient-to-r ${layer.color} text-white`}>
+                      <CardContent className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <LayerIcon className="w-8 h-8" />
+                          <div>
+                            <div className="text-sm font-semibold opacity-90">{layer.layer}</div>
+                            <h4 className="text-lg font-bold">{layer.title}</h4>
+                            <p className="text-sm opacity-90">{layer.description}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="grid grid-cols-1 gap-1 text-xs">
+                            {layer.capabilities.map((capability: string, i: number) => (
+                              <div key={i} className="bg-white/20 px-2 py-1 rounded text-center">
+                                {capability}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Network Effects Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card className="p-6 bg-gradient-to-br from-green-50 to-blue-50">
+                <CardContent>
+                  <div className="flex items-center gap-3 mb-4">
+                    <Network className="w-8 h-8 text-green-600" />
+                    <h3 className="text-xl font-bold text-green-800">{slide.networkEffects.title}</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {slide.networkEffects.effects.map((effect: any, index: number) => (
+                      <div key={index} className="flex justify-between items-center p-3 bg-white rounded-lg">
+                        <span className="font-semibold text-green-700">{effect.label}</span>
+                        <span className="text-green-600 text-sm">{effect.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="p-6 bg-gradient-to-br from-purple-50 to-blue-50">
+                <CardContent>
+                  <div className="flex items-center gap-3 mb-4">
+                    <Shield className="w-8 h-8 text-purple-600" />
+                    <h3 className="text-xl font-bold text-purple-800">Competitive Moats</h3>
+                  </div>
+                  <div className="space-y-4">
+                    {slide.competitiveMoats.map((moat: any, index: number) => {
+                      const MoatIcon = moat.icon;
+                      return (
+                        <div key={index} className="p-3 bg-white rounded-lg">
+                          <div className="flex items-center gap-3 mb-2">
+                            <MoatIcon className="w-6 h-6 text-purple-600" />
+                            <h4 className="font-bold text-purple-800">{moat.type}</h4>
+                          </div>
+                          <p className="text-sm text-gray-700 mb-1">{moat.description}</p>
+                          <p className="text-xs text-purple-600 font-semibold">{moat.strength}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Key Metrics */}
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white text-center">
+              <h3 className="text-2xl font-bold mb-6">AI Performance Targets</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <div className="text-3xl font-bold">{"<2s"}</div>
+                  <div className="text-sm opacity-90">Response Time</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold">15%+</div>
+                  <div className="text-sm opacity-90">Conversion Rate</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold">95%+</div>
+                  <div className="text-sm opacity-90">Prediction Accuracy</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold">500K+</div>
+                  <div className="text-sm opacity-90">Learning Dataset</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       case 'title':
         return (
           <div className="text-center space-y-8">
