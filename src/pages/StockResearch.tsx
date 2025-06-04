@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Bell, Heart, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Plus, Bell, Heart, BarChart3, Brain, MessageCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
@@ -15,11 +15,13 @@ import ViewToggle from '@/components/ViewToggle';
 import EnhancedDetailedView from '@/components/EnhancedDetailedView';
 import KeyMetrics from '@/components/KeyMetrics';
 import LatestNews from '@/components/LatestNews';
+import ResearchSharing from '@/components/ResearchSharing';
 
 const StockResearch = () => {
   const { symbol } = useParams();
   const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'quick' | 'detailed'>('quick');
+  const [showCopilot, setShowCopilot] = useState(false);
 
   const stockData = {
     symbol: symbol?.toUpperCase() || 'AAPL',
@@ -40,6 +42,10 @@ const StockResearch = () => {
       'Moderate risk from China dependency and market saturation concerns'
     ],
     recommendation: 'Suitable for moderate risk investors seeking quality growth. Best for 3-5 year investment horizon based on your profile.'
+  };
+
+  const handleCopilotClick = () => {
+    setShowCopilot(true);
   };
 
   return (
@@ -66,8 +72,8 @@ const StockResearch = () => {
             <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
               <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
               
-              {/* Action buttons */}
-              <div className="flex items-center gap-1 bg-white/70 backdrop-blur-md rounded-lg p-1 border border-white/20">
+              {/* Action buttons - Now with floating sticky behavior on mobile */}
+              <div className="fixed bottom-20 right-4 sm:relative sm:bottom-auto sm:right-auto flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-lg p-1 border border-white/20 shadow-lg sm:shadow-none z-30">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
@@ -100,6 +106,22 @@ const StockResearch = () => {
                     <p>Advanced charts</p>
                   </TooltipContent>
                 </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-8 w-8 p-0 text-purple-600"
+                      onClick={handleCopilotClick}
+                    >
+                      <Brain size={14} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Ask AI Copilot</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
               
               <Tooltip>
@@ -123,25 +145,88 @@ const StockResearch = () => {
           {/* Content based on view */}
           {currentView === 'quick' ? (
             <div className="space-y-4 sm:space-y-6">
-              <AIInsight {...aiInsightData} />
+              {/* AI Insight with Copilot CTA */}
+              <div className="relative">
+                <AIInsight {...aiInsightData} />
+                <Button
+                  onClick={handleCopilotClick}
+                  className="absolute top-4 right-4 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-full shadow-lg"
+                  size="sm"
+                >
+                  <MessageCircle size={16} />
+                </Button>
+              </div>
               
-              {/* Chart Layout */}
+              {/* Chart Layout with Copilot CTA */}
               <div className="grid lg:grid-cols-1 gap-4 sm:gap-6">
-                <QuickChart />
+                <div className="relative">
+                  <QuickChart />
+                  <Button
+                    onClick={handleCopilotClick}
+                    variant="outline"
+                    className="absolute top-4 right-4 bg-white/90 backdrop-blur-md border-purple-200 text-purple-600 hover:bg-purple-50"
+                    size="sm"
+                  >
+                    <Brain size={14} className="mr-2" />
+                    Ask AI
+                  </Button>
+                </div>
               </div>
               
               <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
-                <CompanyOverview />
-                <StockQA />
+                <div className="relative">
+                  <CompanyOverview />
+                  <Button
+                    onClick={handleCopilotClick}
+                    variant="ghost"
+                    className="absolute top-4 right-4 text-purple-600 hover:bg-purple-50"
+                    size="sm"
+                  >
+                    <Brain size={14} />
+                  </Button>
+                </div>
+                <div className="relative">
+                  <StockQA />
+                  <Button
+                    onClick={handleCopilotClick}
+                    variant="ghost"
+                    className="absolute top-4 right-4 text-purple-600 hover:bg-purple-50"
+                    size="sm"
+                  >
+                    <MessageCircle size={14} />
+                  </Button>
+                </div>
               </div>
               
               <LatestNews />
               
               {/* Key Metrics & Company Info Section */}
               <KeyMetrics />
+
+              {/* Detailed View CTA */}
+              <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+                <CardContent className="p-6 text-center">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Want More In-Depth Analysis?
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Get detailed financial statements, analyst ratings, and comprehensive research
+                  </p>
+                  <Button 
+                    onClick={() => setCurrentView('detailed')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    <BarChart3 size={16} className="mr-2" />
+                    Switch to Detailed View
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           ) : (
-            <EnhancedDetailedView />
+            <div className="space-y-6">
+              <ResearchSharing />
+              <EnhancedDetailedView />
+            </div>
           )}
 
           <FinanceCopilot />

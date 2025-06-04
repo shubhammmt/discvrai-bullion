@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Heart, Bell, TrendingUp, PieChart, Target } from 'lucide-react';
+import { ArrowLeft, Plus, Heart, Bell, TrendingUp, PieChart, Target, BarChart3 } from 'lucide-react';
 import ViewToggle from '@/components/ViewToggle';
 import MutualFundDetailedView from '@/components/MutualFundDetailedView';
 
@@ -156,7 +156,6 @@ const MutualFundResearch = () => {
               </CardContent>
             </Card>
 
-            {/* Performance Chart */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20">
               <CardHeader>
                 <CardTitle>Performance Comparison</CardTitle>
@@ -185,6 +184,25 @@ const MutualFundResearch = () => {
                     </div>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Detailed View CTA */}
+            <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+              <CardContent className="p-6 text-center">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Need Complete Fund Analysis?
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Access detailed portfolio holdings, risk metrics, and fund manager insights
+                </p>
+                <Button 
+                  onClick={() => setCurrentView('detailed')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <BarChart3 size={16} className="mr-2" />
+                  View Detailed Analysis
+                </Button>
               </CardContent>
             </Card>
           </div>
