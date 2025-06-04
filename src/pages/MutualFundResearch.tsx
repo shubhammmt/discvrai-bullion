@@ -156,9 +156,10 @@ const MutualFundResearch = () => {
               </CardContent>
             </Card>
 
+            {/* Performance vs Benchmark */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20">
               <CardHeader>
-                <CardTitle>Performance Comparison</CardTitle>
+                <CardTitle>Performance vs Benchmark</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -167,6 +168,7 @@ const MutualFundResearch = () => {
                     <div className="flex gap-4">
                       <span className="text-blue-600 font-medium">Fund: 18.5%</span>
                       <span className="text-gray-600">Benchmark: 15.2%</span>
+                      <span className="text-green-600 font-semibold">+3.3%</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
@@ -174,6 +176,7 @@ const MutualFundResearch = () => {
                     <div className="flex gap-4">
                       <span className="text-blue-600 font-medium">Fund: 12.5%</span>
                       <span className="text-gray-600">Benchmark: 10.1%</span>
+                      <span className="text-green-600 font-semibold">+2.4%</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
@@ -181,6 +184,13 @@ const MutualFundResearch = () => {
                     <div className="flex gap-4">
                       <span className="text-blue-600 font-medium">Fund: 14.8%</span>
                       <span className="text-gray-600">Benchmark: 12.3%</span>
+                      <span className="text-green-600 font-semibold">+2.5%</span>
+                    </div>
+                  </div>
+                  <div className="border-t pt-3 mt-3">
+                    <div className="flex justify-between items-center font-semibold">
+                      <span>Average Outperformance</span>
+                      <span className="text-green-600">+2.7% annually</span>
                     </div>
                   </div>
                 </div>

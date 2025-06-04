@@ -39,7 +39,7 @@ const Feed = () => {
     { id: 'crypto', label: 'Crypto' }
   ];
 
-  // Mock trending assets
+  // Mock trending assets with corrected routing
   const trendingAssets = [
     {
       id: 1,
@@ -51,7 +51,8 @@ const Feed = () => {
       changePercent: 2.04,
       volume: '45.2M',
       latestEvent: 'Earnings Beat',
-      news: 'Q4 revenue exceeds expectations'
+      news: 'Q4 revenue exceeds expectations',
+      routePath: '/research/stock/AAPL'
     },
     {
       id: 2,
@@ -63,7 +64,8 @@ const Feed = () => {
       changePercent: -0.38,
       volume: '2.1M',
       latestEvent: 'Dividend Declaration',
-      news: 'Declared interim dividend of ₹8 per unit'
+      news: 'Declared interim dividend of ₹8 per unit',
+      routePath: '/research/mutual-fund/hdfc-top-100'
     },
     {
       id: 3,
@@ -75,7 +77,8 @@ const Feed = () => {
       changePercent: 5.45,
       volume: '1.2M',
       latestEvent: 'IPO Opening',
-      news: 'Subscription opens today'
+      news: 'Subscription opens today',
+      routePath: '/research/ipo/TECH'
     },
     {
       id: 4,
@@ -87,7 +90,8 @@ const Feed = () => {
       changePercent: 9.38,
       volume: '800K',
       latestEvent: 'Rebalancing',
-      news: 'Portfolio rebalanced with new EV stocks'
+      news: 'Portfolio rebalanced with new EV stocks',
+      routePath: '/research/smallcase/electric-mobility'
     },
     {
       id: 5,
@@ -99,7 +103,8 @@ const Feed = () => {
       changePercent: -2.27,
       volume: '500K',
       latestEvent: 'Rate Reduction',
-      news: 'Interest rates reduced by 0.25%'
+      news: 'Interest rates reduced by 0.25%',
+      routePath: '/research/credit/hdfc-personal-loan'
     },
     {
       id: 6,
@@ -111,7 +116,8 @@ const Feed = () => {
       changePercent: 0,
       volume: '200K',
       latestEvent: 'New Benefits',
-      news: 'Added airport lounge access'
+      news: 'Added airport lounge access',
+      routePath: '/research/credit-card/hdfc-regalia'
     },
     {
       id: 7,
@@ -123,7 +129,8 @@ const Feed = () => {
       changePercent: 0,
       volume: '100K',
       latestEvent: 'New Features',
-      news: 'Added critical illness cover'
+      news: 'Added critical illness cover',
+      routePath: '/research/insurance/max-life-term'
     }
   ];
 
