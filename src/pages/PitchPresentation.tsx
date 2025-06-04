@@ -62,27 +62,42 @@ const PitchPresentation = () => {
       icon: DollarSign,
       revenueStreams: [
         {
-          title: "Mutual Fund Distribution",
-          launch: "Month 4",
-          commission: "Trail Commission: 0.1-1% annually",
-          target: "Strategy: Customer acquisition tool",
-          revenue: "Annual Revenue: $1.2M by Month 12"
+          title: "Insurance Distribution",
+          launch: "Month 6",
+          commission: "Commission: 15-40% of first-year premium + renewal trails",
+          target: "Target: 1,600 policies/month by Month 18",
+          revenue: "Monthly Revenue: ₹360L ($4.32M) by Month 18",
+          details: "Real market data: Term Life 35-40%, Health 15-20%, ULIP 25-30%"
         },
         {
           title: "Credit Products", 
-          launch: "Month 6",
-          commission: "Commission: 1-3% of loan amount",
-          target: "Target: 2,000 loans/month by Month 15",
-          revenue: "Annual Revenue: $1.9M by Month 15"
+          launch: "Month 9",
+          commission: "Commission: 2-4% of loan amount + card fees",
+          target: "Target: 5,000 loans/cards/month by Month 18", 
+          revenue: "Monthly Revenue: ₹120L ($1.44M) by Month 18",
+          details: "Personal loans ₹2L average, Credit cards ₹500-2,000 per application"
         },
         {
-          title: "Insurance Distribution",
-          launch: "Month 9", 
-          commission: "Commission: 5-25% of first-year premium",
-          target: "Target: 1,000 policies/month by Month 12",
-          revenue: "Annual Revenue: $3.2M by Month 18"
+          title: "Digital Gold & Others",
+          launch: "Month 8",
+          commission: "Commission: 0.5-1% per transaction + FD referrals",
+          target: "Target: Variable based on user engagement",
+          revenue: "Monthly Revenue: ₹24L ($288K) by Month 18",
+          details: "Digital gold, fixed deposits, and other financial products"
         }
-      ]
+      ],
+      userProjections: {
+        month6: { users: "50K", revenue: "₹0", description: "Free discovery platform" },
+        month12: { users: "300K", revenue: "₹96L ($1.15M)", description: "Insurance launch" },
+        month18: { users: "1M", revenue: "₹504L ($6.05M)", description: "Full product suite" },
+        month24: { users: "1.5M", revenue: "₹756L ($9.07M)", description: "Scale phase" }
+      },
+      unitEconomics: {
+        revenuePerUser: "₹605 ($72.6) annually",
+        revenuePerMAU: "₹756 ($90.8) annually", 
+        conversionRate: "15% discovery-to-execution",
+        cac: "<₹4,200 ($50) per user"
+      }
     },
     {
       id: 6,
@@ -269,24 +284,49 @@ const PitchPresentation = () => {
       icon: Brain,
       vision: "Build India's financial operating system, where every Indian accesses personalised AI-powered recommendations and executes seamlessly across all financial products",
       metrics: [
-        { metric: "User Engagement", value: "80% of users return within 30 days" },
-        { metric: "Conversion Rate", value: "15% of discovery leads to execution" },
-        { metric: "Revenue per User", value: "$3.2M revenue run rate by Month 18" },
-        { metric: "Market Share", value: "5% of digital financial services by 2027" }
+        { metric: "User Base", value: "1M users by Month 18, 1.5M by Month 24" },
+        { metric: "User Engagement", value: "80% monthly active user retention" },
+        { metric: "Conversion Rate", value: "15% discovery-to-execution conversion" },
+        { metric: "Revenue Target", value: "₹504L ($6.05M) monthly by Month 18" },
+        { metric: "Market Share", value: "2% of digital financial services by 2027" }
       ]
     },
     {
       id: 13,
-      title: "Key Risks",
+      title: "Key Risks & Validation",
       type: "risks",
       icon: Target,
+      criticalRisk: {
+        title: "🚨 THE MAKE-OR-BREAK RISK: Discovery-to-Execution Conversion",
+        description: "The Critical Question: Will users actually buy financial products on our platform after discovering them?",
+        concerns: [
+          "Free Discovery Trap: Users research on our platform but execute elsewhere",
+          "Commission Reality: 80% of mutual fund sales are direct plans (₹0 commission)",
+          "Price Sensitivity: Indians may choose cheapest option after discovery",
+          "Trust Gap: Users may prefer 'trusted' traditional sources for execution"
+        ]
+      },
       risks: [
         { assumption: "15% Discovery-to-Execution Conversion", level: "🔴 Critical", validation: "MVP with 1,000 users", metric: ">10% conversion rate" },
-        { assumption: "$200+ Average Commission per User", level: "🔴 Critical", validation: "Partner with 3 insurers", metric: ">$150 actual commission" },
+        { assumption: "₹15,000+ Average Commission per User", level: "🔴 Critical", validation: "Partner with 3 insurers", metric: ">₹12,000 actual commission" },
         { assumption: "AI Trust > Human Advisors", level: "🟡 High", validation: "A/B test recommendations", metric: ">70% AI preference" },
-        { assumption: "<$50 Customer Acquisition Cost", level: "🟡 High", validation: "Digital marketing campaigns", metric: "<$75 blended CAC" },
+        { assumption: "<₹4,200 Customer Acquisition Cost", level: "🟡 High", validation: "Digital marketing campaigns", metric: "<₹6,300 blended CAC" },
         { assumption: "Regulatory Approval Timeline", level: "🟡 High", validation: "Parallel application process", metric: "<6 months approval" }
-      ]
+      ],
+      warningSignals: {
+        redFlags: [
+          "Conversion rate <5% after 6 months",
+          "Customer acquisition cost >₹8,400 ($100)",
+          "Commission rates drop below projections",
+          "Big Tech enters financial discovery"
+        ],
+        greenFlags: [
+          "Conversion rate >10% consistently", 
+          "Organic growth >30% monthly",
+          "Partner exclusivity agreements",
+          "Revenue per user >₹4,200 ($50) annually"
+        ]
+      }
     },
     {
       id: 14,
@@ -295,29 +335,57 @@ const PitchPresentation = () => {
       icon: Users,
       founder: {
         name: "Shubham Srivastava, CEO & Co-Founder",
+        experience: "15+ years building scalable technology platforms | 3x successful exits",
         points: [
-          "Scale Expert: Built platforms serving 100M+ users at Hindustan Times and build 150+ member team in Makemytrip and HindustanTimes",
-          "AI/ML Pioneer: Implemented machine learning at scale across MakeMyTrip and Hindustan Times platforms, now building AI-powered search with Discvr",
-          "Leadership: IIT Dhanbad graduate who scaled MakeMyTrip's hotels division and drove 20% cost reduction at EurekaForbes"
+          "Scale Expert: Chief Technology & Product Officer at EurekaForbes - built D2C platform with 1M+ MAUs, achieved 20% YoY cost reduction",
+          "AI/ML Pioneer: CTO at Hindustan Times Digital - led rocket growth of digital media platforms using AI at scale",
+          "Platform Builder: Founded Tekch - SaaS platform managing 10M+ sq ft using AI and IoT. Led MakeMyTrip hotels engineering (100+ engineers)",
+          "Current Vision: Building Discvr.ai as India's AI search engine for efficient research and discovery"
         ]
-      }
+      },
+      keyStrengths: [
+        "✅ Proven Track Record: 15+ years scaling platforms to millions of users",
+        "✅ Domain Expertise: Deep fintech and AI experience with successful platform launches", 
+        "✅ Technical Leadership: Led 100+ engineering teams, managed $100M+ technology budgets",
+        "✅ Entrepreneurial Success: 3 successful platform exits and technology company scaling"
+      ],
+      plannedHires: [
+        "Financial Services Veteran: Former SEBI/RBI regulatory expert (Month 6)",
+        "AI/ML Advisor: Former Google/Microsoft AI researcher (in discussions)",
+        "Business Development Head: Ex-PolicyBazaar/Paytm growth leader (Month 9)",
+        "Compliance Officer: AMFI/IRDAI certified professional (Month 12)"
+      ]
     },
     {
       id: 15,
       title: "Funding Requirements",
-      subtitle: "$4M Seed Round",
+      subtitle: "₹33Cr ($4M) Seed Round",
       type: "funding",
       icon: DollarSign,
       allocation: [
-        { percentage: "60%", category: "Team Building", description: "15 engineers + 10 business team members" },
-        { percentage: "20%", category: "Technology & AI", description: "Cloud, data, and ML platforms infrastructure" },
-        { percentage: "10%", category: "Regulatory & Compliance", description: "Licenses, legal, and compliance expenses" },
-        { percentage: "10%", category: "Customer Acquisition", description: "Marketing and user acquisition efforts" }
+        { percentage: "50%", category: "Team Building", description: "20 engineers + 15 business team members" },
+        { percentage: "25%", category: "Customer Acquisition", description: "Marketing to reach 1M users by Month 18" },
+        { percentage: "15%", category: "Technology & AI Infrastructure", description: "Cloud, data, ML platforms, and regulatory compliance" },
+        { percentage: "10%", category: "Regulatory & Compliance", description: "IRDAI, SEBI, RBI licenses and legal expenses" }
       ],
       milestones: [
-        "Launching insurance distribution by Month 6",
-        "Achieving $1.2M annual revenue by Month 12", 
-        "Series A ready by Month 18 with 500K users"
+        "Month 6: Insurance distribution launch with 50K users",
+        "Month 12: ₹96L ($1.15M) monthly revenue with 300K users", 
+        "Month 18: ₹504L ($6.05M) monthly revenue with 1M users",
+        "Series A ready: Clear path to profitability with proven unit economics"
+      ],
+      competitiveContext: {
+        title: "Competitive Funding Landscape",
+        examples: [
+          "Sahi: Raised $7M (trading-only platform)",
+          "Univest: Raised $10M+ (Buy-Sell Tip Execution)",
+          "Our Ask: ₹33Cr ($4M) for broader market, higher-margin focus"
+        ]
+      },
+      exitStrategy: [
+        "Strategic Acquisition: By major bank or fintech (₹4,200Cr+ / $500M+ valuation)",
+        "IPO Path: Public listing after ₹840Cr ($100M) annual revenue", 
+        "Market Comparables: PolicyBazaar (₹16,800Cr / $2B), Paytm (₹42,000Cr / $5B peak)"
       ]
     },
     {
@@ -742,7 +810,9 @@ const PitchPresentation = () => {
               <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
               <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            {/* Revenue Streams */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               {slide.revenueStreams.map((stream: any, index: number) => (
                 <Card key={index} className="p-6">
                   <CardContent className="space-y-4">
@@ -752,11 +822,70 @@ const PitchPresentation = () => {
                       <p><strong>Commission:</strong> {stream.commission}</p>
                       <p><strong>Target:</strong> {stream.target}</p>
                       <p className="text-green-600 font-semibold">{stream.revenue}</p>
+                      {stream.details && <p className="text-gray-500 italic">{stream.details}</p>}
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
+
+            {/* User Projections Timeline */}
+            <Card className="p-6 bg-gradient-to-r from-blue-50 to-green-50">
+              <CardContent>
+                <h3 className="text-2xl font-bold text-center mb-6 text-blue-800">User Growth & Revenue Timeline</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-blue-600">Month 6</div>
+                    <div className="text-lg font-semibold">{slide.userProjections.month6.users}</div>
+                    <div className="text-sm text-green-600">{slide.userProjections.month6.revenue}</div>
+                    <div className="text-xs text-gray-600">{slide.userProjections.month6.description}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-blue-600">Month 12</div>
+                    <div className="text-lg font-semibold">{slide.userProjections.month12.users}</div>
+                    <div className="text-sm text-green-600">{slide.userProjections.month12.revenue}</div>
+                    <div className="text-xs text-gray-600">{slide.userProjections.month12.description}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-blue-600">Month 18</div>
+                    <div className="text-lg font-semibold">{slide.userProjections.month18.users}</div>
+                    <div className="text-sm text-green-600">{slide.userProjections.month18.revenue}</div>
+                    <div className="text-xs text-gray-600">{slide.userProjections.month18.description}</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-blue-600">Month 24</div>
+                    <div className="text-lg font-semibold">{slide.userProjections.month24.users}</div>
+                    <div className="text-sm text-green-600">{slide.userProjections.month24.revenue}</div>
+                    <div className="text-xs text-gray-600">{slide.userProjections.month24.description}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Unit Economics */}
+            <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50">
+              <CardContent>
+                <h3 className="text-2xl font-bold text-center mb-6 text-green-800">Unit Economics (Month 18)</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-green-600">Revenue/User</div>
+                    <div className="text-sm">{slide.unitEconomics.revenuePerUser}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-green-600">Revenue/MAU</div>
+                    <div className="text-sm">{slide.unitEconomics.revenuePerMAU}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-green-600">Conversion</div>
+                    <div className="text-sm">{slide.unitEconomics.conversionRate}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-green-600">CAC Target</div>
+                    <div className="text-sm">{slide.unitEconomics.cac}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
@@ -873,6 +1002,24 @@ const PitchPresentation = () => {
               <IconComponent className="w-16 h-16 mx-auto mb-4 text-orange-600" />
               <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
             </div>
+
+            {/* Critical Risk Callout */}
+            <Card className="p-6 border-2 border-red-500 bg-red-50">
+              <CardContent>
+                <h3 className="text-xl font-bold text-red-800 mb-4">{slide.criticalRisk.title}</h3>
+                <p className="text-red-700 font-semibold mb-4">{slide.criticalRisk.description}</p>
+                <div className="space-y-2">
+                  {slide.criticalRisk.concerns.map((concern: string, index: number) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-red-700 text-sm">{concern}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Risk Assessment Table */}
             <div className="overflow-x-auto">
               <table className="w-full border-collapse border border-gray-300">
                 <thead>
@@ -895,6 +1042,43 @@ const PitchPresentation = () => {
                 </tbody>
               </table>
             </div>
+
+            {/* Warning Signals */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="p-6 border-2 border-red-200 bg-red-50">
+                <CardContent>
+                  <div className="flex items-center gap-3 mb-4">
+                    <XCircle className="w-8 h-8 text-red-600" />
+                    <h3 className="text-xl font-bold text-red-800">🚩 Red Flags (Pivot Triggers)</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {slide.warningSignals.redFlags.map((flag: string, index: number) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <p className="text-red-700 text-sm">{flag}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="p-6 border-2 border-green-200 bg-green-50">
+                <CardContent>
+                  <div className="flex items-center gap-3 mb-4">
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                    <h3 className="text-xl font-bold text-green-800">✅ Green Flags (Scale Indicators)</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {slide.warningSignals.greenFlags.map((flag: string, index: number) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <p className="text-green-700 text-sm">{flag}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         );
 
@@ -905,14 +1089,49 @@ const PitchPresentation = () => {
               <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
               <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
             </div>
-            <Card className="p-8 max-w-4xl mx-auto">
+            
+            {/* Founder Profile */}
+            <Card className="p-8 max-w-5xl mx-auto">
               <CardContent className="space-y-6">
-                <h3 className="text-2xl font-bold text-blue-600 text-center">{slide.founder.name}</h3>
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-blue-600">{slide.founder.name}</h3>
+                  <p className="text-lg text-gray-600 font-semibold">{slide.founder.experience}</p>
+                </div>
                 <div className="space-y-4">
                   {slide.founder.points.map((point: string, index: number) => (
                     <div key={index} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                       <p className="text-gray-700">{point}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Key Strengths */}
+            <Card className="p-6 bg-gradient-to-r from-blue-50 to-green-50">
+              <CardContent>
+                <h3 className="text-xl font-bold text-center mb-6 text-blue-800">Why This Team Can Execute</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {slide.keyStrengths.map((strength: string, index: number) => (
+                    <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg">
+                      <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-gray-700 text-sm">{strength}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Planned Hires */}
+            <Card className="p-6">
+              <CardContent>
+                <h3 className="text-xl font-bold text-center mb-6 text-purple-800">Key Hires Planned</h3>
+                <div className="space-y-3">
+                  {slide.plannedHires.map((hire: string, index: number) => (
+                    <div key={index} className="flex items-start gap-3 p-3 border border-purple-200 rounded-lg">
+                      <Users className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-gray-700 text-sm">{hire}</p>
                     </div>
                   ))}
                 </div>
@@ -929,7 +1148,9 @@ const PitchPresentation = () => {
               <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
               <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Budget Allocation */}
               <div>
                 <h3 className="text-2xl font-bold mb-6">Budget Allocation:</h3>
                 <div className="space-y-4">
@@ -946,6 +1167,8 @@ const PitchPresentation = () => {
                   ))}
                 </div>
               </div>
+              
+              {/* Milestones */}
               <div>
                 <h3 className="text-2xl font-bold mb-6">Key Milestones:</h3>
                 <div className="space-y-4">
@@ -964,6 +1187,35 @@ const PitchPresentation = () => {
                 </div>
               </div>
             </div>
+
+            {/* Competitive Context */}
+            <Card className="p-6 bg-gradient-to-r from-purple-50 to-blue-50">
+              <CardContent>
+                <h3 className="text-xl font-bold text-center mb-4 text-purple-800">{slide.competitiveContext.title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {slide.competitiveContext.examples.map((example: string, index: number) => (
+                    <div key={index} className="text-center p-3 bg-white rounded-lg">
+                      <p className="text-sm text-gray-700">{example}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Exit Strategy */}
+            <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50">
+              <CardContent>
+                <h3 className="text-xl font-bold text-center mb-4 text-green-800">Exit Strategy & Valuation</h3>
+                <div className="space-y-3">
+                  {slide.exitStrategy.map((strategy: string, index: number) => (
+                    <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg">
+                      <TrendingUp className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-gray-700 text-sm">{strategy}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
