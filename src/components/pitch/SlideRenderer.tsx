@@ -16,6 +16,7 @@ import { TeamSlide } from './TeamSlide';
 import { FundingSlide } from './FundingSlide';
 import { UserFlowSlide } from './UserFlowSlide';
 import { ExecutionExampleSlide } from './ExecutionExampleSlide';
+import { BigTechSlide } from './BigTechSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -39,6 +40,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <AITechStackSlide slide={slide} />;
     case 'competition':
       return <CompetitionSlide slide={slide} />;
+    case 'big-tech':
+      return <BigTechSlide slide={slide} />;
     case 'moats':
       return <MoatsSlide slide={slide} />;
     case 'gtm':

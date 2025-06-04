@@ -239,6 +239,50 @@ const PitchPresentation = () => {
     },
     {
       id: 10,
+      title: "Why Big Tech Won't Win Here",
+      subtitle: "Domain Expertise vs Tech Tourists",
+      type: "big-tech",
+      icon: Shield,
+      whyBigTechWontWin: [
+        {
+          reason: "Regulatory Barriers",
+          explanation: "Financial services requires IRDAI, SEBI licenses and partnerships that take years to build. We're already applying for these licenses."
+        },
+        {
+          reason: "Financial AI is Different",
+          explanation: "Our models learn from actual Indian investment behavior - festival timing, family influences, regional patterns. General AI doesn't understand Indian financial culture."
+        },
+        {
+          reason: "Execution is Everything",
+          explanation: "Building search is 20% of the problem. Getting insurance rates, credit approvals, and user trust - that's the other 80%. We're building these relationships now."
+        },
+        {
+          reason: "Domain Expertise Required",
+          explanation: "Our team has built financial platforms serving millions. We understand both technology AND regulatory landscape that takes years to develop."
+        }
+      ],
+      whyCredWontPivot: {
+        title: "Why CRED Won't Pivot Here",
+        points: [
+          "Different markets: CRED serves premium users, we serve mass market",
+          "Different problems: They solve convenience, we solve complexity",
+          "Different optimization: They optimize rewards, we optimize life goals",
+          "Pivot difficulty: When profitable with one model, changing is extremely hard",
+          "Would need new licenses, partnerships, AI models, and different user base"
+        ]
+      },
+      ourAdvantage: {
+        title: "The Big Tech Threat Actually Validates Our Market",
+        points: [
+          "When investors worry about Google, it confirms we're solving a massive problem",
+          "By the time they navigate regulations, we'll have behavioral data moat",
+          "Financial services has room for multiple players - PolicyBazaar, Paytm, PhonePe co-exist",
+          "Our AI gets better with more users - network effects create defensibility"
+        ]
+      }
+    },
+    {
+      id: 11,
       title: "Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
@@ -251,7 +295,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 11,
+      id: 12,
       title: "Go-to-Market Strategy",
       subtitle: "Multi-Product Discovery Platform",
       type: "gtm",
@@ -278,7 +322,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 12,
+      id: 13,
       title: "Vision",
       subtitle: "India's Financial Operating System",
       type: "vision",
@@ -293,7 +337,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 13,
+      id: 14,
       title: "Key Risks & Validation",
       type: "risks",
       icon: Target,
@@ -330,7 +374,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 14,
+      id: 15,
       title: "Team",
       type: "team",
       icon: Users,
@@ -358,7 +402,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 15,
+      id: 16,
       title: "Funding Requirements",
       subtitle: "₹33Cr ($4M) Seed Round",
       type: "funding",
@@ -390,7 +434,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 16,
+      id: 17,
       title: "Appendix: End-to-End Execution",
       subtitle: "Mutual Fund Investment Example",
       type: "execution-example",
@@ -432,7 +476,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 17,
+      id: 18,
       title: "Appendix: End-to-End Execution",
       subtitle: "Term Insurance Purchase Example",
       type: "execution-example",
@@ -474,7 +518,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 18,
+      id: 19,
       title: "Appendix: End-to-End Execution", 
       subtitle: "Personal Loan Application Example",
       type: "execution-example",
