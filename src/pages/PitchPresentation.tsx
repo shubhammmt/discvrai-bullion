@@ -570,26 +570,32 @@ const PitchPresentation = () => {
     documentTitle: 'DISCVR-AI-Pitch-Presentation',
     onBeforePrint: () => {
       setIsDownloading(true);
-      return Promise.resolve();
+      // Add a small delay to ensure the component is fully rendered
+      return new Promise(resolve => {
+        setTimeout(resolve, 500);
+      });
     },
     onAfterPrint: () => {
       setIsDownloading(false);
     },
     pageStyle: `
       @page {
-        size: A4 landscape;
+        size: A4 portrait;
         margin: 0;
       }
       @media print {
         body {
           -webkit-print-color-adjust: exact;
           color-adjust: exact;
+          print-color-adjust: exact;
         }
       }
-    `
+    `,
+    removeAfterPrint: false
   });
 
   const downloadPDF = () => {
+    console.log('Starting PDF download...');
     if (handlePrint) {
       handlePrint();
     }
@@ -625,8 +631,8 @@ const PitchPresentation = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hidden PDF Export Component */}
-      <div ref={printRef} style={{ display: 'none' }}>
+      {/* PDF Export Component - Always rendered but hidden on screen */}
+      <div ref={printRef}>
         <PDFExportView slides={slides} />
       </div>
 
