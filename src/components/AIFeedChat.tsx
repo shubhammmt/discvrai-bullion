@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,7 +15,7 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
     {
       id: 1,
       type: 'ai',
-      content: `Hi! I'm **DiscvrAI**, your intelligent investment assistant. Based on your ${userProfile.riskTolerance?.toLowerCase()} risk profile and interest in ${userProfile.preferredInstruments?.join(', ')}, I can help you discover personalized opportunities across stocks, bonds, mutual funds, and more. What are you looking for today?`
+      content: `Hi! I'm **DiscvrAI**. Ask me anything about investments - stocks, mutual funds, bonds, loans, or insurance.`
     }
   ]);
 
@@ -24,14 +23,12 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
     e.preventDefault();
     if (!query.trim()) return;
 
-    // Add user message
     const userMessage = {
       id: Date.now(),
       type: 'user' as const,
       content: query
     };
 
-    // Generate AI response based on query
     const aiResponse = generateAIResponse(query, userProfile);
     const aiMessage = {
       id: Date.now() + 1,
@@ -87,84 +84,69 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
   };
 
   const quickPrompts = [
-    "Show me safe dividend stocks",
-    "Find growth opportunities under ₹200",
-    "Best mutual funds for SIP",
-    "Government bonds with good yield",
-    "Fixed deposits with highest rates",
-    "High-rated insurance plans"
+    "Safe investments",
+    "Growth stocks",
+    "Best mutual funds",
+    "Fixed deposits",
+    "Personal loans"
   ];
 
   return (
     <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-      <CardContent className="p-6">
-        {/* AI Branding */}
-        <div className="mb-4">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+      <CardContent className="p-4">
+        {/* Simplified AI Branding */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+            <Brain className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              DiscvrAI
+            </h3>
+            <p className="text-sm text-gray-600">Ask me anything about investments</p>
+          </div>
+        </div>
+
+        {/* Simplified Chat History */}
+        <div className="max-h-32 overflow-y-auto space-y-2 mb-4 bg-white/50 rounded-lg p-3">
+          {chatHistory.slice(-2).map((message) => (
+            <div
+              key={message.id}
+              className={`${
+                message.type === 'user'
+                  ? 'ml-6 bg-blue-100 text-blue-900'
+                  : 'mr-6 bg-white text-gray-900'
+              } p-2 rounded-lg text-sm`}
+            >
+              <div dangerouslySetInnerHTML={{ __html: message.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
             </div>
-            <div>
-              <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                DiscvrAI
-              </h3>
-              <p className="text-sm text-gray-600">Your Personal Investment Assistant</p>
-            </div>
-            <Sparkles className="w-5 h-5 text-purple-600 ml-auto" />
-          </div>
+          ))}
+        </div>
 
-          {/* Chat History */}
-          <div className="max-h-64 overflow-y-auto space-y-3 mb-4 bg-white/50 rounded-lg p-4">
-            {chatHistory.map((message) => (
-              <div
-                key={message.id}
-                className={`${
-                  message.type === 'user'
-                    ? 'ml-8 bg-blue-100 text-blue-900'
-                    : 'mr-8 bg-white text-gray-900 border'
-                } p-3 rounded-lg text-sm`}
-              >
-                <div className="flex items-start gap-2">
-                  {message.type === 'ai' && <Brain size={14} className="text-blue-600 mt-0.5" />}
-                  {message.type === 'user' && <User size={14} className="text-blue-600 mt-0.5" />}
-                  <div dangerouslySetInnerHTML={{ __html: message.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-                </div>
-                {message.results && (
-                  <div className="mt-2 text-xs text-gray-600 flex items-center gap-1">
-                    <Sparkles size={12} />
-                    Showing personalized results
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+        {/* Input Form */}
+        <form onSubmit={handleSubmit} className="flex gap-2 mb-3">
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="What are you looking for today?"
+            className="flex-1"
+          />
+          <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600">
+            <Send size={16} />
+          </Button>
+        </form>
 
-          {/* Input Form */}
-          <form onSubmit={handleSubmit} className="flex gap-2 mb-3">
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Ask DiscvrAI anything... 'Show me safe bonds' or 'Best growth stocks'"
-              className="flex-1"
-            />
-            <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600">
-              <Send size={16} />
-            </Button>
-          </form>
-
-          {/* Quick Prompts */}
-          <div className="flex flex-wrap gap-2">
-            <span className="text-xs text-gray-600">Try asking:</span>
-            {quickPrompts.map((prompt, index) => (
-              <button
-                key={index}
-                onClick={() => setQuery(prompt)}
-                className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 px-2 py-1 rounded-full transition-colors"
-              >
-                {prompt}
-              </button>
-            ))}
-          </div>
+        {/* Quick Prompts */}
+        <div className="flex flex-wrap gap-2">
+          {quickPrompts.map((prompt, index) => (
+            <button
+              key={index}
+              onClick={() => setQuery(prompt)}
+              className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-full transition-colors"
+            >
+              {prompt}
+            </button>
+          ))}
         </div>
       </CardContent>
     </Card>

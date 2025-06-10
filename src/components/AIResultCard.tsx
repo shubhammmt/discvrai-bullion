@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, TrendingDown, Brain, ArrowRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, Brain, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface AIResultCardProps {
@@ -69,8 +69,8 @@ const AIResultCard = ({ asset, aiReason, userQuery, matchScore }: AIResultCardPr
           <div className="flex items-start gap-2">
             <Brain size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-sm font-medium text-blue-800 mb-1">Why this matches your query:</p>
-              <p className="text-sm text-blue-700">{getAIReason()}</p>
+              <p className="text-sm font-medium text-blue-800 mb-1">Why this matches:</p>
+              <p className="text-sm text-blue-700">{aiReason || getAIReason()}</p>
             </div>
           </div>
         </div>
@@ -83,7 +83,8 @@ const AIResultCard = ({ asset, aiReason, userQuery, matchScore }: AIResultCardPr
             onClick={() => navigate(asset.routePath)}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
           >
-            Analyze <ArrowRight size={14} className="ml-1" />
+            <ShoppingCart size={14} className="mr-1" />
+            View & Buy
           </Button>
         </div>
       </CardContent>

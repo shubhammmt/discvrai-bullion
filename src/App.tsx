@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,6 +21,7 @@ import Portfolio from "./pages/Portfolio";
 import PitchPresentation from "./pages/PitchPresentation";
 import AIStrategy from "./pages/AIStrategy";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +38,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/feed" element={<Feed />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/research" element={<Research />} />
               <Route path="/research/stock/:symbol" element={<StockResearch />} />
               <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
