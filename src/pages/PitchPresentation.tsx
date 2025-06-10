@@ -17,7 +17,7 @@ const PitchPresentation = () => {
     {
       id: 1,
       title: "DISCVR.AI",
-      subtitle: "India's AI-Powered Financial Platform",
+      subtitle: "India's AI-Powered Financial Operating System",
       author: "by Shubham Srivastava",
       type: "title",
       icon: Brain
@@ -804,3 +804,5 @@ const PitchPresentation = () => {
 };
 
 export default PitchPresentation;
+
+}
