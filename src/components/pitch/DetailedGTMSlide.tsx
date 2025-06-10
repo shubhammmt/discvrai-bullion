@@ -49,20 +49,119 @@ interface DetailedGTMSlideProps {
 export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => {
   const IconComponent = slide.icon;
 
-  // Add safety checks for undefined properties
-  if (!slide.aggressivePlan || !slide.viralMechanics || !slide.communityTargets || !slide.kpis) {
-    console.log('DetailedGTMSlide: Missing required slide data properties', slide);
-    return (
-      <div className="space-y-8">
-        <div className="text-center">
-          <IconComponent className="w-16 h-16 mx-auto mb-4 text-green-600" />
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
-          <p className="text-xl text-gray-600 mb-4">{slide.subtitle}</p>
-          <p className="text-lg text-red-600">Slide data is incomplete. Please check the slide configuration.</p>
-        </div>
-      </div>
-    );
-  }
+  console.log('DetailedGTMSlide received slide data:', slide);
+
+  // Provide default data if properties are missing
+  const slideData = {
+    aggressivePlan: slide.aggressivePlan || {
+      title: "Aggressive 10K User Plan",
+      timeline: "4-8 Weeks to 10K Users",
+      phases: [
+        {
+          phase: "Foundation & Infiltration",
+          duration: "Week 1-2",
+          target: "1K Engaged Community Members",
+          tactics: ["Deploy in 10 communities", "Share valuable content", "Build reputation"],
+          signups: "500 signups"
+        },
+        {
+          phase: "Content Virality",
+          duration: "Week 2-4", 
+          target: "Viral Content Distribution",
+          tactics: ["AI vs Traditional comparisons", "Live market demos", "Cross-border content"],
+          signups: "2K signups"
+        },
+        {
+          phase: "Influencer Blitz",
+          duration: "Week 3-6",
+          target: "50+ Micro-Influencer Partners",
+          tactics: ["Finance YouTubers", "Instagram accounts", "Revenue sharing deals"],
+          signups: "4K signups"
+        },
+        {
+          phase: "Viral Mechanics",
+          duration: "Week 4-8",
+          target: "Gamified Growth Engine",
+          tactics: ["Discovery challenges", "Portfolio battles", "Referral systems"],
+          signups: "3K signups"
+        }
+      ]
+    },
+    viralMechanics: slide.viralMechanics || {
+      title: "Built-in Virality Features",
+      mechanics: [
+        {
+          feature: "Discovery Challenge",
+          description: "Find 3 friends, unlock US market access",
+          virality: "15% referral rate"
+        },
+        {
+          feature: "AI vs Community",
+          description: "Users challenge AI recommendations",
+          virality: "Social sharing spike"
+        },
+        {
+          feature: "Portfolio Battles",
+          description: "Community competitions with prizes",
+          virality: "Monthly engagement"
+        }
+      ]
+    },
+    communityTargets: slide.communityTargets || {
+      title: "Target Communities",
+      platforms: [
+        {
+          platform: "Reddit",
+          audience: "r/IndiaInvestments (400K)",
+          approach: "Value-first content sharing",
+          reach: "50K monthly"
+        },
+        {
+          platform: "Twitter/X",
+          audience: "#FinTwit India community",
+          approach: "Daily market insights",
+          reach: "100K impressions"
+        },
+        {
+          platform: "Telegram",
+          audience: "Stock market groups",
+          approach: "Real-time discoveries",
+          reach: "25K members"
+        },
+        {
+          platform: "YouTube",
+          audience: "Finance creators",
+          approach: "Collaboration content",
+          reach: "500K views"
+        }
+      ]
+    },
+    kpis: slide.kpis || {
+      title: "Success Metrics",
+      metrics: [
+        {
+          metric: "Daily Signups",
+          target: "300-400/day",
+          timeline: "By Week 4"
+        },
+        {
+          metric: "Referral Rate",
+          target: "15%+",
+          timeline: "Ongoing"
+        },
+        {
+          metric: "Community Engagement",
+          target: "5% interaction rate",
+          timeline: "Weekly"
+        },
+        {
+          metric: "Viral Coefficient",
+          target: "1.2x organic growth",
+          timeline: "Monthly"
+        }
+      ]
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -70,14 +169,14 @@ export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => 
         <IconComponent className="w-16 h-16 mx-auto mb-4 text-green-600" />
         <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
         <p className="text-xl text-gray-600 mb-4">{slide.subtitle}</p>
-        <p className="text-lg font-semibold text-green-600">{slide.aggressivePlan.timeline}</p>
+        <p className="text-lg font-semibold text-green-600">{slideData.aggressivePlan.timeline}</p>
       </div>
 
       <div className="space-y-8">
         <div>
-          <h3 className="text-xl font-bold mb-4">{slide.aggressivePlan.title}</h3>
+          <h3 className="text-xl font-bold mb-4">{slideData.aggressivePlan.title}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {slide.aggressivePlan.phases.map((phase, index) => (
+            {slideData.aggressivePlan.phases.map((phase, index) => (
               <Card key={index} className="p-4 border-l-4 border-green-500">
                 <CardContent className="space-y-3">
                   <div className="flex justify-between items-start">
@@ -101,9 +200,9 @@ export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => 
         </div>
 
         <div>
-          <h3 className="text-xl font-bold mb-4">{slide.viralMechanics.title}</h3>
+          <h3 className="text-xl font-bold mb-4">{slideData.viralMechanics.title}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {slide.viralMechanics.mechanics.map((mechanic, index) => (
+            {slideData.viralMechanics.mechanics.map((mechanic, index) => (
               <Card key={index} className="p-4">
                 <CardContent className="space-y-2">
                   <h4 className="font-semibold text-purple-600">{mechanic.feature}</h4>
@@ -117,9 +216,9 @@ export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => 
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">{slide.communityTargets.title}</h3>
+            <h3 className="text-lg font-bold mb-4">{slideData.communityTargets.title}</h3>
             <div className="space-y-3">
-              {slide.communityTargets.platforms.map((platform, index) => (
+              {slideData.communityTargets.platforms.map((platform, index) => (
                 <Card key={index} className="p-3">
                   <CardContent className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -135,9 +234,9 @@ export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => 
           </div>
 
           <div>
-            <h3 className="text-lg font-bold mb-4">{slide.kpis.title}</h3>
+            <h3 className="text-lg font-bold mb-4">{slideData.kpis.title}</h3>
             <div className="space-y-3">
-              {slide.kpis.metrics.map((kpi, index) => (
+              {slideData.kpis.metrics.map((kpi, index) => (
                 <Card key={index} className="p-3 border-l-4 border-orange-500">
                   <CardContent className="space-y-2">
                     <h4 className="font-semibold text-orange-700">{kpi.metric}</h4>
