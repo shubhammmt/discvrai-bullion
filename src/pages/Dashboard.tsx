@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { TrendingUp, Brain, Send, Target, ArrowRight, Sparkles, Search } from 'lucide-react';
+import { TrendingUp, Brain, Send, Target, ArrowRight, Sparkles, Search, Users, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [aiResults, setAiResults] = useState<any[]>([]);
 
-  // Simplified trending assets for personalized feed
+  // Enhanced personalized assets with reasoning
   const personalizedAssets = [
     {
       id: 1,
@@ -27,7 +27,8 @@ const Dashboard = () => {
       volume: '45.2M',
       latestEvent: 'Earnings Beat',
       news: 'Q4 revenue exceeds expectations',
-      routePath: '/research/stock/AAPL'
+      routePath: '/research/stock/AAPL',
+      reasoning: 'Matches your moderate risk profile. Strong fundamentals with ₹162B cash and consistent dividend growth.'
     },
     {
       id: 2,
@@ -40,7 +41,8 @@ const Dashboard = () => {
       volume: '2.1M',
       latestEvent: 'Dividend Declaration',
       news: 'Declared interim dividend of ₹8 per unit',
-      routePath: '/research/mutual-fund/hdfc-top-100'
+      routePath: '/research/mutual-fund/hdfc-top-100',
+      reasoning: 'Perfect for your SIP goals. Diversified portfolio with 14% annual returns over 5 years.'
     },
     {
       id: 3,
@@ -53,7 +55,8 @@ const Dashboard = () => {
       volume: '50K',
       latestEvent: 'Interest Payment',
       news: 'Semi-annual coupon payment due',
-      routePath: '/research/bond/goi-2034'
+      routePath: '/research/bond/goi-2034',
+      reasoning: 'Safe investment for your portfolio. Guaranteed returns matching your conservative allocation needs.'
     }
   ];
 
@@ -98,6 +101,7 @@ const Dashboard = () => {
                 <h3 className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Ask DiscvrAI
                 </h3>
+                <p className="text-xs text-gray-600">Get personalized investment suggestions</p>
               </div>
             </div>
 
@@ -151,13 +155,13 @@ const Dashboard = () => {
           </Card>
         )}
 
-        {/* Personalized Feed */}
+        {/* Quick Discovery */}
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-green-600" />
-                For You
+                Recommended For You
               </div>
               <Button variant="outline" size="sm" onClick={() => navigate('/feed')}>
                 View All <ArrowRight size={14} className="ml-1" />
@@ -167,7 +171,46 @@ const Dashboard = () => {
           <CardContent>
             <div className="space-y-4">
               {personalizedAssets.map((asset) => (
-                <AssetCard key={asset.id} asset={asset} />
+                <div key={asset.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg">{asset.name}</h3>
+                      <p className="text-sm text-gray-600">{asset.symbol} • {asset.type.toUpperCase()}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-bold">₹{asset.price}</p>
+                      <div className={`flex items-center gap-1 ${asset.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {asset.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                        <span className="text-sm font-medium">
+                          {asset.change >= 0 ? '+' : ''}{asset.changePercent}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AI Reasoning */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                    <div className="flex items-start gap-2">
+                      <Brain size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium text-blue-800 mb-1">Why recommended:</p>
+                        <p className="text-sm text-blue-700">{asset.reasoning}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <div className="text-sm text-gray-600">
+                      {asset.latestEvent}: {asset.news}
+                    </div>
+                    <Button 
+                      onClick={() => navigate(asset.routePath)}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    >
+                      View & Buy
+                    </Button>
+                  </div>
+                </div>
               ))}
             </div>
           </CardContent>
@@ -179,7 +222,8 @@ const Dashboard = () => {
             onClick={() => navigate('/portfolio')}
             className="h-16 bg-gradient-to-r from-green-600 to-blue-600"
           >
-            View Portfolio
+            <Users size={20} className="mr-2" />
+            My Portfolio
           </Button>
           <Button 
             onClick={() => navigate('/feed')}
