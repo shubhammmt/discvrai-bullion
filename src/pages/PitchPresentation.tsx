@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, Zap, MousePointer, CreditCard, FileText, Globe, BarChart, Cpu, Database, Network, Download } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, Zap, MousePointer, CreditCard, FileText, Globe, BarChart, Cpu, Database, Network, Download, MessageCircle, Search, PieChart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
 import { PDFExportView } from '@/components/pitch/PDFExportView';
@@ -132,36 +131,69 @@ const PitchPresentation = () => {
       subtitle: "Four-Layer Intelligence Engine That Creates Exponential Moats",
       type: "ai-tech-stack",
       icon: Brain,
+      userJourneyMapping: {
+        title: "From User Intent to AI Intelligence",
+        steps: [
+          {
+            userAction: "\"Best mutual funds for retirement\"",
+            aiResponse: "Contextual understanding & profile analysis",
+            layers: ["Layer 1", "Layer 2"],
+            example: "Natural language query with intent recognition"
+          },
+          {
+            userAction: "Profile Assessment",
+            aiResponse: "Risk profiling & goal alignment",
+            layers: ["Layer 2", "Layer 3"],
+            example: "Income ₹8L, 30 years, moderate risk → 88% match score"
+          },
+          {
+            userAction: "Product Discovery",
+            aiResponse: "Personalized recommendations with reasoning",
+            layers: ["Layer 3", "Layer 4"],
+            example: "Top 3 SIP options with clear explanations"
+          },
+          {
+            userAction: "Decision Support",
+            aiResponse: "Contextual guidance across research pages",
+            layers: ["Layer 1", "Layer 4"],
+            example: "AI memory flows from Feed → Stock Research → Execution"
+          }
+        ]
+      },
       aiLayers: [
         {
           layer: "Layer 4",
-          title: "Communication Intelligence",
-          description: "Financial NLP & Multi-language Processing",
-          capabilities: ["Document Analysis", "Conversational AI", "Regional Language Support"],
-          icon: Globe,
+          title: "Conversational Intelligence",
+          description: "Natural Language Understanding & Context Management",
+          capabilities: ["Intent Recognition", "Context Persistence", "Explanation Generation"],
+          userValue: "Talk to AI like a financial advisor",
+          icon: MessageCircle,
           color: "from-purple-600 to-purple-800"
         },
         {
           layer: "Layer 3", 
-          title: "Market Intelligence",
-          description: "Real-time Sentiment & Predictive Analytics",
-          capabilities: ["100+ Data Sources", "Alternative Data", "Volatility Prediction"],
-          icon: BarChart,
+          title: "Financial Product Intelligence",
+          description: "Product Matching & Portfolio Optimization",
+          capabilities: ["Product Discovery", "Performance Analysis", "Cross-Asset Optimization"],
+          userValue: "Find perfect products from 3000+ options",
+          icon: Search,
           color: "from-blue-600 to-blue-800"
         },
         {
           layer: "Layer 2",
-          title: "Risk Profiling & Asset Matching", 
-          description: "Dynamic Risk Assessment & Portfolio AI",
-          capabilities: ["Behavioral Risk Models", "Multi-Asset Optimization", "Tax Intelligence"],
+          title: "Risk & Goal Intelligence", 
+          description: "Behavioral Risk Assessment & Life Goal Mapping",
+          capabilities: ["Risk Profiling", "Goal Alignment", "Life Stage Analysis"],
+          userValue: "Investments that match your life goals",
           icon: Target,
           color: "from-green-600 to-green-800"
         },
         {
           layer: "Layer 1",
           title: "Personalization Engine",
-          description: "Behavioral Learning & Financial DNA",
-          capabilities: ["50+ Interaction Patterns", "Adaptive Learning", "Cultural Insights"],
+          description: "Individual Financial DNA & Learning Memory",
+          capabilities: ["Behavioral Learning", "Cultural Context", "Personal Preferences"],
+          userValue: "AI that knows your financial personality",
           icon: Brain,
           color: "from-orange-600 to-orange-800"
         }
