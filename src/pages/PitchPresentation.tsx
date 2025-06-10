@@ -804,5 +804,3 @@ const PitchPresentation = () => {
 };
 
 export default PitchPresentation;
-
-}
