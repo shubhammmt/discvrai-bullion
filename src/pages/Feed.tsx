@@ -1,18 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Filter, TrendingUp, Heart, BarChart3, Bell } from 'lucide-react';
+import { TrendingUp, Heart, BarChart3, Bell, Search } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import FeedSearch from '@/components/FeedSearch';
+import AIFeedChat from '@/components/AIFeedChat';
+import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
 import PersonalizedSection from '@/components/PersonalizedSection';
 
 const Feed = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchParams] = useSearchParams();
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [aiResults, setAiResults] = useState<any[]>([]);
   const navigate = useNavigate();
 
   // Set filter based on URL parameter
@@ -134,6 +135,25 @@ const Feed = () => {
     }
   ];
 
+  const handleAIQuery = (query: string, context: any) => {
+    setCurrentQuery(query);
+    // Filter assets based on AI query context
+    const queryLower = query.toLowerCase();
+    let filtered = trendingAssets;
+    
+    if (queryLower.includes('safe') || queryLower.includes('dividend')) {
+      filtered = trendingAssets.filter(asset => 
+        asset.type === 'stock' || asset.type === 'mutual-fund'
+      );
+    } else if (queryLower.includes('growth') || queryLower.includes('tech')) {
+      filtered = trendingAssets.filter(asset => 
+        asset.symbol.includes('AAPL') || asset.symbol.includes('TECH') || asset.type === 'smallcase'
+      );
+    }
+    
+    setAiResults(filtered.slice(0, 3));
+  };
+
   // Filter assets based on active filter
   const filteredAssets = activeFilter === 'all' 
     ? trendingAssets 
@@ -150,9 +170,9 @@ const Feed = () => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Investment Feed
+              AI-Powered Investment Feed
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">Discover opportunities tailored for you</p>
+            <p className="text-gray-600 dark:text-gray-400">Ask me anything about investments - I'll find personalized opportunities</p>
           </div>
           <div className="flex items-center gap-3">
             <Button 
@@ -174,10 +194,10 @@ const Feed = () => {
           </div>
         </div>
 
-        {/* Search Section */}
-        <FeedSearch 
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
+        {/* AI Chat Interface */}
+        <AIFeedChat 
+          onQuerySubmit={handleAIQuery}
+          userProfile={userProfile}
         />
 
         {/* Filter Tabs */}
@@ -197,6 +217,33 @@ const Feed = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-6">
+            {/* AI Results Section */}
+            {aiResults.length > 0 && (
+              <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 dark:text-white">
+                    <TrendingUp className="w-5 h-5 text-purple-600" />
+                    AI Recommendations
+                    <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
+                      Based on your query
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {aiResults.map((asset, index) => (
+                      <AIResultCard 
+                        key={`ai-${asset.id}`} 
+                        asset={asset} 
+                        userQuery={currentQuery}
+                        matchScore={95 - (index * 10)}
+                      />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Trending Section */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>
