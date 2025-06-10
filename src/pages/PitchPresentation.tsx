@@ -107,63 +107,67 @@ const PitchPresentation = () => {
     {
       id: 6,
       title: "B2B Business Models",
-      subtitle: "Enterprise Revenue Opportunities Beyond Consumer",
+      subtitle: "Future Revenue Opportunities Beyond Consumer Focus",
       type: "b2b-business",
       icon: Users,
+      positioningNote: {
+        title: "⚠️ Strategic Positioning: Platform vs. Product",
+        content: "While we're initially building as a consumer financial discovery platform, our AI technology creates natural B2B opportunities. Real examples include Scripbox white-labeling for banks, PolicyBazaar's enterprise APIs, and Paisa Bazaar's corporate platforms. We position ourselves as financial intelligence infrastructure - not just another fintech product."
+      },
       b2bModels: [
         {
-          model: "Enterprise Financial Intelligence API",
-          description: "White-label AI discovery engine for banks and financial institutions",
-          revenue: "₹24L-84L ($300K-$1M) per enterprise client annually",
-          timeframe: "Available Month 12, first clients Month 15",
+          model: "Financial Intelligence API (White-label)",
+          description: "License our AI discovery engine to banks and NBFCs - similar to how Razorpay provides payment infrastructure",
+          revenue: "₹42L-₹2.5Cr ($500K-$3M) per enterprise client annually",
+          timeframe: "Series A focus (Month 24+) - requires proven consumer traction first",
           advantages: [
-            "Higher margins (60-70%) vs consumer commissions",
-            "Predictable recurring revenue",
-            "Faster enterprise sales cycles",
-            "Reduced customer acquisition costs"
+            "Real example: Scripbox white-labels for Yes Bank, HDFC Bank",
+            "Higher margins (70-80%) vs consumer commissions",
+            "Predictable SaaS-style recurring revenue",
+            "Banks need AI but lack expertise - we become their intelligence layer"
           ]
         },
         {
-          model: "Corporate Investment Platform",
-          description: "Employee investment platforms with corporate discounts and bulk processing",
-          revenue: "₹8.4L-42L ($100K-$500K) per corporate client",
-          timeframe: "Pilot programs Month 18, scale Month 24",
+          model: "Corporate Investment Platforms",
+          description: "Employee benefits platforms with bulk financial product access - like how PolicyBazaar serves corporates",
+          revenue: "₹8.4L-₹84L ($100K-$1M) per corporate client",
+          timeframe: "Post product-market fit (Month 18+) - leverage consumer learnings",
           advantages: [
-            "Bulk transaction volumes",
-            "Corporate partnership leverage",
-            "Employee retention value-add",
-            "Stable enterprise relationships"
+            "Real example: Paisa Bazaar's corporate group insurance",
+            "Bulk transaction volumes reduce acquisition costs",
+            "Corporate partnerships accelerate user growth",
+            "Stable enterprise relationships vs individual churn"
           ]
         }
       ],
       whyB2B: {
-        title: "Why B2B Makes Strategic Sense",
+        title: "Why B2B Makes Strategic Sense (Post Consumer Success)",
         points: [
-          "Higher lifetime value: Enterprise clients worth 100x individual users",
-          "Predictable revenue: Annual contracts vs transaction-based income",
-          "Market validation: Enterprise adoption proves technology maturity",
-          "Competitive moat: API integrations create switching costs",
-          "Resource efficiency: One enterprise client = 1000s of individual users",
-          "Faster growth: Enterprise partnerships accelerate user acquisition"
+          "Platform approach: We become financial intelligence infrastructure like AWS for finance",
+          "Consumer data creates moat: Our AI trained on real behavior beats generic solutions",
+          "Revenue multiplication: One enterprise client = 1000s of individual users",
+          "Market validation: If enterprises adopt our tech, it proves competitive advantage",
+          "Funding requirement: B2B needs separate capital post-Series A (₹25-50Cr additional)",
+          "Risk mitigation: B2B diversifies revenue beyond commission dependency"
         ]
       },
       implementation: {
-        title: "B2B Implementation Roadmap",
+        title: "Realistic B2B Implementation (Not in Current ₹33Cr Plan)",
         phases: [
           {
-            phase: "API Development",
-            description: "Build enterprise-grade APIs and white-label solutions",
-            timeline: "Months 9-12"
+            phase: "Consumer Validation",
+            description: "Prove product-market fit with 1M+ users and strong unit economics",
+            timeline: "Months 1-18 (Current focus)"
           },
           {
-            phase: "Pilot Programs",
-            description: "Launch pilot programs with 2-3 enterprise partners",
-            timeline: "Months 12-18"
+            phase: "API Development",
+            description: "Build enterprise APIs using consumer learnings. Requires additional funding.",
+            timeline: "Series A timeline (Months 18-24)"
           },
           {
             phase: "Enterprise Sales",
-            description: "Dedicated B2B sales team and enterprise client acquisition",
-            timeline: "Months 18-24"
+            description: "Dedicated B2B team and enterprise partnerships. Separate business unit.",
+            timeline: "Post Series A (Months 24+)"
           }
         ]
       }
@@ -800,3 +804,5 @@ const PitchPresentation = () => {
 };
 
 export default PitchPresentation;
+
+}

@@ -26,6 +26,10 @@ interface B2BBusinessSlideProps {
         timeline: string;
       }>;
     };
+    positioningNote: {
+      title: string;
+      content: string;
+    };
   };
 }
 
@@ -39,6 +43,14 @@ export const B2BBusinessSlide: React.FC<B2BBusinessSlideProps> = ({ slide }) => 
         <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
+
+      {/* Strategic Positioning Note */}
+      <Card className="p-6 bg-amber-50 border-amber-200">
+        <CardContent>
+          <h3 className="text-lg font-bold text-amber-800 mb-3">{slide.positioningNote.title}</h3>
+          <p className="text-amber-700 text-sm leading-relaxed">{slide.positioningNote.content}</p>
+        </CardContent>
+      </Card>
 
       {/* B2B Models */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
