@@ -639,7 +639,6 @@ const PitchPresentation = () => {
     documentTitle: 'DISCVR-AI-Pitch-Presentation',
     onBeforePrint: () => {
       setIsDownloading(true);
-      // Add a small delay to ensure the component is fully rendered
       return new Promise(resolve => {
         setTimeout(resolve, 500);
       });
@@ -681,7 +680,6 @@ const PitchPresentation = () => {
     setCurrentSlide(index);
   };
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -699,12 +697,10 @@ const PitchPresentation = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* PDF Export Component - Always rendered but hidden on screen */}
       <div ref={printRef}>
         <PDFExportView slides={slides} />
       </div>
 
-      {/* Header */}
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 no-print">
         <div className="flex items-center justify-between">
           <Button 
@@ -745,7 +741,6 @@ const PitchPresentation = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto p-6 no-print">
         <Card className="min-h-[600px] p-8">
           <CardContent className="h-full" data-slide-content>
@@ -754,7 +749,6 @@ const PitchPresentation = () => {
         </Card>
       </div>
 
-      {/* Navigation Controls */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 no-print">
         <div className="bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 px-6 py-3">
           <div className="flex items-center gap-4">
@@ -791,7 +785,6 @@ const PitchPresentation = () => {
         </div>
       </div>
 
-      {/* Keyboard Instructions */}
       <div className="fixed top-20 right-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-3 no-print">
         <div className="text-xs text-gray-500 space-y-1">
           <div>→ or Space: Next slide</div>
@@ -804,5 +797,3 @@ const PitchPresentation = () => {
 };
 
 export default PitchPresentation;
-
-}
