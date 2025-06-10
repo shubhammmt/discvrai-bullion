@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Brain, TrendingUp, AlertCircle, PlusCircle, BarChart3, PieChart, Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
+import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 
 const AIConversationDemo = () => {
   const navigate = useNavigate();
