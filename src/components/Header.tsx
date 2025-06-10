@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight } from 'lucide-react';
+import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight, FileText } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
@@ -91,6 +91,14 @@ const Header = () => {
               className={location.pathname === '/portfolio' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
             >
               Portfolio
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/ai-strategy')}
+              className={location.pathname === '/ai-strategy' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+              title="AI Strategy Documentation"
+            >
+              <FileText size={16} />
             </Button>
           </nav>
         )}

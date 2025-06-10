@@ -20,6 +20,7 @@ import InsuranceResearch from "./pages/InsuranceResearch";
 import Organize from "./pages/Organize";
 import Portfolio from "./pages/Portfolio";
 import PitchPresentation from "./pages/PitchPresentation";
+import AIStrategy from "./pages/AIStrategy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/organize" element={<Organize />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/pitch" element={<PitchPresentation />} />
+              <Route path="/ai-strategy" element={<AIStrategy />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
