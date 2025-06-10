@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import AIResultCard from '@/components/AIResultCard';
 import FeedSearch from '@/components/FeedSearch';
@@ -51,12 +52,6 @@ const StockResearch = () => {
       routePath: '/stock/hdfcbank'
     }
   ]);
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    // Simulate AI-powered search
-    console.log(`AI Search triggered for: ${query}`);
-  };
 
   const contextSteps = [
     {
@@ -112,15 +107,30 @@ const StockResearch = () => {
           </div>
           
           <FeedSearch 
-            onSearch={handleSearch}
-            placeholder="Ask me: 'Best IT stocks for long term' or 'Safe dividend stocks'"
-            suggestions={[
-              "Best growth stocks for 10 years",
-              "Safe dividend paying stocks", 
-              "AI and technology stocks",
-              "Banking stocks with good fundamentals"
-            ]}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
           />
+          
+          {/* AI Search Suggestions */}
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 mb-2">Try these AI-powered queries:</p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Best growth stocks for 10 years",
+                "Safe dividend paying stocks", 
+                "AI and technology stocks",
+                "Banking stocks with good fundamentals"
+              ].map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSearchQuery(suggestion)}
+                  className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 px-2 py-1 rounded-full transition-colors"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
 
