@@ -23,7 +23,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
     {
       id: 1,
       type: 'bot',
-      content: "Hi! I'm your Finance Copilot. Ask me anything about AAPL's fundamentals, growth prospects, or investment rationale!"
+      content: "Hi! I'm DiscvrAI, your intelligent finance assistant. Ask me anything about AAPL's fundamentals, growth prospects, or investment rationale!"
     }
   ]);
 
@@ -88,7 +88,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
             <Brain size={24} />
           </Button>
           <div className="absolute -top-12 right-0 bg-black text-white text-xs px-2 py-1 rounded opacity-75">
-            Ask AI anything
+            Ask DiscvrAI anything
           </div>
         </div>
       )}
@@ -101,7 +101,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
               <div className="flex items-center gap-2">
                 <Brain size={20} />
                 <div>
-                  <span className="font-semibold">Finance Copilot</span>
+                  <span className="font-semibold">DiscvrAI</span>
                   <p className="text-xs opacity-90">Your AI investment assistant</p>
                 </div>
               </div>

@@ -26,7 +26,7 @@ const DesktopSidebar = ({ userProfile }: DesktopSidebarProps) => {
     { title: 'USD/INR', value: '83.25', change: '+0.1%', positive: false }
   ];
 
-  const vegaInsights = [
+  const discvrAIInsights = [
     {
       icon: Zap,
       title: 'Market Momentum',
@@ -62,6 +62,7 @@ const DesktopSidebar = ({ userProfile }: DesktopSidebarProps) => {
                 variant="outline"
                 onClick={() => navigate(action.path)}
                 className="w-full justify-start"
+                size="sm"
               >
                 <action.icon size={16} className="mr-2" />
                 {action.label}
@@ -96,17 +97,17 @@ const DesktopSidebar = ({ userProfile }: DesktopSidebarProps) => {
         </CardContent>
       </Card>
 
-      {/* Vega AI Insights */}
+      {/* DiscvrAI Insights */}
       <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Brain size={18} className="text-blue-600" />
-            Vega AI Insights
+            DiscvrAI Insights
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {vegaInsights.map((insight, index) => (
+            {discvrAIInsights.map((insight, index) => (
               <div key={index} className="bg-white/70 p-3 rounded-lg">
                 <div className="flex items-start gap-2 mb-2">
                   <insight.icon size={16} className="text-blue-600 mt-0.5" />

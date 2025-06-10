@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,8 @@ const Feed = () => {
     { id: 'stocks', label: 'Stocks' },
     { id: 'mutual-funds', label: 'Mutual Funds' },
     { id: 'etfs', label: 'ETFs' },
+    { id: 'bonds', label: 'Bonds' },
+    { id: 'fd', label: 'Fixed Deposits' },
     { id: 'ipo', label: 'IPOs' },
     { id: 'smallcase', label: 'Smallcase' },
     { id: 'credit', label: 'Credit' },
@@ -40,7 +43,7 @@ const Feed = () => {
     { id: 'crypto', label: 'Crypto' }
   ];
 
-  // Mock trending assets with expanded recommendations
+  // Enhanced trending assets with bonds and FDs
   const trendingAssets = [
     {
       id: 1,
@@ -132,6 +135,32 @@ const Feed = () => {
       latestEvent: 'New Features',
       news: 'Added critical illness cover',
       routePath: '/research/insurance/max-life-term'
+    },
+    {
+      id: 8,
+      name: 'Government Bond 2034',
+      symbol: 'GOI-2034',
+      type: 'bonds',
+      price: 102.50,
+      change: 0.15,
+      changePercent: 0.15,
+      volume: '50K',
+      latestEvent: 'Interest Payment',
+      news: 'Semi-annual coupon payment due',
+      routePath: '/research/bond/goi-2034'
+    },
+    {
+      id: 9,
+      name: 'HDFC Bank FD',
+      symbol: 'HDFC-FD',
+      type: 'fd',
+      price: 7.25,
+      change: 0,
+      changePercent: 0,
+      volume: '300K',
+      latestEvent: 'Rate Update',
+      news: 'Interest rates for 1-year tenure',
+      routePath: '/research/fd/hdfc-fd'
     }
   ];
 
@@ -159,6 +188,19 @@ const Feed = () => {
       aiReason: `Diversification play: Top 100 large-cap exposure, 12% annual returns, low expense ratio 0.8%, suitable for ${riskLevel} risk profile.`
     });
 
+    // Bond/FD recommendation for conservative investors
+    if (riskLevel === 'conservative') {
+      recommendations.push({
+        ...trendingAssets[7],
+        aiReason: `Safe debt option: Government-backed security, 7.2% annual yield, AAA rating, perfect for capital protection and steady income.`
+      });
+    } else {
+      recommendations.push({
+        ...trendingAssets[8],
+        aiReason: `Stable returns: 7.25% assured returns, HDFC Bank reliability, flexible tenure options, good for emergency fund allocation.`
+      });
+    }
+
     // Insurance recommendation
     recommendations.push({
       ...trendingAssets[6],
@@ -173,7 +215,7 @@ const Feed = () => {
       });
     }
 
-    return recommendations.slice(0, 4);
+    return recommendations.slice(0, 6);
   };
 
   const handleAIQuery = (query: string, context: any) => {
@@ -182,9 +224,9 @@ const Feed = () => {
     const queryLower = query.toLowerCase();
     let filtered = trendingAssets;
     
-    if (queryLower.includes('safe') || queryLower.includes('dividend')) {
+    if (queryLower.includes('safe') || queryLower.includes('dividend') || queryLower.includes('conservative')) {
       filtered = trendingAssets.filter(asset => 
-        asset.type === 'stock' || asset.type === 'mutual-fund'
+        asset.type === 'stock' || asset.type === 'mutual-fund' || asset.type === 'bonds' || asset.type === 'fd'
       );
     } else if (queryLower.includes('growth') || queryLower.includes('tech')) {
       filtered = trendingAssets.filter(asset => 
@@ -194,6 +236,8 @@ const Feed = () => {
       filtered = trendingAssets.filter(asset => asset.type === 'insurance');
     } else if (queryLower.includes('loan') || queryLower.includes('credit')) {
       filtered = trendingAssets.filter(asset => asset.type === 'credit' || asset.type === 'credit-cards');
+    } else if (queryLower.includes('bond') || queryLower.includes('fixed')) {
+      filtered = trendingAssets.filter(asset => asset.type === 'bonds' || asset.type === 'fd');
     }
     
     setAiResults(filtered.slice(0, 4));
@@ -213,30 +257,22 @@ const Feed = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
-        {/* Header */}
+        {/* Simplified Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              AI-Powered Investment Feed
+              Investment Discovery
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">Ask Vega AI anything about investments - discover personalized opportunities</p>
+            <p className="text-gray-600 dark:text-gray-400">Ask DiscvrAI anything - discover personalized opportunities</p>
           </div>
-          <div className="flex items-center gap-3">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => navigate('/research')}
-            >
-              <Search size={16} className="mr-2" />
-              Research
-            </Button>
-            <Button variant="outline" size="sm">
-              <Bell size={16} className="mr-2" />
-              Alerts
-            </Button>
-            <Button variant="outline" size="sm">
-              <BarChart3 size={16} className="mr-2" />
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')}>
+              <BarChart3 size={16} className="mr-1" />
               Portfolio
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/research')}>
+              <Search size={16} className="mr-1" />
+              Research
             </Button>
           </div>
         </div>
@@ -253,12 +289,12 @@ const Feed = () => {
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Main Feed */}
           <div className="lg:col-span-3 space-y-6">
-            {/* AI Recommendations Section - Now First */}
+            {/* AI Recommendations Section - First */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 dark:text-white">
                   <Brain className="w-5 h-5 text-purple-600" />
-                  Vega AI Recommendations
+                  DiscvrAI Recommendations
                   <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
                     <Sparkles size={10} className="inline mr-1" />
                     Personalized for You
@@ -269,7 +305,7 @@ const Feed = () => {
                 <div className="space-y-4">
                   <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:bg-purple-900/20 p-4 rounded-lg mb-4">
                     <p className="text-sm text-gray-700 dark:text-gray-300">
-                      <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by Vega AI.
+                      <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.
                     </p>
                   </div>
                   {aiRecommendations.map((asset, index) => (
@@ -277,7 +313,7 @@ const Feed = () => {
                       key={`ai-rec-${asset.id}`} 
                       asset={asset} 
                       aiReason={asset.aiReason}
-                      matchScore={95 - (index * 5)}
+                      matchScore={95 - (index * 3)}
                     />
                   ))}
                 </div>
@@ -319,6 +355,7 @@ const Feed = () => {
                   variant={activeFilter === filter.id ? 'default' : 'outline'}
                   onClick={() => setActiveFilter(filter.id)}
                   className="whitespace-nowrap"
+                  size="sm"
                 >
                   {filter.label}
                 </Button>

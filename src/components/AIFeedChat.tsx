@@ -16,7 +16,7 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
     {
       id: 1,
       type: 'ai',
-      content: `Hi! I'm **Vega**, your AI investment assistant. Based on your ${userProfile.riskTolerance?.toLowerCase()} risk profile and interest in ${userProfile.preferredInstruments?.join(', ')}, I can help you discover personalized opportunities. What are you looking for today?`
+      content: `Hi! I'm **DiscvrAI**, your intelligent investment assistant. Based on your ${userProfile.riskTolerance?.toLowerCase()} risk profile and interest in ${userProfile.preferredInstruments?.join(', ')}, I can help you discover personalized opportunities across stocks, bonds, mutual funds, and more. What are you looking for today?`
     }
   ]);
 
@@ -48,15 +48,15 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
   const generateAIResponse = (userQuery: string, profile: any) => {
     const query = userQuery.toLowerCase();
     
-    if (query.includes('safe') || query.includes('dividend')) {
+    if (query.includes('safe') || query.includes('dividend') || query.includes('conservative')) {
       return {
-        content: `Based on your ${profile.riskTolerance?.toLowerCase()} risk preference, here are safe dividend-paying options with strong fundamentals:`,
-        results: ['AAPL', 'HDFC100', 'dividend-stocks']
+        content: `Based on your ${profile.riskTolerance?.toLowerCase()} risk preference, here are safe, dividend-paying and debt options with strong fundamentals:`,
+        results: ['AAPL', 'HDFC100', 'GOI-2034', 'HDFC-FD']
       };
     } else if (query.includes('growth') || query.includes('tech')) {
       return {
         content: `For growth opportunities aligned with your profile, consider these high-potential investments:`,
-        results: ['AAPL', 'TECH', 'tech-funds']
+        results: ['AAPL', 'TECH', 'ELEC-MOB']
       };
     } else if (query.includes('mutual fund') || query.includes('sip')) {
       return {
@@ -71,7 +71,12 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
     } else if (query.includes('loan') || query.includes('credit')) {
       return {
         content: `Here are credit options that align with your financial profile and needs:`,
-        results: ['HDFC-PL', 'credit-options']
+        results: ['HDFC-PL', 'HDFC-REG']
+      };
+    } else if (query.includes('bond') || query.includes('fixed') || query.includes('fd')) {
+      return {
+        content: `For stable, fixed-income investments, here are debt instruments suited to your profile:`,
+        results: ['GOI-2034', 'HDFC-FD', 'bonds-portfolio']
       };
     } else {
       return {
@@ -85,9 +90,9 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
     "Show me safe dividend stocks",
     "Find growth opportunities under ₹200",
     "Best mutual funds for SIP",
-    "High-rated insurance plans",
-    "Low interest personal loans",
-    "Credit cards with rewards"
+    "Government bonds with good yield",
+    "Fixed deposits with highest rates",
+    "High-rated insurance plans"
   ];
 
   return (
@@ -101,7 +106,7 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
             </div>
             <div>
               <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Vega AI
+                DiscvrAI
               </h3>
               <p className="text-sm text-gray-600">Your Personal Investment Assistant</p>
             </div>
@@ -139,7 +144,7 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Ask Vega anything... 'Show me safe stocks' or 'Best SIP options'"
+              placeholder="Ask DiscvrAI anything... 'Show me safe bonds' or 'Best growth stocks'"
               className="flex-1"
             />
             <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600">

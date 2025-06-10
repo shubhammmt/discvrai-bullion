@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Brain, Target, Users, TrendingUp, MessageCircle, BarChart3, Shield, Zap } from 'lucide-react';
+import { Brain, Target, Users, TrendingUp, MessageCircle, BarChart3, Shield, Zap, CreditCard, Building, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const AIStrategy = () => {
@@ -13,7 +13,7 @@ const AIStrategy = () => {
       page: 'Index (Landing)',
       status: 'Needs Enhancement',
       changes: [
-        'Add AI-first messaging',
+        'Add AI-first messaging with DiscvrAI branding',
         'Emphasize conversational discovery',
         'Update value proposition to highlight AI capabilities',
         'Add trust indicators for AI recommendations'
@@ -21,15 +21,29 @@ const AIStrategy = () => {
       priority: 'Medium'
     },
     {
-      page: 'Feed',
-      status: 'Major Overhaul',
+      page: 'Feed (Phase 1 - Current)',
+      status: 'Enhanced',
       changes: [
-        'Replace filter-first with AI-chat interface',
-        'Add conversational result cards',
-        'Implement profile enrichment prompts',
-        'Add contextual reasoning for recommendations',
-        'Integrate social proof ("similar users")',
-        'Dynamic suggestion evolution'
+        '✅ AI-chat interface with DiscvrAI branding',
+        '✅ Conversational result cards with reasoning',
+        '✅ Profile enrichment prompts',
+        '✅ Added bonds, FDs, and debt instruments',
+        '✅ Simplified first viewport CTAs',
+        '✅ Enhanced desktop sidebar'
+      ],
+      priority: 'Complete'
+    },
+    {
+      page: 'Feed (Phase 2 - Existing User)',
+      status: 'Needs Creation',
+      changes: [
+        'Create /dashboard or /feed/dashboard route',
+        'Personal portfolio overview cards',
+        'Payment reminders (EMI, CC bills)',
+        'Bank account integration interface',
+        'Portfolio upload functionality',
+        'Smart rebalancing suggestions',
+        'Goal-based tracking'
       ],
       priority: 'High'
     },
@@ -39,7 +53,7 @@ const AIStrategy = () => {
       changes: [
         'Add journey context from Feed',
         'Show "based on your recent searches"',
-        'Integrate AI copilot for guidance',
+        'Integrate DiscvrAI copilot for guidance',
         'Cross-product intelligent suggestions'
       ],
       priority: 'High'
@@ -48,24 +62,56 @@ const AIStrategy = () => {
       page: 'Stock Research',
       status: 'AI Enhancement',
       changes: [
-        'Contextual AI copilot with Feed memory',
+        'Contextual DiscvrAI copilot with Feed memory',
         'Journey-aware explanations',
         'Risk-aligned recommendations',
         'Smart transition messaging',
         'Conversion-focused CTAs'
       ],
       priority: 'High'
+    }
+  ];
+
+  const integrationFeatures = [
+    {
+      category: 'Bank Account Integration',
+      features: [
+        'Connect multiple bank accounts via API',
+        'Real-time balance and transaction tracking',
+        'Automated expense categorization',
+        'Cash flow analysis and projections',
+        'Smart savings recommendations'
+      ]
     },
     {
-      page: 'Other Research Pages',
-      status: 'Contextual Continuity',
-      changes: [
-        'Unified AI copilot experience',
-        'Cross-page memory integration',
-        'Consistent explanation framework',
-        'Smart product connections'
-      ],
-      priority: 'Medium'
+      category: 'Demat Account Integration',
+      features: [
+        'Portfolio sync from multiple brokers',
+        'Real-time P&L tracking',
+        'Consolidated holdings view',
+        'Dividend and corporate action tracking',
+        'Tax harvesting suggestions'
+      ]
+    },
+    {
+      category: 'Credit Management',
+      features: [
+        'Credit card bill reminders and tracking',
+        'EMI payment schedules and alerts',
+        'Credit utilization optimization',
+        'Loan refinancing opportunities',
+        'Credit score monitoring'
+      ]
+    },
+    {
+      category: 'Portfolio Management',
+      features: [
+        'Upload existing portfolios (CSV/PDF)',
+        'Asset allocation analysis',
+        'Rebalancing recommendations',
+        'Risk assessment and alerts',
+        'Goal-based portfolio tracking'
+      ]
     }
   ];
 
@@ -73,61 +119,84 @@ const AIStrategy = () => {
     {
       category: 'Core Intelligence',
       models: [
-        'Large Language Model (GPT-4/Claude) - Conversational interface',
-        'Financial Data Analysis - Market insights',
-        'Risk Profiling - Behavioral analysis',
-        'Recommendation Engine - Hybrid filtering'
+        'Large Language Model (GPT-4/Claude) - DiscvrAI conversational interface',
+        'Financial Data Analysis - Market insights and portfolio analysis',
+        'Risk Profiling - Behavioral analysis and risk assessment',
+        'Recommendation Engine - Hybrid filtering across all asset classes'
+      ]
+    },
+    {
+      category: 'Financial Integration AI',
+      models: [
+        'Transaction Categorization - Automated expense classification',
+        'Cash Flow Prediction - Income and expense forecasting',
+        'Portfolio Optimization - Asset allocation and rebalancing',
+        'Credit Risk Assessment - Loan and payment analysis'
       ]
     },
     {
       category: 'Advanced Analytics',
       models: [
         'Natural Language Query Parser - English to investment criteria',
-        'Explanation Generation - Why/how reasoning',
-        'Similar User Clustering - Behavioral patterns',
-        'Market Regime Detection - Bull/bear identification'
+        'Explanation Generation - Why/how reasoning for all recommendations',
+        'Similar User Clustering - Behavioral patterns and peer analysis',
+        'Market Regime Detection - Bull/bear identification across asset classes'
       ]
     },
     {
       category: 'Real-time Intelligence',
       models: [
         'News Impact Analyzer - Event-driven insights',
-        'Social Proof Engine - User behavior aggregation',
-        'Dynamic Rebalancing - Portfolio optimization',
-        'Fraud Detection - Risk identification'
+        'Payment Alert System - EMI and bill reminder intelligence',
+        'Dynamic Rebalancing - Real-time portfolio optimization',
+        'Fraud Detection - Transaction and investment risk identification'
       ]
     }
   ];
 
   const implementationPhases = [
     {
-      phase: 'Phase 1: AI-First Feed',
+      phase: 'Phase 1: AI-First Feed (Completed)',
+      timeline: 'Completed',
+      scope: [
+        '✅ DiscvrAI conversational interface',
+        '✅ AI reasoning cards with explanations',
+        '✅ Profile enrichment system',
+        '✅ Expanded asset classes (bonds, FDs)',
+        '✅ Simplified UI and desktop sidebar'
+      ]
+    },
+    {
+      phase: 'Phase 2: Existing User Dashboard',
       timeline: '2-3 weeks',
       scope: [
-        'Conversational search interface',
-        'AI reasoning cards',
-        'Profile enrichment system',
-        'Basic contextual memory'
+        'Create /dashboard route for existing users',
+        'Bank account connection interface',
+        'Portfolio upload and sync functionality',
+        'Payment reminders and EMI tracking',
+        'Personal financial overview cards'
       ]
     },
     {
-      phase: 'Phase 2: Cross-Page Continuity',
-      timeline: '3-4 weeks',
-      scope: [
-        'Unified AI context store',
-        'Journey-aware recommendations',
-        'Cross-page memory integration',
-        'Smart transition messaging'
-      ]
-    },
-    {
-      phase: 'Phase 3: Advanced AI Models',
+      phase: 'Phase 3: Financial Integration',
       timeline: '4-6 weeks',
       scope: [
-        'Specialized model integration',
-        'Real-time personalization',
-        'Predictive recommendations',
-        'Social intelligence features'
+        'Live bank account API integration',
+        'Demat account portfolio sync',
+        'Credit card and loan management',
+        'Automated transaction categorization',
+        'Real-time portfolio tracking'
+      ]
+    },
+    {
+      phase: 'Phase 4: Advanced Intelligence',
+      timeline: '6-8 weeks',
+      scope: [
+        'Predictive financial planning',
+        'Goal-based investment tracking',
+        'Smart rebalancing automation',
+        'Cross-product recommendation engine',
+        'Advanced risk management'
       ]
     }
   ];
@@ -140,8 +209,14 @@ const AIStrategy = () => {
       moat: 'User behavior data + NLP expertise'
     },
     {
+      feature: 'Holistic Financial View',
+      description: 'Complete financial picture: bank accounts, investments, credit, loans',
+      icon: Building,
+      moat: 'Data aggregation network effects'
+    },
+    {
       feature: 'Persistent AI Memory',
-      description: 'Context flows across all platform pages',
+      description: 'Context flows across all platform pages and financial data',
       icon: Brain,
       moat: 'Switching costs through personalized intelligence'
     },
@@ -152,11 +227,35 @@ const AIStrategy = () => {
       moat: 'Trust through transparency'
     },
     {
-      feature: 'Social Intelligence',
-      description: 'Leverage similar user patterns and behaviors',
-      icon: Users,
-      moat: 'Network effects in recommendation quality'
+      feature: 'Portfolio Integration',
+      description: 'Upload and sync portfolios from multiple sources',
+      icon: Upload,
+      moat: 'Data lock-in and comprehensive tracking'
+    },
+    {
+      feature: 'Payment Intelligence',
+      description: 'Smart EMI, credit card, and bill management',
+      icon: CreditCard,
+      moat: 'Daily engagement through payment reminders'
     }
+  ];
+
+  const userJourneyNew = [
+    'Landing → DiscvrAI Query',
+    'Personalized Results',
+    'Research Deep-dive',
+    'Decision Support',
+    'Account Integration',
+    'Portfolio Action'
+  ];
+
+  const userJourneyExisting = [
+    'Dashboard Login',
+    'Portfolio Overview',
+    'Payment Reminders',
+    'DiscvrAI Suggestions',
+    'Smart Rebalancing',
+    'Goal Tracking'
   ];
 
   return (
@@ -170,10 +269,10 @@ const AIStrategy = () => {
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                AI-First Platform Strategy
+                DiscvrAI-First Platform Strategy
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                Comprehensive documentation and implementation roadmap
+                Comprehensive financial platform with AI-driven investment discovery and portfolio management
               </p>
             </div>
           </div>
@@ -189,13 +288,44 @@ const AIStrategy = () => {
         {/* Vision Statement */}
         <Card className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Vision Statement</CardTitle>
+            <CardTitle className="text-2xl text-center">Enhanced Vision Statement</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-lg text-center text-gray-700 italic">
-              "Transform investment discovery from filter-based search to conversational intelligence, 
-              where AI acts as a persistent financial advisor understanding user context, goals, and behavioral patterns."
+            <p className="text-lg text-center text-gray-700 italic mb-4">
+              "Transform financial management from fragmented tools to unified intelligence, 
+              where DiscvrAI acts as a persistent financial advisor understanding complete financial context - 
+              from bank accounts and investments to credit and loan management."
             </p>
+            <div className="text-center">
+              <strong>Core Differentiator:</strong> Complete financial picture + AI-driven personalization
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Integration Features */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Building className="w-5 h-5" />
+              Financial Integration Features
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              {integrationFeatures.map((category, index) => (
+                <div key={index} className="space-y-3">
+                  <h3 className="font-semibold text-lg text-blue-600">{category.category}</h3>
+                  <ul className="space-y-2">
+                    {category.features.map((feature, idx) => (
+                      <li key={idx} className="text-sm text-gray-700 leading-relaxed flex items-start gap-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -216,14 +346,15 @@ const AIStrategy = () => {
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                       page.priority === 'High' ? 'bg-red-100 text-red-700' :
                       page.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                      page.priority === 'Complete' ? 'bg-green-100 text-green-700' :
                       'bg-green-100 text-green-700'
                     }`}>
-                      {page.priority} Priority
+                      {page.priority}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3">Status: {page.status}</p>
                   <div>
-                    <h4 className="font-medium mb-2">Required Changes:</h4>
+                    <h4 className="font-medium mb-2">Changes:</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                       {page.changes.map((change, idx) => (
                         <li key={idx}>{change}</li>
@@ -236,16 +367,16 @@ const AIStrategy = () => {
           </CardContent>
         </Card>
 
-        {/* AI Models Stack */}
+        {/* Enhanced AI Models Stack */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Zap className="w-5 h-5" />
-              AI Models Stack for Competitive Moat
+              Enhanced AI Models Stack for Financial Intelligence
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               {aiModels.map((category, index) => (
                 <div key={index} className="space-y-3">
                   <h3 className="font-semibold text-lg text-blue-600">{category.category}</h3>
@@ -262,12 +393,12 @@ const AIStrategy = () => {
           </CardContent>
         </Card>
 
-        {/* Key Differentiators */}
+        {/* Enhanced Differentiators */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="w-5 h-5" />
-              Competitive Differentiators & Moats
+              Enhanced Competitive Differentiators & Moats
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -291,12 +422,12 @@ const AIStrategy = () => {
           </CardContent>
         </Card>
 
-        {/* Implementation Phases */}
+        {/* Enhanced Implementation Phases */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
-              Implementation Roadmap
+              Enhanced Implementation Roadmap
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -318,27 +449,40 @@ const AIStrategy = () => {
           </CardContent>
         </Card>
 
-        {/* User Journey Flow */}
+        {/* User Journey Flows */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Ideal User Journey Flow</CardTitle>
+            <CardTitle>Enhanced User Journey Flows</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap items-center gap-4 text-center">
-              {[
-                'Landing → AI Query',
-                'Contextualized Results',
-                'Research Deep-dive',
-                'Decision Support',
-                'Portfolio Action'
-              ].map((step, index) => (
-                <div key={index} className="flex items-center">
-                  <div className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium">
-                    {step}
-                  </div>
-                  {index < 4 && <div className="mx-2 text-gray-400">→</div>}
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold mb-3">New User Journey:</h3>
+                <div className="flex flex-wrap items-center gap-4 text-center">
+                  {userJourneyNew.map((step, index) => (
+                    <div key={index} className="flex items-center">
+                      <div className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium">
+                        {step}
+                      </div>
+                      {index < userJourneyNew.length - 1 && <div className="mx-2 text-gray-400">→</div>}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-3">Existing User Journey:</h3>
+                <div className="flex flex-wrap items-center gap-4 text-center">
+                  {userJourneyExisting.map((step, index) => (
+                    <div key={index} className="flex items-center">
+                      <div className="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium">
+                        {step}
+                      </div>
+                      {index < userJourneyExisting.length - 1 && <div className="mx-2 text-gray-400">→</div>}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -351,16 +495,20 @@ const AIStrategy = () => {
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                <span>Start with Feed page AI-first transformation</span>
+                <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">✓</div>
+                <span>Phase 1 completed: AI-first Feed with DiscvrAI branding and expanded assets</span>
               </div>
               <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
                 <div className="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                <span>Implement contextual AI copilot across research pages</span>
+                <span>Create existing user dashboard with portfolio integration and payment tracking</span>
               </div>
               <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
                 <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                <span>Build unified context store for cross-page memory</span>
+                <span>Implement bank account and demat account integration APIs</span>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                <div className="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                <span>Build comprehensive financial intelligence and automation features</span>
               </div>
             </div>
           </CardContent>
