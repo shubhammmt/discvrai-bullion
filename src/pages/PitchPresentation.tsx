@@ -62,12 +62,12 @@ const PitchPresentation = () => {
     {
       id: 5,
       title: "Revenue Model",
-      subtitle: "Transaction-Based, High-Margin Focus",
+      subtitle: "Consumer-First, B2B-Ready Platform",
       type: "revenue",
       icon: DollarSign,
       revenueStreams: [
         {
-          title: "Insurance Distribution",
+          title: "Insurance Distribution", 
           launch: "Month 6",
           commission: "Commission: 15-40% of first-year premium + renewal trails",
           target: "Target: 1,600 policies/month by Month 18",
@@ -76,16 +76,16 @@ const PitchPresentation = () => {
         },
         {
           title: "Credit Products", 
-          launch: "Month 9",
+          launch: "Month 9", 
           commission: "Commission: 2-4% of loan amount + card fees",
-          target: "Target: 5,000 loans/cards/month by Month 18", 
+          target: "Target: 5,000 loans/cards/month by Month 18",
           revenue: "Monthly Revenue: ₹120L ($1.44M) by Month 18",
           details: "Personal loans ₹2L average, Credit cards ₹500-2,000 per application"
         },
         {
           title: "Digital Gold & Others",
           launch: "Month 8",
-          commission: "Commission: 0.5-1% per transaction + FD referrals",
+          commission: "Commission: 0.5-1% per transaction + FD referrals", 
           target: "Target: Variable based on user engagement",
           revenue: "Monthly Revenue: ₹24L ($288K) by Month 18",
           details: "Digital gold, fixed deposits, and other financial products"
@@ -95,13 +95,19 @@ const PitchPresentation = () => {
         month6: { users: "50K", revenue: "₹0", description: "Free discovery platform" },
         month12: { users: "300K", revenue: "₹96L ($1.15M)", description: "Insurance launch" },
         month18: { users: "1M", revenue: "₹504L ($6.05M)", description: "Full product suite" },
-        month24: { users: "1.5M", revenue: "₹756L ($9.07M)", description: "Scale phase" }
+        month24: { users: "1.5M", revenue: "₹756L ($9.07M)", description: "B2B pilots begin" }
       },
       unitEconomics: {
         revenuePerUser: "₹605 ($72.6) annually",
-        revenuePerMAU: "₹756 ($90.8) annually", 
-        conversionRate: "15% discovery-to-execution",
+        revenuePerMAU: "₹756 ($90.8) annually",
+        conversionRate: "15% discovery-to-execution", 
         cac: "<₹4,200 ($50) per user"
+      },
+      b2bOpportunity: {
+        title: "Future B2B Platform Opportunity",
+        description: "Consumer AI creates ₹4,200 Cr ($500M) B2B addressable market",
+        timing: "Post-Series A with dedicated team and resources",
+        rationale: "Consumer behavioral data becomes B2B competitive moat"
       }
     },
     {
@@ -312,7 +318,7 @@ const PitchPresentation = () => {
         description: "Will users actually buy financial products after discovering them on our platform?",
         concerns: [
           "Free Discovery Trap: Research on our platform, execute elsewhere",
-          "Commission Reality: Most mutual fund sales are ₹0 commission direct plans",
+          "Commission Reality: Most mutual fund sales are ₹0 commission direct plans", 
           "Price Sensitivity: Users may choose cheapest option after discovery"
         ]
       },
@@ -324,11 +330,11 @@ const PitchPresentation = () => {
       warningSignals: {
         redFlags: [
           "Conversion <5% after 6 months",
-          "CAC >₹8,400 consistently",
+          "CAC >₹8,400 consistently", 
           "Big Tech enters financial discovery"
         ],
         greenFlags: [
-          "Conversion >10% consistently", 
+          "Conversion >10% consistently",
           "Organic growth >30% monthly",
           "Revenue per user >₹4,200 annually"
         ]
@@ -368,18 +374,32 @@ const PitchPresentation = () => {
     },
     {
       id: 13,
-      title: "Vision",
-      subtitle: "India's Financial Operating System",
+      title: "Vision & Market Evolution", 
+      subtitle: "Consumer AI → B2B Platform Infrastructure",
       type: "vision",
       icon: Brain,
-      vision: "Build India's financial operating system, where every Indian accesses personalised AI-powered recommendations and executes seamlessly across all financial products",
-      metrics: [
-        { metric: "User Base", value: "1M users by Month 18, 1.5M by Month 24" },
-        { metric: "User Engagement", value: "80% monthly active user retention" },
-        { metric: "Conversion Rate", value: "15% discovery-to-execution conversion" },
-        { metric: "Revenue Target", value: "₹504L ($6.05M) monthly by Month 18" },
-        { metric: "Market Share", value: "2% of digital financial services by 2027" }
-      ]
+      vision: "Build India's financial operating system that starts with consumer discovery and evolves into B2B financial AI infrastructure",
+      consumerVision: {
+        title: "Phase 1: Consumer Financial OS (Months 1-18)",
+        description: "Every Indian accesses personalized AI-powered financial recommendations and executes seamlessly",
+        metrics: [
+          "1M users by Month 18, 1.5M by Month 24", 
+          "15% discovery-to-execution conversion",
+          "₹504L ($6.05M) monthly revenue by Month 18"
+        ]
+      },
+      b2bEvolution: {
+        title: "Phase 2: B2B Financial AI Platform (Post Series A)",
+        description: "Consumer behavioral intelligence becomes enterprise financial AI infrastructure",
+        opportunities: [
+          "White-label AI for bank customer acquisition",
+          "API-first product recommendation engines", 
+          "Compliance & risk assessment automation",
+          "Contact center AI for financial services"
+        ],
+        marketSize: "Additional ₹4,200 Cr ($500M) addressable market",
+        differentiation: "Consumer behavioral data creates unmatched AI intelligence"
+      }
     },
     {
       id: 14,
