@@ -8,7 +8,7 @@ interface VisionSlideProps {
     subtitle: string;
     icon: React.ComponentType<any>;
     vision: string;
-    metrics?: Array<{
+    metrics: Array<{
       metric: string;
       value: string;
     }>;
@@ -30,18 +30,16 @@ export const VisionSlide: React.FC<VisionSlideProps> = ({ slide }) => {
           <p className="text-xl text-center text-gray-700 leading-relaxed">{slide.vision}</p>
         </CardContent>
       </Card>
-      {slide.metrics && slide.metrics.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {slide.metrics.map((metric, index) => (
-            <Card key={index} className="text-center p-6">
-              <CardContent className="space-y-3">
-                <h3 className="text-lg font-semibold text-blue-600">{metric.metric}</h3>
-                <p className="text-gray-600">{metric.value}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {slide.metrics.map((metric, index) => (
+          <Card key={index} className="text-center p-6">
+            <CardContent className="space-y-3">
+              <h3 className="text-lg font-semibold text-blue-600">{metric.metric}</h3>
+              <p className="text-gray-600">{metric.value}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
