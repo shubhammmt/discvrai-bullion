@@ -276,7 +276,114 @@ const PitchPresentation = () => {
     },
     {
       id: 10,
-      title: "Why Big Tech Won't Win Here",
+      title: "Team",
+      type: "team",
+      icon: Users,
+      founder: {
+        name: "Shubham Srivastava, CEO & Co-Founder",
+        experience: "15+ years building scalable technology platforms | 3x successful exits",
+        points: [
+          "Scale Expert: Chief Technology & Product Officer at EurekaForbes - built D2C platform with 1M+ MAUs, achieved 20% YoY cost reduction",
+          "AI/ML Pioneer: CTO at Hindustan Times Digital - led rocket growth of digital media platforms using AI at scale",
+          "Platform Builder: Founded Tekch - SaaS platform managing 10M+ sq ft using AI and IoT. Led MakeMyTrip hotels engineering (100+ engineers)",
+          "Current Vision: Building Discvr.ai as India's AI search engine for efficient research and discovery"
+        ]
+      },
+      keyStrengths: [
+        "✅ Proven Track Record: 15+ years scaling platforms to millions of users",
+        "✅ Domain Expertise: Deep fintech and AI experience with successful platform launches", 
+        "✅ Technical Leadership: Led 100+ engineering teams, managed $100M+ technology budgets",
+        "✅ Entrepreneurial Success: 3 successful platform exits and technology company scaling"
+      ],
+      plannedHires: [
+        "Financial Services Veteran: Former SEBI/RBI regulatory expert (Month 6)",
+        "AI/ML Advisor: Former Google/Microsoft AI researcher (in discussions)",
+        "Business Development Head: Ex-PolicyBazaar/Paytm growth leader (Month 9)",
+        "Compliance Officer: AMFI/IRDAI certified professional (Month 12)"
+      ]
+    },
+    {
+      id: 11,
+      title: "Key Risks - Simplified",
+      type: "risks",
+      icon: Target,
+      criticalRisk: {
+        title: "🚨 THE CRITICAL RISK: Discovery-to-Execution Conversion",
+        description: "Will users actually buy financial products after discovering them on our platform?",
+        concerns: [
+          "Free Discovery Trap: Research on our platform, execute elsewhere",
+          "Commission Reality: Most mutual fund sales are ₹0 commission direct plans",
+          "Price Sensitivity: Users may choose cheapest option after discovery"
+        ]
+      },
+      risks: [
+        { assumption: "15% Discovery-to-Execution", level: "🔴 Critical", validation: "MVP with 1,000 users", metric: ">10% conversion" },
+        { assumption: "₹15,000+ Commission per User", level: "🔴 Critical", validation: "Partner with insurers", metric: ">₹12,000 actual" },
+        { assumption: "<₹4,200 Customer Acquisition", level: "🟡 High", validation: "Digital marketing test", metric: "<₹6,300 blended CAC" }
+      ],
+      warningSignals: {
+        redFlags: [
+          "Conversion <5% after 6 months",
+          "CAC >₹8,400 consistently",
+          "Big Tech enters financial discovery"
+        ],
+        greenFlags: [
+          "Conversion >10% consistently", 
+          "Organic growth >30% monthly",
+          "Revenue per user >₹4,200 annually"
+        ]
+      }
+    },
+    {
+      id: 12,
+      title: "Funding Requirements",
+      subtitle: "₹33Cr ($4M) Seed Round",
+      type: "funding",
+      icon: DollarSign,
+      allocation: [
+        { percentage: "50%", category: "Team Building", description: "20 engineers + 15 business team members" },
+        { percentage: "25%", category: "Customer Acquisition", description: "Marketing to reach 1M users by Month 18" },
+        { percentage: "15%", category: "Technology & AI Infrastructure", description: "Cloud, data, ML platforms, and regulatory compliance" },
+        { percentage: "10%", category: "Regulatory & Compliance", description: "IRDAI, SEBI, RBI licenses and legal expenses" }
+      ],
+      milestones: [
+        "Month 6: Insurance distribution launch with 50K users",
+        "Month 12: ₹96L ($1.15M) monthly revenue with 300K users", 
+        "Month 18: ₹504L ($6.05M) monthly revenue with 1M users",
+        "Series A ready: Clear path to profitability with proven unit economics"
+      ],
+      competitiveContext: {
+        title: "Competitive Funding Landscape",
+        examples: [
+          "Sahi: Raised $7M (trading-only platform)",
+          "Univest: Raised $10M+ (Buy-Sell Tip Execution)",
+          "Our Ask: ₹33Cr ($4M) for broader market, higher-margin focus"
+        ]
+      },
+      exitStrategy: [
+        "Strategic Acquisition: By major bank or fintech (₹4,200Cr+ / $500M+ valuation)",
+        "IPO Path: Public listing after ₹840Cr ($100M) annual revenue", 
+        "Market Comparables: PolicyBazaar (₹16,800Cr / $2B), Paytm (₹42,000Cr / $5B peak)"
+      ]
+    },
+    {
+      id: 13,
+      title: "Vision",
+      subtitle: "India's Financial Operating System",
+      type: "vision",
+      icon: Brain,
+      vision: "Build India's financial operating system, where every Indian accesses personalised AI-powered recommendations and executes seamlessly across all financial products",
+      metrics: [
+        { metric: "User Base", value: "1M users by Month 18, 1.5M by Month 24" },
+        { metric: "User Engagement", value: "80% monthly active user retention" },
+        { metric: "Conversion Rate", value: "15% discovery-to-execution conversion" },
+        { metric: "Revenue Target", value: "₹504L ($6.05M) monthly by Month 18" },
+        { metric: "Market Share", value: "2% of digital financial services by 2027" }
+      ]
+    },
+    {
+      id: 14,
+      title: "Appendix: Why Big Tech Won't Win Here",
       subtitle: "Domain Expertise vs Tech Tourists",
       type: "big-tech",
       icon: Shield,
@@ -319,8 +426,8 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 11,
-      title: "Network Effects",
+      id: 15,
+      title: "Appendix: Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
       icon: Shield,
@@ -332,146 +439,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 12,
-      title: "Go-to-Market Strategy",
-      subtitle: "Multi-Product Discovery Platform",
-      type: "gtm",
-      icon: Rocket,
-      phases: [
-        {
-          phase: "Phase 1: Foundation (Months 1-6)",
-          description: "Free financial discovery and AI recommendations",
-          details: "Stocks, IPO, Mutual Funds [India and US]",
-          target: "End State Target: 50K users, $0 revenue"
-        },
-        {
-          phase: "Phase 2: Monetisation (Months 6-12)",
-          description: "Launch insurance, mutual fund, and credit platforms",
-          details: "",
-          target: "End State Target: 200K users, $1.2M annual revenue"
-        },
-        {
-          phase: "Phase 3: Scale (Months 12-18)",
-          description: "Advanced analytics, B2B partnerships",
-          details: "",
-          target: "End State Target: 500K users, $3.2M annual revenue"
-        }
-      ]
-    },
-    {
-      id: 13,
-      title: "Vision",
-      subtitle: "India's Financial Operating System",
-      type: "vision",
-      icon: Brain,
-      vision: "Build India's financial operating system, where every Indian accesses personalised AI-powered recommendations and executes seamlessly across all financial products",
-      metrics: [
-        { metric: "User Base", value: "1M users by Month 18, 1.5M by Month 24" },
-        { metric: "User Engagement", value: "80% monthly active user retention" },
-        { metric: "Conversion Rate", value: "15% discovery-to-execution conversion" },
-        { metric: "Revenue Target", value: "₹504L ($6.05M) monthly by Month 18" },
-        { metric: "Market Share", value: "2% of digital financial services by 2027" }
-      ]
-    },
-    {
-      id: 14,
-      title: "Key Risks & Validation",
-      type: "risks",
-      icon: Target,
-      criticalRisk: {
-        title: "🚨 THE MAKE-OR-BREAK RISK: Discovery-to-Execution Conversion",
-        description: "The Critical Question: Will users actually buy financial products on our platform after discovering them?",
-        concerns: [
-          "Free Discovery Trap: Users research on our platform but execute elsewhere",
-          "Commission Reality: 80% of mutual fund sales are direct plans (₹0 commission)",
-          "Price Sensitivity: Indians may choose cheapest option after discovery",
-          "Trust Gap: Users may prefer 'trusted' traditional sources for execution"
-        ]
-      },
-      risks: [
-        { assumption: "15% Discovery-to-Execution Conversion", level: "🔴 Critical", validation: "MVP with 1,000 users", metric: ">10% conversion rate" },
-        { assumption: "₹15,000+ Average Commission per User", level: "🔴 Critical", validation: "Partner with 3 insurers", metric: ">₹12,000 actual commission" },
-        { assumption: "AI Trust > Human Advisors", level: "🟡 High", validation: "A/B test recommendations", metric: ">70% AI preference" },
-        { assumption: "<₹4,200 Customer Acquisition Cost", level: "🟡 High", validation: "Digital marketing campaigns", metric: "<₹6,300 blended CAC" },
-        { assumption: "Regulatory Approval Timeline", level: "🟡 High", validation: "Parallel application process", metric: "<6 months approval" }
-      ],
-      warningSignals: {
-        redFlags: [
-          "Conversion rate <5% after 6 months",
-          "Customer acquisition cost >₹8,400 ($100)",
-          "Commission rates drop below projections",
-          "Big Tech enters financial discovery"
-        ],
-        greenFlags: [
-          "Conversion rate >10% consistently", 
-          "Organic growth >30% monthly",
-          "Partner exclusivity agreements",
-          "Revenue per user >₹4,200 ($50) annually"
-        ]
-      }
-    },
-    {
-      id: 15,
-      title: "Team",
-      type: "team",
-      icon: Users,
-      founder: {
-        name: "Shubham Srivastava, CEO & Co-Founder",
-        experience: "15+ years building scalable technology platforms | 3x successful exits",
-        points: [
-          "Scale Expert: Chief Technology & Product Officer at EurekaForbes - built D2C platform with 1M+ MAUs, achieved 20% YoY cost reduction",
-          "AI/ML Pioneer: CTO at Hindustan Times Digital - led rocket growth of digital media platforms using AI at scale",
-          "Platform Builder: Founded Tekch - SaaS platform managing 10M+ sq ft using AI and IoT. Led MakeMyTrip hotels engineering (100+ engineers)",
-          "Current Vision: Building Discvr.ai as India's AI search engine for efficient research and discovery"
-        ]
-      },
-      keyStrengths: [
-        "✅ Proven Track Record: 15+ years scaling platforms to millions of users",
-        "✅ Domain Expertise: Deep fintech and AI experience with successful platform launches", 
-        "✅ Technical Leadership: Led 100+ engineering teams, managed $100M+ technology budgets",
-        "✅ Entrepreneurial Success: 3 successful platform exits and technology company scaling"
-      ],
-      plannedHires: [
-        "Financial Services Veteran: Former SEBI/RBI regulatory expert (Month 6)",
-        "AI/ML Advisor: Former Google/Microsoft AI researcher (in discussions)",
-        "Business Development Head: Ex-PolicyBazaar/Paytm growth leader (Month 9)",
-        "Compliance Officer: AMFI/IRDAI certified professional (Month 12)"
-      ]
-    },
-    {
       id: 16,
-      title: "Funding Requirements",
-      subtitle: "₹33Cr ($4M) Seed Round",
-      type: "funding",
-      icon: DollarSign,
-      allocation: [
-        { percentage: "50%", category: "Team Building", description: "20 engineers + 15 business team members" },
-        { percentage: "25%", category: "Customer Acquisition", description: "Marketing to reach 1M users by Month 18" },
-        { percentage: "15%", category: "Technology & AI Infrastructure", description: "Cloud, data, ML platforms, and regulatory compliance" },
-        { percentage: "10%", category: "Regulatory & Compliance", description: "IRDAI, SEBI, RBI licenses and legal expenses" }
-      ],
-      milestones: [
-        "Month 6: Insurance distribution launch with 50K users",
-        "Month 12: ₹96L ($1.15M) monthly revenue with 300K users", 
-        "Month 18: ₹504L ($6.05M) monthly revenue with 1M users",
-        "Series A ready: Clear path to profitability with proven unit economics"
-      ],
-      competitiveContext: {
-        title: "Competitive Funding Landscape",
-        examples: [
-          "Sahi: Raised $7M (trading-only platform)",
-          "Univest: Raised $10M+ (Buy-Sell Tip Execution)",
-          "Our Ask: ₹33Cr ($4M) for broader market, higher-margin focus"
-        ]
-      },
-      exitStrategy: [
-        "Strategic Acquisition: By major bank or fintech (₹4,200Cr+ / $500M+ valuation)",
-        "IPO Path: Public listing after ₹840Cr ($100M) annual revenue", 
-        "Market Comparables: PolicyBazaar (₹16,800Cr / $2B), Paytm (₹42,000Cr / $5B peak)"
-      ]
-    },
-    {
-      id: 17,
       title: "Appendix: End-to-End Execution",
       subtitle: "Mutual Fund Investment Example",
       type: "execution-example",
@@ -513,7 +481,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 18,
+      id: 17,
       title: "Appendix: End-to-End Execution",
       subtitle: "Term Insurance Purchase Example",
       type: "execution-example",
@@ -555,7 +523,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 19,
+      id: 18,
       title: "Appendix: End-to-End Execution", 
       subtitle: "Personal Loan Application Example",
       type: "execution-example",
