@@ -127,6 +127,70 @@ const PitchPresentation = () => {
     },
     {
       id: 7,
+      title: "B2B Business Models",
+      subtitle: "Enterprise Revenue Opportunities Beyond Consumer",
+      type: "b2b-business",
+      icon: Users,
+      b2bModels: [
+        {
+          model: "Enterprise Financial Intelligence API",
+          description: "White-label AI discovery engine for banks and financial institutions",
+          revenue: "₹24L-84L ($300K-$1M) per enterprise client annually",
+          timeframe: "Available Month 12, first clients Month 15",
+          advantages: [
+            "Higher margins (60-70%) vs consumer commissions",
+            "Predictable recurring revenue",
+            "Faster enterprise sales cycles",
+            "Reduced customer acquisition costs"
+          ]
+        },
+        {
+          model: "Corporate Investment Platform",
+          description: "Employee investment platforms with corporate discounts and bulk processing",
+          revenue: "₹8.4L-42L ($100K-$500K) per corporate client",
+          timeframe: "Pilot programs Month 18, scale Month 24",
+          advantages: [
+            "Bulk transaction volumes",
+            "Corporate partnership leverage",
+            "Employee retention value-add",
+            "Stable enterprise relationships"
+          ]
+        }
+      ],
+      whyB2B: {
+        title: "Why B2B Makes Strategic Sense",
+        points: [
+          "Higher lifetime value: Enterprise clients worth 100x individual users",
+          "Predictable revenue: Annual contracts vs transaction-based income",
+          "Market validation: Enterprise adoption proves technology maturity",
+          "Competitive moat: API integrations create switching costs",
+          "Resource efficiency: One enterprise client = 1000s of individual users",
+          "Faster growth: Enterprise partnerships accelerate user acquisition"
+        ]
+      },
+      implementation: {
+        title: "B2B Implementation Roadmap",
+        phases: [
+          {
+            phase: "API Development",
+            description: "Build enterprise-grade APIs and white-label solutions",
+            timeline: "Months 9-12"
+          },
+          {
+            phase: "Pilot Programs",
+            description: "Launch pilot programs with 2-3 enterprise partners",
+            timeline: "Months 12-18"
+          },
+          {
+            phase: "Enterprise Sales",
+            description: "Dedicated B2B sales team and enterprise client acquisition",
+            timeline: "Months 18-24"
+          }
+        ]
+      }
+    },
+    {
+      id: 8,
       title: "AI Technology Stack",
       subtitle: "Four-Layer Intelligence Engine That Creates Exponential Moats",
       type: "ai-tech-stack",
@@ -229,7 +293,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 8,
+      id: 9,
       title: "User Flow",
       subtitle: "From Discovery to Execution in 3 Simple Steps",
       type: "user-flow",
@@ -259,7 +323,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 9,
+      id: 10,
       title: "Competitive Analysis",
       subtitle: "Clear Differentiation",
       type: "competition",
@@ -275,7 +339,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 10,
+      id: 11,
       title: "Team",
       type: "team",
       icon: Users,
@@ -303,7 +367,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 11,
+      id: 12,
       title: "Key Risks - Simplified",
       type: "risks",
       icon: Target,
@@ -335,7 +399,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 12,
+      id: 13,
       title: "Funding Requirements",
       subtitle: "₹33Cr ($4M) Seed Round",
       type: "funding",
@@ -367,7 +431,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 13,
+      id: 14,
       title: "Vision",
       subtitle: "India's Financial Operating System",
       type: "vision",
@@ -382,7 +446,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 14,
+      id: 15,
       title: "Appendix: Why Big Tech Won't Win Here",
       subtitle: "Domain Expertise vs Tech Tourists",
       type: "big-tech",
@@ -426,7 +490,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 15,
+      id: 16,
       title: "Appendix: Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
@@ -439,7 +503,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 16,
+      id: 17,
       title: "Appendix: End-to-End Execution",
       subtitle: "Mutual Fund Investment Example",
       type: "execution-example",
@@ -481,7 +545,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 17,
+      id: 18,
       title: "Appendix: End-to-End Execution",
       subtitle: "Term Insurance Purchase Example",
       type: "execution-example",
@@ -523,7 +587,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 18,
+      id: 19,
       title: "Appendix: End-to-End Execution", 
       subtitle: "Personal Loan Application Example",
       type: "execution-example",

@@ -8,6 +8,7 @@ import { ProblemSlide } from './ProblemSlide';
 import { MarketSlide } from './MarketSlide';
 import { RevenueSlide } from './RevenueSlide';
 import { BusinessModelSlide } from './BusinessModelSlide';
+import { B2BBusinessSlide } from './B2BBusinessSlide';
 import { CompetitionSlide } from './CompetitionSlide';
 import { MoatsSlide } from './MoatsSlide';
 import { GTMSlide } from './GTMSlide';
@@ -36,6 +37,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <RevenueSlide slide={slide} />;
     case 'business-model':
       return <BusinessModelSlide slide={slide} />;
+    case 'b2b-business':
+      return <B2BBusinessSlide slide={slide} />;
     case 'ai-tech-stack':
       return <AITechStackSlide slide={slide} />;
     case 'competition':
