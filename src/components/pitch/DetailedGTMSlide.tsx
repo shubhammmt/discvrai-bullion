@@ -7,39 +7,40 @@ interface DetailedGTMSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
-    communityStrategy: {
+    aggressivePlan: {
       title: string;
-      communities: Array<{
-        platform: string;
+      timeline: string;
+      phases: Array<{
+        phase: string;
+        duration: string;
         target: string;
-        approach: string;
-        timeline: string;
-        goal: string;
+        tactics: string[];
+        signups: string;
       }>;
     };
-    contentStrategy: {
+    viralMechanics: {
       title: string;
-      contentTypes: Array<{
-        type: string;
+      mechanics: Array<{
+        feature: string;
         description: string;
-        distribution: string;
-        goal: string;
+        virality: string;
       }>;
     };
-    measurableKPIs: {
+    communityTargets: {
       title: string;
-      kpis: Array<{
-        milestone: string;
-        metrics: string[];
-        validation: string;
+      platforms: Array<{
+        platform: string;
+        audience: string;
+        approach: string;
+        reach: string;
       }>;
     };
-    riskMitigation: {
+    kpis: {
       title: string;
-      risks: Array<{
-        risk: string;
-        mitigation: string;
-        fallback: string;
+      metrics: Array<{
+        metric: string;
+        target: string;
+        timeline: string;
       }>;
     };
   };
@@ -53,79 +54,31 @@ export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => 
       <div className="text-center">
         <IconComponent className="w-16 h-16 mx-auto mb-4 text-green-600" />
         <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
-        <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+        <p className="text-xl text-gray-600 mb-4">{slide.subtitle}</p>
+        <p className="text-lg font-semibold text-green-600">{slide.aggressivePlan.timeline}</p>
       </div>
 
       <div className="space-y-8">
         <div>
-          <h3 className="text-xl font-bold mb-4">{slide.communityStrategy.title}</h3>
+          <h3 className="text-xl font-bold mb-4">{slide.aggressivePlan.title}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {slide.communityStrategy.communities.map((community, index) => (
-              <Card key={index} className="p-4">
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between items-start">
-                    <h4 className="font-bold text-blue-600">{community.platform}</h4>
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{community.timeline}</span>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <p><strong>Target:</strong> {community.target}</p>
-                    <p><strong>Approach:</strong> {community.approach}</p>
-                    <p className="text-green-600 font-semibold"><strong>Goal:</strong> {community.goal}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-xl font-bold mb-4">{slide.contentStrategy.title}</h3>
-          <div className="space-y-4">
-            {slide.contentStrategy.contentTypes.map((content, index) => (
-              <Card key={index} className="p-4">
-                <CardContent className="space-y-2">
-                  <h4 className="font-semibold text-purple-600">{content.type}</h4>
-                  <p className="text-sm">{content.description}</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div>
-                      <span className="font-semibold">Distribution: </span>
-                      <span className="text-gray-600">{content.distribution}</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold">Goal: </span>
-                      <span className="text-purple-600">{content.goal}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-xl font-bold mb-4">{slide.measurableKPIs.title}</h3>
-          <div className="space-y-4">
-            {slide.measurableKPIs.kpis.map((kpi, index) => (
+            {slide.aggressivePlan.phases.map((phase, index) => (
               <Card key={index} className="p-4 border-l-4 border-green-500">
                 <CardContent className="space-y-3">
-                  <h4 className="font-bold text-green-700">{kpi.milestone}</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm font-semibold mb-2">Key Metrics:</p>
-                      <ul className="text-xs space-y-1">
-                        {kpi.metrics.map((metric, metricIndex) => (
-                          <li key={metricIndex} className="flex items-center gap-2">
-                            <span className="w-1 h-1 bg-green-500 rounded-full"></span>
-                            {metric}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold mb-2">Validation:</p>
-                      <p className="text-xs text-green-600">{kpi.validation}</p>
-                    </div>
+                  <div className="flex justify-between items-start">
+                    <h4 className="font-bold text-green-700">{phase.phase}</h4>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{phase.duration}</span>
                   </div>
+                  <p className="text-sm font-semibold text-blue-600">{phase.target}</p>
+                  <ul className="text-xs space-y-1">
+                    {phase.tactics.map((tactic, tacticIndex) => (
+                      <li key={tacticIndex} className="flex items-center gap-2">
+                        <span className="w-1 h-1 bg-green-500 rounded-full"></span>
+                        {tactic}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-sm font-bold text-green-600">{phase.signups}</p>
                 </CardContent>
               </Card>
             ))}
@@ -133,25 +86,54 @@ export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => 
         </div>
 
         <div>
-          <h3 className="text-xl font-bold mb-4">{slide.riskMitigation.title}</h3>
-          <div className="space-y-4">
-            {slide.riskMitigation.risks.map((risk, index) => (
+          <h3 className="text-xl font-bold mb-4">{slide.viralMechanics.title}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {slide.viralMechanics.mechanics.map((mechanic, index) => (
               <Card key={index} className="p-4">
-                <CardContent className="space-y-3">
-                  <h4 className="font-semibold text-red-600">{risk.risk}</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="font-semibold text-orange-600">Mitigation: </span>
-                      <span>{risk.mitigation}</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-blue-600">Fallback: </span>
-                      <span>{risk.fallback}</span>
-                    </div>
-                  </div>
+                <CardContent className="space-y-2">
+                  <h4 className="font-semibold text-purple-600">{mechanic.feature}</h4>
+                  <p className="text-sm text-gray-600">{mechanic.description}</p>
+                  <p className="text-xs font-semibold text-purple-500">{mechanic.virality}</p>
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-lg font-bold mb-4">{slide.communityTargets.title}</h3>
+            <div className="space-y-3">
+              {slide.communityTargets.platforms.map((platform, index) => (
+                <Card key={index} className="p-3">
+                  <CardContent className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <h4 className="font-semibold text-blue-600">{platform.platform}</h4>
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{platform.reach}</span>
+                    </div>
+                    <p className="text-xs text-gray-600">{platform.audience}</p>
+                    <p className="text-xs text-blue-500">{platform.approach}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-bold mb-4">{slide.kpis.title}</h3>
+            <div className="space-y-3">
+              {slide.kpis.metrics.map((kpi, index) => (
+                <Card key={index} className="p-3 border-l-4 border-orange-500">
+                  <CardContent className="space-y-2">
+                    <h4 className="font-semibold text-orange-700">{kpi.metric}</h4>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-orange-600 font-bold">{kpi.target}</span>
+                      <span className="text-gray-500">{kpi.timeline}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </div>
