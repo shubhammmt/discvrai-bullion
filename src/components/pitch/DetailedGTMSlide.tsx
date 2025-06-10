@@ -49,6 +49,21 @@ interface DetailedGTMSlideProps {
 export const DetailedGTMSlide: React.FC<DetailedGTMSlideProps> = ({ slide }) => {
   const IconComponent = slide.icon;
 
+  // Add safety checks for undefined properties
+  if (!slide.aggressivePlan || !slide.viralMechanics || !slide.communityTargets || !slide.kpis) {
+    console.log('DetailedGTMSlide: Missing required slide data properties', slide);
+    return (
+      <div className="space-y-8">
+        <div className="text-center">
+          <IconComponent className="w-16 h-16 mx-auto mb-4 text-green-600" />
+          <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+          <p className="text-xl text-gray-600 mb-4">{slide.subtitle}</p>
+          <p className="text-lg text-red-600">Slide data is incomplete. Please check the slide configuration.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <div className="text-center">
