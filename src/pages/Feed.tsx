@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Heart, BarChart3, Bell, Search } from 'lucide-react';
+import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIFeedChat from '@/components/AIFeedChat';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
-import PersonalizedSection from '@/components/PersonalizedSection';
+import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
+import DesktopSidebar from '@/components/DesktopSidebar';
 
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -40,7 +40,7 @@ const Feed = () => {
     { id: 'crypto', label: 'Crypto' }
   ];
 
-  // Mock trending assets with corrected routing
+  // Mock trending assets with expanded recommendations
   const trendingAssets = [
     {
       id: 1,
@@ -135,6 +135,47 @@ const Feed = () => {
     }
   ];
 
+  // Enhanced AI recommendations for multiple asset types
+  const getAIRecommendations = () => {
+    const riskLevel = userProfile.riskTolerance?.toLowerCase() || 'moderate';
+    const recommendations = [];
+
+    // Stock recommendation
+    if (riskLevel === 'conservative') {
+      recommendations.push({
+        ...trendingAssets[0],
+        aiReason: `Conservative choice: Stable dividend yield (0.5%), low beta (0.8), strong cash position ₹162B, consistent revenue growth 5% YoY.`
+      });
+    } else {
+      recommendations.push({
+        ...trendingAssets[2],
+        aiReason: `Growth opportunity: 45% revenue growth potential, expanding into AI/ML, strong management team, IPO timing favorable.`
+      });
+    }
+
+    // Mutual Fund recommendation
+    recommendations.push({
+      ...trendingAssets[1],
+      aiReason: `Diversification play: Top 100 large-cap exposure, 12% annual returns, low expense ratio 0.8%, suitable for ${riskLevel} risk profile.`
+    });
+
+    // Insurance recommendation
+    recommendations.push({
+      ...trendingAssets[6],
+      aiReason: `Protection planning: Term life coverage 50x annual income, critical illness rider, affordable premiums, tax benefits u/s 80C.`
+    });
+
+    // Credit recommendation
+    if (userProfile.income) {
+      recommendations.push({
+        ...trendingAssets[4],
+        aiReason: `Credit optimization: Interest rate 10.5% (reduced), pre-approved based on profile, flexible tenure, minimal documentation.`
+      });
+    }
+
+    return recommendations.slice(0, 4);
+  };
+
   const handleAIQuery = (query: string, context: any) => {
     setCurrentQuery(query);
     // Filter assets based on AI query context
@@ -149,9 +190,13 @@ const Feed = () => {
       filtered = trendingAssets.filter(asset => 
         asset.symbol.includes('AAPL') || asset.symbol.includes('TECH') || asset.type === 'smallcase'
       );
+    } else if (queryLower.includes('insurance') || queryLower.includes('protection')) {
+      filtered = trendingAssets.filter(asset => asset.type === 'insurance');
+    } else if (queryLower.includes('loan') || queryLower.includes('credit')) {
+      filtered = trendingAssets.filter(asset => asset.type === 'credit' || asset.type === 'credit-cards');
     }
     
-    setAiResults(filtered.slice(0, 3));
+    setAiResults(filtered.slice(0, 4));
   };
 
   // Filter assets based on active filter
@@ -163,6 +208,8 @@ const Feed = () => {
         return asset.type === activeFilter;
       });
 
+  const aiRecommendations = getAIRecommendations();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
@@ -172,7 +219,7 @@ const Feed = () => {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               AI-Powered Investment Feed
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">Ask me anything about investments - I'll find personalized opportunities</p>
+            <p className="text-gray-600 dark:text-gray-400">Ask Vega AI anything about investments - discover personalized opportunities</p>
           </div>
           <div className="flex items-center gap-3">
             <Button 
@@ -200,32 +247,52 @@ const Feed = () => {
           userProfile={userProfile}
         />
 
-        {/* Filter Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto">
-          {filters.map((filter) => (
-            <Button
-              key={filter.id}
-              variant={activeFilter === filter.id ? 'default' : 'outline'}
-              onClick={() => setActiveFilter(filter.id)}
-              className="whitespace-nowrap"
-            >
-              {filter.label}
-            </Button>
-          ))}
-        </div>
+        {/* Profile Enhancement Prompt */}
+        <ProfileEnhancementPrompt userProfile={userProfile} />
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-4 gap-6">
           {/* Main Feed */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* AI Results Section */}
+          <div className="lg:col-span-3 space-y-6">
+            {/* AI Recommendations Section - Now First */}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 dark:text-white">
+                  <Brain className="w-5 h-5 text-purple-600" />
+                  Vega AI Recommendations
+                  <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
+                    <Sparkles size={10} className="inline mr-1" />
+                    Personalized for You
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:bg-purple-900/20 p-4 rounded-lg mb-4">
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by Vega AI.
+                    </p>
+                  </div>
+                  {aiRecommendations.map((asset, index) => (
+                    <AIResultCard 
+                      key={`ai-rec-${asset.id}`} 
+                      asset={asset} 
+                      aiReason={asset.aiReason}
+                      matchScore={95 - (index * 5)}
+                    />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* AI Query Results Section */}
             {aiResults.length > 0 && (
               <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 dark:text-white">
-                    <TrendingUp className="w-5 h-5 text-purple-600" />
-                    AI Recommendations
-                    <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
-                      Based on your query
+                    <Brain className="w-5 h-5 text-blue-600" />
+                    Query Results
+                    <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full ml-2">
+                      "{currentQuery}"
                     </span>
                   </CardTitle>
                 </CardHeader>
@@ -233,16 +300,30 @@ const Feed = () => {
                   <div className="space-y-4">
                     {aiResults.map((asset, index) => (
                       <AIResultCard 
-                        key={`ai-${asset.id}`} 
+                        key={`query-${asset.id}`} 
                         asset={asset} 
                         userQuery={currentQuery}
-                        matchScore={95 - (index * 10)}
+                        matchScore={90 - (index * 8)}
                       />
                     ))}
                   </div>
                 </CardContent>
               </Card>
             )}
+
+            {/* Filter Tabs */}
+            <div className="flex gap-2 overflow-x-auto">
+              {filters.map((filter) => (
+                <Button
+                  key={filter.id}
+                  variant={activeFilter === filter.id ? 'default' : 'outline'}
+                  onClick={() => setActiveFilter(filter.id)}
+                  className="whitespace-nowrap"
+                >
+                  {filter.label}
+                </Button>
+              ))}
+            </div>
 
             {/* Trending Section */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
@@ -265,36 +346,11 @@ const Feed = () => {
                 </div>
               </CardContent>
             </Card>
-
-            {/* AI Recommendations */}
-            <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Heart className="w-5 h-5 text-purple-600" />
-                  Recommended for You
-                  <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
-                    AI Powered
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      <strong>Why we recommend these:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile and preference for {userProfile.preferredInstruments?.join(', ')}.
-                    </p>
-                  </div>
-                  {trendingAssets.slice(0, 2).map((asset) => (
-                    <AssetCard key={`rec-${asset.id}`} asset={asset} showReason />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <PersonalizedSection userProfile={userProfile} />
+          {/* Desktop Sidebar */}
+          <div className="hidden lg:block">
+            <DesktopSidebar userProfile={userProfile} />
           </div>
         </div>
       </div>
