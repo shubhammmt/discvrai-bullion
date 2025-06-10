@@ -7,7 +7,10 @@ import { ArrowLeft, Plus, Heart, Bell, TrendingUp, PieChart, Target, BarChart3, 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import ViewToggle from '@/components/ViewToggle';
 import { AILayerIndicator } from '@/components/ai-indicators/AILayerIndicator';
-import { AIContextFlow } from '@/components/ai-indicators/AIContextFlow';
+import FundamentalAnalysis from '@/components/stock/FundamentalAnalysis';
+import EarningsTranscript from '@/components/stock/EarningsTranscript';
+import AnalystRatings from '@/components/stock/AnalystRatings';
+import ResearchSharing from '@/components/stock/ResearchSharing';
 
 const StockResearch = () => {
   const { stockSymbol } = useParams();
@@ -29,34 +32,6 @@ const StockResearch = () => {
     peRatio: 28.5,
     rating: 4
   };
-
-  // Context steps for AI processing
-  const contextSteps = [
-    {
-      label: "Profile Analysis",
-      description: "Age 30, Moderate Risk",
-      layer: 1 as const,
-      status: 'completed' as const
-    },
-    {
-      label: "Goal Mapping", 
-      description: "10-year growth",
-      layer: 2 as const,
-      status: 'completed' as const
-    },
-    {
-      label: "Stock Analysis",
-      description: "Finding quality stocks",
-      layer: 3 as const,
-      status: 'active' as const
-    },
-    {
-      label: "Recommendation",
-      description: "Generating insights",
-      layer: 4 as const,
-      status: 'pending' as const
-    }
-  ];
 
   // Personalized contextual insights based on user profile
   const getPersonalizedContext = () => {
@@ -115,11 +90,6 @@ const StockResearch = () => {
             <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
           </div>
 
-          {/* AI Context Flow */}
-          <div className="mb-4">
-            <AIContextFlow steps={contextSteps} />
-          </div>
-
           {/* Personalized Match Score */}
           <Card className="mb-4 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
             <CardContent className="p-4">
@@ -132,6 +102,7 @@ const StockResearch = () => {
                     <h3 className="font-bold text-gray-900">
                       {personalizedContext.match}% Match for You
                     </h3>
+                    <AILayerIndicator layer={2} type="powered" size="sm" />
                     <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
                       {userProfile.riskTolerance || 'Moderate'} Risk
                     </span>
@@ -165,6 +136,7 @@ const StockResearch = () => {
                     <span className="text-sm text-gray-600 ml-2">
                       {stockData.rating}-Star Rating
                     </span>
+                    <AILayerIndicator layer={3} type="powered" size="sm" />
                   </div>
                 </div>
                 <div className="text-right">
@@ -204,6 +176,7 @@ const StockResearch = () => {
                     <CardTitle className="flex items-center gap-2">
                       <Brain className="w-5 h-5 text-blue-600" />
                       AI Analysis & Recommendation
+                      <AILayerIndicator layer={3} type="powered" size="sm" />
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -353,16 +326,17 @@ const StockResearch = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardContent className="p-6 text-center">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Detailed Analysis Coming Soon
-                  </h3>
-                  <p className="text-gray-600">
-                    Complete financial metrics, technical charts, and peer comparison will be available soon.
-                  </p>
-                </CardContent>
-              </Card>
+              {/* Research Sharing */}
+              <ResearchSharing />
+              
+              {/* Fundamental Analysis */}
+              <FundamentalAnalysis />
+              
+              {/* Earnings Transcript */}
+              <EarningsTranscript />
+              
+              {/* Analyst Ratings */}
+              <AnalystRatings />
             </div>
           )}
         </div>

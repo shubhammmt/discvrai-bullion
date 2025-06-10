@@ -3,232 +3,203 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn } from 'lucide-react';
+import { ArrowRight, Brain, Target, Zap, Users, TrendingUp, Shield } from 'lucide-react';
+import { AILayerIndicator } from '@/components/ai-indicators/AILayerIndicator';
 
 const Index = () => {
   const navigate = useNavigate();
-  const userProfile = localStorage.getItem('userProfile');
-
-  const features = [
-    {
-      icon: Brain,
-      title: "AI Discovery",
-      description: "Find perfect investments in seconds",
-      color: "bg-blue-100 text-blue-600"
-    },
-    {
-      icon: Zap,
-      title: "Instant Analysis",
-      description: "Get smart insights immediately",
-      color: "bg-purple-100 text-purple-600"
-    },
-    {
-      icon: Target,
-      title: "Personalized",
-      description: "Tailored to your goals & risk",
-      color: "bg-green-100 text-green-600"
-    }
-  ];
-
-  const offerings = [
-    { name: "Stocks", description: "Individual company shares", icon: TrendingUp },
-    { name: "Mutual Funds", description: "Expert-managed portfolios", icon: BarChart3 },
-    { name: "ETFs", description: "Diversified market exposure", icon: Globe },
-    { name: "IPOs", description: "New listing opportunities", icon: Sparkles }
-  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Hero Section - First Viewport */}
-      <div className="min-h-screen flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          {/* Main Hero Content */}
-          <div className="text-center mb-16">
-            <div className="flex justify-center items-center mb-8">
-              <div className="relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center">
-                  <Brain className="w-12 h-12 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
-              </div>
-            </div>
-            
-            <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              discvr.ai
-            </h1>
-            
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Discover smart investments<br />in 30 seconds
-            </h2>
-            
-            <p className="text-xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed">
-              AI-powered investment discovery that learns your preferences and finds opportunities across stocks, funds, and more
-            </p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-              {!userProfile ? (
-                <>
-                  <Button 
-                    size="lg" 
-                    onClick={() => navigate('/onboarding')} 
-                    className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  >
-                    Start Discovering <ArrowRight className="ml-2" size={20} />
-                  </Button>
-                  <Button 
-                    size="lg" 
-                    variant="outline" 
-                    onClick={() => navigate('/feed')} 
-                    className="px-8 py-4 text-lg border-2"
-                  >
-                    <LogIn className="mr-2" size={20} />
-                    Sign In
-                  </Button>
-                </>
-              ) : (
-                <Button 
-                  size="lg" 
-                  onClick={() => navigate('/feed')} 
-                  className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Go to Dashboard <ArrowRight className="ml-2" size={20} />
-                </Button>
-              )}
-              <Button 
-                size="lg" 
-                variant="outline" 
-                onClick={() => navigate('/research/stock/AAPL')} 
-                className="px-8 py-4 text-lg border-2"
-              >
-                Try Sample Analysis
-              </Button>
-            </div>
-          </div>
-
-          {/* Key Features - Visual Cards */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="text-center hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-6`}>
-                    <feature.icon className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
-                  <p className="text-gray-600 text-lg">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Second Section - Investment Universe */}
-      <div className="max-w-6xl mx-auto px-4 py-16">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-16">
-          <h3 className="text-4xl font-bold mb-6">Complete Investment Universe</h3>
-          <p className="text-xl text-gray-600">Discover opportunities across all major asset classes</p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {offerings.map((offering, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow border-0 bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-6 text-center">
-                <offering.icon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h4 className="text-lg font-semibold mb-2">{offering.name}</h4>
-                <p className="text-gray-600">{offering.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* AI-First Messaging */}
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-white text-center">
-          <h3 className="text-3xl font-bold mb-8">Why discvr.ai is Different</h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <Shield className="w-12 h-12 mx-auto mb-4" />
-              <h4 className="text-xl font-semibold mb-3">AI-Native Platform</h4>
-              <p className="text-blue-100">Built from the ground up with AI, not just added features</p>
-            </div>
-            <div>
-              <Brain className="w-12 h-12 mx-auto mb-4" />
-              <h4 className="text-xl font-semibold mb-3">Smart Discovery</h4>
-              <p className="text-blue-100">Learns your preferences and finds opportunities automatically</p>
-            </div>
-            <div>
-              <Globe className="w-12 h-12 mx-auto mb-4" />
-              <h4 className="text-xl font-semibold mb-3">Everything in One Place</h4>
-              <p className="text-blue-100">Stocks, funds, crypto, insurance - all in one platform</p>
-            </div>
+          <div className="flex justify-center items-center gap-2 mb-6">
+            <Brain className="w-12 h-12 text-blue-600" />
+            <h1 className="text-5xl font-bold">
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                FinanceGPT
+              </span>
+            </h1>
           </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center">
-          <h3 className="text-3xl font-bold mb-12">Trusted by Smart Investors</h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-8">
-              <p className="text-5xl font-bold text-blue-600 mb-4">30s</p>
-              <p className="text-gray-600 text-lg">Average discovery time</p>
-            </div>
-            <div className="p-8">
-              <p className="text-5xl font-bold text-blue-600 mb-4">95%</p>
-              <p className="text-gray-600 text-lg">User satisfaction rate</p>
-            </div>
-            <div className="p-8">
-              <p className="text-5xl font-bold text-blue-600 mb-4">24/7</p>
-              <p className="text-gray-600 text-lg">AI discovery assistant</p>
-            </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            India's AI-Powered Financial Discovery Platform
+          </h2>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            From "What should I invest in?" to the perfect financial product in seconds. 
+            Our 4-layer AI stack personalizes every recommendation for India's 50M+ investors.
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <AILayerIndicator layer={1} type="powered" size="md" />
+            <AILayerIndicator layer={2} type="powered" size="md" />
+            <AILayerIndicator layer={3} type="powered" size="md" />
+            <AILayerIndicator layer={4} type="powered" size="md" />
           </div>
-        </div>
-      </div>
 
-      {/* Final CTA */}
-      <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <h3 className="text-3xl font-bold mb-6">Ready to Discover Smarter Investments?</h3>
-        <p className="text-xl text-gray-600 mb-8">Join thousands using AI to optimize their portfolios</p>
-        {!userProfile ? (
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              size="lg" 
-              onClick={() => navigate('/onboarding')} 
-              className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              onClick={() => navigate('/feed')}
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
             >
-              Start Your Journey <ArrowRight className="ml-2" size={20} />
+              Try AI Discovery
+              <ArrowRight className="ml-2" size={20} />
             </Button>
             <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={() => navigate('/feed')} 
+              onClick={() => navigate('/pitch')}
+              variant="outline"
+              size="lg"
               className="px-8 py-4 text-lg border-2"
             >
-              <LogIn className="mr-2" size={20} />
-              Already have an account?
+              View Investor Deck
             </Button>
           </div>
-        ) : (
-          <Button 
-            size="lg" 
-            onClick={() => navigate('/feed')} 
-            className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-          >
-            Access Dashboard <ArrowRight className="ml-2" size={20} />
-          </Button>
-        )}
-      </div>
+        </div>
 
-      {/* Footer */}
-      <footer className="text-center py-8 border-t border-gray-200 bg-white/50">
-        <p className="text-gray-500">
-          discvr.ai • Making smart investment discovery simple and fast
-        </p>
-      </footer>
+        {/* AI Stack Demo */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <Card className="p-6 hover:shadow-lg transition-all border-l-4 border-l-orange-500">
+            <CardContent className="p-0">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                  <Brain className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Layer 1</h3>
+                  <p className="text-sm text-gray-600">Personalization</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                Learns your risk tolerance, goals, and preferences to create a unique financial profile.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="p-6 hover:shadow-lg transition-all border-l-4 border-l-green-500">
+            <CardContent className="p-0">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                  <Target className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Layer 2</h3>
+                  <p className="text-sm text-gray-600">Risk & Goals</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                Matches financial products to your specific goals and risk appetite with precision.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="p-6 hover:shadow-lg transition-all border-l-4 border-l-blue-500">
+            <CardContent className="p-0">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Layer 3</h3>
+                  <p className="text-sm text-gray-600">Product Intelligence</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                Deep analysis of 50,000+ financial products with real-time market intelligence.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="p-6 hover:shadow-lg transition-all border-l-4 border-l-purple-500">
+            <CardContent className="p-0">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Layer 4</h3>
+                  <p className="text-sm text-gray-600">Conversational</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700">
+                Natural language explanations that make complex financial decisions simple.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Value Proposition */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <Card className="p-8 text-center bg-gradient-to-b from-blue-50 to-white">
+            <CardContent className="p-0">
+              <TrendingUp className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">10x Faster Discovery</h3>
+              <p className="text-gray-600">
+                From weeks of research to perfect recommendations in seconds. Our AI eliminates choice paralysis.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="p-8 text-center bg-gradient-to-b from-green-50 to-white">
+            <CardContent className="p-0">
+              <Shield className="w-16 h-16 mx-auto mb-4 text-green-600" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Truly Personalized</h3>
+              <p className="text-gray-600">
+                Every recommendation considers your unique financial DNA. No generic advice, ever.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="p-8 text-center bg-gradient-to-b from-purple-50 to-white">
+            <CardContent className="p-0">
+              <Brain className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Always Learning</h3>
+              <p className="text-gray-600">
+                Our AI gets smarter with every interaction, continuously improving your financial journey.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Market Size */}
+        <Card className="p-8 mb-16 bg-gradient-to-r from-gray-900 to-blue-900 text-white">
+          <CardContent className="p-0 text-center">
+            <h3 className="text-3xl font-bold mb-4">₹24,000 Cr Market Opportunity</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div>
+                <div className="text-2xl font-bold text-blue-300">50M+</div>
+                <div className="text-sm text-gray-300">Active Investors</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-green-300">15%</div>
+                <div className="text-sm text-gray-300">Annual Growth</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-purple-300">₹4,200 Cr</div>
+                <div className="text-sm text-gray-300">Future B2B Platform</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* CTA Section */}
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            Ready to Transform Financial Discovery?
+          </h3>
+          <p className="text-gray-600 mb-8">
+            Join thousands of investors already using our AI to make smarter financial decisions.
+          </p>
+          <Button 
+            onClick={() => navigate('/onboarding')}
+            size="lg"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-lg"
+          >
+            Start Your AI Journey
+            <ArrowRight className="ml-2" size={20} />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
