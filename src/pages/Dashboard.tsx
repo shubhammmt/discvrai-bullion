@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { TrendingUp, Brain, Send, Target, ArrowRight, Sparkles, Search, Users, Shield } from 'lucide-react';
+import { TrendingUp, TrendingDown, Brain, Send, Target, ArrowRight, Sparkles, Search, Users, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
