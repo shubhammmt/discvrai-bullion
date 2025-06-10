@@ -106,27 +106,6 @@ const PitchPresentation = () => {
     },
     {
       id: 6,
-      title: "What We Do vs. What We Don't",
-      subtitle: "Asset-Light Digital Enablement Platform",
-      type: "business-model",
-      icon: Zap,
-      whatWeDo: [
-        { title: "AI-Powered Discovery", description: "Help users find the right financial products through intelligent recommendations" },
-        { title: "Transparent Comparison", description: "Provide unbiased comparison of products across providers" },
-        { title: "Decision Acceleration", description: "Guide users from research to execution in minutes, not hours" },
-        { title: "Seamless Referrals", description: "Connect users directly to licensed providers for execution" },
-        { title: "Portfolio Tracking", description: "Monitor and optimize user investments across all providers" }
-      ],
-      whatWeDont: [
-        { title: "Direct Insurance Sales", description: "We don't sell insurance policies directly" },
-        { title: "Demat Account Management", description: "We don't open or manage demat accounts" },
-        { title: "Fund Management", description: "We don't manage user funds or assets" },
-        { title: "Regulatory Compliance", description: "Partners handle all licensing and compliance" },
-        { title: "Customer Support", description: "Product-specific support handled by providers" }
-      ]
-    },
-    {
-      id: 7,
       title: "B2B Business Models",
       subtitle: "Enterprise Revenue Opportunities Beyond Consumer",
       type: "b2b-business",
@@ -188,6 +167,27 @@ const PitchPresentation = () => {
           }
         ]
       }
+    },
+    {
+      id: 7,
+      title: "What We Do vs. What We Don't",
+      subtitle: "Asset-Light Digital Enablement Platform",
+      type: "business-model",
+      icon: Zap,
+      whatWeDo: [
+        { title: "AI-Powered Discovery", description: "Help users find the right financial products through intelligent recommendations" },
+        { title: "Transparent Comparison", description: "Provide unbiased comparison of products across providers" },
+        { title: "Decision Acceleration", description: "Guide users from research to execution in minutes, not hours" },
+        { title: "Seamless Referrals", description: "Connect users directly to licensed providers for execution" },
+        { title: "Portfolio Tracking", description: "Monitor and optimize user investments across all providers" }
+      ],
+      whatWeDont: [
+        { title: "Direct Insurance Sales", description: "We don't sell insurance policies directly" },
+        { title: "Demat Account Management", description: "We don't open or manage demat accounts" },
+        { title: "Fund Management", description: "We don't manage user funds or assets" },
+        { title: "Regulatory Compliance", description: "Partners handle all licensing and compliance" },
+        { title: "Customer Support", description: "Product-specific support handled by providers" }
+      ]
     },
     {
       id: 8,
