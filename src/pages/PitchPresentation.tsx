@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, Zap, MousePointer, CreditCard, FileText, Globe, BarChart, Cpu, Database, Network, Download, MessageCircle, Search, PieChart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Brain, TrendingUp, Users, DollarSign, Target, Shield, Rocket, Zap, MousePointer, CreditCard, FileText, Globe, BarChart, Cpu, Database, Network, Download, MessageCircle, Search, PieChart, Building2, Layers, GitFork, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
 import { PDFExportView } from '@/components/pitch/PDFExportView';
@@ -328,6 +328,328 @@ const PitchPresentation = () => {
     },
     {
       id: 10,
+      title: "Financial Intelligence Platform",
+      subtitle: "Not Another Buy/Sell App",
+      type: "platform-positioning",
+      icon: Building2,
+      platformVsProduct: {
+        title: "Why We're Building a Platform, Not a Product",
+        platform: {
+          title: "DISCVR.AI: Financial Intelligence Platform",
+          characteristics: [
+            "Cross-asset discovery engine (3,000+ products)",
+            "AI-powered educational journey before execution",
+            "Technology infrastructure that other companies can build on",
+            "Behavioral learning from real financial decisions",
+            "Comprehensive financial operating system for life goals"
+          ],
+          examples: ["AWS (cloud infrastructure)", "Shopify (e-commerce platform)", "Razorpay (payment infrastructure)"]
+        },
+        product: {
+          title: "Traditional Fintech: Single-Product Apps",
+          characteristics: [
+            "Limited product focus (mutual funds OR stocks OR insurance)",
+            "Transaction-first without discovery or education",
+            "Closed ecosystem with no platform benefits",
+            "Basic user interface without intelligence layer",
+            "Narrow use case solving one specific need"
+          ],
+          examples: ["Liquide (basic mutual fund buying)", "Univest (simple portfolio tips)", "Traditional broker apps"]
+        }
+      },
+      whyPlatformWins: {
+        title: "Platform Economics Create Winner-Take-All Dynamics",
+        advantages: [
+          {
+            advantage: "Network Effects",
+            description: "Each user improves experience for all users",
+            example: "More users = better AI recommendations for everyone"
+          },
+          {
+            advantage: "Cross-Selling Power",
+            description: "One user relationship generates multiple revenue streams",
+            example: "Insurance discovery leads to credit card applications"
+          },
+          {
+            advantage: "Switching Costs",
+            description: "Users invest time in AI learning their preferences",
+            example: "Portfolio tracking + AI memory creates stickiness"
+          },
+          {
+            advantage: "Data Compounding",
+            description: "Transaction data becomes competitive moat",
+            example: "Real behavior patterns vs. survey responses"
+          }
+        ]
+      }
+    },
+    {
+      id: 11,
+      title: "Not Another Liquide or Univest",
+      subtitle: "Comprehensive Financial Intelligence vs. Limited Execution Tools",
+      type: "platform-differentiation",
+      icon: GitFork,
+      detailedComparison: {
+        title: "Side-by-Side Reality Check",
+        categories: [
+          {
+            category: "Product Scope",
+            discvr: "3,000+ products across insurance, mutual funds, stocks, credit, gold",
+            competitors: "Limited to mutual funds (Liquide) or basic stock tips (Univest)",
+            advantage: "10x broader financial coverage"
+          },
+          {
+            category: "User Journey",
+            discvr: "Discovery → Education → Comparison → Execution → Tracking",
+            competitors: "Direct execution with minimal research tools",
+            advantage: "Complete financial decision journey"
+          },
+          {
+            category: "AI Intelligence",
+            discvr: "4-layer AI stack learning from real financial behavior",
+            competitors: "Basic filtering and sorting functionality",
+            advantage: "True personalization vs. one-size-fits-all"
+          },
+          {
+            category: "Revenue Model",
+            discvr: "High-margin insurance (25-40%) + cross-asset diversification",
+            competitors: "Low-margin mutual fund trails (0.1-1%)",
+            advantage: "5-10x higher revenue per user"
+          },
+          {
+            category: "Market Approach",
+            discvr: "Platform for all financial needs throughout life",
+            competitors: "Single-product solutions for specific needs",
+            advantage: "Lifetime customer value vs. transactional"
+          }
+        ]
+      },
+      problemWithComparison: {
+        title: "Why Comparing Us to Liquide/Univest Misses the Point",
+        issues: [
+          "Like comparing Amazon to a single bookstore - we're building comprehensive infrastructure",
+          "Buy/sell platforms assume users already know what to buy - we solve the discovery problem",
+          "Limited platforms optimize for transaction speed - we optimize for decision quality",
+          "Their users still spend 40+ hours researching elsewhere - we eliminate that friction"
+        ]
+      },
+      realComparables: {
+        title: "Better Analogies for What We're Building",
+        comparisons: [
+          {
+            company: "PolicyBazaar",
+            similarity: "Discovery before execution, but only for insurance",
+            difference: "We're PolicyBazaar for ALL financial products + AI intelligence"
+          },
+          {
+            company: "Amazon",
+            similarity: "Product discovery with user reviews and comparison",
+            difference: "We're Amazon for financial products with AI personalization"
+          },
+          {
+            company: "Google",
+            similarity: "Organizing world's information for easy access",
+            difference: "We're organizing India's financial products for optimal decisions"
+          }
+        ]
+      }
+    },
+    {
+      id: 12,
+      title: "AI Infrastructure vs Simple Execution",
+      subtitle: "Building Financial Intelligence Layer for India",
+      type: "ai-infrastructure",
+      icon: Layers,
+      infrastructureVsExecution: {
+        title: "Technology Stack Comparison",
+        aiInfrastructure: {
+          title: "DISCVR.AI: Financial Intelligence Infrastructure",
+          components: [
+            {
+              layer: "Application Layer",
+              description: "User-facing discovery and execution interface",
+              technology: "React, AI-powered recommendations, behavioral analytics"
+            },
+            {
+              layer: "Intelligence Layer",
+              description: "AI models trained on Indian financial behavior",
+              technology: "Custom ML models, NLP, risk profiling, goal mapping"
+            },
+            {
+              layer: "Data Layer",
+              description: "Real-time financial product data + user behavior",
+              technology: "Product APIs, transaction data, behavioral patterns"
+            },
+            {
+              layer: "Integration Layer",
+              description: "Connections to 100+ financial providers",
+              technology: "Partner APIs, execution workflows, compliance frameworks"
+            }
+          ]
+        },
+        simpleExecution: {
+          title: "Buy/Sell Platforms: Basic Transaction Interface",
+          limitations: [
+            "Frontend only - no intelligence or learning capability",
+            "Limited product integration (usually 1-2 asset classes)",
+            "No behavioral data collection or analysis",
+            "Manual research burden still on user",
+            "No cross-asset optimization or planning"
+          ]
+        }
+      },
+      infrastructureValue: {
+        title: "Why Infrastructure Approach Creates Exponential Value",
+        benefits: [
+          {
+            benefit: "Compound Learning",
+            description: "Each user interaction improves the system for everyone",
+            example: "AI learns that Mumbai users prefer different insurance products than Delhi users"
+          },
+          {
+            benefit: "Cross-Asset Intelligence",
+            description: "Insights from one product category improve recommendations in others",
+            example: "Credit card spending patterns inform investment risk tolerance"
+          },
+          {
+            benefit: "Behavioral Prediction",
+            description: "Predict user needs before they explicitly ask",
+            example: "Suggest insurance review when user's income increases 30%"
+          },
+          {
+            benefit: "Partner Leverage",
+            description: "Single integration provides value across multiple use cases",
+            example: "HDFC Bank integration serves insurance, credit, and investment needs"
+          }
+        ]
+      },
+      businessImplications: {
+        title: "Business Model Implications",
+        infrastructure: [
+          "Higher initial investment but exponential returns",
+          "Winner-take-all market dynamics",
+          "Platform economics enable B2B opportunities",
+          "Technology moat difficult for competitors to replicate"
+        ],
+        execution: [
+          "Lower development cost but limited upside",
+          "Commoditized market with price competition",
+          "Single revenue stream vulnerability",
+          "Easy for new entrants to copy"
+        ]
+      }
+    },
+    {
+      id: 13,
+      title: "10K User MVP Strategy",
+      subtitle: "Community-First Growth with Measurable Milestones",
+      type: "detailed-gtm",
+      icon: UserPlus,
+      communityStrategy: {
+        title: "Phase 1: Community Penetration (Months 1-6)",
+        communities: [
+          {
+            platform: "Reddit",
+            target: "r/IndiaInvestments (450K members)",
+            approach: "Educational content about discovery vs blind buying",
+            timeline: "Month 1-2: Establish thought leadership",
+            goal: "2,000 beta signups from engaged community members"
+          },
+          {
+            platform: "Twitter/X",
+            target: "Finance Twitter influencers (10+ with 50K+ followers)",
+            approach: "Partnership for exclusive beta access content",
+            timeline: "Month 2-3: Influencer partnerships",
+            goal: "3,000 signups through influencer referrals"
+          },
+          {
+            platform: "Telegram",
+            target: "20+ finance groups (100K+ combined members)",
+            approach: "AI insights as daily value-add content",
+            timeline: "Month 3-4: Group admin partnerships",
+            goal: "2,000 signups from Telegram communities"
+          },
+          {
+            platform: "YouTube",
+            target: "Finance content creators (5+ partnerships)",
+            approach: "Product demos showing discovery superiority",
+            timeline: "Month 4-5: Creator collaboration",
+            goal: "3,000 signups from YouTube audience"
+          }
+        ]
+      },
+      contentStrategy: {
+        title: "Content-Led Growth Tactics",
+        contentTypes: [
+          {
+            type: "Discovery vs Execution Narrative",
+            description: "Why research matters before financial decisions",
+            distribution: "Blog posts, Twitter threads, Reddit discussions",
+            goal: "Establish category education and thought leadership"
+          },
+          {
+            type: "AI Financial Insights",
+            description: "Weekly market insights using our AI analysis",
+            distribution: "Email newsletter, Telegram updates, Twitter",
+            goal: "Demonstrate AI capability and drive engagement"
+          },
+          {
+            type: "Product Comparison Studies",
+            description: "Detailed analysis showing hidden costs in financial products",
+            distribution: "Long-form content, YouTube videos, LinkedIn",
+            goal: "Build trust through transparency and expertise"
+          },
+          {
+            type: "User Journey Documentation",
+            description: "Beta user stories showing discovery-to-execution flow",
+            distribution: "Case studies, video testimonials, social proof",
+            goal: "Social validation and conversion optimization"
+          }
+        ]
+      },
+      measurableKPIs: {
+        title: "Milestone-Based Progress Tracking",
+        kpis: [
+          {
+            milestone: "Month 3: 2,500 Beta Users",
+            metrics: ["500 daily active users", "15% week-over-week growth", "2.5 avg sessions per user"],
+            validation: "Product-market fit signals from engaged community"
+          },
+          {
+            milestone: "Month 6: 10,000 Users",
+            metrics: ["2,000 daily active users", "8% discovery-to-execution conversion", "₹100 revenue per converted user"],
+            validation: "Ready for Series A with proven unit economics"
+          },
+          {
+            milestone: "Month 9: 25,000 Users",
+            metrics: ["5,000 daily active users", "12% conversion rate", "₹300 monthly revenue per user"],
+            validation: "Scale-ready with optimized growth channels"
+          }
+        ]
+      },
+      riskMitigation: {
+        title: "Community Strategy Risk Management",
+        risks: [
+          {
+            risk: "Community Fatigue",
+            mitigation: "Rotate content formats, focus on value-first approach",
+            fallback: "Pivot to paid acquisition if organic growth stalls"
+          },
+          {
+            risk: "Influencer Dependency",
+            mitigation: "Diversify across multiple creators and platforms",
+            fallback: "Build direct community relationships through product value"
+          },
+          {
+            risk: "Conversion Challenges",
+            mitigation: "A/B test onboarding flows, optimize discovery experience",
+            fallback: "Extended beta period with more user feedback integration"
+          }
+        ]
+      }
+    },
+    {
+      id: 14,
       title: "Competitive Analysis",
       subtitle: "Clear Differentiation",
       type: "competition",
@@ -343,7 +665,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 11,
+      id: 15,
       title: "Team",
       type: "team",
       icon: Users,
@@ -371,7 +693,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 12,
+      id: 16,
       title: "Key Risks - Simplified",
       type: "risks",
       icon: Target,
@@ -403,7 +725,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 13,
+      id: 17,
       title: "Funding Requirements",
       subtitle: "₹33Cr ($4M) Seed Round",
       type: "funding",
@@ -435,7 +757,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 14,
+      id: 18,
       title: "Vision",
       subtitle: "India's Financial Operating System",
       type: "vision",
@@ -450,7 +772,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 15,
+      id: 19,
       title: "Appendix: Why Big Tech Won't Win Here",
       subtitle: "Domain Expertise vs Tech Tourists",
       type: "big-tech",
@@ -494,7 +816,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 16,
+      id: 20,
       title: "Appendix: Network Effects",
       subtitle: "Building Defensible Moats",
       type: "moats",
@@ -507,7 +829,7 @@ const PitchPresentation = () => {
       ]
     },
     {
-      id: 17,
+      id: 21,
       title: "Appendix: End-to-End Execution",
       subtitle: "Mutual Fund Investment Example",
       type: "execution-example",
@@ -549,7 +871,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 18,
+      id: 22,
       title: "Appendix: End-to-End Execution",
       subtitle: "Term Insurance Purchase Example",
       type: "execution-example",
@@ -591,7 +913,7 @@ const PitchPresentation = () => {
       }
     },
     {
-      id: 19,
+      id: 23,
       title: "Appendix: End-to-End Execution", 
       subtitle: "Personal Loan Application Example",
       type: "execution-example",

@@ -18,6 +18,10 @@ import { FundingSlide } from './FundingSlide';
 import { UserFlowSlide } from './UserFlowSlide';
 import { ExecutionExampleSlide } from './ExecutionExampleSlide';
 import { BigTechSlide } from './BigTechSlide';
+import { PlatformPositioningSlide } from './PlatformPositioningSlide';
+import { PlatformDifferentiationSlide } from './PlatformDifferentiationSlide';
+import { AIInfrastructureSlide } from './AIInfrastructureSlide';
+import { DetailedGTMSlide } from './DetailedGTMSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -41,6 +45,16 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <B2BBusinessSlide slide={slide} />;
     case 'ai-tech-stack':
       return <AITechStackSlide slide={slide} />;
+    case 'user-flow':
+      return <UserFlowSlide slide={slide} />;
+    case 'platform-positioning':
+      return <PlatformPositioningSlide slide={slide} />;
+    case 'platform-differentiation':
+      return <PlatformDifferentiationSlide slide={slide} />;
+    case 'ai-infrastructure':
+      return <AIInfrastructureSlide slide={slide} />;
+    case 'detailed-gtm':
+      return <DetailedGTMSlide slide={slide} />;
     case 'competition':
       return <CompetitionSlide slide={slide} />;
     case 'big-tech':
@@ -57,8 +71,6 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <TeamSlide slide={slide} />;
     case 'funding':
       return <FundingSlide slide={slide} />;
-    case 'user-flow':
-      return <UserFlowSlide slide={slide} />;
     case 'execution-example':
       return <ExecutionExampleSlide slide={slide} />;
     default:
