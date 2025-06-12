@@ -1,13 +1,65 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn } from 'lucide-react';
+import CryptoNewsCards from '@/components/CryptoNewsCards';
 
 const Index = () => {
   const navigate = useNavigate();
   const userProfile = localStorage.getItem('userProfile');
+
+  // Sample crypto news data for preview
+  const sampleCryptoNews = [
+    {
+      "symbol": "SOLUSD",
+      "published_date": "2025-06-11T17:36:19",
+      "publisher": "Tokenpost",
+      "title": "Solana Price Rises Amid Cooling Volume, ETF Speculation Fuels Bullish Outlook",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+      "site": "tokenpost.com",
+      "text": "Solana (SOL), the sixth-largest cryptocurrency by market cap, is experiencing a cooling trend in both spot and futures trading volumes, according to blockchain analytics firm CryptoQuant. Recent bubble chart analysis shows a decrease in volume across all exchanges.",
+      "url": "https://www.tokenpost.com/news/investing/15826",
+      "metadata": {
+        "last_updated": "2025-06-11T21:58:35.495125",
+        "fetch_timestamp": "2025-06-11T21:45:07.005738",
+        "last_migrated": "2025-06-11T21:58:35.495135",
+        "source": "fmp"
+      }
+    },
+    {
+      "symbol": "BTCUSD",
+      "published_date": "2025-06-11T17:34:27",
+      "publisher": "Tokenpost",
+      "title": "Paul Tudor Jones Recommends Bitcoin, Gold, and Stocks to Hedge Inflation",
+      "image": "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+      "site": "tokenpost.com",
+      "text": "Billionaire hedge fund manager Paul Tudor Jones reaffirmed his bullish stance on Bitcoin during a recent appearance on Bloomberg. He emphasized that a volatility-adjusted portfolio consisting of Bitcoin, gold, and stocks is the optimal strategy for investors aiming to hedge against inflation.",
+      "url": "https://www.tokenpost.com/news/people/15825",
+      "metadata": {
+        "last_updated": "2025-06-11T21:58:35.495160",
+        "fetch_timestamp": "2025-06-11T21:45:07.008845",
+        "last_migrated": "2025-06-11T21:58:35.495166",
+        "source": "fmp"
+      }
+    },
+    {
+      "symbol": "BTCUSD",
+      "published_date": "2025-06-11T17:31:01",
+      "publisher": "Tokenpost",
+      "title": "Robert Kiyosaki Buys More Bitcoin as BTC Eyes New All-Time High",
+      "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+      "site": "tokenpost.com",
+      "text": "Rich Dad Poor Dad author Robert Kiyosaki has once again made headlines with a fresh Bitcoin (BTC) purchase, fueling bullish sentiment as the cryptocurrency nears its all-time high. While he didnt disclose the amount of BTC bought or a specific price target, his previous prediction of Bitcoin reaching $500,000 to $1 million by the end of 2025 continues to spark debate across financial media.",
+      "url": "https://www.tokenpost.com/news/insights/15824",
+      "metadata": {
+        "last_updated": "2025-06-11T21:58:35.495179",
+        "fetch_timestamp": "2025-06-11T21:45:07.011216",
+        "last_migrated": "2025-06-11T21:58:35.495184",
+        "source": "fmp"
+      }
+    }
+  ];
 
   const features = [
     {
@@ -122,6 +174,11 @@ const Index = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Crypto News Section */}
+      <div className="py-16 bg-white">
+        <CryptoNewsCards newsData={sampleCryptoNews} />
       </div>
 
       {/* Second Section - Investment Universe */}
