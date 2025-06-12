@@ -57,23 +57,10 @@ const CryptoNewsCards = ({ newsData }: CryptoNewsCardsProps) => {
       {newsData.map((news, index) => (
         <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
           <div className="flex">
-            {/* Image Section */}
-            <div className="w-64 h-48 flex-shrink-0">
-              <img
-                src={news.image}
-                alt={news.title}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = '/placeholder.svg';
-                }}
-              />
-            </div>
-            
-            {/* Content Section */}
-            <div className="flex-1 flex flex-col">
+            {/* Content Section - Now takes more space */}
+            <div className="flex-1 flex flex-col min-w-0">
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSymbolColor(news.symbol)}`}>
                     {news.symbol}
                   </span>
@@ -82,7 +69,7 @@ const CryptoNewsCards = ({ newsData }: CryptoNewsCardsProps) => {
                     {formatDate(news.published_date)}
                   </div>
                 </div>
-                <CardTitle className="text-xl leading-tight line-clamp-2">
+                <CardTitle className="text-xl leading-tight line-clamp-2 pr-4">
                   {news.title}
                 </CardTitle>
                 <div className="text-sm text-gray-600">
@@ -91,13 +78,14 @@ const CryptoNewsCards = ({ newsData }: CryptoNewsCardsProps) => {
               </CardHeader>
               
               <CardContent className="flex-1 flex flex-col justify-between pt-0">
-                <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-4">
+                <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-4 pr-4">
                   {news.text}
                 </p>
                 
-                <div className="flex justify-end">
+                <div className="flex justify-start">
                   <Button
                     onClick={() => window.open(news.url, '_blank', 'noopener,noreferrer')}
+                    size="sm"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                   >
                     Read Full Article
@@ -105,6 +93,19 @@ const CryptoNewsCards = ({ newsData }: CryptoNewsCardsProps) => {
                   </Button>
                 </div>
               </CardContent>
+            </div>
+            
+            {/* Image Section - Now on the right */}
+            <div className="w-40 sm:w-48 md:w-56 h-32 sm:h-40 md:h-48 flex-shrink-0 ml-4">
+              <img
+                src={news.image}
+                alt={news.title}
+                className="w-full h-full object-cover rounded-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/placeholder.svg';
+                }}
+              />
             </div>
           </div>
         </Card>
