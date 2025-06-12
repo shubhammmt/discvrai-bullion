@@ -56,47 +56,50 @@ const CryptoNewsCards = ({ newsData }: CryptoNewsCardsProps) => {
       
       {newsData.map((news, index) => (
         <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-          <div className="flex">
-            {/* Content Section - Now takes more space */}
-            <div className="flex-1 flex flex-col min-w-0">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSymbolColor(news.symbol)}`}>
-                    {news.symbol}
-                  </span>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    {formatDate(news.published_date)}
-                  </div>
+          <div className="flex h-48">
+            {/* Content Section */}
+            <div className="flex-1 flex flex-col min-w-0 p-6">
+              {/* Header with symbol and date */}
+              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getSymbolColor(news.symbol)}`}>
+                  {news.symbol}
+                </span>
+                <div className="flex items-center text-sm text-gray-500">
+                  <Calendar className="w-4 h-4 mr-1" />
+                  {formatDate(news.published_date)}
                 </div>
-                <CardTitle className="text-xl leading-tight line-clamp-2 pr-4">
-                  {news.title}
-                </CardTitle>
-                <div className="text-sm text-gray-600">
-                  by {news.publisher} • {news.site}
-                </div>
-              </CardHeader>
+              </div>
               
-              <CardContent className="flex-1 flex flex-col justify-between pt-0">
-                <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-4 pr-4">
-                  {news.text}
-                </p>
-                
-                <div className="flex justify-start">
-                  <Button
-                    onClick={() => window.open(news.url, '_blank', 'noopener,noreferrer')}
-                    size="sm"
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  >
-                    Read Full Article
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
-              </CardContent>
+              {/* Title */}
+              <h3 className="text-lg font-bold text-gray-900 leading-tight line-clamp-2 mb-2">
+                {news.title}
+              </h3>
+              
+              {/* Publisher */}
+              <div className="text-sm text-gray-600 mb-3">
+                by {news.publisher} • {news.site}
+              </div>
+              
+              {/* Text content */}
+              <p className="text-gray-700 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">
+                {news.text}
+              </p>
+              
+              {/* Button */}
+              <div className="flex justify-start mt-auto">
+                <Button
+                  onClick={() => window.open(news.url, '_blank', 'noopener,noreferrer')}
+                  size="sm"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                >
+                  Read Full Article
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
             </div>
             
-            {/* Image Section - Now on the right */}
-            <div className="w-40 sm:w-48 md:w-56 h-32 sm:h-40 md:h-48 flex-shrink-0 ml-4">
+            {/* Image Section */}
+            <div className="w-48 flex-shrink-0 p-4">
               <img
                 src={news.image}
                 alt={news.title}
