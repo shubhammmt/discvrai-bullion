@@ -7,29 +7,97 @@ import {
   Bot, TrendingUp, Search, ArrowRight, IndianRupee, 
   PieChart, Upload, MessageSquare, Target, 
   BarChart3, AlertTriangle, FileSpreadsheet,
-  Camera, Zap, Heart, Shield
+  Camera, Zap, Heart, Shield, Globe
 } from 'lucide-react';
 
 const IndiaMarketCopilot = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isEnglish, setIsEnglish] = useState(false);
 
-  const sampleQueries = [
-    "₹100 से कम में बेहतरीन म्यूचुअल फंड ढूंढें",
-    "5% से ज्यादा रिटर्न देने वाले डेट फंड",
-    "टेक्नोलॉजी सेक्टर के टॉप परफॉर्मिंग फंड",
-    "इस महीने आने वाले नए NFO"
-  ];
+  const sampleQueries = {
+    hindi: [
+      "₹100 से कम में बेहतरीन म्यूचुअल फंड ढूंढें",
+      "5% से ज्यादा रिटर्न देने वाले डेट फंड",
+      "टेक्नोलॉजी सेक्टर के टॉप परफॉर्मिंग फंड",
+      "इस महीने आने वाले नए NFO"
+    ],
+    english: [
+      "Find best mutual funds under ₹100",
+      "Debt funds with 5%+ returns",
+      "Top performing technology sector funds",
+      "New NFOs launching this month"
+    ]
+  };
 
-  const portfolioMetrics = [
-    { label: "कुल निवेश", value: "₹8,45,000", change: "+2.4%" },
-    { label: "अपेक्षित रिटर्न", value: "12.8%", change: "+0.3%" },
-    { label: "जोखिम स्कोर", value: "मध्यम", change: "स्थिर" },
-    { label: "विविधीकरण", value: "85%", change: "+5%" }
-  ];
+  const portfolioMetrics = {
+    hindi: [
+      { label: "कुल निवेश", value: "₹8,45,000", change: "+2.4%" },
+      { label: "अपेक्षित रिटर्न", value: "12.8%", change: "+0.3%" },
+      { label: "जोखिम स्कोर", value: "मध्यम", change: "स्थिर" },
+      { label: "विविधीकरण", value: "85%", change: "+5%" }
+    ],
+    english: [
+      { label: "Total Investment", value: "₹8,45,000", change: "+2.4%" },
+      { label: "Expected Return", value: "12.8%", change: "+0.3%" },
+      { label: "Risk Score", value: "Medium", change: "Stable" },
+      { label: "Diversification", value: "85%", change: "+5%" }
+    ]
+  };
+
+  const content = {
+    hindi: {
+      title: "आपका व्यक्तिगत निवेश सलाहकार",
+      subtitle: "AI-संचालित पोर्टफोलियो स्वास्थ्य निगरानी, बुद्धिमान स्क्रीनिंग, और व्यक्तिगत निवेश अंतर्दृष्टि - सब सरल हिंदी में",
+      portfolioHealth: "पोर्टफोलियो स्वास्थ्य जांच",
+      portfolioDesc: "अपने निवेश की निगरानी, विश्लेषण और अनुकूलन करें",
+      smartScreening: "स्मार्ट निवेश खोज",
+      screeningDesc: "सरल हिंदी में निवेश ढूंढें - कोई जटिल शब्दावली नहीं",
+      uploadText: "Excel, स्क्रीनशॉट या AI चैट के माध्यम से अपना पोर्टफोलियो अपलोड करें",
+      checkPortfolio: "मेरे पोर्टफोलियो की जांच करें",
+      trySearches: "ये खोजें आज़माएं:",
+      startScreening: "स्मार्ट खोज शुरू करें",
+      healthMonitoring: "स्वास्थ्य निगरानी",
+      healthDesc: "व्यक्तिगत अलर्ट और सुझावों के साथ रीयल-टाइम पोर्टफोलियो स्वास्थ्य ट्रैकिंग",
+      smartWatchlist: "स्मार्ट वॉचलिस्ट",
+      watchlistDesc: "आपकी प्राथमिकताओं और बाजार के अवसरों के आधार पर AI-क्यूरेटेड वॉचलिस्ट",
+      riskManagement: "जोखिम प्रबंधन",
+      riskDesc: "स्वचालित जोखिम मूल्यांकन और पोर्टफोलियो रीबैलेंसिंग सुझाव",
+      ctaTitle: "क्या आप अपने AI निवेश सलाहकार से मिलने के लिए तैयार हैं?",
+      ctaSubtitle: "व्यक्तिगत निवेश सलाह, पोर्टफोलियो विश्लेषण, और बाजार की अंतर्दृष्टि प्राप्त करें - सब प्राकृतिक बातचीत के माध्यम से",
+      analyzePortfolio: "मेरे पोर्टफोलियो का विश्लेषण करें",
+      chatWithAI: "AI सलाहकार से चैट करें"
+    },
+    english: {
+      title: "Your Personal Investment Advisor",
+      subtitle: "AI-powered portfolio health monitoring, intelligent screening, and personalized investment insights - all in simple language",
+      portfolioHealth: "Portfolio Health Check",
+      portfolioDesc: "Monitor, analyze, and optimize your investments",
+      smartScreening: "Smart Investment Screening",
+      screeningDesc: "Find investments using plain English - no jargon",
+      uploadText: "Upload your portfolio via Excel, screenshots, or chat with our AI",
+      checkPortfolio: "Check My Portfolio Health",
+      trySearches: "Try these searches:",
+      startScreening: "Start Smart Screening",
+      healthMonitoring: "Health Monitoring",
+      healthDesc: "Real-time portfolio health tracking with personalized alerts and recommendations",
+      smartWatchlist: "Smart Watchlists",
+      watchlistDesc: "AI-curated watchlists based on your preferences and market opportunities",
+      riskManagement: "Risk Management",
+      riskDesc: "Automated risk assessment and portfolio rebalancing suggestions",
+      ctaTitle: "Ready to Meet Your AI Investment Advisor?",
+      ctaSubtitle: "Get personalized investment advice, portfolio analysis, and market insights - all through natural conversation",
+      analyzePortfolio: "Analyze My Portfolio",
+      chatWithAI: "Chat with AI Advisor"
+    }
+  };
+
+  const currentContent = isEnglish ? content.english : content.hindi;
+  const currentQueries = isEnglish ? sampleQueries.english : sampleQueries.hindi;
+  const currentMetrics = isEnglish ? portfolioMetrics.english : portfolioMetrics.hindi;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-orange-50 pt-8">
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
@@ -37,14 +105,24 @@ const IndiaMarketCopilot = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-red-600 rounded-2xl flex items-center justify-center">
               <Bot className="w-8 h-8 text-white" />
             </div>
+            {/* Language Toggle */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsEnglish(!isEnglish)}
+              className="ml-4 gap-2"
+            >
+              <Globe className="w-4 h-4" />
+              {isEnglish ? 'हिंदी' : 'English'}
+            </Button>
           </div>
           
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-            आपका व्यक्तिगत निवेश सलाहकार
+            {currentContent.title}
           </h1>
           
           <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
-            AI-संचालित पोर्टफोलियो स्वास्थ्य निगरानी, बुद्धिमान स्क्रीनिंग, और व्यक्तिगत निवेश अंतर्दृष्टि - सब सरल हिंदी में
+            {currentContent.subtitle}
           </p>
         </div>
 
@@ -59,8 +137,8 @@ const IndiaMarketCopilot = () => {
                   <PieChart className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl">पोर्टफोलियो स्वास्थ्य जांच</CardTitle>
-                  <p className="text-gray-600">अपने निवेश की निगरानी, विश्लेषण और अनुकूलन करें</p>
+                  <CardTitle className="text-2xl">{currentContent.portfolioHealth}</CardTitle>
+                  <p className="text-gray-600">{currentContent.portfolioDesc}</p>
                 </div>
               </div>
             </CardHeader>
@@ -68,7 +146,7 @@ const IndiaMarketCopilot = () => {
             <CardContent className="p-0">
               {/* Sample Portfolio Metrics */}
               <div className="grid grid-cols-2 gap-4 mb-6">
-                {portfolioMetrics.map((metric, index) => (
+                {currentMetrics.map((metric, index) => (
                   <div key={index} className="bg-white p-4 rounded-lg border">
                     <p className="text-sm text-gray-600">{metric.label}</p>
                     <p className="text-xl font-bold text-gray-900">{metric.value}</p>
@@ -91,9 +169,9 @@ const IndiaMarketCopilot = () => {
                       <Camera className="w-6 h-6 text-gray-600" />
                     </div>
                   </div>
-                  <p className="text-gray-600 mb-4">Excel, स्क्रीनशॉट या AI चैट के माध्यम से अपना पोर्टफोलियो अपलोड करें</p>
+                  <p className="text-gray-600 mb-4">{currentContent.uploadText}</p>
                   <Button onClick={() => navigate('/india-market')} className="bg-orange-600 hover:bg-orange-700">
-                    मेरे पोर्टफोलियो की जांच करें
+                    {currentContent.checkPortfolio}
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </div>
@@ -109,8 +187,8 @@ const IndiaMarketCopilot = () => {
                   <Search className="w-6 h-6 text-red-600" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl">स्मार्ट निवेश खोज</CardTitle>
-                  <p className="text-gray-600">सरल हिंदी में निवेश ढूंढें - कोई जटिल शब्दावली नहीं</p>
+                  <CardTitle className="text-2xl">{currentContent.smartScreening}</CardTitle>
+                  <p className="text-gray-600">{currentContent.screeningDesc}</p>
                 </div>
               </div>
             </CardHeader>
@@ -121,7 +199,7 @@ const IndiaMarketCopilot = () => {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="उदाहरण: '₹100 से कम के अच्छे रेटिंग वाले फंड ढूंढें'"
+                    placeholder={isEnglish ? "Try: 'Find growth funds under ₹100 with good ratings'" : "उदाहरण: '₹100 से कम के अच्छे रेटिंग वाले फंड ढूंढें'"}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full p-4 pr-12 border-2 border-gray-200 rounded-xl focus:border-red-400 focus:outline-none"
@@ -132,8 +210,8 @@ const IndiaMarketCopilot = () => {
 
               {/* Sample Queries */}
               <div className="space-y-3 mb-6">
-                <p className="text-sm font-medium text-gray-700">ये खोजें आज़माएं:</p>
-                {sampleQueries.map((query, index) => (
+                <p className="text-sm font-medium text-gray-700">{currentContent.trySearches}</p>
+                {currentQueries.map((query, index) => (
                   <button
                     key={index}
                     onClick={() => setSearchQuery(query)}
@@ -145,7 +223,7 @@ const IndiaMarketCopilot = () => {
               </div>
 
               <Button onClick={() => navigate('/india-market-bot')} className="w-full bg-red-600 hover:bg-red-700">
-                स्मार्ट खोज शुरू करें
+                {currentContent.startScreening}
                 <Zap className="ml-2 w-4 h-4" />
               </Button>
             </CardContent>
@@ -158,24 +236,24 @@ const IndiaMarketCopilot = () => {
             <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-green-600" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">स्वास्थ्य निगरानी</h3>
-            <p className="text-gray-600 text-sm">व्यक्तिगत अलर्ट और सुझावों के साथ रीयल-टाइम पोर्टफोलियो स्वास्थ्य ट्रैकिंग</p>
+            <h3 className="text-lg font-semibold mb-2">{currentContent.healthMonitoring}</h3>
+            <p className="text-gray-600 text-sm">{currentContent.healthDesc}</p>
           </Card>
 
           <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-white">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Target className="w-8 h-8 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">स्मार्ट वॉचलिस्ट</h3>
-            <p className="text-gray-600 text-sm">आपकी प्राथमिकताओं और बाजार के अवसरों के आधार पर AI-क्यूरेटेड वॉचलिस्ट</p>
+            <h3 className="text-lg font-semibold mb-2">{currentContent.smartWatchlist}</h3>
+            <p className="text-gray-600 text-sm">{currentContent.watchlistDesc}</p>
           </Card>
 
           <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-white">
             <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Shield className="w-8 h-8 text-purple-600" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">जोखिम प्रबंधन</h3>
-            <p className="text-gray-600 text-sm">स्वचालित जोखिम मूल्यांकन और पोर्टफोलियो रीबैलेंसिंग सुझाव</p>
+            <h3 className="text-lg font-semibold mb-2">{currentContent.riskManagement}</h3>
+            <p className="text-gray-600 text-sm">{currentContent.riskDesc}</p>
           </Card>
         </div>
 
@@ -183,9 +261,9 @@ const IndiaMarketCopilot = () => {
         <Card className="bg-gradient-to-r from-orange-900 to-red-900 text-white p-8 text-center">
           <div className="max-w-3xl mx-auto">
             <Bot className="w-16 h-16 mx-auto mb-6 opacity-80" />
-            <h2 className="text-3xl font-bold mb-4">क्या आप अपने AI निवेश सलाहकार से मिलने के लिए तैयार हैं?</h2>
+            <h2 className="text-3xl font-bold mb-4">{currentContent.ctaTitle}</h2>
             <p className="text-xl text-gray-300 mb-8">
-              व्यक्तिगत निवेश सलाह, पोर्टफोलियो विश्लेषण, और बाजार की अंतर्दृष्टि प्राप्त करें - सब प्राकृतिक बातचीत के माध्यम से
+              {currentContent.ctaSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button 
@@ -194,7 +272,7 @@ const IndiaMarketCopilot = () => {
                 className="px-8 py-4 bg-white text-orange-900 hover:bg-gray-100"
               >
                 <BarChart3 className="mr-2" size={20} />
-                मेरे पोर्टफोलियो का विश्लेषण करें
+                {currentContent.analyzePortfolio}
               </Button>
               <Button 
                 size="lg" 
@@ -203,7 +281,7 @@ const IndiaMarketCopilot = () => {
                 className="px-8 py-4 border-white text-white hover:bg-white hover:text-orange-900"
               >
                 <MessageSquare className="mr-2" size={20} />
-                AI सलाहकार से चैट करें
+                {currentContent.chatWithAI}
               </Button>
             </div>
           </div>
