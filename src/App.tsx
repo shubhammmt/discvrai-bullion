@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import MobileBottomNav from "./components/MobileBottomNav";
 import Index from "./pages/Index";
+import USMarketHome from "./pages/USMarketHome";
 import Onboarding from "./pages/Onboarding";
 import Feed from "./pages/Feed";
 import Research from "./pages/Research";
@@ -38,6 +38,7 @@ const App = () => (
           <main className="pb-16 md:pb-0">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/us-market-home" element={<USMarketHome />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/dashboard" element={<Dashboard />} />
