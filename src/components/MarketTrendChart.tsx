@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, Cell } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
@@ -41,7 +41,7 @@ const MarketTrendChart = ({ isEnglish }: MarketTrendChartProps) => {
   const content = isEnglish ? labels.english : labels.hindi;
 
   return (
-    <Card className="bg-gradient-to-br from-blue-50 to-white">
+    <Card className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 border-2 border-blue-200">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-blue-600" />
@@ -57,29 +57,38 @@ const MarketTrendChart = ({ isEnglish }: MarketTrendChartProps) => {
                 dataKey="sector" 
                 axisLine={false} 
                 tickLine={false}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 12, fill: '#374151' }}
               />
               <YAxis hide />
               <Tooltip 
                 formatter={(value) => [`${value}%`, 'Return']}
                 labelStyle={{ color: '#374151' }}
+                contentStyle={{ 
+                  backgroundColor: '#ffffff', 
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                }}
               />
               <Bar 
                 dataKey="return" 
                 radius={[4, 4, 0, 0]}
-                fill={(entry) => entry.color}
-              />
+              >
+                {marketData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
         
         {/* Top Performers */}
         <div className="mt-4 flex justify-between text-sm">
-          <div className="flex items-center gap-1 text-green-600">
+          <div className="flex items-center gap-1 text-green-600 bg-green-50 px-3 py-1 rounded-full">
             <TrendingUp className="w-4 h-4" />
             <span>{isEnglish ? 'Tech' : 'टेक'}: +15.2%</span>
           </div>
-          <div className="flex items-center gap-1 text-red-600">
+          <div className="flex items-center gap-1 text-red-600 bg-red-50 px-3 py-1 rounded-full">
             <TrendingDown className="w-4 h-4" />
             <span>{isEnglish ? 'Auto' : 'गाड़ी'}: -2.1%</span>
           </div>
