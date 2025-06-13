@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,9 @@ import {
   BarChart3, AlertTriangle, FileSpreadsheet,
   Camera, Zap, Heart, Shield, Globe
 } from 'lucide-react';
+import PortfolioChart from '@/components/PortfolioChart';
+import MarketTrendChart from '@/components/MarketTrendChart';
+import StatsCards from '@/components/StatsCards';
 
 const IndiaMarketCopilot = () => {
   const navigate = useNavigate();
@@ -17,9 +19,9 @@ const IndiaMarketCopilot = () => {
 
   const sampleQueries = {
     hindi: [
-      "₹100 से कम के अच्छे म्यूचुअल फंड दिखाओ",
+      "₹100 से कम के अच्छे फंड दिखाओ",
       "5% से ज्यादा रिटर्न वाले फंड",
-      "टेक्नोलॉजी सेक्टर के बेस्ट फंड",
+      "टेक्नोलॉजी के बेस्ट फंड",
       "इस महीने के नए फंड"
     ],
     english: [
@@ -47,7 +49,7 @@ const IndiaMarketCopilot = () => {
 
   const content = {
     hindi: {
-      title: "आपका निवेश साथी",
+      title: "आपका पैसे का साथी",
       subtitle: "AI की मदद से आसान निवेश - सब कुछ सरल हिंदी में",
       portfolioHealth: "पैसे की जांच",
       portfolioDesc: "अपने निवेश को देखें और बेहतर बनाएं",
@@ -63,7 +65,7 @@ const IndiaMarketCopilot = () => {
       watchlistDesc: "AI की मदद से बेहतरीन निवेश के सुझाव",
       riskManagement: "रिस्क की देखभाल",
       riskDesc: "अपने निवेश को सुरक्षित रखने के तरीके",
-      ctaTitle: "क्या आप अपने AI निवेश साथी से मिलना चाहते हैं?",
+      ctaTitle: "क्या आप अपने AI पैसे के साथी से मिलना चाहते हैं?",
       ctaSubtitle: "निवेश की सलाह, पोर्टफोलियो जांच, और बाजार की जानकारी - सब बातचीत के जरिए",
       analyzePortfolio: "मेरे पोर्टफोलियो की जांच करें",
       chatWithAI: "AI से बात करें"
@@ -97,7 +99,7 @@ const IndiaMarketCopilot = () => {
   const currentMetrics = isEnglish ? portfolioMetrics.english : portfolioMetrics.hindi;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-orange-50 pt-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-orange-50 pt-20">
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
@@ -124,6 +126,21 @@ const IndiaMarketCopilot = () => {
           <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
             {currentContent.subtitle}
           </p>
+        </div>
+
+        {/* Stats Cards */}
+        <StatsCards isEnglish={isEnglish} />
+
+        {/* Charts Section */}
+        <div className="mb-12">
+          <div className="grid lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <PortfolioChart isEnglish={isEnglish} />
+            </div>
+            <div>
+              <MarketTrendChart isEnglish={isEnglish} />
+            </div>
+          </div>
         </div>
 
         {/* Main Interactive Sections */}
