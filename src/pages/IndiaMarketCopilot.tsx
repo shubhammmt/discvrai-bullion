@@ -17,10 +17,10 @@ const IndiaMarketCopilot = () => {
 
   const sampleQueries = {
     hindi: [
-      "₹100 से कम में बेहतरीन म्यूचुअल फंड ढूंढें",
-      "5% से ज्यादा रिटर्न देने वाले डेट फंड",
-      "टेक्नोलॉजी सेक्टर के टॉप परफॉर्मिंग फंड",
-      "इस महीने आने वाले नए NFO"
+      "₹100 से कम के अच्छे म्यूचुअल फंड दिखाओ",
+      "5% से ज्यादा रिटर्न वाले फंड",
+      "टेक्नोलॉजी सेक्टर के बेस्ट फंड",
+      "इस महीने के नए फंड"
     ],
     english: [
       "Find best mutual funds under ₹100",
@@ -32,10 +32,10 @@ const IndiaMarketCopilot = () => {
 
   const portfolioMetrics = {
     hindi: [
-      { label: "कुल निवेश", value: "₹8,45,000", change: "+2.4%" },
-      { label: "अपेक्षित रिटर्न", value: "12.8%", change: "+0.3%" },
-      { label: "जोखिम स्कोर", value: "मध्यम", change: "स्थिर" },
-      { label: "विविधीकरण", value: "85%", change: "+5%" }
+      { label: "कुल पैसा", value: "₹8,45,000", change: "+2.4%" },
+      { label: "रिटर्न", value: "12.8%", change: "+0.3%" },
+      { label: "रिस्क", value: "मध्यम", change: "स्थिर" },
+      { label: "फैलाव", value: "85%", change: "+5%" }
     ],
     english: [
       { label: "Total Investment", value: "₹8,45,000", change: "+2.4%" },
@@ -47,26 +47,26 @@ const IndiaMarketCopilot = () => {
 
   const content = {
     hindi: {
-      title: "आपका व्यक्तिगत निवेश सलाहकार",
-      subtitle: "AI-संचालित पोर्टफोलियो स्वास्थ्य निगरानी, बुद्धिमान स्क्रीनिंग, और व्यक्तिगत निवेश अंतर्दृष्टि - सब सरल हिंदी में",
-      portfolioHealth: "पोर्टफोलियो स्वास्थ्य जांच",
-      portfolioDesc: "अपने निवेश की निगरानी, विश्लेषण और अनुकूलन करें",
-      smartScreening: "स्मार्ट निवेश खोज",
-      screeningDesc: "सरल हिंदी में निवेश ढूंढें - कोई जटिल शब्दावली नहीं",
-      uploadText: "Excel, स्क्रीनशॉट या AI चैट के माध्यम से अपना पोर्टफोलियो अपलोड करें",
-      checkPortfolio: "मेरे पोर्टफोलियो की जांच करें",
-      trySearches: "ये खोजें आज़माएं:",
-      startScreening: "स्मार्ट खोज शुरू करें",
-      healthMonitoring: "स्वास्थ्य निगरानी",
-      healthDesc: "व्यक्तिगत अलर्ट और सुझावों के साथ रीयल-टाइम पोर्टफोलियो स्वास्थ्य ट्रैकिंग",
-      smartWatchlist: "स्मार्ट वॉचलिस्ट",
-      watchlistDesc: "आपकी प्राथमिकताओं और बाजार के अवसरों के आधार पर AI-क्यूरेटेड वॉचलिस्ट",
-      riskManagement: "जोखिम प्रबंधन",
-      riskDesc: "स्वचालित जोखिम मूल्यांकन और पोर्टफोलियो रीबैलेंसिंग सुझाव",
-      ctaTitle: "क्या आप अपने AI निवेश सलाहकार से मिलने के लिए तैयार हैं?",
-      ctaSubtitle: "व्यक्तिगत निवेश सलाह, पोर्टफोलियो विश्लेषण, और बाजार की अंतर्दृष्टि प्राप्त करें - सब प्राकृतिक बातचीत के माध्यम से",
-      analyzePortfolio: "मेरे पोर्टफोलियो का विश्लेषण करें",
-      chatWithAI: "AI सलाहकार से चैट करें"
+      title: "आपका निवेश साथी",
+      subtitle: "AI की मदद से आसान निवेश - सब कुछ सरल हिंदी में",
+      portfolioHealth: "पैसे की जांच",
+      portfolioDesc: "अपने निवेश को देखें और बेहतर बनाएं",
+      smartScreening: "आसान निवेश खोज",
+      screeningDesc: "सरल हिंदी में निवेश ढूंढें",
+      uploadText: "Excel, फोटो या चैट से अपना पोर्टफोलियो अपलोड करें",
+      checkPortfolio: "मेरे पैसे की जांच करें",
+      trySearches: "ये सर्च करके देखें:",
+      startScreening: "खोज शुरू करें",
+      healthMonitoring: "पैसे की देखभाल",
+      healthDesc: "अपने निवेश पर नजर रखें और सुझाव पाएं",
+      smartWatchlist: "स्मार्ट लिस्ट",
+      watchlistDesc: "AI की मदद से बेहतरीन निवेश के सुझाव",
+      riskManagement: "रिस्क की देखभाल",
+      riskDesc: "अपने निवेश को सुरक्षित रखने के तरीके",
+      ctaTitle: "क्या आप अपने AI निवेश साथी से मिलना चाहते हैं?",
+      ctaSubtitle: "निवेश की सलाह, पोर्टफोलियो जांच, और बाजार की जानकारी - सब बातचीत के जरिए",
+      analyzePortfolio: "मेरे पोर्टफोलियो की जांच करें",
+      chatWithAI: "AI से बात करें"
     },
     english: {
       title: "Your Personal Investment Advisor",
