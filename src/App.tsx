@@ -21,6 +21,7 @@ import SmallcaseResearch from "./pages/SmallcaseResearch";
 import InsuranceResearch from "./pages/InsuranceResearch";
 import Organize from "./pages/Organize";
 import Portfolio from "./pages/Portfolio";
+import PortfolioUpdate from "./pages/PortfolioUpdate";
 import PitchPresentation from "./pages/PitchPresentation";
 import AIStrategy from "./pages/AIStrategy";
 import AIConversationDemo from "./pages/AIConversationDemo";
@@ -56,6 +57,7 @@ const App = () => (
               <Route path="/research/insurance/:productId" element={<InsuranceResearch />} />
               <Route path="/organize" element={<Organize />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/portfolio-update" element={<PortfolioUpdate />} />
               <Route path="/pitch" element={<PitchPresentation />} />
               <Route path="/ai-strategy" element={<AIStrategy />} />
               <Route path="/ai-demo" element={<AIConversationDemo />} />
