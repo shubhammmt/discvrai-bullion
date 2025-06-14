@@ -53,11 +53,34 @@ const PitchPresentation = () => {
       type: "market",
       icon: TrendingUp,
       marketData: [
-        { amount: "$1.2T", label: "Total Market", description: "India's financial services market" },
-        { amount: "$300B", label: "Digital Penetration", description: "Current digital market size (25% of total)" },
-        { amount: "$180B", label: "Our Focus", description: "Opportunity in insurance, credit, and investments" },
-        { amount: "$24B", label: "Addressable Share", description: "Our target market penetration (20%)" }
-      ]
+        { amount: "$1.2T", label: "TAM - Total Market", description: "India's entire financial services market (100%)" },
+        { amount: "$300B", label: "SAM - Digital Penetration", description: "Current digital financial services (25% of TAM)" },
+        { amount: "$180B", label: "Addressable Focus", description: "Insurance, credit, and investments opportunity (60% of SAM)" },
+        { amount: "$24B", label: "SOM - Our Target", description: "Realistic market capture at 20% penetration (13% of addressable)" }
+      ],
+      samSomBreakdown: {
+        title: "SAM/SOM Analysis",
+        breakdown: [
+          {
+            metric: "TAM (Total Addressable Market)",
+            value: "$1.2 Trillion",
+            description: "India's entire financial services ecosystem",
+            percentage: "100%"
+          },
+          {
+            metric: "SAM (Serviceable Addressable Market)", 
+            value: "$300 Billion",
+            description: "Digital-first financial services that we can reach",
+            percentage: "25% of TAM"
+          },
+          {
+            metric: "SOM (Serviceable Obtainable Market)",
+            value: "$24 Billion", 
+            description: "Realistic capture with our platform approach",
+            percentage: "8% of SAM | 2% of TAM"
+          }
+        ]
+      }
     },
     {
       id: 5,
