@@ -4,63 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn, Heart, Activity, CheckCircle } from 'lucide-react';
-import CryptoNewsCards from '@/components/CryptoNewsCards';
+import FinanceCopilot from '@/components/FinanceCopilot';
 
 const Index = () => {
   const navigate = useNavigate();
   const userProfile = localStorage.getItem('userProfile');
-
-  // Sample crypto news data for preview
-  const sampleCryptoNews = [
-    {
-      "symbol": "SOLUSD",
-      "published_date": "2025-06-11T17:36:19",
-      "publisher": "Tokenpost",
-      "title": "Solana Price Rises Amid Cooling Volume, ETF Speculation Fuels Bullish Outlook",
-      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      "site": "tokenpost.com",
-      "text": "Solana (SOL), the sixth-largest cryptocurrency by market cap, is experiencing a cooling trend in both spot and futures trading volumes, according to blockchain analytics firm CryptoQuant. Recent bubble chart analysis shows a decrease in volume across all exchanges.",
-      "url": "https://www.tokenpost.com/news/investing/15826",
-      "metadata": {
-        "last_updated": "2025-06-11T21:58:35.495125",
-        "fetch_timestamp": "2025-06-11T21:45:07.005738",
-        "last_migrated": "2025-06-11T21:58:35.495135",
-        "source": "fmp"
-      }
-    },
-    {
-      "symbol": "BTCUSD",
-      "published_date": "2025-06-11T17:34:27",
-      "publisher": "Tokenpost",
-      "title": "Paul Tudor Jones Recommends Bitcoin, Gold, and Stocks to Hedge Inflation",
-      "image": "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      "site": "tokenpost.com",
-      "text": "Billionaire hedge fund manager Paul Tudor Jones reaffirmed his bullish stance on Bitcoin during a recent appearance on Bloomberg. He emphasized that a volatility-adjusted portfolio consisting of Bitcoin, gold, and stocks is the optimal strategy for investors aiming to hedge against inflation.",
-      "url": "https://www.tokenpost.com/news/people/15825",
-      "metadata": {
-        "last_updated": "2025-06-11T21:58:35.495160",
-        "fetch_timestamp": "2025-06-11T21:45:07.008845",
-        "last_migrated": "2025-06-11T21:58:35.495166",
-        "source": "fmp"
-      }
-    },
-    {
-      "symbol": "BTCUSD",
-      "published_date": "2025-06-11T17:31:01",
-      "publisher": "Tokenpost",
-      "title": "Robert Kiyosaki Buys More Bitcoin as BTC Eyes New All-Time High",
-      "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      "site": "tokenpost.com",
-      "text": "Rich Dad Poor Dad author Robert Kiyosaki has once again made headlines with a fresh Bitcoin (BTC) purchase, fueling bullish sentiment as the cryptocurrency nears its all-time high. While he didnt disclose the amount of BTC bought or a specific price target, his previous prediction of Bitcoin reaching $500,000 to $1 million by the end of 2025 continues to spark debate across financial media.",
-      "url": "https://www.tokenpost.com/news/insights/15824",
-      "metadata": {
-        "last_updated": "2025-06-11T21:58:35.495179",
-        "fetch_timestamp": "2025-06-11T21:45:07.011216",
-        "last_migrated": "2025-06-11T21:58:35.495184",
-        "source": "fmp"
-      }
-    }
-  ];
 
   const features = [
     {
@@ -96,6 +44,12 @@ const Index = () => {
     "Personalized action plan for wealth building",
     "Track progress across all financial aspects",
     "Expert guidance without expensive advisors"
+  ];
+
+  const goalExamples = [
+    { name: "Home Purchase", amount: "₹50 lakhs", timeline: "5 years", color: "bg-blue-50 border-blue-200" },
+    { name: "Retirement", amount: "₹2 crores", timeline: "25 years", color: "bg-green-50 border-green-200" },
+    { name: "Emergency Fund", amount: "₹5 lakhs", timeline: "2 years", color: "bg-orange-50 border-orange-200" }
   ];
 
   return (
@@ -185,9 +139,38 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Crypto News Section */}
+      {/* Goal-Oriented Planning Section */}
       <div className="py-16 bg-white">
-        <CryptoNewsCards newsData={sampleCryptoNews} />
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold mb-4">Start with Your Financial Goals</h3>
+            <p className="text-xl text-gray-600">Our AI creates personalized investment strategies based on what matters to you</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {goalExamples.map((goal, index) => (
+              <Card key={index} className={`border-2 ${goal.color} hover:shadow-lg transition-shadow`}>
+                <CardContent className="p-6 text-center">
+                  <Target className="w-10 h-10 mx-auto mb-4 text-gray-700" />
+                  <h4 className="text-lg font-semibold mb-2">{goal.name}</h4>
+                  <p className="text-2xl font-bold text-gray-900 mb-1">{goal.amount}</p>
+                  <p className="text-sm text-gray-600">in {goal.timeline}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center">
+            <Button 
+              size="lg" 
+              onClick={() => navigate(userProfile ? '/portfolio' : '/onboarding')}
+              className="px-8 py-4 text-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+            >
+              <Target className="mr-2" size={20} />
+              {userProfile ? 'Add Your Goals' : 'Set My Financial Goals'}
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Financial Health Areas Section */}
@@ -247,7 +230,7 @@ const Index = () => {
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-white text-center">
           <h3 className="text-3xl font-bold mb-8">AI-Powered Financial Health Platform</h3>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <Heart className="w-12 h-12 mx-auto mb-4" />
               <h4 className="text-xl font-semibold mb-3">Holistic Assessment</h4>
@@ -264,6 +247,15 @@ const Index = () => {
               <p className="text-blue-100">Build wealth strategically toward your life goals and dreams</p>
             </div>
           </div>
+          <p className="text-blue-100 mb-6">Chat with our AI to set goals, build portfolios, and get personalized recommendations</p>
+          <Button 
+            size="lg" 
+            variant="outline" 
+            className="bg-white text-blue-600 hover:bg-blue-50 border-white"
+          >
+            <Brain className="mr-2" size={20} />
+            Try AI Assistant Below
+          </Button>
         </div>
       </div>
 
@@ -328,6 +320,9 @@ const Index = () => {
           discvr.ai • Complete Financial Health Platform for Smart Wealth Building
         </p>
       </footer>
+
+      {/* AI Copilot for Goal Setting and Portfolio Creation */}
+      <FinanceCopilot />
     </div>
   );
 };
