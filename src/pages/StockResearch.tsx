@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus, Bell, Heart, BarChart3, Brain, MessageCircle, Target, TrendingUp, TrendingDown } from 'lucide-react';
+import { ArrowLeft, Plus, Bell, Heart, BarChart3, Brain, MessageCircle, Target, TrendingUp, TrendingDown, FolderPlus, Edit } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import StockHeader from '@/components/StockHeader';
 import AIInsight from '@/components/AIInsight';
@@ -15,6 +15,7 @@ import ViewToggle from '@/components/ViewToggle';
 import EnhancedDetailedView from '@/components/EnhancedDetailedView';
 import LatestNews from '@/components/LatestNews';
 import ResearchSharing from '@/components/ResearchSharing';
+import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 const StockResearch = () => {
   const { symbol } = useParams();
@@ -135,7 +136,7 @@ const StockResearch = () => {
           {/* Stock Header */}
           <StockHeader {...stockData} />
 
-          {/* Quick Actions Bar */}
+          {/* Enhanced Quick Actions Bar with Portfolio CTAs */}
           <div className="flex items-center justify-between mb-6 p-3 bg-white/70 backdrop-blur-md rounded-lg border border-white/20">
             <div className="flex items-center gap-2">
               <Button size="sm" variant="ghost" className="text-gray-600">
@@ -146,11 +147,34 @@ const StockResearch = () => {
                 <Heart size={16} className="mr-2" />
                 Watchlist
               </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="text-gray-600"
+                onClick={() => navigate('/portfolio')}
+              >
+                <BarChart3 size={16} className="mr-2" />
+                View Portfolio
+              </Button>
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus size={16} className="mr-2" />
-              Buy Stock
-            </Button>
+            <div className="flex items-center gap-2">
+              <PortfolioAddModal
+                assetName={stockData.companyName}
+                assetSymbol={stockData.symbol}
+                assetType="stock"
+                currentPrice={stockData.price}
+                trigger={
+                  <Button size="sm" variant="outline" className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100">
+                    <FolderPlus size={16} className="mr-2" />
+                    Add to Portfolio
+                  </Button>
+                }
+              />
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus size={16} className="mr-2" />
+                Buy Stock
+              </Button>
+            </div>
           </div>
 
           {/* Content based on view */}
@@ -227,22 +251,56 @@ const StockResearch = () => {
               <LatestNews />
               <ResearchSharing />
 
-              {/* Detailed View CTA */}
+              {/* Enhanced Detailed View CTA with Portfolio Integration */}
               <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-                <CardContent className="p-6 text-center">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Need Deeper Analysis?
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    Access detailed financials, analyst ratings, and comprehensive research
-                  </p>
-                  <Button 
-                    onClick={() => setCurrentView('detailed')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    <BarChart3 size={16} className="mr-2" />
-                    Deep Dive Analysis
-                  </Button>
+                <CardContent className="p-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        Need Deeper Analysis?
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        Access detailed financials, analyst ratings, and comprehensive research
+                      </p>
+                      <Button 
+                        onClick={() => setCurrentView('detailed')}
+                        className="bg-blue-600 hover:bg-blue-700 text-white w-full"
+                      >
+                        <BarChart3 size={16} className="mr-2" />
+                        Deep Dive Analysis
+                      </Button>
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        Ready to Invest?
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        Add to your portfolio or update your existing holdings
+                      </p>
+                      <div className="space-y-2">
+                        <PortfolioAddModal
+                          assetName={stockData.companyName}
+                          assetSymbol={stockData.symbol}
+                          assetType="stock"
+                          currentPrice={stockData.price}
+                          trigger={
+                            <Button className="bg-green-600 hover:bg-green-700 text-white w-full">
+                              <FolderPlus size={16} className="mr-2" />
+                              Add to Portfolio
+                            </Button>
+                          }
+                        />
+                        <Button 
+                          variant="outline" 
+                          className="w-full"
+                          onClick={() => navigate('/portfolio-update')}
+                        >
+                          <Edit size={16} className="mr-2" />
+                          Manage Full Portfolio
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>

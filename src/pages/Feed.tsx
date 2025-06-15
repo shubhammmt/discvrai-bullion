@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles } from 'lucide-react';
+import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIFeedChat from '@/components/AIFeedChat';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
 import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
 import DesktopSidebar from '@/components/DesktopSidebar';
+import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -254,10 +254,59 @@ const Feed = () => {
 
   const aiRecommendations = getAIRecommendations();
 
+  // Enhanced AssetCard component with portfolio actions
+  const EnhancedAssetCard = ({ asset }: { asset: any }) => (
+    <div className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
+      <div className="flex-1 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+        <div className="flex items-center gap-3 mb-2">
+          <h3 className="font-semibold text-gray-900">{asset.name}</h3>
+          <span className="text-sm text-gray-600">{asset.symbol}</span>
+          {asset.latestEvent && (
+            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+              {asset.latestEvent}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-lg font-bold text-gray-900">
+              {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
+            </p>
+            {asset.change !== null && (
+              <p className={`text-sm ${asset.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {asset.change > 0 ? '+' : ''}{asset.change}%
+              </p>
+            )}
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-600">Volume: {asset.volume}</p>
+            {asset.news && (
+              <p className="text-xs text-gray-500 max-w-xs truncate">{asset.news}</p>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="ml-4 flex items-center gap-2">
+        <PortfolioAddModal
+          assetName={asset.name}
+          assetSymbol={asset.symbol}
+          assetType={asset.type}
+          currentPrice={typeof asset.price === 'number' ? asset.price : undefined}
+          trigger={
+            <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
+              <FolderPlus size={14} className="mr-1" />
+              Add
+            </Button>
+          }
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
-        {/* Simplified Header */}
+        {/* Enhanced Header with Portfolio CTA */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -269,6 +318,10 @@ const Feed = () => {
             <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')}>
               <BarChart3 size={16} className="mr-1" />
               Portfolio
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')}>
+              <Edit size={16} className="mr-1" />
+              Update Portfolio
             </Button>
             <Button variant="outline" size="sm" onClick={() => navigate('/research')}>
               <Search size={16} className="mr-1" />
@@ -362,18 +415,29 @@ const Feed = () => {
               ))}
             </div>
 
-            {/* Trending Section */}
+            {/* Trending Section with Enhanced Asset Cards */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <TrendingUp className="w-5 h-5 text-green-600" />
-                  {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
+                <CardTitle className="flex items-center justify-between dark:text-white">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => navigate('/portfolio-update')}
+                    className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                  >
+                    <Edit size={14} className="mr-1" />
+                    Bulk Add to Portfolio
+                  </Button>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {filteredAssets.map((asset) => (
-                    <AssetCard key={asset.id} asset={asset} />
+                    <EnhancedAssetCard key={asset.id} asset={asset} />
                   ))}
                   {filteredAssets.length === 0 && (
                     <div className="text-center py-8 text-gray-500 dark:text-gray-400">

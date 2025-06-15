@@ -3,26 +3,29 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import { useNavigate } from 'react-router-dom';
 import { 
-  Upload, 
-  DollarSign, 
   TrendingUp, 
   TrendingDown, 
+  DollarSign, 
   PieChart, 
-  BarChart3,
-  RefreshCw,
-  Download,
-  Plus,
-  Eye,
-  AlertCircle,
-  Shield,
-  CreditCard,
+  BarChart3, 
+  Target,
   Calendar,
-  Target
+  ArrowUpRight,
+  ArrowDownRight,
+  Edit,
+  Plus,
+  Upload,
+  RefreshCw
 } from 'lucide-react';
+import PortfolioChart from '@/components/PortfolioChart';
+import StatsCards from '@/components/StatsCards';
 
 const Portfolio = () => {
+  const [activeView, setActiveView] = useState('overview');
+  const navigate = useNavigate();
+
   const [selectedPortfolio, setSelectedPortfolio] = useState('main');
 
   const portfolios = [
@@ -102,23 +105,85 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Portfolio</h1>
-            <p className="text-gray-600">Complete wealth management dashboard</p>
+        {/* Enhanced Header with Portfolio Management CTAs */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">Portfolio Dashboard</h1>
+              <p className="text-gray-600">Track your investments and monitor performance</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="outline"
+                onClick={() => navigate('/organize')}
+                size="sm"
+              >
+                <Target size={16} className="mr-2" />
+                Organize
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => navigate('/portfolio-update')}
+                className="border-blue-200 text-blue-700 hover:bg-blue-50"
+              >
+                <Upload size={16} className="mr-2" />
+                Upload Data
+              </Button>
+              <Button 
+                onClick={() => navigate('/portfolio-update')}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <Edit size={16} className="mr-2" />
+                Update Portfolio
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <Button variant="outline">
-              <Upload className="w-4 h-4 mr-2" />
-              Import Portfolio
-            </Button>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Investment
-            </Button>
+
+          {/* Quick Action Cards for Portfolio Management */}
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
+            <Card className="bg-white/70 backdrop-blur-md border-white/20 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/portfolio-update?tab=upload')}>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Upload className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Quick Upload</h3>
+                    <p className="text-sm text-gray-600">Import from Excel or photos</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white/70 backdrop-blur-md border-white/20 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/portfolio-update?tab=manual')}>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <Plus className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Add Assets</h3>
+                    <p className="text-sm text-gray-600">Manually add new holdings</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white/70 backdrop-blur-md border-white/20 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/portfolio-update?tab=overview')}>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-100 rounded-lg">
+                    <RefreshCw className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Sync & Review</h3>
+                    <p className="text-sm text-gray-600">Update existing holdings</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
 

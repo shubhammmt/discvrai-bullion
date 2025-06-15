@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 import { 
   Heart, 
   Bell, 
@@ -19,11 +19,15 @@ import {
   CreditCard,
   Target,
   Send,
-  MessageCircle
+  MessageCircle,
+  Edit,
+  FolderPlus
 } from 'lucide-react';
+import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 const Organize = () => {
   const [activeWatchlist, setActiveWatchlist] = useState('main');
+  const navigate = useNavigate();
 
   const watchlists = [
     { id: 'main', name: 'Main Watchlist', count: 12, color: 'bg-blue-500' },
@@ -87,9 +91,29 @@ const Organize = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Enhanced Header with Portfolio CTAs */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Organize</h1>
+          <div className="flex justify-between items-center mb-2">
+            <h1 className="text-3xl font-bold text-gray-900">Organize</h1>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline"
+                onClick={() => navigate('/portfolio')}
+                size="sm"
+              >
+                <TrendingUp size={16} className="mr-2" />
+                View Portfolio
+              </Button>
+              <Button 
+                onClick={() => navigate('/portfolio-update')}
+                size="sm"
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <Edit size={16} className="mr-2" />
+                Update Portfolio
+              </Button>
+            </div>
+          </div>
           <p className="text-gray-600">Manage your watchlists, alerts, research, and financial calendar</p>
         </div>
 
@@ -131,14 +155,24 @@ const Organize = () => {
             <TabsTrigger value="calendar">Calendar</TabsTrigger>
           </TabsList>
 
-          {/* Watchlists Tab */}
+          {/* Enhanced Watchlists Tab with Portfolio Integration */}
           <TabsContent value="watchlists" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">My Watchlists</h2>
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
-                New Watchlist
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm">
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Watchlist
+                </Button>
+                <Button 
+                  size="sm"
+                  onClick={() => navigate('/portfolio-update')}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  <FolderPlus className="w-4 h-4 mr-2" />
+                  Add to Portfolio
+                </Button>
+              </div>
             </div>
 
             <div className="grid lg:grid-cols-4 gap-6">
@@ -163,7 +197,7 @@ const Organize = () => {
                 ))}
               </div>
 
-              {/* Watchlist Content */}
+              {/* Enhanced Watchlist Content */}
               <div className="lg:col-span-3">
                 <Card>
                   <CardHeader>
@@ -171,9 +205,19 @@ const Organize = () => {
                       <CardTitle>
                         {watchlists.find(w => w.id === activeWatchlist)?.name || 'Main Watchlist'}
                       </CardTitle>
-                      <Button variant="outline" size="sm">
-                        <Settings className="w-4 h-4" />
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <Button variant="outline" size="sm">
+                          <Settings className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          size="sm"
+                          className="bg-green-600 hover:bg-green-700"
+                          onClick={() => navigate('/portfolio-update')}
+                        >
+                          <FolderPlus className="w-4 h-4 mr-2" />
+                          Add Selected to Portfolio
+                        </Button>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -195,13 +239,27 @@ const Organize = () => {
                               )}
                             </div>
                           </div>
-                          <div className="text-right">
-                            <p className="font-bold">{typeof item.price === 'string' ? item.price : `₹${item.price}`}</p>
-                            {item.change && (
-                              <p className={`text-sm ${item.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {item.change > 0 ? '+' : ''}{item.change}%
-                              </p>
-                            )}
+                          <div className="flex items-center gap-3">
+                            <div className="text-right">
+                              <p className="font-bold">{typeof item.price === 'string' ? item.price : `₹${item.price}`}</p>
+                              {item.change && (
+                                <p className={`text-sm ${item.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  {item.change > 0 ? '+' : ''}{item.change}%
+                                </p>
+                              )}
+                            </div>
+                            <PortfolioAddModal
+                              assetName={item.name}
+                              assetSymbol={item.symbol}
+                              assetType={item.type as any}
+                              currentPrice={typeof item.price === 'number' ? item.price : undefined}
+                              trigger={
+                                <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
+                                  <FolderPlus size={14} className="mr-1" />
+                                  Add
+                                </Button>
+                              }
+                            />
                           </div>
                         </div>
                       ))}
