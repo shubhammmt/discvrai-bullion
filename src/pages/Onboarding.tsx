@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, Brain, Shield, Target, TrendingUp } from 'lucide-react';
+import { ArrowRight, Brain, Shield, Target, TrendingUp, Heart } from 'lucide-react';
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -18,7 +18,8 @@ const Onboarding = () => {
     investmentHorizon: '',
     learningMode: '',
     preferredInstruments: [] as string[],
-    investmentAmount: ''
+    investmentAmount: '',
+    financialGoals: [] as { name: string; targetAmount: string; targetYears: string; priority: string }[]
   });
 
   const totalSteps = 4;
@@ -42,6 +43,37 @@ const Onboarding = () => {
     }));
   };
 
+  const handleGoalAdd = (goalType: string) => {
+    const goalExists = formData.financialGoals.find(g => g.name === goalType);
+    if (goalExists) {
+      // Remove goal if already selected
+      setFormData(prev => ({
+        ...prev,
+        financialGoals: prev.financialGoals.filter(g => g.name !== goalType)
+      }));
+    } else {
+      // Add new goal with default values
+      setFormData(prev => ({
+        ...prev,
+        financialGoals: [...prev.financialGoals, {
+          name: goalType,
+          targetAmount: '',
+          targetYears: '',
+          priority: 'Medium'
+        }]
+      }));
+    }
+  };
+
+  const updateGoalField = (goalName: string, field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      financialGoals: prev.financialGoals.map(goal =>
+        goal.name === goalName ? { ...goal, [field]: value } : goal
+      )
+    }));
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -52,12 +84,14 @@ const Onboarding = () => {
                 <Target className="w-8 h-8 text-blue-600" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Tell us about yourself</h2>
-              <p className="text-gray-600 text-sm">This helps us personalize investment recommendations just for you</p>
+              <p className="text-gray-600 text-sm">This helps us create your personalized financial health profile</p>
             </div>
             <div className="space-y-4">
               <div>
                 <Label htmlFor="age" className="text-sm font-medium">Your Age</Label>
-                <p className="text-xs text-gray-500 mb-2">Age helps us suggest appropriate investment timelines</p>
+                <p className="text-xs text-gray-500 mb-2">
+                  <strong>Benefit:</strong> Suggests age-appropriate investment timelines and retirement planning strategies
+                </p>
                 <Input
                   id="age"
                   type="number"
@@ -69,7 +103,9 @@ const Onboarding = () => {
               </div>
               <div>
                 <Label htmlFor="income" className="text-sm font-medium">Monthly Income (₹)</Label>
-                <p className="text-xs text-gray-500 mb-2">We'll suggest investments that fit your budget</p>
+                <p className="text-xs text-gray-500 mb-2">
+                  <strong>Benefit:</strong> Calculates optimal investment amounts and emergency fund targets
+                </p>
                 <Input
                   id="income"
                   type="number"
@@ -81,7 +117,9 @@ const Onboarding = () => {
               </div>
               <div>
                 <Label htmlFor="amount" className="text-sm font-medium">How much do you want to start with? (₹)</Label>
-                <p className="text-xs text-gray-500 mb-2">Even small amounts can grow over time</p>
+                <p className="text-xs text-gray-500 mb-2">
+                  <strong>Benefit:</strong> Shows investment options that match your starting budget
+                </p>
                 <Input
                   id="amount"
                   type="number"
@@ -103,7 +141,9 @@ const Onboarding = () => {
                 <Shield className="w-8 h-8 text-green-600" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Your comfort with risk</h2>
-              <p className="text-gray-600 text-sm">This ensures we only show investments you're comfortable with</p>
+              <p className="text-gray-600 text-sm">
+                <strong>Benefit:</strong> Ensures we only recommend investments you're comfortable with
+              </p>
             </div>
             <div className="space-y-4">
               <div>
@@ -130,7 +170,9 @@ const Onboarding = () => {
               </div>
               <div>
                 <Label className="text-sm font-medium">When do you need this money?</Label>
-                <p className="text-xs text-gray-500 mb-2">Longer timelines allow for better growth potential</p>
+                <p className="text-xs text-gray-500 mb-2">
+                  <strong>Benefit:</strong> Matches investments to your timeline for optimal growth
+                </p>
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   {[
                     'Short-term (1-3 years)', 
@@ -161,7 +203,9 @@ const Onboarding = () => {
                 <Brain className="w-8 h-8 text-purple-600" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">How do you like to learn?</h2>
-              <p className="text-gray-600 text-sm">We'll present information in your preferred style</p>
+              <p className="text-gray-600 text-sm">
+                <strong>Benefit:</strong> Customizes all information and recommendations to your learning style
+              </p>
             </div>
             <div className="space-y-4">
               <div>
@@ -195,38 +239,77 @@ const Onboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="w-8 h-8 text-orange-600" />
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-red-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">What interests you?</h2>
-              <p className="text-gray-600 text-sm">We'll focus on these investment types for you</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Your financial goals</h2>
+              <p className="text-gray-600 text-sm">
+                <strong>Benefit:</strong> Creates your personalized financial health score and action plan
+              </p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label className="text-sm font-medium">Select what you'd like to explore (choose multiple)</Label>
+                <Label className="text-sm font-medium">What are you saving for? (select multiple)</Label>
                 <div className="grid grid-cols-2 gap-3 mt-3">
                   {[
-                    { key: 'Stocks', desc: 'Individual companies' },
-                    { key: 'Mutual Funds', desc: 'Professionally managed' },
-                    { key: 'ETFs', desc: 'Market tracking funds' },
-                    { key: 'IPOs', desc: 'New company listings' },
-                    { key: 'Crypto', desc: 'Digital currencies' },
-                    { key: 'Bonds', desc: 'Fixed income options' }
-                  ].map((instrument) => (
+                    { key: 'Emergency Fund', desc: '6 months expenses' },
+                    { key: 'Home Purchase', desc: 'Down payment & costs' },
+                    { key: 'Retirement', desc: 'Long-term security' },
+                    { key: 'Vacation', desc: 'Travel & experiences' },
+                    { key: 'Education', desc: 'Self or children' },
+                    { key: 'Wedding', desc: 'Celebration expenses' }
+                  ].map((goal) => (
                     <Button
-                      key={instrument.key}
-                      variant={formData.preferredInstruments.includes(instrument.key) ? 'default' : 'outline'}
-                      onClick={() => handleInstrumentToggle(instrument.key)}
+                      key={goal.key}
+                      variant={formData.financialGoals.find(g => g.name === goal.key) ? 'default' : 'outline'}
+                      onClick={() => handleGoalAdd(goal.key)}
                       className="h-16 text-left justify-start p-3"
                     >
                       <div>
-                        <div className="font-medium text-sm">{instrument.key}</div>
-                        <div className="text-xs opacity-70">{instrument.desc}</div>
+                        <div className="font-medium text-sm">{goal.key}</div>
+                        <div className="text-xs opacity-70">{goal.desc}</div>
                       </div>
                     </Button>
                   ))}
                 </div>
               </div>
+
+              {/* Goal Details for Selected Goals */}
+              {formData.financialGoals.length > 0 && (
+                <div className="space-y-4 mt-6">
+                  <Label className="text-sm font-medium">Quick details for your top goal</Label>
+                  {formData.financialGoals.slice(0, 1).map((goal) => (
+                    <div key={goal.name} className="p-4 bg-gray-50 rounded-lg space-y-3">
+                      <h4 className="font-medium text-sm">{goal.name}</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <Label className="text-xs">Target Amount (₹)</Label>
+                          <Input
+                            type="number"
+                            value={goal.targetAmount}
+                            onChange={(e) => updateGoalField(goal.name, 'targetAmount', e.target.value)}
+                            placeholder="e.g., 500000"
+                            className="h-10 text-sm"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-xs">Years to achieve</Label>
+                          <Input
+                            type="number"
+                            value={goal.targetYears}
+                            onChange={(e) => updateGoalField(goal.name, 'targetYears', e.target.value)}
+                            placeholder="e.g., 5"
+                            className="h-10 text-sm"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <p className="text-xs text-gray-500">
+                    You can add details for other goals later in your dashboard
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         );
