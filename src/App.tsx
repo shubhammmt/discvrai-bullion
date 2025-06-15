@@ -1,75 +1,70 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import MobileBottomNav from "./components/MobileBottomNav";
-import Index from "./pages/Index";
-import FinancialCopilot from "./pages/FinancialCopilot";
-import IndiaMarketCopilot from "./pages/IndiaMarketCopilot";
-import Onboarding from "./pages/Onboarding";
-import Feed from "./pages/Feed";
-import Research from "./pages/Research";
-import StockResearch from "./pages/StockResearch";
-import MutualFundResearch from "./pages/MutualFundResearch";
-import IPOResearch from "./pages/IPOResearch";
-import CreditResearch from "./pages/CreditResearch";
-import CreditCardResearch from "./pages/CreditCardResearch";
-import SmallcaseResearch from "./pages/SmallcaseResearch";
-import InsuranceResearch from "./pages/InsuranceResearch";
-import Organize from "./pages/Organize";
-import Portfolio from "./pages/Portfolio";
-import PortfolioUpdate from "./pages/PortfolioUpdate";
-import PitchPresentation from "./pages/PitchPresentation";
-import AIStrategy from "./pages/AIStrategy";
-import AIConversationDemo from "./pages/AIConversationDemo";
-import NotFound from "./pages/NotFound";
-import Dashboard from "./pages/Dashboard";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Index from '@/pages/Index';
+import Feed from '@/pages/Feed';
+import Research from '@/pages/Research';
+import StockResearch from '@/pages/StockResearch';
+import MutualFundResearch from '@/pages/MutualFundResearch';
+import InsuranceResearch from '@/pages/InsuranceResearch';
+import CreditResearch from '@/pages/CreditResearch';
+import CreditCardResearch from '@/pages/CreditCardResearch';
+import IPOResearch from '@/pages/IPOResearch';
+import SmallcaseResearch from '@/pages/SmallcaseResearch';
+import Portfolio from '@/pages/Portfolio';
+import PortfolioUpdate from '@/pages/PortfolioUpdate';
+import Dashboard from '@/pages/Dashboard';
+import Onboarding from '@/pages/Onboarding';
+import Organize from '@/pages/Organize';
+import AIStrategy from '@/pages/AIStrategy';
+import FinancialCopilot from '@/pages/FinancialCopilot';
+import IndiaMarketCopilot from '@/pages/IndiaMarketCopilot';
+import USMarketHome from '@/pages/USMarketHome';
+import AIConversationDemo from '@/pages/AIConversationDemo';
+import PitchPresentation from '@/pages/PitchPresentation';
+import PitchV1 from '@/pages/PitchV1';
+import NotFound from '@/pages/NotFound';
+import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
+import { Toaster } from '@/components/ui/sonner';
+import './App.css';
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-          <Header />
-          <main className="pb-16 md:pb-0">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/us-market-home" element={<FinancialCopilot />} />
-              <Route path="/financial-copilot" element={<FinancialCopilot />} />
-              <Route path="/india-market-copilot" element={<IndiaMarketCopilot />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/feed" element={<Feed />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/research" element={<Research />} />
-              <Route path="/research/stock/:symbol" element={<StockResearch />} />
-              <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
-              <Route path="/research/ipo/:symbol" element={<IPOResearch />} />
-              <Route path="/research/credit/:productId" element={<CreditResearch />} />
-              <Route path="/research/credit-card/:cardId" element={<CreditCardResearch />} />
-              <Route path="/research/smallcase/:smallcaseId" element={<SmallcaseResearch />} />
-              <Route path="/research/insurance/:productId" element={<InsuranceResearch />} />
-              <Route path="/organize" element={<Organize />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/portfolio-update" element={<PortfolioUpdate />} />
-              <Route path="/pitch" element={<PitchPresentation />} />
-              <Route path="/ai-strategy" element={<AIStrategy />} />
-              <Route path="/ai-demo" element={<AIConversationDemo />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <MobileBottomNav />
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SubscriptionProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/research" element={<Research />} />
+            <Route path="/research/stock/:symbol" element={<StockResearch />} />
+            <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
+            <Route path="/research/insurance/:productId" element={<InsuranceResearch />} />
+            <Route path="/research/credit/:productId" element={<CreditResearch />} />
+            <Route path="/research/credit-card/:cardId" element={<CreditCardResearch />} />
+            <Route path="/research/ipo/:ipoId" element={<IPOResearch />} />
+            <Route path="/research/smallcase/:smallcaseId" element={<SmallcaseResearch />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/portfolio/update" element={<PortfolioUpdate />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/organize" element={<Organize />} />
+            <Route path="/ai-strategy" element={<AIStrategy />} />
+            <Route path="/financial-copilot" element={<FinancialCopilot />} />
+            <Route path="/india-market" element={<IndiaMarketCopilot />} />
+            <Route path="/us-market" element={<USMarketHome />} />
+            <Route path="/ai-conversation" element={<AIConversationDemo />} />
+            <Route path="/pitch" element={<PitchPresentation />} />
+            <Route path="/pitch-v1" element={<PitchV1 />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Toaster />
+        </Router>
+      </SubscriptionProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
