@@ -125,7 +125,7 @@ const PitchV1 = () => {
     {
       id: 11,
       type: 'funding',
-      title: "₹2Cr Seed Round at ₹16Cr Valuation",
+      title: "$2M Seed Round at $16M Valuation",
       subtitle: "Build India's Financial Health Infrastructure",
       allocation: [
         { category: "Health Tech & AI", percentage: "40%", description: "Advanced health scoring algorithms and AI coaching" },
@@ -135,7 +135,7 @@ const PitchV1 = () => {
       ],
       milestones: [
         "Month 6: 50K health assessments completed",
-        "Month 12: ₹50L monthly revenue from health-driven products",
+        "Month 12: $600K monthly revenue from health-driven products",
         "Month 18: 5L users with measurable health improvement"
       ]
     }
@@ -504,11 +504,11 @@ const PitchV1 = () => {
                 <h3 className="text-2xl font-bold mb-4 text-green-800">Investment Opportunity</h3>
                 <div className="flex justify-center gap-8 flex-wrap">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-green-600">₹2Cr</div>
+                    <div className="text-3xl font-bold text-green-600">$2M</div>
                     <div className="text-gray-600">Raising</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-blue-600">₹16Cr</div>
+                    <div className="text-3xl font-bold text-blue-600">$16M</div>
                     <div className="text-gray-600">Valuation</div>
                   </div>
                   <div className="text-center">
