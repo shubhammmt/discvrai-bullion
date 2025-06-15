@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, ArrowLeft, Heart, Brain, Target, TrendingUp, Users, Shield, CheckCircle, Zap, Clock, BarChart3 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Heart, Brain, Target, TrendingUp, Users, Shield, CheckCircle, Zap, Clock, BarChart3, DollarSign, Lightbulb, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PitchV1 = () => {
@@ -65,11 +64,11 @@ const PitchV1 = () => {
       id: 6,
       type: 'market-health',
       title: "Financial Wellness Market Opportunity",
-      subtitle: "$50B+ Financial Health & Wellness Market",
+      subtitle: "₹4,00,000Cr+ Financial Health & Wellness Market",
       data: {
-        totalMarket: "$1.2T Indian Financial Services",
-        healthSegment: "$50B+ Financial Wellness & Planning",
-        ourTarget: "$5B Addressable with Health-First Approach",
+        totalMarket: "₹96,00,000Cr Indian Financial Services",
+        healthSegment: "₹4,00,000Cr+ Financial Wellness & Planning",
+        ourTarget: "₹40,000Cr Addressable with Health-First Approach",
         growth: "25% YoY growth in financial wellness adoption"
       }
     },
@@ -117,16 +116,16 @@ const PitchV1 = () => {
       title: "Vision: India's Financial Health OS",
       vision: "Every Indian knows their financial health score and has a personalized path to financial wellness",
       goals: [
-        "1M+ Indians assess their financial health annually",
+        "10L+ Indians assess their financial health annually",
         "Average health score improvement of 25+ points",
-        "₹100Cr+ in optimized financial decisions guided",
+        "₹1,000Cr+ in optimized financial decisions guided",
         "Become the trusted financial health standard for India"
       ]
     },
     {
       id: 11,
       type: 'funding',
-      title: "₹25Cr Seed Round",
+      title: "₹2Cr Seed Round at ₹16Cr Valuation",
       subtitle: "Build India's Financial Health Infrastructure",
       allocation: [
         { category: "Health Tech & AI", percentage: "40%", description: "Advanced health scoring algorithms and AI coaching" },
@@ -137,7 +136,7 @@ const PitchV1 = () => {
       milestones: [
         "Month 6: 50K health assessments completed",
         "Month 12: ₹50L monthly revenue from health-driven products",
-        "Month 18: 500K users with measurable health improvement"
+        "Month 18: 5L users with measurable health improvement"
       ]
     }
   ];
@@ -285,6 +284,240 @@ const PitchV1 = () => {
                 </Card>
               ))}
             </div>
+          </div>
+        );
+
+      case 'market-health':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <TrendingUp className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <Card className="p-6 bg-gradient-to-br from-blue-50 to-purple-50">
+                <CardContent className="space-y-4">
+                  <h3 className="text-xl font-bold text-blue-600">Total Market Size</h3>
+                  <div className="text-3xl font-bold text-blue-800">{slide.data.totalMarket}</div>
+                  <p className="text-gray-600">Indian Financial Services Market</p>
+                </CardContent>
+              </Card>
+              <Card className="p-6 bg-gradient-to-br from-green-50 to-blue-50">
+                <CardContent className="space-y-4">
+                  <h3 className="text-xl font-bold text-green-600">Health Segment</h3>
+                  <div className="text-3xl font-bold text-green-800">{slide.data.healthSegment}</div>
+                  <p className="text-gray-600">Financial Wellness & Planning</p>
+                </CardContent>
+              </Card>
+              <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50">
+                <CardContent className="space-y-4">
+                  <h3 className="text-xl font-bold text-purple-600">Our Addressable Market</h3>
+                  <div className="text-3xl font-bold text-purple-800">{slide.data.ourTarget}</div>
+                  <p className="text-gray-600">Health-First Approach</p>
+                </CardContent>
+              </Card>
+              <Card className="p-6 bg-gradient-to-br from-orange-50 to-red-50">
+                <CardContent className="space-y-4">
+                  <h3 className="text-xl font-bold text-orange-600">Market Growth</h3>
+                  <div className="text-3xl font-bold text-orange-800">{slide.data.growth}</div>
+                  <p className="text-gray-600">in financial wellness adoption</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        );
+
+      case 'differentiation':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <Lightbulb className="w-16 h-16 mx-auto mb-4 text-yellow-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              {slide.comparisons.map((comp: any, index: number) => (
+                <Card key={index} className={`p-6 ${index === 0 ? 'border-red-200 bg-red-50' : 'border-green-200 bg-green-50'}`}>
+                  <CardContent className="space-y-4">
+                    <h3 className={`text-xl font-bold ${index === 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {comp.aspect}
+                    </h3>
+                    <p className="text-gray-700">{comp.description}</p>
+                    <p className={`text-sm font-medium ${index === 0 ? 'text-red-500' : 'text-green-500'}`}>
+                      {comp.limitation || comp.advantage}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <Card className="p-6 bg-gradient-to-r from-blue-50 to-purple-50">
+              <CardContent>
+                <h3 className="text-2xl font-bold text-center mb-6 text-blue-800">Key Benefits of Our Approach</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {slide.benefits.map((benefit: string, index: number) => (
+                    <div key={index} className="flex items-center gap-3 p-3 bg-white rounded-lg">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <p className="text-gray-700">{benefit}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        );
+
+      case 'revenue-health':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <DollarSign className="w-16 h-16 mx-auto mb-4 text-green-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {slide.streams.map((stream: any, index: number) => (
+                <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+                  <CardContent className="space-y-4">
+                    <h3 className="text-xl font-bold text-green-600">{stream.product}</h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Commission:</span>
+                        <span className="font-semibold text-green-600">{stream.commission}</span>
+                      </div>
+                      {stream.subscription && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Subscription:</span>
+                          <span className="font-semibold text-blue-600">{stream.subscription}</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-gray-600 text-sm">{stream.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'traction':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <Star className="w-16 h-16 mx-auto mb-4 text-yellow-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {slide.metrics.map((metric: any, index: number) => (
+                <Card key={index} className="p-6 text-center hover:shadow-lg transition-shadow">
+                  <CardContent className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-800">{metric.metric}</h3>
+                    <div className="text-3xl font-bold text-blue-600">{metric.value}</div>
+                    <p className="text-gray-600">{metric.growth}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'vision-health':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <Target className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
+            </div>
+            
+            <Card className="p-8 bg-gradient-to-r from-purple-50 to-blue-50 mb-8">
+              <CardContent>
+                <p className="text-xl text-center text-gray-800 font-medium leading-relaxed">
+                  "{slide.vision}"
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {slide.goals.map((goal: string, index: number) => (
+                <Card key={index} className="p-6">
+                  <CardContent className="flex items-center gap-4">
+                    <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                      {index + 1}
+                    </div>
+                    <p className="text-gray-700">{goal}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'funding':
+        return (
+          <div className="space-y-8">
+            <div className="text-center">
+              <TrendingUp className="w-16 h-16 mx-auto mb-4 text-green-600" />
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">{slide.title}</h2>
+              <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-2xl font-bold mb-6">Fund Allocation</h3>
+                <div className="space-y-4">
+                  {slide.allocation.map((item: any, index: number) => (
+                    <Card key={index} className="p-4">
+                      <CardContent className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-2xl font-bold text-green-600">{item.percentage}</span>
+                          <span className="text-lg font-semibold">{item.category}</span>
+                        </div>
+                        <p className="text-gray-600">{item.description}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-2xl font-bold mb-6">18-Month Milestones</h3>
+                <div className="space-y-4">
+                  {slide.milestones.map((milestone: string, index: number) => (
+                    <Card key={index} className="p-4">
+                      <CardContent>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                            {index + 1}
+                          </div>
+                          <p className="text-gray-700">{milestone}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50">
+              <CardContent className="text-center">
+                <h3 className="text-2xl font-bold mb-4 text-green-800">Investment Opportunity</h3>
+                <div className="flex justify-center gap-8 flex-wrap">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-600">₹2Cr</div>
+                    <div className="text-gray-600">Raising</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-600">₹16Cr</div>
+                    <div className="text-gray-600">Valuation</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-purple-600">12.5%</div>
+                    <div className="text-gray-600">Equity</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
