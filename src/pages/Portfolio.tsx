@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, 
@@ -17,7 +19,11 @@ import {
   Edit,
   Plus,
   Upload,
-  RefreshCw
+  RefreshCw,
+  Shield,
+  CreditCard,
+  Download,
+  AlertCircle
 } from 'lucide-react';
 import PortfolioChart from '@/components/PortfolioChart';
 import StatsCards from '@/components/StatsCards';
