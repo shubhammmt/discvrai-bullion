@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,7 +22,9 @@ import {
   Shield,
   CreditCard,
   Download,
-  AlertCircle
+  AlertCircle,
+  Heart,
+  TrendingUp as HealthIcon
 } from 'lucide-react';
 import PortfolioChart from '@/components/PortfolioChart';
 import StatsCards from '@/components/StatsCards';
@@ -102,6 +103,53 @@ const Portfolio = () => {
     { description: 'Vacation Fund Goal', amount: 50000, dueDate: '2024-03-01', category: 'goal' }
   ];
 
+  // NEW: Financial Health Score Calculation
+  const calculateFinancialHealthScore = () => {
+    let score = 0;
+    let maxScore = 0;
+
+    // Diversification Score (0-25 points)
+    const assetClasses = ['investments', 'insurance', 'liquidAssets'];
+    const diversificationScore = Math.min(assetClasses.length * 8, 25);
+    score += diversificationScore;
+    maxScore += 25;
+
+    // Insurance Coverage Score (0-25 points)
+    const incomeMultiplier = wealthOverview.insurance / 1000000; // Assuming ₹10L annual income
+    const insuranceScore = Math.min(incomeMultiplier * 5, 25);
+    score += insuranceScore;
+    maxScore += 25;
+
+    // Debt Management Score (0-25 points)
+    const debtRatio = Math.abs(wealthOverview.loans) / wealthOverview.totalWealth;
+    const debtScore = Math.max(25 - (debtRatio * 50), 0);
+    score += debtScore;
+    maxScore += 25;
+
+    // Liquidity Score (0-25 points)
+    const liquidityRatio = wealthOverview.liquidAssets / wealthOverview.totalWealth;
+    const liquidityScore = liquidityRatio > 0.1 ? 25 : liquidityRatio * 250;
+    score += liquidityScore;
+    maxScore += 25;
+
+    return Math.round((score / maxScore) * 100);
+  };
+
+  const healthScore = calculateFinancialHealthScore();
+
+  const getHealthScoreColor = (score: number) => {
+    if (score >= 80) return 'text-green-600';
+    if (score >= 60) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  const getHealthScoreLabel = (score: number) => {
+    if (score >= 80) return 'Excellent';
+    if (score >= 60) return 'Good';
+    if (score >= 40) return 'Fair';
+    return 'Needs Improvement';
+  };
+
   const calculatePnL = (holding: any) => {
     const invested = holding.quantity * holding.avgPrice;
     const current = holding.quantity * holding.currentPrice;
@@ -113,12 +161,12 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Enhanced Header with Portfolio Management CTAs */}
+        {/* Enhanced Header */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">Portfolio Dashboard</h1>
-              <p className="text-gray-600">Track your investments and monitor performance</p>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">Financial Health Dashboard</h1>
+              <p className="text-gray-600">Monitor and optimize your complete financial wellbeing</p>
             </div>
             <div className="flex items-center gap-3">
               <Button 
@@ -146,6 +194,36 @@ const Portfolio = () => {
               </Button>
             </div>
           </div>
+
+          {/* Financial Health Score Card */}
+          <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                    <Heart className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                      Financial Health Score
+                    </h3>
+                    <p className="text-gray-600">Overall assessment of your financial wellbeing</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className={`text-5xl font-bold ${getHealthScoreColor(healthScore)} mb-2`}>
+                    {healthScore}/100
+                  </div>
+                  <p className={`text-lg font-semibold ${getHealthScoreColor(healthScore)}`}>
+                    {getHealthScoreLabel(healthScore)}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Progress value={healthScore} className="h-3" />
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Quick Action Cards for Portfolio Management */}
           <div className="grid md:grid-cols-3 gap-4 mb-6">
@@ -207,7 +285,7 @@ const Portfolio = () => {
             <CardContent className="p-6 text-center">
               <Shield className="w-8 h-8 mx-auto mb-2 text-green-600" />
               <p className="text-2xl font-bold text-green-600">₹{(wealthOverview.insurance / 100000).toFixed(0)}L</p>
-              <p className="text-sm text-gray-600">Insurance Coverage</p>
+              <p className="text-sm text-gray-600">Protection Coverage</p>
             </CardContent>
           </Card>
           
@@ -215,7 +293,7 @@ const Portfolio = () => {
             <CardContent className="p-6 text-center">
               <CreditCard className="w-8 h-8 mx-auto mb-2 text-red-600" />
               <p className="text-2xl font-bold text-red-600">₹{Math.abs(wealthOverview.loans / 100000).toFixed(1)}L</p>
-              <p className="text-sm text-gray-600">Outstanding Loans</p>
+              <p className="text-sm text-gray-600">Debt Optimization</p>
             </CardContent>
           </Card>
           
@@ -230,12 +308,12 @@ const Portfolio = () => {
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="investments">Investments</TabsTrigger>
-            <TabsTrigger value="insurance">Insurance</TabsTrigger>
-            <TabsTrigger value="credit">Credit & Loans</TabsTrigger>
+            <TabsTrigger value="overview">Health Overview</TabsTrigger>
+            <TabsTrigger value="investments">Wealth Building</TabsTrigger>
+            <TabsTrigger value="insurance">Protection</TabsTrigger>
+            <TabsTrigger value="credit">Debt Optimization</TabsTrigger>
             <TabsTrigger value="goals">Financial Goals</TabsTrigger>
-            <TabsTrigger value="analysis">AI Analysis</TabsTrigger>
+            <TabsTrigger value="analysis">AI Health Analysis</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
@@ -246,7 +324,7 @@ const Portfolio = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Calendar className="w-5 h-5" />
-                    Upcoming Expenses
+                    Upcoming Financial Obligations
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -274,14 +352,14 @@ const Portfolio = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <PieChart className="w-5 h-5" />
-                    Asset Allocation
+                    Wealth Distribution
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span>Equity Investments</span>
+                        <span>Growth Investments</span>
                         <span>42%</span>
                       </div>
                       <Progress value={42} className="h-2" />
@@ -289,7 +367,7 @@ const Portfolio = () => {
                     
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span>Fixed Deposits</span>
+                        <span>Safe Deposits</span>
                         <span>28%</span>
                       </div>
                       <Progress value={28} className="h-2" />
@@ -297,7 +375,7 @@ const Portfolio = () => {
                     
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span>Mutual Funds</span>
+                        <span>Balanced Funds</span>
                         <span>20%</span>
                       </div>
                       <Progress value={20} className="h-2" />
@@ -305,7 +383,7 @@ const Portfolio = () => {
 
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span>Cash & Savings</span>
+                        <span>Emergency Fund</span>
                         <span>10%</span>
                       </div>
                       <Progress value={10} className="h-2" />
@@ -319,10 +397,10 @@ const Portfolio = () => {
           {/* Insurance Tab */}
           <TabsContent value="insurance" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Insurance Portfolio</h2>
+              <h2 className="text-xl font-semibold">Protection Portfolio</h2>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
-                Add Policy
+                Add Coverage
               </Button>
             </div>
 
@@ -363,10 +441,10 @@ const Portfolio = () => {
           {/* Credit & Loans Tab */}
           <TabsContent value="credit" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Credit & Loans</h2>
+              <h2 className="text-xl font-semibold">Debt Optimization</h2>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
-                Apply for Credit
+                Optimize Debt
               </Button>
             </div>
 
@@ -407,7 +485,7 @@ const Portfolio = () => {
                       </div>
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline">Pay Now</Button>
-                        <Button size="sm">View Details</Button>
+                        <Button size="sm">Optimize</Button>
                       </div>
                     </div>
                   </CardContent>
@@ -469,10 +547,10 @@ const Portfolio = () => {
             </div>
           </TabsContent>
 
-          {/* Keep existing tabs (investments, analysis) with existing code */}
+          {/* Keep existing tabs (investments, analysis) with updated names */}
           <TabsContent value="investments" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Current Holdings</h2>
+              <h2 className="text-xl font-semibold">Wealth Building Assets</h2>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">
                   <RefreshCw className="w-4 h-4 mr-2" />
@@ -491,11 +569,11 @@ const Portfolio = () => {
                   <table className="w-full">
                     <thead className="border-b">
                       <tr className="text-left">
-                        <th className="p-4 font-medium">Stock</th>
+                        <th className="p-4 font-medium">Asset</th>
                         <th className="p-4 font-medium">Quantity</th>
                         <th className="p-4 font-medium">Avg Price</th>
                         <th className="p-4 font-medium">Current Price</th>
-                        <th className="p-4 font-medium">P&L</th>
+                        <th className="p-4 font-medium">Wealth Impact</th>
                         <th className="p-4 font-medium">Allocation</th>
                         <th className="p-4 font-medium">Actions</th>
                       </tr>
@@ -548,7 +626,7 @@ const Portfolio = () => {
 
           <TabsContent value="analysis" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">AI Portfolio Analysis</h2>
+              <h2 className="text-xl font-semibold">AI Financial Health Analysis</h2>
               <Button variant="outline">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Refresh Analysis
@@ -558,7 +636,7 @@ const Portfolio = () => {
             <div className="grid lg:grid-cols-2 gap-6">
               {/* AI Insights */}
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">AI Insights & Recommendations</h3>
+                <h3 className="text-lg font-medium">Health Improvement Recommendations</h3>
                 {aiInsights.map((insight, index) => (
                   <Card key={index}>
                     <CardContent className="p-4">
@@ -571,7 +649,7 @@ const Portfolio = () => {
                           <h4 className="font-semibold mb-1">{insight.title}</h4>
                           <p className="text-sm text-gray-600 mb-3">{insight.description}</p>
                           <div className="flex gap-2">
-                            <Button size="sm">Apply</Button>
+                            <Button size="sm">Improve Health Score</Button>
                             <Button size="sm" variant="outline">Learn More</Button>
                           </div>
                         </div>
@@ -581,14 +659,16 @@ const Portfolio = () => {
                 ))}
               </div>
 
-              {/* Portfolio Health Score */}
+              {/* Portfolio Health Score Breakdown */}
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">Portfolio Health Score</h3>
+                <h3 className="text-lg font-medium">Health Score Breakdown</h3>
                 <Card>
                   <CardContent className="p-6">
                     <div className="text-center mb-6">
-                      <div className="text-4xl font-bold text-green-600 mb-2">78/100</div>
-                      <p className="text-gray-600">Good Portfolio Health</p>
+                      <div className={`text-4xl font-bold mb-2 ${getHealthScoreColor(healthScore)}`}>
+                        {healthScore}/100
+                      </div>
+                      <p className="text-gray-600">{getHealthScoreLabel(healthScore)} Financial Health</p>
                     </div>
                     
                     <div className="space-y-4">
@@ -602,7 +682,7 @@ const Portfolio = () => {
                       
                       <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span>Risk Management</span>
+                          <span>Protection Coverage</span>
                           <span>72%</span>
                         </div>
                         <Progress value={72} className="h-2" />
@@ -610,10 +690,18 @@ const Portfolio = () => {
                       
                       <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span>Growth Potential</span>
+                          <span>Debt Management</span>
                           <span>68%</span>
                         </div>
                         <Progress value={68} className="h-2" />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Emergency Readiness</span>
+                          <span>75%</span>
+                        </div>
+                        <Progress value={75} className="h-2" />
                       </div>
                     </div>
                   </CardContent>

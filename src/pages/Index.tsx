@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn } from 'lucide-react';
+import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn, Heart, Activity, CheckCircle } from 'lucide-react';
 import CryptoNewsCards from '@/components/CryptoNewsCards';
 
 const Index = () => {
@@ -63,30 +64,38 @@ const Index = () => {
 
   const features = [
     {
+      icon: Heart,
+      title: "Complete Health Check",
+      description: "Assess your entire financial wellbeing",
+      color: "bg-red-100 text-red-600"
+    },
+    {
       icon: Brain,
-      title: "AI Discovery",
-      description: "Find perfect investments in seconds",
+      title: "AI-Powered Guidance",
+      description: "Smart recommendations for improvement",
       color: "bg-blue-100 text-blue-600"
     },
     {
-      icon: Zap,
-      title: "Instant Analysis",
-      description: "Get smart insights immediately",
-      color: "bg-purple-100 text-purple-600"
-    },
-    {
       icon: Target,
-      title: "Personalized",
-      description: "Tailored to your goals & risk",
+      title: "Goal-Oriented Planning",
+      description: "Build wealth toward your life goals",
       color: "bg-green-100 text-green-600"
     }
   ];
 
-  const offerings = [
-    { name: "Stocks", description: "Individual company shares", icon: TrendingUp },
-    { name: "Mutual Funds", description: "Expert-managed portfolios", icon: BarChart3 },
-    { name: "ETFs", description: "Diversified market exposure", icon: Globe },
-    { name: "IPOs", description: "New listing opportunities", icon: Sparkles }
+  const healthAreas = [
+    { name: "Wealth Building", description: "Stocks, funds, and growth investments", icon: TrendingUp },
+    { name: "Protection Planning", description: "Insurance and risk management", icon: Shield },
+    { name: "Debt Optimization", description: "Loans and credit management", icon: Activity },
+    { name: "Goal Achievement", description: "Retirement, education, and life goals", icon: Target }
+  ];
+
+  const healthBenefits = [
+    "Complete financial health assessment in 30 seconds",
+    "AI identifies gaps and opportunities automatically", 
+    "Personalized action plan for wealth building",
+    "Track progress across all financial aspects",
+    "Expert guidance without expensive advisors"
   ];
 
   return (
@@ -98,25 +107,25 @@ const Index = () => {
           <div className="text-center mb-16">
             <div className="flex justify-center items-center mb-8">
               <div className="relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center">
-                  <Brain className="w-12 h-12 text-white" />
+                <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl flex items-center justify-center">
+                  <Heart className="w-12 h-12 text-white" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-white" />
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <Brain className="w-4 h-4 text-white" />
                 </div>
               </div>
             </div>
             
-            <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
               discvr.ai
             </h1>
             
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Discover smart investments<br />in 30 seconds
+              Complete Financial Health<br />in 30 seconds
             </h2>
             
             <p className="text-xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed">
-              AI-powered investment discovery that learns your preferences and finds opportunities across stocks, funds, and more
+              AI-powered platform that assesses your entire financial wellbeing and guides you toward optimal wealth building across investments, protection, debt, and goals
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
@@ -125,9 +134,9 @@ const Index = () => {
                   <Button 
                     size="lg" 
                     onClick={() => navigate('/onboarding')} 
-                    className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    className="px-8 py-4 text-lg bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
                   >
-                    Start Discovering <ArrowRight className="ml-2" size={20} />
+                    Check My Financial Health <ArrowRight className="ml-2" size={20} />
                   </Button>
                   <Button 
                     size="lg" 
@@ -142,10 +151,10 @@ const Index = () => {
               ) : (
                 <Button 
                   size="lg" 
-                  onClick={() => navigate('/feed')} 
-                  className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  onClick={() => navigate('/portfolio')} 
+                  className="px-8 py-4 text-lg bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
                 >
-                  Go to Dashboard <ArrowRight className="ml-2" size={20} />
+                  View My Health Dashboard <ArrowRight className="ml-2" size={20} />
                 </Button>
               )}
               <Button 
@@ -181,45 +190,78 @@ const Index = () => {
         <CryptoNewsCards newsData={sampleCryptoNews} />
       </div>
 
-      {/* Second Section - Investment Universe */}
+      {/* Financial Health Areas Section */}
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="text-center mb-16">
-          <h3 className="text-4xl font-bold mb-6">Complete Investment Universe</h3>
-          <p className="text-xl text-gray-600">Discover opportunities across all major asset classes</p>
+          <h3 className="text-4xl font-bold mb-6">Complete Financial Health Coverage</h3>
+          <p className="text-xl text-gray-600">Monitor and optimize every aspect of your financial wellbeing</p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {offerings.map((offering, index) => (
+          {healthAreas.map((area, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow border-0 bg-white/80 backdrop-blur-sm">
               <CardContent className="p-6 text-center">
-                <offering.icon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h4 className="text-lg font-semibold mb-2">{offering.name}</h4>
-                <p className="text-gray-600">{offering.description}</p>
+                <area.icon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h4 className="text-lg font-semibold mb-2">{area.name}</h4>
+                <p className="text-gray-600">{area.description}</p>
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
 
+      {/* Health Benefits Section */}
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="bg-gradient-to-r from-red-50 to-purple-50 rounded-3xl p-12">
+          <h3 className="text-3xl font-bold text-center mb-12">Why Financial Health Matters</h3>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="space-y-6">
+              {healthBenefits.map((benefit, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                  </div>
+                  <p className="text-lg text-gray-700">{benefit}</p>
+                </div>
+              ))}
+            </div>
+            <div className="text-center">
+              <div className="w-32 h-32 bg-gradient-to-br from-red-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Heart className="w-16 h-16 text-white" />
+              </div>
+              <h4 className="text-2xl font-bold text-gray-900 mb-4">Get Your Health Score</h4>
+              <p className="text-gray-600 mb-6">Comprehensive assessment of your financial wellbeing in one simple score</p>
+              <Button 
+                size="lg" 
+                onClick={() => navigate(userProfile ? '/portfolio' : '/onboarding')}
+                className="bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
+              >
+                {userProfile ? 'View Dashboard' : 'Start Assessment'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* AI-First Messaging */}
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-white text-center">
-          <h3 className="text-3xl font-bold mb-8">Why discvr.ai is Different</h3>
+          <h3 className="text-3xl font-bold mb-8">AI-Powered Financial Health Platform</h3>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <Shield className="w-12 h-12 mx-auto mb-4" />
-              <h4 className="text-xl font-semibold mb-3">AI-Native Platform</h4>
-              <p className="text-blue-100">Built from the ground up with AI, not just added features</p>
+              <Heart className="w-12 h-12 mx-auto mb-4" />
+              <h4 className="text-xl font-semibold mb-3">Holistic Assessment</h4>
+              <p className="text-blue-100">Complete picture of your financial health, not just investments</p>
             </div>
             <div>
               <Brain className="w-12 h-12 mx-auto mb-4" />
-              <h4 className="text-xl font-semibold mb-3">Smart Discovery</h4>
-              <p className="text-blue-100">Learns your preferences and finds opportunities automatically</p>
+              <h4 className="text-xl font-semibold mb-3">Smart Recommendations</h4>
+              <p className="text-blue-100">AI identifies gaps and suggests specific improvements automatically</p>
             </div>
             <div>
-              <Globe className="w-12 h-12 mx-auto mb-4" />
-              <h4 className="text-xl font-semibold mb-3">Everything in One Place</h4>
-              <p className="text-blue-100">Stocks, funds, crypto, insurance - all in one platform</p>
+              <Target className="w-12 h-12 mx-auto mb-4" />
+              <h4 className="text-xl font-semibold mb-3">Goal-Oriented Guidance</h4>
+              <p className="text-blue-100">Build wealth strategically toward your life goals and dreams</p>
             </div>
           </div>
         </div>
@@ -228,19 +270,19 @@ const Index = () => {
       {/* Stats Section */}
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="text-center">
-          <h3 className="text-3xl font-bold mb-12">Trusted by Smart Investors</h3>
+          <h3 className="text-3xl font-bold mb-12">Trusted by Health-Conscious Investors</h3>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-8">
-              <p className="text-5xl font-bold text-blue-600 mb-4">30s</p>
-              <p className="text-gray-600 text-lg">Average discovery time</p>
+              <p className="text-5xl font-bold text-red-600 mb-4">30s</p>
+              <p className="text-gray-600 text-lg">Complete health assessment</p>
             </div>
             <div className="p-8">
-              <p className="text-5xl font-bold text-blue-600 mb-4">95%</p>
-              <p className="text-gray-600 text-lg">User satisfaction rate</p>
+              <p className="text-5xl font-bold text-red-600 mb-4">4</p>
+              <p className="text-gray-600 text-lg">Key health areas covered</p>
             </div>
             <div className="p-8">
-              <p className="text-5xl font-bold text-blue-600 mb-4">24/7</p>
-              <p className="text-gray-600 text-lg">AI discovery assistant</p>
+              <p className="text-5xl font-bold text-red-600 mb-4">24/7</p>
+              <p className="text-gray-600 text-lg">AI health monitoring</p>
             </div>
           </div>
         </div>
@@ -248,16 +290,16 @@ const Index = () => {
 
       {/* Final CTA */}
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <h3 className="text-3xl font-bold mb-6">Ready to Discover Smarter Investments?</h3>
-        <p className="text-xl text-gray-600 mb-8">Join thousands using AI to optimize their portfolios</p>
+        <h3 className="text-3xl font-bold mb-6">Ready to Optimize Your Financial Health?</h3>
+        <p className="text-xl text-gray-600 mb-8">Join thousands using AI to build comprehensive financial wellbeing</p>
         {!userProfile ? (
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button 
               size="lg" 
               onClick={() => navigate('/onboarding')} 
-              className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className="px-8 py-4 text-lg bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
             >
-              Start Your Journey <ArrowRight className="ml-2" size={20} />
+              Start Health Assessment <ArrowRight className="ml-2" size={20} />
             </Button>
             <Button 
               size="lg" 
@@ -272,10 +314,10 @@ const Index = () => {
         ) : (
           <Button 
             size="lg" 
-            onClick={() => navigate('/feed')} 
-            className="px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            onClick={() => navigate('/portfolio')} 
+            className="px-8 py-4 text-lg bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
           >
-            Access Dashboard <ArrowRight className="ml-2" size={20} />
+            Access Health Dashboard <ArrowRight className="ml-2" size={20} />
           </Button>
         )}
       </div>
@@ -283,7 +325,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="text-center py-8 border-t border-gray-200 bg-white/50">
         <p className="text-gray-500">
-          discvr.ai • Making smart investment discovery simple and fast
+          discvr.ai • Complete Financial Health Platform for Smart Wealth Building
         </p>
       </footer>
     </div>
