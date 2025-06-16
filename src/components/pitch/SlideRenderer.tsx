@@ -30,6 +30,8 @@ import { UnitEconomicsSlide } from './UnitEconomicsSlide';
 import { GoToMarketSlide } from './GoToMarketSlide';
 import { CompetitiveMoatsSlide } from './CompetitiveMoatsSlide';
 import { TractionSlide } from './TractionSlide';
+import { FinancialAssumptionsSlide } from './FinancialAssumptionsSlide';
+import { TeamBreakdownSlide } from './TeamBreakdownSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -63,6 +65,12 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <VisionSlideNew slide={slide} />;
     case 'funding':
       return <FundingSlide slide={slide} />;
+    case 'financial-assumptions':
+      return <FinancialAssumptionsSlide slide={slide} />;
+    case 'team-breakdown':
+      return <TeamBreakdownSlide slide={slide} />;
+    case 'competition':
+      return <CompetitionSlide slide={slide} />;
     case 'market':
       return <MarketSlide slide={slide} />;
     case 'revenue':
@@ -83,8 +91,6 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <AIInfrastructureSlide slide={slide} />;
     case 'detailed-gtm':
       return <DetailedGTMSlide slide={slide} />;
-    case 'competition':
-      return <CompetitionSlide slide={slide} />;
     case 'big-tech':
       return <BigTechSlide slide={slide} />;
     case 'moats':

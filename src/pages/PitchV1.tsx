@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, ArrowLeft, Heart, Brain, Target, TrendingUp, Users, Shield, CheckCircle, Zap, Clock, BarChart3, DollarSign, Lightbulb, Star, MapPin, Smartphone, MessageCircle, Camera } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Heart, Brain, Target, TrendingUp, Users, Shield, CheckCircle, Zap, Clock, BarChart3, DollarSign, Lightbulb, Star, MapPin, Smartphone, MessageCircle, Camera, Calculator, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
 
@@ -45,21 +45,23 @@ const PitchV1 = () => {
       id: 4,
       type: 'competition',
       title: "Competitive Analysis",
-      subtitle: "Clear Differentiation",
+      subtitle: "Clear Differentiation in Crowded Market",
       icon: Lightbulb,
       competitors: [
         { 
           platform: "Jupiter", 
           range: "Banking + Investment tracking",
           ux: "Excellent",
-          monetization: "Medium (banking fees)",
+          monetization: "Medium",
+          funding: "$171M",
           advantage: "Health-first + multi-product execution"
         },
         { 
           platform: "PolicyBazaar", 
           range: "Insurance-heavy",
           ux: "Poor",
-          monetization: "High (insurance)",
+          monetization: "High",
+          funding: "$366M",
           advantage: "Multi-product + better UX"
         },
         { 
@@ -67,47 +69,43 @@ const PitchV1 = () => {
           range: "Investment-only",
           ux: "Good",
           monetization: "Low",
-          advantage: "Health assessment + high-margin focus"
+          funding: "$393M",
+          advantage: "Health assessment + execution"
         },
         { 
           platform: "INDmoney", 
-          range: "Investment tracking + Execution",
-          ux: "Poor to Average",
+          range: "Investment tracking",
+          ux: "Average",
           monetization: "Low",
-          advantage: "Health-first approach + conversational AI"
+          funding: "$136M",
+          advantage: "Health-first + conversational AI"
         },
         { 
           platform: "CRED", 
           range: "Credit-focused",
           ux: "Excellent",
           monetization: "Medium",
-          advantage: "Broader product range + financial health"
-        },
-        { 
-          platform: "Zerodha", 
-          range: "Trading-focused",
-          ux: "Average",
-          monetization: "Medium",
-          advantage: "Discovery-first + young professional focus"
+          funding: "$681M",
+          advantage: "Broader range + financial health"
         }
       ]
     },
     {
       id: 5,
       type: 'market-opportunity',
-      title: "50-70M Indians in TAM, Targeting 30-40M SAM",
-      subtitle: "Research-backed market sizing with clear path to 3-4M users",
+      title: "49M Demat Accounts, Targeting 5M Active Users",
+      subtitle: "Data-backed market sizing with clear path to 1M users",
       icon: TrendingUp,
       marketData: {
-        tam: { number: "50-70M", label: "Total Addressable Market", description: "Salaried taxpayers earning >₹5L with investable surplus" },
-        sam: { number: "30-40M", label: "Serviceable Addressable Market", description: "Tier-1 urban professionals, digitally savvy with existing investments" },
-        som: { number: "3-4M", label: "Serviceable Obtainable Market", description: "10% of SAM - realistic fintech penetration in 3-5 years" }
+        tam: { number: "49M", label: "Total Demat Accounts", description: "Active demat accounts in India (SEBI data)" },
+        sam: { number: "25M", label: "Serviceable Addressable Market", description: "Urban, digitally active investors with >₹5L income" },
+        som: { number: "5M", label: "Serviceable Obtainable Market", description: "20% of SAM - realistic fintech penetration target" }
       },
       validation: [
-        "9.2 Cr income tax filers (FY24-25)",
-        "4.9 Cr active demat accounts",
-        "10.2 Cr mutual fund SIP accounts",
-        "68% prefer digital investment platforms"
+        "49M active demat accounts (SEBI FY24)",
+        "102M mutual fund SIP accounts",
+        "92M income tax filers",
+        "75% prefer digital investment platforms"
       ]
     },
     {
@@ -118,7 +116,7 @@ const PitchV1 = () => {
       persona: {
         demographics: {
           age: "25-32 years",
-          income: "₹6-12 LPA",
+          income: "₹6-15 LPA",
           location: "Bangalore, Hyderabad, Mumbai, NCR",
           role: "Software Engineer, Analyst, Designer"
         },
@@ -139,46 +137,46 @@ const PitchV1 = () => {
     {
       id: 7,
       type: 'revenue-model',
-      title: "Freemium → Commission Revenue Model",
-      subtitle: "Product validation through subscriptions, scale through commissions",
+      title: "Commission-Based Revenue Model",
+      subtitle: "Targeting ₹2,200 annual revenue per user",
       icon: DollarSign,
       revenueStreams: [
-        { title: "Insurance Commission", launch: "Month 1", commission: "5-25%", target: "₹20k avg premium", revenue: "₹3k per policy", details: "Focus on term life, health insurance" },
-        { title: "Investment Commission", launch: "Month 3", commission: "0.1-1%", target: "₹50k avg SIP", revenue: "₹500 per user annually", details: "Mutual fund trail commissions" },
-        { title: "Credit Commission", launch: "Month 6", commission: "₹200-500", target: "10% conversion", revenue: "₹300 per referral", details: "Personal loans, credit cards" }
+        { title: "Insurance Commission", launch: "Month 1", commission: "15-25%", target: "40% users buy", revenue: "₹1,200/user/year", details: "Focus on term life, health insurance" },
+        { title: "Investment Commission", launch: "Month 3", commission: "0.5-1%", target: "60% users active", revenue: "₹600/user/year", details: "Mutual fund trail commissions" },
+        { title: "Credit Commission", launch: "Month 6", commission: "₹2,000/referral", target: "20% conversion", revenue: "₹400/user/year", details: "Personal loans, credit cards" }
       ],
       userProjections: {
-        month6: { users: "10,000", revenue: "₹2L", description: "Bangalore launch, freemium adoption" },
-        month12: { users: "50,000", revenue: "₹15L", description: "Multi-city expansion, commission ramp" },
-        month18: { users: "150,000", revenue: "₹50L", description: "Scale optimization, premium tier" },
-        month24: { users: "300,000", revenue: "₹2Cr", description: "Market leadership in young professional segment" }
+        month6: { users: "100K", revenue: "₹10L", description: "Bangalore launch, freemium adoption" },
+        month12: { users: "400K", revenue: "₹60L", description: "Multi-city expansion, commission ramp" },
+        month18: { users: "1M", revenue: "₹150L", description: "Scale optimization, premium features" },
+        month24: { users: "1.5M", revenue: "₹300L", description: "Market leadership in young professional segment" }
       },
       unitEconomics: {
-        revenuePerUser: "₹800/year",
-        revenuePerMAU: "₹67/month",
-        conversionRate: "15% to paid",
-        cac: "₹1,500 target"
+        revenuePerUser: "₹2,200/year",
+        revenuePerMAU: "₹183/month",
+        conversionRate: "18% to revenue",
+        cac: "₹1,200 target"
       }
     },
     {
       id: 8,
       type: 'unit-economics',
-      title: "Strong Unit Economics: 20x LTV/CAC",
-      subtitle: "Research-backed projections for sustainable growth",
+      title: "Strong Unit Economics: 12.5x LTV/CAC",
+      subtitle: "Conservative projections for sustainable growth",
       icon: BarChart3,
       economics: {
-        cac: { value: "₹1,500", description: "Digital marketing + referrals" },
-        ltv: { value: "₹30,000", description: "3-year subscription + commissions" },
-        ratio: { value: "20x", description: "LTV/CAC ratio" },
-        payback: { value: "6 months", description: "CAC payback period" }
+        cac: { value: "₹1,200", description: "Digital marketing + referrals" },
+        ltv: { value: "₹15,000", description: "3-year user lifetime value" },
+        ratio: { value: "12.5x", description: "LTV/CAC ratio" },
+        payback: { value: "8 months", description: "CAC payback period" }
       },
       breakdown: {
-        title: "3-Year LTV Breakdown",
+        title: "3-Year LTV Breakdown (₹15,000)",
         components: [
-          { source: "Premium Subscription", amount: "₹12,000", description: "₹499/month × 24 months avg tenure" },
-          { source: "Insurance Commission", amount: "₹8,000", description: "₹40,000 premium × 20% commission" },
-          { source: "Investment Commission", amount: "₹6,000", description: "Trail commissions on SIPs" },
-          { source: "Credit Commission", amount: "₹4,000", description: "Loan/credit card referrals" }
+          { source: "Insurance Commission", amount: "₹7,200", description: "₹2,400/year × 3 years (churn adjusted)" },
+          { source: "Investment Commission", amount: "₹4,500", description: "Trail commissions on SIPs" },
+          { source: "Credit Commission", amount: "₹2,400", description: "Loan/credit card referrals" },
+          { source: "Premium Features", amount: "₹900", description: "Advanced analytics, priority support" }
         ]
       }
     },
@@ -192,18 +190,18 @@ const PitchV1 = () => {
         {
           phase: "Phase 1: Bangalore Launch",
           timeline: "Months 1-6",
-          target: "10,000 users",
+          target: "100K users",
           strategy: [
             "LinkedIn ads targeting software engineers",
             "Tech company partnerships (HR wellness programs)",
             "Content marketing on finance + tech blogs",
-            "Referral program: ₹300 cashback per friend"
+            "Referral program: ₹500 cashback per friend"
           ]
         },
         {
           phase: "Phase 2: Multi-city Expansion",
           timeline: "Months 6-12",
-          target: "50,000 users",
+          target: "400K users",
           strategy: [
             "Expand to Hyderabad, Mumbai, NCR",
             "Campus partnerships with engineering colleges",
@@ -212,9 +210,9 @@ const PitchV1 = () => {
           ]
         },
         {
-          phase: "Phase 3: Scale & Optimize",
+          phase: "Phase 3: Scale to 1M Users",
           timeline: "Months 12-18",
-          target: "200,000 users",
+          target: "1M users",
           strategy: [
             "Lookalike audiences from best users",
             "B2B white-label for corporate partners",
@@ -262,10 +260,10 @@ const PitchV1 = () => {
       title: "Market Validation & Target Metrics",
       icon: Star,
       metrics: [
-        { metric: "Target Health Assessments", value: "10K+ in Month 6", growth: "Based on Bangalore IT professional density" },
-        { metric: "Expected Completion Rate", value: "70-80%", growth: "vs 45% industry average for fintech onboarding" },
-        { metric: "Projected Goal Setting", value: "65% users", growth: "Research shows high intent post-assessment" },
-        { metric: "Expected Product Interest", value: "18-25%", growth: "vs 8% cold outreach conversion rates" }
+        { metric: "Target Health Assessments", value: "100K+ in Month 6", growth: "Based on Bangalore IT professional density" },
+        { metric: "Expected Completion Rate", value: "75-80%", growth: "vs 45% industry average for fintech onboarding" },
+        { metric: "Projected Revenue Conversion", value: "18-22%", growth: "Conservative vs 25% best-in-class fintech" },
+        { metric: "Expected User Retention", value: "65% Month-3", growth: "Research shows high engagement post-assessment" }
       ]
     },
     {
@@ -275,10 +273,10 @@ const PitchV1 = () => {
       icon: Target,
       vision: "Every young professional knows their financial health score and has a personalized path to financial wellness",
       goals: [
-        "3M+ young professionals assess their financial health annually",
-        "Average health score improvement of 25+ points per user",
-        "₹5,000Cr+ in optimized financial decisions guided",
-        "Become the trusted financial health standard for Tier-1 India"
+        "5M+ young professionals assess their financial health annually",
+        "Average health score improvement of 30+ points per user",
+        "₹10,000Cr+ in optimized financial decisions guided",
+        "Become the trusted financial health standard for Urban India"
       ],
       impact: {
         individual: "Personal wealth creation acceleration",
@@ -289,7 +287,7 @@ const PitchV1 = () => {
     {
       id: 13,
       type: 'funding',
-      title: "$2M Seed Round at $16M Valuation",
+      title: "$4M Seed Round at $20M Valuation",
       subtitle: "Build India's Financial Health Infrastructure",
       icon: TrendingUp,
       allocation: [
@@ -299,22 +297,107 @@ const PitchV1 = () => {
         { category: "Compliance & Partnerships", percentage: "5%", description: "Regulatory approvals and financial institution tie-ups" }
       ],
       milestones: [
-        "Month 6: 50K users across 4 cities with freemium model",
-        "Month 12: $500K ARR from premium subscriptions + commissions",
-        "Month 18: 200K users, Series A ready with proven unit economics"
+        "Month 6: 100K users across 4 cities with freemium model",
+        "Month 12: ₹60L ARR from commissions",
+        "Month 18: 1M users, Series A ready with proven unit economics"
       ],
       competitiveContext: {
         title: "Comparable Funding Rounds",
         examples: [
-          "INDmoney: $86M Series B (2023)",
-          "Jupiter: $86M Series C (2022)",
-          "Payme: $4.1M Series A (2022)"
+          "Jupiter: $171M Series C (2023)",
+          "INDmoney: $136M Series D (2022)",
+          "Groww: $393M Series E (2021)"
         ]
       },
       exitStrategy: [
         "Strategic acquisition by fintech/bank ($500M-1B valuation by year 5)",
         "IPO pathway following Indian fintech success stories",
         "Platform expansion to become financial super-app"
+      ]
+    },
+    {
+      id: 14,
+      type: 'financial-assumptions',
+      title: "Financial Model Assumptions",
+      subtitle: "Conservative estimates with room for upside",
+      icon: Calculator,
+      assumptions: [
+        {
+          category: "User Acquisition",
+          items: [
+            "CAC: ₹1,200 (vs ₹800-2,000 industry range)",
+            "Monthly signup rate: 5% of total addressable in each city",
+            "Organic growth: 20% of total acquisitions",
+            "Churn rate: 5% monthly (stabilizing to 3% by Month 18)"
+          ]
+        },
+        {
+          category: "Revenue Conversion",
+          items: [
+            "Insurance: 40% users buy (₹15,000 avg premium, 20% commission)",
+            "Investments: 60% users active (₹1,000 avg trail commission)",
+            "Credit: 20% users convert (₹2,000 avg commission)",
+            "Premium features: 8% users pay (₹299/month)"
+          ]
+        },
+        {
+          category: "Market Penetration",
+          items: [
+            "Bangalore: 15% of 500K IT professionals by Month 6",
+            "Tier-1 cities: 5% penetration of target segment",
+            "Growth rate: 40% month-over-month for first 12 months",
+            "Market saturation: 20% of SAM (5M users) by year 3"
+          ]
+        }
+      ]
+    },
+    {
+      id: 15,
+      type: 'team-breakdown',
+      title: "Team Building Roadmap",
+      subtitle: "18-month hiring plan for 1M user scale",
+      icon: Users,
+      teamPlan: {
+        month6: {
+          total: 15,
+          breakdown: [
+            { role: "Founder + Co-founder", count: 2, description: "CEO (Shubham) + CTO hire" },
+            { role: "Engineering Team", count: 6, description: "4 Full-stack, 1 Mobile, 1 AI/ML" },
+            { role: "Product & Design", count: 2, description: "1 Product Manager, 1 UI/UX Designer" },
+            { role: "Business Development", count: 3, description: "1 BD Head, 2 Partnership Managers" },
+            { role: "Compliance & Legal", count: 1, description: "Regulatory affairs specialist" },
+            { role: "Marketing", count: 1, description: "Growth marketing lead" }
+          ]
+        },
+        month12: {
+          total: 35,
+          breakdown: [
+            { role: "Leadership", count: 4, description: "CEO, CTO, VP Product, VP Business" },
+            { role: "Engineering", count: 15, description: "Full-stack, Mobile, AI/ML, DevOps" },
+            { role: "Product & Design", count: 5, description: "Product managers, designers, researchers" },
+            { role: "Business & Partnerships", count: 6, description: "BD, partnerships, financial advisors" },
+            { role: "Compliance & Legal", count: 2, description: "Legal team, compliance officers" },
+            { role: "Marketing & Growth", count: 3, description: "Performance marketing, content, brand" }
+          ]
+        },
+        month18: {
+          total: 60,
+          breakdown: [
+            { role: "Leadership", count: 6, description: "C-suite + VP level across functions" },
+            { role: "Engineering", count: 25, description: "Scaled tech team across all verticals" },
+            { role: "Product & Design", count: 8, description: "Product, design, UX research teams" },
+            { role: "Business Operations", count: 12, description: "BD, partnerships, customer success" },
+            { role: "Compliance & Risk", count: 4, description: "Legal, compliance, risk management" },
+            { role: "Marketing & Analytics", count: 5, description: "Growth, brand, data analytics" }
+          ]
+        }
+      },
+      keyhires: [
+        "Co-founder/CTO: Strong AI/ML background, fintech experience",
+        "VP Product: Consumer fintech product expertise",
+        "Head of Business Development: Financial services partnerships",
+        "Lead AI Engineer: Recommendation systems, NLP expertise",
+        "Compliance Head: SEBI, IRDAI regulatory experience"
       ]
     }
   ];
