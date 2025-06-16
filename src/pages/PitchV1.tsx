@@ -106,7 +106,8 @@ const PitchV1 = () => {
         "102M mutual fund SIP accounts",
         "92M income tax filers",
         "75% prefer digital investment platforms"
-      ]
+      ],
+      marketContext: "Starting with IT professionals as our beachhead market - representing the broader 25M+ young urban professionals across sectors"
     },
     {
       id: 6,
