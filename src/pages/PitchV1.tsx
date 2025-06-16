@@ -13,7 +13,7 @@ const PitchV1 = () => {
     {
       id: 1,
       type: 'title',
-      title: "discvr.ai",
+      title: "DiscvrAI",
       subtitle: "Complete Financial Health Platform",
       author: "by Shubham Srivastava",
       icon: Heart
@@ -287,7 +287,7 @@ const PitchV1 = () => {
     {
       id: 13,
       type: 'funding',
-      title: "$4M Seed Round at $20M Valuation",
+      title: "$1.5M Seed Round at $18M Valuation",
       subtitle: "Build India's Financial Health Infrastructure",
       icon: TrendingUp,
       allocation: [
@@ -453,8 +453,8 @@ const PitchV1 = () => {
               </div>
             </div>
             <div>
-              <h1 className="text-xl font-semibold">Financial Health Pitch v1</h1>
-              <p className="text-sm text-gray-500">Health-First Approach</p>
+              <h1 className="text-xl font-semibold">DiscvrAI</h1>
+              <p className="text-sm text-gray-500">Complete Financial Health Platform</p>
             </div>
           </div>
 
