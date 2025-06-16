@@ -26,18 +26,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
   const navigate = useNavigate();
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      type: 'bot',
-      content: "Hi! I'm DiscvrAI, your financial health assistant. I can conduct a complete financial health assessment, help you set goals, or build portfolios. What would you like to work on today?",
-      actions: [
-        { label: "Complete Health Assessment", action: () => startHealthAssessment() },
-        { label: "Set Financial Goals", action: () => handleQuickAction("I want to set financial goals") },
-        { label: "Build Portfolio", action: () => handleQuickAction("Help me build a portfolio") }
-      ]
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const [healthAssessment, setHealthAssessment] = useState<{
     isActive: boolean;
@@ -106,7 +95,24 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
     }
   ];
 
+  // Initialize welcome message
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([{
+        id: 1,
+        type: 'bot',
+        content: "Hi! I'm DiscvrAI, your financial health assistant. I can conduct a complete financial health assessment, help you set goals, or build portfolios. What would you like to work on today?",
+        actions: [
+          { label: "Complete Health Assessment", action: () => startHealthAssessment() },
+          { label: "Set Financial Goals", action: () => handleQuickAction("I want to set financial goals") },
+          { label: "Build Portfolio", action: () => handleQuickAction("Help me build a portfolio") }
+        ]
+      }]);
+    }
+  }, []);
+
   const startHealthAssessment = () => {
+    console.log('Starting health assessment...');
     setHealthAssessment({
       isActive: true,
       currentStep: 0,
@@ -122,6 +128,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
   };
 
   const updateHealthData = (field: string, value: any) => {
+    console.log('Updating health data:', field, value);
     const updatedData = { ...healthAssessment.data, [field]: value };
     setHealthAssessment(prev => ({
       ...prev,
@@ -149,6 +156,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
   };
 
   const completeHealthAssessment = (data: Partial<AssessmentData>) => {
+    console.log('Completing health assessment with data:', data);
     // Fill in default values for missing data
     const completeData: AssessmentData = {
       age: data.age || 28,
@@ -228,6 +236,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
   };
 
   const handleQuickAction = (actionMessage: string) => {
+    console.log('Quick action:', actionMessage);
     const newUserMessage: Message = {
       id: Date.now(),
       type: 'user',
@@ -280,7 +289,10 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
         type: 'bot',
         content: "Great! I can help you set up your financial goals. Goals help me create personalized investment strategies and track your progress. What are you saving for?",
         actions: [
-          { label: "Complete Goal Setup", action: () => navigate('/onboarding') },
+          { label: "Complete Goal Setup", action: () => {
+            console.log('Navigating to onboarding...');
+            navigate('/onboarding');
+          }},
           { label: "Home Purchase", action: () => handleQuickAction("I want to save for a home purchase") },
           { label: "Retirement", action: () => handleQuickAction("I want to plan for retirement") },
           { label: "Emergency Fund", action: () => handleQuickAction("I need an emergency fund") }
@@ -294,8 +306,14 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
         type: 'bot',
         content: "Perfect! I can help you build a smart portfolio. First, I'll need to understand your goals and risk comfort to recommend the right investments for you.",
         actions: [
-          { label: "Start Portfolio Building", action: () => navigate('/onboarding') },
-          { label: "View Current Portfolio", action: () => navigate('/portfolio') }
+          { label: "Start Portfolio Building", action: () => {
+            console.log('Navigating to onboarding...');
+            navigate('/onboarding');
+          }},
+          { label: "View Current Portfolio", action: () => {
+            console.log('Navigating to portfolio...');
+            navigate('/portfolio');
+          }}
         ]
       };
     }
@@ -306,7 +324,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
         type: 'bot',
         content: "I'll assess your complete financial health across 4 key areas: Wealth Building, Protection Planning, Debt Optimization, and Goal Achievement. This takes just 2 minutes!",
         actions: [
-          { label: "Start Health Assessment", action: startHealthAssessment }
+          { label: "Start Health Assessment", action: () => startHealthAssessment() }
         ]
       };
     }
@@ -316,7 +334,7 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
       type: 'bot',
       content: "I can help you with financial goals, portfolio building, or health assessment. What specific aspect of your finances would you like to work on?",
       actions: [
-        { label: "Health Assessment", action: startHealthAssessment },
+        { label: "Health Assessment", action: () => startHealthAssessment() },
         { label: "Set Goals", action: () => handleQuickAction("I want to set financial goals") },
         { label: "Build Portfolio", action: () => handleQuickAction("Help me build a portfolio") }
       ]
@@ -339,10 +357,16 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
             ))}
           </div>
           <div className="flex gap-2">
-            <Button size="sm" onClick={() => navigate('/health-dashboard')}>
+            <Button size="sm" onClick={() => {
+              console.log('Navigating to health dashboard...');
+              navigate('/health-dashboard');
+            }}>
               View Dashboard
             </Button>
-            <Button size="sm" variant="outline" onClick={() => navigate('/feed')}>
+            <Button size="sm" variant="outline" onClick={() => {
+              console.log('Navigating to feed...');
+              navigate('/feed');
+            }}>
               Get Recommendations
             </Button>
           </div>
@@ -368,7 +392,10 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
                   key={index}
                   size="sm"
                   variant="outline"
-                  onClick={action.action}
+                  onClick={() => {
+                    console.log('Question action clicked:', action.label);
+                    action.action();
+                  }}
                   className="w-full text-xs"
                 >
                   {action.label}
@@ -440,7 +467,10 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
                     {msg.actions.map((action, index) => (
                       <Button
                         key={index}
-                        onClick={action.action}
+                        onClick={() => {
+                          console.log('Action button clicked:', action.label);
+                          action.action();
+                        }}
                         size="sm"
                         variant="outline"
                         className="w-full text-xs h-8"
