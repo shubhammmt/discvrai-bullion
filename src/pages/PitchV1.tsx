@@ -235,24 +235,24 @@ const PitchV1 = () => {
     {
       id: 11,
       type: 'traction',
-      title: "Early Validation Signals",
+      title: "Market Validation & Target Metrics",
       icon: Star,
       metrics: [
-        { metric: "Health Assessments", value: "2,500+ completed", growth: "in 3 months" },
-        { metric: "User Engagement", value: "85% completion rate", growth: "vs 45% industry avg" },
-        { metric: "Goal Setting", value: "78% set goals", growth: "after health check" },
-        { metric: "Product Interest", value: "23% request products", growth: "vs 8% cold outreach" }
+        { metric: "Target Health Assessments", value: "10K+ in Month 6", growth: "Based on Bangalore IT professional density" },
+        { metric: "Expected Completion Rate", value: "70-80%", growth: "vs 45% industry average for fintech onboarding" },
+        { metric: "Projected Goal Setting", value: "65% users", growth: "Research shows high intent post-assessment" },
+        { metric: "Expected Product Interest", value: "18-25%", growth: "vs 8% cold outreach conversion rates" }
       ],
       testimonials: [
         {
-          name: "Priya S., Software Engineer",
-          company: "Microsoft Bangalore",
-          quote: "Finally understood my financial health in 30 seconds. Bought term insurance the same day!"
+          name: "Target: Software Engineers",
+          company: "Microsoft, Flipkart, Amazon Bangalore",
+          quote: "I want to understand my financial health quickly and get personalized recommendations without sales pressure."
         },
         {
-          name: "Arjun K., Product Manager", 
-          company: "Flipkart Bangalore",
-          quote: "Love the conversational AI - just uploaded my salary slip and got a complete financial plan."
+          name: "Target: Product Managers", 
+          company: "Tech Startups Bangalore",
+          quote: "I need a unified view of all my investments and insurance - tired of switching between multiple apps."
         }
       ]
     },
