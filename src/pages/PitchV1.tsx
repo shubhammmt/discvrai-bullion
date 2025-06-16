@@ -137,23 +137,24 @@ const PitchV1 = () => {
     {
       id: 7,
       type: 'revenue-model',
-      title: "Commission-Based Revenue Model",
-      subtitle: "Targeting ₹2,200 annual revenue per user",
+      title: "Commission + Subscription Revenue Model",
+      subtitle: "Targeting ₹2,600 annual revenue per user",
       icon: DollarSign,
       revenueStreams: [
         { title: "Insurance Commission", launch: "Month 1", commission: "15-25%", target: "40% users buy", revenue: "₹1,200/user/year", details: "Focus on term life, health insurance" },
         { title: "Investment Commission", launch: "Month 3", commission: "0.5-1%", target: "60% users active", revenue: "₹600/user/year", details: "Mutual fund trail commissions" },
-        { title: "Credit Commission", launch: "Month 6", commission: "₹2,000/referral", target: "20% conversion", revenue: "₹400/user/year", details: "Personal loans, credit cards" }
+        { title: "Credit Commission", launch: "Month 6", commission: "₹2,000/referral", target: "20% conversion", revenue: "₹400/user/year", details: "Personal loans, credit cards" },
+        { title: "Premium Subscription", launch: "Month 2", commission: "₹499/month", target: "8% users upgrade", revenue: "₹400/user/year", details: "Advanced analytics, priority support" }
       ],
       userProjections: {
-        month6: { users: "100K", revenue: "₹10L", description: "Bangalore launch, freemium adoption" },
-        month12: { users: "400K", revenue: "₹60L", description: "Multi-city expansion, commission ramp" },
-        month18: { users: "1M", revenue: "₹150L", description: "Scale optimization, premium features" },
-        month24: { users: "1.5M", revenue: "₹300L", description: "Market leadership in young professional segment" }
+        month6: { users: "100K", revenue: "₹26Cr", description: "Bangalore launch, freemium + premium model" },
+        month12: { users: "400K", revenue: "₹104Cr", description: "Multi-city expansion, all revenue streams" },
+        month18: { users: "1M", revenue: "₹260Cr", description: "Scale optimization, premium features mature" },
+        month24: { users: "1.5M", revenue: "₹390Cr", description: "Market leadership in young professional segment" }
       },
       unitEconomics: {
-        revenuePerUser: "₹2,200/year",
-        revenuePerMAU: "₹183/month",
+        revenuePerUser: "₹2,600/year",
+        revenuePerMAU: "₹217/month",
         conversionRate: "18% to revenue",
         cac: "₹1,200 target"
       }
@@ -161,22 +162,21 @@ const PitchV1 = () => {
     {
       id: 8,
       type: 'unit-economics',
-      title: "Strong Unit Economics: 12.5x LTV/CAC",
-      subtitle: "Conservative projections for sustainable growth",
+      title: "Strong Unit Economics: 5.9x LTV/CAC",
+      subtitle: "Realistic projections for sustainable growth",
       icon: BarChart3,
       economics: {
         cac: { value: "₹1,200", description: "Digital marketing + referrals" },
-        ltv: { value: "₹15,000", description: "3-year user lifetime value" },
-        ratio: { value: "12.5x", description: "LTV/CAC ratio" },
-        payback: { value: "8 months", description: "CAC payback period" }
+        ltv: { value: "₹7,046", description: "3-year user lifetime value" },
+        ratio: { value: "5.9x", description: "LTV/CAC ratio" },
+        payback: { value: "6 months", description: "CAC payback period" }
       },
       breakdown: {
-        title: "3-Year LTV Breakdown (₹15,000)",
+        title: "3-Year LTV Breakdown (₹7,046)",
         components: [
-          { source: "Insurance Commission", amount: "₹7,200", description: "₹2,400/year × 3 years (churn adjusted)" },
-          { source: "Investment Commission", amount: "₹4,500", description: "Trail commissions on SIPs" },
-          { source: "Credit Commission", amount: "₹2,400", description: "Loan/credit card referrals" },
-          { source: "Premium Features", amount: "₹900", description: "Advanced analytics, priority support" }
+          { source: "Commission Revenue", amount: "₹5,646", description: "Insurance, investment, credit commissions over 3 years" },
+          { source: "Premium Subscriptions", amount: "₹1,200", description: "8% users at ₹5,000/year (churn adjusted)" },
+          { source: "Advanced Features", amount: "₹200", description: "Additional premium services and analytics" }
         ]
       }
     },
@@ -287,18 +287,18 @@ const PitchV1 = () => {
     {
       id: 13,
       type: 'funding',
-      title: "$1.5M Seed Round at $18M Valuation",
+      title: "$2M Seed Round at $16M Valuation",
       subtitle: "Build India's Financial Health Infrastructure",
       icon: TrendingUp,
       allocation: [
-        { category: "Tech & AI Development", percentage: "40%", description: "Health scoring algorithms, conversational AI, mobile app" },
-        { category: "Team & Expertise", percentage: "35%", description: "Engineers, data scientists, financial experts" },
-        { category: "User Acquisition", percentage: "20%", description: "Digital marketing focused on young professionals" },
-        { category: "Compliance & Partnerships", percentage: "5%", description: "Regulatory approvals and financial institution tie-ups" }
+        { category: "Tech & AI Development", percentage: "40%", description: "Health scoring algorithms, conversational AI, mobile app ($800K)" },
+        { category: "Team & Expertise", percentage: "35%", description: "Engineers, data scientists, financial experts ($700K)" },
+        { category: "User Acquisition", percentage: "20%", description: "Digital marketing focused on young professionals ($400K)" },
+        { category: "Compliance & Partnerships", percentage: "5%", description: "Regulatory approvals and financial institution tie-ups ($100K)" }
       ],
       milestones: [
-        "Month 6: 100K users across 4 cities with freemium model",
-        "Month 12: ₹60L ARR from commissions",
+        "Month 6: 100K users across 4 cities with freemium + premium model",
+        "Month 12: ₹104Cr ARR from commissions and subscriptions",
         "Month 18: 1M users, Series A ready with proven unit economics"
       ],
       competitiveContext: {
@@ -337,7 +337,7 @@ const PitchV1 = () => {
             "Insurance: 40% users buy (₹15,000 avg premium, 20% commission)",
             "Investments: 60% users active (₹1,000 avg trail commission)",
             "Credit: 20% users convert (₹2,000 avg commission)",
-            "Premium features: 8% users pay (₹299/month)"
+            "Premium subscription: 8% users pay (₹5,000/year)"
           ]
         },
         {
@@ -361,7 +361,7 @@ const PitchV1 = () => {
         month6: {
           total: 15,
           breakdown: [
-            { role: "Founder + Co-founder", count: 2, description: "CEO (Shubham) + CTO hire" },
+            { role: "Founder + Co-founder", count: 2, description: "CEO (Shubham) + Co-founder hire" },
             { role: "Engineering Team", count: 6, description: "4 Full-stack, 1 Mobile, 1 AI/ML" },
             { role: "Product & Design", count: 2, description: "1 Product Manager, 1 UI/UX Designer" },
             { role: "Business Development", count: 3, description: "1 BD Head, 2 Partnership Managers" },
@@ -372,7 +372,7 @@ const PitchV1 = () => {
         month12: {
           total: 35,
           breakdown: [
-            { role: "Leadership", count: 4, description: "CEO, CTO, VP Product, VP Business" },
+            { role: "Leadership", count: 4, description: "CEO, Co-founder, VP Product, VP Business" },
             { role: "Engineering", count: 15, description: "Full-stack, Mobile, AI/ML, DevOps" },
             { role: "Product & Design", count: 5, description: "Product managers, designers, researchers" },
             { role: "Business & Partnerships", count: 6, description: "BD, partnerships, financial advisors" },
@@ -393,7 +393,7 @@ const PitchV1 = () => {
         }
       },
       keyhires: [
-        "Co-founder/CTO: Strong AI/ML background, fintech experience",
+        "Co-founder: Strong AI/ML background, fintech experience",
         "VP Product: Consumer fintech product expertise",
         "Head of Business Development: Financial services partnerships",
         "Lead AI Engineer: Recommendation systems, NLP expertise",
