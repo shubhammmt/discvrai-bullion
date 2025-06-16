@@ -2,6 +2,7 @@
 import React from 'react';
 import { TitleSlide } from './TitleSlide';
 import { VisionSlide } from './VisionSlide';
+import { VisionSlideNew } from './VisionSlideNew';
 import { SolutionSlide } from './SolutionSlide';
 import { AITechStackSlide } from './AITechStackSlide';
 import { ProblemSlide } from './ProblemSlide';
@@ -22,6 +23,13 @@ import { PlatformPositioningSlide } from './PlatformPositioningSlide';
 import { PlatformDifferentiationSlide } from './PlatformDifferentiationSlide';
 import { AIInfrastructureSlide } from './AIInfrastructureSlide';
 import { DetailedGTMSlide } from './DetailedGTMSlide';
+import { DifferentiationSlide } from './DifferentiationSlide';
+import { MarketOpportunitySlide } from './MarketOpportunitySlide';
+import { TargetPersonaSlide } from './TargetPersonaSlide';
+import { UnitEconomicsSlide } from './UnitEconomicsSlide';
+import { GoToMarketSlide } from './GoToMarketSlide';
+import { CompetitiveMoatsSlide } from './CompetitiveMoatsSlide';
+import { TractionSlide } from './TractionSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -35,6 +43,26 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <ProblemSlide slide={slide} />;
     case 'solution':
       return <SolutionSlide slide={slide} />;
+    case 'differentiation':
+      return <DifferentiationSlide slide={slide} />;
+    case 'market-opportunity':
+      return <MarketOpportunitySlide slide={slide} />;
+    case 'target-persona':
+      return <TargetPersonaSlide slide={slide} />;
+    case 'revenue-model':
+      return <RevenueSlide slide={slide} />;
+    case 'unit-economics':
+      return <UnitEconomicsSlide slide={slide} />;
+    case 'go-to-market':
+      return <GoToMarketSlide slide={slide} />;
+    case 'competitive-moats':
+      return <CompetitiveMoatsSlide slide={slide} />;
+    case 'traction':
+      return <TractionSlide slide={slide} />;
+    case 'vision-new':
+      return <VisionSlideNew slide={slide} />;
+    case 'funding':
+      return <FundingSlide slide={slide} />;
     case 'market':
       return <MarketSlide slide={slide} />;
     case 'revenue':
@@ -69,8 +97,6 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <RisksSlide slide={slide} />;
     case 'team':
       return <TeamSlide slide={slide} />;
-    case 'funding':
-      return <FundingSlide slide={slide} />;
     case 'execution-example':
       return <ExecutionExampleSlide slide={slide} />;
     default:
