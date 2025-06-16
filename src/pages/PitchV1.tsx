@@ -400,6 +400,37 @@ const PitchV1 = () => {
         "Lead AI Engineer: Recommendation systems, NLP expertise",
         "Compliance Head: SEBI, IRDAI regulatory experience"
       ]
+    },
+    {
+      id: 16,
+      type: 'team',
+      title: "Founder Profile",
+      icon: Users,
+      founder: {
+        name: "Shubham Srivastava, CEO & Co-Founder",
+        experience: "Scale Expert & AI/ML Pioneer",
+        points: [
+          "Built platforms serving 100M+ users at Hindustan Times and 150+ member team at MakeMyTrip",
+          "Implemented machine learning at scale across MakeMyTrip and Hindustan Times platforms",
+          "IIT Dhanbad graduate who scaled MakeMyTrip's hotels division",
+          "Drove 20% cost reduction at EurekaForbes through operational excellence",
+          "Now building AI-powered financial discovery with proven track record"
+        ]
+      },
+      keyStrengths: [
+        "Deep understanding of consumer behavior at scale (100M+ users)",
+        "Proven ability to build and lead large technical teams (150+ members)",
+        "Experience in travel/hospitality marketplace dynamics",
+        "Track record of implementing AI/ML in production environments",
+        "Strong operational background with measurable business impact"
+      ],
+      plannedHires: [
+        "Co-founder: Strong AI/ML background with fintech experience",
+        "VP Product: Consumer fintech product expertise, user growth focus",
+        "Head of Business Development: Financial services partnerships and regulatory experience",
+        "Lead AI Engineer: Recommendation systems and NLP expertise for financial products",
+        "Compliance Head: SEBI, IRDAI regulatory experience and financial product knowledge"
+      ]
     }
   ];
 
