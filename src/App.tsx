@@ -23,6 +23,9 @@ import USMarketHome from '@/pages/USMarketHome';
 import AIConversationDemo from '@/pages/AIConversationDemo';
 import PitchPresentation from '@/pages/PitchPresentation';
 import PitchV1 from '@/pages/PitchV1';
+import HealthAssessment from '@/pages/HealthAssessment';
+import HealthResults from '@/pages/HealthResults';
+import HealthDashboard from '@/pages/HealthDashboard';
 import NotFound from '@/pages/NotFound';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import { Toaster } from '@/components/ui/sonner';
@@ -58,6 +61,9 @@ function App() {
             <Route path="/ai-conversation" element={<AIConversationDemo />} />
             <Route path="/pitch" element={<PitchPresentation />} />
             <Route path="/pitch-v1" element={<PitchV1 />} />
+            <Route path="/health-assessment" element={<HealthAssessment />} />
+            <Route path="/health-results" element={<HealthResults />} />
+            <Route path="/health-dashboard" element={<HealthDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster />
