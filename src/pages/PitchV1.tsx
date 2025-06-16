@@ -43,30 +43,54 @@ const PitchV1 = () => {
     },
     {
       id: 4,
-      type: 'differentiation',
-      title: "Why We Win vs INDmoney & PolicyBazaar",
+      type: 'competition',
+      title: "Competitive Analysis",
+      subtitle: "Clear Differentiation",
       icon: Lightbulb,
       competitors: [
         { 
-          name: "INDmoney", 
-          approach: "Portfolio tracking + execution",
-          limitation: "No health-first approach, complex UX for young users"
+          platform: "Jupiter", 
+          range: "Banking + Investment tracking",
+          ux: "Excellent",
+          monetization: "Medium (banking fees)",
+          advantage: "Health-first + multi-product execution"
         },
         { 
-          name: "PolicyBazaar", 
-          approach: "Insurance comparison + sales",
-          limitation: "Product-first, no holistic financial view"
+          platform: "PolicyBazaar", 
+          range: "Insurance-heavy",
+          ux: "Poor",
+          monetization: "High (insurance)",
+          advantage: "Multi-product + better UX"
+        },
+        { 
+          platform: "Groww", 
+          range: "Investment-only",
+          ux: "Good",
+          monetization: "Low",
+          advantage: "Health assessment + high-margin focus"
+        },
+        { 
+          platform: "INDmoney", 
+          range: "Investment tracking + Execution",
+          ux: "Poor to Average",
+          monetization: "Low",
+          advantage: "Health-first approach + conversational AI"
+        },
+        { 
+          platform: "CRED", 
+          range: "Credit-focused",
+          ux: "Excellent",
+          monetization: "Medium",
+          advantage: "Broader product range + financial health"
+        },
+        { 
+          platform: "Zerodha", 
+          range: "Trading-focused",
+          ux: "Average",
+          monetization: "Medium",
+          advantage: "Discovery-first + young professional focus"
         }
-      ],
-      ourAdvantage: {
-        title: "Health-First Financial OS",
-        points: [
-          "Conversational AI + Multi-modal input (chat, image, manual)",
-          "Complete health score before any product recommendation",
-          "Built for young professionals: mobile-first, rewards-driven",
-          "Seamless immediate execution from health check to purchase"
-        ]
-      }
+      ]
     },
     {
       id: 5,
@@ -242,18 +266,6 @@ const PitchV1 = () => {
         { metric: "Expected Completion Rate", value: "70-80%", growth: "vs 45% industry average for fintech onboarding" },
         { metric: "Projected Goal Setting", value: "65% users", growth: "Research shows high intent post-assessment" },
         { metric: "Expected Product Interest", value: "18-25%", growth: "vs 8% cold outreach conversion rates" }
-      ],
-      testimonials: [
-        {
-          name: "Target: Software Engineers",
-          company: "Microsoft, Flipkart, Amazon Bangalore",
-          quote: "I want to understand my financial health quickly and get personalized recommendations without sales pressure."
-        },
-        {
-          name: "Target: Product Managers", 
-          company: "Tech Startups Bangalore",
-          quote: "I need a unified view of all my investments and insurance - tired of switching between multiple apps."
-        }
       ]
     },
     {
