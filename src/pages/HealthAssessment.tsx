@@ -13,7 +13,7 @@ import { AssessmentData, calculateHealthScore } from '@/utils/healthScore';
 const HealthAssessment = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [assessmentData, setAssessmentData] = useState<Partial<AssessmentData>>({
+  const [assessmentData, setAssessmentData] = useState<AssessmentData>({
     age: 28,
     income: 800000,
     savings: 50000,
@@ -52,7 +52,7 @@ const HealthAssessment = () => {
       setCurrentStep(prev => prev + 1);
     } else {
       // Calculate score and navigate to results
-      const healthScore = calculateHealthScore(assessmentData as AssessmentData);
+      const healthScore = calculateHealthScore(assessmentData);
       localStorage.setItem('healthScore', JSON.stringify(healthScore));
       localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
       navigate('/health-results');
@@ -67,21 +67,24 @@ const HealthAssessment = () => {
     }
   };
 
-  const updateAssessment = (field: string, value: any) => {
+  const updateAssessment = (field: keyof AssessmentData, value: any) => {
     setAssessmentData(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
-  const updateNestedField = (parent: string, field: string, value: any) => {
-    setAssessmentData(prev => ({
-      ...prev,
-      [parent]: {
-        ...prev[parent as keyof AssessmentData],
-        [field]: value
-      }
-    }));
+  const updateNestedField = (parent: keyof AssessmentData, field: string, value: any) => {
+    setAssessmentData(prev => {
+      const currentParentValue = prev[parent];
+      return {
+        ...prev,
+        [parent]: {
+          ...(typeof currentParentValue === 'object' && currentParentValue !== null ? currentParentValue : {}),
+          [field]: value
+        }
+      };
+    });
   };
 
   const renderStepContent = () => {
@@ -232,7 +235,7 @@ const HealthAssessment = () => {
               <Label>Risk Tolerance</Label>
               <RadioGroup
                 value={assessmentData.riskTolerance}
-                onValueChange={(value) => updateAssessment('riskTolerance', value)}
+                onValueChange={(value) => updateAssessment('riskTolerance', value as 'conservative' | 'moderate' | 'aggressive')}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="conservative" id="conservative" />
