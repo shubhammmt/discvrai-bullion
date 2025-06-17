@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, ArrowLeft, Heart, Brain, Target, TrendingUp, Users, Shield, CheckCircle, Zap, Clock, BarChart3, DollarSign, Lightbulb, Star, MapPin, Smartphone, MessageCircle, Camera, Calculator, FileText } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowLeft, Heart, Brain, Target, TrendingUp, Users, Shield, CheckCircle, Zap, Clock, BarChart3, DollarSign, Lightbulb, Star, MapPin, Smartphone, MessageCircle, Camera, Calculator, FileText, TrendingDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
 
@@ -183,6 +183,66 @@ const PitchV1 = () => {
     },
     {
       id: 9,
+      type: 'cac-reduction',
+      title: "Solving the ₹1,200 CAC Challenge",
+      subtitle: "Multi-pronged approach to achieve sustainable unit economics",
+      icon: TrendingDown,
+      strategies: [
+        {
+          phase: "Multi-Channel Testing",
+          timeline: "Months 1-6",
+          approach: "Data-driven acquisition optimization",
+          tactics: [
+            "A/B testing across Facebook, Google, LinkedIn",
+            "Content marketing with finance education",
+            "HR partnerships at tech companies",
+            "Influencer collaborations with finance YouTubers"
+          ],
+          target: "Reduce CAC to ₹800",
+          impact: "33% reduction through channel optimization"
+        },
+        {
+          phase: "Viral Referral Engine",
+          timeline: "Months 2-12",
+          approach: "Leverage existing users for growth",
+          tactics: [
+            "15 days premium free for referrer + referral",
+            "Social proof with friends' investments",
+            "Gamified financial challenges in groups",
+            "Workplace financial wellness competitions"
+          ],
+          target: "30% organic acquisitions",
+          impact: "Blended CAC drops to ₹600"
+        },
+        {
+          phase: "Research Sharing Loop",
+          timeline: "Months 3-18",
+          approach: "Content virality as acquisition",
+          tactics: [
+            "One-click research sharing to social platforms",
+            "Investment thesis posts with attribution",
+            "Research communities within platform",
+            "External content with embedded backlinks"
+          ],
+          target: "25% discovery via shared content",
+          impact: "Final CAC target: ₹400"
+        }
+      ],
+      trajectory: [
+        { month: "Month 6", cac: "₹900", reduction: "-25%", driver: "Channel optimization" },
+        { month: "Month 12", cac: "₹600", reduction: "-33%", driver: "Referral program" },
+        { month: "Month 18", cac: "₹400", reduction: "-33%", driver: "Viral sharing" },
+        { month: "Month 24", cac: "₹400", reduction: "40% organic", driver: "Self-sustaining growth" }
+      ],
+      keyMetrics: [
+        { metric: "Viral Coefficient", description: "Referrals per user", target: "1.5x" },
+        { metric: "Content Engagement", description: "Shares per research post", target: "15%" },
+        { metric: "Channel Performance", description: "CAC by acquisition source", target: "<₹500" },
+        { metric: "Organic Growth Rate", description: "Non-paid acquisitions", target: "40%" }
+      ]
+    },
+    {
+      id: 10,
       type: 'go-to-market',
       title: "Tech Hub Launch Strategy",
       subtitle: "Target young professionals where they work and live",
@@ -224,7 +284,7 @@ const PitchV1 = () => {
       ]
     },
     {
-      id: 10,
+      id: 11,
       type: 'competitive-moats',
       title: "Building Defensible Moats",
       icon: Shield,
@@ -256,7 +316,7 @@ const PitchV1 = () => {
       ]
     },
     {
-      id: 11,
+      id: 12,
       type: 'traction',
       title: "Market Validation & Target Metrics",
       icon: Star,
@@ -268,7 +328,7 @@ const PitchV1 = () => {
       ]
     },
     {
-      id: 12,
+      id: 13,
       type: 'vision-new',
       title: "Vision: India's Financial Health OS",
       icon: Target,
@@ -286,7 +346,7 @@ const PitchV1 = () => {
       }
     },
     {
-      id: 13,
+      id: 14,
       type: 'funding',
       title: "$2M Seed Round at $16M Valuation",
       subtitle: "Build India's Financial Health Infrastructure",
@@ -317,7 +377,7 @@ const PitchV1 = () => {
       ]
     },
     {
-      id: 14,
+      id: 15,
       type: 'financial-assumptions',
       title: "Financial Model Assumptions",
       subtitle: "Conservative estimates with room for upside",
@@ -353,7 +413,7 @@ const PitchV1 = () => {
       ]
     },
     {
-      id: 15,
+      id: 16,
       type: 'team-breakdown',
       title: "Team Building Roadmap",
       subtitle: "18-month hiring plan for 1M user scale",
@@ -402,7 +462,7 @@ const PitchV1 = () => {
       ]
     },
     {
-      id: 16,
+      id: 17,
       type: 'team',
       title: "Founder Profile",
       icon: Users,
