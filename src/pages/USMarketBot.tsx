@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ import {
   PieChart, Upload, MessageSquare, Target, 
   BarChart3, AlertTriangle, FileSpreadsheet,
   Camera, Zap, Heart, Shield, Brain, Activity,
-  CheckCircle, ArrowLeft
+  CheckCircle, ArrowLeft, UserPlus
 } from 'lucide-react';
 import HealthScoreCard from '@/components/HealthScoreCard';
 import FinanceCopilot from '@/components/FinanceCopilot';
@@ -117,26 +116,31 @@ const USMarketBot = () => {
     { name: "Emergency Fund", amount: "$50K", timeline: "2 years", color: "bg-orange-50 border-orange-200" }
   ];
 
+  const handleWaitlistSignup = () => {
+    // This will be implemented with actual waitlist functionality
+    alert('Waitlist signup coming soon! We\'ll notify you when our US Market platform launches.');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-teal-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <Button variant="ghost" onClick={() => navigate('/us-market')}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to US Market
-          </Button>
-          
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">
-            Complete US Market Intelligence Platform
-          </h1>
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-indigo-500 rounded-2xl flex items-center justify-center">
+              <Bot className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">
+              US Market Intelligence Platform
+            </h1>
+          </div>
           
           <Button 
-            onClick={() => setCopilotOpen(true)}
-            className="bg-gradient-to-r from-blue-600 to-purple-600"
+            onClick={handleWaitlistSignup}
+            className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
           >
-            <Brain className="w-4 h-4 mr-2" />
-            AI Assistant
+            <UserPlus className="w-4 h-4 mr-2" />
+            Join Waitlist
           </Button>
         </div>
       </div>
@@ -161,19 +165,19 @@ const USMarketBot = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
             <Button 
               size="lg" 
-              onClick={() => setCopilotOpen(true)} 
+              onClick={handleWaitlistSignup} 
               className="px-8 py-4 text-lg bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
             >
               <Heart className="mr-2" size={20} />
-              Start Health Assessment
+              Get Early Access
             </Button>
             <Button 
               size="lg" 
-              onClick={() => setCopilotOpen(true)} 
+              onClick={handleWaitlistSignup} 
               className="px-8 py-4 text-lg bg-gradient-to-r from-teal-500 to-indigo-600 hover:from-teal-600 hover:to-indigo-700"
             >
               <PieChart className="mr-2" size={20} />
-              Analyze My Portfolio
+              Join Waitlist
             </Button>
           </div>
         </div>
@@ -229,10 +233,10 @@ const USMarketBot = () => {
                 ))}
                 <Button 
                   size="lg" 
-                  onClick={() => setCopilotOpen(true)}
+                  onClick={handleWaitlistSignup}
                   className="mt-6 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
                 >
-                  Start Health Assessment
+                  Join Waitlist for Health Check
                 </Button>
               </div>
               <div className="text-center">
@@ -281,10 +285,10 @@ const USMarketBot = () => {
                 ))}
                 <Button 
                   size="lg" 
-                  onClick={() => setCopilotOpen(true)}
+                  onClick={handleWaitlistSignup}
                   className="mt-6 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700"
                 >
-                  Analyze My Portfolio
+                  Get Early Access
                 </Button>
               </div>
             </div>
@@ -323,10 +327,10 @@ const USMarketBot = () => {
 
                 <Button 
                   size="lg" 
-                  onClick={() => setCopilotOpen(true)}
+                  onClick={handleWaitlistSignup}
                   className="mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
                 >
-                  Start Smart Screening
+                  Join Waitlist
                 </Button>
               </div>
               <div className="text-center">
@@ -378,11 +382,11 @@ const USMarketBot = () => {
             <div className="text-center">
               <Button 
                 size="lg" 
-                onClick={() => setCopilotOpen(true)}
+                onClick={handleWaitlistSignup}
                 className="px-8 py-4 text-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
               >
                 <Target className="mr-2" size={20} />
-                Set My Financial Goals
+                Get Early Access
               </Button>
             </div>
           </div>
@@ -399,28 +403,19 @@ const USMarketBot = () => {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button 
                 size="lg" 
-                onClick={() => setCopilotOpen(true)} 
+                onClick={handleWaitlistSignup} 
                 className="px-8 py-4 text-lg bg-white text-neutral-900 hover:bg-neutral-100 shadow-lg"
               >
-                <Heart className="mr-2" size={20} />
-                Complete Health Check
+                <UserPlus className="mr-2" size={20} />
+                Join Waitlist
               </Button>
               <Button 
                 size="lg" 
-                onClick={() => setCopilotOpen(true)} 
+                onClick={handleWaitlistSignup} 
                 className="px-8 py-4 text-lg bg-gradient-to-r from-teal-500 to-indigo-500 hover:from-teal-600 hover:to-indigo-600 shadow-lg"
               >
-                <BarChart3 className="mr-2" size={20} />
-                Analyze Portfolio
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                onClick={() => setCopilotOpen(true)} 
-                className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-neutral-900 shadow-lg"
-              >
-                <MessageSquare className="mr-2" size={20} />
-                Chat with AI Advisor
+                <Heart className="mr-2" size={20} />
+                Get Early Access
               </Button>
             </div>
           </div>
