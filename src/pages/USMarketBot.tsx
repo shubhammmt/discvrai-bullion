@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,12 +7,25 @@ import {
   Bot, TrendingUp, Search, ArrowRight, DollarSign, 
   PieChart, Upload, MessageSquare, Target, 
   BarChart3, AlertTriangle, FileSpreadsheet,
-  Camera, Zap, Heart, Shield, Brain
+  Camera, Zap, Heart, Shield, Brain, Activity,
+  CheckCircle, ArrowLeft
 } from 'lucide-react';
+import HealthScoreCard from '@/components/HealthScoreCard';
+import FinanceCopilot from '@/components/FinanceCopilot';
+import { HealthScoreData } from '@/utils/healthScore';
 
-const USMarketHome = () => {
+const USMarketBot = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [copilotOpen, setCopilotOpen] = useState(false);
+  const [healthScore, setHealthScore] = useState<HealthScoreData | null>(null);
+
+  useEffect(() => {
+    const savedScore = localStorage.getItem('healthScore');
+    if (savedScore) {
+      setHealthScore(JSON.parse(savedScore));
+    }
+  }, []);
 
   const sampleQueries = [
     "Find dividend stocks under $50 with 5%+ yield",
@@ -27,8 +41,44 @@ const USMarketHome = () => {
     { label: "Diversification", value: "85%", change: "+5%" }
   ];
 
+  const healthBenefits = [
+    "Complete financial health assessment in 30 seconds",
+    "AI identifies gaps and opportunities automatically", 
+    "Personalized action plan for wealth building",
+    "Track progress across all financial aspects",
+    "Expert guidance without expensive advisors"
+  ];
+
+  const goalExamples = [
+    { name: "Home Purchase", amount: "$500K", timeline: "5 years", color: "bg-blue-50 border-blue-200" },
+    { name: "Retirement", amount: "$2M", timeline: "25 years", color: "bg-green-50 border-green-200" },
+    { name: "Emergency Fund", amount: "$50K", timeline: "2 years", color: "bg-orange-50 border-orange-200" }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-teal-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <Button variant="ghost" onClick={() => navigate('/')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
+          
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">
+            US Market Intelligence
+          </h1>
+          
+          <Button 
+            onClick={() => setCopilotOpen(true)}
+            className="bg-gradient-to-r from-blue-600 to-purple-600"
+          >
+            <Brain className="w-4 h-4 mr-2" />
+            AI Assistant
+          </Button>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
@@ -39,26 +89,31 @@ const USMarketHome = () => {
           </div>
           
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">
-            Your Personal Investment Advisor
+            Complete Financial Health & Investment Intelligence
           </h1>
           
-          <p className="text-xl text-neutral-700 mb-8 max-w-3xl mx-auto">
-            AI-powered portfolio health monitoring, intelligent screening, and personalized investment insights - all in plain English
+          <p className="text-xl text-neutral-700 mb-8 max-w-4xl mx-auto">
+            AI-powered platform combining comprehensive financial health monitoring with intelligent US market screening and personalized investment insights
           </p>
-
-          {/* New CTA for comprehensive page */}
-          <div className="mb-8">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/us-market-bot')} 
-              className="px-8 py-4 text-lg bg-gradient-to-r from-teal-500 to-indigo-600 hover:from-teal-600 hover:to-indigo-700 shadow-lg"
-            >
-              <Brain className="mr-2" size={20} />
-              Complete Financial Health & Investment Intelligence
-              <ArrowRight className="ml-2" size={20} />
-            </Button>
-          </div>
         </div>
+
+        {/* Health Score Section - if available */}
+        {healthScore && (
+          <div className="mb-12">
+            <div className="max-w-2xl mx-auto">
+              <HealthScoreCard score={healthScore} showDetails={true} />
+              <div className="text-center mt-6">
+                <Button 
+                  onClick={() => navigate('/health-dashboard')}
+                  className="bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
+                >
+                  <Activity className="mr-2 w-4 h-4" />
+                  View Full Health Dashboard
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Main Interactive Sections */}
         <div className="grid lg:grid-cols-2 gap-8 mb-12">
@@ -104,7 +159,7 @@ const USMarketHome = () => {
                     </div>
                   </div>
                   <p className="text-neutral-600 mb-4">Upload your portfolio via Excel, screenshots, or chat with our AI</p>
-                  <Button onClick={() => navigate('/us-market-bot')} className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-md">
+                  <Button onClick={() => setCopilotOpen(true)} className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-md">
                     Check My Portfolio Health
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
@@ -156,12 +211,79 @@ const USMarketHome = () => {
                 ))}
               </div>
 
-              <Button onClick={() => navigate('/us-market-bot')} className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-md">
+              <Button onClick={() => setCopilotOpen(true)} className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-md">
                 Start Smart Screening
                 <Zap className="ml-2 w-4 h-4" />
               </Button>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Goal-Oriented Planning Section */}
+        <div className="py-16 bg-white rounded-3xl mb-12">
+          <div className="max-w-6xl mx-auto px-8">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold mb-4">Start with Your Financial Goals</h3>
+              <p className="text-xl text-gray-600">Our AI creates personalized investment strategies based on what matters to you</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              {goalExamples.map((goal, index) => (
+                <Card key={index} className={`border-2 ${goal.color} hover:shadow-lg transition-shadow`}>
+                  <CardContent className="p-6 text-center">
+                    <Target className="w-10 h-10 mx-auto mb-4 text-gray-700" />
+                    <h4 className="text-lg font-semibold mb-2">{goal.name}</h4>
+                    <p className="text-2xl font-bold text-gray-900 mb-1">{goal.amount}</p>
+                    <p className="text-sm text-gray-600">in {goal.timeline}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            
+            <div className="text-center">
+              <Button 
+                size="lg" 
+                onClick={() => setCopilotOpen(true)}
+                className="px-8 py-4 text-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+              >
+                <Target className="mr-2" size={20} />
+                Set My Financial Goals
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Health Benefits Section */}
+        <div className="max-w-6xl mx-auto mb-16">
+          <div className="bg-gradient-to-r from-red-50 to-purple-50 rounded-3xl p-12">
+            <h3 className="text-3xl font-bold text-center mb-12">Complete Financial Health Intelligence</h3>
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="space-y-6">
+                {healthBenefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                    </div>
+                    <p className="text-lg text-gray-700">{benefit}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center">
+                <div className="w-32 h-32 bg-gradient-to-br from-red-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Heart className="w-16 h-16 text-white" />
+                </div>
+                <h4 className="text-2xl font-bold text-gray-900 mb-4">Get Your Health Score</h4>
+                <p className="text-gray-600 mb-6">Comprehensive assessment of your financial wellbeing in one simple score</p>
+                <Button 
+                  size="lg" 
+                  onClick={() => setCopilotOpen(true)}
+                  className="bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
+                >
+                  Start Assessment
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Features Grid */}
@@ -195,23 +317,23 @@ const USMarketHome = () => {
         <Card className="bg-gradient-to-r from-neutral-900 via-teal-900 to-indigo-900 text-white p-8 text-center shadow-2xl">
           <div className="max-w-3xl mx-auto">
             <Bot className="w-16 h-16 mx-auto mb-6 opacity-90" />
-            <h2 className="text-3xl font-bold mb-4">Ready to Meet Your AI Investment Advisor?</h2>
+            <h2 className="text-3xl font-bold mb-4">Ready to Meet Your AI Investment & Health Advisor?</h2>
             <p className="text-xl text-neutral-300 mb-8">
-              Get personalized investment advice, portfolio analysis, and market insights - all through natural conversation
+              Get personalized investment advice, complete financial health analysis, portfolio optimization, and market insights - all through natural conversation
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button 
                 size="lg" 
-                onClick={() => navigate('/us-market-bot')} 
+                onClick={() => setCopilotOpen(true)} 
                 className="px-8 py-4 bg-white text-neutral-900 hover:bg-neutral-100 shadow-lg"
               >
                 <BarChart3 className="mr-2" size={20} />
-                Analyze My Portfolio
+                Complete Health Check
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                onClick={() => navigate('/us-market-bot')} 
+                onClick={() => setCopilotOpen(true)} 
                 className="px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-neutral-900 shadow-lg"
               >
                 <MessageSquare className="mr-2" size={20} />
@@ -221,8 +343,14 @@ const USMarketHome = () => {
           </div>
         </Card>
       </div>
+
+      {/* AI Copilot */}
+      <FinanceCopilot 
+        isOpen={copilotOpen} 
+        onToggle={setCopilotOpen}
+      />
     </div>
   );
 };
 
-export default USMarketHome;
+export default USMarketBot;

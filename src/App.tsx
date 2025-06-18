@@ -20,6 +20,7 @@ import AIStrategy from '@/pages/AIStrategy';
 import FinancialCopilot from '@/pages/FinancialCopilot';
 import IndiaMarketCopilot from '@/pages/IndiaMarketCopilot';
 import USMarketHome from '@/pages/USMarketHome';
+import USMarketBot from '@/pages/USMarketBot';
 import AIConversationDemo from '@/pages/AIConversationDemo';
 import PitchPresentation from '@/pages/PitchPresentation';
 import PitchV1 from '@/pages/PitchV1';
@@ -58,6 +59,7 @@ function App() {
             <Route path="/financial-copilot" element={<FinancialCopilot />} />
             <Route path="/india-market" element={<IndiaMarketCopilot />} />
             <Route path="/us-market" element={<USMarketHome />} />
+            <Route path="/us-market-bot" element={<USMarketBot />} />
             <Route path="/ai-conversation" element={<AIConversationDemo />} />
             <Route path="/pitch" element={<PitchPresentation />} />
             <Route path="/pitch-v1" element={<PitchV1 />} />
