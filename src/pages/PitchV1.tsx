@@ -184,61 +184,113 @@ const PitchV1 = () => {
     {
       id: 9,
       type: 'cac-reduction',
-      title: "Solving the ₹1,200 CAC Challenge",
-      subtitle: "Multi-pronged approach to achieve sustainable unit economics",
+      title: "Realistic CAC Strategy: ₹1,200 → ₹700",
+      subtitle: "Conservative, data-backed approach to sustainable unit economics",
       icon: TrendingDown,
       strategies: [
         {
-          phase: "Multi-Channel Testing",
+          phase: "Channel Optimization",
           timeline: "Months 1-6",
-          approach: "Data-driven acquisition optimization",
+          approach: "Data-driven acquisition testing",
           tactics: [
-            "A/B testing across Facebook, Google, LinkedIn",
-            "Content marketing with finance education",
-            "HR partnerships at tech companies",
-            "Influencer collaborations with finance YouTubers"
+            "A/B test across Google, Facebook, LinkedIn ads",
+            "Content marketing with financial education blogs",
+            "Tech company HR partnerships for wellness programs",
+            "Campus placement season targeting"
           ],
-          target: "Reduce CAC to ₹800",
-          impact: "33% reduction through channel optimization"
+          target: "Reduce CAC to ₹1,000",
+          impact: "17% reduction through optimized channels"
         },
         {
-          phase: "Viral Referral Engine",
-          timeline: "Months 2-12",
-          approach: "Leverage existing users for growth",
+          phase: "Referral Program",
+          timeline: "Months 6-12",
+          approach: "Incentivized word-of-mouth growth",
           tactics: [
-            "15 days premium free for referrer + referral",
-            "Social proof with friends' investments",
-            "Gamified financial challenges in groups",
-            "Workplace financial wellness competitions"
+            "₹500 cashback for referrer + 1 month premium free",
+            "Social sharing of financial health improvements",
+            "Office challenges and group financial goals",
+            "Alumni network activations in tech companies"
           ],
-          target: "30% organic acquisitions",
-          impact: "Blended CAC drops to ₹600"
+          target: "20% organic acquisitions",
+          impact: "Blended CAC drops to ₹800"
         },
         {
-          phase: "Research Sharing Loop",
-          timeline: "Months 3-18",
-          approach: "Content virality as acquisition",
+          phase: "Content Virality",
+          timeline: "Months 12-18",
+          approach: "Research-driven organic discovery",
           tactics: [
-            "One-click research sharing to social platforms",
-            "Investment thesis posts with attribution",
-            "Research communities within platform",
-            "External content with embedded backlinks"
+            "Shareable financial health reports",
+            "Investment research posts with social features",
+            "LinkedIn thought leadership content",
+            "YouTube channel with actionable finance tips"
           ],
-          target: "25% discovery via shared content",
-          impact: "Final CAC target: ₹400"
+          target: "15% discovery via content",
+          impact: "Final target CAC: ₹700"
         }
       ],
       trajectory: [
-        { month: "Month 6", cac: "₹900", reduction: "-25%", driver: "Channel optimization" },
-        { month: "Month 12", cac: "₹600", reduction: "-33%", driver: "Referral program" },
-        { month: "Month 18", cac: "₹400", reduction: "-33%", driver: "Viral sharing" },
-        { month: "Month 24", cac: "₹400", reduction: "40% organic", driver: "Self-sustaining growth" }
+        { month: "Month 6", cac: "₹1,000", reduction: "-17%", driver: "Channel optimization" },
+        { month: "Month 12", cac: "₹800", reduction: "-20%", driver: "Referral program" },
+        { month: "Month 18", cac: "₹700", reduction: "-12%", driver: "Content sharing" },
+        { month: "Month 24", cac: "₹700", reduction: "25% organic", driver: "Steady state" }
       ],
       keyMetrics: [
-        { metric: "Viral Coefficient", description: "Referrals per user", target: "1.5x" },
-        { metric: "Content Engagement", description: "Shares per research post", target: "15%" },
-        { metric: "Channel Performance", description: "CAC by acquisition source", target: "<₹500" },
-        { metric: "Organic Growth Rate", description: "Non-paid acquisitions", target: "40%" }
+        { metric: "Referral Rate", description: "Users who refer successfully", target: "8-12%" },
+        { metric: "Content Engagement", description: "Shares per research post", target: "5-8%" },
+        { metric: "Channel ROI", description: "CAC by acquisition source", target: "₹600-900" },
+        { metric: "Organic Growth", description: "Non-paid acquisitions", target: "25%" }
+      ],
+      benchmarks: [
+        {
+          company: "Groww",
+          initialCAC: "₹2,000",
+          optimizedCAC: "₹800",
+          reduction: "60%",
+          method: "Referrals + Content"
+        },
+        {
+          company: "Jupiter",
+          initialCAC: "₹1,500",
+          optimizedCAC: "₹1,000",
+          reduction: "33%",
+          method: "Banking partnerships"
+        },
+        {
+          company: "INDmoney",
+          initialCAC: "₹1,200",
+          optimizedCAC: "₹900",
+          reduction: "25%",
+          method: "Investment tracking"
+        },
+        {
+          company: "CRED",
+          initialCAC: "₹2,500",
+          optimizedCAC: "₹1,200",
+          reduction: "52%",
+          method: "Exclusive community"
+        }
+      ],
+      assumptions: [
+        {
+          assumption: "Referral Conversion Rate",
+          realistic: "8-12%",
+          basis: "Industry average 5-15%, conservative estimate"
+        },
+        {
+          assumption: "Content Sharing Rate",
+          realistic: "5-8%",
+          basis: "Finance content typically 3-10% share rate"
+        },
+        {
+          assumption: "Channel Optimization",
+          realistic: "15-20%",
+          basis: "Standard A/B testing improvements"
+        },
+        {
+          assumption: "Organic Growth Target",
+          realistic: "25%",
+          basis: "Mature fintech platforms achieve 20-30%"
+        }
       ]
     },
     {
