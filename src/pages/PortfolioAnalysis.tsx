@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, TrendingUp, Target, AlertCircle, CheckCircle, Lightbulb, ArrowRight, RefreshCw } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Target, AlertCircle, CheckCircle, Lightbulb, ArrowRight, RefreshCw, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Asset {
@@ -349,19 +349,19 @@ const PortfolioAnalysis = () => {
           </Card>
         )}
 
-        {/* Quick Actions */}
+        {/* Portfolio Management Actions */}
         <div className="grid md:grid-cols-2 gap-6">
           <Card>
             <CardContent className="p-6 text-center space-y-4">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <TrendingUp className="w-8 h-8 text-blue-600" />
+                <Settings className="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">Complete Health Assessment</h3>
-                <p className="text-sm text-gray-600">Get a comprehensive financial health score</p>
+                <h3 className="text-lg font-semibold">Update Portfolio</h3>
+                <p className="text-sm text-gray-600">Add more assets, goals, or update your information</p>
               </div>
-              <Button className="w-full" onClick={() => navigate('/health-assessment')}>
-                Take Assessment
+              <Button className="w-full" onClick={() => navigate('/portfolio/update')}>
+                Manage Portfolio
               </Button>
             </CardContent>
           </Card>
