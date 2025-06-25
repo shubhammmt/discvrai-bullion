@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
-import { AssessmentData, calculateHealthScore, HealthScoreData } from '@/utils/healthScore';
+import { AssessmentData, calculateHealthScore, calculateHealthScoreOld, HealthScoreData } from '@/utils/healthScore';
 import HealthScoreCard from '@/components/HealthScoreCard';
 
 type Message = {
