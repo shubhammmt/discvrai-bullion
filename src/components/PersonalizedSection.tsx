@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Target, Clock, TrendingUp } from 'lucide-react';
+import EditProfileButton from './EditProfileButton';
 
 interface PersonalizedSectionProps {
   userProfile: any;
@@ -24,10 +24,13 @@ const PersonalizedSection = ({ userProfile }: PersonalizedSectionProps) => {
       {/* User Profile Summary */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <User className="w-5 h-5 text-blue-600" />
-            Your Profile
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <User className="w-5 h-5 text-blue-600" />
+              Your Profile
+            </CardTitle>
+            <EditProfileButton variant="icon" />
+          </div>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="text-sm">
@@ -39,11 +42,11 @@ const PersonalizedSection = ({ userProfile }: PersonalizedSectionProps) => {
             <span className="ml-2 font-medium">{userProfile.investmentHorizon || 'Not set'}</span>
           </div>
           <div className="text-sm">
-            <span className="text-gray-600">Preferred Instruments:</span>
+            <span className="text-gray-600">Investment Areas:</span>
             <div className="mt-1">
-              {userProfile.preferredInstruments?.map((instrument: string, index: number) => (
+              {userProfile.investmentAreas?.map((area: string, index: number) => (
                 <span key={index} className="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full mr-1 mb-1">
-                  {instrument}
+                  {area}
                 </span>
               )) || <span className="text-gray-500">None selected</span>}
             </div>

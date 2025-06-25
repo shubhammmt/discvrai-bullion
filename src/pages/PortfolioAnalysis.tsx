@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { TrendingUp, Target, Receipt, ArrowLeft, PieChart, AlertTriangle, CheckC
 import { useNavigate } from 'react-router-dom';
 import { calculateHealthScore, QuickAssessmentData } from '@/utils/healthScore';
 import Header from '@/components/Header';
+import EditProfileButton from '@/components/EditProfileButton';
 
 interface Asset {
   type: string;
@@ -105,21 +105,20 @@ const PortfolioAnalysis = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <Header />
-      <div className="max-w-6xl mx-auto p-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto p-4 space-y-6">
         {/* Header */}
-        <div className="mb-8">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/portfolio')}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Portfolio
-          </Button>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Portfolio Analysis</h1>
-          <p className="text-gray-600">Comprehensive analysis based on your financial data</p>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Portfolio Analysis</h1>
+            <p className="text-gray-600">Your comprehensive financial overview</p>
+          </div>
+          <div className="flex gap-2">
+            <EditProfileButton />
+            <Button onClick={() => navigate('/portfolio/update')} variant="outline">
+              Update Portfolio
+            </Button>
+          </div>
         </div>
 
         {/* Overall Health Score */}

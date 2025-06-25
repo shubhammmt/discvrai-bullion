@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,6 +27,7 @@ interface Expense {
 const Onboarding = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [formData, setFormData] = useState({
     age: '',
     income: '',
@@ -43,6 +43,31 @@ const Onboarding = () => {
 
   const totalSteps = 6;
   const progress = (currentStep / totalSteps) * 100;
+
+  useEffect(() => {
+    const existingProfile = localStorage.getItem('userProfile');
+    if (existingProfile && window.location.search.includes('edit=true')) {
+      setIsEditMode(true);
+      const profile = JSON.parse(existingProfile);
+      const assets = JSON.parse(localStorage.getItem('portfolioAssets') || '[]');
+      const goals = JSON.parse(localStorage.getItem('portfolioGoals') || '[]');
+      const expenses = JSON.parse(localStorage.getItem('portfolioExpenses') || '[]');
+      
+      setFormData(prev => ({
+        ...prev,
+        age: profile.age || '',
+        income: profile.income || '',
+        investmentAmount: profile.investmentAmount || '',
+        riskTolerance: profile.riskTolerance || '',
+        investmentHorizon: profile.investmentHorizon || '',
+        investmentAreas: profile.investmentAreas || [],
+        learningMode: profile.learningMode || '',
+        assets,
+        financialGoals: goals,
+        expenses
+      }));
+    }
+  }, []);
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -62,7 +87,11 @@ const Onboarding = () => {
       localStorage.setItem('portfolioGoals', JSON.stringify(formData.financialGoals));
       localStorage.setItem('portfolioExpenses', JSON.stringify(formData.expenses));
       
-      navigate('/feed');
+      if (isEditMode) {
+        navigate('/portfolio/analysis');
+      } else {
+        navigate('/feed');
+      }
     }
   };
 
@@ -341,6 +370,9 @@ const Onboarding = () => {
               discvr.ai
             </h1>
           </div>
+          {isEditMode && (
+            <p className="text-sm text-blue-600 mb-2">✏️ Edit Profile</p>
+          )}
           <Progress value={progress} className="w-full" />
           <p className="text-sm text-gray-500 mt-2">Step {currentStep} of {totalSteps}</p>
         </CardHeader>
@@ -355,7 +387,7 @@ const Onboarding = () => {
               Back
             </Button>
             <Button onClick={handleNext} className="flex items-center gap-2">
-              {currentStep === totalSteps ? 'Complete Setup' : 'Continue'}
+              {currentStep === totalSteps ? (isEditMode ? 'Update Profile' : 'Complete Setup') : 'Continue'}
               <ArrowRight size={16} />
             </Button>
           </div>
