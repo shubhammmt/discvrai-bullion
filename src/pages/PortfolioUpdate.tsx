@@ -89,11 +89,11 @@ const PortfolioUpdate = () => {
     
     toast({
       title: "Analysis Starting",
-      description: "Redirecting to your portfolio analysis...",
+      description: "Redirecting to your portfolio dashboard...",
     });
     
     setTimeout(() => {
-      navigate('/portfolio/analysis');
+      navigate('/portfolio');
     }, 1000);
   };
 
