@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, TrendingUp, Target, AlertCircle, CheckCircle, Lightbulb, ArrowRight } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Target, AlertCircle, CheckCircle, Lightbulb, ArrowRight, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Asset {
@@ -42,6 +41,37 @@ const PortfolioAnalysis = () => {
     goalAlignment: 0,
     cashFlow: 0
   });
+
+  const loadSampleData = () => {
+    const sampleAssets: Asset[] = [
+      { type: 'mutual-fund', name: 'Equity Diversified Fund', currentValue: 150000 },
+      { type: 'stocks', name: 'HDFC Bank', currentValue: 50000 },
+      { type: 'fd', name: 'SBI Fixed Deposit', currentValue: 100000 },
+      { type: 'emergency', name: 'Emergency Fund', currentValue: 75000 }
+    ];
+    
+    const sampleGoals: Goal[] = [
+      { type: 'retirement', targetAmount: 2000000, timeframe: 20 },
+      { type: 'house', targetAmount: 1000000, timeframe: 8 },
+      { type: 'education', targetAmount: 500000, timeframe: 10 }
+    ];
+    
+    const sampleExpenses: Expense[] = [
+      { category: 'housing', monthlyAmount: 25000 },
+      { category: 'food', monthlyAmount: 15000 },
+      { category: 'transport', monthlyAmount: 8000 },
+      { category: 'utilities', monthlyAmount: 5000 }
+    ];
+
+    setAssets(sampleAssets);
+    setGoals(sampleGoals);
+    setExpenses(sampleExpenses);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('portfolioAssets', JSON.stringify(sampleAssets));
+    localStorage.setItem('portfolioGoals', JSON.stringify(sampleGoals));
+    localStorage.setItem('portfolioExpenses', JSON.stringify(sampleExpenses));
+  };
 
   useEffect(() => {
     const savedAssets = localStorage.getItem('portfolioAssets');
@@ -141,13 +171,19 @@ const PortfolioAnalysis = () => {
   if (assets.length === 0 && goals.length === 0 && expenses.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-6 max-w-md">
           <AlertCircle className="w-16 h-16 text-gray-400 mx-auto" />
           <h2 className="text-xl font-semibold text-gray-700">No Portfolio Data Found</h2>
-          <p className="text-gray-600">Complete the quick setup first to see your analysis</p>
-          <Button onClick={() => navigate('/portfolio/update')}>
-            Go to Setup
-          </Button>
+          <p className="text-gray-600">Complete the quick setup first to see your analysis, or try our sample data</p>
+          <div className="space-y-3">
+            <Button onClick={() => navigate('/portfolio/update')} className="w-full">
+              Go to Setup
+            </Button>
+            <Button onClick={loadSampleData} variant="outline" className="w-full">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Load Sample Data
+            </Button>
+          </div>
         </div>
       </div>
     );
