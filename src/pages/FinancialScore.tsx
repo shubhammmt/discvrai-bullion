@@ -32,6 +32,7 @@ const FinancialScore = () => {
   const [healthScore, setHealthScore] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [scoreAnimation, setScoreAnimation] = useState(0);
+  const [showQuickEdit, setShowQuickEdit] = useState(false);
 
   useEffect(() => {
     const loadData = () => {
@@ -97,12 +98,22 @@ const FinancialScore = () => {
 
   const portfolioEnhancementOptions = [
     {
+      title: 'Quick Update Totals',
+      description: 'Fast edit of your basic asset category totals',
+      icon: Edit3,
+      badge: 'Basic',
+      gradient: 'from-blue-500 to-indigo-600',
+      action: () => setShowQuickEdit(true),
+      type: 'quick'
+    },
+    {
       title: 'Connect Zerodha (MCP)',
       description: 'Live sync your complete portfolio automatically',
       icon: Link2,
       badge: 'Instant',
       gradient: 'from-green-500 to-emerald-600',
-      action: () => navigate('/portfolio/update?method=mcp')
+      action: () => navigate('/portfolio/update?method=mcp'),
+      type: 'detailed'
     },
     {
       title: 'Connect Gmail',
@@ -110,7 +121,8 @@ const FinancialScore = () => {
       icon: Mail,
       badge: 'Smart',
       gradient: 'from-blue-500 to-indigo-600',
-      action: () => navigate('/portfolio/update?method=mail')
+      action: () => navigate('/portfolio/update?method=mail'),
+      type: 'detailed'
     },
     {
       title: 'Upload Documents',
@@ -118,7 +130,8 @@ const FinancialScore = () => {
       icon: Upload,
       badge: 'Quick',
       gradient: 'from-purple-500 to-violet-600',
-      action: () => navigate('/portfolio/update?method=upload')
+      action: () => navigate('/portfolio/update?method=upload'),
+      type: 'detailed'
     },
     {
       title: 'Add Manually',
@@ -126,9 +139,49 @@ const FinancialScore = () => {
       icon: PlusCircle,
       badge: 'Detailed',
       gradient: 'from-orange-500 to-red-600',
-      action: () => navigate('/portfolio/update?method=manual')
+      action: () => navigate('/portfolio/update?method=manual'),
+      type: 'detailed'
     }
   ];
+
+  const handleQuickEditSave = (updatedTotals: any) => {
+    // Update profile data with new totals
+    const updatedProfile = {
+      ...profileData,
+      assets: Object.entries(updatedTotals).map(([type, amount]) => ({
+        type: type.charAt(0).toUpperCase() + type.slice(1),
+        amount: amount as number
+      }))
+    };
+    
+    setProfileData(updatedProfile);
+    localStorage.setItem('financialProfile', JSON.stringify(updatedProfile));
+    
+    // Recalculate health score
+    const mockAssessment: QuickAssessmentData = {
+      userProfile: {
+        ageGroup: updatedProfile.personalDetails.age < 30 ? '25-30' : '31-35',
+        incomeRange: updatedProfile.personalDetails.monthlyIncome < 50000 ? '25K-50K' : 
+                    updatedProfile.personalDetails.monthlyIncome < 100000 ? '50K-1L' : '1L-1.5L',
+        cityType: 'metro'
+      },
+      assets: {
+        totalValue: updatedProfile.assets.reduce((sum: number, asset: any) => sum + asset.amount, 0) / 100000,
+        allocation: {
+          equityPercentage: 60,
+          debtPercentage: 30,
+          cashPercentage: 10
+        }
+      },
+      commitments: {
+        monthlyEmi: updatedProfile.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0) / 1000,
+        hasEmergencyFund: updatedProfile.assets.some((asset: any) => asset.type === 'Emergency Fund')
+      }
+    };
+
+    const newScore = calculateHealthScore(mockAssessment);
+    setHealthScore(newScore);
+  };
 
   if (isLoading) {
     return (
@@ -286,41 +339,89 @@ const FinancialScore = () => {
           </Card>
         )}
 
-        {/* Complete Your Portfolio */}
+        {/* Enhanced Portfolio Management */}
         <Card className="border-0 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-6 h-6 text-indigo-600" />
-              Complete Your Portfolio
+              Enhance Your Portfolio Analysis
             </CardTitle>
             <p className="text-gray-600">
-              Get personalized investment recommendations with detailed portfolio analysis
+              Choose how you'd like to update your portfolio for better recommendations
             </p>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
-              {portfolioEnhancementOptions.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={option.action}
-                  className="relative p-6 border rounded-xl hover:shadow-lg transition-all group text-left overflow-hidden"
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${option.gradient} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
-                  <div className="relative">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${option.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                        <option.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <Badge variant="secondary" className="text-xs">
-                        {option.badge}
-                      </Badge>
-                    </div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{option.title}</h4>
-                    <p className="text-sm text-gray-600 mb-3">{option.description}</p>
-                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
-                  </div>
-                </button>
-              ))}
+            {/* Quick vs Detailed Sections */}
+            <div className="space-y-6">
+              {/* Quick Update Section */}
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-blue-600" />
+                  Quick Updates
+                </h4>
+                <div className="grid gap-3">
+                  {portfolioEnhancementOptions
+                    .filter(option => option.type === 'quick')
+                    .map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={option.action}
+                        className="relative p-4 border rounded-lg hover:shadow-md transition-all group text-left overflow-hidden"
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-br ${option.gradient} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
+                        <div className="relative flex items-center gap-4">
+                          <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${option.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            <option.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h5 className="font-semibold text-gray-900">{option.title}</h5>
+                              <Badge variant="secondary" className="text-xs">
+                                {option.badge}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-gray-600">{option.description}</p>
+                          </div>
+                          <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+                        </div>
+                      </button>
+                    ))}
+                </div>
+              </div>
+
+              {/* Detailed Portfolio Section */}
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-green-600" />
+                  Detailed Portfolio Management
+                </h4>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {portfolioEnhancementOptions
+                    .filter(option => option.type === 'detailed')
+                    .map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={option.action}
+                        className="relative p-4 border rounded-lg hover:shadow-md transition-all group text-left overflow-hidden"
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-br ${option.gradient} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
+                        <div className="relative">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${option.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                              <option.icon className="w-4 h-4 text-white" />
+                            </div>
+                            <Badge variant="secondary" className="text-xs">
+                              {option.badge}
+                            </Badge>
+                          </div>
+                          <h5 className="font-semibold text-gray-900 mb-1">{option.title}</h5>
+                          <p className="text-sm text-gray-600 mb-2">{option.description}</p>
+                          <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+                        </div>
+                      </button>
+                    ))}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,9 @@ import AssetEntryForm from '@/components/portfolio/AssetEntryForm';
 import GoalsEntryForm from '@/components/portfolio/GoalsEntryForm';
 import ExpensesEntryForm from '@/components/portfolio/ExpensesEntryForm';
 import QuickSetupSummary from '@/components/portfolio/QuickSetupSummary';
+import QuickEditModal from '@/components/profile/QuickEditModal';
+import { reconcilePortfolioData, addPortfolioInstrument, getPortfolioInstruments, DetailedInstrument } from '@/utils/apiIntegration';
+import { reconcilePortfolioData as localReconcile, ProfileTotals } from '@/utils/portfolioReconciliation';
 
 interface Asset {
   type: string;
@@ -40,6 +42,9 @@ const PortfolioUpdate = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [goals, setGoals] = useState<Goal[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [detailedInstruments, setDetailedInstruments] = useState<DetailedInstrument[]>([]);
+  const [showReconciliation, setShowReconciliation] = useState(false);
+  const [reconciliationData, setReconciliationData] = useState<any>(null);
 
   useEffect(() => {
     // Set initial tab based on URL parameter
@@ -47,6 +52,25 @@ const PortfolioUpdate = () => {
     else if (method === 'upload') setActiveTab('upload');
     else setActiveTab('connections');
   }, [method]);
+
+  // Load existing detailed instruments
+  useEffect(() => {
+    const loadDetailedInstruments = async () => {
+      const profileId = localStorage.getItem('profileId');
+      if (profileId) {
+        try {
+          const response = await getPortfolioInstruments(profileId);
+          if (response.success) {
+            setDetailedInstruments(response.instruments);
+          }
+        } catch (error) {
+          console.log('Error loading detailed instruments:', error);
+        }
+      }
+    };
+
+    loadDetailedInstruments();
+  }, []);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, type: 'excel' | 'image') => {
     const file = event.target.files?.[0];
@@ -107,8 +131,27 @@ const PortfolioUpdate = () => {
     }, 2500);
   };
 
-  const handleAssetAdded = (asset: Asset) => {
+  const handleAssetAdded = async (asset: Asset) => {
     setAssets(prev => [...prev, asset]);
+    
+    // Convert to detailed instrument format
+    const instrument: Omit<DetailedInstrument, 'id'> = {
+      category: asset.type.toLowerCase().replace(' ', ''),
+      type: asset.type,
+      name: asset.name,
+      currentValue: asset.currentValue,
+      details: {}
+    };
+
+    // Try to save to backend
+    const profileId = localStorage.getItem('profileId');
+    if (profileId) {
+      try {
+        await addPortfolioInstrument(profileId, instrument);
+      } catch (error) {
+        console.log('Error saving instrument:', error);
+      }
+    }
   };
 
   const handleGoalAdded = (goal: Goal) => {
@@ -119,10 +162,33 @@ const PortfolioUpdate = () => {
     setExpenses(prev => [...prev, expense]);
   };
 
-  const handleAnalyzePortfolio = () => {
+  const handleAnalyzePortfolio = async () => {
+    // Check for reconciliation conflicts
+    const profileData = JSON.parse(localStorage.getItem('financialProfile') || '{}');
+    if (profileData.assets && detailedInstruments.length > 0) {
+      const profileTotals: ProfileTotals = {
+        equity: profileData.assets.find((a: any) => a.type === 'Equity')?.amount || 0,
+        debt: profileData.assets.find((a: any) => a.type === 'Debt')?.amount || 0,
+        insurance: profileData.assets.find((a: any) => a.type === 'Insurance')?.amount || 0,
+        realEstate: profileData.assets.find((a: any) => a.type === 'Real Estate')?.amount || 0,
+        emergency: profileData.assets.find((a: any) => a.type === 'Emergency Fund')?.amount || 0,
+        other: 0
+      };
+
+      const reconciliation = localReconcile(profileTotals, detailedInstruments);
+      
+      if (reconciliation.hasConflicts) {
+        setReconciliationData(reconciliation);
+        setShowReconciliation(true);
+        return;
+      }
+    }
+
+    // Proceed with analysis
     localStorage.setItem('portfolioAssets', JSON.stringify(assets));
     localStorage.setItem('portfolioGoals', JSON.stringify(goals));
     localStorage.setItem('portfolioExpenses', JSON.stringify(expenses));
+    localStorage.setItem('detailedInstruments', JSON.stringify(detailedInstruments));
     
     toast({
       title: "Analysis Starting",
@@ -132,6 +198,23 @@ const PortfolioUpdate = () => {
     setTimeout(() => {
       navigate('/portfolio');
     }, 1000);
+  };
+
+  const handleReconciliationSave = (updatedTotals: ProfileTotals) => {
+    // Update profile data with reconciled totals
+    const profileData = JSON.parse(localStorage.getItem('financialProfile') || '{}');
+    profileData.assets = Object.entries(updatedTotals).map(([type, amount]) => ({
+      type: type.charAt(0).toUpperCase() + type.slice(1),
+      amount: amount as number
+    }));
+    
+    localStorage.setItem('financialProfile', JSON.stringify(profileData));
+    setShowReconciliation(false);
+    
+    // Continue with analysis
+    setTimeout(() => {
+      handleAnalyzePortfolio();
+    }, 500);
   };
 
   return (
@@ -296,12 +379,44 @@ const PortfolioUpdate = () => {
               <AssetEntryForm onAssetAdded={handleAssetAdded} />
               <GoalsEntryForm onGoalAdded={handleGoalAdded} />
               <ExpensesEntryForm onExpenseAdded={handleExpenseAdded} />
+              
+              {/* Enhanced Summary with Conflict Detection */}
               <QuickSetupSummary 
                 assets={assets}
                 goals={goals}
                 expenses={expenses}
                 onAnalyzePortfolio={handleAnalyzePortfolio}
               />
+              
+              {/* Detailed Instruments Preview */}
+              {detailedInstruments.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BarChart3 className="w-5 h-5 text-green-600" />
+                      Your Detailed Holdings ({detailedInstruments.length})
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {detailedInstruments.slice(0, 3).map((instrument, index) => (
+                        <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                          <div>
+                            <span className="font-medium">{instrument.name}</span>
+                            <span className="text-sm text-gray-500 ml-2">({instrument.category})</span>
+                          </div>
+                          <span className="font-semibold">₹{instrument.currentValue.toLocaleString('en-IN')}</span>
+                        </div>
+                      ))}
+                      {detailedInstruments.length > 3 && (
+                        <p className="text-sm text-gray-500 text-center pt-2">
+                          +{detailedInstruments.length - 3} more instruments
+                        </p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </TabsContent>
         </Tabs>
