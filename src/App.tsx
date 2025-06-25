@@ -17,6 +17,8 @@ import PortfolioUpdate from '@/pages/PortfolioUpdate';
 import PortfolioAnalysis from '@/pages/PortfolioAnalysis';
 import Dashboard from '@/pages/Dashboard';
 import Onboarding from '@/pages/Onboarding';
+import FinancialProfile from '@/pages/FinancialProfile';
+import FinancialScore from '@/pages/FinancialScore';
 import Organize from '@/pages/Organize';
 import AIStrategy from '@/pages/AIStrategy';
 import FinancialCopilot from '@/pages/FinancialCopilot';
@@ -58,6 +60,8 @@ function App() {
             <Route path="/portfolio/analysis" element={<PortfolioAnalysis />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/financial-profile" element={<FinancialProfile />} />
+            <Route path="/financial-score" element={<FinancialScore />} />
             <Route path="/organize" element={<Organize />} />
             <Route path="/ai-strategy" element={<AIStrategy />} />
             <Route path="/financial-copilot" element={<FinancialCopilot />} />
