@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BarChart3, Search, BookmarkPlus, Wallet, User } from 'lucide-react';
+import { BarChart3, Search, BookmarkPlus, Wallet, TrendingUp } from 'lucide-react';
 
 const MobileBottomNav = () => {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ const MobileBottomNav = () => {
   
   const navigationItems = [
     { path: '/feed', label: 'Feed', icon: BarChart3 },
+    { path: '/mutual-fund-feed', label: 'MF Feed', icon: TrendingUp },
     { path: '/research', label: 'Research', icon: Search },
     { path: '/organize', label: 'Organize', icon: BookmarkPlus },
     { path: '/portfolio', label: 'Portfolio', icon: Wallet },
@@ -21,6 +22,7 @@ const MobileBottomNav = () => {
   // Only show on mobile and for authenticated users on specific pages
   const shouldShow = userProfile && (
     location.pathname.startsWith('/feed') ||
+    location.pathname.startsWith('/mutual-fund-feed') ||
     location.pathname.startsWith('/research') ||
     location.pathname.startsWith('/organize') ||
     location.pathname.startsWith('/portfolio')
@@ -30,7 +32,7 @@ const MobileBottomNav = () => {
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
-      <div className="grid grid-cols-4 h-16">
+      <div className="grid grid-cols-5 h-16">
         {navigationItems.map((item) => {
           const Icon = item.icon;
           return (

@@ -315,6 +315,10 @@ const Feed = () => {
             <p className="text-gray-600 dark:text-gray-400">Ask DiscvrAI anything - discover personalized opportunities</p>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')}>
+              <TrendingUp size={16} className="mr-1" />
+              MF Feed
+            </Button>
             <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')}>
               <BarChart3 size={16} className="mr-1" />
               Portfolio
