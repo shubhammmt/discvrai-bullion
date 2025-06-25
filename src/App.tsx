@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from '@/pages/Index';
@@ -13,6 +14,7 @@ import IPOResearch from '@/pages/IPOResearch';
 import SmallcaseResearch from '@/pages/SmallcaseResearch';
 import Portfolio from '@/pages/Portfolio';
 import PortfolioUpdate from '@/pages/PortfolioUpdate';
+import PortfolioAnalysis from '@/pages/PortfolioAnalysis';
 import Dashboard from '@/pages/Dashboard';
 import Onboarding from '@/pages/Onboarding';
 import Organize from '@/pages/Organize';
@@ -53,6 +55,7 @@ function App() {
             <Route path="/research/smallcase/:smallcaseId" element={<SmallcaseResearch />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/portfolio/update" element={<PortfolioUpdate />} />
+            <Route path="/portfolio/analysis" element={<PortfolioAnalysis />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/organize" element={<Organize />} />

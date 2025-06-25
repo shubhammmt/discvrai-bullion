@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Target, Receipt, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Asset {
   type: string;
@@ -35,11 +36,20 @@ const QuickSetupSummary: React.FC<QuickSetupSummaryProps> = ({
   expenses,
   onAnalyzePortfolio
 }) => {
+  const navigate = useNavigate();
   const totalAssetValue = assets.reduce((sum, asset) => sum + asset.currentValue, 0);
   const totalMonthlyExpenses = expenses.reduce((sum, expense) => sum + expense.monthlyAmount, 0);
   const totalGoalAmount = goals.reduce((sum, goal) => sum + goal.targetAmount, 0);
 
   const isReadyForAnalysis = assets.length > 0 && goals.length > 0 && expenses.length > 0;
+
+  const handleAnalyzeClick = () => {
+    // Save data and navigate to analysis page
+    onAnalyzePortfolio();
+    setTimeout(() => {
+      navigate('/portfolio/analysis');
+    }, 1000);
+  };
 
   return (
     <Card className="border-2 border-green-200 bg-green-50">
@@ -85,7 +95,7 @@ const QuickSetupSummary: React.FC<QuickSetupSummaryProps> = ({
 
         {isReadyForAnalysis ? (
           <Button 
-            onClick={onAnalyzePortfolio}
+            onClick={handleAnalyzeClick}
             className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg"
           >
             Analyze My Portfolio Now
