@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +18,10 @@ import {
   Award,
   Zap,
   Users,
-  ArrowUpRight
+  ArrowUpRight,
+  Mail,
+  Link2,
+  PlusCircle
 } from 'lucide-react';
 import HealthScoreCard from '@/components/HealthScoreCard';
 import { calculateHealthScore, QuickAssessmentData } from '@/utils/healthScore';
@@ -93,27 +95,38 @@ const FinancialScore = () => {
     return { grade: 'C', color: 'text-red-600', bg: 'bg-red-100' };
   };
 
-  const quickImportOptions = [
+  const portfolioEnhancementOptions = [
     {
-      title: 'Upload Excel Template',
-      description: 'Import your portfolio using our Excel template',
-      icon: FileText,
-      badge: 'Quick',
-      action: () => navigate('/portfolio/update?method=excel')
+      title: 'Connect Zerodha (MCP)',
+      description: 'Live sync your complete portfolio automatically',
+      icon: Link2,
+      badge: 'Instant',
+      gradient: 'from-green-500 to-emerald-600',
+      action: () => navigate('/portfolio/update?method=mcp')
     },
     {
-      title: 'Upload Bank Statements',
-      description: 'Scan and upload your bank statements',
-      icon: Upload,
+      title: 'Connect Gmail',
+      description: 'Auto-import statements & documents',
+      icon: Mail,
       badge: 'Smart',
-      action: () => navigate('/portfolio/update?method=image')
+      gradient: 'from-blue-500 to-indigo-600',
+      action: () => navigate('/portfolio/update?method=mail')
     },
     {
-      title: 'Manual Entry',
-      description: 'Add investments manually',
-      icon: Edit3,
+      title: 'Upload Documents',
+      description: 'Excel files, statements, or screenshots',
+      icon: Upload,
+      badge: 'Quick',
+      gradient: 'from-purple-500 to-violet-600',
+      action: () => navigate('/portfolio/update?method=upload')
+    },
+    {
+      title: 'Add Manually',
+      description: 'Enter specific investment details',
+      icon: PlusCircle,
       badge: 'Detailed',
-      action: () => navigate('/portfolio/update')
+      gradient: 'from-orange-500 to-red-600',
+      action: () => navigate('/portfolio/update?method=manual')
     }
   ];
 
@@ -273,34 +286,39 @@ const FinancialScore = () => {
           </Card>
         )}
 
-        {/* Enhancement Options */}
+        {/* Complete Your Portfolio */}
         <Card className="border-0 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-6 h-6 text-indigo-600" />
-              Enhance Your Profile
+              Complete Your Portfolio
             </CardTitle>
             <p className="text-gray-600">
-              Add more details for even better recommendations
+              Get personalized investment recommendations with detailed portfolio analysis
             </p>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              {quickImportOptions.map((option, index) => (
+            <div className="grid md:grid-cols-2 gap-4">
+              {portfolioEnhancementOptions.map((option, index) => (
                 <button
                   key={index}
                   onClick={option.action}
-                  className="relative p-6 border rounded-xl hover:shadow-md transition-all group text-left bg-gradient-to-br from-white to-gray-50"
+                  className="relative p-6 border rounded-xl hover:shadow-lg transition-all group text-left overflow-hidden"
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <option.icon className="w-8 h-8 text-indigo-600 group-hover:scale-110 transition-transform" />
-                    <Badge variant="secondary" className="text-xs">
-                      {option.badge}
-                    </Badge>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${option.gradient} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
+                  <div className="relative">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${option.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <option.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <Badge variant="secondary" className="text-xs">
+                        {option.badge}
+                      </Badge>
+                    </div>
+                    <h4 className="font-semibold text-gray-900 mb-2">{option.title}</h4>
+                    <p className="text-sm text-gray-600 mb-3">{option.description}</p>
+                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
                   </div>
-                  <h4 className="font-semibold text-gray-900 mb-2">{option.title}</h4>
-                  <p className="text-sm text-gray-600">{option.description}</p>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all absolute bottom-4 right-4" />
                 </button>
               ))}
             </div>
@@ -308,7 +326,7 @@ const FinancialScore = () => {
         </Card>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <Button
             onClick={() => navigate('/feed')}
             className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
