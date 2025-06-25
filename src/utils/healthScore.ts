@@ -66,6 +66,46 @@ export interface AssessmentData {
   riskTolerance: 'conservative' | 'moderate' | 'aggressive';
 }
 
+// Legacy function for backward compatibility
+export const calculateHealthScoreOld = (data: AssessmentData): any => {
+  const savingsRatio = data.savings / (data.income * 12);
+  const investmentRatio = data.investments / (data.income * 12);
+  const wealthScore = Math.min(100, (savingsRatio * 30 + investmentRatio * 70) * 100);
+
+  let protectionScore = 0;
+  if (data.insurance.life) protectionScore += 40;
+  if (data.insurance.health) protectionScore += 40;
+  const coverageRatio = data.insurance.amount / (data.income * 10);
+  protectionScore += Math.min(20, coverageRatio * 20);
+
+  const debtToIncomeRatio = (data.debt.emi * 12) / data.income;
+  const debtScore = Math.max(0, 100 - (debtToIncomeRatio * 200));
+
+  let goalScore = 0;
+  if (data.goals.emergency) goalScore += 33;
+  if (data.goals.retirement) goalScore += 33;
+  if (data.goals.home) goalScore += 34;
+
+  const overall = Math.round((wealthScore + protectionScore + debtScore + goalScore) / 4);
+
+  const recommendations = [];
+  if (wealthScore < 60) recommendations.push("Increase your investment allocation");
+  if (protectionScore < 60) recommendations.push("Get adequate life and health insurance");
+  if (debtScore < 70) recommendations.push("Optimize your debt structure");
+  if (goalScore < 70) recommendations.push("Set up emergency fund and retirement goals");
+
+  return {
+    overall,
+    categories: {
+      wealth: Math.round(wealthScore),
+      protection: Math.round(protectionScore),
+      debt: Math.round(debtScore),
+      goals: Math.round(goalScore)
+    },
+    recommendations
+  };
+};
+
 // Helper functions for calculation
 const getIncomeMidpoint = (range: string): number => {
   const mapping: { [key: string]: number } = {
@@ -251,46 +291,6 @@ export const calculateHealthScore = (data: QuickAssessmentData): HealthScoreData
     benchmarks: {
       percentile: Math.min(95, Math.max(5, overallScore + Math.random() * 10 - 5)),
       peerGroup: `${data.userProfile.cityType === 'metro' ? 'Urban' : 'Tier-' + data.userProfile.cityType.slice(-1)} professionals, ${data.userProfile.ageGroup} age`
-    },
-    recommendations
-  };
-};
-
-// Legacy function for backward compatibility
-export const calculateHealthScoreOld = (data: AssessmentData): any => {
-  const savingsRatio = data.savings / (data.income * 12);
-  const investmentRatio = data.investments / (data.income * 12);
-  const wealthScore = Math.min(100, (savingsRatio * 30 + investmentRatio * 70) * 100);
-
-  let protectionScore = 0;
-  if (data.insurance.life) protectionScore += 40;
-  if (data.insurance.health) protectionScore += 40;
-  const coverageRatio = data.insurance.amount / (data.income * 10);
-  protectionScore += Math.min(20, coverageRatio * 20);
-
-  const debtToIncomeRatio = (data.debt.emi * 12) / data.income;
-  const debtScore = Math.max(0, 100 - (debtToIncomeRatio * 200));
-
-  let goalScore = 0;
-  if (data.goals.emergency) goalScore += 33;
-  if (data.goals.retirement) goalScore += 33;
-  if (data.goals.home) goalScore += 34;
-
-  const overall = Math.round((wealthScore + protectionScore + debtScore + goalScore) / 4);
-
-  const recommendations = [];
-  if (wealthScore < 60) recommendations.push("Increase your investment allocation");
-  if (protectionScore < 60) recommendations.push("Get adequate life and health insurance");
-  if (debtScore < 70) recommendations.push("Optimize your debt structure");
-  if (goalScore < 70) recommendations.push("Set up emergency fund and retirement goals");
-
-  return {
-    overall,
-    categories: {
-      wealth: Math.round(wealthScore),
-      protection: Math.round(protectionScore),
-      debt: Math.round(debtScore),
-      goals: Math.round(goalScore)
     },
     recommendations
   };
