@@ -1,4 +1,3 @@
-
 export interface QuickAssessmentData {
   userProfile: {
     ageGroup: string;
@@ -41,6 +40,7 @@ export interface HealthScoreData {
     percentile: number;
     peerGroup: string;
   };
+  recommendations: string[];
 }
 
 // Legacy interface for backward compatibility
@@ -229,6 +229,13 @@ export const calculateHealthScore = (data: QuickAssessmentData): HealthScoreData
       category: "savings"
     });
   }
+
+  // Generate default recommendations
+  const recommendations = [];
+  if (emergencyScore < 50) recommendations.push("Build emergency fund to cover 6 months of expenses");
+  if (allocationScore < 70) recommendations.push("Rebalance portfolio for better age-appropriate allocation");
+  if (debtScore < 70) recommendations.push("Optimize debt structure to reduce EMI burden");
+  if (savingsScore < 60) recommendations.push("Increase monthly savings rate");
   
   return {
     overall: overallScore,
@@ -244,7 +251,8 @@ export const calculateHealthScore = (data: QuickAssessmentData): HealthScoreData
     benchmarks: {
       percentile: Math.min(95, Math.max(5, overallScore + Math.random() * 10 - 5)),
       peerGroup: `${data.userProfile.cityType === 'metro' ? 'Urban' : 'Tier-' + data.userProfile.cityType.slice(-1)} professionals, ${data.userProfile.ageGroup} age`
-    }
+    },
+    recommendations
   };
 };
 
