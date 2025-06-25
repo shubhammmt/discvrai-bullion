@@ -169,7 +169,8 @@ const FinanceCopilot = ({ isOpen: externalIsOpen, onToggle }: FinanceCopilotProp
       riskTolerance: data.riskTolerance || 'moderate'
     };
 
-    const healthScore = calculateHealthScore(completeData);
+    // Use the legacy calculateHealthScore function for backwards compatibility
+    const healthScore = calculateHealthScoreOld(completeData);
     
     setHealthAssessment({ isActive: false, currentStep: 0, data: {} });
     

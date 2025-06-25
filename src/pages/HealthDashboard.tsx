@@ -5,12 +5,28 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, TrendingUp, Shield, Target, Wallet, ExternalLink, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import HealthScoreCard from '@/components/HealthScoreCard';
-import { HealthScoreData } from '@/utils/healthScore';
 import FinanceCopilot from '@/components/FinanceCopilot';
+
+// Support both old and new health score formats
+interface LegacyHealthScore {
+  overall: number;
+  categories: {
+    wealth?: number;
+    protection?: number;
+    debt?: number;
+    goals?: number;
+    // New format
+    assetAllocation?: number;
+    emergencyFund?: number;
+    debtManagement?: number;
+    savingsRate?: number;
+  };
+  recommendations?: string[];
+}
 
 const HealthDashboard = () => {
   const navigate = useNavigate();
-  const [healthScore, setHealthScore] = useState<HealthScoreData | null>(null);
+  const [healthScore, setHealthScore] = useState<LegacyHealthScore | null>(null);
   const [copilotOpen, setCopilotOpen] = useState(false);
 
   useEffect(() => {
@@ -33,12 +49,15 @@ const HealthDashboard = () => {
     );
   }
 
-  const improvementAreas = [
+  // Determine if this is legacy or new format and map accordingly
+  const isLegacyFormat = healthScore.categories.wealth !== undefined;
+  
+  const improvementAreas = isLegacyFormat ? [
     {
       category: 'wealth',
       title: 'Wealth Building',
       icon: TrendingUp,
-      score: healthScore.categories.wealth,
+      score: healthScore.categories.wealth || 0,
       actions: [
         { title: 'Start SIP in Index Fund', description: 'Begin with ₹5,000/month', link: 'https://groww.in' },
         { title: 'Increase PPF Contribution', description: 'Tax saving + retirement', link: 'https://sbi.co.in' }
@@ -48,7 +67,7 @@ const HealthDashboard = () => {
       category: 'protection',
       title: 'Protection Planning',
       icon: Shield,
-      score: healthScore.categories.protection,
+      score: healthScore.categories.protection || 0,
       actions: [
         { title: 'Term Life Insurance', description: '₹1Cr cover at ₹1,500/month', link: 'https://policybazaar.com' },
         { title: 'Health Insurance', description: '₹10L family floater', link: 'https://policybazaar.com' }
@@ -58,7 +77,7 @@ const HealthDashboard = () => {
       category: 'debt',
       title: 'Debt Optimization',
       icon: Wallet,
-      score: healthScore.categories.debt,
+      score: healthScore.categories.debt || 0,
       actions: [
         { title: 'Personal Loan', description: 'Consolidate high-interest debt', link: 'https://bajajfinserv.in' },
         { title: 'Credit Card Optimization', description: 'Better rewards & lower rates', link: 'https://hdfc.com' }
@@ -68,10 +87,51 @@ const HealthDashboard = () => {
       category: 'goals',
       title: 'Goal Achievement',
       icon: Target,
-      score: healthScore.categories.goals,
+      score: healthScore.categories.goals || 0,
       actions: [
         { title: 'Emergency Fund', description: 'Build 6-month expense buffer', link: 'https://zerodha.com' },
         { title: 'Home Loan Pre-approval', description: 'Get ready for property purchase', link: 'https://hdfcbank.com' }
+      ]
+    }
+  ] : [
+    {
+      category: 'assetAllocation',
+      title: 'Asset Allocation',
+      icon: TrendingUp,
+      score: healthScore.categories.assetAllocation || 0,
+      actions: [
+        { title: 'Rebalance Portfolio', description: 'Optimize equity allocation', link: 'https://groww.in' },
+        { title: 'Diversify Holdings', description: 'Reduce concentration risk', link: 'https://zerodha.com' }
+      ]
+    },
+    {
+      category: 'emergencyFund',
+      title: 'Emergency Fund',
+      icon: Shield,
+      score: healthScore.categories.emergencyFund || 0,
+      actions: [
+        { title: 'Build Emergency Fund', description: 'Save 6 months expenses', link: 'https://paytmmoney.com' },
+        { title: 'Liquid Fund SIP', description: 'Better than savings account', link: 'https://groww.in' }
+      ]
+    },
+    {
+      category: 'debtManagement',
+      title: 'Debt Management',
+      icon: Wallet,
+      score: healthScore.categories.debtManagement || 0,
+      actions: [
+        { title: 'Debt Consolidation', description: 'Lower interest rates', link: 'https://bajajfinserv.in' },
+        { title: 'Prepayment Strategy', description: 'Reduce EMI burden', link: 'https://hdfcbank.com' }
+      ]
+    },
+    {
+      category: 'savingsRate',
+      title: 'Savings Rate',
+      icon: Target,
+      score: healthScore.categories.savingsRate || 0,
+      actions: [
+        { title: 'Automate Savings', description: 'Set up automatic transfers', link: 'https://paytmmoney.com' },
+        { title: 'Expense Tracking', description: 'Optimize spending patterns', link: 'https://walnut.app' }
       ]
     }
   ];
@@ -87,6 +147,16 @@ const HealthDashboard = () => {
     if (score >= 60) return 'bg-yellow-50 border-yellow-200';
     return 'bg-red-50 border-red-200';
   };
+
+  // Generate default recommendations if none exist
+  const defaultRecommendations = [
+    "Complete your financial goal setup",
+    "Start investing with systematic SIPs", 
+    "Build your emergency fund",
+    "Optimize your portfolio allocation"
+  ];
+
+  const recommendations = healthScore.recommendations || defaultRecommendations;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -125,7 +195,7 @@ const HealthDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {healthScore.recommendations.slice(0, 4).map((rec, index) => (
+                  {recommendations.slice(0, 4).map((rec, index) => (
                     <div key={index} className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
                       <p className="text-sm font-medium">{rec}</p>
                       <Button size="sm" className="mt-2" variant="outline">
