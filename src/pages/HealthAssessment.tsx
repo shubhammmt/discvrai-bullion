@@ -2,59 +2,111 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, ArrowRight, Heart, Brain } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { ArrowLeft, ArrowRight, Heart, Brain, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { AssessmentData, calculateHealthScore } from '@/utils/healthScore';
+import { QuickAssessmentData, calculateHealthScore } from '@/utils/healthScore';
 
 const HealthAssessment = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [assessmentData, setAssessmentData] = useState<AssessmentData>({
-    age: 28,
-    income: 800000,
-    savings: 50000,
-    investments: 100000,
-    insurance: { life: false, health: false, amount: 0 },
-    debt: { total: 0, emi: 0 },
-    goals: { emergency: false, retirement: false, home: false },
-    riskTolerance: 'moderate'
+  const [startTime] = useState(Date.now());
+  
+  const [assessmentData, setAssessmentData] = useState<QuickAssessmentData>({
+    userProfile: {
+      ageGroup: '',
+      incomeRange: '',
+      cityType: 'metro'
+    },
+    assets: {
+      totalValue: 0,
+      allocation: {
+        equityPercentage: 60,
+        debtPercentage: 30,
+        cashPercentage: 10
+      }
+    },
+    commitments: {
+      monthlyEmi: 0,
+      hasEmergencyFund: false
+    }
   });
 
   const steps = [
-    {
-      title: "Basic Information",
-      subtitle: "Tell us about yourself",
-      fields: ['age', 'income']
-    },
-    {
-      title: "Current Finances",
-      subtitle: "Your savings and investments",
-      fields: ['savings', 'investments']
-    },
-    {
-      title: "Protection Coverage",
-      subtitle: "Insurance and safety net",
-      fields: ['insurance']
-    },
-    {
-      title: "Debt & Goals",
-      subtitle: "Your financial obligations and aspirations",
-      fields: ['debt', 'goals', 'riskTolerance']
-    }
+    { title: "About You", subtitle: "Tell us about yourself", target: "10 seconds" },
+    { title: "Your Investments", subtitle: "Current portfolio overview", target: "15 seconds" },
+    { title: "Quick Check", subtitle: "Final financial details", target: "5 seconds" }
   ];
+
+  const ageOptions = [
+    '25-30', '31-35', '36-40', '41-45', '46-50', '50+'
+  ];
+
+  const incomeOptions = [
+    { value: '25K-50K', label: '₹25K-50K' },
+    { value: '50K-75K', label: '₹50K-75K' },
+    { value: '75K-1L', label: '₹75K-1L' },
+    { value: '1L-1.5L', label: '₹1L-1.5L' },
+    { value: '1.5L-2L', label: '₹1.5L-2L' },
+    { value: '2L+', label: '₹2L+' }
+  ];
+
+  const cityOptions = [
+    { value: 'metro', label: 'Metro' },
+    { value: 'tier1', label: 'Tier-1' },
+    { value: 'tier2', label: 'Tier-2/3' }
+  ];
+
+  const updateData = (field: string, value: any) => {
+    const keys = field.split('.');
+    setAssessmentData(prev => {
+      const updated = { ...prev };
+      let current: any = updated;
+      
+      for (let i = 0; i < keys.length - 1; i++) {
+        current = current[keys[i]];
+      }
+      current[keys[keys.length - 1]] = value;
+      
+      return updated;
+    });
+  };
+
+  const updateAllocation = (type: 'equity' | 'debt' | 'cash', value: number) => {
+    const newValue = Math.max(0, Math.min(100, value));
+    const currentAllocation = { ...assessmentData.assets.allocation };
+    
+    if (type === 'equity') {
+      currentAllocation.equityPercentage = newValue;
+      const remaining = 100 - newValue;
+      const currentDebtCash = currentAllocation.debtPercentage + currentAllocation.cashPercentage;
+      if (currentDebtCash > 0) {
+        currentAllocation.debtPercentage = Math.round((currentAllocation.debtPercentage / currentDebtCash) * remaining);
+        currentAllocation.cashPercentage = 100 - newValue - currentAllocation.debtPercentage;
+      } else {
+        currentAllocation.debtPercentage = Math.round(remaining * 0.75);
+        currentAllocation.cashPercentage = remaining - currentAllocation.debtPercentage;
+      }
+    }
+    
+    setAssessmentData(prev => ({
+      ...prev,
+      assets: {
+        ...prev.assets,
+        allocation: currentAllocation
+      }
+    }));
+  };
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(prev => prev + 1);
     } else {
-      // Calculate score and navigate to results
+      const completionTime = Math.round((Date.now() - startTime) / 1000);
       const healthScore = calculateHealthScore(assessmentData);
+      
       localStorage.setItem('healthScore', JSON.stringify(healthScore));
-      localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
+      localStorage.setItem('assessmentData', JSON.stringify({ ...assessmentData, completionTime }));
       navigate('/health-results');
     }
   };
@@ -67,24 +119,17 @@ const HealthAssessment = () => {
     }
   };
 
-  const updateAssessment = (field: keyof AssessmentData, value: any) => {
-    setAssessmentData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const updateNestedField = (parent: keyof AssessmentData, field: string, value: any) => {
-    setAssessmentData(prev => {
-      const currentParentValue = prev[parent];
-      return {
-        ...prev,
-        [parent]: {
-          ...(typeof currentParentValue === 'object' && currentParentValue !== null ? currentParentValue : {}),
-          [field]: value
-        }
-      };
-    });
+  const canProceed = () => {
+    switch (currentStep) {
+      case 0:
+        return assessmentData.userProfile.ageGroup && assessmentData.userProfile.incomeRange;
+      case 1:
+        return assessmentData.assets.totalValue > 0;
+      case 2:
+        return true;
+      default:
+        return false;
+    }
   };
 
   const renderStepContent = () => {
@@ -93,170 +138,160 @@ const HealthAssessment = () => {
         return (
           <div className="space-y-6">
             <div>
-              <Label htmlFor="age">Age</Label>
-              <Input
-                id="age"
-                type="number"
-                value={assessmentData.age || ''}
-                onChange={(e) => updateAssessment('age', parseInt(e.target.value))}
-                placeholder="28"
-              />
+              <label className="block text-sm font-medium mb-3">Age Group *</label>
+              <div className="grid grid-cols-2 gap-3">
+                {ageOptions.map((age) => (
+                  <Button
+                    key={age}
+                    variant={assessmentData.userProfile.ageGroup === age ? "default" : "outline"}
+                    onClick={() => updateData('userProfile.ageGroup', age)}
+                    className="h-12"
+                  >
+                    {age}
+                  </Button>
+                ))}
+              </div>
             </div>
+
             <div>
-              <Label htmlFor="income">Annual Income (₹)</Label>
-              <Input
-                id="income"
-                type="number"
-                value={assessmentData.income || ''}
-                onChange={(e) => updateAssessment('income', parseInt(e.target.value))}
-                placeholder="800000"
-              />
+              <label className="block text-sm font-medium mb-3">Monthly Income *</label>
+              <div className="grid grid-cols-2 gap-3">
+                {incomeOptions.map((income) => (
+                  <Button
+                    key={income.value}
+                    variant={assessmentData.userProfile.incomeRange === income.value ? "default" : "outline"}
+                    onClick={() => updateData('userProfile.incomeRange', income.value)}
+                    className="h-12"
+                  >
+                    {income.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">City Type</label>
+              <div className="flex gap-3">
+                {cityOptions.map((city) => (
+                  <Button
+                    key={city.value}
+                    variant={assessmentData.userProfile.cityType === city.value ? "default" : "outline"}
+                    onClick={() => updateData('userProfile.cityType', city.value)}
+                    className="flex-1 h-12"
+                  >
+                    {city.label}
+                  </Button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-2">Metro: Mumbai, Delhi, Bangalore, etc.</p>
             </div>
           </div>
         );
+
       case 1:
         return (
           <div className="space-y-6">
             <div>
-              <Label htmlFor="savings">Current Savings (₹)</Label>
-              <Input
-                id="savings"
-                type="number"
-                value={assessmentData.savings || ''}
-                onChange={(e) => updateAssessment('savings', parseInt(e.target.value))}
-                placeholder="50000"
-              />
-            </div>
-            <div>
-              <Label htmlFor="investments">Current Investments (₹)</Label>
-              <Input
-                id="investments"
-                type="number"
-                value={assessmentData.investments || ''}
-                onChange={(e) => updateAssessment('investments', parseInt(e.target.value))}
-                placeholder="100000"
-              />
-            </div>
-          </div>
-        );
-      case 2:
-        return (
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <Label>Do you have insurance?</Label>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="life-insurance"
-                    checked={assessmentData.insurance?.life || false}
-                    onCheckedChange={(checked) => updateNestedField('insurance', 'life', checked)}
-                  />
-                  <Label htmlFor="life-insurance">Life Insurance</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="health-insurance"
-                    checked={assessmentData.insurance?.health || false}
-                    onCheckedChange={(checked) => updateNestedField('insurance', 'health', checked)}
-                  />
-                  <Label htmlFor="health-insurance">Health Insurance</Label>
-                </div>
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="coverage">Total Insurance Coverage (₹)</Label>
-              <Input
-                id="coverage"
-                type="number"
-                value={assessmentData.insurance?.amount || ''}
-                onChange={(e) => updateNestedField('insurance', 'amount', parseInt(e.target.value))}
-                placeholder="1000000"
-              />
-            </div>
-          </div>
-        );
-      case 3:
-        return (
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="debt-total">Total Debt (₹)</Label>
-                <Input
-                  id="debt-total"
+              <label className="block text-sm font-medium mb-3">Total Investment Value *</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                <input
                   type="number"
-                  value={assessmentData.debt?.total || ''}
-                  onChange={(e) => updateNestedField('debt', 'total', parseInt(e.target.value))}
-                  placeholder="0"
+                  step="0.1"
+                  min="0.1"
+                  max="999.9"
+                  value={assessmentData.assets.totalValue || ''}
+                  onChange={(e) => updateData('assets.totalValue', parseFloat(e.target.value) || 0)}
+                  className="w-full pl-8 pr-16 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="5.5"
                 />
-              </div>
-              <div>
-                <Label htmlFor="debt-emi">Monthly EMI (₹)</Label>
-                <Input
-                  id="debt-emi"
-                  type="number"
-                  value={assessmentData.debt?.emi || ''}
-                  onChange={(e) => updateNestedField('debt', 'emi', parseInt(e.target.value))}
-                  placeholder="0"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <Label>Financial Goals (check all that apply)</Label>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="emergency"
-                    checked={assessmentData.goals?.emergency || false}
-                    onCheckedChange={(checked) => updateNestedField('goals', 'emergency', checked)}
-                  />
-                  <Label htmlFor="emergency">Emergency Fund</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="retirement"
-                    checked={assessmentData.goals?.retirement || false}
-                    onCheckedChange={(checked) => updateNestedField('goals', 'retirement', checked)}
-                  />
-                  <Label htmlFor="retirement">Retirement Planning</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="home"
-                    checked={assessmentData.goals?.home || false}
-                    onCheckedChange={(checked) => updateNestedField('goals', 'home', checked)}
-                  />
-                  <Label htmlFor="home">Home Purchase</Label>
-                </div>
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">lakhs</span>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <Label>Risk Tolerance</Label>
-              <RadioGroup
-                value={assessmentData.riskTolerance}
-                onValueChange={(value) => updateAssessment('riskTolerance', value as 'conservative' | 'moderate' | 'aggressive')}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="conservative" id="conservative" />
-                  <Label htmlFor="conservative">Conservative - Safety first</Label>
+            <div>
+              <label className="block text-sm font-medium mb-3">Asset Allocation</label>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Equity (Stocks + Equity MFs)</span>
+                  <span className="text-sm font-medium text-green-600">{assessmentData.assets.allocation.equityPercentage}%</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="moderate" id="moderate" />
-                  <Label htmlFor="moderate">Moderate - Balanced approach</Label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={assessmentData.assets.allocation.equityPercentage}
+                  onChange={(e) => updateAllocation('equity', parseInt(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-green"
+                />
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Debt (FDs + Debt Funds)</span>
+                  <span className="text-sm font-medium text-blue-600">{assessmentData.assets.allocation.debtPercentage}%</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="aggressive" id="aggressive" />
-                  <Label htmlFor="aggressive">Aggressive - Higher returns</Label>
+                <div className="w-full h-2 bg-blue-200 rounded-lg"></div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Cash (Savings + Liquid)</span>
+                  <span className="text-sm font-medium text-orange-600">{assessmentData.assets.allocation.cashPercentage}%</span>
                 </div>
-              </RadioGroup>
+                <div className="w-full h-2 bg-orange-200 rounded-lg"></div>
+              </div>
+              <p className="text-xs text-gray-500 mt-3">Best guess is fine - you can update this later</p>
             </div>
           </div>
         );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium mb-3">Monthly EMIs (Optional)</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="999"
+                  value={assessmentData.commitments.monthlyEmi || ''}
+                  onChange={(e) => updateData('commitments.monthlyEmi', parseInt(e.target.value) || 0)}
+                  className="w-full pl-8 pr-20 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="25"
+                />
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">thousand</span>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">Home loan, car loan, personal loan EMIs</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">Emergency Fund</label>
+              <p className="text-sm text-gray-600 mb-3">Do you have 6 months of expenses saved for emergencies?</p>
+              <div className="flex gap-3">
+                <Button
+                  variant={assessmentData.commitments.hasEmergencyFund ? "default" : "outline"}
+                  onClick={() => updateData('commitments.hasEmergencyFund', true)}
+                  className="flex-1 h-12"
+                >
+                  Yes
+                </Button>
+                <Button
+                  variant={!assessmentData.commitments.hasEmergencyFund ? "default" : "outline"}
+                  onClick={() => updateData('commitments.hasEmergencyFund', false)}
+                  className="flex-1 h-12"
+                >
+                  No
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
   };
+
+  const progress = ((currentStep + 1) / steps.length) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -273,8 +308,11 @@ const HealthAssessment = () => {
               </div>
             </div>
             <div>
-              <h1 className="text-xl font-semibold">Financial Health Assessment</h1>
-              <p className="text-sm text-gray-500">Complete evaluation in 30 seconds</p>
+              <h1 className="text-xl font-semibold">30-Second Financial Health Check</h1>
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <Clock className="w-4 h-4" />
+                <span>Target: {steps[currentStep].target}</span>
+              </div>
             </div>
           </div>
           
@@ -294,11 +332,14 @@ const HealthAssessment = () => {
             <p className="text-center text-gray-600">{steps[currentStep].subtitle}</p>
             
             {/* Progress Bar */}
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+            <div className="w-full bg-gray-200 rounded-full h-3 mt-4">
               <div 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all"
-                style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
               />
+            </div>
+            <div className="text-center text-sm text-gray-500 mt-1">
+              {Math.round(progress)}% complete
             </div>
           </CardHeader>
           
@@ -311,7 +352,11 @@ const HealthAssessment = () => {
                 {currentStep === 0 ? 'Back to Home' : 'Previous'}
               </Button>
               
-              <Button onClick={handleNext} className="bg-gradient-to-r from-blue-600 to-purple-600">
+              <Button 
+                onClick={handleNext} 
+                disabled={!canProceed()}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 disabled:opacity-50"
+              >
                 {currentStep === steps.length - 1 ? 'Calculate Score' : 'Next'}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>

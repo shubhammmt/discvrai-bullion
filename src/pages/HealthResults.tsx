@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, ArrowRight, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle, AlertCircle, TrendingUp, Share2, RotateCcw, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import HealthScoreCard from '@/components/HealthScoreCard';
 import { HealthScoreData } from '@/utils/healthScore';
@@ -19,6 +19,18 @@ const HealthResults = () => {
       navigate('/health-assessment');
     }
   }, [navigate]);
+
+  const shareResults = () => {
+    if (navigator.share && healthScore) {
+      navigator.share({
+        title: 'My Financial Health Score',
+        text: `I just completed a financial health check and scored ${healthScore.overall}/100 (Grade ${healthScore.grade})!`,
+        url: window.location.origin + '/health-assessment'
+      });
+    } else {
+      navigator.clipboard.writeText(`I just completed a financial health check and scored ${healthScore?.overall}/100! Check yours at ${window.location.origin}/health-assessment`);
+    }
+  };
 
   if (!healthScore) {
     return (
@@ -40,6 +52,16 @@ const HealthResults = () => {
   const scoreMessage = getScoreMessage(healthScore.overall);
   const MessageIcon = scoreMessage.icon;
 
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'safety': return '🛡️';
+      case 'optimization': return '⚡';
+      case 'debt': return '💳';
+      case 'savings': return '💰';
+      default: return '🎯';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       {/* Header */}
@@ -52,8 +74,15 @@ const HealthResults = () => {
           
           <h1 className="text-xl font-semibold">Your Financial Health Report</h1>
           
-          <div className="text-sm text-gray-500">
-            Results Ready
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={shareResults}>
+              <Share2 className="w-4 h-4 mr-2" />
+              Share
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/health-assessment')}>
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Retake
+            </Button>
           </div>
         </div>
       </div>
@@ -68,62 +97,127 @@ const HealthResults = () => {
               {scoreMessage.text}
             </h2>
           </div>
+          {healthScore.benchmarks && (
+            <p className="text-gray-600">
+              You're in the {healthScore.benchmarks.percentile}th percentile among {healthScore.benchmarks.peerGroup}
+            </p>
+          )}
         </div>
 
         {/* Health Score Card */}
         <HealthScoreCard score={healthScore} showDetails={true} />
 
-        {/* Recommendations */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-blue-600" />
-              Personalized Action Plan
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {healthScore.recommendations.map((recommendation, index) => (
-                <div key={index} className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
-                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                    {index + 1}
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{recommendation}</p>
-                    <p className="text-sm text-gray-600 mt-1">
-                      We'll help you implement this step by step
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Next Steps */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="text-center space-y-4">
-              <h3 className="text-xl font-semibold">Ready to Improve Your Financial Health?</h3>
-              <p className="text-gray-600">
-                Let's create a personalized dashboard to track your progress and implement improvements.
+        {/* Action Plan */}
+        {healthScore.actionPlan && healthScore.actionPlan.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-blue-600" />
+                Your Personalized Action Plan
+              </CardTitle>
+              <p className="text-sm text-gray-600">
+                Complete these actions to improve your financial health score
               </p>
-              
-              <div className="flex gap-4 justify-center">
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {healthScore.actionPlan.map((action, index) => (
+                  <div key={index} className="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border">
+                    <div className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">
+                      {action.priority}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-lg">{getCategoryIcon(action.category)}</span>
+                        <h4 className="font-semibold text-gray-900">{action.title}</h4>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                          {action.impact}
+                        </span>
+                      </div>
+                      <p className="text-gray-600 text-sm mb-2">{action.description}</p>
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span>🎯 Target: {action.timeframe}</span>
+                        <span>📈 Impact: {action.impact}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                  <TrendingUp className="w-8 h-8 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Explore Investments</h3>
+                  <p className="text-sm text-gray-600">
+                    Find curated mutual funds and stocks based on your profile
+                  </p>
+                </div>
                 <Button 
-                  variant="outline" 
                   onClick={() => navigate('/feed')}
+                  className="w-full"
                 >
-                  Explore Recommendations
+                  View Recommendations
+                  <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="w-8 h-8 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Track Progress</h3>
+                  <p className="text-sm text-gray-600">
+                    Monitor your financial health improvements over time
+                  </p>
+                </div>
                 <Button 
                   onClick={() => navigate('/health-dashboard')}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600"
+                  variant="outline"
+                  className="w-full"
                 >
                   Go to Dashboard
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Footer Message */}
+        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+          <CardContent className="p-6 text-center">
+            <h3 className="text-lg font-semibold mb-2">Ready to take action?</h3>
+            <p className="text-gray-600 mb-4">
+              Your financial health journey starts with small, consistent steps. 
+              We're here to guide you every step of the way.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <Button 
+                onClick={() => navigate('/onboarding')}
+                className="bg-gradient-to-r from-blue-600 to-purple-600"
+              >
+                Set Financial Goals
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => navigate('/feed')}
+              >
+                Start Investing
+              </Button>
             </div>
           </CardContent>
         </Card>
