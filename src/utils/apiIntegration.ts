@@ -1,7 +1,7 @@
 // API Integration for Financial Profile Flow
 // Update these URLs when your backend APIs are ready
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://your-api-domain.com/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://your-api-domain.com/api';
 
 export interface FinancialProfilePayload {
   personalDetails: {

@@ -2,14 +2,7 @@
 // Portfolio Reconciliation Utility
 // Handles conflicts between basic profile totals and detailed instrument entries
 
-export interface DetailedInstrument {
-  id: string;
-  category: string; // 'equity', 'debt', 'insurance', 'realEstate', etc.
-  type: string;
-  name: string;
-  currentValue: number;
-  details?: Record<string, any>;
-}
+import { DetailedInstrument } from './apiIntegration';
 
 export interface ProfileTotals {
   equity: number;
