@@ -12,7 +12,14 @@ import {
   Edit3, 
   FileText, 
   Upload,
-  BarChart3
+  BarChart3,
+  CheckCircle,
+  Circle,
+  Star,
+  Award,
+  Zap,
+  Users,
+  ArrowUpRight
 } from 'lucide-react';
 import HealthScoreCard from '@/components/HealthScoreCard';
 import { calculateHealthScore, QuickAssessmentData } from '@/utils/healthScore';
@@ -22,6 +29,7 @@ const FinancialScore = () => {
   const [profileData, setProfileData] = useState<any>(null);
   const [healthScore, setHealthScore] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [scoreAnimation, setScoreAnimation] = useState(0);
 
   useEffect(() => {
     const loadData = () => {
@@ -54,6 +62,22 @@ const FinancialScore = () => {
 
         const score = calculateHealthScore(mockAssessment);
         setHealthScore(score);
+        
+        // Animate score counter
+        setTimeout(() => {
+          let current = 0;
+          const target = score.overall;
+          const increment = target / 50;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              setScoreAnimation(target);
+              clearInterval(timer);
+            } else {
+              setScoreAnimation(Math.floor(current));
+            }
+          }, 30);
+        }, 500);
       }
       setIsLoading(false);
     };
@@ -61,33 +85,50 @@ const FinancialScore = () => {
     loadData();
   }, []);
 
+  const getScoreGrade = (score: number) => {
+    if (score >= 90) return { grade: 'A+', color: 'text-green-600', bg: 'bg-green-100' };
+    if (score >= 80) return { grade: 'A', color: 'text-green-600', bg: 'bg-green-100' };
+    if (score >= 70) return { grade: 'B+', color: 'text-blue-600', bg: 'bg-blue-100' };
+    if (score >= 60) return { grade: 'B', color: 'text-yellow-600', bg: 'bg-yellow-100' };
+    return { grade: 'C', color: 'text-red-600', bg: 'bg-red-100' };
+  };
+
   const quickImportOptions = [
     {
       title: 'Upload Excel Template',
       description: 'Import your portfolio using our Excel template',
       icon: FileText,
+      badge: 'Quick',
       action: () => navigate('/portfolio/update?method=excel')
     },
     {
       title: 'Upload Bank Statements',
-      description: 'Scan and upload your bank statements or images',
+      description: 'Scan and upload your bank statements',
       icon: Upload,
+      badge: 'Smart',
       action: () => navigate('/portfolio/update?method=image')
     },
     {
       title: 'Manual Entry',
-      description: 'Add your assets and investments manually',
+      description: 'Add investments manually',
       icon: Edit3,
+      badge: 'Detailed',
       action: () => navigate('/portfolio/update')
     }
   ];
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Calculating your financial score...</p>
+          <div className="relative">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mx-auto mb-4"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Zap className="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
+          <p className="text-gray-700 font-medium">Calculating your financial score...</p>
+          <p className="text-gray-500 text-sm mt-1">Analyzing your financial profile</p>
         </div>
       </div>
     );
@@ -95,10 +136,14 @@ const FinancialScore = () => {
 
   if (!healthScore) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600 mb-4">Unable to calculate score</p>
-          <Button onClick={() => navigate('/financial-profile')}>
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Circle className="w-8 h-8 text-red-600" />
+          </div>
+          <p className="text-gray-700 font-medium mb-4">Unable to calculate score</p>
+          <Button onClick={() => navigate('/financial-profile')} className="flex items-center gap-2">
+            <ArrowUpRight className="w-4 h-4" />
             Retake Assessment
           </Button>
         </div>
@@ -106,54 +151,96 @@ const FinancialScore = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 space-y-8">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Your Financial Health Score
-          </h1>
-          <p className="text-gray-600">
-            Based on your profile, here's your personalized financial assessment
-          </p>
-        </div>
+  const gradeInfo = getScoreGrade(healthScore.overall);
 
-        {/* Score Card */}
-        <HealthScoreCard score={healthScore} showDetails={true} />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative max-w-4xl mx-auto px-4 py-16 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Award className="w-8 h-8 text-yellow-300" />
+            <span className="text-yellow-300 font-semibold">Your Financial Health Report</span>
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Congratulations! 🎉
+          </h1>
+          
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Your personalized financial score is ready with actionable insights to improve your financial health
+          </p>
+
+          {/* Score Display */}
+          <div className="inline-block">
+            <div className="relative">
+              <div className="w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-4 border-white/30">
+                <div className="text-center">
+                  <div className="text-4xl font-bold">{scoreAnimation}</div>
+                  <div className={`text-lg font-semibold px-3 py-1 rounded-full ${gradeInfo.bg} ${gradeInfo.color} mt-2`}>
+                    {gradeInfo.grade}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -top-2 -right-2">
+                <Star className="w-8 h-8 text-yellow-300 fill-current" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-8">
+        {/* Score Breakdown */}
+        <Card className="border-0 shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <BarChart3 className="w-6 h-6 text-blue-600" />
+              Score Breakdown
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <HealthScoreCard score={healthScore} showDetails={true} />
+          </CardContent>
+        </Card>
 
         {/* Action Plan */}
         {healthScore.actionPlan && healthScore.actionPlan.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="w-5 h-5" />
-                Your Personalized Action Plan
+          <Card className="border-0 shadow-lg overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50">
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Target className="w-6 h-6 text-green-600" />
+                Your Action Plan
+                <Badge variant="secondary" className="ml-auto">Top 3 Priorities</Badge>
               </CardTitle>
-              <p className="text-sm text-gray-600">
-                Compliance-friendly recommendations to improve your financial health
+              <p className="text-gray-600">
+                Personalized recommendations to boost your financial health
               </p>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-0">
+              <div className="space-y-0">
                 {healthScore.actionPlan.slice(0, 3).map((action: any, index: number) => (
-                  <div key={index} className="p-4 border rounded-lg bg-white">
-                    <div className="flex items-start gap-3">
-                      <Badge variant="outline" className="mt-1">
-                        #{action.priority}
-                      </Badge>
+                  <div key={index} className="p-6 border-b last:border-b-0 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                          <span className="text-green-600 font-bold text-sm">#{action.priority}</span>
+                        </div>
+                      </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900">{action.title}</h4>
-                        <p className="text-sm text-gray-600 mt-1">{action.description}</p>
-                        <div className="flex gap-2 mt-2">
-                          <Badge variant="secondary" className="text-xs">
+                        <h4 className="font-semibold text-gray-900 text-lg mb-2">{action.title}</h4>
+                        <p className="text-gray-600 mb-3">{action.description}</p>
+                        <div className="flex gap-2">
+                          <Badge variant="outline" className="text-green-700 border-green-200">
                             Impact: {action.impact}
                           </Badge>
-                          <Badge variant="outline" className="text-xs">
-                            {action.timeframe}
+                          <Badge variant="outline" className="text-blue-700 border-blue-200">
+                            Timeline: {action.timeframe}
                           </Badge>
                         </div>
                       </div>
+                      <CheckCircle className="w-6 h-6 text-gray-300 hover:text-green-500 cursor-pointer transition-colors" />
                     </div>
                   </div>
                 ))}
@@ -162,12 +249,39 @@ const FinancialScore = () => {
           </Card>
         )}
 
-        {/* Quick Portfolio Import */}
-        <Card>
+        {/* Peer Comparison */}
+        {healthScore.benchmarks && (
+          <Card className="border-0 shadow-lg">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-blue-600" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-gray-900">How You Compare</h4>
+                  <p className="text-gray-600">
+                    You're in the <span className="font-semibold text-blue-600">{healthScore.benchmarks.percentile}th percentile</span> among {healthScore.benchmarks.peerGroup}
+                  </p>
+                </div>
+                <Badge variant="outline" className="text-blue-700 border-blue-200">
+                  Top {100 - healthScore.benchmarks.percentile}%
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Enhancement Options */}
+        <Card className="border-0 shadow-lg">
           <CardHeader>
-            <CardTitle>Enhance Your Profile</CardTitle>
-            <p className="text-sm text-gray-600">
-              Add more details to your portfolio for better recommendations
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="w-6 h-6 text-indigo-600" />
+              Enhance Your Profile
+            </CardTitle>
+            <p className="text-gray-600">
+              Add more details for even better recommendations
             </p>
           </CardHeader>
           <CardContent>
@@ -176,11 +290,17 @@ const FinancialScore = () => {
                 <button
                   key={index}
                   onClick={option.action}
-                  className="p-4 border rounded-lg hover:bg-gray-50 transition-colors text-left"
+                  className="relative p-6 border rounded-xl hover:shadow-md transition-all group text-left bg-gradient-to-br from-white to-gray-50"
                 >
-                  <option.icon className="w-6 h-6 text-blue-600 mb-2" />
-                  <h4 className="font-medium text-gray-900 mb-1">{option.title}</h4>
+                  <div className="flex items-start justify-between mb-3">
+                    <option.icon className="w-8 h-8 text-indigo-600 group-hover:scale-110 transition-transform" />
+                    <Badge variant="secondary" className="text-xs">
+                      {option.badge}
+                    </Badge>
+                  </div>
+                  <h4 className="font-semibold text-gray-900 mb-2">{option.title}</h4>
                   <p className="text-sm text-gray-600">{option.description}</p>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all absolute bottom-4 right-4" />
                 </button>
               ))}
             </div>
@@ -188,10 +308,10 @@ const FinancialScore = () => {
         </Card>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
           <Button
             onClick={() => navigate('/feed')}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
             size="lg"
           >
             <BarChart3 className="w-5 h-5" />
@@ -202,7 +322,7 @@ const FinancialScore = () => {
           <Button
             variant="outline"
             onClick={() => navigate('/financial-profile')}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 border-gray-300 hover:bg-gray-50"
             size="lg"
           >
             <Edit3 className="w-5 h-5" />
@@ -210,12 +330,21 @@ const FinancialScore = () => {
           </Button>
         </div>
 
-        {/* Footer Note */}
-        <div className="text-center text-sm text-gray-500 bg-blue-50 p-4 rounded-lg">
-          <p>
-            💡 Your financial score is calculated based on industry standards and best practices. 
-            This is for informational purposes only and should not be considered as financial advice.
-          </p>
+        {/* Disclaimer */}
+        <div className="text-center">
+          <div className="inline-block bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800 max-w-2xl">
+            <div className="flex items-start gap-2">
+              <div className="flex-shrink-0 mt-0.5">
+                <div className="w-4 h-4 rounded-full bg-blue-200 flex items-center justify-center">
+                  <span className="text-blue-600 text-xs font-bold">!</span>
+                </div>
+              </div>
+              <p className="text-left">
+                Your financial score is calculated based on industry standards and best practices. 
+                This is for informational purposes only and should not be considered as financial advice.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

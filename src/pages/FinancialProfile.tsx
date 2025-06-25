@@ -1,14 +1,15 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Zap } from 'lucide-react';
 import PersonalDetailsStep from '@/components/profile/PersonalDetailsStep';
 import AssetsStep from '@/components/profile/AssetsStep';
 import ExpensesStep from '@/components/profile/ExpensesStep';
 import GoalsStep from '@/components/profile/GoalsStep';
+import { useProgressiveSave } from '@/components/profile/ProgressiveSaveHook';
 import { createFinancialProfile, FinancialProfilePayload } from '@/utils/apiIntegration';
 
 interface ProfileData {
@@ -43,6 +44,21 @@ const FinancialProfile = () => {
     goals: []
   });
 
+  const { saveProgress } = useProgressiveSave({ profileData, currentStep });
+
+  // Load existing data on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('financialProfile');
+    if (stored) {
+      try {
+        const parsedData = JSON.parse(stored);
+        setProfileData(parsedData);
+      } catch (error) {
+        console.error('Error loading stored profile data:', error);
+      }
+    }
+  }, []);
+
   const steps = [
     { title: 'Personal Details', component: PersonalDetailsStep },
     { title: 'Assets', component: AssetsStep },
@@ -75,6 +91,8 @@ const FinancialProfile = () => {
         localStorage.setItem('financialProfile', JSON.stringify(profileData));
         localStorage.setItem('financialScore', JSON.stringify(response.data.score));
         localStorage.setItem('profileId', response.data.profileId);
+        // Clear session ID after successful submission
+        localStorage.removeItem('profileSessionId');
         navigate('/financial-score');
       } else {
         console.error('API Error:', response.message);
@@ -116,11 +134,15 @@ const FinancialProfile = () => {
       <div className="max-w-2xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Zap className="w-8 h-8 text-blue-600" />
+            <span className="text-blue-600 font-semibold">30-Second Assessment</span>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Get Your Financial Score
           </h1>
           <p className="text-gray-600">
-            30-second financial profiling for personalized recommendations
+            Quick financial profiling for personalized recommendations
           </p>
         </div>
 
@@ -138,10 +160,13 @@ const FinancialProfile = () => {
         </div>
 
         {/* Main Card */}
-        <Card className="mb-6">
+        <Card className="mb-6 border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl flex items-center gap-2">
               {steps[currentStep - 1].title}
+              {currentStep > 1 && (
+                <span className="text-sm text-green-600 font-normal">(Optional - Skip if needed)</span>
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -170,7 +195,14 @@ const FinancialProfile = () => {
             className="flex items-center gap-2"
           >
             {currentStep === steps.length ? (
-              isLoading ? 'Calculating Score...' : 'Get My Score'
+              isLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Calculating Score...
+                </>
+              ) : (
+                'Get My Score'
+              )
             ) : (
               <>
                 Next
@@ -195,10 +227,11 @@ const FinancialProfile = () => {
         )}
 
         {/* API Integration Note */}
-        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <p className="text-sm text-yellow-800">
-            <strong>For Development:</strong> To connect with your backend APIs, update the API_BASE_URL in 
-            <code className="mx-1 px-2 py-1 bg-yellow-100 rounded">src/utils/apiIntegration.ts</code>
+        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-800">
+            <strong>Progressive Saving:</strong> Your data is automatically saved as you progress. 
+            To connect with your backend, update the API_BASE_URL in 
+            <code className="mx-1 px-2 py-1 bg-blue-100 rounded">src/utils/apiIntegration.ts</code>
           </p>
         </div>
       </div>

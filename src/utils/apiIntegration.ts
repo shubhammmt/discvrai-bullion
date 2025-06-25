@@ -25,6 +25,27 @@ export interface FinancialProfilePayload {
   }>;
 }
 
+export interface PartialProfileData {
+  personalDetails?: Partial<{
+    age: number;
+    monthlyIncome: number;
+    monthlySavings: number;
+  }>;
+  assets?: Array<{
+    type: string;
+    amount: number;
+  }>;
+  expenses?: Array<{
+    category: string;
+    amount: number;
+  }>;
+  goals?: Array<{
+    type: string;
+    targetAmount: number;
+    timeframe: number;
+  }>;
+}
+
 export interface FinancialScoreResponse {
   success: boolean;
   data: {
@@ -103,6 +124,33 @@ export const updateFinancialProfile = async (profileId: string, updateData: Part
   }
 };
 
+// NEW: Partial profile save for progressive data collection
+export const savePartialProfile = async (sessionId: string, partialData: PartialProfileData): Promise<{success: boolean, sessionId: string}> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/financial-profile/partial`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${getAuthToken()}`
+      },
+      body: JSON.stringify({
+        sessionId,
+        data: partialData
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error saving partial profile:', error);
+    // Non-blocking error - continue with local storage
+    return { success: false, sessionId };
+  }
+};
+
 export const getFinancialScore = async (profileId: string): Promise<FinancialScoreResponse> => {
   try {
     const response = await fetch(`${API_BASE_URL}/financial-score/${profileId}`, {
@@ -124,13 +172,8 @@ export const getFinancialScore = async (profileId: string): Promise<FinancialSco
   }
 };
 
-// Utility function to get auth token (implement based on your auth system)
-// const getAuthToken = (): string => {
-//   return localStorage.getItem('authToken') || '';
-// };
-
 /* 
-API ENDPOINTS YOU NEED TO CREATE:
+UPDATED API ENDPOINTS YOU NEED TO CREATE:
 
 1. POST /api/financial-profile
    - Creates a new financial profile and calculates score
@@ -146,83 +189,27 @@ API ENDPOINTS YOU NEED TO CREATE:
    - Retrieves existing financial score
    - Response: FinancialScoreResponse
 
-EXAMPLE REQUEST PAYLOADS:
+4. POST /api/financial-profile/partial (NEW)
+   - Saves partial profile data during form progression
+   - Request Body: { sessionId: string, data: PartialProfileData }
+   - Response: { success: boolean, sessionId: string }
+   - Non-blocking: Should not fail the user flow if API is down
 
-POST /api/financial-profile
+EXAMPLE PARTIAL SAVE REQUEST:
+POST /api/financial-profile/partial
 {
-  "personalDetails": {
-    "age": 28,
-    "monthlyIncome": 75000,
-    "monthlySavings": 15000
-  },
-  "assets": [
-    {
-      "type": "Savings Account",
-      "amount": 200000
-    },
-    {
-      "type": "Mutual Funds",
-      "amount": 150000
-    }
-  ],
-  "expenses": [
-    {
-      "category": "Housing (Rent/EMI)",
-      "amount": 20000
-    },
-    {
-      "category": "Food & Groceries",
-      "amount": 8000
-    }
-  ],
-  "goals": [
-    {
-      "type": "Emergency Fund",
-      "targetAmount": 300000,
-      "timeframe": 1
-    },
-    {
-      "type": "House Purchase",
-      "targetAmount": 2500000,
-      "timeframe": 5
-    }
-  ]
-}
-
-EXAMPLE RESPONSE:
-{
-  "success": true,
+  "sessionId": "session_abc123",
   "data": {
-    "profileId": "profile_123456",
-    "score": {
-      "overall": 72,
-      "grade": "B+",
-      "summary": "Good foundation! Focus on optimization.",
-      "categories": {
-        "assetAllocation": 65,
-        "emergencyFund": 80,
-        "debtManagement": 75,
-        "savingsRate": 70
-      },
-      "actionPlan": [
-        {
-          "priority": 1,
-          "title": "Increase Emergency Fund",
-          "description": "Save ₹100K more for 6 months expenses",
-          "impact": "+10 points",
-          "timeframe": "3 months",
-          "category": "safety"
-        }
-      ],
-      "recommendations": [
-        "Consider increasing equity allocation",
-        "Build emergency fund to 6 months expenses"
-      ],
-      "benchmarks": {
-        "percentile": 75,
-        "peerGroup": "Urban professionals, 25-30 age"
-      }
+    "personalDetails": {
+      "age": 28,
+      "monthlyIncome": 75000
     }
   }
+}
+
+RESPONSE:
+{
+  "success": true,
+  "sessionId": "session_abc123"
 }
 */
