@@ -93,7 +93,9 @@ const FinancialProfile = () => {
         clearSession();
         navigate('/financial-score');
       } else {
-        console.error('Profile creation failed:', response?.error || 'Unknown error');
+        // Handle the error case properly
+        const errorMessage = response && 'error' in response ? response.error : 'Profile creation failed';
+        console.error('Profile creation failed:', errorMessage);
         // Still navigate to score page for demo purposes
         navigate('/financial-score');
       }
