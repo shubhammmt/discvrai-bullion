@@ -9,14 +9,12 @@ import AssetCard from '@/components/AssetCard';
 import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
 import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
-import StockResultCard from '@/components/StockResultCard';
 
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchParams] = useSearchParams();
   const [currentQuery, setCurrentQuery] = useState('');
   const [aiResults, setAiResults] = useState<any[]>([]);
-  const [stockQueryResults, setStockQueryResults] = useState<any[]>([]);
   const navigate = useNavigate();
 
   // Set filter based on URL parameter
@@ -222,9 +220,8 @@ const Feed = () => {
   const handleAIQuery = (query: string, context: any) => {
     setCurrentQuery(query);
     
-    // Handle stock search results
+    // Handle stock search results - now handled in StockResultsTable
     if (context.type === 'stock_search' && context.results) {
-      setStockQueryResults(context.results);
       return;
     }
     
@@ -252,7 +249,7 @@ const Feed = () => {
   };
 
   const handleStockResults = (results: any[]) => {
-    setStockQueryResults(results);
+    // Stock results now handled in StockResultsTable component
   };
 
   // Filter assets based on active filter
@@ -346,7 +343,7 @@ const Feed = () => {
           </div>
         </div>
 
-        {/* AI Chat Interface */}
+        {/* AI Chat Interface with integrated Stock Results Table */}
         <AIFeedChat 
           onQuerySubmit={handleAIQuery}
           onStockResults={handleStockResults}
@@ -359,28 +356,6 @@ const Feed = () => {
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Main Feed */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Stock Query Results Section */}
-            {stockQueryResults.length > 0 && (
-              <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 dark:text-white">
-                    <Brain className="w-5 h-5 text-purple-600" />
-                    Stock Search Results
-                    <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
-                      "{currentQuery}"
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {stockQueryResults.map((stock, index) => (
-                      <StockResultCard key={`stock-${stock.company_name}-${index}`} stock={stock} />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
             {/* AI Recommendations Section - First */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>

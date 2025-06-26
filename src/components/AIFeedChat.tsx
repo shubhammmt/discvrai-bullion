@@ -5,6 +5,7 @@ import { queryStocks } from '@/utils/stockQueryApi';
 import ChatHistory from '@/components/ChatHistory';
 import SearchForm from '@/components/SearchForm';
 import QuickPrompts from '@/components/QuickPrompts';
+import StockResultsTable from '@/components/StockResultsTable';
 
 interface AIFeedChatProps {
   onQuerySubmit: (query: string, context: any) => void;
@@ -23,6 +24,8 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
   const [query, setQuery] = useState('');
   const [searchType, setSearchType] = useState('stock');
   const [isLoading, setIsLoading] = useState(false);
+  const [stockQueryResults, setStockQueryResults] = useState<any[]>([]);
+  const [currentSearchQuery, setCurrentSearchQuery] = useState('');
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -38,6 +41,11 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
     "Best mutual funds",
     "Safe investments"
   ];
+
+  const handleDismissResults = () => {
+    setStockQueryResults([]);
+    setCurrentSearchQuery('');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +74,8 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
           };
 
           setChatHistory(prev => [...prev, aiMessage]);
+          setStockQueryResults(stockResults.data);
+          setCurrentSearchQuery(query);
           onStockResults(stockResults.data);
           onQuerySubmit(query, { 
             type: 'stock_search', 
@@ -182,42 +192,51 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
   };
 
   return (
-    <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-      <CardContent className="p-4">
-        {/* AI Branding */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-            <Brain className="w-5 h-5 text-white" />
+    <>
+      <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+        <CardContent className="p-4">
+          {/* AI Branding */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                DiscvrAI
+              </h3>
+              <p className="text-sm text-gray-600">Ask me anything about investments</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              DiscvrAI
-            </h3>
-            <p className="text-sm text-gray-600">Ask me anything about investments</p>
-          </div>
-        </div>
 
-        {/* Chat History */}
-        <ChatHistory messages={chatHistory} />
+          {/* Chat History */}
+          <ChatHistory messages={chatHistory} />
 
-        {/* Search Form */}
-        <SearchForm
-          query={query}
-          setQuery={setQuery}
-          searchType={searchType}
-          setSearchType={setSearchType}
-          onSubmit={handleSubmit}
-          isLoading={isLoading}
-        />
+          {/* Search Form */}
+          <SearchForm
+            query={query}
+            setQuery={setQuery}
+            searchType={searchType}
+            setSearchType={setSearchType}
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+          />
 
-        {/* Quick Prompts */}
-        <QuickPrompts
-          prompts={quickPrompts}
-          onPromptClick={setQuery}
-          isLoading={isLoading}
-        />
-      </CardContent>
-    </Card>
+          {/* Quick Prompts */}
+          <QuickPrompts
+            prompts={quickPrompts}
+            onPromptClick={setQuery}
+            isLoading={isLoading}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Stock Results Table */}
+      <StockResultsTable
+        results={stockQueryResults}
+        query={currentSearchQuery}
+        onDismiss={handleDismissResults}
+      />
+    </>
   );
 };
 
