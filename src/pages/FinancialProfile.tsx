@@ -9,8 +9,8 @@ import PersonalDetailsStep from '@/components/profile/PersonalDetailsStep';
 import AssetsStep from '@/components/profile/AssetsStep';
 import ExpensesStep from '@/components/profile/ExpensesStep';
 import GoalsStep from '@/components/profile/GoalsStep';
-import { useProgressiveSave } from '@/components/profile/ProgressiveSaveHook';
-import { createFinancialProfile, FinancialProfilePayload } from '@/utils/apiIntegration';
+import { useProgressiveSave } from '@/hooks/useProgressiveSave';
+import { useFinancialProfile } from '@/hooks/useFinancialProfile';
 
 interface ProfileData {
   personalDetails: {
@@ -36,7 +36,6 @@ interface ProfileData {
 const FinancialProfile = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
     personalDetails: { age: 0, monthlyIncome: 0, monthlySavings: 0 },
     assets: [],
@@ -44,7 +43,12 @@ const FinancialProfile = () => {
     goals: []
   });
 
-  const { saveProgress } = useProgressiveSave({ profileData, currentStep });
+  const { createProfile, isLoading, error } = useFinancialProfile();
+  const { clearSession } = useProgressiveSave({ 
+    profileData, 
+    currentStep,
+    enabled: true 
+  });
 
   // Load existing data on mount
   useEffect(() => {
@@ -81,33 +85,22 @@ const FinancialProfile = () => {
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
     try {
-      // Call the API with profile data
-      const response = await createFinancialProfile(profileData as FinancialProfilePayload);
+      const response = await createProfile(profileData);
       
-      if (response.success) {
-        // Store the response data
-        localStorage.setItem('financialProfile', JSON.stringify(profileData));
-        localStorage.setItem('financialScore', JSON.stringify(response.data.score));
-        localStorage.setItem('profileId', response.data.profileId);
-        // Clear session ID after successful submission
-        localStorage.removeItem('profileSessionId');
+      if (response && response.success !== false) {
+        // Clear session after successful submission
+        clearSession();
         navigate('/financial-score');
       } else {
-        console.error('API Error:', response.message);
-        // Fallback to local calculation
-        localStorage.setItem('financialProfile', JSON.stringify(profileData));
+        console.error('Profile creation failed:', response?.error || 'Unknown error');
+        // Still navigate to score page for demo purposes
         navigate('/financial-score');
       }
     } catch (error) {
       console.error('Error submitting profile:', error);
-      // Fallback to local calculation for development
-      console.log('Falling back to local calculation...');
-      localStorage.setItem('financialProfile', JSON.stringify(profileData));
+      // Fallback navigation for development
       navigate('/financial-score');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -158,6 +151,13 @@ const FinancialProfile = () => {
           </div>
           <Progress value={progress} className="h-2" />
         </div>
+
+        {/* Error Display */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        )}
 
         {/* Main Card */}
         <Card className="mb-6 border-0 shadow-lg">
@@ -230,8 +230,7 @@ const FinancialProfile = () => {
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-sm text-blue-800">
             <strong>Progressive Saving:</strong> Your data is automatically saved as you progress. 
-            To connect with your backend, update the API_BASE_URL in 
-            <code className="mx-1 px-2 py-1 bg-blue-100 rounded">src/utils/apiIntegration.ts</code>
+            The backend will manage user identification and data persistence.
           </p>
         </div>
       </div>

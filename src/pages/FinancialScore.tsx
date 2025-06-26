@@ -25,68 +25,91 @@ import {
 } from 'lucide-react';
 import HealthScoreCard from '@/components/HealthScoreCard';
 import { calculateHealthScore, QuickAssessmentData } from '@/utils/healthScore';
+import { useFinancialProfile } from '@/hooks/useFinancialProfile';
 
 const FinancialScore = () => {
   const navigate = useNavigate();
-  const [profileData, setProfileData] = useState<any>(null);
-  const [healthScore, setHealthScore] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [scoreAnimation, setScoreAnimation] = useState(0);
   const [showQuickEdit, setShowQuickEdit] = useState(false);
+  
+  const { profileData, scoreData, isLoading, loadFromStorage, getScore } = useFinancialProfile();
 
   useEffect(() => {
-    const loadData = () => {
-      const stored = localStorage.getItem('financialProfile');
-      if (stored) {
-        const data = JSON.parse(stored);
-        setProfileData(data);
-        
-        // Convert to health score format
-        const mockAssessment: QuickAssessmentData = {
-          userProfile: {
-            ageGroup: data.personalDetails.age < 30 ? '25-30' : '31-35',
-            incomeRange: data.personalDetails.monthlyIncome < 50000 ? '25K-50K' : 
-                        data.personalDetails.monthlyIncome < 100000 ? '50K-1L' : '1L-1.5L',
-            cityType: 'metro'
-          },
-          assets: {
-            totalValue: data.assets.reduce((sum: number, asset: any) => sum + asset.amount, 0) / 100000,
-            allocation: {
-              equityPercentage: 60,
-              debtPercentage: 30,
-              cashPercentage: 10
-            }
-          },
-          commitments: {
-            monthlyEmi: data.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0) / 1000,
-            hasEmergencyFund: data.assets.some((asset: any) => asset.type === 'Emergency Fund')
-          }
-        };
-
-        const score = calculateHealthScore(mockAssessment);
-        setHealthScore(score);
-        
-        // Animate score counter
-        setTimeout(() => {
-          let current = 0;
-          const target = score.overall;
-          const increment = target / 50;
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              setScoreAnimation(target);
-              clearInterval(timer);
-            } else {
-              setScoreAnimation(Math.floor(current));
-            }
-          }, 30);
-        }, 500);
+    const initializeData = async () => {
+      // First try to load from storage
+      loadFromStorage();
+      
+      // If we have a profileId, try to fetch latest score from API
+      const profileId = localStorage.getItem('profileId');
+      if (profileId) {
+        try {
+          await getScore(profileId);
+        } catch (error) {
+          console.log('Failed to fetch latest score, using cached data');
+        }
       }
-      setIsLoading(false);
     };
 
-    loadData();
-  }, []);
+    initializeData();
+  }, [loadFromStorage, getScore]);
+
+  useEffect(() => {
+    // Animate score when data is available
+    if (scoreData?.score?.overall) {
+      setTimeout(() => {
+        let current = 0;
+        const target = scoreData.score.overall;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            setScoreAnimation(target);
+            clearInterval(timer);
+          } else {
+            setScoreAnimation(Math.floor(current));
+          }
+        }, 30);
+      }, 500);
+    } else if (profileData) {
+      // Fallback: calculate local score if no API score available
+      const mockAssessment: QuickAssessmentData = {
+        userProfile: {
+          ageGroup: profileData.personalDetails.age < 30 ? '25-30' : '31-35',
+          incomeRange: profileData.personalDetails.monthlyIncome < 50000 ? '25K-50K' : 
+                      profileData.personalDetails.monthlyIncome < 100000 ? '50K-1L' : '1L-1.5L',
+          cityType: 'metro'
+        },
+        assets: {
+          totalValue: profileData.assets.reduce((sum: number, asset: any) => sum + asset.amount, 0) / 100000,
+          allocation: {
+            equityPercentage: 60,
+            debtPercentage: 30,
+            cashPercentage: 10
+          }
+        },
+        commitments: {
+          monthlyEmi: profileData.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0) / 1000,
+          hasEmergencyFund: profileData.assets.some((asset: any) => asset.type === 'Emergency Fund')
+        }
+      };
+
+      const localScore = calculateHealthScore(mockAssessment);
+      setTimeout(() => {
+        let current = 0;
+        const target = localScore.overall;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            setScoreAnimation(target);
+            clearInterval(timer);
+          } else {
+            setScoreAnimation(Math.floor(current));
+          }
+        }, 30);
+      }, 500);
+    }
+  }, [scoreData, profileData]);
 
   const getScoreGrade = (score: number) => {
     if (score >= 90) return { grade: 'A+', color: 'text-green-600', bg: 'bg-green-100' };
@@ -144,45 +167,6 @@ const FinancialScore = () => {
     }
   ];
 
-  const handleQuickEditSave = (updatedTotals: any) => {
-    // Update profile data with new totals
-    const updatedProfile = {
-      ...profileData,
-      assets: Object.entries(updatedTotals).map(([type, amount]) => ({
-        type: type.charAt(0).toUpperCase() + type.slice(1),
-        amount: amount as number
-      }))
-    };
-    
-    setProfileData(updatedProfile);
-    localStorage.setItem('financialProfile', JSON.stringify(updatedProfile));
-    
-    // Recalculate health score
-    const mockAssessment: QuickAssessmentData = {
-      userProfile: {
-        ageGroup: updatedProfile.personalDetails.age < 30 ? '25-30' : '31-35',
-        incomeRange: updatedProfile.personalDetails.monthlyIncome < 50000 ? '25K-50K' : 
-                    updatedProfile.personalDetails.monthlyIncome < 100000 ? '50K-1L' : '1L-1.5L',
-        cityType: 'metro'
-      },
-      assets: {
-        totalValue: updatedProfile.assets.reduce((sum: number, asset: any) => sum + asset.amount, 0) / 100000,
-        allocation: {
-          equityPercentage: 60,
-          debtPercentage: 30,
-          cashPercentage: 10
-        }
-      },
-      commitments: {
-        monthlyEmi: updatedProfile.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0) / 1000,
-        hasEmergencyFund: updatedProfile.assets.some((asset: any) => asset.type === 'Emergency Fund')
-      }
-    };
-
-    const newScore = calculateHealthScore(mockAssessment);
-    setHealthScore(newScore);
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
@@ -193,20 +177,52 @@ const FinancialScore = () => {
               <Zap className="w-6 h-6 text-blue-600" />
             </div>
           </div>
-          <p className="text-gray-700 font-medium">Calculating your financial score...</p>
-          <p className="text-gray-500 text-sm mt-1">Analyzing your financial profile</p>
+          <p className="text-gray-700 font-medium">Loading your financial score...</p>
+          <p className="text-gray-500 text-sm mt-1">Fetching latest data from API</p>
         </div>
       </div>
     );
   }
 
-  if (!healthScore) {
+  if (!scoreData?.score && !profileData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Circle className="w-8 h-8 text-red-600" />
           </div>
+          <p className="text-gray-700 font-medium mb-4">No financial data found</p>
+          <Button onClick={() => navigate('/financial-profile')} className="flex items-center gap-2">
+            <ArrowUpRight className="w-4 h-4" />
+            Take Financial Assessment
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Use API score data if available, otherwise fall back to calculated score
+  const displayScore = scoreData?.score || (profileData ? calculateHealthScore({
+    userProfile: {
+      ageGroup: profileData.personalDetails.age < 30 ? '25-30' : '31-35',
+      incomeRange: profileData.personalDetails.monthlyIncome < 50000 ? '25K-50K' : 
+                  profileData.personalDetails.monthlyIncome < 100000 ? '50K-1L' : '1L-1.5L',
+      cityType: 'metro'
+    },
+    assets: {
+      totalValue: profileData.assets.reduce((sum: number, asset: any) => sum + asset.amount, 0) / 100000,
+      allocation: { equityPercentage: 60, debtPercentage: 30, cashPercentage: 10 }
+    },
+    commitments: {
+      monthlyEmi: profileData.expenses.reduce((sum: number, expense: any) => sum + expense.amount, 0) / 1000,
+      hasEmergencyFund: profileData.assets.some((asset: any) => asset.type === 'Emergency Fund')
+    }
+  }) : null);
+
+  if (!displayScore) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
           <p className="text-gray-700 font-medium mb-4">Unable to calculate score</p>
           <Button onClick={() => navigate('/financial-profile')} className="flex items-center gap-2">
             <ArrowUpRight className="w-4 h-4" />
@@ -217,7 +233,7 @@ const FinancialScore = () => {
     );
   }
 
-  const gradeInfo = getScoreGrade(healthScore.overall);
+  const gradeInfo = getScoreGrade(displayScore.overall);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -267,12 +283,12 @@ const FinancialScore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <HealthScoreCard score={healthScore} showDetails={true} />
+            <HealthScoreCard score={displayScore} showDetails={true} />
           </CardContent>
         </Card>
 
         {/* Action Plan */}
-        {healthScore.actionPlan && healthScore.actionPlan.length > 0 && (
+        {displayScore.actionPlan && displayScore.actionPlan.length > 0 && (
           <Card className="border-0 shadow-lg overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50">
               <CardTitle className="flex items-center gap-2 text-xl">
@@ -286,7 +302,7 @@ const FinancialScore = () => {
             </CardHeader>
             <CardContent className="p-0">
               <div className="space-y-0">
-                {healthScore.actionPlan.slice(0, 3).map((action: any, index: number) => (
+                {displayScore.actionPlan.slice(0, 3).map((action: any, index: number) => (
                   <div key={index} className="p-6 border-b last:border-b-0 hover:bg-gray-50 transition-colors">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -316,7 +332,7 @@ const FinancialScore = () => {
         )}
 
         {/* Peer Comparison */}
-        {healthScore.benchmarks && (
+        {displayScore.benchmarks && (
           <Card className="border-0 shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
@@ -328,11 +344,11 @@ const FinancialScore = () => {
                 <div className="flex-1">
                   <h4 className="font-semibold text-gray-900">How You Compare</h4>
                   <p className="text-gray-600">
-                    You're in the <span className="font-semibold text-blue-600">{healthScore.benchmarks.percentile}th percentile</span> among {healthScore.benchmarks.peerGroup}
+                    You're in the <span className="font-semibold text-blue-600">{displayScore.benchmarks.percentile}th percentile</span> among {displayScore.benchmarks.peerGroup}
                   </p>
                 </div>
                 <Badge variant="outline" className="text-blue-700 border-blue-200">
-                  Top {100 - healthScore.benchmarks.percentile}%
+                  Top {100 - displayScore.benchmarks.percentile}%
                 </Badge>
               </div>
             </CardContent>
@@ -459,7 +475,7 @@ const FinancialScore = () => {
                 </div>
               </div>
               <p className="text-left">
-                Your financial score is calculated based on industry standards and best practices. 
+                Your financial score is calculated using our API integration. 
                 This is for informational purposes only and should not be considered as financial advice.
               </p>
             </div>
