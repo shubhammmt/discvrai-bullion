@@ -26,6 +26,10 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
   const [isLoading, setIsLoading] = useState(false);
   const [stockQueryResults, setStockQueryResults] = useState<any[]>([]);
   const [currentSearchQuery, setCurrentSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -45,6 +49,29 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
   const handleDismissResults = () => {
     setStockQueryResults([]);
     setCurrentSearchQuery('');
+    setCurrentPage(1);
+    setTotalPages(1);
+    setTotalRecords(0);
+  };
+
+  const handlePageChange = async (page: number) => {
+    if (!currentSearchQuery) return;
+    
+    setIsLoading(true);
+    try {
+      const stockResults = await queryStocks(currentSearchQuery, page, pageSize, false);
+      
+      if (stockResults.success && stockResults.data.length > 0) {
+        setStockQueryResults(stockResults.data);
+        setCurrentPage(page);
+        setTotalPages(stockResults.total_pages);
+        setTotalRecords(stockResults.total_records);
+      }
+    } catch (error) {
+      console.error('Error fetching page:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,22 +87,30 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
     setChatHistory(prev => [...prev, userMessage]);
     setIsLoading(true);
 
+    // Reset pagination state for new search
+    setCurrentPage(1);
+    setTotalPages(1);
+    setTotalRecords(0);
+
     try {
       if (searchType === 'stock') {
         // Call the stock query API
-        const stockResults = await queryStocks(query, 1, 10, false);
+        const stockResults = await queryStocks(query, 1, pageSize, false);
         
         if (stockResults.success && stockResults.data.length > 0) {
           const aiMessage: ChatMessage = {
             id: Date.now() + 1,
             type: 'ai',
-            content: `${stockResults.intent_analysis.communication_message}\n\nFound ${stockResults.data.length} stocks matching your query: "${query}"\n\n**Analysis Summary:**\n- Intent: ${stockResults.intent_analysis.intent}\n- Confidence: ${(stockResults.intent_analysis.confidence * 100).toFixed(0)}%\n- ${stockResults.intent_analysis.confidence_reasoning}`,
+            content: `${stockResults.intent_analysis.communication_message}\n\nFound ${stockResults.total_records} stocks matching your query: "${query}"\n\n**Analysis Summary:**\n- Intent: ${stockResults.intent_analysis.intent}\n- Confidence: ${(stockResults.intent_analysis.confidence * 100).toFixed(0)}%\n- ${stockResults.intent_analysis.confidence_reasoning}`,
             results: stockResults.data
           };
 
           setChatHistory(prev => [...prev, aiMessage]);
           setStockQueryResults(stockResults.data);
           setCurrentSearchQuery(query);
+          setCurrentPage(stockResults.current_page);
+          setTotalPages(stockResults.total_pages);
+          setTotalRecords(stockResults.total_records);
           onStockResults(stockResults.data);
           onQuerySubmit(query, { 
             type: 'stock_search', 
@@ -235,6 +270,12 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
         results={stockQueryResults}
         query={currentSearchQuery}
         onDismiss={handleDismissResults}
+        totalRecords={totalRecords}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+        isLoading={isLoading}
       />
     </>
   );

@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { X, FolderPlus } from 'lucide-react';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 
@@ -10,9 +11,25 @@ interface StockResultsTableProps {
   results: any[];
   query: string;
   onDismiss: () => void;
+  totalRecords: number;
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+  isLoading?: boolean;
 }
 
-const StockResultsTable = ({ results, query, onDismiss }: StockResultsTableProps) => {
+const StockResultsTable = ({ 
+  results, 
+  query, 
+  onDismiss, 
+  totalRecords, 
+  currentPage, 
+  totalPages, 
+  pageSize, 
+  onPageChange,
+  isLoading = false 
+}: StockResultsTableProps) => {
   if (!results || results.length === 0) return null;
 
   // Helper function to format field names for display
@@ -70,6 +87,9 @@ const StockResultsTable = ({ results, query, onDismiss }: StockResultsTableProps
     ...allKeys.filter(key => !priorityColumns.includes(key))
   ];
 
+  const startResult = (currentPage - 1) * pageSize + 1;
+  const endResult = Math.min(currentPage * pageSize, totalRecords);
+
   return (
     <Card className="mb-4 bg-white/90 backdrop-blur-md border-blue-200">
       <CardHeader className="pb-3">
@@ -77,7 +97,7 @@ const StockResultsTable = ({ results, query, onDismiss }: StockResultsTableProps
           <CardTitle className="flex items-center gap-2 text-lg">
             Stock Search Results
             <span className="text-sm bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-normal">
-              "{query}" - {results.length} found
+              "{query}" - {totalRecords} found
             </span>
           </CardTitle>
           <Button 
@@ -88,6 +108,9 @@ const StockResultsTable = ({ results, query, onDismiss }: StockResultsTableProps
           >
             <X size={16} className="text-gray-500" />
           </Button>
+        </div>
+        <div className="text-sm text-gray-600">
+          Showing {startResult}-{endResult} of {totalRecords} results
         </div>
       </CardHeader>
       <CardContent className="p-4">
@@ -142,9 +165,64 @@ const StockResultsTable = ({ results, query, onDismiss }: StockResultsTableProps
             </TableBody>
           </Table>
         </div>
+        
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-4 flex justify-center">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+                    className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  />
+                </PaginationItem>
+                
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+                  
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        onClick={() => onPageChange(pageNum)}
+                        isActive={currentPage === pageNum}
+                        className="cursor-pointer"
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+                
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
+                    className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+        
         {sortedKeys.length > 8 && (
           <div className="mt-2 text-xs text-gray-500">
             Showing top 8 columns. Full details available on individual stock pages.
+          </div>
+        )}
+        
+        {isLoading && (
+          <div className="mt-4 text-center text-sm text-gray-500">
+            Loading...
           </div>
         )}
       </CardContent>
