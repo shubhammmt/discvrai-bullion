@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -60,35 +59,35 @@ const GoalsStep = ({ data, onDataChange }: GoalsStepProps) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-8">
-        <p className="text-gray-600 text-lg">
+    <div className="h-full flex flex-col">
+      <div className="text-center mb-3">
+        <p className="text-gray-600 text-sm">
           What are your financial goals? This helps us provide better recommendations.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0">
         {/* Left Side - Popular Goals & Current Goals */}
-        <div className="space-y-6">
+        <div className="flex flex-col space-y-3 min-h-0">
           {/* Popular Goals */}
           <div>
-            <Label className="text-lg font-medium text-gray-700">Popular Goals</Label>
-            <div className="grid grid-cols-1 gap-3 mt-4">
+            <Label className="text-sm font-medium text-gray-700">Popular Goals</Label>
+            <div className="grid grid-cols-1 gap-2 mt-2">
               {quickGoals.map((goal, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   onClick={() => addQuickGoal(goal)}
-                  className="justify-between h-auto p-4"
+                  className="justify-between h-auto p-2 text-xs"
                   disabled={data.goals?.some((g: any) => g.type === goal.type)}
                 >
                   <div className="text-left">
-                    <div className="font-medium text-base">{goal.type}</div>
-                    <div className="text-sm text-gray-600">
+                    <div className="font-medium">{goal.type}</div>
+                    <div className="text-xs text-gray-600">
                       ₹{goal.amount.toLocaleString('en-IN')} in {goal.timeframe} years
                     </div>
                   </div>
-                  <Plus size={18} />
+                  <Plus size={14} />
                 </Button>
               ))}
             </div>
@@ -96,16 +95,16 @@ const GoalsStep = ({ data, onDataChange }: GoalsStepProps) => {
 
           {/* Current Goals */}
           {data.goals && data.goals.length > 0 && (
-            <div>
-              <Label className="text-lg font-medium text-gray-700">Your Goals</Label>
-              <div className="space-y-3 mt-4 max-h-64 overflow-y-auto">
+            <div className="flex-1 min-h-0">
+              <Label className="text-sm font-medium text-gray-700">Your Goals</Label>
+              <div className="space-y-2 mt-2 overflow-y-auto max-h-32">
                 {data.goals.map((goal: any, index: number) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border">
-                    <div className="flex items-center gap-3">
-                      <Target size={18} className="text-blue-600" />
+                  <div key={index} className="flex items-center justify-between p-2 bg-blue-50 rounded border text-xs">
+                    <div className="flex items-center gap-2">
+                      <Target size={14} className="text-blue-600" />
                       <div>
-                        <span className="font-medium text-base">{goal.type}</span>
-                        <div className="text-sm text-gray-600">
+                        <span className="font-medium">{goal.type}</span>
+                        <div className="text-xs text-gray-600">
                           ₹{goal.targetAmount.toLocaleString('en-IN')} in {goal.timeframe} years
                         </div>
                       </div>
@@ -114,9 +113,9 @@ const GoalsStep = ({ data, onDataChange }: GoalsStepProps) => {
                       variant="ghost"
                       size="sm"
                       onClick={() => removeGoal(index)}
-                      className="text-red-600 hover:text-red-800"
+                      className="text-red-600 hover:text-red-800 h-6 w-6 p-0"
                     >
-                      <X size={18} />
+                      <X size={14} />
                     </Button>
                   </div>
                 ))}
@@ -126,44 +125,44 @@ const GoalsStep = ({ data, onDataChange }: GoalsStepProps) => {
         </div>
 
         {/* Right Side - Add Custom Goal */}
-        <div className="space-y-6">
-          <Label className="text-lg font-medium text-gray-700">Add Custom Goal</Label>
+        <div className="flex flex-col">
+          <Label className="text-sm font-medium text-gray-700 mb-2">Add Custom Goal</Label>
           
-          <div className="space-y-4">
+          <div className="space-y-3 flex-1">
             <div>
-              <Label className="text-sm font-medium text-gray-600">Goal Type</Label>
+              <Label className="text-xs font-medium text-gray-600">Goal Type</Label>
               <Select value={newGoal.type} onValueChange={(value) => setNewGoal({...newGoal, type: value})}>
-                <SelectTrigger className="h-12">
+                <SelectTrigger className="h-8 text-sm">
                   <SelectValue placeholder="Select goal type" />
                 </SelectTrigger>
                 <SelectContent>
                   {goalTypes.map((type) => (
-                    <SelectItem key={type} value={type}>{type}</SelectItem>
+                    <SelectItem key={type} value={type} className="text-sm">{type}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             
             <div>
-              <Label className="text-sm font-medium text-gray-600">Target Amount (₹)</Label>
+              <Label className="text-xs font-medium text-gray-600">Target Amount (₹)</Label>
               <Input
                 type="number"
                 placeholder="e.g., 500000"
                 value={newGoal.targetAmount || ''}
                 onChange={(e) => setNewGoal({...newGoal, targetAmount: parseInt(e.target.value) || 0})}
-                className="h-12 text-lg"
+                className="h-8 text-sm"
               />
             </div>
             
             <div>
-              <Label className="text-sm font-medium text-gray-600">Timeframe</Label>
+              <Label className="text-xs font-medium text-gray-600">Timeframe</Label>
               <Select value={newGoal.timeframe.toString()} onValueChange={(value) => setNewGoal({...newGoal, timeframe: parseInt(value)})}>
-                <SelectTrigger className="h-12">
+                <SelectTrigger className="h-8 text-sm">
                   <SelectValue placeholder="Select timeframe" />
                 </SelectTrigger>
                 <SelectContent>
                   {timeframeOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value.toString()}>
+                    <SelectItem key={option.value} value={option.value.toString()} className="text-sm">
                       {option.label}
                     </SelectItem>
                   ))}
@@ -174,18 +173,16 @@ const GoalsStep = ({ data, onDataChange }: GoalsStepProps) => {
             <Button
               onClick={addGoal}
               disabled={!newGoal.type || newGoal.targetAmount <= 0 || newGoal.timeframe <= 0}
-              className="w-full h-12 flex items-center gap-2 text-base"
+              className="w-full h-8 flex items-center gap-1 text-sm"
               variant="outline"
             >
-              <Plus size={18} />
+              <Plus size={14} />
               Add Goal
             </Button>
             
-            <div className="pt-4">
-              <Button variant="ghost" onClick={handleSkip} className="w-full text-gray-500">
-                Skip this step
-              </Button>
-            </div>
+            <Button variant="ghost" onClick={handleSkip} className="w-full text-gray-500 h-7 text-xs">
+              Skip this step
+            </Button>
           </div>
         </div>
       </div>

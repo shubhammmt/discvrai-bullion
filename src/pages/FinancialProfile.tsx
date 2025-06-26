@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -125,94 +124,100 @@ const FinancialProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <div className="w-full max-w-7xl mx-auto px-6 py-8">
-        {/* Compact Header */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            {/* Left Side */}
-            <div className="flex items-center gap-3">
-              <Zap className="w-8 h-8 text-blue-600 flex-shrink-0" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-4">
+      <div className="w-full max-w-7xl mx-auto px-4">
+        {/* Ultra Compact Header */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap className="w-6 h-6 text-blue-600" />
               <div>
-                <span className="text-blue-600 font-semibold text-lg">30-Second Assessment</span>
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mt-1">
-                  Get Your Financial Score
-                </h1>
+                <span className="text-blue-600 font-semibold text-sm">30-Second Assessment</span>
+                <h1 className="text-xl font-bold text-gray-900">Get Your Financial Score</h1>
               </div>
             </div>
-            
-            {/* Right Side */}
-            <div className="lg:text-right">
-              <p className="text-gray-600 text-lg">
-                Quick financial profiling for personalized recommendations
-              </p>
-            </div>
+            <p className="text-gray-600 text-sm hidden md:block">
+              Quick financial profiling for personalized recommendations
+            </p>
           </div>
         </div>
 
-        {/* Progress */}
-        <div className="mb-8 max-w-2xl mx-auto">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-600">
-              Step {currentStep} of {steps.length}
+        {/* Compact Progress */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-xs font-medium text-gray-600">
+              Step {currentStep} of {steps.length}: {steps[currentStep - 1].title}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-xs text-gray-500">
               {Math.round(progress)}% Complete
             </span>
           </div>
-          <Progress value={progress} className="h-2" />
+          <Progress value={progress} className="h-1.5" />
         </div>
 
         {/* Error Display */}
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-md max-w-2xl mx-auto">
-            <p className="text-red-600 text-sm">{error}</p>
+          <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-600 text-xs">{error}</p>
           </div>
         )}
 
-        {/* Main Content - Full Width */}
-        <div className="w-full">
-          <Card className="mb-8 border-0 shadow-lg">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-2xl flex items-center justify-center gap-2">
+        {/* Main Content - Compact */}
+        <div className="h-[calc(100vh-220px)] flex flex-col">
+          <Card className="flex-1 border-0 shadow-lg overflow-hidden">
+            <CardHeader className="pb-2 pt-3">
+              <CardTitle className="text-lg flex items-center justify-center gap-2">
                 {steps[currentStep - 1].title}
                 {currentStep > 1 && (
-                  <span className="text-sm text-green-600 font-normal">(Optional - Skip if needed)</span>
+                  <span className="text-xs text-green-600 font-normal">(Optional)</span>
                 )}
               </CardTitle>
             </CardHeader>
-            <CardContent className="px-8 pb-8">
-              <CurrentStepComponent
-                data={profileData}
-                onDataChange={updateProfileData}
-              />
+            <CardContent className="px-4 pb-4 h-full overflow-y-auto">
+              <div className="h-full">
+                <CurrentStepComponent
+                  data={profileData}
+                  onDataChange={updateProfileData}
+                />
+              </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Navigation - Centered */}
-        <div className="flex justify-center">
-          <div className="flex justify-between w-full max-w-md">
-            <Button
-              variant="outline"
-              onClick={handleBack}
-              disabled={currentStep === 1}
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft size={16} />
-              Back
-            </Button>
+        {/* Compact Navigation */}
+        <div className="mt-4 flex justify-between items-center">
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            disabled={currentStep === 1}
+            className="flex items-center gap-1 h-8 px-3 text-sm"
+          >
+            <ChevronLeft size={14} />
+            Back
+          </Button>
+          
+          <div className="flex gap-2">
+            {currentStep > 1 && (
+              <Button
+                variant="ghost"
+                onClick={handleSubmit}
+                disabled={isLoading}
+                className="text-gray-500 h-8 px-3 text-sm"
+              >
+                Skip & Get Score
+              </Button>
+            )}
             
             <Button
               onClick={handleNext}
               disabled={isLoading || !canProceed()}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1 h-8 px-3 text-sm"
             >
               {currentStep === steps.length ? (
                 isLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    Calculating Score...
+                    <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white"></div>
+                    Calculating...
                   </>
                 ) : (
                   'Get My Score'
@@ -220,32 +225,17 @@ const FinancialProfile = () => {
               ) : (
                 <>
                   Next
-                  <ChevronRight size={16} />
+                  <ChevronRight size={14} />
                 </>
               )}
             </Button>
           </div>
         </div>
 
-        {/* Skip Option */}
-        {currentStep > 1 && (
-          <div className="text-center mt-6">
-            <Button
-              variant="ghost"
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="text-gray-500"
-            >
-              Skip remaining steps and get score
-            </Button>
-          </div>
-        )}
-
-        {/* API Integration Note */}
-        <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg max-w-4xl mx-auto">
-          <p className="text-sm text-blue-800 text-center">
-            <strong>Progressive Saving:</strong> Your data is automatically saved as you progress. 
-            The backend will manage user identification and data persistence.
+        {/* Compact API Note */}
+        <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-xs text-blue-800 text-center">
+            <strong>Progressive Saving:</strong> Your data is automatically saved as you progress.
           </p>
         </div>
       </div>
