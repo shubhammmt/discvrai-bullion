@@ -92,91 +92,89 @@ const StockResultsTable = ({
 
   // Mobile card view for small screens
   const MobileStockCard = ({ stock, index }: { stock: any; index: number }) => (
-    <div key={`${stock.company_name}-${index}`} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
-      {/* Header with company name and sector */}
-      <div className="flex flex-col space-y-2">
-        <div className="flex items-start justify-between">
-          <h3 className="font-semibold text-base leading-tight text-gray-900 pr-2">
+    <div key={`${stock.company_name}-${index}`} className="bg-white rounded-lg border border-gray-200 p-3 space-y-3">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-sm leading-tight text-gray-900 break-words">
             {stock.company_name}
           </h3>
-          <PortfolioAddModal
-            assetName={stock.company_name}
-            assetSymbol={stock.company_name}
-            assetType="stock"
-            currentPrice={stock.current_price}
-            trigger={
-              <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 flex-shrink-0">
-                <FolderPlus size={14} className="mr-1" />
-                Add
-              </Button>
-            }
-          />
+          {stock.sector && (
+            <p className="text-xs text-gray-500 mt-1">{stock.sector}</p>
+          )}
         </div>
-        {stock.sector && (
-          <span className="text-sm text-gray-500">{stock.sector}</span>
-        )}
+        <PortfolioAddModal
+          assetName={stock.company_name}
+          assetSymbol={stock.company_name}
+          assetType="stock"
+          currentPrice={stock.current_price}
+          trigger={
+            <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 text-xs h-7 px-2 flex-shrink-0">
+              <FolderPlus size={12} className="mr-1" />
+              Add
+            </Button>
+          }
+        />
       </div>
       
-      {/* Key metrics in a clean grid */}
-      <div className="space-y-3">
+      {/* Key metrics grid */}
+      <div className="grid grid-cols-2 gap-2">
         {sortedKeys.slice(0, 6).map(key => (
           stock[key] !== null && stock[key] !== undefined && (
-            <div key={key} className="flex justify-between items-center py-1">
-              <span className="text-sm text-gray-600 font-medium">
+            <div key={key} className="bg-gray-50 rounded p-2">
+              <div className="text-xs text-gray-600 font-medium mb-1 leading-tight">
                 {formatFieldName(key)}
-              </span>
-              <span className="text-sm font-semibold text-gray-900 text-right">
+              </div>
+              <div className="text-xs font-semibold text-gray-900">
                 {formatFieldValue(key, stock[key])}
-              </span>
+              </div>
             </div>
           )
         ))}
       </div>
       
       {/* View details button */}
-      <div className="pt-2 border-t border-gray-100">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="w-full text-blue-600 hover:bg-blue-50"
-          onClick={() => {/* TODO: Navigate to stock details */}}
-        >
-          <Eye size={14} className="mr-2" />
-          View Details
-        </Button>
-      </div>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className="w-full text-blue-600 hover:bg-blue-50 text-xs h-7"
+        onClick={() => {/* TODO: Navigate to stock details */}}
+      >
+        <Eye size={12} className="mr-1" />
+        View Details
+      </Button>
     </div>
   );
 
   return (
     <Card className="mb-4 bg-white/95 backdrop-blur-md border-blue-200">
-      <CardHeader className="pb-3 p-4 sm:p-6">
+      <CardHeader className="pb-3 p-3">
         <div className="flex flex-col gap-3">
-          <div className="flex items-start justify-between gap-3">
-            <CardTitle className="flex flex-col gap-2 text-lg min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <CardTitle className="flex flex-col gap-2 text-base min-w-0 flex-1">
               <span>Stock Search Results</span>
-              <div className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-normal w-fit">
-                "{query.length > 30 ? query.substring(0, 30) + '...' : query}" - {totalRecords} found
+              <div className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-normal w-fit">
+                "{query.length > 20 ? query.substring(0, 20) + '...' : query}" - {totalRecords} found
               </div>
             </CardTitle>
             <Button 
               variant="ghost" 
               size="sm"
               onClick={onDismiss}
-              className="h-8 w-8 p-0 hover:bg-red-50 flex-shrink-0"
+              className="h-7 w-7 p-0 hover:bg-red-50 flex-shrink-0"
             >
-              <X size={16} className="text-gray-500" />
+              <X size={14} className="text-gray-500" />
             </Button>
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-xs text-gray-600">
             Showing {startResult}-{endResult} of {totalRecords} results
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-4 sm:p-6">
+      <CardContent className="p-3">
         {/* Mobile view - Cards */}
         <div className="block md:hidden">
-          <div className="space-y-4">
+          <div className="space-y-3">
             {results.map((stock, index) => (
               <MobileStockCard key={`mobile-${stock.company_name}-${index}`} stock={stock} index={index} />
             ))}
@@ -242,13 +240,13 @@ const StockResultsTable = ({
         
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="mt-6 flex justify-center">
+          <div className="mt-4 flex justify-center">
             <Pagination>
               <PaginationContent className="flex-wrap gap-1">
                 <PaginationItem>
                   <PaginationPrevious 
                     onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-                    className={`text-sm ${currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                    className={`text-xs h-8 ${currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
                   />
                 </PaginationItem>
                 
@@ -269,7 +267,7 @@ const StockResultsTable = ({
                       <PaginationLink
                         onClick={() => onPageChange(pageNum)}
                         isActive={currentPage === pageNum}
-                        className="cursor-pointer text-sm min-w-[36px] h-9"
+                        className="cursor-pointer text-xs min-w-[28px] h-8"
                       >
                         {pageNum}
                       </PaginationLink>
@@ -280,7 +278,7 @@ const StockResultsTable = ({
                 <PaginationItem>
                   <PaginationNext 
                     onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-                    className={`text-sm ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                    className={`text-xs h-8 ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -289,7 +287,7 @@ const StockResultsTable = ({
         )}
         
         {sortedKeys.length > 6 && (
-          <div className="mt-4 text-center">
+          <div className="mt-3 text-center">
             <p className="text-xs text-gray-500">
               Showing key metrics. Full details available on individual stock pages.
             </p>
@@ -297,7 +295,7 @@ const StockResultsTable = ({
         )}
         
         {isLoading && (
-          <div className="mt-4 text-center text-sm text-gray-500">
+          <div className="mt-3 text-center text-xs text-gray-500">
             Loading...
           </div>
         )}
