@@ -1,4 +1,3 @@
-
 // Types for unified search functionality
 export type AssetType = 'stock' | 'mutual-fund' | 'ipo';
 export type SearchMode = 'nlp' | 'filters';
@@ -97,6 +96,20 @@ export interface UnifiedSearchResponse {
   error?: string;
 }
 
+export interface AutocompleteResult {
+  symbol: string;
+  name: string;
+  assetType: AssetType;
+  price?: number;
+  changePercent?: number;
+}
+
+export interface AutocompleteResponse {
+  success: boolean;
+  data: AutocompleteResult[];
+  error?: string;
+}
+
 // API Functions
 export const searchAssets = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
   try {
@@ -145,6 +158,39 @@ export const getTopResults = async (): Promise<TopResultsResponse> => {
         mutualFunds: [],
         ipos: []
       },
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+};
+
+export const autocompleteSearch = async (query: string, assetTypes?: AssetType[]): Promise<AutocompleteResponse> => {
+  try {
+    const params = new URLSearchParams({
+      query: query.trim(),
+      limit: '10'
+    });
+    
+    if (assetTypes && assetTypes.length > 0) {
+      params.append('assetTypes', assetTypes.join(','));
+    }
+
+    const response = await fetch(`/api/v1/feed/autocomplete?${params}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error in autocomplete search:', error);
+    return {
+      success: false,
+      data: [],
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }

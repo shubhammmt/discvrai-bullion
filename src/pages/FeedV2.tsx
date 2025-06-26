@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
-import { searchAssets, getTopResults, UnifiedSearchRequest, UnifiedSearchResponse } from '@/utils/unifiedSearchApi';
+import AutocompleteSearchBar from '@/components/feed/AutocompleteSearchBar';
+import { searchAssets, getTopResults, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -28,6 +28,15 @@ const FeedV2 = () => {
     } finally {
       setIsSearching(false);
     }
+  };
+
+  const handleAutocompleteSelect = (result: AutocompleteResult) => {
+    console.log('Selected result:', result);
+    // TODO: Navigate to product page based on result.assetType and result.symbol
+    // This would typically use React Router to navigate to:
+    // - /research/stock/${result.symbol} for stocks
+    // - /research/mutual-fund/${result.symbol} for mutual funds  
+    // - /research/ipo/${result.symbol} for IPOs
   };
 
   const renderTopResults = () => {
@@ -209,7 +218,15 @@ const FeedV2 = () => {
           <p className="text-gray-600">Discover and search stocks, mutual funds, and IPOs with advanced AI-powered search</p>
         </div>
 
-        {/* Search Interface */}
+        {/* Quick Search Bar */}
+        <div className="mb-6 flex justify-center">
+          <AutocompleteSearchBar 
+            onResultClick={handleAutocompleteSelect}
+            placeholder="Quick search: Type stock name, symbol, or mutual fund..."
+          />
+        </div>
+
+        {/* Advanced Search Interface */}
         <UnifiedSearchInterface
           onSearch={handleSearch}
           isLoading={isSearching}
