@@ -137,6 +137,70 @@ export interface StockMetricsRequest {
   fields_to_return?: string[] | null;
 }
 
+// New types for mutual fund APIs
+export interface MutualFundMetricsFilter {
+  field: string;
+  operator: 'eq' | 'gt' | 'lt' | 'gte' | 'lte' | 'between' | 'in';
+  value: any;
+  value_end?: any | null;
+}
+
+export interface MutualFundMetricsRequest {
+  filters: MutualFundMetricsFilter[];
+  page: number;
+  page_size: number;
+  sort_field?: string | null;
+  sort_order?: 'asc' | 'desc';
+}
+
+export interface MutualFundMetricsResponse {
+  data: any[];
+  total_records: number;
+  total_pages: number;
+  current_page: number;
+  page_size: number;
+  applied_filters: MutualFundMetricsFilter[];
+  processing_time_ms: number;
+  success: boolean;
+  error: string | null;
+}
+
+// New types for filter options API
+export interface FilterOptions {
+  stocks: {
+    sectors: string[];
+    growth_types: string[];
+    market_cap_ranges: string[];
+    pe_ratio_ranges: string[];
+    price_ranges: string[];
+    revenue_growth_ranges: string[];
+    roe_ranges: string[];
+    debt_equity_ranges: string[];
+    rsi_ranges: string[];
+  };
+  mutual_funds: {
+    filter_type: string;
+    categories: string[];
+    amc_names: string[];
+    risk_levels: string[];
+    expense_ratio_options: string[];
+    aum_options: string[];
+    return_1y_options: string[];
+    return_3y_options: string[];
+    sip_options: string[];
+    plan_types: string[];
+  };
+  ipos: {
+    status_options: string[];
+  };
+}
+
+export interface FilterOptionsResponse {
+  success: boolean;
+  data?: FilterOptions;
+  error?: string;
+}
+
 export interface StockQueryResponse {
   data: any[];
   total_records: number;
@@ -188,9 +252,11 @@ const getAuthHeaders = () => {
 
 // Updated API Functions
 export const searchAssets = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
-  // If it's a stock search, use the new stock APIs
+  // Route to specific asset APIs based on asset type
   if (request.assetType === 'stock') {
     return await searchStocks(request);
+  } else if (request.assetType === 'mutual-fund') {
+    return await searchMutualFunds(request);
   }
 
   try {
@@ -207,9 +273,9 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log('Unified search API not available, using stock-specific APIs for stocks');
+    console.log('Unified search API not available, using asset-specific APIs');
     
-    // For non-stock assets, return empty results
+    // For non-implemented assets, return empty results
     return {
       success: true,
       data: [],
@@ -222,7 +288,7 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
   }
 };
 
-// New function for stock-specific searches with real API integration
+// Stock search function (existing)
 const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
   try {
     let apiResponse;
@@ -236,7 +302,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
         include_charts: false
       };
 
-      console.log('Making NLP API call with:', stockQueryRequest);
+      console.log('Making Stock NLP API call with:', stockQueryRequest);
       
       const response = await fetch(`${API_BASE_URL}/api/v1/feed/stock-query/paginated`, {
         method: 'POST',
@@ -278,7 +344,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
       
     } else if (request.searchMode === 'filters' && request.filters) {
       // Use metrics filter endpoint
-      const filtersArray = convertFiltersToMetricsFormat(request.filters);
+      const filtersArray = convertFiltersToStockMetricsFormat(request.filters);
       
       const metricsRequest = {
         filters: filtersArray,
@@ -288,7 +354,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
         sort_order: 'desc' as const
       };
 
-      console.log('Making Metrics Filter API call with:', metricsRequest);
+      console.log('Making Stock Metrics Filter API call with:', metricsRequest);
       
       const response = await fetch(`${API_BASE_URL}/api/v1/feed/stock-query/metrics-filter`, {
         method: 'POST',
@@ -347,8 +413,83 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
   }
 };
 
-// Helper function to convert our filters to metrics API format
-const convertFiltersToMetricsFormat = (filters: SearchFilters): StockMetricsFilter[] => {
+// New mutual fund search function
+const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
+  try {
+    // For now, mutual funds only support filter mode since NLP endpoint is not specified
+    if (request.searchMode === 'filters' && request.filters) {
+      const filtersArray = convertFiltersToMutualFundMetricsFormat(request.filters);
+      
+      const metricsRequest = {
+        filters: filtersArray,
+        page: request.page,
+        page_size: request.pageSize,
+        sort_field: null,
+        sort_order: 'desc' as const
+      };
+
+      console.log('Making Mutual Fund Metrics Filter API call with:', metricsRequest);
+      
+      const response = await fetch(`${API_BASE_URL}/api/v1/feed/mutual-fund/metrics-filter`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(metricsRequest)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const apiResponse: MutualFundMetricsResponse = await response.json();
+      
+      // Transform API response to match our interface
+      return {
+        success: apiResponse.success,
+        data: apiResponse.data.map((fund: any) => ({
+          symbol: fund.scheme_code || fund.basic_info?.scheme_code,
+          name: fund.scheme_name || fund.basic_info?.scheme_name,
+          assetType: 'mutual-fund' as const,
+          price: fund.nav || fund.current_performance?.nav,
+          changePercent: fund.ret_1year || fund.current_performance?.returns?.ret_1year,
+          category: fund.scheme_category || fund.basic_info?.scheme_category?.main_category,
+          expenseRatio: fund.expense_ratio || fund.fund_metrics?.expense_ratio,
+          aum: fund.aum || fund.fund_metrics?.aum,
+          ...fund
+        })),
+        total_records: apiResponse.total_records,
+        current_page: apiResponse.current_page,
+        total_pages: apiResponse.total_pages,
+        page_size: apiResponse.page_size
+      };
+    }
+    
+    // Default empty response for unsupported search modes
+    return {
+      success: true,
+      data: [],
+      total_records: 0,
+      current_page: request.page,
+      total_pages: 0,
+      page_size: request.pageSize,
+      error: 'NLP search not available for mutual funds yet'
+    };
+    
+  } catch (error) {
+    console.error('Mutual Fund API error:', error);
+    return {
+      success: false,
+      data: [],
+      total_records: 0,
+      current_page: request.page,
+      total_pages: 0,
+      page_size: request.pageSize,
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
+  }
+};
+
+// Helper function to convert our filters to stock metrics API format
+const convertFiltersToStockMetricsFormat = (filters: SearchFilters): StockMetricsFilter[] => {
   const metricsFilters: StockMetricsFilter[] = [];
   
   Object.entries(filters).forEach(([key, value]) => {
@@ -397,6 +538,100 @@ const convertFiltersToMetricsFormat = (filters: SearchFilters): StockMetricsFilt
   });
   
   return metricsFilters;
+};
+
+// Helper function to convert our filters to mutual fund metrics API format
+const convertFiltersToMutualFundMetricsFormat = (filters: SearchFilters): MutualFundMetricsFilter[] => {
+  const metricsFilters: MutualFundMetricsFilter[] = [];
+  
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+    
+    // Map UI filter names to API field names
+    let fieldName = key;
+    if (key === 'category') {
+      fieldName = 'basic_info.scheme_category.main_category';
+    } else if (key === 'expenseRatio') {
+      fieldName = 'fund_metrics.expense_ratio';
+    } else if (key === 'aum') {
+      fieldName = 'fund_metrics.aum';
+    } else if (key === 'returns1y') {
+      fieldName = 'current_performance.returns.ret_1year';
+    } else if (key === 'returns3y') {
+      fieldName = 'current_performance.returns.ret_3year';
+    }
+    
+    // Handle range filters
+    if (typeof value === 'object' && ('min' in value || 'max' in value)) {
+      const rangeFilter = value as RangeFilter;
+      if (rangeFilter.min !== undefined && rangeFilter.max !== undefined) {
+        metricsFilters.push({
+          field: fieldName,
+          operator: 'between',
+          value: rangeFilter.min,
+          value_end: rangeFilter.max
+        });
+      } else if (rangeFilter.min !== undefined) {
+        metricsFilters.push({
+          field: fieldName,
+          operator: 'gte',
+          value: rangeFilter.min
+        });
+      } else if (rangeFilter.max !== undefined) {
+        metricsFilters.push({
+          field: fieldName,
+          operator: 'lte',
+          value: rangeFilter.max
+        });
+      }
+    }
+    // Handle array filters
+    else if (Array.isArray(value)) {
+      metricsFilters.push({
+        field: fieldName,
+        operator: 'in',
+        value: value
+      });
+    }
+    // Handle single value filters
+    else {
+      metricsFilters.push({
+        field: fieldName,
+        operator: 'eq',
+        value: value
+      });
+    }
+  });
+  
+  return metricsFilters;
+};
+
+// New function to fetch filter options
+export const getFilterOptions = async (): Promise<FilterOptionsResponse> => {
+  try {
+    console.log('Fetching filter options from API...');
+    
+    const response = await fetch(`${API_BASE_URL}/api/v1/feed/filter-options`, {
+      method: 'GET',
+      headers: getAuthHeaders()
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      success: true,
+      data: data
+    };
+  } catch (error) {
+    console.error('Filter options API error:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to fetch filter options'
+    };
+  }
 };
 
 export const getTopResults = async (): Promise<TopResultsResponse> => {
