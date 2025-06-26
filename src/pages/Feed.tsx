@@ -448,14 +448,16 @@ const Feed = () => {
           </div>
         </div>
 
-        {/* Unified Search Interface */}
-        <UnifiedSearchInterface
-          onSearch={handleUnifiedSearch}
-          isLoading={isSearching}
-          nlpAnalysis={searchResults?.nlp_analysis}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
+        {/* Unified Search Interface - Full Width */}
+        <div className="w-full mb-4 sm:mb-6">
+          <UnifiedSearchInterface
+            onSearch={handleUnifiedSearch}
+            isLoading={isSearching}
+            nlpAnalysis={searchResults?.nlp_analysis}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
 
         {/* Profile Enhancement Prompt */}
         <ProfileEnhancementPrompt userProfile={userProfile} />
