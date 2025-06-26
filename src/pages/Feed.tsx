@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -269,36 +270,38 @@ const Feed = () => {
 
   // Enhanced AssetCard component with portfolio actions
   const EnhancedAssetCard = ({ asset }: { asset: any }) => (
-    <div className="w-full">
+    <div className="w-full min-w-0">
       <div className="flex flex-col space-y-3 p-3 sm:p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-        <div className="flex-1 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+        <div className="flex-1 cursor-pointer min-w-0" onClick={() => navigate(asset.routePath)}>
           <div className="flex flex-col space-y-2 mb-3">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <h3 className="font-semibold text-sm sm:text-base text-gray-900 leading-tight break-words">{asset.name}</h3>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 min-w-0">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-sm sm:text-base text-gray-900 leading-tight break-words overflow-wrap-anywhere">{asset.name}</h3>
+                <span className="text-xs sm:text-sm text-gray-600 block truncate">{asset.symbol}</span>
+              </div>
               {asset.latestEvent && (
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full w-fit flex-shrink-0">
+                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full w-fit flex-shrink-0 max-w-full truncate">
                   {asset.latestEvent}
                 </span>
               )}
             </div>
-            <span className="text-xs sm:text-sm text-gray-600">{asset.symbol}</span>
           </div>
           
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <div className="flex flex-col">
-              <p className="text-base sm:text-lg font-bold text-gray-900">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 min-w-0">
+            <div className="flex flex-col min-w-0">
+              <p className="text-base sm:text-lg font-bold text-gray-900 truncate">
                 {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
               </p>
               {asset.change !== null && (
-                <p className={`text-xs sm:text-sm ${asset.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                <p className={`text-xs sm:text-sm ${asset.change > 0 ? 'text-green-600' : 'text-red-600'} truncate`}>
                   {asset.change > 0 ? '+' : ''}{asset.change}%
                 </p>
               )}
             </div>
-            <div className="flex flex-col text-left sm:text-right">
-              <p className="text-xs sm:text-sm text-gray-600">Vol: {asset.volume}</p>
+            <div className="flex flex-col text-left sm:text-right min-w-0">
+              <p className="text-xs sm:text-sm text-gray-600 truncate">Vol: {asset.volume}</p>
               {asset.news && (
-                <p className="text-xs text-gray-500 line-clamp-1 break-words">{asset.news}</p>
+                <p className="text-xs text-gray-500 line-clamp-2 break-words overflow-wrap-anywhere">{asset.news}</p>
               )}
             </div>
           </div>
@@ -428,24 +431,24 @@ const Feed = () => {
               <p className="text-gray-600 text-xs sm:text-sm lg:text-base">Discover personalized investment opportunities</p>
             </div>
             
-            <div className="w-full">
-              <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-                <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="text-xs sm:text-sm">
+            <div className="w-full overflow-x-auto">
+              <div className="flex gap-2 pb-2 min-w-max">
+                <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="text-xs sm:text-sm whitespace-nowrap">
                   <TrendingUp size={14} className="mr-1" />
                   <span className="hidden xs:inline">MF Feed</span>
                   <span className="xs:hidden">MF</span>
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="text-xs sm:text-sm">
+                <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="text-xs sm:text-sm whitespace-nowrap">
                   <BarChart3 size={14} className="mr-1" />
                   <span className="hidden xs:inline">Portfolio</span>
                   <span className="xs:hidden">Port</span>
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="text-xs sm:text-sm">
+                <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="text-xs sm:text-sm whitespace-nowrap">
                   <Edit size={14} className="mr-1" />
                   <span className="hidden sm:inline">Update Portfolio</span>
                   <span className="sm:hidden">Update</span>
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="text-xs sm:text-sm">
+                <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="text-xs sm:text-sm whitespace-nowrap">
                   <Search size={14} className="mr-1" />
                   Research
                 </Button>
@@ -472,34 +475,34 @@ const Feed = () => {
 
         <div className="w-full grid lg:grid-cols-4 gap-4 lg:gap-6">
           {/* Main Feed */}
-          <div className="w-full lg:col-span-3 space-y-4 lg:space-y-6">
+          <div className="w-full lg:col-span-3 space-y-4 lg:space-y-6 min-w-0">
             {/* Search Results Section */}
             {renderSearchResults()}
 
             {/* AI Recommendations Section */}
-            <div className="w-full">
+            <div className="w-full min-w-0">
               <Card className="bg-white/70 backdrop-blur-md border-white/20">
                 <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="flex flex-col space-y-2 text-base sm:text-xl">
-                    <div className="flex items-center gap-2">
+                  <CardTitle className="flex flex-col space-y-2 text-base sm:text-xl min-w-0">
+                    <div className="flex items-center gap-2 min-w-0">
                       <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
-                      <span>DiscvrAI Recommendations</span>
+                      <span className="truncate">DiscvrAI Recommendations</span>
                     </div>
-                    <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-600 px-2 py-1 rounded-full w-fit">
+                    <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-600 px-2 py-1 rounded-full w-fit flex-shrink-0">
                       <Sparkles size={8} className="inline mr-1" />
                       Personalized for You
                     </span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 sm:p-6">
-                  <div className="w-full space-y-3 sm:space-y-4">
+                  <div className="w-full space-y-3 sm:space-y-4 min-w-0">
                     <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg">
-                      <p className="text-xs sm:text-sm text-gray-700 break-words">
+                      <p className="text-xs sm:text-sm text-gray-700 break-words overflow-wrap-anywhere">
                         <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.
                       </p>
                     </div>
                     {aiRecommendations.map((asset, index) => (
-                      <div key={`ai-rec-${asset.id}`} className="w-full">
+                      <div key={`ai-rec-${asset.id}`} className="w-full min-w-0">
                         <AIResultCard 
                           asset={asset} 
                           aiReason={asset.aiReason}
@@ -530,13 +533,13 @@ const Feed = () => {
             </div>
 
             {/* Trending Section with Enhanced Asset Cards */}
-            <div className="w-full">
+            <div className="w-full min-w-0">
               <Card className="bg-white/70 backdrop-blur-md border-white/20">
                 <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="flex flex-col space-y-3">
-                    <div className="flex items-center gap-2">
+                  <CardTitle className="flex flex-col space-y-3 min-w-0">
+                    <div className="flex items-center gap-2 min-w-0">
                       <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
-                      <span className="text-base sm:text-xl">
+                      <span className="text-base sm:text-xl truncate">
                         {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
                       </span>
                     </div>
@@ -552,7 +555,7 @@ const Feed = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 sm:p-6">
-                  <div className="w-full">
+                  <div className="w-full min-w-0">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                       {filteredAssets.map((asset) => (
                         <EnhancedAssetCard key={asset.id} asset={asset} />
