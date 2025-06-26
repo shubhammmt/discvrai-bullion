@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,6 +26,11 @@ const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSea
   const [filters, setFilters] = useState<SearchFilters>({});
   const [showFilters, setShowFilters] = useState(false);
 
+  // Clear filters when asset type changes
+  useEffect(() => {
+    setFilters({});
+  }, [assetType]);
+
   const handleSearch = () => {
     if (searchMode === 'nlp' && !query.trim()) return;
     
@@ -45,6 +49,11 @@ const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSea
     if (e.key === 'Enter') {
       handleSearch();
     }
+  };
+
+  const handleAssetTypeChange = (newAssetType: AssetType) => {
+    setAssetType(newAssetType);
+    // Filters will be cleared by useEffect
   };
 
   const assetTypes: { value: AssetType; label: string }[] = [
@@ -95,7 +104,7 @@ const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSea
               key={type.value}
               variant={assetType === type.value ? 'default' : 'outline'}
               className="cursor-pointer"
-              onClick={() => setAssetType(type.value)}
+              onClick={() => handleAssetTypeChange(type.value)}
             >
               {type.label}
             </Badge>
