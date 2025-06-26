@@ -19,6 +19,17 @@ interface FilterPanelProps {
 const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading }: FilterPanelProps) => {
   const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
 
+  // Add debugging logs
+  useEffect(() => {
+    console.log('FilterPanel state:', {
+      assetType,
+      isLoadingOptions,
+      hasFilterOptions: !!filterOptions,
+      optionsError,
+      filterOptionsKeys: filterOptions ? Object.keys(filterOptions) : null
+    });
+  }, [assetType, isLoadingOptions, filterOptions, optionsError]);
+
   const updateFilter = (key: string, value: any) => {
     onFiltersChange({
       ...filters,
@@ -47,6 +58,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const stockOptions = filterOptions?.stocks;
+    console.log('Stock options:', stockOptions);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -109,7 +121,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select sector" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.sectors?.map((sector) => (
+              {stockOptions?.sectors?.filter(sector => sector.value !== "").map((sector) => (
                 <SelectItem key={sector.value} value={sector.value}>
                   {sector.label}
                 </SelectItem>
@@ -166,6 +178,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const mfOptions = filterOptions?.mutual_funds;
+    console.log('Mutual fund options:', mfOptions);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -212,7 +225,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             </SelectTrigger>
             <SelectContent>
               {mfOptions?.expense_ratio_options?.map((ratio) => (
-                <SelectItem key={ratio.label} value={ratio.value?.toString() || 'any'}>
+                <SelectItem 
+                  key={ratio.label} 
+                  value={ratio.value !== null ? ratio.value.toString() : 'any'}
+                >
                   {ratio.label}
                 </SelectItem>
               ))}
@@ -246,7 +262,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             </SelectTrigger>
             <SelectContent>
               {mfOptions?.return_1y_options?.map((returnOption) => (
-                <SelectItem key={returnOption.label} value={returnOption.value?.toString() || 'any'}>
+                <SelectItem 
+                  key={returnOption.label} 
+                  value={returnOption.value !== null ? returnOption.value.toString() : 'any'}
+                >
                   {returnOption.label}
                 </SelectItem>
               ))}
@@ -263,7 +282,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             </SelectTrigger>
             <SelectContent>
               {mfOptions?.aum_options?.map((aumOption) => (
-                <SelectItem key={aumOption.label} value={aumOption.min_value?.toString() || 'any'}>
+                <SelectItem 
+                  key={aumOption.label} 
+                  value={aumOption.min_value !== null ? aumOption.min_value.toString() : 'any'}
+                >
                   {aumOption.label}
                 </SelectItem>
               ))}
