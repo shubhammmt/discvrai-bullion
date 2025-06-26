@@ -9,12 +9,17 @@ import AssetCard from '@/components/AssetCard';
 import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
 import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
+import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
+import AutocompleteSearchBar from '@/components/feed/AutocompleteSearchBar';
+import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchParams] = useSearchParams();
   const [currentQuery, setCurrentQuery] = useState('');
   const [aiResults, setAiResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
 
   // Set filter based on URL parameter
@@ -27,6 +32,27 @@ const Feed = () => {
 
   // Mock user profile from onboarding
   const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+
+  const handleUnifiedSearch = async (searchRequest: UnifiedSearchRequest) => {
+    setIsSearching(true);
+    try {
+      const response = await searchAssets(searchRequest);
+      setSearchResults(response);
+    } catch (error) {
+      console.error('Search failed:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleAutocompleteSelect = (result: AutocompleteResult) => {
+    console.log('Selected result:', result);
+    // TODO: Navigate to product page based on result.assetType and result.symbol
+    // This would typically use React Router to navigate to:
+    // - /research/stock/${result.symbol} for stocks
+    // - /research/mutual-fund/${result.symbol} for mutual funds  
+    // - /research/ipo/${result.symbol} for IPOs
+  };
 
   const filters = [
     { id: 'all', label: 'All' },
@@ -312,6 +338,79 @@ const Feed = () => {
     </div>
   );
 
+  const renderSearchResults = () => {
+    if (!searchResults) return null;
+
+    if (!searchResults.success) {
+      return (
+        <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
+          <CardContent className="p-6 text-center">
+            <p className="text-red-600">Search failed: {searchResults.error}</p>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    if (searchResults.data.length === 0) {
+      return (
+        <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
+          <CardContent className="p-6 text-center">
+            <p className="text-gray-600">No results found. Try adjusting your search criteria.</p>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+      <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
+        <CardHeader>
+          <CardTitle className="dark:text-white">Search Results ({searchResults.total_records} found)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {searchResults.data.map((result) => (
+              <div key={result.symbol} className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
+                <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/${result.assetType}/${result.symbol}`)}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="font-semibold text-gray-900">{result.symbol}</h3>
+                    <span className="text-sm text-gray-600">{result.name}</span>
+                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                      {result.assetType}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">₹{result.price || 'N/A'}</p>
+                      {result.changePercent && (
+                        <p className={`text-sm ${result.changePercent > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {result.changePercent > 0 ? '+' : ''}{result.changePercent.toFixed(2)}%
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="ml-4 flex items-center gap-2">
+                  <PortfolioAddModal
+                    assetName={result.name}
+                    assetSymbol={result.symbol}
+                    assetType={result.assetType}
+                    currentPrice={result.price}
+                    trigger={
+                      <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
+                        <FolderPlus size={14} className="mr-1" />
+                        Add
+                      </Button>
+                    }
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
@@ -343,6 +442,21 @@ const Feed = () => {
           </div>
         </div>
 
+        {/* Quick Search Bar */}
+        <div className="mb-6 flex justify-center">
+          <AutocompleteSearchBar 
+            onResultClick={handleAutocompleteSelect}
+            placeholder="Quick search: Type stock name, symbol, or mutual fund..."
+          />
+        </div>
+
+        {/* Advanced Search Interface */}
+        <UnifiedSearchInterface
+          onSearch={handleUnifiedSearch}
+          isLoading={isSearching}
+          nlpAnalysis={searchResults?.nlp_analysis}
+        />
+
         {/* AI Chat Interface with integrated Stock Results Table */}
         <AIFeedChat 
           onQuerySubmit={handleAIQuery}
@@ -356,6 +470,9 @@ const Feed = () => {
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Main Feed */}
           <div className="lg:col-span-3 space-y-6">
+            {/* Search Results Section */}
+            {renderSearchResults()}
+
             {/* AI Recommendations Section - First */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>
