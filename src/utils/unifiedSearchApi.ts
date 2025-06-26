@@ -1,4 +1,3 @@
-
 // Types for unified search functionality
 export type AssetType = 'stock' | 'mutual-fund' | 'ipo';
 export type SearchMode = 'nlp' | 'filters';
@@ -168,30 +167,100 @@ export interface MutualFundMetricsResponse {
 // New types for filter options API
 export interface FilterOptions {
   stocks: {
-    sectors: string[];
-    growth_types: string[];
-    market_cap_ranges: string[];
-    pe_ratio_ranges: string[];
-    price_ranges: string[];
-    revenue_growth_ranges: string[];
-    roe_ranges: string[];
-    debt_equity_ranges: string[];
-    rsi_ranges: string[];
+    sectors: Array<{
+      value: string;
+      label: string;
+    }>;
+    growth_types: Array<{
+      value: string;
+      label: string;
+    }>;
+    market_cap_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
+    pe_ratio_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
+    price_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
+    revenue_growth_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
+    roe_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
+    debt_equity_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
+    rsi_ranges: Array<{
+      min: number;
+      max: number | null;
+      label: string;
+    }>;
   };
   mutual_funds: {
     filter_type: string;
-    categories: string[];
-    amc_names: string[];
-    risk_levels: string[];
-    expense_ratio_options: string[];
-    aum_options: string[];
-    return_1y_options: string[];
-    return_3y_options: string[];
-    sip_options: string[];
-    plan_types: string[];
+    categories: Array<{
+      name: string;
+      value: string;
+      count: number;
+      priority: number;
+    }>;
+    amc_names: Array<{
+      name: string;
+      value: string;
+      count: number;
+    }>;
+    risk_levels: Array<{
+      name: string;
+      value: string;
+      description: string;
+    }>;
+    expense_ratio_options: Array<{
+      label: string;
+      value: number | null;
+    }>;
+    aum_options: Array<{
+      label: string;
+      min_value: number | null;
+    }>;
+    return_1y_options: Array<{
+      label: string;
+      value: number | null;
+    }>;
+    return_3y_options: Array<{
+      label: string;
+      value: number | null;
+    }>;
+    sip_options: Array<{
+      label: string;
+      value: number | null;
+    }>;
+    plan_types: Array<{
+      label: string;
+      value: string | null;
+    }>;
+    timestamp: string;
+    error: string | null;
   };
   ipos: {
-    status_options: string[];
+    status_options: Array<{
+      value: string;
+      label: string;
+    }>;
   };
 }
 

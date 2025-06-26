@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -54,109 +53,52 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {/* Market Cap Range */}
         <div>
           <Label>Market Cap</Label>
-          {stockOptions?.market_cap_ranges ? (
-            <Select onValueChange={(value) => updateFilter('market_cap', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select market cap" />
-              </SelectTrigger>
-              <SelectContent>
-                {stockOptions.market_cap_ranges.map((range) => (
-                  <SelectItem key={range} value={range}>{range}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min (₹ Cr)"
-                type="number"
-                onChange={(e) => updateFilter('market_cap', {
-                  ...(filters.market_cap as RangeFilter || {}),
-                  min: parseFloat(e.target.value) * 10000000 || undefined
-                })}
-              />
-              <Input
-                placeholder="Max (₹ Cr)"
-                type="number"
-                onChange={(e) => updateFilter('market_cap', {
-                  ...(filters.market_cap as RangeFilter || {}),
-                  max: parseFloat(e.target.value) * 10000000 || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('market_cap', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select market cap" />
+            </SelectTrigger>
+            <SelectContent>
+              {stockOptions?.market_cap_ranges?.map((range) => (
+                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
+                  {range.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* PE Ratio Range */}
         <div>
           <Label>PE Ratio</Label>
-          {stockOptions?.pe_ratio_ranges ? (
-            <Select onValueChange={(value) => updateFilter('pe_ratio', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select PE ratio range" />
-              </SelectTrigger>
-              <SelectContent>
-                {stockOptions.pe_ratio_ranges.map((range) => (
-                  <SelectItem key={range} value={range}>{range}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min"
-                type="number"
-                onChange={(e) => updateFilter('pe_ratio', {
-                  ...(filters.pe_ratio as RangeFilter || {}),
-                  min: parseFloat(e.target.value) || undefined
-                })}
-              />
-              <Input
-                placeholder="Max"
-                type="number"
-                onChange={(e) => updateFilter('pe_ratio', {
-                  ...(filters.pe_ratio as RangeFilter || {}),
-                  max: parseFloat(e.target.value) || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('pe_ratio', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select PE ratio range" />
+            </SelectTrigger>
+            <SelectContent>
+              {stockOptions?.pe_ratio_ranges?.map((range) => (
+                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
+                  {range.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Current Price Range */}
         <div>
           <Label>Price Range</Label>
-          {stockOptions?.price_ranges ? (
-            <Select onValueChange={(value) => updateFilter('current_price', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select price range" />
-              </SelectTrigger>
-              <SelectContent>
-                {stockOptions.price_ranges.map((range) => (
-                  <SelectItem key={range} value={range}>{range}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min (₹)"
-                type="number"
-                onChange={(e) => updateFilter('current_price', {
-                  ...(filters.current_price as RangeFilter || {}),
-                  min: parseFloat(e.target.value) || undefined
-                })}
-              />
-              <Input
-                placeholder="Max (₹)"
-                type="number"
-                onChange={(e) => updateFilter('current_price', {
-                  ...(filters.current_price as RangeFilter || {}),
-                  max: parseFloat(e.target.value) || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('current_price', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select price range" />
+            </SelectTrigger>
+            <SelectContent>
+              {stockOptions?.price_ranges?.map((range) => (
+                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
+                  {range.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Sector */}
@@ -167,11 +109,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select sector" />
             </SelectTrigger>
             <SelectContent>
-              {(stockOptions?.sectors || [
-                'Technology', 'Healthcare', 'Finance', 'Energy', 'Consumer',
-                'Banking', 'Automobile', 'Pharmaceuticals', 'Real Estate', 'Telecommunications'
-              ]).map((sector) => (
-                <SelectItem key={sector} value={sector}>{sector}</SelectItem>
+              {stockOptions?.sectors?.map((sector) => (
+                <SelectItem key={sector.value} value={sector.value}>
+                  {sector.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -180,73 +121,35 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {/* Revenue Growth */}
         <div>
           <Label>Revenue Growth (YoY)</Label>
-          {stockOptions?.revenue_growth_ranges ? (
-            <Select onValueChange={(value) => updateFilter('revenue_growth_1y', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select growth range" />
-              </SelectTrigger>
-              <SelectContent>
-                {stockOptions.revenue_growth_ranges.map((range) => (
-                  <SelectItem key={range} value={range}>{range}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min %"
-                type="number"
-                onChange={(e) => updateFilter('revenue_growth_1y', {
-                  ...(filters.revenue_growth_1y as RangeFilter || {}),
-                  min: parseFloat(e.target.value) || undefined
-                })}
-              />
-              <Input
-                placeholder="Max %"
-                type="number"
-                onChange={(e) => updateFilter('revenue_growth_1y', {
-                  ...(filters.revenue_growth_1y as RangeFilter || {}),
-                  max: parseFloat(e.target.value) || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('revenue_growth_1y', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select growth range" />
+            </SelectTrigger>
+            <SelectContent>
+              {stockOptions?.revenue_growth_ranges?.map((range) => (
+                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
+                  {range.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* ROE Range */}
         <div>
           <Label>ROE</Label>
-          {stockOptions?.roe_ranges ? (
-            <Select onValueChange={(value) => updateFilter('roe', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select ROE range" />
-              </SelectTrigger>
-              <SelectContent>
-                {stockOptions.roe_ranges.map((range) => (
-                  <SelectItem key={range} value={range}>{range}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min %"
-                type="number"
-                onChange={(e) => updateFilter('roe', {
-                  ...(filters.roe as RangeFilter || {}),
-                  min: parseFloat(e.target.value) || undefined
-                })}
-              />
-              <Input
-                placeholder="Max %"
-                type="number"
-                onChange={(e) => updateFilter('roe', {
-                  ...(filters.roe as RangeFilter || {}),
-                  max: parseFloat(e.target.value) || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('roe', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select ROE range" />
+            </SelectTrigger>
+            <SelectContent>
+              {stockOptions?.roe_ranges?.map((range) => (
+                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
+                  {range.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
     );
@@ -274,10 +177,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              {(mfOptions?.categories || [
-                'Large Cap Fund', 'Mid Cap Fund', 'Flexi Cap Fund', 'ELSS', 'Debt Fund'
-              ]).map((category) => (
-                <SelectItem key={category} value={category}>{category}</SelectItem>
+              {mfOptions?.categories?.map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.name} ({category.count})
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -291,8 +194,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select risk level" />
             </SelectTrigger>
             <SelectContent>
-              {(mfOptions?.risk_levels || ['Low', 'Moderate', 'High']).map((risk) => (
-                <SelectItem key={risk} value={risk}>{risk}</SelectItem>
+              {mfOptions?.risk_levels?.map((risk) => (
+                <SelectItem key={risk.value} value={risk.value}>
+                  {risk.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -306,10 +211,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select expense ratio" />
             </SelectTrigger>
             <SelectContent>
-              {(mfOptions?.expense_ratio_options || [
-                'Below 0.5%', '0.5% - 1%', '1% - 1.5%', '1.5% - 2%', 'Above 2%'
-              ]).map((ratio) => (
-                <SelectItem key={ratio} value={ratio}>{ratio}</SelectItem>
+              {mfOptions?.expense_ratio_options?.map((ratio) => (
+                <SelectItem key={ratio.label} value={ratio.value?.toString() || 'any'}>
+                  {ratio.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -323,11 +228,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select AMC" />
             </SelectTrigger>
             <SelectContent>
-              {(mfOptions?.amc_names || [
-                'SBI Mutual Fund', 'HDFC Mutual Fund', 'ICICI Prudential Mutual Fund',
-                'Axis Mutual Fund', 'Kotak Mahindra Mutual Fund', 'Nippon India Mutual Fund'
-              ]).map((amc) => (
-                <SelectItem key={amc} value={amc}>{amc}</SelectItem>
+              {mfOptions?.amc_names?.slice(0, 20).map((amc) => (
+                <SelectItem key={amc.value} value={amc.value}>
+                  {amc.name} ({amc.count})
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -336,73 +240,35 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {/* 1-Year Returns */}
         <div>
           <Label>1-Year Returns</Label>
-          {mfOptions?.return_1y_options ? (
-            <Select onValueChange={(value) => updateFilter('returns1y', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select return range" />
-              </SelectTrigger>
-              <SelectContent>
-                {mfOptions.return_1y_options.map((returnRange) => (
-                  <SelectItem key={returnRange} value={returnRange}>{returnRange}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min %"
-                type="number"
-                onChange={(e) => updateFilter('returns1y', {
-                  ...(filters.returns1y as RangeFilter || {}),
-                  min: parseFloat(e.target.value) || undefined
-                })}
-              />
-              <Input
-                placeholder="Max %"
-                type="number"
-                onChange={(e) => updateFilter('returns1y', {
-                  ...(filters.returns1y as RangeFilter || {}),
-                  max: parseFloat(e.target.value) || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('returns1y', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select return range" />
+            </SelectTrigger>
+            <SelectContent>
+              {mfOptions?.return_1y_options?.map((returnOption) => (
+                <SelectItem key={returnOption.label} value={returnOption.value?.toString() || 'any'}>
+                  {returnOption.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* AUM */}
         <div>
           <Label>AUM</Label>
-          {mfOptions?.aum_options ? (
-            <Select onValueChange={(value) => updateFilter('aum', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select AUM range" />
-              </SelectTrigger>
-              <SelectContent>
-                {mfOptions.aum_options.map((aumRange) => (
-                  <SelectItem key={aumRange} value={aumRange}>{aumRange}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min (₹ Cr)"
-                type="number"
-                onChange={(e) => updateFilter('aum', {
-                  ...(filters.aum as RangeFilter || {}),
-                  min: parseFloat(e.target.value) || undefined
-                })}
-              />
-              <Input
-                placeholder="Max (₹ Cr)"
-                type="number"
-                onChange={(e) => updateFilter('aum', {
-                  ...(filters.aum as RangeFilter || {}),
-                  max: parseFloat(e.target.value) || undefined
-                })}
-              />
-            </div>
-          )}
+          <Select onValueChange={(value) => updateFilter('aum', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select AUM range" />
+            </SelectTrigger>
+            <SelectContent>
+              {mfOptions?.aum_options?.map((aumOption) => (
+                <SelectItem key={aumOption.label} value={aumOption.min_value?.toString() || 'any'}>
+                  {aumOption.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
     );
@@ -430,8 +296,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
-              {(ipoOptions?.status_options || ['Open', 'Closed', 'Upcoming']).map((status) => (
-                <SelectItem key={status} value={status}>{status}</SelectItem>
+              {ipoOptions?.status_options?.map((status) => (
+                <SelectItem key={status.value} value={status.value}>
+                  {status.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
