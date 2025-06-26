@@ -78,113 +78,119 @@ const UnifiedSearchInterface = ({
   ];
 
   return (
-    <Card className="mb-6 bg-white/90 backdrop-blur-md border-blue-200">
-      <CardContent className="p-4 sm:p-6">
-        {/* Search Mode Toggle */}
-        <div className="flex items-center gap-2 mb-4">
-          <div className="flex items-center gap-2">
-            <Button
-              variant={searchMode === 'nlp' ? 'default' : 'outline'}
-              onClick={() => setSearchMode('nlp')}
-              size="sm"
-              className="flex items-center gap-2 text-sm px-3 h-9"
-            >
-              <Zap size={16} />
-              <span className="hidden xs:inline">NLP Search</span>
-              <span className="xs:hidden">NLP</span>
-            </Button>
-            <Button
-              variant={searchMode === 'filters' ? 'default' : 'outline'}
-              onClick={() => setSearchMode('filters')}
-              size="sm"
-              className="flex items-center gap-2 text-sm px-3 h-9"
-            >
-              <Filter size={16} />
-              <span className="hidden xs:inline">Advanced</span>
-              <span className="xs:hidden">Filters</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Asset Type Selector */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
-          <span className="text-sm font-medium text-gray-700">Asset Type:</span>
-          <div className="flex flex-wrap gap-2">
-            {assetTypes.map((type) => (
-              <Badge
-                key={type.value}
-                variant={assetType === type.value ? 'default' : 'outline'}
-                className="cursor-pointer text-xs px-2 py-1"
-                onClick={() => handleAssetTypeChange(type.value)}
+    <div className="w-full">
+      <Card className="mb-6 bg-white/90 backdrop-blur-md border-blue-200 w-full">
+        <CardContent className="p-4 sm:p-6 w-full">
+          {/* Search Mode Toggle */}
+          <div className="flex items-center gap-2 mb-4 w-full">
+            <div className="flex items-center gap-2 w-full">
+              <Button
+                variant={searchMode === 'nlp' ? 'default' : 'outline'}
+                onClick={() => setSearchMode('nlp')}
+                size="sm"
+                className="flex items-center gap-2 text-sm px-3 h-9"
               >
-                {type.label}
-              </Badge>
-            ))}
+                <Zap size={16} />
+                <span className="hidden xs:inline">NLP Search</span>
+                <span className="xs:hidden">NLP</span>
+              </Button>
+              <Button
+                variant={searchMode === 'filters' ? 'default' : 'outline'}
+                onClick={() => setSearchMode('filters')}
+                size="sm"
+                className="flex items-center gap-2 text-sm px-3 h-9"
+              >
+                <Filter size={16} />
+                <span className="hidden xs:inline">Advanced</span>
+                <span className="xs:hidden">Filters</span>
+              </Button>
+            </div>
           </div>
-        </div>
 
-        {/* Search Input for NLP Mode */}
-        {searchMode === 'nlp' && (
-          <div className="relative mb-4">
-            <Input
-              placeholder={`Ask anything about ${assetType === 'mutual-fund' ? 'mutual funds' : assetType}... e.g., "Show me tech stocks with PE ratio under 20"`}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="pl-10 pr-20 h-12 text-base"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <Button
-              onClick={() => handleSearch()}
-              disabled={!query.trim() || isLoading}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 px-3 text-sm"
-              size="sm"
-            >
-              {isLoading ? 'Searching...' : 'Search'}
-            </Button>
-          </div>
-        )}
-
-        {/* Quick Prompts for NLP Mode */}
-        {searchMode === 'nlp' && !query && (
-          <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">Try these examples:</p>
-            <div className="flex flex-wrap gap-2">
-              {quickPrompts.map((prompt, index) => (
+          {/* Asset Type Selector */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4 w-full">
+            <span className="text-sm font-medium text-gray-700">Asset Type:</span>
+            <div className="flex flex-wrap gap-2 w-full">
+              {assetTypes.map((type) => (
                 <Badge
-                  key={index}
-                  variant="outline"
-                  className="cursor-pointer hover:bg-blue-50 text-xs px-2 py-1"
-                  onClick={() => setQuery(prompt)}
+                  key={type.value}
+                  variant={assetType === type.value ? 'default' : 'outline'}
+                  className="cursor-pointer text-xs px-2 py-1"
+                  onClick={() => handleAssetTypeChange(type.value)}
                 >
-                  {prompt}
+                  {type.label}
                 </Badge>
               ))}
             </div>
           </div>
-        )}
 
-        {/* NLP Analysis Display */}
-        {searchMode === 'nlp' && nlpAnalysis && (
-          <NLPFilterDisplay
-            analysis={nlpAnalysis}
-            onFiltersChange={setFilters}
-            onSearch={() => handleSearch()}
-          />
-        )}
+          {/* Search Input for NLP Mode */}
+          {searchMode === 'nlp' && (
+            <div className="relative mb-4 w-full">
+              <Input
+                placeholder={`Ask anything about ${assetType === 'mutual-fund' ? 'mutual funds' : assetType}... e.g., "Show me tech stocks with PE ratio under 20"`}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="pl-10 pr-20 h-12 text-base w-full"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Button
+                onClick={() => handleSearch()}
+                disabled={!query.trim() || isLoading}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 px-3 text-sm"
+                size="sm"
+              >
+                {isLoading ? 'Searching...' : 'Search'}
+              </Button>
+            </div>
+          )}
 
-        {/* Filter Panel for Filter Mode */}
-        {searchMode === 'filters' && (
-          <FilterPanel
-            assetType={assetType}
-            filters={filters}
-            onFiltersChange={setFilters}
-            onSearch={() => handleSearch()}
-            isLoading={isLoading}
-          />
-        )}
-      </CardContent>
-    </Card>
+          {/* Quick Prompts for NLP Mode */}
+          {searchMode === 'nlp' && !query && (
+            <div className="mb-4 w-full">
+              <p className="text-sm text-gray-600 mb-2">Try these examples:</p>
+              <div className="flex flex-wrap gap-2 w-full">
+                {quickPrompts.map((prompt, index) => (
+                  <Badge
+                    key={index}
+                    variant="outline"
+                    className="cursor-pointer hover:bg-blue-50 text-xs px-2 py-1"
+                    onClick={() => setQuery(prompt)}
+                  >
+                    {prompt}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* NLP Analysis Display */}
+          {searchMode === 'nlp' && nlpAnalysis && (
+            <div className="w-full">
+              <NLPFilterDisplay
+                analysis={nlpAnalysis}
+                onFiltersChange={setFilters}
+                onSearch={() => handleSearch()}
+              />
+            </div>
+          )}
+
+          {/* Filter Panel for Filter Mode */}
+          {searchMode === 'filters' && (
+            <div className="w-full">
+              <FilterPanel
+                assetType={assetType}
+                filters={filters}
+                onFiltersChange={setFilters}
+                onSearch={() => handleSearch()}
+                isLoading={isLoading}
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
