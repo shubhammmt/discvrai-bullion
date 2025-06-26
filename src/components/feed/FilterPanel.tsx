@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,6 +38,25 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     });
   };
 
+  const updateRangeFilter = (key: string, field: 'min' | 'max', value: string) => {
+    const currentFilter = filters[key] as RangeFilter || {};
+    const numValue = value === '' ? undefined : parseFloat(value);
+    
+    const newFilter = {
+      ...currentFilter,
+      [field]: numValue
+    };
+    
+    // Remove the filter if both min and max are empty
+    if (newFilter.min === undefined && newFilter.max === undefined) {
+      const newFilters = { ...filters };
+      delete newFilters[key];
+      onFiltersChange(newFilters);
+    } else {
+      updateFilter(key, newFilter);
+    }
+  };
+
   const removeFilter = (key: string) => {
     const newFilters = { ...filters };
     delete newFilters[key];
@@ -45,37 +65,6 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
   const clearAllFilters = () => {
     onFiltersChange({});
-  };
-
-  // Hardcoded stock filter options (except sectors which come from API)
-  const stockFilterOptions = {
-    market_cap_ranges: [
-      { min: 0, max: 500, label: "Small Cap (< ₹500 Cr)" },
-      { min: 500, max: 2000, label: "Mid Cap (₹500-2000 Cr)" },
-      { min: 2000, max: null, label: "Large Cap (> ₹2000 Cr)" }
-    ],
-    pe_ratio_ranges: [
-      { min: 0, max: 15, label: "Low PE (< 15)" },
-      { min: 15, max: 30, label: "Moderate PE (15-30)" },
-      { min: 30, max: null, label: "High PE (> 30)" }
-    ],
-    price_ranges: [
-      { min: 0, max: 100, label: "< ₹100" },
-      { min: 100, max: 500, label: "₹100-500" },
-      { min: 500, max: 1000, label: "₹500-1000" },
-      { min: 1000, max: null, label: "> ₹1000" }
-    ],
-    revenue_growth_ranges: [
-      { min: 0, max: 10, label: "< 10%" },
-      { min: 10, max: 25, label: "10-25%" },
-      { min: 25, max: 50, label: "25-50%" },
-      { min: 50, max: null, label: "> 50%" }
-    ],
-    roe_ranges: [
-      { min: 0, max: 10, label: "< 10%" },
-      { min: 10, max: 20, label: "10-20%" },
-      { min: 20, max: null, label: "> 20%" }
-    ]
   };
 
   const renderStockFilters = () => {
@@ -93,55 +82,61 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Market Cap Range - Hardcoded */}
+        {/* Market Cap Range - Min/Max Inputs */}
         <div>
-          <Label>Market Cap</Label>
-          <Select onValueChange={(value) => updateFilter('market_cap', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select market cap" />
-            </SelectTrigger>
-            <SelectContent>
-              {stockFilterOptions.market_cap_ranges.map((range) => (
-                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
-                  {range.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label>Market Cap (₹ Crores)</Label>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Min"
+              type="number"
+              value={(filters.market_cap as RangeFilter)?.min || ''}
+              onChange={(e) => updateRangeFilter('market_cap', 'min', e.target.value)}
+            />
+            <Input
+              placeholder="Max"
+              type="number"
+              value={(filters.market_cap as RangeFilter)?.max || ''}
+              onChange={(e) => updateRangeFilter('market_cap', 'max', e.target.value)}
+            />
+          </div>
         </div>
 
-        {/* PE Ratio Range - Hardcoded */}
+        {/* PE Ratio Range - Min/Max Inputs */}
         <div>
           <Label>PE Ratio</Label>
-          <Select onValueChange={(value) => updateFilter('pe_ratio', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select PE ratio range" />
-            </SelectTrigger>
-            <SelectContent>
-              {stockFilterOptions.pe_ratio_ranges.map((range) => (
-                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
-                  {range.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Min"
+              type="number"
+              value={(filters.pe_ratio as RangeFilter)?.min || ''}
+              onChange={(e) => updateRangeFilter('pe_ratio', 'min', e.target.value)}
+            />
+            <Input
+              placeholder="Max"
+              type="number"
+              value={(filters.pe_ratio as RangeFilter)?.max || ''}
+              onChange={(e) => updateRangeFilter('pe_ratio', 'max', e.target.value)}
+            />
+          </div>
         </div>
 
-        {/* Current Price Range - Hardcoded */}
+        {/* Current Price Range - Min/Max Inputs */}
         <div>
-          <Label>Price Range</Label>
-          <Select onValueChange={(value) => updateFilter('current_price', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select price range" />
-            </SelectTrigger>
-            <SelectContent>
-              {stockFilterOptions.price_ranges.map((range) => (
-                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
-                  {range.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label>Price Range (₹)</Label>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Min"
+              type="number"
+              value={(filters.current_price as RangeFilter)?.min || ''}
+              onChange={(e) => updateRangeFilter('current_price', 'min', e.target.value)}
+            />
+            <Input
+              placeholder="Max"
+              type="number"
+              value={(filters.current_price as RangeFilter)?.max || ''}
+              onChange={(e) => updateRangeFilter('current_price', 'max', e.target.value)}
+            />
+          </div>
         </div>
 
         {/* Sector - From API */}
@@ -161,38 +156,42 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </Select>
         </div>
 
-        {/* Revenue Growth - Hardcoded */}
+        {/* Revenue Growth - Min/Max Inputs */}
         <div>
-          <Label>Revenue Growth (YoY)</Label>
-          <Select onValueChange={(value) => updateFilter('revenue_growth_1y', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select growth range" />
-            </SelectTrigger>
-            <SelectContent>
-              {stockFilterOptions.revenue_growth_ranges.map((range) => (
-                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
-                  {range.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label>Revenue Growth (YoY %)</Label>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Min"
+              type="number"
+              value={(filters.revenue_growth_1y as RangeFilter)?.min || ''}
+              onChange={(e) => updateRangeFilter('revenue_growth_1y', 'min', e.target.value)}
+            />
+            <Input
+              placeholder="Max"
+              type="number"
+              value={(filters.revenue_growth_1y as RangeFilter)?.max || ''}
+              onChange={(e) => updateRangeFilter('revenue_growth_1y', 'max', e.target.value)}
+            />
+          </div>
         </div>
 
-        {/* ROE Range - Hardcoded */}
+        {/* ROE Range - Min/Max Inputs */}
         <div>
-          <Label>ROE</Label>
-          <Select onValueChange={(value) => updateFilter('roe', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select ROE range" />
-            </SelectTrigger>
-            <SelectContent>
-              {stockFilterOptions.roe_ranges.map((range) => (
-                <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
-                  {range.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label>ROE (%)</Label>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Min"
+              type="number"
+              value={(filters.roe as RangeFilter)?.min || ''}
+              onChange={(e) => updateRangeFilter('roe', 'min', e.target.value)}
+            />
+            <Input
+              placeholder="Max"
+              type="number"
+              value={(filters.roe as RangeFilter)?.max || ''}
+              onChange={(e) => updateRangeFilter('roe', 'max', e.target.value)}
+            />
+          </div>
         </div>
       </div>
     );
