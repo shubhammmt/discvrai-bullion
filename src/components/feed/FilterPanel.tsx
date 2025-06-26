@@ -35,20 +35,27 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
   const renderStockFilters = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {/* Market Cap */}
+      {/* Market Cap Range */}
       <div>
-        <Label htmlFor="marketCap">Market Cap</Label>
-        <Select onValueChange={(value) => updateFilter('marketCap', [value])}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select market cap" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="large">Large Cap</SelectItem>
-            <SelectItem value="mid">Mid Cap</SelectItem>
-            <SelectItem value="small">Small Cap</SelectItem>
-            <SelectItem value="micro">Micro Cap</SelectItem>
-          </SelectContent>
-        </Select>
+        <Label>Market Cap (₹ Crores)</Label>
+        <div className="flex gap-2">
+          <Input
+            placeholder="Min"
+            type="number"
+            onChange={(e) => updateFilter('market_cap', {
+              ...(filters.market_cap as RangeFilter || {}),
+              min: parseFloat(e.target.value) * 10000000 || undefined // Convert crores to actual value
+            })}
+          />
+          <Input
+            placeholder="Max"
+            type="number"
+            onChange={(e) => updateFilter('market_cap', {
+              ...(filters.market_cap as RangeFilter || {}),
+              max: parseFloat(e.target.value) * 10000000 || undefined
+            })}
+          />
+        </div>
       </div>
 
       {/* PE Ratio Range */}
@@ -58,16 +65,39 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <Input
             placeholder="Min"
             type="number"
-            onChange={(e) => updateFilter('peRatio', {
-              ...(filters.peRatio as RangeFilter || {}),
+            onChange={(e) => updateFilter('pe_ratio', {
+              ...(filters.pe_ratio as RangeFilter || {}),
               min: parseFloat(e.target.value) || undefined
             })}
           />
           <Input
             placeholder="Max"
             type="number"
-            onChange={(e) => updateFilter('peRatio', {
-              ...(filters.peRatio as RangeFilter || {}),
+            onChange={(e) => updateFilter('pe_ratio', {
+              ...(filters.pe_ratio as RangeFilter || {}),
+              max: parseFloat(e.target.value) || undefined
+            })}
+          />
+        </div>
+      </div>
+
+      {/* Current Price Range */}
+      <div>
+        <Label>Price Range (₹)</Label>
+        <div className="flex gap-2">
+          <Input
+            placeholder="Min"
+            type="number"
+            onChange={(e) => updateFilter('current_price', {
+              ...(filters.current_price as RangeFilter || {}),
+              min: parseFloat(e.target.value) || undefined
+            })}
+          />
+          <Input
+            placeholder="Max"
+            type="number"
+            onChange={(e) => updateFilter('current_price', {
+              ...(filters.current_price as RangeFilter || {}),
               max: parseFloat(e.target.value) || undefined
             })}
           />
@@ -82,83 +112,117 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             <SelectValue placeholder="Select sector" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="technology">Technology</SelectItem>
-            <SelectItem value="healthcare">Healthcare</SelectItem>
-            <SelectItem value="finance">Finance</SelectItem>
-            <SelectItem value="energy">Energy</SelectItem>
-            <SelectItem value="consumer">Consumer</SelectItem>
+            <SelectItem value="Technology">Technology</SelectItem>
+            <SelectItem value="Healthcare">Healthcare</SelectItem>
+            <SelectItem value="Finance">Finance</SelectItem>
+            <SelectItem value="Energy">Energy</SelectItem>
+            <SelectItem value="Consumer">Consumer</SelectItem>
+            <SelectItem value="Banking">Banking</SelectItem>
+            <SelectItem value="Automobile">Automobile</SelectItem>
+            <SelectItem value="Pharmaceuticals">Pharmaceuticals</SelectItem>
+            <SelectItem value="Real Estate">Real Estate</SelectItem>
+            <SelectItem value="Telecommunications">Telecommunications</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* Near 52 Week High */}
+      {/* Revenue Growth */}
       <div>
-        <Label htmlFor="near52WeekHigh">Near 52 Week High</Label>
-        <Select onValueChange={(value) => updateFilter('near52WeekHigh', value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select range" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="within5">Within 5%</SelectItem>
-            <SelectItem value="within10">Within 10%</SelectItem>
-            <SelectItem value="within15">Within 15%</SelectItem>
-            <SelectItem value="within20">Within 20%</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Near 52 Week Low */}
-      <div>
-        <Label htmlFor="near52WeekLow">Near 52 Week Low</Label>
-        <Select onValueChange={(value) => updateFilter('near52WeekLow', value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select range" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="within5">Within 5%</SelectItem>
-            <SelectItem value="within10">Within 10%</SelectItem>
-            <SelectItem value="within15">Within 15%</SelectItem>
-            <SelectItem value="within20">Within 20%</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Returns Filter */}
-      <div>
-        <Label>Returns Greater Than</Label>
+        <Label>Revenue Growth % (YoY)</Label>
         <div className="flex gap-2">
-          <Select onValueChange={(value) => updateFilter('returnsPeriod', value)}>
-            <SelectTrigger className="flex-1">
-              <SelectValue placeholder="Period" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1d">1 Day</SelectItem>
-              <SelectItem value="1w">1 Week</SelectItem>
-              <SelectItem value="1m">1 Month</SelectItem>
-              <SelectItem value="3m">3 Months</SelectItem>
-              <SelectItem value="6m">6 Months</SelectItem>
-              <SelectItem value="1y">1 Year</SelectItem>
-            </SelectContent>
-          </Select>
           <Input
-            placeholder="Returns %"
+            placeholder="Min"
             type="number"
-            className="flex-1"
-            onChange={(e) => updateFilter('returnsThreshold', parseFloat(e.target.value) || undefined)}
+            onChange={(e) => updateFilter('revenue_growth_1y', {
+              ...(filters.revenue_growth_1y as RangeFilter || {}),
+              min: parseFloat(e.target.value) || undefined
+            })}
+          />
+          <Input
+            placeholder="Max"
+            type="number"
+            onChange={(e) => updateFilter('revenue_growth_1y', {
+              ...(filters.revenue_growth_1y as RangeFilter || {}),
+              max: parseFloat(e.target.value) || undefined
+            })}
           />
         </div>
       </div>
 
-      {/* Technical Signal */}
+      {/* ROE Range */}
       <div>
-        <Label htmlFor="technicalSignal">Technical Signal</Label>
-        <Select onValueChange={(value) => updateFilter('technicalSignal', value)}>
+        <Label>ROE %</Label>
+        <div className="flex gap-2">
+          <Input
+            placeholder="Min"
+            type="number"
+            onChange={(e) => updateFilter('roe', {
+              ...(filters.roe as RangeFilter || {}),
+              min: parseFloat(e.target.value) || undefined
+            })}
+          />
+          <Input
+            placeholder="Max"
+            type="number"
+            onChange={(e) => updateFilter('roe', {
+              ...(filters.roe as RangeFilter || {}),
+              max: parseFloat(e.target.value) || undefined
+            })}
+          />
+        </div>
+      </div>
+
+      {/* Debt to Equity */}
+      <div>
+        <Label>Debt to Equity Ratio</Label>
+        <div className="flex gap-2">
+          <Input
+            placeholder="Max"
+            type="number"
+            onChange={(e) => updateFilter('debt_to_equity', {
+              max: parseFloat(e.target.value) || undefined
+            })}
+          />
+        </div>
+      </div>
+
+      {/* RSI */}
+      <div>
+        <Label>RSI (14-day)</Label>
+        <div className="flex gap-2">
+          <Input
+            placeholder="Min"
+            type="number"
+            min="0"
+            max="100"
+            onChange={(e) => updateFilter('rsi_14', {
+              ...(filters.rsi_14 as RangeFilter || {}),
+              min: parseFloat(e.target.value) || undefined
+            })}
+          />
+          <Input
+            placeholder="Max"
+            type="number"
+            min="0"
+            max="100"
+            onChange={(e) => updateFilter('rsi_14', {
+              ...(filters.rsi_14 as RangeFilter || {}),
+              max: parseFloat(e.target.value) || undefined
+            })}
+          />
+        </div>
+      </div>
+
+      {/* Growth Stock Filter */}
+      <div>
+        <Label htmlFor="isGrowthStock">Growth Stock</Label>
+        <Select onValueChange={(value) => updateFilter('is_growth_stock', value === 'true')}>
           <SelectTrigger>
-            <SelectValue placeholder="Select signal" />
+            <SelectValue placeholder="Select type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="bullish">Bullish</SelectItem>
-            <SelectItem value="bearish">Bearish</SelectItem>
+            <SelectItem value="true">Growth Stocks Only</SelectItem>
+            <SelectItem value="false">Value Stocks Only</SelectItem>
           </SelectContent>
         </Select>
       </div>
