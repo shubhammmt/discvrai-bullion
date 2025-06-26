@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import AIFeedChat from '@/components/AIFeedChat';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
 import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
@@ -15,8 +14,6 @@ import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, Autocomplete
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchParams] = useSearchParams();
-  const [currentQuery, setCurrentQuery] = useState('');
-  const [aiResults, setAiResults] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
@@ -241,41 +238,6 @@ const Feed = () => {
     return recommendations.slice(0, 6);
   };
 
-  const handleAIQuery = (query: string, context: any) => {
-    setCurrentQuery(query);
-    
-    // Handle stock search results - now handled in StockResultsTable
-    if (context.type === 'stock_search' && context.results) {
-      return;
-    }
-    
-    // Filter assets based on AI query context
-    const queryLower = query.toLowerCase();
-    let filtered = trendingAssets;
-    
-    if (queryLower.includes('safe') || queryLower.includes('dividend') || queryLower.includes('conservative')) {
-      filtered = trendingAssets.filter(asset => 
-        asset.type === 'stock' || asset.type === 'mutual-fund' || asset.type === 'bonds' || asset.type === 'fd'
-      );
-    } else if (queryLower.includes('growth') || queryLower.includes('tech')) {
-      filtered = trendingAssets.filter(asset => 
-        asset.symbol.includes('AAPL') || asset.symbol.includes('TECH') || asset.type === 'smallcase'
-      );
-    } else if (queryLower.includes('insurance') || queryLower.includes('protection')) {
-      filtered = trendingAssets.filter(asset => asset.type === 'insurance');
-    } else if (queryLower.includes('loan') || queryLower.includes('credit')) {
-      filtered = trendingAssets.filter(asset => asset.type === 'credit' || asset.type === 'credit-cards');
-    } else if (queryLower.includes('bond') || queryLower.includes('fixed')) {
-      filtered = trendingAssets.filter(asset => asset.type === 'bonds' || asset.type === 'fd');
-    }
-    
-    setAiResults(filtered.slice(0, 4));
-  };
-
-  const handleStockResults = (results: any[]) => {
-    // Stock results now handled in StockResultsTable component
-  };
-
   // Filter assets based on active filter
   const filteredAssets = activeFilter === 'all' 
     ? trendingAssets 
@@ -418,7 +380,7 @@ const Feed = () => {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Investment Discovery
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">Ask DiscvrAI anything - discover personalized opportunities</p>
+            <p className="text-gray-600 dark:text-gray-400">Discover personalized investment opportunities</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')}>
@@ -445,13 +407,6 @@ const Feed = () => {
           onSearch={handleUnifiedSearch}
           isLoading={isSearching}
           nlpAnalysis={searchResults?.nlp_analysis}
-        />
-
-        {/* AI Chat Interface with integrated Stock Results Table */}
-        <AIFeedChat 
-          onQuerySubmit={handleAIQuery}
-          onStockResults={handleStockResults}
-          userProfile={userProfile}
         />
 
         {/* Profile Enhancement Prompt */}
@@ -493,33 +448,6 @@ const Feed = () => {
                 </div>
               </CardContent>
             </Card>
-
-            {/* AI Query Results Section */}
-            {aiResults.length > 0 && (
-              <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 dark:text-white">
-                    <Brain className="w-5 h-5 text-blue-600" />
-                    Query Results
-                    <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full ml-2">
-                      "{currentQuery}"
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {aiResults.map((asset, index) => (
-                      <AIResultCard 
-                        key={`query-${asset.id}`} 
-                        asset={asset} 
-                        userQuery={currentQuery}
-                        matchScore={90 - (index * 8)}
-                      />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
 
             {/* Filter Tabs */}
             <div className="flex gap-2 overflow-x-auto">
