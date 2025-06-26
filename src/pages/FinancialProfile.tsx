@@ -125,8 +125,8 @@ const FinancialProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8">
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <div className="w-full max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -142,7 +142,7 @@ const FinancialProfile = () => {
         </div>
 
         {/* Progress */}
-        <div className="mb-6">
+        <div className="mb-8 max-w-2xl mx-auto">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-gray-600">
               Step {currentStep} of {steps.length}
@@ -156,67 +156,71 @@ const FinancialProfile = () => {
 
         {/* Error Display */}
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-md max-w-2xl mx-auto">
             <p className="text-red-600 text-sm">{error}</p>
           </div>
         )}
 
-        {/* Main Card */}
-        <Card className="mb-6 border-0 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2">
-              {steps[currentStep - 1].title}
-              {currentStep > 1 && (
-                <span className="text-sm text-green-600 font-normal">(Optional - Skip if needed)</span>
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CurrentStepComponent
-              data={profileData}
-              onDataChange={updateProfileData}
-            />
-          </CardContent>
-        </Card>
+        {/* Main Content - Full Width */}
+        <div className="w-full">
+          <Card className="mb-8 border-0 shadow-lg">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-2xl flex items-center justify-center gap-2">
+                {steps[currentStep - 1].title}
+                {currentStep > 1 && (
+                  <span className="text-sm text-green-600 font-normal">(Optional - Skip if needed)</span>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-8 pb-8">
+              <CurrentStepComponent
+                data={profileData}
+                onDataChange={updateProfileData}
+              />
+            </CardContent>
+          </Card>
+        </div>
 
-        {/* Navigation */}
-        <div className="flex justify-between">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            disabled={currentStep === 1}
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft size={16} />
-            Back
-          </Button>
-          
-          <Button
-            onClick={handleNext}
-            disabled={isLoading || !canProceed()}
-            className="flex items-center gap-2"
-          >
-            {currentStep === steps.length ? (
-              isLoading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  Calculating Score...
-                </>
+        {/* Navigation - Centered */}
+        <div className="flex justify-center">
+          <div className="flex justify-between w-full max-w-md">
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              disabled={currentStep === 1}
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft size={16} />
+              Back
+            </Button>
+            
+            <Button
+              onClick={handleNext}
+              disabled={isLoading || !canProceed()}
+              className="flex items-center gap-2"
+            >
+              {currentStep === steps.length ? (
+                isLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    Calculating Score...
+                  </>
+                ) : (
+                  'Get My Score'
+                )
               ) : (
-                'Get My Score'
-              )
-            ) : (
-              <>
-                Next
-                <ChevronRight size={16} />
-              </>
-            )}
-          </Button>
+                <>
+                  Next
+                  <ChevronRight size={16} />
+                </>
+              )}
+            </Button>
+          </div>
         </div>
 
         {/* Skip Option */}
         {currentStep > 1 && (
-          <div className="text-center mt-4">
+          <div className="text-center mt-6">
             <Button
               variant="ghost"
               onClick={handleSubmit}
@@ -229,8 +233,8 @@ const FinancialProfile = () => {
         )}
 
         {/* API Integration Note */}
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-800">
+        <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg max-w-4xl mx-auto">
+          <p className="text-sm text-blue-800 text-center">
             <strong>Progressive Saving:</strong> Your data is automatically saved as you progress. 
             The backend will manage user identification and data persistence.
           </p>
