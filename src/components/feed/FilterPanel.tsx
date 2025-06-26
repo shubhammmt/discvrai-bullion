@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
-import { AssetType, SearchFilters } from '@/utils/unifiedSearchApi';
+import { AssetType, SearchFilters, RangeFilter } from '@/utils/unifiedSearchApi';
 
 interface FilterPanelProps {
   assetType: AssetType;
@@ -60,7 +60,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             placeholder="Min"
             type="number"
             onChange={(e) => updateFilter('peRatio', {
-              ...filters.peRatio,
+              ...(filters.peRatio as RangeFilter || {}),
               min: parseFloat(e.target.value) || undefined
             })}
           />
@@ -68,7 +68,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             placeholder="Max"
             type="number"
             onChange={(e) => updateFilter('peRatio', {
-              ...filters.peRatio,
+              ...(filters.peRatio as RangeFilter || {}),
               max: parseFloat(e.target.value) || undefined
             })}
           />
@@ -100,7 +100,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             placeholder="Min"
             type="number"
             onChange={(e) => updateFilter('priceRange', {
-              ...filters.priceRange,
+              ...(filters.priceRange as RangeFilter || {}),
               min: parseFloat(e.target.value) || undefined
             })}
           />
@@ -108,7 +108,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             placeholder="Max"
             type="number"
             onChange={(e) => updateFilter('priceRange', {
-              ...filters.priceRange,
+              ...(filters.priceRange as RangeFilter || {}),
               max: parseFloat(e.target.value) || undefined
             })}
           />
@@ -193,7 +193,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             type="number"
             step="0.1"
             onChange={(e) => updateFilter('expenseRatio', {
-              ...filters.expenseRatio,
+              ...(filters.expenseRatio as RangeFilter || {}),
               min: parseFloat(e.target.value) || undefined
             })}
           />
@@ -202,7 +202,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             type="number"
             step="0.1"
             onChange={(e) => updateFilter('expenseRatio', {
-              ...filters.expenseRatio,
+              ...(filters.expenseRatio as RangeFilter || {}),
               max: parseFloat(e.target.value) || undefined
             })}
           />
@@ -217,7 +217,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             placeholder="Min"
             type="number"
             onChange={(e) => updateFilter('aum', {
-              ...filters.aum,
+              ...(filters.aum as RangeFilter || {}),
               min: parseFloat(e.target.value) || undefined
             })}
           />
@@ -225,7 +225,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             placeholder="Max"
             type="number"
             onChange={(e) => updateFilter('aum', {
-              ...filters.aum,
+              ...(filters.aum as RangeFilter || {}),
               max: parseFloat(e.target.value) || undefined
             })}
           />
@@ -252,6 +252,25 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     </div>
   );
 
+  const formatFilterValue = (value: any): string => {
+    if (Array.isArray(value)) {
+      return value.join(', ');
+    }
+    if (typeof value === 'object' && value !== null) {
+      const rangeValue = value as RangeFilter;
+      if (rangeValue.min !== undefined && rangeValue.max !== undefined) {
+        return `${rangeValue.min} - ${rangeValue.max}`;
+      }
+      if (rangeValue.min !== undefined) {
+        return `≥ ${rangeValue.min}`;
+      }
+      if (rangeValue.max !== undefined) {
+        return `≤ ${rangeValue.max}`;
+      }
+    }
+    return String(value);
+  };
+
   const getActiveFilters = () => {
     return Object.entries(filters).filter(([_, value]) => 
       value !== undefined && value !== null && 
@@ -269,9 +288,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <span className="text-sm font-medium text-gray-700">Active Filters:</span>
           {activeFilters.map(([key, value]) => (
             <Badge key={key} variant="secondary" className="flex items-center gap-1">
-              {key}: {Array.isArray(value) ? value.join(', ') : 
-                     typeof value === 'object' ? `${value.min || ''}-${value.max || ''}` : 
-                     value}
+              {key}: {formatFilterValue(value)}
               <X 
                 size={12} 
                 className="cursor-pointer" 
