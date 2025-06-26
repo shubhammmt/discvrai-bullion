@@ -417,153 +417,141 @@ const Feed = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6">
         {/* Enhanced Header with Portfolio CTA */}
-        <div className="w-full mb-4 sm:mb-6">
-          <div className="flex flex-col space-y-3 sm:space-y-4">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Investment Discovery
-              </h1>
-              <p className="text-gray-600 text-xs sm:text-sm lg:text-base">Discover personalized investment opportunities</p>
-            </div>
-            
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="text-xs sm:text-sm">
-                <TrendingUp size={14} className="mr-1" />
-                <span className="hidden xs:inline">MF Feed</span>
-                <span className="xs:hidden">MF</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="text-xs sm:text-sm">
-                <BarChart3 size={14} className="mr-1" />
-                <span className="hidden xs:inline">Portfolio</span>
-                <span className="xs:hidden">Port</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="text-xs sm:text-sm">
-                <Edit size={14} className="mr-1" />
-                <span className="hidden sm:inline">Update Portfolio</span>
-                <span className="sm:hidden">Update</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="text-xs sm:text-sm">
-                <Search size={14} className="mr-1" />
-                Research
-              </Button>
-            </div>
+        <div className="flex flex-col space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+          <div className="flex flex-col space-y-2">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Investment Discovery
+            </h1>
+            <p className="text-gray-600 text-xs sm:text-sm lg:text-base">Discover personalized investment opportunities</p>
+          </div>
+          
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="text-xs sm:text-sm">
+              <TrendingUp size={14} className="mr-1" />
+              <span className="hidden xs:inline">MF Feed</span>
+              <span className="xs:hidden">MF</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="text-xs sm:text-sm">
+              <BarChart3 size={14} className="mr-1" />
+              <span className="hidden xs:inline">Portfolio</span>
+              <span className="xs:hidden">Port</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="text-xs sm:text-sm">
+              <Edit size={14} className="mr-1" />
+              <span className="hidden sm:inline">Update Portfolio</span>
+              <span className="sm:hidden">Update</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="text-xs sm:text-sm">
+              <Search size={14} className="mr-1" />
+              Research
+            </Button>
           </div>
         </div>
 
-        {/* Unified Search Interface - Full Width */}
-        <div className="w-full mb-4 sm:mb-6">
-          <UnifiedSearchInterface
-            onSearch={handleUnifiedSearch}
-            isLoading={isSearching}
-            nlpAnalysis={searchResults?.nlp_analysis}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        </div>
+        {/* Unified Search Interface */}
+        <UnifiedSearchInterface
+          onSearch={handleUnifiedSearch}
+          isLoading={isSearching}
+          nlpAnalysis={searchResults?.nlp_analysis}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
 
-        {/* Profile Enhancement Prompt - Full Width */}
-        <div className="w-full mb-4 sm:mb-6">
-          <ProfileEnhancementPrompt userProfile={userProfile} />
-        </div>
+        {/* Profile Enhancement Prompt */}
+        <ProfileEnhancementPrompt userProfile={userProfile} />
 
-        <div className="w-full grid lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="grid lg:grid-cols-4 gap-4 lg:gap-6">
           {/* Main Feed */}
-          <div className="w-full lg:col-span-3 space-y-4 lg:space-y-6">
+          <div className="lg:col-span-3 space-y-4 lg:space-y-6">
             {/* Search Results Section */}
             {renderSearchResults()}
 
             {/* AI Recommendations Section */}
-            <div className="w-full">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="flex flex-col space-y-2 text-base sm:text-xl">
-                    <div className="flex items-center gap-2">
-                      <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
-                      <span>DiscvrAI Recommendations</span>
-                    </div>
-                    <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-600 px-2 py-1 rounded-full w-fit">
-                      <Sparkles size={8} className="inline mr-1" />
-                      Personalized for You
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 sm:p-6">
-                  <div className="space-y-3 sm:space-y-4">
-                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg">
-                      <p className="text-xs sm:text-sm text-gray-700">
-                        <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.
-                      </p>
-                    </div>
-                    {aiRecommendations.map((asset, index) => (
-                      <AIResultCard 
-                        key={`ai-rec-${asset.id}`} 
-                        asset={asset} 
-                        aiReason={asset.aiReason}
-                        matchScore={95 - (index * 3)}
-                      />
-                    ))}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader className="p-3 sm:p-6">
+                <CardTitle className="flex flex-col space-y-2 text-base sm:text-xl">
+                  <div className="flex items-center gap-2">
+                    <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+                    <span>DiscvrAI Recommendations</span>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-600 px-2 py-1 rounded-full w-fit">
+                    <Sparkles size={8} className="inline mr-1" />
+                    Personalized for You
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-3 sm:p-6">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg">
+                    <p className="text-xs sm:text-sm text-gray-700">
+                      <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.
+                    </p>
+                  </div>
+                  {aiRecommendations.map((asset, index) => (
+                    <AIResultCard 
+                      key={`ai-rec-${asset.id}`} 
+                      asset={asset} 
+                      aiReason={asset.aiReason}
+                      matchScore={95 - (index * 3)}
+                    />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Filter Tabs */}
-            <div className="w-full">
-              <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {filters.map((filter) => (
-                  <Button
-                    key={filter.id}
-                    variant={activeFilter === filter.id ? 'default' : 'outline'}
-                    onClick={() => setActiveFilter(filter.id)}
-                    className="whitespace-nowrap flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 h-8 sm:h-9"
-                    size="sm"
-                  >
-                    {filter.label}
-                  </Button>
-                ))}
-              </div>
+            <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {filters.map((filter) => (
+                <Button
+                  key={filter.id}
+                  variant={activeFilter === filter.id ? 'default' : 'outline'}
+                  onClick={() => setActiveFilter(filter.id)}
+                  className="whitespace-nowrap flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 h-8 sm:h-9"
+                  size="sm"
+                >
+                  {filter.label}
+                </Button>
+              ))}
             </div>
 
             {/* Trending Section with Enhanced Asset Cards */}
-            <div className="w-full">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="flex flex-col space-y-3">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
-                      <span className="text-base sm:text-xl">
-                        {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
-                      </span>
-                    </div>
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      onClick={() => navigate('/portfolio-update')}
-                      className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full sm:w-auto text-xs sm:text-sm"
-                    >
-                      <Edit size={12} className="mr-1" />
-                      Bulk Add to Portfolio
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 sm:p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                    {filteredAssets.map((asset) => (
-                      <EnhancedAssetCard key={asset.id} asset={asset} />
-                    ))}
-                    {filteredAssets.length === 0 && (
-                      <div className="col-span-full text-center py-8 text-gray-500">
-                        No assets found for the selected filter.
-                      </div>
-                    )}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader className="p-3 sm:p-6">
+                <CardTitle className="flex flex-col space-y-3">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                    <span className="text-base sm:text-xl">
+                      {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
+                    </span>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => navigate('/portfolio-update')}
+                    className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full sm:w-auto text-xs sm:text-sm"
+                  >
+                    <Edit size={12} className="mr-1" />
+                    Bulk Add to Portfolio
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-3 sm:p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  {filteredAssets.map((asset) => (
+                    <EnhancedAssetCard key={asset.id} asset={asset} />
+                  ))}
+                  {filteredAssets.length === 0 && (
+                    <div className="col-span-full text-center py-8 text-gray-500">
+                      No assets found for the selected filter.
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Desktop Sidebar */}
-          <div className="hidden lg:block lg:col-span-1">
+          <div className="hidden lg:block">
             <DesktopSidebar userProfile={userProfile} />
           </div>
         </div>
