@@ -316,6 +316,9 @@ const MutualFundFeed = () => {
           onQuerySubmit={(query, context) => {
             console.log('MF Query:', query, context);
           }}
+          onStockResults={(results) => {
+            console.log('Stock results received in MF Feed:', results);
+          }}
           userProfile={userProfile}
         />
 
