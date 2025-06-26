@@ -182,7 +182,16 @@ const mockStocks: StockResult[] = [
     changePercent: 2.04,
     marketCap: 2500000,
     peRatio: 25.4,
-    sector: 'Technology'
+    sector: 'Technology',
+    company_name: 'Apple Inc.',
+    current_price: 162.80,
+    price_change_percent: 2.04,
+    market_cap: 2500000,
+    pe_ratio: 25.4,
+    roe: 0.28,
+    roic: 0.22,
+    net_margin: 0.21,
+    debt_to_equity: 1.8
   },
   {
     symbol: 'MSFT',
@@ -193,7 +202,16 @@ const mockStocks: StockResult[] = [
     changePercent: -0.36,
     marketCap: 2800000,
     peRatio: 28.2,
-    sector: 'Technology'
+    sector: 'Technology',
+    company_name: 'Microsoft Corporation',
+    current_price: 342.50,
+    price_change_percent: -0.36,
+    market_cap: 2800000,
+    pe_ratio: 28.2,
+    roe: 0.35,
+    roic: 0.28,
+    net_margin: 0.32,
+    debt_to_equity: 0.7
   },
   {
     symbol: 'GOOGL',
@@ -204,7 +222,156 @@ const mockStocks: StockResult[] = [
     changePercent: 1.66,
     marketCap: 1600000,
     peRatio: 22.8,
-    sector: 'Technology'
+    sector: 'Technology',
+    company_name: 'Alphabet Inc.',
+    current_price: 128.45,
+    price_change_percent: 1.66,
+    market_cap: 1600000,
+    pe_ratio: 22.8,
+    roe: 0.18,
+    roic: 0.15,
+    net_margin: 0.19,
+    debt_to_equity: 0.3
+  },
+  {
+    symbol: 'TSLA',
+    name: 'Tesla Inc.',
+    assetType: 'stock',
+    price: 248.50,
+    change: 8.75,
+    changePercent: 3.65,
+    marketCap: 800000,
+    peRatio: 65.8,
+    sector: 'Automotive',
+    company_name: 'Tesla Inc.',
+    current_price: 248.50,
+    price_change_percent: 3.65,
+    market_cap: 800000,
+    pe_ratio: 65.8,
+    roe: 0.19,
+    roic: 0.12,
+    net_margin: 0.08,
+    debt_to_equity: 0.9
+  },
+  {
+    symbol: 'NVDA',
+    name: 'NVIDIA Corporation',
+    assetType: 'stock',
+    price: 445.20,
+    change: 12.30,
+    changePercent: 2.84,
+    marketCap: 1100000,
+    peRatio: 42.5,
+    sector: 'Technology',
+    company_name: 'NVIDIA Corporation',
+    current_price: 445.20,
+    price_change_percent: 2.84,
+    market_cap: 1100000,
+    pe_ratio: 42.5,
+    roe: 0.48,
+    roic: 0.35,
+    net_margin: 0.25,
+    debt_to_equity: 0.4
+  },
+  {
+    symbol: 'JNJ',
+    name: 'Johnson & Johnson',
+    assetType: 'stock',
+    price: 165.75,
+    change: -0.85,
+    changePercent: -0.51,
+    marketCap: 440000,
+    peRatio: 15.2,
+    sector: 'Healthcare',
+    company_name: 'Johnson & Johnson',
+    current_price: 165.75,
+    price_change_percent: -0.51,
+    market_cap: 440000,
+    pe_ratio: 15.2,
+    roe: 0.24,
+    roic: 0.18,
+    net_margin: 0.22,
+    debt_to_equity: 0.5
+  },
+  {
+    symbol: 'JPM',
+    name: 'JPMorgan Chase & Co.',
+    assetType: 'stock',
+    price: 142.35,
+    change: 1.95,
+    changePercent: 1.39,
+    marketCap: 420000,
+    peRatio: 12.8,
+    sector: 'Financial Services',
+    company_name: 'JPMorgan Chase & Co.',
+    current_price: 142.35,
+    price_change_percent: 1.39,
+    market_cap: 420000,
+    pe_ratio: 12.8,
+    roe: 0.15,
+    roic: 0.12,
+    net_margin: 0.28,
+    debt_to_equity: 1.2
+  },
+  {
+    symbol: 'PG',
+    name: 'Procter & Gamble Co.',
+    assetType: 'stock',
+    price: 158.90,
+    change: 0.45,
+    changePercent: 0.28,
+    marketCap: 380000,
+    peRatio: 24.6,
+    sector: 'Consumer Goods',
+    company_name: 'Procter & Gamble Co.',
+    current_price: 158.90,
+    price_change_percent: 0.28,
+    market_cap: 380000,
+    pe_ratio: 24.6,
+    roe: 0.31,
+    roic: 0.25,
+    net_margin: 0.21,
+    debt_to_equity: 0.6
+  },
+  {
+    symbol: 'WMT',
+    name: 'Walmart Inc.',
+    assetType: 'stock',
+    price: 152.40,
+    change: -1.15,
+    changePercent: -0.75,
+    marketCap: 415000,
+    peRatio: 26.3,
+    sector: 'Consumer Defensive',
+    company_name: 'Walmart Inc.',
+    current_price: 152.40,
+    price_change_percent: -0.75,
+    market_cap: 415000,
+    pe_ratio: 26.3,
+    roe: 0.22,
+    roic: 0.16,
+    net_margin: 0.025,
+    debt_to_equity: 0.8
+  },
+  {
+    symbol: 'V',
+    name: 'Visa Inc.',
+    assetType: 'stock',
+    price: 258.70,
+    change: 3.20,
+    changePercent: 1.25,
+    marketCap: 560000,
+    peRatio: 32.1,
+    sector: 'Financial Services',
+    company_name: 'Visa Inc.',
+    current_price: 258.70,
+    price_change_percent: 1.25,
+    market_cap: 560000,
+    pe_ratio: 32.1,
+    roe: 0.38,
+    roic: 0.28,
+    net_margin: 0.52,
+    debt_to_equity: 0.3
   }
 ];
 
@@ -330,181 +497,130 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
 // New function for stock-specific searches with proper authentication
 const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
   try {
-    if (request.searchMode === 'nlp' && request.query) {
-      // Use paginated stock query for NLP searches
-      const stockRequest: StockQueryRequest = {
-        query: request.query,
-        page: request.page,
-        page_size: request.pageSize,
-        include_charts: false
-      };
-
-      const response = await fetch('/feed/stock-query/paginated', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(stockRequest)
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-      }
-
-      const data: StockQueryResponse = await response.json();
-      
-      // Ensure we handle the response according to the documentation
-      if (!data.success) {
-        throw new Error(data.error || 'Stock query failed');
-      }
-      
-      // Transform to UnifiedSearchResponse format
-      return {
-        success: data.success,
-        data: data.data.map(stock => ({
-          symbol: stock.symbol || stock.ticker || 'N/A',
-          name: stock.company_name || stock.name || 'Unknown',
-          assetType: 'stock',
-          price: stock.current_price || stock.price,
-          changePercent: stock.price_change_percent || stock.change_percent,
-          marketCap: stock.market_cap,
-          peRatio: stock.pe_ratio,
-          sector: stock.sector,
-          ...stock
-        })),
-        total_records: data.total_records,
-        current_page: data.current_page,
-        total_pages: data.total_pages,
-        page_size: data.page_size,
-        nlp_analysis: {
-          interpreted_filters: {},
-          confidence: data.intent_analysis.confidence,
-          suggestions: data.intent_analysis.alternate_queries,
-          original_query: request.query
-        }
-      };
-    } else if (request.searchMode === 'filters' && request.filters) {
-      // Use metrics filter for advanced filter searches
-      const filters: StockMetricsFilter[] = [];
-      
-      // Convert our filter format to stock metrics format
-      Object.entries(request.filters).forEach(([key, value]) => {
-        if (value === undefined || value === null) return;
-        
-        if (typeof value === 'object' && 'min' in value && 'max' in value) {
-          // Range filter
-          const rangeValue = value as RangeFilter;
-          if (rangeValue.min !== undefined && rangeValue.max !== undefined) {
-            filters.push({
-              field: key,
-              operator: 'between',
-              value: rangeValue.min,
-              value_end: rangeValue.max
-            });
-          } else if (rangeValue.min !== undefined) {
-            filters.push({
-              field: key,
-              operator: 'gte',
-              value: rangeValue.min
-            });
-          } else if (rangeValue.max !== undefined) {
-            filters.push({
-              field: key,
-              operator: 'lte',
-              value: rangeValue.max
-            });
-          }
-        } else if (Array.isArray(value)) {
-          // Array filter (IN operator)
-          filters.push({
-            field: key,
-            operator: 'in',
-            value: value
-          });
-        } else {
-          // Exact match
-          filters.push({
-            field: key,
-            operator: 'eq',
-            value: value
-          });
-        }
-      });
-
-      const metricsRequest: StockMetricsRequest = {
-        filters,
-        page: request.page,
-        page_size: request.pageSize,
-        fields_to_return: [
-          'symbol', 'company_name', 'current_price', 'market_cap', 
-          'pe_ratio', 'sector', 'price_change_percent'
-        ]
-      };
-
-      const response = await fetch('/feed/stock-query/metrics-filter', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(metricsRequest)
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-      }
-
-      const data: StockMetricsResponse = await response.json();
-      
-      // Ensure we handle the response according to the documentation
-      if (!data.success) {
-        throw new Error(data.error || 'Metrics filter failed');
-      }
-      
-      // Transform to UnifiedSearchResponse format
-      return {
-        success: data.success,
-        data: data.data.map(stock => ({
-          symbol: stock.symbol || stock.ticker || 'N/A',
-          name: stock.company_name || stock.name || 'Unknown',
-          assetType: 'stock',
-          price: stock.current_price || stock.price,
-          changePercent: stock.price_change_percent || stock.change_percent,
-          marketCap: stock.market_cap,
-          peRatio: stock.pe_ratio,
-          sector: stock.sector,
-          ...stock
-        })),
-        total_records: data.total_records,
-        current_page: data.current_page,
-        total_pages: data.total_pages,
-        page_size: data.page_size
-      };
-    }
-    
-    throw new Error('Invalid search mode or missing parameters');
+    // For now, simulate API call delay and then fallback to mock data
+    await new Promise(resolve => setTimeout(resolve, 500));
+    throw new Error('API not available - using mock data for testing');
   } catch (error) {
-    console.error('Stock API error, falling back to mock data:', error);
+    console.log('Using mock data for testing stock search functionality');
     
-    // Fallback to mock data
-    let mockResults = mockStocks;
+    let filteredResults = [...mockStocks];
     
-    if (request.query && request.searchMode === 'nlp') {
+    // Simulate NLP query filtering
+    if (request.searchMode === 'nlp' && request.query) {
       const queryLower = request.query.toLowerCase();
-      mockResults = mockResults.filter(item => 
-        item.name.toLowerCase().includes(queryLower) ||
-        item.symbol.toLowerCase().includes(queryLower)
-      );
+      
+      // Simple keyword matching for testing
+      if (queryLower.includes('tech') || queryLower.includes('technology')) {
+        filteredResults = filteredResults.filter(stock => stock.sector === 'Technology');
+      }
+      if (queryLower.includes('healthcare') || queryLower.includes('health')) {
+        filteredResults = filteredResults.filter(stock => stock.sector === 'Healthcare');
+      }
+      if (queryLower.includes('financial') || queryLower.includes('bank')) {
+        filteredResults = filteredResults.filter(stock => stock.sector === 'Financial Services');
+      }
+      if (queryLower.includes('high pe') || queryLower.includes('pe ratio')) {
+        if (queryLower.includes('under') || queryLower.includes('below')) {
+          const peMatch = queryLower.match(/(\d+)/);
+          const peThreshold = peMatch ? parseInt(peMatch[1]) : 25;
+          filteredResults = filteredResults.filter(stock => stock.pe_ratio && stock.pe_ratio < peThreshold);
+        }
+      }
+      if (queryLower.includes('large cap') || queryLower.includes('big companies')) {
+        filteredResults = filteredResults.filter(stock => stock.market_cap && stock.market_cap > 500000);
+      }
+      if (queryLower.includes('growth') || queryLower.includes('high roe')) {
+        filteredResults = filteredResults.filter(stock => stock.roe && stock.roe > 0.2);
+      }
     }
+    
+    // Simulate advanced filter search
+    if (request.searchMode === 'filters' && request.filters) {
+      const filters = request.filters;
+      
+      if (filters.sector && Array.isArray(filters.sector)) {
+        filteredResults = filteredResults.filter(stock => 
+          filters.sector!.includes(stock.sector || '')
+        );
+      }
+      
+      if (filters.peRatio) {
+        const peFilter = filters.peRatio as any;
+        if (peFilter.min !== undefined) {
+          filteredResults = filteredResults.filter(stock => 
+            stock.pe_ratio && stock.pe_ratio >= peFilter.min
+          );
+        }
+        if (peFilter.max !== undefined) {
+          filteredResults = filteredResults.filter(stock => 
+            stock.pe_ratio && stock.pe_ratio <= peFilter.max
+          );
+        }
+      }
+      
+      if (filters.marketCap) {
+        const mcapFilter = filters.marketCap as any;
+        if (mcapFilter.min !== undefined) {
+          filteredResults = filteredResults.filter(stock => 
+            stock.market_cap && stock.market_cap >= mcapFilter.min
+          );
+        }
+        if (mcapFilter.max !== undefined) {
+          filteredResults = filteredResults.filter(stock => 
+            stock.market_cap && stock.market_cap <= mcapFilter.max
+          );
+        }
+      }
+      
+      if (filters.priceRange) {
+        const priceFilter = filters.priceRange as any;
+        if (priceFilter.min !== undefined) {
+          filteredResults = filteredResults.filter(stock => 
+            stock.current_price && stock.current_price >= priceFilter.min
+          );
+        }
+        if (priceFilter.max !== undefined) {
+          filteredResults = filteredResults.filter(stock => 
+            stock.current_price && stock.current_price <= priceFilter.max
+          );
+        }
+      }
+    }
+    
+    // Simulate pagination
+    const totalRecords = filteredResults.length;
+    const startIndex = (request.page - 1) * request.pageSize;
+    const endIndex = startIndex + request.pageSize;
+    const paginatedResults = filteredResults.slice(startIndex, endIndex);
+    
+    // Transform to match API response format
+    const transformedResults = paginatedResults.map(stock => ({
+      symbol: stock.symbol,
+      name: stock.company_name,
+      assetType: 'stock' as const,
+      price: stock.current_price,
+      changePercent: stock.price_change_percent,
+      marketCap: stock.market_cap,
+      peRatio: stock.pe_ratio,
+      sector: stock.sector,
+      ...stock
+    }));
 
     return {
       success: true,
-      data: mockResults,
-      total_records: mockResults.length,
+      data: transformedResults,
+      total_records: totalRecords,
       current_page: request.page,
-      total_pages: Math.ceil(mockResults.length / request.pageSize),
+      total_pages: Math.ceil(totalRecords / request.pageSize),
       page_size: request.pageSize,
       nlp_analysis: request.searchMode === 'nlp' && request.query ? {
         interpreted_filters: {},
         confidence: 0.85,
-        suggestions: ['Try searching for specific sectors', 'Use price range filters'],
+        suggestions: [
+          'Try "tech companies with PE under 30"',
+          'Search for "healthcare stocks with high ROE"',
+          'Find "large cap financial services"'
+        ],
         original_query: request.query
       } : undefined
     };
