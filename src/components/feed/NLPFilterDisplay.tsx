@@ -57,105 +57,94 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
   };
 
   return (
-    <div className="w-full mb-4">
-      <Card className="w-full bg-blue-50/50 border-blue-200">
-        <CardContent className="p-3 space-y-3">
-          {/* Header */}
-          <div className="flex items-start gap-2">
-            {getConfidenceIcon(confidence)}
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 text-sm leading-tight">Search Interpretation</h3>
-              <Badge variant="outline" className={`${getConfidenceColor(confidence)} text-xs mt-1 w-fit`}>
-                {Math.round(confidence * 100)}% confidence
-              </Badge>
-            </div>
-          </div>
+    <Card className="mb-4 bg-blue-50/50 border-blue-200">
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-center gap-2 mb-3">
+          {getConfidenceIcon(confidence)}
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Search Interpretation</h3>
+          <Badge variant="outline" className={`${getConfidenceColor(confidence)} text-xs flex-shrink-0`}>
+            {Math.round(confidence * 100)}% confidence
+          </Badge>
+        </div>
 
-          {/* Query Display */}
-          <div className="space-y-2 w-full">
-            <div className="bg-white/60 p-2 rounded text-xs w-full">
-              <p className="text-gray-600 break-words leading-relaxed">
-                <span className="font-medium">Your query:</span> "{original_query}"
-              </p>
-            </div>
-            <p className="text-xs text-gray-700 font-medium">
-              I understood this as:
+        <div className="mb-3 space-y-2">
+          <div className="bg-white/60 p-2 rounded text-xs sm:text-sm">
+            <p className="text-gray-600 break-words">
+              <strong>Your query:</strong> "{original_query}"
             </p>
           </div>
+          <p className="text-xs sm:text-sm text-gray-700 font-medium">
+            I understood this as:
+          </p>
+        </div>
 
-          {/* Interpreted Filters */}
-          <div className="space-y-2 w-full">
-            {Object.entries(interpreted_filters).map(([key, value]) => (
-              <div key={key} className="bg-white/40 p-2 rounded-lg w-full">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs font-medium text-gray-700 mb-1">
-                      {formatFilterName(key)}
-                    </div>
-                    <div className="text-xs text-gray-900 break-words">
-                      {formatFilterValue(key, value)}
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0 flex-shrink-0"
-                    onClick={() => onFiltersChange(interpreted_filters)}
-                  >
-                    <Edit size={10} className="text-blue-600" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Confidence Warning */}
-          {confidence < 0.7 && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-2 w-full">
-              <div className="flex items-start gap-2 mb-1">
-                <AlertCircle size={12} className="text-yellow-600 flex-shrink-0 mt-0.5" />
-                <span className="text-xs font-medium text-yellow-800 leading-tight">
-                  Low confidence - please review
-                </span>
-              </div>
-              <p className="text-xs text-yellow-700 leading-relaxed">
-                The filters might not match your intent. You can edit them or try rephrasing.
-              </p>
-            </div>
-          )}
-
-          {/* Suggestions */}
-          {suggestions.length > 0 && (
-            <div className="w-full">
-              <p className="text-xs font-medium text-gray-700 mb-2">Suggestions:</p>
-              <div className="space-y-1">
-                {suggestions.map((suggestion, index) => (
-                  <p key={index} className="text-xs text-gray-600 break-words leading-relaxed pl-2 border-l-2 border-gray-200">
-                    {suggestion}
-                  </p>
-                ))}
+        {/* Interpreted Filters */}
+        <div className="space-y-2 mb-4">
+          {Object.entries(interpreted_filters).map(([key, value]) => (
+            <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1">
+                <Badge variant="secondary" className="text-xs px-2 py-1 max-w-full">
+                  <span className="truncate">
+                    {formatFilterName(key)}: {formatFilterValue(key, value)}
+                  </span>
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 flex-shrink-0"
+                  onClick={() => onFiltersChange(interpreted_filters)}
+                >
+                  <Edit size={10} className="text-blue-600" />
+                </Button>
               </div>
             </div>
-          )}
+          ))}
+        </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-2 pt-2 border-t border-gray-200 w-full">
-            <Button onClick={onSearch} size="sm" className="w-full flex items-center justify-center gap-2 text-xs h-8">
-              <Search size={12} />
-              <span>Search with these filters</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => onFiltersChange(interpreted_filters)}
-              className="w-full text-xs h-8"
-            >
-              Edit filters manually
-            </Button>
+        {/* Confidence Warning */}
+        {confidence < 0.7 && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+            <div className="flex items-start gap-2 mb-2">
+              <AlertCircle size={14} className="text-yellow-600 flex-shrink-0 mt-0.5" />
+              <span className="text-xs sm:text-sm font-medium text-yellow-800">
+                Low confidence - please review the interpretation
+              </span>
+            </div>
+            <p className="text-xs text-yellow-700">
+              The filters above might not match your intent. You can edit them or try rephrasing your query.
+            </p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        )}
+
+        {/* Suggestions */}
+        {suggestions.length > 0 && (
+          <div className="mb-4">
+            <p className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Suggestions to improve your search:</p>
+            <div className="space-y-1 pl-3">
+              {suggestions.map((suggestion, index) => (
+                <p key={index} className="text-xs text-gray-600 break-words">• {suggestion}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <Button onClick={onSearch} size="sm" className="flex items-center justify-center gap-2 text-xs sm:text-sm">
+            <Search size={14} />
+            <span>Search with these filters</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => onFiltersChange(interpreted_filters)}
+            className="text-xs sm:text-sm"
+          >
+            Edit filters manually
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
