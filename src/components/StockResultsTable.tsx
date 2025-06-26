@@ -92,13 +92,13 @@ const StockResultsTable = ({
 
   // Mobile card view for small screens
   const MobileStockCard = ({ stock, index }: { stock: any; index: number }) => (
-    <Card key={`${stock.company_name}-${index}`} className="mb-4">
-      <CardContent className="p-4">
+    <Card key={`${stock.company_name}-${index}`} className="mb-3">
+      <CardContent className="p-3">
         <div className="flex justify-between items-start mb-3">
-          <div className="flex-1">
-            <h3 className="font-semibold text-lg">{stock.company_name}</h3>
+          <div className="flex-1 min-w-0 pr-2">
+            <h3 className="font-semibold text-sm leading-tight truncate">{stock.company_name}</h3>
             {stock.sector && (
-              <p className="text-sm text-gray-500">{stock.sector}</p>
+              <p className="text-xs text-gray-500 truncate">{stock.sector}</p>
             )}
           </div>
           <PortfolioAddModal
@@ -107,22 +107,22 @@ const StockResultsTable = ({
             assetType="stock"
             currentPrice={stock.current_price}
             trigger={
-              <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
-                <FolderPlus size={14} className="mr-1" />
+              <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 flex-shrink-0">
+                <FolderPlus size={12} className="mr-1" />
                 Add
               </Button>
             }
           />
         </div>
         
-        <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="grid grid-cols-2 gap-2 text-xs">
           {sortedKeys.slice(0, 6).map(key => (
             stock[key] !== null && stock[key] !== undefined && (
-              <div key={key} className="flex flex-col">
-                <span className="text-gray-500 text-xs font-medium">
+              <div key={key} className="flex flex-col min-w-0">
+                <span className="text-gray-500 text-xs font-medium truncate">
                   {formatFieldName(key)}
                 </span>
-                <span className="font-semibold">
+                <span className="font-semibold truncate">
                   {formatFieldValue(key, stock[key])}
                 </span>
               </div>
@@ -133,10 +133,10 @@ const StockResultsTable = ({
         <Button 
           variant="outline" 
           size="sm" 
-          className="w-full mt-3"
+          className="w-full mt-3 text-xs"
           onClick={() => {/* TODO: Navigate to stock details */}}
         >
-          <Eye size={14} className="mr-1" />
+          <Eye size={12} className="mr-1" />
           View Details
         </Button>
       </CardContent>
@@ -145,39 +145,42 @@ const StockResultsTable = ({
 
   return (
     <Card className="mb-4 bg-white/90 backdrop-blur-md border-blue-200">
-      <CardHeader className="pb-3 p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2 text-lg">
-            <span>Stock Search Results</span>
-            <span className="text-sm bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-normal w-fit">
-              "{query}" - {totalRecords} found
-            </span>
-          </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={onDismiss}
-            className="h-8 w-8 p-0 hover:bg-red-50 self-end sm:self-auto"
-          >
-            <X size={16} className="text-gray-500" />
-          </Button>
-        </div>
-        <div className="text-sm text-gray-600">
-          Showing {startResult}-{endResult} of {totalRecords} results
+      <CardHeader className="pb-3 p-3 sm:p-6">
+        <div className="flex flex-col gap-3">
+          <div className="flex items-start justify-between gap-2">
+            <CardTitle className="flex flex-col gap-2 text-base sm:text-lg min-w-0 flex-1">
+              <span className="truncate">Stock Search Results</span>
+              <div className="text-xs sm:text-sm bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-normal w-fit">
+                <span className="block sm:inline">"{query.length > 20 ? query.substring(0, 20) + '...' : query}"</span>
+                <span className="block sm:inline sm:ml-1">- {totalRecords} found</span>
+              </div>
+            </CardTitle>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={onDismiss}
+              className="h-8 w-8 p-0 hover:bg-red-50 flex-shrink-0"
+            >
+              <X size={16} className="text-gray-500" />
+            </Button>
+          </div>
+          <div className="text-xs sm:text-sm text-gray-600">
+            Showing {startResult}-{endResult} of {totalRecords} results
+          </div>
         </div>
       </CardHeader>
-      <CardContent className="p-4 sm:p-6">
+      <CardContent className="p-3 sm:p-6">
         {/* Mobile view - Cards */}
-        <div className="block sm:hidden">
-          <div className="space-y-4">
+        <div className="block md:hidden">
+          <div className="space-y-3">
             {results.map((stock, index) => (
               <MobileStockCard key={`mobile-${stock.company_name}-${index}`} stock={stock} index={index} />
             ))}
           </div>
         </div>
 
-        {/* Desktop view - Table */}
-        <div className="hidden sm:block">
+        {/* Desktop/Tablet view - Table */}
+        <div className="hidden md:block">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -237,24 +240,24 @@ const StockResultsTable = ({
         {totalPages > 1 && (
           <div className="mt-4 flex justify-center">
             <Pagination>
-              <PaginationContent className="flex-wrap">
+              <PaginationContent className="flex-wrap gap-1">
                 <PaginationItem>
                   <PaginationPrevious 
                     onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-                    className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    className={`text-xs sm:text-sm ${currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
                   />
                 </PaginationItem>
                 
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
                   let pageNum;
-                  if (totalPages <= 5) {
+                  if (totalPages <= 3) {
                     pageNum = i + 1;
-                  } else if (currentPage <= 3) {
+                  } else if (currentPage <= 2) {
                     pageNum = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i;
+                  } else if (currentPage >= totalPages - 1) {
+                    pageNum = totalPages - 2 + i;
                   } else {
-                    pageNum = currentPage - 2 + i;
+                    pageNum = currentPage - 1 + i;
                   }
                   
                   return (
@@ -262,7 +265,7 @@ const StockResultsTable = ({
                       <PaginationLink
                         onClick={() => onPageChange(pageNum)}
                         isActive={currentPage === pageNum}
-                        className="cursor-pointer"
+                        className="cursor-pointer text-xs sm:text-sm min-w-[32px] h-8"
                       >
                         {pageNum}
                       </PaginationLink>
@@ -273,7 +276,7 @@ const StockResultsTable = ({
                 <PaginationItem>
                   <PaginationNext 
                     onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-                    className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    className={`text-xs sm:text-sm ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -282,7 +285,7 @@ const StockResultsTable = ({
         )}
         
         {sortedKeys.length > 6 && (
-          <div className="mt-2 text-xs text-gray-500">
+          <div className="mt-2 text-xs text-gray-500 text-center">
             <span className="hidden sm:inline">Showing top 6 columns.</span>
             <span className="sm:hidden">Showing key metrics.</span>
             {' '}Full details available on individual stock pages.

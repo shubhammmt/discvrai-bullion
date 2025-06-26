@@ -27,8 +27,8 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
   };
 
   const getConfidenceIcon = (confidence: number) => {
-    if (confidence >= 0.7) return <CheckCircle size={16} className="text-green-600" />;
-    return <AlertCircle size={16} className="text-yellow-600" />;
+    if (confidence >= 0.7) return <CheckCircle size={14} className="text-green-600 flex-shrink-0" />;
+    return <AlertCircle size={14} className="text-yellow-600 flex-shrink-0" />;
   };
 
   const formatFilterValue = (key: string, value: any): string => {
@@ -58,32 +58,45 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
 
   return (
     <Card className="mb-4 bg-blue-50/50 border-blue-200">
-      <CardContent className="p-4">
+      <CardContent className="p-3 sm:p-4">
         <div className="flex items-center gap-2 mb-3">
           {getConfidenceIcon(confidence)}
-          <h3 className="font-semibold text-gray-900">Search Interpretation</h3>
-          <Badge variant="outline" className={getConfidenceColor(confidence)}>
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Search Interpretation</h3>
+          <Badge variant="outline" className={`${getConfidenceColor(confidence)} text-xs flex-shrink-0`}>
             {Math.round(confidence * 100)}% confidence
           </Badge>
         </div>
 
-        <div className="mb-3">
-          <p className="text-sm text-gray-600 mb-2">
-            <strong>Your query:</strong> "{original_query}"
-          </p>
-          <p className="text-sm text-gray-700">
-            <strong>I understood this as:</strong>
+        <div className="mb-3 space-y-2">
+          <div className="bg-white/60 p-2 rounded text-xs sm:text-sm">
+            <p className="text-gray-600 break-words">
+              <strong>Your query:</strong> "{original_query}"
+            </p>
+          </div>
+          <p className="text-xs sm:text-sm text-gray-700 font-medium">
+            I understood this as:
           </p>
         </div>
 
         {/* Interpreted Filters */}
         <div className="space-y-2 mb-4">
           {Object.entries(interpreted_filters).map(([key, value]) => (
-            <div key={key} className="flex items-center gap-2">
-              <Badge variant="secondary" className="flex items-center gap-1">
-                {formatFilterName(key)}: {formatFilterValue(key, value)}
-                <Edit size={12} className="cursor-pointer text-blue-600" />
-              </Badge>
+            <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1">
+                <Badge variant="secondary" className="text-xs px-2 py-1 max-w-full">
+                  <span className="truncate">
+                    {formatFilterName(key)}: {formatFilterValue(key, value)}
+                  </span>
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 flex-shrink-0"
+                  onClick={() => onFiltersChange(interpreted_filters)}
+                >
+                  <Edit size={10} className="text-blue-600" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>
@@ -91,9 +104,9 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
         {/* Confidence Warning */}
         {confidence < 0.7 && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
-            <div className="flex items-center gap-2 mb-2">
-              <AlertCircle size={16} className="text-yellow-600" />
-              <span className="text-sm font-medium text-yellow-800">
+            <div className="flex items-start gap-2 mb-2">
+              <AlertCircle size={14} className="text-yellow-600 flex-shrink-0 mt-0.5" />
+              <span className="text-xs sm:text-sm font-medium text-yellow-800">
                 Low confidence - please review the interpretation
               </span>
             </div>
@@ -106,25 +119,26 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
         {/* Suggestions */}
         {suggestions.length > 0 && (
           <div className="mb-4">
-            <p className="text-sm font-medium text-gray-700 mb-2">Suggestions to improve your search:</p>
-            <div className="space-y-1">
+            <p className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Suggestions to improve your search:</p>
+            <div className="space-y-1 pl-3">
               {suggestions.map((suggestion, index) => (
-                <p key={index} className="text-xs text-gray-600">• {suggestion}</p>
+                <p key={index} className="text-xs text-gray-600 break-words">• {suggestion}</p>
               ))}
             </div>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2">
-          <Button onClick={onSearch} size="sm" className="flex items-center gap-1">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <Button onClick={onSearch} size="sm" className="flex items-center justify-center gap-2 text-xs sm:text-sm">
             <Search size={14} />
-            Search with these filters
+            <span>Search with these filters</span>
           </Button>
           <Button 
             variant="outline" 
             size="sm"
             onClick={() => onFiltersChange(interpreted_filters)}
+            className="text-xs sm:text-sm"
           >
             Edit filters manually
           </Button>
