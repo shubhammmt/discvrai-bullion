@@ -127,18 +127,27 @@ const FinancialProfile = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="w-full max-w-7xl mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Zap className="w-8 h-8 text-blue-600" />
-            <span className="text-blue-600 font-semibold">30-Second Assessment</span>
+        {/* Compact Header */}
+        <div className="mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            {/* Left Side */}
+            <div className="flex items-center gap-3">
+              <Zap className="w-8 h-8 text-blue-600 flex-shrink-0" />
+              <div>
+                <span className="text-blue-600 font-semibold text-lg">30-Second Assessment</span>
+                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mt-1">
+                  Get Your Financial Score
+                </h1>
+              </div>
+            </div>
+            
+            {/* Right Side */}
+            <div className="lg:text-right">
+              <p className="text-gray-600 text-lg">
+                Quick financial profiling for personalized recommendations
+              </p>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Get Your Financial Score
-          </h1>
-          <p className="text-gray-600">
-            Quick financial profiling for personalized recommendations
-          </p>
         </div>
 
         {/* Progress */}
