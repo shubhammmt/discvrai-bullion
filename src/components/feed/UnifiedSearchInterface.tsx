@@ -47,7 +47,7 @@ const UnifiedSearchInterface = ({
       assetType,
       searchMode,
       page,
-      pageSize: 20, // Increased page size for better table display
+      pageSize: 20,
       ...(searchMode === 'nlp' ? { query: query.trim() } : { filters })
     };
 
@@ -62,7 +62,6 @@ const UnifiedSearchInterface = ({
 
   const handleAssetTypeChange = (newAssetType: AssetType) => {
     setAssetType(newAssetType);
-    // Filters will be cleared by useEffect
   };
 
   const assetTypes: { value: AssetType; label: string }[] = [
@@ -79,62 +78,66 @@ const UnifiedSearchInterface = ({
   ];
 
   return (
-    <Card className="mb-6 bg-white/90 backdrop-blur-md border-blue-200">
-      <CardContent className="p-6">
+    <Card className="mb-4 sm:mb-6 bg-white/90 backdrop-blur-md border-blue-200">
+      <CardContent className="p-3 sm:p-6">
         {/* Search Mode Toggle */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-4 mb-3 sm:mb-4">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Button
               variant={searchMode === 'nlp' ? 'default' : 'outline'}
               onClick={() => setSearchMode('nlp')}
               size="sm"
-              className="flex items-center gap-2"
+              className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 h-8 sm:h-9"
             >
-              <Zap size={16} />
-              NLP Search
+              <Zap size={12} sm:size={16} />
+              <span className="hidden xs:inline">NLP Search</span>
+              <span className="xs:hidden">NLP</span>
             </Button>
             <Button
               variant={searchMode === 'filters' ? 'default' : 'outline'}
               onClick={() => setSearchMode('filters')}
               size="sm"
-              className="flex items-center gap-2"
+              className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 h-8 sm:h-9"
             >
-              <Filter size={16} />
-              Advanced Filters
+              <Filter size={12} sm:size={16} />
+              <span className="hidden xs:inline">Advanced</span>
+              <span className="xs:hidden">Filters</span>
             </Button>
           </div>
         </div>
 
         {/* Asset Type Selector */}
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-sm font-medium text-gray-700">Asset Type:</span>
-          {assetTypes.map((type) => (
-            <Badge
-              key={type.value}
-              variant={assetType === type.value ? 'default' : 'outline'}
-              className="cursor-pointer"
-              onClick={() => handleAssetTypeChange(type.value)}
-            >
-              {type.label}
-            </Badge>
-          ))}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3 sm:mb-4">
+          <span className="text-xs sm:text-sm font-medium text-gray-700">Asset Type:</span>
+          <div className="flex flex-wrap gap-1 sm:gap-2">
+            {assetTypes.map((type) => (
+              <Badge
+                key={type.value}
+                variant={assetType === type.value ? 'default' : 'outline'}
+                className="cursor-pointer text-xs px-2 py-1"
+                onClick={() => handleAssetTypeChange(type.value)}
+              >
+                {type.label}
+              </Badge>
+            ))}
+          </div>
         </div>
 
         {/* Search Input for NLP Mode */}
         {searchMode === 'nlp' && (
-          <div className="relative mb-4">
+          <div className="relative mb-3 sm:mb-4">
             <Input
               placeholder={`Ask anything about ${assetType === 'mutual-fund' ? 'mutual funds' : assetType}... e.g., "Show me tech stocks with PE ratio under 20"`}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="pl-10 pr-4 h-12 text-base"
+              className="pl-8 sm:pl-10 pr-16 sm:pr-20 h-10 sm:h-12 text-sm sm:text-base"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
             <Button
               onClick={() => handleSearch()}
               disabled={!query.trim() || isLoading}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8"
+              className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 h-8 sm:h-8 px-2 sm:px-3 text-xs sm:text-sm"
               size="sm"
             >
               {isLoading ? 'Searching...' : 'Search'}
@@ -144,14 +147,14 @@ const UnifiedSearchInterface = ({
 
         {/* Quick Prompts for NLP Mode */}
         {searchMode === 'nlp' && !query && (
-          <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">Try these examples:</p>
-            <div className="flex flex-wrap gap-2">
+          <div className="mb-3 sm:mb-4">
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">Try these examples:</p>
+            <div className="flex flex-wrap gap-1 sm:gap-2">
               {quickPrompts.map((prompt, index) => (
                 <Badge
                   key={index}
                   variant="outline"
-                  className="cursor-pointer hover:bg-blue-50"
+                  className="cursor-pointer hover:bg-blue-50 text-xs px-2 py-1"
                   onClick={() => setQuery(prompt)}
                 >
                   {prompt}
