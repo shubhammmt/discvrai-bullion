@@ -306,8 +306,8 @@ export interface StockMetricsResponse {
 }
 
 // API Configuration
-const API_BASE_URL = 'https://p646lccs-8008.inc1.devtunnels.ms';
-const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
+const BASE_URL = 'https://p646lccs-8008.inc1.devtunnels.ms';
+const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
 const SESSION_ID = '0aee2f9b-b3ff-447d-bf7e-cb5318a7c550';
 
 // Helper function to get authentication headers
@@ -329,7 +329,7 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/v1/feed/unified-search`, {
+    const response = await fetch(`${BASE_URL}/api/v1/feed/unified-search`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(request)
@@ -373,7 +373,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
 
       console.log('Making Stock NLP API call with:', stockQueryRequest);
       
-      const response = await fetch(`${API_BASE_URL}/api/v1/feed/stock-query/paginated`, {
+      const response = await fetch(`${BASE_URL}/api/v1/feed/stock-query/paginated`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(stockQueryRequest)
@@ -425,7 +425,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
 
       console.log('Making Stock Metrics Filter API call with:', metricsRequest);
       
-      const response = await fetch(`${API_BASE_URL}/api/v1/feed/stock-query/metrics-filter`, {
+      const response = await fetch(`${BASE_URL}/api/v1/feed/stock-query/metrics-filter`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(metricsRequest)
@@ -499,7 +499,7 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
 
       console.log('Making Mutual Fund Metrics Filter API call with:', metricsRequest);
       
-      const response = await fetch(`${API_BASE_URL}/api/v1/feed/mutual-fund/metrics-filter`, {
+      const response = await fetch(`${BASE_URL}/api/v1/feed/mutual-fund/metrics-filter`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(metricsRequest)
@@ -680,7 +680,7 @@ export const getFilterOptions = async (): Promise<FilterOptionsResponse> => {
   try {
     console.log('Fetching filter options from API...');
     
-    const response = await fetch(`${API_BASE_URL}/api/v1/feed/filter-options`, {
+    const response = await fetch(`${BASE_URL}/api/v1/feed/filter-options`, {
       method: 'GET',
       headers: getAuthHeaders()
     });
@@ -705,7 +705,7 @@ export const getFilterOptions = async (): Promise<FilterOptionsResponse> => {
 
 export const getTopResults = async (): Promise<TopResultsResponse> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/v1/feed/top-results`, {
+    const response = await fetch(`${BASE_URL}/api/v1/feed/top-results`, {
       method: 'GET',
       headers: getAuthHeaders()
     });
@@ -743,7 +743,7 @@ export const autocompleteSearch = async (query: string, assetTypes?: AssetType[]
       params.append('assetTypes', assetTypes.join(','));
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/feed/autocomplete?${params}`, {
+    const response = await fetch(`${BASE_URL}/api/v1/feed/autocomplete?${params}`, {
       method: 'GET',
       headers: getAuthHeaders()
     });
@@ -761,6 +761,100 @@ export const autocompleteSearch = async (query: string, assetTypes?: AssetType[]
       success: false,
       data: [],
       error: 'API endpoint not available'
+    };
+  }
+};
+
+// Mixed Feed Types
+export interface MixedFeedItem {
+  _id: string;
+  mf_schcode?: number;
+  scheme_name: string;
+  amc_name: string;
+  main_category: string;
+  sub_category: string;
+  plan_type: string;
+  option_type: string;
+  scheme_status: string;
+  launch_date: string;
+  nav_price: number;
+  nav_date: string;
+  ret_1week: number;
+  ret_1month: number;
+  ret_3month: number;
+  ret_6month: number;
+  ret_1year: number;
+  ret_3year?: number;
+  ret_5year?: number;
+  ret_inception: number;
+  total_expense_ratio: number;
+  current_aum: number;
+  sip_minimum: number;
+  standard_deviation_3year: number;
+  beta_3year: number;
+  alpha_3year: number;
+  sharpe_ratio_3year: number;
+  fund_managers: Array<{
+    manager_name: string;
+    managing_since: string;
+  }>;
+  benchmark_name: string;
+  risk_level: string;
+  expense_category: string;
+  aum_category: string;
+  feed_category: string;
+}
+
+export interface MixedFeedSection {
+  section_type: string;
+  title: string;
+  subtitle: string;
+  items: MixedFeedItem[];
+  total_count: number;
+}
+
+export interface MixedFeedData {
+  feed_type: string;
+  timestamp: string;
+  sections: MixedFeedSection[];
+  market_overview: {
+    total_active_funds: number;
+    avg_market_return: number;
+    positive_return_rate: number;
+  };
+}
+
+export interface MixedFeedResponse {
+  success: boolean;
+  data?: MixedFeedData;
+  error?: string;
+}
+
+export const getMixedFeed = async (): Promise<MixedFeedResponse> => {
+  try {
+    console.log('Fetching mixed feed data...');
+    
+    const response = await fetch(`${BASE_URL}/api/v1/feed/mixed-feed`, {
+      method: 'GET',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Mixed feed response:', data);
+
+    return {
+      success: true,
+      data: data
+    };
+  } catch (error) {
+    console.error('Mixed feed API error:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to fetch mixed feed data'
     };
   }
 };

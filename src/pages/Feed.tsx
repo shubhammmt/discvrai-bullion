@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit } from 'lucide-react';
+import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit, Loader2 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
@@ -12,6 +11,7 @@ import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
+import { useMixedFeed } from '@/hooks/useMixedFeed';
 
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -21,6 +21,9 @@ const Feed = () => {
   const [currentSearchRequest, setCurrentSearchRequest] = useState<UnifiedSearchRequest | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+
+  // Use mixed feed hook
+  const { mixedFeedData, isLoading: isMixedFeedLoading, error: mixedFeedError } = useMixedFeed();
 
   // Set filter based on URL parameter
   useEffect(() => {
@@ -84,9 +87,45 @@ const Feed = () => {
     { id: 'crypto', label: 'Crypto' }
   ];
 
-  const trendingAssets = [
+  // Convert mixed feed data to trending assets format
+  const getTrendingAssetsFromMixedFeed = () => {
+    if (!mixedFeedData?.sections) return [];
+
+    const assets = [];
+    
+    // Process mutual funds section
+    const mutualFundsSection = mixedFeedData.sections.find(section => section.section_type === 'mutual_funds');
+    if (mutualFundsSection) {
+      mutualFundsSection.items.forEach(item => {
+        assets.push({
+          id: item._id,
+          name: item.scheme_name,
+          symbol: item.mf_schcode?.toString() || item._id,
+          type: 'mutual-fund',
+          price: item.nav_price,
+          change: item.ret_1month,
+          changePercent: item.ret_1month,
+          volume: `₹${item.current_aum} Cr AUM`,
+          latestEvent: item.feed_category,
+          news: `${item.ret_1year.toFixed(2)}% 1Y returns • ${item.amc_name}`,
+          routePath: `/research/mutual-fund/${item.mf_schcode || item._id}`,
+          amc_name: item.amc_name,
+          category: item.main_category,
+          expense_ratio: item.total_expense_ratio,
+          risk_level: item.risk_level
+        });
+      });
+    }
+
+    return assets;
+  };
+
+  const mixedFeedAssets = getTrendingAssetsFromMixedFeed();
+
+  // Mock data fallback (keeping some for demonstration)
+  const mockTrendingAssets = [
     {
-      id: 1,
+      id: 'mock-1',
       name: 'Apple Inc.',
       symbol: 'AAPL',
       type: 'stock',
@@ -99,7 +138,7 @@ const Feed = () => {
       routePath: '/research/stock/AAPL'
     },
     {
-      id: 2,
+      id: 'mock-2',
       name: 'HDFC Top 100 Fund',
       symbol: 'HDFC100',
       type: 'mutual-fund',
@@ -112,7 +151,7 @@ const Feed = () => {
       routePath: '/research/mutual-fund/hdfc-top-100'
     },
     {
-      id: 3,
+      id: 'mock-3',
       name: 'TechCorp IPO',
       symbol: 'TECH',
       type: 'ipo',
@@ -125,7 +164,7 @@ const Feed = () => {
       routePath: '/research/ipo/TECH'
     },
     {
-      id: 4,
+      id: 'mock-4',
       name: 'Electric Mobility Smallcase',
       symbol: 'ELEC-MOB',
       type: 'smallcase',
@@ -138,7 +177,7 @@ const Feed = () => {
       routePath: '/research/smallcase/electric-mobility'
     },
     {
-      id: 5,
+      id: 'mock-5',
       name: 'HDFC Personal Loan',
       symbol: 'HDFC-PL',
       type: 'credit',
@@ -151,7 +190,7 @@ const Feed = () => {
       routePath: '/research/credit/hdfc-personal-loan'
     },
     {
-      id: 6,
+      id: 'mock-6',
       name: 'HDFC Regalia Credit Card',
       symbol: 'HDFC-REG',
       type: 'credit-cards',
@@ -164,7 +203,7 @@ const Feed = () => {
       routePath: '/research/credit-card/hdfc-regalia'
     },
     {
-      id: 7,
+      id: 'mock-7',
       name: 'Max Life Term Plan',
       symbol: 'MAX-TERM',
       type: 'insurance',
@@ -177,7 +216,7 @@ const Feed = () => {
       routePath: '/research/insurance/max-life-term'
     },
     {
-      id: 8,
+      id: 'mock-8',
       name: 'Government Bond 2034',
       symbol: 'GOI-2034',
       type: 'bonds',
@@ -190,7 +229,7 @@ const Feed = () => {
       routePath: '/research/bond/goi-2034'
     },
     {
-      id: 9,
+      id: 'mock-9',
       name: 'HDFC Bank FD',
       symbol: 'HDFC-FD',
       type: 'fd',
@@ -204,67 +243,80 @@ const Feed = () => {
     }
   ];
 
+  // Combine mixed feed data with mock data
+  const allAssets = [...mixedFeedAssets, ...mockTrendingAssets];
+
+  // Filter assets based on active filter
+  const filteredAssets = activeFilter === 'all' 
+    ? allAssets 
+    : allAssets.filter(asset => {
+        if (activeFilter === 'mutual-funds') return asset.type === 'mutual-fund';
+        if (activeFilter === 'credit-cards') return asset.type === 'credit-cards';
+        return asset.type === activeFilter;
+      });
+
   const getAIRecommendations = () => {
+    // Use mixed feed data for recommendations if available
+    if (mixedFeedAssets.length > 0) {
+      return mixedFeedAssets.slice(0, 6).map(asset => ({
+        ...asset,
+        aiReason: `AI Selected: ${asset.risk_level} fund with ${asset.changePercent > 0 ? 'positive' : 'stable'} recent performance. 
+                  Expense ratio: ${asset.expense_ratio}%. Category: ${asset.category}.`
+      }));
+    }
+
+    // Fallback to existing logic
     const riskLevel = userProfile.riskTolerance?.toLowerCase() || 'moderate';
     const recommendations = [];
 
     // Stock recommendation
     if (riskLevel === 'conservative') {
       recommendations.push({
-        ...trendingAssets[0],
+        ...mockTrendingAssets[0],
         aiReason: `Conservative choice: Stable dividend yield (0.5%), low beta (0.8), strong cash position ₹162B, consistent revenue growth 5% YoY.`
       });
     } else {
       recommendations.push({
-        ...trendingAssets[2],
+        ...mockTrendingAssets[2],
         aiReason: `Growth opportunity: 45% revenue growth potential, expanding into AI/ML, strong management team, IPO timing favorable.`
       });
     }
 
     // Mutual Fund recommendation
     recommendations.push({
-      ...trendingAssets[1],
+      ...mockTrendingAssets[1],
       aiReason: `Diversification play: Top 100 large-cap exposure, 12% annual returns, low expense ratio 0.8%, suitable for ${riskLevel} risk profile.`
     });
 
     // Bond/FD recommendation for conservative investors
     if (riskLevel === 'conservative') {
       recommendations.push({
-        ...trendingAssets[7],
+        ...mockTrendingAssets[7],
         aiReason: `Safe debt option: Government-backed security, 7.2% annual yield, AAA rating, perfect for capital protection and steady income.`
       });
     } else {
       recommendations.push({
-        ...trendingAssets[8],
+        ...mockTrendingAssets[8],
         aiReason: `Stable returns: 7.25% assured returns, HDFC Bank reliability, flexible tenure options, good for emergency fund allocation.`
       });
     }
 
     // Insurance recommendation
     recommendations.push({
-      ...trendingAssets[6],
+      ...mockTrendingAssets[6],
       aiReason: `Protection planning: Term life coverage 50x annual income, critical illness rider, affordable premiums, tax benefits u/s 80C.`
     });
 
     // Credit recommendation
     if (userProfile.income) {
       recommendations.push({
-        ...trendingAssets[4],
+        ...mockTrendingAssets[4],
         aiReason: `Credit optimization: Interest rate 10.5% (reduced), pre-approved based on profile, flexible tenure, minimal documentation.`
       });
     }
 
     return recommendations.slice(0, 6);
   };
-
-  // Filter assets based on active filter
-  const filteredAssets = activeFilter === 'all' 
-    ? trendingAssets 
-    : trendingAssets.filter(asset => {
-        if (activeFilter === 'mutual-funds') return asset.type === 'mutual-fund';
-        if (activeFilter === 'credit-cards') return asset.type === 'credit-cards';
-        return asset.type === activeFilter;
-      });
 
   const aiRecommendations = getAIRecommendations();
 
@@ -418,6 +470,11 @@ const Feed = () => {
     );
   };
 
+  // Render mixed feed error state
+  if (mixedFeedError) {
+    console.error('Mixed feed error:', mixedFeedError);
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
@@ -479,6 +536,41 @@ const Feed = () => {
             {/* Search Results Section */}
             {renderSearchResults()}
 
+            {/* Mixed Feed Loading State */}
+            {isMixedFeedLoading && (
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-6 text-center">
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                  <p className="text-gray-600">Loading trending content...</p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Market Overview from Mixed Feed */}
+            {mixedFeedData?.market_overview && (
+              <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+                <CardHeader className="p-4">
+                  <CardTitle className="text-lg text-green-800">📊 Market Overview</CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <p className="text-2xl font-bold text-green-600">{mixedFeedData.market_overview.total_active_funds.toLocaleString()}</p>
+                      <p className="text-sm text-gray-600">Active Funds</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-blue-600">{mixedFeedData.market_overview.avg_market_return.toFixed(1)}%</p>
+                      <p className="text-sm text-gray-600">Avg Return</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-purple-600">{mixedFeedData.market_overview.positive_return_rate.toFixed(1)}%</p>
+                      <p className="text-sm text-gray-600">Positive Returns</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {/* AI Recommendations Section */}
             <div className="w-full min-w-0">
               <Card className="bg-white/70 backdrop-blur-md border-white/20">
@@ -490,7 +582,7 @@ const Feed = () => {
                     </div>
                     <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-600 px-2 py-1 rounded-full w-fit flex-shrink-0">
                       <Sparkles size={8} className="inline mr-1" />
-                      Personalized for You
+                      {mixedFeedAssets.length > 0 ? 'Live Data' : 'Personalized for You'}
                     </span>
                   </CardTitle>
                 </CardHeader>
@@ -498,7 +590,10 @@ const Feed = () => {
                   <div className="w-full space-y-3 sm:space-y-4 min-w-0">
                     <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg">
                       <p className="text-xs sm:text-sm text-gray-700 break-words overflow-wrap-anywhere">
-                        <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.
+                        <strong>Why these recommendations:</strong> {mixedFeedAssets.length > 0 
+                          ? 'Based on real-time market data and fund performance metrics from our mixed feed API.'
+                          : `Based on your ${userProfile.riskTolerance?.toLowerCase()} risk profile, preference for ${userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.`
+                        }
                       </p>
                     </div>
                     {aiRecommendations.map((asset, index) => (
@@ -542,6 +637,11 @@ const Feed = () => {
                       <span className="text-base sm:text-xl truncate">
                         {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
                       </span>
+                      {mixedFeedData && (
+                        <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">
+                          Live Data
+                        </span>
+                      )}
                     </div>
                     <Button 
                       size="sm" 
@@ -562,7 +662,14 @@ const Feed = () => {
                       ))}
                       {filteredAssets.length === 0 && (
                         <div className="col-span-full text-center py-8 text-gray-500">
-                          No assets found for the selected filter.
+                          {isMixedFeedLoading ? (
+                            <div className="flex items-center justify-center">
+                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                              Loading assets...
+                            </div>
+                          ) : (
+                            'No assets found for the selected filter.'
+                          )}
                         </div>
                       )}
                     </div>
