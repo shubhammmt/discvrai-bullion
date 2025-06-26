@@ -254,6 +254,21 @@ const mockIPOs: IPOResult[] = [
   }
 ];
 
+// Helper function to get authentication headers
+const getAuthHeaders = () => {
+  // TODO: Replace with actual authentication implementation
+  // This should include both client authentication and user session authentication
+  const clientAuth = localStorage.getItem('clientAuthToken') || '';
+  const sessionAuth = localStorage.getItem('userSessionToken') || '';
+  
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${clientAuth}`,
+    'X-Session-Token': sessionAuth,
+    // Add any other required headers as per your authentication system
+  };
+};
+
 // Updated API Functions
 export const searchAssets = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
   // If it's a stock search, use the new stock APIs
@@ -264,9 +279,7 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
   try {
     const response = await fetch('/api/v1/feed/unified-search', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(request)
     });
 
@@ -314,7 +327,7 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
   }
 };
 
-// New function for stock-specific searches
+// New function for stock-specific searches with proper authentication
 const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
   try {
     if (request.searchMode === 'nlp' && request.query) {
@@ -328,17 +341,21 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
 
       const response = await fetch('/feed/stock-query/paginated', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(stockRequest)
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
       }
 
       const data: StockQueryResponse = await response.json();
+      
+      // Ensure we handle the response according to the documentation
+      if (!data.success) {
+        throw new Error(data.error || 'Stock query failed');
+      }
       
       // Transform to UnifiedSearchResponse format
       return {
@@ -425,17 +442,21 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
 
       const response = await fetch('/feed/stock-query/metrics-filter', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(metricsRequest)
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
       }
 
       const data: StockMetricsResponse = await response.json();
+      
+      // Ensure we handle the response according to the documentation
+      if (!data.success) {
+        throw new Error(data.error || 'Metrics filter failed');
+      }
       
       // Transform to UnifiedSearchResponse format
       return {
@@ -492,7 +513,10 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
 
 export const getTopResults = async (): Promise<TopResultsResponse> => {
   try {
-    const response = await fetch('/api/v1/feed/top-results');
+    const response = await fetch('/api/v1/feed/top-results', {
+      method: 'GET',
+      headers: getAuthHeaders()
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -528,9 +552,7 @@ export const autocompleteSearch = async (query: string, assetTypes?: AssetType[]
 
     const response = await fetch(`/api/v1/feed/autocomplete?${params}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers: getAuthHeaders()
     });
 
     if (!response.ok) {
