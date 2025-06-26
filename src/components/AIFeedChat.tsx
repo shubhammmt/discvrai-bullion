@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Brain, Send, Sparkles, User, Loader2 } from 'lucide-react';
 import { queryStocks } from '@/utils/stockQueryApi';
 
@@ -13,6 +14,7 @@ interface AIFeedChatProps {
 
 const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatProps) => {
   const [query, setQuery] = useState('');
+  const [searchType, setSearchType] = useState('stock');
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<Array<{id: number, type: 'user' | 'ai', content: string, results?: any[]}>>([
     {
@@ -36,15 +38,7 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
     setIsLoading(true);
 
     try {
-      // Check if the query is likely a stock search query
-      const isStockQuery = query.toLowerCase().includes('stock') || 
-                          query.toLowerCase().includes('company') ||
-                          query.toLowerCase().includes('market cap') ||
-                          query.toLowerCase().includes('sector') ||
-                          query.toLowerCase().includes('show me') ||
-                          query.toLowerCase().includes('find');
-
-      if (isStockQuery) {
+      if (searchType === 'stock') {
         // Call the stock query API
         const stockResults = await queryStocks(query, 1, 10, false);
         
@@ -71,8 +65,26 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
           setChatHistory(prev => [...prev, aiMessage]);
           onQuerySubmit(query, { userProfile, previousQueries: chatHistory });
         }
+      } else if (searchType === 'ipo') {
+        // Placeholder for IPO API integration
+        const aiMessage = {
+          id: Date.now() + 1,
+          type: 'ai' as const,
+          content: `IPO search functionality will be available soon. For now, showing general IPO information for: "${query}"`
+        };
+        setChatHistory(prev => [...prev, aiMessage]);
+        onQuerySubmit(query, { type: 'ipo_search', userProfile, previousQueries: chatHistory });
+      } else if (searchType === 'mutual-fund') {
+        // Placeholder for Mutual Fund API integration
+        const aiMessage = {
+          id: Date.now() + 1,
+          type: 'ai' as const,
+          content: `Mutual Fund search functionality will be available soon. For now, showing general mutual fund information for: "${query}"`
+        };
+        setChatHistory(prev => [...prev, aiMessage]);
+        onQuerySubmit(query, { type: 'mutual_fund_search', userProfile, previousQueries: chatHistory });
       } else {
-        // Use existing AI response for non-stock queries
+        // Use existing AI response for other queries
         const aiResponse = generateAIResponse(query, userProfile);
         const aiMessage = {
           id: Date.now() + 1,
@@ -88,7 +100,7 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
       const errorMessage = {
         id: Date.now() + 1,
         type: 'ai' as const,
-        content: `Sorry, I encountered an error while processing your query. Let me try with my built-in knowledge instead.`
+        content: `Sorry, I encountered an error while processing your ${searchType} query. Let me try with my built-in knowledge instead.`
       };
       setChatHistory(prev => [...prev, errorMessage]);
       
@@ -151,7 +163,7 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
 
   const quickPrompts = [
     "Show me tech companies with market cap > 1B",
-    "Find dividend paying stocks",
+    "Find dividend paying stocks", 
     "Growth stocks in healthcare",
     "Best mutual funds",
     "Safe investments"
@@ -189,12 +201,22 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
           ))}
         </div>
 
-        {/* Input Form */}
+        {/* Input Form with Dropdown */}
         <form onSubmit={handleSubmit} className="flex gap-2 mb-3">
+          <Select value={searchType} onValueChange={setSearchType}>
+            <SelectTrigger className="w-32">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="stock">Stock</SelectItem>
+              <SelectItem value="ipo">IPO</SelectItem>
+              <SelectItem value="mutual-fund">Mutual Fund</SelectItem>
+            </SelectContent>
+          </Select>
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="What are you looking for today?"
+            placeholder={`Search ${searchType === 'stock' ? 'stocks' : searchType === 'ipo' ? 'IPOs' : 'mutual funds'}...`}
             className="flex-1"
             disabled={isLoading}
           />
