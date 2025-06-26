@@ -47,6 +47,37 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     onFiltersChange({});
   };
 
+  // Hardcoded stock filter options (except sectors which come from API)
+  const stockFilterOptions = {
+    market_cap_ranges: [
+      { min: 0, max: 500, label: "Small Cap (< ₹500 Cr)" },
+      { min: 500, max: 2000, label: "Mid Cap (₹500-2000 Cr)" },
+      { min: 2000, max: null, label: "Large Cap (> ₹2000 Cr)" }
+    ],
+    pe_ratio_ranges: [
+      { min: 0, max: 15, label: "Low PE (< 15)" },
+      { min: 15, max: 30, label: "Moderate PE (15-30)" },
+      { min: 30, max: null, label: "High PE (> 30)" }
+    ],
+    price_ranges: [
+      { min: 0, max: 100, label: "< ₹100" },
+      { min: 100, max: 500, label: "₹100-500" },
+      { min: 500, max: 1000, label: "₹500-1000" },
+      { min: 1000, max: null, label: "> ₹1000" }
+    ],
+    revenue_growth_ranges: [
+      { min: 0, max: 10, label: "< 10%" },
+      { min: 10, max: 25, label: "10-25%" },
+      { min: 25, max: 50, label: "25-50%" },
+      { min: 50, max: null, label: "> 50%" }
+    ],
+    roe_ranges: [
+      { min: 0, max: 10, label: "< 10%" },
+      { min: 10, max: 20, label: "10-20%" },
+      { min: 20, max: null, label: "> 20%" }
+    ]
+  };
+
   const renderStockFilters = () => {
     if (isLoadingOptions) {
       return (
@@ -62,7 +93,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Market Cap Range */}
+        {/* Market Cap Range - Hardcoded */}
         <div>
           <Label>Market Cap</Label>
           <Select onValueChange={(value) => updateFilter('market_cap', value)}>
@@ -70,7 +101,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select market cap" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.market_cap_ranges?.map((range) => (
+              {stockFilterOptions.market_cap_ranges.map((range) => (
                 <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
                   {range.label}
                 </SelectItem>
@@ -79,7 +110,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </Select>
         </div>
 
-        {/* PE Ratio Range */}
+        {/* PE Ratio Range - Hardcoded */}
         <div>
           <Label>PE Ratio</Label>
           <Select onValueChange={(value) => updateFilter('pe_ratio', value)}>
@@ -87,7 +118,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select PE ratio range" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.pe_ratio_ranges?.map((range) => (
+              {stockFilterOptions.pe_ratio_ranges.map((range) => (
                 <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
                   {range.label}
                 </SelectItem>
@@ -96,7 +127,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </Select>
         </div>
 
-        {/* Current Price Range */}
+        {/* Current Price Range - Hardcoded */}
         <div>
           <Label>Price Range</Label>
           <Select onValueChange={(value) => updateFilter('current_price', value)}>
@@ -104,7 +135,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select price range" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.price_ranges?.map((range) => (
+              {stockFilterOptions.price_ranges.map((range) => (
                 <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
                   {range.label}
                 </SelectItem>
@@ -113,7 +144,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </Select>
         </div>
 
-        {/* Sector */}
+        {/* Sector - From API */}
         <div>
           <Label htmlFor="sector">Sector</Label>
           <Select onValueChange={(value) => updateFilter('sector', [value])}>
@@ -130,7 +161,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </Select>
         </div>
 
-        {/* Revenue Growth */}
+        {/* Revenue Growth - Hardcoded */}
         <div>
           <Label>Revenue Growth (YoY)</Label>
           <Select onValueChange={(value) => updateFilter('revenue_growth_1y', value)}>
@@ -138,7 +169,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select growth range" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.revenue_growth_ranges?.map((range) => (
+              {stockFilterOptions.revenue_growth_ranges.map((range) => (
                 <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
                   {range.label}
                 </SelectItem>
@@ -147,7 +178,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </Select>
         </div>
 
-        {/* ROE Range */}
+        {/* ROE Range - Hardcoded */}
         <div>
           <Label>ROE</Label>
           <Select onValueChange={(value) => updateFilter('roe', value)}>
@@ -155,7 +186,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select ROE range" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.roe_ranges?.map((range) => (
+              {stockFilterOptions.roe_ranges.map((range) => (
                 <SelectItem key={range.label} value={JSON.stringify({min: range.min, max: range.max})}>
                   {range.label}
                 </SelectItem>
