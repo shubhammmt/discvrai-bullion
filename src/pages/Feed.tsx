@@ -15,6 +15,7 @@ const Feed = () => {
   const [searchParams] = useSearchParams();
   const [currentQuery, setCurrentQuery] = useState('');
   const [aiResults, setAiResults] = useState<any[]>([]);
+  const [stockQueryResults, setStockQueryResults] = useState<any[]>([]);
   const navigate = useNavigate();
 
   // Set filter based on URL parameter
@@ -220,6 +221,13 @@ const Feed = () => {
 
   const handleAIQuery = (query: string, context: any) => {
     setCurrentQuery(query);
+    
+    // Handle stock search results
+    if (context.type === 'stock_search' && context.results) {
+      setStockQueryResults(context.results);
+      return;
+    }
+    
     // Filter assets based on AI query context
     const queryLower = query.toLowerCase();
     let filtered = trendingAssets;
@@ -241,6 +249,10 @@ const Feed = () => {
     }
     
     setAiResults(filtered.slice(0, 4));
+  };
+
+  const handleStockResults = (results: any[]) => {
+    setStockQueryResults(results);
   };
 
   // Filter assets based on active filter
@@ -303,6 +315,59 @@ const Feed = () => {
     </div>
   );
 
+  // Convert stock query results to asset cards
+  const StockResultCard = ({ stock }: { stock: any }) => (
+    <div className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
+      <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/stock/${stock.symbol}`)}>
+        <div className="flex items-center gap-3 mb-2">
+          <h3 className="font-semibold text-gray-900">{stock.name}</h3>
+          <span className="text-sm text-gray-600">{stock.symbol}</span>
+          {stock.sector && (
+            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+              {stock.sector}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-lg font-bold text-gray-900">
+              ${stock.price?.toFixed(2) || 'N/A'}
+            </p>
+            {stock.changePercent !== undefined && (
+              <p className={`text-sm ${stock.changePercent > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {stock.changePercent > 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
+              </p>
+            )}
+          </div>
+          <div className="text-right">
+            {stock.marketCap && (
+              <p className="text-sm text-gray-600">
+                Cap: ${(stock.marketCap / 1000000000).toFixed(1)}B
+              </p>
+            )}
+            {stock.description && (
+              <p className="text-xs text-gray-500 max-w-xs truncate">{stock.description}</p>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="ml-4 flex items-center gap-2">
+        <PortfolioAddModal
+          assetName={stock.name}
+          assetSymbol={stock.symbol}
+          assetType="stock"
+          currentPrice={stock.price}
+          trigger={
+            <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
+              <FolderPlus size={14} className="mr-1" />
+              Add
+            </Button>
+          }
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
@@ -337,6 +402,7 @@ const Feed = () => {
         {/* AI Chat Interface */}
         <AIFeedChat 
           onQuerySubmit={handleAIQuery}
+          onStockResults={handleStockResults}
           userProfile={userProfile}
         />
 
@@ -346,6 +412,28 @@ const Feed = () => {
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Main Feed */}
           <div className="lg:col-span-3 space-y-6">
+            {/* Stock Query Results Section */}
+            {stockQueryResults.length > 0 && (
+              <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 dark:text-white">
+                    <Brain className="w-5 h-5 text-purple-600" />
+                    Stock Search Results
+                    <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
+                      "{currentQuery}"
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {stockQueryResults.map((stock, index) => (
+                      <StockResultCard key={`stock-${stock.symbol}-${index}`} stock={stock} />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {/* AI Recommendations Section - First */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
               <CardHeader>

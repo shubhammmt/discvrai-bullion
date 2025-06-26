@@ -2,26 +2,29 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Brain, Send, Sparkles, User } from 'lucide-react';
+import { Brain, Send, Sparkles, User, Loader2 } from 'lucide-react';
+import { queryStocks } from '@/utils/stockQueryApi';
 
 interface AIFeedChatProps {
   onQuerySubmit: (query: string, context: any) => void;
+  onStockResults: (results: any[]) => void;
   userProfile: any;
 }
 
-const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
+const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatProps) => {
   const [query, setQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<Array<{id: number, type: 'user' | 'ai', content: string, results?: any[]}>>([
     {
       id: 1,
       type: 'ai',
-      content: `Hi! I'm **DiscvrAI**. Ask me anything about investments - stocks, mutual funds, bonds, loans, or insurance.`
+      content: `Hi! I'm **DiscvrAI**. Ask me anything about investments - stocks, mutual funds, bonds, loans, or insurance. I can search for specific stocks based on your criteria!`
     }
   ]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) return;
+    if (!query.trim() || isLoading) return;
 
     const userMessage = {
       id: Date.now(),
@@ -29,17 +32,80 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
       content: query
     };
 
-    const aiResponse = generateAIResponse(query, userProfile);
-    const aiMessage = {
-      id: Date.now() + 1,
-      type: 'ai' as const,
-      content: aiResponse.content,
-      results: aiResponse.results
-    };
+    setChatHistory(prev => [...prev, userMessage]);
+    setIsLoading(true);
 
-    setChatHistory(prev => [...prev, userMessage, aiMessage]);
-    onQuerySubmit(query, { userProfile, previousQueries: chatHistory });
-    setQuery('');
+    try {
+      // Check if the query is likely a stock search query
+      const isStockQuery = query.toLowerCase().includes('stock') || 
+                          query.toLowerCase().includes('company') ||
+                          query.toLowerCase().includes('market cap') ||
+                          query.toLowerCase().includes('sector') ||
+                          query.toLowerCase().includes('show me') ||
+                          query.toLowerCase().includes('find');
+
+      if (isStockQuery) {
+        // Call the stock query API
+        const stockResults = await queryStocks(query, 1, 10, false);
+        
+        if (stockResults.success && stockResults.data.results.length > 0) {
+          const aiMessage = {
+            id: Date.now() + 1,
+            type: 'ai' as const,
+            content: `Found ${stockResults.data.results.length} stocks matching your query: "${query}"`,
+            results: stockResults.data.results
+          };
+
+          setChatHistory(prev => [...prev, aiMessage]);
+          onStockResults(stockResults.data.results);
+          onQuerySubmit(query, { type: 'stock_search', results: stockResults.data.results });
+        } else {
+          // Fallback to existing AI response
+          const aiResponse = generateAIResponse(query, userProfile);
+          const aiMessage = {
+            id: Date.now() + 1,
+            type: 'ai' as const,
+            content: aiResponse.content,
+            results: aiResponse.results
+          };
+          setChatHistory(prev => [...prev, aiMessage]);
+          onQuerySubmit(query, { userProfile, previousQueries: chatHistory });
+        }
+      } else {
+        // Use existing AI response for non-stock queries
+        const aiResponse = generateAIResponse(query, userProfile);
+        const aiMessage = {
+          id: Date.now() + 1,
+          type: 'ai' as const,
+          content: aiResponse.content,
+          results: aiResponse.results
+        };
+        setChatHistory(prev => [...prev, aiMessage]);
+        onQuerySubmit(query, { userProfile, previousQueries: chatHistory });
+      }
+    } catch (error) {
+      console.error('Error processing query:', error);
+      const errorMessage = {
+        id: Date.now() + 1,
+        type: 'ai' as const,
+        content: `Sorry, I encountered an error while processing your query. Let me try with my built-in knowledge instead.`
+      };
+      setChatHistory(prev => [...prev, errorMessage]);
+      
+      // Fallback to existing AI response
+      const aiResponse = generateAIResponse(query, userProfile);
+      const aiMessage = {
+        id: Date.now() + 2,
+        type: 'ai' as const,
+        content: aiResponse.content,
+        results: aiResponse.results
+      };
+      setChatHistory(prev => [...prev, aiMessage]);
+      onQuerySubmit(query, { userProfile, previousQueries: chatHistory });
+    } finally {
+      setIsLoading(false);
+      setQuery('');
+    }
   };
 
   const generateAIResponse = (userQuery: string, profile: any) => {
@@ -84,11 +150,11 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
   };
 
   const quickPrompts = [
-    "Safe investments",
-    "Growth stocks",
+    "Show me tech companies with market cap > 1B",
+    "Find dividend paying stocks",
+    "Growth stocks in healthcare",
     "Best mutual funds",
-    "Fixed deposits",
-    "Personal loans"
+    "Safe investments"
   ];
 
   return (
@@ -130,9 +196,10 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="What are you looking for today?"
             className="flex-1"
+            disabled={isLoading}
           />
-          <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600">
-            <Send size={16} />
+          <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600" disabled={isLoading}>
+            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
           </Button>
         </form>
 
@@ -143,6 +210,7 @@ const AIFeedChat = ({ onQuerySubmit, userProfile }: AIFeedChatProps) => {
               key={index}
               onClick={() => setQuery(prompt)}
               className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-full transition-colors"
+              disabled={isLoading}
             >
               {prompt}
             </button>
