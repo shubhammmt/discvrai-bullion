@@ -9,6 +9,7 @@ import AssetCard from '@/components/AssetCard';
 import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
 import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
+import StockResultCard from '@/components/StockResultCard';
 
 const Feed = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -44,7 +45,6 @@ const Feed = () => {
     { id: 'crypto', label: 'Crypto' }
   ];
 
-  // Enhanced trending assets with bonds and FDs
   const trendingAssets = [
     {
       id: 1,
@@ -315,84 +315,6 @@ const Feed = () => {
     </div>
   );
 
-  // Convert stock query results to asset cards with enhanced data
-  const StockResultCard = ({ stock }: { stock: any }) => (
-    <div className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-      <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/stock/${stock.company_name}`)}>
-        <div className="flex items-center gap-3 mb-2">
-          <h3 className="font-semibold text-gray-900">{stock.company_name}</h3>
-          {stock.sector && (
-            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-              {stock.sector}
-            </span>
-          )}
-          {stock.is_growth_stock && (
-            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-              Growth
-            </span>
-          )}
-        </div>
-        
-        <div className="grid grid-cols-3 gap-4 mb-2">
-          <div>
-            <p className="text-lg font-bold text-gray-900">
-              ₹{stock.current_price?.toFixed(2) || 'N/A'}
-            </p>
-            {stock.price_momentum_3m !== undefined && (
-              <p className={`text-sm ${stock.price_momentum_3m > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {stock.price_momentum_3m > 0 ? '+' : ''}{(stock.price_momentum_3m * 100).toFixed(2)}% (3M)
-              </p>
-            )}
-          </div>
-          
-          <div className="text-center">
-            <p className="text-sm text-gray-600">Market Cap</p>
-            <p className="font-medium">₹{(stock.market_cap / 10000000).toFixed(0)}Cr</p>
-          </div>
-          
-          <div className="text-right">
-            <p className="text-sm text-gray-600">P/E Ratio</p>
-            <p className="font-medium">{stock.pe_ratio?.toFixed(1) || 'N/A'}</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-4 gap-2 text-xs text-gray-600">
-          <div>
-            <span className="block">ROE</span>
-            <span className="font-medium text-gray-900">{(stock.roe * 100).toFixed(1)}%</span>
-          </div>
-          <div>
-            <span className="block">ROIC</span>
-            <span className="font-medium text-gray-900">{(stock.roic * 100).toFixed(1)}%</span>
-          </div>
-          <div>
-            <span className="block">Net Margin</span>
-            <span className="font-medium text-gray-900">{(stock.net_margin * 100).toFixed(1)}%</span>
-          </div>
-          <div>
-            <span className="block">D/E</span>
-            <span className="font-medium text-gray-900">{stock.debt_to_equity?.toFixed(2) || '0.00'}</span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="ml-4 flex items-center gap-2">
-        <PortfolioAddModal
-          assetName={stock.company_name}
-          assetSymbol={stock.company_name}
-          assetType="stock"
-          currentPrice={stock.current_price}
-          trigger={
-            <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
-              <FolderPlus size={14} className="mr-1" />
-              Add
-            </Button>
-          }
-        />
-      </div>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto p-4">
@@ -452,7 +374,7 @@ const Feed = () => {
                 <CardContent>
                   <div className="space-y-4">
                     {stockQueryResults.map((stock, index) => (
-                      <StockResultCard key={`stock-${stock.symbol}-${index}`} stock={stock} />
+                      <StockResultCard key={`stock-${stock.company_name}-${index}`} stock={stock} />
                     ))}
                   </div>
                 </CardContent>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Brain, Send, Sparkles, User, Loader2 } from 'lucide-react';
+import { Brain } from 'lucide-react';
 import { queryStocks } from '@/utils/stockQueryApi';
+import ChatHistory from '@/components/ChatHistory';
+import SearchForm from '@/components/SearchForm';
+import QuickPrompts from '@/components/QuickPrompts';
 
 interface AIFeedChatProps {
   onQuerySubmit: (query: string, context: any) => void;
@@ -12,11 +12,18 @@ interface AIFeedChatProps {
   userProfile: any;
 }
 
+interface ChatMessage {
+  id: number;
+  type: 'user' | 'ai';
+  content: string;
+  results?: any[];
+}
+
 const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatProps) => {
   const [query, setQuery] = useState('');
   const [searchType, setSearchType] = useState('stock');
   const [isLoading, setIsLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState<Array<{id: number, type: 'user' | 'ai', content: string, results?: any[]}>>([
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       id: 1,
       type: 'ai',
@@ -24,13 +31,21 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
     }
   ]);
 
+  const quickPrompts = [
+    "Show me tech companies with market cap > 1B",
+    "Find dividend paying stocks", 
+    "Growth stocks in healthcare",
+    "Best mutual funds",
+    "Safe investments"
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim() || isLoading) return;
 
-    const userMessage = {
+    const userMessage: ChatMessage = {
       id: Date.now(),
-      type: 'user' as const,
+      type: 'user',
       content: query
     };
 
@@ -43,9 +58,9 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
         const stockResults = await queryStocks(query, 1, 10, false);
         
         if (stockResults.success && stockResults.data.length > 0) {
-          const aiMessage = {
+          const aiMessage: ChatMessage = {
             id: Date.now() + 1,
-            type: 'ai' as const,
+            type: 'ai',
             content: `${stockResults.intent_analysis.communication_message}\n\nFound ${stockResults.data.length} stocks matching your query: "${query}"\n\n**Analysis Summary:**\n- Intent: ${stockResults.intent_analysis.intent}\n- Confidence: ${(stockResults.intent_analysis.confidence * 100).toFixed(0)}%\n- ${stockResults.intent_analysis.confidence_reasoning}`,
             results: stockResults.data
           };
@@ -61,9 +76,9 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
         } else {
           // Fallback to existing AI response
           const aiResponse = generateAIResponse(query, userProfile);
-          const aiMessage = {
+          const aiMessage: ChatMessage = {
             id: Date.now() + 1,
-            type: 'ai' as const,
+            type: 'ai',
             content: aiResponse.content,
             results: aiResponse.results
           };
@@ -72,18 +87,18 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
         }
       } else if (searchType === 'ipo') {
         // Placeholder for IPO API integration
-        const aiMessage = {
+        const aiMessage: ChatMessage = {
           id: Date.now() + 1,
-          type: 'ai' as const,
+          type: 'ai',
           content: `IPO search functionality will be available soon. For now, showing general IPO information for: "${query}"`
         };
         setChatHistory(prev => [...prev, aiMessage]);
         onQuerySubmit(query, { type: 'ipo_search', userProfile, previousQueries: chatHistory });
       } else if (searchType === 'mutual-fund') {
         // Placeholder for Mutual Fund API integration
-        const aiMessage = {
+        const aiMessage: ChatMessage = {
           id: Date.now() + 1,
-          type: 'ai' as const,
+          type: 'ai',
           content: `Mutual Fund search functionality will be available soon. For now, showing general mutual fund information for: "${query}"`
         };
         setChatHistory(prev => [...prev, aiMessage]);
@@ -91,9 +106,9 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
       } else {
         // Use existing AI response for other queries
         const aiResponse = generateAIResponse(query, userProfile);
-        const aiMessage = {
+        const aiMessage: ChatMessage = {
           id: Date.now() + 1,
-          type: 'ai' as const,
+          type: 'ai',
           content: aiResponse.content,
           results: aiResponse.results
         };
@@ -102,18 +117,18 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
       }
     } catch (error) {
       console.error('Error processing query:', error);
-      const errorMessage = {
+      const errorMessage: ChatMessage = {
         id: Date.now() + 1,
-        type: 'ai' as const,
+        type: 'ai',
         content: `Sorry, I encountered an error while processing your ${searchType} query. Let me try with my built-in knowledge instead.`
       };
       setChatHistory(prev => [...prev, errorMessage]);
       
       // Fallback to existing AI response
       const aiResponse = generateAIResponse(query, userProfile);
-      const aiMessage = {
+      const aiMessage: ChatMessage = {
         id: Date.now() + 2,
-        type: 'ai' as const,
+        type: 'ai',
         content: aiResponse.content,
         results: aiResponse.results
       };
@@ -166,18 +181,10 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
     }
   };
 
-  const quickPrompts = [
-    "Show me tech companies with market cap > 1B",
-    "Find dividend paying stocks", 
-    "Growth stocks in healthcare",
-    "Best mutual funds",
-    "Safe investments"
-  ];
-
   return (
     <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
       <CardContent className="p-4">
-        {/* Simplified AI Branding */}
+        {/* AI Branding */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
             <Brain className="w-5 h-5 text-white" />
@@ -190,64 +197,25 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
           </div>
         </div>
 
-        {/* Simplified Chat History */}
-        <div className="max-h-32 overflow-y-auto space-y-2 mb-4 bg-white/50 rounded-lg p-3">
-          {chatHistory.slice(-2).map((message) => (
-            <div
-              key={message.id}
-              className={`${
-                message.type === 'user'
-                  ? 'ml-6 bg-blue-100 text-blue-900'
-                  : 'mr-6 bg-white text-gray-900'
-              } p-2 rounded-lg text-sm`}
-            >
-              <div dangerouslySetInnerHTML={{ __html: message.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-            </div>
-          ))}
-        </div>
+        {/* Chat History */}
+        <ChatHistory messages={chatHistory} />
 
-        {/* Merged Search Bar with Dropdown */}
-        <form onSubmit={handleSubmit} className="flex gap-2 mb-3">
-          <div className="flex-1 relative">
-            <div className="flex items-center border border-input rounded-md bg-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-              <Select value={searchType} onValueChange={setSearchType}>
-                <SelectTrigger className="w-28 border-0 bg-transparent focus:ring-0 focus:ring-offset-0 shadow-none">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-white border shadow-lg z-50">
-                  <SelectItem value="stock">Stock</SelectItem>
-                  <SelectItem value="ipo">IPO</SelectItem>
-                  <SelectItem value="mutual-fund">Mutual Fund</SelectItem>
-                </SelectContent>
-              </Select>
-              <div className="h-6 w-px bg-border mx-1"></div>
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={`Search ${searchType === 'stock' ? 'stocks' : searchType === 'ipo' ? 'IPOs' : 'mutual funds'}...`}
-                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none flex-1"
-                disabled={isLoading}
-              />
-            </div>
-          </div>
-          <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600" disabled={isLoading}>
-            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-          </Button>
-        </form>
+        {/* Search Form */}
+        <SearchForm
+          query={query}
+          setQuery={setQuery}
+          searchType={searchType}
+          setSearchType={setSearchType}
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+        />
 
         {/* Quick Prompts */}
-        <div className="flex flex-wrap gap-2">
-          {quickPrompts.map((prompt, index) => (
-            <button
-              key={index}
-              onClick={() => setQuery(prompt)}
-              className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-full transition-colors"
-              disabled={isLoading}
-            >
-              {prompt}
-            </button>
-          ))}
-        </div>
+        <QuickPrompts
+          prompts={quickPrompts}
+          onPromptClick={setQuery}
+          isLoading={isLoading}
+        />
       </CardContent>
     </Card>
   );
