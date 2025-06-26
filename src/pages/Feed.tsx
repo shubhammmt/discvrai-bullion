@@ -9,6 +9,7 @@ import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
 import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
+import StockResultsTable from '@/components/StockResultsTable';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 
 const Feed = () => {
@@ -16,6 +17,8 @@ const Feed = () => {
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [currentSearchRequest, setCurrentSearchRequest] = useState<UnifiedSearchRequest | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   // Set filter based on URL parameter
@@ -31,6 +34,9 @@ const Feed = () => {
 
   const handleUnifiedSearch = async (searchRequest: UnifiedSearchRequest) => {
     setIsSearching(true);
+    setCurrentSearchRequest(searchRequest);
+    setCurrentPage(searchRequest.page);
+    
     try {
       const response = await searchAssets(searchRequest);
       setSearchResults(response);
@@ -39,6 +45,23 @@ const Feed = () => {
     } finally {
       setIsSearching(false);
     }
+  };
+
+  const handlePageChange = async (page: number) => {
+    if (!currentSearchRequest) return;
+    
+    const newSearchRequest = {
+      ...currentSearchRequest,
+      page
+    };
+    
+    await handleUnifiedSearch(newSearchRequest);
+  };
+
+  const handleDismissResults = () => {
+    setSearchResults(null);
+    setCurrentSearchRequest(null);
+    setCurrentPage(1);
   };
 
   const handleAutocompleteSelect = (result: AutocompleteResult) => {
@@ -321,6 +344,24 @@ const Feed = () => {
       );
     }
 
+    // Use StockResultsTable for stock results, fallback to card display for other asset types
+    if (currentSearchRequest?.assetType === 'stock') {
+      return (
+        <StockResultsTable
+          results={searchResults.data}
+          query={currentSearchRequest.query || 'Advanced Filter Search'}
+          onDismiss={handleDismissResults}
+          totalRecords={searchResults.total_records}
+          currentPage={searchResults.current_page}
+          totalPages={searchResults.total_pages}
+          pageSize={searchResults.page_size}
+          onPageChange={handlePageChange}
+          isLoading={isSearching}
+        />
+      );
+    }
+
+    // Fallback card display for other asset types
     return (
       <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
         <CardHeader>
@@ -407,6 +448,8 @@ const Feed = () => {
           onSearch={handleUnifiedSearch}
           isLoading={isSearching}
           nlpAnalysis={searchResults?.nlp_analysis}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
         />
 
         {/* Profile Enhancement Prompt */}

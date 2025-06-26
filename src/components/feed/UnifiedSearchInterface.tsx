@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,9 +18,17 @@ interface UnifiedSearchInterfaceProps {
     suggestions: string[];
     original_query: string;
   };
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
-const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSearchInterfaceProps) => {
+const UnifiedSearchInterface = ({ 
+  onSearch, 
+  isLoading, 
+  nlpAnalysis,
+  currentPage = 1,
+  onPageChange
+}: UnifiedSearchInterfaceProps) => {
   const [searchMode, setSearchMode] = useState<SearchMode>('nlp');
   const [assetType, setAssetType] = useState<AssetType>('stock');
   const [query, setQuery] = useState('');
@@ -31,14 +40,14 @@ const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSea
     setFilters({});
   }, [assetType]);
 
-  const handleSearch = () => {
+  const handleSearch = (page: number = 1) => {
     if (searchMode === 'nlp' && !query.trim()) return;
     
     const searchRequest: UnifiedSearchRequest = {
       assetType,
       searchMode,
-      page: 1,
-      pageSize: 10,
+      page,
+      pageSize: 20, // Increased page size for better table display
       ...(searchMode === 'nlp' ? { query: query.trim() } : { filters })
     };
 
@@ -123,7 +132,7 @@ const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSea
             />
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <Button
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
               disabled={!query.trim() || isLoading}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8"
               size="sm"
@@ -167,7 +176,7 @@ const UnifiedSearchInterface = ({ onSearch, isLoading, nlpAnalysis }: UnifiedSea
             assetType={assetType}
             filters={filters}
             onFiltersChange={setFilters}
-            onSearch={handleSearch}
+            onSearch={() => handleSearch()}
             isLoading={isLoading}
           />
         )}
