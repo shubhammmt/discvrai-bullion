@@ -42,17 +42,22 @@ const AIFeedChat = ({ onQuerySubmit, onStockResults, userProfile }: AIFeedChatPr
         // Call the stock query API
         const stockResults = await queryStocks(query, 1, 10, false);
         
-        if (stockResults.success && stockResults.data.results.length > 0) {
+        if (stockResults.success && stockResults.data.length > 0) {
           const aiMessage = {
             id: Date.now() + 1,
             type: 'ai' as const,
-            content: `Found ${stockResults.data.results.length} stocks matching your query: "${query}"`,
-            results: stockResults.data.results
+            content: `${stockResults.intent_analysis.communication_message}\n\nFound ${stockResults.data.length} stocks matching your query: "${query}"\n\n**Analysis Summary:**\n- Intent: ${stockResults.intent_analysis.intent}\n- Confidence: ${(stockResults.intent_analysis.confidence * 100).toFixed(0)}%\n- ${stockResults.intent_analysis.confidence_reasoning}`,
+            results: stockResults.data
           };
 
           setChatHistory(prev => [...prev, aiMessage]);
-          onStockResults(stockResults.data.results);
-          onQuerySubmit(query, { type: 'stock_search', results: stockResults.data.results });
+          onStockResults(stockResults.data);
+          onQuerySubmit(query, { 
+            type: 'stock_search', 
+            results: stockResults.data,
+            intent_analysis: stockResults.intent_analysis,
+            total_records: stockResults.total_records
+          });
         } else {
           // Fallback to existing AI response
           const aiResponse = generateAIResponse(query, userProfile);

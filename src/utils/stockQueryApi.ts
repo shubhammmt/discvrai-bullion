@@ -9,26 +9,51 @@ export interface StockQueryRequest {
   include_charts: boolean;
 }
 
+export interface StockData {
+  company_name: string;
+  competitive_position_score: number;
+  current_price: number;
+  debt_to_equity: number;
+  eps_growth_1y: number;
+  is_growth_stock: boolean;
+  market_cap: number;
+  market_cap_rank_sector: number;
+  net_margin: number;
+  operating_margin: number;
+  pe_ratio: number;
+  price_momentum_3m: number;
+  revenue_growth_1y: number;
+  revenue_rank_sector: number;
+  roe: number;
+  roic: number;
+  rsi_14: number;
+  sector: string;
+  technical_score_composite: number;
+}
+
+export interface IntentAnalysis {
+  intent: string;
+  confidence: number;
+  confidence_reasoning: string;
+  processing_path: string;
+  communication_message: string;
+  optimization_summary: string;
+  chart_suggestions: any;
+  alternate_queries: string[];
+  transparency: any;
+}
+
 export interface StockQueryResponse {
   success: boolean;
-  data: {
-    results: Array<{
-      symbol: string;
-      name: string;
-      price: number;
-      change: number;
-      changePercent: number;
-      marketCap?: number;
-      volume?: string;
-      sector?: string;
-      description?: string;
-    }>;
-    total: number;
-    page: number;
-    page_size: number;
-    has_next: boolean;
-  };
-  message?: string;
+  data: StockData[];
+  total_records: number;
+  total_pages: number;
+  current_page: number;
+  page_size: number;
+  intent_analysis: IntentAnalysis;
+  execution_path: string;
+  processing_time_ms: number;
+  error: string | null;
 }
 
 export const queryStocks = async (
