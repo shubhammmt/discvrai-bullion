@@ -836,7 +836,7 @@ export const getMixedFeed = async (): Promise<MixedFeedResponse> => {
     
     const response = await fetch(`${BASE_URL}/api/v1/feed/mixed-feed`, {
       method: 'GET',
-      headers,
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
