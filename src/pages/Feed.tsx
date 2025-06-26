@@ -188,7 +188,6 @@ const Feed = () => {
     }
   ];
 
-  // Enhanced AI recommendations for multiple asset types
   const getAIRecommendations = () => {
     const riskLevel = userProfile.riskTolerance?.toLowerCase() || 'moderate';
     const recommendations = [];
@@ -441,7 +440,7 @@ const Feed = () => {
           </div>
         </div>
 
-        {/* Advanced Search Interface */}
+        {/* Unified Search Interface - The Only Search Component */}
         <UnifiedSearchInterface
           onSearch={handleUnifiedSearch}
           isLoading={isSearching}
