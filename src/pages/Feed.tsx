@@ -274,18 +274,20 @@ const Feed = () => {
 
   // Enhanced AssetCard component with portfolio actions
   const EnhancedAssetCard = ({ asset }: { asset: any }) => (
-    <div className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-      <div className="flex-1 cursor-pointer" onClick={() => navigate(asset.routePath)}>
-        <div className="flex items-center gap-3 mb-2">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow gap-3 sm:gap-4">
+      <div className="flex-1 cursor-pointer w-full" onClick={() => navigate(asset.routePath)}>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
           <h3 className="font-semibold text-gray-900">{asset.name}</h3>
-          <span className="text-sm text-gray-600">{asset.symbol}</span>
-          {asset.latestEvent && (
-            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-              {asset.latestEvent}
-            </span>
-          )}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-sm text-gray-600">{asset.symbol}</span>
+            {asset.latestEvent && (
+              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                {asset.latestEvent}
+              </span>
+            )}
+          </div>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <p className="text-lg font-bold text-gray-900">
               {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
@@ -296,7 +298,7 @@ const Feed = () => {
               </p>
             )}
           </div>
-          <div className="text-right">
+          <div className="text-left sm:text-right">
             <p className="text-sm text-gray-600">Volume: {asset.volume}</p>
             {asset.news && (
               <p className="text-xs text-gray-500 max-w-xs truncate">{asset.news}</p>
@@ -304,7 +306,7 @@ const Feed = () => {
           </div>
         </div>
       </div>
-      <div className="ml-4 flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
         <PortfolioAddModal
           assetName={asset.name}
           assetSymbol={asset.symbol}
@@ -327,7 +329,7 @@ const Feed = () => {
     if (!searchResults.success) {
       return (
         <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-          <CardContent className="p-6 text-center">
+          <CardContent className="p-4 sm:p-6 text-center">
             <p className="text-red-600">Search failed: {searchResults.error}</p>
           </CardContent>
         </Card>
@@ -337,7 +339,7 @@ const Feed = () => {
     if (searchResults.data.length === 0) {
       return (
         <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-          <CardContent className="p-6 text-center">
+          <CardContent className="p-4 sm:p-6 text-center">
             <p className="text-gray-600">No results found. Try adjusting your search criteria.</p>
           </CardContent>
         </Card>
@@ -364,22 +366,24 @@ const Feed = () => {
     // Fallback card display for other asset types
     return (
       <Card className="mt-6 bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-        <CardHeader>
-          <CardTitle className="dark:text-white">Search Results ({searchResults.total_records} found)</CardTitle>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="dark:text-white text-lg sm:text-xl">Search Results ({searchResults.total_records} found)</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6">
           <div className="space-y-4">
             {searchResults.data.map((result) => (
-              <div key={result.symbol} className="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-                <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/${result.assetType}/${result.symbol}`)}>
-                  <div className="flex items-center gap-3 mb-2">
+              <div key={result.symbol} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow gap-3">
+                <div className="flex-1 cursor-pointer w-full" onClick={() => navigate(`/research/${result.assetType}/${result.symbol}`)}>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                     <h3 className="font-semibold text-gray-900">{result.symbol}</h3>
-                    <span className="text-sm text-gray-600">{result.name}</span>
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                      {result.assetType}
-                    </span>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-gray-600">{result.name}</span>
+                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                        {result.assetType}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div>
                       <p className="text-lg font-bold text-gray-900">₹{result.price || 'N/A'}</p>
                       {result.changePercent && (
@@ -390,7 +394,7 @@ const Feed = () => {
                     </div>
                   </div>
                 </div>
-                <div className="ml-4 flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                   <PortfolioAddModal
                     assetName={result.name}
                     assetSymbol={result.symbol}
@@ -414,29 +418,32 @@ const Feed = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-7xl mx-auto p-4">
+      <div className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6">
         {/* Enhanced Header with Portfolio CTA */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Investment Discovery
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">Discover personalized investment opportunities</p>
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">Discover personalized investment opportunities</p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')}>
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="flex-1 sm:flex-none">
               <TrendingUp size={16} className="mr-1" />
-              MF Feed
+              <span className="hidden sm:inline">MF Feed</span>
+              <span className="sm:hidden">MF</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')}>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="flex-1 sm:flex-none">
               <BarChart3 size={16} className="mr-1" />
-              Portfolio
+              <span className="hidden sm:inline">Portfolio</span>
+              <span className="sm:hidden">Port</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')}>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="flex-1 sm:flex-none">
               <Edit size={16} className="mr-1" />
-              Update Portfolio
+              <span className="hidden sm:inline">Update Portfolio</span>
+              <span className="sm:hidden">Update</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/research')}>
+            <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="flex-1 sm:flex-none">
               <Search size={16} className="mr-1" />
               Research
             </Button>
@@ -455,28 +462,30 @@ const Feed = () => {
         {/* Profile Enhancement Prompt */}
         <ProfileEnhancementPrompt userProfile={userProfile} />
 
-        <div className="grid lg:grid-cols-4 gap-6">
+        <div className="grid lg:grid-cols-4 gap-4 lg:gap-6">
           {/* Main Feed */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-3 space-y-4 lg:space-y-6">
             {/* Search Results Section */}
             {renderSearchResults()}
 
             {/* AI Recommendations Section - First */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Brain className="w-5 h-5 text-purple-600" />
-                  DiscvrAI Recommendations
-                  <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full ml-2">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2 dark:text-white text-lg sm:text-xl">
+                  <div className="flex items-center gap-2">
+                    <Brain className="w-5 h-5 text-purple-600" />
+                    DiscvrAI Recommendations
+                  </div>
+                  <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full w-fit">
                     <Sparkles size={10} className="inline mr-1" />
                     Personalized for You
                   </span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:bg-purple-900/20 p-4 rounded-lg mb-4">
-                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:bg-purple-900/20 p-3 sm:p-4 rounded-lg mb-4">
+                    <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                       <strong>Why these recommendations:</strong> Based on your {userProfile.riskTolerance?.toLowerCase()} risk profile, preference for {userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.
                     </p>
                   </div>
@@ -493,13 +502,13 @@ const Feed = () => {
             </Card>
 
             {/* Filter Tabs */}
-            <div className="flex gap-2 overflow-x-auto">
+            <div className="flex gap-2 overflow-x-auto pb-2">
               {filters.map((filter) => (
                 <Button
                   key={filter.id}
                   variant={activeFilter === filter.id ? 'default' : 'outline'}
                   onClick={() => setActiveFilter(filter.id)}
-                  className="whitespace-nowrap"
+                  className="whitespace-nowrap flex-shrink-0"
                   size="sm"
                 >
                   {filter.label}
@@ -509,24 +518,26 @@ const Feed = () => {
 
             {/* Trending Section with Enhanced Asset Cards */}
             <Card className="bg-white/70 backdrop-blur-md border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between dark:text-white">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between dark:text-white gap-3">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
+                    <span className="text-lg sm:text-xl">
+                      {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
+                    </span>
                   </div>
                   <Button 
                     size="sm" 
                     variant="outline"
                     onClick={() => navigate('/portfolio-update')}
-                    className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                    className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full sm:w-auto"
                   >
                     <Edit size={14} className="mr-1" />
                     Bulk Add to Portfolio
                   </Button>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <div className="space-y-4">
                   {filteredAssets.map((asset) => (
                     <EnhancedAssetCard key={asset.id} asset={asset} />
