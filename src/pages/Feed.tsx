@@ -10,7 +10,6 @@ import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
 import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
-import AutocompleteSearchBar from '@/components/feed/AutocompleteSearchBar';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 
 const Feed = () => {
@@ -440,14 +439,6 @@ const Feed = () => {
               Research
             </Button>
           </div>
-        </div>
-
-        {/* Quick Search Bar */}
-        <div className="mb-6 flex justify-center">
-          <AutocompleteSearchBar 
-            onResultClick={handleAutocompleteSelect}
-            placeholder="Quick search: Type stock name, symbol, or mutual fund..."
-          />
         </div>
 
         {/* Advanced Search Interface */}
