@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -278,16 +279,16 @@ const StockResultsTable = ({
             {/* Left Section - Stock Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-1">
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 text-center">
                   <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
                     {displayName}
                   </h3>
+                  {sector && (
+                    <div className="text-xs text-gray-600">
+                      {sector}
+                    </div>
+                  )}
                 </div>
-              </div>
-              
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                {sector && <span>{sector}</span>}
-                {stock.is_growth_stock && <span>• Growth Stock</span>}
               </div>
             </div>
 
