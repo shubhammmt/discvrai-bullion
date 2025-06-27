@@ -33,9 +33,13 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
       // Get the value from different possible fields
       const value = option.value || option.name || option.label;
       
-      // Filter out empty strings, null, undefined, and other falsy values
+      // CRITICAL FIX: Filter out empty strings, null, undefined, and other falsy values
       // Also ensure the value is a non-empty string after trimming
-      return value && typeof value === 'string' && value.trim() !== '' && value.trim().length > 0;
+      return value && 
+             typeof value === 'string' && 
+             value.trim() !== '' && 
+             value.trim().length > 0 &&
+             value !== ''; // Explicitly check for empty string
     });
   };
 
@@ -98,6 +102,13 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     const stockOptions = filterOptions.stocks;
     const validSectors = getValidSelectOptions(stockOptions?.sectors);
     const validGrowthTypes = getValidSelectOptions(stockOptions?.growth_types);
+
+    console.log('🔍 Stock filter validation:', {
+      rawSectors: stockOptions?.sectors,
+      validSectors,
+      rawGrowthTypes: stockOptions?.growth_types,
+      validGrowthTypes
+    });
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
