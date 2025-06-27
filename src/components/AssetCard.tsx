@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, Plus } from 'lucide-react';
+import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 interface Asset {
   id: number | string;
@@ -197,9 +197,23 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           {/* Circular Add button for mutual funds and stocks */}
           {(isMutualFund || isStock) && (
             <div className="flex items-center justify-center ml-2 flex-shrink-0 self-start mt-1">
-              <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
-                <Plus size={16} />
-              </button>
+              <PortfolioAddModal
+                assetName={isMutualFund ? 
+                  (asset.rawData?.scheme_name || asset.name) : 
+                  (asset.rawData?.company_name || asset.name)
+                }
+                assetSymbol={asset.symbol}
+                assetType={asset.type as 'stock' | 'mutual-fund'}
+                currentPrice={isMutualFund ? 
+                  (asset.rawData?.nav_price || asset.price) : 
+                  (asset.rawData?.current_price || asset.price)
+                }
+                trigger={
+                  <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
+                    <Plus size={12} />
+                  </button>
+                }
+              />
             </div>
           )}
         </div>
