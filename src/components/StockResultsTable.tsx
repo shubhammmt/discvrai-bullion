@@ -397,15 +397,15 @@ const StockResultsTable = ({
             </Button>
           </div>
           
-          {/* Sorting Controls - Better Alignment */}
-          <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg">
+          {/* Sorting Controls - Fixed Alignment */}
+          <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
             <div className="flex items-center gap-2">
               <ArrowUpDown size={14} className="text-gray-500" />
               <span className="text-sm text-gray-600 font-medium">Sort by:</span>
             </div>
             <div className="flex items-center gap-2">
               <Select value={sortField} onValueChange={setSortField}>
-                <SelectTrigger className="w-40 h-8 text-sm bg-white">
+                <SelectTrigger className="w-40 h-9 text-sm bg-white">
                   <SelectValue placeholder="Select field" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border shadow-lg z-50">
@@ -420,7 +420,7 @@ const StockResultsTable = ({
               
               {sortField && sortField !== 'none' && (
                 <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
-                  <SelectTrigger className="w-28 h-8 text-sm bg-white">
+                  <SelectTrigger className="w-32 h-9 text-sm bg-white">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-white border shadow-lg z-50">
