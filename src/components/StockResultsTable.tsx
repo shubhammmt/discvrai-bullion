@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -181,21 +182,22 @@ const StockResultsTable = ({
 
     return (
       <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-2">
+        <CardContent className="p-1.5">
           <div className="flex items-center justify-between">
             {/* Left Section - Fund Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-1">
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 text-center">
                   <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
                     {displayName}
                   </h3>
+                  {amcName && (
+                    <div className="text-xs text-gray-600">
+                      {amcName}
+                      {category && <span> • {category}</span>}
+                    </div>
+                  )}
                 </div>
-              </div>
-              
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                {amcName && <span>{amcName}</span>}
-                {category && <span>• {category}</span>}
               </div>
             </div>
 
