@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Brain, Bell, Target, ArrowRight, Zap, Shield, DollarSign } from 'lucide-react';
+import { TrendingUp, Bell, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface DesktopSidebarProps {
@@ -15,8 +15,7 @@ const DesktopSidebar = ({ userProfile }: DesktopSidebarProps) => {
   const quickActions = [
     { icon: TrendingUp, label: 'Market Overview', path: '/research' },
     { icon: Target, label: 'Portfolio Analysis', path: '/portfolio' },
-    { icon: Bell, label: 'Set Alerts', path: '/organize' },
-    { icon: Brain, label: 'AI Strategy', path: '/ai-strategy' }
+    { icon: Bell, label: 'Set Alerts', path: '/organize' }
   ];
 
   const marketInsights = [
@@ -24,27 +23,6 @@ const DesktopSidebar = ({ userProfile }: DesktopSidebarProps) => {
     { title: 'Sensex', value: '73,248', change: '+0.8%', positive: true },
     { title: 'Bank Nifty', value: '47,850', change: '-0.5%', positive: false },
     { title: 'USD/INR', value: '83.25', change: '+0.1%', positive: false }
-  ];
-
-  const discvrAIInsights = [
-    {
-      icon: Zap,
-      title: 'Market Momentum',
-      insight: 'Tech stocks showing strong bullish signals. Consider increasing exposure.',
-      action: 'Explore Tech Funds'
-    },
-    {
-      icon: Shield,
-      title: 'Risk Alert',
-      insight: 'High volatility expected this week. Review stop-loss levels.',
-      action: 'Check Portfolio'
-    },
-    {
-      icon: DollarSign,
-      title: 'Opportunity',
-      insight: 'Banking stocks at attractive valuations. Good entry point for long-term.',
-      action: 'View Recommendations'
-    }
   ];
 
   return (
@@ -93,60 +71,6 @@ const DesktopSidebar = ({ userProfile }: DesktopSidebarProps) => {
                 </div>
               </div>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* DiscvrAI Insights */}
-      <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Brain size={18} className="text-blue-600" />
-            DiscvrAI Insights
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {discvrAIInsights.map((insight, index) => (
-              <div key={index} className="bg-white/70 p-3 rounded-lg">
-                <div className="flex items-start gap-2 mb-2">
-                  <insight.icon size={16} className="text-blue-600 mt-0.5" />
-                  <div>
-                    <h4 className="font-medium text-sm">{insight.title}</h4>
-                    <p className="text-xs text-gray-600 mb-2">{insight.insight}</p>
-                    <Button size="sm" variant="outline" className="text-xs">
-                      {insight.action} <ArrowRight size={12} className="ml-1" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Profile Completeness */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Profile Completeness</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm">Overall Progress</span>
-              <span className="text-sm font-bold">75%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full w-3/4"></div>
-            </div>
-            <Button 
-              onClick={() => navigate('/onboarding')}
-              variant="outline" 
-              size="sm" 
-              className="w-full"
-            >
-              Complete Profile
-            </Button>
           </div>
         </CardContent>
       </Card>
