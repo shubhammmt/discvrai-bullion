@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,53 +20,23 @@ interface FilterPanelProps {
 const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading }: FilterPanelProps) => {
   const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
 
-  // Enhanced helper function with STRICT validation
-  const getValidSelectOptions = (options: any[] | undefined, fieldName: string, assetType: string) => {
-    console.log(`🔍 VALIDATING ${assetType.toUpperCase()} - ${fieldName}`);
-    console.log('Raw options received:', options);
-    
+  // Simple and effective validation function
+  const getValidSelectOptions = (options: any[] | undefined) => {
     if (!Array.isArray(options)) {
-      console.log(`❌ ${fieldName}: Not an array, returning empty`);
       return [];
     }
     
-    const validOptions = options.filter((option, index) => {
-      console.log(`Checking option ${index} for ${fieldName}:`, option);
-      
+    return options.filter((option) => {
       if (!option || typeof option !== 'object') {
-        console.log(`❌ Option ${index} rejected: not an object`);
         return false;
       }
       
       // Get the value from different possible fields
       const value = option.value || option.name || option.label;
       
-      // ULTRA STRICT CHECK: Must be non-empty string
-      const isValidValue = value && 
-                          typeof value === 'string' && 
-                          value.trim() !== '' && 
-                          value !== '' &&
-                          value !== 'undefined' &&
-                          value !== 'null';
-      
-      if (!isValidValue) {
-        console.log(`❌ ${fieldName} Option ${index} REJECTED - value: "${value}", type: ${typeof value}`);
-        return false;
-      }
-      
-      console.log(`✅ ${fieldName} Option ${index} ACCEPTED - value: "${value}"`);
-      return true;
+      // Filter out empty strings, null, undefined, and other falsy values
+      return value && typeof value === 'string' && value.trim() !== '';
     });
-    
-    console.log(`📊 ${fieldName} Final: ${validOptions.length}/${options.length} valid options`);
-    
-    // Log each valid option's value to ensure no empty strings
-    validOptions.forEach((opt, i) => {
-      const val = opt.value || opt.name || opt.label;
-      console.log(`Valid option ${i}: "${val}" (length: ${val.length})`);
-    });
-    
-    return validOptions;
   };
 
   // Add debugging logs
@@ -115,10 +86,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderStockFilters = () => {
-    console.log('🏢 === RENDERING STOCK FILTERS START ===');
-    
     if (isLoadingOptions || !filterOptions?.stocks) {
-      console.log('⏳ Stock filters loading...');
       return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin" />
@@ -128,14 +96,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const stockOptions = filterOptions.stocks;
-    console.log('📈 Stock options structure:', stockOptions);
-    
-    const validSectors = getValidSelectOptions(stockOptions?.sectors, 'SECTORS', 'stock');
-    const validGrowthTypes = getValidSelectOptions(stockOptions?.growth_types, 'GROWTH_TYPES', 'stock');
-
-    console.log('🏢 STOCK RENDER DECISION:');
-    console.log(`- Sectors: ${validSectors.length} valid options`);
-    console.log(`- Growth Types: ${validGrowthTypes.length} valid options`);
+    const validSectors = getValidSelectOptions(stockOptions?.sectors);
+    const validGrowthTypes = getValidSelectOptions(stockOptions?.growth_types);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -196,87 +158,47 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </div>
         </div>
 
-        {/* SECTOR SELECT - with detailed logging */}
-        {validSectors.length > 0 ? (
+        {/* Sector Select */}
+        {validSectors.length > 0 && (
           <div>
             <Label htmlFor="sector">Sector</Label>
-            {(() => {
-              console.log('🎯 About to render SECTOR Select with options:', validSectors);
-              return (
-                <Select onValueChange={(value) => {
-                  console.log('🎯 SECTOR selected:', value);
-                  updateFilter('sector', [value]);
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select sector" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {validSectors.map((sector, idx) => {
-                      const sectorValue = sector.value || sector.name || sector.label;
-                      console.log(`🎯 Rendering SECTOR SelectItem ${idx}: value="${sectorValue}"`);
-                      
-                      if (!sectorValue || sectorValue === '') {
-                        console.error(`🚨 SECTOR SelectItem ${idx} has EMPTY VALUE!`, sector);
-                        return null;
-                      }
-                      
-                      return (
-                        <SelectItem key={`sector-${idx}-${sectorValue}`} value={sectorValue}>
-                          {sector.label || sectorValue}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              );
-            })()}
-          </div>
-        ) : (
-          <div>
-            <Label>Sector</Label>
-            <div className="text-sm text-gray-500 p-2 border rounded">No valid sectors available</div>
+            <Select onValueChange={(value) => updateFilter('sector', [value])}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select sector" />
+              </SelectTrigger>
+              <SelectContent>
+                {validSectors.map((sector, idx) => {
+                  const sectorValue = sector.value || sector.name || sector.label;
+                  return (
+                    <SelectItem key={`sector-${idx}-${sectorValue}`} value={sectorValue}>
+                      {sector.label || sectorValue}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
-        {/* GROWTH TYPE SELECT - with detailed logging */}
-        {validGrowthTypes.length > 0 ? (
+        {/* Growth Type Select */}
+        {validGrowthTypes.length > 0 && (
           <div>
             <Label htmlFor="growthType">Growth Type</Label>
-            {(() => {
-              console.log('📈 About to render GROWTH TYPE Select with options:', validGrowthTypes);
-              return (
-                <Select onValueChange={(value) => {
-                  console.log('📈 GROWTH TYPE selected:', value);
-                  updateFilter('growthType', value);
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select growth type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {validGrowthTypes.map((growthType, idx) => {
-                      const growthValue = growthType.value || growthType.name || growthType.label;
-                      console.log(`📈 Rendering GROWTH TYPE SelectItem ${idx}: value="${growthValue}"`);
-                      
-                      if (!growthValue || growthValue === '') {
-                        console.error(`🚨 GROWTH TYPE SelectItem ${idx} has EMPTY VALUE!`, growthType);
-                        return null;
-                      }
-                      
-                      return (
-                        <SelectItem key={`growth-${idx}-${growthValue}`} value={growthValue}>
-                          {growthType.label || growthValue}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              );
-            })()}
-          </div>
-        ) : (
-          <div>
-            <Label>Growth Type</Label>
-            <div className="text-sm text-gray-500 p-2 border rounded">No valid growth types available</div>
+            <Select onValueChange={(value) => updateFilter('growthType', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select growth type" />
+              </SelectTrigger>
+              <SelectContent>
+                {validGrowthTypes.map((growthType, idx) => {
+                  const growthValue = growthType.value || growthType.name || growthType.label;
+                  return (
+                    <SelectItem key={`growth-${idx}-${growthValue}`} value={growthValue}>
+                      {growthType.label || growthValue}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
@@ -322,10 +244,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderMutualFundFilters = () => {
-    console.log('💰 === RENDERING MUTUAL FUND FILTERS START ===');
-    
     if (isLoadingOptions || !filterOptions?.mutual_funds) {
-      console.log('⏳ Mutual fund filters loading...');
       return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin" />
@@ -335,98 +254,52 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const mfOptions = filterOptions.mutual_funds;
-    console.log('💰 Mutual fund options structure:', mfOptions);
-    
-    const validCategories = getValidSelectOptions(mfOptions?.categories, 'CATEGORIES', 'mutual-fund');
-    const validRiskLevels = getValidSelectOptions(mfOptions?.risk_levels, 'RISK_LEVELS', 'mutual-fund');
-
-    console.log('💰 MUTUAL FUND RENDER DECISION:');
-    console.log(`- Categories: ${validCategories.length} valid options`);
-    console.log(`- Risk Levels: ${validRiskLevels.length} valid options`);
+    const validCategories = getValidSelectOptions(mfOptions?.categories);
+    const validRiskLevels = getValidSelectOptions(mfOptions?.risk_levels);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* CATEGORY SELECT - with detailed logging */}
-        {validCategories.length > 0 ? (
+        {/* Category Select */}
+        {validCategories.length > 0 && (
           <div>
             <Label htmlFor="category">Category</Label>
-            {(() => {
-              console.log('🏷️ About to render CATEGORY Select with options:', validCategories);
-              return (
-                <Select onValueChange={(value) => {
-                  console.log('🏷️ CATEGORY selected:', value);
-                  updateFilter('category', [value]);
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {validCategories.map((category, idx) => {
-                      const categoryValue = category.value || category.name || category.label;
-                      console.log(`🏷️ Rendering CATEGORY SelectItem ${idx}: value="${categoryValue}"`);
-                      
-                      if (!categoryValue || categoryValue === '') {
-                        console.error(`🚨 CATEGORY SelectItem ${idx} has EMPTY VALUE!`, category);
-                        return null;
-                      }
-                      
-                      return (
-                        <SelectItem key={`category-${idx}-${categoryValue}`} value={categoryValue}>
-                          {category.name} ({category.count})
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              );
-            })()}
-          </div>
-        ) : (
-          <div>
-            <Label>Category</Label>
-            <div className="text-sm text-gray-500 p-2 border rounded">No valid categories available</div>
+            <Select onValueChange={(value) => updateFilter('category', [value])}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                {validCategories.map((category, idx) => {
+                  const categoryValue = category.value || category.name || category.label;
+                  return (
+                    <SelectItem key={`category-${idx}-${categoryValue}`} value={categoryValue}>
+                      {category.name} ({category.count})
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
-        {/* RISK LEVEL SELECT - with detailed logging */}
-        {validRiskLevels.length > 0 ? (
+        {/* Risk Level Select */}
+        {validRiskLevels.length > 0 && (
           <div>
             <Label htmlFor="riskLevel">Risk Level</Label>
-            {(() => {
-              console.log('⚠️ About to render RISK LEVEL Select with options:', validRiskLevels);
-              return (
-                <Select onValueChange={(value) => {
-                  console.log('⚠️ RISK LEVEL selected:', value);
-                  updateFilter('riskLevel', value);
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select risk level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {validRiskLevels.map((risk, idx) => {
-                      const riskValue = risk.value || risk.name || risk.label;
-                      console.log(`⚠️ Rendering RISK LEVEL SelectItem ${idx}: value="${riskValue}"`);
-                      
-                      if (!riskValue || riskValue === '') {
-                        console.error(`🚨 RISK LEVEL SelectItem ${idx} has EMPTY VALUE!`, risk);
-                        return null;
-                      }
-                      
-                      return (
-                        <SelectItem key={`risk-${idx}-${riskValue}`} value={riskValue}>
-                          {risk.name}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              );
-            })()}
-          </div>
-        ) : (
-          <div>
-            <Label>Risk Level</Label>
-            <div className="text-sm text-gray-500 p-2 border rounded">No valid risk levels available</div>
+            <Select onValueChange={(value) => updateFilter('riskLevel', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select risk level" />
+              </SelectTrigger>
+              <SelectContent>
+                {validRiskLevels.map((risk, idx) => {
+                  const riskValue = risk.value || risk.name || risk.label;
+                  return (
+                    <SelectItem key={`risk-${idx}-${riskValue}`} value={riskValue}>
+                      {risk.name}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
         )}
       </div>
@@ -434,10 +307,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderIPOFilters = () => {
-    console.log('🏦 === RENDERING IPO FILTERS START ===');
-    
     if (isLoadingOptions || !filterOptions?.ipos) {
-      console.log('⏳ IPO filters loading...');
       return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin" />
@@ -447,54 +317,29 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const ipoOptions = filterOptions.ipos;
-    console.log('🏦 IPO options structure:', ipoOptions);
-    
-    const validStatusOptions = getValidSelectOptions(ipoOptions?.status_options, 'STATUS_OPTIONS', 'ipo');
-
-    console.log('🏦 IPO RENDER DECISION:');
-    console.log(`- Status Options: ${validStatusOptions.length} valid options`);
+    const validStatusOptions = getValidSelectOptions(ipoOptions?.status_options);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* IPO STATUS SELECT - with detailed logging */}
-        {validStatusOptions.length > 0 ? (
+        {/* IPO Status Select */}
+        {validStatusOptions.length > 0 && (
           <div>
             <Label htmlFor="status">IPO Status</Label>
-            {(() => {
-              console.log('📊 About to render IPO STATUS Select with options:', validStatusOptions);
-              return (
-                <Select onValueChange={(value) => {
-                  console.log('📊 IPO STATUS selected:', value);
-                  updateFilter('status', value);
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {validStatusOptions.map((status, idx) => {
-                      const statusValue = status.value || status.name || status.label;
-                      console.log(`📊 Rendering IPO STATUS SelectItem ${idx}: value="${statusValue}"`);
-                      
-                      if (!statusValue || statusValue === '') {
-                        console.error(`🚨 IPO STATUS SelectItem ${idx} has EMPTY VALUE!`, status);
-                        return null;
-                      }
-                      
-                      return (
-                        <SelectItem key={`status-${idx}-${statusValue}`} value={statusValue}>
-                          {status.label}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              );
-            })()}
-          </div>
-        ) : (
-          <div>
-            <Label>IPO Status</Label>
-            <div className="text-sm text-gray-500 p-2 border rounded">No valid status options available</div>
+            <Select onValueChange={(value) => updateFilter('status', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                {validStatusOptions.map((status, idx) => {
+                  const statusValue = status.value || status.name || status.label;
+                  return (
+                    <SelectItem key={`status-${idx}-${statusValue}`} value={statusValue}>
+                      {status.label}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
         )}
       </div>
@@ -541,8 +386,6 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
       </div>
     );
   }
-
-  console.log(`🎯 FILTER PANEL MAIN RENDER - Asset Type: ${assetType}`);
 
   return (
     <div className="space-y-4">
