@@ -1,9 +1,9 @@
-
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { X, FolderPlus, Eye, TrendingUp, TrendingDown } from 'lucide-react';
+import { X, FolderPlus, Eye, TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 interface StockResultsTableProps {
@@ -29,6 +29,9 @@ const StockResultsTable = ({
   onPageChange,
   isLoading = false 
 }: StockResultsTableProps) => {
+  const [sortField, setSortField] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
   if (!results || results.length === 0) return null;
 
   // Helper function to format field names for display
@@ -85,6 +88,38 @@ const StockResultsTable = ({
     ...priorityColumns.filter(key => allKeys.includes(key)),
     ...allKeys.filter(key => !priorityColumns.includes(key)).slice(0, 6) // Limit additional fields
   ];
+
+  // Sortable fields - include company name and all numeric fields
+  const sortableFields = [
+    { key: 'company_name', label: 'Company Name' },
+    ...displayKeys
+      .filter(key => typeof results[0]?.[key] === 'number')
+      .map(key => ({ key, label: formatFieldName(key) }))
+  ];
+
+  // Sort results based on selected field and order
+  const sortedResults = useMemo(() => {
+    if (!sortField) return results;
+
+    return [...results].sort((a, b) => {
+      const aValue = a[sortField];
+      const bValue = b[sortField];
+
+      // Handle null/undefined values
+      if (aValue === null || aValue === undefined) return 1;
+      if (bValue === null || bValue === undefined) return -1;
+
+      // String comparison for company name
+      if (sortField === 'company_name') {
+        const comparison = aValue.localeCompare(bValue);
+        return sortOrder === 'asc' ? comparison : -comparison;
+      }
+
+      // Numeric comparison
+      const comparison = Number(aValue) - Number(bValue);
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+  }, [results, sortField, sortOrder]);
 
   const startResult = (currentPage - 1) * pageSize + 1;
   const endResult = Math.min(currentPage * pageSize, totalRecords);
@@ -205,15 +240,56 @@ const StockResultsTable = ({
               <X size={16} className="text-gray-500" />
             </Button>
           </div>
+          
+          {/* Sorting Controls */}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <ArrowUpDown size={16} className="text-gray-500" />
+              <span className="text-sm text-gray-600 font-medium">Sort by:</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Select value={sortField} onValueChange={setSortField}>
+                <SelectTrigger className="w-48 h-8 text-sm">
+                  <SelectValue placeholder="Select field" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">No sorting</SelectItem>
+                  {sortableFields.map(field => (
+                    <SelectItem key={field.key} value={field.key}>
+                      {field.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              {sortField && (
+                <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
+                  <SelectTrigger className="w-32 h-8 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="desc">High to Low</SelectItem>
+                    <SelectItem value="asc">Low to High</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+          </div>
+          
           <div className="text-sm text-gray-600">
             Showing {startResult}-{endResult} of {totalRecords} results
+            {sortField && (
+              <span className="ml-2 text-blue-600">
+                • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
+              </span>
+            )}
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         {/* Cards Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {results.map((stock, index) => (
+          {sortedResults.map((stock, index) => (
             <StockCard key={`stock-${stock.company_name}-${index}`} stock={stock} index={index} />
           ))}
         </div>
