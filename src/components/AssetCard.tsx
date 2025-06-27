@@ -130,6 +130,12 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
             {data.total_expense_ratio ? `${Number(data.total_expense_ratio).toFixed(2)}%` : 'N/A'}
           </p>
         </div>
+        <div className="text-center">
+          <p className="text-xs text-gray-500">Minimum SIP</p>
+          <p className="text-xs font-medium text-gray-900">
+            {data.min_sip ? `${Number(data.min_sip)}%` : 'N/A'}
+          </p>
+        </div>
       </div>
     );
   };
@@ -194,13 +200,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           <p className="text-xs text-gray-700 line-clamp-2">{asset.news}</p>
         </div>
 
-        {showReason && (
-          <div className="bg-blue-50 p-2 rounded-lg mb-2">
-            <p className="text-xs text-blue-700">
-              <strong>Why recommended:</strong> {getReasonText()}
-            </p>
-          </div>
-        )}
+       
 
         <div className="flex gap-2 flex-wrap">
           <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs h-7">
