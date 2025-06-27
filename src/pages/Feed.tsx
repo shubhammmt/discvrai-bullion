@@ -512,19 +512,56 @@ const Feed = () => {
     if (activeFilter === 'all') {
       console.log('Showing all assets from all sections');
       const allAssets = mixedFeedData.sections.flatMap(section => {
-        return (section.items || []).map((item: any) => ({
-          id: item._id || item.mf_schcode || Math.random(),
-          name: item.scheme_name || item.name || 'Unknown Asset',
-          symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
-          type: item.feed_category || item.main_category || 'mutual-fund',
-          price: item.nav_price || item.price || 0,
-          change: item.ret_1month || item.change || 0,
-          changePercent: item.ret_1month || item.changePercent || 0,
-          volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
-          latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
-          news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
-          rawData: item
-        }));
+        return (section.items || []).map((item: any) => {
+          // Handle mutual funds
+          if (section.section_type === 'mutual_funds') {
+            return {
+              id: item._id || item.mf_schcode || Math.random(),
+              name: item.scheme_name || item.name || 'Unknown Fund',
+              symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
+              type: 'mutual-fund',
+              price: item.nav_price || 0,
+              change: item.ret_1month || 0,
+              changePercent: item.ret_1month || 0,
+              volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+              latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+              news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
+              rawData: item
+            };
+          }
+          // Handle stocks
+          else if (section.section_type === 'stocks') {
+            return {
+              id: item._id || Math.random(),
+              name: item.company_name || item.name || 'Unknown Stock',
+              symbol: item.symbol || item._id || 'N/A',
+              type: 'stock',
+              price: item.current_price || 0,
+              change: item.price_momentum_3m ? (item.price_momentum_3m * 100) : 0,
+              changePercent: item.price_momentum_3m ? (item.price_momentum_3m * 100) : 0,
+              volume: 'N/A',
+              latestEvent: 'Active',
+              news: `${item.company_name || 'Company'} stock`,
+              rawData: item
+            };
+          }
+          // Handle other asset types
+          else {
+            return {
+              id: item._id || Math.random(),
+              name: item.name || item.scheme_name || item.company_name || 'Unknown Asset',
+              symbol: item.symbol || item.mf_schcode || item._id || 'N/A',
+              type: section.section_type === 'mutual_funds' ? 'mutual-fund' : (section.section_type === 'stocks' ? 'stock' : 'other'),
+              price: item.nav_price || item.current_price || item.price || 0,
+              change: item.ret_1month || item.price_momentum_3m || item.change || 0,
+              changePercent: item.ret_1month || item.price_momentum_3m || item.changePercent || 0,
+              volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+              latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+              news: `Investment opportunity`,
+              rawData: item
+            };
+          }
+        });
       });
       console.log('Total assets for "all" filter:', allAssets.length);
       return allAssets;
@@ -563,20 +600,57 @@ const Feed = () => {
     
     console.log('Found target section with', targetSection.items?.length || 0, 'items');
     
-    // Map the items from the target section
-    const filteredAssets = (targetSection.items || []).map((item: any) => ({
-      id: item._id || item.mf_schcode || Math.random(),
-      name: item.scheme_name || item.name || 'Unknown Asset',
-      symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
-      type: item.feed_category || item.main_category || 'mutual-fund',
-      price: item.nav_price || item.price || 0,
-      change: item.ret_1month || item.change || 0,
-      changePercent: item.ret_1month || item.changePercent || 0,
-      volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
-      latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
-      news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
-      rawData: item
-    }));
+    // Map the items from the target section based on section type
+    const filteredAssets = (targetSection.items || []).map((item: any) => {
+      // Handle mutual funds specifically
+      if (targetSection.section_type === 'mutual_funds') {
+        return {
+          id: item._id || item.mf_schcode || Math.random(),
+          name: item.scheme_name || item.name || 'Unknown Fund',
+          symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
+          type: 'mutual-fund',
+          price: item.nav_price || 0,
+          change: item.ret_1month || 0,
+          changePercent: item.ret_1month || 0,
+          volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+          latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+          news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
+          rawData: item
+        };
+      }
+      // Handle stocks specifically
+      else if (targetSection.section_type === 'stocks') {
+        return {
+          id: item._id || Math.random(),
+          name: item.company_name || item.name || 'Unknown Stock',
+          symbol: item.symbol || item._id || 'N/A',
+          type: 'stock',
+          price: item.current_price || 0,
+          change: item.price_momentum_3m ? (item.price_momentum_3m * 100) : 0,
+          changePercent: item.price_momentum_3m ? (item.price_momentum_3m * 100) : 0,
+          volume: 'N/A',
+          latestEvent: 'Active',
+          news: `${item.company_name || 'Company'} stock`,
+          rawData: item
+        };
+      }
+      // Handle other asset types
+      else {
+        return {
+          id: item._id || Math.random(),
+          name: item.name || item.scheme_name || item.company_name || 'Unknown Asset',
+          symbol: item.symbol || item.mf_schcode || item._id || 'N/A',
+          type: targetSection.section_type === 'mutual_funds' ? 'mutual-fund' : (targetSection.section_type === 'stocks' ? 'stock' : 'other'),
+          price: item.nav_price || item.current_price || item.price || 0,
+          change: item.ret_1month || item.price_momentum_3m || item.change || 0,
+          changePercent: item.ret_1month || item.price_momentum_3m || item.changePercent || 0,
+          volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+          latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+          news: `Investment opportunity`,
+          rawData: item
+        };
+      }
+    });
     
     console.log('Filtered assets count:', filteredAssets.length);
     return filteredAssets;
