@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -258,12 +259,17 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const mfOptions = filterOptions.mutual_funds;
+    
+    // Get all the available options with proper validation
     const validCategories = getValidSelectOptions(mfOptions?.categories);
-    const validRiskLevels = getValidSelectOptions(mfOptions?.risk_levels);
+    const validRiskLevels = mfOptions?.risk_levels || [];
     const validAmcNames = getValidSelectOptions(mfOptions?.amc_names);
-    const validExpenseRatioOptions = getValidSelectOptions(mfOptions?.expense_ratio_options);
-    const validAumOptions = getValidSelectOptions(mfOptions?.aum_options);
-    const validReturn1yOptions = getValidSelectOptions(mfOptions?.return_1y_options);
+    const validExpenseRatioOptions = mfOptions?.expense_ratio_options || [];
+    const validAumOptions = mfOptions?.aum_options || [];
+    const validReturn1yOptions = mfOptions?.return_1y_options || [];
+    const validReturn3yOptions = mfOptions?.return_3y_options || [];
+    const validSipOptions = mfOptions?.sip_options || [];
+    const validPlanTypes = mfOptions?.plan_types || [];
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -271,19 +277,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validCategories.length > 0 && (
           <div>
             <Label htmlFor="category">Category</Label>
-            <Select onValueChange={(value) => updateFilter('category', [value])}>
+            <Select onValueChange={(value) => updateFilter('category', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
-              <SelectContent>
-                {validCategories.map((category, idx) => {
-                  const categoryValue = category.value || category.name || category.label;
-                  return (
-                    <SelectItem key={`category-${idx}-${categoryValue}`} value={categoryValue}>
-                      {category.name} ({category.count})
-                    </SelectItem>
-                  );
-                })}
+              <SelectContent className="max-h-[300px] overflow-y-auto">
+                {validCategories.map((category, idx) => (
+                  <SelectItem key={`category-${idx}-${category.value}`} value={category.value}>
+                    {category.name} ({category.count})
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -293,19 +296,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validRiskLevels.length > 0 && (
           <div>
             <Label htmlFor="riskLevel">Risk Level</Label>
-            <Select onValueChange={(value) => updateFilter('riskLevel', value)}>
+            <Select onValueChange={(value) => updateFilter('risk_level', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select risk level" />
               </SelectTrigger>
               <SelectContent>
-                {validRiskLevels.map((risk, idx) => {
-                  const riskValue = risk.value || risk.name || risk.label;
-                  return (
-                    <SelectItem key={`risk-${idx}-${riskValue}`} value={riskValue}>
-                      {risk.name}
-                    </SelectItem>
-                  );
-                })}
+                {validRiskLevels.map((risk, idx) => (
+                  <SelectItem key={`risk-${idx}-${risk.value}`} value={risk.value}>
+                    {risk.name} - {risk.description}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -315,19 +315,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validAmcNames.length > 0 && (
           <div>
             <Label htmlFor="amcName">Asset Management Company</Label>
-            <Select onValueChange={(value) => updateFilter('amcName', value)}>
+            <Select onValueChange={(value) => updateFilter('amc_name', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select AMC" />
               </SelectTrigger>
-              <SelectContent>
-                {validAmcNames.slice(0, 10).map((amc, idx) => {
-                  const amcValue = amc.value || amc.name || amc.label;
-                  return (
-                    <SelectItem key={`amc-${idx}-${amcValue}`} value={amcValue}>
-                      {amc.name} ({amc.count})
-                    </SelectItem>
-                  );
-                })}
+              <SelectContent className="max-h-[300px] overflow-y-auto">
+                {validAmcNames.slice(0, 15).map((amc, idx) => (
+                  <SelectItem key={`amc-${idx}-${amc.value}`} value={amc.value}>
+                    {amc.name} ({amc.count})
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -337,19 +334,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validExpenseRatioOptions.length > 0 && (
           <div>
             <Label htmlFor="expenseRatio">Expense Ratio</Label>
-            <Select onValueChange={(value) => updateFilter('expenseRatio', parseFloat(value))}>
+            <Select onValueChange={(value) => updateFilter('expense_ratio', value === 'null' ? null : parseFloat(value))}>
               <SelectTrigger>
                 <SelectValue placeholder="Select expense ratio" />
               </SelectTrigger>
               <SelectContent>
-                {validExpenseRatioOptions.map((expense, idx) => {
-                  const expenseValue = expense.value?.toString() || 'any';
-                  return (
-                    <SelectItem key={`expense-${idx}-${expenseValue}`} value={expenseValue}>
-                      {expense.label}
-                    </SelectItem>
-                  );
-                })}
+                {validExpenseRatioOptions.map((expense, idx) => (
+                  <SelectItem key={`expense-${idx}`} value={expense.value?.toString() || 'null'}>
+                    {expense.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -359,19 +353,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validAumOptions.length > 0 && (
           <div>
             <Label htmlFor="aum">Fund Size (AUM)</Label>
-            <Select onValueChange={(value) => updateFilter('aum', parseFloat(value))}>
+            <Select onValueChange={(value) => updateFilter('aum', value === 'null' ? null : parseFloat(value))}>
               <SelectTrigger>
                 <SelectValue placeholder="Select AUM" />
               </SelectTrigger>
               <SelectContent>
-                {validAumOptions.map((aum, idx) => {
-                  const aumValue = aum.min_value?.toString() || 'any';
-                  return (
-                    <SelectItem key={`aum-${idx}-${aumValue}`} value={aumValue}>
-                      {aum.label}
-                    </SelectItem>
-                  );
-                })}
+                {validAumOptions.map((aum, idx) => (
+                  <SelectItem key={`aum-${idx}`} value={aum.min_value?.toString() || 'null'}>
+                    {aum.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -381,19 +372,73 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validReturn1yOptions.length > 0 && (
           <div>
             <Label htmlFor="return1y">1 Year Returns</Label>
-            <Select onValueChange={(value) => updateFilter('return1y', parseFloat(value))}>
+            <Select onValueChange={(value) => updateFilter('return_1y', value === 'null' ? null : parseFloat(value))}>
               <SelectTrigger>
                 <SelectValue placeholder="Select returns" />
               </SelectTrigger>
               <SelectContent>
-                {validReturn1yOptions.map((returns, idx) => {
-                  const returnValue = returns.value?.toString() || 'any';
-                  return (
-                    <SelectItem key={`return1y-${idx}-${returnValue}`} value={returnValue}>
-                      {returns.label}
-                    </SelectItem>
-                  );
-                })}
+                {validReturn1yOptions.map((returns, idx) => (
+                  <SelectItem key={`return1y-${idx}`} value={returns.value?.toString() || 'null'}>
+                    {returns.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* 3 Year Returns Select */}
+        {validReturn3yOptions.length > 0 && (
+          <div>
+            <Label htmlFor="return3y">3 Year Returns</Label>
+            <Select onValueChange={(value) => updateFilter('return_3y', value === 'null' ? null : parseFloat(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select 3Y returns" />
+              </SelectTrigger>
+              <SelectContent>
+                {validReturn3yOptions.map((returns, idx) => (
+                  <SelectItem key={`return3y-${idx}`} value={returns.value?.toString() || 'null'}>
+                    {returns.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* SIP Options Select */}
+        {validSipOptions.length > 0 && (
+          <div>
+            <Label htmlFor="sipAmount">SIP Amount</Label>
+            <Select onValueChange={(value) => updateFilter('sip_amount', value === 'null' ? null : parseFloat(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select SIP amount" />
+              </SelectTrigger>
+              <SelectContent>
+                {validSipOptions.map((sip, idx) => (
+                  <SelectItem key={`sip-${idx}`} value={sip.value?.toString() || 'null'}>
+                    {sip.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Plan Types Select */}
+        {validPlanTypes.length > 0 && (
+          <div>
+            <Label htmlFor="planType">Plan Type</Label>
+            <Select onValueChange={(value) => updateFilter('plan_type', value === 'null' ? null : value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select plan type" />
+              </SelectTrigger>
+              <SelectContent>
+                {validPlanTypes.map((plan, idx) => (
+                  <SelectItem key={`plan-${idx}`} value={plan.value || 'null'}>
+                    {plan.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -415,7 +460,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const ipoOptions = filterOptions.ipos;
-    const validStatusOptions = getValidSelectOptions(ipoOptions?.status_options);
+    const validStatusOptions = ipoOptions?.status_options || [];
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -428,14 +473,11 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
-                {validStatusOptions.map((status, idx) => {
-                  const statusValue = status.value || status.name || status.label;
-                  return (
-                    <SelectItem key={`status-${idx}-${statusValue}`} value={statusValue}>
-                      {status.label}
-                    </SelectItem>
-                  );
-                })}
+                {validStatusOptions.map((status, idx) => (
+                  <SelectItem key={`status-${idx}-${status.value}`} value={status.value}>
+                    {status.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
