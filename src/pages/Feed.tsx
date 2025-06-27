@@ -93,7 +93,7 @@ const Feed = () => {
 
     const assets = [];
     
-    // Process mutual funds section
+    // Process mutual funds section with specific fields
     const mutualFundsSection = mixedFeedData.sections.find(section => section.section_type === 'mutual_funds');
     if (mutualFundsSection) {
       mutualFundsSection.items.forEach(item => {
@@ -107,12 +107,17 @@ const Feed = () => {
           changePercent: item.ret_1month,
           volume: `₹${item.current_aum} Cr AUM`,
           latestEvent: item.feed_category,
-          news: `${item.ret_1year.toFixed(2)}% 1Y returns • ${item.amc_name}`,
+          news: `${item.ret_1year?.toFixed(2) || 'N/A'}% 1Y returns • ${item.amc_name}`,
           routePath: `/research/mutual-fund/${item.mf_schcode || item._id}`,
           amc_name: item.amc_name,
           category: item.main_category,
           expense_ratio: item.total_expense_ratio,
-          risk_level: item.risk_level
+          risk_level: item.risk_level,
+          // Additional fields for mutual fund cards
+          return_1year: item.ret_1year,
+          return_3year: item.ret_3year,
+          aum: item.current_aum,
+          minimum_sip: item.sip_minimum
         });
       });
     }
@@ -148,7 +153,12 @@ const Feed = () => {
       volume: '2.1M',
       latestEvent: 'Dividend Declaration',
       news: 'Declared interim dividend of ₹8 per unit',
-      routePath: '/research/mutual-fund/hdfc-top-100'
+      routePath: '/research/mutual-fund/hdfc-top-100',
+      return_1year: 18.5,
+      return_3year: 12.3,
+      aum: 45230,
+      expense_ratio: 1.05,
+      minimum_sip: 500
     },
     {
       id: 'mock-3',
@@ -255,7 +265,7 @@ const Feed = () => {
         return asset.type === activeFilter;
       });
 
-  // Enhanced AssetCard component with portfolio actions
+  // Enhanced AssetCard component with portfolio actions - Updated for mutual funds
   const EnhancedAssetCard = ({ asset }: { asset: any }) => (
     <div className="w-full min-w-0">
       <div className="flex flex-col p-4 bg-white rounded-xl border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group">
@@ -276,36 +286,74 @@ const Feed = () => {
           </div>
         </div>
         
-        {/* Price and Performance Section */}
-        <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
-          <div className="flex items-baseline justify-between">
-            <div>
-              <p className="text-2xl font-bold text-gray-900">
-                {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
-              </p>
-              {asset.change !== null && (
-                <div className={`flex items-center gap-1 mt-1 ${asset.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {asset.change > 0 ? (
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                  <span className="text-sm font-medium">
-                    {asset.change > 0 ? '+' : ''}{asset.change}%
-                  </span>
-                </div>
-              )}
+        {/* Mutual Fund Specific Data Display */}
+        {asset.type === 'mutual-fund' ? (
+          <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+            <div className="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <p className="text-xs text-gray-500">1 Year Return</p>
+                <p className="text-lg font-bold text-green-600">
+                  {asset.return_1year ? `${asset.return_1year.toFixed(2)}%` : 'N/A'}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">3 Year Return</p>
+                <p className="text-lg font-bold text-green-600">
+                  {asset.return_3year ? `${asset.return_3year.toFixed(2)}%` : 'N/A'}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">AUM</p>
+                <p className="text-sm font-medium text-gray-900">
+                  ₹{asset.aum ? `${(asset.aum / 100).toFixed(0)} Cr` : 'N/A'}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">Expense Ratio</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {asset.expense_ratio ? `${asset.expense_ratio.toFixed(2)}%` : 'N/A'}
+                </p>
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-500 mb-1">Volume</p>
-              <p className="text-sm font-medium text-gray-700">{asset.volume}</p>
+            <div className="mb-3">
+              <p className="text-xs text-gray-500">Minimum SIP</p>
+              <p className="text-sm font-medium text-gray-900">
+                ₹{asset.minimum_sip || 'N/A'}
+              </p>
             </div>
           </div>
-        </div>
+        ) : (
+          // Price and Performance Section for other assets
+          <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+            <div className="flex items-baseline justify-between">
+              <div>
+                <p className="text-2xl font-bold text-gray-900">
+                  {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
+                </p>
+                {asset.change !== null && (
+                  <div className={`flex items-center gap-1 mt-1 ${asset.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {asset.change > 0 ? (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      </svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                    <span className="text-sm font-medium">
+                      {asset.change > 0 ? '+' : ''}{asset.change}%
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-500 mb-1">Volume</p>
+                <p className="text-sm font-medium text-gray-700">{asset.volume}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Additional Info */}
         {asset.news && (
@@ -385,7 +433,7 @@ const Feed = () => {
       );
     }
 
-    // Fallback card display for other asset types
+    // Fallback card display for other asset types - Updated to single column
     return (
       <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
         <CardHeader className="p-3 sm:p-6">
@@ -556,7 +604,7 @@ const Feed = () => {
               </div>
             </div>
 
-            {/* Trending Section with Enhanced Asset Cards */}
+            {/* Trending Section with Enhanced Asset Cards - Updated to single column */}
             <div className="w-full min-w-0">
               <Card className="bg-white/70 backdrop-blur-md border-white/20">
                 <CardHeader className="p-3 sm:p-6">
@@ -585,7 +633,8 @@ const Feed = () => {
                 </CardHeader>
                 <CardContent className="p-3 sm:p-6">
                   <div className="w-full min-w-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                    {/* Changed from grid-cols-1 md:grid-cols-2 to grid-cols-1 for single column */}
+                    <div className="grid grid-cols-1 gap-3 sm:gap-4">
                       {filteredAssets.map((asset) => (
                         <EnhancedAssetCard key={asset.id} asset={asset} />
                       ))}
