@@ -136,7 +136,7 @@ const Feed = () => {
         return3Year: ['ret_3year', 'return_3y', 'returns_3year'],
         aum: ['current_aum', 'aum', 'fund_size'],
         expenseRatio: ['total_expense_ratio', 'expense_ratio', 'ter'],
-        minimumSip: ['sip_minimum', 'min_sip', 'minimum_investment'],
+        minimumSip: ['min_sip', 'sip_minimum', 'minimum_investment'],
         amcName: ['amc_name', 'fund_house', 'amc'],
         category: ['main_category', 'category', 'fund_category'],
         riskLevel: ['risk_level', 'risk_category']
@@ -196,7 +196,6 @@ const Feed = () => {
                 {asset.name || 'Unknown Asset'}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-sm text-gray-500">{asset.symbol || 'N/A'}</span>
                 <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-md border border-blue-100">
                   {asset.assetType}
                 </span>
@@ -209,37 +208,38 @@ const Feed = () => {
             {asset.assetType === 'mutual-fund' ? (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-gray-500">1 Year Return</p>
-                  <p className="text-lg font-bold text-green-600">
+                  <p className="text-xs text-gray-500">NAV</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {asset.navPrice !== null && asset.navPrice !== undefined ? 
+                      `₹${Number(asset.navPrice).toFixed(2)}` : 'N/A'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">6M Return</p>
+                  <p className="text-sm font-medium text-green-600">
                     {asset.return1Year !== null && asset.return1Year !== undefined ? 
                       `${Number(asset.return1Year).toFixed(2)}%` : 'N/A'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">3 Year Return</p>
-                  <p className="text-lg font-bold text-green-600">
+                  <p className="text-xs text-gray-500">1Y Return</p>
+                  <p className="text-sm font-medium text-green-600">
                     {asset.return3Year !== null && asset.return3Year !== undefined ? 
                       `${Number(asset.return3Year).toFixed(2)}%` : 'N/A'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">AUM</p>
-                  <p className="text-sm font-medium text-gray-900">
-                    {asset.aum !== null && asset.aum !== undefined ? 
-                      `₹${(Number(asset.aum) / 100).toFixed(0)} Cr` : 'N/A'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500">Expense Ratio</p>
+                  <p className="text-xs text-gray-500">Expense</p>
                   <p className="text-sm font-medium text-gray-900">
                     {asset.expenseRatio !== null && asset.expenseRatio !== undefined ? 
                       `${Number(asset.expenseRatio).toFixed(2)}%` : 'N/A'}
                   </p>
                 </div>
-                <div className="col-span-2">
-                  <p className="text-xs text-gray-500">Minimum SIP</p>
+                <div>
+                  <p className="text-xs text-gray-500">Min SIP</p>
                   <p className="text-sm font-medium text-gray-900">
-                    ₹{asset.minimumSip || 'N/A'}
+                    {asset.minimumSip !== null && asset.minimumSip !== undefined ? 
+                      `₹${Number(asset.minimumSip).toLocaleString()}` : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -680,7 +680,7 @@ const Feed = () => {
           {filteredAssets.length > 0 ? (
             <div className="space-y-3">
               {filteredAssets.map((asset: any) => (
-                <AssetCard key={asset.id} asset={asset} showReason={true} />
+                <AssetCard key={asset.id} asset={asset} showReason={false} />
               ))}
             </div>
           ) : (
