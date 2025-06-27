@@ -200,11 +200,11 @@ const StockResultsTable = ({
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Header Row with Labels and Sort Buttons - Using table structure for better alignment */}
+        {/* Header Row with Labels and Sort Buttons */}
         <div className="bg-gray-50 border border-gray-200 rounded-lg mb-4 overflow-x-auto">
           <div className="min-w-max">
-            <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_100px] gap-0 items-center">
-              {/* Name Column */}
+            <div className="grid grid-cols-[minmax(250px,300px)_120px_120px_120px_120px_100px] gap-0 items-center">
+              {/* Name Column - Fixed width with minmax */}
               <div className="flex items-center justify-start px-3 py-3 border-r border-gray-200">
                 <span className="text-sm font-semibold text-gray-700">
                   {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
@@ -230,7 +230,7 @@ const StockResultsTable = ({
           </div>
         </div>
 
-        {/* Results Display - Using same grid structure */}
+        {/* Results Display */}
         <div className="space-y-2 mb-6 overflow-x-auto">
           {sortedResults.map((asset, index) => {
             const displayName = getDisplayName(asset);
@@ -240,19 +240,19 @@ const StockResultsTable = ({
               <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
                 <CardContent className="p-0">
                   <div className="min-w-max">
-                    <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_100px] gap-0 items-center">
-                      {/* Name Column */}
-                      <div className="px-3 py-3 border-r border-gray-100">
+                    <div className="grid grid-cols-[minmax(250px,300px)_120px_120px_120px_120px_100px] gap-0 items-center">
+                      {/* Name Column - Fixed width with truncation and tooltip */}
+                      <div className="px-3 py-3 border-r border-gray-100 max-w-[300px]">
                         <div className="text-left">
                           <h3 
-                            className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer"
+                            className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer hover:text-blue-600 transition-colors"
                             title={displayName}
                           >
                             {displayName}
                           </h3>
                           {(asset.amc_name || asset.sector) && (
                             <div 
-                              className="text-xs text-gray-600 truncate mt-1"
+                              className="text-xs text-gray-600 truncate mt-1 cursor-pointer"
                               title={asset.amc_name || asset.sector}
                             >
                               {asset.amc_name || asset.sector}
@@ -262,12 +262,12 @@ const StockResultsTable = ({
                         </div>
                       </div>
                       
-                      {/* Data Columns */}
+                      {/* Data Columns - Fixed width */}
                       {displayKeys.map((key) => (
-                        <div key={key} className="px-3 py-3 border-r border-gray-100">
+                        <div key={key} className="px-3 py-3 border-r border-gray-100 w-[120px]">
                           <div className="text-center">
                             <span 
-                              className="text-sm font-medium text-gray-900 truncate cursor-pointer"
+                              className="text-sm font-medium text-gray-900 truncate cursor-pointer block"
                               title={formatFieldValue(key, asset[key], primaryAssetType)}
                             >
                               {formatFieldValue(key, asset[key], primaryAssetType)}
@@ -276,8 +276,8 @@ const StockResultsTable = ({
                         </div>
                       ))}
                       
-                      {/* Action Column */}
-                      <div className="px-3 py-3">
+                      {/* Action Column - Fixed width */}
+                      <div className="px-3 py-3 w-[100px]">
                         <div className="flex justify-center">
                           <PortfolioAddModal
                             assetName={displayName}
