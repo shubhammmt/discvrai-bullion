@@ -2,9 +2,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { X, FolderPlus, Eye } from 'lucide-react';
+import { X, FolderPlus, Eye, TrendingUp, TrendingDown } from 'lucide-react';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 interface StockResultsTableProps {
@@ -80,73 +79,111 @@ const StockResultsTable = ({
     ))
   ));
 
-  // Prioritize important columns
-  const priorityColumns = ['current_price', 'market_cap', 'pe_ratio', 'roe', 'roic', 'net_margin', 'sector'];
-  const sortedKeys = [
+  // Prioritize important columns for card display
+  const priorityColumns = ['current_price', 'market_cap', 'pe_ratio', 'roe', 'roic', 'net_margin'];
+  const displayKeys = [
     ...priorityColumns.filter(key => allKeys.includes(key)),
-    ...allKeys.filter(key => !priorityColumns.includes(key))
+    ...allKeys.filter(key => !priorityColumns.includes(key)).slice(0, 6) // Limit additional fields
   ];
 
   const startResult = (currentPage - 1) * pageSize + 1;
   const endResult = Math.min(currentPage * pageSize, totalRecords);
 
-  // Mobile card view for small screens
-  const MobileStockCard = ({ stock, index }: { stock: any; index: number }) => (
-    <div key={`${stock.company_name}-${index}`} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
-      {/* Header with company name and sector */}
-      <div className="flex flex-col space-y-2">
-        <div className="flex items-start justify-between">
-          <h3 className="font-semibold text-base leading-tight text-gray-900 pr-2">
-            {stock.company_name}
-          </h3>
-          <PortfolioAddModal
-            assetName={stock.company_name}
-            assetSymbol={stock.company_name}
-            assetType="stock"
-            currentPrice={stock.current_price}
-            trigger={
-              <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 flex-shrink-0">
-                <FolderPlus size={14} className="mr-1" />
-                Add
-              </Button>
-            }
-          />
-        </div>
-        {stock.sector && (
-          <span className="text-sm text-gray-500">{stock.sector}</span>
-        )}
-      </div>
-      
-      {/* Key metrics in a clean grid */}
-      <div className="space-y-3">
-        {sortedKeys.slice(0, 6).map(key => (
-          stock[key] !== null && stock[key] !== undefined && (
-            <div key={key} className="flex justify-between items-center py-1">
-              <span className="text-sm text-gray-600 font-medium">
-                {formatFieldName(key)}
-              </span>
-              <span className="text-sm font-semibold text-gray-900 text-right">
-                {formatFieldValue(key, stock[key])}
+  // Stock Card Component
+  const StockCard = ({ stock, index }: { stock: any; index: number }) => {
+    const currentPrice = stock.current_price;
+    const priceChange = stock.price_momentum_3m || 0;
+    const isPositive = priceChange >= 0;
+
+    return (
+      <Card key={`${stock.company_name}-${index}`} className="hover:shadow-lg transition-all duration-200 border border-gray-200 bg-white">
+        <CardContent className="p-4">
+          {/* Header Section */}
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-lg text-gray-900 leading-tight break-words">
+                {stock.company_name}
+              </h3>
+              {stock.sector && (
+                <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                  {stock.sector}
+                </span>
+              )}
+            </div>
+            <PortfolioAddModal
+              assetName={stock.company_name}
+              assetSymbol={stock.company_name}
+              assetType="stock"
+              currentPrice={stock.current_price}
+              trigger={
+                <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 ml-3 flex-shrink-0">
+                  <FolderPlus size={14} className="mr-1" />
+                  Add
+                </Button>
+              }
+            />
+          </div>
+
+          {/* Price Section */}
+          <div className="mb-4">
+            <div className="flex items-center gap-3">
+              <div>
+                <p className="text-2xl font-bold text-gray-900">
+                  {currentPrice ? formatFieldValue('current_price', currentPrice) : 'N/A'}
+                </p>
+                {priceChange !== 0 && (
+                  <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                    {isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                    <span className="text-sm font-medium">
+                      {isPositive ? '+' : ''}{formatFieldValue('price_momentum_3m', priceChange)} (3M)
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Key Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+            {displayKeys.slice(1, 7).map(key => (
+              stock[key] !== null && stock[key] !== undefined && (
+                <div key={key} className="text-center p-2 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-600 font-medium">
+                    {formatFieldName(key)}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 mt-1">
+                    {formatFieldValue(key, stock[key])}
+                  </p>
+                </div>
+              )
+            ))}
+          </div>
+
+          {/* Additional Info */}
+          {stock.is_growth_stock && (
+            <div className="mb-3">
+              <span className="inline-block text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                Growth Stock
               </span>
             </div>
-          )
-        ))}
-      </div>
-      
-      {/* View details button */}
-      <div className="pt-2 border-t border-gray-100">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="w-full text-blue-600 hover:bg-blue-50"
-          onClick={() => {/* TODO: Navigate to stock details */}}
-        >
-          <Eye size={14} className="mr-2" />
-          View Details
-        </Button>
-      </div>
-    </div>
-  );
+          )}
+
+          {/* Action Button */}
+          <div className="pt-3 border-t border-gray-100">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="w-full text-blue-600 hover:bg-blue-50"
+              onClick={() => {/* TODO: Navigate to stock details */}}
+            >
+              <Eye size={14} className="mr-2" />
+              View Details
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <Card className="mb-4 bg-white/95 backdrop-blur-md border-blue-200">
@@ -174,75 +211,16 @@ const StockResultsTable = ({
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Mobile view - Cards */}
-        <div className="block md:hidden">
-          <div className="space-y-4">
-            {results.map((stock, index) => (
-              <MobileStockCard key={`mobile-${stock.company_name}-${index}`} stock={stock} index={index} />
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop/Tablet view - Table */}
-        <div className="hidden md:block">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-semibold min-w-[150px]">Company</TableHead>
-                  {sortedKeys.slice(0, 6).map(key => (
-                    <TableHead key={key} className="font-semibold whitespace-nowrap min-w-[100px]">
-                      {formatFieldName(key)}
-                    </TableHead>
-                  ))}
-                  <TableHead className="font-semibold min-w-[120px]">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {results.map((stock, index) => (
-                  <TableRow key={`${stock.company_name}-${index}`} className="hover:bg-blue-50/50">
-                    <TableCell className="font-medium">
-                      <div>
-                        <div className="font-semibold text-sm lg:text-base">{stock.company_name}</div>
-                        {stock.sector && (
-                          <div className="text-xs text-gray-500">{stock.sector}</div>
-                        )}
-                      </div>
-                    </TableCell>
-                    {sortedKeys.slice(0, 6).map(key => (
-                      <TableCell key={key} className="whitespace-nowrap text-sm">
-                        {stock[key] !== null && stock[key] !== undefined 
-                          ? formatFieldValue(key, stock[key])
-                          : 'N/A'
-                        }
-                      </TableCell>
-                    ))}
-                    <TableCell>
-                      <div className="flex gap-1">
-                        <PortfolioAddModal
-                          assetName={stock.company_name}
-                          assetSymbol={stock.company_name}
-                          assetType="stock"
-                          currentPrice={stock.current_price}
-                          trigger={
-                            <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50">
-                              <FolderPlus size={14} className="mr-1" />
-                              <span className="hidden lg:inline">Add</span>
-                            </Button>
-                          }
-                        />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+        {/* Cards Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {results.map((stock, index) => (
+            <StockCard key={`stock-${stock.company_name}-${index}`} stock={stock} index={index} />
+          ))}
         </div>
         
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="mt-6 flex justify-center">
+          <div className="flex justify-center">
             <Pagination>
               <PaginationContent className="flex-wrap gap-1">
                 <PaginationItem>
@@ -288,7 +266,7 @@ const StockResultsTable = ({
           </div>
         )}
         
-        {sortedKeys.length > 6 && (
+        {displayKeys.length > 6 && (
           <div className="mt-4 text-center">
             <p className="text-xs text-gray-500">
               Showing key metrics. Full details available on individual stock pages.
