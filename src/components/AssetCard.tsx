@@ -1,10 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Heart, TrendingUp, TrendingDown, Plus, BarChart3, FolderPlus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import PortfolioAddModal from '@/components/PortfolioAddModal';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface Asset {
   id: number | string;
@@ -27,8 +24,23 @@ interface AssetCardProps {
 }
 
 const AssetCard = ({ asset, showReason }: AssetCardProps) => {
-  const navigate = useNavigate();
-  const isPositive = asset.change > 0;
+  // Fixed logic: Check if this is a mutual fund with raw data
+  // A mutual fund can be identified by having rawData AND containing mutual fund specific fields
+  const isMutualFund = asset.rawData && (
+    asset.rawData.scheme_name || 
+    asset.rawData.mf_schcode || 
+    asset.rawData.nav_price !== undefined ||
+    asset.rawData.amc_name ||
+    asset.rawData.main_category
+  );
+
+  // Check if this is a stock with raw data
+  const isStock = asset.rawData && (
+    asset.rawData.company_name ||
+    asset.rawData.current_price !== undefined ||
+    asset.rawData.pe_ratio !== undefined ||
+    asset.rawData.pb_ratio !== undefined
+  );
 
   const getTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
@@ -41,68 +53,6 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
       case 'index fund': return 'bg-blue-100 text-blue-700';
       default: return 'bg-gray-100 text-gray-700';
     }
-  };
-
-  const getReasonText = () => {
-    switch (asset.type.toLowerCase()) {
-      case 'stock':
-        return "Matches your moderate risk profile and shows strong fundamentals with consistent growth.";
-      case 'mutual-fund':
-      case 'elss':
-        return "Diversified portfolio aligned with your investment horizon and risk tolerance.";
-      case 'crypto':
-        return "High growth potential suitable for your aggressive risk appetite.";
-      default:
-        return "Recommended based on your investment preferences and market analysis.";
-    }
-  };
-
-  const handleAnalyze = () => {
-    if (asset.type === 'stock') {
-      navigate(`/research/stock/${asset.symbol.toLowerCase()}`);
-    }
-    // Add navigation for other asset types later
-  };
-
-  // Fixed logic: Check if this is a mutual fund with raw data
-  // A mutual fund can be identified by having rawData AND containing mutual fund specific fields
-  const isMutualFund = asset.rawData && (
-    asset.rawData.scheme_name || 
-    asset.rawData.mf_schcode || 
-    asset.rawData.nav_price !== undefined ||
-    asset.rawData.amc_name ||
-    asset.rawData.main_category
-  );
-
-  // Function to normalize asset type to expected PortfolioAddModal types
-  const getNormalizedAssetType = (type: string): "stock" | "mutual-fund" | "ipo" | "insurance" | "credit" | "smallcase" => {
-    const normalizedType = type.toLowerCase();
-    
-    if (normalizedType.includes('stock') || normalizedType.includes('equity')) {
-      return 'stock';
-    }
-    if (normalizedType.includes('mutual') || normalizedType.includes('elss') || normalizedType.includes('hybrid') || normalizedType.includes('index')) {
-      return 'mutual-fund';
-    }
-    if (normalizedType.includes('ipo')) {
-      return 'ipo';
-    }
-    if (normalizedType.includes('insurance')) {
-      return 'insurance';
-    }
-    if (normalizedType.includes('credit')) {
-      return 'credit';
-    }
-    if (normalizedType.includes('smallcase')) {
-      return 'smallcase';
-    }
-    
-    // Default fallback - if we detected it as a mutual fund above, return mutual-fund
-    if (isMutualFund) {
-      return 'mutual-fund';
-    }
-    
-    return 'mutual-fund';
   };
 
   const renderMutualFundData = () => {
@@ -146,8 +96,43 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     );
   };
 
+  const renderStockData = () => {
+    if (!isStock || !asset.rawData) return null;
+
+    const data = asset.rawData;
+    const price = data.current_price || asset.price || 0;
+    const momentum3m = data.price_momentum_3m || 0;
+    const isPositive = momentum3m > 0;
+    
+    return (
+      <>
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <p className="font-bold text-lg">₹{price.toLocaleString()}</p>
+            <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+              {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+              <span className="text-xs">
+                3M: {isPositive ? '+' : ''}{(momentum3m * 100).toFixed(2)}%
+              </span>
+            </div>
+          </div>
+          <div className="text-right text-xs text-gray-500">
+            {data.pe_ratio && (
+              <div>P/E: {Number(data.pe_ratio).toFixed(1)}</div>
+            )}
+            {data.pb_ratio && (
+              <div>P/B: {Number(data.pb_ratio).toFixed(1)}</div>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  };
+
   const renderGenericData = () => {
-    if (isMutualFund) return null;
+    if (isMutualFund || isStock) return null;
+
+    const isPositive = asset.change > 0;
 
     return (
       <>
@@ -177,7 +162,12 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${isMutualFund ? 'text-center w-full' : ''}`}>
-                {isMutualFund ? asset.rawData?.scheme_name || asset.name : asset.name}
+                {isMutualFund ? 
+                  (asset.rawData?.scheme_name || asset.name) : 
+                  isStock ? 
+                    (asset.rawData?.company_name || asset.name) : 
+                    asset.name
+                }
               </h3>
               {!isMutualFund && (
                 <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${getTypeColor(asset.type)}`}>
@@ -192,43 +182,18 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
                 </span>
               </div>
             )}
-            {/* Only show symbol for non-mutual funds */}
-            {!isMutualFund && (
+            {/* Only show symbol for non-mutual funds and non-stocks */}
+            {!isMutualFund && !isStock && (
               <p className="text-xs text-gray-600">{asset.symbol}</p>
             )}
           </div>
         </div>
 
-        {/* Render mutual fund specific data or generic data */}
+        {/* Render mutual fund, stock, or generic data */}
         <div className="flex-1">
           {renderMutualFundData()}
+          {renderStockData()}
           {renderGenericData()}
-        </div>
-
-        <div className="mb-2">
-          <p className="text-xs text-gray-700 line-clamp-2">{asset.news}</p>
-        </div>
-
-        <div className="flex gap-2 flex-wrap">
-          <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs h-7">
-            <Plus size={12} className="mr-1" />
-            <span className="truncate">Watchlist</span>
-          </Button>
-          <Button size="sm" variant="outline" onClick={handleAnalyze} className="text-xs h-7">
-            <BarChart3 size={12} className="mr-1" />
-            <span className="hidden sm:inline">Analyze</span>
-          </Button>
-          <PortfolioAddModal
-            assetName={isMutualFund ? asset.rawData?.scheme_name || asset.name : asset.name}
-            assetSymbol={asset.symbol}
-            assetType={getNormalizedAssetType(asset.type)}
-            currentPrice={isMutualFund ? asset.rawData?.nav_price : asset.price}
-            trigger={
-              <Button size="sm" variant="outline" className="text-xs h-7">
-                <FolderPlus size={12} />
-              </Button>
-            }
-          />
         </div>
       </CardContent>
     </Card>
