@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -493,14 +492,28 @@ const Feed = () => {
     // Extract all items from all sections
     const allAssets = mixedFeedData.sections.flatMap(section => section.items || []);
     
+    // Map MixedFeedItem to Asset type
+    const mappedAssets = allAssets.map((item: any) => ({
+      id: item._id || item.mf_schcode || Math.random(),
+      name: item.scheme_name || item.name || 'Unknown Asset',
+      symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
+      type: item.feed_category || item.main_category || item.asset_type || 'mutual-fund',
+      price: item.nav_price || item.price || 0,
+      change: item.ret_1month || item.change || 0,
+      changePercent: item.ret_1month || item.changePercent || 0,
+      volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+      latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+      news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`
+    }));
+    
     if (activeFilter === 'all') {
-      return allAssets;
+      return mappedAssets;
     }
     
     // Filter based on asset type mapping
     const filterMapping: { [key: string]: string[] } = {
       'stocks': ['stock', 'equity'],
-      'mutual-funds': ['mutual_fund', 'mf'],
+      'mutual-funds': ['mutual_fund', 'mf', 'mutual-fund'],
       'etfs': ['etf'],
       'bonds': ['bond'],
       'fd': ['fd', 'fixed_deposit'],
@@ -513,12 +526,9 @@ const Feed = () => {
     };
     
     const allowedTypes = filterMapping[activeFilter] || [];
-    return allAssets.filter((asset: any) => 
+    return mappedAssets.filter((asset: any) => 
       allowedTypes.some(type => 
-        asset.asset_type?.toLowerCase().includes(type) || 
-        asset.type?.toLowerCase().includes(type) ||
-        asset.main_category?.toLowerCase().includes(type) ||
-        asset.feed_category?.toLowerCase().includes(type)
+        asset.type?.toLowerCase().includes(type)
       )
     );
   };
