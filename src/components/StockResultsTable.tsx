@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -173,9 +172,10 @@ const StockResultsTable = ({
     const displayName = getDisplayName(fund);
     const navPrice = getPriceValue(fund);
     const oneYearReturn = fund.ret_1year || fund.return1Year || 0;
-    const threeYearReturn = fund.ret_3year || fund.return3Year || 0;
+    const sixMonthReturn = fund.ret_6month || fund.return6Month || 0;
     const aum = fund.current_aum || fund.aum || 0;
     const expenseRatio = fund.total_expense_ratio || fund.expense_ratio || 0;
+    const sipMinimum = fund.sip_minimum || 0;
     const amcName = fund.amc_name || fund.amcName || '';
     const category = fund.main_category || fund.category || '';
 
@@ -201,31 +201,35 @@ const StockResultsTable = ({
 
             {/* Middle Section - Performance Metrics */}
             <div className="flex items-center gap-3 mx-3">
-              {/* Returns */}
+              {/* 6M Return */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-0.5">6M Return</p>
+                <p className="text-sm font-semibold text-green-600">
+                  {sixMonthReturn ? `${(sixMonthReturn * 100).toFixed(1)}%` : 'N/A'}
+                </p>
+              </div>
+              
+              {/* 1Y Return */}
               <div className="text-center">
                 <p className="text-xs text-gray-500 mb-0.5">1Y Return</p>
                 <p className="text-sm font-semibold text-green-600">
                   {oneYearReturn ? `${(oneYearReturn * 100).toFixed(1)}%` : 'N/A'}
                 </p>
               </div>
+              
+              {/* Expense Ratio */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">3Y Return</p>
-                <p className="text-sm font-semibold text-green-600">
-                  {threeYearReturn ? `${(threeYearReturn * 100).toFixed(1)}%` : 'N/A'}
+                <p className="text-xs text-gray-500 mb-0.5">Expense</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {expenseRatio ? `${expenseRatio.toFixed(2)}%` : 'N/A'}
                 </p>
               </div>
               
-              {/* AUM & Expense Ratio */}
+              {/* Min SIP */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">AUM</p>
+                <p className="text-xs text-gray-500 mb-0.5">Min SIP</p>
                 <p className="text-sm font-medium text-gray-900">
-                  {aum ? `₹${(aum / 10000000).toFixed(0)}Cr` : 'N/A'}
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">Exp. Ratio</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {expenseRatio ? `${expenseRatio.toFixed(2)}%` : 'N/A'}
+                  {sipMinimum ? `₹${sipMinimum}` : 'N/A'}
                 </p>
               </div>
               
@@ -372,7 +376,7 @@ const StockResultsTable = ({
             <CardTitle className="flex flex-col gap-2 text-lg min-w-0 flex-1">
               <span>{primaryAssetType === 'mutual-fund' ? 'Mutual Fund' : 'Stock'} Search Results</span>
               <div className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-normal w-fit">
-                "{query.length > 30 ? query.substring(0, 30) + '...' : query}" - {totalRecords} found
+                {totalRecords} {primaryAssetType === 'mutual-fund' ? 'funds' : 'stocks'} found
               </div>
             </CardTitle>
             <Button 
