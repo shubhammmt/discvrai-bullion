@@ -194,12 +194,13 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
               </div>
             )}
           </div>
-          {/* Add button with smaller icon for mutual funds and stocks */}
+          {/* Circular Add button for mutual funds and stocks */}
           {(isMutualFund || isStock) && (
-            <button className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs flex items-center gap-1 ml-2 flex-shrink-0">
-              <Plus size={12} />
-              Add
-            </button>
+            <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+              <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
+                <Plus size={16} />
+              </button>
+            </div>
           )}
         </div>
 
