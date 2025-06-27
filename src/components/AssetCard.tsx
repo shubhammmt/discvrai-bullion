@@ -192,7 +192,10 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
                 </span>
               </div>
             )}
-            <p className={`text-xs text-gray-600 ${isMutualFund ? 'text-center' : ''}`}>{asset.symbol}</p>
+            {/* Only show symbol for non-mutual funds */}
+            {!isMutualFund && (
+              <p className="text-xs text-gray-600">{asset.symbol}</p>
+            )}
           </div>
         </div>
 
