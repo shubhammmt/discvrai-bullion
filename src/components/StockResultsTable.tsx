@@ -265,98 +265,111 @@ const StockResultsTable = ({
     );
   };
 
-  // Asset Card Component (for stocks - original implementation)
-  const AssetCard = ({ asset, index }: { asset: any; index: number }) => {
-    const displayName = getDisplayName(asset);
-    const displayPrice = getDisplayPrice(asset);
-    const priceChange = asset.price_momentum_3m || asset.ret_1month || asset.changePercent || 0;
+  // Compact Stock Card Component (similar to mutual fund format)
+  const CompactStockCard = ({ stock, index }: { stock: any; index: number }) => {
+    const displayName = getDisplayName(stock);
+    const currentPrice = getPriceValue(stock);
+    const priceChange = stock.price_momentum_3m || stock.ret_1month || stock.changePercent || 0;
     const isPositive = priceChange >= 0;
+    const marketCap = stock.market_cap || 0;
+    const peRatio = stock.pe_ratio || 0;
+    const roe = stock.roe || 0;
+    const roic = stock.roic || 0;
+    const netMargin = stock.net_margin || 0;
+    const sector = stock.sector || '';
 
     return (
-      <Card key={`${displayName}-${index}`} className="hover:shadow-lg transition-all duration-200 border border-gray-200 bg-white">
+      <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
         <CardContent className="p-4">
-          {/* Header Section */}
-          <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center justify-between">
+            {/* Left Section - Stock Info */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-lg text-gray-900 leading-tight break-words">
-                {displayName}
-              </h3>
-              {(asset.sector || asset.category || asset.amc_name) && (
-                <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                  {asset.sector || asset.category || asset.amc_name}
-                </span>
-              )}
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-base text-gray-900 leading-tight break-words mb-1">
+                    {displayName}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>{stock.symbol || displayName}</span>
+                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                      stock
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 text-xs text-gray-600 mb-2">
+                {sector && <span>{sector}</span>}
+                {stock.is_growth_stock && <span>• Growth Stock</span>}
+              </div>
             </div>
-            <PortfolioAddModal
-              assetName={displayName}
-              assetSymbol={asset.symbol || displayName}
-              assetType={asset.assetType || 'stock'}
-              currentPrice={getPriceValue(asset)}
-              trigger={
-                <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 ml-3 flex-shrink-0">
-                  <FolderPlus size={14} className="mr-1" />
-                  Add
-                </Button>
-              }
-            />
-          </div>
 
-          {/* Price Section */}
-          <div className="mb-4">
-            <div className="flex items-center gap-3">
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {displayPrice}
+            {/* Middle Section - Stock Metrics */}
+            <div className="flex items-center gap-6 mx-6">
+              {/* Market Cap */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">Market Cap</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {marketCap ? `₹${(marketCap / 10000000).toFixed(0)}Cr` : 'N/A'}
+                </p>
+              </div>
+              
+              {/* PE Ratio */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">PE Ratio</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {peRatio ? peRatio.toFixed(2) : 'N/A'}
+                </p>
+              </div>
+              
+              {/* ROE */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">ROE</p>
+                <p className="text-sm font-semibold text-green-600">
+                  {roe ? `${(roe * 100).toFixed(1)}%` : 'N/A'}
+                </p>
+              </div>
+              
+              {/* Net Margin */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">Net Margin</p>
+                <p className="text-sm font-semibold text-green-600">
+                  {netMargin ? `${(netMargin * 100).toFixed(1)}%` : 'N/A'}
+                </p>
+              </div>
+              
+              {/* Current Price & Change */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">Current Price</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {currentPrice ? `₹${currentPrice.toFixed(2)}` : 'N/A'}
                 </p>
                 {priceChange !== 0 && (
-                  <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                    {isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                    <span className="text-sm font-medium">
-                      {isPositive ? '+' : ''}{formatFieldValue('change_percent', priceChange, asset.assetType)} 
-                      {asset.assetType === 'mutual-fund' ? ' (1M)' : ' (3M)'}
+                  <div className={`flex items-center justify-center gap-1 text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                    {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                    <span>
+                      {isPositive ? '+' : ''}{formatFieldValue('change_percent', priceChange)} (3M)
                     </span>
                   </div>
                 )}
               </div>
             </div>
-          </div>
 
-          {/* Key Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-            {displayKeys.slice(1, 7).map(key => (
-              asset[key] !== null && asset[key] !== undefined && (
-                <div key={key} className="text-center p-2 bg-gray-50 rounded-lg">
-                  <p className="text-xs text-gray-600 font-medium">
-                    {formatFieldName(key)}
-                  </p>
-                  <p className="text-sm font-semibold text-gray-900 mt-1">
-                    {formatFieldValue(key, asset[key], asset.assetType)}
-                  </p>
-                </div>
-              )
-            ))}
-          </div>
-
-          {/* Additional Info */}
-          {(asset.is_growth_stock || asset.risk_level) && (
-            <div className="mb-3">
-              <span className="inline-block text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                {asset.is_growth_stock ? 'Growth Stock' : asset.risk_level}
-              </span>
+            {/* Right Section - Actions */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <PortfolioAddModal
+                assetName={displayName}
+                assetSymbol={stock.symbol || displayName}
+                assetType="stock"
+                currentPrice={currentPrice}
+                trigger={
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-3 py-2">
+                    <FolderPlus size={14} className="mr-1" />
+                    Add
+                  </Button>
+                }
+              />
             </div>
-          )}
-
-          {/* Action Button */}
-          <div className="pt-3 border-t border-gray-100">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="w-full text-blue-600 hover:bg-blue-50"
-              onClick={() => {/* TODO: Navigate to asset details */}}
-            >
-              <Eye size={14} className="mr-2" />
-              View Details
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -436,7 +449,7 @@ const StockResultsTable = ({
             primaryAssetType === 'mutual-fund' ? (
               <CompactMutualFundCard key={`mf-${getDisplayName(asset)}-${index}`} fund={asset} index={index} />
             ) : (
-              <AssetCard key={`asset-${getDisplayName(asset)}-${index}`} asset={asset} index={index} />
+              <CompactStockCard key={`stock-${getDisplayName(asset)}-${index}`} stock={asset} index={index} />
             )
           )}
         </div>
