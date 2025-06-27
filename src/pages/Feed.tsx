@@ -488,10 +488,13 @@ const Feed = () => {
 
   // Filter assets from mixed feed based on active filter
   const getFilteredAssets = () => {
-    if (!mixedFeedData?.trending_assets) return [];
+    if (!mixedFeedData?.sections) return [];
+    
+    // Extract all items from all sections
+    const allAssets = mixedFeedData.sections.flatMap(section => section.items || []);
     
     if (activeFilter === 'all') {
-      return mixedFeedData.trending_assets;
+      return allAssets;
     }
     
     // Filter based on asset type mapping
@@ -510,10 +513,12 @@ const Feed = () => {
     };
     
     const allowedTypes = filterMapping[activeFilter] || [];
-    return mixedFeedData.trending_assets.filter((asset: any) => 
+    return allAssets.filter((asset: any) => 
       allowedTypes.some(type => 
         asset.asset_type?.toLowerCase().includes(type) || 
-        asset.type?.toLowerCase().includes(type)
+        asset.type?.toLowerCase().includes(type) ||
+        asset.main_category?.toLowerCase().includes(type) ||
+        asset.feed_category?.toLowerCase().includes(type)
       )
     );
   };
