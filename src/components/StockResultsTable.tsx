@@ -396,7 +396,7 @@ const StockResultsTable = ({
                   <SelectValue placeholder="Select field" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">No sorting</SelectItem>
+                  <SelectItem value="none">No sorting</SelectItem>
                   {sortableFields.map(field => (
                     <SelectItem key={field.key} value={field.key}>
                       {field.label}
@@ -405,7 +405,7 @@ const StockResultsTable = ({
                 </SelectContent>
               </Select>
               
-              {sortField && (
+              {sortField && sortField !== 'none' && (
                 <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
                   <SelectTrigger className="w-32 h-8 text-sm">
                     <SelectValue />
@@ -421,7 +421,7 @@ const StockResultsTable = ({
           
           <div className="text-sm text-gray-600">
             Showing {startResult}-{endResult} of {totalRecords} results
-            {sortField && (
+            {sortField && sortField !== 'none' && (
               <span className="ml-2 text-blue-600">
                 • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
               </span>
