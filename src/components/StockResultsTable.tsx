@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { X, FolderPlus, Eye, TrendingUp, TrendingDown, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 interface StockResultsTableProps {
@@ -169,193 +171,196 @@ const StockResultsTable = ({
   };
 
   return (
-    <Card className="mb-4 bg-white/95 backdrop-blur-md border-blue-200">
-      <CardHeader className="pb-2 p-4 sm:p-6">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-start justify-between gap-3">
-            <CardTitle className="flex flex-col gap-2 text-lg min-w-0 flex-1">
-              <span>{primaryAssetType === 'mutual-fund' ? 'Mutual Fund' : 'Stock'} Search Results</span>
-              <div className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-normal w-fit">
-                {totalRecords} {primaryAssetType === 'mutual-fund' ? 'funds' : 'stocks'} found
-              </div>
-            </CardTitle>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={onDismiss}
-              className="h-8 w-8 p-0 hover:bg-red-50 flex-shrink-0"
-            >
-              <X size={16} className="text-gray-500" />
-            </Button>
-          </div>
-          
-          <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
-            Showing {startResult}-{endResult} of {totalRecords} results
-            {sortField && (
-              <span className="ml-2 text-blue-600">
-                • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
-              </span>
-            )}
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="p-4 sm:p-6">
-        {/* Header Row with Labels and Sort Buttons */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg mb-4 overflow-x-auto">
-          <div className="min-w-max">
-            <div className="grid grid-cols-[minmax(250px,300px)_120px_120px_120px_120px_100px] gap-0 items-center">
-              {/* Name Column - Fixed width with minmax */}
-              <div className="flex items-center justify-start px-3 py-3 border-r border-gray-200">
-                <span className="text-sm font-semibold text-gray-700">
-                  {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
-                </span>
-                <SortButton field="name" />
-              </div>
-              
-              {/* Data Columns */}
-              {displayKeys.map((key, index) => (
-                <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200">
-                  <span className="text-xs font-semibold text-gray-700 text-center">
-                    {formatFieldName(key)}
-                  </span>
-                  {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+    <TooltipProvider>
+      <Card className="mb-4 bg-white/95 backdrop-blur-md border-blue-200">
+        <CardHeader className="pb-2 p-4 sm:p-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-start justify-between gap-3">
+              <CardTitle className="flex flex-col gap-2 text-lg min-w-0 flex-1">
+                <span>{primaryAssetType === 'mutual-fund' ? 'Mutual Fund' : 'Stock'} Search Results</span>
+                <div className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-normal w-fit">
+                  {totalRecords} {primaryAssetType === 'mutual-fund' ? 'funds' : 'stocks'} found
                 </div>
-              ))}
-              
-              {/* Action Column */}
-              <div className="flex items-center justify-center px-3 py-3">
-                <span className="text-xs font-semibold text-gray-700">Action</span>
-              </div>
+              </CardTitle>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={onDismiss}
+                className="h-8 w-8 p-0 hover:bg-red-50 flex-shrink-0"
+              >
+                <X size={16} className="text-gray-500" />
+              </Button>
+            </div>
+            
+            <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+              Showing {startResult}-{endResult} of {totalRecords} results
+              {sortField && (
+                <span className="ml-2 text-blue-600">
+                  • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
+                </span>
+              )}
             </div>
           </div>
-        </div>
-
-        {/* Results Display */}
-        <div className="space-y-2 mb-6 overflow-x-auto">
-          {sortedResults.map((asset, index) => {
-            const displayName = getDisplayName(asset);
-            const priceValue = getPriceValue(asset);
-            
-            return (
-              <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-                <CardContent className="p-0">
-                  <div className="min-w-max">
-                    <div className="grid grid-cols-[minmax(250px,300px)_120px_120px_120px_120px_100px] gap-0 items-center">
-                      {/* Name Column - Fixed width with truncation and tooltip */}
-                      <div className="px-3 py-3 border-r border-gray-100 max-w-[300px]">
-                        <div className="text-left">
-                          <h3 
-                            className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer hover:text-blue-600 transition-colors"
-                            title={displayName}
-                          >
-                            {displayName}
-                          </h3>
-                          {(asset.amc_name || asset.sector) && (
-                            <div 
-                              className="text-xs text-gray-600 truncate mt-1 cursor-pointer"
-                              title={asset.amc_name || asset.sector}
-                            >
-                              {asset.amc_name || asset.sector}
-                              {asset.main_category && <span> • {asset.main_category}</span>}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Data Columns - Fixed width */}
-                      {displayKeys.map((key) => (
-                        <div key={key} className="px-3 py-3 border-r border-gray-100 w-[120px]">
-                          <div className="text-center">
-                            <span 
-                              className="text-sm font-medium text-gray-900 truncate cursor-pointer block"
-                              title={formatFieldValue(key, asset[key], primaryAssetType)}
-                            >
-                              {formatFieldValue(key, asset[key], primaryAssetType)}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                      
-                      {/* Action Column - Fixed width */}
-                      <div className="px-3 py-3 w-[100px]">
-                        <div className="flex justify-center">
-                          <PortfolioAddModal
-                            assetName={displayName}
-                            assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
-                            assetType={primaryAssetType}
-                            currentPrice={priceValue}
-                            trigger={
-                              <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
-                                <FolderPlus size={12} className="mr-1" />
-                                Add
-                              </Button>
-                            }
-                          />
-                        </div>
-                      </div>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6">
+          {/* Table Layout */}
+          <div className="rounded-lg border border-gray-200 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50">
+                  <TableHead className="w-[40%] min-w-[250px]">
+                    <div className="flex items-center">
+                      <span className="text-sm font-semibold text-gray-700">
+                        {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
+                      </span>
+                      <SortButton field="name" />
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-        
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="flex justify-center">
-            <Pagination>
-              <PaginationContent className="flex-wrap gap-1">
-                <PaginationItem>
-                  <PaginationPrevious 
-                    onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-                    className={`text-sm ${currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
-                  />
-                </PaginationItem>
-                
-                {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
-                  let pageNum;
-                  if (totalPages <= 3) {
-                    pageNum = i + 1;
-                  } else if (currentPage <= 2) {
-                    pageNum = i + 1;
-                  } else if (currentPage >= totalPages - 1) {
-                    pageNum = totalPages - 2 + i;
-                  } else {
-                    pageNum = currentPage - 1 + i;
-                  }
+                  </TableHead>
+                  {displayKeys.map((key) => (
+                    <TableHead key={key} className="text-center w-[12%]">
+                      <div className="flex items-center justify-center">
+                        <span className="text-xs font-semibold text-gray-700">
+                          {formatFieldName(key)}
+                        </span>
+                        {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+                      </div>
+                    </TableHead>
+                  ))}
+                  <TableHead className="text-center w-[8%]">
+                    <span className="text-xs font-semibold text-gray-700">Action</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedResults.map((asset, index) => {
+                  const displayName = getDisplayName(asset);
+                  const priceValue = getPriceValue(asset);
                   
                   return (
-                    <PaginationItem key={pageNum}>
-                      <PaginationLink
-                        onClick={() => onPageChange(pageNum)}
-                        isActive={currentPage === pageNum}
-                        className="cursor-pointer text-sm min-w-[36px] h-9"
-                      >
-                        {pageNum}
-                      </PaginationLink>
-                    </PaginationItem>
+                    <TableRow key={`${displayName}-${index}`} className="hover:bg-gray-50">
+                      {/* Name Column with Tooltip */}
+                      <TableCell className="max-w-0">
+                        <div className="text-left">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <h3 className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer hover:text-blue-600 transition-colors">
+                                {displayName}
+                              </h3>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{displayName}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          {(asset.amc_name || asset.sector) && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <div className="text-xs text-gray-600 truncate mt-1 cursor-pointer">
+                                  {asset.amc_name || asset.sector}
+                                  {asset.main_category && <span> • {asset.main_category}</span>}
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{asset.amc_name || asset.sector}{asset.main_category && <span> • {asset.main_category}</span>}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+                        </div>
+                      </TableCell>
+                      
+                      {/* Data Columns */}
+                      {displayKeys.map((key) => (
+                        <TableCell key={key} className="text-center">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="text-sm font-medium text-gray-900 cursor-pointer">
+                                {formatFieldValue(key, asset[key], primaryAssetType)}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{formatFieldValue(key, asset[key], primaryAssetType)}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TableCell>
+                      ))}
+                      
+                      {/* Action Column */}
+                      <TableCell className="text-center">
+                        <PortfolioAddModal
+                          assetName={displayName}
+                          assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
+                          assetType={primaryAssetType}
+                          currentPrice={priceValue}
+                          trigger={
+                            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
+                              <FolderPlus size={12} className="mr-1" />
+                              Add
+                            </Button>
+                          }
+                        />
+                      </TableCell>
+                    </TableRow>
                   );
                 })}
-                
-                <PaginationItem>
-                  <PaginationNext 
-                    onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-                    className={`text-sm ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+              </TableBody>
+            </Table>
           </div>
-        )}
-        
-        {isLoading && (
-          <div className="mt-4 text-center text-sm text-gray-500">
-            Loading...
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-6">
+              <Pagination>
+                <PaginationContent className="flex-wrap gap-1">
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+                      className={`text-sm ${currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 2) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 1) {
+                      pageNum = totalPages - 2 + i;
+                    } else {
+                      pageNum = currentPage - 1 + i;
+                    }
+                    
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          onClick={() => onPageChange(pageNum)}
+                          isActive={currentPage === pageNum}
+                          className="cursor-pointer text-sm min-w-[36px] h-9"
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
+                      className={`text-sm ${currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
+          
+          {isLoading && (
+            <div className="mt-4 text-center text-sm text-gray-500">
+              Loading...
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </TooltipProvider>
   );
 };
 
