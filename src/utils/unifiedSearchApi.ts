@@ -307,7 +307,7 @@ export interface StockMetricsResponse {
 
 // API Configuration - Updated with correct bearer token including all scopes
 const BASE_URL = 'https://p646lccs-8008.inc1.devtunnels.ms';
-const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
+const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
 const SESSION_ID = '0aee2f9b-b3ff-447d-bf7e-cb5318a7c550';
 
 // Helper function to get authentication headers
@@ -511,18 +511,28 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
 
       const apiResponse: MutualFundMetricsResponse = await response.json();
       
-      // Transform API response to match our interface
+      // Transform API response to match our interface with proper field mapping
       return {
         success: apiResponse.success,
         data: apiResponse.data.map((fund: any) => ({
-          symbol: fund.scheme_code || fund.basic_info?.scheme_code,
+          symbol: fund.scheme_code || fund.basic_info?.scheme_code || fund.mf_schcode?.toString(),
           name: fund.scheme_name || fund.basic_info?.scheme_name,
           assetType: 'mutual-fund' as const,
-          price: fund.nav || fund.current_performance?.nav,
-          changePercent: fund.ret_1year || fund.current_performance?.returns?.ret_1year,
-          category: fund.scheme_category || fund.basic_info?.scheme_category?.main_category,
-          expenseRatio: fund.expense_ratio || fund.fund_metrics?.expense_ratio,
-          aum: fund.aum || fund.fund_metrics?.aum,
+          // Map price fields correctly for mutual funds
+          price: fund.nav_price || fund.nav || fund.current_performance?.nav,
+          nav_price: fund.nav_price || fund.nav || fund.current_performance?.nav,
+          nav: fund.nav_price || fund.nav || fund.current_performance?.nav,
+          changePercent: fund.ret_1month || fund.current_performance?.returns?.ret_1month,
+          ret_1month: fund.ret_1month || fund.current_performance?.returns?.ret_1month,
+          ret_1year: fund.ret_1year || fund.current_performance?.returns?.ret_1year,
+          ret_3year: fund.ret_3year || fund.current_performance?.returns?.ret_3year,
+          category: fund.scheme_category || fund.basic_info?.scheme_category?.main_category || fund.main_category,
+          expenseRatio: fund.expense_ratio || fund.fund_metrics?.expense_ratio || fund.total_expense_ratio,
+          total_expense_ratio: fund.expense_ratio || fund.fund_metrics?.expense_ratio || fund.total_expense_ratio,
+          aum: fund.aum || fund.fund_metrics?.aum || fund.current_aum,
+          current_aum: fund.aum || fund.fund_metrics?.aum || fund.current_aum,
+          amc_name: fund.amc_name || fund.basic_info?.amc_name,
+          risk_level: fund.risk_level,
           ...fund
         })),
         total_records: apiResponse.total_records,

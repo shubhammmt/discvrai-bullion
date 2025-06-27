@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,6 +35,21 @@ const StockResultsTable = ({
 
   if (!results || results.length === 0) return null;
 
+  // Helper function to get the correct price field based on asset type
+  const getPriceValue = (item: any): number | null => {
+    if (item.assetType === 'mutual-fund') {
+      return item.nav_price || item.nav || item.current_nav || item.price || null;
+    }
+    return item.current_price || item.price || null;
+  };
+
+  // Helper function to get display price string
+  const getDisplayPrice = (item: any): string => {
+    const priceValue = getPriceValue(item);
+    if (priceValue === null || priceValue === undefined) return 'N/A';
+    return `₹${typeof priceValue === 'number' ? priceValue.toFixed(2) : priceValue}`;
+  };
+
   // Helper function to format field names for display
   const formatFieldName = (fieldName: string): string => {
     return fieldName
@@ -42,26 +58,26 @@ const StockResultsTable = ({
   };
 
   // Helper function to format field values
-  const formatFieldValue = (key: string, value: any): string => {
+  const formatFieldValue = (key: string, value: any, assetType?: string): string => {
     if (value === null || value === undefined) return 'N/A';
     
-    // Handle percentage fields
-    if (key.includes('margin') || key.includes('roe') || key.includes('roic') || key.includes('growth') || key.includes('momentum')) {
-      return `${(value * 100).toFixed(1)}%`;
-    }
-    
-    // Handle price fields
-    if (key.includes('price')) {
+    // Handle price fields based on asset type
+    if (key.includes('price') || key === 'nav' || key === 'nav_price' || key === 'current_nav') {
       return `₹${typeof value === 'number' ? value.toFixed(2) : value}`;
     }
     
-    // Handle market cap
-    if (key === 'market_cap') {
+    // Handle percentage fields
+    if (key.includes('margin') || key.includes('roe') || key.includes('roic') || key.includes('growth') || key.includes('momentum') || key.includes('ret_')) {
+      return `${(value * 100).toFixed(1)}%`;
+    }
+    
+    // Handle market cap and AUM
+    if (key === 'market_cap' || key === 'aum' || key === 'current_aum') {
       return `₹${(value / 10000000).toFixed(0)}Cr`;
     }
     
     // Handle ratios
-    if (key.includes('ratio') || key === 'debt_to_equity') {
+    if (key.includes('ratio') || key === 'debt_to_equity' || key === 'expense_ratio' || key === 'total_expense_ratio') {
       return typeof value === 'number' ? value.toFixed(2) : value;
     }
     
@@ -75,23 +91,44 @@ const StockResultsTable = ({
 
   // Get all unique keys from all results to determine columns
   const allKeys = Array.from(new Set(
-    results.flatMap(stock => Object.keys(stock).filter(key => 
-      stock[key] !== null && 
-      stock[key] !== undefined &&
-      key !== 'company_name' // We'll handle this separately
+    results.flatMap(item => Object.keys(item).filter(key => 
+      item[key] !== null && 
+      item[key] !== undefined &&
+      key !== 'company_name' &&
+      key !== 'scheme_name' &&
+      key !== 'name'
     ))
   ));
 
-  // Prioritize important columns for card display
-  const priorityColumns = ['current_price', 'market_cap', 'pe_ratio', 'roe', 'roic', 'net_margin'];
-  const displayKeys = [
-    ...priorityColumns.filter(key => allKeys.includes(key)),
-    ...allKeys.filter(key => !priorityColumns.includes(key)).slice(0, 6) // Limit additional fields
-  ];
+  // Prioritize important columns based on asset type
+  const getDisplayKeys = (assetType: string) => {
+    if (assetType === 'mutual-fund') {
+      const mutualFundPriorityColumns = ['nav_price', 'nav', 'current_aum', 'aum', 'total_expense_ratio', 'expense_ratio', 'ret_1year', 'ret_3year'];
+      return [
+        ...mutualFundPriorityColumns.filter(key => allKeys.includes(key)),
+        ...allKeys.filter(key => !mutualFundPriorityColumns.includes(key)).slice(0, 6)
+      ];
+    } else {
+      const stockPriorityColumns = ['current_price', 'market_cap', 'pe_ratio', 'roe', 'roic', 'net_margin'];
+      return [
+        ...stockPriorityColumns.filter(key => allKeys.includes(key)),
+        ...allKeys.filter(key => !stockPriorityColumns.includes(key)).slice(0, 6)
+      ];
+    }
+  };
 
-  // Sortable fields - include company name and all numeric fields
+  // Determine the primary asset type from results
+  const primaryAssetType = results[0]?.assetType || 'stock';
+  const displayKeys = getDisplayKeys(primaryAssetType);
+
+  // Get display name for the item
+  const getDisplayName = (item: any): string => {
+    return item.company_name || item.scheme_name || item.name || 'Unknown';
+  };
+
+  // Sortable fields - include name and all numeric fields
   const sortableFields = [
-    { key: 'company_name', label: 'Company Name' },
+    { key: 'name', label: primaryAssetType === 'mutual-fund' ? 'Scheme Name' : 'Company Name' },
     ...displayKeys
       .filter(key => typeof results[0]?.[key] === 'number')
       .map(key => ({ key, label: formatFieldName(key) }))
@@ -102,15 +139,22 @@ const StockResultsTable = ({
     if (!sortField) return results;
 
     return [...results].sort((a, b) => {
-      const aValue = a[sortField];
-      const bValue = b[sortField];
+      let aValue, bValue;
+      
+      if (sortField === 'name') {
+        aValue = getDisplayName(a);
+        bValue = getDisplayName(b);
+      } else {
+        aValue = a[sortField];
+        bValue = b[sortField];
+      }
 
       // Handle null/undefined values
       if (aValue === null || aValue === undefined) return 1;
       if (bValue === null || bValue === undefined) return -1;
 
-      // String comparison for company name
-      if (sortField === 'company_name') {
+      // String comparison for names
+      if (sortField === 'name') {
         const comparison = aValue.localeCompare(bValue);
         return sortOrder === 'asc' ? comparison : -comparison;
       }
@@ -124,32 +168,33 @@ const StockResultsTable = ({
   const startResult = (currentPage - 1) * pageSize + 1;
   const endResult = Math.min(currentPage * pageSize, totalRecords);
 
-  // Stock Card Component
-  const StockCard = ({ stock, index }: { stock: any; index: number }) => {
-    const currentPrice = stock.current_price;
-    const priceChange = stock.price_momentum_3m || 0;
+  // Asset Card Component (works for both stocks and mutual funds)
+  const AssetCard = ({ asset, index }: { asset: any; index: number }) => {
+    const displayName = getDisplayName(asset);
+    const displayPrice = getDisplayPrice(asset);
+    const priceChange = asset.price_momentum_3m || asset.ret_1month || asset.changePercent || 0;
     const isPositive = priceChange >= 0;
 
     return (
-      <Card key={`${stock.company_name}-${index}`} className="hover:shadow-lg transition-all duration-200 border border-gray-200 bg-white">
+      <Card key={`${displayName}-${index}`} className="hover:shadow-lg transition-all duration-200 border border-gray-200 bg-white">
         <CardContent className="p-4">
           {/* Header Section */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-lg text-gray-900 leading-tight break-words">
-                {stock.company_name}
+                {displayName}
               </h3>
-              {stock.sector && (
+              {(asset.sector || asset.category || asset.amc_name) && (
                 <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                  {stock.sector}
+                  {asset.sector || asset.category || asset.amc_name}
                 </span>
               )}
             </div>
             <PortfolioAddModal
-              assetName={stock.company_name}
-              assetSymbol={stock.company_name}
-              assetType="stock"
-              currentPrice={stock.current_price}
+              assetName={displayName}
+              assetSymbol={asset.symbol || displayName}
+              assetType={asset.assetType || 'stock'}
+              currentPrice={getPriceValue(asset)}
               trigger={
                 <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 ml-3 flex-shrink-0">
                   <FolderPlus size={14} className="mr-1" />
@@ -164,13 +209,14 @@ const StockResultsTable = ({
             <div className="flex items-center gap-3">
               <div>
                 <p className="text-2xl font-bold text-gray-900">
-                  {currentPrice ? formatFieldValue('current_price', currentPrice) : 'N/A'}
+                  {displayPrice}
                 </p>
                 {priceChange !== 0 && (
                   <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
                     {isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                     <span className="text-sm font-medium">
-                      {isPositive ? '+' : ''}{formatFieldValue('price_momentum_3m', priceChange)} (3M)
+                      {isPositive ? '+' : ''}{formatFieldValue('change_percent', priceChange, asset.assetType)} 
+                      {asset.assetType === 'mutual-fund' ? ' (1M)' : ' (3M)'}
                     </span>
                   </div>
                 )}
@@ -181,13 +227,13 @@ const StockResultsTable = ({
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
             {displayKeys.slice(1, 7).map(key => (
-              stock[key] !== null && stock[key] !== undefined && (
+              asset[key] !== null && asset[key] !== undefined && (
                 <div key={key} className="text-center p-2 bg-gray-50 rounded-lg">
                   <p className="text-xs text-gray-600 font-medium">
                     {formatFieldName(key)}
                   </p>
                   <p className="text-sm font-semibold text-gray-900 mt-1">
-                    {formatFieldValue(key, stock[key])}
+                    {formatFieldValue(key, asset[key], asset.assetType)}
                   </p>
                 </div>
               )
@@ -195,10 +241,10 @@ const StockResultsTable = ({
           </div>
 
           {/* Additional Info */}
-          {stock.is_growth_stock && (
+          {(asset.is_growth_stock || asset.risk_level) && (
             <div className="mb-3">
               <span className="inline-block text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                Growth Stock
+                {asset.is_growth_stock ? 'Growth Stock' : asset.risk_level}
               </span>
             </div>
           )}
@@ -209,7 +255,7 @@ const StockResultsTable = ({
               variant="ghost" 
               size="sm" 
               className="w-full text-blue-600 hover:bg-blue-50"
-              onClick={() => {/* TODO: Navigate to stock details */}}
+              onClick={() => {/* TODO: Navigate to asset details */}}
             >
               <Eye size={14} className="mr-2" />
               View Details
@@ -226,7 +272,7 @@ const StockResultsTable = ({
         <div className="flex flex-col gap-3">
           <div className="flex items-start justify-between gap-3">
             <CardTitle className="flex flex-col gap-2 text-lg min-w-0 flex-1">
-              <span>Stock Search Results</span>
+              <span>{primaryAssetType === 'mutual-fund' ? 'Mutual Fund' : 'Stock'} Search Results</span>
               <div className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-normal w-fit">
                 "{query.length > 30 ? query.substring(0, 30) + '...' : query}" - {totalRecords} found
               </div>
@@ -289,8 +335,8 @@ const StockResultsTable = ({
       <CardContent className="p-4 sm:p-6">
         {/* Cards Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {sortedResults.map((stock, index) => (
-            <StockCard key={`stock-${stock.company_name}-${index}`} stock={stock} index={index} />
+          {sortedResults.map((asset, index) => (
+            <AssetCard key={`asset-${getDisplayName(asset)}-${index}`} asset={asset} index={index} />
           ))}
         </div>
         
@@ -345,7 +391,7 @@ const StockResultsTable = ({
         {displayKeys.length > 6 && (
           <div className="mt-4 text-center">
             <p className="text-xs text-gray-500">
-              Showing key metrics. Full details available on individual stock pages.
+              Showing key metrics. Full details available on individual asset pages.
             </p>
           </div>
         )}
