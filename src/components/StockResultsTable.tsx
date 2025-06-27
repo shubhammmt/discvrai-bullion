@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -181,7 +180,7 @@ const StockResultsTable = ({
 
     return (
       <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-3">
+        <CardContent className="p-2">
           <div className="flex items-center justify-between">
             {/* Left Section - Fund Info */}
             <div className="flex-1 min-w-0">
@@ -190,12 +189,6 @@ const StockResultsTable = ({
                   <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
                     {displayName}
                   </h3>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <span>{fund.mf_schcode || fund.symbol}</span>
-                    <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full text-xs">
-                      mutual-fund
-                    </span>
-                  </div>
                 </div>
               </div>
               
@@ -206,7 +199,7 @@ const StockResultsTable = ({
             </div>
 
             {/* Middle Section - Performance Metrics */}
-            <div className="flex items-center gap-4 mx-4">
+            <div className="flex items-center gap-3 mx-3">
               {/* Returns */}
               <div className="text-center">
                 <p className="text-xs text-gray-500 mb-0.5">1Y Return</p>
@@ -280,7 +273,7 @@ const StockResultsTable = ({
 
     return (
       <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-3">
+        <CardContent className="p-2">
           <div className="flex items-center justify-between">
             {/* Left Section - Stock Info */}
             <div className="flex-1 min-w-0">
@@ -289,12 +282,6 @@ const StockResultsTable = ({
                   <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
                     {displayName}
                   </h3>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <span>{stock.symbol || displayName}</span>
-                    <span className="bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full text-xs">
-                      stock
-                    </span>
-                  </div>
                 </div>
               </div>
               
@@ -305,7 +292,7 @@ const StockResultsTable = ({
             </div>
 
             {/* Middle Section - Stock Metrics */}
-            <div className="flex items-center gap-4 mx-4">
+            <div className="flex items-center gap-3 mx-3">
               {/* Market Cap */}
               <div className="text-center">
                 <p className="text-xs text-gray-500 mb-0.5">Market Cap</p>
@@ -397,48 +384,50 @@ const StockResultsTable = ({
             </Button>
           </div>
           
-          {/* Sorting Controls - Fixed Alignment */}
-          <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
-            <div className="flex items-center gap-2">
-              <ArrowUpDown size={14} className="text-gray-500" />
-              <span className="text-sm text-gray-600 font-medium">Sort by:</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Select value={sortField} onValueChange={setSortField}>
-                <SelectTrigger className="w-40 h-9 text-sm bg-white">
-                  <SelectValue placeholder="Select field" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border shadow-lg z-50">
-                  <SelectItem value="none">No sorting</SelectItem>
-                  {sortableFields.map(field => (
-                    <SelectItem key={field.key} value={field.key}>
-                      {field.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              
+          {/* Sorting Controls - Right Aligned */}
+          <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+            <div className="text-sm text-gray-600">
+              Showing {startResult}-{endResult} of {totalRecords} results
               {sortField && sortField !== 'none' && (
-                <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
-                  <SelectTrigger className="w-32 h-9 text-sm bg-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border shadow-lg z-50">
-                    <SelectItem value="desc">High to Low</SelectItem>
-                    <SelectItem value="asc">Low to High</SelectItem>
-                  </SelectContent>
-                </Select>
+                <span className="ml-2 text-blue-600">
+                  • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
+                </span>
               )}
             </div>
-          </div>
-          
-          <div className="text-sm text-gray-600">
-            Showing {startResult}-{endResult} of {totalRecords} results
-            {sortField && sortField !== 'none' && (
-              <span className="ml-2 text-blue-600">
-                • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
-              </span>
-            )}
+            
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <ArrowUpDown size={14} className="text-gray-500" />
+                <span className="text-sm text-gray-600 font-medium">Sort by:</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Select value={sortField} onValueChange={setSortField}>
+                  <SelectTrigger className="w-40 h-9 text-sm bg-white">
+                    <SelectValue placeholder="Select field" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border shadow-lg z-50">
+                    <SelectItem value="none">No sorting</SelectItem>
+                    {sortableFields.map(field => (
+                      <SelectItem key={field.key} value={field.key}>
+                        {field.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                {sortField && sortField !== 'none' && (
+                  <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
+                    <SelectTrigger className="w-32 h-9 text-sm bg-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border shadow-lg z-50">
+                      <SelectItem value="desc">High to Low</SelectItem>
+                      <SelectItem value="asc">Low to High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </CardHeader>
