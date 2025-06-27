@@ -531,7 +531,8 @@ const Feed = () => {
         changePercent: item.ret_1month || item.changePercent || 0,
         volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
         latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
-        news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`
+        news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
+        rawData: item // Add raw data for mutual fund display
       };
       
       console.log(`Mapped asset ${index + 1}:`, mappedAsset);
