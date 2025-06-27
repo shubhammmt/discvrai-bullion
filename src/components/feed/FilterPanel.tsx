@@ -16,6 +16,21 @@ interface FilterPanelProps {
   isLoading: boolean;
 }
 
+// Static sector data for stocks to avoid backend issues
+const STOCK_SECTORS = [
+  {"value": "basic_materials", "label": "Basic Materials"},
+  {"value": "communication_services", "label": "Communication Services"},
+  {"value": "consumer_cyclical", "label": "Consumer Cyclical"},
+  {"value": "consumer_defensive", "label": "Consumer Defensive"},
+  {"value": "energy", "label": "Energy"},
+  {"value": "financial_services", "label": "Financial Services"},
+  {"value": "healthcare", "label": "Healthcare"},
+  {"value": "industrials", "label": "Industrials"},
+  {"value": "real_estate", "label": "Real Estate"},
+  {"value": "technology", "label": "Technology"},
+  {"value": "utilities", "label": "Utilities"}
+];
+
 const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading }: FilterPanelProps) => {
   const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
 
@@ -90,25 +105,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderStockFilters = () => {
-    if (isLoadingOptions || !filterOptions?.stocks) {
-      return (
-        <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin" />
-          <span className="ml-2">Loading filter options...</span>
-        </div>
-      );
-    }
-
-    const stockOptions = filterOptions.stocks;
-    const validSectors = getValidSelectOptions(stockOptions?.sectors);
-    const validGrowthTypes = getValidSelectOptions(stockOptions?.growth_types);
-
-    console.log('🔍 Stock filter validation:', {
-      rawSectors: stockOptions?.sectors,
-      validSectors,
-      rawGrowthTypes: stockOptions?.growth_types,
-      validGrowthTypes
-    });
+    // Use static sector data for stocks - no backend dependency
+    console.log('🔍 Using static stock sectors:', STOCK_SECTORS);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -169,49 +167,22 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </div>
         </div>
 
-        {/* Sector Select */}
-        {validSectors.length > 0 && (
-          <div>
-            <Label htmlFor="sector">Sector</Label>
-            <Select onValueChange={(value) => updateFilter('sector', [value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select sector" />
-              </SelectTrigger>
-              <SelectContent>
-                {validSectors.map((sector, idx) => {
-                  const sectorValue = sector.value || sector.name || sector.label;
-                  return (
-                    <SelectItem key={`sector-${idx}-${sectorValue}`} value={sectorValue}>
-                      {sector.label || sectorValue}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        {/* Growth Type Select */}
-        {validGrowthTypes.length > 0 && (
-          <div>
-            <Label htmlFor="growthType">Growth Type</Label>
-            <Select onValueChange={(value) => updateFilter('growthType', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select growth type" />
-              </SelectTrigger>
-              <SelectContent>
-                {validGrowthTypes.map((growthType, idx) => {
-                  const growthValue = growthType.value || growthType.name || growthType.label;
-                  return (
-                    <SelectItem key={`growth-${idx}-${growthValue}`} value={growthValue}>
-                      {growthType.label || growthValue}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
+        {/* Sector Select - Using Static Data */}
+        <div>
+          <Label htmlFor="sector">Sector</Label>
+          <Select onValueChange={(value) => updateFilter('sector', [value])}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select sector" />
+            </SelectTrigger>
+            <SelectContent>
+              {STOCK_SECTORS.map((sector) => (
+                <SelectItem key={sector.value} value={sector.value}>
+                  {sector.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
         {/* Revenue Growth - Min/Max Inputs */}
         <div>
@@ -519,7 +490,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
       {/* Search Button */}
       <div className="flex justify-end pt-4">
-        <Button onClick={onSearch} disabled={isLoading || isLoadingOptions}>
+        <Button onClick={onSearch} disabled={isLoading || (assetType !== 'stock' && isLoadingOptions)}>
           {isLoading ? 'Searching...' : 'Apply Filters & Search'}
         </Button>
       </div>
