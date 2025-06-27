@@ -308,7 +308,7 @@ export interface StockMetricsResponse {
 // API Configuration - Updated with a valid bearer token
 const BASE_URL = 'https://p646lccs-8008.inc1.devtunnels.ms';
 // Note: This token may need to be refreshed periodically
-const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
+const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
 const SESSION_ID = '0aee2f9b-b3ff-447d-bf7e-cb5318a7c550';
 
 // Helper function to get authentication headers
@@ -408,33 +408,55 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
       apiResponse = await response.json();
       console.log('Raw API Response:', apiResponse);
       
-      // Transform API response to match our interface
+      // Transform API response to match our interface - Updated field mapping
       const transformedResponse = {
         success: apiResponse.success,
-        data: apiResponse.data.map((stock: any) => ({
-          symbol: stock.symbol || stock.company_name,
-          name: stock.company_name,
-          assetType: 'stock' as const,
-          price: stock.current_price,
-          changePercent: stock.price_change_percent,
-          marketCap: stock.market_cap,
-          peRatio: stock.pe_ratio,
-          sector: stock.sector,
-          ...stock
-        })),
-        total_records: apiResponse.total_records,
-        current_page: apiResponse.current_page,
-        total_pages: apiResponse.total_pages,
-        page_size: apiResponse.page_size,
+        data: apiResponse.data.map((stock: any) => {
+          console.log('Transforming stock data:', stock);
+          
+          // Safe field extraction with fallbacks
+          const transformedStock = {
+            symbol: stock.symbol || stock.company_name || 'N/A',
+            name: stock.company_name || stock.name || stock.symbol || 'Unknown Company',
+            assetType: 'stock' as const,
+            price: stock.current_price || stock.price || 0,
+            change: stock.price_change || stock.change || 0,
+            changePercent: stock.price_change_percent || stock.changePercent || 0,
+            marketCap: stock.market_cap || stock.marketCap || 0,
+            peRatio: stock.pe_ratio || stock.peRatio || 0,
+            sector: stock.sector || 'Unknown',
+            industry: stock.industry || 'Unknown',
+            // Additional fields from the actual API response
+            consensus_rating: stock.consensus_rating,
+            current_ratio: stock.current_ratio,
+            debt_to_equity: stock.debt_to_equity,
+            pb_ratio: stock.pb_ratio,
+            roe: stock.roe,
+            roce: stock.roce,
+            rsi_14: stock.rsi_14,
+            net_margin: stock.net_margin,
+            operating_margin: stock.operating_margin,
+            revenue_growth_1y: stock.revenue_growth_1y,
+            eps_growth_1y: stock.eps_growth_1y,
+            ...stock // Include all original fields
+          };
+          
+          console.log('Transformed stock:', transformedStock);
+          return transformedStock;
+        }),
+        total_records: apiResponse.total_records || apiResponse.data?.length || 0,
+        current_page: apiResponse.current_page || request.page,
+        total_pages: apiResponse.total_pages || 1,
+        page_size: apiResponse.page_size || request.pageSize,
         nlp_analysis: apiResponse.intent_analysis ? {
           interpreted_filters: {},
-          confidence: apiResponse.intent_analysis.confidence,
+          confidence: apiResponse.intent_analysis.confidence || 0,
           suggestions: apiResponse.intent_analysis.alternate_queries || [],
-          original_query: request.query
+          original_query: request.query || ''
         } : undefined
       };
       
-      console.log('Transformed response:', transformedResponse);
+      console.log('Final transformed response:', transformedResponse);
       return transformedResponse;
       
     } else if (request.searchMode === 'filters' && request.filters) {
@@ -471,27 +493,49 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
       apiResponse = await response.json();
       console.log('Raw API Response:', apiResponse);
       
-      // Transform API response to match our interface
+      // Transform API response to match our interface - Updated field mapping
       const transformedResponse = {
         success: apiResponse.success,
-        data: apiResponse.data.map((stock: any) => ({
-          symbol: stock.symbol || stock.company_name,
-          name: stock.company_name,
-          assetType: 'stock' as const,
-          price: stock.current_price,
-          changePercent: stock.price_change_percent,
-          marketCap: stock.market_cap,
-          peRatio: stock.pe_ratio,
-          sector: stock.sector,
-          ...stock
-        })),
-        total_records: apiResponse.total_records,
-        current_page: apiResponse.current_page,
-        total_pages: apiResponse.total_pages,
-        page_size: apiResponse.page_size
+        data: apiResponse.data.map((stock: any) => {
+          console.log('Transforming stock data:', stock);
+          
+          // Safe field extraction with fallbacks
+          const transformedStock = {
+            symbol: stock.symbol || stock.company_name || 'N/A',
+            name: stock.company_name || stock.name || stock.symbol || 'Unknown Company',
+            assetType: 'stock' as const,
+            price: stock.current_price || stock.price || 0,
+            change: stock.price_change || stock.change || 0,
+            changePercent: stock.price_change_percent || stock.changePercent || 0,
+            marketCap: stock.market_cap || stock.marketCap || 0,
+            peRatio: stock.pe_ratio || stock.peRatio || 0,
+            sector: stock.sector || 'Unknown',
+            industry: stock.industry || 'Unknown',
+            // Additional fields from the actual API response
+            consensus_rating: stock.consensus_rating,
+            current_ratio: stock.current_ratio,
+            debt_to_equity: stock.debt_to_equity,
+            pb_ratio: stock.pb_ratio,
+            roe: stock.roe,
+            roce: stock.roce,
+            rsi_14: stock.rsi_14,
+            net_margin: stock.net_margin,
+            operating_margin: stock.operating_margin,
+            revenue_growth_1y: stock.revenue_growth_1y,
+            eps_growth_1y: stock.eps_growth_1y,
+            ...stock // Include all original fields
+          };
+          
+          console.log('Transformed stock:', transformedStock);
+          return transformedStock;
+        }),
+        total_records: apiResponse.total_records || apiResponse.data?.length || 0,
+        current_page: apiResponse.current_page || request.page,
+        total_pages: apiResponse.total_pages || 1,
+        page_size: apiResponse.page_size || request.pageSize
       };
       
-      console.log('Transformed response:', transformedResponse);
+      console.log('Final transformed response:', transformedResponse);
       return transformedResponse;
     }
     
