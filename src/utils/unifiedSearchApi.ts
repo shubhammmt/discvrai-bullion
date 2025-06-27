@@ -568,11 +568,109 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
   }
 };
 
-// New mutual fund search function
+// New mutual fund search function with NLP support
 const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
+  console.log('=== MUTUAL FUND SEARCH START ===');
+  console.log('Mutual fund search request:', request);
+  
   try {
-    // For now, mutual funds only support filter mode since NLP endpoint is not specified
-    if (request.searchMode === 'filters' && request.filters) {
+    let apiResponse;
+    
+    if (request.searchMode === 'nlp' && request.query) {
+      console.log('=== USING MUTUAL FUND NLP ENDPOINT ===');
+      // Use NLP endpoint
+      const mutualFundQueryRequest = {
+        query: request.query,
+        page: request.page,
+        page_size: request.pageSize,
+        include_charts: false
+      };
+
+      console.log('Making Mutual Fund NLP API call with:', mutualFundQueryRequest);
+      console.log('API URL:', `${BASE_URL}/api/v1/feed/mutual-fund-query/paginated`);
+      
+      const response = await fetch(`${BASE_URL}/api/v1/feed/mutual-fund-query/paginated`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(mutualFundQueryRequest)
+      });
+
+      console.log('API Response status:', response.status);
+      console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+      }
+
+      apiResponse = await response.json();
+      console.log('Raw API Response:', apiResponse);
+      
+      // Transform API response to match our interface
+      const transformedResponse = {
+        success: apiResponse.success,
+        data: apiResponse.data.map((fund: any) => {
+          console.log('Transforming mutual fund data:', fund);
+          
+          // Safe field extraction with fallbacks for mutual funds
+          const transformedFund = {
+            symbol: fund.mf_schcode?.toString() || fund.scheme_code || fund._id || 'N/A',
+            name: fund.scheme_name || fund.name || 'Unknown Fund',
+            assetType: 'mutual-fund' as const,
+            price: fund.nav_price || fund.nav || 0,
+            navPrice: fund.nav_price || fund.nav,
+            change: fund.ret_1month || 0,
+            changePercent: fund.ret_1month || 0,
+            ret_1month: fund.ret_1month,
+            ret_1year: fund.ret_1year,
+            ret_3year: fund.ret_3year,
+            ret_5year: fund.ret_5year,
+            category: fund.main_category || fund.scheme_category,
+            main_category: fund.main_category,
+            sub_category: fund.sub_category,
+            expenseRatio: fund.total_expense_ratio,
+            total_expense_ratio: fund.total_expense_ratio,
+            aum: fund.current_aum,
+            current_aum: fund.current_aum,
+            amc_name: fund.amc_name,
+            risk_level: fund.risk_level,
+            sip_minimum: fund.sip_minimum,
+            launch_date: fund.launch_date,
+            plan_type: fund.plan_type,
+            option_type: fund.option_type,
+            scheme_status: fund.scheme_status,
+            benchmark_name: fund.benchmark_name,
+            // Additional performance metrics
+            standard_deviation_3year: fund.standard_deviation_3year,
+            beta_3year: fund.beta_3year,
+            alpha_3year: fund.alpha_3year,
+            sharpe_ratio_3year: fund.sharpe_ratio_3year,
+            fund_managers: fund.fund_managers,
+            ...fund // Include all original fields
+          };
+          
+          console.log('Transformed mutual fund:', transformedFund);
+          return transformedFund;
+        }),
+        total_records: apiResponse.total_records || apiResponse.data?.length || 0,
+        current_page: apiResponse.current_page || request.page,
+        total_pages: apiResponse.total_pages || 1,
+        page_size: apiResponse.page_size || request.pageSize,
+        nlp_analysis: apiResponse.intent_analysis ? {
+          interpreted_filters: {},
+          confidence: apiResponse.intent_analysis.confidence || 0,
+          suggestions: apiResponse.intent_analysis.alternate_queries || [],
+          original_query: request.query || ''
+        } : undefined
+      };
+      
+      console.log('Final transformed response:', transformedResponse);
+      return transformedResponse;
+      
+    } else if (request.searchMode === 'filters' && request.filters) {
+      console.log('=== USING MUTUAL FUND FILTERS ENDPOINT ===');
+      // Use metrics filter endpoint (existing code)
       const filtersArray = convertFiltersToMutualFundMetricsFormat(request.filters);
       
       const metricsRequest = {
@@ -636,11 +734,15 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
       current_page: request.page,
       total_pages: 0,
       page_size: request.pageSize,
-      error: 'NLP search not available for mutual funds yet'
+      error: 'Invalid search mode for mutual funds'
     };
     
   } catch (error) {
-    console.error('Mutual Fund API error:', error);
+    console.error('=== MUTUAL FUND API ERROR ===');
+    console.error('Error details:', error);
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    
     return {
       success: false,
       data: [],
