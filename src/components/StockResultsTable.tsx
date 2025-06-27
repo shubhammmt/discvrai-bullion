@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -73,9 +74,10 @@ const StockResultsTable = ({
       return `${(value * 100).toFixed(1)}%`;
     }
     
-    // Handle market cap and AUM
+    // Handle market cap and AUM with proper formatting
     if (key === 'market_cap' || key === 'aum' || key === 'current_aum') {
-      return `₹${(value / 10000000).toFixed(0)}Cr`;
+      const croreValue = value / 10000000;
+      return `₹${croreValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}Cr`;
     }
     
     // Handle ratios
