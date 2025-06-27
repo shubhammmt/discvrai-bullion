@@ -255,71 +255,6 @@ const Feed = () => {
         return asset.type === activeFilter;
       });
 
-  const getAIRecommendations = () => {
-    // Use mixed feed data for recommendations if available
-    if (mixedFeedAssets.length > 0) {
-      return mixedFeedAssets.slice(0, 6).map(asset => ({
-        ...asset,
-        aiReason: `AI Selected: ${asset.risk_level} fund with ${asset.changePercent > 0 ? 'positive' : 'stable'} recent performance. 
-                  Expense ratio: ${asset.expense_ratio}%. Category: ${asset.category}.`
-      }));
-    }
-
-    // Fallback to existing logic
-    const riskLevel = userProfile.riskTolerance?.toLowerCase() || 'moderate';
-    const recommendations = [];
-
-    // Stock recommendation
-    if (riskLevel === 'conservative') {
-      recommendations.push({
-        ...mockTrendingAssets[0],
-        aiReason: `Conservative choice: Stable dividend yield (0.5%), low beta (0.8), strong cash position ₹162B, consistent revenue growth 5% YoY.`
-      });
-    } else {
-      recommendations.push({
-        ...mockTrendingAssets[2],
-        aiReason: `Growth opportunity: 45% revenue growth potential, expanding into AI/ML, strong management team, IPO timing favorable.`
-      });
-    }
-
-    // Mutual Fund recommendation
-    recommendations.push({
-      ...mockTrendingAssets[1],
-      aiReason: `Diversification play: Top 100 large-cap exposure, 12% annual returns, low expense ratio 0.8%, suitable for ${riskLevel} risk profile.`
-    });
-
-    // Bond/FD recommendation for conservative investors
-    if (riskLevel === 'conservative') {
-      recommendations.push({
-        ...mockTrendingAssets[7],
-        aiReason: `Safe debt option: Government-backed security, 7.2% annual yield, AAA rating, perfect for capital protection and steady income.`
-      });
-    } else {
-      recommendations.push({
-        ...mockTrendingAssets[8],
-        aiReason: `Stable returns: 7.25% assured returns, HDFC Bank reliability, flexible tenure options, good for emergency fund allocation.`
-      });
-    }
-
-    // Insurance recommendation
-    recommendations.push({
-      ...mockTrendingAssets[6],
-      aiReason: `Protection planning: Term life coverage 50x annual income, critical illness rider, affordable premiums, tax benefits u/s 80C.`
-    });
-
-    // Credit recommendation
-    if (userProfile.income) {
-      recommendations.push({
-        ...mockTrendingAssets[4],
-        aiReason: `Credit optimization: Interest rate 10.5% (reduced), pre-approved based on profile, flexible tenure, minimal documentation.`
-      });
-    }
-
-    return recommendations.slice(0, 6);
-  };
-
-  const aiRecommendations = getAIRecommendations();
-
   // Enhanced AssetCard component with portfolio actions
   const EnhancedAssetCard = ({ asset }: { asset: any }) => (
     <div className="w-full min-w-0">
@@ -603,45 +538,6 @@ const Feed = () => {
                 </CardContent>
               </Card>
             )}
-
-            {/* AI Recommendations Section */}
-            <div className="w-full min-w-0">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="flex flex-col space-y-2 text-base sm:text-xl min-w-0">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
-                      <span className="truncate">DiscvrAI Recommendations</span>
-                    </div>
-                    <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-600 px-2 py-1 rounded-full w-fit flex-shrink-0">
-                      <Sparkles size={8} className="inline mr-1" />
-                      {mixedFeedAssets.length > 0 ? 'Live Data' : 'Personalized for You'}
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 sm:p-6">
-                  <div className="w-full space-y-3 sm:space-y-4 min-w-0">
-                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg">
-                      <p className="text-xs sm:text-sm text-gray-700 break-words overflow-wrap-anywhere">
-                        <strong>Why these recommendations:</strong> {mixedFeedAssets.length > 0 
-                          ? 'Based on real-time market data and fund performance metrics from our mixed feed API.'
-                          : `Based on your ${userProfile.riskTolerance?.toLowerCase()} risk profile, preference for ${userProfile.preferredInstruments?.join(', ')}, and current market conditions analyzed by DiscvrAI.`
-                        }
-                      </p>
-                    </div>
-                    {aiRecommendations.map((asset, index) => (
-                      <div key={`ai-rec-${asset.id}`} className="w-full min-w-0">
-                        <AIResultCard 
-                          asset={asset} 
-                          aiReason={asset.aiReason}
-                          matchScore={95 - (index * 3)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
             {/* Filter Tabs */}
             <div className="w-full">
