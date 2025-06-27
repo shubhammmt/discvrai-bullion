@@ -105,7 +105,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     const data = asset.rawData;
     
     return (
-      <div className="grid grid-cols-4 gap-2 mb-2">
+      <div className="grid grid-cols-5 gap-2 mb-2">
         <div className="text-center">
           <p className="text-xs text-gray-500">NAV</p>
           <p className="text-sm font-bold text-gray-900">
