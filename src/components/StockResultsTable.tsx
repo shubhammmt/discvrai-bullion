@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,6 +6,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { X, FolderPlus, Eye, TrendingUp, TrendingDown, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useIsMobile } from '@/hooks/use-mobile';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 interface StockResultsTableProps {
@@ -32,6 +34,7 @@ const StockResultsTable = ({
 }: StockResultsTableProps) => {
   const [sortField, setSortField] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const isMobile = useIsMobile();
 
   if (!results || results.length === 0) return null;
 
@@ -169,6 +172,57 @@ const StockResultsTable = ({
     );
   };
 
+  // Mobile Card Component
+  const MobileResultCard = ({ asset, index }: { asset: any; index: number }) => {
+    const displayName = getDisplayName(asset);
+    const priceValue = getPriceValue(asset);
+    
+    return (
+      <Card key={`${displayName}-${index}`} className="mb-3 border border-gray-200">
+        <CardContent className="p-4">
+          <div className="flex justify-between items-start mb-3">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-sm text-gray-900 leading-tight">
+                {displayName}
+              </h3>
+              {(asset.amc_name || asset.sector) && (
+                <div className="text-xs text-gray-600 mt-1">
+                  {asset.amc_name || asset.sector}
+                  {asset.main_category && <span> • {asset.main_category}</span>}
+                </div>
+              )}
+            </div>
+            <PortfolioAddModal
+              assetName={displayName}
+              assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
+              assetType={primaryAssetType}
+              currentPrice={priceValue}
+              trigger={
+                <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs ml-2">
+                  <FolderPlus size={12} className="mr-1" />
+                  Add
+                </Button>
+              }
+            />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3">
+            {displayKeys.map((key) => (
+              <div key={key} className="flex justify-between">
+                <span className="text-xs text-gray-500">
+                  {formatFieldName(key)}:
+                </span>
+                <span className="text-xs font-medium text-gray-900">
+                  {formatFieldValue(key, asset[key], primaryAssetType)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
   return (
     <TooltipProvider>
       <Card className="mb-4 bg-white/95 backdrop-blur-md border-blue-200">
@@ -202,107 +256,116 @@ const StockResultsTable = ({
           </div>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          {/* Table Layout with Fixed Layout */}
-          <div className="w-full overflow-hidden rounded-lg border border-gray-200">
-            <table className="w-full table-fixed border-collapse">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="w-[35%] px-4 py-3 text-left">
-                    <div className="flex items-center">
-                      <span className="text-sm font-semibold text-gray-700">
-                        {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
-                      </span>
-                      <SortButton field="name" />
-                    </div>
-                  </th>
-                  {displayKeys.map((key) => (
-                    <th key={key} className="w-[15%] px-2 py-3 text-center">
-                      <div className="flex items-center justify-center">
-                        <span className="text-xs font-semibold text-gray-700">
-                          {formatFieldName(key)}
+          {/* Mobile Layout */}
+          {isMobile ? (
+            <div className="space-y-3">
+              {sortedResults.map((asset, index) => (
+                <MobileResultCard key={`mobile-${index}`} asset={asset} index={index} />
+              ))}
+            </div>
+          ) : (
+            /* Desktop Table Layout */
+            <div className="w-full overflow-hidden rounded-lg border border-gray-200">
+              <table className="w-full table-fixed border-collapse">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="w-[35%] px-4 py-3 text-left">
+                      <div className="flex items-center">
+                        <span className="text-sm font-semibold text-gray-700">
+                          {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
                         </span>
-                        {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+                        <SortButton field="name" />
                       </div>
                     </th>
-                  ))}
-                  <th className="w-[10%] px-2 py-3 text-center">
-                    <span className="text-xs font-semibold text-gray-700">Action</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedResults.map((asset, index) => {
-                  const displayName = getDisplayName(asset);
-                  const priceValue = getPriceValue(asset);
-                  
-                  return (
-                    <tr key={`${displayName}-${index}`} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                      {/* Name Column with Tooltip and Truncation */}
-                      <td className="px-4 py-3">
-                        <div className="text-left">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <h3 className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer hover:text-blue-600 transition-colors">
-                                {displayName}
-                              </h3>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="max-w-xs">{displayName}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                          {(asset.amc_name || asset.sector) && (
+                    {displayKeys.map((key) => (
+                      <th key={key} className="w-[15%] px-2 py-3 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="text-xs font-semibold text-gray-700">
+                            {formatFieldName(key)}
+                          </span>
+                          {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+                        </div>
+                      </th>
+                    ))}
+                    <th className="w-[10%] px-2 py-3 text-center">
+                      <span className="text-xs font-semibold text-gray-700">Action</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedResults.map((asset, index) => {
+                    const displayName = getDisplayName(asset);
+                    const priceValue = getPriceValue(asset);
+                    
+                    return (
+                      <tr key={`${displayName}-${index}`} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                        {/* Name Column with Tooltip and Truncation */}
+                        <td className="px-4 py-3">
+                          <div className="text-left">
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <div className="text-xs text-gray-600 truncate mt-1 cursor-pointer">
-                                  {asset.amc_name || asset.sector}
-                                  {asset.main_category && <span> • {asset.main_category}</span>}
-                                </div>
+                                <h3 className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer hover:text-blue-600 transition-colors">
+                                  {displayName}
+                                </h3>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p className="max-w-xs">{asset.amc_name || asset.sector}{asset.main_category && <span> • {asset.main_category}</span>}</p>
+                                <p className="max-w-xs">{displayName}</p>
                               </TooltipContent>
                             </Tooltip>
-                          )}
-                        </div>
-                      </td>
-                      
-                      {/* Data Columns */}
-                      {displayKeys.map((key) => (
-                        <td key={key} className="px-2 py-3 text-center">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <span className="text-sm font-medium text-gray-900 cursor-pointer truncate block">
-                                {formatFieldValue(key, asset[key], primaryAssetType)}
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{formatFieldValue(key, asset[key], primaryAssetType)}</p>
-                            </TooltipContent>
-                          </Tooltip>
+                            {(asset.amc_name || asset.sector) && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <div className="text-xs text-gray-600 truncate mt-1 cursor-pointer">
+                                    {asset.amc_name || asset.sector}
+                                    {asset.main_category && <span> • {asset.main_category}</span>}
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p className="max-w-xs">{asset.amc_name || asset.sector}{asset.main_category && <span> • {asset.main_category}</span>}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
+                          </div>
                         </td>
-                      ))}
-                      
-                      {/* Action Column */}
-                      <td className="px-2 py-3 text-center">
-                        <PortfolioAddModal
-                          assetName={displayName}
-                          assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
-                          assetType={primaryAssetType}
-                          currentPrice={priceValue}
-                          trigger={
-                            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
-                              <FolderPlus size={12} className="mr-1" />
-                              Add
-                            </Button>
-                          }
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        
+                        {/* Data Columns */}
+                        {displayKeys.map((key) => (
+                          <td key={key} className="px-2 py-3 text-center">
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="text-sm font-medium text-gray-900 cursor-pointer truncate block">
+                                  {formatFieldValue(key, asset[key], primaryAssetType)}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{formatFieldValue(key, asset[key], primaryAssetType)}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </td>
+                        ))}
+                        
+                        {/* Action Column */}
+                        <td className="px-2 py-3 text-center">
+                          <PortfolioAddModal
+                            assetName={displayName}
+                            assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
+                            assetType={primaryAssetType}
+                            currentPrice={priceValue}
+                            trigger={
+                              <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
+                                <FolderPlus size={12} className="mr-1" />
+                                Add
+                              </Button>
+                            }
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
           
           {/* Pagination Controls */}
           {totalPages > 1 && (
