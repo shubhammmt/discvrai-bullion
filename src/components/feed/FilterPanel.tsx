@@ -164,25 +164,6 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             </div>
           </div>
 
-          {/* Current Price Range - Min/Max Inputs */}
-          <div>
-            <Label>Price Range (₹)</Label>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Min"
-                type="number"
-                value={(filters.current_price as RangeFilter)?.min || ''}
-                onChange={(e) => updateRangeFilter('current_price', 'min', e.target.value)}
-              />
-              <Input
-                placeholder="Max"
-                type="number"
-                value={(filters.current_price as RangeFilter)?.max || ''}
-                onChange={(e) => updateRangeFilter('current_price', 'max', e.target.value)}
-              />
-            </div>
-          </div>
-
           {/* Sector Select - Using Static Data */}
           <div>
             <Label htmlFor="sector">Sector</Label>
