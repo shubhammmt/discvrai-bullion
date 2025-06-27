@@ -605,11 +605,25 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
       }
 
       apiResponse = await response.json();
-      console.log('Raw API Response:', apiResponse);
+      console.log('Raw Mutual Fund API Response:', apiResponse);
+      
+      // Check if the response has data
+      if (!apiResponse.data || !Array.isArray(apiResponse.data)) {
+        console.error('Invalid API response structure:', apiResponse);
+        return {
+          success: false,
+          data: [],
+          total_records: 0,
+          current_page: request.page,
+          total_pages: 0,
+          page_size: request.pageSize,
+          error: 'Invalid response structure from API'
+        };
+      }
       
       // Transform API response to match our interface
       const transformedResponse = {
-        success: apiResponse.success,
+        success: apiResponse.success !== false, // Default to true unless explicitly false
         data: apiResponse.data.map((fund: any) => {
           console.log('Transforming mutual fund data:', fund);
           
@@ -655,17 +669,18 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
         }),
         total_records: apiResponse.total_records || apiResponse.data?.length || 0,
         current_page: apiResponse.current_page || request.page,
-        total_pages: apiResponse.total_pages || 1,
+        total_pages: apiResponse.total_pages || Math.ceil((apiResponse.total_records || apiResponse.data?.length || 0) / request.pageSize),
         page_size: apiResponse.page_size || request.pageSize,
         nlp_analysis: apiResponse.intent_analysis ? {
-          interpreted_filters: {},
+          interpreted_filters: apiResponse.intent_analysis.interpreted_filters || {},
           confidence: apiResponse.intent_analysis.confidence || 0,
           suggestions: apiResponse.intent_analysis.alternate_queries || [],
           original_query: request.query || ''
         } : undefined
       };
       
-      console.log('Final transformed response:', transformedResponse);
+      console.log('Final transformed mutual fund response:', transformedResponse);
+      console.log('Number of transformed funds:', transformedResponse.data.length);
       return transformedResponse;
       
     } else if (request.searchMode === 'filters' && request.filters) {
@@ -727,6 +742,7 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
     }
     
     // Default empty response for unsupported search modes
+    console.log('No valid search mode provided or unsupported combination');
     return {
       success: true,
       data: [],
