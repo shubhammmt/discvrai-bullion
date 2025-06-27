@@ -166,7 +166,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
   return (
     <Card className="hover:shadow-md transition-shadow h-full flex flex-col">
       <CardContent className="p-3 flex flex-col h-full">
-        <div className="flex justify-between items-start mb-2">
+        <div className="flex justify-between items-center mb-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${(isMutualFund || isStock) ? 'text-center w-full' : ''}`}>
@@ -187,7 +187,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
               <div className="flex justify-center mb-1">
                 <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
                   {isMutualFund ? 
-                    `${asset.rawData?.plan_type || asset.rawData?.main_category || asset.type} • ${asset.rawData?.main_category || ''}`.trim() : 
+                    `${asset.rawData?.plan_type || 'Plan'} • ${asset.rawData?.main_category || asset.type}`.trim() : 
                     'STOCK'
                   }
                 </span>
@@ -196,7 +196,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           </div>
           {/* Circular Add button for mutual funds and stocks */}
           {(isMutualFund || isStock) && (
-            <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+            <div className="flex items-center justify-center ml-2 flex-shrink-0 self-start mt-1">
               <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
                 <Plus size={16} />
               </button>
