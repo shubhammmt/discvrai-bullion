@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit, Loader2 } from 'lucide-react';
+import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit, Loader2, Plus } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
