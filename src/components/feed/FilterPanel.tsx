@@ -31,6 +31,19 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     });
   }, [assetType, isLoadingOptions, filterOptions, optionsError]);
 
+  // Helper function to validate and filter select options
+  const getValidSelectOptions = (options: any[] | undefined) => {
+    if (!Array.isArray(options)) return [];
+    
+    return options.filter(option => {
+      // Ensure the option has a value property and it's not empty
+      if (!option || typeof option !== 'object') return false;
+      
+      const value = option.value || option.name || option.label;
+      return value && typeof value === 'string' && value.trim() !== '';
+    });
+  };
+
   const updateFilter = (key: string, value: any) => {
     onFiltersChange({
       ...filters,
@@ -79,6 +92,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
     const stockOptions = filterOptions?.stocks;
     console.log('Stock options:', stockOptions);
+
+    // Get valid sector options with validation
+    const validSectors = getValidSelectOptions(stockOptions?.sectors);
+    console.log('Valid sectors after filtering:', validSectors);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -139,7 +156,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </div>
         </div>
 
-        {/* Sector - From API */}
+        {/* Sector - From API with validation */}
         <div>
           <Label htmlFor="sector">Sector</Label>
           <Select onValueChange={(value) => updateFilter('sector', [value])}>
@@ -147,11 +164,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select sector" />
             </SelectTrigger>
             <SelectContent>
-              {stockOptions?.sectors?.filter(sector => sector.value !== "").map((sector) => (
+              {validSectors.map((sector) => (
                 <SelectItem key={sector.value} value={sector.value}>
                   {sector.label}
                 </SelectItem>
               ))}
+              {validSectors.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No sectors available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -210,6 +232,14 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     const mfOptions = filterOptions?.mutual_funds;
     console.log('Mutual fund options:', mfOptions);
 
+    // Get valid options with validation
+    const validCategories = getValidSelectOptions(mfOptions?.categories);
+    const validRiskLevels = getValidSelectOptions(mfOptions?.risk_levels);
+    const validExpenseRatios = getValidSelectOptions(mfOptions?.expense_ratio_options);
+    const validAmcNames = getValidSelectOptions(mfOptions?.amc_names?.slice(0, 20));
+    const validReturn1yOptions = getValidSelectOptions(mfOptions?.return_1y_options);
+    const validAumOptions = getValidSelectOptions(mfOptions?.aum_options);
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Category */}
@@ -220,11 +250,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              {mfOptions?.categories?.map((category) => (
+              {validCategories.map((category) => (
                 <SelectItem key={category.value} value={category.value}>
                   {category.name} ({category.count})
                 </SelectItem>
               ))}
+              {validCategories.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No categories available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -237,11 +272,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select risk level" />
             </SelectTrigger>
             <SelectContent>
-              {mfOptions?.risk_levels?.map((risk) => (
+              {validRiskLevels.map((risk) => (
                 <SelectItem key={risk.value} value={risk.value}>
                   {risk.name}
                 </SelectItem>
               ))}
+              {validRiskLevels.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No risk levels available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -254,7 +294,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select expense ratio" />
             </SelectTrigger>
             <SelectContent>
-              {mfOptions?.expense_ratio_options?.map((ratio) => (
+              {validExpenseRatios.map((ratio) => (
                 <SelectItem 
                   key={ratio.label} 
                   value={ratio.value !== null ? ratio.value.toString() : 'any'}
@@ -262,6 +302,11 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
                   {ratio.label}
                 </SelectItem>
               ))}
+              {validExpenseRatios.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No expense ratios available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -274,11 +319,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select AMC" />
             </SelectTrigger>
             <SelectContent>
-              {mfOptions?.amc_names?.slice(0, 20).map((amc) => (
+              {validAmcNames.map((amc) => (
                 <SelectItem key={amc.value} value={amc.value}>
                   {amc.name} ({amc.count})
                 </SelectItem>
               ))}
+              {validAmcNames.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No AMCs available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -291,7 +341,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select return range" />
             </SelectTrigger>
             <SelectContent>
-              {mfOptions?.return_1y_options?.map((returnOption) => (
+              {validReturn1yOptions.map((returnOption) => (
                 <SelectItem 
                   key={returnOption.label} 
                   value={returnOption.value !== null ? returnOption.value.toString() : 'any'}
@@ -299,6 +349,11 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
                   {returnOption.label}
                 </SelectItem>
               ))}
+              {validReturn1yOptions.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No return ranges available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -311,7 +366,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select AUM range" />
             </SelectTrigger>
             <SelectContent>
-              {mfOptions?.aum_options?.map((aumOption) => (
+              {validAumOptions.map((aumOption) => (
                 <SelectItem 
                   key={aumOption.label} 
                   value={aumOption.min_value !== null ? aumOption.min_value.toString() : 'any'}
@@ -319,6 +374,11 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
                   {aumOption.label}
                 </SelectItem>
               ))}
+              {validAumOptions.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No AUM ranges available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -337,6 +397,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     }
 
     const ipoOptions = filterOptions?.ipos;
+    const validStatusOptions = getValidSelectOptions(ipoOptions?.status_options);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -348,11 +409,16 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
-              {ipoOptions?.status_options?.map((status) => (
+              {validStatusOptions.map((status) => (
                 <SelectItem key={status.value} value={status.value}>
                   {status.label}
                 </SelectItem>
               ))}
+              {validStatusOptions.length === 0 && (
+                <SelectItem value="no-options" disabled>
+                  No status options available
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
