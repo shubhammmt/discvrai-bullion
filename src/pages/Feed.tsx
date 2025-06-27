@@ -315,10 +315,9 @@ const Feed = () => {
               assetType={asset.assetType}
               currentPrice={typeof asset.price === 'number' ? asset.price : (typeof asset.navPrice === 'number' ? asset.navPrice : undefined)}
               trigger={
-                <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-4">
-                  <FolderPlus size={14} className="mr-1" />
-                  Add
-                </Button>
+                <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
+                  <Plus size={12} />
+                </button>
               }
             />
           </div>

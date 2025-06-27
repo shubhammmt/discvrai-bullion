@@ -1,9 +1,8 @@
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { X, FolderPlus, Eye, TrendingUp, TrendingDown, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
+import { X, Plus, Eye, TrendingUp, TrendingDown, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -198,10 +197,9 @@ const StockResultsTable = ({
               assetType={primaryAssetType}
               currentPrice={priceValue}
               trigger={
-                <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs ml-2">
-                  <FolderPlus size={12} className="mr-1" />
-                  Add
-                </Button>
+                <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md ml-2">
+                  <Plus size={12} />
+                </button>
               }
             />
           </div>
@@ -352,10 +350,9 @@ const StockResultsTable = ({
                             assetType={primaryAssetType}
                             currentPrice={priceValue}
                             trigger={
-                              <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
-                                <FolderPlus size={12} className="mr-1" />
-                                Add
-                              </Button>
+                              <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
+                                <Plus size={12} />
+                              </button>
                             }
                           />
                         </td>
