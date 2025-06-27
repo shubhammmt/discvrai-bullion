@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -485,6 +486,40 @@ const Feed = () => {
     }
   };
 
+  // Filter assets from mixed feed based on active filter
+  const getFilteredAssets = () => {
+    if (!mixedFeedData?.trending_assets) return [];
+    
+    if (activeFilter === 'all') {
+      return mixedFeedData.trending_assets;
+    }
+    
+    // Filter based on asset type mapping
+    const filterMapping: { [key: string]: string[] } = {
+      'stocks': ['stock', 'equity'],
+      'mutual-funds': ['mutual_fund', 'mf'],
+      'etfs': ['etf'],
+      'bonds': ['bond'],
+      'fd': ['fd', 'fixed_deposit'],
+      'ipo': ['ipo'],
+      'smallcase': ['smallcase'],
+      'credit': ['credit'],
+      'credit-cards': ['credit_card'],
+      'insurance': ['insurance'],
+      'crypto': ['crypto', 'cryptocurrency']
+    };
+    
+    const allowedTypes = filterMapping[activeFilter] || [];
+    return mixedFeedData.trending_assets.filter((asset: any) => 
+      allowedTypes.some(type => 
+        asset.asset_type?.toLowerCase().includes(type) || 
+        asset.type?.toLowerCase().includes(type)
+      )
+    );
+  };
+
+  const filteredAssets = getFilteredAssets();
+
   // Render mixed feed error state
   if (mixedFeedError) {
     console.error('Mixed feed error:', mixedFeedError);
@@ -635,7 +670,7 @@ const Feed = () => {
                     {/* Single column layout */}
                     <div className="grid grid-cols-1 gap-3 sm:gap-4">
                       {filteredAssets.map((asset) => (
-                        <EnhancedAssetCard key={asset.id} asset={asset} />
+                        <AssetCard key={asset.id} asset={asset} />
                       ))}
                       {filteredAssets.length === 0 && (
                         <div className="col-span-full text-center py-8 text-gray-500">
