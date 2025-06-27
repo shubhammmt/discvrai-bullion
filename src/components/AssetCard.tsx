@@ -72,6 +72,33 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     asset.type.toLowerCase().includes('index')
   );
 
+  // Function to normalize asset type to expected PortfolioAddModal types
+  const getNormalizedAssetType = (type: string): "stock" | "mutual-fund" | "ipo" | "insurance" | "credit" | "smallcase" => {
+    const normalizedType = type.toLowerCase();
+    
+    if (normalizedType.includes('stock') || normalizedType.includes('equity')) {
+      return 'stock';
+    }
+    if (normalizedType.includes('mutual') || normalizedType.includes('elss') || normalizedType.includes('hybrid') || normalizedType.includes('index')) {
+      return 'mutual-fund';
+    }
+    if (normalizedType.includes('ipo')) {
+      return 'ipo';
+    }
+    if (normalizedType.includes('insurance')) {
+      return 'insurance';
+    }
+    if (normalizedType.includes('credit')) {
+      return 'credit';
+    }
+    if (normalizedType.includes('smallcase')) {
+      return 'smallcase';
+    }
+    
+    // Default fallback
+    return 'mutual-fund';
+  };
+
   const renderMutualFundData = () => {
     if (!isMutualFund || !asset.rawData) return null;
 
@@ -193,7 +220,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           <PortfolioAddModal
             assetName={isMutualFund ? asset.rawData?.scheme_name || asset.name : asset.name}
             assetSymbol={asset.symbol}
-            assetType={asset.type}
+            assetType={getNormalizedAssetType(asset.type)}
             currentPrice={isMutualFund ? asset.rawData?.nav_price : asset.price}
             trigger={
               <Button size="sm" variant="outline">
