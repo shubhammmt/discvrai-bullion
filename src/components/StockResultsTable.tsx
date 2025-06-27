@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -203,43 +202,43 @@ const StockResultsTable = ({
           </div>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          {/* Table Layout */}
-          <div className="rounded-lg border border-gray-200 overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="w-[40%] min-w-[250px]">
+          {/* Table Layout with Fixed Layout */}
+          <div className="w-full overflow-hidden rounded-lg border border-gray-200">
+            <table className="w-full table-fixed border-collapse">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="w-[35%] px-4 py-3 text-left">
                     <div className="flex items-center">
                       <span className="text-sm font-semibold text-gray-700">
                         {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
                       </span>
                       <SortButton field="name" />
                     </div>
-                  </TableHead>
+                  </th>
                   {displayKeys.map((key) => (
-                    <TableHead key={key} className="text-center w-[12%]">
+                    <th key={key} className="w-[15%] px-2 py-3 text-center">
                       <div className="flex items-center justify-center">
                         <span className="text-xs font-semibold text-gray-700">
                           {formatFieldName(key)}
                         </span>
                         {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
                       </div>
-                    </TableHead>
+                    </th>
                   ))}
-                  <TableHead className="text-center w-[8%]">
+                  <th className="w-[10%] px-2 py-3 text-center">
                     <span className="text-xs font-semibold text-gray-700">Action</span>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
                 {sortedResults.map((asset, index) => {
                   const displayName = getDisplayName(asset);
                   const priceValue = getPriceValue(asset);
                   
                   return (
-                    <TableRow key={`${displayName}-${index}`} className="hover:bg-gray-50">
-                      {/* Name Column with Tooltip */}
-                      <TableCell className="max-w-0">
+                    <tr key={`${displayName}-${index}`} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                      {/* Name Column with Tooltip and Truncation */}
+                      <td className="px-4 py-3">
                         <div className="text-left">
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -248,7 +247,7 @@ const StockResultsTable = ({
                               </h3>
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p>{displayName}</p>
+                              <p className="max-w-xs">{displayName}</p>
                             </TooltipContent>
                           </Tooltip>
                           {(asset.amc_name || asset.sector) && (
@@ -260,19 +259,19 @@ const StockResultsTable = ({
                                 </div>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p>{asset.amc_name || asset.sector}{asset.main_category && <span> • {asset.main_category}</span>}</p>
+                                <p className="max-w-xs">{asset.amc_name || asset.sector}{asset.main_category && <span> • {asset.main_category}</span>}</p>
                               </TooltipContent>
                             </Tooltip>
                           )}
                         </div>
-                      </TableCell>
+                      </td>
                       
                       {/* Data Columns */}
                       {displayKeys.map((key) => (
-                        <TableCell key={key} className="text-center">
+                        <td key={key} className="px-2 py-3 text-center">
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <span className="text-sm font-medium text-gray-900 cursor-pointer">
+                              <span className="text-sm font-medium text-gray-900 cursor-pointer truncate block">
                                 {formatFieldValue(key, asset[key], primaryAssetType)}
                               </span>
                             </TooltipTrigger>
@@ -280,11 +279,11 @@ const StockResultsTable = ({
                               <p>{formatFieldValue(key, asset[key], primaryAssetType)}</p>
                             </TooltipContent>
                           </Tooltip>
-                        </TableCell>
+                        </td>
                       ))}
                       
                       {/* Action Column */}
-                      <TableCell className="text-center">
+                      <td className="px-2 py-3 text-center">
                         <PortfolioAddModal
                           assetName={displayName}
                           assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
@@ -297,12 +296,12 @@ const StockResultsTable = ({
                             </Button>
                           }
                         />
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   );
                 })}
-              </TableBody>
-            </Table>
+              </tbody>
+            </table>
           </div>
           
           {/* Pagination Controls */}
