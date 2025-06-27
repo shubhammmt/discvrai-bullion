@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
 import ProfileEnhancementPrompt from '@/components/ProfileEnhancementPrompt';
-import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
@@ -642,89 +642,82 @@ const Feed = () => {
           <ProfileEnhancementPrompt userProfile={userProfile} />
         </div>
 
-        <div className="w-full grid lg:grid-cols-4 gap-4 lg:gap-6">
-          {/* Main Feed */}
-          <div className="w-full lg:col-span-3 space-y-4 lg:space-y-6 min-w-0">
-            {/* Search Results Section */}
-            {renderSearchResults()}
+        {/* Main Feed - Full Width */}
+        <div className="w-full space-y-4 lg:space-y-6 min-w-0">
+          {/* Search Results Section */}
+          {renderSearchResults()}
 
-            {/* Mixed Feed Loading State */}
-            {isMixedFeedLoading && (
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardContent className="p-6 text-center">
-                  <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
-                  <p className="text-gray-600">Loading trending content...</p>
-                </CardContent>
-              </Card>
-            )}
+          {/* Mixed Feed Loading State */}
+          {isMixedFeedLoading && (
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardContent className="p-6 text-center">
+                <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                <p className="text-gray-600">Loading trending content...</p>
+              </CardContent>
+            </Card>
+          )}
 
-            {/* Market Overview from Mixed Feed */}
-            {mixedFeedData?.market_overview && (
-              <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
-                <CardHeader className="p-4">
-                  <CardTitle className="text-lg text-green-800">📊 Market Overview</CardTitle>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                      <p className="text-2xl font-bold text-green-600">{mixedFeedData.market_overview.total_active_funds.toLocaleString()}</p>
-                      <p className="text-sm text-gray-600">Active Funds</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-blue-600">{mixedFeedData.market_overview.avg_market_return.toFixed(1)}%</p>
-                      <p className="text-sm text-gray-600">Avg Return</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-purple-600">{mixedFeedData.market_overview.positive_return_rate.toFixed(1)}%</p>
-                      <p className="text-sm text-gray-600">Positive Returns</p>
-                    </div>
+          {/* Market Overview from Mixed Feed */}
+          {mixedFeedData?.market_overview && (
+            <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+              <CardHeader className="p-4">
+                <CardTitle className="text-lg text-green-800">📊 Market Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="p-4">
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <p className="text-2xl font-bold text-green-600">{mixedFeedData.market_overview.total_active_funds.toLocaleString()}</p>
+                    <p className="text-sm text-gray-600">Active Funds</p>
                   </div>
+                  <div>
+                    <p className="text-2xl font-bold text-blue-600">{mixedFeedData.market_overview.avg_market_return.toFixed(1)}%</p>
+                    <p className="text-sm text-gray-600">Avg Return</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-purple-600">{mixedFeedData.market_overview.positive_return_rate.toFixed(1)}%</p>
+                    <p className="text-sm text-gray-600">Positive Returns</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Filter Tabs */}
+          <div className="w-full">
+            <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {filters.map((filter) => (
+                <Button
+                  key={filter.id}
+                  variant={activeFilter === filter.id ? 'default' : 'outline'}
+                  onClick={() => {
+                    console.log('Filter clicked:', filter.id);
+                    setActiveFilter(filter.id);
+                  }}
+                  size="sm"
+                  className="text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
+                >
+                  {filter.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Asset Cards in Single Column */}
+          {filteredAssets.length > 0 ? (
+            <div className="space-y-3">
+              {filteredAssets.map((asset: any) => (
+                <AssetCard key={asset.id} asset={asset} showReason={true} />
+              ))}
+            </div>
+          ) : (
+            !isMixedFeedLoading && (
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 sm:p-6 text-center">
+                  <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
                 </CardContent>
               </Card>
-            )}
-
-            {/* Filter Tabs */}
-            <div className="w-full">
-              <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {filters.map((filter) => (
-                  <Button
-                    key={filter.id}
-                    variant={activeFilter === filter.id ? 'default' : 'outline'}
-                    onClick={() => {
-                      console.log('Filter clicked:', filter.id);
-                      setActiveFilter(filter.id);
-                    }}
-                    size="sm"
-                    className="text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
-                  >
-                    {filter.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Asset Cards in Single Column */}
-            {filteredAssets.length > 0 ? (
-              <div className="space-y-3">
-                {filteredAssets.map((asset: any) => (
-                  <AssetCard key={asset.id} asset={asset} showReason={true} />
-                ))}
-              </div>
-            ) : (
-              !isMixedFeedLoading && (
-                <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                  <CardContent className="p-4 sm:p-6 text-center">
-                    <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
-                  </CardContent>
-                </Card>
-              )
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="w-full lg:col-span-1">
-            <DesktopSidebar userProfile={userProfile} />
-          </div>
+            )
+          )}
         </div>
       </div>
     </div>
