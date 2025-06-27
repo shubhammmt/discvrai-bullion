@@ -174,97 +174,6 @@ const Feed = () => {
       aum: 45230,
       expense_ratio: 1.05,
       minimum_sip: 500
-    },
-    {
-      id: 'mock-3',
-      name: 'TechCorp IPO',
-      symbol: 'TECH',
-      type: 'ipo',
-      price: 290.00,
-      change: 15.00,
-      changePercent: 5.45,
-      volume: '1.2M',
-      latestEvent: 'IPO Opening',
-      news: 'Subscription opens today',
-      routePath: '/research/ipo/TECH'
-    },
-    {
-      id: 'mock-4',
-      name: 'Electric Mobility Smallcase',
-      symbol: 'ELEC-MOB',
-      type: 'smallcase',
-      price: 24.5,
-      change: 2.1,
-      changePercent: 9.38,
-      volume: '800K',
-      latestEvent: 'Rebalancing',
-      news: 'Portfolio rebalanced with new EV stocks',
-      routePath: '/research/smallcase/electric-mobility'
-    },
-    {
-      id: 'mock-5',
-      name: 'HDFC Personal Loan',
-      symbol: 'HDFC-PL',
-      type: 'credit',
-      price: 10.5,
-      change: -0.25,
-      changePercent: -2.27,
-      volume: '500K',
-      latestEvent: 'Rate Reduction',
-      news: 'Interest rates reduced by 0.25%',
-      routePath: '/research/credit/hdfc-personal-loan'
-    },
-    {
-      id: 'mock-6',
-      name: 'HDFC Regalia Credit Card',
-      symbol: 'HDFC-REG',
-      type: 'credit-cards',
-      price: 4.0,
-      change: 0,
-      changePercent: 0,
-      volume: '200K',
-      latestEvent: 'New Benefits',
-      news: 'Added airport lounge access',
-      routePath: '/research/credit-card/hdfc-regalia'
-    },
-    {
-      id: 'mock-7',
-      name: 'Max Life Term Plan',
-      symbol: 'MAX-TERM',
-      type: 'insurance',
-      price: 24000,
-      change: 0,
-      changePercent: 0,
-      volume: '100K',
-      latestEvent: 'New Features',
-      news: 'Added critical illness cover',
-      routePath: '/research/insurance/max-life-term'
-    },
-    {
-      id: 'mock-8',
-      name: 'Government Bond 2034',
-      symbol: 'GOI-2034',
-      type: 'bonds',
-      price: 102.50,
-      change: 0.15,
-      changePercent: 0.15,
-      volume: '50K',
-      latestEvent: 'Interest Payment',
-      news: 'Semi-annual coupon payment due',
-      routePath: '/research/bond/goi-2034'
-    },
-    {
-      id: 'mock-9',
-      name: 'HDFC Bank FD',
-      symbol: 'HDFC-FD',
-      type: 'fd',
-      price: 7.25,
-      change: 0,
-      changePercent: 0,
-      volume: '300K',
-      latestEvent: 'Rate Update',
-      news: 'Interest rates for 1-year tenure',
-      routePath: '/research/fd/hdfc-fd'
     }
   ];
 
@@ -440,6 +349,9 @@ const Feed = () => {
     if (!searchResults) return null;
 
     try {
+      // Log the entire search results structure for debugging
+      console.log('Full search results structure:', JSON.stringify(searchResults, null, 2));
+
       if (!searchResults.success) {
         return (
           <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
@@ -488,36 +400,83 @@ const Feed = () => {
           <CardContent className="p-3 sm:p-6">
             <div className="space-y-3 sm:space-y-4">
               {searchResults.data.map((result, index) => {
-                console.log('Rendering search result card:', result.name || result.symbol);
+                console.log('Processing search result:', JSON.stringify(result, null, 2));
+                
+                // Handle different possible data structures
+                const resultName = result.name || result.scheme_name || result.symbol || 'Unknown';
+                const resultSymbol = result.symbol || result.mf_schcode || result._id || 'N/A';
+                const resultType = result.assetType || result.asset_type || currentSearchRequest?.assetType || 'unknown';
+                const resultPrice = result.price || result.nav_price || 'N/A';
+                const resultChange = result.changePercent || result.ret_1month || 0;
+                
+                console.log('Rendering search result card:', resultName);
+                
                 return (
-                  <div key={`${result.symbol}-${index}`} className="flex flex-col space-y-3 p-3 sm:p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-                    <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/${result.assetType}/${result.symbol}`)}>
+                  <div key={`${resultSymbol}-${index}`} className="flex flex-col space-y-3 p-3 sm:p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
+                    <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/${resultType}/${resultSymbol}`)}>
                       <div className="flex flex-col space-y-2 mb-3">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                          <h3 className="font-semibold text-sm sm:text-base text-gray-900 break-words">{result.symbol}</h3>
+                          <h3 className="font-semibold text-sm sm:text-base text-gray-900 break-words">{resultName}</h3>
                           <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full w-fit flex-shrink-0">
-                            {result.assetType}
+                            {resultType}
                           </span>
                         </div>
-                        <span className="text-xs sm:text-sm text-gray-600 break-words">{result.name}</span>
+                        <span className="text-xs sm:text-sm text-gray-600 break-words">{resultSymbol}</span>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                        <div>
-                          <p className="text-base sm:text-lg font-bold text-gray-900">₹{result.price || 'N/A'}</p>
-                          {result.changePercent && (
-                            <p className={`text-xs sm:text-sm ${result.changePercent > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {result.changePercent > 0 ? '+' : ''}{result.changePercent.toFixed(2)}%
+                      
+                      {/* Display mutual fund specific data or general asset data */}
+                      {resultType === 'mutual-fund' && result.ret_1year ? (
+                        <div className="grid grid-cols-2 gap-3 mb-3">
+                          <div>
+                            <p className="text-xs text-gray-500">1 Year Return</p>
+                            <p className="text-sm font-bold text-green-600">
+                              {result.ret_1year ? `${result.ret_1year.toFixed(2)}%` : 'N/A'}
                             </p>
-                          )}
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">3 Year Return</p>
+                            <p className="text-sm font-bold text-green-600">
+                              {result.ret_3year ? `${result.ret_3year.toFixed(2)}%` : 'N/A'}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">AUM</p>
+                            <p className="text-xs font-medium text-gray-900">
+                              ₹{result.current_aum ? `${(result.current_aum / 100).toFixed(0)} Cr` : 'N/A'}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Expense Ratio</p>
+                            <p className="text-xs font-medium text-gray-900">
+                              {result.total_expense_ratio ? `${result.total_expense_ratio.toFixed(2)}%` : 'N/A'}
+                            </p>
+                          </div>
+                          <div className="col-span-2">
+                            <p className="text-xs text-gray-500">Minimum SIP</p>
+                            <p className="text-xs font-medium text-gray-900">
+                              ₹{result.sip_minimum || 'N/A'}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                          <div>
+                            <p className="text-base sm:text-lg font-bold text-gray-900">₹{resultPrice}</p>
+                            {resultChange !== 0 && (
+                              <p className={`text-xs sm:text-sm ${resultChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {resultChange > 0 ? '+' : ''}{resultChange.toFixed(2)}%
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center justify-end pt-2 border-t border-gray-100">
                       <PortfolioAddModal
-                        assetName={result.name}
-                        assetSymbol={result.symbol}
-                        assetType={result.assetType}
-                        currentPrice={result.price}
+                        assetName={resultName}
+                        assetSymbol={resultSymbol}
+                        assetType={resultType}
+                        currentPrice={typeof resultPrice === 'number' ? resultPrice : undefined}
                         trigger={
                           <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 text-xs sm:text-sm">
                             <FolderPlus size={12} className="mr-1" />
