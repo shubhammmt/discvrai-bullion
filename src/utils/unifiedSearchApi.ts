@@ -312,6 +312,11 @@ const SESSION_ID = '0aee2f9b-b3ff-447d-bf7e-cb5318a7c550';
 
 // Helper function to get authentication headers
 const getAuthHeaders = () => {
+  console.log('=== API AUTH HEADERS ===');
+  console.log('Base URL:', BASE_URL);
+  console.log('Session ID:', SESSION_ID);
+  console.log('Bearer Token (first 50 chars):', BEARER_TOKEN.substring(0, 50) + '...');
+  
   return {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${BEARER_TOKEN}`,
@@ -321,13 +326,19 @@ const getAuthHeaders = () => {
 
 // Updated API Functions
 export const searchAssets = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
+  console.log('=== SEARCH ASSETS START ===');
+  console.log('Search request:', request);
+  
   // Route to specific asset APIs based on asset type
   if (request.assetType === 'stock') {
+    console.log('Routing to stock search...');
     return await searchStocks(request);
   } else if (request.assetType === 'mutual-fund') {
+    console.log('Routing to mutual fund search...');
     return await searchMutualFunds(request);
   }
 
+  console.log('Using unified search endpoint...');
   try {
     const response = await fetch(`${BASE_URL}/api/v1/feed/unified-search`, {
       method: 'POST',
@@ -359,10 +370,14 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
 
 // Stock search function (existing)
 const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
+  console.log('=== STOCK SEARCH START ===');
+  console.log('Stock search request:', request);
+  
   try {
     let apiResponse;
     
     if (request.searchMode === 'nlp' && request.query) {
+      console.log('=== USING NLP ENDPOINT ===');
       // Use NLP endpoint
       const stockQueryRequest = {
         query: request.query,
@@ -372,6 +387,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
       };
 
       console.log('Making Stock NLP API call with:', stockQueryRequest);
+      console.log('API URL:', `${BASE_URL}/api/v1/feed/stock-query/paginated`);
       
       const response = await fetch(`${BASE_URL}/api/v1/feed/stock-query/paginated`, {
         method: 'POST',
@@ -379,14 +395,20 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
         body: JSON.stringify(stockQueryRequest)
       });
 
+      console.log('API Response status:', response.status);
+      console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
       }
 
       apiResponse = await response.json();
+      console.log('Raw API Response:', apiResponse);
       
       // Transform API response to match our interface
-      return {
+      const transformedResponse = {
         success: apiResponse.success,
         data: apiResponse.data.map((stock: any) => ({
           symbol: stock.symbol || stock.company_name,
@@ -411,9 +433,14 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
         } : undefined
       };
       
+      console.log('Transformed response:', transformedResponse);
+      return transformedResponse;
+      
     } else if (request.searchMode === 'filters' && request.filters) {
+      console.log('=== USING FILTERS ENDPOINT ===');
       // Use metrics filter endpoint
       const filtersArray = convertFiltersToStockMetricsFormat(request.filters);
+      console.log('Converted filters:', filtersArray);
       
       const metricsRequest = {
         filters: filtersArray,
@@ -424,6 +451,7 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
       };
 
       console.log('Making Stock Metrics Filter API call with:', metricsRequest);
+      console.log('API URL:', `${BASE_URL}/api/v1/feed/stock-query/metrics-filter`);
       
       const response = await fetch(`${BASE_URL}/api/v1/feed/stock-query/metrics-filter`, {
         method: 'POST',
@@ -431,14 +459,19 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
         body: JSON.stringify(metricsRequest)
       });
 
+      console.log('API Response status:', response.status);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
       }
 
       apiResponse = await response.json();
+      console.log('Raw API Response:', apiResponse);
       
       // Transform API response to match our interface
-      return {
+      const transformedResponse = {
         success: apiResponse.success,
         data: apiResponse.data.map((stock: any) => ({
           symbol: stock.symbol || stock.company_name,
@@ -456,9 +489,13 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
         total_pages: apiResponse.total_pages,
         page_size: apiResponse.page_size
       };
+      
+      console.log('Transformed response:', transformedResponse);
+      return transformedResponse;
     }
     
     // Default empty response
+    console.log('No valid search mode or data provided');
     return {
       success: true,
       data: [],
@@ -469,7 +506,11 @@ const searchStocks = async (request: UnifiedSearchRequest): Promise<UnifiedSearc
     };
     
   } catch (error) {
-    console.error('Stock API error:', error);
+    console.error('=== STOCK API ERROR ===');
+    console.error('Error details:', error);
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    
     return {
       success: false,
       data: [],
