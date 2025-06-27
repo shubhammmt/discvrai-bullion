@@ -102,212 +102,209 @@ const Feed = () => {
     { id: 'crypto', label: 'Crypto' }
   ];
 
-  // Convert mixed feed data to trending assets format
-  const getTrendingAssetsFromMixedFeed = () => {
-    if (!mixedFeedData?.sections) return [];
-
-    const assets = [];
+  // Enhanced dynamic data extraction function
+  const extractAssetData = (result: any, assetType: string) => {
+    console.log('Extracting asset data for type:', assetType, 'from:', result);
     
-    // Process mutual funds section with specific fields
-    const mutualFundsSection = mixedFeedData.sections.find(section => section.section_type === 'mutual_funds');
-    if (mutualFundsSection) {
-      mutualFundsSection.items.forEach(item => {
-        assets.push({
-          id: item._id,
-          name: item.scheme_name,
-          symbol: item.mf_schcode?.toString() || item._id,
-          type: 'mutual-fund',
-          price: item.nav_price,
-          change: item.ret_1month,
-          changePercent: item.ret_1month,
-          volume: `₹${item.current_aum} Cr AUM`,
-          latestEvent: item.feed_category,
-          news: `${item.ret_1year?.toFixed(2) || 'N/A'}% 1Y returns • ${item.amc_name}`,
-          routePath: `/research/mutual-fund/${item.mf_schcode || item._id}`,
-          amc_name: item.amc_name,
-          category: item.main_category,
-          expense_ratio: item.total_expense_ratio,
-          risk_level: item.risk_level,
-          // Additional fields for mutual fund cards
-          return_1year: item.ret_1year,
-          return_3year: item.ret_3year,
-          aum: item.current_aum,
-          minimum_sip: item.sip_minimum
-        });
-      });
-    }
+    // Common field mappings for different asset types
+    const fieldMappings = {
+      stock: {
+        name: ['name', 'company_name', 'symbol'],
+        symbol: ['symbol', 'stock_symbol', 'ticker'],
+        price: ['price', 'current_price', 'ltp', 'close_price'],
+        change: ['change', 'price_change', 'daily_change'],
+        changePercent: ['changePercent', 'change_percent', 'pct_change'],
+        marketCap: ['market_cap', 'marketCap'],
+        volume: ['volume', 'traded_volume'],
+        sector: ['sector', 'industry'],
+        peRatio: ['pe_ratio', 'peRatio', 'p_e_ratio']
+      },
+      'mutual-fund': {
+        name: ['name', 'scheme_name', 'fund_name'],
+        symbol: ['symbol', 'mf_schcode', 'scheme_code', '_id'],
+        navPrice: ['nav_price', 'nav', 'price'],
+        return1Year: ['ret_1year', 'return_1y', 'returns_1year'],
+        return3Year: ['ret_3year', 'return_3y', 'returns_3year'],
+        aum: ['current_aum', 'aum', 'fund_size'],
+        expenseRatio: ['total_expense_ratio', 'expense_ratio', 'ter'],
+        minimumSip: ['sip_minimum', 'min_sip', 'minimum_investment'],
+        amcName: ['amc_name', 'fund_house', 'amc'],
+        category: ['main_category', 'category', 'fund_category'],
+        riskLevel: ['risk_level', 'risk_category']
+      },
+      ipo: {
+        name: ['name', 'company_name', 'ipo_name'],
+        symbol: ['symbol', 'stock_symbol'],
+        priceRange: ['price_range', 'issue_price'],
+        status: ['status', 'ipo_status'],
+        openDate: ['open_date', 'issue_open_date'],
+        closeDate: ['close_date', 'issue_close_date']
+      }
+    };
 
-    return assets;
+    // Get the appropriate field mapping for the asset type
+    const mapping = fieldMappings[assetType as keyof typeof fieldMappings] || fieldMappings.stock;
+
+    // Dynamic field extraction function
+    const getFieldValue = (fieldOptions: string[], defaultValue: any = null) => {
+      for (const field of fieldOptions) {
+        if (result[field] !== undefined && result[field] !== null) {
+          return result[field];
+        }
+      }
+      return defaultValue;
+    };
+
+    // Extract data based on asset type
+    const extractedData: any = {
+      id: result._id || result.id || result.symbol || Math.random().toString(),
+      assetType: assetType,
+      rawData: result // Keep raw data for debugging
+    };
+
+    // Extract fields based on mapping
+    Object.entries(mapping).forEach(([key, fieldOptions]) => {
+      extractedData[key] = getFieldValue(fieldOptions);
+    });
+
+    console.log('Extracted data:', extractedData);
+    return extractedData;
   };
 
-  const mixedFeedAssets = getTrendingAssetsFromMixedFeed();
+  // Enhanced rendering function for different asset types
+  const renderAssetCard = (asset: any, index: number) => {
+    console.log('Rendering asset card with extracted data:', asset);
 
-  // Mock data fallback (keeping some for demonstration)
-  const mockTrendingAssets = [
-    {
-      id: 'mock-1',
-      name: 'Apple Inc.',
-      symbol: 'AAPL',
-      type: 'stock',
-      price: 162.80,
-      change: 3.25,
-      changePercent: 2.04,
-      volume: '45.2M',
-      latestEvent: 'Earnings Beat',
-      news: 'Q4 revenue exceeds expectations',
-      routePath: '/research/stock/AAPL'
-    },
-    {
-      id: 'mock-2',
-      name: 'HDFC Top 100 Fund',
-      symbol: 'HDFC100',
-      type: 'mutual-fund',
-      price: 645.20,
-      change: -2.45,
-      changePercent: -0.38,
-      volume: '2.1M',
-      latestEvent: 'Dividend Declaration',
-      news: 'Declared interim dividend of ₹8 per unit',
-      routePath: '/research/mutual-fund/hdfc-top-100',
-      return_1year: 18.5,
-      return_3year: 12.3,
-      aum: 45230,
-      expense_ratio: 1.05,
-      minimum_sip: 500
-    }
-  ];
-
-  // Combine mixed feed data with mock data
-  const allAssets = [...mixedFeedAssets, ...mockTrendingAssets];
-
-  // Filter assets based on active filter
-  const filteredAssets = activeFilter === 'all' 
-    ? allAssets 
-    : allAssets.filter(asset => {
-        if (activeFilter === 'mutual-funds') return asset.type === 'mutual-fund';
-        if (activeFilter === 'credit-cards') return asset.type === 'credit-cards';
-        return asset.type === activeFilter;
-      });
-
-  // Enhanced AssetCard component with portfolio actions - Updated for mutual funds
-  const EnhancedAssetCard = ({ asset }: { asset: any }) => {
-    console.log('Rendering asset card for:', asset.name);
+    const cardId = `${asset.symbol || asset.id}-${index}`;
     
     return (
-      <div className="w-full min-w-0">
+      <div key={cardId} className="w-full">
         <div className="flex flex-col p-4 bg-white rounded-xl border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group">
           {/* Header Section */}
-          <div className="flex items-start justify-between mb-3 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+          <div className="flex items-start justify-between mb-3">
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-base text-gray-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors">
-                {asset.name}
+                {asset.name || 'Unknown Asset'}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-sm text-gray-500">{asset.symbol}</span>
-                {asset.latestEvent && (
-                  <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-md border border-blue-100">
-                    {asset.latestEvent}
-                  </span>
-                )}
+                <span className="text-sm text-gray-500">{asset.symbol || 'N/A'}</span>
+                <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-md border border-blue-100">
+                  {asset.assetType}
+                </span>
               </div>
             </div>
           </div>
           
-          {/* Mutual Fund Specific Data Display */}
-          {asset.type === 'mutual-fund' ? (
-            <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
-              <div className="grid grid-cols-2 gap-4 mb-3">
+          {/* Dynamic Content Based on Asset Type */}
+          <div className="mb-4">
+            {asset.assetType === 'mutual-fund' ? (
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-500">1 Year Return</p>
                   <p className="text-lg font-bold text-green-600">
-                    {asset.return_1year ? `${asset.return_1year.toFixed(2)}%` : 'N/A'}
+                    {asset.return1Year !== null && asset.return1Year !== undefined ? 
+                      `${Number(asset.return1Year).toFixed(2)}%` : 'N/A'}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">3 Year Return</p>
                   <p className="text-lg font-bold text-green-600">
-                    {asset.return_3year ? `${asset.return_3year.toFixed(2)}%` : 'N/A'}
+                    {asset.return3Year !== null && asset.return3Year !== undefined ? 
+                      `${Number(asset.return3Year).toFixed(2)}%` : 'N/A'}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">AUM</p>
                   <p className="text-sm font-medium text-gray-900">
-                    ₹{asset.aum ? `${(asset.aum / 100).toFixed(0)} Cr` : 'N/A'}
+                    {asset.aum !== null && asset.aum !== undefined ? 
+                      `₹${(Number(asset.aum) / 100).toFixed(0)} Cr` : 'N/A'}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Expense Ratio</p>
                   <p className="text-sm font-medium text-gray-900">
-                    {asset.expense_ratio ? `${asset.expense_ratio.toFixed(2)}%` : 'N/A'}
+                    {asset.expenseRatio !== null && asset.expenseRatio !== undefined ? 
+                      `${Number(asset.expenseRatio).toFixed(2)}%` : 'N/A'}
+                  </p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-xs text-gray-500">Minimum SIP</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    ₹{asset.minimumSip || 'N/A'}
                   </p>
                 </div>
               </div>
-              <div className="mb-3">
-                <p className="text-xs text-gray-500">Minimum SIP</p>
-                <p className="text-sm font-medium text-gray-900">
-                  ₹{asset.minimum_sip || 'N/A'}
-                </p>
-              </div>
-            </div>
-          ) : (
-            // Price and Performance Section for other assets
-            <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
-              <div className="flex items-baseline justify-between">
+            ) : asset.assetType === 'stock' ? (
+              <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-bold text-gray-900">
-                    {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
+                    ₹{asset.price !== null && asset.price !== undefined ? Number(asset.price).toLocaleString() : 'N/A'}
                   </p>
-                  {asset.change !== null && (
-                    <div className={`flex items-center gap-1 mt-1 ${asset.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {asset.change > 0 ? (
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                        </svg>
-                      ) : (
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
+                  {asset.change !== null && asset.change !== undefined && (
+                    <div className={`flex items-center gap-1 mt-1 ${Number(asset.change) > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {Number(asset.change) > 0 ? '↑' : '↓'}
                       <span className="text-sm font-medium">
-                        {asset.change > 0 ? '+' : ''}{asset.change}%
+                        {Number(asset.change) > 0 ? '+' : ''}{Number(asset.change).toFixed(2)}
+                        {asset.changePercent && `(${Number(asset.changePercent).toFixed(2)}%)`}
                       </span>
                     </div>
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-gray-500 mb-1">Volume</p>
-                  <p className="text-sm font-medium text-gray-700">{asset.volume}</p>
+                  {asset.marketCap && (
+                    <div>
+                      <p className="text-xs text-gray-500">Market Cap</p>
+                      <p className="text-sm font-medium text-gray-700">₹{Number(asset.marketCap).toLocaleString()} Cr</p>
+                    </div>
+                  )}
                 </div>
+              </div>
+            ) : (
+              // Default rendering for other asset types
+              <div className="space-y-2">
+                {Object.entries(asset).map(([key, value]) => {
+                  if (['id', 'assetType', 'rawData', 'name', 'symbol'].includes(key) || value === null || value === undefined) {
+                    return null;
+                  }
+                  return (
+                    <div key={key} className="flex justify-between">
+                      <span className="text-xs text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                      <span className="text-sm font-medium text-gray-900">{String(value)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Additional Info */}
+          {(asset.amcName || asset.category || asset.sector) && (
+            <div className="mb-4">
+              <div className="flex items-center gap-2 flex-wrap">
+                {asset.amcName && (
+                  <span className="text-xs text-gray-500">{asset.amcName}</span>
+                )}
+                {asset.category && (
+                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                    {asset.category}
+                  </span>
+                )}
+                {asset.sector && (
+                  <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                    {asset.sector}
+                  </span>
+                )}
               </div>
             </div>
           )}
 
-          {/* Additional Info */}
-          {asset.news && (
-            <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
-              <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
-                {asset.news}
-              </p>
-            </div>
-          )}
-
           {/* Action Section */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-            <div className="flex items-center gap-2">
-              {asset.amc_name && (
-                <span className="text-xs text-gray-500">{asset.amc_name}</span>
-              )}
-              {asset.category && (
-                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                  {asset.category}
-                </span>
-              )}
-            </div>
+          <div className="flex items-center justify-end pt-3 border-t border-gray-100">
             <PortfolioAddModal
-              assetName={asset.name}
-              assetSymbol={asset.symbol}
-              assetType={asset.type}
-              currentPrice={typeof asset.price === 'number' ? asset.price : undefined}
+              assetName={asset.name || 'Unknown'}
+              assetSymbol={asset.symbol || 'N/A'}
+              assetType={asset.assetType}
+              currentPrice={typeof asset.price === 'number' ? asset.price : (typeof asset.navPrice === 'number' ? asset.navPrice : undefined)}
               trigger={
                 <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-4">
                   <FolderPlus size={14} className="mr-1" />
@@ -322,14 +319,18 @@ const Feed = () => {
   };
 
   const renderSearchResults = () => {
-    console.log('Rendering search results. State:', { 
-      searchResults: !!searchResults, 
+    console.log('=== SEARCH RESULTS RENDER START ===');
+    console.log('Search results state:', { 
+      hasResults: !!searchResults, 
       searchError,
-      currentSearchRequest: !!currentSearchRequest 
+      hasCurrentRequest: !!currentSearchRequest,
+      resultsSuccess: searchResults?.success,
+      dataLength: searchResults?.data?.length
     });
 
     // Show error state
     if (searchError) {
+      console.log('Rendering error state:', searchError);
       return (
         <Card className="mb-4 bg-white/70 backdrop-blur-md border-red-200">
           <CardContent className="p-3 sm:p-6 text-center">
@@ -346,13 +347,20 @@ const Feed = () => {
       );
     }
 
-    if (!searchResults) return null;
+    if (!searchResults) {
+      console.log('No search results to render');
+      return null;
+    }
 
     try {
-      // Log the entire search results structure for debugging
-      console.log('Full search results structure:', JSON.stringify(searchResults, null, 2));
+      console.log('Processing search results:', {
+        success: searchResults.success,
+        dataLength: searchResults.data?.length,
+        currentAssetType: currentSearchRequest?.assetType
+      });
 
       if (!searchResults.success) {
+        console.log('Search was not successful:', searchResults.error);
         return (
           <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
             <CardContent className="p-3 sm:p-6 text-center">
@@ -363,6 +371,7 @@ const Feed = () => {
       }
 
       if (!searchResults.data || searchResults.data.length === 0) {
+        console.log('No data in search results');
         return (
           <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
             <CardContent className="p-3 sm:p-6 text-center">
@@ -372,7 +381,7 @@ const Feed = () => {
         );
       }
 
-      // Use StockResultsTable for stock results, fallback to card display for other asset types
+      // Use StockResultsTable for stock results, fallback to dynamic card display for other asset types
       if (currentSearchRequest?.assetType === 'stock') {
         console.log('Rendering stock results table');
         return (
@@ -390,110 +399,75 @@ const Feed = () => {
         );
       }
 
-      // Fallback card display for other asset types - Single column layout
-      console.log('Rendering fallback card display for', searchResults.data.length, 'results');
+      // Enhanced dynamic card display for other asset types
+      console.log('Rendering dynamic card display for', searchResults.data.length, 'results');
+      
+      // Extract and normalize the data dynamically
+      const processedResults = searchResults.data.map((result, index) => {
+        console.log(`Processing result ${index + 1}:`, result);
+        
+        try {
+          const extractedData = extractAssetData(result, currentSearchRequest?.assetType || 'unknown');
+          return extractedData;
+        } catch (error) {
+          console.error(`Error processing result ${index + 1}:`, error);
+          // Return a fallback object
+          return {
+            id: `fallback-${index}`,
+            name: result.name || result.scheme_name || result.symbol || 'Unknown Asset',
+            symbol: result.symbol || result.mf_schcode || result._id || 'N/A',
+            assetType: currentSearchRequest?.assetType || 'unknown',
+            rawData: result
+          };
+        }
+      });
+
       return (
         <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
           <CardHeader className="p-3 sm:p-6">
-            <CardTitle className="text-base sm:text-xl">Search Results ({searchResults.total_records} found)</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base sm:text-xl">
+                Search Results ({searchResults.total_records} found)
+              </CardTitle>
+              <Button variant="outline" onClick={handleDismissResults} size="sm">
+                Dismiss
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="p-3 sm:p-6">
             <div className="space-y-3 sm:space-y-4">
-              {searchResults.data.map((result, index) => {
-                console.log('Processing search result:', JSON.stringify(result, null, 2));
-                
-                // Handle different possible data structures
-                const resultName = result.name || result.scheme_name || result.symbol || 'Unknown';
-                const resultSymbol = result.symbol || result.mf_schcode || result._id || 'N/A';
-                const resultType = result.assetType || result.asset_type || currentSearchRequest?.assetType || 'unknown';
-                const resultPrice = result.price || result.nav_price || 'N/A';
-                const resultChange = result.changePercent || result.ret_1month || 0;
-                
-                console.log('Rendering search result card:', resultName);
-                
-                return (
-                  <div key={`${resultSymbol}-${index}`} className="flex flex-col space-y-3 p-3 sm:p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-                    <div className="flex-1 cursor-pointer" onClick={() => navigate(`/research/${resultType}/${resultSymbol}`)}>
-                      <div className="flex flex-col space-y-2 mb-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                          <h3 className="font-semibold text-sm sm:text-base text-gray-900 break-words">{resultName}</h3>
-                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full w-fit flex-shrink-0">
-                            {resultType}
-                          </span>
-                        </div>
-                        <span className="text-xs sm:text-sm text-gray-600 break-words">{resultSymbol}</span>
-                      </div>
-                      
-                      {/* Display mutual fund specific data or general asset data */}
-                      {resultType === 'mutual-fund' && result.ret_1year ? (
-                        <div className="grid grid-cols-2 gap-3 mb-3">
-                          <div>
-                            <p className="text-xs text-gray-500">1 Year Return</p>
-                            <p className="text-sm font-bold text-green-600">
-                              {result.ret_1year ? `${result.ret_1year.toFixed(2)}%` : 'N/A'}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">3 Year Return</p>
-                            <p className="text-sm font-bold text-green-600">
-                              {result.ret_3year ? `${result.ret_3year.toFixed(2)}%` : 'N/A'}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">AUM</p>
-                            <p className="text-xs font-medium text-gray-900">
-                              ₹{result.current_aum ? `${(result.current_aum / 100).toFixed(0)} Cr` : 'N/A'}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">Expense Ratio</p>
-                            <p className="text-xs font-medium text-gray-900">
-                              {result.total_expense_ratio ? `${result.total_expense_ratio.toFixed(2)}%` : 'N/A'}
-                            </p>
-                          </div>
-                          <div className="col-span-2">
-                            <p className="text-xs text-gray-500">Minimum SIP</p>
-                            <p className="text-xs font-medium text-gray-900">
-                              ₹{result.sip_minimum || 'N/A'}
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                          <div>
-                            <p className="text-base sm:text-lg font-bold text-gray-900">₹{resultPrice}</p>
-                            {resultChange !== 0 && (
-                              <p className={`text-xs sm:text-sm ${resultChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {resultChange > 0 ? '+' : ''}{resultChange.toFixed(2)}%
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-end pt-2 border-t border-gray-100">
-                      <PortfolioAddModal
-                        assetName={resultName}
-                        assetSymbol={resultSymbol}
-                        assetType={resultType}
-                        currentPrice={typeof resultPrice === 'number' ? resultPrice : undefined}
-                        trigger={
-                          <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 text-xs sm:text-sm">
-                            <FolderPlus size={12} className="mr-1" />
-                            Add
-                          </Button>
-                        }
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+              {processedResults.map((asset, index) => renderAssetCard(asset, index))}
             </div>
+            
+            {/* Pagination for search results */}
+            {searchResults.total_pages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-6">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage <= 1 || isSearching}
+                >
+                  Previous
+                </Button>
+                <span className="text-sm text-gray-600">
+                  Page {currentPage} of {searchResults.total_pages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage >= searchResults.total_pages || isSearching}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       );
     } catch (error) {
-      console.error('Error rendering search results:', error);
+      console.error('=== ERROR RENDERING SEARCH RESULTS ===', error);
       return (
         <Card className="mb-4 bg-white/70 backdrop-blur-md border-red-200">
           <CardContent className="p-3 sm:p-6 text-center">
