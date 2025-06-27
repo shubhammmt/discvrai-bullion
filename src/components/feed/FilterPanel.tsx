@@ -200,21 +200,21 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
             </Select>
           </div>
 
-          {/* Revenue Growth - Min/Max Inputs */}
+          {/* EPS Growth - Min/Max Inputs */}
           <div>
-            <Label>Revenue Growth (YoY %)</Label>
+            <Label>EPS Growth (YoY %)</Label>
             <div className="flex gap-2">
               <Input
                 placeholder="Min"
                 type="number"
-                value={(filters.revenue_growth_1y as RangeFilter)?.min || ''}
-                onChange={(e) => updateRangeFilter('revenue_growth_1y', 'min', e.target.value)}
+                value={(filters.eps_growth_ttm as RangeFilter)?.min || ''}
+                onChange={(e) => updateRangeFilter('eps_growth_ttm', 'min', e.target.value)}
               />
               <Input
                 placeholder="Max"
                 type="number"
-                value={(filters.revenue_growth_1y as RangeFilter)?.max || ''}
-                onChange={(e) => updateRangeFilter('revenue_growth_1y', 'max', e.target.value)}
+                value={(filters.eps_growth_ttm as RangeFilter)?.max || ''}
+                onChange={(e) => updateRangeFilter('eps_growth_ttm', 'max', e.target.value)}
               />
             </div>
           </div>
