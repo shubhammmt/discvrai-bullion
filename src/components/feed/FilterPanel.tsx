@@ -30,14 +30,21 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     });
   }, [assetType, isLoadingOptions, filterOptions, optionsError]);
 
-  // Helper function to validate and filter select options
+  // Helper function to validate and filter select options - FIXED TO HANDLE EMPTY STRINGS
   const getValidSelectOptions = (options: any[] | undefined) => {
     if (!Array.isArray(options)) return [];
     
     return options.filter(option => {
       if (!option || typeof option !== 'object') return false;
+      
+      // Get the value from different possible fields
       const value = option.value || option.name || option.label;
-      return value && typeof value === 'string' && value.trim() !== '';
+      
+      // STRICT CHECK: Filter out empty strings, null, undefined, and non-strings
+      return value && 
+             typeof value === 'string' && 
+             value.trim() !== '' && 
+             value !== ''; // Explicitly check for empty string
     });
   };
 
