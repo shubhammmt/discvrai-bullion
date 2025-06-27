@@ -14,6 +14,8 @@ import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, Autocomplete
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
 const Feed = () => {
+  console.log('=== FEED COMPONENT RENDER START ===');
+  
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
@@ -26,10 +28,18 @@ const Feed = () => {
   // Use mixed feed hook
   const { mixedFeedData, isLoading: isMixedFeedLoading, error: mixedFeedError } = useMixedFeed();
 
+  console.log('Mixed feed hook data:', {
+    hasData: !!mixedFeedData,
+    isLoading: isMixedFeedLoading,
+    error: mixedFeedError,
+    sections: mixedFeedData?.sections?.length || 0
+  });
+
   // Set filter based on URL parameter
   useEffect(() => {
     const filterParam = searchParams.get('filter');
     if (filterParam) {
+      console.log('Setting active filter from URL:', filterParam);
       setActiveFilter(filterParam);
     }
   }, [searchParams]);
@@ -487,26 +497,51 @@ const Feed = () => {
 
   // Filter assets from mixed feed based on active filter
   const getFilteredAssets = () => {
-    if (!mixedFeedData?.sections) return [];
+    console.log('=== GET FILTERED ASSETS START ===');
+    console.log('Active filter:', activeFilter);
+    console.log('Mixed feed data:', mixedFeedData);
+    
+    if (!mixedFeedData?.sections) {
+      console.log('No mixed feed sections available');
+      return [];
+    }
+    
+    console.log('Available sections:', mixedFeedData.sections.length);
     
     // Extract all items from all sections
-    const allAssets = mixedFeedData.sections.flatMap(section => section.items || []);
+    const allAssets = mixedFeedData.sections.flatMap(section => {
+      console.log('Processing section with items:', section.items?.length || 0);
+      return section.items || [];
+    });
+    
+    console.log('Total assets extracted:', allAssets.length);
+    console.log('Sample asset data:', allAssets[0]);
     
     // Map MixedFeedItem to Asset type
-    const mappedAssets = allAssets.map((item: any) => ({
-      id: item._id || item.mf_schcode || Math.random(),
-      name: item.scheme_name || item.name || 'Unknown Asset',
-      symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
-      type: item.feed_category || item.main_category || item.asset_type || 'mutual-fund',
-      price: item.nav_price || item.price || 0,
-      change: item.ret_1month || item.change || 0,
-      changePercent: item.ret_1month || item.changePercent || 0,
-      volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
-      latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
-      news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`
-    }));
+    const mappedAssets = allAssets.map((item: any, index: number) => {
+      console.log(`Mapping asset ${index + 1}:`, item);
+      
+      const mappedAsset = {
+        id: item._id || item.mf_schcode || Math.random(),
+        name: item.scheme_name || item.name || 'Unknown Asset',
+        symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
+        type: item.feed_category || item.main_category || item.asset_type || 'mutual-fund',
+        price: item.nav_price || item.price || 0,
+        change: item.ret_1month || item.change || 0,
+        changePercent: item.ret_1month || item.changePercent || 0,
+        volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+        latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+        news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`
+      };
+      
+      console.log(`Mapped asset ${index + 1}:`, mappedAsset);
+      return mappedAsset;
+    });
+    
+    console.log('Total mapped assets:', mappedAssets.length);
     
     if (activeFilter === 'all') {
+      console.log('Returning all assets (no filter)');
       return mappedAssets;
     }
     
@@ -526,19 +561,29 @@ const Feed = () => {
     };
     
     const allowedTypes = filterMapping[activeFilter] || [];
-    return mappedAssets.filter((asset: any) => 
-      allowedTypes.some(type => 
+    console.log('Filter mapping for', activeFilter, ':', allowedTypes);
+    
+    const filtered = mappedAssets.filter((asset: any) => {
+      const matches = allowedTypes.some(type => 
         asset.type?.toLowerCase().includes(type)
-      )
-    );
+      );
+      console.log(`Asset ${asset.name} (${asset.type}) matches filter:`, matches);
+      return matches;
+    });
+    
+    console.log('Filtered assets count:', filtered.length);
+    return filtered;
   };
 
   const filteredAssets = getFilteredAssets();
+  console.log('Final filtered assets for render:', filteredAssets.length);
 
   // Render mixed feed error state
   if (mixedFeedError) {
     console.error('Mixed feed error:', mixedFeedError);
   }
+
+  console.log('=== FEED COMPONENT RENDER END ===');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -643,7 +688,10 @@ const Feed = () => {
                   <Button
                     key={filter.id}
                     variant={activeFilter === filter.id ? 'default' : 'outline'}
-                    onClick={() => setActiveFilter(filter.id)}
+                    onClick={() => {
+                      console.log('Filter clicked:', filter.id);
+                      setActiveFilter(filter.id);
+                    }}
                     className="whitespace-nowrap flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 h-8 sm:h-9"
                     size="sm"
                   >
@@ -684,9 +732,10 @@ const Feed = () => {
                   <div className="w-full min-w-0">
                     {/* Single column layout */}
                     <div className="grid grid-cols-1 gap-3 sm:gap-4">
-                      {filteredAssets.map((asset) => (
-                        <AssetCard key={asset.id} asset={asset} />
-                      ))}
+                      {filteredAssets.map((asset, index) => {
+                        console.log(`Rendering asset card ${index + 1}:`, asset);
+                        return <AssetCard key={asset.id} asset={asset} />;
+                      })}
                       {filteredAssets.length === 0 && (
                         <div className="col-span-full text-center py-8 text-gray-500">
                           {isMixedFeedLoading ? (
@@ -695,7 +744,10 @@ const Feed = () => {
                               Loading assets...
                             </div>
                           ) : (
-                            'No assets found for the selected filter.'
+                            <>
+                              <p>No assets found for the selected filter.</p>
+                              <p className="text-xs mt-2">Active filter: {activeFilter}, Available data: {mixedFeedData?.sections?.length || 0} sections</p>
+                            </>
                           )}
                         </div>
                       )}
