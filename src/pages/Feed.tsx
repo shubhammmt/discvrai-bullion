@@ -723,7 +723,7 @@ const Feed = () => {
 
           {/* Sidebar */}
           <div className="w-full lg:col-span-1">
-            <DesktopSidebar />
+            <DesktopSidebar userProfile={userProfile} />
           </div>
         </div>
       </div>
