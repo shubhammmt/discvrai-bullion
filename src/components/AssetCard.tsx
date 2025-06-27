@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, Plus } from 'lucide-react';
 
 interface Asset {
   id: number | string;
@@ -186,11 +186,21 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
             {(isMutualFund || isStock) && (
               <div className="flex justify-center mb-1">
                 <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
-                  {isMutualFund ? (asset.rawData?.main_category || asset.type) : 'STOCK'}
+                  {isMutualFund ? 
+                    `${asset.rawData?.plan_type || asset.rawData?.main_category || asset.type} • ${asset.rawData?.main_category || ''}`.trim() : 
+                    'STOCK'
+                  }
                 </span>
               </div>
             )}
           </div>
+          {/* Add button with smaller icon for mutual funds and stocks */}
+          {(isMutualFund || isStock) && (
+            <button className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs flex items-center gap-1 ml-2 flex-shrink-0">
+              <Plus size={12} />
+              Add
+            </button>
+          )}
         </div>
 
         {/* Render mutual fund, stock, or generic data */}
