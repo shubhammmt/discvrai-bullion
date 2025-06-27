@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,9 +35,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     if (!Array.isArray(options)) return [];
     
     return options.filter(option => {
-      // Ensure the option has a value property and it's not empty
       if (!option || typeof option !== 'object') return false;
-      
       const value = option.value || option.name || option.label;
       return value && typeof value === 'string' && value.trim() !== '';
     });
@@ -81,7 +78,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderStockFilters = () => {
-    if (isLoadingOptions) {
+    // Don't render until filter options are loaded
+    if (isLoadingOptions || !filterOptions?.stocks) {
       return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin" />
@@ -90,12 +88,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
       );
     }
 
-    const stockOptions = filterOptions?.stocks;
-    console.log('Stock options:', stockOptions);
-
-    // Get valid sector options with validation
+    const stockOptions = filterOptions.stocks;
     const validSectors = getValidSelectOptions(stockOptions?.sectors);
-    console.log('Valid sectors after filtering:', validSectors);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -156,27 +150,24 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           </div>
         </div>
 
-        {/* Sector - From API with validation */}
-        <div>
-          <Label htmlFor="sector">Sector</Label>
-          <Select onValueChange={(value) => updateFilter('sector', [value])}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select sector" />
-            </SelectTrigger>
-            <SelectContent>
-              {validSectors.map((sector) => (
-                <SelectItem key={sector.value} value={sector.value}>
-                  {sector.label}
-                </SelectItem>
-              ))}
-              {validSectors.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No sectors available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {/* Sector - Only render when we have valid options */}
+        {validSectors.length > 0 && (
+          <div>
+            <Label htmlFor="sector">Sector</Label>
+            <Select onValueChange={(value) => updateFilter('sector', [value])}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select sector" />
+              </SelectTrigger>
+              <SelectContent>
+                {validSectors.map((sector) => (
+                  <SelectItem key={sector.value} value={sector.value}>
+                    {sector.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Revenue Growth - Min/Max Inputs */}
         <div>
@@ -220,7 +211,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderMutualFundFilters = () => {
-    if (isLoadingOptions) {
+    // Don't render until filter options are loaded
+    if (isLoadingOptions || !filterOptions?.mutual_funds) {
       return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin" />
@@ -229,10 +221,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
       );
     }
 
-    const mfOptions = filterOptions?.mutual_funds;
-    console.log('Mutual fund options:', mfOptions);
-
-    // Get valid options with validation
+    const mfOptions = filterOptions.mutual_funds;
     const validCategories = getValidSelectOptions(mfOptions?.categories);
     const validRiskLevels = getValidSelectOptions(mfOptions?.risk_levels);
     const validExpenseRatios = getValidSelectOptions(mfOptions?.expense_ratio_options);
@@ -242,152 +231,130 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Category */}
-        <div>
-          <Label htmlFor="category">Category</Label>
-          <Select onValueChange={(value) => updateFilter('category', [value])}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              {validCategories.map((category) => (
-                <SelectItem key={category.value} value={category.value}>
-                  {category.name} ({category.count})
-                </SelectItem>
-              ))}
-              {validCategories.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No categories available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {/* Only render Select components when we have valid data */}
+        {validCategories.length > 0 && (
+          <div>
+            <Label htmlFor="category">Category</Label>
+            <Select onValueChange={(value) => updateFilter('category', [value])}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                {validCategories.map((category) => (
+                  <SelectItem key={category.value} value={category.value}>
+                    {category.name} ({category.count})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-        {/* Risk Level */}
-        <div>
-          <Label htmlFor="riskLevel">Risk Level</Label>
-          <Select onValueChange={(value) => updateFilter('riskLevel', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select risk level" />
-            </SelectTrigger>
-            <SelectContent>
-              {validRiskLevels.map((risk) => (
-                <SelectItem key={risk.value} value={risk.value}>
-                  {risk.name}
-                </SelectItem>
-              ))}
-              {validRiskLevels.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No risk levels available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {validRiskLevels.length > 0 && (
+          <div>
+            <Label htmlFor="riskLevel">Risk Level</Label>
+            <Select onValueChange={(value) => updateFilter('riskLevel', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select risk level" />
+              </SelectTrigger>
+              <SelectContent>
+                {validRiskLevels.map((risk) => (
+                  <SelectItem key={risk.value} value={risk.value}>
+                    {risk.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-        {/* Expense Ratio */}
-        <div>
-          <Label htmlFor="expenseRatio">Expense Ratio</Label>
-          <Select onValueChange={(value) => updateFilter('expenseRatio', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select expense ratio" />
-            </SelectTrigger>
-            <SelectContent>
-              {validExpenseRatios.map((ratio) => (
-                <SelectItem 
-                  key={ratio.label} 
-                  value={ratio.value !== null ? ratio.value.toString() : 'any'}
-                >
-                  {ratio.label}
-                </SelectItem>
-              ))}
-              {validExpenseRatios.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No expense ratios available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {validExpenseRatios.length > 0 && (
+          <div>
+            <Label htmlFor="expenseRatio">Expense Ratio</Label>
+            <Select onValueChange={(value) => updateFilter('expenseRatio', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select expense ratio" />
+              </SelectTrigger>
+              <SelectContent>
+                {validExpenseRatios.map((ratio) => (
+                  <SelectItem 
+                    key={ratio.label} 
+                    value={ratio.value !== null ? ratio.value.toString() : 'any'}
+                  >
+                    {ratio.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-        {/* AMC Name */}
-        <div>
-          <Label htmlFor="amcName">AMC Name</Label>
-          <Select onValueChange={(value) => updateFilter('amcName', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select AMC" />
-            </SelectTrigger>
-            <SelectContent>
-              {validAmcNames.map((amc) => (
-                <SelectItem key={amc.value} value={amc.value}>
-                  {amc.name} ({amc.count})
-                </SelectItem>
-              ))}
-              {validAmcNames.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No AMCs available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {validAmcNames.length > 0 && (
+          <div>
+            <Label htmlFor="amcName">AMC Name</Label>
+            <Select onValueChange={(value) => updateFilter('amcName', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select AMC" />
+              </SelectTrigger>
+              <SelectContent>
+                {validAmcNames.map((amc) => (
+                  <SelectItem key={amc.value} value={amc.value}>
+                    {amc.name} ({amc.count})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-        {/* 1-Year Returns */}
-        <div>
-          <Label>1-Year Returns</Label>
-          <Select onValueChange={(value) => updateFilter('returns1y', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select return range" />
-            </SelectTrigger>
-            <SelectContent>
-              {validReturn1yOptions.map((returnOption) => (
-                <SelectItem 
-                  key={returnOption.label} 
-                  value={returnOption.value !== null ? returnOption.value.toString() : 'any'}
-                >
-                  {returnOption.label}
-                </SelectItem>
-              ))}
-              {validReturn1yOptions.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No return ranges available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {validReturn1yOptions.length > 0 && (
+          <div>
+            <Label>1-Year Returns</Label>
+            <Select onValueChange={(value) => updateFilter('returns1y', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select return range" />
+              </SelectTrigger>
+              <SelectContent>
+                {validReturn1yOptions.map((returnOption) => (
+                  <SelectItem 
+                    key={returnOption.label} 
+                    value={returnOption.value !== null ? returnOption.value.toString() : 'any'}
+                  >
+                    {returnOption.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-        {/* AUM */}
-        <div>
-          <Label>AUM</Label>
-          <Select onValueChange={(value) => updateFilter('aum', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select AUM range" />
-            </SelectTrigger>
-            <SelectContent>
-              {validAumOptions.map((aumOption) => (
-                <SelectItem 
-                  key={aumOption.label} 
-                  value={aumOption.min_value !== null ? aumOption.min_value.toString() : 'any'}
-                >
-                  {aumOption.label}
-                </SelectItem>
-              ))}
-              {validAumOptions.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No AUM ranges available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {validAumOptions.length > 0 && (
+          <div>
+            <Label>AUM</Label>
+            <Select onValueChange={(value) => updateFilter('aum', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select AUM range" />
+              </SelectTrigger>
+              <SelectContent>
+                {validAumOptions.map((aumOption) => (
+                  <SelectItem 
+                    key={aumOption.label} 
+                    value={aumOption.min_value !== null ? aumOption.min_value.toString() : 'any'}
+                  >
+                    {aumOption.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
     );
   };
 
   const renderIPOFilters = () => {
-    if (isLoadingOptions) {
+    // Don't render until filter options are loaded
+    if (isLoadingOptions || !filterOptions?.ipos) {
       return (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin" />
@@ -396,32 +363,28 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
       );
     }
 
-    const ipoOptions = filterOptions?.ipos;
+    const ipoOptions = filterOptions.ipos;
     const validStatusOptions = getValidSelectOptions(ipoOptions?.status_options);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* IPO Status */}
-        <div>
-          <Label htmlFor="status">IPO Status</Label>
-          <Select onValueChange={(value) => updateFilter('status', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              {validStatusOptions.map((status) => (
-                <SelectItem key={status.value} value={status.value}>
-                  {status.label}
-                </SelectItem>
-              ))}
-              {validStatusOptions.length === 0 && (
-                <SelectItem value="no-options" disabled>
-                  No status options available
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        {validStatusOptions.length > 0 && (
+          <div>
+            <Label htmlFor="status">IPO Status</Label>
+            <Select onValueChange={(value) => updateFilter('status', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                {validStatusOptions.map((status) => (
+                  <SelectItem key={status.value} value={status.value}>
+                    {status.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
     );
   };
