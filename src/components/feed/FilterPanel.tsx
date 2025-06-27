@@ -32,6 +32,7 @@ const STOCK_SECTORS = [
 ];
 
 const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading }: FilterPanelProps) => {
+  // Only fetch filter options for non-stock assets
   const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
 
   // Enhanced validation function to filter out invalid options
@@ -448,7 +449,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
   const activeFilters = getActiveFilters();
 
-  if (optionsError) {
+  if (optionsError && assetType !== 'stock') {
     return (
       <div className="space-y-4">
         <div className="text-center py-8 text-red-600">
