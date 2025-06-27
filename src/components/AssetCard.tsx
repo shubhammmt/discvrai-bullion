@@ -133,7 +133,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
         <div className="text-center">
           <p className="text-xs text-gray-500">Minimum SIP</p>
           <p className="text-xs font-medium text-gray-900">
-            {data.min_sip ? `${Number(data.min_sip)}%` : 'N/A'}
+            {data.sip_minimum ? `${Number(data.sip_minimum)}%` : 'N/A'}
           </p>
         </div>
       </div>
