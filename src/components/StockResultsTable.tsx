@@ -342,19 +342,21 @@ const StockResultsTable = ({
                           </td>
                         ))}
                         
-                        {/* Action Column */}
-                        <td className="px-2 py-3 text-center">
-                          <PortfolioAddModal
-                            assetName={displayName}
-                            assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
-                            assetType={primaryAssetType}
-                            currentPrice={priceValue}
-                            trigger={
-                              <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
-                                <Plus size={12} />
-                              </button>
-                            }
-                          />
+                        {/* Action Column - Fixed centering */}
+                        <td className="px-2 py-3">
+                          <div className="flex items-center justify-center">
+                            <PortfolioAddModal
+                              assetName={displayName}
+                              assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
+                              assetType={primaryAssetType}
+                              currentPrice={priceValue}
+                              trigger={
+                                <button className="bg-green-600 hover:bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm hover:shadow-md">
+                                  <Plus size={12} />
+                                </button>
+                              }
+                            />
+                          </div>
                         </td>
                       </tr>
                     );
