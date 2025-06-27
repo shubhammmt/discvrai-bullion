@@ -168,7 +168,104 @@ const StockResultsTable = ({
   const startResult = (currentPage - 1) * pageSize + 1;
   const endResult = Math.min(currentPage * pageSize, totalRecords);
 
-  // Asset Card Component (works for both stocks and mutual funds)
+  // Compact Mutual Fund Card Component
+  const CompactMutualFundCard = ({ fund, index }: { fund: any; index: number }) => {
+    const displayName = getDisplayName(fund);
+    const navPrice = getPriceValue(fund);
+    const oneYearReturn = fund.ret_1year || fund.return1Year || 0;
+    const threeYearReturn = fund.ret_3year || fund.return3Year || 0;
+    const aum = fund.current_aum || fund.aum || 0;
+    const expenseRatio = fund.total_expense_ratio || fund.expense_ratio || 0;
+    const amcName = fund.amc_name || fund.amcName || '';
+    const category = fund.main_category || fund.category || '';
+
+    return (
+      <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            {/* Left Section - Fund Info */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-base text-gray-900 leading-tight break-words mb-1">
+                    {displayName}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>{fund.mf_schcode || fund.symbol}</span>
+                    <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                      mutual-fund
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 text-xs text-gray-600 mb-2">
+                {amcName && <span>{amcName}</span>}
+                {category && <span>• {category}</span>}
+              </div>
+            </div>
+
+            {/* Middle Section - Performance Metrics */}
+            <div className="flex items-center gap-6 mx-6">
+              {/* Returns */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">1 Year Return</p>
+                <p className="text-sm font-semibold text-green-600">
+                  {oneYearReturn ? `${(oneYearReturn * 100).toFixed(1)}%` : 'N/A'}
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">3 Year Return</p>
+                <p className="text-sm font-semibold text-green-600">
+                  {threeYearReturn ? `${(threeYearReturn * 100).toFixed(1)}%` : 'N/A'}
+                </p>
+              </div>
+              
+              {/* AUM & Expense Ratio */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">AUM</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {aum ? `₹${(aum / 10000000).toFixed(0)}Cr` : 'N/A'}
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">Expense Ratio</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {expenseRatio ? `${expenseRatio.toFixed(2)}%` : 'N/A'}
+                </p>
+              </div>
+              
+              {/* NAV */}
+              <div className="text-center">
+                <p className="text-xs text-gray-500 mb-1">NAV</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {navPrice ? `₹${navPrice.toFixed(2)}` : 'N/A'}
+                </p>
+              </div>
+            </div>
+
+            {/* Right Section - Actions */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <PortfolioAddModal
+                assetName={displayName}
+                assetSymbol={fund.mf_schcode?.toString() || fund.symbol || displayName}
+                assetType="mutual-fund"
+                currentPrice={navPrice}
+                trigger={
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-3 py-2">
+                    <FolderPlus size={14} className="mr-1" />
+                    Add
+                  </Button>
+                }
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  // Asset Card Component (for stocks - original implementation)
   const AssetCard = ({ asset, index }: { asset: any; index: number }) => {
     const displayName = getDisplayName(asset);
     const displayPrice = getDisplayPrice(asset);
@@ -333,11 +430,15 @@ const StockResultsTable = ({
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Cards Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {sortedResults.map((asset, index) => (
-            <AssetCard key={`asset-${getDisplayName(asset)}-${index}`} asset={asset} index={index} />
-          ))}
+        {/* Results Display */}
+        <div className="space-y-3 mb-6">
+          {sortedResults.map((asset, index) => 
+            primaryAssetType === 'mutual-fund' ? (
+              <CompactMutualFundCard key={`mf-${getDisplayName(asset)}-${index}`} fund={asset} index={index} />
+            ) : (
+              <AssetCard key={`asset-${getDisplayName(asset)}-${index}`} asset={asset} index={index} />
+            )
+          )}
         </div>
         
         {/* Pagination Controls */}
