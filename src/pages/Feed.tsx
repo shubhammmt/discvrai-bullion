@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -391,9 +390,9 @@ const Feed = () => {
         );
       }
 
-      // Use StockResultsTable for stock results, fallback to dynamic card display for other asset types
-      if (currentSearchRequest?.assetType === 'stock') {
-        console.log('Rendering stock results table');
+      // Use StockResultsTable for both stock and mutual fund results
+      if (currentSearchRequest?.assetType === 'stock' || currentSearchRequest?.assetType === 'mutual-fund') {
+        console.log('Rendering results table for:', currentSearchRequest?.assetType);
         return (
           <StockResultsTable
             results={searchResults.data}
