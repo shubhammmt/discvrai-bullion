@@ -2,9 +2,8 @@
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { X, FolderPlus, Eye, TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
+import { X, FolderPlus, Eye, TrendingUp, TrendingDown, ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 
 interface StockResultsTableProps {
@@ -126,13 +125,15 @@ const StockResultsTable = ({
     return item.company_name || item.scheme_name || item.name || 'Unknown';
   };
 
-  // Sortable fields - include name and all numeric fields
-  const sortableFields = [
-    { key: 'name', label: primaryAssetType === 'mutual-fund' ? 'Scheme Name' : 'Company Name' },
-    ...displayKeys
-      .filter(key => typeof results[0]?.[key] === 'number')
-      .map(key => ({ key, label: formatFieldName(key) }))
-  ];
+  // Handle sort click
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('desc');
+    }
+  };
 
   // Sort results based on selected field and order
   const sortedResults = useMemo(() => {
@@ -168,205 +169,28 @@ const StockResultsTable = ({
   const startResult = (currentPage - 1) * pageSize + 1;
   const endResult = Math.min(currentPage * pageSize, totalRecords);
 
-  // Compact Mutual Fund Card Component
-  const CompactMutualFundCard = ({ fund, index }: { fund: any; index: number }) => {
-    const displayName = getDisplayName(fund);
-    const navPrice = getPriceValue(fund);
-    const oneYearReturn = fund.ret_1year || fund.return1Year || 0;
-    const sixMonthReturn = fund.ret_6month || fund.return6Month || 0;
-    const aum = fund.current_aum || fund.aum || 0;
-    const expenseRatio = fund.total_expense_ratio || fund.expense_ratio || 0;
-    const sipMinimum = fund.sip_minimum || 0;
-    const amcName = fund.amc_name || fund.amcName || '';
-    const category = fund.main_category || fund.category || '';
+  // Get sortable fields
+  const sortableFields = [
+    { key: 'name', label: primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name', isSortable: true },
+    ...displayKeys
+      .filter(key => typeof results[0]?.[key] === 'number')
+      .map(key => ({ key, label: formatFieldName(key), isSortable: true }))
+  ];
 
+  // Sort button component
+  const SortButton = ({ field }: { field: string }) => {
+    const isActive = sortField === field;
+    const Icon = isActive ? (sortOrder === 'asc' ? ArrowUp : ArrowDown) : ArrowUpDown;
+    
     return (
-      <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-1.5">
-          <div className="flex items-center justify-between">
-            {/* Left Section - Fund Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between mb-1">
-                <div className="flex-1 min-w-0 text-center">
-                  <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
-                    {displayName}
-                  </h3>
-                  {amcName && (
-                    <div className="text-xs text-gray-600">
-                      {amcName}
-                      {category && <span> • {category}</span>}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Middle Section - Performance Metrics */}
-            <div className="flex items-center gap-3 mx-3">
-              {/* 6M Return */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">6M Return</p>
-                <p className="text-sm font-semibold text-green-600">
-                  {sixMonthReturn ? `${(sixMonthReturn * 100).toFixed(1)}%` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* 1Y Return */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">1Y Return</p>
-                <p className="text-sm font-semibold text-green-600">
-                  {oneYearReturn ? `${(oneYearReturn * 100).toFixed(1)}%` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* Expense Ratio */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">Expense</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {expenseRatio ? `${expenseRatio.toFixed(2)}%` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* Min SIP */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">Min SIP</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {sipMinimum ? `₹${sipMinimum}` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* NAV */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">NAV</p>
-                <p className="text-base font-bold text-gray-900">
-                  {navPrice ? `₹${navPrice.toFixed(2)}` : 'N/A'}
-                </p>
-              </div>
-            </div>
-
-            {/* Right Section - Actions */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <PortfolioAddModal
-                assetName={displayName}
-                assetSymbol={fund.mf_schcode?.toString() || fund.symbol || displayName}
-                assetType="mutual-fund"
-                currentPrice={navPrice}
-                trigger={
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
-                    <FolderPlus size={12} className="mr-1" />
-                    Add
-                  </Button>
-                }
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  // Compact Stock Card Component
-  const CompactStockCard = ({ stock, index }: { stock: any; index: number }) => {
-    const displayName = getDisplayName(stock);
-    const currentPrice = getPriceValue(stock);
-    const priceChange = stock.price_momentum_3m || stock.ret_1month || stock.changePercent || 0;
-    const isPositive = priceChange >= 0;
-    const marketCap = stock.market_cap || 0;
-    const peRatio = stock.pe_ratio || 0;
-    const roe = stock.roe || 0;
-    const roic = stock.roic || 0;
-    const netMargin = stock.net_margin || 0;
-    const sector = stock.sector || '';
-
-    return (
-      <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-2">
-          <div className="flex items-center justify-between">
-            {/* Left Section - Stock Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between mb-1">
-                <div className="flex-1 min-w-0 text-center">
-                  <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
-                    {displayName}
-                  </h3>
-                  {sector && (
-                    <div className="text-xs text-gray-600">
-                      {sector}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Middle Section - Stock Metrics */}
-            <div className="flex items-center gap-3 mx-3">
-              {/* Market Cap */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">Market Cap</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {marketCap ? `₹${(marketCap / 10000000).toFixed(0)}Cr` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* PE Ratio */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">PE Ratio</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {peRatio ? peRatio.toFixed(2) : 'N/A'}
-                </p>
-              </div>
-              
-              {/* ROE */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">ROE</p>
-                <p className="text-sm font-semibold text-green-600">
-                  {roe ? `${(roe * 100).toFixed(1)}%` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* Net Margin */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">Net Margin</p>
-                <p className="text-sm font-semibold text-green-600">
-                  {netMargin ? `${(netMargin * 100).toFixed(1)}%` : 'N/A'}
-                </p>
-              </div>
-              
-              {/* Current Price & Change */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-0.5">Current Price</p>
-                <p className="text-base font-bold text-gray-900">
-                  {currentPrice ? `₹${currentPrice.toFixed(2)}` : 'N/A'}
-                </p>
-                {priceChange !== 0 && (
-                  <div className={`flex items-center justify-center gap-1 text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                    {isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
-                    <span>
-                      {isPositive ? '+' : ''}{formatFieldValue('change_percent', priceChange)} (3M)
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Right Section - Actions */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <PortfolioAddModal
-                assetName={displayName}
-                assetSymbol={stock.symbol || displayName}
-                assetType="stock"
-                currentPrice={currentPrice}
-                trigger={
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
-                    <FolderPlus size={12} className="mr-1" />
-                    Add
-                  </Button>
-                }
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => handleSort(field)}
+        className={`h-6 px-1 ml-1 ${isActive ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+      >
+        <Icon size={12} />
+      </Button>
     );
   };
 
@@ -391,63 +215,103 @@ const StockResultsTable = ({
             </Button>
           </div>
           
-          {/* Sorting Controls - Right Aligned */}
-          <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-            <div className="text-sm text-gray-600">
-              Showing {startResult}-{endResult} of {totalRecords} results
-              {sortField && sortField !== 'none' && (
-                <span className="ml-2 text-blue-600">
-                  • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
-                </span>
-              )}
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <ArrowUpDown size={14} className="text-gray-500" />
-                <span className="text-sm text-gray-600 font-medium">Sort by:</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Select value={sortField} onValueChange={setSortField}>
-                  <SelectTrigger className="w-40 h-9 text-sm bg-white">
-                    <SelectValue placeholder="Select field" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border shadow-lg z-50">
-                    <SelectItem value="none">No sorting</SelectItem>
-                    {sortableFields.map(field => (
-                      <SelectItem key={field.key} value={field.key}>
-                        {field.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                {sortField && sortField !== 'none' && (
-                  <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
-                    <SelectTrigger className="w-32 h-9 text-sm bg-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border shadow-lg z-50">
-                      <SelectItem value="desc">High to Low</SelectItem>
-                      <SelectItem value="asc">Low to High</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
-            </div>
+          <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+            Showing {startResult}-{endResult} of {totalRecords} results
+            {sortField && (
+              <span className="ml-2 text-blue-600">
+                • Sorted by {formatFieldName(sortField)} ({sortOrder === 'desc' ? 'High to Low' : 'Low to High'})
+              </span>
+            )}
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Results Display */}
-        <div className="space-y-2 mb-6">
-          {sortedResults.map((asset, index) => 
-            primaryAssetType === 'mutual-fund' ? (
-              <CompactMutualFundCard key={`mf-${getDisplayName(asset)}-${index}`} fund={asset} index={index} />
-            ) : (
-              <CompactStockCard key={`stock-${getDisplayName(asset)}-${index}`} stock={asset} index={index} />
-            )
-          )}
+        {/* Header Row with Labels and Sort Buttons */}
+        <div className="bg-gray-50 border border-gray-200 rounded-lg mb-4 overflow-x-auto">
+          <div className="flex items-center min-w-max">
+            {/* Name Column */}
+            <div className="flex items-center justify-center px-3 py-3 border-r border-gray-200 min-w-[200px]">
+              <span className="text-sm font-semibold text-gray-700">
+                {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
+              </span>
+              <SortButton field="name" />
+            </div>
+            
+            {/* Data Columns */}
+            {displayKeys.map((key) => (
+              <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200 last:border-r-0 min-w-[120px]">
+                <span className="text-xs font-semibold text-gray-700 text-center">
+                  {formatFieldName(key)}
+                </span>
+                {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+              </div>
+            ))}
+            
+            {/* Action Column */}
+            <div className="flex items-center justify-center px-3 py-3 min-w-[80px]">
+              <span className="text-xs font-semibold text-gray-700">Action</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Display - Values Only */}
+        <div className="space-y-2 mb-6 overflow-x-auto">
+          {sortedResults.map((asset, index) => {
+            const displayName = getDisplayName(asset);
+            const priceValue = getPriceValue(asset);
+            
+            return (
+              <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
+                <CardContent className="p-0">
+                  <div className="flex items-center min-w-max">
+                    {/* Name Column */}
+                    <div className="px-3 py-3 border-r border-gray-100 min-w-[200px]">
+                      <div className="text-center">
+                        <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
+                          {displayName}
+                        </h3>
+                        {(asset.amc_name || asset.sector) && (
+                          <div className="text-xs text-gray-600">
+                            {asset.amc_name || asset.sector}
+                            {asset.main_category && <span> • {asset.main_category}</span>}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Data Columns */}
+                    {displayKeys.map((key) => (
+                      <div key={key} className="px-3 py-3 border-r border-gray-100 last:border-r-0 min-w-[120px]">
+                        <div className="text-center">
+                          <span className="text-sm font-medium text-gray-900">
+                            {formatFieldValue(key, asset[key], primaryAssetType)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Action Column */}
+                    <div className="px-3 py-3 min-w-[80px]">
+                      <div className="flex justify-center">
+                        <PortfolioAddModal
+                          assetName={displayName}
+                          assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
+                          assetType={primaryAssetType}
+                          currentPrice={priceValue}
+                          trigger={
+                            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
+                              <FolderPlus size={12} className="mr-1" />
+                              Add
+                            </Button>
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
         
         {/* Pagination Controls */}
