@@ -181,14 +181,23 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
         <div className="flex justify-between items-start mb-3">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-gray-900 text-sm leading-tight">
+              <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${isMutualFund ? 'text-center w-full' : ''}`}>
                 {isMutualFund ? asset.rawData?.scheme_name || asset.name : asset.name}
               </h3>
-              <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
-                {isMutualFund ? asset.rawData?.main_category || asset.type : asset.type.replace('-', ' ').toUpperCase()}
-              </span>
+              {!isMutualFund && (
+                <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
+                  {asset.type.replace('-', ' ').toUpperCase()}
+                </span>
+              )}
             </div>
-            <p className="text-sm text-gray-600">{asset.symbol}</p>
+            {isMutualFund && (
+              <div className="flex justify-center mb-2">
+                <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
+                  {asset.rawData?.main_category || asset.type}
+                </span>
+              </div>
+            )}
+            <p className={`text-sm text-gray-600 ${isMutualFund ? 'text-center' : ''}`}>{asset.symbol}</p>
           </div>
         </div>
 
