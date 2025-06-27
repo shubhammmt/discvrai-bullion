@@ -323,51 +323,84 @@ const Feed = () => {
   // Enhanced AssetCard component with portfolio actions
   const EnhancedAssetCard = ({ asset }: { asset: any }) => (
     <div className="w-full min-w-0">
-      <div className="flex flex-col space-y-3 p-3 sm:p-4 bg-white/70 backdrop-blur-md rounded-lg border border-white/20 hover:shadow-md transition-shadow">
-        <div className="flex-1 cursor-pointer min-w-0" onClick={() => navigate(asset.routePath)}>
-          <div className="flex flex-col space-y-2 mb-3">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 min-w-0">
-              <div className="min-w-0 flex-1">
-                <h3 className="font-semibold text-sm sm:text-base text-gray-900 leading-tight break-words overflow-wrap-anywhere">{asset.name}</h3>
-                <span className="text-xs sm:text-sm text-gray-600 block truncate">{asset.symbol}</span>
-              </div>
+      <div className="flex flex-col p-4 bg-white rounded-xl border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group">
+        {/* Header Section */}
+        <div className="flex items-start justify-between mb-3 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-base text-gray-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors">
+              {asset.name}
+            </h3>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-sm text-gray-500">{asset.symbol}</span>
               {asset.latestEvent && (
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full w-fit flex-shrink-0 max-w-full truncate">
+                <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-md border border-blue-100">
                   {asset.latestEvent}
                 </span>
               )}
             </div>
           </div>
-          
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 min-w-0">
-            <div className="flex flex-col min-w-0">
-              <p className="text-base sm:text-lg font-bold text-gray-900 truncate">
+        </div>
+        
+        {/* Price and Performance Section */}
+        <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+          <div className="flex items-baseline justify-between">
+            <div>
+              <p className="text-2xl font-bold text-gray-900">
                 {typeof asset.price === 'string' ? asset.price : `₹${asset.price}`}
               </p>
               {asset.change !== null && (
-                <p className={`text-xs sm:text-sm ${asset.change > 0 ? 'text-green-600' : 'text-red-600'} truncate`}>
-                  {asset.change > 0 ? '+' : ''}{asset.change}%
-                </p>
+                <div className={`flex items-center gap-1 mt-1 ${asset.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {asset.change > 0 ? (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                  <span className="text-sm font-medium">
+                    {asset.change > 0 ? '+' : ''}{asset.change}%
+                  </span>
+                </div>
               )}
             </div>
-            <div className="flex flex-col text-left sm:text-right min-w-0">
-              <p className="text-xs sm:text-sm text-gray-600 truncate">Vol: {asset.volume}</p>
-              {asset.news && (
-                <p className="text-xs text-gray-500 line-clamp-2 break-words overflow-wrap-anywhere">{asset.news}</p>
-              )}
+            <div className="text-right">
+              <p className="text-xs text-gray-500 mb-1">Volume</p>
+              <p className="text-sm font-medium text-gray-700">{asset.volume}</p>
             </div>
           </div>
         </div>
-        
-        <div className="flex items-center justify-end pt-2 border-t border-gray-100">
+
+        {/* Additional Info */}
+        {asset.news && (
+          <div className="mb-4 cursor-pointer" onClick={() => navigate(asset.routePath)}>
+            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+              {asset.news}
+            </p>
+          </div>
+        )}
+
+        {/* Action Section */}
+        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+          <div className="flex items-center gap-2">
+            {asset.amc_name && (
+              <span className="text-xs text-gray-500">{asset.amc_name}</span>
+            )}
+            {asset.category && (
+              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                {asset.category}
+              </span>
+            )}
+          </div>
           <PortfolioAddModal
             assetName={asset.name}
             assetSymbol={asset.symbol}
             assetType={asset.type}
             currentPrice={typeof asset.price === 'number' ? asset.price : undefined}
             trigger={
-              <Button size="sm" variant="outline" className="text-green-700 border-green-200 hover:bg-green-50 text-xs sm:text-sm">
-                <FolderPlus size={12} className="mr-1" />
+              <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-4">
+                <FolderPlus size={14} className="mr-1" />
                 Add
               </Button>
             }
