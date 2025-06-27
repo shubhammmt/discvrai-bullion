@@ -200,35 +200,37 @@ const StockResultsTable = ({
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Header Row with Labels and Sort Buttons - Fixed grid with proper column allocation */}
+        {/* Header Row with Labels and Sort Buttons - Using table structure for better alignment */}
         <div className="bg-gray-50 border border-gray-200 rounded-lg mb-4 overflow-x-auto">
-          <div className="grid grid-cols-6 items-center min-w-max">
-            {/* Name Column - Takes 2 columns */}
-            <div className="col-span-2 flex items-center justify-start px-3 py-3 border-r border-gray-200">
-              <span className="text-sm font-semibold text-gray-700">
-                {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
-              </span>
-              <SortButton field="name" />
-            </div>
-            
-            {/* Data Columns - 1 column each for the 4 data fields */}
-            {displayKeys.map((key) => (
-              <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200 last:border-r-0">
-                <span className="text-xs font-semibold text-gray-700 text-center">
-                  {formatFieldName(key)}
+          <div className="min-w-max">
+            <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_100px] gap-0 items-center">
+              {/* Name Column */}
+              <div className="flex items-center justify-start px-3 py-3 border-r border-gray-200">
+                <span className="text-sm font-semibold text-gray-700">
+                  {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
                 </span>
-                {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+                <SortButton field="name" />
               </div>
-            ))}
-            
-            {/* Action Column - Moved outside the data columns loop */}
-            <div className="flex items-center justify-center px-3 py-3">
-              <span className="text-xs font-semibold text-gray-700">Action</span>
+              
+              {/* Data Columns */}
+              {displayKeys.map((key, index) => (
+                <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200">
+                  <span className="text-xs font-semibold text-gray-700 text-center">
+                    {formatFieldName(key)}
+                  </span>
+                  {typeof results[0]?.[key] === 'number' && <SortButton field={key} />}
+                </div>
+              ))}
+              
+              {/* Action Column */}
+              <div className="flex items-center justify-center px-3 py-3">
+                <span className="text-xs font-semibold text-gray-700">Action</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Results Display - Fixed grid layout matching header */}
+        {/* Results Display - Using same grid structure */}
         <div className="space-y-2 mb-6 overflow-x-auto">
           {sortedResults.map((asset, index) => {
             const displayName = getDisplayName(asset);
@@ -237,57 +239,59 @@ const StockResultsTable = ({
             return (
               <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
                 <CardContent className="p-0">
-                  <div className="grid grid-cols-6 items-center min-w-max">
-                    {/* Name Column - Takes 2 columns */}
-                    <div className="col-span-2 px-3 py-3 border-r border-gray-100">
-                      <div className="text-left">
-                        <h3 
-                          className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer"
-                          title={displayName}
-                        >
-                          {displayName}
-                        </h3>
-                        {(asset.amc_name || asset.sector) && (
-                          <div 
-                            className="text-xs text-gray-600 truncate mt-1"
-                            title={asset.amc_name || asset.sector}
+                  <div className="min-w-max">
+                    <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_100px] gap-0 items-center">
+                      {/* Name Column */}
+                      <div className="px-3 py-3 border-r border-gray-100">
+                        <div className="text-left">
+                          <h3 
+                            className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer"
+                            title={displayName}
                           >
-                            {asset.amc_name || asset.sector}
-                            {asset.main_category && <span> • {asset.main_category}</span>}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Data Columns - 1 column each for the 4 data fields */}
-                    {displayKeys.map((key) => (
-                      <div key={key} className="px-3 py-3 border-r border-gray-100">
-                        <div className="text-center">
-                          <span 
-                            className="text-sm font-medium text-gray-900 truncate cursor-pointer"
-                            title={formatFieldValue(key, asset[key], primaryAssetType)}
-                          >
-                            {formatFieldValue(key, asset[key], primaryAssetType)}
-                          </span>
+                            {displayName}
+                          </h3>
+                          {(asset.amc_name || asset.sector) && (
+                            <div 
+                              className="text-xs text-gray-600 truncate mt-1"
+                              title={asset.amc_name || asset.sector}
+                            >
+                              {asset.amc_name || asset.sector}
+                              {asset.main_category && <span> • {asset.main_category}</span>}
+                            </div>
+                          )}
                         </div>
                       </div>
-                    ))}
-                    
-                    {/* Action Column - 1 column */}
-                    <div className="px-3 py-3">
-                      <div className="flex justify-center">
-                        <PortfolioAddModal
-                          assetName={displayName}
-                          assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
-                          assetType={primaryAssetType}
-                          currentPrice={priceValue}
-                          trigger={
-                            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
-                              <FolderPlus size={12} className="mr-1" />
-                              Add
-                            </Button>
-                          }
-                        />
+                      
+                      {/* Data Columns */}
+                      {displayKeys.map((key) => (
+                        <div key={key} className="px-3 py-3 border-r border-gray-100">
+                          <div className="text-center">
+                            <span 
+                              className="text-sm font-medium text-gray-900 truncate cursor-pointer"
+                              title={formatFieldValue(key, asset[key], primaryAssetType)}
+                            >
+                              {formatFieldValue(key, asset[key], primaryAssetType)}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {/* Action Column */}
+                      <div className="px-3 py-3">
+                        <div className="flex justify-center">
+                          <PortfolioAddModal
+                            assetName={displayName}
+                            assetSymbol={asset.mf_schcode?.toString() || asset.symbol || displayName}
+                            assetType={primaryAssetType}
+                            currentPrice={priceValue}
+                            trigger={
+                              <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
+                                <FolderPlus size={12} className="mr-1" />
+                                Add
+                              </Button>
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
