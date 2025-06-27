@@ -88,37 +88,19 @@ const StockResultsTable = ({
     return value.toString();
   };
 
-  // Get all unique keys from all results to determine columns
-  const allKeys = Array.from(new Set(
-    results.flatMap(item => Object.keys(item).filter(key => 
-      item[key] !== null && 
-      item[key] !== undefined &&
-      key !== 'company_name' &&
-      key !== 'scheme_name' &&
-      key !== 'name'
-    ))
-  ));
+  // Determine the primary asset type from results
+  const primaryAssetType = results[0]?.assetType || 'stock';
 
-  // Prioritize important columns based on asset type
-  const getDisplayKeys = (assetType: string) => {
+  // Define essential fields only - limiting to core fields that existed earlier
+  const getEssentialKeys = (assetType: string) => {
     if (assetType === 'mutual-fund') {
-      const mutualFundPriorityColumns = ['nav_price', 'nav', 'current_aum', 'aum', 'total_expense_ratio', 'expense_ratio', 'ret_1year', 'ret_3year'];
-      return [
-        ...mutualFundPriorityColumns.filter(key => allKeys.includes(key)),
-        ...allKeys.filter(key => !mutualFundPriorityColumns.includes(key)).slice(0, 6)
-      ];
+      return ['nav_price', 'current_aum', 'total_expense_ratio', 'ret_1year'];
     } else {
-      const stockPriorityColumns = ['current_price', 'market_cap', 'pe_ratio', 'roe', 'roic', 'net_margin'];
-      return [
-        ...stockPriorityColumns.filter(key => allKeys.includes(key)),
-        ...allKeys.filter(key => !stockPriorityColumns.includes(key)).slice(0, 6)
-      ];
+      return ['current_price', 'market_cap', 'pe_ratio', 'roe'];
     }
   };
 
-  // Determine the primary asset type from results
-  const primaryAssetType = results[0]?.assetType || 'stock';
-  const displayKeys = getDisplayKeys(primaryAssetType);
+  const displayKeys = getEssentialKeys(primaryAssetType);
 
   // Get display name for the item
   const getDisplayName = (item: any): string => {
@@ -169,14 +151,6 @@ const StockResultsTable = ({
   const startResult = (currentPage - 1) * pageSize + 1;
   const endResult = Math.min(currentPage * pageSize, totalRecords);
 
-  // Get sortable fields
-  const sortableFields = [
-    { key: 'name', label: primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name', isSortable: true },
-    ...displayKeys
-      .filter(key => typeof results[0]?.[key] === 'number')
-      .map(key => ({ key, label: formatFieldName(key), isSortable: true }))
-  ];
-
   // Sort button component
   const SortButton = ({ field }: { field: string }) => {
     const isActive = sortField === field;
@@ -226,20 +200,20 @@ const StockResultsTable = ({
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Header Row with Labels and Sort Buttons */}
+        {/* Header Row with Labels and Sort Buttons - Fixed column widths */}
         <div className="bg-gray-50 border border-gray-200 rounded-lg mb-4 overflow-x-auto">
           <div className="flex items-center min-w-max">
-            {/* Name Column */}
-            <div className="flex items-center justify-center px-3 py-3 border-r border-gray-200 min-w-[200px]">
+            {/* Name Column - Fixed width */}
+            <div className="flex items-center justify-center px-3 py-3 border-r border-gray-200 w-64">
               <span className="text-sm font-semibold text-gray-700">
                 {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
               </span>
               <SortButton field="name" />
             </div>
             
-            {/* Data Columns */}
+            {/* Data Columns - Fixed widths */}
             {displayKeys.map((key) => (
-              <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200 last:border-r-0 min-w-[120px]">
+              <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200 last:border-r-0 w-32">
                 <span className="text-xs font-semibold text-gray-700 text-center">
                   {formatFieldName(key)}
                 </span>
@@ -247,14 +221,14 @@ const StockResultsTable = ({
               </div>
             ))}
             
-            {/* Action Column */}
-            <div className="flex items-center justify-center px-3 py-3 min-w-[80px]">
+            {/* Action Column - Fixed width */}
+            <div className="flex items-center justify-center px-3 py-3 w-24">
               <span className="text-xs font-semibold text-gray-700">Action</span>
             </div>
           </div>
         </div>
 
-        {/* Results Display - Values Only */}
+        {/* Results Display - Values Only with consistent cell sizes */}
         <div className="space-y-2 mb-6 overflow-x-auto">
           {sortedResults.map((asset, index) => {
             const displayName = getDisplayName(asset);
@@ -264,14 +238,20 @@ const StockResultsTable = ({
               <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
                 <CardContent className="p-0">
                   <div className="flex items-center min-w-max">
-                    {/* Name Column */}
-                    <div className="px-3 py-3 border-r border-gray-100 min-w-[200px]">
+                    {/* Name Column - Fixed width with ellipsis and tooltip */}
+                    <div className="px-3 py-3 border-r border-gray-100 w-64">
                       <div className="text-center">
-                        <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
+                        <h3 
+                          className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer"
+                          title={displayName}
+                        >
                           {displayName}
                         </h3>
                         {(asset.amc_name || asset.sector) && (
-                          <div className="text-xs text-gray-600">
+                          <div 
+                            className="text-xs text-gray-600 truncate mt-1"
+                            title={asset.amc_name || asset.sector}
+                          >
                             {asset.amc_name || asset.sector}
                             {asset.main_category && <span> • {asset.main_category}</span>}
                           </div>
@@ -279,19 +259,22 @@ const StockResultsTable = ({
                       </div>
                     </div>
                     
-                    {/* Data Columns */}
+                    {/* Data Columns - Fixed widths */}
                     {displayKeys.map((key) => (
-                      <div key={key} className="px-3 py-3 border-r border-gray-100 last:border-r-0 min-w-[120px]">
+                      <div key={key} className="px-3 py-3 border-r border-gray-100 last:border-r-0 w-32">
                         <div className="text-center">
-                          <span className="text-sm font-medium text-gray-900">
+                          <span 
+                            className="text-sm font-medium text-gray-900 truncate cursor-pointer"
+                            title={formatFieldValue(key, asset[key], primaryAssetType)}
+                          >
                             {formatFieldValue(key, asset[key], primaryAssetType)}
                           </span>
                         </div>
                       </div>
                     ))}
                     
-                    {/* Action Column */}
-                    <div className="px-3 py-3 min-w-[80px]">
+                    {/* Action Column - Fixed width */}
+                    <div className="px-3 py-3 w-24">
                       <div className="flex justify-center">
                         <PortfolioAddModal
                           assetName={displayName}
@@ -359,14 +342,6 @@ const StockResultsTable = ({
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
-        )}
-        
-        {displayKeys.length > 6 && (
-          <div className="mt-4 text-center">
-            <p className="text-xs text-gray-500">
-              Showing key metrics. Full details available on individual asset pages.
-            </p>
           </div>
         )}
         
