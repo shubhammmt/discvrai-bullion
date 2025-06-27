@@ -10,7 +10,7 @@ import DesktopSidebar from '@/components/DesktopSidebar';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
-import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
+import { searchAssets, getTopResults, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
 const Feed = () => {
@@ -189,7 +189,7 @@ const Feed = () => {
     
     return (
       <div key={cardId} className="w-full">
-        <div className="flex flex-col p-4 bg-white rounded-xl border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group">
+        <div className="flex flex-col p-4 bg-white rounded-xl border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group h-full">
           {/* Header Section */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1 min-w-0">
@@ -206,7 +206,7 @@ const Feed = () => {
           </div>
           
           {/* Dynamic Content Based on Asset Type */}
-          <div className="mb-4">
+          <div className="mb-4 flex-1">
             {asset.assetType === 'mutual-fund' ? (
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -445,7 +445,8 @@ const Feed = () => {
             </div>
           </CardHeader>
           <CardContent className="p-3 sm:p-6">
-            <div className="space-y-3 sm:space-y-4">
+            {/* Two column grid for asset cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {processedResults.map((asset, index) => renderAssetCard(asset, index))}
             </div>
             
@@ -693,8 +694,8 @@ const Feed = () => {
                       console.log('Filter clicked:', filter.id);
                       setActiveFilter(filter.id);
                     }}
-                    className="whitespace-nowrap flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 h-8 sm:h-9"
                     size="sm"
+                    className="text-xs sm:text-sm whitespace-nowrap flex-shrink-0"
                   >
                     {filter.label}
                   </Button>
@@ -702,66 +703,27 @@ const Feed = () => {
               </div>
             </div>
 
-            {/* Trending Section with Enhanced Asset Cards - Single column layout */}
-            <div className="w-full min-w-0">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="flex flex-col space-y-3 min-w-0">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
-                      <span className="text-base sm:text-xl truncate">
-                        {activeFilter === 'all' ? 'Trending Now' : `Trending ${filters.find(f => f.id === activeFilter)?.label}`}
-                      </span>
-                      {mixedFeedData && (
-                        <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">
-                          Live Data
-                        </span>
-                      )}
-                    </div>
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      onClick={() => navigate('/portfolio-update')}
-                      className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full sm:w-auto text-xs sm:text-sm"
-                    >
-                      <Edit size={12} className="mr-1" />
-                      Bulk Add to Portfolio
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 sm:p-6">
-                  <div className="w-full min-w-0">
-                    {/* Single column layout */}
-                    <div className="grid grid-cols-1 gap-3 sm:gap-4">
-                      {filteredAssets.map((asset, index) => {
-                        console.log(`Rendering asset card ${index + 1}:`, asset);
-                        return <AssetCard key={asset.id} asset={asset} />;
-                      })}
-                      {filteredAssets.length === 0 && (
-                        <div className="col-span-full text-center py-8 text-gray-500">
-                          {isMixedFeedLoading ? (
-                            <div className="flex items-center justify-center">
-                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                              Loading assets...
-                            </div>
-                          ) : (
-                            <>
-                              <p>No assets found for the selected filter.</p>
-                              <p className="text-xs mt-2">Active filter: {activeFilter}, Available data: {mixedFeedData?.sections?.length || 0} sections</p>
-                            </>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Asset Cards in Two-Column Grid */}
+            {filteredAssets.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {filteredAssets.map((asset: any) => (
+                  <AssetCard key={asset.id} asset={asset} showReason={true} />
+                ))}
+              </div>
+            ) : (
+              !isMixedFeedLoading && (
+                <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                  <CardContent className="p-4 sm:p-6 text-center">
+                    <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
+                  </CardContent>
+                </Card>
+              )
+            )}
           </div>
 
-          {/* Desktop Sidebar */}
-          <div className="hidden lg:block w-full">
-            <DesktopSidebar userProfile={userProfile} />
+          {/* Sidebar */}
+          <div className="w-full lg:col-span-1">
+            <DesktopSidebar />
           </div>
         </div>
       </div>

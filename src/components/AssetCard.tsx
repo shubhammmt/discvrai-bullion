@@ -105,38 +105,38 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     const data = asset.rawData;
     
     return (
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div>
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        <div className="text-center">
           <p className="text-xs text-gray-500">NAV Price</p>
           <p className="text-lg font-bold text-gray-900">
             ₹{data.nav_price ? Number(data.nav_price).toFixed(2) : 'N/A'}
           </p>
         </div>
-        <div>
+        <div className="text-center">
           <p className="text-xs text-gray-500">6M Return</p>
           <p className={`text-sm font-semibold ${Number(data.ret_6month || 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
             {data.ret_6month ? `${Number(data.ret_6month).toFixed(2)}%` : 'N/A'}
           </p>
         </div>
-        <div>
+        <div className="text-center">
           <p className="text-xs text-gray-500">1Y Return</p>
           <p className={`text-sm font-semibold ${Number(data.ret_1year || 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
             {data.ret_1year ? `${Number(data.ret_1year).toFixed(2)}%` : 'N/A'}
           </p>
         </div>
-        <div>
+        <div className="text-center">
           <p className="text-xs text-gray-500">Expense Ratio</p>
           <p className="text-sm font-medium text-gray-900">
             {data.total_expense_ratio ? `${Number(data.total_expense_ratio).toFixed(2)}%` : 'N/A'}
           </p>
         </div>
-        <div>
+        <div className="text-center">
           <p className="text-xs text-gray-500">AUM</p>
           <p className="text-sm font-medium text-gray-900">
             {data.current_aum ? `₹${(Number(data.current_aum) / 100).toFixed(0)} Cr` : 'N/A'}
           </p>
         </div>
-        <div>
+        <div className="text-center">
           <p className="text-xs text-gray-500">Min SIP</p>
           <p className="text-sm font-medium text-gray-900">
             ₹{data.sip_minimum || 'N/A'}
@@ -151,9 +151,9 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
 
     return (
       <>
-        <div className="text-right mb-3">
-          <p className="font-bold text-lg">₹{asset.price.toLocaleString()}</p>
-          <div className={`flex items-center gap-1 justify-end ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+        <div className="text-center mb-3">
+          <p className="font-bold text-xl">₹{asset.price.toLocaleString()}</p>
+          <div className={`flex items-center gap-1 justify-center ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
             {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
             <span className="text-sm">
               {isPositive ? '+' : ''}₹{asset.change} ({isPositive ? '+' : ''}{asset.changePercent}%)
@@ -161,12 +161,12 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
-          <div>
+        <div className="grid grid-cols-1 gap-2 mb-3 text-sm">
+          <div className="text-center">
             <span className="text-gray-500">Volume:</span>
             <span className="ml-1 font-medium">{asset.volume}</span>
           </div>
-          <div>
+          <div className="text-center">
             <span className="text-gray-500">Event:</span>
             <span className="ml-1 font-medium text-blue-600">{asset.latestEvent}</span>
           </div>
@@ -176,16 +176,16 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
   };
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardContent className="p-4">
+    <Card className="hover:shadow-md transition-shadow h-full flex flex-col">
+      <CardContent className="p-4 flex flex-col h-full">
         <div className="flex justify-between items-start mb-3">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${isMutualFund ? 'text-center w-full' : ''}`}>
                 {isMutualFund ? asset.rawData?.scheme_name || asset.name : asset.name}
               </h3>
               {!isMutualFund && (
-                <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
+                <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${getTypeColor(asset.type)}`}>
                   {asset.type.replace('-', ' ').toUpperCase()}
                 </span>
               )}
@@ -202,11 +202,13 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
         </div>
 
         {/* Render mutual fund specific data or generic data */}
-        {renderMutualFundData()}
-        {renderGenericData()}
+        <div className="flex-1">
+          {renderMutualFundData()}
+          {renderGenericData()}
+        </div>
 
         <div className="mb-3">
-          <p className="text-sm text-gray-700">{asset.news}</p>
+          <p className="text-sm text-gray-700 line-clamp-2">{asset.news}</p>
         </div>
 
         {showReason && (
@@ -217,14 +219,14 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           </div>
         )}
 
-        <div className="flex gap-2">
-          <Button size="sm" variant="outline" className="flex-1">
+        <div className="flex gap-2 flex-wrap">
+          <Button size="sm" variant="outline" className="flex-1 min-w-0">
             <Plus size={14} className="mr-1" />
-            Add to Watchlist
+            <span className="truncate">Watchlist</span>
           </Button>
           <Button size="sm" variant="outline" onClick={handleAnalyze}>
             <BarChart3 size={14} className="mr-1" />
-            Analyze
+            <span className="hidden sm:inline">Analyze</span>
           </Button>
           <PortfolioAddModal
             assetName={isMutualFund ? asset.rawData?.scheme_name || asset.name : asset.name}
