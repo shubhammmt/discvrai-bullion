@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -64,9 +65,10 @@ const StockResultsTable = ({
   const formatFieldValue = (key: string, value: any, assetType?: string): string => {
     if (value === null || value === undefined) return 'N/A';
     
-    // Handle price fields based on asset type
+    // Handle price fields based on asset type with proper formatting
     if (key.includes('price') || key === 'nav' || key === 'nav_price' || key === 'current_nav') {
-      return `₹${typeof value === 'number' ? value.toFixed(2) : value}`;
+      const numValue = typeof value === 'number' ? value : parseFloat(value);
+      return `₹${numValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
     }
     
     // Handle percentage fields
@@ -428,3 +430,4 @@ const StockResultsTable = ({
 };
 
 export default StockResultsTable;
+
