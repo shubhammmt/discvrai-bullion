@@ -656,31 +656,6 @@ const Feed = () => {
             </Card>
           )}
 
-          {/* Market Overview from Mixed Feed */}
-          {mixedFeedData?.market_overview && (
-            <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg text-green-800">📊 Market Overview</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <p className="text-2xl font-bold text-green-600">{mixedFeedData.market_overview.total_active_funds.toLocaleString()}</p>
-                    <p className="text-sm text-gray-600">Active Funds</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-blue-600">{mixedFeedData.market_overview.avg_market_return.toFixed(1)}%</p>
-                    <p className="text-sm text-gray-600">Avg Return</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-purple-600">{mixedFeedData.market_overview.positive_return_rate.toFixed(1)}%</p>
-                    <p className="text-sm text-gray-600">Positive Returns</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
           {/* Filter Tabs */}
           <div className="w-full">
             <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
