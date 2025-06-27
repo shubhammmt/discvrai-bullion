@@ -64,12 +64,14 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     // Add navigation for other asset types later
   };
 
-  // Check if this is a mutual fund with raw data
+  // Fixed logic: Check if this is a mutual fund with raw data
+  // A mutual fund can be identified by having rawData AND containing mutual fund specific fields
   const isMutualFund = asset.rawData && (
-    asset.type.toLowerCase().includes('mutual') || 
-    asset.type.toLowerCase().includes('elss') ||
-    asset.type.toLowerCase().includes('hybrid') ||
-    asset.type.toLowerCase().includes('index')
+    asset.rawData.scheme_name || 
+    asset.rawData.mf_schcode || 
+    asset.rawData.nav_price !== undefined ||
+    asset.rawData.amc_name ||
+    asset.rawData.main_category
   );
 
   // Function to normalize asset type to expected PortfolioAddModal types
@@ -95,7 +97,11 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
       return 'smallcase';
     }
     
-    // Default fallback
+    // Default fallback - if we detected it as a mutual fund above, return mutual-fund
+    if (isMutualFund) {
+      return 'mutual-fund';
+    }
+    
     return 'mutual-fund';
   };
 
@@ -131,7 +137,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           </p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-gray-500">Minimum SIP</p>
+          <p className="text-xs text-gray-500">Min SIP</p>
           <p className="text-xs font-medium text-gray-900">
             {data.sip_minimum ? `${Number(data.sip_minimum)}` : 'N/A'}
           </p>
@@ -199,8 +205,6 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
         <div className="mb-2">
           <p className="text-xs text-gray-700 line-clamp-2">{asset.news}</p>
         </div>
-
-       
 
         <div className="flex gap-2 flex-wrap">
           <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs h-7">
