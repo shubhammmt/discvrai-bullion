@@ -105,41 +105,29 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     const data = asset.rawData;
     
     return (
-      <div className="grid grid-cols-2 gap-2 mb-4">
+      <div className="grid grid-cols-4 gap-2 mb-2">
         <div className="text-center">
-          <p className="text-xs text-gray-500">NAV Price</p>
-          <p className="text-lg font-bold text-gray-900">
+          <p className="text-xs text-gray-500">NAV</p>
+          <p className="text-sm font-bold text-gray-900">
             ₹{data.nav_price ? Number(data.nav_price).toFixed(2) : 'N/A'}
           </p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500">6M Return</p>
-          <p className={`text-sm font-semibold ${Number(data.ret_6month || 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
-            {data.ret_6month ? `${Number(data.ret_6month).toFixed(2)}%` : 'N/A'}
+          <p className={`text-xs font-semibold ${Number(data.ret_6month || 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
+            {data.ret_6month ? `${Number(data.ret_6month).toFixed(1)}%` : 'N/A'}
           </p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500">1Y Return</p>
-          <p className={`text-sm font-semibold ${Number(data.ret_1year || 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
-            {data.ret_1year ? `${Number(data.ret_1year).toFixed(2)}%` : 'N/A'}
+          <p className={`text-xs font-semibold ${Number(data.ret_1year || 0) > 0 ? 'text-green-600' : 'text-red-600'}`}>
+            {data.ret_1year ? `${Number(data.ret_1year).toFixed(1)}%` : 'N/A'}
           </p>
         </div>
         <div className="text-center">
-          <p className="text-xs text-gray-500">Expense Ratio</p>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-xs text-gray-500">Expense</p>
+          <p className="text-xs font-medium text-gray-900">
             {data.total_expense_ratio ? `${Number(data.total_expense_ratio).toFixed(2)}%` : 'N/A'}
-          </p>
-        </div>
-        <div className="text-center">
-          <p className="text-xs text-gray-500">AUM</p>
-          <p className="text-sm font-medium text-gray-900">
-            {data.current_aum ? `₹${(Number(data.current_aum) / 100).toFixed(0)} Cr` : 'N/A'}
-          </p>
-        </div>
-        <div className="text-center">
-          <p className="text-xs text-gray-500">Min SIP</p>
-          <p className="text-sm font-medium text-gray-900">
-            ₹{data.sip_minimum || 'N/A'}
           </p>
         </div>
       </div>
@@ -151,24 +139,19 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
 
     return (
       <>
-        <div className="text-center mb-3">
-          <p className="font-bold text-xl">₹{asset.price.toLocaleString()}</p>
-          <div className={`flex items-center gap-1 justify-center ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-            {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-            <span className="text-sm">
-              {isPositive ? '+' : ''}₹{asset.change} ({isPositive ? '+' : ''}{asset.changePercent}%)
-            </span>
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <p className="font-bold text-lg">₹{asset.price.toLocaleString()}</p>
+            <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+              {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+              <span className="text-xs">
+                {isPositive ? '+' : ''}₹{asset.change} ({isPositive ? '+' : ''}{asset.changePercent}%)
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-2 mb-3 text-sm">
-          <div className="text-center">
-            <span className="text-gray-500">Volume:</span>
-            <span className="ml-1 font-medium">{asset.volume}</span>
-          </div>
-          <div className="text-center">
-            <span className="text-gray-500">Event:</span>
-            <span className="ml-1 font-medium text-blue-600">{asset.latestEvent}</span>
+          <div className="text-right text-xs text-gray-500">
+            <div>Vol: {asset.volume}</div>
+            <div className="text-blue-600">{asset.latestEvent}</div>
           </div>
         </div>
       </>
@@ -177,8 +160,8 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
 
   return (
     <Card className="hover:shadow-md transition-shadow h-full flex flex-col">
-      <CardContent className="p-4 flex flex-col h-full">
-        <div className="flex justify-between items-start mb-3">
+      <CardContent className="p-3 flex flex-col h-full">
+        <div className="flex justify-between items-start mb-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
               <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${isMutualFund ? 'text-center w-full' : ''}`}>
@@ -191,13 +174,13 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
               )}
             </div>
             {isMutualFund && (
-              <div className="flex justify-center mb-2">
+              <div className="flex justify-center mb-1">
                 <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
                   {asset.rawData?.main_category || asset.type}
                 </span>
               </div>
             )}
-            <p className={`text-sm text-gray-600 ${isMutualFund ? 'text-center' : ''}`}>{asset.symbol}</p>
+            <p className={`text-xs text-gray-600 ${isMutualFund ? 'text-center' : ''}`}>{asset.symbol}</p>
           </div>
         </div>
 
@@ -207,12 +190,12 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
           {renderGenericData()}
         </div>
 
-        <div className="mb-3">
-          <p className="text-sm text-gray-700 line-clamp-2">{asset.news}</p>
+        <div className="mb-2">
+          <p className="text-xs text-gray-700 line-clamp-2">{asset.news}</p>
         </div>
 
         {showReason && (
-          <div className="bg-blue-50 p-3 rounded-lg mb-3">
+          <div className="bg-blue-50 p-2 rounded-lg mb-2">
             <p className="text-xs text-blue-700">
               <strong>Why recommended:</strong> {getReasonText()}
             </p>
@@ -220,12 +203,12 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
         )}
 
         <div className="flex gap-2 flex-wrap">
-          <Button size="sm" variant="outline" className="flex-1 min-w-0">
-            <Plus size={14} className="mr-1" />
+          <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs h-7">
+            <Plus size={12} className="mr-1" />
             <span className="truncate">Watchlist</span>
           </Button>
-          <Button size="sm" variant="outline" onClick={handleAnalyze}>
-            <BarChart3 size={14} className="mr-1" />
+          <Button size="sm" variant="outline" onClick={handleAnalyze} className="text-xs h-7">
+            <BarChart3 size={12} className="mr-1" />
             <span className="hidden sm:inline">Analyze</span>
           </Button>
           <PortfolioAddModal
@@ -234,8 +217,8 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
             assetType={getNormalizedAssetType(asset.type)}
             currentPrice={isMutualFund ? asset.rawData?.nav_price : asset.price}
             trigger={
-              <Button size="sm" variant="outline">
-                <FolderPlus size={14} />
+              <Button size="sm" variant="outline" className="text-xs h-7">
+                <FolderPlus size={12} />
               </Button>
             }
           />
