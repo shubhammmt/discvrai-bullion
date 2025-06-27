@@ -200,20 +200,20 @@ const StockResultsTable = ({
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
-        {/* Header Row with Labels and Sort Buttons - Fixed column widths */}
+        {/* Header Row with Labels and Sort Buttons - Flexible column widths */}
         <div className="bg-gray-50 border border-gray-200 rounded-lg mb-4 overflow-x-auto">
-          <div className="flex items-center min-w-max">
-            {/* Name Column - Fixed width */}
-            <div className="flex items-center justify-center px-3 py-3 border-r border-gray-200 w-64">
+          <div className="grid grid-cols-6 items-center min-w-max">
+            {/* Name Column - Takes more space */}
+            <div className="col-span-2 flex items-center justify-center px-3 py-3 border-r border-gray-200">
               <span className="text-sm font-semibold text-gray-700">
                 {primaryAssetType === 'mutual-fund' ? 'Fund Name' : 'Company Name'}
               </span>
               <SortButton field="name" />
             </div>
             
-            {/* Data Columns - Fixed widths */}
+            {/* Data Columns -Equal flexible widths */}
             {displayKeys.map((key) => (
-              <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200 last:border-r-0 w-32">
+              <div key={key} className="flex items-center justify-center px-3 py-3 border-r border-gray-200 last:border-r-0">
                 <span className="text-xs font-semibold text-gray-700 text-center">
                   {formatFieldName(key)}
                 </span>
@@ -221,14 +221,14 @@ const StockResultsTable = ({
               </div>
             ))}
             
-            {/* Action Column - Fixed width */}
-            <div className="flex items-center justify-center px-3 py-3 w-24">
+            {/* Action Column */}
+            <div className="flex items-center justify-center px-3 py-3">
               <span className="text-xs font-semibold text-gray-700">Action</span>
             </div>
           </div>
         </div>
 
-        {/* Results Display - Values Only with consistent cell sizes */}
+        {/* Results Display - Values Only with flexible grid */}
         <div className="space-y-2 mb-6 overflow-x-auto">
           {sortedResults.map((asset, index) => {
             const displayName = getDisplayName(asset);
@@ -237,10 +237,10 @@ const StockResultsTable = ({
             return (
               <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
                 <CardContent className="p-0">
-                  <div className="flex items-center min-w-max">
-                    {/* Name Column - Fixed width with ellipsis and tooltip */}
-                    <div className="px-3 py-3 border-r border-gray-100 w-64">
-                      <div className="text-center">
+                  <div className="grid grid-cols-6 items-center min-w-max">
+                    {/* Name Column - Takes more space */}
+                    <div className="col-span-2 px-3 py-3 border-r border-gray-100">
+                      <div className="text-left">
                         <h3 
                           className="font-semibold text-sm text-gray-900 leading-tight truncate cursor-pointer"
                           title={displayName}
@@ -259,9 +259,9 @@ const StockResultsTable = ({
                       </div>
                     </div>
                     
-                    {/* Data Columns - Fixed widths */}
+                    {/* Data Columns - Equal flexible widths */}
                     {displayKeys.map((key) => (
-                      <div key={key} className="px-3 py-3 border-r border-gray-100 last:border-r-0 w-32">
+                      <div key={key} className="px-3 py-3 border-r border-gray-100 last:border-r-0">
                         <div className="text-center">
                           <span 
                             className="text-sm font-medium text-gray-900 truncate cursor-pointer"
@@ -273,8 +273,8 @@ const StockResultsTable = ({
                       </div>
                     ))}
                     
-                    {/* Action Column - Fixed width */}
-                    <div className="px-3 py-3 w-24">
+                    {/* Action Column */}
+                    <div className="px-3 py-3">
                       <div className="flex justify-center">
                         <PortfolioAddModal
                           assetName={displayName}
