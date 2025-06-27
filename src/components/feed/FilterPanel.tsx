@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,16 +32,30 @@ const STOCK_SECTORS = [
 ];
 
 const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading }: FilterPanelProps) => {
+  console.log('🔍 FilterPanel render - assetType:', assetType);
+  
   // Only fetch filter options for non-stock assets
+  const shouldFetchOptions = assetType !== 'stock';
   const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
+  
+  console.log('🔍 FilterPanel state:', {
+    assetType,
+    shouldFetchOptions,
+    isLoadingOptions,
+    hasFilterOptions: !!filterOptions,
+    optionsError
+  });
 
   // Enhanced validation function to filter out invalid options
   const getValidSelectOptions = (options: any[] | undefined) => {
+    console.log('🔍 getValidSelectOptions called with:', options);
+    
     if (!Array.isArray(options)) {
+      console.log('🔍 options is not an array, returning empty array');
       return [];
     }
     
-    return options.filter((option) => {
+    const validOptions = options.filter((option) => {
       if (!option || typeof option !== 'object') {
         return false;
       }
@@ -58,20 +71,18 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
              value.trim().length > 0 &&
              value !== ''; // Explicitly check for empty string
     });
+    
+    console.log('🔍 getValidSelectOptions returning:', validOptions.length, 'valid options');
+    return validOptions;
   };
 
   // Add debugging logs
   useEffect(() => {
-    console.log('FilterPanel state:', {
-      assetType,
-      isLoadingOptions,
-      hasFilterOptions: !!filterOptions,
-      optionsError,
-      filterOptionsKeys: filterOptions ? Object.keys(filterOptions) : null
-    });
+    console.log('🔍 FilterPanel useEffect - Component mounted/updated');
   }, [assetType, isLoadingOptions, filterOptions, optionsError]);
 
   const updateFilter = (key: string, value: any) => {
+    console.log('🔍 updateFilter called:', key, value);
     onFiltersChange({
       ...filters,
       [key]: value
@@ -79,6 +90,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const updateRangeFilter = (key: string, field: 'min' | 'max', value: string) => {
+    console.log('🔍 updateRangeFilter called:', key, field, value);
     const currentFilter = filters[key] as RangeFilter || {};
     const numValue = value === '' ? undefined : parseFloat(value);
     
@@ -97,137 +109,145 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const removeFilter = (key: string) => {
+    console.log('🔍 removeFilter called:', key);
     const newFilters = { ...filters };
     delete newFilters[key];
     onFiltersChange(newFilters);
   };
 
   const clearAllFilters = () => {
+    console.log('🔍 clearAllFilters called');
     onFiltersChange({});
   };
 
   const renderStockFilters = () => {
-    // Use static sector data for stocks - no backend dependency
-    console.log('🔍 Rendering stock filters with static data');
+    console.log('🔍 renderStockFilters called - using static data');
 
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Market Cap Range - Min/Max Inputs */}
-        <div>
-          <Label>Market Cap (₹ Crores)</Label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Min"
-              type="number"
-              value={(filters.market_cap as RangeFilter)?.min || ''}
-              onChange={(e) => updateRangeFilter('market_cap', 'min', e.target.value)}
-            />
-            <Input
-              placeholder="Max"
-              type="number"
-              value={(filters.market_cap as RangeFilter)?.max || ''}
-              onChange={(e) => updateRangeFilter('market_cap', 'max', e.target.value)}
-            />
+    try {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Market Cap Range - Min/Max Inputs */}
+          <div>
+            <Label>Market Cap (₹ Crores)</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Min"
+                type="number"
+                value={(filters.market_cap as RangeFilter)?.min || ''}
+                onChange={(e) => updateRangeFilter('market_cap', 'min', e.target.value)}
+              />
+              <Input
+                placeholder="Max"
+                type="number"
+                value={(filters.market_cap as RangeFilter)?.max || ''}
+                onChange={(e) => updateRangeFilter('market_cap', 'max', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* PE Ratio Range - Min/Max Inputs */}
+          <div>
+            <Label>PE Ratio</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Min"
+                type="number"
+                value={(filters.pe_ratio as RangeFilter)?.min || ''}
+                onChange={(e) => updateRangeFilter('pe_ratio', 'min', e.target.value)}
+              />
+              <Input
+                placeholder="Max"
+                type="number"
+                value={(filters.pe_ratio as RangeFilter)?.max || ''}
+                onChange={(e) => updateRangeFilter('pe_ratio', 'max', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Current Price Range - Min/Max Inputs */}
+          <div>
+            <Label>Price Range (₹)</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Min"
+                type="number"
+                value={(filters.current_price as RangeFilter)?.min || ''}
+                onChange={(e) => updateRangeFilter('current_price', 'min', e.target.value)}
+              />
+              <Input
+                placeholder="Max"
+                type="number"
+                value={(filters.current_price as RangeFilter)?.max || ''}
+                onChange={(e) => updateRangeFilter('current_price', 'max', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Sector Select - Using Static Data */}
+          <div>
+            <Label htmlFor="sector">Sector</Label>
+            <Select onValueChange={(value) => updateFilter('sector', [value])}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select sector" />
+              </SelectTrigger>
+              <SelectContent>
+                {STOCK_SECTORS.map((sector) => (
+                  <SelectItem key={sector.value} value={sector.value}>
+                    {sector.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Revenue Growth - Min/Max Inputs */}
+          <div>
+            <Label>Revenue Growth (YoY %)</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Min"
+                type="number"
+                value={(filters.revenue_growth_1y as RangeFilter)?.min || ''}
+                onChange={(e) => updateRangeFilter('revenue_growth_1y', 'min', e.target.value)}
+              />
+              <Input
+                placeholder="Max"
+                type="number"
+                value={(filters.revenue_growth_1y as RangeFilter)?.max || ''}
+                onChange={(e) => updateRangeFilter('revenue_growth_1y', 'max', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* ROE Range - Min/Max Inputs */}
+          <div>
+            <Label>ROE (%)</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Min"
+                type="number"
+                value={(filters.roe as RangeFilter)?.min || ''}
+                onChange={(e) => updateRangeFilter('roe', 'min', e.target.value)}
+              />
+              <Input
+                placeholder="Max"
+                type="number"
+                value={(filters.roe as RangeFilter)?.max || ''}
+                onChange={(e) => updateRangeFilter('roe', 'max', e.target.value)}
+              />
+            </div>
           </div>
         </div>
-
-        {/* PE Ratio Range - Min/Max Inputs */}
-        <div>
-          <Label>PE Ratio</Label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Min"
-              type="number"
-              value={(filters.pe_ratio as RangeFilter)?.min || ''}
-              onChange={(e) => updateRangeFilter('pe_ratio', 'min', e.target.value)}
-            />
-            <Input
-              placeholder="Max"
-              type="number"
-              value={(filters.pe_ratio as RangeFilter)?.max || ''}
-              onChange={(e) => updateRangeFilter('pe_ratio', 'max', e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Current Price Range - Min/Max Inputs */}
-        <div>
-          <Label>Price Range (₹)</Label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Min"
-              type="number"
-              value={(filters.current_price as RangeFilter)?.min || ''}
-              onChange={(e) => updateRangeFilter('current_price', 'min', e.target.value)}
-            />
-            <Input
-              placeholder="Max"
-              type="number"
-              value={(filters.current_price as RangeFilter)?.max || ''}
-              onChange={(e) => updateRangeFilter('current_price', 'max', e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Sector Select - Using Static Data */}
-        <div>
-          <Label htmlFor="sector">Sector</Label>
-          <Select onValueChange={(value) => updateFilter('sector', [value])}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select sector" />
-            </SelectTrigger>
-            <SelectContent>
-              {STOCK_SECTORS.map((sector) => (
-                <SelectItem key={sector.value} value={sector.value}>
-                  {sector.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Revenue Growth - Min/Max Inputs */}
-        <div>
-          <Label>Revenue Growth (YoY %)</Label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Min"
-              type="number"
-              value={(filters.revenue_growth_1y as RangeFilter)?.min || ''}
-              onChange={(e) => updateRangeFilter('revenue_growth_1y', 'min', e.target.value)}
-            />
-            <Input
-              placeholder="Max"
-              type="number"
-              value={(filters.revenue_growth_1y as RangeFilter)?.max || ''}
-              onChange={(e) => updateRangeFilter('revenue_growth_1y', 'max', e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* ROE Range - Min/Max Inputs */}
-        <div>
-          <Label>ROE (%)</Label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Min"
-              type="number"
-              value={(filters.roe as RangeFilter)?.min || ''}
-              onChange={(e) => updateRangeFilter('roe', 'min', e.target.value)}
-            />
-            <Input
-              placeholder="Max"
-              type="number"
-              value={(filters.roe as RangeFilter)?.max || ''}
-              onChange={(e) => updateRangeFilter('roe', 'max', e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-    );
+      );
+    } catch (error) {
+      console.error('🔍 Error in renderStockFilters:', error);
+      return <div>Error rendering stock filters</div>;
+    }
   };
 
   const renderMutualFundFilters = () => {
+    console.log('🔍 renderMutualFundFilters called');
+    
     if (isLoadingOptions || !filterOptions?.mutual_funds) {
       return (
         <div className="flex items-center justify-center py-8">
@@ -383,6 +403,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
   };
 
   const renderIPOFilters = () => {
+    console.log('🔍 renderIPOFilters called');
+    
     if (isLoadingOptions || !filterOptions?.ipos) {
       return (
         <div className="flex items-center justify-center py-8">
@@ -450,6 +472,9 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
   const activeFilters = getActiveFilters();
 
+  console.log('🔍 About to render FilterPanel');
+
+  // Handle error state for non-stock assets
   if (optionsError && assetType !== 'stock') {
     return (
       <div className="space-y-4">
@@ -463,44 +488,55 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     );
   }
 
-  return (
-    <div className="space-y-4">
-      {/* Active Filters Display */}
-      {activeFilters.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-gray-700">Active Filters:</span>
-          {activeFilters.map(([key, value]) => (
-            <Badge key={key} variant="secondary" className="flex items-center gap-1">
-              {key}: {formatFilterValue(value)}
-              <X 
-                size={12} 
-                className="cursor-pointer" 
-                onClick={() => removeFilter(key)}
-              />
-            </Badge>
-          ))}
-          <Button variant="ghost" size="sm" onClick={clearAllFilters}>
-            Clear All
+  try {
+    return (
+      <div className="space-y-4">
+        {/* Active Filters Display */}
+        {activeFilters.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-medium text-gray-700">Active Filters:</span>
+            {activeFilters.map(([key, value]) => (
+              <Badge key={key} variant="secondary" className="flex items-center gap-1">
+                {key}: {formatFilterValue(value)}
+                <X 
+                  size={12} 
+                  className="cursor-pointer" 
+                  onClick={() => removeFilter(key)}
+                />
+              </Badge>
+            ))}
+            <Button variant="ghost" size="sm" onClick={clearAllFilters}>
+              Clear All
+            </Button>
+          </div>
+        )}
+
+        {/* Filter Forms */}
+        {assetType === 'stock' && renderStockFilters()}
+        {assetType === 'mutual-fund' && renderMutualFundFilters()}
+        {assetType === 'ipo' && renderIPOFilters()}
+
+        {/* Search Button */}
+        <div className="flex justify-end pt-4">
+          <Button 
+            onClick={onSearch} 
+            disabled={isLoading || (assetType !== 'stock' && isLoadingOptions)}
+          >
+            {isLoading ? 'Searching...' : 'Apply Filters & Search'}
           </Button>
         </div>
-      )}
-
-      {/* Filter Forms */}
-      {assetType === 'stock' && renderStockFilters()}
-      {assetType === 'mutual-fund' && renderMutualFundFilters()}
-      {assetType === 'ipo' && renderIPOFilters()}
-
-      {/* Search Button */}
-      <div className="flex justify-end pt-4">
-        <Button 
-          onClick={onSearch} 
-          disabled={isLoading || (assetType !== 'stock' && isLoadingOptions)}
-        >
-          {isLoading ? 'Searching...' : 'Apply Filters & Search'}
-        </Button>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('🔍 Error in FilterPanel render:', error);
+    return (
+      <div className="space-y-4">
+        <div className="text-center py-8 text-red-600">
+          <p>Error rendering filter panel. Please try refreshing the page.</p>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default FilterPanel;
