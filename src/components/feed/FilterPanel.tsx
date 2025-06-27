@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +19,7 @@ interface FilterPanelProps {
 const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading }: FilterPanelProps) => {
   const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
 
-  // Simple and effective validation function
+  // Enhanced validation function to filter out invalid options
   const getValidSelectOptions = (options: any[] | undefined) => {
     if (!Array.isArray(options)) {
       return [];
@@ -35,7 +34,8 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
       const value = option.value || option.name || option.label;
       
       // Filter out empty strings, null, undefined, and other falsy values
-      return value && typeof value === 'string' && value.trim() !== '';
+      // Also ensure the value is a non-empty string after trimming
+      return value && typeof value === 'string' && value.trim() !== '' && value.trim().length > 0;
     });
   };
 
@@ -256,6 +256,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
     const mfOptions = filterOptions.mutual_funds;
     const validCategories = getValidSelectOptions(mfOptions?.categories);
     const validRiskLevels = getValidSelectOptions(mfOptions?.risk_levels);
+    const validAmcNames = getValidSelectOptions(mfOptions?.amc_names);
+    const validExpenseRatioOptions = getValidSelectOptions(mfOptions?.expense_ratio_options);
+    const validAumOptions = getValidSelectOptions(mfOptions?.aum_options);
+    const validReturn1yOptions = getValidSelectOptions(mfOptions?.return_1y_options);
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -295,6 +299,94 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
                   return (
                     <SelectItem key={`risk-${idx}-${riskValue}`} value={riskValue}>
                       {risk.name}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* AMC Name Select */}
+        {validAmcNames.length > 0 && (
+          <div>
+            <Label htmlFor="amcName">Asset Management Company</Label>
+            <Select onValueChange={(value) => updateFilter('amcName', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select AMC" />
+              </SelectTrigger>
+              <SelectContent>
+                {validAmcNames.slice(0, 10).map((amc, idx) => {
+                  const amcValue = amc.value || amc.name || amc.label;
+                  return (
+                    <SelectItem key={`amc-${idx}-${amcValue}`} value={amcValue}>
+                      {amc.name} ({amc.count})
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Expense Ratio Select */}
+        {validExpenseRatioOptions.length > 0 && (
+          <div>
+            <Label htmlFor="expenseRatio">Expense Ratio</Label>
+            <Select onValueChange={(value) => updateFilter('expenseRatio', parseFloat(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select expense ratio" />
+              </SelectTrigger>
+              <SelectContent>
+                {validExpenseRatioOptions.map((expense, idx) => {
+                  const expenseValue = expense.value?.toString() || 'any';
+                  return (
+                    <SelectItem key={`expense-${idx}-${expenseValue}`} value={expenseValue}>
+                      {expense.label}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* AUM Select */}
+        {validAumOptions.length > 0 && (
+          <div>
+            <Label htmlFor="aum">Fund Size (AUM)</Label>
+            <Select onValueChange={(value) => updateFilter('aum', parseFloat(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select AUM" />
+              </SelectTrigger>
+              <SelectContent>
+                {validAumOptions.map((aum, idx) => {
+                  const aumValue = aum.min_value?.toString() || 'any';
+                  return (
+                    <SelectItem key={`aum-${idx}-${aumValue}`} value={aumValue}>
+                      {aum.label}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* 1 Year Returns Select */}
+        {validReturn1yOptions.length > 0 && (
+          <div>
+            <Label htmlFor="return1y">1 Year Returns</Label>
+            <Select onValueChange={(value) => updateFilter('return1y', parseFloat(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select returns" />
+              </SelectTrigger>
+              <SelectContent>
+                {validReturn1yOptions.map((returns, idx) => {
+                  const returnValue = returns.value?.toString() || 'any';
+                  return (
+                    <SelectItem key={`return1y-${idx}-${returnValue}`} value={returnValue}>
+                      {returns.label}
                     </SelectItem>
                   );
                 })}
