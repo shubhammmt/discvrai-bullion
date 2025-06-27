@@ -105,27 +105,35 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
     const isPositive = momentum3m > 0;
     
     return (
-      <>
-        <div className="flex items-center justify-between mb-2">
-          <div>
-            <p className="font-bold text-lg">₹{price.toLocaleString()}</p>
-            <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-              {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-              <span className="text-xs">
-                3M: {isPositive ? '+' : ''}{(momentum3m * 100).toFixed(2)}%
-              </span>
-            </div>
-          </div>
-          <div className="text-right text-xs text-gray-500">
-            {data.pe_ratio && (
-              <div>P/E: {Number(data.pe_ratio).toFixed(1)}</div>
-            )}
-            {data.pb_ratio && (
-              <div>P/B: {Number(data.pb_ratio).toFixed(1)}</div>
-            )}
+      <div className="grid grid-cols-4 gap-2 mb-2">
+        <div className="text-center">
+          <p className="text-xs text-gray-500">Price</p>
+          <p className="text-sm font-bold text-gray-900">
+            ₹{price.toLocaleString()}
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-xs text-gray-500">3M</p>
+          <div className={`flex items-center justify-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+            {isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+            <span className="text-xs font-semibold">
+              {isPositive ? '+' : ''}{(momentum3m * 100).toFixed(1)}%
+            </span>
           </div>
         </div>
-      </>
+        <div className="text-center">
+          <p className="text-xs text-gray-500">P/E</p>
+          <p className="text-xs font-medium text-gray-900">
+            {data.pe_ratio ? Number(data.pe_ratio).toFixed(1) : 'N/A'}
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-xs text-gray-500">P/B</p>
+          <p className="text-xs font-medium text-gray-900">
+            {data.pb_ratio ? Number(data.pb_ratio).toFixed(1) : 'N/A'}
+          </p>
+        </div>
+      </div>
     );
   };
 
@@ -161,7 +169,7 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
         <div className="flex justify-between items-start mb-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${isMutualFund ? 'text-center w-full' : ''}`}>
+              <h3 className={`font-semibold text-gray-900 text-sm leading-tight ${(isMutualFund || isStock) ? 'text-center w-full' : ''}`}>
                 {isMutualFund ? 
                   (asset.rawData?.scheme_name || asset.name) : 
                   isStock ? 
@@ -169,22 +177,18 @@ const AssetCard = ({ asset, showReason }: AssetCardProps) => {
                     asset.name
                 }
               </h3>
-              {!isMutualFund && (
+              {!isMutualFund && !isStock && (
                 <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${getTypeColor(asset.type)}`}>
                   {asset.type.replace('-', ' ').toUpperCase()}
                 </span>
               )}
             </div>
-            {isMutualFund && (
+            {(isMutualFund || isStock) && (
               <div className="flex justify-center mb-1">
                 <span className={`text-xs px-2 py-1 rounded-full ${getTypeColor(asset.type)}`}>
-                  {asset.rawData?.main_category || asset.type}
+                  {isMutualFund ? (asset.rawData?.main_category || asset.type) : 'STOCK'}
                 </span>
               </div>
-            )}
-            {/* Only show symbol for non-mutual funds and non-stocks */}
-            {!isMutualFund && !isStock && (
-              <p className="text-xs text-gray-600">{asset.symbol}</p>
             )}
           </div>
         </div>
