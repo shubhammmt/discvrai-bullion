@@ -181,41 +181,41 @@ const StockResultsTable = ({
 
     return (
       <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-4">
+        <CardContent className="p-3">
           <div className="flex items-center justify-between">
             {/* Left Section - Fund Info */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-1">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-base text-gray-900 leading-tight break-words mb-1">
+                  <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
                     {displayName}
                   </h3>
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     <span>{fund.mf_schcode || fund.symbol}</span>
-                    <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                    <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full text-xs">
                       mutual-fund
                     </span>
                   </div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2 text-xs text-gray-600 mb-2">
+              <div className="flex items-center gap-2 text-xs text-gray-600">
                 {amcName && <span>{amcName}</span>}
                 {category && <span>• {category}</span>}
               </div>
             </div>
 
             {/* Middle Section - Performance Metrics */}
-            <div className="flex items-center gap-6 mx-6">
+            <div className="flex items-center gap-4 mx-4">
               {/* Returns */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">1 Year Return</p>
+                <p className="text-xs text-gray-500 mb-0.5">1Y Return</p>
                 <p className="text-sm font-semibold text-green-600">
                   {oneYearReturn ? `${(oneYearReturn * 100).toFixed(1)}%` : 'N/A'}
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">3 Year Return</p>
+                <p className="text-xs text-gray-500 mb-0.5">3Y Return</p>
                 <p className="text-sm font-semibold text-green-600">
                   {threeYearReturn ? `${(threeYearReturn * 100).toFixed(1)}%` : 'N/A'}
                 </p>
@@ -223,13 +223,13 @@ const StockResultsTable = ({
               
               {/* AUM & Expense Ratio */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">AUM</p>
+                <p className="text-xs text-gray-500 mb-0.5">AUM</p>
                 <p className="text-sm font-medium text-gray-900">
                   {aum ? `₹${(aum / 10000000).toFixed(0)}Cr` : 'N/A'}
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">Expense Ratio</p>
+                <p className="text-xs text-gray-500 mb-0.5">Exp. Ratio</p>
                 <p className="text-sm font-medium text-gray-900">
                   {expenseRatio ? `${expenseRatio.toFixed(2)}%` : 'N/A'}
                 </p>
@@ -237,8 +237,8 @@ const StockResultsTable = ({
               
               {/* NAV */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">NAV</p>
-                <p className="text-lg font-bold text-gray-900">
+                <p className="text-xs text-gray-500 mb-0.5">NAV</p>
+                <p className="text-base font-bold text-gray-900">
                   {navPrice ? `₹${navPrice.toFixed(2)}` : 'N/A'}
                 </p>
               </div>
@@ -252,8 +252,8 @@ const StockResultsTable = ({
                 assetType="mutual-fund"
                 currentPrice={navPrice}
                 trigger={
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-3 py-2">
-                    <FolderPlus size={14} className="mr-1" />
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
+                    <FolderPlus size={12} className="mr-1" />
                     Add
                   </Button>
                 }
@@ -265,7 +265,7 @@ const StockResultsTable = ({
     );
   };
 
-  // Compact Stock Card Component (similar to mutual fund format)
+  // Compact Stock Card Component
   const CompactStockCard = ({ stock, index }: { stock: any; index: number }) => {
     const displayName = getDisplayName(stock);
     const currentPrice = getPriceValue(stock);
@@ -280,35 +280,35 @@ const StockResultsTable = ({
 
     return (
       <Card key={`${displayName}-${index}`} className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white">
-        <CardContent className="p-4">
+        <CardContent className="p-3">
           <div className="flex items-center justify-between">
             {/* Left Section - Stock Info */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-1">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-base text-gray-900 leading-tight break-words mb-1">
+                  <h3 className="font-semibold text-sm text-gray-900 leading-tight break-words mb-1">
                     {displayName}
                   </h3>
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     <span>{stock.symbol || displayName}</span>
-                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                    <span className="bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full text-xs">
                       stock
                     </span>
                   </div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2 text-xs text-gray-600 mb-2">
+              <div className="flex items-center gap-2 text-xs text-gray-600">
                 {sector && <span>{sector}</span>}
                 {stock.is_growth_stock && <span>• Growth Stock</span>}
               </div>
             </div>
 
             {/* Middle Section - Stock Metrics */}
-            <div className="flex items-center gap-6 mx-6">
+            <div className="flex items-center gap-4 mx-4">
               {/* Market Cap */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">Market Cap</p>
+                <p className="text-xs text-gray-500 mb-0.5">Market Cap</p>
                 <p className="text-sm font-medium text-gray-900">
                   {marketCap ? `₹${(marketCap / 10000000).toFixed(0)}Cr` : 'N/A'}
                 </p>
@@ -316,7 +316,7 @@ const StockResultsTable = ({
               
               {/* PE Ratio */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">PE Ratio</p>
+                <p className="text-xs text-gray-500 mb-0.5">PE Ratio</p>
                 <p className="text-sm font-medium text-gray-900">
                   {peRatio ? peRatio.toFixed(2) : 'N/A'}
                 </p>
@@ -324,7 +324,7 @@ const StockResultsTable = ({
               
               {/* ROE */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">ROE</p>
+                <p className="text-xs text-gray-500 mb-0.5">ROE</p>
                 <p className="text-sm font-semibold text-green-600">
                   {roe ? `${(roe * 100).toFixed(1)}%` : 'N/A'}
                 </p>
@@ -332,7 +332,7 @@ const StockResultsTable = ({
               
               {/* Net Margin */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">Net Margin</p>
+                <p className="text-xs text-gray-500 mb-0.5">Net Margin</p>
                 <p className="text-sm font-semibold text-green-600">
                   {netMargin ? `${(netMargin * 100).toFixed(1)}%` : 'N/A'}
                 </p>
@@ -340,13 +340,13 @@ const StockResultsTable = ({
               
               {/* Current Price & Change */}
               <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">Current Price</p>
-                <p className="text-lg font-bold text-gray-900">
+                <p className="text-xs text-gray-500 mb-0.5">Current Price</p>
+                <p className="text-base font-bold text-gray-900">
                   {currentPrice ? `₹${currentPrice.toFixed(2)}` : 'N/A'}
                 </p>
                 {priceChange !== 0 && (
                   <div className={`flex items-center justify-center gap-1 text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                    {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                    {isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
                     <span>
                       {isPositive ? '+' : ''}{formatFieldValue('change_percent', priceChange)} (3M)
                     </span>
@@ -363,8 +363,8 @@ const StockResultsTable = ({
                 assetType="stock"
                 currentPrice={currentPrice}
                 trigger={
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-3 py-2">
-                    <FolderPlus size={14} className="mr-1" />
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 text-xs">
+                    <FolderPlus size={12} className="mr-1" />
                     Add
                   </Button>
                 }
@@ -378,8 +378,8 @@ const StockResultsTable = ({
 
   return (
     <Card className="mb-4 bg-white/95 backdrop-blur-md border-blue-200">
-      <CardHeader className="pb-3 p-4 sm:p-6">
-        <div className="flex flex-col gap-3">
+      <CardHeader className="pb-2 p-4 sm:p-6">
+        <div className="flex flex-col gap-2">
           <div className="flex items-start justify-between gap-3">
             <CardTitle className="flex flex-col gap-2 text-lg min-w-0 flex-1">
               <span>{primaryAssetType === 'mutual-fund' ? 'Mutual Fund' : 'Stock'} Search Results</span>
@@ -397,18 +397,18 @@ const StockResultsTable = ({
             </Button>
           </div>
           
-          {/* Sorting Controls */}
-          <div className="flex flex-wrap items-center gap-3">
+          {/* Sorting Controls - Better Alignment */}
+          <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg">
             <div className="flex items-center gap-2">
-              <ArrowUpDown size={16} className="text-gray-500" />
+              <ArrowUpDown size={14} className="text-gray-500" />
               <span className="text-sm text-gray-600 font-medium">Sort by:</span>
             </div>
             <div className="flex items-center gap-2">
               <Select value={sortField} onValueChange={setSortField}>
-                <SelectTrigger className="w-48 h-8 text-sm">
+                <SelectTrigger className="w-40 h-8 text-sm bg-white">
                   <SelectValue placeholder="Select field" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border shadow-lg z-50">
                   <SelectItem value="none">No sorting</SelectItem>
                   {sortableFields.map(field => (
                     <SelectItem key={field.key} value={field.key}>
@@ -420,10 +420,10 @@ const StockResultsTable = ({
               
               {sortField && sortField !== 'none' && (
                 <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
-                  <SelectTrigger className="w-32 h-8 text-sm">
+                  <SelectTrigger className="w-28 h-8 text-sm bg-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border shadow-lg z-50">
                     <SelectItem value="desc">High to Low</SelectItem>
                     <SelectItem value="asc">Low to High</SelectItem>
                   </SelectContent>
@@ -444,7 +444,7 @@ const StockResultsTable = ({
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         {/* Results Display */}
-        <div className="space-y-3 mb-6">
+        <div className="space-y-2 mb-6">
           {sortedResults.map((asset, index) => 
             primaryAssetType === 'mutual-fund' ? (
               <CompactMutualFundCard key={`mf-${getDisplayName(asset)}-${index}`} fund={asset} index={index} />
