@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -107,7 +108,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
   const renderStockFilters = () => {
     // Use static sector data for stocks - no backend dependency
-    console.log('🔍 Using static stock sectors:', STOCK_SECTORS);
+    console.log('🔍 Rendering stock filters with static data');
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -491,7 +492,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
 
       {/* Search Button */}
       <div className="flex justify-end pt-4">
-        <Button onClick={onSearch} disabled={isLoading || (assetType !== 'stock' && isLoadingOptions)}>
+        <Button 
+          onClick={onSearch} 
+          disabled={isLoading || (assetType !== 'stock' && isLoadingOptions)}
+        >
           {isLoading ? 'Searching...' : 'Apply Filters & Search'}
         </Button>
       </div>
