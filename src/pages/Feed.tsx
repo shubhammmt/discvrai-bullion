@@ -495,7 +495,7 @@ const Feed = () => {
     }
   };
 
-  // Filter assets from mixed feed based on active filter
+  // Updated filter assets function to work with section-based filtering
   const getFilteredAssets = () => {
     console.log('=== GET FILTERED ASSETS START ===');
     console.log('Active filter:', activeFilter);
@@ -506,74 +506,80 @@ const Feed = () => {
       return [];
     }
     
-    console.log('Available sections:', mixedFeedData.sections.length);
+    console.log('Available sections:', mixedFeedData.sections.map(s => ({ type: s.section_type, itemCount: s.items?.length || 0 })));
     
-    // Extract all items from all sections
-    const allAssets = mixedFeedData.sections.flatMap(section => {
-      console.log('Processing section with items:', section.items?.length || 0);
-      return section.items || [];
-    });
-    
-    console.log('Total assets extracted:', allAssets.length);
-    console.log('Sample asset data:', allAssets[0]);
-    
-    // Map MixedFeedItem to Asset type
-    const mappedAssets = allAssets.map((item: any, index: number) => {
-      console.log(`Mapping asset ${index + 1}:`, item);
-      
-      const mappedAsset = {
-        id: item._id || item.mf_schcode || Math.random(),
-        name: item.scheme_name || item.name || 'Unknown Asset',
-        symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
-        type: item.feed_category || item.main_category || item.asset_type || 'mutual-fund',
-        price: item.nav_price || item.price || 0,
-        change: item.ret_1month || item.change || 0,
-        changePercent: item.ret_1month || item.changePercent || 0,
-        volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
-        latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
-        news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
-        rawData: item // Add raw data for mutual fund display
-      };
-      
-      console.log(`Mapped asset ${index + 1}:`, mappedAsset);
-      return mappedAsset;
-    });
-    
-    console.log('Total mapped assets:', mappedAssets.length);
-    
+    // If "All" is selected, show all items from all sections
     if (activeFilter === 'all') {
-      console.log('Returning all assets (no filter)');
-      return mappedAssets;
+      console.log('Showing all assets from all sections');
+      const allAssets = mixedFeedData.sections.flatMap(section => {
+        return (section.items || []).map((item: any) => ({
+          id: item._id || item.mf_schcode || Math.random(),
+          name: item.scheme_name || item.name || 'Unknown Asset',
+          symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
+          type: item.feed_category || item.main_category || 'mutual-fund',
+          price: item.nav_price || item.price || 0,
+          change: item.ret_1month || item.change || 0,
+          changePercent: item.ret_1month || item.changePercent || 0,
+          volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+          latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+          news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
+          rawData: item
+        }));
+      });
+      console.log('Total assets for "all" filter:', allAssets.length);
+      return allAssets;
     }
     
-    // Filter based on asset type mapping
-    const filterMapping: { [key: string]: string[] } = {
-      'stocks': ['stock', 'equity'],
-      'mutual-funds': ['mutual_fund', 'mf', 'mutual-fund'],
-      'etfs': ['etf'],
-      'bonds': ['bond'],
-      'fd': ['fd', 'fixed_deposit'],
-      'ipo': ['ipo'],
-      'smallcase': ['smallcase'],
-      'credit': ['credit'],
-      'credit-cards': ['credit_card'],
-      'insurance': ['insurance'],
-      'crypto': ['crypto', 'cryptocurrency']
+    // Map filter IDs to section types
+    const filterToSectionMapping: { [key: string]: string } = {
+      'mutual-funds': 'mutual_funds',
+      'stocks': 'stocks', 
+      'ipo': 'ipos',
+      'etfs': 'etfs',
+      'bonds': 'bonds',
+      'fd': 'fixed_deposits',
+      'smallcase': 'smallcase',
+      'credit': 'credit',
+      'credit-cards': 'credit_cards',
+      'insurance': 'insurance',
+      'crypto': 'crypto'
     };
     
-    const allowedTypes = filterMapping[activeFilter] || [];
-    console.log('Filter mapping for', activeFilter, ':', allowedTypes);
+    const targetSectionType = filterToSectionMapping[activeFilter];
+    console.log('Filter mapping:', activeFilter, '->', targetSectionType);
     
-    const filtered = mappedAssets.filter((asset: any) => {
-      const matches = allowedTypes.some(type => 
-        asset.type?.toLowerCase().includes(type)
-      );
-      console.log(`Asset ${asset.name} (${asset.type}) matches filter:`, matches);
-      return matches;
-    });
+    if (!targetSectionType) {
+      console.log('No section mapping found for filter:', activeFilter);
+      return [];
+    }
     
-    console.log('Filtered assets count:', filtered.length);
-    return filtered;
+    // Find the section that matches the filter
+    const targetSection = mixedFeedData.sections.find(section => section.section_type === targetSectionType);
+    
+    if (!targetSection) {
+      console.log('No section found with type:', targetSectionType);
+      return [];
+    }
+    
+    console.log('Found target section with', targetSection.items?.length || 0, 'items');
+    
+    // Map the items from the target section
+    const filteredAssets = (targetSection.items || []).map((item: any) => ({
+      id: item._id || item.mf_schcode || Math.random(),
+      name: item.scheme_name || item.name || 'Unknown Asset',
+      symbol: item.mf_schcode?.toString() || item.symbol || item._id || 'N/A',
+      type: item.feed_category || item.main_category || 'mutual-fund',
+      price: item.nav_price || item.price || 0,
+      change: item.ret_1month || item.change || 0,
+      changePercent: item.ret_1month || item.changePercent || 0,
+      volume: item.current_aum ? `₹${(item.current_aum / 100).toFixed(0)} Cr AUM` : 'N/A',
+      latestEvent: item.launch_date ? `Launched ${new Date(item.launch_date).getFullYear()}` : 'Active',
+      news: `${item.amc_name || 'Fund'} - ${item.main_category || 'Investment'} with ${item.total_expense_ratio || 0}% expense ratio`,
+      rawData: item
+    }));
+    
+    console.log('Filtered assets count:', filteredAssets.length);
+    return filteredAssets;
   };
 
   const filteredAssets = getFilteredAssets();
