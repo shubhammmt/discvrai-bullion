@@ -7,20 +7,19 @@ interface UnitEconomicsSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
-    economics: {
-      cac: { value: string; description: string };
-      ltv: { value: string; description: string };
-      ratio: { value: string; description: string };
-      payback: { value: string; description: string };
+    metrics: {
+      cac: string;
+      ltv: string;
+      ltvCacRatio: string;
+      paybackPeriod: string;
+      grossMargin: string;
     };
-    breakdown: {
-      title: string;
-      components: Array<{
-        source: string;
-        amount: string;
-        description: string;
-      }>;
-    };
+    projections: Array<{
+      timeline: string;
+      users: string;
+      arr: string;
+      milestone: string;
+    }>;
   };
 }
 
@@ -30,58 +29,72 @@ export const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ slide })
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <IconComponent className="w-16 h-16 mx-auto mb-4 text-green-600" />
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">{slide.title}</h2>
+        <IconComponent className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+        <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
-      
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-        <Card className="p-6 text-center bg-gradient-to-br from-red-50 to-orange-50">
-          <CardContent className="space-y-3">
-            <h3 className="text-lg font-bold text-red-600">CAC</h3>
-            <div className="text-3xl font-bold text-red-800">{slide.economics.cac.value}</div>
-            <p className="text-sm text-gray-600">{slide.economics.cac.description}</p>
+
+      {/* Key Metrics */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <Card className="p-4 text-center">
+          <CardContent>
+            <div className="text-2xl font-bold text-purple-600">{slide.metrics.cac}</div>
+            <div className="text-sm text-gray-600">CAC</div>
           </CardContent>
         </Card>
-        <Card className="p-6 text-center bg-gradient-to-br from-green-50 to-blue-50">
-          <CardContent className="space-y-3">
-            <h3 className="text-lg font-bold text-green-600">LTV</h3>
-            <div className="text-3xl font-bold text-green-800">{slide.economics.ltv.value}</div>
-            <p className="text-sm text-gray-600">{slide.economics.ltv.description}</p>
+        <Card className="p-4 text-center">
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">{slide.metrics.ltv}</div>
+            <div className="text-sm text-gray-600">LTV</div>
           </CardContent>
         </Card>
-        <Card className="p-6 text-center bg-gradient-to-br from-blue-50 to-purple-50">
-          <CardContent className="space-y-3">
-            <h3 className="text-lg font-bold text-blue-600">LTV/CAC</h3>
-            <div className="text-3xl font-bold text-blue-800">{slide.economics.ratio.value}</div>
-            <p className="text-sm text-gray-600">{slide.economics.ratio.description}</p>
+        <Card className="p-4 text-center">
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">{slide.metrics.ltvCacRatio}</div>
+            <div className="text-sm text-gray-600">LTV:CAC</div>
           </CardContent>
         </Card>
-        <Card className="p-6 text-center bg-gradient-to-br from-purple-50 to-pink-50">
-          <CardContent className="space-y-3">
-            <h3 className="text-lg font-bold text-purple-600">Payback</h3>
-            <div className="text-3xl font-bold text-purple-800">{slide.economics.payback.value}</div>
-            <p className="text-sm text-gray-600">{slide.economics.payback.description}</p>
+        <Card className="p-4 text-center">
+          <CardContent>
+            <div className="text-2xl font-bold text-orange-600">{slide.metrics.paybackPeriod}</div>
+            <div className="text-sm text-gray-600">Payback</div>
+          </CardContent>
+        </Card>
+        <Card className="p-4 text-center">
+          <CardContent>
+            <div className="text-2xl font-bold text-red-600">{slide.metrics.grossMargin}</div>
+            <div className="text-sm text-gray-600">Gross Margin</div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50">
-        <CardContent>
-          <h3 className="text-2xl font-bold text-center mb-6 text-green-800">{slide.breakdown.title}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {slide.breakdown.components.map((comp, index) => (
-              <div key={index} className="flex justify-between items-center p-4 bg-white rounded-lg">
-                <div>
-                  <p className="font-semibold">{comp.source}</p>
-                  <p className="text-sm text-gray-600">{comp.description}</p>
+      {/* Growth Projections */}
+      <div>
+        <h3 className="text-2xl font-bold text-center mb-6">Growth Projections</h3>
+        <div className="space-y-4">
+          {slide.projections.map((projection, index) => (
+            <Card key={index} className="p-6">
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-gray-900">{projection.timeline}</h4>
+                      <p className="text-sm text-gray-600">{projection.milestone}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-purple-600">{projection.users}</div>
+                    <div className="text-lg font-semibold text-green-600">{projection.arr}</div>
+                  </div>
                 </div>
-                <div className="text-xl font-bold text-green-600">{comp.amount}</div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

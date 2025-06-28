@@ -1,19 +1,20 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { CheckCircle, Users } from 'lucide-react';
 
 interface TeamSlideProps {
   slide: {
     title: string;
+    subtitle: string;
     icon: React.ComponentType<any>;
-    founder: {
+    team: Array<{
       name: string;
+      role: string;
+      background: string[];
       experience: string;
-      points: string[];
-    };
-    keyStrengths: string[];
-    plannedHires: string[];
+    }>;
+    keyHires: string[];
+    executionMilestones: string[];
   };
 }
 
@@ -23,57 +24,69 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
-        <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
+        <IconComponent className="w-16 h-16 mx-auto mb-4 text-orange-600" />
+        <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+        <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
-      
-      {/* Founder Profile */}
-      <Card className="p-8 max-w-5xl mx-auto">
-        <CardContent className="space-y-6">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold text-blue-600">{slide.founder.name}</h3>
-            <p className="text-lg text-gray-600 font-semibold">{slide.founder.experience}</p>
-          </div>
-          <div className="space-y-4">
-            {slide.founder.points.map((point, index) => (
-              <div key={index} className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                <p className="text-gray-700">{point}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Key Strengths */}
-      <Card className="p-6 bg-gradient-to-r from-blue-50 to-green-50">
-        <CardContent>
-          <h3 className="text-xl font-bold text-center mb-6 text-blue-800">Why This Team Can Execute</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {slide.keyStrengths.map((strength, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                <p className="text-gray-700 text-sm">{strength}</p>
+      {/* Team Members */}
+      <div className="space-y-6">
+        {slide.team.map((member, index) => (
+          <Card key={index} className="p-6">
+            <CardContent>
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                  {member.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
+                  <p className="text-orange-600 font-semibold mb-3">{member.role}</p>
+                  <div className="space-y-2 mb-3">
+                    {member.background.map((bg, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <p className="text-sm text-gray-700">{bg}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 italic">{member.experience}</p>
+                </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-      {/* Planned Hires */}
-      <Card className="p-6">
-        <CardContent>
-          <h3 className="text-xl font-bold text-center mb-6 text-purple-800">Key Hires Planned</h3>
-          <div className="space-y-3">
-            {slide.plannedHires.map((hire, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 border border-purple-200 rounded-lg">
-                <Users className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                <p className="text-gray-700 text-sm">{hire}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Key Hires & Execution */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-xl font-bold text-blue-600 mb-4">Key Hires Needed</h3>
+            <div className="space-y-3">
+              {slide.keyHires.map((hire, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{hire}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-xl font-bold text-green-600 mb-4">Execution Milestones</h3>
+            <div className="space-y-3">
+              {slide.executionMilestones.map((milestone, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{milestone}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

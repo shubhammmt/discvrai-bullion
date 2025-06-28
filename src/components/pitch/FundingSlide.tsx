@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp } from 'lucide-react';
 
 interface FundingSlideProps {
   slide: {
@@ -32,74 +31,74 @@ export const FundingSlide: React.FC<FundingSlideProps> = ({ slide }) => {
         <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Budget Allocation */}
-        <div>
-          <h3 className="text-2xl font-bold mb-6">Budget Allocation:</h3>
-          <div className="space-y-4">
-            {slide.allocation.map((item, index) => (
-              <Card key={index} className="p-4">
-                <CardContent className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-green-600">{item.percentage}</span>
-                    <span className="text-lg font-semibold">{item.category}</span>
+
+      {/* Fund Allocation */}
+      <div>
+        <h3 className="text-2xl font-bold text-center mb-6">Fund Allocation</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {slide.allocation.map((item, index) => (
+            <Card key={index} className="p-6">
+              <CardContent>
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                    {item.percentage}
                   </div>
-                  <p className="text-gray-600">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-        
-        {/* Milestones */}
-        <div>
-          <h3 className="text-2xl font-bold mb-6">Key Milestones:</h3>
-          <div className="space-y-4">
-            {slide.milestones.map((milestone, index) => (
-              <Card key={index} className="p-4">
-                <CardContent>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
-                      {index + 1}
-                    </div>
-                    <p className="text-gray-700">{milestone}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <h4 className="text-xl font-bold text-gray-900">{item.category}</h4>
+                </div>
+                <p className="text-gray-700">{item.description}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
-      {/* Competitive Context */}
-      <Card className="p-6 bg-gradient-to-r from-purple-50 to-blue-50">
+      {/* Milestones */}
+      <Card className="p-6 bg-blue-50">
         <CardContent>
-          <h3 className="text-xl font-bold text-center mb-4 text-purple-800">{slide.competitiveContext.title}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {slide.competitiveContext.examples.map((example, index) => (
-              <div key={index} className="text-center p-3 bg-white rounded-lg">
-                <p className="text-sm text-gray-700">{example}</p>
+          <h3 className="text-xl font-bold text-blue-800 mb-4">Key Milestones</h3>
+          <div className="space-y-3">
+            {slide.milestones.map((milestone, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  {index + 1}
+                </div>
+                <p className="text-blue-700">{milestone}</p>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Exit Strategy */}
-      <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50">
-        <CardContent>
-          <h3 className="text-xl font-bold text-center mb-4 text-green-800">Exit Strategy & Valuation</h3>
-          <div className="space-y-3">
-            {slide.exitStrategy.map((strategy, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <TrendingUp className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                <p className="text-gray-700 text-sm">{strategy}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Competitive Context & Exit Strategy */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-xl font-bold text-purple-600 mb-4">{slide.competitiveContext.title}</h3>
+            <div className="space-y-2">
+              {slide.competitiveContext.examples.map((example, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{example}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-xl font-bold text-orange-600 mb-4">Exit Strategy</h3>
+            <div className="space-y-2">
+              {slide.exitStrategy.map((strategy, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{strategy}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
