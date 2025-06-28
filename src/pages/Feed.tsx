@@ -143,22 +143,38 @@ const Feed = () => {
         riskLevel: ['risk_level', 'risk_category']
       },
       ipo: {
-        name: ['name', 'company_name', 'ipo_name'],
-        symbol: ['symbol', 'stock_symbol'],
-        priceRange: ['price_range', 'issue_price'],
-        status: ['status', 'ipo_status'],
-        openDate: ['open_date', 'issue_open_date'],
-        closeDate: ['close_date', 'issue_close_date']
+        name: ['company_name', 'name'],
+        symbol: ['id', 'isin'],
+        status: ['status', 'status_label'],
+        listDate: ['dates.list_date', 'list_date'],
+        issueSize: ['issue_size'],
+        issueSizeClassification: ['issue_size_classification'],
+        exchange: ['exchange'],
+        priceRange: ['price_band'],
+        openDate: ['dates.open_date', 'open_date'],
+        closeDate: ['dates.close_date', 'close_date'],
+        daysLeft: ['dates.days_left', 'days_left']
       }
     };
 
     // Get the appropriate field mapping for the asset type
     const mapping = fieldMappings[assetType as keyof typeof fieldMappings] || fieldMappings.stock;
 
-    // Dynamic field extraction function
+    // Dynamic field extraction function with nested object support
     const getFieldValue = (fieldOptions: string[], defaultValue: any = null) => {
       for (const field of fieldOptions) {
-        if (result[field] !== undefined && result[field] !== null) {
+        // Handle nested object paths like 'dates.list_date'
+        if (field.includes('.')) {
+          const parts = field.split('.');
+          let value = result;
+          for (const part of parts) {
+            value = value?.[part];
+            if (value === undefined || value === null) break;
+          }
+          if (value !== undefined && value !== null) {
+            return value;
+          }
+        } else if (result[field] !== undefined && result[field] !== null) {
           return result[field];
         }
       }
@@ -193,10 +209,10 @@ const Feed = () => {
           {/* Header Section */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-base text-gray-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors">
+              <h3 className="font-semibold text-base text-gray-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors text-center">
                 {asset.name || 'Unknown Asset'}
               </h3>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-2 mt-1 justify-center">
                 <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-md border border-blue-100">
                   {asset.assetType}
                 </span>
@@ -268,6 +284,44 @@ const Feed = () => {
                     </div>
                   )}
                 </div>
+              </div>
+            ) : asset.assetType === 'ipo' ? (
+              // IPO-specific rendering
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-gray-500">Status</p>
+                    <p className="text-sm font-medium text-gray-900 capitalize">
+                      {asset.status || 'N/A'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">List Date</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {asset.listDate || 'N/A'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Issue Size</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {asset.issueSize !== null && asset.issueSize !== undefined ? 
+                        `₹${Number(asset.issueSize).toLocaleString()} Cr` : 'N/A'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Exchange</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {asset.exchange || 'N/A'}
+                    </p>
+                  </div>
+                </div>
+                {asset.issueSizeClassification && (
+                  <div className="text-center">
+                    <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                      {asset.issueSizeClassification}
+                    </span>
+                  </div>
+                )}
               </div>
             ) : (
               // Default rendering for other asset types
@@ -545,13 +599,29 @@ const Feed = () => {
               rawData: item
             };
           }
+          // Handle IPOs
+          else if (section.section_type === 'ipos') {
+            return {
+              id: item.id || Math.random(),
+              name: item.company_name || 'Unknown IPO',
+              symbol: item.id || item.isin || 'N/A',
+              type: 'ipo',
+              price: item.price_band?.max_price || item.price_band?.min_price || 0,
+              change: 0,
+              changePercent: 0,
+              volume: item.issue_size ? `₹${item.issue_size} Cr` : 'N/A',
+              latestEvent: item.status_label || item.status || 'IPO',
+              news: `${item.company_name} IPO - ${item.issue_size_classification || 'Investment opportunity'}`,
+              rawData: item
+            };
+          }
           // Handle other asset types
           else {
             return {
               id: item._id || Math.random(),
               name: item.name || item.scheme_name || item.company_name || 'Unknown Asset',
               symbol: item.symbol || item.mf_schcode || item._id || 'N/A',
-              type: section.section_type === 'mutual_funds' ? 'mutual-fund' : (section.section_type === 'stocks' ? 'stock' : 'other'),
+              type: section.section_type === 'mutual_funds' ? 'mutual-fund' : (section.section_type === 'stocks' ? 'stock' : (section.section_type === 'ipos' ? 'ipo' : 'other')),
               price: item.nav_price || item.current_price || item.price || 0,
               change: item.ret_1month || item.price_momentum_3m || item.change || 0,
               changePercent: item.ret_1month || item.price_momentum_3m || item.changePercent || 0,
@@ -634,13 +704,29 @@ const Feed = () => {
           rawData: item
         };
       }
+      // Handle IPOs specifically
+      else if (targetSection.section_type === 'ipos') {
+        return {
+          id: item.id || Math.random(),
+          name: item.company_name || 'Unknown IPO',
+          symbol: item.id || item.isin || 'N/A',
+          type: 'ipo',
+          price: item.price_band?.max_price || item.price_band?.min_price || 0,
+          change: 0,
+          changePercent: 0,
+          volume: item.issue_size ? `₹${item.issue_size} Cr` : 'N/A',
+          latestEvent: item.status_label || item.status || 'IPO',
+          news: `${item.company_name} IPO - ${item.issue_size_classification || 'Investment opportunity'}`,
+          rawData: item
+        };
+      }
       // Handle other asset types
       else {
         return {
           id: item._id || Math.random(),
           name: item.name || item.scheme_name || item.company_name || 'Unknown Asset',
           symbol: item.symbol || item.mf_schcode || item._id || 'N/A',
-          type: targetSection.section_type === 'mutual_funds' ? 'mutual-fund' : (targetSection.section_type === 'stocks' ? 'stock' : 'other'),
+          type: targetSection.section_type === 'mutual_funds' ? 'mutual-fund' : (targetSection.section_type === 'stocks' ? 'stock' : (targetSection.section_type === 'ipos' ? 'ipo' : 'other')),
           price: item.nav_price || item.current_price || item.price || 0,
           change: item.ret_1month || item.price_momentum_3m || item.change || 0,
           changePercent: item.ret_1month || item.price_momentum_3m || item.changePercent || 0,
