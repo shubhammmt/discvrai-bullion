@@ -5,20 +5,17 @@ import { Card, CardContent } from '@/components/ui/card';
 interface TargetPersonaSlideProps {
   slide: {
     title: string;
+    subtitle: string;
     icon: React.ComponentType<any>;
     persona: {
       demographics: {
         age: string;
         income: string;
         location: string;
-        role: string;
+        profile: string;
       };
-      behavior: {
-        tech: string;
-        finance: string;
-        goals: string;
-        preferences: string;
-      };
+      behavior: string[];
+      needs: string[];
       painPoints: string[];
     };
   };
@@ -30,47 +27,74 @@ export const TargetPersonaSlide: React.FC<TargetPersonaSlideProps> = ({ slide })
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
-        <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
+        <IconComponent className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+        <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
+        <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <Card className="p-6 bg-gradient-to-br from-blue-50 to-purple-50">
-            <CardContent className="space-y-4">
-              <h3 className="text-xl font-bold text-blue-600">Demographics</h3>
-              <div className="space-y-2">
-                <p><strong>Age:</strong> {slide.persona.demographics.age}</p>
-                <p><strong>Income:</strong> {slide.persona.demographics.income}</p>
-                <p><strong>Location:</strong> {slide.persona.demographics.location}</p>
-                <p><strong>Role:</strong> {slide.persona.demographics.role}</p>
-              </div>
-            </CardContent>
-          </Card>
 
-          <Card className="p-6 bg-gradient-to-br from-green-50 to-blue-50">
-            <CardContent className="space-y-4">
-              <h3 className="text-xl font-bold text-green-600">Behavior</h3>
-              <div className="space-y-2">
-                <p><strong>Tech:</strong> {slide.persona.behavior.tech}</p>
-                <p><strong>Finance:</strong> {slide.persona.behavior.finance}</p>
-                <p><strong>Goals:</strong> {slide.persona.behavior.goals}</p>
-                <p><strong>Preferences:</strong> {slide.persona.behavior.preferences}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      {/* Demographics */}
+      <Card className="p-6 bg-purple-50">
+        <CardContent>
+          <h3 className="text-xl font-bold text-purple-800 mb-4">Demographics</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center">
+              <div className="font-semibold text-purple-700">Age</div>
+              <div className="text-sm">{slide.persona.demographics.age}</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-purple-700">Income</div>
+              <div className="text-sm">{slide.persona.demographics.income}</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-purple-700">Location</div>
+              <div className="text-sm">{slide.persona.demographics.location}</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-purple-700">Profile</div>
+              <div className="text-sm">{slide.persona.demographics.profile}</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <Card className="p-6 h-fit">
-          <CardContent className="space-y-4">
-            <h3 className="text-xl font-bold text-red-600">Key Pain Points</h3>
+      {/* Behavior, Needs, Pain Points */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-lg font-bold text-blue-600 mb-4">Behavior</h3>
             <div className="space-y-3">
-              {slide.persona.painPoints.map((pain, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
-                  <div className="w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
-                    {index + 1}
-                  </div>
-                  <p className="text-gray-700">{pain}</p>
+              {slide.persona.behavior.map((item, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{item}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-lg font-bold text-green-600 mb-4">Needs</h3>
+            <div className="space-y-3">
+              {slide.persona.needs.map((item, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{item}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-lg font-bold text-red-600 mb-4">Pain Points</h3>
+            <div className="space-y-3">
+              {slide.persona.painPoints.map((item, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-700">{item}</p>
                 </div>
               ))}
             </div>
