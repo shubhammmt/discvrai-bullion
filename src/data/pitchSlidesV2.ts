@@ -1,4 +1,3 @@
-
 import { 
   Building2, 
   AlertTriangle, 
@@ -241,7 +240,7 @@ export const pitchSlidesV2 = [
           'Referral programs and early adopter community',
           'Fintech partnership integrations'
         ],
-        metrics: '50K users, ₹1.9Cr ARR'
+        metrics: '50K users, Product-Market Fit validation'
       },
       {
         phase: 'Phase 2: Tier-1 City Expansion',
@@ -253,19 +252,19 @@ export const pitchSlidesV2 = [
           'App store optimization and organic growth',
           'B2B partnership channel development'
         ],
-        metrics: '200K users, ₹7.6Cr ARR'
+        metrics: '200K users, Tier-1 cities coverage'
       },
       {
         phase: 'Phase 3: Scale and Optimize',
         timeline: 'Months 12-18',
-        target: '500K users',
+        target: '1M users',
         strategy: [
-          'Tier-2 city expansion and market penetration',
+          'National expansion and market penetration',
           'Word-of-mouth and platform virality',
           'Enterprise partnerships and white-labeling',
           'Advanced AI features and premium services'
         ],
-        metrics: '500K users, ₹19Cr ARR'
+        metrics: '1M users, Market leadership position'
       }
     ]
   },
