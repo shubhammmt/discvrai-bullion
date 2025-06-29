@@ -1,10 +1,10 @@
+
 import { 
   Building2, 
   AlertTriangle, 
   Zap, 
   Target, 
   Users, 
-  DollarSign, 
   TrendingUp, 
   Shield, 
   Cpu, 
@@ -176,54 +176,7 @@ export const pitchSlidesV2 = [
     }
   },
 
-  // Slide 6: Revenue Model
-  {
-    type: 'revenue-model',
-    title: 'Aggregation + Intelligence + Transactions',
-    subtitle: 'Three-Layer Revenue Strategy',
-    icon: DollarSign,
-    revenueStreams: [
-      {
-        name: 'Platform Subscription',
-        timeline: 'Month 1',
-        structure: 'Freemium Model',
-        details: [
-          'Free: Basic aggregation and insights',
-          'Premium: ₹799/month - Advanced AI insights',
-          'Target: 12% premium conversion',
-          'Revenue: ₹1,200/user/year'
-        ],
-        color: 'bg-blue-500'
-      },
-      {
-        name: 'Transaction Commissions',
-        timeline: 'Month 2',
-        structure: 'Commission-Based',
-        details: [
-          'Stock trading: ₹20 per transaction',
-          'Mutual fund: 0.5% trail commission',
-          'Insurance: 15-20% first year premium',
-          'Credit products: ₹1,500-3,000 per approval'
-        ],
-        color: 'bg-green-500'
-      },
-      {
-        name: 'Intelligence Services',
-        timeline: 'Month 6',
-        structure: 'Value-Added Services',
-        details: [
-          'Portfolio optimization: ₹1,999/year',
-          'Tax planning service: ₹2,999/year',
-          'Personalized advisory: ₹4,999/year',
-          'Revenue: ₹800/user/year'
-        ],
-        color: 'bg-purple-500'
-      }
-    ],
-    totalArpu: '₹3,800/year by Month 12'
-  },
-
-  // Slide 7: Go-to-Market Strategy
+  // Slide 6: Go-to-Market Strategy
   {
     type: 'go-to-market',
     title: 'Urban Professionals First',
@@ -269,7 +222,7 @@ export const pitchSlidesV2 = [
     ]
   },
 
-  // Slide 8: Competitive Differentiation
+  // Slide 7: Competitive Differentiation
   {
     type: 'competition',
     title: 'Clear Competitive Differentiation',
@@ -310,7 +263,7 @@ export const pitchSlidesV2 = [
     uniquePosition: 'Only platform combining complete aggregation + intelligent insights + seamless execution'
   },
 
-  // Slide 9: Technology Foundation
+  // Slide 8: Technology Foundation
   {
     type: 'tech-foundation',
     title: 'AA-Powered Technology Stack',
@@ -348,7 +301,7 @@ export const pitchSlidesV2 = [
     dataAdvantage: 'Legal access to comprehensive financial data through AA framework'
   },
 
-  // Slide 10: User Growth & Milestones
+  // Slide 9: User Growth & Milestones
   {
     type: 'unit-economics',
     title: 'Path to 1M Users in 18 Months',
@@ -389,7 +342,7 @@ export const pitchSlidesV2 = [
     ]
   },
 
-  // Slide 11: Team & Execution
+  // Slide 10: Team & Execution
   {
     type: 'team',
     title: 'Execution-Ready Leadership',
@@ -420,7 +373,7 @@ export const pitchSlidesV2 = [
     ]
   },
 
-  // Slide 12: Funding Requirements
+  // Slide 11: Funding Requirements
   {
     type: 'funding',
     title: '$1.5M Seed Round',
