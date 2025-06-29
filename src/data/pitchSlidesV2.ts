@@ -349,11 +349,11 @@ export const pitchSlidesV2 = [
     dataAdvantage: 'Legal access to comprehensive financial data through AA framework'
   },
 
-  // Slide 10: Unit Economics & Growth
+  // Slide 10: User Growth & Milestones
   {
     type: 'unit-economics',
-    title: 'Strong Unit Economics by Month 18',
-    subtitle: 'Path to Profitability',
+    title: 'Path to 1M Users in 18 Months',
+    subtitle: 'User-Focused Growth Strategy',
     icon: TrendingUp,
     metrics: {
       cac: '₹1,500',
@@ -366,26 +366,26 @@ export const pitchSlidesV2 = [
       {
         timeline: 'Month 6',
         users: '50K',
-        arr: '₹1.9Cr',
+        arr: 'Product-Market Fit',
         milestone: 'Basic aggregation + insights'
       },
       {
         timeline: 'Month 12',
         users: '200K',
-        arr: '₹7.6Cr',
+        arr: 'Tier-1 Cities Coverage',
         milestone: 'Full transaction capabilities'
       },
       {
         timeline: 'Month 18',
-        users: '500K',
-        arr: '₹19Cr',
-        milestone: 'Series A ready'
+        users: '1M',
+        arr: 'National Scale',
+        milestone: 'Market leadership position'
       },
       {
         timeline: 'Month 24',
-        users: '1M',
-        arr: '₹38Cr',
-        milestone: 'Market leadership'
+        users: '2M+',
+        arr: 'Series A Success',
+        milestone: 'Platform dominance'
       }
     ]
   },
@@ -411,7 +411,7 @@ export const pitchSlidesV2 = [
     keyHires: [
       'CTO with fintech + AA experience',
       'Head of Product - AI/ML focus',
-      'VP Business Development - Partnership focus'
+      'Head of Growth - User acquisition and retention focus'
     ],
     executionMilestones: [
       'Q1: Core aggregation, AA integration, basic insights',
@@ -424,7 +424,7 @@ export const pitchSlidesV2 = [
   // Slide 12: Funding Requirements
   {
     type: 'funding',
-    title: '₹12Cr ($1.5M) Seed Round',
+    title: '$1.5M Seed Round',
     subtitle: 'Building India\'s Financial Operating System',
     icon: Wallet,
     allocation: [
@@ -451,8 +451,8 @@ export const pitchSlidesV2 = [
     ],
     milestones: [
       'Month 6: 50K users with complete portfolio aggregation',
-      'Month 12: ₹7.6Cr ARR with profitable unit economics',
-      'Month 18: Series A ready with 500K users and proven scalability'
+      'Month 12: 200K users with proven product-market fit',
+      'Month 18: 1M users and Series A readiness'
     ],
     competitiveContext: {
       title: 'Market Validation & Funding Landscape',
