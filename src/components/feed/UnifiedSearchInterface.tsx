@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -95,7 +96,7 @@ const UnifiedSearchInterface = ({
       'Large cap mutual funds',
       'Recent IPOs'
     ],
-    mutual-fund: [
+    'mutual-fund': [
       'High dividend yield funds',
       'Growth mutual funds',
       'Value mutual funds'
