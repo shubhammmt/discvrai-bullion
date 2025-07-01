@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -51,6 +52,14 @@ const UnifiedSearchInterface = ({
     };
 
     onSearch(searchRequest);
+    
+    // Scroll to results section after triggering search
+    setTimeout(() => {
+      const resultsSection = document.querySelector('[data-results-section]');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -82,6 +91,14 @@ const UnifiedSearchInterface = ({
         };
         
         onSearch(searchRequest);
+        
+        // Also trigger scroll to results
+        setTimeout(() => {
+          const resultsSection = document.querySelector('[data-results-section]');
+          if (resultsSection) {
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 200);
       }, 0);
     }
   };
