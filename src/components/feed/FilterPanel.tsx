@@ -169,7 +169,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <div>
             <Label htmlFor="sector">Sector</Label>
             <Select 
-              value={Array.isArray(filters.sector) ? filters.sector[0] : filters.sector || ''}
+              value={Array.isArray(filters.sector) ? filters.sector[0] || '' : filters.sector || ''}
               onValueChange={(value) => updateFilter('sector', [value])}
             >
               <SelectTrigger>
