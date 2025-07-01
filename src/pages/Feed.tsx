@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -795,7 +794,7 @@ const Feed = () => {
           <UnifiedSearchInterface
             onSearch={handleUnifiedSearch}
             isLoading={isSearching}
-            nlpAnalysis={searchResults?.nlp_analysis}
+            intentAnalysis={searchResults?.intent_analysis}
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />
