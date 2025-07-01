@@ -36,8 +36,44 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
   console.log('Boolean check - !!confidence_reasoning:', !!confidence_reasoning);
   console.log('Boolean check - !!intent_analysis?.confidence_reasoning:', !!intent_analysis?.confidence_reasoning);
 
-  // Get confidence reasoning from either location
-  const actualConfidenceReasoning = intent_analysis?.confidence_reasoning || confidence_reasoning;
+  // Try multiple ways to get the confidence reasoning
+  let actualConfidenceReasoning = null;
+  
+  // Method 1: Direct access to intent_analysis.confidence_reasoning
+  if (intent_analysis && intent_analysis.confidence_reasoning) {
+    actualConfidenceReasoning = intent_analysis.confidence_reasoning;
+    console.log('Method 1 - Found confidence_reasoning in intent_analysis:', actualConfidenceReasoning);
+  }
+  
+  // Method 2: Top-level confidence_reasoning
+  if (!actualConfidenceReasoning && confidence_reasoning) {
+    actualConfidenceReasoning = confidence_reasoning;
+    console.log('Method 2 - Found confidence_reasoning at top level:', actualConfidenceReasoning);
+  }
+  
+  // Method 3: Try accessing as a property with bracket notation
+  if (!actualConfidenceReasoning && intent_analysis && intent_analysis['confidence_reasoning']) {
+    actualConfidenceReasoning = intent_analysis['confidence_reasoning'];
+    console.log('Method 3 - Found confidence_reasoning with bracket notation:', actualConfidenceReasoning);
+  }
+  
+  // Method 4: Check if it's nested deeper or named differently
+  if (!actualConfidenceReasoning && analysis) {
+    const keys = Object.keys(analysis);
+    console.log('All keys in analysis object:', keys);
+    
+    // Check for any field that might contain reasoning
+    for (const key of keys) {
+      const value = analysis[key as keyof typeof analysis];
+      if (typeof value === 'string' && (key.includes('reasoning') || key.includes('message'))) {
+        console.log(`Found potential reasoning field: ${key} = ${value}`);
+        if (!actualConfidenceReasoning) {
+          actualConfidenceReasoning = value;
+        }
+      }
+    }
+  }
+
   console.log('Final actualConfidenceReasoning:', actualConfidenceReasoning);
   console.log('Type of actualConfidenceReasoning:', typeof actualConfidenceReasoning);
   console.log('Length of actualConfidenceReasoning:', actualConfidenceReasoning?.length);
