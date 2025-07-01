@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,12 +9,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, Sparkles, Filter, Loader2, ChevronDown, ChevronRight } from 'lucide-react';
 import FilterPanel from './FilterPanel';
 import NLPFilterDisplay from './NLPFilterDisplay';
-import { UnifiedSearchRequest, NLPAnalysis } from '@/utils/unifiedSearchApi';
+import { UnifiedSearchRequest } from '@/utils/unifiedSearchApi';
 
 interface UnifiedSearchInterfaceProps {
   onSearch: (searchRequest: UnifiedSearchRequest) => void;
   isLoading: boolean;
-  nlpAnalysis?: NLPAnalysis;
+  nlpAnalysis?: any;
   currentPage?: number;
   onPageChange?: (page: number) => void;
   onIPOStatusChange?: (status: string) => void;
@@ -47,7 +48,6 @@ const UnifiedSearchInterface = ({
       const searchRequest: UnifiedSearchRequest = {
         query: query.trim(),
         assetType,
-        searchType: 'nlp',
         page: currentPage,
         pageSize: 20
       };
@@ -63,7 +63,6 @@ const UnifiedSearchInterface = ({
       const searchRequest: UnifiedSearchRequest = {
         query: `Advanced filter search`,
         assetType,
-        searchType: 'filters',
         filters: searchFilters,
         page: currentPage,
         pageSize: 20
@@ -209,8 +208,9 @@ const UnifiedSearchInterface = ({
         {nlpAnalysis && searchMode === 'nlp' && (
           <div className="mt-4">
             <NLPFilterDisplay 
-              nlpAnalysis={nlpAnalysis}
+              analysis={nlpAnalysis}
               onFiltersChange={setFilters}
+              onSearch={handleSearch}
             />
           </div>
         )}

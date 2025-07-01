@@ -96,9 +96,9 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
   };
 
   const renderStockFilters = () => {
-    if (!filterOptions?.stock) return null;
+    if (!filterOptions?.stocks) return null;
 
-    const stockOptions = filterOptions.stock;
+    const stockOptions = filterOptions.stocks;
 
     return (
       <div className="space-y-4">
@@ -186,9 +186,9 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
   };
 
   const renderMutualFundFilters = () => {
-    if (!filterOptions?.mutual_fund) return null;
+    if (!filterOptions?.mutual_funds) return null;
 
-    const mfOptions = filterOptions.mutual_fund;
+    const mfOptions = filterOptions.mutual_funds;
 
     return (
       <div className="space-y-4">

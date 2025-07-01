@@ -8,7 +8,6 @@ import AssetCard from '@/components/AssetCard';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
-import IPOStatusDropdown from '@/components/feed/IPOStatusDropdown';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
