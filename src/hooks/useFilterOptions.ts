@@ -20,7 +20,7 @@ export const useFilterOptions = () => {
         
         if (response.success && response.data) {
           setFilterOptions(response.data);
-          setError(null);
+          setError(null); // Explicitly clear any previous errors
         } else {
           setError(response.error || 'Failed to fetch filter options');
         }

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,6 @@ const Feed = () => {
   console.log('=== FEED COMPONENT RENDER START ===');
   
   const [activeFilter, setActiveFilter] = useState('all');
-  const [ipoStatusFilter, setIpoStatusFilter] = useState('upcoming');
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -94,17 +94,6 @@ const Feed = () => {
 
   const handleAutocompleteSelect = (result: AutocompleteResult) => {
     console.log('Selected result:', result);
-  };
-
-  const handleIPOStatusChange = (status: string) => {
-    console.log('IPO status changed to:', status);
-    setIpoStatusFilter(status);
-    
-    // Scroll to IPO section
-    const ipoSection = document.querySelector('[data-section="ipos"]');
-    if (ipoSection) {
-      ipoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   const filters = [
@@ -559,11 +548,10 @@ const Feed = () => {
     }
   };
 
-  // Updated filter assets function to work with section-based filtering and IPO status filtering
+  // Updated filter assets function to work with section-based filtering
   const getFilteredAssets = () => {
     console.log('=== GET FILTERED ASSETS START ===');
     console.log('Active filter:', activeFilter);
-    console.log('IPO status filter:', ipoStatusFilter);
     console.log('Mixed feed data:', mixedFeedData);
     
     if (!mixedFeedData?.sections) {
@@ -573,7 +561,7 @@ const Feed = () => {
     
     console.log('Available sections:', mixedFeedData.sections.map(s => ({ type: s.section_type, itemCount: s.items?.length || 0 })));
     
-    // If "All" is selected, show all items from all sections (except IPOs which need status filtering)
+    // If "All" is selected, show all items from all sections
     if (activeFilter === 'all') {
       console.log('Showing all assets from all sections');
       const allAssets = mixedFeedData.sections.flatMap(section => {
@@ -610,12 +598,8 @@ const Feed = () => {
               rawData: item
             };
           }
-          // Handle IPOs with status filtering
+          // Handle IPOs
           else if (section.section_type === 'ipos') {
-            // Filter IPOs based on status
-            if (item.status !== ipoStatusFilter) {
-              return null;
-            }
             return {
               id: item.id || Math.random(),
               name: item.company_name || 'Unknown IPO',
@@ -647,7 +631,7 @@ const Feed = () => {
             };
           }
         });
-      }).filter(Boolean); // Remove null IPO entries that don't match status filter
+      });
       console.log('Total assets for "all" filter:', allAssets.length);
       return allAssets;
     }
@@ -719,12 +703,8 @@ const Feed = () => {
           rawData: item
         };
       }
-      // Handle IPOs specifically with status filtering
+      // Handle IPOs specifically
       else if (targetSection.section_type === 'ipos') {
-        // Filter IPOs based on status
-        if (item.status !== ipoStatusFilter) {
-          return null;
-        }
         return {
           id: item.id || Math.random(),
           name: item.company_name || 'Unknown IPO',
@@ -755,7 +735,7 @@ const Feed = () => {
           rawData: item
         };
       }
-    }).filter(Boolean); // Remove null IPO entries that don't match status filter
+    });
     
     console.log('Filtered assets count:', filteredAssets.length);
     return filteredAssets;
@@ -818,8 +798,6 @@ const Feed = () => {
             nlpAnalysis={searchResults?.nlp_analysis}
             currentPage={currentPage}
             onPageChange={handlePageChange}
-            onIPOStatusChange={handleIPOStatusChange}
-            selectedIPOStatus={ipoStatusFilter}
           />
         </div>
 
@@ -858,25 +836,22 @@ const Feed = () => {
             </div>
           </div>
 
-          {/* IPO Section with data-section attribute */}
-          <div data-section="ipos">
-            {/* Asset Cards in Single Column */}
-            {filteredAssets.length > 0 ? (
-              <div className="space-y-3">
-                {filteredAssets.map((asset: any) => (
-                  <AssetCard key={asset.id} asset={asset} showReason={false} />
-                ))}
-              </div>
-            ) : (
-              !isMixedFeedLoading && (
-                <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                  <CardContent className="p-4 sm:p-6 text-center">
-                    <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
-                  </CardContent>
-                </Card>
-              )
-            )}
-          </div>
+          {/* Asset Cards in Single Column */}
+          {filteredAssets.length > 0 ? (
+            <div className="space-y-3">
+              {filteredAssets.map((asset: any) => (
+                <AssetCard key={asset.id} asset={asset} showReason={false} />
+              ))}
+            </div>
+          ) : (
+            !isMixedFeedLoading && (
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardContent className="p-4 sm:p-6 text-center">
+                  <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
+                </CardContent>
+              </Card>
+            )
+          )}
         </div>
       </div>
     </div>
