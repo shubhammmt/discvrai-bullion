@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,13 +11,14 @@ interface NLPFilterDisplayProps {
     confidence: number;
     suggestions: string[];
     original_query: string;
+    confidence_reasoning?: string;
   };
   onFiltersChange: (filters: SearchFilters) => void;
   onSearch: () => void;
 }
 
 const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisplayProps) => {
-  const { interpreted_filters, confidence, suggestions, original_query } = analysis;
+  const { interpreted_filters, confidence, suggestions, original_query, confidence_reasoning } = analysis;
 
   const getConfidenceColor = (confidence: number) => {
     if (confidence >= 0.8) return 'text-green-600';
@@ -73,9 +73,16 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
               <strong>Your query:</strong> "{original_query}"
             </p>
           </div>
-          <p className="text-xs sm:text-sm text-gray-700 font-medium">
-            I understood this as:
-          </p>
+          <div className="space-y-1">
+            <p className="text-xs sm:text-sm text-gray-700 font-medium">
+              I understood this as:
+            </p>
+            {confidence_reasoning && (
+              <div className="bg-white/60 p-2 rounded text-xs sm:text-sm">
+                <p className="text-gray-700 break-words">{confidence_reasoning}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Interpreted Filters */}
