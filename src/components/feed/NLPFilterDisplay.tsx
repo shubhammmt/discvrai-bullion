@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -82,6 +81,8 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
               <strong>Your query:</strong> "{original_query}"
             </p>
           </div>
+          
+          {/* Commented out "I understood this as:" section
           <div className="space-y-1">
             <p className="text-xs sm:text-sm text-gray-700 font-medium">
               I understood this as:
@@ -92,6 +93,7 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
               </div>
             )}
           </div>
+          */}
         </div>
 
         {/* Interpreted Filters */}
@@ -149,4 +151,3 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
 };
 
 export default NLPFilterDisplay;
-
