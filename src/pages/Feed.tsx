@@ -97,6 +97,17 @@ const Feed = () => {
     console.log('Selected result:', result);
   };
 
+  const handleIPOStatusChange = (status: string) => {
+    console.log('IPO status changed to:', status);
+    setIpoStatusFilter(status);
+    
+    // Scroll to IPO section
+    const ipoSection = document.querySelector('[data-section="ipos"]');
+    if (ipoSection) {
+      ipoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const filters = [
     { id: 'all', label: 'All' },
     { id: 'stocks', label: 'Stocks' },
@@ -808,6 +819,8 @@ const Feed = () => {
             nlpAnalysis={searchResults?.nlp_analysis}
             currentPage={currentPage}
             onPageChange={handlePageChange}
+            onIPOStatusChange={handleIPOStatusChange}
+            selectedIPOStatus={ipoStatusFilter}
           />
         </div>
 
@@ -846,32 +859,25 @@ const Feed = () => {
             </div>
           </div>
 
-          {/* IPO Status Dropdown - Only show when IPO filter is active */}
-          {activeFilter === 'ipo' && (
-            <div className="flex justify-start">
-              <IPOStatusDropdown
-                selectedStatus={ipoStatusFilter}
-                onStatusChange={setIpoStatusFilter}
-              />
-            </div>
-          )}
-
-          {/* Asset Cards in Single Column */}
-          {filteredAssets.length > 0 ? (
-            <div className="space-y-3">
-              {filteredAssets.map((asset: any) => (
-                <AssetCard key={asset.id} asset={asset} showReason={false} />
-              ))}
-            </div>
-          ) : (
-            !isMixedFeedLoading && (
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
-                </CardContent>
-              </Card>
-            )
-          )}
+          {/* IPO Section with data-section attribute */}
+          <div data-section="ipos">
+            {/* Asset Cards in Single Column */}
+            {filteredAssets.length > 0 ? (
+              <div className="space-y-3">
+                {filteredAssets.map((asset: any) => (
+                  <AssetCard key={asset.id} asset={asset} showReason={false} />
+                ))}
+              </div>
+            ) : (
+              !isMixedFeedLoading && (
+                <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                  <CardContent className="p-4 sm:p-6 text-center">
+                    <p className="text-gray-600 text-sm">No assets found for the selected filter.</p>
+                  </CardContent>
+                </Card>
+              )
+            )}
+          </div>
         </div>
       </div>
     </div>
