@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -281,7 +280,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <div>
             <Label htmlFor="category">Category</Label>
             <Select 
-              value={filters.category || ''}
+              value={Array.isArray(filters.category) ? filters.category[0] || '' : filters.category || ''}
               onValueChange={(value) => updateFilter('category', value)}
             >
               <SelectTrigger>
@@ -303,7 +302,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <div>
             <Label htmlFor="riskLevel">Risk Level</Label>
             <Select 
-              value={filters.risk_level || ''}
+              value={Array.isArray(filters.risk_level) ? filters.risk_level[0] || '' : filters.risk_level || ''}
               onValueChange={(value) => updateFilter('risk_level', value)}
             >
               <SelectTrigger>
@@ -325,7 +324,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <div>
             <Label htmlFor="amcName">Asset Management Company</Label>
             <Select 
-              value={filters.amc_name || ''}
+              value={Array.isArray(filters.amc_name) ? filters.amc_name[0] || '' : filters.amc_name || ''}
               onValueChange={(value) => updateFilter('amc_name', value)}
             >
               <SelectTrigger>
@@ -457,7 +456,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <div>
             <Label htmlFor="planType">Plan Type</Label>
             <Select 
-              value={filters.plan_type || ''}
+              value={Array.isArray(filters.plan_type) ? filters.plan_type[0] || '' : filters.plan_type || ''}
               onValueChange={(value) => updateFilter('plan_type', value === 'null' ? null : value)}
             >
               <SelectTrigger>
@@ -499,7 +498,7 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           <div>
             <Label htmlFor="status">IPO Status</Label>
             <Select 
-              value={filters.status || ''}
+              value={Array.isArray(filters.status) ? filters.status[0] || '' : filters.status || ''}
               onValueChange={(value) => updateFilter('status', value)}
             >
               <SelectTrigger>
