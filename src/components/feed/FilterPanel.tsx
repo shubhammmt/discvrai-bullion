@@ -30,7 +30,7 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
   const [filters, setFilters] = useState<any>({});
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
   
-  const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions(assetType);
+  const { filterOptions, isLoading: isLoadingOptions, error: optionsError } = useFilterOptions();
   
   console.log('🔍 FilterPanel state:', {
     assetType,
@@ -103,44 +103,36 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
     return (
       <div className="space-y-4">
         {/* Market Cap */}
-        {stockOptions.market_cap && (
+        {stockOptions.market_cap_ranges && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Market Cap (₹ Cr)</Label>
-            <div className="px-2">
-              <Slider
-                value={filters.market_cap || [stockOptions.market_cap.min, stockOptions.market_cap.max]}
-                onValueChange={(value) => handleFilterChange('market_cap', value)}
-                min={stockOptions.market_cap.min}
-                max={stockOptions.market_cap.max}
-                step={1000}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>₹{(filters.market_cap?.[0] || stockOptions.market_cap.min).toLocaleString()}</span>
-                <span>₹{(filters.market_cap?.[1] || stockOptions.market_cap.max).toLocaleString()}</span>
-              </div>
-            </div>
+            <Label className="text-sm font-medium">Market Cap Range</Label>
+            <Select onValueChange={(value) => handleFilterChange('market_cap_range', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select market cap range" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {stockOptions.market_cap_ranges.map((range: any) => (
+                  <SelectItem key={range.label} value={range.label}>{range.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
         {/* PE Ratio */}
-        {stockOptions.pe_ratio && (
+        {stockOptions.pe_ratio_ranges && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">P/E Ratio</Label>
-            <div className="px-2">
-              <Slider
-                value={filters.pe_ratio || [stockOptions.pe_ratio.min, stockOptions.pe_ratio.max]}
-                onValueChange={(value) => handleFilterChange('pe_ratio', value)}
-                min={stockOptions.pe_ratio.min}
-                max={stockOptions.pe_ratio.max}
-                step={0.1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>{(filters.pe_ratio?.[0] || stockOptions.pe_ratio.min).toFixed(1)}</span>
-                <span>{(filters.pe_ratio?.[1] || stockOptions.pe_ratio.max).toFixed(1)}</span>
-              </div>
-            </div>
+            <Label className="text-sm font-medium">P/E Ratio Range</Label>
+            <Select onValueChange={(value) => handleFilterChange('pe_ratio_range', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select P/E ratio range" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {stockOptions.pe_ratio_ranges.map((range: any) => (
+                  <SelectItem key={range.label} value={range.label}>{range.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
@@ -153,8 +145,8 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
                 <SelectValue placeholder="Select sector" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                {stockOptions.sectors.map((sector: string) => (
-                  <SelectItem key={sector} value={sector}>{sector}</SelectItem>
+                {stockOptions.sectors.map((sector: any) => (
+                  <SelectItem key={sector.value} value={sector.value}>{sector.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -162,23 +154,19 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
         )}
 
         {/* Price Range */}
-        {stockOptions.price_range && (
+        {stockOptions.price_ranges && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Price Range (₹)</Label>
-            <div className="px-2">
-              <Slider
-                value={filters.price_range || [stockOptions.price_range.min, stockOptions.price_range.max]}
-                onValueChange={(value) => handleFilterChange('price_range', value)}
-                min={stockOptions.price_range.min}
-                max={stockOptions.price_range.max}
-                step={10}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>₹{(filters.price_range?.[0] || stockOptions.price_range.min).toLocaleString()}</span>
-                <span>₹{(filters.price_range?.[1] || stockOptions.price_range.max).toLocaleString()}</span>
-              </div>
-            </div>
+            <Label className="text-sm font-medium">Price Range</Label>
+            <Select onValueChange={(value) => handleFilterChange('price_range', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select price range" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {stockOptions.price_ranges.map((range: any) => (
+                  <SelectItem key={range.label} value={range.label}>{range.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
       </div>
@@ -201,8 +189,8 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                {mfOptions.categories.map((category: string) => (
-                  <SelectItem key={category} value={category}>{category}</SelectItem>
+                {mfOptions.categories.map((category: any) => (
+                  <SelectItem key={category.value} value={category.value}>{category.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -210,65 +198,53 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
         )}
 
         {/* AUM Range */}
-        {mfOptions.aum_range && (
+        {mfOptions.aum_ranges && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">AUM (₹ Cr)</Label>
-            <div className="px-2">
-              <Slider
-                value={filters.aum_range || [mfOptions.aum_range.min, mfOptions.aum_range.max]}
-                onValueChange={(value) => handleFilterChange('aum_range', value)}
-                min={mfOptions.aum_range.min}
-                max={mfOptions.aum_range.max}
-                step={100}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>₹{(filters.aum_range?.[0] || mfOptions.aum_range.min).toLocaleString()}</span>
-                <span>₹{(filters.aum_range?.[1] || mfOptions.aum_range.max).toLocaleString()}</span>
-              </div>
-            </div>
+            <Label className="text-sm font-medium">AUM Range</Label>
+            <Select onValueChange={(value) => handleFilterChange('aum_range', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select AUM range" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {mfOptions.aum_ranges.map((range: any) => (
+                  <SelectItem key={range.label} value={range.label}>{range.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
         {/* Expense Ratio */}
-        {mfOptions.expense_ratio && (
+        {mfOptions.expense_ratio_ranges && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Expense Ratio (%)</Label>
-            <div className="px-2">
-              <Slider
-                value={filters.expense_ratio || [mfOptions.expense_ratio.min, mfOptions.expense_ratio.max]}
-                onValueChange={(value) => handleFilterChange('expense_ratio', value)}
-                min={mfOptions.expense_ratio.min}
-                max={mfOptions.expense_ratio.max}
-                step={0.1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>{(filters.expense_ratio?.[0] || mfOptions.expense_ratio.min).toFixed(1)}%</span>
-                <span>{(filters.expense_ratio?.[1] || mfOptions.expense_ratio.max).toFixed(1)}%</span>
-              </div>
-            </div>
+            <Label className="text-sm font-medium">Expense Ratio Range</Label>
+            <Select onValueChange={(value) => handleFilterChange('expense_ratio_range', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select expense ratio range" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {mfOptions.expense_ratio_ranges.map((range: any) => (
+                  <SelectItem key={range.label} value={range.label}>{range.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
         {/* Returns */}
-        {mfOptions.returns_1year && (
+        {mfOptions.return_ranges_1year && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">1 Year Returns (%)</Label>
-            <div className="px-2">
-              <Slider
-                value={filters.returns_1year || [mfOptions.returns_1year.min, mfOptions.returns_1year.max]}
-                onValueChange={(value) => handleFilterChange('returns_1year', value)}
-                min={mfOptions.returns_1year.min}
-                max={mfOptions.returns_1year.max}
-                step={1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>{(filters.returns_1year?.[0] || mfOptions.returns_1year.min).toFixed(1)}%</span>
-                <span>{(filters.returns_1year?.[1] || mfOptions.returns_1year.max).toFixed(1)}%</span>
-              </div>
-            </div>
+            <Label className="text-sm font-medium">1 Year Returns Range</Label>
+            <Select onValueChange={(value) => handleFilterChange('returns_1year_range', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select 1Y return range" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {mfOptions.return_ranges_1year.map((range: any) => (
+                  <SelectItem key={range.label} value={range.label}>{range.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
 
@@ -281,8 +257,8 @@ const FilterPanel = ({ assetType, onFiltersChange, onIPOStatusChange, selectedIP
                 <SelectValue placeholder="Select risk level" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                {mfOptions.risk_levels.map((risk: string) => (
-                  <SelectItem key={risk} value={risk}>{risk}</SelectItem>
+                {mfOptions.risk_levels.map((risk: any) => (
+                  <SelectItem key={risk.value} value={risk.value}>{risk.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
