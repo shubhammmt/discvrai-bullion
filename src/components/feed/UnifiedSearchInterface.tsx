@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -144,7 +143,6 @@ const UnifiedSearchInterface = ({
   const ipoStatuses = [
     { value: 'upcoming', label: 'Upcoming IPOs' },
     { value: 'live', label: 'Live IPOs' },
-    { value: 'listed', label: 'Recently Listed' },
     { value: 'all', label: 'All IPOs' }
   ];
 
