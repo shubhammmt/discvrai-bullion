@@ -39,15 +39,6 @@ const FeedV2 = () => {
     // - /research/ipo/${result.symbol} for IPOs
   };
 
-  // Prepare NLP analysis with confidence reasoning for UnifiedSearchInterface
-  const nlpAnalysisForInterface = searchResults?.intent_analysis ? {
-    interpreted_filters: {},
-    confidence: searchResults.intent_analysis.confidence || 0,
-    suggestions: searchResults.intent_analysis.alternate_queries || [],
-    original_query: '', // This would come from the search query
-    confidence_reasoning: searchResults.intent_analysis.confidence_reasoning
-  } : undefined;
-
   const renderTopResults = () => {
     if (topResultsLoading) {
       return <div className="text-center py-8">Loading top results...</div>;
@@ -239,7 +230,7 @@ const FeedV2 = () => {
         <UnifiedSearchInterface
           onSearch={handleSearch}
           isLoading={isSearching}
-          nlpAnalysis={nlpAnalysisForInterface}
+          nlpAnalysis={searchResults?.nlp_analysis}
         />
 
         {/* Results or Top Results */}

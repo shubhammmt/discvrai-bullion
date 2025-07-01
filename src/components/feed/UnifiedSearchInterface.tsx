@@ -17,7 +17,6 @@ interface UnifiedSearchInterfaceProps {
     confidence: number;
     suggestions: string[];
     original_query: string;
-    confidence_reasoning?: string;
   };
   currentPage?: number;
   onPageChange?: (page: number) => void;

@@ -795,7 +795,7 @@ const Feed = () => {
           <UnifiedSearchInterface
             onSearch={handleUnifiedSearch}
             isLoading={isSearching}
-            nlpAnalysis={searchResults?.intent_analysis}
+            nlpAnalysis={searchResults?.nlp_analysis}
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />

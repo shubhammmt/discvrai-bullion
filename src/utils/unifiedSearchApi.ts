@@ -82,50 +82,18 @@ export interface TopResultsResponse {
 
 export interface UnifiedSearchResponse {
   success: boolean;
-  data: any[];
+  data: SearchResult[];
   total_records: number;
-  total_pages: number;
   current_page: number;
+  total_pages: number;
   page_size: number;
-  intent_analysis?: {
-    intent: string;
+  nlp_analysis?: {
+    interpreted_filters: Record<string, any>;
     confidence: number;
-    confidence_reasoning: string;
-    processing_path: string;
-    communication_message: string;
-    optimization_summary: string;
-    chart_suggestions?: {
-      primary: {
-        type: string;
-        title: string;
-        x_field: string;
-        y_field: string;
-        label_field: string;
-      };
-    };
-    alternate_queries: string[];
-    transparency?: {
-      filter_explanation: {
-        filters_applied: Array<{
-          field: string;
-          condition: string;
-          reasoning: string;
-        }>;
-        total_stocks_screened: string;
-        filter_summary: string;
-      };
-      field_selection_explanation: {
-        key_analysis_fields: Array<{
-          field: string;
-          importance: string;
-          reasoning: string;
-        }>;
-      };
-    };
+    suggestions: string[];
+    original_query: string;
   };
-  execution_path?: string;
-  processing_time_ms?: number;
-  error?: string | null;
+  error?: string;
 }
 
 export interface AutocompleteResult {
@@ -340,7 +308,7 @@ export interface StockMetricsResponse {
 // API Configuration - Updated with the new bearer token
 const BASE_URL = 'https://p646lccs-8008.inc1.devtunnels.ms';
 // Updated bearer token
-const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
+const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfbXg3NWc1cmNneWdsdHJydSIsImNsaWVudF9pZCI6ImNsaWVudF9teDc1ZzVyY2d5Z2x0cnJ1IiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDYiLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgwOTU1MDA1MSwiaWF0IjoxNzQ5NTUwMTExLCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.9jun8ghunLtWng5UEO57uptBnp1AFCDiWpO4s1OLuVY';
 const SESSION_ID = '0aee2f9b-b3ff-447d-bf7e-cb5318a7c550';
 
 // Helper function to get authentication headers
