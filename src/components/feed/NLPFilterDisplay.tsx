@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -24,15 +25,24 @@ interface NLPFilterDisplayProps {
 const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisplayProps) => {
   const { interpreted_filters, confidence, suggestions, original_query, confidence_reasoning, intent_analysis } = analysis;
 
-  // Debug logging
-  console.log('NLPFilterDisplay - Full analysis object:', analysis);
-  console.log('NLPFilterDisplay - confidence_reasoning:', confidence_reasoning);
-  console.log('NLPFilterDisplay - intent_analysis:', intent_analysis);
-  console.log('NLPFilterDisplay - intent_analysis?.confidence_reasoning:', intent_analysis?.confidence_reasoning);
+  // Comprehensive debug logging
+  console.log('=== NLPFilterDisplay DEBUG START ===');
+  console.log('Full analysis object:', JSON.stringify(analysis, null, 2));
+  console.log('Top-level confidence_reasoning:', confidence_reasoning);
+  console.log('intent_analysis object:', intent_analysis);
+  console.log('intent_analysis?.confidence_reasoning:', intent_analysis?.confidence_reasoning);
+  console.log('Type of confidence_reasoning:', typeof confidence_reasoning);
+  console.log('Type of intent_analysis?.confidence_reasoning:', typeof intent_analysis?.confidence_reasoning);
+  console.log('Boolean check - !!confidence_reasoning:', !!confidence_reasoning);
+  console.log('Boolean check - !!intent_analysis?.confidence_reasoning:', !!intent_analysis?.confidence_reasoning);
 
   // Get confidence reasoning from either location
   const actualConfidenceReasoning = intent_analysis?.confidence_reasoning || confidence_reasoning;
-  console.log('NLPFilterDisplay - actualConfidenceReasoning:', actualConfidenceReasoning);
+  console.log('Final actualConfidenceReasoning:', actualConfidenceReasoning);
+  console.log('Type of actualConfidenceReasoning:', typeof actualConfidenceReasoning);
+  console.log('Length of actualConfidenceReasoning:', actualConfidenceReasoning?.length);
+  console.log('Truthy check:', !!actualConfidenceReasoning);
+  console.log('=== NLPFilterDisplay DEBUG END ===');
 
   const getConfidenceColor = (confidence: number) => {
     if (confidence >= 0.8) return 'text-green-600';
@@ -97,7 +107,11 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
               </div>
             ) : (
               <div className="bg-yellow-50 p-2 rounded text-xs sm:text-sm">
-                <p className="text-yellow-700">No confidence reasoning available</p>
+                <p className="text-yellow-700">
+                  No confidence reasoning available 
+                  (Debug: intent_analysis exists: {!!intent_analysis ? 'yes' : 'no'}, 
+                  confidence_reasoning exists: {!!confidence_reasoning ? 'yes' : 'no'})
+                </p>
               </div>
             )}
           </div>
