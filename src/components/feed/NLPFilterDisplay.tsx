@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,13 +14,20 @@ interface NLPFilterDisplayProps {
     suggestions: string[];
     original_query: string;
     confidence_reasoning?: string;
+    intent_analysis?: {
+      confidence_reasoning?: string;
+      communication_message?: string;
+    };
   };
   onFiltersChange: (filters: SearchFilters) => void;
   onSearch: () => void;
 }
 
 const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisplayProps) => {
-  const { interpreted_filters, confidence, suggestions, original_query, confidence_reasoning } = analysis;
+  const { interpreted_filters, confidence, suggestions, original_query, confidence_reasoning, intent_analysis } = analysis;
+
+  // Get confidence reasoning from either location
+  const actualConfidenceReasoning = intent_analysis?.confidence_reasoning || confidence_reasoning;
 
   const getConfidenceColor = (confidence: number) => {
     if (confidence >= 0.8) return 'text-green-600';
@@ -78,9 +86,9 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
             <p className="text-xs sm:text-sm text-gray-700 font-medium">
               I understood this as:
             </p>
-            {confidence_reasoning && (
+            {actualConfidenceReasoning && (
               <div className="bg-white/60 p-2 rounded text-xs sm:text-sm">
-                <p className="text-gray-700 break-words">{confidence_reasoning}</p>
+                <p className="text-gray-700 break-words">{actualConfidenceReasoning}</p>
               </div>
             )}
           </div>
@@ -141,3 +149,4 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
 };
 
 export default NLPFilterDisplay;
+
