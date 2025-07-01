@@ -800,11 +800,6 @@ const Feed = () => {
           />
         </div>
 
-        {/* Profile Enhancement Prompt */}
-        <div className="w-full mb-4 sm:mb-6">
-          <ProfileEnhancementPrompt userProfile={userProfile} />
-        </div>
-
         {/* Main Feed - Full Width */}
         <div className="w-full space-y-4 lg:space-y-6 min-w-0">
           {/* Search Results Section */}
