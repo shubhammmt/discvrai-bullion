@@ -337,6 +337,9 @@ export const searchAssets = async (request: UnifiedSearchRequest): Promise<Unifi
   } else if (request.assetType === 'mutual-fund') {
     console.log('Routing to mutual fund search...');
     return await searchMutualFunds(request);
+  } else if (request.assetType === 'ipo') {
+    console.log('Routing to IPO search...');
+    return await searchIPOs(request);
   }
 
   console.log('Using unified search endpoint...');
@@ -758,6 +761,106 @@ const searchMutualFunds = async (request: UnifiedSearchRequest): Promise<Unified
     console.error('Error details:', error);
     console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
     console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    
+    return {
+      success: false,
+      data: [],
+      total_records: 0,
+      current_page: request.page,
+      total_pages: 0,
+      page_size: request.pageSize,
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
+  }
+};
+
+// New IPO search function
+const searchIPOs = async (request: UnifiedSearchRequest): Promise<UnifiedSearchResponse> => {
+  console.log('=== IPO SEARCH START ===');
+  console.log('IPO search request:', request);
+  
+  try {
+    // For IPOs, we'll use the mixed feed API to get IPO data
+    // Since there's no dedicated IPO search endpoint, we'll filter from mixed feed
+    console.log('=== USING MIXED FEED FOR IPO DATA ===');
+    
+    const response = await fetch(`${BASE_URL}/api/v1/feed/mixed-feed`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+
+    console.log('API Response status:', response.status);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error Response:', errorText);
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+    }
+
+    const apiResponse = await response.json();
+    console.log('Raw Mixed Feed API Response:', apiResponse);
+    
+    // Find IPO section in the mixed feed
+    const ipoSection = apiResponse.sections?.find((section: any) => section.section_type === 'ipos');
+    
+    if (!ipoSection || !ipoSection.items) {
+      console.log('No IPO section found in mixed feed');
+      return {
+        success: true,
+        data: [],
+        total_records: 0,
+        current_page: request.page,
+        total_pages: 0,
+        page_size: request.pageSize
+      };
+    }
+
+    let ipoItems = ipoSection.items;
+    
+    // Apply filters if in filter mode
+    if (request.searchMode === 'filters' && request.filters) {
+      const statusFilter = request.filters.status;
+      if (statusFilter) {
+        ipoItems = ipoItems.filter((ipo: any) => ipo.status === statusFilter);
+        console.log(`Filtered IPOs by status '${statusFilter}':`, ipoItems.length, 'items');
+      }
+    }
+    
+    // Transform IPO data to match our interface
+    const transformedData = ipoItems.map((ipo: any) => ({
+      symbol: ipo.company_name || ipo.id || 'N/A',
+      name: ipo.company_name || 'Unknown IPO',
+      assetType: 'ipo' as const,
+      price: ipo.price_band?.max_price || 0,
+      priceRange: ipo.price_band ? `₹${ipo.price_band.min_price}-${ipo.price_band.max_price}` : 'TBD',
+      status: ipo.status || 'unknown',
+      lotSize: ipo.investment_details?.lot_size || ipo.investment_details?.min_quantity,
+      openDate: ipo.dates?.open_date,
+      closeDate: ipo.dates?.close_date,
+      listDate: ipo.dates?.list_date,
+      daysLeft: ipo.dates?.days_left,
+      issueSize: ipo.issue_size,
+      issueSizeText: ipo.issue_size_text,
+      exchange: ipo.exchange,
+      isin: ipo.isin,
+      ...ipo // Include all original fields
+    }));
+    
+    console.log('Transformed IPO data:', transformedData);
+    
+    return {
+      success: true,
+      data: transformedData,
+      total_records: transformedData.length,
+      current_page: 1,
+      total_pages: 1,
+      page_size: transformedData.length
+    };
+    
+  } catch (error) {
+    console.error('=== IPO API ERROR ===');
+    console.error('Error details:', error);
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
     
     return {
       success: false,
