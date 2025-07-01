@@ -8,6 +8,7 @@ import AssetCard from '@/components/AssetCard';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
+import IPOFilterPanel from '@/components/feed/IPOFilterPanel';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
@@ -15,6 +16,7 @@ const Feed = () => {
   console.log('=== FEED COMPONENT RENDER START ===');
   
   const [activeFilter, setActiveFilter] = useState('all');
+  const [ipoStatus, setIpoStatus] = useState('upcoming');
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -107,6 +109,13 @@ const Feed = () => {
   const handleIPOFilterSelect = (status: string) => {
     console.log('IPO filter selected with status:', status);
     setActiveFilter('ipo');
+    setIpoStatus(status);
+  };
+
+  // Handle IPO status filter change
+  const handleIPOStatusChange = (status: string) => {
+    console.log('IPO status changed to:', status);
+    setIpoStatus(status);
   };
 
   const filters = [
@@ -563,10 +572,11 @@ const Feed = () => {
     }
   };
 
-  // Updated filter assets function to work with section-based filtering
+  // Updated filter assets function to work with section-based filtering and IPO status
   const getFilteredAssets = () => {
     console.log('=== GET FILTERED ASSETS START ===');
     console.log('Active filter:', activeFilter);
+    console.log('IPO Status:', ipoStatus);
     console.log('Mixed feed data:', mixedFeedData);
     
     if (!mixedFeedData?.sections) {
@@ -626,7 +636,8 @@ const Feed = () => {
               volume: item.issue_size ? `₹${item.issue_size} Cr` : 'N/A',
               latestEvent: item.status_label || item.status || 'IPO',
               news: `${item.company_name} IPO - ${item.issue_size_classification || 'Investment opportunity'}`,
-              rawData: item
+              rawData: item,
+              status: item.status || item.status_label || 'unknown'
             };
           }
           // Handle other asset types
@@ -685,7 +696,7 @@ const Feed = () => {
     console.log('Found target section with', targetSection.items?.length || 0, 'items');
     
     // Map the items from the target section based on section type
-    const filteredAssets = (targetSection.items || []).map((item: any) => {
+    let filteredAssets = (targetSection.items || []).map((item: any) => {
       // Handle mutual funds specifically
       if (targetSection.section_type === 'mutual_funds') {
         return {
@@ -731,7 +742,8 @@ const Feed = () => {
           volume: item.issue_size ? `₹${item.issue_size} Cr` : 'N/A',
           latestEvent: item.status_label || item.status || 'IPO',
           news: `${item.company_name} IPO - ${item.issue_size_classification || 'Investment opportunity'}`,
-          rawData: item
+          rawData: item,
+          status: item.status || item.status_label || 'unknown'
         };
       }
       // Handle other asset types
@@ -751,6 +763,18 @@ const Feed = () => {
         };
       }
     });
+
+    // Apply IPO status filter if we're showing IPOs
+    if (activeFilter === 'ipo' && ipoStatus !== 'all') {
+      console.log('Applying IPO status filter:', ipoStatus);
+      filteredAssets = filteredAssets.filter((asset: any) => {
+        const assetStatus = asset.status?.toLowerCase() || asset.rawData?.status?.toLowerCase() || '';
+        return assetStatus.includes(ipoStatus.toLowerCase()) || 
+               (ipoStatus === 'upcoming' && (assetStatus.includes('open') || assetStatus.includes('forthcoming'))) ||
+               (ipoStatus === 'live' && (assetStatus.includes('open') || assetStatus.includes('active'))) ||
+               (ipoStatus === 'listed' && (assetStatus.includes('listed') || assetStatus.includes('closed')));
+      });
+    }
     
     console.log('Filtered assets count:', filteredAssets.length);
     return filteredAssets;
@@ -851,6 +875,14 @@ const Feed = () => {
               ))}
             </div>
           </div>
+
+          {/* IPO Filter Panel - Show only when IPO filter is active */}
+          {activeFilter === 'ipo' && (
+            <IPOFilterPanel
+              onFilterChange={handleIPOStatusChange}
+              selectedStatus={ipoStatus}
+            />
+          )}
 
           {/* Asset Cards in Single Column */}
           {filteredAssets.length > 0 ? (
