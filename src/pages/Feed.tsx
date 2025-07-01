@@ -103,6 +103,12 @@ const Feed = () => {
     console.log('Selected result:', result);
   };
 
+  // New function to handle IPO filter selection from UnifiedSearchInterface
+  const handleIPOFilterSelect = (status: string) => {
+    console.log('IPO filter selected with status:', status);
+    setActiveFilter('ipo');
+  };
+
   const filters = [
     { id: 'all', label: 'All' },
     { id: 'stocks', label: 'Stocks' },
@@ -807,6 +813,7 @@ const Feed = () => {
             nlpAnalysis={searchResults?.nlp_analysis}
             currentPage={currentPage}
             onPageChange={handlePageChange}
+            onIPOFilterSelect={handleIPOFilterSelect}
           />
         </div>
 
@@ -826,7 +833,7 @@ const Feed = () => {
           )}
 
           {/* Filter Tabs */}
-          <div className="w-full">
+          <div className="w-full" data-filter-tabs>
             <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {filters.map((filter) => (
                 <Button

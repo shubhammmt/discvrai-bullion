@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,6 +19,7 @@ interface UnifiedSearchInterfaceProps {
   };
   currentPage?: number;
   onPageChange?: (page: number) => void;
+  onIPOFilterSelect?: (status: string) => void;
 }
 
 const UnifiedSearchInterface = ({ 
@@ -27,7 +27,8 @@ const UnifiedSearchInterface = ({
   isLoading, 
   nlpAnalysis,
   currentPage = 1,
-  onPageChange
+  onPageChange,
+  onIPOFilterSelect
 }: UnifiedSearchInterfaceProps) => {
   const [searchMode, setSearchMode] = useState<SearchMode>('nlp');
   const [assetType, setAssetType] = useState<AssetType>('stock');
@@ -71,14 +72,28 @@ const UnifiedSearchInterface = ({
   const handleAssetTypeChange = (newAssetType: AssetType) => {
     setAssetType(newAssetType);
     
-    // Special handling for IPOs - always switch to filters mode and trigger search
+    // Special handling for IPOs - scroll to asset cards and filter there
     if (newAssetType === 'ipo') {
+      // Scroll to the asset cards section where filters are
+      setTimeout(() => {
+        const filterTabs = document.querySelector('[data-filter-tabs]');
+        if (filterTabs) {
+          filterTabs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+      
+      // Trigger IPO filter selection in parent component if callback exists
+      if (onIPOFilterSelect) {
+        onIPOFilterSelect('upcoming');
+      }
+    } else {
+      // For other asset types, proceed with normal search behavior
       // Switch to filters mode first
       setSearchMode('filters');
       
-      // Set default filter for upcoming IPOs
-      const defaultIPOFilters = { status: 'upcoming' };
-      setFilters(defaultIPOFilters);
+      // Set default filter
+      const defaultFilters = {};
+      setFilters(defaultFilters);
       
       // Use setTimeout to ensure state updates are applied before triggering search
       setTimeout(() => {
@@ -87,7 +102,7 @@ const UnifiedSearchInterface = ({
           searchMode: 'filters',
           page: 1,
           pageSize: 20,
-          filters: defaultIPOFilters
+          filters: defaultFilters
         };
         
         onSearch(searchRequest);
@@ -213,7 +228,7 @@ const UnifiedSearchInterface = ({
         )}
 
         {/* Filter Panel for Filter Mode */}
-        {searchMode === 'filters' && (
+        {searchMode === 'filters' && assetType !== 'ipo' && (
           <FilterPanel
             assetType={assetType}
             filters={filters}
