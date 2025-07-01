@@ -80,10 +80,15 @@ const StockResultsTable = ({
       return `${(value * 100).toFixed(1)}%`;
     }
     
-    // Handle market cap and AUM with proper formatting
-    if (key === 'market_cap' || key === 'aum' || key === 'current_aum') {
+    // Handle market cap and AUM with proper formatting - current_aum is already in crores from API
+    if (key === 'market_cap') {
       const croreValue = value / 10000000;
       return `₹${croreValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}Cr`;
+    }
+    
+    if (key === 'aum' || key === 'current_aum') {
+      // current_aum from API is already in crores, so don't divide again
+      return `₹${Number(value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}Cr`;
     }
     
     // Handle ratios
