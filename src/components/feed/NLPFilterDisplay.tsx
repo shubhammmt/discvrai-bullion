@@ -12,13 +12,14 @@ interface NLPFilterDisplayProps {
     confidence: number;
     suggestions: string[];
     original_query: string;
+    confidence_reasoning?: string;
   };
   onFiltersChange: (filters: SearchFilters) => void;
   onSearch: () => void;
 }
 
 const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisplayProps) => {
-  const { interpreted_filters, confidence, suggestions, original_query } = analysis;
+  const { interpreted_filters, confidence, suggestions, original_query, confidence_reasoning } = analysis;
 
   const getConfidenceColor = (confidence: number) => {
     if (confidence >= 0.8) return 'text-green-600';
@@ -73,33 +74,44 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
               <strong>Your query:</strong> "{original_query}"
             </p>
           </div>
-          <p className="text-xs sm:text-sm text-gray-700 font-medium">
-            I understood this as:
-          </p>
+          
+          {/* Display confidence reasoning if available */}
+          {confidence_reasoning && (
+            <div className="bg-blue-50/80 p-2 rounded text-xs sm:text-sm">
+              <p className="text-blue-800 break-words">
+                <strong>I understood this as:</strong> {confidence_reasoning}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Interpreted Filters */}
-        <div className="space-y-2 mb-4">
-          {Object.entries(interpreted_filters).map(([key, value]) => (
-            <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <div className="flex flex-wrap items-center gap-1">
-                <Badge variant="secondary" className="text-xs px-2 py-1 max-w-full">
-                  <span className="truncate">
-                    {formatFilterName(key)}: {formatFilterValue(key, value)}
-                  </span>
-                </Badge>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 flex-shrink-0"
-                  onClick={() => onFiltersChange(interpreted_filters)}
-                >
-                  <Edit size={10} className="text-blue-600" />
-                </Button>
+        {Object.keys(interpreted_filters).length > 0 && (
+          <div className="space-y-2 mb-4">
+            <p className="text-xs sm:text-sm text-gray-700 font-medium">
+              Applied filters:
+            </p>
+            {Object.entries(interpreted_filters).map(([key, value]) => (
+              <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1">
+                  <Badge variant="secondary" className="text-xs px-2 py-1 max-w-full">
+                    <span className="truncate">
+                      {formatFilterName(key)}: {formatFilterValue(key, value)}
+                    </span>
+                  </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 flex-shrink-0"
+                    onClick={() => onFiltersChange(interpreted_filters)}
+                  >
+                    <Edit size={10} className="text-blue-600" />
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Confidence Warning */}
         {confidence < 0.7 && (
