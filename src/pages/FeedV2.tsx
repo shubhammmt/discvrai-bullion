@@ -40,12 +40,12 @@ const FeedV2 = () => {
   };
 
   // Prepare NLP analysis with confidence reasoning for UnifiedSearchInterface
-  const nlpAnalysisForInterface = searchResults?.nlp_analysis ? {
-    interpreted_filters: searchResults.nlp_analysis.interpreted_filters || {},
-    confidence: searchResults.nlp_analysis.confidence || 0,
-    suggestions: searchResults.nlp_analysis.alternate_queries || [],
-    original_query: searchResults.nlp_analysis.original_query || '',
-    confidence_reasoning: searchResults.nlp_analysis.confidence_reasoning
+  const nlpAnalysisForInterface = searchResults?.intent_analysis ? {
+    interpreted_filters: {},
+    confidence: searchResults.intent_analysis.confidence || 0,
+    suggestions: searchResults.intent_analysis.alternate_queries || [],
+    original_query: '', // This would come from the search query
+    confidence_reasoning: searchResults.intent_analysis.confidence_reasoning
   } : undefined;
 
   const renderTopResults = () => {
