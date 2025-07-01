@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -60,6 +59,14 @@ const Feed = () => {
       if (response && typeof response === 'object') {
         setSearchResults(response);
         console.log('Search results set successfully');
+        
+        // Scroll to results section after search is complete
+        setTimeout(() => {
+          const resultsSection = document.querySelector('[data-results-section]');
+          if (resultsSection) {
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
       } else {
         console.error('Invalid response format:', response);
         setSearchError('Invalid response format received');
@@ -394,7 +401,7 @@ const Feed = () => {
     if (searchError) {
       console.log('Rendering error state:', searchError);
       return (
-        <Card className="mb-4 bg-white/70 backdrop-blur-md border-red-200">
+        <Card className="mb-4 bg-white/70 backdrop-blur-md border-red-200" data-results-section>
           <CardContent className="p-3 sm:p-6 text-center">
             <p className="text-red-600 text-sm">Search failed: {searchError}</p>
             <Button 
@@ -424,7 +431,7 @@ const Feed = () => {
       if (!searchResults.success) {
         console.log('Search was not successful:', searchResults.error);
         return (
-          <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
+          <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20" data-results-section>
             <CardContent className="p-3 sm:p-6 text-center">
               <p className="text-red-600 text-sm">Search failed: {searchResults.error}</p>
             </CardContent>
@@ -435,7 +442,7 @@ const Feed = () => {
       if (!searchResults.data || searchResults.data.length === 0) {
         console.log('No data in search results');
         return (
-          <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
+          <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20" data-results-section>
             <CardContent className="p-3 sm:p-6 text-center">
               <p className="text-gray-600 text-sm">No results found. Try adjusting your search criteria.</p>
             </CardContent>
@@ -447,17 +454,19 @@ const Feed = () => {
       if (currentSearchRequest?.assetType === 'stock' || currentSearchRequest?.assetType === 'mutual-fund') {
         console.log('Rendering results table for:', currentSearchRequest?.assetType);
         return (
-          <StockResultsTable
-            results={searchResults.data}
-            query={currentSearchRequest.query || 'Advanced Filter Search'}
-            onDismiss={handleDismissResults}
-            totalRecords={searchResults.total_records}
-            currentPage={searchResults.current_page}
-            totalPages={searchResults.total_pages}
-            pageSize={searchResults.page_size}
-            onPageChange={handlePageChange}
-            isLoading={isSearching}
-          />
+          <div data-results-section>
+            <StockResultsTable
+              results={searchResults.data}
+              query={currentSearchRequest.query || 'Advanced Filter Search'}
+              onDismiss={handleDismissResults}
+              totalRecords={searchResults.total_records}
+              currentPage={searchResults.current_page}
+              totalPages={searchResults.total_pages}
+              pageSize={searchResults.page_size}
+              onPageChange={handlePageChange}
+              isLoading={isSearching}
+            />
+          </div>
         );
       }
 
@@ -485,7 +494,7 @@ const Feed = () => {
       });
 
       return (
-        <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20">
+        <Card className="mb-4 bg-white/70 backdrop-blur-md border-white/20" data-results-section>
           <CardHeader className="p-3 sm:p-6">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base sm:text-xl">
@@ -532,7 +541,7 @@ const Feed = () => {
     } catch (error) {
       console.error('=== ERROR RENDERING SEARCH RESULTS ===', error);
       return (
-        <Card className="mb-4 bg-white/70 backdrop-blur-md border-red-200">
+        <Card className="mb-4 bg-white/70 backdrop-blur-md border-red-200" data-results-section>
           <CardContent className="p-3 sm:p-6 text-center">
             <p className="text-red-600 text-sm">Error displaying search results: {error instanceof Error ? error.message : 'Unknown error'}</p>
             <Button 
