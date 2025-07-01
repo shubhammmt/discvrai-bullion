@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,7 @@ import AssetCard from '@/components/AssetCard';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
+import IPOStatusDropdown from '@/components/feed/IPOStatusDropdown';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
@@ -16,6 +16,7 @@ const Feed = () => {
   console.log('=== FEED COMPONENT RENDER START ===');
   
   const [activeFilter, setActiveFilter] = useState('all');
+  const [ipoStatusFilter, setIpoStatusFilter] = useState('upcoming');
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState<UnifiedSearchResponse | null>(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -548,10 +549,11 @@ const Feed = () => {
     }
   };
 
-  // Updated filter assets function to work with section-based filtering
+  // Updated filter assets function to work with section-based filtering and IPO status filtering
   const getFilteredAssets = () => {
     console.log('=== GET FILTERED ASSETS START ===');
     console.log('Active filter:', activeFilter);
+    console.log('IPO status filter:', ipoStatusFilter);
     console.log('Mixed feed data:', mixedFeedData);
     
     if (!mixedFeedData?.sections) {
@@ -561,7 +563,7 @@ const Feed = () => {
     
     console.log('Available sections:', mixedFeedData.sections.map(s => ({ type: s.section_type, itemCount: s.items?.length || 0 })));
     
-    // If "All" is selected, show all items from all sections
+    // If "All" is selected, show all items from all sections (except IPOs which need status filtering)
     if (activeFilter === 'all') {
       console.log('Showing all assets from all sections');
       const allAssets = mixedFeedData.sections.flatMap(section => {
@@ -598,8 +600,12 @@ const Feed = () => {
               rawData: item
             };
           }
-          // Handle IPOs
+          // Handle IPOs with status filtering
           else if (section.section_type === 'ipos') {
+            // Filter IPOs based on status
+            if (item.status !== ipoStatusFilter) {
+              return null;
+            }
             return {
               id: item.id || Math.random(),
               name: item.company_name || 'Unknown IPO',
@@ -631,7 +637,7 @@ const Feed = () => {
             };
           }
         });
-      });
+      }).filter(Boolean); // Remove null IPO entries that don't match status filter
       console.log('Total assets for "all" filter:', allAssets.length);
       return allAssets;
     }
@@ -703,8 +709,12 @@ const Feed = () => {
           rawData: item
         };
       }
-      // Handle IPOs specifically
+      // Handle IPOs specifically with status filtering
       else if (targetSection.section_type === 'ipos') {
+        // Filter IPOs based on status
+        if (item.status !== ipoStatusFilter) {
+          return null;
+        }
         return {
           id: item.id || Math.random(),
           name: item.company_name || 'Unknown IPO',
@@ -735,7 +745,7 @@ const Feed = () => {
           rawData: item
         };
       }
-    });
+    }).filter(Boolean); // Remove null IPO entries that don't match status filter
     
     console.log('Filtered assets count:', filteredAssets.length);
     return filteredAssets;
@@ -835,6 +845,16 @@ const Feed = () => {
               ))}
             </div>
           </div>
+
+          {/* IPO Status Dropdown - Only show when IPO filter is active */}
+          {activeFilter === 'ipo' && (
+            <div className="flex justify-start">
+              <IPOStatusDropdown
+                selectedStatus={ipoStatusFilter}
+                onStatusChange={setIpoStatusFilter}
+              />
+            </div>
+          )}
 
           {/* Asset Cards in Single Column */}
           {filteredAssets.length > 0 ? (
