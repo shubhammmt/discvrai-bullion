@@ -168,7 +168,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
           {/* Sector Select - Using Static Data */}
           <div>
             <Label htmlFor="sector">Sector</Label>
-            <Select onValueChange={(value) => updateFilter('sector', [value])}>
+            <Select 
+              value={Array.isArray(filters.sector) ? filters.sector[0] : filters.sector || ''}
+              onValueChange={(value) => updateFilter('sector', [value])}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select sector" />
               </SelectTrigger>
@@ -277,7 +280,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validCategories.length > 0 && (
           <div>
             <Label htmlFor="category">Category</Label>
-            <Select onValueChange={(value) => updateFilter('category', value)}>
+            <Select 
+              value={filters.category || ''}
+              onValueChange={(value) => updateFilter('category', value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -296,7 +302,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validRiskLevels.length > 0 && (
           <div>
             <Label htmlFor="riskLevel">Risk Level</Label>
-            <Select onValueChange={(value) => updateFilter('risk_level', value)}>
+            <Select 
+              value={filters.risk_level || ''}
+              onValueChange={(value) => updateFilter('risk_level', value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select risk level" />
               </SelectTrigger>
@@ -315,7 +324,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validAmcNames.length > 0 && (
           <div>
             <Label htmlFor="amcName">Asset Management Company</Label>
-            <Select onValueChange={(value) => updateFilter('amc_name', value)}>
+            <Select 
+              value={filters.amc_name || ''}
+              onValueChange={(value) => updateFilter('amc_name', value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select AMC" />
               </SelectTrigger>
@@ -334,7 +346,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validExpenseRatioOptions.length > 0 && (
           <div>
             <Label htmlFor="expenseRatio">Expense Ratio</Label>
-            <Select onValueChange={(value) => updateFilter('expense_ratio', value === 'null' ? null : parseFloat(value))}>
+            <Select 
+              value={filters.expense_ratio?.toString() || ''}
+              onValueChange={(value) => updateFilter('expense_ratio', value === 'null' ? null : parseFloat(value))}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select expense ratio" />
               </SelectTrigger>
@@ -353,7 +368,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validAumOptions.length > 0 && (
           <div>
             <Label htmlFor="aum">Fund Size (AUM)</Label>
-            <Select onValueChange={(value) => updateFilter('aum', value === 'null' ? null : parseFloat(value))}>
+            <Select 
+              value={filters.aum?.toString() || ''}
+              onValueChange={(value) => updateFilter('aum', value === 'null' ? null : parseFloat(value))}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select AUM" />
               </SelectTrigger>
@@ -372,7 +390,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validReturn1yOptions.length > 0 && (
           <div>
             <Label htmlFor="return1y">1 Year Returns</Label>
-            <Select onValueChange={(value) => updateFilter('return_1y', value === 'null' ? null : parseFloat(value))}>
+            <Select 
+              value={filters.return_1y?.toString() || ''}
+              onValueChange={(value) => updateFilter('return_1y', value === 'null' ? null : parseFloat(value))}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select returns" />
               </SelectTrigger>
@@ -391,7 +412,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validReturn3yOptions.length > 0 && (
           <div>
             <Label htmlFor="return3y">3 Year Returns</Label>
-            <Select onValueChange={(value) => updateFilter('return_3y', value === 'null' ? null : parseFloat(value))}>
+            <Select 
+              value={filters.return_3y?.toString() || ''}
+              onValueChange={(value) => updateFilter('return_3y', value === 'null' ? null : parseFloat(value))}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select 3Y returns" />
               </SelectTrigger>
@@ -410,7 +434,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validSipOptions.length > 0 && (
           <div>
             <Label htmlFor="sipAmount">SIP Amount</Label>
-            <Select onValueChange={(value) => updateFilter('sip_amount', value === 'null' ? null : parseFloat(value))}>
+            <Select 
+              value={filters.sip_amount?.toString() || ''}
+              onValueChange={(value) => updateFilter('sip_amount', value === 'null' ? null : parseFloat(value))}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select SIP amount" />
               </SelectTrigger>
@@ -429,7 +456,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validPlanTypes.length > 0 && (
           <div>
             <Label htmlFor="planType">Plan Type</Label>
-            <Select onValueChange={(value) => updateFilter('plan_type', value === 'null' ? null : value)}>
+            <Select 
+              value={filters.plan_type || ''}
+              onValueChange={(value) => updateFilter('plan_type', value === 'null' ? null : value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select plan type" />
               </SelectTrigger>
@@ -468,7 +498,10 @@ const FilterPanel = ({ assetType, filters, onFiltersChange, onSearch, isLoading 
         {validStatusOptions.length > 0 && (
           <div>
             <Label htmlFor="status">IPO Status</Label>
-            <Select onValueChange={(value) => updateFilter('status', value)}>
+            <Select 
+              value={filters.status || ''}
+              onValueChange={(value) => updateFilter('status', value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>

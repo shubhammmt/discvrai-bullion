@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Heart, BarChart3, Bell, Search, Brain, Sparkles, FolderPlus, Edit, Loader2, Plus } from 'lucide-react';
+import { TrendingUp, BarChart3, Edit, Search, Loader2, Plus } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
-import { searchAssets, getTopResults, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
+import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
 const Feed = () => {
@@ -230,14 +230,14 @@ const Feed = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">6M Return</p>
+                  <p className="text-xs text-gray-500">1Y Return</p>
                   <p className="text-sm font-medium text-green-600">
                     {asset.return1Year !== null && asset.return1Year !== undefined ? 
                       `${Number(asset.return1Year).toFixed(2)}%` : 'N/A'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">1Y Return</p>
+                  <p className="text-xs text-gray-500">3Y Return</p>
                   <p className="text-sm font-medium text-green-600">
                     {asset.return3Year !== null && asset.return3Year !== undefined ? 
                       `${Number(asset.return3Year).toFixed(2)}%` : 'N/A'}
