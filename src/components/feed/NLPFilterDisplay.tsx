@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, AlertCircle, Edit, Search } from 'lucide-react';
+import { CheckCircle, AlertCircle, Edit } from 'lucide-react';
 import { SearchFilters } from '@/utils/unifiedSearchApi';
 
 interface NLPFilterDisplayProps {
@@ -134,22 +135,6 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
             </div>
           </div>
         )}
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <Button onClick={onSearch} size="sm" className="flex items-center justify-center gap-2 text-xs sm:text-sm">
-            <Search size={14} />
-            <span>Search with these filters</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => onFiltersChange(interpreted_filters)}
-            className="text-xs sm:text-sm"
-          >
-            Edit filters manually
-          </Button>
-        </div>
       </CardContent>
     </Card>
   );
