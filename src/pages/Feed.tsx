@@ -8,7 +8,6 @@ import AssetCard from '@/components/AssetCard';
 import PortfolioAddModal from '@/components/PortfolioAddModal';
 import UnifiedSearchInterface from '@/components/feed/UnifiedSearchInterface';
 import StockResultsTable from '@/components/StockResultsTable';
-import IPOFilterPanel from '@/components/feed/IPOFilterPanel';
 import { searchAssets, UnifiedSearchRequest, UnifiedSearchResponse, AutocompleteResult } from '@/utils/unifiedSearchApi';
 import { useMixedFeed } from '@/hooks/useMixedFeed';
 
@@ -109,12 +108,6 @@ const Feed = () => {
   const handleIPOFilterSelect = (status: string) => {
     console.log('IPO filter selected with status:', status);
     setActiveFilter('ipo');
-    setIpoStatus(status);
-  };
-
-  // Handle IPO status filter change
-  const handleIPOStatusChange = (status: string) => {
-    console.log('IPO status changed to:', status);
     setIpoStatus(status);
   };
 
@@ -875,14 +868,6 @@ const Feed = () => {
               ))}
             </div>
           </div>
-
-          {/* IPO Filter Panel - Show only when IPO filter is active */}
-          {activeFilter === 'ipo' && (
-            <IPOFilterPanel
-              onFilterChange={handleIPOStatusChange}
-              selectedStatus={ipoStatus}
-            />
-          )}
 
           {/* Asset Cards in Single Column */}
           {filteredAssets.length > 0 ? (

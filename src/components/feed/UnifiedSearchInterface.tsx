@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Filter, Zap } from 'lucide-react';
 import FilterPanel from './FilterPanel';
 import NLPFilterDisplay from './NLPFilterDisplay';
@@ -35,6 +37,7 @@ const UnifiedSearchInterface = ({
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({});
   const [showFilters, setShowFilters] = useState(false);
+  const [ipoStatus, setIpoStatus] = useState('upcoming');
 
   // Clear filters when asset type changes
   useEffect(() => {
@@ -84,7 +87,7 @@ const UnifiedSearchInterface = ({
       
       // Trigger IPO filter selection in parent component if callback exists
       if (onIPOFilterSelect) {
-        onIPOFilterSelect('upcoming');
+        onIPOFilterSelect(ipoStatus);
       }
     } else {
       // For other asset types, proceed with normal search behavior
@@ -118,6 +121,13 @@ const UnifiedSearchInterface = ({
     }
   };
 
+  const handleIPOStatusChange = (status: string) => {
+    setIpoStatus(status);
+    if (onIPOFilterSelect) {
+      onIPOFilterSelect(status);
+    }
+  };
+
   const assetTypes: { value: AssetType; label: string }[] = [
     { value: 'stock', label: 'Stocks' },
     { value: 'mutual-fund', label: 'Mutual Funds' },
@@ -129,6 +139,13 @@ const UnifiedSearchInterface = ({
     'Dividend paying stocks',
     'Large cap mutual funds',
     'Recent IPOs'
+  ];
+
+  const ipoStatuses = [
+    { value: 'upcoming', label: 'Upcoming IPOs' },
+    { value: 'live', label: 'Live IPOs' },
+    { value: 'listed', label: 'Recently Listed' },
+    { value: 'all', label: 'All IPOs' }
   ];
 
   return (
@@ -176,6 +193,25 @@ const UnifiedSearchInterface = ({
             ))}
           </div>
         </div>
+
+        {/* IPO Status Filter - Show only when IPO is selected */}
+        {assetType === 'ipo' && (
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
+            <span className="text-sm font-medium text-gray-700">IPO Status:</span>
+            <Select value={ipoStatus} onValueChange={handleIPOStatusChange}>
+              <SelectTrigger className="w-48 bg-white border-gray-300">
+                <SelectValue placeholder="Select IPO status" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {ipoStatuses.map((statusOption) => (
+                  <SelectItem key={statusOption.value} value={statusOption.value}>
+                    {statusOption.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Search Input for NLP Mode */}
         {searchMode === 'nlp' && (
