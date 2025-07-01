@@ -62,6 +62,24 @@ const UnifiedSearchInterface = ({
 
   const handleAssetTypeChange = (newAssetType: AssetType) => {
     setAssetType(newAssetType);
+    
+    // Only trigger automatic search for IPOs and only in filters mode
+    if (newAssetType === 'ipo' && searchMode === 'filters') {
+      // Set default filter for upcoming IPOs
+      const defaultIPOFilters = { status: 'upcoming' };
+      setFilters(defaultIPOFilters);
+      
+      // Trigger search with default filters
+      const searchRequest: UnifiedSearchRequest = {
+        assetType: newAssetType,
+        searchMode: 'filters',
+        page: 1,
+        pageSize: 20,
+        filters: defaultIPOFilters
+      };
+      
+      onSearch(searchRequest);
+    }
   };
 
   const assetTypes: { value: AssetType; label: string }[] = [
