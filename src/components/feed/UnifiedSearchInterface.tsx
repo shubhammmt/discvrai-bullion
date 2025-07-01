@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -63,22 +62,27 @@ const UnifiedSearchInterface = ({
   const handleAssetTypeChange = (newAssetType: AssetType) => {
     setAssetType(newAssetType);
     
-    // Only trigger automatic search for IPOs and only in filters mode
-    if (newAssetType === 'ipo' && searchMode === 'filters') {
+    // Special handling for IPOs - always switch to filters mode and trigger search
+    if (newAssetType === 'ipo') {
+      // Switch to filters mode first
+      setSearchMode('filters');
+      
       // Set default filter for upcoming IPOs
       const defaultIPOFilters = { status: 'upcoming' };
       setFilters(defaultIPOFilters);
       
-      // Trigger search with default filters
-      const searchRequest: UnifiedSearchRequest = {
-        assetType: newAssetType,
-        searchMode: 'filters',
-        page: 1,
-        pageSize: 20,
-        filters: defaultIPOFilters
-      };
-      
-      onSearch(searchRequest);
+      // Use setTimeout to ensure state updates are applied before triggering search
+      setTimeout(() => {
+        const searchRequest: UnifiedSearchRequest = {
+          assetType: newAssetType,
+          searchMode: 'filters',
+          page: 1,
+          pageSize: 20,
+          filters: defaultIPOFilters
+        };
+        
+        onSearch(searchRequest);
+      }, 0);
     }
   };
 
