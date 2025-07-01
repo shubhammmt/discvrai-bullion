@@ -1,5 +1,4 @@
 
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -71,8 +70,13 @@ const StockResultsTable = ({
       return `₹${numValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
     }
     
-    // Handle percentage fields
-    if (key.includes('margin') || key.includes('roe') || key.includes('roic') || key.includes('growth') || key.includes('momentum') || key.includes('ret_')) {
+    // Handle return fields (ret_1year, ret_3year, etc.) - these are already percentages
+    if (key.includes('ret_')) {
+      return `${Number(value).toFixed(1)}%`;
+    }
+    
+    // Handle other percentage fields that need multiplication
+    if (key.includes('margin') || key.includes('roe') || key.includes('roic') || key.includes('growth') || key.includes('momentum')) {
       return `${(value * 100).toFixed(1)}%`;
     }
     
