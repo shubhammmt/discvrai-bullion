@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,60 +26,8 @@ interface NLPFilterDisplayProps {
 const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisplayProps) => {
   const { interpreted_filters, confidence, suggestions, original_query, confidence_reasoning, intent_analysis } = analysis;
 
-  // Comprehensive debug logging
-  console.log('=== NLPFilterDisplay DEBUG START ===');
-  console.log('Full analysis object:', JSON.stringify(analysis, null, 2));
-  console.log('Top-level confidence_reasoning:', confidence_reasoning);
-  console.log('intent_analysis object:', intent_analysis);
-  console.log('intent_analysis?.confidence_reasoning:', intent_analysis?.confidence_reasoning);
-  console.log('Type of confidence_reasoning:', typeof confidence_reasoning);
-  console.log('Type of intent_analysis?.confidence_reasoning:', typeof intent_analysis?.confidence_reasoning);
-  console.log('Boolean check - !!confidence_reasoning:', !!confidence_reasoning);
-  console.log('Boolean check - !!intent_analysis?.confidence_reasoning:', !!intent_analysis?.confidence_reasoning);
-
-  // Try multiple ways to get the confidence reasoning
-  let actualConfidenceReasoning = null;
-  
-  // Method 1: Direct access to intent_analysis.confidence_reasoning
-  if (intent_analysis && intent_analysis.confidence_reasoning) {
-    actualConfidenceReasoning = intent_analysis.confidence_reasoning;
-    console.log('Method 1 - Found confidence_reasoning in intent_analysis:', actualConfidenceReasoning);
-  }
-  
-  // Method 2: Top-level confidence_reasoning
-  if (!actualConfidenceReasoning && confidence_reasoning) {
-    actualConfidenceReasoning = confidence_reasoning;
-    console.log('Method 2 - Found confidence_reasoning at top level:', actualConfidenceReasoning);
-  }
-  
-  // Method 3: Try accessing as a property with bracket notation
-  if (!actualConfidenceReasoning && intent_analysis && intent_analysis['confidence_reasoning']) {
-    actualConfidenceReasoning = intent_analysis['confidence_reasoning'];
-    console.log('Method 3 - Found confidence_reasoning with bracket notation:', actualConfidenceReasoning);
-  }
-  
-  // Method 4: Check if it's nested deeper or named differently
-  if (!actualConfidenceReasoning && analysis) {
-    const keys = Object.keys(analysis);
-    console.log('All keys in analysis object:', keys);
-    
-    // Check for any field that might contain reasoning
-    for (const key of keys) {
-      const value = analysis[key as keyof typeof analysis];
-      if (typeof value === 'string' && (key.includes('reasoning') || key.includes('message'))) {
-        console.log(`Found potential reasoning field: ${key} = ${value}`);
-        if (!actualConfidenceReasoning) {
-          actualConfidenceReasoning = value;
-        }
-      }
-    }
-  }
-
-  console.log('Final actualConfidenceReasoning:', actualConfidenceReasoning);
-  console.log('Type of actualConfidenceReasoning:', typeof actualConfidenceReasoning);
-  console.log('Length of actualConfidenceReasoning:', actualConfidenceReasoning?.length);
-  console.log('Truthy check:', !!actualConfidenceReasoning);
-  console.log('=== NLPFilterDisplay DEBUG END ===');
+  // Get confidence reasoning from either location
+  const actualConfidenceReasoning = intent_analysis?.confidence_reasoning || confidence_reasoning;
 
   const getConfidenceColor = (confidence: number) => {
     if (confidence >= 0.8) return 'text-green-600';
@@ -137,17 +86,9 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
             <p className="text-xs sm:text-sm text-gray-700 font-medium">
               I understood this as:
             </p>
-            {actualConfidenceReasoning ? (
+            {actualConfidenceReasoning && (
               <div className="bg-white/60 p-2 rounded text-xs sm:text-sm">
                 <p className="text-gray-700 break-words">{actualConfidenceReasoning}</p>
-              </div>
-            ) : (
-              <div className="bg-yellow-50 p-2 rounded text-xs sm:text-sm">
-                <p className="text-yellow-700">
-                  No confidence reasoning available 
-                  (Debug: intent_analysis exists: {!!intent_analysis ? 'yes' : 'no'}, 
-                  confidence_reasoning exists: {!!confidence_reasoning ? 'yes' : 'no'})
-                </p>
               </div>
             )}
           </div>
@@ -208,3 +149,4 @@ const NLPFilterDisplay = ({ analysis, onFiltersChange, onSearch }: NLPFilterDisp
 };
 
 export default NLPFilterDisplay;
+
