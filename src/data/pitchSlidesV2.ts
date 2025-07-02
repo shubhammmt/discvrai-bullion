@@ -376,31 +376,46 @@ export const pitchSlidesV2 = [
   // Slide 11: Funding Requirements
   {
     type: 'funding',
-    title: '$1.5M Seed Round',
+    title: '$2.2M Seed Round',
     subtitle: 'Building India\'s Financial Operating System',
     icon: Wallet,
     allocation: [
       {
-        percentage: '45%',
-        category: 'Product Development',
-        description: 'AA integration, AI/ML engine, mobile app, investment APIs'
+        percentage: '35%',
+        category: 'Team',
+        description: 'Engineering, product, AI/ML specialists, leadership team'
       },
       {
-        percentage: '30%',
-        category: 'Team Building',
-        description: 'Engineering, product, AI/ML specialists'
-      },
-      {
-        percentage: '20%',
-        category: 'User Acquisition',
-        description: 'Digital marketing, partnerships, referral programs'
+        percentage: '39%',
+        category: 'Marketing',
+        description: 'Digital marketing, partnerships, user acquisition, brand building'
       },
       {
         percentage: '5%',
-        category: 'Compliance & Operations',
-        description: 'Security, regulatory compliance, infrastructure'
+        category: 'Compliance',
+        description: 'Regulatory compliance, legal framework, security audits'
+      },
+      {
+        percentage: '5%',
+        category: 'Infra',
+        description: 'Cloud infrastructure, security, scaling technology stack'
+      },
+      {
+        percentage: '3%',
+        category: 'Vendor',
+        description: 'Third-party integrations, API subscriptions, external services'
+      },
+      {
+        percentage: '3%',
+        category: 'Admin',
+        description: 'Operations, office setup, administrative expenses'
       }
     ],
+    fundDetails: {
+      fullStretch: '₹2,01,52,940',
+      raiseAmount: '$2.2M',
+      timeline: '18 Month Full Stretch'
+    },
     milestones: [
       'Month 6: 50K users with complete portfolio aggregation',
       'Month 12: 200K users with proven product-market fit',
