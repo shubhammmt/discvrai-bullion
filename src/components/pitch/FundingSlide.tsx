@@ -40,26 +40,12 @@ export const FundingSlide: React.FC<FundingSlideProps> = ({ slide }) => {
       {/* Fund Details */}
       {slide.fundDetails && (
         <div className="text-center mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-4 bg-blue-50">
-              <CardContent>
-                <h4 className="text-lg font-bold text-blue-800 mb-2">{slide.fundDetails.timeline}</h4>
-                <p className="text-2xl font-bold text-blue-600">{slide.fundDetails.fullStretch}</p>
-              </CardContent>
-            </Card>
-            <Card className="p-4 bg-green-50">
-              <CardContent>
-                <h4 className="text-lg font-bold text-green-800 mb-2">Raise with 10% Buffer</h4>
-                <p className="text-2xl font-bold text-green-600">{slide.fundDetails.raiseAmount}</p>
-              </CardContent>
-            </Card>
-            <Card className="p-4 bg-purple-50">
-              <CardContent>
-                <h4 className="text-lg font-bold text-purple-800 mb-2">Target Timeline</h4>
-                <p className="text-xl font-bold text-purple-600">18 Months</p>
-              </CardContent>
-            </Card>
-          </div>
+          <Card className="p-6 bg-green-50 max-w-md mx-auto">
+            <CardContent>
+              <h4 className="text-lg font-bold text-green-800 mb-2">Funding Target</h4>
+              <p className="text-3xl font-bold text-green-600">{slide.fundDetails.raiseAmount}</p>
+            </CardContent>
+          </Card>
         </div>
       )}
 

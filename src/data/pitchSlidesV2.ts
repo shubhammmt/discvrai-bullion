@@ -412,9 +412,7 @@ export const pitchSlidesV2 = [
       }
     ],
     fundDetails: {
-      fullStretch: '₹2,01,52,940',
-      raiseAmount: '$2.2M',
-      timeline: '18 Month Full Stretch'
+      raiseAmount: '$2.2M'
     },
     milestones: [
       'Month 6: 50K users with complete portfolio aggregation',
