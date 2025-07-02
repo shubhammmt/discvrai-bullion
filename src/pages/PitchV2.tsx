@@ -59,7 +59,6 @@ const PitchV2 = () => {
         onGoToSlide={goToSlide}
       />
 
-      <KeyboardShortcuts />
     </div>
   );
 };
