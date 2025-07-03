@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -497,25 +498,25 @@ const MutualFundDetails = () => {
 
         {/* Sector Allocation */}
         <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader>
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-green-600" />
               Sector Allocation
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-8">
+          <CardContent className="pt-0">
+            <div className="flex items-center gap-6">
               {/* Pie Chart - Left Side */}
               <div className="flex-1">
-                <ChartContainer config={sectorChartConfig} className="h-80">
+                <ChartContainer config={sectorChartConfig} className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <RechartsPieChart>
                       <Pie
                         data={sectorData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={60}
-                        outerRadius={120}
+                        innerRadius={50}
+                        outerRadius={100}
                         dataKey="allocation"
                         stroke="#ffffff"
                         strokeWidth={2}
@@ -534,18 +535,18 @@ const MutualFundDetails = () => {
               </div>
               
               {/* Legends - Right Side */}
-              <div className="flex-1 space-y-3">
-                <h4 className="font-semibold text-lg mb-4">Sector Breakdown</h4>
+              <div className="flex-1 space-y-2">
+                <h4 className="font-semibold text-base mb-3">Sector Breakdown</h4>
                 {sectorData.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+                    <div className="flex items-center gap-2">
                       <div 
-                        className="w-4 h-4 rounded-full" 
+                        className="w-3 h-3 rounded-full" 
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-sm font-medium text-gray-700">{item.sector}</span>
+                      <span className="text-xs font-medium text-gray-700">{item.sector}</span>
                     </div>
-                    <span className="text-sm font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
+                    <span className="text-xs font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
                   </div>
                 ))}
               </div>
