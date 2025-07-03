@@ -270,36 +270,38 @@ const MutualFundDetails = () => {
               {/* Left Side - Performance Chart */}
               <div className="space-y-4">
                 <ChartContainer config={performanceChartConfig} className="h-80">
-                  <LineChart data={performanceData}>
-                    <XAxis 
-                      dataKey="period" 
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: '#6b7280' }}
-                    />
-                    <YAxis 
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: '#6b7280' }}
-                    />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="return" 
-                      stroke="#3b82f6" 
-                      strokeWidth={3}
-                      dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                      name="Fund"
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="benchmark" 
-                      stroke="#e5e7eb" 
-                      strokeWidth={2}
-                      dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
-                      name="Benchmark"
-                    />
-                  </LineChart>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={performanceData}>
+                      <XAxis 
+                        dataKey="period" 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 12, fill: '#6b7280' }}
+                      />
+                      <YAxis 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 12, fill: '#6b7280' }}
+                      />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="return" 
+                        stroke="#3b82f6" 
+                        strokeWidth={3}
+                        dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                        name="Fund"
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="benchmark" 
+                        stroke="#e5e7eb" 
+                        strokeWidth={2}
+                        dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
+                        name="Benchmark"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </ChartContainer>
                 
                 {/* Time Period Toggles Below Chart */}
@@ -395,23 +397,25 @@ const MutualFundDetails = () => {
             </CardHeader>
             <CardContent>
               <ChartContainer config={assetAllocationConfig} className="h-64">
-                <RechartsPieChart>
-                  <Pie
-                    data={assetAllocationData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    dataKey="value"
-                    stroke="#ffffff"
-                    strokeWidth={2}
-                  >
-                    {assetAllocationData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                </RechartsPieChart>
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={assetAllocationData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      dataKey="value"
+                      stroke="#ffffff"
+                      strokeWidth={2}
+                    >
+                      {assetAllocationData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
               </ChartContainer>
               <div className="flex justify-center gap-4 mt-4">
                 {assetAllocationData.map((item, index) => (
@@ -509,12 +513,14 @@ const MutualFundDetails = () => {
           </CardHeader>
           <CardContent>
             <ChartContainer config={sectorChartConfig} className="h-80">
-              <BarChart data={sectorData} layout="horizontal">
-                <XAxis type="number" />
-                <YAxis type="category" dataKey="sector" width={100} fontSize={12} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="allocation" fill="#10b981" radius={[0, 4, 4, 0]} />
-              </BarChart>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={sectorData} layout="horizontal">
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="sector" width={100} fontSize={12} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="allocation" fill="#10b981" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
