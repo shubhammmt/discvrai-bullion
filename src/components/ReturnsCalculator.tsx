@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Calculator, TrendingUp } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
 
 interface ReturnsCalculatorProps {
   fundName: string;
@@ -228,13 +227,9 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                     fontSize={12}
                     tick={{ fill: '#6b7280' }}
                   />
-                  <Bar 
-                    dataKey="value" 
-                    radius={[4, 4, 0, 0]}
-                    fill={(entry) => entry.color}
-                  >
+                  <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                     {comparisonData.map((entry, index) => (
-                      <Bar key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Bar>
                 </BarChart>
