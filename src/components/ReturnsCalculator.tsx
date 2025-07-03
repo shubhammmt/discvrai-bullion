@@ -56,7 +56,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
     calculateReturns();
   }, [investmentType, monthlyAmount, lumpAmount, investmentPeriod, expectedReturn]);
 
-  // Calculate comparison data for chart
+  // Calculate comparison data for chart with distinct colors
   const getComparisonData = () => {
     const bankReturn = 4; // Bank FD rate
     const goldReturn = 8; // Gold average return
@@ -82,10 +82,30 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
     }
 
     return [
-      { name: 'Bank Account', value: bankAmount / 100000, return: bankReturn },
-      { name: 'Gold', value: goldAmount / 100000, return: goldReturn },
-      { name: 'Category Avg', value: (bankAmount + goldAmount) / 2 / 100000, return: benchmarkReturn },
-      { name: 'This Fund', value: fundAmount / 100000, return: expectedReturn }
+      { 
+        name: 'Bank Account', 
+        value: bankAmount / 100000, 
+        return: bankReturn,
+        color: '#ef4444' // Red
+      },
+      { 
+        name: 'Gold', 
+        value: goldAmount / 100000, 
+        return: goldReturn,
+        color: '#f59e0b' // Amber
+      },
+      { 
+        name: 'Category Avg', 
+        value: (bankAmount + goldAmount) / 2 / 100000, 
+        return: benchmarkReturn,
+        color: '#6b7280' // Gray
+      },
+      { 
+        name: 'This Fund', 
+        value: fundAmount / 100000, 
+        return: expectedReturn,
+        color: '#10b981' // Emerald
+      }
     ];
   };
 
@@ -102,11 +122,11 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
   const comparisonData = getComparisonData();
 
   return (
-    <Card className="bg-white/70 backdrop-blur-md border-white/20">
+    <Card className="bg-white/80 backdrop-blur-sm border-white/20">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Calculator className="w-5 h-5 text-blue-600" />
-          {fundName} Returns Calculator
+          Returns Calculator
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -116,23 +136,23 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             {/* Investment Type Toggle */}
             <div>
               <label className="block text-sm font-medium mb-2">Investment type</label>
-              <div className="flex border rounded-lg overflow-hidden">
+              <div className="flex border rounded-lg overflow-hidden bg-gray-50">
                 <button
                   onClick={() => setInvestmentType('sip')}
-                  className={`flex-1 py-2 px-4 text-sm font-medium transition-colors ${
+                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${
                     investmentType === 'sip'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'bg-transparent text-gray-700 hover:bg-gray-100'
                   }`}
                 >
                   Monthly SIP
                 </button>
                 <button
                   onClick={() => setInvestmentType('lumpsum')}
-                  className={`flex-1 py-2 px-4 text-sm font-medium transition-colors ${
+                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${
                     investmentType === 'lumpsum'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'bg-transparent text-gray-700 hover:bg-gray-100'
                   }`}
                 >
                   Lumpsum
@@ -145,8 +165,8 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
               <label className="block text-sm font-medium mb-2">
                 {investmentType === 'sip' ? 'Monthly investment' : 'Investment amount'}
               </label>
-              <div className="space-y-2">
-                <div className="text-xl font-semibold">
+              <div className="space-y-3">
+                <div className="text-2xl font-bold text-gray-900">
                   ₹{investmentType === 'sip' ? monthlyAmount.toLocaleString() : lumpAmount.toLocaleString()}
                 </div>
                 <Slider
@@ -169,21 +189,23 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             {/* Investment Period */}
             <div>
               <label className="block text-sm font-medium mb-2">Investment period</label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center justify-center gap-4 bg-gray-50 rounded-lg p-4">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
+                  className="h-10 w-10 rounded-full"
                 >
                   −
                 </Button>
-                <span className="text-xl font-semibold min-w-[60px] text-center">
+                <span className="text-2xl font-bold min-w-[80px] text-center text-gray-900">
                   {investmentPeriod} Yr
                 </span>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
+                  className="h-10 w-10 rounded-full"
                 >
                   +
                 </Button>
@@ -194,18 +216,46 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
           {/* Results Section */}
           <div className="space-y-4">
             {/* Comparison Chart */}
-            <div className="h-48">
+            <div className="h-48 bg-gray-50 rounded-lg p-4">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={comparisonData}>
-                  <XAxis dataKey="name" fontSize={12} />
-                  <YAxis fontSize={12} />
-                  <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                  <XAxis 
+                    dataKey="name" 
+                    fontSize={12}
+                    tick={{ fill: '#6b7280' }}
+                  />
+                  <YAxis 
+                    fontSize={12}
+                    tick={{ fill: '#6b7280' }}
+                  />
+                  <Bar 
+                    dataKey="value" 
+                    radius={[4, 4, 0, 0]}
+                    fill={(entry) => entry.color}
+                  >
+                    {comparisonData.map((entry, index) => (
+                      <Bar key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
+            {/* Legend */}
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              {comparisonData.map((item, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div 
+                    className="w-3 h-3 rounded" 
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <span className="text-gray-600">{item.name}</span>
+                </div>
+              ))}
+            </div>
+
             {/* Investment Summary */}
-            <div className="space-y-3">
+            <div className="space-y-3 bg-gray-50 rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Total investment</span>
                 <span className="font-semibold">{formatAmount(calculatedReturns.totalInvestment)}</span>
@@ -233,8 +283,8 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
           </div>
         </div>
 
-        <div className="text-xs text-gray-500 mt-4">
-          Disclaimer: These calculations are based on assumed returns and are for illustrative purposes only. 
+        <div className="text-xs text-gray-500 mt-4 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+          <strong>Disclaimer:</strong> These calculations are based on assumed returns and are for illustrative purposes only. 
           Actual returns may vary based on market conditions.
         </div>
       </CardContent>
