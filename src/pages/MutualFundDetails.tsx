@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -265,9 +266,9 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid lg:grid-cols-5 gap-4">
-              {/* Left Side - Performance Chart (65% width - 3/5 columns) */}
-              <div className="lg:col-span-3 space-y-4">
+            <div className="flex gap-6">
+              {/* Left Side - Performance Chart (65% width) */}
+              <div className="w-[65%] space-y-4">
                 <ChartContainer config={performanceChartConfig} className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart 
@@ -323,8 +324,8 @@ const MutualFundDetails = () => {
                 </div>
               </div>
 
-              {/* Right Side - Performance Metrics (35% width - 2/5 columns) */}
-              <div className="lg:col-span-2 space-y-3">
+              {/* Right Side - Performance Metrics (35% width) */}
+              <div className="w-[35%] space-y-3">
                 <div className="text-center">
                   <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
                   <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
