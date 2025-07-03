@@ -329,25 +329,27 @@ const MutualFundDetails = () => {
                 
                 {/* Comparison Chart */}
                 <div className="h-48">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={benchmarkComparisonData}>
-                      <XAxis 
-                        dataKey="name" 
-                        fontSize={12}
-                        tick={{ fill: '#6b7280' }}
-                      />
-                      <YAxis 
-                        fontSize={12}
-                        tick={{ fill: '#6b7280' }}
-                      />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                        {benchmarkComparisonData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <ChartContainer config={performanceChartConfig}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={benchmarkComparisonData}>
+                        <XAxis 
+                          dataKey="name" 
+                          fontSize={12}
+                          tick={{ fill: '#6b7280' }}
+                        />
+                        <YAxis 
+                          fontSize={12}
+                          tick={{ fill: '#6b7280' }}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                          {benchmarkComparisonData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
                 </div>
 
                 {/* Performance Metrics */}
