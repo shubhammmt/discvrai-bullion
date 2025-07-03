@@ -266,106 +266,109 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-6">
-              {/* Left Side - Performance Chart (65% width) */}
-              <div className="w-[65%] space-y-4">
-                <ChartContainer config={performanceChartConfig} className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart 
-                      data={performanceData}
-                      margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
-                    >
-                      <XAxis 
-                        dataKey="period" 
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fontSize: 11, fill: '#6b7280' }}
-                      />
-                      <YAxis 
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fontSize: 11, fill: '#6b7280' }}
-                        domain={['dataMin - 2', 'dataMax + 2']}
-                      />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line 
-                        type="monotone" 
-                        dataKey="return" 
-                        stroke="#3b82f6" 
-                        strokeWidth={3}
-                        dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                        name="Fund"
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="benchmark" 
-                        stroke="#e5e7eb" 
-                        strokeWidth={2}
-                        dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
-                        name="Benchmark"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-                
-                {/* Time Period Toggles Centered Below Chart */}
-                <div className="flex justify-center gap-2">
-                  {timeframes.map((timeframe) => (
-                    <Button
-                      key={timeframe}
-                      variant={activeTimeframe === timeframe ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setActiveTimeframe(timeframe)}
-                      className="h-8 px-3 text-xs"
-                    >
-                      {timeframe}
-                    </Button>
-                  ))}
+            <div className="space-y-4">
+              {/* Chart and Metrics Section */}
+              <div className="flex gap-6">
+                {/* Left Side - Performance Chart (65% width) */}
+                <div className="w-[65%]">
+                  <ChartContainer config={performanceChartConfig} className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart 
+                        data={performanceData}
+                        margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+                      >
+                        <XAxis 
+                          dataKey="period" 
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: '#6b7280' }}
+                        />
+                        <YAxis 
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: '#6b7280' }}
+                          domain={['dataMin - 2', 'dataMax + 2']}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Line 
+                          type="monotone" 
+                          dataKey="return" 
+                          stroke="#3b82f6" 
+                          strokeWidth={3}
+                          dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                          name="Fund"
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="benchmark" 
+                          stroke="#e5e7eb" 
+                          strokeWidth={2}
+                          dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
+                          name="Benchmark"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+
+                {/* Right Side - Performance Metrics (35% width) */}
+                <div className="w-[35%] space-y-3">
+                  <div className="text-center">
+                    <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
+                    <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
+                  </div>
+
+                  {/* Performance Metrics - More Compact */}
+                  <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                    <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                      <span className="text-xs font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
+                      <span className={`text-lg font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                      <span className="text-xs font-medium text-gray-600">Benchmark Return ({activeTimeframe})</span>
+                      <span className={`text-lg font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="text-sm font-semibold text-gray-800">Outperformance</span>
+                      <span className={`text-xl font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Additional Performance Context - More Compact */}
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-3 h-3 text-blue-600" />
+                      <span className="text-xs font-medium text-blue-800">Performance Analysis</span>
+                    </div>
+                    <p className="text-xs text-blue-700 leading-relaxed">
+                      {(currentData.return - currentData.benchmark) >= 0 
+                        ? `This fund has outperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
+                        : `This fund has underperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
+                      }
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              {/* Right Side - Performance Metrics (35% width) */}
-              <div className="w-[35%] space-y-3">
-                <div className="text-center">
-                  <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
-                  <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
-                </div>
-
-                {/* Performance Metrics - More Compact */}
-                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                  <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                    <span className="text-xs font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
-                    <span className={`text-lg font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                    <span className="text-xs font-medium text-gray-600">Benchmark Return ({activeTimeframe})</span>
-                    <span className={`text-lg font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center pt-1">
-                    <span className="text-sm font-semibold text-gray-800">Outperformance</span>
-                    <span className={`text-xl font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
-                    </span>
-                  </div>
-                </div>
-
-                {/* Additional Performance Context - More Compact */}
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <TrendingUp className="w-3 h-3 text-blue-600" />
-                    <span className="text-xs font-medium text-blue-800">Performance Analysis</span>
-                  </div>
-                  <p className="text-xs text-blue-700 leading-relaxed">
-                    {(currentData.return - currentData.benchmark) >= 0 
-                      ? `This fund has outperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
-                      : `This fund has underperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
-                    }
-                  </p>
-                </div>
+              
+              {/* Time Period Toggles - Centered Below Entire Chart Section */}
+              <div className="flex justify-center gap-2 pt-4">
+                {timeframes.map((timeframe) => (
+                  <Button
+                    key={timeframe}
+                    variant={activeTimeframe === timeframe ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setActiveTimeframe(timeframe)}
+                    className="h-8 px-3 text-xs"
+                  >
+                    {timeframe}
+                  </Button>
+                ))}
               </div>
             </div>
           </CardContent>
