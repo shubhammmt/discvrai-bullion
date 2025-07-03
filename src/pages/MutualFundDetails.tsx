@@ -381,87 +381,100 @@ const MutualFundDetails = () => {
           benchmarkReturn={12}
         />
 
-        {/* Fund Overview Grid - Responsive */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Asset Allocation */}
+        {/* Fund Overview Grid - Enhanced Responsive */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+          {/* Asset Allocation - Fully Responsive */}
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
                 <PieChart className="w-5 h-5 text-green-600" />
                 Asset Allocation
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <ChartContainer config={assetAllocationConfig} className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsPieChart>
-                    <Pie
-                      data={assetAllocationData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
-                      dataKey="value"
-                      stroke="#ffffff"
-                      strokeWidth={2}
-                    >
-                      {assetAllocationData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                  </RechartsPieChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-              <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {assetAllocationData.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div 
-                      className="w-3 h-3 rounded-full" 
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span className="text-sm">{item.name}: {item.value.toFixed(1)}%</span>
-                  </div>
-                ))}
+            <CardContent className="pt-0">
+              <div className="flex flex-col space-y-4">
+                {/* Chart - Responsive size */}
+                <div className="w-full flex justify-center">
+                  <ChartContainer config={assetAllocationConfig} className="h-48 w-48 sm:h-56 sm:w-56 lg:h-64 lg:w-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsPieChart>
+                        <Pie
+                          data={assetAllocationData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={40}
+                          outerRadius={80}
+                          dataKey="value"
+                          stroke="#ffffff"
+                          strokeWidth={2}
+                        >
+                          {assetAllocationData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+                
+                {/* Legend - Mobile optimized */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {assetAllocationData.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between sm:justify-start sm:gap-2 p-2 bg-gray-50 rounded-md">
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full flex-shrink-0" 
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-sm font-medium text-gray-700">{item.name}</span>
+                      </div>
+                      <span className="text-sm font-bold text-gray-900">{item.value.toFixed(1)}%</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Risk Analysis */}
+          {/* Risk Analysis - Enhanced Mobile Layout */}
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
                 <Shield className="w-5 h-5 text-red-600" />
                 Risk Analysis
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <h4 className="font-semibold">Risk Metrics (3 Years)</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Standard Deviation</span>
-                      <span className="font-semibold">{mockFundData.risk_analytics.standard_deviation_3year}%</span>
+            <CardContent className="pt-0">
+              <div className="space-y-4">
+                {/* Risk Metrics - Mobile Grid */}
+                <div>
+                  <h4 className="font-semibold mb-3 text-base">Risk Metrics (3 Years)</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-600 mb-1">Standard Deviation</div>
+                      <div className="text-lg font-bold text-gray-900">{mockFundData.risk_analytics.standard_deviation_3year}%</div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Sharpe Ratio</span>
-                      <span className="font-semibold">{mockFundData.risk_analytics.sharpe_ratio_3year}</span>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-600 mb-1">Sharpe Ratio</div>
+                      <div className="text-lg font-bold text-gray-900">{mockFundData.risk_analytics.sharpe_ratio_3year}</div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Beta</span>
-                      <span className="font-semibold">{mockFundData.risk_analytics.beta_3year}</span>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-600 mb-1">Beta</div>
+                      <div className="text-lg font-bold text-gray-900">{mockFundData.risk_analytics.beta_3year}</div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Alpha</span>
-                      <span className="font-semibold">{mockFundData.risk_analytics.alpha_3year}</span>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-600 mb-1">Alpha</div>
+                      <div className="text-lg font-bold text-gray-900">{mockFundData.risk_analytics.alpha_3year}</div>
                     </div>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <h4 className="font-semibold">Risk Level</h4>
-                  <div className="text-center p-6 bg-red-50 rounded-lg">
-                    <div className="text-3xl font-bold text-red-600 mb-2">
+                
+                {/* Risk Level - Compact Mobile */}
+                <div>
+                  <h4 className="font-semibold mb-3 text-base">Risk Level</h4>
+                  <div className="text-center p-4 bg-red-50 rounded-lg">
+                    <div className="text-2xl font-bold text-red-600 mb-1">
                       {mockFundData.basic_info.scheme_category.risk_level}
                     </div>
                     <div className="text-sm text-gray-600">Risk Rating</div>
@@ -472,34 +485,43 @@ const MutualFundDetails = () => {
           </Card>
         </div>
 
-        {/* Portfolio Holdings - Responsive Table */}
+        {/* Portfolio Holdings - Mobile Optimized Table */}
         <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
               <Building className="w-5 h-5 text-blue-600" />
               Top Holdings
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="rounded-md border overflow-x-auto">
+          <CardContent className="pt-0">
+            {/* Mobile Card Layout */}
+            <div className="block sm:hidden space-y-3">
+              {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
+                <div key={index} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="font-medium text-gray-900 text-sm">{holding.company_name}</div>
+                    <div className="font-bold text-gray-900 text-sm">{holding.percentage_holding.toFixed(2)}%</div>
+                  </div>
+                  <div className="text-xs text-gray-600">{holding.sector}</div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Desktop Table Layout */}
+            <div className="hidden sm:block rounded-md border overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent">
-                    <TableHead className="text-center font-semibold text-gray-900">Company</TableHead>
-                    <TableHead className="text-center font-semibold text-gray-900 hidden sm:table-cell">Sector</TableHead>
+                    <TableHead className="text-left font-semibold text-gray-900">Company</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-900">Sector</TableHead>
                     <TableHead className="text-right font-semibold text-gray-900">% Assets</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
                     <TableRow key={index} className="hover:bg-gray-50/50">
-                      <TableCell className="text-center font-medium text-gray-900 py-4">
-                        <div>
-                          {holding.company_name}
-                          <div className="text-xs text-gray-500 sm:hidden">{holding.sector}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-center text-gray-600 py-4 hidden sm:table-cell">{holding.sector}</TableCell>
+                      <TableCell className="text-left font-medium text-gray-900 py-4">{holding.company_name}</TableCell>
+                      <TableCell className="text-center text-gray-600 py-4">{holding.sector}</TableCell>
                       <TableCell className="text-right font-semibold text-gray-900 py-4">{holding.percentage_holding.toFixed(2)}%</TableCell>
                     </TableRow>
                   ))}
@@ -509,27 +531,27 @@ const MutualFundDetails = () => {
           </CardContent>
         </Card>
 
-        {/* Sector Allocation - Responsive */}
+        {/* Sector Allocation - Fully Responsive */}
         <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
               <Activity className="w-5 h-5 text-green-600" />
               Sector Allocation
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
-            <div className="flex flex-col lg:flex-row items-center gap-6">
-              {/* Pie Chart - Full width on mobile */}
-              <div className="w-full lg:flex-1">
-                <ChartContainer config={sectorChartConfig} className="h-64">
+            <div className="flex flex-col space-y-6">
+              {/* Chart Section - Responsive */}
+              <div className="w-full flex justify-center">
+                <ChartContainer config={sectorChartConfig} className="h-48 w-48 sm:h-56 sm:w-56 lg:h-64 lg:w-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <RechartsPieChart>
                       <Pie
                         data={sectorData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={50}
-                        outerRadius={100}
+                        innerRadius={40}
+                        outerRadius={80}
                         dataKey="allocation"
                         stroke="#ffffff"
                         strokeWidth={2}
@@ -547,53 +569,55 @@ const MutualFundDetails = () => {
                 </ChartContainer>
               </div>
               
-              {/* Legends - Full width on mobile */}
-              <div className="w-full lg:flex-1 space-y-2">
-                <h4 className="font-semibold text-base mb-3">Sector Breakdown</h4>
-                {sectorData.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-xs font-medium text-gray-700">{item.sector}</span>
+              {/* Sector Breakdown - Mobile Optimized */}
+              <div className="w-full">
+                <h4 className="font-semibold text-base mb-3 text-center sm:text-left">Sector Breakdown</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {sectorData.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full flex-shrink-0" 
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-sm font-medium text-gray-700">{item.sector}</span>
+                      </div>
+                      <span className="text-sm font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
                     </div>
-                    <span className="text-xs font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Additional Information - Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-lg">Exit Load</CardTitle>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base lg:text-lg">Exit Load</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold mb-2">1%</div>
+            <CardContent className="pt-0">
+              <div className="text-xl lg:text-2xl font-bold mb-2">1%</div>
               <div className="text-sm text-gray-600">If redeemed within 1 year</div>
             </CardContent>
           </Card>
 
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-lg">Fund Age</CardTitle>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base lg:text-lg">Fund Age</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold mb-2">{mockFundData.basic_info.launch_details.fund_age_years.toFixed(0)} Years</div>
+            <CardContent className="pt-0">
+              <div className="text-xl lg:text-2xl font-bold mb-2">{mockFundData.basic_info.launch_details.fund_age_years.toFixed(0)} Years</div>
               <div className="text-sm text-gray-600">Since inception</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-lg">Investment Options</CardTitle>
+          <Card className="bg-white/80 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base lg:text-lg">Investment Options</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <div className="space-y-2 text-sm">
                 <div>✓ SIP Available</div>
                 <div>✓ STP Available</div>
@@ -603,12 +627,12 @@ const MutualFundDetails = () => {
           </Card>
         </div>
 
-        {/* Final CTA */}
-        <div className="text-center py-8">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 lg:px-12 py-4 text-lg h-auto">
+        {/* Final CTA - Responsive */}
+        <div className="text-center py-6 lg:py-8">
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-12 py-3 lg:py-4 text-base lg:text-lg h-auto w-full sm:w-auto">
             Start Investing Today
           </Button>
-          <p className="text-sm text-gray-600 mt-3">
+          <p className="text-sm text-gray-600 mt-3 px-4">
             Start your investment journey with as low as ₹500 per month
           </p>
         </div>
