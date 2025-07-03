@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from '@/pages/Index';
@@ -7,6 +8,7 @@ import MutualFundFeed from '@/pages/MutualFundFeed';
 import Research from '@/pages/Research';
 import StockResearch from '@/pages/StockResearch';
 import MutualFundResearch from '@/pages/MutualFundResearch';
+import MutualFundDetails from '@/pages/MutualFundDetails';
 import InsuranceResearch from '@/pages/InsuranceResearch';
 import CreditResearch from '@/pages/CreditResearch';
 import CreditCardResearch from '@/pages/CreditCardResearch';
@@ -52,6 +54,7 @@ function App() {
             <Route path="/research" element={<Research />} />
             <Route path="/research/stock/:symbol" element={<StockResearch />} />
             <Route path="/research/mutual-fund/:fundId" element={<MutualFundResearch />} />
+            <Route path="/mutual-fund/:fundId" element={<MutualFundDetails />} />
             <Route path="/research/insurance/:productId" element={<InsuranceResearch />} />
             <Route path="/research/credit/:productId" element={<CreditResearch />} />
             <Route path="/research/credit-card/:cardId" element={<CreditCardResearch />} />
