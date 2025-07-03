@@ -121,12 +121,6 @@ const MutualFundDetails = () => {
   // Get current timeframe data
   const currentData = performanceData.find(item => item.period === activeTimeframe) || performanceData[3];
 
-  // Benchmark comparison data
-  const benchmarkComparisonData = [
-    { name: 'Fund', value: currentData.return, color: '#3b82f6' },
-    { name: 'Benchmark', value: currentData.benchmark, color: '#e5e7eb' }
-  ];
-
   // Chart configs
   const performanceChartConfig = {
     return: {
@@ -271,7 +265,10 @@ const MutualFundDetails = () => {
               <div className="space-y-4">
                 <ChartContainer config={performanceChartConfig} className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={performanceData}>
+                    <LineChart 
+                      data={performanceData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                    >
                       <XAxis 
                         dataKey="period" 
                         axisLine={false}
@@ -282,6 +279,7 @@ const MutualFundDetails = () => {
                         axisLine={false}
                         tickLine={false}
                         tick={{ fontSize: 12, fill: '#6b7280' }}
+                        domain={['dataMin - 2', 'dataMax + 2']}
                       />
                       <ChartTooltip content={<ChartTooltipContent />} />
                       <Line 
@@ -320,60 +318,47 @@ const MutualFundDetails = () => {
                 </div>
               </div>
 
-              {/* Right Side - Benchmark Comparison */}
+              {/* Right Side - Performance Metrics */}
               <div className="space-y-4">
                 <div className="text-center">
                   <h3 className="text-lg font-semibold mb-2">{activeTimeframe} Performance Comparison</h3>
                   <div className="text-sm text-gray-600 mb-4">Fund vs Category Benchmark</div>
                 </div>
-                
-                {/* Comparison Chart */}
-                <div className="h-48">
-                  <ChartContainer config={performanceChartConfig}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={benchmarkComparisonData}>
-                        <XAxis 
-                          dataKey="name" 
-                          fontSize={12}
-                          tick={{ fill: '#6b7280' }}
-                        />
-                        <YAxis 
-                          fontSize={12}
-                          tick={{ fill: '#6b7280' }}
-                        />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                          {benchmarkComparisonData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                </div>
 
                 {/* Performance Metrics */}
-                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Fund Return ({activeTimeframe})</span>
-                    <span className={`font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+                  <div className="flex justify-between items-center pb-3 border-b">
+                    <span className="text-sm font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
+                    <span className={`text-2xl font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Benchmark Return ({activeTimeframe})</span>
-                    <span className={`font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <div className="flex justify-between items-center pb-3 border-b">
+                    <span className="text-sm font-medium text-gray-600">Benchmark Return ({activeTimeframe})</span>
+                    <span className={`text-2xl font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
                     </span>
                   </div>
-                  <div className="border-t pt-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium">Outperformance</span>
-                      <span className={`font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
-                      </span>
-                    </div>
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="text-lg font-semibold text-gray-800">Outperformance</span>
+                    <span className={`text-3xl font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
+                    </span>
                   </div>
+                </div>
+
+                {/* Additional Performance Context */}
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm font-medium text-blue-800">Performance Analysis</span>
+                  </div>
+                  <p className="text-xs text-blue-700">
+                    {(currentData.return - currentData.benchmark) >= 0 
+                      ? `This fund has outperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
+                      : `This fund has underperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
+                    }
+                  </p>
                 </div>
               </div>
             </div>
