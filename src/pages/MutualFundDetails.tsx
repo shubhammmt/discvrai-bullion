@@ -270,7 +270,7 @@ const MutualFundDetails = () => {
               {/* Chart and Metrics Section */}
               <div className="flex gap-6">
                 {/* Left Side - Performance Chart (65% width) */}
-                <div className="w-[65%]">
+                <div className="w-[65%] flex flex-col">
                   <ChartContainer config={performanceChartConfig} className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart 
@@ -309,6 +309,21 @@ const MutualFundDetails = () => {
                       </LineChart>
                     </ResponsiveContainer>
                   </ChartContainer>
+                  
+                  {/* Time Period Toggles - Centered within the 65% chart area */}
+                  <div className="flex justify-center gap-2 pt-4">
+                    {timeframes.map((timeframe) => (
+                      <Button
+                        key={timeframe}
+                        variant={activeTimeframe === timeframe ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setActiveTimeframe(timeframe)}
+                        className="h-8 px-3 text-xs"
+                      >
+                        {timeframe}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Right Side - Performance Metrics (35% width) */}
@@ -354,21 +369,6 @@ const MutualFundDetails = () => {
                     </p>
                   </div>
                 </div>
-              </div>
-              
-              {/* Time Period Toggles - Centered Below Entire Chart Section */}
-              <div className="flex justify-center gap-2 pt-4">
-                {timeframes.map((timeframe) => (
-                  <Button
-                    key={timeframe}
-                    variant={activeTimeframe === timeframe ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setActiveTimeframe(timeframe)}
-                    className="h-8 px-3 text-xs"
-                  >
-                    {timeframe}
-                  </Button>
-                ))}
               </div>
             </div>
           </CardContent>
