@@ -112,9 +112,13 @@ const MutualFundDetails = () => {
 
   const sectorData = Object.entries(mockFundData.portfolio_composition.sector_allocation.sectors)
     .slice(0, 8)
-    .map(([sector, allocation]) => ({
+    .map(([sector, allocation], index) => ({
       sector,
-      allocation: allocation as number
+      allocation: allocation as number,
+      color: [
+        '#3b82f6', '#10b981', '#f59e0b', '#ef4444', 
+        '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'
+      ][index] || '#6b7280'
     }));
 
   const timeframes = ['1M', '6M', '1Y', '3Y', '5Y'];
@@ -500,16 +504,52 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={sectorChartConfig} className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={sectorData} layout="horizontal">
-                  <XAxis type="number" />
-                  <YAxis type="category" dataKey="sector" width={100} fontSize={12} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="allocation" fill="#10b981" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+            <div className="flex items-center gap-8">
+              {/* Pie Chart - Left Side */}
+              <div className="flex-1">
+                <ChartContainer config={sectorChartConfig} className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPieChart>
+                      <Pie
+                        data={sectorData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={120}
+                        dataKey="allocation"
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                      >
+                        {sectorData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <ChartTooltip 
+                        content={<ChartTooltipContent />}
+                        formatter={(value) => [`${value}%`, 'Allocation']}
+                      />
+                    </RechartsPieChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
+              
+              {/* Legends - Right Side */}
+              <div className="flex-1 space-y-3">
+                <h4 className="font-semibold text-lg mb-4">Sector Breakdown</h4>
+                {sectorData.map((item, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div 
+                        className="w-4 h-4 rounded-full" 
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span className="text-sm font-medium text-gray-700">{item.sector}</span>
+                    </div>
+                    <span className="text-sm font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </CardContent>
         </Card>
 
