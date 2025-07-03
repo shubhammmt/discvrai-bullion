@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -386,45 +385,47 @@ const MutualFundDetails = () => {
           {/* Asset Allocation - Fully Responsive */}
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <PieChart className="w-5 h-5 text-green-600" />
+              <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+                <PieChart className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
                 Asset Allocation
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
               <div className="flex flex-col space-y-4">
-                {/* Chart - Responsive size */}
+                {/* Chart - Responsive size with proper mobile layout */}
                 <div className="w-full flex justify-center">
-                  <ChartContainer config={assetAllocationConfig} className="h-48 w-48 sm:h-56 sm:w-56 lg:h-64 lg:w-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPieChart>
-                        <Pie
-                          data={assetAllocationData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={40}
-                          outerRadius={80}
-                          dataKey="value"
-                          stroke="#ffffff"
-                          strokeWidth={2}
-                        >
-                          {assetAllocationData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                      </RechartsPieChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
+                  <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[280px]">
+                    <ChartContainer config={assetAllocationConfig} className="aspect-square w-full h-auto">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsPieChart>
+                          <Pie
+                            data={assetAllocationData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius="35%"
+                            outerRadius="75%"
+                            dataKey="value"
+                            stroke="#ffffff"
+                            strokeWidth={2}
+                          >
+                            {assetAllocationData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                        </RechartsPieChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                  </div>
                 </div>
                 
-                {/* Legend - Mobile optimized */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {/* Legend - Mobile optimized with better spacing */}
+                <div className="space-y-2">
                   {assetAllocationData.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between sm:justify-start sm:gap-2 p-2 bg-gray-50 rounded-md">
-                      <div className="flex items-center gap-2">
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
                         <div 
-                          className="w-3 h-3 rounded-full flex-shrink-0" 
+                          className="w-4 h-4 rounded-full flex-shrink-0" 
                           style={{ backgroundColor: item.color }}
                         />
                         <span className="text-sm font-medium text-gray-700">{item.name}</span>
@@ -534,50 +535,52 @@ const MutualFundDetails = () => {
         {/* Sector Allocation - Fully Responsive */}
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Activity className="w-5 h-5 text-green-600" />
+            <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+              <Activity className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
               Sector Allocation
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
             <div className="flex flex-col space-y-6">
-              {/* Chart Section - Responsive */}
+              {/* Chart Section - Responsive with proper mobile sizing */}
               <div className="w-full flex justify-center">
-                <ChartContainer config={sectorChartConfig} className="h-48 w-48 sm:h-56 sm:w-56 lg:h-64 lg:w-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsPieChart>
-                      <Pie
-                        data={sectorData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={40}
-                        outerRadius={80}
-                        dataKey="allocation"
-                        stroke="#ffffff"
-                        strokeWidth={2}
-                      >
-                        {sectorData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        formatter={(value) => [`${value}%`, 'Allocation']}
-                      />
-                    </RechartsPieChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+                <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[280px]">
+                  <ChartContainer config={sectorChartConfig} className="aspect-square w-full h-auto">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsPieChart>
+                        <Pie
+                          data={sectorData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius="35%"
+                          outerRadius="75%"
+                          dataKey="allocation"
+                          stroke="#ffffff"
+                          strokeWidth={2}
+                        >
+                          {sectorData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <ChartTooltip 
+                          content={<ChartTooltipContent />}
+                          formatter={(value) => [`${value}%`, 'Allocation']}
+                        />
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
               </div>
               
-              {/* Sector Breakdown - Mobile Optimized */}
+              {/* Sector Breakdown - Mobile Optimized with better layout */}
               <div className="w-full">
-                <h4 className="font-semibold text-base mb-3 text-center sm:text-left">Sector Breakdown</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <h4 className="font-semibold text-base mb-4 text-center sm:text-left">Sector Breakdown</h4>
+                <div className="space-y-2">
                   {sectorData.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-                      <div className="flex items-center gap-2">
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
                         <div 
-                          className="w-3 h-3 rounded-full flex-shrink-0" 
+                          className="w-4 h-4 rounded-full flex-shrink-0" 
                           style={{ backgroundColor: item.color }}
                         />
                         <span className="text-sm font-medium text-gray-700">{item.sector}</span>
