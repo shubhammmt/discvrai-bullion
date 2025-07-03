@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
@@ -122,165 +123,184 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
 
   return (
     <Card className="bg-white/80 backdrop-blur-sm border-white/20">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="w-5 h-5 text-blue-600" />
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+          <Calculator className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600" />
           Returns Calculator
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Input Section */}
-          <div className="space-y-6">
-            {/* Investment Type Toggle */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Investment type</label>
-              <div className="flex border rounded-lg overflow-hidden bg-gray-50">
-                <button
-                  onClick={() => setInvestmentType('sip')}
-                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${
-                    investmentType === 'sip'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  Monthly SIP
-                </button>
-                <button
-                  onClick={() => setInvestmentType('lumpsum')}
-                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${
-                    investmentType === 'lumpsum'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  Lumpsum
-                </button>
-              </div>
-            </div>
-
-            {/* Investment Amount */}
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                {investmentType === 'sip' ? 'Monthly investment' : 'Investment amount'}
-              </label>
-              <div className="space-y-3">
-                <div className="text-2xl font-bold text-gray-900">
-                  ₹{investmentType === 'sip' ? monthlyAmount.toLocaleString() : lumpAmount.toLocaleString()}
+      <CardContent className="p-4 lg:p-6">
+        <div className="space-y-6">
+          {/* Mobile: Stacked Layout, Desktop: Side by Side */}
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-8">
+            
+            {/* Input Section - Full width on mobile, left column on desktop */}
+            <div className="space-y-4 lg:space-y-6">
+              {/* Investment Type Toggle - Mobile Optimized */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Investment type</label>
+                <div className="flex border rounded-lg overflow-hidden bg-gray-50">
+                  <button
+                    onClick={() => setInvestmentType('sip')}
+                    className={`flex-1 py-2 lg:py-3 px-3 lg:px-4 text-xs lg:text-sm font-medium transition-colors ${
+                      investmentType === 'sip'
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'bg-transparent text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    Monthly SIP
+                  </button>
+                  <button
+                    onClick={() => setInvestmentType('lumpsum')}
+                    className={`flex-1 py-2 lg:py-3 px-3 lg:px-4 text-xs lg:text-sm font-medium transition-colors ${
+                      investmentType === 'lumpsum'
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'bg-transparent text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    Lumpsum
+                  </button>
                 </div>
-                <Slider
-                  value={[investmentType === 'sip' ? monthlyAmount : lumpAmount]}
-                  onValueChange={(value) => {
-                    if (investmentType === 'sip') {
-                      setMonthlyAmount(value[0]);
-                    } else {
-                      setLumpAmount(value[0]);
-                    }
-                  }}
-                  max={investmentType === 'sip' ? 100000 : 1000000}
-                  min={investmentType === 'sip' ? 500 : 5000}
-                  step={investmentType === 'sip' ? 500 : 5000}
-                  className="w-full"
-                />
               </div>
-            </div>
 
-            {/* Investment Period */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Investment period</label>
-              <div className="flex items-center justify-center gap-4 bg-gray-50 rounded-lg p-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
-                  className="h-10 w-10 rounded-full"
-                >
-                  −
-                </Button>
-                <span className="text-2xl font-bold min-w-[80px] text-center text-gray-900">
-                  {investmentPeriod} Yr
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
-                  className="h-10 w-10 rounded-full"
-                >
-                  +
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Results Section */}
-          <div className="space-y-4">
-            {/* Comparison Chart */}
-            <div className="h-48 bg-gray-50 rounded-lg p-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={comparisonData}>
-                  <XAxis 
-                    dataKey="name" 
-                    fontSize={12}
-                    tick={{ fill: '#6b7280' }}
+              {/* Investment Amount - Mobile Optimized */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">
+                  {investmentType === 'sip' ? 'Monthly investment' : 'Investment amount'}
+                </label>
+                <div className="space-y-3">
+                  <div className="text-xl lg:text-2xl font-bold text-gray-900 text-center lg:text-left">
+                    ₹{investmentType === 'sip' ? monthlyAmount.toLocaleString() : lumpAmount.toLocaleString()}
+                  </div>
+                  <Slider
+                    value={[investmentType === 'sip' ? monthlyAmount : lumpAmount]}
+                    onValueChange={(value) => {
+                      if (investmentType === 'sip') {
+                        setMonthlyAmount(value[0]);
+                      } else {
+                        setLumpAmount(value[0]);
+                      }
+                    }}
+                    max={investmentType === 'sip' ? 100000 : 1000000}
+                    min={investmentType === 'sip' ? 500 : 5000}
+                    step={investmentType === 'sip' ? 500 : 5000}
+                    className="w-full"
                   />
-                  <YAxis 
-                    fontSize={12}
-                    tick={{ fill: '#6b7280' }}
-                  />
-                  <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                    {comparisonData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Legend */}
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {comparisonData.map((item, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded" 
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-gray-600">{item.name}</span>
+                  {/* Range indicators for mobile */}
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>₹{investmentType === 'sip' ? '500' : '5,000'}</span>
+                    <span>₹{investmentType === 'sip' ? '1,00,000' : '10,00,000'}</span>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Investment Period - Mobile Optimized */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Investment period</label>
+                <div className="flex items-center justify-center gap-3 lg:gap-4 bg-gray-50 rounded-lg p-3 lg:p-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
+                    className="h-8 w-8 lg:h-10 lg:w-10 rounded-full text-lg font-bold"
+                  >
+                    −
+                  </Button>
+                  <span className="text-xl lg:text-2xl font-bold min-w-[60px] lg:min-w-[80px] text-center text-gray-900">
+                    {investmentPeriod} Yr
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
+                    className="h-8 w-8 lg:h-10 lg:w-10 rounded-full text-lg font-bold"
+                  >
+                    +
+                  </Button>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                  <span>1 Year</span>
+                  <span>30 Years</span>
+                </div>
+              </div>
             </div>
 
-            {/* Investment Summary */}
-            <div className="space-y-3 bg-gray-50 rounded-lg p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Total investment</span>
-                <span className="font-semibold">{formatAmount(calculatedReturns.totalInvestment)}</span>
+            {/* Results Section - Full width on mobile, right column on desktop */}
+            <div className="space-y-4">
+              {/* Comparison Chart - Responsive Height */}
+              <div className="h-40 lg:h-48 bg-gray-50 rounded-lg p-3 lg:p-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                    <XAxis 
+                      dataKey="name" 
+                      fontSize={10}
+                      interval={0}
+                      angle={-45}
+                      textAnchor="end"
+                      height={60}
+                      tick={{ fill: '#6b7280' }}
+                    />
+                    <YAxis 
+                      fontSize={10}
+                      tick={{ fill: '#6b7280' }}
+                      width={30}
+                    />
+                    <Bar dataKey="value" radius={[2, 2, 0, 0]}>
+                      {comparisonData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Profit</span>
-                <span className="font-semibold text-green-600">{formatAmount(calculatedReturns.profit)}</span>
+
+              {/* Legend - Mobile Optimized Grid */}
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {comparisonData.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded flex-shrink-0" 
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-gray-600 truncate">{item.name}</span>
+                  </div>
+                ))}
               </div>
-              <div className="border-t pt-3">
+
+              {/* Investment Summary - Mobile Optimized */}
+              <div className="space-y-3 bg-gray-50 rounded-lg p-3 lg:p-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Total corpus</span>
-                  <span className="text-xl font-bold">{formatAmount(calculatedReturns.maturityAmount)}</span>
+                  <span className="text-sm text-gray-600">Total investment</span>
+                  <span className="text-sm lg:text-base font-semibold">{formatAmount(calculatedReturns.totalInvestment)}</span>
                 </div>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="flex items-center gap-1 text-green-600">
-                    <TrendingUp size={16} />
-                    Absolute return
-                  </span>
-                  <span className="text-green-600 font-semibold">
-                    {calculatedReturns.absoluteReturn.toFixed(2)}%
-                  </span>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Profit</span>
+                  <span className="text-sm lg:text-base font-semibold text-green-600">{formatAmount(calculatedReturns.profit)}</span>
+                </div>
+                <div className="border-t pt-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm lg:text-base font-medium">Total corpus</span>
+                    <span className="text-lg lg:text-xl font-bold">{formatAmount(calculatedReturns.maturityAmount)}</span>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="flex items-center gap-1 text-green-600 text-sm">
+                      <TrendingUp size={14} />
+                      Absolute return
+                    </span>
+                    <span className="text-green-600 font-semibold text-sm lg:text-base">
+                      {calculatedReturns.absoluteReturn.toFixed(2)}%
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="text-xs text-gray-500 mt-4 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-          <strong>Disclaimer:</strong> These calculations are based on assumed returns and are for illustrative purposes only. 
-          Actual returns may vary based on market conditions.
+          {/* Disclaimer - Mobile Optimized */}
+          <div className="text-xs text-gray-500 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+            <strong>Disclaimer:</strong> These calculations are based on assumed returns and are for illustrative purposes only. 
+            Actual returns may vary based on market conditions.
+          </div>
         </div>
       </CardContent>
     </Card>
