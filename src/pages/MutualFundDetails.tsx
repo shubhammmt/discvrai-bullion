@@ -181,12 +181,12 @@ const MutualFundDetails = () => {
         <div className="space-y-6">
           {/* Fund Basic Information */}
           <div className="space-y-4">
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
                   {mockFundData.basic_info.scheme_short_name}
                 </h1>
-                <p className="text-lg text-gray-600 mb-3">
+                <p className="text-base lg:text-lg text-gray-600 mb-3">
                   {mockFundData.basic_info.fund_house.amc_name}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -201,7 +201,7 @@ const MutualFundDetails = () => {
                   </Badge>
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 lg:self-start">
                 <Button variant="outline" size="sm">
                   <Bookmark size={16} />
                 </Button>
@@ -213,26 +213,26 @@ const MutualFundDetails = () => {
 
             {/* NAV and Performance with AUM and Expense Ratio */}
             <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="grid md:grid-cols-4 gap-6">
-                  <div>
+              <CardContent className="p-4 lg:p-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                  <div className="text-center lg:text-left">
                     <div className="text-sm text-gray-600 mb-1">Latest NAV</div>
-                    <div className="text-4xl font-bold text-gray-900">₹{mockFundData.current_performance.latest_nav.price}</div>
+                    <div className="text-2xl lg:text-4xl font-bold text-gray-900">₹{mockFundData.current_performance.latest_nav.price}</div>
                     <div className="text-sm text-green-600 mt-1">+{mockFundData.current_performance.returns.ret_1month}% (1D)</div>
                   </div>
-                  <div>
+                  <div className="text-center lg:text-left">
                     <div className="text-sm text-gray-600 mb-1">3Y Annualized Returns</div>
-                    <div className="text-4xl font-bold text-blue-600">{mockFundData.current_performance.returns.ret_3year}%</div>
+                    <div className="text-2xl lg:text-4xl font-bold text-blue-600">{mockFundData.current_performance.returns.ret_3year}%</div>
                     <div className="text-sm text-gray-600 mt-1">Rank: 15/247 in category</div>
                   </div>
-                  <div>
+                  <div className="text-center lg:text-left">
                     <div className="text-sm text-gray-600 mb-1">AUM</div>
-                    <div className="text-4xl font-bold text-purple-600">₹{(mockFundData.fund_structure.aum_details.current_aum / 100).toFixed(0)}Cr</div>
+                    <div className="text-2xl lg:text-4xl font-bold text-purple-600">₹{(mockFundData.fund_structure.aum_details.current_aum / 100).toFixed(0)}Cr</div>
                     <div className="text-sm text-gray-600 mt-1">Assets Under Management</div>
                   </div>
-                  <div>
+                  <div className="text-center lg:text-left">
                     <div className="text-sm text-gray-600 mb-1">Expense Ratio</div>
-                    <div className="text-4xl font-bold text-orange-600">{mockFundData.fund_structure.expense_structure.total_expense_ratio}%</div>
+                    <div className="text-2xl lg:text-4xl font-bold text-orange-600">{mockFundData.fund_structure.expense_structure.total_expense_ratio}%</div>
                     <div className="text-sm text-gray-600 mt-1">Annual Fee</div>
                   </div>
                 </div>
@@ -267,10 +267,10 @@ const MutualFundDetails = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {/* Chart and Metrics Section */}
-              <div className="flex gap-6">
-                {/* Left Side - Performance Chart (65% width) */}
-                <div className="w-[65%] flex flex-col">
+              {/* Chart and Metrics Section - Responsive Layout */}
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Chart Section - Full width on mobile, 65% on desktop */}
+                <div className="w-full lg:w-[65%] flex flex-col">
                   <ChartContainer config={performanceChartConfig} className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart 
@@ -310,7 +310,7 @@ const MutualFundDetails = () => {
                     </ResponsiveContainer>
                   </ChartContainer>
                   
-                  {/* Time Period Toggles - Centered within the 65% chart area */}
+                  {/* Time Period Toggles - Centered within chart area on all screens */}
                   <div className="flex justify-center gap-2 pt-4">
                     {timeframes.map((timeframe) => (
                       <Button
@@ -326,14 +326,14 @@ const MutualFundDetails = () => {
                   </div>
                 </div>
 
-                {/* Right Side - Performance Metrics (35% width) */}
-                <div className="w-[35%] space-y-3">
+                {/* Performance Metrics - Full width on mobile, 35% on desktop */}
+                <div className="w-full lg:w-[35%] space-y-3">
                   <div className="text-center">
                     <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
                     <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
                   </div>
 
-                  {/* Performance Metrics - More Compact */}
+                  {/* Performance Metrics - Responsive */}
                   <div className="bg-gray-50 rounded-lg p-3 space-y-2">
                     <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                       <span className="text-xs font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
@@ -355,7 +355,7 @@ const MutualFundDetails = () => {
                     </div>
                   </div>
 
-                  {/* Additional Performance Context - More Compact */}
+                  {/* Additional Performance Context */}
                   <div className="bg-blue-50 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-1">
                       <TrendingUp className="w-3 h-3 text-blue-600" />
@@ -381,8 +381,8 @@ const MutualFundDetails = () => {
           benchmarkReturn={12}
         />
 
-        {/* Fund Overview Grid */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* Fund Overview Grid - Responsive */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Asset Allocation */}
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader>
@@ -413,7 +413,7 @@ const MutualFundDetails = () => {
                   </RechartsPieChart>
                 </ResponsiveContainer>
               </ChartContainer>
-              <div className="flex justify-center gap-4 mt-4">
+              <div className="flex flex-wrap justify-center gap-4 mt-4">
                 {assetAllocationData.map((item, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <div 
@@ -472,7 +472,7 @@ const MutualFundDetails = () => {
           </Card>
         </div>
 
-        {/* Portfolio Holdings */}
+        {/* Portfolio Holdings - Responsive Table */}
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -481,20 +481,25 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md border">
+            <div className="rounded-md border overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent">
                     <TableHead className="text-center font-semibold text-gray-900">Company</TableHead>
-                    <TableHead className="text-center font-semibold text-gray-900">Sector</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-900 hidden sm:table-cell">Sector</TableHead>
                     <TableHead className="text-right font-semibold text-gray-900">% Assets</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
                     <TableRow key={index} className="hover:bg-gray-50/50">
-                      <TableCell className="text-center font-medium text-gray-900 py-4">{holding.company_name}</TableCell>
-                      <TableCell className="text-center text-gray-600 py-4">{holding.sector}</TableCell>
+                      <TableCell className="text-center font-medium text-gray-900 py-4">
+                        <div>
+                          {holding.company_name}
+                          <div className="text-xs text-gray-500 sm:hidden">{holding.sector}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center text-gray-600 py-4 hidden sm:table-cell">{holding.sector}</TableCell>
                       <TableCell className="text-right font-semibold text-gray-900 py-4">{holding.percentage_holding.toFixed(2)}%</TableCell>
                     </TableRow>
                   ))}
@@ -504,7 +509,7 @@ const MutualFundDetails = () => {
           </CardContent>
         </Card>
 
-        {/* Sector Allocation */}
+        {/* Sector Allocation - Responsive */}
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2">
@@ -513,9 +518,9 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
-            <div className="flex items-center gap-6">
-              {/* Pie Chart - Left Side */}
-              <div className="flex-1">
+            <div className="flex flex-col lg:flex-row items-center gap-6">
+              {/* Pie Chart - Full width on mobile */}
+              <div className="w-full lg:flex-1">
                 <ChartContainer config={sectorChartConfig} className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <RechartsPieChart>
@@ -542,8 +547,8 @@ const MutualFundDetails = () => {
                 </ChartContainer>
               </div>
               
-              {/* Legends - Right Side */}
-              <div className="flex-1 space-y-2">
+              {/* Legends - Full width on mobile */}
+              <div className="w-full lg:flex-1 space-y-2">
                 <h4 className="font-semibold text-base mb-3">Sector Breakdown</h4>
                 {sectorData.map((item, index) => (
                   <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
@@ -562,8 +567,8 @@ const MutualFundDetails = () => {
           </CardContent>
         </Card>
 
-        {/* Additional Information */}
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Additional Information - Responsive Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-lg">Exit Load</CardTitle>
@@ -600,7 +605,7 @@ const MutualFundDetails = () => {
 
         {/* Final CTA */}
         <div className="text-center py-8">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-4 text-lg h-auto">
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 lg:px-12 py-4 text-lg h-auto">
             Start Investing Today
           </Button>
           <p className="text-sm text-gray-600 mt-3">
