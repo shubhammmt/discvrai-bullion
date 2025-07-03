@@ -278,9 +278,16 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
           </div>
         </div>
 
-        <div className="text-xs text-gray-500 mt-4 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-          <strong>Disclaimer:</strong> These calculations are based on assumed returns and are for illustrative purposes only. 
-          Actual returns may vary based on market conditions.
+        {/* Bottom section with disclaimer on the left */}
+        <div className="grid lg:grid-cols-2 gap-6 items-end">
+          {/* Disclaimer - moved to bottom left */}
+          <div className="text-xs text-gray-500 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+            <strong>Disclaimer:</strong> These calculations are based on assumed returns and are for illustrative purposes only. 
+            Actual returns may vary based on market conditions.
+          </div>
+          
+          {/* Empty space on the right for balance */}
+          <div></div>
         </div>
       </CardContent>
     </Card>
