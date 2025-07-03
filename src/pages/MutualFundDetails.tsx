@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, Target, Building, BarChart3, Bookmark, Share2, Download, Calculator } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell, BarChart, Bar, Pie } from 'recharts';
@@ -468,26 +468,24 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Company</th>
-                    <th className="text-left py-2">Sector</th>
-                    <th className="text-right py-2">% Assets</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
-                    <tr key={index} className="border-b border-gray-100">
-                      <td className="py-3 font-medium">{holding.company_name}</td>
-                      <td className="py-3 text-gray-600">{holding.sector}</td>
-                      <td className="py-3 text-right font-semibold">{holding.percentage_holding.toFixed(2)}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">Company</TableHead>
+                  <TableHead className="text-left">Sector</TableHead>
+                  <TableHead className="text-right">% Assets</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{holding.company_name}</TableCell>
+                    <TableCell className="text-gray-600">{holding.sector}</TableCell>
+                    <TableCell className="text-right font-semibold">{holding.percentage_holding.toFixed(2)}%</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 
