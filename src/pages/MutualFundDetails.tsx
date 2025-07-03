@@ -165,9 +165,9 @@ const MutualFundDetails = () => {
         </div>
 
         {/* First Viewport - Primary Information Block */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="space-y-6">
           {/* Fund Basic Information */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -228,48 +228,6 @@ const MutualFundDetails = () => {
                       </div>
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="space-y-4">
-            <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-6 space-y-4">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg">
-                  Invest Now
-                </Button>
-                <Button variant="outline" className="w-full h-12">
-                  Start SIP
-                </Button>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button variant="outline" size="sm">
-                    Compare
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Download size={16} className="mr-1" />
-                    Factsheet
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-4">
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Min SIP</span>
-                    <span className="font-semibold">₹500</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Min Lumpsum</span>
-                    <span className="font-semibold">₹5,000</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Exit Load</span>
-                    <span className="font-semibold">1% (1Y)</span>
-                  </div>
                 </div>
               </CardContent>
             </Card>
