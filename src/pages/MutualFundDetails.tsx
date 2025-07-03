@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -198,36 +199,55 @@ const MutualFundDetails = () => {
             <TabsTrigger value="calculator">Calculator</TabsTrigger>
           </TabsList>
 
-          {/* Overview Tab */}
+          {/* Overview Tab - Redesigned */}
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* Performance Chart */}
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-blue-600" />
-                    Returns Across Periods
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={performanceData}>
-                        <XAxis dataKey="period" />
-                        <YAxis />
-                        <ChartTooltip />
-                        <Bar dataKey="return" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Performance Chart - Full Width */}
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <BarChart3 className="w-6 h-6 text-blue-600" />
+                  Returns Across Periods
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                      <XAxis 
+                        dataKey="period" 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 12, fill: '#6b7280' }}
+                      />
+                      <YAxis 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 12, fill: '#6b7280' }}
+                      />
+                      <ChartTooltip 
+                        content={<ChartTooltipContent />}
+                        cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
+                      />
+                      <Bar 
+                        dataKey="return" 
+                        fill="#3b82f6" 
+                        radius={[6, 6, 0, 0]}
+                        stroke="#2563eb"
+                        strokeWidth={1}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
 
-              {/* Asset Allocation */}
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+            {/* Asset Allocation and Key Stats */}
+            <div className="grid lg:grid-cols-3 gap-6">
+              {/* Asset Allocation - Larger */}
+              <Card className="lg:col-span-2 bg-white/70 backdrop-blur-md border-white/20">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <PieChart className="w-5 h-5 text-green-600" />
+                  <CardTitle className="flex items-center gap-2 text-xl">
+                    <PieChart className="w-6 h-6 text-green-600" />
                     Asset Allocation
                   </CardTitle>
                 </CardHeader>
@@ -239,28 +259,60 @@ const MutualFundDetails = () => {
                           data={assetAllocationData}
                           cx="50%"
                           cy="50%"
-                          innerRadius={60}
-                          outerRadius={100}
+                          innerRadius={70}
+                          outerRadius={120}
                           dataKey="value"
+                          stroke="#ffffff"
+                          strokeWidth={2}
                         >
                           {assetAllocationData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
-                        <ChartTooltip />
+                        <ChartTooltip 
+                          content={<ChartTooltipContent />}
+                        />
                       </RechartsPieChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="flex justify-center gap-4 mt-4">
+                  <div className="flex justify-center gap-6 mt-4">
                     {assetAllocationData.map((item, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <div 
-                          className="w-3 h-3 rounded-full" 
+                          className="w-4 h-4 rounded-full" 
                           style={{ backgroundColor: item.color }}
                         />
                         <span className="text-sm font-medium">{item.name}: {item.value.toFixed(1)}%</span>
                       </div>
                     ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Quick Stats */}
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="w-5 h-5 text-purple-600" />
+                    Quick Stats
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
+                    <span className="text-sm font-medium">3Y Return</span>
+                    <span className="font-bold text-blue-600">{mockFundData.current_performance.returns.ret_3year.toFixed(2)}%</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium">5Y Return</span>
+                    <span className="font-bold text-green-600">{mockFundData.current_performance.returns.ret_5year.toFixed(2)}%</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
+                    <span className="text-sm font-medium">Beta</span>
+                    <span className="font-bold text-purple-600">{mockFundData.risk_analytics.beta_3year}</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg">
+                    <span className="text-sm font-medium">Alpha</span>
+                    <span className="font-bold text-orange-600">{mockFundData.risk_analytics.alpha_3year}</span>
                   </div>
                 </CardContent>
               </Card>
