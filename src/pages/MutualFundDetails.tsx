@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -216,14 +217,14 @@ const MutualFundDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Quick Returns Overview */}
+            {/* Optimized Quick Returns Overview */}
             <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-4">
-                <div className="grid grid-cols-5 gap-4">
+              <CardContent className="p-3">
+                <div className="flex justify-between items-center text-sm">
                   {performanceData.map((item, index) => (
-                    <div key={index} className="text-center">
-                      <div className="text-xs text-gray-600 mb-1">{item.period}</div>
-                      <div className={`font-bold ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <div key={index} className="text-center flex-1">
+                      <div className="text-xs text-gray-500 mb-1">{item.period}</div>
+                      <div className={`font-semibold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                         {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
                       </div>
                     </div>
