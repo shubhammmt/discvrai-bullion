@@ -382,7 +382,7 @@ const MutualFundDetails = () => {
 
         {/* Fund Overview Grid - Enhanced Responsive */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-          {/* Asset Allocation - Fully Responsive */}
+          {/* Asset Allocation - Fixed Container */}
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
@@ -392,18 +392,18 @@ const MutualFundDetails = () => {
             </CardHeader>
             <CardContent className="pt-0">
               <div className="flex flex-col space-y-4">
-                {/* Chart - Responsive size with proper mobile layout */}
+                {/* Chart - Fixed responsive container */}
                 <div className="w-full flex justify-center">
-                  <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[280px]">
-                    <ChartContainer config={assetAllocationConfig} className="aspect-square w-full h-auto">
+                  <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-48 lg:h-48">
+                    <ChartContainer config={assetAllocationConfig} className="w-full h-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <RechartsPieChart>
                           <Pie
                             data={assetAllocationData}
                             cx="50%"
                             cy="50%"
-                            innerRadius="35%"
-                            outerRadius="75%"
+                            innerRadius="40%"
+                            outerRadius="80%"
                             dataKey="value"
                             stroke="#ffffff"
                             strokeWidth={2}
@@ -419,7 +419,7 @@ const MutualFundDetails = () => {
                   </div>
                 </div>
                 
-                {/* Legend - Mobile optimized with better spacing */}
+                {/* Legend - Consistent layout */}
                 <div className="space-y-2">
                   {assetAllocationData.map((item, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -532,7 +532,7 @@ const MutualFundDetails = () => {
           </CardContent>
         </Card>
 
-        {/* Sector Allocation - Fully Responsive */}
+        {/* Sector Allocation - Fixed Container */}
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
@@ -542,18 +542,18 @@ const MutualFundDetails = () => {
           </CardHeader>
           <CardContent className="pt-0">
             <div className="flex flex-col space-y-6">
-              {/* Chart Section - Responsive with proper mobile sizing */}
+              {/* Chart Section - Fixed responsive container */}
               <div className="w-full flex justify-center">
-                <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[280px]">
-                  <ChartContainer config={sectorChartConfig} className="aspect-square w-full h-auto">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-48 lg:h-48">
+                  <ChartContainer config={sectorChartConfig} className="w-full h-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <RechartsPieChart>
                         <Pie
                           data={sectorData}
                           cx="50%"
                           cy="50%"
-                          innerRadius="35%"
-                          outerRadius="75%"
+                          innerRadius="40%"
+                          outerRadius="80%"
                           dataKey="allocation"
                           stroke="#ffffff"
                           strokeWidth={2}
@@ -572,7 +572,7 @@ const MutualFundDetails = () => {
                 </div>
               </div>
               
-              {/* Sector Breakdown - Mobile Optimized with better layout */}
+              {/* Sector Breakdown - Consistent layout */}
               <div className="w-full">
                 <h4 className="font-semibold text-base mb-4 text-center sm:text-left">Sector Breakdown</h4>
                 <div className="space-y-2">
