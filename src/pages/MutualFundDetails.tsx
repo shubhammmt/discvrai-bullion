@@ -530,7 +530,7 @@ const MutualFundDetails = () => {
           </CardContent>
         </Card>
 
-        {/* Sector Allocation - Properly Constrained */}
+        {/* Sector Allocation - Updated Layout */}
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
@@ -539,18 +539,18 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
-            <div className="flex flex-col space-y-6">
-              {/* Chart Section - Properly constrained container */}
-              <div className="w-full flex justify-center overflow-hidden">
-                <div className="relative" style={{ width: '200px', height: '200px' }}>
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Chart Section - Left side on desktop, full width on mobile */}
+              <div className="w-full lg:w-1/2 flex justify-center">
+                <div className="relative" style={{ width: '280px', height: '280px' }}>
                   <ChartContainer config={sectorChartConfig} className="w-full h-full">
-                    <RechartsPieChart width={200} height={200}>
+                    <RechartsPieChart width={280} height={280}>
                       <Pie
                         data={sectorData}
-                        cx={100}
-                        cy={100}
-                        innerRadius={60}
-                        outerRadius={90}
+                        cx={140}
+                        cy={140}
+                        innerRadius={80}
+                        outerRadius={120}
                         dataKey="allocation"
                         stroke="#ffffff"
                         strokeWidth={2}
@@ -568,10 +568,10 @@ const MutualFundDetails = () => {
                 </div>
               </div>
               
-              {/* Sector Breakdown - Consistent layout */}
-              <div className="w-full">
-                <h4 className="font-semibold text-base mb-4 text-center sm:text-left">Sector Breakdown</h4>
-                <div className="space-y-2">
+              {/* Sector Breakdown - Right side on desktop, below chart on mobile */}
+              <div className="w-full lg:w-1/2">
+                <h4 className="font-semibold text-base mb-4">Sector Breakdown</h4>
+                <div className="space-y-3">
                   {sectorData.map((item, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center gap-3">
