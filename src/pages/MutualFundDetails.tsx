@@ -265,9 +265,9 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid lg:grid-cols-3 gap-4">
-              {/* Left Side - Performance Chart (2/3 width) */}
-              <div className="lg:col-span-2 space-y-4">
+            <div className="grid lg:grid-cols-5 gap-4">
+              {/* Left Side - Performance Chart (65% width - 3/5 columns) */}
+              <div className="lg:col-span-3 space-y-4">
                 <ChartContainer config={performanceChartConfig} className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart 
@@ -307,7 +307,7 @@ const MutualFundDetails = () => {
                   </ResponsiveContainer>
                 </ChartContainer>
                 
-                {/* Time Period Toggles Below Chart */}
+                {/* Time Period Toggles Centered Below Chart */}
                 <div className="flex justify-center gap-2">
                   {timeframes.map((timeframe) => (
                     <Button
@@ -323,8 +323,8 @@ const MutualFundDetails = () => {
                 </div>
               </div>
 
-              {/* Right Side - Performance Metrics (1/3 width, more compact) */}
-              <div className="space-y-3">
+              {/* Right Side - Performance Metrics (35% width - 2/5 columns) */}
+              <div className="lg:col-span-2 space-y-3">
                 <div className="text-center">
                   <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
                   <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
