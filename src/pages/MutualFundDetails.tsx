@@ -468,24 +468,26 @@ const MutualFundDetails = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-left">Company</TableHead>
-                  <TableHead className="text-left">Sector</TableHead>
-                  <TableHead className="text-right">% Assets</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium">{holding.company_name}</TableCell>
-                    <TableCell className="text-gray-600">{holding.sector}</TableCell>
-                    <TableCell className="text-right font-semibold">{holding.percentage_holding.toFixed(2)}%</TableCell>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead className="text-left font-semibold text-gray-900">Company</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-900">Sector</TableHead>
+                    <TableHead className="text-right font-semibold text-gray-900">% Assets</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {mockFundData.portfolio_composition.company_holdings.equity_holdings.map((holding, index) => (
+                    <TableRow key={index} className="hover:bg-gray-50/50">
+                      <TableCell className="font-medium text-gray-900 py-4">{holding.company_name}</TableCell>
+                      <TableCell className="text-center text-gray-600 py-4">{holding.sector}</TableCell>
+                      <TableCell className="text-right font-semibold text-gray-900 py-4">{holding.percentage_holding.toFixed(2)}%</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
 
