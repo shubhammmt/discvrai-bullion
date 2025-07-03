@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -118,6 +117,36 @@ const MutualFundDetails = () => {
       allocation: allocation as number
     }));
 
+  // Chart configs
+  const performanceChartConfig = {
+    return: {
+      label: "Return (%)",
+      color: "#3b82f6",
+    },
+  };
+
+  const assetAllocationConfig = {
+    equity: {
+      label: "Equity",
+      color: "#3b82f6",
+    },
+    debt: {
+      label: "Debt", 
+      color: "#10b981",
+    },
+    cash: {
+      label: "Cash & Others",
+      color: "#f59e0b",
+    },
+  };
+
+  const sectorChartConfig = {
+    allocation: {
+      label: "Allocation (%)",
+      color: "#10b981",
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-7xl mx-auto p-4">
@@ -210,34 +239,32 @@ const MutualFundDetails = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                      <XAxis 
-                        dataKey="period" 
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fontSize: 12, fill: '#6b7280' }}
-                      />
-                      <YAxis 
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fontSize: 12, fill: '#6b7280' }}
-                      />
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
-                      />
-                      <Bar 
-                        dataKey="return" 
-                        fill="#3b82f6" 
-                        radius={[6, 6, 0, 0]}
-                        stroke="#2563eb"
-                        strokeWidth={1}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
+                <ChartContainer config={performanceChartConfig} className="h-80">
+                  <BarChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <XAxis 
+                      dataKey="period" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <ChartTooltip 
+                      content={<ChartTooltipContent />}
+                      cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
+                    />
+                    <Bar 
+                      dataKey="return" 
+                      fill="#3b82f6" 
+                      radius={[6, 6, 0, 0]}
+                      stroke="#2563eb"
+                      strokeWidth={1}
+                    />
+                  </BarChart>
+                </ChartContainer>
               </CardContent>
             </Card>
 
@@ -252,29 +279,27 @@ const MutualFundDetails = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPieChart>
-                        <Pie
-                          data={assetAllocationData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={70}
-                          outerRadius={120}
-                          dataKey="value"
-                          stroke="#ffffff"
-                          strokeWidth={2}
-                        >
-                          {assetAllocationData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <ChartTooltip 
-                          content={<ChartTooltipContent />}
-                        />
-                      </RechartsPieChart>
-                    </ResponsiveContainer>
-                  </div>
+                  <ChartContainer config={assetAllocationConfig} className="h-64">
+                    <RechartsPieChart>
+                      <Pie
+                        data={assetAllocationData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={70}
+                        outerRadius={120}
+                        dataKey="value"
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                      >
+                        {assetAllocationData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <ChartTooltip 
+                        content={<ChartTooltipContent />}
+                      />
+                    </RechartsPieChart>
+                  </ChartContainer>
                   <div className="flex justify-center gap-6 mt-4">
                     {assetAllocationData.map((item, index) => (
                       <div key={index} className="flex items-center gap-2">
@@ -400,16 +425,14 @@ const MutualFundDetails = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={sectorData} layout="horizontal">
-                        <XAxis type="number" />
-                        <YAxis type="category" dataKey="sector" width={80} fontSize={12} />
-                        <ChartTooltip />
-                        <Bar dataKey="allocation" fill="#10b981" radius={[0, 4, 4, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
+                  <ChartContainer config={sectorChartConfig} className="h-64">
+                    <BarChart data={sectorData} layout="horizontal">
+                      <XAxis type="number" />
+                      <YAxis type="category" dataKey="sector" width={80} fontSize={12} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="allocation" fill="#10b981" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ChartContainer>
                 </CardContent>
               </Card>
             </div>
