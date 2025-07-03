@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, Target, Building, BarChart3 } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell, BarChart, Bar, Pie } from 'recharts';
+import ReturnsCalculator from '@/components/ReturnsCalculator';
 
 // Mock data based on the API response structure
 const mockFundData = {
@@ -189,11 +190,12 @@ const MutualFundDetails = () => {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="performance">Performance</TabsTrigger>
             <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
             <TabsTrigger value="risk">Risk & Analytics</TabsTrigger>
+            <TabsTrigger value="calculator">Calculator</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
@@ -429,6 +431,15 @@ const MutualFundDetails = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Calculator Tab */}
+          <TabsContent value="calculator" className="space-y-6">
+            <ReturnsCalculator
+              fundName={mockFundData.basic_info.scheme_short_name}
+              expectedReturn={mockFundData.current_performance.returns.ret_5year}
+              benchmarkReturn={12}
+            />
           </TabsContent>
         </Tabs>
 
