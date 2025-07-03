@@ -95,12 +95,12 @@ const MutualFundDetails = () => {
 
   // Prepare chart data
   const performanceData = [
-    { period: '1M', return: mockFundData.current_performance.returns.ret_1month },
-    { period: '3M', return: mockFundData.current_performance.returns.ret_3month },
-    { period: '6M', return: mockFundData.current_performance.returns.ret_6month },
-    { period: '1Y', return: mockFundData.current_performance.returns.ret_1year },
-    { period: '3Y', return: mockFundData.current_performance.returns.ret_3year },
-    { period: '5Y', return: mockFundData.current_performance.returns.ret_5year }
+    { period: '1M', return: mockFundData.current_performance.returns.ret_1month, benchmark: 1.5 },
+    { period: '3M', return: mockFundData.current_performance.returns.ret_3month, benchmark: 8.2 },
+    { period: '6M', return: mockFundData.current_performance.returns.ret_6month, benchmark: -2.1 },
+    { period: '1Y', return: mockFundData.current_performance.returns.ret_1year, benchmark: 4.8 },
+    { period: '3Y', return: mockFundData.current_performance.returns.ret_3year, benchmark: 13.2 },
+    { period: '5Y', return: mockFundData.current_performance.returns.ret_5year, benchmark: 16.1 }
   ];
 
   const assetAllocationData = [
@@ -118,11 +118,24 @@ const MutualFundDetails = () => {
 
   const timeframes = ['1M', '6M', '1Y', '3Y', '5Y'];
 
+  // Get current timeframe data
+  const currentData = performanceData.find(item => item.period === activeTimeframe) || performanceData[3];
+
+  // Benchmark comparison data
+  const benchmarkComparisonData = [
+    { name: 'Fund', value: currentData.return, color: '#3b82f6' },
+    { name: 'Benchmark', value: currentData.benchmark, color: '#e5e7eb' }
+  ];
+
   // Chart configs
   const performanceChartConfig = {
     return: {
-      label: "Return (%)",
+      label: "Fund Return (%)",
       color: "#3b82f6",
+    },
+    benchmark: {
+      label: "Benchmark Return (%)",
+      color: "#e5e7eb",
     },
   };
 
@@ -244,53 +257,122 @@ const MutualFundDetails = () => {
           </div>
         </div>
 
-        {/* Performance Chart with Time Selectors */}
+        {/* Optimized Performance Chart with Benchmark Comparison */}
         <Card className="bg-white/80 backdrop-blur-sm">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-blue-600" />
-                Performance Chart
-              </CardTitle>
-              <div className="flex gap-1">
-                {timeframes.map((timeframe) => (
-                  <Button
-                    key={timeframe}
-                    variant={activeTimeframe === timeframe ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setActiveTimeframe(timeframe)}
-                    className="h-8 px-3"
-                  >
-                    {timeframe}
-                  </Button>
-                ))}
-              </div>
-            </div>
+            <CardTitle className="flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-blue-600" />
+              Performance vs Benchmark
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={performanceChartConfig} className="h-80">
-              <LineChart data={performanceData}>
-                <XAxis 
-                  dataKey="period" 
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 12, fill: '#6b7280' }}
-                />
-                <YAxis 
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 12, fill: '#6b7280' }}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Line 
-                  type="monotone" 
-                  dataKey="return" 
-                  stroke="#3b82f6" 
-                  strokeWidth={3}
-                  dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                />
-              </LineChart>
-            </ChartContainer>
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Left Side - Performance Chart */}
+              <div className="space-y-4">
+                <ChartContainer config={performanceChartConfig} className="h-80">
+                  <LineChart data={performanceData}>
+                    <XAxis 
+                      dataKey="period" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6b7280' }}
+                    />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line 
+                      type="monotone" 
+                      dataKey="return" 
+                      stroke="#3b82f6" 
+                      strokeWidth={3}
+                      dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                      name="Fund"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="benchmark" 
+                      stroke="#e5e7eb" 
+                      strokeWidth={2}
+                      dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
+                      name="Benchmark"
+                    />
+                  </LineChart>
+                </ChartContainer>
+                
+                {/* Time Period Toggles Below Chart */}
+                <div className="flex justify-center gap-2">
+                  {timeframes.map((timeframe) => (
+                    <Button
+                      key={timeframe}
+                      variant={activeTimeframe === timeframe ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setActiveTimeframe(timeframe)}
+                      className="h-8 px-3"
+                    >
+                      {timeframe}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Side - Benchmark Comparison */}
+              <div className="space-y-4">
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold mb-2">{activeTimeframe} Performance Comparison</h3>
+                  <div className="text-sm text-gray-600 mb-4">Fund vs Category Benchmark</div>
+                </div>
+                
+                {/* Comparison Chart */}
+                <div className="h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={benchmarkComparisonData}>
+                      <XAxis 
+                        dataKey="name" 
+                        fontSize={12}
+                        tick={{ fill: '#6b7280' }}
+                      />
+                      <YAxis 
+                        fontSize={12}
+                        tick={{ fill: '#6b7280' }}
+                      />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                        {benchmarkComparisonData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Performance Metrics */}
+                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">Fund Return ({activeTimeframe})</span>
+                    <span className={`font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">Benchmark Return ({activeTimeframe})</span>
+                    <span className={`font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="border-t pt-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Outperformance</span>
+                      <span className={`font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
