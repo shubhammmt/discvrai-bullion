@@ -198,10 +198,10 @@ const MutualFundDetails = () => {
               </div>
             </div>
 
-            {/* NAV and Performance */}
+            {/* NAV and Performance with AUM and Expense Ratio */}
             <Card className="bg-white/80 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-4 gap-6">
                   <div>
                     <div className="text-sm text-gray-600 mb-1">Latest NAV</div>
                     <div className="text-4xl font-bold text-gray-900">₹{mockFundData.current_performance.latest_nav.price}</div>
@@ -211,6 +211,16 @@ const MutualFundDetails = () => {
                     <div className="text-sm text-gray-600 mb-1">3Y Annualized Returns</div>
                     <div className="text-4xl font-bold text-blue-600">{mockFundData.current_performance.returns.ret_3year}%</div>
                     <div className="text-sm text-gray-600 mt-1">Rank: 15/247 in category</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">AUM</div>
+                    <div className="text-4xl font-bold text-purple-600">₹{(mockFundData.fund_structure.aum_details.current_aum / 100).toFixed(0)}Cr</div>
+                    <div className="text-sm text-gray-600 mt-1">Assets Under Management</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">Expense Ratio</div>
+                    <div className="text-4xl font-bold text-orange-600">{mockFundData.fund_structure.expense_structure.total_expense_ratio}%</div>
+                    <div className="text-sm text-gray-600 mt-1">Annual Fee</div>
                   </div>
                 </div>
               </CardContent>
