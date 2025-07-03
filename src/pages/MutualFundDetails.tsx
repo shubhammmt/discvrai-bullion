@@ -377,8 +377,8 @@ const MutualFundDetails = () => {
           benchmarkReturn={12}
         />
 
-        {/* Fund Overview Grid - Only Asset Allocation */}
-        <div className="grid lg:grid-cols-1 gap-6">
+        {/* Fund Overview Grid */}
+        <div className="grid lg:grid-cols-2 gap-6">
           {/* Asset Allocation */}
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader>
@@ -419,6 +419,50 @@ const MutualFundDetails = () => {
                     <span className="text-sm">{item.name}: {item.value.toFixed(1)}%</span>
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Risk Analysis */}
+          <Card className="bg-white/80 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-red-600" />
+                Risk Analysis
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h4 className="font-semibold">Risk Metrics (3 Years)</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Standard Deviation</span>
+                      <span className="font-semibold">{mockFundData.risk_analytics.standard_deviation_3year}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Sharpe Ratio</span>
+                      <span className="font-semibold">{mockFundData.risk_analytics.sharpe_ratio_3year}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Beta</span>
+                      <span className="font-semibold">{mockFundData.risk_analytics.beta_3year}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Alpha</span>
+                      <span className="font-semibold">{mockFundData.risk_analytics.alpha_3year}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-semibold">Risk Level</h4>
+                  <div className="text-center p-6 bg-red-50 rounded-lg">
+                    <div className="text-3xl font-bold text-red-600 mb-2">
+                      {mockFundData.basic_info.scheme_category.risk_level}
+                    </div>
+                    <div className="text-sm text-gray-600">Risk Rating</div>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
