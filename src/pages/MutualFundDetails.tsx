@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -462,15 +461,6 @@ const MutualFundDetails = () => {
                       {mockFundData.basic_info.scheme_category.risk_level}
                     </div>
                     <div className="text-sm text-gray-600">Risk Rating</div>
-                  </div>
-                </div>
-                <div className="pt-4 border-t">
-                  <div className="flex items-center gap-3">
-                    <Users className="w-5 h-5 text-gray-600" />
-                    <div>
-                      <div className="font-semibold">{mockFundData.fund_structure.fund_managers[0].manager_name}</div>
-                      <div className="text-sm text-gray-600">Fund Manager</div>
-                    </div>
                   </div>
                 </div>
               </div>
