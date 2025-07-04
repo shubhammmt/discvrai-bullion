@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, Target, Building, BarChart3, Bookmark, Share2, Download, Calculator, User, Loader2 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, Target, Building, BarChart3, Bookmark, Share2, Download, Calculator, User, Loader2, Info } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell, BarChart, Bar, Pie } from 'recharts';
 import ReturnsCalculator from '@/components/ReturnsCalculator';
@@ -182,570 +183,670 @@ const MutualFundDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="max-w-6xl mx-auto p-4 space-y-8">
-        
-        {/* Header Section */}
-        <div className="flex items-center gap-4">
-          <Button 
-            variant="outline" 
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Button>
-        </div>
+    <TooltipProvider>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="max-w-6xl mx-auto p-4 space-y-8">
+          
+          {/* Header Section */}
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="outline" 
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft size={16} />
+              Back
+            </Button>
+          </div>
 
-        {/* First Viewport - Primary Information Block */}
-        <div className="space-y-6">
-          {/* Fund Basic Information */}
-          <div className="space-y-4">
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                  {fundData.basic_info.fund_identifiers.scheme_short_name}
-                </h1>
-                <p className="text-base lg:text-lg text-gray-600 mb-3">
-                  {fundData.basic_info.amc_details.amc_name}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                    {fundData.basic_info.fund_classification.main_category}
-                  </Badge>
-                  <Badge variant="secondary" className="bg-red-100 text-red-800">
-                    {fundData.basic_info.fund_classification.risk_level} Risk
-                  </Badge>
-                  <Badge variant="secondary" className="bg-gray-100 text-gray-800">
-                    {fundData.basic_info.plan_details.plan_type} Plan
-                  </Badge>
+          {/* First Viewport - Primary Information Block */}
+          <div className="space-y-6">
+            {/* Fund Basic Information */}
+            <div className="space-y-4">
+              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                    {fundData.basic_info.fund_identifiers.scheme_short_name}
+                  </h1>
+                  <p className="text-base lg:text-lg text-gray-600 mb-3">
+                    {fundData.basic_info.amc_details.amc_name}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      {fundData.basic_info.fund_classification.main_category}
+                    </Badge>
+                    <Badge variant="secondary" className="bg-red-100 text-red-800 flex items-center gap-1">
+                      {fundData.basic_info.fund_classification.risk_level} Risk
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info size={12} className="text-red-600" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Risk level indicates the potential volatility of the fund. Higher risk may lead to higher returns but also higher losses.</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </Badge>
+                    <Badge variant="secondary" className="bg-gray-100 text-gray-800">
+                      {fundData.basic_info.plan_details.plan_type} Plan
+                    </Badge>
+                  </div>
+                </div>
+                <div className="flex gap-2 lg:self-start">
+                  <Button variant="outline" size="sm">
+                    <Bookmark size={16} />
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Share2 size={16} />
+                  </Button>
                 </div>
               </div>
-              <div className="flex gap-2 lg:self-start">
-                <Button variant="outline" size="sm">
-                  <Bookmark size={16} />
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Share2 size={16} />
-                </Button>
-              </div>
-            </div>
 
-            {/* NAV and Performance with AUM and Expense Ratio */}
+              {/* NAV and Performance with AUM and Expense Ratio */}
+              <Card className="bg-white/80 backdrop-blur-sm">
+                <CardContent className="p-4 lg:p-6">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                    <div className="text-center lg:text-left">
+                      <div className="text-sm text-gray-600 mb-1 flex items-center gap-1 justify-center lg:justify-start">
+                        Latest NAV
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info size={12} className="text-gray-500" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Net Asset Value (NAV) is the per-unit market value of the mutual fund's holdings.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      <div className="text-2xl lg:text-4xl font-bold text-gray-900">₹{fundData.performance.current_nav.price}</div>
+                      <div className="text-sm text-green-600 mt-1">+{fundData.performance.returns.ret_1week}% (1W)</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-sm text-gray-600 mb-1">3Y Annualized Returns</div>
+                      <div className="text-2xl lg:text-4xl font-bold text-blue-600">{fundData.performance.returns.ret_3year}%</div>
+                      <div className="text-sm text-gray-600 mt-1">Rank: 15/247 in category</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-sm text-gray-600 mb-1 flex items-center gap-1 justify-center lg:justify-start">
+                        AUM
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info size={12} className="text-gray-500" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Assets Under Management (AUM) represents the total market value of investments managed by the fund.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      <div className="text-2xl lg:text-4xl font-bold text-purple-600">₹{(fundData.fund_structure.aum_information.current_aum / 100).toFixed(0)}Cr</div>
+                      <div className="text-sm text-gray-600 mt-1">Assets Under Management</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-sm text-gray-600 mb-1 flex items-center gap-1 justify-center lg:justify-start">
+                        Expense Ratio
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info size={12} className="text-gray-500" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Expense Ratio is the annual fee charged by the fund for managing your investments, expressed as a percentage of AUM.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      <div className="text-2xl lg:text-4xl font-bold text-orange-600">{fundData.fund_structure.expenses.total_expense_ratio}%</div>
+                      <div className="text-sm text-gray-600 mt-1">Annual Fee</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Returns Overview Chart */}
+              <Card className="bg-white/80 backdrop-blur-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
+                    <BarChart3 className="w-5 h-5 lg:w-6 lg:h-6 text-green-600" />
+                    Returns Overview
+                  </CardTitle>
+                  <p className="text-sm text-gray-600 mt-1">Performance across different time periods</p>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="h-48 lg:h-56 mb-6">
+                    <ChartContainer config={returnsChartConfig} className="h-full w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                          data={performanceData}
+                          margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                        >
+                          <XAxis 
+                            dataKey="period" 
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
+                          />
+                          <YAxis 
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 11, fill: '#6b7280' }}
+                            domain={['dataMin - 3', 'dataMax + 3']}
+                          />
+                          <ChartTooltip 
+                            content={<ChartTooltipContent />}
+                            formatter={(value, name) => [`${value}%`, 'Returns']}
+                          />
+                          <Bar 
+                            dataKey="return" 
+                            fill="#3b82f6"
+                            radius={[4, 4, 0, 0]}
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                  </div>
+                  
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="grid grid-cols-7 gap-2 text-center">
+                      {performanceData.map((item, index) => (
+                        <div key={index} className="py-2">
+                          <div className="text-xs font-medium text-gray-600 mb-1">{item.period}</div>
+                          <div className={`font-bold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Performance Chart */}
+          <Card className="bg-white/80 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-blue-600" />
+                Performance vs Benchmark
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex flex-col lg:flex-row gap-6">
+                  <div className="w-full lg:w-[65%] flex flex-col">
+                    <ChartContainer config={performanceChartConfig} className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart 
+                          data={performanceData}
+                          margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+                        >
+                          <XAxis 
+                            dataKey="period" 
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 11, fill: '#6b7280' }}
+                          />
+                          <YAxis 
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 11, fill: '#6b7280' }}
+                            domain={['dataMin - 2', 'dataMax + 2']}
+                          />
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                          <Line 
+                            type="monotone" 
+                            dataKey="return" 
+                            stroke="#3b82f6" 
+                            strokeWidth={3}
+                            dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                            name="Fund"
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="benchmark" 
+                            stroke="#e5e7eb" 
+                            strokeWidth={2}
+                            dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
+                            name="Benchmark"
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                    
+                    <div className="flex justify-center gap-1 sm:gap-2 pt-4 flex-wrap">
+                      {timeframes.map((timeframe) => (
+                        <Button
+                          key={timeframe}
+                          variant={activeTimeframe === timeframe ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setActiveTimeframe(timeframe)}
+                          className="h-6 px-2 sm:h-7 sm:px-2.5 text-xs flex-shrink-0"
+                        >
+                          {timeframe}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="w-full lg:w-[35%] space-y-3">
+                    <div className="text-center">
+                      <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
+                      <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                      <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                        <span className="text-xs font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
+                        <span className={`text-lg font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                        <span className="text-xs font-medium text-gray-600">Benchmark Return ({activeTimeframe})</span>
+                        <span className={`text-lg font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center pt-1">
+                        <span className="text-sm font-semibold text-gray-800">Outperformance</span>
+                        <span className={`text-xl font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-blue-50 rounded-lg p-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <TrendingUp className="w-3 h-3 text-blue-600" />
+                        <span className="text-xs font-medium text-blue-800">Performance Analysis</span>
+                      </div>
+                      <p className="text-xs text-blue-700 leading-relaxed">
+                        {(currentData.return - currentData.benchmark) >= 0 
+                          ? `This fund has outperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
+                          : `This fund has underperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
+                        }
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Investment Calculator Widget */}
+          <ReturnsCalculator
+            fundName={fundData.basic_info.fund_identifiers.scheme_short_name}
+            expectedReturn={fundData.performance.returns.ret_5year}
+            benchmarkReturn={12}
+          />
+
+          {/* Fund Overview Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+            {/* Asset Allocation */}
             <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-4 lg:p-6">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                  <div className="text-center lg:text-left">
-                    <div className="text-sm text-gray-600 mb-1">Latest NAV</div>
-                    <div className="text-2xl lg:text-4xl font-bold text-gray-900">₹{fundData.performance.current_nav.price}</div>
-                    <div className="text-sm text-green-600 mt-1">+{fundData.performance.returns.ret_1week}% (1W)</div>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+                  <PieChart className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
+                  Asset Allocation
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="flex flex-col space-y-4">
+                  <div className="w-full flex justify-center overflow-hidden">
+                    <div className="relative" style={{ width: '200px', height: '200px' }}>
+                      <ChartContainer config={assetAllocationConfig} className="w-full h-full">
+                        <RechartsPieChart width={200} height={200}>
+                          <Pie
+                            data={assetAllocationData}
+                            cx={100}
+                            cy={100}
+                            innerRadius={60}
+                            outerRadius={90}
+                            dataKey="value"
+                            stroke="#ffffff"
+                            strokeWidth={2}
+                          >
+                            {assetAllocationData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                        </RechartsPieChart>
+                      </ChartContainer>
+                    </div>
                   </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-sm text-gray-600 mb-1">3Y Annualized Returns</div>
-                    <div className="text-2xl lg:text-4xl font-bold text-blue-600">{fundData.performance.returns.ret_3year}%</div>
-                    <div className="text-sm text-gray-600 mt-1">Rank: 15/247 in category</div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-sm text-gray-600 mb-1">AUM</div>
-                    <div className="text-2xl lg:text-4xl font-bold text-purple-600">₹{(fundData.fund_structure.aum_information.current_aum / 100).toFixed(0)}Cr</div>
-                    <div className="text-sm text-gray-600 mt-1">Assets Under Management</div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-sm text-gray-600 mb-1">Expense Ratio</div>
-                    <div className="text-2xl lg:text-4xl font-bold text-orange-600">{fundData.fund_structure.expenses.total_expense_ratio}%</div>
-                    <div className="text-sm text-gray-600 mt-1">Annual Fee</div>
+                  
+                  <div className="space-y-2">
+                    {assetAllocationData.map((item, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div 
+                            className="w-4 h-4 rounded-full flex-shrink-0" 
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span className="text-sm font-medium text-gray-700">{item.name}</span>
+                        </div>
+                        <span className="text-sm font-bold text-gray-900">{item.value.toFixed(1)}%</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Returns Overview Chart */}
+            {/* Risk Analysis */}
             <Card className="bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
-                  <BarChart3 className="w-5 h-5 lg:w-6 lg:h-6 text-green-600" />
-                  Returns Overview
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Shield className="w-5 h-5 text-red-600" />
+                  Risk Analysis
                 </CardTitle>
-                <p className="text-sm text-gray-600 mt-1">Performance across different time periods</p>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="h-48 lg:h-56 mb-6">
-                  <ChartContainer config={returnsChartConfig} className="h-full w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
-                        data={performanceData}
-                        margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                      >
-                        <XAxis 
-                          dataKey="period" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
-                        />
-                        <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: '#6b7280' }}
-                          domain={['dataMin - 3', 'dataMax + 3']}
-                        />
-                        <ChartTooltip 
-                          content={<ChartTooltipContent />}
-                          formatter={(value, name) => [`${value}%`, 'Returns']}
-                        />
-                        <Bar 
-                          dataKey="return" 
-                          fill="#3b82f6"
-                          radius={[4, 4, 0, 0]}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                </div>
-                
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="grid grid-cols-7 gap-2 text-center">
-                    {performanceData.map((item, index) => (
-                      <div key={index} className="py-2">
-                        <div className="text-xs font-medium text-gray-600 mb-1">{item.period}</div>
-                        <div className={`font-bold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold mb-3 text-base">Risk Metrics (3 Years)</h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
+                          Standard Deviation
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info size={10} className="text-gray-500" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Measures how much the fund's returns vary from its average return. Higher values indicate more volatility.</p>
+                            </TooltipContent>
+                          </Tooltip>
                         </div>
+                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.risk_measures.standard_deviation_3year}%</div>
                       </div>
-                    ))}
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
+                          Sharpe Ratio
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info size={10} className="text-gray-500" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Measures risk-adjusted returns. Higher values indicate better returns per unit of risk taken.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.performance_ratios.sharpe_ratio_3year}</div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
+                          Beta
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info size={10} className="text-gray-500" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Measures the fund's sensitivity to market movements. Beta of 1 means it moves with the market.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.beta_metrics.beta_3year}</div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
+                          Alpha
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info size={10} className="text-gray-500" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Measures the fund's performance relative to its benchmark. Positive alpha indicates outperformance.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.alpha_metrics.alpha_3year}</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold mb-3 text-base">Risk Level</h4>
+                    <div className="text-center p-4 bg-red-50 rounded-lg">
+                      <div className="text-2xl font-bold text-red-600 mb-1">
+                        {fundData.basic_info.fund_classification.risk_level}
+                      </div>
+                      <div className="text-sm text-gray-600">Risk Rating</div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-        </div>
 
-        {/* Performance Chart */}
-        <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-blue-600" />
-              Performance vs Benchmark
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex flex-col lg:flex-row gap-6">
-                <div className="w-full lg:w-[65%] flex flex-col">
-                  <ChartContainer config={performanceChartConfig} className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart 
-                        data={performanceData}
-                        margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
-                      >
-                        <XAxis 
-                          dataKey="period" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: '#6b7280' }}
-                        />
-                        <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: '#6b7280' }}
-                          domain={['dataMin - 2', 'dataMax + 2']}
-                        />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Line 
-                          type="monotone" 
-                          dataKey="return" 
-                          stroke="#3b82f6" 
-                          strokeWidth={3}
-                          dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                          name="Fund"
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="benchmark" 
-                          stroke="#e5e7eb" 
-                          strokeWidth={2}
-                          dot={{ fill: '#e5e7eb', strokeWidth: 2, r: 3 }}
-                          name="Benchmark"
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                  
-                  <div className="flex justify-center gap-1 sm:gap-2 pt-4 flex-wrap">
-                    {timeframes.map((timeframe) => (
-                      <Button
-                        key={timeframe}
-                        variant={activeTimeframe === timeframe ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setActiveTimeframe(timeframe)}
-                        className="h-6 px-2 sm:h-7 sm:px-2.5 text-xs flex-shrink-0"
-                      >
-                        {timeframe}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="w-full lg:w-[35%] space-y-3">
-                  <div className="text-center">
-                    <h3 className="text-sm font-semibold mb-1">{activeTimeframe} Performance Comparison</h3>
-                    <div className="text-xs text-gray-600 mb-2">Fund vs Category Benchmark</div>
-                  </div>
-
-                  <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                      <span className="text-xs font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
-                      <span className={`text-lg font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                      <span className="text-xs font-medium text-gray-600">Benchmark Return ({activeTimeframe})</span>
-                      <span className={`text-lg font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center pt-1">
-                      <span className="text-sm font-semibold text-gray-800">Outperformance</span>
-                      <span className={`text-xl font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <TrendingUp className="w-3 h-3 text-blue-600" />
-                      <span className="text-xs font-medium text-blue-800">Performance Analysis</span>
-                    </div>
-                    <p className="text-xs text-blue-700 leading-relaxed">
-                      {(currentData.return - currentData.benchmark) >= 0 
-                        ? `This fund has outperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
-                        : `This fund has underperformed its benchmark by ${Math.abs(currentData.return - currentData.benchmark).toFixed(2)}% over the ${activeTimeframe} period.`
-                      }
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Investment Calculator Widget */}
-        <ReturnsCalculator
-          fundName={fundData.basic_info.fund_identifiers.scheme_short_name}
-          expectedReturn={fundData.performance.returns.ret_5year}
-          benchmarkReturn={12}
-        />
-
-        {/* Fund Overview Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-          {/* Asset Allocation */}
+          {/* Portfolio Holdings */}
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
-                <PieChart className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
-                Asset Allocation
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Building className="w-5 h-5 text-blue-600" />
+                Top Holdings
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="flex flex-col space-y-4">
-                <div className="w-full flex justify-center overflow-hidden">
-                  <div className="relative" style={{ width: '200px', height: '200px' }}>
-                    <ChartContainer config={assetAllocationConfig} className="w-full h-full">
-                      <RechartsPieChart width={200} height={200}>
+              {fundData.portfolio.top_holdings.equity_holdings.length > 0 ? (
+                <>
+                  <div className="block sm:hidden space-y-3">
+                    {fundData.portfolio.top_holdings.equity_holdings.map((holding, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="font-medium text-gray-900 text-sm">{holding.company_name}</div>
+                          <div className="font-bold text-gray-900 text-sm">{holding.percentage_holding.toFixed(2)}%</div>
+                        </div>
+                        <div className="text-xs text-gray-600">{holding.sector}</div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="hidden sm:block rounded-md border overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="hover:bg-transparent">
+                          <TableHead className="text-left font-semibold text-gray-900">Company</TableHead>
+                          <TableHead className="text-center font-semibold text-gray-900">Sector</TableHead>
+                          <TableHead className="text-right font-semibold text-gray-900">% Assets</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {fundData.portfolio.top_holdings.equity_holdings.map((holding, index) => (
+                          <TableRow key={index} className="hover:bg-gray-50/50">
+                            <TableCell className="text-left font-medium text-gray-900 py-4">{holding.company_name}</TableCell>
+                            <TableCell className="text-center text-gray-600 py-4">{holding.sector}</TableCell>
+                            <TableCell className="text-right font-semibold text-gray-900 py-4">{holding.percentage_holding.toFixed(2)}%</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <Building className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p>No detailed holdings data available for this fund.</p>
+                  <p className="text-sm mt-1">Portfolio changes and sector allocation are available below.</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Sector Allocation */}
+          <Card className="bg-white/80 backdrop-blur-sm">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+                <Activity className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
+                Sector Allocation
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="flex flex-col lg:flex-row gap-4">
+                <div className="w-full lg:w-1/2 flex justify-center items-center">
+                  <div className="relative" style={{ width: '280px', height: '280px' }}>
+                    <ChartContainer config={sectorChartConfig} className="w-full h-full">
+                      <RechartsPieChart width={280} height={280}>
                         <Pie
-                          data={assetAllocationData}
-                          cx={100}
-                          cy={100}
-                          innerRadius={60}
-                          outerRadius={90}
-                          dataKey="value"
+                          data={sectorData}
+                          cx={140}
+                          cy={140}
+                          innerRadius={80}
+                          outerRadius={120}
+                          dataKey="allocation"
                           stroke="#ffffff"
                           strokeWidth={2}
                         >
-                          {assetAllocationData.map((entry, index) => (
+                          {sectorData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartTooltip 
+                          content={<ChartTooltipContent />}
+                          formatter={(value, name, props) => [
+                            `${value}%`, 
+                            props.payload.sector
+                          ]}
+                        />
                       </RechartsPieChart>
                     </ChartContainer>
                   </div>
                 </div>
                 
-                <div className="space-y-2">
-                  {assetAllocationData.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div 
-                          className="w-4 h-4 rounded-full flex-shrink-0" 
-                          style={{ backgroundColor: item.color }}
-                        />
-                        <span className="text-sm font-medium text-gray-700">{item.name}</span>
+                <div className="w-full lg:w-1/2">
+                  <h4 className="font-semibold text-base mb-3">Sector Breakdown</h4>
+                  <div className="space-y-2">
+                    {sectorData.map((item, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div 
+                            className="w-3 h-3 rounded-full flex-shrink-0" 
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span className="text-sm font-medium text-gray-700">{item.sector}</span>
+                        </div>
+                        <span className="text-sm font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
                       </div>
-                      <span className="text-sm font-bold text-gray-900">{item.value.toFixed(1)}%</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Risk Analysis */}
+          {/* Fund Manager Details */}
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Shield className="w-5 h-5 text-red-600" />
-                Risk Analysis
+              <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+                <User className="w-4 h-4 lg:w-5 lg:h-5 text-purple-600" />
+                Fund Manager Details
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold mb-3 text-base">Risk Metrics (3 Years)</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-600 mb-1">Standard Deviation</div>
-                      <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.risk_measures.standard_deviation_3year}%</div>
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+                  <div className="flex-1 space-y-4">
+                    <div className="text-center sm:text-left">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                        {fundData.fund_structure.fund_managers[0]?.manager_name || 'N/A'}
+                      </h3>
+                      <div className="flex flex-wrap justify-center sm:justify-start gap-2 mb-4">
+                        <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+                          Lead Fund Manager
+                        </Badge>
+                        <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                          {fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)}+ Years Experience
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-600 mb-1">Sharpe Ratio</div>
-                      <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.performance_ratios.sharpe_ratio_3year}</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-600 mb-1">Beta</div>
-                      <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.beta_metrics.beta_3year}</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-600 mb-1">Alpha</div>
-                      <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.alpha_metrics.alpha_3year}</div>
-                    </div>
+                    <p className="text-sm text-gray-700 leading-relaxed text-center sm:text-left">
+                      A seasoned investment professional with over {fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)} years of experience in equity research and fund management. 
+                      Known for consistent performance and a disciplined investment approach focused on quality growth stocks.
+                    </p>
                   </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold mb-3 text-base">Risk Level</h4>
-                  <div className="text-center p-4 bg-red-50 rounded-lg">
-                    <div className="text-2xl font-bold text-red-600 mb-1">
-                      {fundData.basic_info.fund_classification.risk_level}
+                  
+                  <div className="w-full sm:w-32 flex justify-center sm:block">
+                    <div className="bg-gray-50 rounded-lg p-4 text-center min-w-[120px]">
+                      <div className="text-2xl font-bold text-gray-900">{fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)}+</div>
+                      <div className="text-sm text-gray-600 mt-1">Years Experience</div>
                     </div>
-                    <div className="text-sm text-gray-600">Risk Rating</div>
                   </div>
                 </div>
               </div>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Portfolio Holdings */}
-        <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Building className="w-5 h-5 text-blue-600" />
-              Top Holdings
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            {fundData.portfolio.top_holdings.equity_holdings.length > 0 ? (
-              <>
-                <div className="block sm:hidden space-y-3">
-                  {fundData.portfolio.top_holdings.equity_holdings.map((holding, index) => (
-                    <div key={index} className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="font-medium text-gray-900 text-sm">{holding.company_name}</div>
-                        <div className="font-bold text-gray-900 text-sm">{holding.percentage_holding.toFixed(2)}%</div>
-                      </div>
-                      <div className="text-xs text-gray-600">{holding.sector}</div>
-                    </div>
+          {/* Additional Information */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            <Card className="bg-white/80 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base lg:text-lg flex items-center gap-1">
+                  Exit Load
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info size={14} className="text-gray-500" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Fee charged when you exit/redeem your investment before a specified period.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="text-lg font-semibold mb-2">
+                  {formatExitLoad(fundData.fund_structure.expenses.exit_load)}
+                </div>
+                <div className="text-sm text-gray-600">Exit Load Policy</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/80 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base lg:text-lg">Fund Age</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="text-xl lg:text-2xl font-bold mb-2">{fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)} Years</div>
+                <div className="text-sm text-gray-600">Since inception</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/80 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base lg:text-lg flex items-center gap-1">
+                  Investment Options
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info size={14} className="text-gray-500" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Different ways you can invest in this fund - lump sum, SIP (Systematic Investment Plan), etc.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-2 text-sm">
+                  {fundData.basic_info.plan_details.systematic_plans.map((plan, index) => (
+                    <div key={index}>✓ {plan} Available</div>
                   ))}
                 </div>
-                
-                <div className="hidden sm:block rounded-md border overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="hover:bg-transparent">
-                        <TableHead className="text-left font-semibold text-gray-900">Company</TableHead>
-                        <TableHead className="text-center font-semibold text-gray-900">Sector</TableHead>
-                        <TableHead className="text-right font-semibold text-gray-900">% Assets</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {fundData.portfolio.top_holdings.equity_holdings.map((holding, index) => (
-                        <TableRow key={index} className="hover:bg-gray-50/50">
-                          <TableCell className="text-left font-medium text-gray-900 py-4">{holding.company_name}</TableCell>
-                          <TableCell className="text-center text-gray-600 py-4">{holding.sector}</TableCell>
-                          <TableCell className="text-right font-semibold text-gray-900 py-4">{holding.percentage_holding.toFixed(2)}%</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </>
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <Building className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                <p>No detailed holdings data available for this fund.</p>
-                <p className="text-sm mt-1">Portfolio changes and sector allocation are available below.</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Sector Allocation */}
-        <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
-              <Activity className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
-              Sector Allocation
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="w-full lg:w-1/2 flex justify-center items-center">
-                <div className="relative" style={{ width: '280px', height: '280px' }}>
-                  <ChartContainer config={sectorChartConfig} className="w-full h-full">
-                    <RechartsPieChart width={280} height={280}>
-                      <Pie
-                        data={sectorData}
-                        cx={140}
-                        cy={140}
-                        innerRadius={80}
-                        outerRadius={120}
-                        dataKey="allocation"
-                        stroke="#ffffff"
-                        strokeWidth={2}
-                      >
-                        {sectorData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <ChartTooltip 
-                        content={<ChartTooltipContent />}
-                        formatter={(value, name, props) => [
-                          `${value}%`, 
-                          props.payload.sector
-                        ]}
-                      />
-                    </RechartsPieChart>
-                  </ChartContainer>
-                </div>
-              </div>
-              
-              <div className="w-full lg:w-1/2">
-                <h4 className="font-semibold text-base mb-3">Sector Breakdown</h4>
-                <div className="space-y-2">
-                  {sectorData.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div 
-                          className="w-3 h-3 rounded-full flex-shrink-0" 
-                          style={{ backgroundColor: item.color }}
-                        />
-                        <span className="text-sm font-medium text-gray-700">{item.sector}</span>
-                      </div>
-                      <span className="text-sm font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Research Sharing Component */}
+          <ResearchSharing />
 
-        {/* Fund Manager Details */}
-        <Card className="bg-white/80 backdrop-blur-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
-              <User className="w-4 h-4 lg:w-5 lg:h-5 text-purple-600" />
-              Fund Manager Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
-                <div className="flex-1 space-y-4">
-                  <div className="text-center sm:text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                      {fundData.fund_structure.fund_managers[0]?.manager_name || 'N/A'}
-                    </h3>
-                    <div className="flex flex-wrap justify-center sm:justify-start gap-2 mb-4">
-                      <Badge variant="secondary" className="bg-purple-100 text-purple-800">
-                        Lead Fund Manager
-                      </Badge>
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                        {fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)}+ Years Experience
-                      </Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-700 leading-relaxed text-center sm:text-left">
-                    A seasoned investment professional with over {fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)} years of experience in equity research and fund management. 
-                    Known for consistent performance and a disciplined investment approach focused on quality growth stocks.
-                  </p>
-                </div>
-                
-                <div className="w-full sm:w-32 flex justify-center sm:block">
-                  <div className="bg-gray-50 rounded-lg p-4 text-center min-w-[120px]">
-                    <div className="text-2xl font-bold text-gray-900">{fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)}+</div>
-                    <div className="text-sm text-gray-600 mt-1">Years Experience</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Additional Information */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-          <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base lg:text-lg">Exit Load</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-lg font-semibold mb-2">
-                {formatExitLoad(fundData.fund_structure.expenses.exit_load)}
-              </div>
-              <div className="text-sm text-gray-600">Exit Load Policy</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/80 backdrop-blur-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base lg:text-lg">Fund Age</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-xl lg:text-2xl font-bold mb-2">{fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)} Years</div>
-              <div className="text-sm text-gray-600">Since inception</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/80 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base lg:text-lg">Investment Options</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="space-y-2 text-sm">
-                {fundData.basic_info.plan_details.systematic_plans.map((plan, index) => (
-                  <div key={index}>✓ {plan} Available</div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Research Sharing Component */}
-        <ResearchSharing />
-
-        {/* Final CTA */}
-        <div className="text-center py-6 lg:py-8">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-12 py-3 lg:py-4 text-base lg:text-lg h-auto w-full sm:w-auto">
-            Start Investing Today
-          </Button>
-          <p className="text-sm text-gray-600 mt-3 px-4">
-            Start your investment journey with as low as ₹500 per month
-          </p>
+          {/* Final CTA */}
+          <div className="text-center py-6 lg:py-8">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 lg:px-12 py-3 lg:py-4 text-base lg:text-lg h-auto w-full sm:w-auto">
+              Start Investing Today
+            </Button>
+            <p className="text-sm text-gray-600 mt-3 px-4">
+              Start your investment journey with as low as ₹500 per month
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 
