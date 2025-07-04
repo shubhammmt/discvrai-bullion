@@ -600,31 +600,33 @@ const MutualFundDetails = () => {
           </CardHeader>
           <CardContent className="pt-0">
             <div className="space-y-6">
-              {/* Manager Info - Simplified */}
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {mockFundData.fund_structure.fund_managers[0].manager_name}
-                  </h3>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="secondary" className="bg-purple-100 text-purple-800">
-                      Lead Fund Manager
-                    </Badge>
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                      25+ Years Experience
-                    </Badge>
+              {/* Manager Info - Fixed Layout */}
+              <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+                <div className="flex-1 space-y-4">
+                  <div className="text-center sm:text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                      {mockFundData.fund_structure.fund_managers[0].manager_name}
+                    </h3>
+                    <div className="flex flex-wrap justify-center sm:justify-start gap-2 mb-4">
+                      <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+                        Lead Fund Manager
+                      </Badge>
+                      <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                        25+ Years Experience
+                      </Badge>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
+                  <p className="text-sm text-gray-700 leading-relaxed text-center sm:text-left">
                     A seasoned investment professional with over 25 years of experience in equity research and fund management. 
                     Known for consistent performance and a disciplined investment approach focused on quality growth stocks.
                   </p>
                 </div>
                 
-                {/* Single Key Stat - Experience Only */}
-                <div className="w-full sm:w-40">
-                  <div className="bg-gray-50 rounded-lg p-4 text-center">
+                {/* Experience Card - Aligned */}
+                <div className="w-full sm:w-32 flex justify-center sm:block">
+                  <div className="bg-gray-50 rounded-lg p-4 text-center min-w-[120px]">
                     <div className="text-2xl font-bold text-gray-900">25+</div>
-                    <div className="text-sm text-gray-600">Years Experience</div>
+                    <div className="text-sm text-gray-600 mt-1">Years Experience</div>
                   </div>
                 </div>
               </div>
