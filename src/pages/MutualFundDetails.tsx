@@ -215,17 +215,6 @@ const MutualFundDetails = () => {
                     <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                       {fundData.basic_info.fund_classification.main_category}
                     </Badge>
-                    <Badge variant="secondary" className="bg-red-100 text-red-800 flex items-center gap-1">
-                      {fundData.basic_info.fund_classification.risk_level} Risk
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info size={12} className="text-red-600" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Risk level indicates the potential volatility of the fund. Higher risk may lead to higher returns but also higher losses.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </Badge>
                     <Badge variant="secondary" className="bg-gray-100 text-gray-800">
                       {fundData.basic_info.plan_details.plan_type} Plan
                     </Badge>
