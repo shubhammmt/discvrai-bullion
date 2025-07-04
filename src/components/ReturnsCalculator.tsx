@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Calculator, TrendingUp } from 'lucide-react';
+import { Calculator, TrendingUp, Target, PiggyBank, Zap, ArrowRight } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
 
 interface ReturnsCalculatorProps {
@@ -83,7 +83,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
 
     return [
       { 
-        name: 'Bank Account', 
+        name: 'Bank FD', 
         value: bankAmount / 100000, 
         return: bankReturn,
         color: '#ef4444' // Red
@@ -104,7 +104,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
         name: 'This Fund', 
         value: fundAmount / 100000, 
         return: expectedReturn,
-        color: '#10b981' // Emerald
+        color: '#3b82f6' // Blue
       }
     ];
   };
@@ -122,56 +122,79 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
   const comparisonData = getComparisonData();
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border-white/20">
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
-          <Calculator className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600" />
-          Returns Calculator
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-4 lg:p-6">
-        <div className="space-y-6">
-          {/* Mobile: Stacked Layout, Desktop: Side by Side */}
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-8">
-            
-            {/* Input Section - Full width on mobile, left column on desktop */}
-            <div className="space-y-4 lg:space-y-6">
-              {/* Investment Type Toggle - Mobile Optimized */}
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Investment type</label>
-                <div className="flex border rounded-lg overflow-hidden bg-gray-50">
-                  <button
-                    onClick={() => setInvestmentType('sip')}
-                    className={`flex-1 py-2 lg:py-3 px-3 lg:px-4 text-xs lg:text-sm font-medium transition-colors ${
-                      investmentType === 'sip'
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    Monthly SIP
-                  </button>
-                  <button
-                    onClick={() => setInvestmentType('lumpsum')}
-                    className={`flex-1 py-2 lg:py-3 px-3 lg:px-4 text-xs lg:text-sm font-medium transition-colors ${
-                      investmentType === 'lumpsum'
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    Lumpsum
-                  </button>
-                </div>
+    <div className="relative overflow-hidden">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-2xl" />
+      
+      <Card className="relative bg-white/90 backdrop-blur-sm border-0 shadow-xl rounded-2xl">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
+              <Calculator className="w-5 h-5 text-white" />
+            </div>
+            Returns Calculator
+          </CardTitle>
+          <p className="text-sm text-gray-600 mt-1">
+            Calculate your potential returns and compare with other investments
+          </p>
+        </CardHeader>
+        
+        <CardContent className="p-6 space-y-8">
+          {/* Investment Type Toggle - Enhanced Design */}
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+              <Target className="w-4 h-4 text-blue-600" />
+              Choose Investment Style
+            </label>
+            <div className="relative bg-gray-100 rounded-xl p-1">
+              <div className="grid grid-cols-2 gap-1">
+                <button
+                  onClick={() => setInvestmentType('sip')}
+                  className={`relative flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    investmentType === 'sip'
+                      ? 'bg-white text-blue-600 shadow-md transform scale-[1.02]'
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  <PiggyBank className="w-4 h-4" />
+                  Monthly SIP
+                </button>
+                <button
+                  onClick={() => setInvestmentType('lumpsum')}
+                  className={`relative flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    investmentType === 'lumpsum'
+                      ? 'bg-white text-blue-600 shadow-md transform scale-[1.02]'
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  <Zap className="w-4 h-4" />
+                  Lumpsum
+                </button>
               </div>
+            </div>
+          </div>
 
-              {/* Investment Amount - Mobile Optimized */}
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">
-                  {investmentType === 'sip' ? 'Monthly investment' : 'Investment amount'}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            {/* Left Column - Input Controls */}
+            <div className="space-y-6">
+              
+              {/* Investment Amount - Enhanced Design */}
+              <div className="space-y-4">
+                <label className="block text-sm font-semibold text-gray-700">
+                  {investmentType === 'sip' ? 'Monthly Investment Amount' : 'One-time Investment Amount'}
                 </label>
-                <div className="space-y-3">
-                  <div className="text-xl lg:text-2xl font-bold text-gray-900 text-center lg:text-left">
-                    ₹{investmentType === 'sip' ? monthlyAmount.toLocaleString() : lumpAmount.toLocaleString()}
+                
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4">
+                  <div className="text-center mb-4">
+                    <div className="text-3xl font-bold text-gray-900 mb-1">
+                      ₹{(investmentType === 'sip' ? monthlyAmount : lumpAmount).toLocaleString()}
+                    </div>
+                    <div className="text-xs text-gray-600">
+                      {investmentType === 'sip' ? 'per month' : 'one-time'}
+                    </div>
                   </div>
+                  
                   <Slider
                     value={[investmentType === 'sip' ? monthlyAmount : lumpAmount]}
                     onValueChange={(value) => {
@@ -184,9 +207,9 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                     max={investmentType === 'sip' ? 100000 : 1000000}
                     min={investmentType === 'sip' ? 500 : 5000}
                     step={investmentType === 'sip' ? 500 : 5000}
-                    className="w-full"
+                    className="w-full mb-3"
                   />
-                  {/* Range indicators for mobile */}
+                  
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>₹{investmentType === 'sip' ? '500' : '5,000'}</span>
                     <span>₹{investmentType === 'sip' ? '1,00,000' : '10,00,000'}</span>
@@ -194,116 +217,157 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </div>
               </div>
 
-              {/* Investment Period - Mobile Optimized */}
+              {/* Investment Period - Enhanced Design */}
+              <div className="space-y-4">
+                <label className="block text-sm font-semibold text-gray-700">Investment Duration</label>
+                
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4">
+                  <div className="flex items-center justify-center gap-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
+                      className="h-12 w-12 rounded-full border-2 hover:bg-white hover:shadow-md transition-all"
+                    >
+                      −
+                    </Button>
+                    
+                    <div className="text-center min-w-[100px]">
+                      <div className="text-3xl font-bold text-gray-900">{investmentPeriod}</div>
+                      <div className="text-sm text-gray-600">Years</div>
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
+                      className="h-12 w-12 rounded-full border-2 hover:bg-white hover:shadow-md transition-all"
+                    >
+                      +
+                    </Button>
+                  </div>
+                  
+                  <div className="flex justify-between text-xs text-gray-500 mt-3">
+                    <span>1 Year</span>
+                    <span>30 Years</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Results */}
+            <div className="space-y-6">
+              
+              {/* Comparison Chart */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-green-600" />
+                  Performance Comparison
+                </h3>
+                
+                <div className="bg-white rounded-xl border border-gray-100 p-4">
+                  <div className="h-48">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                        <XAxis 
+                          dataKey="name" 
+                          fontSize={10}
+                          interval={0}
+                          angle={-45}
+                          textAnchor="end"
+                          height={60}
+                          tick={{ fill: '#6b7280' }}
+                        />
+                        <YAxis 
+                          fontSize={10}
+                          tick={{ fill: '#6b7280' }}
+                          width={30}
+                        />
+                        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                          {comparisonData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  {/* Legend */}
+                  <div className="grid grid-cols-2 gap-2 mt-4">
+                    {comparisonData.map((item, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full flex-shrink-0" 
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-xs text-gray-600 truncate">{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Results Summary - Enhanced Design */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-gray-700">Investment Summary</h3>
+                
+                <div className="space-y-3">
+                  {/* Total Investment */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Total Investment</span>
+                    <span className="text-lg font-bold text-gray-900">
+                      {formatAmount(calculatedReturns.totalInvestment)}
+                    </span>
+                  </div>
+                  
+                  {/* Profit */}
+                  <div className="bg-green-50 rounded-lg p-4 flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Expected Profit</span>
+                    <span className="text-lg font-bold text-green-600">
+                      {formatAmount(calculatedReturns.profit)}
+                    </span>
+                  </div>
+                  
+                  {/* Total Corpus */}
+                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-4 text-white">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm opacity-90">Final Corpus</span>
+                      <span className="text-2xl font-bold">
+                        {formatAmount(calculatedReturns.maturityAmount)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1 text-sm opacity-90">
+                        <ArrowRight size={14} />
+                        Absolute Return
+                      </span>
+                      <span className="text-lg font-semibold">
+                        {calculatedReturns.absoluteReturn.toFixed(1)}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Disclaimer - Enhanced Design */}
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-amber-200 rounded-full flex-shrink-0 mt-0.5">
+                <div className="w-2 h-2 bg-amber-600 rounded-full" />
+              </div>
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Investment period</label>
-                <div className="flex items-center justify-center gap-3 lg:gap-4 bg-gray-50 rounded-lg p-3 lg:p-4">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
-                    className="h-8 w-8 lg:h-10 lg:w-10 rounded-full text-lg font-bold"
-                  >
-                    −
-                  </Button>
-                  <span className="text-xl lg:text-2xl font-bold min-w-[60px] lg:min-w-[80px] text-center text-gray-900">
-                    {investmentPeriod} Yr
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
-                    className="h-8 w-8 lg:h-10 lg:w-10 rounded-full text-lg font-bold"
-                  >
-                    +
-                  </Button>
-                </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-2">
-                  <span>1 Year</span>
-                  <span>30 Years</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Results Section - Full width on mobile, right column on desktop */}
-            <div className="space-y-4">
-              {/* Comparison Chart - Responsive Height */}
-              <div className="h-40 lg:h-48 bg-gray-50 rounded-lg p-3 lg:p-4">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
-                    <XAxis 
-                      dataKey="name" 
-                      fontSize={10}
-                      interval={0}
-                      angle={-45}
-                      textAnchor="end"
-                      height={60}
-                      tick={{ fill: '#6b7280' }}
-                    />
-                    <YAxis 
-                      fontSize={10}
-                      tick={{ fill: '#6b7280' }}
-                      width={30}
-                    />
-                    <Bar dataKey="value" radius={[2, 2, 0, 0]}>
-                      {comparisonData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Legend - Mobile Optimized Grid */}
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {comparisonData.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div 
-                      className="w-3 h-3 rounded flex-shrink-0" 
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span className="text-gray-600 truncate">{item.name}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Investment Summary - Mobile Optimized */}
-              <div className="space-y-3 bg-gray-50 rounded-lg p-3 lg:p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Total investment</span>
-                  <span className="text-sm lg:text-base font-semibold">{formatAmount(calculatedReturns.totalInvestment)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Profit</span>
-                  <span className="text-sm lg:text-base font-semibold text-green-600">{formatAmount(calculatedReturns.profit)}</span>
-                </div>
-                <div className="border-t pt-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm lg:text-base font-medium">Total corpus</span>
-                    <span className="text-lg lg:text-xl font-bold">{formatAmount(calculatedReturns.maturityAmount)}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="flex items-center gap-1 text-green-600 text-sm">
-                      <TrendingUp size={14} />
-                      Absolute return
-                    </span>
-                    <span className="text-green-600 font-semibold text-sm lg:text-base">
-                      {calculatedReturns.absoluteReturn.toFixed(2)}%
-                    </span>
-                  </div>
-                </div>
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  <strong>Important:</strong> These calculations are based on assumed returns for illustrative purposes only. 
+                  Actual returns may vary significantly based on market conditions, fund performance, and other factors.
+                </p>
               </div>
             </div>
           </div>
-
-          {/* Disclaimer - Mobile Optimized */}
-          <div className="text-xs text-gray-500 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-            <strong>Disclaimer:</strong> These calculations are based on assumed returns and are for illustrative purposes only. 
-            Actual returns may vary based on market conditions.
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
