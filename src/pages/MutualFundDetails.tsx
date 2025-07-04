@@ -309,7 +309,7 @@ const MutualFundDetails = () => {
                   <p className="text-sm text-gray-600 mt-1">Performance across different time periods</p>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div className="h-48 lg:h-56 mb-6">
+                  <div className="h-48 lg:h-56">
                     <ChartContainer config={returnsChartConfig} className="h-full w-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
@@ -340,19 +340,6 @@ const MutualFundDetails = () => {
                         </BarChart>
                       </ResponsiveContainer>
                     </ChartContainer>
-                  </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="grid grid-cols-7 gap-2 text-center">
-                      {performanceData.map((item, index) => (
-                        <div key={index} className="py-2">
-                          <div className="text-xs font-medium text-gray-600 mb-1">{item.period}</div>
-                          <div className={`font-bold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                 </CardContent>
               </Card>
