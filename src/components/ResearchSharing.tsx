@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Share2, Download, FileText, MessageSquare, Send, MessageCircle, Twitter, Linkedin } from 'lucide-react';
+import { Share2, Download, FileText, MessageSquare, Send, MessageCircle, X, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,7 +22,7 @@ const ResearchSharing = () => {
     let url = '';
     
     switch (platform) {
-      case 'twitter':
+      case 'x':
         url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
         break;
       case 'linkedin':
@@ -107,7 +107,7 @@ const ResearchSharing = () => {
               <Button 
                 size="sm" 
                 variant="outline"
-                onClick={() => handleShareToSocial('twitter')}
+                onClick={() => handleShareToSocial('x')}
                 className="border-gray-300 hover:bg-gray-50"
               >
                 Share Notes
@@ -135,11 +135,11 @@ const ResearchSharing = () => {
                 <Button 
                   variant="outline"
                   size="sm"
-                  onClick={() => handleShareToSocial('twitter')}
+                  onClick={() => handleShareToSocial('x')}
                   className="flex items-center justify-center gap-1 border-blue-200 hover:border-blue-400 hover:bg-blue-50 px-2 py-2 text-xs"
                 >
-                  <Twitter size={14} className="text-blue-500" />
-                  <span className="hidden sm:inline">Twitter</span>
+                  <X size={14} className="text-blue-500" />
+                  <span className="hidden sm:inline">X</span>
                 </Button>
                 
                 <Button 
