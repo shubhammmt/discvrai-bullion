@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Share2, Download, FileText, MessageSquare, Send, MessageCircle } from 'lucide-react';
+import { Share2, Download, FileText, MessageSquare, Send, MessageCircle, Twitter, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,72 +37,70 @@ const ResearchSharing = () => {
   };
 
   const handleSaveNotes = () => {
-    // Save notes functionality
     console.log('Saving notes:', notes);
     setShowNotes(false);
   };
 
   return (
-    <Card className="mb-6 bg-white/80 backdrop-blur-sm border-gray-200">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Share2 className="w-4 h-4 text-gray-600" />
+    <Card className="mb-6 bg-white/80 backdrop-blur-sm border-gray-200 shadow-lg">
+      <CardHeader className="pb-4 border-b border-gray-100">
+        <CardTitle className="flex items-center gap-2 text-lg font-semibold text-gray-800">
+          <Share2 className="w-5 h-5 text-blue-600" />
           Share Research & Community
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Research Actions */}
-        <div className="flex gap-2 flex-wrap">
+      <CardContent className="pt-6 space-y-6">
+        {/* Quick Actions Row */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Button 
             variant="outline" 
-            size="sm"
-            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+            className="flex items-center justify-center gap-2 h-12 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
           >
-            <Share2 size={14} className="mr-1.5" />
-            Share
+            <Share2 size={18} className="text-blue-600" />
+            <span className="font-medium">Share</span>
           </Button>
           <Button 
             variant="outline" 
-            size="sm"
-            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+            className="flex items-center justify-center gap-2 h-12 border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
           >
-            <Download size={14} className="mr-1.5" />
-            Export
+            <Download size={18} className="text-green-600" />
+            <span className="font-medium">Export</span>
           </Button>
           <Button 
             variant="outline" 
-            size="sm"
-            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+            className="flex items-center justify-center gap-2 h-12 border-gray-300 hover:border-purple-400 hover:bg-purple-50 transition-all duration-200"
           >
-            <FileText size={14} className="mr-1.5" />
-            Save
+            <FileText size={18} className="text-purple-600" />
+            <span className="font-medium">Save</span>
           </Button>
           <Button 
             variant="outline" 
-            size="sm"
-            className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+            className="flex items-center justify-center gap-2 h-12 border-gray-300 hover:border-orange-400 hover:bg-orange-50 transition-all duration-200"
             onClick={() => setShowNotes(!showNotes)}
           >
-            <MessageSquare size={14} className="mr-1.5" />
-            Add Notes
+            <MessageSquare size={18} className="text-orange-600" />
+            <span className="font-medium">Notes</span>
           </Button>
         </div>
 
         {/* Notes Section */}
         {showNotes && (
-          <div className="space-y-3 border-t pt-4">
-            <h4 className="font-medium text-gray-800 text-sm">Research Notes</h4>
+          <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-orange-400">
+            <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+              <MessageSquare size={16} className="text-orange-600" />
+              Research Notes
+            </h4>
             <Textarea
               placeholder="Add your research notes, observations, or investment thesis..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="min-h-[100px] text-sm border-gray-300 focus:border-blue-400"
+              className="min-h-[100px] border-gray-300 focus:border-orange-400 focus:ring-orange-100"
             />
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-3">
               <Button 
                 size="sm" 
                 onClick={handleSaveNotes}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5"
+                className="bg-orange-600 hover:bg-orange-700 text-white"
               >
                 Save Notes
               </Button>
@@ -110,15 +108,15 @@ const ResearchSharing = () => {
                 size="sm" 
                 variant="outline"
                 onClick={() => handleShareToSocial('twitter')}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+                className="border-gray-300 hover:bg-gray-50"
               >
                 Share Notes
               </Button>
               <Button 
                 size="sm" 
-                variant="outline" 
+                variant="ghost" 
                 onClick={() => setShowNotes(false)}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+                className="text-gray-600 hover:bg-gray-100"
               >
                 Cancel
               </Button>
@@ -126,61 +124,69 @@ const ResearchSharing = () => {
           </div>
         )}
 
-        {/* Social Sharing */}
-        <div className="border-t pt-4">
-          <h4 className="font-medium text-gray-800 mb-3 text-sm">Share on Social Platforms</h4>
-          <div className="flex gap-2 flex-wrap">
+        {/* Social Media Sharing */}
+        <div className="space-y-4">
+          <div className="text-center">
+            <h4 className="font-semibold text-gray-800 mb-1">Share on Social Platforms</h4>
+            <p className="text-sm text-gray-600">Spread the word about your investment research</p>
+          </div>
+          
+          <div className="flex justify-center gap-4">
             <Button 
-              size="sm" 
+              size="lg"
               variant="outline"
               onClick={() => handleShareToSocial('twitter')}
-              className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+              className="flex items-center gap-3 px-6 py-3 border-2 border-blue-200 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 group"
             >
-              𝕏 Twitter
+              <Twitter size={20} className="text-blue-500 group-hover:text-blue-600" />
+              <span className="font-medium text-gray-700 group-hover:text-blue-600">Twitter</span>
             </Button>
+            
             <Button 
-              size="sm" 
+              size="lg"
               variant="outline"
               onClick={() => handleShareToSocial('linkedin')}
-              className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+              className="flex items-center gap-3 px-6 py-3 border-2 border-blue-200 hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 group"
             >
-              💼 LinkedIn
+              <Linkedin size={20} className="text-blue-600 group-hover:text-blue-700" />
+              <span className="font-medium text-gray-700 group-hover:text-blue-700">LinkedIn</span>
             </Button>
+            
             <Button 
-              size="sm" 
+              size="lg"
               variant="outline"
               onClick={() => handleShareToSocial('whatsapp')}
-              className="border-gray-300 text-gray-600 hover:bg-gray-50 text-xs px-3 py-1.5"
+              className="flex items-center gap-3 px-6 py-3 border-2 border-green-200 hover:border-green-400 hover:bg-green-50 transition-all duration-200 group"
             >
-              📱 WhatsApp
+              <MessageCircle size={20} className="text-green-600 group-hover:text-green-700" />
+              <span className="font-medium text-gray-700 group-hover:text-green-700">WhatsApp</span>
             </Button>
           </div>
         </div>
 
         {/* Subscription CTAs */}
-        <div className="border-t pt-4">
-          <h4 className="font-medium text-gray-800 mb-3 text-sm">Stay Updated</h4>
-          <div className="grid sm:grid-cols-2 gap-2">
+        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4 border border-gray-200">
+          <div className="text-center mb-4">
+            <h4 className="font-semibold text-gray-800 mb-1">Stay Updated</h4>
+            <p className="text-sm text-gray-600">Get daily market insights and personalized alerts</p>
+          </div>
+          
+          <div className="grid sm:grid-cols-2 gap-3">
             <Button 
-              size="sm"
               onClick={handleTelegramSubscribe}
-              className="bg-blue-500 hover:bg-blue-600 text-white justify-start text-xs px-3 py-2"
+              className="bg-blue-500 hover:bg-blue-600 text-white h-12 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-200"
             >
-              <Send size={14} className="mr-1.5" />
-              Telegram Updates
+              <Send size={18} />
+              <span className="font-medium">Telegram Updates</span>
             </Button>
             <Button 
-              size="sm"
               onClick={handleWhatsAppSubscribe}
-              className="bg-green-500 hover:bg-green-600 text-white justify-start text-xs px-3 py-2"
+              className="bg-green-500 hover:bg-green-600 text-white h-12 flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all duration-200"
             >
-              <MessageCircle size={14} className="mr-1.5" />
-              WhatsApp Alerts
+              <MessageCircle size={18} />
+              <span className="font-medium">WhatsApp Alerts</span>
             </Button>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Get daily market insights and personalized stock alerts
-          </p>
         </div>
       </CardContent>
     </Card>
