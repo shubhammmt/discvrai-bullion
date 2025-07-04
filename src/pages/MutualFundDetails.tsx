@@ -21,6 +21,26 @@ const MutualFundDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Helper function to format exit load text
+  const formatExitLoad = (exitLoadText: string) => {
+    if (!exitLoadText || exitLoadText === "No Load" || exitLoadText === "Nil") {
+      return "No Exit Load";
+    }
+    
+    // Extract percentage and days from the text
+    const percentageMatch = exitLoadText.match(/(\d+\.?\d*)%/);
+    const daysMatch = exitLoadText.match(/(\d+)\s*days?/);
+    
+    if (percentageMatch && daysMatch) {
+      const percentage = percentageMatch[1];
+      const days = daysMatch[1];
+      return `${percentage}% if redeemed within ${days} days`;
+    }
+    
+    // Fallback to original text if parsing fails
+    return exitLoadText;
+  };
+
   useEffect(() => {
     const loadFundDetails = async () => {
       if (!fundId) {
@@ -632,7 +652,9 @@ const MutualFundDetails = () => {
               <CardTitle className="text-base lg:text-lg">Exit Load</CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="text-xl lg:text-2xl font-bold mb-2">{fundData.fund_structure.expenses.exit_load}</div>
+              <div className="text-xl lg:text-2xl font-bold mb-2">
+                {formatExitLoad(fundData.fund_structure.expenses.exit_load)}
+              </div>
               <div className="text-sm text-gray-600">Exit Load Policy</div>
             </CardContent>
           </Card>
