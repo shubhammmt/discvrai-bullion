@@ -124,47 +124,47 @@ const ResearchSharing = () => {
           </div>
         )}
 
-        {/* Bottom Section - Optimized Layout */}
+        {/* Bottom Section - Fixed Mobile Layout */}
         <div className="bg-gray-50 rounded-lg p-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Social Sharing - Left */}
+          <div className="space-y-6">
+            {/* Social Sharing - Full width on mobile */}
             <div>
               <h4 className="font-semibold text-gray-800 mb-1">Share on Social</h4>
               <p className="text-xs text-gray-600 mb-3">Spread your investment research</p>
-              <div className="flex gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 <Button 
                   variant="outline"
                   size="sm"
                   onClick={() => handleShareToSocial('twitter')}
-                  className="flex items-center gap-2 border-blue-200 hover:border-blue-400 hover:bg-blue-50 px-3 py-2"
+                  className="flex items-center justify-center gap-1 border-blue-200 hover:border-blue-400 hover:bg-blue-50 px-2 py-2 text-xs"
                 >
-                  <Twitter size={16} className="text-blue-500" />
-                  <span className="text-sm">Twitter</span>
+                  <Twitter size={14} className="text-blue-500" />
+                  <span className="hidden sm:inline">Twitter</span>
                 </Button>
                 
                 <Button 
                   variant="outline"
                   size="sm"
                   onClick={() => handleShareToSocial('linkedin')}
-                  className="flex items-center gap-2 border-blue-200 hover:border-blue-600 hover:bg-blue-50 px-3 py-2"
+                  className="flex items-center justify-center gap-1 border-blue-200 hover:border-blue-600 hover:bg-blue-50 px-2 py-2 text-xs"
                 >
-                  <Linkedin size={16} className="text-blue-600" />
-                  <span className="text-sm">LinkedIn</span>
+                  <Linkedin size={14} className="text-blue-600" />
+                  <span className="hidden sm:inline">LinkedIn</span>
                 </Button>
                 
                 <Button 
                   variant="outline"
                   size="sm"
                   onClick={() => handleShareToSocial('whatsapp')}
-                  className="flex items-center gap-2 border-green-200 hover:border-green-400 hover:bg-green-50 px-3 py-2"
+                  className="flex items-center justify-center gap-1 border-green-200 hover:border-green-400 hover:bg-green-50 px-2 py-2 text-xs"
                 >
-                  <MessageCircle size={16} className="text-green-600" />
-                  <span className="text-sm">WhatsApp</span>
+                  <MessageCircle size={14} className="text-green-600" />
+                  <span className="hidden sm:inline">WhatsApp</span>
                 </Button>
               </div>
             </div>
 
-            {/* Subscription CTAs - Right */}
+            {/* Subscription CTAs - Full width on mobile */}
             <div>
               <h4 className="font-semibold text-gray-800 mb-1">Stay Updated</h4>
               <p className="text-xs text-gray-600 mb-3">Get daily insights & alerts</p>
@@ -172,7 +172,7 @@ const ResearchSharing = () => {
                 <Button 
                   onClick={handleTelegramSubscribe}
                   size="sm"
-                  className="bg-blue-500 hover:bg-blue-600 text-white w-full flex items-center justify-center gap-2"
+                  className="bg-blue-500 hover:bg-blue-600 text-white w-full flex items-center justify-center gap-2 text-sm"
                 >
                   <Send size={16} />
                   <span className="font-medium">Telegram Updates</span>
@@ -180,7 +180,7 @@ const ResearchSharing = () => {
                 <Button 
                   onClick={handleWhatsAppSubscribe}
                   size="sm"
-                  className="bg-green-500 hover:bg-green-600 text-white w-full flex items-center justify-center gap-2"
+                  className="bg-green-500 hover:bg-green-600 text-white w-full flex items-center justify-center gap-2 text-sm"
                 >
                   <MessageCircle size={16} />
                   <span className="font-medium">WhatsApp Alerts</span>
