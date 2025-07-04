@@ -652,7 +652,7 @@ const MutualFundDetails = () => {
               <CardTitle className="text-base lg:text-lg">Exit Load</CardTitle>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="text-xl lg:text-2xl font-bold mb-2">
+              <div className="text-lg font-semibold mb-2">
                 {formatExitLoad(fundData.fund_structure.expenses.exit_load)}
               </div>
               <div className="text-sm text-gray-600">Exit Load Policy</div>
