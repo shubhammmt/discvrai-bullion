@@ -139,7 +139,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
           </p>
         </CardHeader>
         
-        <CardContent className="p-6 pt-0 space-y-6">
+        <CardContent className="p-6 pt-0 space-y-5">
           {/* Investment Type Toggle */}
           <div className="space-y-3">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-800">
@@ -174,10 +174,10 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             </div>
           </div>
 
-          {/* Main Content Grid - Compact Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             
-            {/* Left Column - Input Controls */}
+            {/* Left Column - Input Controls & Investment Summary */}
             <div className="space-y-4">
               
               {/* Investment Amount */}
@@ -255,7 +255,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </div>
               </div>
 
-              {/* Investment Summary - Moved here to fill space */}
+              {/* Basic Investment Summary - Only Total Investment and Profit */}
               <div className="space-y-3">
                 <h3 className="text-sm font-semibold text-gray-800">Investment Summary</h3>
                 
@@ -275,30 +275,11 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                       {formatAmount(calculatedReturns.profit)}
                     </span>
                   </div>
-                  
-                  {/* Total Corpus */}
-                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-3 text-white shadow-md">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm opacity-90">Final Corpus</span>
-                      <span className="text-xl font-bold">
-                        {formatAmount(calculatedReturns.maturityAmount)}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1 text-sm opacity-90">
-                        <ArrowRight size={12} />
-                        Absolute Return
-                      </span>
-                      <span className="text-base font-semibold">
-                        {calculatedReturns.absoluteReturn.toFixed(1)}%
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column - Chart and Comparison */}
+            {/* Right Column - Chart and Final Corpus */}
             <div className="space-y-4">
               
               {/* Comparison Chart */}
@@ -309,16 +290,9 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </h3>
                 
                 <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-                  <div className="h-48 mb-3">
+                  <div className="h-40 mb-3">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
-                        <XAxis 
-                          dataKey="name" 
-                          fontSize={0}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={false}
-                        />
                         <YAxis 
                           fontSize={10}
                           tick={{ fill: '#6b7280' }}
@@ -347,6 +321,25 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+
+              {/* Final Corpus - Moved to right side */}
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-4 text-white shadow-md">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm opacity-90">Final Corpus</span>
+                  <span className="text-2xl font-bold">
+                    {formatAmount(calculatedReturns.maturityAmount)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1 text-sm opacity-90">
+                    <ArrowRight size={12} />
+                    Absolute Return
+                  </span>
+                  <span className="text-lg font-semibold">
+                    {calculatedReturns.absoluteReturn.toFixed(1)}%
+                  </span>
                 </div>
               </div>
             </div>
