@@ -17,7 +17,7 @@ const MutualFundDetails = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTimeframe, setActiveTimeframe] = useState('3Y');
-  const [fundData, setFundData] = useState<MutualFundDetailsResponse | null>(null);
+  const [apiResponse, setApiResponse] = useState<MutualFundDetailsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,7 +33,16 @@ const MutualFundDetails = () => {
         setLoading(true);
         setError(null);
         const data = await fetchMutualFundDetails(fundId);
-        setFundData(data);
+        setApiResponse(data);
+        
+        if (!data.success || !data.fund_data) {
+          setError(data.error || 'Fund not found');
+          toast({
+            title: "Fund Not Found",
+            description: data.error || "The requested mutual fund could not be found.",
+            variant: "destructive",
+          });
+        }
       } catch (err) {
         console.error('Failed to load fund details:', err);
         setError(err instanceof Error ? err.message : 'Failed to load fund details');
@@ -61,13 +70,13 @@ const MutualFundDetails = () => {
     );
   }
 
-  if (error || !fundData) {
+  if (error || !apiResponse?.success || !apiResponse.fund_data) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <strong className="font-bold">Error: </strong>
-            <span className="block sm:inline">{error || 'Failed to load fund details'}</span>
+            <strong className="font-bold">Error: </strong> 
+            <span className="block sm:inline">{error || apiResponse?.error || 'Failed to load fund details'}</span>
           </div>
           <Button onClick={() => navigate(-1)} variant="outline">
             <ArrowLeft size={16} className="mr-2" />
@@ -77,6 +86,8 @@ const MutualFundDetails = () => {
       </div>
     );
   }
+
+  const fundData = apiResponse.fund_data;
 
   // Prepare chart data
   const performanceData = [
@@ -165,10 +176,10 @@ const MutualFundDetails = () => {
             <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
               <div className="flex-1">
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                  {fundData.basic_info.scheme_short_name}
+                  {fundData.basic_info.fund_identifiers.scheme_short_name}
                 </h1>
                 <p className="text-base lg:text-lg text-gray-600 mb-3">
-                  {fundData.basic_info.fund_house.amc_name}
+                  {fundData.basic_info.amc_details.amc_name}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Badge variant="secondary" className="bg-blue-100 text-blue-800">
@@ -351,7 +362,7 @@ const MutualFundDetails = () => {
 
         {/* Investment Calculator Widget */}
         <ReturnsCalculator
-          fundName={fundData.basic_info.scheme_short_name}
+          fundName={fundData.basic_info.fund_identifiers.scheme_short_name}
           expectedReturn={fundData.current_performance.returns.ret_5year}
           benchmarkReturn={12}
         />
