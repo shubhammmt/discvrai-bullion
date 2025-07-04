@@ -638,9 +638,6 @@ const MutualFundDetails = () => {
           </CardContent>
         </Card>
 
-        {/* Research Sharing Component */}
-        <ResearchSharing />
-
         {/* Additional Information - Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           <Card className="bg-white/80 backdrop-blur-sm">
@@ -676,6 +673,9 @@ const MutualFundDetails = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Research Sharing Component - Moved here */}
+        <ResearchSharing />
 
         {/* Final CTA - Responsive */}
         <div className="text-center py-6 lg:py-8">
