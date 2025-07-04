@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +6,7 @@ import { ArrowLeft, Plus, Heart, Bell, TrendingUp, PieChart, Target, BarChart3, 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import ViewToggle from '@/components/ViewToggle';
 import MutualFundDetailedView from '@/components/MutualFundDetailedView';
+import ResearchSharing from '@/components/ResearchSharing';
 
 const MutualFundResearch = () => {
   const { fundId } = useParams();
@@ -297,6 +297,11 @@ const MutualFundResearch = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Research Sharing Component */}
+              <div id="research-sharing">
+                <ResearchSharing />
+              </div>
 
               {/* Detailed View CTA */}
               <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
