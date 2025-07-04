@@ -152,6 +152,13 @@ const MutualFundDetails = () => {
     },
   };
 
+  const returnsChartConfig = {
+    return: {
+      label: "Returns (%)",
+      color: "#3b82f6",
+    },
+  };
+
   const assetAllocationConfig = {
     equity: {
       label: "Equity",
@@ -252,14 +259,53 @@ const MutualFundDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Single Row Returns Overview */}
+            {/* Returns Overview Chart */}
             <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-2">
-                <div className="flex justify-between items-center">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base lg:text-lg">
+                  <BarChart3 className="w-4 h-4 lg:w-5 lg:h-5 text-green-600" />
+                  Returns Overview
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="h-32 mb-4">
+                  <ChartContainer config={returnsChartConfig} className="h-full w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={performanceData}
+                        margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+                      >
+                        <XAxis 
+                          dataKey="period" 
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: '#6b7280' }}
+                        />
+                        <YAxis 
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 10, fill: '#6b7280' }}
+                          domain={['dataMin - 2', 'dataMax + 2']}
+                        />
+                        <ChartTooltip 
+                          content={<ChartTooltipContent />}
+                          formatter={(value, name) => [`${value}%`, 'Returns']}
+                        />
+                        <Bar 
+                          dataKey="return" 
+                          fill="#3b82f6"
+                          radius={[2, 2, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+                
+                <div className="grid grid-cols-7 gap-1 text-center">
                   {performanceData.map((item, index) => (
-                    <div key={index} className="text-center flex-1 py-1">
+                    <div key={index} className="py-1">
                       <div className="text-xs text-gray-500 mb-0.5">{item.period}</div>
-                      <div className={`font-semibold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`font-semibold text-xs ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                         {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
                       </div>
                     </div>
@@ -321,14 +367,14 @@ const MutualFundDetails = () => {
                     </ResponsiveContainer>
                   </ChartContainer>
                   
-                  <div className="flex justify-center gap-1 sm:gap-2 pt-4 overflow-x-auto">
+                  <div className="flex justify-center gap-1 sm:gap-2 pt-4 flex-wrap">
                     {timeframes.map((timeframe) => (
                       <Button
                         key={timeframe}
                         variant={activeTimeframe === timeframe ? "default" : "outline"}
                         size="sm"
                         onClick={() => setActiveTimeframe(timeframe)}
-                        className="h-7 px-2 sm:h-8 sm:px-3 text-xs flex-shrink-0"
+                        className="h-6 px-2 sm:h-7 sm:px-2.5 text-xs flex-shrink-0"
                       >
                         {timeframe}
                       </Button>
