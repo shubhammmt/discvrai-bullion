@@ -124,35 +124,35 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
   return (
     <div className="relative overflow-hidden">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-2xl" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 rounded-2xl" />
       
-      <Card className="relative bg-white/90 backdrop-blur-sm border-0 shadow-xl rounded-2xl">
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
+      <Card className="relative bg-white/95 backdrop-blur-sm border border-gray-100 shadow-lg rounded-2xl">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-900">
+            <div className="p-2.5 bg-blue-600 rounded-xl shadow-sm">
               <Calculator className="w-5 h-5 text-white" />
             </div>
             Returns Calculator
           </CardTitle>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-sm text-gray-600 mt-2">
             Calculate your potential returns and compare with other investments
           </p>
         </CardHeader>
         
-        <CardContent className="p-6 space-y-8">
-          {/* Investment Type Toggle - Enhanced Design */}
-          <div className="space-y-3">
-            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+        <CardContent className="p-6 pt-0 space-y-8">
+          {/* Investment Type Toggle */}
+          <div className="space-y-4">
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-800">
               <Target className="w-4 h-4 text-blue-600" />
               Choose Investment Style
             </label>
-            <div className="relative bg-gray-100 rounded-xl p-1">
+            <div className="relative bg-gray-50 rounded-2xl p-1.5 border border-gray-200">
               <div className="grid grid-cols-2 gap-1">
                 <button
                   onClick={() => setInvestmentType('sip')}
-                  className={`relative flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  className={`relative flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
                     investmentType === 'sip'
-                      ? 'bg-white text-blue-600 shadow-md transform scale-[1.02]'
+                      ? 'bg-white text-blue-700 shadow-md border border-blue-100'
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
@@ -161,9 +161,9 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </button>
                 <button
                   onClick={() => setInvestmentType('lumpsum')}
-                  className={`relative flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  className={`relative flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
                     investmentType === 'lumpsum'
-                      ? 'bg-white text-blue-600 shadow-md transform scale-[1.02]'
+                      ? 'bg-white text-blue-700 shadow-md border border-blue-100'
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
@@ -174,23 +174,23 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Left Column - Input Controls */}
-            <div className="space-y-6">
+            {/* Left Column - Input Controls - 5 columns */}
+            <div className="lg:col-span-5 space-y-6">
               
-              {/* Investment Amount - Enhanced Design */}
+              {/* Investment Amount */}
               <div className="space-y-4">
-                <label className="block text-sm font-semibold text-gray-700">
+                <label className="block text-sm font-semibold text-gray-800">
                   {investmentType === 'sip' ? 'Monthly Investment Amount' : 'One-time Investment Amount'}
                 </label>
                 
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4">
+                <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
                   <div className="text-center mb-4">
                     <div className="text-3xl font-bold text-gray-900 mb-1">
                       ₹{(investmentType === 'sip' ? monthlyAmount : lumpAmount).toLocaleString()}
                     </div>
-                    <div className="text-xs text-gray-600">
+                    <div className="text-xs text-gray-500">
                       {investmentType === 'sip' ? 'per month' : 'one-time'}
                     </div>
                   </div>
@@ -210,44 +210,44 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                     className="w-full mb-3"
                   />
                   
-                  <div className="flex justify-between text-xs text-gray-500">
+                  <div className="flex justify-between text-xs text-gray-400">
                     <span>₹{investmentType === 'sip' ? '500' : '5,000'}</span>
                     <span>₹{investmentType === 'sip' ? '1,00,000' : '10,00,000'}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Investment Period - Enhanced Design */}
+              {/* Investment Period */}
               <div className="space-y-4">
-                <label className="block text-sm font-semibold text-gray-700">Investment Duration</label>
+                <label className="block text-sm font-semibold text-gray-800">Investment Duration</label>
                 
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4">
+                <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
                   <div className="flex items-center justify-center gap-4">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
-                      className="h-12 w-12 rounded-full border-2 hover:bg-white hover:shadow-md transition-all"
+                      className="h-12 w-12 rounded-full border-2 hover:bg-gray-50 hover:shadow-sm transition-all"
                     >
                       −
                     </Button>
                     
                     <div className="text-center min-w-[100px]">
                       <div className="text-3xl font-bold text-gray-900">{investmentPeriod}</div>
-                      <div className="text-sm text-gray-600">Years</div>
+                      <div className="text-sm text-gray-500">Years</div>
                     </div>
                     
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
-                      className="h-12 w-12 rounded-full border-2 hover:bg-white hover:shadow-md transition-all"
+                      className="h-12 w-12 rounded-full border-2 hover:bg-gray-50 hover:shadow-sm transition-all"
                     >
                       +
                     </Button>
                   </div>
                   
-                  <div className="flex justify-between text-xs text-gray-500 mt-3">
+                  <div className="flex justify-between text-xs text-gray-400 mt-3">
                     <span>1 Year</span>
                     <span>30 Years</span>
                   </div>
@@ -255,18 +255,18 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
               </div>
             </div>
 
-            {/* Right Column - Results */}
-            <div className="space-y-6">
+            {/* Right Column - Results and Chart - 7 columns */}
+            <div className="lg:col-span-7 space-y-6">
               
               {/* Comparison Chart */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-green-600" />
                   Performance Comparison
                 </h3>
                 
-                <div className="bg-white rounded-xl border border-gray-100 p-4">
-                  <div className="h-48">
+                <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+                  <div className="h-48 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
                         <XAxis 
@@ -275,15 +275,19 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                           interval={0}
                           angle={-45}
                           textAnchor="end"
-                          height={60}
+                          height={40}
                           tick={{ fill: '#6b7280' }}
+                          axisLine={false}
+                          tickLine={false}
                         />
                         <YAxis 
                           fontSize={10}
                           tick={{ fill: '#6b7280' }}
                           width={30}
+                          axisLine={false}
+                          tickLine={false}
                         />
-                        <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                        <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                           {comparisonData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
@@ -293,7 +297,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                   </div>
                   
                   {/* Legend */}
-                  <div className="grid grid-cols-2 gap-2 mt-4">
+                  <div className="grid grid-cols-2 gap-3">
                     {comparisonData.map((item, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <div 
@@ -307,13 +311,13 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </div>
               </div>
 
-              {/* Results Summary - Enhanced Design */}
+              {/* Results Summary */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-700">Investment Summary</h3>
+                <h3 className="text-sm font-semibold text-gray-800">Investment Summary</h3>
                 
                 <div className="space-y-3">
                   {/* Total Investment */}
-                  <div className="bg-gray-50 rounded-lg p-4 flex justify-between items-center">
+                  <div className="bg-white rounded-xl p-4 flex justify-between items-center border border-gray-200 shadow-sm">
                     <span className="text-sm text-gray-600">Total Investment</span>
                     <span className="text-lg font-bold text-gray-900">
                       {formatAmount(calculatedReturns.totalInvestment)}
@@ -321,7 +325,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                   </div>
                   
                   {/* Profit */}
-                  <div className="bg-green-50 rounded-lg p-4 flex justify-between items-center">
+                  <div className="bg-green-50 rounded-xl p-4 flex justify-between items-center border border-green-100">
                     <span className="text-sm text-gray-600">Expected Profit</span>
                     <span className="text-lg font-bold text-green-600">
                       {formatAmount(calculatedReturns.profit)}
@@ -329,7 +333,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                   </div>
                   
                   {/* Total Corpus */}
-                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-4 text-white">
+                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-4 text-white shadow-md">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm opacity-90">Final Corpus</span>
                       <span className="text-2xl font-bold">
@@ -351,7 +355,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             </div>
           </div>
 
-          {/* Disclaimer - Enhanced Design */}
+          {/* Disclaimer */}
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
             <div className="flex items-start gap-3">
               <div className="p-1 bg-amber-200 rounded-full flex-shrink-0 mt-0.5">
