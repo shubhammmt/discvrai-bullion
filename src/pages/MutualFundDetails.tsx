@@ -561,7 +561,10 @@ const MutualFundDetails = () => {
                       </Pie>
                       <ChartTooltip 
                         content={<ChartTooltipContent />}
-                        formatter={(value) => [`${value}%`, 'Allocation']}
+                        formatter={(value, name, props) => [
+                          `${value}%`, 
+                          props.payload.sector
+                        ]}
                       />
                     </RechartsPieChart>
                   </ChartContainer>
