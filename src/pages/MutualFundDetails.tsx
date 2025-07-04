@@ -600,7 +600,7 @@ const MutualFundDetails = () => {
           </CardHeader>
           <CardContent className="pt-0">
             <div className="space-y-6">
-              {/* Manager Info - Mobile optimized */}
+              {/* Manager Info - Simplified */}
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -620,72 +620,11 @@ const MutualFundDetails = () => {
                   </p>
                 </div>
                 
-                {/* Key Stats - Responsive layout */}
-                <div className="w-full sm:w-80">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-lg font-bold text-gray-900">25+</div>
-                      <div className="text-xs text-gray-600">Years Experience</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-lg font-bold text-gray-900">6</div>
-                      <div className="text-xs text-gray-600">Years with Fund</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-lg font-bold text-gray-900">₹15k Cr</div>
-                      <div className="text-xs text-gray-600">Total AUM</div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3 text-center">
-                      <div className="text-lg font-bold text-gray-900">4.8/5</div>
-                      <div className="text-xs text-gray-600">Rating</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Investment Philosophy */}
-              <div>
-                <h4 className="font-semibold text-base mb-3">Investment Philosophy</h4>
-                <div className="bg-purple-50 rounded-lg p-4">
-                  <ul className="space-y-2 text-sm text-gray-700">
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span>Focus on quality companies with strong fundamentals and sustainable competitive advantages</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span>Long-term value creation approach with bottom-up stock selection</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span>Emphasis on management quality, corporate governance, and growth potential</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span>Risk-adjusted returns with disciplined portfolio construction</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Track Record */}
-              <div>
-                <h4 className="font-semibold text-base mb-3">Track Record</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <div className="text-xl font-bold text-green-600 mb-1">85%</div>
-                    <div className="text-sm text-gray-600">Outperformance Rate</div>
-                    <div className="text-xs text-gray-500 mt-1">vs Benchmark</div>
-                  </div>
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <div className="text-xl font-bold text-blue-600 mb-1">15.2%</div>
-                    <div className="text-sm text-gray-600">Avg Annual Return</div>
-                    <div className="text-xs text-gray-500 mt-1">Last 5 Years</div>
-                  </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <div className="text-xl font-bold text-purple-600 mb-1">1.3</div>
-                    <div className="text-sm text-gray-600">Sharpe Ratio</div>
-                    <div className="text-xs text-gray-500 mt-1">Risk-adjusted Returns</div>
+                {/* Single Key Stat - Experience Only */}
+                <div className="w-full sm:w-40">
+                  <div className="bg-gray-50 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-gray-900">25+</div>
+                    <div className="text-sm text-gray-600">Years Experience</div>
                   </div>
                 </div>
               </div>
