@@ -321,14 +321,14 @@ const MutualFundDetails = () => {
                     </ResponsiveContainer>
                   </ChartContainer>
                   
-                  <div className="flex justify-center gap-2 pt-4">
+                  <div className="flex justify-center gap-1 sm:gap-2 pt-4 overflow-x-auto">
                     {timeframes.map((timeframe) => (
                       <Button
                         key={timeframe}
                         variant={activeTimeframe === timeframe ? "default" : "outline"}
                         size="sm"
                         onClick={() => setActiveTimeframe(timeframe)}
-                        className="h-8 px-3 text-xs"
+                        className="h-7 px-2 sm:h-8 sm:px-3 text-xs flex-shrink-0"
                       >
                         {timeframe}
                       </Button>
