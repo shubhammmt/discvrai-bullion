@@ -127,21 +127,21 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 rounded-2xl" />
       
       <Card className="relative bg-white/95 backdrop-blur-sm border border-gray-100 shadow-lg rounded-2xl">
-        <CardHeader className="pb-6">
+        <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-900">
             <div className="p-2.5 bg-blue-600 rounded-xl shadow-sm">
               <Calculator className="w-5 h-5 text-white" />
             </div>
             Returns Calculator
           </CardTitle>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-gray-600 mt-1">
             Calculate your potential returns and compare with other investments
           </p>
         </CardHeader>
         
-        <CardContent className="p-6 pt-0 space-y-8">
+        <CardContent className="p-6 pt-0 space-y-6">
           {/* Investment Type Toggle */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-800">
               <Target className="w-4 h-4 text-blue-600" />
               Choose Investment Style
@@ -150,7 +150,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
               <div className="grid grid-cols-2 gap-1">
                 <button
                   onClick={() => setInvestmentType('sip')}
-                  className={`relative flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  className={`relative flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
                     investmentType === 'sip'
                       ? 'bg-white text-blue-700 shadow-md border border-blue-100'
                       : 'text-gray-600 hover:text-gray-800'
@@ -161,7 +161,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </button>
                 <button
                   onClick={() => setInvestmentType('lumpsum')}
-                  className={`relative flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  className={`relative flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
                     investmentType === 'lumpsum'
                       ? 'bg-white text-blue-700 shadow-md border border-blue-100'
                       : 'text-gray-600 hover:text-gray-800'
@@ -174,20 +174,21 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Main Content Grid - Compact Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            {/* Left Column - Input Controls - 5 columns */}
-            <div className="lg:col-span-5 space-y-6">
+            {/* Left Column - Input Controls */}
+            <div className="space-y-4">
               
               {/* Investment Amount */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <label className="block text-sm font-semibold text-gray-800">
-                  {investmentType === 'sip' ? 'Monthly Investment Amount' : 'One-time Investment Amount'}
+                  {investmentType === 'sip' ? 'Monthly Investment' : 'One-time Investment'}
                 </label>
                 
-                <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
-                  <div className="text-center mb-4">
-                    <div className="text-3xl font-bold text-gray-900 mb-1">
+                <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                  <div className="text-center mb-3">
+                    <div className="text-2xl font-bold text-gray-900 mb-1">
                       ₹{(investmentType === 'sip' ? monthlyAmount : lumpAmount).toLocaleString()}
                     </div>
                     <div className="text-xs text-gray-500">
@@ -207,7 +208,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                     max={investmentType === 'sip' ? 100000 : 1000000}
                     min={investmentType === 'sip' ? 500 : 5000}
                     step={investmentType === 'sip' ? 500 : 5000}
-                    className="w-full mb-3"
+                    className="w-full mb-2"
                   />
                   
                   <div className="flex justify-between text-xs text-gray-400">
@@ -218,22 +219,22 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
               </div>
 
               {/* Investment Period */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <label className="block text-sm font-semibold text-gray-800">Investment Duration</label>
                 
-                <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
+                <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
                   <div className="flex items-center justify-center gap-4">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setInvestmentPeriod(Math.max(1, investmentPeriod - 1))}
-                      className="h-12 w-12 rounded-full border-2 hover:bg-gray-50 hover:shadow-sm transition-all"
+                      className="h-10 w-10 rounded-full border-2 hover:bg-gray-50 hover:shadow-sm transition-all"
                     >
                       −
                     </Button>
                     
-                    <div className="text-center min-w-[100px]">
-                      <div className="text-3xl font-bold text-gray-900">{investmentPeriod}</div>
+                    <div className="text-center min-w-[80px]">
+                      <div className="text-2xl font-bold text-gray-900">{investmentPeriod}</div>
                       <div className="text-sm text-gray-500">Years</div>
                     </div>
                     
@@ -241,44 +242,82 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                       variant="outline"
                       size="sm"
                       onClick={() => setInvestmentPeriod(Math.min(30, investmentPeriod + 1))}
-                      className="h-12 w-12 rounded-full border-2 hover:bg-gray-50 hover:shadow-sm transition-all"
+                      className="h-10 w-10 rounded-full border-2 hover:bg-gray-50 hover:shadow-sm transition-all"
                     >
                       +
                     </Button>
                   </div>
                   
-                  <div className="flex justify-between text-xs text-gray-400 mt-3">
+                  <div className="flex justify-between text-xs text-gray-400 mt-2">
                     <span>1 Year</span>
                     <span>30 Years</span>
                   </div>
                 </div>
               </div>
+
+              {/* Investment Summary - Moved here to fill space */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-gray-800">Investment Summary</h3>
+                
+                <div className="space-y-2">
+                  {/* Total Investment */}
+                  <div className="bg-white rounded-lg p-3 flex justify-between items-center border border-gray-200 shadow-sm">
+                    <span className="text-sm text-gray-600">Total Investment</span>
+                    <span className="text-base font-bold text-gray-900">
+                      {formatAmount(calculatedReturns.totalInvestment)}
+                    </span>
+                  </div>
+                  
+                  {/* Profit */}
+                  <div className="bg-green-50 rounded-lg p-3 flex justify-between items-center border border-green-100">
+                    <span className="text-sm text-gray-600">Expected Profit</span>
+                    <span className="text-base font-bold text-green-600">
+                      {formatAmount(calculatedReturns.profit)}
+                    </span>
+                  </div>
+                  
+                  {/* Total Corpus */}
+                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-3 text-white shadow-md">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm opacity-90">Final Corpus</span>
+                      <span className="text-xl font-bold">
+                        {formatAmount(calculatedReturns.maturityAmount)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1 text-sm opacity-90">
+                        <ArrowRight size={12} />
+                        Absolute Return
+                      </span>
+                      <span className="text-base font-semibold">
+                        {calculatedReturns.absoluteReturn.toFixed(1)}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Right Column - Results and Chart - 7 columns */}
-            <div className="lg:col-span-7 space-y-6">
+            {/* Right Column - Chart and Comparison */}
+            <div className="space-y-4">
               
               {/* Comparison Chart */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-green-600" />
                   Performance Comparison
                 </h3>
                 
-                <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
-                  <div className="h-48 mb-4">
+                <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                  <div className="h-48 mb-3">
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                      <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                         <XAxis 
                           dataKey="name" 
-                          fontSize={10}
-                          interval={0}
-                          angle={-45}
-                          textAnchor="end"
-                          height={40}
-                          tick={{ fill: '#6b7280' }}
+                          fontSize={0}
                           axisLine={false}
                           tickLine={false}
+                          tick={false}
                         />
                         <YAxis 
                           fontSize={10}
@@ -297,7 +336,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                   </div>
                   
                   {/* Legend */}
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     {comparisonData.map((item, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <div 
@@ -310,53 +349,11 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                   </div>
                 </div>
               </div>
-
-              {/* Results Summary */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-800">Investment Summary</h3>
-                
-                <div className="space-y-3">
-                  {/* Total Investment */}
-                  <div className="bg-white rounded-xl p-4 flex justify-between items-center border border-gray-200 shadow-sm">
-                    <span className="text-sm text-gray-600">Total Investment</span>
-                    <span className="text-lg font-bold text-gray-900">
-                      {formatAmount(calculatedReturns.totalInvestment)}
-                    </span>
-                  </div>
-                  
-                  {/* Profit */}
-                  <div className="bg-green-50 rounded-xl p-4 flex justify-between items-center border border-green-100">
-                    <span className="text-sm text-gray-600">Expected Profit</span>
-                    <span className="text-lg font-bold text-green-600">
-                      {formatAmount(calculatedReturns.profit)}
-                    </span>
-                  </div>
-                  
-                  {/* Total Corpus */}
-                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-4 text-white shadow-md">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm opacity-90">Final Corpus</span>
-                      <span className="text-2xl font-bold">
-                        {formatAmount(calculatedReturns.maturityAmount)}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1 text-sm opacity-90">
-                        <ArrowRight size={14} />
-                        Absolute Return
-                      </span>
-                      <span className="text-lg font-semibold">
-                        {calculatedReturns.absoluteReturn.toFixed(1)}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* Disclaimer */}
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3">
             <div className="flex items-start gap-3">
               <div className="p-1 bg-amber-200 rounded-full flex-shrink-0 mt-0.5">
                 <div className="w-2 h-2 bg-amber-600 rounded-full" />
