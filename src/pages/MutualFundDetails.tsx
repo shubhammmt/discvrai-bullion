@@ -255,7 +255,8 @@ const MutualFundDetails = () => {
             {/* Single Row Returns Overview */}
             <Card className="bg-white/80 backdrop-blur-sm">
               <CardContent className="p-2">
-                <div className="flex justify-between items-center">
+                {/* Desktop: Single row */}
+                <div className="hidden sm:flex justify-between items-center">
                   {performanceData.map((item, index) => (
                     <div key={index} className="text-center flex-1 py-1">
                       <div className="text-xs text-gray-500 mb-0.5">{item.period}</div>
@@ -264,6 +265,33 @@ const MutualFundDetails = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+                
+                {/* Mobile: Two rows */}
+                <div className="sm:hidden">
+                  {/* First row - 4 items */}
+                  <div className="flex justify-between items-center mb-2">
+                    {performanceData.slice(0, 4).map((item, index) => (
+                      <div key={index} className="text-center flex-1 py-1">
+                        <div className="text-xs text-gray-500 mb-0.5">{item.period}</div>
+                        <div className={`font-semibold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Second row - 3 items */}
+                  <div className="flex justify-around items-center">
+                    {performanceData.slice(4).map((item, index) => (
+                      <div key={index + 4} className="text-center flex-1 py-1">
+                        <div className="text-xs text-gray-500 mb-0.5">{item.period}</div>
+                        <div className={`font-semibold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
