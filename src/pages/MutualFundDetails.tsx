@@ -8,6 +8,7 @@ import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, T
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell, BarChart, Bar, Pie } from 'recharts';
 import ReturnsCalculator from '@/components/ReturnsCalculator';
+import ResearchSharing from '@/components/ResearchSharing';
 
 // Mock data based on the API response structure
 const mockFundData = {
@@ -636,6 +637,9 @@ const MutualFundDetails = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Research Sharing Component */}
+        <ResearchSharing />
 
         {/* Additional Information - Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
