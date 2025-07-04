@@ -309,34 +309,45 @@ const MutualFundDetails = () => {
                   <p className="text-sm text-gray-600 mt-1">Performance across different time periods</p>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div className="h-48 lg:h-56">
+                  <div className="h-72 lg:h-80">
                     <ChartContainer config={returnsChartConfig} className="h-full w-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={performanceData}
-                          margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                          margin={{ top: 30, right: 30, left: 20, bottom: 30 }}
                         >
                           <XAxis 
                             dataKey="period" 
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
+                            tick={{ fontSize: 13, fill: '#374151', fontWeight: 600 }}
+                            dy={10}
                           />
                           <YAxis 
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fontSize: 11, fill: '#6b7280' }}
-                            domain={['dataMin - 3', 'dataMax + 3']}
+                            tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
+                            domain={['dataMin - 2', 'dataMax + 2']}
+                            dx={-10}
                           />
                           <ChartTooltip 
                             content={<ChartTooltipContent />}
                             formatter={(value, name) => [`${value}%`, 'Returns']}
+                            cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
                           />
                           <Bar 
                             dataKey="return" 
-                            fill="#3b82f6"
-                            radius={[4, 4, 0, 0]}
+                            fill="url(#blueGradient)"
+                            radius={[6, 6, 0, 0]}
+                            stroke="#2563eb"
+                            strokeWidth={1}
                           />
+                          <defs>
+                            <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#60a5fa" stopOpacity={0.8} />
+                            </linearGradient>
+                          </defs>
                         </BarChart>
                       </ResponsiveContainer>
                     </ChartContainer>
