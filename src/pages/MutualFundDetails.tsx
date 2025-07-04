@@ -152,13 +152,6 @@ const MutualFundDetails = () => {
     },
   };
 
-  const returnsChartConfig = {
-    return: {
-      label: "Returns (%)",
-      color: "#3b82f6",
-    },
-  };
-
   const assetAllocationConfig = {
     equity: {
       label: "Equity",
