@@ -258,64 +258,6 @@ const MutualFundDetails = () => {
                 </div>
               </CardContent>
             </Card>
-
-            {/* Returns Overview Chart */}
-            <Card className="bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
-                  <BarChart3 className="w-5 h-5 lg:w-6 lg:h-6 text-green-600" />
-                  Returns Overview
-                </CardTitle>
-                <p className="text-sm text-gray-600 mt-1">Performance across different time periods</p>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="h-48 lg:h-56 mb-6">
-                  <ChartContainer config={returnsChartConfig} className="h-full w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
-                        data={performanceData}
-                        margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                      >
-                        <XAxis 
-                          dataKey="period" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
-                        />
-                        <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: '#6b7280' }}
-                          domain={['dataMin - 3', 'dataMax + 3']}
-                        />
-                        <ChartTooltip 
-                          content={<ChartTooltipContent />}
-                          formatter={(value, name) => [`${value}%`, 'Returns']}
-                        />
-                        <Bar 
-                          dataKey="return" 
-                          fill="#3b82f6"
-                          radius={[4, 4, 0, 0]}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                </div>
-                
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="grid grid-cols-7 gap-2 text-center">
-                    {performanceData.map((item, index) => (
-                      <div key={index} className="py-2">
-                        <div className="text-xs font-medium text-gray-600 mb-1">{item.period}</div>
-                        <div className={`font-bold text-sm ${item.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {item.return > 0 ? '+' : ''}{item.return.toFixed(1)}%
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
 
