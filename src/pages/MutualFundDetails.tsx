@@ -418,7 +418,7 @@ const MutualFundDetails = () => {
                             <Info size={10} className="text-gray-400" />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p className="max-w-xs">Measures sensitivity to market movements. Beta of 1 means it moves with the market, >1 is more volatile, <1 is less volatile.</p>
+                            <p className="max-w-xs">Measures sensitivity to market movements. Beta of 1 means it moves with the market, greater than 1 is more volatile, less than 1 is less volatile.</p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
