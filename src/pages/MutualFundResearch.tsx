@@ -298,7 +298,7 @@ const MutualFundResearch = () => {
                 </CardContent>
               </Card>
 
-              {/* Research Sharing Component */}
+              {/* Research Sharing Component - moved below Fund Manager Details */}
               <div id="research-sharing">
                 <ResearchSharing />
               </div>
