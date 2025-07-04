@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
@@ -280,17 +279,17 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
             </div>
 
             {/* Right Column - Chart and Final Corpus */}
-            <div className="space-y-4">
+            <div className="space-y-4 flex flex-col">
               
-              {/* Comparison Chart */}
-              <div className="space-y-3">
+              {/* Comparison Chart - Increased height */}
+              <div className="space-y-3 flex-1">
                 <h3 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-green-600" />
                   Performance Comparison
                 </h3>
                 
-                <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-                  <div className="h-40 mb-3">
+                <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm h-full flex flex-col">
+                  <div className="flex-1 mb-3" style={{ minHeight: '200px' }}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                         <YAxis 
@@ -324,7 +323,7 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                 </div>
               </div>
 
-              {/* Final Corpus - Moved to right side */}
+              {/* Final Corpus - Aligned with Investment Summary */}
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-4 text-white shadow-md">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm opacity-90">Final Corpus</span>
