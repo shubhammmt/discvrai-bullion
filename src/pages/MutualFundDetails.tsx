@@ -540,17 +540,17 @@ const MutualFundDetails = () => {
           </CardHeader>
           <CardContent className="pt-0">
             <div className="flex flex-col lg:flex-row gap-4">
-              {/* Chart Section - Centered vertically */}
+              {/* Chart Section - Centered vertically with larger size */}
               <div className="w-full lg:w-1/2 flex justify-center items-center">
-                <div className="relative" style={{ width: '220px', height: '220px' }}>
+                <div className="relative" style={{ width: '280px', height: '280px' }}>
                   <ChartContainer config={sectorChartConfig} className="w-full h-full">
-                    <RechartsPieChart width={220} height={220}>
+                    <RechartsPieChart width={280} height={280}>
                       <Pie
                         data={sectorData}
-                        cx={110}
-                        cy={110}
-                        innerRadius={60}
-                        outerRadius={90}
+                        cx={140}
+                        cy={140}
+                        innerRadius={80}
+                        outerRadius={120}
                         dataKey="allocation"
                         stroke="#ffffff"
                         strokeWidth={2}
