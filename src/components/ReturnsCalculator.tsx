@@ -57,15 +57,17 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
     calculateReturns();
   }, [investmentType, monthlyAmount, lumpAmount, investmentPeriod, expectedReturn]);
 
-  // Calculate comparison data with more relatable options
+  // Calculate comparison data with Gold included
   const getComparisonData = () => {
     const ppfReturn = 7.1; // PPF current rate
     const nifty50Return = 12; // Nifty 50 average return
     const savingsReturn = 3; // Savings account rate
+    const goldReturn = 8; // Gold historical average return
     
     let ppfAmount = 0;
     let nifty50Amount = 0;
     let savingsAmount = 0;
+    let goldAmount = 0;
     let fundAmount = calculatedReturns.maturityAmount;
 
     if (investmentType === 'sip') {
@@ -83,10 +85,15 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
       // Savings account calculation
       const savingsMonthlyRate = savingsReturn / 100 / 12;
       savingsAmount = monthlyAmount * (((Math.pow(1 + savingsMonthlyRate, totalMonths) - 1) / savingsMonthlyRate) * (1 + savingsMonthlyRate));
+
+      // Gold calculation
+      const goldMonthlyRate = goldReturn / 100 / 12;
+      goldAmount = monthlyAmount * (((Math.pow(1 + goldMonthlyRate, totalMonths) - 1) / goldMonthlyRate) * (1 + goldMonthlyRate));
     } else {
       ppfAmount = lumpAmount * Math.pow(1 + ppfReturn / 100, investmentPeriod);
       nifty50Amount = lumpAmount * Math.pow(1 + nifty50Return / 100, investmentPeriod);
       savingsAmount = lumpAmount * Math.pow(1 + savingsReturn / 100, investmentPeriod);
+      goldAmount = lumpAmount * Math.pow(1 + goldReturn / 100, investmentPeriod);
     }
 
     return [
@@ -103,6 +110,13 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
         return: ppfReturn,
         color: '#f59e0b', // Amber
         description: 'Public Provident Fund'
+      },
+      { 
+        name: 'Gold', 
+        value: goldAmount / 100000, 
+        return: goldReturn,
+        color: '#eab308', // Yellow
+        description: 'Gold Investment'
       },
       { 
         name: 'Nifty 50', 
@@ -343,10 +357,10 @@ const ReturnsCalculator = ({ fundName, expectedReturn, benchmarkReturn = 7 }: Re
                     </ResponsiveContainer>
                   </div>
                   
-                  {/* Legend with returns */}
-                  <div className="grid grid-cols-2 gap-2">
+                  {/* Legend with returns - Updated for 5 items */}
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
                     {comparisonData.map((item, index) => (
-                      <div key={index} className="flex items-center justify-between text-xs p-2 bg-gray-50 rounded">
+                      <div key={index} className="flex items-center justify-between text-xs p-2 bg-gray-50 rounded col-span-1">
                         <div className="flex items-center gap-2">
                           <div 
                             className="w-3 h-3 rounded-full" 
