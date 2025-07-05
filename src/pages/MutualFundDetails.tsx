@@ -247,12 +247,12 @@ const MutualFundDetails = () => {
                         </Tooltip>
                       </div>
                       <div className="text-2xl lg:text-4xl font-bold text-gray-900">₹{fundData.performance.current_nav.price}</div>
-                      <div className="text-sm text-green-600 mt-1"></div>
+                      <div className="text-sm text-green-600 mt-1">+{fundData.performance.returns.ret_1week}% (1W)</div>
                     </div>
                     <div className="text-center lg:text-left">
                       <div className="text-sm text-gray-600 mb-1">3Y Returns</div>
                       <div className="text-2xl lg:text-4xl font-bold text-blue-600">{fundData.performance.returns.ret_3year}%</div>
-                      <div className="text-sm text-gray-600 mt-1"></div>
+                      <div className="text-sm text-gray-600 mt-1">Rank: 15/247 in category</div>
                     </div>
                     <div className="text-center lg:text-left">
                       <div className="text-sm text-gray-600 mb-1 flex items-center gap-1 justify-center lg:justify-start">
@@ -282,7 +282,7 @@ const MutualFundDetails = () => {
                         </Tooltip>
                       </div>
                       <div className="text-2xl lg:text-4xl font-bold text-orange-600">{fundData.fund_structure.expenses.total_expense_ratio}%</div>
-                      <div className="text-sm text-gray-600 mt-1">Annual Fee</div>
+                      <div className="text-sm text-gray-600 mt-1"></div>
                     </div>
                   </div>
                 </CardContent>
