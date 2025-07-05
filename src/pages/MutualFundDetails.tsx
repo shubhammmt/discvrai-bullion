@@ -288,7 +288,7 @@ const MutualFundDetails = () => {
                 </CardContent>
               </Card>
 
-              {/* Returns Overview Chart */}
+              {/* Returns Overview Chart - Fixed for mobile */}
               <Card className="bg-white/80 backdrop-blur-sm">
                 <CardHeader className="pb-4">
                   <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
@@ -303,21 +303,27 @@ const MutualFundDetails = () => {
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={performanceData}
-                          margin={{ top: 30, right: 30, left: 20, bottom: 30 }}
+                          margin={{ 
+                            top: 30, 
+                            right: 20, 
+                            left: 10, 
+                            bottom: 30 
+                          }}
                         >
                           <XAxis 
                             dataKey="period" 
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fontSize: 13, fill: '#374151', fontWeight: 600 }}
+                            tick={{ fontSize: 12, fill: '#374151', fontWeight: 600 }}
                             dy={10}
                           />
                           <YAxis 
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
+                            tick={{ fontSize: 11, fill: '#6b7280', fontWeight: 500 }}
                             domain={['dataMin - 2', 'dataMax + 2']}
-                            dx={-10}
+                            tickFormatter={(value) => `${value}%`}
+                            width={40}
                           />
                           <ChartTooltip 
                             content={<ChartTooltipContent />}
