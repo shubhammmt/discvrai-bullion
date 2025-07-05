@@ -250,7 +250,7 @@ const MutualFundDetails = () => {
                       <div className="text-sm text-green-600 mt-1">+{fundData.performance.returns.ret_1week}% (1W)</div>
                     </div>
                     <div className="text-center lg:text-left">
-                      <div className="text-sm text-gray-600 mb-1">3Y Annualized Returns</div>
+                      <div className="text-sm text-gray-600 mb-1">3Y Returns</div>
                       <div className="text-2xl lg:text-4xl font-bold text-blue-600">{fundData.performance.returns.ret_3year}%</div>
                       <div className="text-sm text-gray-600 mt-1">Rank: 15/247 in category</div>
                     </div>
@@ -267,7 +267,7 @@ const MutualFundDetails = () => {
                         </Tooltip>
                       </div>
                       <div className="text-2xl lg:text-4xl font-bold text-purple-600">₹{(fundData.fund_structure.aum_information.current_aum / 100).toFixed(0)}Cr</div>
-                      <div className="text-sm text-gray-600 mt-1">Assets Under Management</div>
+                      <div className="text-sm text-gray-600 mt-1"></div>
                     </div>
                     <div className="text-center lg:text-left">
                       <div className="text-sm text-gray-600 mb-1 flex items-center gap-1 justify-center lg:justify-start">
