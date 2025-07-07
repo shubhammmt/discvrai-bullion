@@ -44,6 +44,21 @@ const MutualFundDetails = () => {
     return exitLoadText;
   };
 
+  // Helper function to format Y-axis values for better readability
+  const formatYAxisValue = (value: number) => {
+    if (Math.abs(value) >= 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    } else if (Math.abs(value) >= 1000) {
+      return `${(value / 1000).toFixed(1)}K`;
+    } else if (Math.abs(value) >= 100) {
+      return `${value.toFixed(0)}`;
+    } else if (Math.abs(value) >= 10) {
+      return `${value.toFixed(1)}`;
+    } else {
+      return `${value.toFixed(2)}`;
+    }
+  };
+
   useEffect(() => {
     const loadFundDetails = async () => {
       if (!fundId) {
@@ -305,7 +320,7 @@ const MutualFundDetails = () => {
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={performanceData}
-                          margin={{ top: 30, right: 30, left: 20, bottom: 30 }}
+                          margin={{ top: 30, right: 30, left: 60, bottom: 60 }}
                         >
                           <XAxis 
                             dataKey="period" 
@@ -313,6 +328,12 @@ const MutualFundDetails = () => {
                             tickLine={false}
                             tick={{ fontSize: 13, fill: '#374151', fontWeight: 600 }}
                             dy={10}
+                            label={{ 
+                              value: 'Time Period', 
+                              position: 'insideBottom', 
+                              offset: -10,
+                              style: { textAnchor: 'middle', fontSize: '12px', fill: '#6b7280', fontWeight: 500 }
+                            }}
                           />
                           <YAxis 
                             axisLine={false}
@@ -320,6 +341,13 @@ const MutualFundDetails = () => {
                             tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
                             domain={['dataMin - 2', 'dataMax + 2']}
                             dx={-10}
+                            tickFormatter={(value) => `${formatYAxisValue(value)}%`}
+                            label={{ 
+                              value: 'Returns (%)', 
+                              angle: -90, 
+                              position: 'insideLeft',
+                              style: { textAnchor: 'middle', fontSize: '12px', fill: '#6b7280', fontWeight: 500 }
+                            }}
                           />
                           <ChartTooltip 
                             content={<ChartTooltipContent />}
