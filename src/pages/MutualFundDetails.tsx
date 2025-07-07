@@ -473,21 +473,23 @@ const MutualFundDetails = () => {
             categoryName={fundData.performance.category_comparison.category_name}
           />
 
-          {/* Peer Comparison */}
-          <PeerComparison
-            currentFund={{
-              name: fundData.basic_info.fund_identifiers.scheme_short_name,
-              nav: fundData.performance.current_nav.price,
-              returns: {
-                ret_6month: fundData.performance.returns.ret_6month,
-                ret_1year: fundData.performance.returns.ret_1year,
-                ret_3year: fundData.performance.returns.ret_3year,
-              }
-            }}
-            peerFunds={apiResponse.fund_data.peer_comparison.peer_funds}
-            categoryName={apiResponse.fund_data.peer_comparison.category}
-            categoryAverages={apiResponse.fund_data.peer_comparison.category_averages}
-          />
+          {/* Peer Comparison - Only show if data exists */}
+          {fundData.peer_comparison && (
+            <PeerComparison
+              currentFund={{
+                name: fundData.basic_info.fund_identifiers.scheme_short_name,
+                nav: fundData.performance.current_nav.price,
+                returns: {
+                  ret_6month: fundData.performance.returns.ret_6month,
+                  ret_1year: fundData.performance.returns.ret_1year,
+                  ret_3year: fundData.performance.returns.ret_3year,
+                }
+              }}
+              peerFunds={fundData.peer_comparison.peer_funds}
+              categoryName={fundData.peer_comparison.category}
+              categoryAverages={fundData.peer_comparison.category_averages}
+            />
+          )}
 
           {/* Fund Overview Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">

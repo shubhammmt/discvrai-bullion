@@ -80,7 +80,19 @@ export interface MutualFundDetailsResponse {
           "5_year": number;
         };
       };
-      category_comparison: any;
+      category_comparison: {
+        category_name: string;
+        returns: {
+          "1_week": number;
+          "1_month": number;
+          "3_month": number;
+          "6_month": number;
+          "1_year": number;
+          "3_year": number;
+          "5_year": number;
+          "inception": number;
+        };
+      };
       last_performance_update: string;
     };
     risk_analytics: {
@@ -165,6 +177,27 @@ export interface MutualFundDetailsResponse {
         top_10_concentration: number;
         sector_diversification: number;
       };
+    };
+    peer_comparison?: {
+      category: string;
+      peer_funds: Array<{
+        scheme_code: number;
+        scheme_name: string;
+        nav: number;
+        risk_rating: string;
+        returns: {
+          "6_month": number;
+          "1_year": number;
+          "3_year": number;
+        };
+      }>;
+      category_averages: {
+        "6_month": number;
+        "1_year": number;
+        "3_year": number;
+      };
+      total_peers_compared: number;
+      last_updated: string;
     };
   } | null;
   lookup_method: string | null;
