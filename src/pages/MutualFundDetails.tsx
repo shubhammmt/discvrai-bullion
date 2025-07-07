@@ -299,7 +299,7 @@ const MutualFundDetails = () => {
                         </Tooltip>
                       </div>
                       <div className="text-2xl lg:text-4xl font-bold text-orange-600">{fundData.fund_structure.expenses.total_expense_ratio}%</div>
-                      <div className="text-sm text-gray-600 mt-1">Annual Fee</div>
+                      <div className="text-sm text-gray-600 mt-1"></div>
                     </div>
                   </div>
                 </CardContent>
