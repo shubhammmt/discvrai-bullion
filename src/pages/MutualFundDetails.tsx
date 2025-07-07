@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,6 +68,13 @@ const MutualFundDetails = () => {
     } else {
       return `${value.toFixed(2)}`;
     }
+  };
+
+  // Custom bar shape component for conditional coloring
+  const CustomBar = (props: any) => {
+    const { fill, payload, ...rest } = props;
+    const barColor = payload.return < 0 ? '#ef4444' : '#3b82f6'; // Red for negative, blue for positive
+    return <Bar {...rest} fill={barColor} />;
   };
 
   useEffect(() => {
@@ -368,17 +374,17 @@ const MutualFundDetails = () => {
                           />
                           <Bar 
                             dataKey="return" 
-                            fill="url(#blueGradient)"
                             radius={[6, 6, 0, 0]}
-                            stroke="#2563eb"
+                            stroke="#ffffff"
                             strokeWidth={1}
-                          />
-                          <defs>
-                            <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#60a5fa" stopOpacity={0.8} />
-                            </linearGradient>
-                          </defs>
+                          >
+                            {performanceData.map((entry, index) => (
+                              <Cell 
+                                key={`cell-${index}`} 
+                                fill={entry.return < 0 ? '#ef4444' : '#3b82f6'}
+                              />
+                            ))}
+                          </Bar>
                         </BarChart>
                       </ResponsiveContainer>
                     </ChartContainer>
