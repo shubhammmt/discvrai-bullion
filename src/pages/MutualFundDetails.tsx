@@ -12,6 +12,8 @@ import ReturnsCalculator from '@/components/ReturnsCalculator';
 import ResearchSharing from '@/components/ResearchSharing';
 import { fetchMutualFundDetails, MutualFundDetailsResponse } from '@/utils/mutualFundDetailsApi';
 import { useToast } from '@/hooks/use-toast';
+import FundVsCategoryComparison from '@/components/FundVsCategoryComparison';
+import PeerComparison from '@/components/PeerComparison';
 
 const MutualFundDetails = () => {
   const { fundId } = useParams();
@@ -462,6 +464,29 @@ const MutualFundDetails = () => {
             fundName={fundData.basic_info.fund_identifiers.scheme_short_name}
             expectedReturn={fundData.performance.returns.ret_5year}
             benchmarkReturn={12}
+          />
+
+          {/* Fund vs Category Comparison */}
+          <FundVsCategoryComparison
+            fundReturns={fundData.performance.returns}
+            categoryReturns={fundData.performance.category_comparison.returns}
+            categoryName={fundData.performance.category_comparison.category_name}
+          />
+
+          {/* Peer Comparison */}
+          <PeerComparison
+            currentFund={{
+              name: fundData.basic_info.fund_identifiers.scheme_short_name,
+              nav: fundData.performance.current_nav.price,
+              returns: {
+                ret_6month: fundData.performance.returns.ret_6month,
+                ret_1year: fundData.performance.returns.ret_1year,
+                ret_3year: fundData.performance.returns.ret_3year,
+              }
+            }}
+            peerFunds={apiResponse.fund_data.peer_comparison.peer_funds}
+            categoryName={apiResponse.fund_data.peer_comparison.category}
+            categoryAverages={apiResponse.fund_data.peer_comparison.category_averages}
           />
 
           {/* Fund Overview Grid */}
