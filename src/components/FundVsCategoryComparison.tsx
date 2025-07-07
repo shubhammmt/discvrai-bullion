@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TrendingUp, Target } from 'lucide-react';
 
 interface FundVsCategoryProps {
@@ -158,29 +159,45 @@ const FundVsCategoryComparison = ({ fundReturns, categoryReturns, categoryName }
             </ChartContainer>
           </div>
 
-          {/* Detailed Comparison Table */}
-          <div className="space-y-2">
-            <h4 className="font-semibold text-gray-900 mb-3">Period-wise Comparison</h4>
-            {comparisonData.map((item, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-900 w-8">{item.period}</span>
-                  <div className="flex gap-6">
-                    <div className="text-sm">
-                      <span className="text-gray-600">Fund: </span>
-                      <span className="font-medium text-blue-600">{item.fund.toFixed(2)}%</span>
-                    </div>
-                    <div className="text-sm">
-                      <span className="text-gray-600">Category: </span>
-                      <span className="font-medium text-green-600">{item.category.toFixed(2)}%</span>
-                    </div>
-                  </div>
-                </div>
-                <div className={`text-sm font-bold ${item.outperformance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {item.outperformance > 0 ? '+' : ''}{item.outperformance.toFixed(2)}%
-                </div>
-              </div>
-            ))}
+          {/* Period-wise Comparison Table */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-gray-900">Period-wise Comparison</h4>
+            <div className="rounded-md border overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent bg-gray-50">
+                    <TableHead className="text-center font-semibold text-gray-900 w-20">Period</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-900">This Fund (%)</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-900">Category Avg (%)</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-900">Difference (%)</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {comparisonData.map((item, index) => (
+                    <TableRow key={index} className="hover:bg-gray-50/50">
+                      <TableCell className="text-center font-medium text-gray-900">
+                        {item.period}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <span className={`font-semibold ${item.fund >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
+                          {item.fund > 0 ? '+' : ''}{item.fund.toFixed(2)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <span className={`font-semibold ${item.category >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {item.category > 0 ? '+' : ''}{item.category.toFixed(2)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <span className={`font-bold ${item.outperformance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {item.outperformance > 0 ? '+' : ''}{item.outperformance.toFixed(2)}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </CardContent>
