@@ -466,31 +466,6 @@ const MutualFundDetails = () => {
             benchmarkReturn={12}
           />
 
-          {/* Fund vs Category Comparison */}
-          <FundVsCategoryComparison
-            fundReturns={fundData.performance.returns}
-            categoryReturns={fundData.performance.category_comparison.returns}
-            categoryName={fundData.performance.category_comparison.category_name}
-          />
-
-          {/* Peer Comparison - Only show if data exists */}
-          {fundData.peer_comparison && (
-            <PeerComparison
-              currentFund={{
-                name: fundData.basic_info.fund_identifiers.scheme_short_name,
-                nav: fundData.performance.current_nav.price,
-                returns: {
-                  ret_6month: fundData.performance.returns.ret_6month,
-                  ret_1year: fundData.performance.returns.ret_1year,
-                  ret_3year: fundData.performance.returns.ret_3year,
-                }
-              }}
-              peerFunds={fundData.peer_comparison.peer_funds}
-              categoryName={fundData.peer_comparison.category}
-              categoryAverages={fundData.peer_comparison.category_averages}
-            />
-          )}
-
           {/* Fund Overview Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
             {/* Asset Allocation */}
@@ -745,6 +720,31 @@ const MutualFundDetails = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Fund vs Category Comparison */}
+          <FundVsCategoryComparison
+            fundReturns={fundData.performance.returns}
+            categoryReturns={fundData.performance.category_comparison.returns}
+            categoryName={fundData.performance.category_comparison.category_name}
+          />
+
+          {/* Peer Comparison - Only show if data exists */}
+          {fundData.peer_comparison && (
+            <PeerComparison
+              currentFund={{
+                name: fundData.basic_info.fund_identifiers.scheme_short_name,
+                nav: fundData.performance.current_nav.price,
+                returns: {
+                  ret_6month: fundData.performance.returns.ret_6month,
+                  ret_1year: fundData.performance.returns.ret_1year,
+                  ret_3year: fundData.performance.returns.ret_3year,
+                }
+              }}
+              peerFunds={fundData.peer_comparison.peer_funds}
+              categoryName={fundData.peer_comparison.category}
+              categoryAverages={fundData.peer_comparison.category_averages}
+            />
+          )}
 
           {/* Fund Manager Details */}
           <Card className="bg-white/80 backdrop-blur-sm">
