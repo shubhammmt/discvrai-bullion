@@ -320,7 +320,7 @@ const MutualFundDetails = () => {
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={performanceData}
-                          margin={{ top: 30, right: 30, left: 60, bottom: 60 }}
+                          margin={{ top: 30, right: 30, left: 80, bottom: 60 }}
                         >
                           <XAxis 
                             dataKey="period" 
@@ -340,12 +340,13 @@ const MutualFundDetails = () => {
                             tickLine={false}
                             tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
                             domain={['dataMin - 2', 'dataMax + 2']}
-                            dx={-10}
+                            dx={-15}
                             tickFormatter={(value) => `${formatYAxisValue(value)}%`}
                             label={{ 
                               value: 'Returns (%)', 
                               angle: -90, 
                               position: 'insideLeft',
+                              offset: 20,
                               style: { textAnchor: 'middle', fontSize: '12px', fill: '#6b7280', fontWeight: 500 }
                             }}
                           />
