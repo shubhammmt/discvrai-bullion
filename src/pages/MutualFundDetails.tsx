@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, Target, Building, BarChart3, Bookmark, Share2, Download, Calculator, User, Loader2, Info } from 'lucide-react';
+import { ArrowLeft, TrendingUp, PieChart, Users, Shield, DollarSign, Activity, Target, Building, BarChart3, Share2, Download, Calculator, User, Loader2, Info } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell, BarChart, Bar, Pie } from 'recharts';
 import ReturnsCalculator from '@/components/ReturnsCalculator';
@@ -256,9 +256,6 @@ const MutualFundDetails = () => {
                   </div>
                 </div>
                 <div className="flex gap-2 lg:self-start">
-                  <Button variant="outline" size="sm">
-                    <Bookmark size={16} />
-                  </Button>
                   <Button variant="outline" size="sm">
                     <Share2 size={16} />
                   </Button>
