@@ -87,6 +87,21 @@ const FundVsCategoryComparison = ({ fundReturns, categoryReturns, categoryName }
 
   const avgOutperformance = comparisonData.reduce((sum, item) => sum + item.outperformance, 0) / comparisonData.length;
 
+  // Format Y-axis values to be more readable
+  const formatYAxisValue = (value: number) => {
+    if (Math.abs(value) >= 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    } else if (Math.abs(value) >= 1000) {
+      return `${(value / 1000).toFixed(1)}K`;
+    } else if (Math.abs(value) >= 100) {
+      return `${value.toFixed(0)}`;
+    } else if (Math.abs(value) >= 10) {
+      return `${value.toFixed(1)}`;
+    } else {
+      return `${value.toFixed(2)}`;
+    }
+  };
+
   return (
     <Card className="bg-white/80 backdrop-blur-sm">
       <CardHeader className="pb-4">
@@ -137,6 +152,7 @@ const FundVsCategoryComparison = ({ fundReturns, categoryReturns, categoryName }
                     tickLine={false}
                     tick={{ fontSize: 11, fill: '#6b7280' }}
                     domain={['dataMin - 2', 'dataMax + 2']}
+                    tickFormatter={formatYAxisValue}
                   />
                   <ChartTooltip 
                     content={<ChartTooltipContent />}
