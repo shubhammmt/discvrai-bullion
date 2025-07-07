@@ -152,7 +152,7 @@ const FundVsCategoryComparison = ({ fundReturns, categoryReturns, categoryName }
                     tickLine={false}
                     tick={{ fontSize: 11, fill: '#6b7280' }}
                     domain={['dataMin - 2', 'dataMax + 2']}
-                    tickFormatter={formatYAxisValue}
+                    tickFormatter={(value) => formatYAxisValue(value)}
                   />
                   <ChartTooltip 
                     content={<ChartTooltipContent />}
