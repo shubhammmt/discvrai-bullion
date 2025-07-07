@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -331,7 +332,7 @@ const MutualFundDetails = () => {
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={performanceData}
-                          margin={{ top: 30, right: 30, left: 100, bottom: 60 }}
+                          margin={{ top: 30, right: 30, left: 60, bottom: 60 }}
                         >
                           <XAxis 
                             dataKey="period" 
@@ -351,14 +352,12 @@ const MutualFundDetails = () => {
                             tickLine={false}
                             tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
                             domain={['dataMin - 2', 'dataMax + 2']}
-                            dx={-20}
-                            width={80}
+                            dx={-10}
                             tickFormatter={(value) => `${formatYAxisValue(value)}%`}
                             label={{ 
                               value: 'Returns (%)', 
                               angle: -90, 
-                              position: 'outside',
-                              offset: -60,
+                              position: 'insideLeft',
                               style: { textAnchor: 'middle', fontSize: '12px', fill: '#6b7280', fontWeight: 500 }
                             }}
                           />
