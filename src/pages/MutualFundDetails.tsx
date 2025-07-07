@@ -835,7 +835,7 @@ const MutualFundDetails = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             <Card className="bg-white/80 backdrop-blur-sm">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base lg:text-lg flex items-center gap-1">
+                <CardTitle className="text-base lg:text-lg flex items-center justify-center gap-1">
                   Exit Load
                   <Tooltip>
                     <TooltipTrigger>
@@ -847,7 +847,7 @@ const MutualFundDetails = () => {
                   </Tooltip>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 text-center">
                 <div className="text-lg font-semibold mb-2">
                   {formatExitLoad(fundData.fund_structure.expenses.exit_load)}
                 </div>
@@ -857,9 +857,9 @@ const MutualFundDetails = () => {
 
             <Card className="bg-white/80 backdrop-blur-sm">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base lg:text-lg">Fund Age</CardTitle>
+                <CardTitle className="text-base lg:text-lg text-center">Fund Age</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 text-center">
                 <div className="text-xl lg:text-2xl font-bold mb-2">{safeToFixed(fundData.basic_info.fund_lifecycle.fund_age_years, 0)} Years</div>
                 <div className="text-sm text-gray-600">Since inception</div>
               </CardContent>
@@ -867,7 +867,7 @@ const MutualFundDetails = () => {
 
             <Card className="bg-white/80 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base lg:text-lg flex items-center gap-1">
+                <CardTitle className="text-base lg:text-lg flex items-center justify-center gap-1">
                   Investment Options
                   <Tooltip>
                     <TooltipTrigger>
@@ -879,7 +879,7 @@ const MutualFundDetails = () => {
                   </Tooltip>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 text-center">
                 <div className="space-y-2 text-sm">
                   {fundData.basic_info.plan_details.systematic_plans.map((plan, index) => (
                     <div key={index}>✓ {plan} Available</div>
