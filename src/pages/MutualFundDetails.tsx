@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,6 +25,14 @@ const MutualFundDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Helper function to safely format numbers
+  const safeToFixed = (value: number | null | undefined, decimals: number = 2): string => {
+    if (value === null || value === undefined || isNaN(value)) {
+      return 'N/A';
+    }
+    return value.toFixed(decimals);
+  };
+
   // Helper function to format exit load text
   const formatExitLoad = (exitLoadText: string) => {
     if (!exitLoadText || exitLoadText === "No Load" || exitLoadText === "Nil") {
@@ -46,6 +55,9 @@ const MutualFundDetails = () => {
 
   // Helper function to format Y-axis values for better readability
   const formatYAxisValue = (value: number) => {
+    if (value === null || value === undefined || isNaN(value)) {
+      return '0';
+    }
     if (Math.abs(value) >= 1000000) {
       return `${(value / 1000000).toFixed(1)}M`;
     } else if (Math.abs(value) >= 1000) {
@@ -127,28 +139,28 @@ const MutualFundDetails = () => {
 
   const fundData = apiResponse.fund_data;
 
-  // Prepare chart data
+  // Prepare chart data with safe number handling
   const performanceData = [
-    { period: '1W', return: fundData.performance.returns.ret_1week, benchmark: fundData.performance.benchmark.returns["1_week"] || 1.5 },
-    { period: '1M', return: fundData.performance.returns.ret_1month, benchmark: fundData.performance.benchmark.returns["1_month"] || 2.5 },
-    { period: '3M', return: fundData.performance.returns.ret_3month, benchmark: fundData.performance.benchmark.returns["3_month"] || 8.2 },
-    { period: '6M', return: fundData.performance.returns.ret_6month, benchmark: fundData.performance.benchmark.returns["6_month"] || -2.1 },
-    { period: '1Y', return: fundData.performance.returns.ret_1year, benchmark: fundData.performance.benchmark.returns["1_year"] || 4.8 },
-    { period: '3Y', return: fundData.performance.returns.ret_3year, benchmark: fundData.performance.benchmark.returns["3_year"] || 13.2 },
-    { period: '5Y', return: fundData.performance.returns.ret_5year, benchmark: fundData.performance.benchmark.returns["5_year"] || 16.1 }
+    { period: '1W', return: fundData.performance.returns.ret_1week || 0, benchmark: fundData.performance.benchmark.returns["1_week"] || 1.5 },
+    { period: '1M', return: fundData.performance.returns.ret_1month || 0, benchmark: fundData.performance.benchmark.returns["1_month"] || 2.5 },
+    { period: '3M', return: fundData.performance.returns.ret_3month || 0, benchmark: fundData.performance.benchmark.returns["3_month"] || 8.2 },
+    { period: '6M', return: fundData.performance.returns.ret_6month || 0, benchmark: fundData.performance.benchmark.returns["6_month"] || -2.1 },
+    { period: '1Y', return: fundData.performance.returns.ret_1year || 0, benchmark: fundData.performance.benchmark.returns["1_year"] || 4.8 },
+    { period: '3Y', return: fundData.performance.returns.ret_3year || 0, benchmark: fundData.performance.benchmark.returns["3_year"] || 13.2 },
+    { period: '5Y', return: fundData.performance.returns.ret_5year || 0, benchmark: fundData.performance.benchmark.returns["5_year"] || 16.1 }
   ];
 
   const assetAllocationData = [
     { name: 'Equity', value: fundData.portfolio.asset_allocation.equity || 0, color: '#3b82f6' },
-    { name: 'Debt', value: fundData.portfolio.asset_allocation.debt, color: '#10b981' },
-    { name: 'Cash & Others', value: fundData.portfolio.asset_allocation.cash_and_others, color: '#f59e0b' }
+    { name: 'Debt', value: fundData.portfolio.asset_allocation.debt || 0, color: '#10b981' },
+    { name: 'Cash & Others', value: fundData.portfolio.asset_allocation.cash_and_others || 0, color: '#f59e0b' }
   ];
 
   const sectorData = Object.entries(fundData.portfolio.sector_allocation.sectors)
     .slice(0, 8)
     .map(([sector, allocation], index) => ({
       sector,
-      allocation: allocation as number,
+      allocation: (allocation as number) || 0,
       color: [
         '#3b82f6', '#10b981', '#f59e0b', '#ef4444', 
         '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'
@@ -263,12 +275,12 @@ const MutualFundDetails = () => {
                           </TooltipContent>
                         </Tooltip>
                       </div>
-                      <div className="text-2xl lg:text-4xl font-bold text-gray-900">₹{fundData.performance.current_nav.price}</div>
+                      <div className="text-2xl lg:text-4xl font-bold text-gray-900">₹{safeToFixed(fundData.performance.current_nav.price)}</div>
                       <div className="text-sm text-green-600 mt-1"></div>
                     </div>
                     <div className="text-center lg:text-left">
                       <div className="text-sm text-gray-600 mb-1">3Y Returns</div>
-                      <div className="text-2xl lg:text-4xl font-bold text-blue-600">{fundData.performance.returns.ret_3year}%</div>
+                      <div className="text-2xl lg:text-4xl font-bold text-blue-600">{safeToFixed(fundData.performance.returns.ret_3year)}%</div>
                       <div className="text-sm text-gray-600 mt-1"></div>
                     </div>
                     <div className="text-center lg:text-left">
@@ -283,7 +295,7 @@ const MutualFundDetails = () => {
                           </TooltipContent>
                         </Tooltip>
                       </div>
-                      <div className="text-2xl lg:text-4xl font-bold text-purple-600">₹{(fundData.fund_structure.aum_information.current_aum / 100).toFixed(0)}Cr</div>
+                      <div className="text-2xl lg:text-4xl font-bold text-purple-600">₹{safeToFixed((fundData.fund_structure.aum_information.current_aum || 0) / 100, 0)}Cr</div>
                       <div className="text-sm text-gray-600 mt-1"></div>
                     </div>
                     <div className="text-center lg:text-left">
@@ -298,7 +310,7 @@ const MutualFundDetails = () => {
                           </TooltipContent>
                         </Tooltip>
                       </div>
-                      <div className="text-2xl lg:text-4xl font-bold text-orange-600">{fundData.fund_structure.expenses.total_expense_ratio}%</div>
+                      <div className="text-2xl lg:text-4xl font-bold text-orange-600">{safeToFixed(fundData.fund_structure.expenses.total_expense_ratio)}%</div>
                       <div className="text-sm text-gray-600 mt-1"></div>
                     </div>
                   </div>
@@ -351,7 +363,7 @@ const MutualFundDetails = () => {
                           />
                           <ChartTooltip 
                             content={<ChartTooltipContent />}
-                            formatter={(value, name) => [`${value}%`, 'Returns']}
+                            formatter={(value, name) => [`${safeToFixed(value as number)}%`, 'Returns']}
                             cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
                           />
                           <Bar 
@@ -452,19 +464,19 @@ const MutualFundDetails = () => {
                       <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                         <span className="text-xs font-medium text-gray-600">Fund Return ({activeTimeframe})</span>
                         <span className={`text-lg font-bold ${currentData.return >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {currentData.return > 0 ? '+' : ''}{currentData.return.toFixed(2)}%
+                          {currentData.return > 0 ? '+' : ''}{safeToFixed(currentData.return)}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                         <span className="text-xs font-medium text-gray-600">Benchmark Return ({activeTimeframe})</span>
                         <span className={`text-lg font-bold ${currentData.benchmark >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {currentData.benchmark > 0 ? '+' : ''}{currentData.benchmark.toFixed(2)}%
+                          {currentData.benchmark > 0 ? '+' : ''}{safeToFixed(currentData.benchmark)}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center pt-1">
                         <span className="text-sm font-semibold text-gray-800">Outperformance</span>
                         <span className={`text-xl font-bold ${(currentData.return - currentData.benchmark) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{(currentData.return - currentData.benchmark).toFixed(2)}%
+                          {(currentData.return - currentData.benchmark) > 0 ? '+' : ''}{safeToFixed(currentData.return - currentData.benchmark)}%
                         </span>
                       </div>
                     </div>
@@ -490,7 +502,7 @@ const MutualFundDetails = () => {
           {/* Investment Calculator Widget */}
           <ReturnsCalculator
             fundName={fundData.basic_info.fund_identifiers.scheme_short_name}
-            expectedReturn={fundData.performance.returns.ret_5year}
+            expectedReturn={fundData.performance.returns.ret_5year || 12}
             benchmarkReturn={12}
           />
 
@@ -540,7 +552,7 @@ const MutualFundDetails = () => {
                           />
                           <span className="text-sm font-medium text-gray-700">{item.name}</span>
                         </div>
-                        <span className="text-sm font-bold text-gray-900">{item.value.toFixed(1)}%</span>
+                        <span className="text-sm font-bold text-gray-900">{safeToFixed(item.value, 1)}%</span>
                       </div>
                     ))}
                   </div>
@@ -573,7 +585,7 @@ const MutualFundDetails = () => {
                             </TooltipContent>
                           </Tooltip>
                         </div>
-                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.risk_measures.standard_deviation_3year}%</div>
+                        <div className="text-lg font-bold text-gray-900">{safeToFixed(fundData.risk_analytics.risk_measures.standard_deviation_3year)}%</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg p-3">
                         <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
@@ -587,7 +599,7 @@ const MutualFundDetails = () => {
                             </TooltipContent>
                           </Tooltip>
                         </div>
-                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.performance_ratios.sharpe_ratio_3year}</div>
+                        <div className="text-lg font-bold text-gray-900">{safeToFixed(fundData.risk_analytics.performance_ratios.sharpe_ratio_3year)}</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg p-3">
                         <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
@@ -601,7 +613,7 @@ const MutualFundDetails = () => {
                             </TooltipContent>
                           </Tooltip>
                         </div>
-                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.beta_metrics.beta_3year}</div>
+                        <div className="text-lg font-bold text-gray-900">{safeToFixed(fundData.risk_analytics.beta_metrics.beta_3year)}</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg p-3">
                         <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
@@ -615,7 +627,7 @@ const MutualFundDetails = () => {
                             </TooltipContent>
                           </Tooltip>
                         </div>
-                        <div className="text-lg font-bold text-gray-900">{fundData.risk_analytics.alpha_metrics.alpha_3year}</div>
+                        <div className="text-lg font-bold text-gray-900">{safeToFixed(fundData.risk_analytics.alpha_metrics.alpha_3year)}</div>
                       </div>
                     </div>
                   </div>
@@ -650,7 +662,7 @@ const MutualFundDetails = () => {
                       <div key={index} className="bg-gray-50 rounded-lg p-4">
                         <div className="flex justify-between items-start mb-2">
                           <div className="font-medium text-gray-900 text-sm">{holding.company_name}</div>
-                          <div className="font-bold text-gray-900 text-sm">{holding.percentage_holding.toFixed(2)}%</div>
+                          <div className="font-bold text-gray-900 text-sm">{safeToFixed(holding.percentage_holding)}%</div>
                         </div>
                         <div className="text-xs text-gray-600">{holding.sector}</div>
                       </div>
@@ -671,7 +683,7 @@ const MutualFundDetails = () => {
                           <TableRow key={index} className="hover:bg-gray-50/50">
                             <TableCell className="text-left font-medium text-gray-900 py-4">{holding.company_name}</TableCell>
                             <TableCell className="text-center text-gray-600 py-4">{holding.sector}</TableCell>
-                            <TableCell className="text-right font-semibold text-gray-900 py-4">{holding.percentage_holding.toFixed(2)}%</TableCell>
+                            <TableCell className="text-right font-semibold text-gray-900 py-4">{safeToFixed(holding.percentage_holding)}%</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -719,7 +731,7 @@ const MutualFundDetails = () => {
                         <ChartTooltip 
                           content={<ChartTooltipContent />}
                           formatter={(value, name, props) => [
-                            `${value}%`, 
+                            `${safeToFixed(value as number, 1)}%`, 
                             props.payload.sector
                           ]}
                         />
@@ -740,7 +752,7 @@ const MutualFundDetails = () => {
                           />
                           <span className="text-sm font-medium text-gray-700">{item.sector}</span>
                         </div>
-                        <span className="text-sm font-bold text-gray-900">{item.allocation.toFixed(1)}%</span>
+                        <span className="text-sm font-bold text-gray-900">{safeToFixed(item.allocation, 1)}%</span>
                       </div>
                     ))}
                   </div>
@@ -763,9 +775,9 @@ const MutualFundDetails = () => {
                 name: fundData.basic_info.fund_identifiers.scheme_short_name,
                 nav: fundData.performance.current_nav.price,
                 returns: {
-                  ret_6month: fundData.performance.returns.ret_6month,
-                  ret_1year: fundData.performance.returns.ret_1year,
-                  ret_3year: fundData.performance.returns.ret_3year,
+                  ret_6month: fundData.performance.returns.ret_6month || 0,
+                  ret_1year: fundData.performance.returns.ret_1year || 0,
+                  ret_3year: fundData.performance.returns.ret_3year || 0,
                 }
               }}
               peerFunds={fundData.peer_comparison.peer_funds}
@@ -795,19 +807,19 @@ const MutualFundDetails = () => {
                           Lead Fund Manager
                         </Badge>
                         <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                          {fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)}+ Years Experience
+                          {safeToFixed(fundData.basic_info.fund_lifecycle.fund_age_years, 0)}+ Years Experience
                         </Badge>
                       </div>
                     </div>
                     <p className="text-sm text-gray-700 leading-relaxed text-center sm:text-left">
-                      A seasoned investment professional with over {fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)} years of experience in equity research and fund management. 
+                      A seasoned investment professional with over {safeToFixed(fundData.basic_info.fund_lifecycle.fund_age_years, 0)} years of experience in equity research and fund management. 
                       Known for consistent performance and a disciplined investment approach focused on quality growth stocks.
                     </p>
                   </div>
                   
                   <div className="w-full sm:w-32 flex justify-center sm:block">
                     <div className="bg-gray-50 rounded-lg p-4 text-center min-w-[120px]">
-                      <div className="text-2xl font-bold text-gray-900">{fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)}+</div>
+                      <div className="text-2xl font-bold text-gray-900">{safeToFixed(fundData.basic_info.fund_lifecycle.fund_age_years, 0)}+</div>
                       <div className="text-sm text-gray-600 mt-1">Years Experience</div>
                     </div>
                   </div>
@@ -845,7 +857,7 @@ const MutualFundDetails = () => {
                 <CardTitle className="text-base lg:text-lg">Fund Age</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="text-xl lg:text-2xl font-bold mb-2">{fundData.basic_info.fund_lifecycle.fund_age_years.toFixed(0)} Years</div>
+                <div className="text-xl lg:text-2xl font-bold mb-2">{safeToFixed(fundData.basic_info.fund_lifecycle.fund_age_years, 0)} Years</div>
                 <div className="text-sm text-gray-600">Since inception</div>
               </CardContent>
             </Card>
