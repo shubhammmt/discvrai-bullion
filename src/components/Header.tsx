@@ -70,22 +70,6 @@ const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm"
-                onClick={() => navigate('/dashboard')}
-                className={`font-medium ${location.pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
-              >
-                Dashboard
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => navigate('/feed')}
-                className={`font-medium ${location.pathname === '/feed' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
-              >
-                Discovery
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm"
                 onClick={() => navigate('/market')}
                 className={`font-medium ${location.pathname === '/market' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
@@ -134,6 +118,14 @@ const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm"
+                onClick={() => navigate('/organize')}
+                className={`font-medium ${location.pathname === '/organize' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Organize
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
                 onClick={() => navigate('/portfolio')}
                 className={`font-medium ${location.pathname === '/portfolio' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
@@ -152,13 +144,6 @@ const Header = () => {
                 <div className="flex flex-col gap-4 mt-8">
                   <h3 className="font-semibold text-lg mb-4">Navigation</h3>
                   
-                  <Button 
-                    variant="ghost" 
-                    onClick={() => navigate('/feed')}
-                    className={`justify-start h-12 ${location.pathname === '/feed' ? 'bg-primary/10 text-primary' : ''}`}
-                  >
-                    Feed
-                  </Button>
                   <Button 
                     variant="ghost" 
                     onClick={() => navigate('/market')}
@@ -241,9 +226,6 @@ const Header = () => {
                 className="w-9 h-9 p-0"
               >
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
-              </Button>
-              <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
-                <Search size={16} />
               </Button>
               <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
                 <Bell size={16} />
