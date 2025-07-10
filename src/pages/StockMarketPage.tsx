@@ -147,7 +147,9 @@ const StockMarketPage = () => {
                     {activeMarket === 'india' ? 'SENSEX' : 'S&P 500'}
                   </p>
                   <p className="text-2xl font-bold text-green-900">
-                    {activeMarket === 'india' ? currentMarketData.sensex.value.toLocaleString() : currentMarketData.sp500.value.toLocaleString()}
+                    {activeMarket === 'india' 
+                      ? marketOverview.india.sensex.value.toLocaleString() 
+                      : marketOverview.us.sp500.value.toLocaleString()}
                   </p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-green-600" />
@@ -155,7 +157,12 @@ const StockMarketPage = () => {
               <div className="flex items-center mt-2">
                 <ArrowUpRight className="h-4 w-4 text-green-600 mr-1" />
                 <span className="text-sm font-medium text-green-700">
-                  +{activeMarket === 'india' ? currentMarketData.sensex.change.toFixed(2) : Math.abs(currentMarketData.sp500.change).toFixed(2)} ({activeMarket === 'india' ? currentMarketData.sensex.changePercent.toFixed(2) : Math.abs(currentMarketData.sp500.changePercent).toFixed(2)}%)
+                  +{activeMarket === 'india' 
+                    ? marketOverview.india.sensex.change.toFixed(2) 
+                    : Math.abs(marketOverview.us.sp500.change).toFixed(2)} 
+                  ({activeMarket === 'india' 
+                    ? marketOverview.india.sensex.changePercent.toFixed(2) 
+                    : Math.abs(marketOverview.us.sp500.changePercent).toFixed(2)}%)
                 </span>
               </div>
             </CardContent>
@@ -169,7 +176,9 @@ const StockMarketPage = () => {
                     {activeMarket === 'india' ? 'NIFTY 50' : 'NASDAQ'}
                   </p>
                   <p className="text-2xl font-bold text-blue-900">
-                    {activeMarket === 'india' ? currentMarketData.nifty.value.toLocaleString() : currentMarketData.nasdaq.value.toLocaleString()}
+                    {activeMarket === 'india' 
+                      ? marketOverview.india.nifty.value.toLocaleString() 
+                      : marketOverview.us.nasdaq.value.toLocaleString()}
                   </p>
                 </div>
                 <Activity className="h-8 w-8 text-blue-600" />
@@ -177,7 +186,12 @@ const StockMarketPage = () => {
               <div className="flex items-center mt-2">
                 <ArrowUpRight className="h-4 w-4 text-blue-600 mr-1" />
                 <span className="text-sm font-medium text-blue-700">
-                  +{activeMarket === 'india' ? currentMarketData.nifty.change.toFixed(2) : Math.abs(currentMarketData.nasdaq.change).toFixed(2)} ({activeMarket === 'india' ? currentMarketData.nifty.changePercent.toFixed(2) : Math.abs(currentMarketData.nasdaq.changePercent).toFixed(2)}%)
+                  +{activeMarket === 'india' 
+                    ? marketOverview.india.nifty.change.toFixed(2) 
+                    : Math.abs(marketOverview.us.nasdaq.change).toFixed(2)} 
+                  ({activeMarket === 'india' 
+                    ? marketOverview.india.nifty.changePercent.toFixed(2) 
+                    : Math.abs(marketOverview.us.nasdaq.changePercent).toFixed(2)}%)
                 </span>
               </div>
             </CardContent>
