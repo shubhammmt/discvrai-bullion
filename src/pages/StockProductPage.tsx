@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ArrowLeft, 
   TrendingUp, 
@@ -148,7 +147,7 @@ const StockProductPage = () => {
         </Card>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
             <CardContent className="p-4">
               <div className="text-2xl font-bold text-foreground mb-1">24.5</div>
@@ -188,237 +187,236 @@ const StockProductPage = () => {
           </Card>
         </div>
 
-        {/* Main Content Tabs */}
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:grid-cols-4">
-            <TabsTrigger value="overview" className="flex items-center gap-2">
-              <BarChart3 size={16} />
-              Overview
-            </TabsTrigger>
-            <TabsTrigger value="research" className="flex items-center gap-2">
-              <Target size={16} />
-              Research
-            </TabsTrigger>
-            <TabsTrigger value="financials" className="flex items-center gap-2">
-              <DollarSign size={16} />
-              Financials
-            </TabsTrigger>
-            <TabsTrigger value="news" className="flex items-center gap-2">
-              <Globe size={16} />
-              News
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid lg:grid-cols-3 gap-6">
-              {/* Price Chart */}
-              <Card className="lg:col-span-2 bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-blue-600" />
-                    Price Chart
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
-                    <p className="text-muted-foreground">Interactive price chart will be displayed here</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Key Highlights */}
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Star className="w-5 h-5 text-yellow-500" />
-                    Key Highlights
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">Largest private sector company in India by market capitalization</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">Strong presence in energy, petrochemicals, and retail sectors</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">Jio platforms driving digital transformation initiatives</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">Consistent dividend payments with strong cash flows</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-sm text-gray-700">Strategic partnerships with global technology giants</p>
-                  </div>
-                </CardContent>
-              </Card>
+        {/* Price Chart */}
+        <Card className="mb-8 bg-white/70 backdrop-blur-md border-white/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="w-5 h-5 text-blue-600" />
+              Price Chart
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-80 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
+              <p className="text-muted-foreground">Interactive price chart will be displayed here</p>
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Business Segments */}
+        {/* Two Column Layout for Highlights and Business Segments */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          {/* Key Highlights */}
+          <Card className="bg-white/70 backdrop-blur-md border-white/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Star className="w-5 h-5 text-yellow-500" />
+                Key Highlights
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm text-gray-700">Largest private sector company in India by market capitalization</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm text-gray-700">Strong presence in energy, petrochemicals, and retail sectors</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm text-gray-700">Jio platforms driving digital transformation initiatives</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm text-gray-700">Consistent dividend payments with strong cash flows</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm text-gray-700">Strategic partnerships with global technology giants</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Business Segments */}
+          <Card className="bg-white/70 backdrop-blur-md border-white/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <PieChart className="w-5 h-5 text-blue-600" />
+                Business Segments
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Oil & Gas</span>
+                  <span className="text-sm text-muted-foreground">45%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Retail</span>
+                  <span className="text-sm text-muted-foreground">32%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Digital Services</span>
+                  <span className="text-sm text-muted-foreground">15%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Petrochemicals</span>
+                  <span className="text-sm text-muted-foreground">8%</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Financial Health and Research Section */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <Card className="bg-white/70 backdrop-blur-md border-white/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-green-600" />
+                Financial Health
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Debt to Equity</span>
+                  <span className="text-sm font-medium">0.21</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Current Ratio</span>
+                  <span className="text-sm font-medium">1.15</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">ROE</span>
+                  <span className="text-sm font-medium">13.8%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">ROA</span>
+                  <span className="text-sm font-medium">7.2%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Net Profit Margin</span>
+                  <span className="text-sm font-medium">8.9%</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* AI Research Integration */}
+          <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-purple-600" />
+                AI Research Insights
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-700 mb-4">
+                Get detailed AI-powered analysis, personalized recommendations, and real-time insights for this stock.
+              </p>
+              <Button 
+                onClick={() => navigate(`/research/stock/${symbol}`)}
+                className="w-full bg-purple-600 hover:bg-purple-700"
+              >
+                <BarChart3 size={16} className="mr-2" />
+                View Detailed Research
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Financials Section */}
+        <Card className="mb-8 bg-white/70 backdrop-blur-md border-white/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <DollarSign className="w-5 h-5 text-green-600" />
+              Financial Performance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <PieChart className="w-5 h-5 text-blue-600" />
-                    Business Segments
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium">Oil & Gas</span>
-                      <span className="text-sm text-muted-foreground">45%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium">Retail</span>
-                      <span className="text-sm text-muted-foreground">32%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium">Digital Services</span>
-                      <span className="text-sm text-muted-foreground">15%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium">Petrochemicals</span>
-                      <span className="text-sm text-muted-foreground">8%</span>
-                    </div>
+              <div>
+                <h4 className="font-semibold mb-3 text-gray-900">Revenue Growth</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">FY 2024</span>
+                    <span className="text-sm font-medium">₹9,75,000 Cr (+12.5%)</span>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-green-600" />
-                    Financial Health
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Debt to Equity</span>
-                      <span className="text-sm font-medium">0.21</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Current Ratio</span>
-                      <span className="text-sm font-medium">1.15</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">ROE</span>
-                      <span className="text-sm font-medium">13.8%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">ROA</span>
-                      <span className="text-sm font-medium">7.2%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Net Profit Margin</span>
-                      <span className="text-sm font-medium">8.9%</span>
-                    </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">FY 2023</span>
+                    <span className="text-sm font-medium">₹8,66,000 Cr (+28.8%)</span>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="research">
-            <StockResearch />
-          </TabsContent>
-
-          <TabsContent value="financials" className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle>Revenue Growth</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">FY 2024</span>
-                      <span className="text-sm font-medium">₹9,75,000 Cr (+12.5%)</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">FY 2023</span>
-                      <span className="text-sm font-medium">₹8,66,000 Cr (+28.8%)</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">FY 2022</span>
-                      <span className="text-sm font-medium">₹6,72,000 Cr (+24.5%)</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/70 backdrop-blur-md border-white/20">
-                <CardHeader>
-                  <CardTitle>Profitability</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Net Profit (FY24)</span>
-                      <span className="text-sm font-medium">₹79,000 Cr</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">EBITDA Margin</span>
-                      <span className="text-sm font-medium">17.2%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Operating Margin</span>
-                      <span className="text-sm font-medium">12.8%</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="news" className="space-y-6">
-            <Card className="bg-white/70 backdrop-blur-md border-white/20">
-              <CardHeader>
-                <CardTitle>Latest News & Updates</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border-b pb-4 last:border-b-0">
-                    <h4 className="font-semibold mb-2">Reliance Reports Strong Q3 Results with 12% Revenue Growth</h4>
-                    <p className="text-sm text-muted-foreground mb-2">Company beats analyst expectations with improved margins across all business segments, driven by strong performance in retail and digital services.</p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Calendar size={12} />
-                      <span>2 hours ago</span>
-                      <span>•</span>
-                      <span>Economic Times</span>
-                    </div>
-                  </div>
-                  <div className="border-b pb-4 last:border-b-0">
-                    <h4 className="font-semibold mb-2">Jio Platforms Announces 5G Expansion Across 1000 Cities</h4>
-                    <p className="text-sm text-muted-foreground mb-2">Reliance Jio accelerates 5G rollout with plans to cover major cities by Q2 2024, expecting significant subscriber growth.</p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Calendar size={12} />
-                      <span>1 day ago</span>
-                      <span>•</span>
-                      <span>Business Standard</span>
-                    </div>
-                  </div>
-                  <div className="border-b pb-4 last:border-b-0">
-                    <h4 className="font-semibold mb-2">RIL Green Energy Initiative Gets ₹75,000 Cr Investment</h4>
-                    <p className="text-sm text-muted-foreground mb-2">Company commits to carbon neutrality by 2035 with major investments in solar, hydrogen, and battery storage technologies.</p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Calendar size={12} />
-                      <span>3 days ago</span>
-                      <span>•</span>
-                      <span>Financial Express</span>
-                    </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">FY 2022</span>
+                    <span className="text-sm font-medium">₹6,72,000 Cr (+24.5%)</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-3 text-gray-900">Profitability</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Net Profit (FY24)</span>
+                    <span className="text-sm font-medium">₹79,000 Cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">EBITDA Margin</span>
+                    <span className="text-sm font-medium">17.2%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Operating Margin</span>
+                    <span className="text-sm font-medium">12.8%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* News Section */}
+        <Card className="bg-white/70 backdrop-blur-md border-white/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="w-5 h-5 text-blue-600" />
+              Latest News & Updates
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="border-b pb-4 last:border-b-0">
+                <h4 className="font-semibold mb-2">Reliance Reports Strong Q3 Results with 12% Revenue Growth</h4>
+                <p className="text-sm text-muted-foreground mb-2">Company beats analyst expectations with improved margins across all business segments, driven by strong performance in retail and digital services.</p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Calendar size={12} />
+                  <span>2 hours ago</span>
+                  <span>•</span>
+                  <span>Economic Times</span>
+                </div>
+              </div>
+              <div className="border-b pb-4 last:border-b-0">
+                <h4 className="font-semibold mb-2">Jio Platforms Announces 5G Expansion Across 1000 Cities</h4>
+                <p className="text-sm text-muted-foreground mb-2">Reliance Jio accelerates 5G rollout with plans to cover major cities by Q2 2024, expecting significant subscriber growth.</p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Calendar size={12} />
+                  <span>1 day ago</span>
+                  <span>•</span>
+                  <span>Business Standard</span>
+                </div>
+              </div>
+              <div className="border-b pb-4 last:border-b-0">
+                <h4 className="font-semibold mb-2">RIL Green Energy Initiative Gets ₹75,000 Cr Investment</h4>
+                <p className="text-sm text-muted-foreground mb-2">Company commits to carbon neutrality by 2035 with major investments in solar, hydrogen, and battery storage technologies.</p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Calendar size={12} />
+                  <span>3 days ago</span>
+                  <span>•</span>
+                  <span>Financial Express</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
