@@ -66,20 +66,28 @@ const Header = () => {
         {isLoggedIn && (
           <>
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-6">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/dashboard')}
+                className={`font-medium ${location.pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Dashboard
+              </Button>
               <Button 
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/feed')}
-                className={location.pathname === '/feed' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/feed' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
-                Feed
+                Discovery
               </Button>
               <Button 
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/market')}
-                className={location.pathname === '/market' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/market' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 Market
               </Button>
@@ -87,7 +95,7 @@ const Header = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/stocks')}
-                className={location.pathname === '/stocks' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/stocks' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 Stocks
               </Button>
@@ -95,7 +103,7 @@ const Header = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/us-stocks')}
-                className={location.pathname === '/us-stocks' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/us-stocks' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 US Stocks
               </Button>
@@ -103,7 +111,7 @@ const Header = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/mutual-funds')}
-                className={location.pathname === '/mutual-funds' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/mutual-funds' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 Mutual Funds
               </Button>
@@ -111,7 +119,7 @@ const Header = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/ipos')}
-                className={location.pathname === '/ipos' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/ipos' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 IPOs
               </Button>
@@ -119,23 +127,15 @@ const Header = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => navigate('/crypto')}
-                className={location.pathname === '/crypto' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/crypto' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 Crypto
               </Button>
               <Button 
                 variant="ghost" 
                 size="sm"
-                onClick={() => navigate('/organize')}
-                className={location.pathname === '/organize' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
-              >
-                Organize
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm"
                 onClick={() => navigate('/portfolio')}
-                className={location.pathname === '/portfolio' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+                className={`font-medium ${location.pathname === '/portfolio' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 Portfolio
               </Button>
