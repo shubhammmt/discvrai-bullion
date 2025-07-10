@@ -2,77 +2,149 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Brain } from 'lucide-react';
+import { Calendar, TrendingUp, Users, DollarSign, FileText, Clock } from 'lucide-react';
 
 interface CorporateActionsCardProps {
   symbol: string;
 }
 
 const CorporateActionsCard = ({ symbol }: CorporateActionsCardProps) => {
-  const upcomingEvents = [
-    { type: 'Results', event: 'Q4 FY24 Results', date: 'Apr 18, 2024', icon: '📊' },
-    { type: 'AGM', event: 'Annual General Meeting', date: 'Jun 28, 2024', icon: '🏛️' },
-    { type: 'Dividend', event: 'Ex-Dividend Date', date: 'Jul 15, 2024', icon: '💰' },
-    { type: 'Board Meeting', event: 'Board Meeting', date: 'Aug 12, 2024', icon: '👥' }
+  const corporateActions = [
+    {
+      type: 'dividend',
+      title: 'Dividend Declaration',
+      description: 'Final dividend of ₹12 per share',
+      date: '2024-07-15',
+      status: 'upcoming',
+      impact: 'positive',
+      details: 'Ex-date: July 15, Record date: July 16, Payment date: July 30'
+    },
+    {
+      type: 'results',
+      title: 'Q4 FY24 Results',
+      description: 'Quarterly earnings announcement',
+      date: '2024-04-18',
+      status: 'completed',
+      impact: 'positive',
+      details: 'Revenue grew 15% YoY, Net profit up 12%'
+    },
+    {
+      type: 'agm',
+      title: 'Annual General Meeting',
+      description: 'AGM & Annual Report presentation',
+      date: '2024-06-28',
+      status: 'upcoming',
+      impact: 'neutral',
+      details: 'Venue: Mumbai, Time: 11:00 AM'
+    },
+    {
+      type: 'bonus',
+      title: 'Board Meeting',
+      description: 'To consider bonus issue proposal',
+      date: '2024-05-20',
+      status: 'upcoming',
+      impact: 'positive',
+      details: 'Ratio and other details to be announced'
+    }
   ];
 
-  const recentEvents = [
-    { type: 'Results', event: 'Q3 FY24 Results', date: 'Jan 15, 2024', status: 'Completed' },
-    { type: 'Dividend', event: 'Interim Dividend', date: 'Dec 20, 2023', status: 'Paid' }
-  ];
+  const getActionIcon = (type: string) => {
+    switch (type) {
+      case 'dividend': return <DollarSign size={16} className="text-green-600" />;
+      case 'results': return <TrendingUp size={16} className="text-blue-600" />;
+      case 'agm': return <Users size={16} className="text-purple-600" />;
+      case 'bonus': return <FileText size={16} className="text-orange-600" />;
+      default: return <Calendar size={16} className="text-gray-600" />;
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const styles = {
+      upcoming: 'bg-blue-100 text-blue-700 border-blue-200',
+      completed: 'bg-green-100 text-green-700 border-green-200',
+      pending: 'bg-yellow-100 text-yellow-700 border-yellow-200'
+    };
+    return styles[status as keyof typeof styles] || styles.pending;
+  };
+
+  const getImpactColor = (impact: string) => {
+    switch (impact) {
+      case 'positive': return 'border-l-green-500';
+      case 'negative': return 'border-l-red-500';
+      default: return 'border-l-gray-300';
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', { 
+      day: 'numeric', 
+      month: 'short', 
+      year: 'numeric' 
+    });
+  };
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Calendar className="w-5 h-5" />
-          Corporate Actions & Calendar
+          Corporate Actions & Events
+          <Badge variant="secondary">{corporateActions.length} Events</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-6">
-          <div>
-            <h3 className="font-medium text-gray-900 mb-3">Upcoming Events</h3>
-            <div className="space-y-3">
-              {upcomingEvents.map((event, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">{event.icon}</span>
-                    <div>
-                      <p className="font-medium text-gray-900">{event.event}</p>
-                      <p className="text-sm text-gray-600">{event.date}</p>
+        <div className="space-y-4">
+          {corporateActions.map((action, index) => (
+            <div 
+              key={index} 
+              className={`p-4 border-l-4 ${getImpactColor(action.impact)} bg-gray-50 rounded-r-lg hover:bg-gray-100 transition-colors`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-white rounded-lg shadow-sm">
+                    {getActionIcon(action.type)}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-semibold text-gray-900">{action.title}</h4>
+                      <Badge className={getStatusBadge(action.status)}>
+                        {action.status}
+                      </Badge>
                     </div>
+                    <p className="text-sm text-gray-700 mb-2">{action.description}</p>
+                    <p className="text-xs text-gray-600">{action.details}</p>
                   </div>
-                  <Badge variant="outline">{event.type}</Badge>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-medium text-gray-900 mb-3">Recent Events</h3>
-            <div className="space-y-3">
-              {recentEvents.map((event, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div>
-                    <p className="font-medium text-gray-900">{event.event}</p>
-                    <p className="text-sm text-gray-600">{event.date}</p>
+                <div className="text-right">
+                  <div className="flex items-center gap-1 text-sm text-gray-600 mb-1">
+                    <Clock size={14} />
+                    <span>{formatDate(action.date)}</span>
                   </div>
-                  <Badge variant="secondary">{event.status}</Badge>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-            <div className="flex items-start gap-2">
-              <Brain size={16} className="text-yellow-600 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="text-sm font-medium text-yellow-800 mb-1">AI Calendar Alert:</p>
-                <p className="text-sm text-yellow-700">
-                  Upcoming Q4 results on Apr 18 could be a catalyst. Historical pattern shows positive price reaction post-results.
-                </p>
               </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h4 className="font-medium text-blue-800 mb-2">Quick Calendar Overview</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+            <div className="text-center p-2 bg-white rounded">
+              <div className="text-blue-600 font-bold">Apr 18</div>
+              <div className="text-xs text-gray-600">Q4 Results</div>
+            </div>
+            <div className="text-center p-2 bg-white rounded">
+              <div className="text-purple-600 font-bold">May 20</div>
+              <div className="text-xs text-gray-600">Board Meet</div>
+            </div>
+            <div className="text-center p-2 bg-white rounded">
+              <div className="text-green-600 font-bold">Jun 28</div>
+              <div className="text-xs text-gray-600">AGM</div>
+            </div>
+            <div className="text-center p-2 bg-white rounded">
+              <div className="text-orange-600 font-bold">Jul 15</div>
+              <div className="text-xs text-gray-600">Ex-Dividend</div>
             </div>
           </div>
         </div>
