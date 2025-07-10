@@ -153,14 +153,76 @@ Primary tabs for content organization:
 ### 9. Shareholding Analysis
 
 **Visual Components:**
-- **Shareholding Pattern Pie Chart**: Promoters, FIIs, DIIs, Others breakdown
-- **Promoters Holding Gauge**: Pledged vs Unpledged visualization
-- **Historical Trends**: Quarterly/Yearly view toggle
+- **Shareholding Pattern Pie Chart**: Promoters, FIIs, DIIs, Others breakdown with company logo in center
+- **Promoters Holding Gauge**: Pledged vs Unpledged visualization with percentage breakdown
+- **Historical Trends**: Quarterly/Yearly view toggle with trend charts
+
+**Shareholding History Table:**
+- **Time Series Data**: Historical shareholding percentages across quarters/years
+- **Category Breakdown**: Promoters, FIIs, DIIs, Public holdings over time
+- **Total Shareholders**: Count tracking over time periods
+- **Interactive Charts**: Mini chart icons for each category showing trends
+- **Toggle Views**: Quarterly vs Yearly historical data
+
+**Market Transactions Section:**
+- **Transaction Table**: Detailed transaction history with sortable columns
+  - Date, Party Name, Category (Bulk/Block/Insider), Type (Buy/Sell/Disposal)
+  - Average Price, Total Value, Quantity, Percent Traded
+- **Color Coding**: Green for Buy, Red for Sell/Disposal transactions
+- **Category Filter**: Dropdown to filter by transaction category
+- **Pagination**: Showing "1-10 of 13" style pagination
+- **Insider Activity**: Special highlighting for promoter group transactions
 
 **Data Points:**
 - Percentage breakdowns with exact figures
 - Trend indicators for holding changes
-- Pledge status monitoring
+- Pledge status monitoring with risk assessment
+
+### 10. Projection Section (Premium Feature)
+
+**Premium Feature Layout:**
+- **"Pro" Badge**: Clear indication of premium feature
+- **Unlock Premium Features Section**: Prominent call-to-action area
+- **Feature Description**: "Get In-depth insights on EPS and Revenue forecasts"
+- **Upgrade Button**: Clear upgrade path for users
+
+**EPS & Revenue Projections:**
+- **Interactive Toggle**: Switch between EPS and Revenue projections
+- **Quarterly Bar Chart**: Visual representation of forecasted quarters (Q1-Q6)
+- **Data Points Display**:
+  - Actual vs Estimated values
+  - Surprise percentages (e.g., "+0.80%", "+22.83%")
+  - Growth indicators with color coding
+- **Forecast Accuracy**: Historical accuracy tracking for model credibility
+
+**Visual Design:**
+- **Bar Chart Visualization**: Blue gradient bars for projected values
+- **Hover States**: Detailed information on hover/tap
+- **Responsive Layout**: Adapts to different screen sizes
+- **Professional Aesthetics**: Clean, financial dashboard appearance
+
+### 11. News & Events Section
+
+**Time Period Filters:**
+- **Filter Buttons**: Last 7 days, Last 30 days, Last 90 days
+- **Premium Indicators**: Crown icons for premium time periods
+- **Sort Options**: Dropdown for "Newest" and "Sentiment" sorting
+- **Clear Visual Hierarchy**: Active filter highlighted with underline
+
+**News Card Layout:**
+- **Source Branding**: News source logos (Indiatimes, Rediff Money, Moneycontrol, Business Standard, CNBC TV18)
+- **Timestamp Display**: Relative time stamps (e.g., "2 days ago", "3 days ago")
+- **Sentiment Indicators**: Color-coded dots (green, yellow, red) showing news sentiment
+- **Headlines**: Clear, scannable headlines with source attribution
+- **Preview Text**: Brief excerpt of news content for context
+- **Responsive Grid**: Cards arranged in responsive grid layout (3 columns on desktop, 1 on mobile)
+
+**Content Features:**
+- **Auto-refresh**: Real-time news updates
+- **Source Credibility**: Only verified and reputable financial news sources
+- **Categorization**: Automatic tagging of news by type (earnings, acquisitions, regulatory, market sentiment)
+- **Click-through Tracking**: Analytics on most engaging news types
+- **AI-Powered Summarization**: Concise summaries for lengthy articles
 
 ## 🤖 AI-Enhanced Features
 
