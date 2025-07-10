@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Bell, Star, Calendar, BarChart3, Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Header from '@/components/Header';
 
 const FeedV3 = () => {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const FeedV3 = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary/10 via-purple-50 to-blue-50 dark:from-primary/5 dark:via-purple-950/20 dark:to-blue-950/20 py-12">
         <div className="max-w-7xl mx-auto px-4">
