@@ -20,7 +20,10 @@ import {
   Users,
   DollarSign,
   Target,
-  Star
+  Star,
+  PieChart,
+  Shield,
+  Activity
 } from 'lucide-react';
 import Header from '@/components/Header';
 import StockResearch from '@/pages/StockResearch';
@@ -30,17 +33,17 @@ const StockProductPage = () => {
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(false);
 
-  // Mock stock data - in real app, this would come from API
+  // Enhanced stock data for Reliance Industries
   const stockData = {
     symbol: symbol?.toUpperCase() || 'RELIANCE',
-    companyName: getCompanyName(symbol?.toUpperCase() || 'RELIANCE'),
-    price: getStockPrice(symbol?.toUpperCase() || 'RELIANCE'),
-    change: getStockChange(symbol?.toUpperCase() || 'RELIANCE'),
-    changePercent: getStockChangePercent(symbol?.toUpperCase() || 'RELIANCE'),
-    marketCap: getMarketCap(symbol?.toUpperCase() || 'RELIANCE'),
-    sector: getSector(symbol?.toUpperCase() || 'RELIANCE'),
-    industry: getIndustry(symbol?.toUpperCase() || 'RELIANCE'),
-    description: getCompanyDescription(symbol?.toUpperCase() || 'RELIANCE')
+    companyName: 'Reliance Industries Limited',
+    price: 2847.65,
+    change: 45.30,
+    changePercent: 1.62,
+    marketCap: '₹19.2L Cr',
+    sector: 'Energy & Petrochemicals',
+    industry: 'Oil & Gas',
+    description: 'Reliance Industries Limited is India\'s largest private sector company engaged in energy, petrochemicals, textiles, natural resources, retail, and telecommunications. The company operates across various business segments including oil refining, petrochemicals, oil and gas exploration, retail, and digital services through Jio Platforms.'
   };
 
   const isPositive = stockData.change >= 0;
@@ -69,14 +72,14 @@ const StockProductPage = () => {
         </div>
 
         {/* Hero Section */}
-        <Card className="mb-6 bg-gradient-to-r from-card to-card/50 border-2">
+        <Card className="mb-6 bg-white/70 backdrop-blur-md border-white/20">
           <CardContent className="p-8">
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               {/* Left: Company Info */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Building2 className="w-8 h-8 text-primary" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <Building2 className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <h1 className="text-3xl font-bold text-foreground">{stockData.symbol}</h1>
@@ -85,9 +88,13 @@ const StockProductPage = () => {
                 </div>
                 
                 <div className="flex items-center gap-2 mb-4">
-                  <Badge variant="secondary">{stockData.sector}</Badge>
-                  <Badge variant="outline">{stockData.industry}</Badge>
-                  <Badge variant="outline" className="text-xs">NSE</Badge>
+                  <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
+                    {stockData.sector}
+                  </Badge>
+                  <Badge variant="outline" className="border-gray-300">
+                    {stockData.industry}
+                  </Badge>
+                  <Badge variant="outline" className="text-xs border-gray-300">NSE</Badge>
                 </div>
                 
                 <p className="text-muted-foreground leading-relaxed">
@@ -122,7 +129,7 @@ const StockProductPage = () => {
                   <Button 
                     variant="outline" 
                     onClick={() => setIsFollowing(!isFollowing)}
-                    className={`flex items-center gap-2 ${isFollowing ? 'bg-green-50 border-green-200 text-green-700' : ''}`}
+                    className={`flex items-center gap-2 ${isFollowing ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100' : ''}`}
                   >
                     <Heart size={16} className={isFollowing ? 'fill-current' : ''} />
                     {isFollowing ? 'Following' : 'Follow'}
@@ -141,24 +148,44 @@ const StockProductPage = () => {
         </Card>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
-          {getQuickStats(stockData.symbol).map((stat, index) => (
-            <Card key={index} className="text-center">
-              <CardContent className="p-4">
-                <div className="text-2xl font-bold text-foreground mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {stat.label}
-                </div>
-                {stat.change && (
-                  <div className={`text-xs mt-1 ${stat.positive ? 'text-green-600' : 'text-red-600'}`}>
-                    {stat.positive ? '+' : ''}{stat.change}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+          <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
+            <CardContent className="p-4">
+              <div className="text-2xl font-bold text-foreground mb-1">24.5</div>
+              <div className="text-xs text-muted-foreground">P/E Ratio</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
+            <CardContent className="p-4">
+              <div className="text-2xl font-bold text-foreground mb-1">₹3,024</div>
+              <div className="text-xs text-muted-foreground">52W High</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
+            <CardContent className="p-4">
+              <div className="text-2xl font-bold text-foreground mb-1">₹2,220</div>
+              <div className="text-xs text-muted-foreground">52W Low</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
+            <CardContent className="p-4">
+              <div className="text-2xl font-bold text-foreground mb-1">0.35%</div>
+              <div className="text-xs text-muted-foreground">Dividend Yield</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
+            <CardContent className="p-4">
+              <div className="text-2xl font-bold text-foreground mb-1">1.2Cr</div>
+              <div className="text-xs text-muted-foreground">Volume</div>
+              <div className="text-xs mt-1 text-green-600">+15%</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-white/20">
+            <CardContent className="p-4">
+              <div className="text-2xl font-bold text-foreground mb-1">0.95</div>
+              <div className="text-xs text-muted-foreground">Beta</div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Main Content Tabs */}
@@ -184,18 +211,23 @@ const StockProductPage = () => {
 
           <TabsContent value="overview" className="space-y-6">
             <div className="grid lg:grid-cols-3 gap-6">
-              <Card className="lg:col-span-2">
+              {/* Price Chart */}
+              <Card className="lg:col-span-2 bg-white/70 backdrop-blur-md border-white/20">
                 <CardHeader>
-                  <CardTitle>Price Chart</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-blue-600" />
+                    Price Chart
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-muted/20 rounded-lg flex items-center justify-center">
+                  <div className="h-80 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
                     <p className="text-muted-foreground">Interactive price chart will be displayed here</p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              {/* Key Highlights */}
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Star className="w-5 h-5 text-yellow-500" />
@@ -203,12 +235,91 @@ const StockProductPage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {getKeyHighlights(stockData.symbol).map((highlight, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                      <p className="text-sm text-muted-foreground">{highlight}</p>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">Largest private sector company in India by market capitalization</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">Strong presence in energy, petrochemicals, and retail sectors</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">Jio platforms driving digital transformation initiatives</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">Consistent dividend payments with strong cash flows</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-sm text-gray-700">Strategic partnerships with global technology giants</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Business Segments */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <PieChart className="w-5 h-5 text-blue-600" />
+                    Business Segments
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Oil & Gas</span>
+                      <span className="text-sm text-muted-foreground">45%</span>
                     </div>
-                  ))}
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Retail</span>
+                      <span className="text-sm text-muted-foreground">32%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Digital Services</span>
+                      <span className="text-sm text-muted-foreground">15%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Petrochemicals</span>
+                      <span className="text-sm text-muted-foreground">8%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-green-600" />
+                    Financial Health
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Debt to Equity</span>
+                      <span className="text-sm font-medium">0.21</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Current Ratio</span>
+                      <span className="text-sm font-medium">1.15</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">ROE</span>
+                      <span className="text-sm font-medium">13.8%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">ROA</span>
+                      <span className="text-sm font-medium">7.2%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Net Profit Margin</span>
+                      <span className="text-sm font-medium">8.9%</span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -219,37 +330,90 @@ const StockProductPage = () => {
           </TabsContent>
 
           <TabsContent value="financials" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Financial Performance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-60 bg-muted/20 rounded-lg flex items-center justify-center">
-                  <p className="text-muted-foreground">Financial charts and data will be displayed here</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardHeader>
+                  <CardTitle>Revenue Growth</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">FY 2024</span>
+                      <span className="text-sm font-medium">₹9,75,000 Cr (+12.5%)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">FY 2023</span>
+                      <span className="text-sm font-medium">₹8,66,000 Cr (+28.8%)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">FY 2022</span>
+                      <span className="text-sm font-medium">₹6,72,000 Cr (+24.5%)</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/70 backdrop-blur-md border-white/20">
+                <CardHeader>
+                  <CardTitle>Profitability</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Net Profit (FY24)</span>
+                      <span className="text-sm font-medium">₹79,000 Cr</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">EBITDA Margin</span>
+                      <span className="text-sm font-medium">17.2%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Operating Margin</span>
+                      <span className="text-sm font-medium">12.8%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="news" className="space-y-6">
-            <Card>
+            <Card className="bg-white/70 backdrop-blur-md border-white/20">
               <CardHeader>
                 <CardTitle>Latest News & Updates</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {getLatestNews(stockData.symbol).map((news, index) => (
-                    <div key={index} className="border-b pb-4 last:border-b-0">
-                      <h4 className="font-semibold mb-2">{news.title}</h4>
-                      <p className="text-sm text-muted-foreground mb-2">{news.summary}</p>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar size={12} />
-                        <span>{news.date}</span>
-                        <span>•</span>
-                        <span>{news.source}</span>
-                      </div>
+                  <div className="border-b pb-4 last:border-b-0">
+                    <h4 className="font-semibold mb-2">Reliance Reports Strong Q3 Results with 12% Revenue Growth</h4>
+                    <p className="text-sm text-muted-foreground mb-2">Company beats analyst expectations with improved margins across all business segments, driven by strong performance in retail and digital services.</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar size={12} />
+                      <span>2 hours ago</span>
+                      <span>•</span>
+                      <span>Economic Times</span>
                     </div>
-                  ))}
+                  </div>
+                  <div className="border-b pb-4 last:border-b-0">
+                    <h4 className="font-semibold mb-2">Jio Platforms Announces 5G Expansion Across 1000 Cities</h4>
+                    <p className="text-sm text-muted-foreground mb-2">Reliance Jio accelerates 5G rollout with plans to cover major cities by Q2 2024, expecting significant subscriber growth.</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar size={12} />
+                      <span>1 day ago</span>
+                      <span>•</span>
+                      <span>Business Standard</span>
+                    </div>
+                  </div>
+                  <div className="border-b pb-4 last:border-b-0">
+                    <h4 className="font-semibold mb-2">RIL Green Energy Initiative Gets ₹75,000 Cr Investment</h4>
+                    <p className="text-sm text-muted-foreground mb-2">Company commits to carbon neutrality by 2035 with major investments in solar, hydrogen, and battery storage technologies.</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar size={12} />
+                      <span>3 days ago</span>
+                      <span>•</span>
+                      <span>Financial Express</span>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -259,135 +423,5 @@ const StockProductPage = () => {
     </div>
   );
 };
-
-// Helper functions for mock data
-function getCompanyName(symbol: string): string {
-  const companies: Record<string, string> = {
-    'RELIANCE': 'Reliance Industries Limited',
-    'TCS': 'Tata Consultancy Services',
-    'HDFC': 'HDFC Bank Limited',
-    'INFY': 'Infosys Limited',
-    'ICICIBANK': 'ICICI Bank Limited',
-    'SBIN': 'State Bank of India',
-    'BHARTIARTL': 'Bharti Airtel Limited',
-    'ITC': 'ITC Limited',
-    'KOTAKBANK': 'Kotak Mahindra Bank',
-    'LT': 'Larsen & Toubro Limited'
-  };
-  return companies[symbol] || `${symbol} Limited`;
-}
-
-function getStockPrice(symbol: string): number {
-  const prices: Record<string, number> = {
-    'RELIANCE': 2847.65,
-    'TCS': 4127.30,
-    'HDFC': 1687.45,
-    'INFY': 1456.80,
-    'ICICIBANK': 1245.60
-  };
-  return prices[symbol] || 1500 + Math.random() * 1000;
-}
-
-function getStockChange(symbol: string): number {
-  return (Math.random() - 0.5) * 100;
-}
-
-function getStockChangePercent(symbol: string): number {
-  return (Math.random() - 0.5) * 10;
-}
-
-function getMarketCap(symbol: string): string {
-  const caps: Record<string, string> = {
-    'RELIANCE': '₹19.2L Cr',
-    'TCS': '₹15.1L Cr',
-    'HDFC': '₹9.2L Cr',
-    'INFY': '₹6.1L Cr',
-    'ICICIBANK': '₹8.7L Cr'
-  };
-  return caps[symbol] || '₹5.5L Cr';
-}
-
-function getSector(symbol: string): string {
-  const sectors: Record<string, string> = {
-    'RELIANCE': 'Energy & Petrochemicals',
-    'TCS': 'Information Technology',
-    'HDFC': 'Banking & Financial Services',
-    'INFY': 'Information Technology',
-    'ICICIBANK': 'Banking & Financial Services'
-  };
-  return sectors[symbol] || 'Diversified';
-}
-
-function getIndustry(symbol: string): string {
-  const industries: Record<string, string> = {
-    'RELIANCE': 'Oil & Gas',
-    'TCS': 'IT Services',
-    'HDFC': 'Private Bank',
-    'INFY': 'IT Services',
-    'ICICIBANK': 'Private Bank'
-  };
-  return industries[symbol] || 'Conglomerate';
-}
-
-function getCompanyDescription(symbol: string): string {
-  const descriptions: Record<string, string> = {
-    'RELIANCE': 'Reliance Industries Limited is India\'s largest private sector company engaged in energy, petrochemicals, textiles, natural resources, retail, and telecommunications.',
-    'TCS': 'Tata Consultancy Services is a leading global IT services, consulting and business solutions organization that has been partnering with many of the world\'s largest businesses.',
-    'HDFC': 'HDFC Bank Limited is India\'s leading private sector bank offering a wide range of banking and financial services to corporate and retail customers.',
-  };
-  return descriptions[symbol] || 'A leading company in its sector with strong fundamentals and growth prospects.';
-}
-
-function getQuickStats(symbol: string) {
-  return [
-    { label: 'P/E Ratio', value: '24.5', change: null, positive: true },
-    { label: 'Market Cap', value: '₹19.2L Cr', change: null, positive: true },
-    { label: 'Dividend Yield', value: '0.35%', change: null, positive: true },
-    { label: '52W High', value: '₹3,024', change: null, positive: true },
-    { label: '52W Low', value: '₹2,220', change: null, positive: true },
-    { label: 'Volume', value: '1.2Cr', change: '+15%', positive: true }
-  ];
-}
-
-function getKeyHighlights(symbol: string): string[] {
-  const highlights: Record<string, string[]> = {
-    'RELIANCE': [
-      'Largest private sector company in India by market capitalization',
-      'Strong presence in energy, petrochemicals, and retail sectors',
-      'Jio platforms driving digital transformation initiatives',
-      'Consistent dividend payments with strong cash flows',
-      'Strategic partnerships with global technology giants'
-    ]
-  };
-  return highlights[symbol] || [
-    'Strong market position in its sector',
-    'Consistent financial performance',
-    'Experienced management team',
-    'Growth opportunities in emerging markets'
-  ];
-}
-
-function getLatestNews(symbol: string) {
-  return [
-    {
-      title: `${symbol} Reports Strong Q3 Results`,
-      summary: 'Company beats analyst expectations with improved margins and revenue growth.',
-      date: '2 hours ago',
-      source: 'Economic Times'
-    },
-    {
-      title: `Analysts Upgrade ${symbol} Stock Rating`,
-      summary: 'Leading brokerage firms raise target price citing strong fundamentals.',
-      date: '1 day ago',
-      source: 'Business Standard'
-    },
-    {
-      title: `${symbol} Announces Strategic Partnership`,
-      summary: 'New collaboration expected to drive growth in key business segments.',
-      date: '3 days ago',
-      source: 'Financial Express'
-    }
-  ];
-}
 
 export default StockProductPage;
