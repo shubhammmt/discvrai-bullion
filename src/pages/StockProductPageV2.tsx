@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -171,35 +170,35 @@ const StockProductPageV2 = () => {
 
   // Sidebar component for reuse
   const SidebarContent = () => (
-    <div className="space-y-4 lg:space-y-6">
+    <div className="space-y-3 sm:space-y-4">
       {/* Quick Actions */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle className="text-sm">Quick Actions</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <Button className="w-full justify-start text-sm" variant="outline">
-            <Bell size={16} className="mr-2" />
+        <CardContent className="space-y-2">
+          <Button className="w-full justify-start text-xs h-8" variant="outline">
+            <Bell size={14} className="mr-2" />
             Set Price Alert
           </Button>
           <Button 
-            className="w-full justify-start text-sm" 
+            className="w-full justify-start text-xs h-8" 
             variant="outline"
             onClick={() => setIsWatchlisted(!isWatchlisted)}
           >
-            <Heart size={16} className={`mr-2 ${isWatchlisted ? 'fill-red-500 text-red-500' : ''}`} />
+            <Heart size={14} className={`mr-2 ${isWatchlisted ? 'fill-red-500 text-red-500' : ''}`} />
             Watchlist
           </Button>
-          <Button className="w-full justify-start text-sm" variant="outline">
-            <BookmarkPlus size={16} className="mr-2" />
+          <Button className="w-full justify-start text-xs h-8" variant="outline">
+            <BookmarkPlus size={14} className="mr-2" />
             Add to Portfolio
           </Button>
-          <Button className="w-full justify-start text-sm" variant="outline">
-            <StickyNote size={16} className="mr-2" />
+          <Button className="w-full justify-start text-xs h-8" variant="outline">
+            <StickyNote size={14} className="mr-2" />
             Add Notes
           </Button>
-          <Button className="w-full bg-green-600 hover:bg-green-700 text-sm">
-            <Plus size={16} className="mr-2" />
+          <Button className="w-full bg-green-600 hover:bg-green-700 text-xs h-8">
+            <Plus size={14} className="mr-2" />
             Buy Stock
           </Button>
         </CardContent>
@@ -207,26 +206,26 @@ const StockProductPageV2 = () => {
 
       {/* AI Risk Assessment */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-sm">
             <AlertTriangle className="w-4 h-4 text-orange-500" />
             AI Risk Assessment
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-sm">Overall Risk</span>
-              <Badge variant="secondary">{personalizedInsights.riskAssessment}</Badge>
+              <span className="text-xs">Overall Risk</span>
+              <Badge variant="secondary" className="text-xs">{personalizedInsights.riskAssessment}</Badge>
             </div>
-            <Progress value={60} className="h-2" />
+            <Progress value={60} className="h-1.5" />
             
-            <div className="space-y-2">
-              <h4 className="text-sm font-medium">Key Risk Factors:</h4>
+            <div className="space-y-1">
+              <h4 className="text-xs font-medium">Key Risk Factors:</h4>
               {aiExplanations.riskFactors.map((risk, index) => (
                 <div key={index} className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-xs text-gray-600">{risk}</span>
+                  <div className="w-1 h-1 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                  <span className="text-xs text-gray-600 leading-tight">{risk}</span>
                 </div>
               ))}
             </div>
@@ -236,32 +235,32 @@ const StockProductPageV2 = () => {
 
       {/* Corporate Calendar */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-sm">
             <Calendar className="w-4 h-4" />
             Upcoming Events
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0"></div>
               <div>
-                <p className="text-sm font-medium">Q4 Results</p>
+                <p className="text-xs font-medium">Q4 Results</p>
                 <p className="text-xs text-gray-600">Apr 18, 2024</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
               <div>
-                <p className="text-sm font-medium">AGM</p>
+                <p className="text-xs font-medium">AGM</p>
                 <p className="text-xs text-gray-600">Jun 28, 2024</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-purple-500 rounded-full flex-shrink-0"></div>
               <div>
-                <p className="text-sm font-medium">Ex-Dividend</p>
+                <p className="text-xs font-medium">Ex-Dividend</p>
                 <p className="text-xs text-gray-600">Jul 15, 2024</p>
               </div>
             </div>
@@ -271,24 +270,24 @@ const StockProductPageV2 = () => {
 
       {/* AI Conversation Widget */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-sm">
             <MessageCircle className="w-4 h-4 text-purple-600" />
             Ask AI Assistant
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <Button variant="outline" size="sm" className="w-full justify-start text-xs">
+          <div className="space-y-2">
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs h-7">
               Why is the stock up today?
             </Button>
-            <Button variant="outline" size="sm" className="w-full justify-start text-xs">
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs h-7">
               Compare with sector peers
             </Button>
-            <Button variant="outline" size="sm" className="w-full justify-start text-xs">
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs h-7">
               What are the key risks?
             </Button>
-            <Button variant="outline" size="sm" className="w-full justify-start text-xs">
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs h-7">
               Should I buy for long term?
             </Button>
           </div>
@@ -300,43 +299,40 @@ const StockProductPageV2 = () => {
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="max-w-7xl mx-auto p-2 sm:p-4">
+        <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
           {/* Header with Navigation */}
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center justify-between mb-3 sm:mb-6">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
               <Button 
                 variant="outline" 
                 onClick={() => navigate(-1)}
-                className="flex items-center gap-1 sm:gap-2 text-sm"
-                size={isMobile ? "sm" : "default"}
+                className="flex items-center gap-1 text-xs h-8 px-2 flex-shrink-0"
+                size="sm"
               >
-                <ArrowLeft size={16} />
+                <ArrowLeft size={14} />
                 {!isMobile && "Back"}
               </Button>
-              <div>
-                <h1 className="text-lg sm:text-2xl font-bold text-gray-900">{stockData.symbol}</h1>
-                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">AI-powered research & analysis</p>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-base sm:text-2xl font-bold text-gray-900 truncate">{stockData.symbol}</h1>
+                <p className="text-xs text-gray-600 hidden sm:block">AI-powered research & analysis</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex items-center gap-1 flex-shrink-0">
               {!isMobile && (
                 <>
-                  <Button variant="outline" size="sm">
-                    <GitCompare size={16} className="mr-2" />
+                  <Button variant="outline" size="sm" className="text-xs h-8">
+                    <GitCompare size={14} className="mr-1" />
                     Compare
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm"
+                    className="text-xs h-8"
                     onClick={() => setIsWatchlisted(!isWatchlisted)}
                   >
-                    <Heart size={16} className={`mr-2 ${isWatchlisted ? 'fill-red-500 text-red-500' : ''}`} />
-                    Watchlist
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Share2 size={16} className="mr-2" />
-                    Share
+                    <Heart size={14} className={`mr-1 ${isWatchlisted ? 'fill-red-500 text-red-500' : ''}`} />
+                    Watch
                   </Button>
                 </>
               )}
@@ -345,11 +341,11 @@ const StockProductPageV2 = () => {
               {isMobile && (
                 <Sheet open={showMobileSidebar} onOpenChange={setShowMobileSidebar}>
                   <SheetTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="h-8 px-2">
                       <Menu size={16} />
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="right" className="w-80 overflow-y-auto">
+                  <SheetContent side="right" className="w-[320px] overflow-y-auto p-4">
                     <SidebarContent />
                   </SheetContent>
                 </Sheet>
@@ -358,31 +354,33 @@ const StockProductPageV2 = () => {
           </div>
 
           {/* AI Personalization Match Score */}
-          <Card className="mb-4 sm:mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+          <Card className="mb-3 sm:mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
             <CardContent className="p-3 sm:p-6">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-900">
-                      {personalizedInsights.matchScore}% Match for You
-                    </h3>
-                    <div className="flex gap-2">
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-xs">
-                        {personalizedInsights.aiConfidence}% AI Confidence
-                      </Badge>
-                      <Badge variant="outline" className="text-xs">
-                        {userRiskProfile} Risk Profile
-                      </Badge>
-                    </div>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Target className="w-5 h-5 sm:w-8 sm:h-8 text-white" />
                   </div>
-                  <p className="text-sm sm:text-base text-gray-700 mb-2">{personalizedInsights.suitabilityReason}</p>
-                  <p className="text-xs sm:text-sm text-blue-600 font-medium">{personalizedInsights.recommendation}</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+                        {personalizedInsights.matchScore}% Match for You
+                      </h3>
+                      <div className="flex gap-1 flex-wrap">
+                        <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-xs">
+                          {personalizedInsights.aiConfidence}% AI Confidence
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          {userRiskProfile} Risk Profile
+                        </Badge>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-gray-700 mb-2 leading-tight">{personalizedInsights.suitabilityReason}</p>
+                    <p className="text-xs text-blue-600 font-medium leading-tight">{personalizedInsights.recommendation}</p>
+                  </div>
                 </div>
-                <Button className="bg-purple-600 hover:bg-purple-700 w-full sm:w-auto text-sm" size={isMobile ? "sm" : "default"}>
-                  <Brain size={16} className="mr-2" />
+                <Button className="bg-purple-600 hover:bg-purple-700 w-full sm:w-auto text-xs h-8" size="sm">
+                  <Brain size={14} className="mr-2" />
                   Ask AI Assistant
                 </Button>
               </div>
@@ -390,33 +388,33 @@ const StockProductPageV2 = () => {
           </Card>
 
           {/* Main Content Area - Responsive Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-3 sm:gap-6">
             {/* Left Column - Price & Chart */}
-            <div className="lg:col-span-3 space-y-4 sm:space-y-6">
+            <div className="xl:col-span-3 space-y-3 sm:space-y-6">
               
               {/* Price & Quick Stats */}
               <Card>
                 <CardContent className="p-3 sm:p-6">
-                  <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
-                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-                      <img src={stockData.logo} alt={stockData.companyName} className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex-shrink-0" />
+                  <div className="flex flex-col gap-3 mb-4">
+                    <div className="flex items-start gap-3">
+                      <img src={stockData.logo} alt={stockData.companyName} className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex-shrink-0" />
                       <div className="min-w-0 flex-1">
-                        <h2 className="text-lg sm:text-2xl font-bold text-gray-900 truncate">{stockData.companyName}</h2>
-                        <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                        <h2 className="text-base sm:text-2xl font-bold text-gray-900 leading-tight">{stockData.companyName}</h2>
+                        <div className="flex flex-wrap items-center gap-1 text-xs text-gray-600">
                           <span>{stockData.sector}</span>
-                          <span className="hidden sm:inline">•</span>
+                          <span>•</span>
                           <span>{stockData.exchange}</span>
-                          <span className="hidden md:inline">•</span>
-                          <span className="hidden md:inline">ISIN: {stockData.isin}</span>
+                          <span className="hidden sm:inline">•</span>
+                          <span className="hidden sm:inline">ISIN: {stockData.isin}</span>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="text-right w-full sm:w-auto">
-                      <div className="text-2xl sm:text-3xl font-bold text-gray-900">₹{stockData.currentPrice.toLocaleString()}</div>
+                    <div className="text-right">
+                      <div className="text-xl sm:text-3xl font-bold text-gray-900">₹{stockData.currentPrice.toLocaleString()}</div>
                       <div className={`flex items-center gap-1 justify-end ${stockData.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {stockData.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                        <span className="font-medium text-sm sm:text-base">
+                        {stockData.change >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                        <span className="font-medium text-sm">
                           ₹{Math.abs(stockData.change)} ({stockData.changePercent >= 0 ? '+' : ''}{stockData.changePercent}%)
                         </span>
                       </div>
@@ -426,30 +424,30 @@ const StockProductPageV2 = () => {
                   {/* AI Price Movement Explanation */}
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
                     <div className="flex items-start gap-2">
-                      <Zap size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                      <Zap size={14} className="text-blue-600 mt-0.5 flex-shrink-0" />
                       <div>
-                        <p className="text-sm font-medium text-blue-800 mb-1">AI Analysis:</p>
-                        <p className="text-xs sm:text-sm text-blue-700">{aiExplanations.priceMovement}</p>
+                        <p className="text-xs font-medium text-blue-800 mb-1">AI Analysis:</p>
+                        <p className="text-xs text-blue-700 leading-tight">{aiExplanations.priceMovement}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Quick Stats Grid */}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
-                    <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                      <div className="text-sm sm:text-lg font-bold text-gray-900">{stockData.volume.toLocaleString()}</div>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <div className="text-sm font-bold text-gray-900">{stockData.volume.toLocaleString()}</div>
                       <div className="text-xs text-gray-600">Volume</div>
                     </div>
-                    <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                      <div className="text-sm sm:text-lg font-bold text-gray-900">{stockData.marketCap}</div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <div className="text-sm font-bold text-gray-900">{stockData.marketCap}</div>
                       <div className="text-xs text-gray-600">Market Cap</div>
                     </div>
-                    <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                      <div className="text-sm sm:text-lg font-bold text-gray-900">₹{stockData.weekHigh52}</div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <div className="text-sm font-bold text-gray-900">₹{stockData.weekHigh52}</div>
                       <div className="text-xs text-gray-600">52W High</div>
                     </div>
-                    <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-                      <div className="text-sm sm:text-lg font-bold text-gray-900">₹{stockData.weekLow52}</div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <div className="text-sm font-bold text-gray-900">₹{stockData.weekLow52}</div>
                       <div className="text-xs text-gray-600">52W Low</div>
                     </div>
                   </div>
@@ -458,10 +456,10 @@ const StockProductPageV2 = () => {
 
               {/* Interactive Price Chart */}
               <Card>
-                <CardHeader>
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                      <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5" />
+                <CardHeader className="pb-3">
+                  <div className="flex flex-col gap-3">
+                    <CardTitle className="flex items-center gap-2 text-sm sm:text-lg">
+                      <BarChart3 className="w-4 h-4" />
                       Price Chart
                       <Badge variant="secondary" className="text-xs">AI Enhanced</Badge>
                     </CardTitle>
@@ -472,7 +470,7 @@ const StockProductPageV2 = () => {
                           variant={chartTimeframe === period ? "default" : "outline"}
                           size="sm"
                           onClick={() => setChartTimeframe(period)}
-                          className="text-xs"
+                          className="text-xs h-7 px-2"
                         >
                           {period}
                         </Button>
@@ -481,7 +479,7 @@ const StockProductPageV2 = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-48 sm:h-64">
+                  <div className="h-40 sm:h-64">
                     <ChartContainer
                       config={{
                         price: {
@@ -506,12 +504,12 @@ const StockProductPageV2 = () => {
                   </div>
                   
                   {/* AI Chart Annotations */}
-                  <div className="mt-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                  <div className="mt-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
                     <div className="flex items-start gap-2">
-                      <Activity size={16} className="text-purple-600 mt-0.5 flex-shrink-0" />
+                      <Activity size={14} className="text-purple-600 mt-0.5 flex-shrink-0" />
                       <div>
-                        <p className="text-sm font-medium text-purple-800 mb-1">Technical AI Insights:</p>
-                        <p className="text-xs sm:text-sm text-purple-700">
+                        <p className="text-xs font-medium text-purple-800 mb-1">Technical AI Insights:</p>
+                        <p className="text-xs text-purple-700 leading-tight">
                           Stock showing {aiAnalysis.technicalSignals.trend} trend with RSI at {aiAnalysis.technicalSignals.rsi} (neutral zone). 
                           Support at ₹{aiAnalysis.technicalSignals.supportLevel}, resistance at ₹{aiAnalysis.technicalSignals.resistanceLevel}.
                         </p>
@@ -526,47 +524,47 @@ const StockProductPageV2 = () => {
 
               {/* Tabs for Additional Content */}
               <Tabs defaultValue="insights" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
-                  <TabsTrigger value="insights" className="text-xs sm:text-sm">AI Insights</TabsTrigger>
-                  <TabsTrigger value="metrics" className="text-xs sm:text-sm">Metrics</TabsTrigger>
-                  <TabsTrigger value="news" className="text-xs sm:text-sm">News</TabsTrigger>
-                  <TabsTrigger value="peers" className="text-xs sm:text-sm">Peers</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
+                  <TabsTrigger value="insights" className="text-xs py-2">AI Insights</TabsTrigger>
+                  <TabsTrigger value="metrics" className="text-xs py-2">Metrics</TabsTrigger>
+                  <TabsTrigger value="news" className="text-xs py-2">News</TabsTrigger>
+                  <TabsTrigger value="peers" className="text-xs py-2">Peers</TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="insights" className="space-y-4">
+                <TabsContent value="insights" className="space-y-3 mt-3">
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                        <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-sm sm:text-lg">
+                        <Brain className="w-4 h-4 text-purple-600" />
                         AI Key Insights
                         <Badge variant="secondary" className="text-xs">Layer 1-4 Analysis</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
                           <div>
-                            <h4 className="font-medium text-gray-900">Personalized Match</h4>
-                            <p className="text-xs sm:text-sm text-gray-600">
+                            <h4 className="font-medium text-gray-900 text-sm">Personalized Match</h4>
+                            <p className="text-xs text-gray-600 leading-tight">
                               {personalizedInsights.matchScore}% compatibility with your {userRiskProfile} risk profile and investment goals.
                             </p>
                           </div>
                         </div>
                         <div className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                           <div>
-                            <h4 className="font-medium text-gray-900">AI Valuation</h4>
-                            <p className="text-xs sm:text-sm text-gray-600">
+                            <h4 className="font-medium text-gray-900 text-sm">AI Valuation</h4>
+                            <p className="text-xs text-gray-600 leading-tight">
                               Fair value estimated at ₹{aiAnalysis.valuation.fair_value} ({aiAnalysis.valuation.upside > 0 ? '+' : ''}{aiAnalysis.valuation.upside}% from current price).
                             </p>
                           </div>
                         </div>
                         <div className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                          <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
                           <div>
-                            <h4 className="font-medium text-gray-900">Sentiment Analysis</h4>
-                            <p className="text-xs sm:text-sm text-gray-600">
+                            <h4 className="font-medium text-gray-900 text-sm">Sentiment Analysis</h4>
+                            <p className="text-xs text-gray-600 leading-tight">
                               Overall {aiAnalysis.sentiment} sentiment based on financial data, news analysis, and market trends.
                             </p>
                           </div>
@@ -576,23 +574,23 @@ const StockProductPageV2 = () => {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="metrics" className="space-y-4">
+                <TabsContent value="metrics" className="space-y-3 mt-3">
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                        <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-sm sm:text-lg">
+                        <BarChart3 className="w-4 h-4" />
                         Key Financial Metrics
                         <Badge variant="secondary" className="text-xs">AI Enhanced</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-4">
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-3">
                         <Tooltip>
                           <TooltipTrigger>
-                            <div className="text-center p-2 sm:p-3 bg-orange-50 rounded-lg border border-orange-200">
-                              <div className="text-sm sm:text-lg font-bold text-orange-600">{stockData.pe}</div>
+                            <div className="text-center p-2 bg-orange-50 rounded-lg border border-orange-200">
+                              <div className="text-sm font-bold text-orange-600">{stockData.pe}</div>
                               <div className="text-xs text-gray-600">P/E Ratio</div>
-                              <div className="text-xs text-orange-600 mt-1">Above sector avg</div>
+                              <div className="text-xs text-orange-600 mt-0.5">Above sector avg</div>
                             </div>
                           </TooltipTrigger>
                           <TooltipContent>
@@ -600,31 +598,31 @@ const StockProductPageV2 = () => {
                           </TooltipContent>
                         </Tooltip>
 
-                        <div className="text-center p-2 sm:p-3 bg-green-50 rounded-lg border border-green-200">
-                          <div className="text-sm sm:text-lg font-bold text-green-600">{stockData.roe}%</div>
+                        <div className="text-center p-2 bg-green-50 rounded-lg border border-green-200">
+                          <div className="text-sm font-bold text-green-600">{stockData.roe}%</div>
                           <div className="text-xs text-gray-600">ROE</div>
-                          <div className="text-xs text-green-600 mt-1">Excellent</div>
+                          <div className="text-xs text-green-600 mt-0.5">Excellent</div>
                         </div>
 
-                        <div className="text-center p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
-                          <div className="text-sm sm:text-lg font-bold text-blue-600">₹{stockData.eps}</div>
+                        <div className="text-center p-2 bg-blue-50 rounded-lg border border-blue-200">
+                          <div className="text-sm font-bold text-blue-600">₹{stockData.eps}</div>
                           <div className="text-xs text-gray-600">EPS</div>
-                          <div className="text-xs text-blue-600 mt-1">Strong</div>
+                          <div className="text-xs text-blue-600 mt-0.5">Strong</div>
                         </div>
 
-                        <div className="text-center p-2 sm:p-3 bg-purple-50 rounded-lg border border-purple-200">
-                          <div className="text-sm sm:text-lg font-bold text-purple-600">{stockData.dividendYield}%</div>
+                        <div className="text-center p-2 bg-purple-50 rounded-lg border border-purple-200">
+                          <div className="text-sm font-bold text-purple-600">{stockData.dividendYield}%</div>
                           <div className="text-xs text-gray-600">Div Yield</div>
-                          <div className="text-xs text-purple-600 mt-1">Low but growing</div>
+                          <div className="text-xs text-purple-600 mt-0.5">Low but growing</div>
                         </div>
                       </div>
 
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                         <div className="flex items-start gap-2">
-                          <Brain size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                          <Brain size={14} className="text-blue-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="text-sm font-medium text-blue-800 mb-1">AI Metrics Analysis:</p>
-                            <p className="text-xs sm:text-sm text-blue-700">{aiExplanations.keyMetrics}</p>
+                            <p className="text-xs font-medium text-blue-800 mb-1">AI Metrics Analysis:</p>
+                            <p className="text-xs text-blue-700 leading-tight">{aiExplanations.keyMetrics}</p>
                           </div>
                         </div>
                       </div>
@@ -632,27 +630,27 @@ const StockProductPageV2 = () => {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="news" className="space-y-4">
+                <TabsContent value="news" className="space-y-3 mt-3">
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                        <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-sm sm:text-lg">
+                        <FileText className="w-4 h-4" />
                         Latest News & Events
                         <Badge variant="secondary" className="text-xs">AI Curated</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         {newsData.map((news) => (
                           <div key={news.id} className="flex items-start gap-3 p-3 rounded-lg border">
                             {news.isBreaking && (
                               <Badge variant="destructive" className="text-xs flex-shrink-0">BREAKING</Badge>
                             )}
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{news.title}</h4>
-                              <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                              <h4 className="font-medium text-gray-900 mb-1 text-sm leading-tight">{news.title}</h4>
+                              <div className="flex flex-wrap items-center gap-1 text-xs text-gray-600">
                                 <span>{news.source}</span>
-                                <span className="hidden sm:inline">•</span>
+                                <span>•</span>
                                 <span>{news.time}</span>
                                 <Badge 
                                   variant={news.sentiment === 'positive' ? 'default' : 'secondary'}
@@ -662,17 +660,17 @@ const StockProductPageV2 = () => {
                                 </Badge>
                               </div>
                             </div>
-                            <ChevronRight size={16} className="text-gray-400 flex-shrink-0" />
+                            <ChevronRight size={14} className="text-gray-400 flex-shrink-0 mt-1" />
                           </div>
                         ))}
                       </div>
 
-                      <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                         <div className="flex items-start gap-2">
-                          <Info size={16} className="text-yellow-600 mt-0.5 flex-shrink-0" />
+                          <Info size={14} className="text-yellow-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="text-sm font-medium text-yellow-800 mb-1">AI News Sentiment:</p>
-                            <p className="text-xs sm:text-sm text-yellow-700">
+                            <p className="text-xs font-medium text-yellow-800 mb-1">AI News Sentiment:</p>
+                            <p className="text-xs text-yellow-700 leading-tight">
                               Recent news shows 80% positive sentiment. Key themes: strong quarterly results, expansion in digital services.
                             </p>
                           </div>
@@ -682,25 +680,25 @@ const StockProductPageV2 = () => {
                   </Card>
                 </TabsContent>
 
-                <TabsContent value="peers" className="space-y-4">
+                <TabsContent value="peers" className="space-y-3 mt-3">
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                        <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-sm sm:text-lg">
+                        <Users className="w-4 h-4" />
                         Peer Comparison
                         <Badge variant="secondary" className="text-xs">AI Analysis</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="overflow-x-auto">
-                        <table className="w-full text-xs sm:text-sm">
+                        <table className="w-full text-xs">
                           <thead>
                             <tr className="border-b">
-                              <th className="text-left p-2">Company</th>
-                              <th className="text-center p-2">P/E</th>
-                              <th className="text-center p-2">ROE</th>
-                              <th className="text-center p-2">Revenue Growth</th>
-                              <th className="text-center p-2">Debt Ratio</th>
+                              <th className="text-left p-2 font-medium">Company</th>
+                              <th className="text-center p-2 font-medium">P/E</th>
+                              <th className="text-center p-2 font-medium">ROE</th>
+                              <th className="text-center p-2 font-medium">Revenue Growth</th>
+                              <th className="text-center p-2 font-medium">Debt Ratio</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -717,12 +715,12 @@ const StockProductPageV2 = () => {
                         </table>
                       </div>
 
-                      <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                         <div className="flex items-start gap-2">
-                          <Users size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                          <Users size={14} className="text-green-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="text-sm font-medium text-green-800 mb-1">AI Peer Analysis:</p>
-                            <p className="text-xs sm:text-sm text-green-700">
+                            <p className="text-xs font-medium text-green-800 mb-1">AI Peer Analysis:</p>
+                            <p className="text-xs text-green-700 leading-tight">
                               Reliance shows superior revenue growth (15% vs sector avg 9%) and strong ROE. Premium valuation justified by diversified business model.
                             </p>
                           </div>
@@ -736,7 +734,7 @@ const StockProductPageV2 = () => {
 
             {/* Right Sidebar - Desktop Only */}
             {!isMobile && (
-              <div className="lg:col-span-1">
+              <div className="xl:col-span-1">
                 <div className="sticky top-6">
                   <SidebarContent />
                 </div>
