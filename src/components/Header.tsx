@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight, FileText, Menu } from 'lucide-react';
+import { Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight, FileText, Menu } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
