@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight, FileText } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Search, Bell, User, Moon, Sun, Brain, Presentation, Zap, ArrowRight, FileText, Menu } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
@@ -63,71 +64,161 @@ const Header = () => {
 
         {/* Navigation - only show if logged in */}
         {isLoggedIn && (
-          <nav className="hidden md:flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/feed')}
-              className={location.pathname === '/feed' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              Feed
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/market')}
-              className={location.pathname === '/market' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              Market
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/stocks')}
-              className={location.pathname === '/stocks' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              Stocks
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/us-stocks')}
-              className={location.pathname === '/us-stocks' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              US Stocks
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/mutual-funds')}
-              className={location.pathname === '/mutual-funds' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              MF
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/ipos')}
-              className={location.pathname === '/ipos' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              IPOs
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/crypto')}
-              className={location.pathname === '/crypto' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              Crypto
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/organize')}
-              className={location.pathname === '/organize' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              Organize
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/portfolio')}
-              className={location.pathname === '/portfolio' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-            >
-              Portfolio
-            </Button>
-          </nav>
+          <>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/feed')}
+                className={location.pathname === '/feed' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Feed
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/market')}
+                className={location.pathname === '/market' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Market
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/stocks')}
+                className={location.pathname === '/stocks' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Stocks
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/us-stocks')}
+                className={location.pathname === '/us-stocks' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                US Stocks
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/mutual-funds')}
+                className={location.pathname === '/mutual-funds' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Mutual Funds
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/ipos')}
+                className={location.pathname === '/ipos' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                IPOs
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/crypto')}
+                className={location.pathname === '/crypto' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Crypto
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/organize')}
+                className={location.pathname === '/organize' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Organize
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/portfolio')}
+                className={location.pathname === '/portfolio' ? 'bg-primary/10 text-primary' : 'hover:bg-muted'}
+              >
+                Portfolio
+              </Button>
+            </nav>
+
+            {/* Mobile Navigation Menu */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm" className="lg:hidden w-9 h-9 p-0">
+                  <Menu size={16} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-80">
+                <div className="flex flex-col gap-4 mt-8">
+                  <h3 className="font-semibold text-lg mb-4">Navigation</h3>
+                  
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/feed')}
+                    className={`justify-start h-12 ${location.pathname === '/feed' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Feed
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/market')}
+                    className={`justify-start h-12 ${location.pathname === '/market' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Market
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/stocks')}
+                    className={`justify-start h-12 ${location.pathname === '/stocks' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Stocks
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/us-stocks')}
+                    className={`justify-start h-12 ${location.pathname === '/us-stocks' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    US Stocks
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/mutual-funds')}
+                    className={`justify-start h-12 ${location.pathname === '/mutual-funds' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Mutual Funds
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/ipos')}
+                    className={`justify-start h-12 ${location.pathname === '/ipos' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    IPOs
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/crypto')}
+                    className={`justify-start h-12 ${location.pathname === '/crypto' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Crypto
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/organize')}
+                    className={`justify-start h-12 ${location.pathname === '/organize' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Organize
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => navigate('/portfolio')}
+                    className={`justify-start h-12 ${location.pathname === '/portfolio' ? 'bg-primary/10 text-primary' : ''}`}
+                  >
+                    Portfolio
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </>
         )}
 
         {/* Actions */}
