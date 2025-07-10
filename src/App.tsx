@@ -36,6 +36,7 @@ import PitchV2 from '@/pages/PitchV2';
 import HealthAssessment from '@/pages/HealthAssessment';
 import HealthResults from '@/pages/HealthResults';
 import HealthDashboard from '@/pages/HealthDashboard';
+import Market from '@/pages/Market';
 import NotFound from '@/pages/NotFound';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import { Toaster } from '@/components/ui/sonner';
@@ -54,7 +55,12 @@ function App() {
             <Route path="/feed-v2" element={<FeedV2 />} />
             <Route path="/news-feed" element={<NewsFeed />} />
             <Route path="/search" element={<FeedV2 />} />
+            <Route path="/market" element={<Market />} />
             <Route path="/stocks" element={<StocksHome />} />
+            <Route path="/us-stocks" element={<USMarketHome />} />
+            <Route path="/mutual-funds" element={<MutualFundFeed />} />
+            <Route path="/ipos" element={<IPOResearch />} />
+            <Route path="/crypto" element={<div className="p-8 text-center">Crypto page coming soon</div>} />
             <Route path="/mutual-fund-feed" element={<MutualFundFeed />} />
             <Route path="/research" element={<Research />} />
             <Route path="/research/stock/:symbol" element={<StockResearch />} />

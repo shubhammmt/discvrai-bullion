@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, BarChart3, Edit, Search, Loader2, Plus } from 'lucide-react';
+import { TrendingUp, BarChart3, Edit, Search, Loader2, Plus, Globe, DollarSign, Building2, Zap, Target, Briefcase, Bitcoin, ArrowRight, Activity } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AIResultCard from '@/components/AIResultCard';
 import AssetCard from '@/components/AssetCard';
@@ -783,42 +783,155 @@ const Feed = () => {
 
   console.log('=== FEED COMPONENT RENDER END ===');
 
+  // Navigation sections for different asset classes
+  const navigationSections = [
+    {
+      title: 'Market Overview',
+      description: 'Real-time indices, market movers & news',
+      icon: Globe,
+      path: '/market',
+      gradient: 'from-blue-500 to-blue-600',
+      features: ['Live indices', 'Top movers', 'Market news']
+    },
+    {
+      title: 'Indian Stocks',
+      description: 'Discover & analyze Indian equities',
+      icon: TrendingUp,
+      path: '/stocks',
+      gradient: 'from-green-500 to-emerald-600',
+      features: ['AI Discovery', 'Stock search', 'Analysis tools']
+    },
+    {
+      title: 'US Stocks',
+      description: 'Explore US market opportunities',
+      icon: DollarSign,
+      path: '/us-stocks',
+      gradient: 'from-purple-500 to-violet-600',
+      features: ['NASDAQ/NYSE', 'Growth stocks', 'Tech themes']
+    },
+    {
+      title: 'Mutual Funds',
+      description: 'Find the right funds for your goals',
+      icon: Building2,
+      path: '/mutual-funds',
+      gradient: 'from-orange-500 to-red-600',
+      features: ['Fund selection', 'SIP calculator', 'Performance']
+    },
+    {
+      title: 'IPOs',
+      description: 'Upcoming & current IPO opportunities',
+      icon: Zap,
+      path: '/ipos',
+      gradient: 'from-pink-500 to-rose-600',
+      features: ['IPO calendar', 'Application tracking', 'Analysis']
+    },
+    {
+      title: 'Crypto',
+      description: 'Digital assets & cryptocurrency',
+      icon: Bitcoin,
+      path: '/crypto',
+      gradient: 'from-yellow-500 to-amber-600',
+      features: ['Price tracking', 'DeFi themes', 'Portfolio']
+    },
+    {
+      title: 'Organize',
+      description: 'Manage watchlists & alerts',
+      icon: Target,
+      path: '/organize',
+      gradient: 'from-indigo-500 to-blue-600',
+      features: ['Watchlists', 'Price alerts', 'Research notes']
+    },
+    {
+      title: 'Portfolio',
+      description: 'Track & analyze your investments',
+      icon: Briefcase,
+      path: '/portfolio',
+      gradient: 'from-teal-500 to-cyan-600',
+      features: ['Performance', 'Asset allocation', 'Rebalancing']
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/20">
       <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
-        {/* Enhanced Header with Portfolio CTA */}
-        <div className="w-full mb-4 sm:mb-6">
-          <div className="flex flex-col space-y-3 sm:space-y-4">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Investment Discovery
+        {/* Header */}
+        <div className="w-full mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg">
+              <Activity className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                Investment Feed
               </h1>
-              <p className="text-gray-600 text-xs sm:text-sm lg:text-base">Discover personalized investment opportunities</p>
+              <p className="text-gray-600 dark:text-gray-300">Your personalized financial dashboard</p>
             </div>
-            
-            <div className="w-full overflow-x-auto">
-              <div className="flex gap-2 pb-2 min-w-max">
-                <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="text-xs sm:text-sm whitespace-nowrap">
-                  <TrendingUp size={14} className="mr-1" />
-                  <span className="hidden xs:inline">MF Feed</span>
-                  <span className="xs:hidden">MF</span>
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="text-xs sm:text-sm whitespace-nowrap">
-                  <BarChart3 size={14} className="mr-1" />
-                  <span className="hidden xs:inline">Portfolio</span>
-                  <span className="xs:hidden">Port</span>
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="text-xs sm:text-sm whitespace-nowrap">
-                  <Edit size={14} className="mr-1" />
-                  <span className="hidden sm:inline">Update Portfolio</span>
-                  <span className="sm:hidden">Update</span>
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="text-xs sm:text-sm whitespace-nowrap">
-                  <Search size={14} className="mr-1" />
-                  Research
-                </Button>
-              </div>
-            </div>
+          </div>
+        </div>
+
+        {/* Navigation Overview */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Explore Investment Opportunities</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {navigationSections.map((section, index) => (
+              <Card 
+                key={index} 
+                className="bg-white/70 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                onClick={() => navigate(section.path)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className={`p-2 bg-gradient-to-br ${section.gradient} rounded-lg shadow-sm group-hover:scale-110 transition-transform`}>
+                      <section.icon className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">
+                        {section.title}
+                      </h3>
+                      <p className="text-xs text-gray-600 line-clamp-2 mb-2">
+                        {section.description}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1">
+                      {section.features.slice(0, 2).map((feature, idx) => (
+                        <span key={idx} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Legacy Quick Actions */}
+        <div className="w-full mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            <Button variant="outline" size="sm" onClick={() => navigate('/mutual-fund-feed')} className="text-xs sm:text-sm whitespace-nowrap">
+              <TrendingUp size={14} className="mr-1" />
+              <span className="hidden xs:inline">MF Feed</span>
+              <span className="xs:hidden">MF</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio')} className="text-xs sm:text-sm whitespace-nowrap">
+              <BarChart3 size={14} className="mr-1" />
+              <span className="hidden xs:inline">Portfolio</span>
+              <span className="xs:hidden">Port</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/portfolio-update')} className="text-xs sm:text-sm whitespace-nowrap">
+              <Edit size={14} className="mr-1" />
+              <span className="hidden sm:inline">Update Portfolio</span>
+              <span className="sm:hidden">Update</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/research')} className="text-xs sm:text-sm whitespace-nowrap">
+              <Search size={14} className="mr-1" />
+              Research
+            </Button>
           </div>
         </div>
 

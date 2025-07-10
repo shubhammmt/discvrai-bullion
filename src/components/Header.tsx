@@ -63,7 +63,7 @@ const Header = () => {
 
         {/* Navigation - only show if logged in */}
         {isLoggedIn && (
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-4">
             <Button 
               variant="ghost" 
               onClick={() => navigate('/feed')}
@@ -73,10 +73,45 @@ const Header = () => {
             </Button>
             <Button 
               variant="ghost" 
-              onClick={() => navigate('/research')}
-              className={location.pathname.includes('/research') ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+              onClick={() => navigate('/market')}
+              className={location.pathname === '/market' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
             >
-              Research
+              Market
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/stocks')}
+              className={location.pathname === '/stocks' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              Stocks
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/us-stocks')}
+              className={location.pathname === '/us-stocks' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              US Stocks
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/mutual-funds')}
+              className={location.pathname === '/mutual-funds' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              MF
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/ipos')}
+              className={location.pathname === '/ipos' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              IPOs
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/crypto')}
+              className={location.pathname === '/crypto' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
+            >
+              Crypto
             </Button>
             <Button 
               variant="ghost" 
@@ -91,14 +126,6 @@ const Header = () => {
               className={location.pathname === '/portfolio' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
             >
               Portfolio
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/ai-strategy')}
-              className={location.pathname === '/ai-strategy' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600' : ''}
-              title="AI Strategy Documentation"
-            >
-              <FileText size={16} />
             </Button>
           </nav>
         )}
