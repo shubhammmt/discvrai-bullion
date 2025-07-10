@@ -64,15 +64,6 @@ const FeedV3 = () => {
               Stay informed with personalized insights, market updates, and AI-powered analysis
             </p>
             
-            {/* Quick Search */}
-            <div className="max-w-md mx-auto relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search stocks, mutual funds, news..."
-                className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/80 backdrop-blur focus:outline-none focus:ring-2 focus:ring-primary/50"
-              />
-            </div>
           </div>
         </div>
       </div>
