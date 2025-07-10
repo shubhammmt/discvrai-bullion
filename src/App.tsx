@@ -43,6 +43,7 @@ import StocksHome from './pages/StocksHome';
 import PitchPresentation from './pages/PitchPresentation';
 import PitchV1 from './pages/PitchV1';
 import PitchV2 from './pages/PitchV2';
+import StockPage from './pages/StockPage';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -75,6 +76,7 @@ function App() {
           <Route path="/stock-market" element={<StockMarketPage />} />
           <Route path="/stock/:symbol" element={<StockProductPage />} />
           <Route path="/stock-v2/:symbol" element={<StockProductPageV2 />} />
+          <Route path="/stock-v3/:symbol" element={<StockPage />} />
           <Route path="/stock-info/:symbol" element={<StockInfoPage />} />
           <Route path="/news" element={<NewsFeed />} />
           <Route path="/financial-profile" element={<FinancialProfile />} />
