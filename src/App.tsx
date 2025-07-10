@@ -7,6 +7,7 @@ import FeedV2 from '@/pages/FeedV2';
 import FeedV3 from '@/pages/FeedV3';
 import NewsFeed from '@/pages/NewsFeed';
 import StocksHome from '@/pages/StocksHome';
+import StockMarketPage from '@/pages/StockMarketPage';
 import MutualFundFeed from '@/pages/MutualFundFeed';
 import Research from '@/pages/Research';
 import StockResearch from '@/pages/StockResearch';
@@ -59,6 +60,7 @@ function App() {
             <Route path="/search" element={<FeedV2 />} />
             <Route path="/market" element={<Market />} />
             <Route path="/stocks" element={<StocksHome />} />
+            <Route path="/stock-market" element={<StockMarketPage />} />
             <Route path="/us-stocks" element={<USMarketHome />} />
             <Route path="/mutual-funds" element={<MutualFundFeed />} />
             <Route path="/ipos" element={<IPOResearch />} />
