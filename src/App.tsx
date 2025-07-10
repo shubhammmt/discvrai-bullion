@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from '@/pages/Index';
 import Feed from '@/pages/Feed';
 import FeedV2 from '@/pages/FeedV2';
+import NewsFeed from '@/pages/NewsFeed';
+import StocksHome from '@/pages/StocksHome';
 import MutualFundFeed from '@/pages/MutualFundFeed';
 import Research from '@/pages/Research';
 import StockResearch from '@/pages/StockResearch';
@@ -50,6 +52,9 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/feed-v2" element={<FeedV2 />} />
+            <Route path="/news-feed" element={<NewsFeed />} />
+            <Route path="/search" element={<FeedV2 />} />
+            <Route path="/stocks" element={<StocksHome />} />
             <Route path="/mutual-fund-feed" element={<MutualFundFeed />} />
             <Route path="/research" element={<Research />} />
             <Route path="/research/stock/:symbol" element={<StockResearch />} />
