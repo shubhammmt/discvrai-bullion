@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,7 +26,7 @@ import {
   Info,
   ChevronRight,
   Star,
-  Compare,
+  GitCompare,
   BookmarkPlus,
   StickyNote,
   Zap,
@@ -185,7 +184,7 @@ const StockProductPageV2 = () => {
             
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
-                <Compare size={16} className="mr-2" />
+                <GitCompare size={16} className="mr-2" />
                 Compare
               </Button>
               <Button 
