@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -10,6 +11,7 @@ import FeedV3 from './pages/FeedV3';
 import Research from './pages/Research';
 import StockResearch from './pages/StockResearch';
 import StockProductPage from './pages/StockProductPage';
+import StockProductPageV2 from './pages/StockProductPageV2';
 import MutualFundResearch from './pages/MutualFundResearch';
 import IPOResearch from './pages/IPOResearch';
 import CreditResearch from './pages/CreditResearch';
@@ -72,6 +74,7 @@ function App() {
           <Route path="/market" element={<Market />} />
           <Route path="/stock-market" element={<StockMarketPage />} />
           <Route path="/stock/:symbol" element={<StockProductPage />} />
+          <Route path="/stock-v2/:symbol" element={<StockProductPageV2 />} />
           <Route path="/news" element={<NewsFeed />} />
           <Route path="/financial-profile" element={<FinancialProfile />} />
           <Route path="/onboarding" element={<Onboarding />} />
