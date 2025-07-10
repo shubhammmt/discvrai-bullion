@@ -35,7 +35,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { CompanyOverviewCard } from '@/components/stock/CompanyOverviewCard';
+import CompanyOverviewCard from '@/components/stock/CompanyOverviewCard';
 
 const StockProductPageV2 = () => {
   const { symbol } = useParams();
