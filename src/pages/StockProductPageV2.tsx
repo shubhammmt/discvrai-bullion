@@ -27,7 +27,7 @@ import {
   Info,
   ChevronRight,
   Star,
-  GitCompare,
+  Compare,
   BookmarkPlus,
   StickyNote,
   Zap,
@@ -116,7 +116,7 @@ const StockProductPageV2 = () => {
     riskFactors: ["Oil price volatility impact", "Regulatory changes in telecom sector", "High capex requirements for expansion"]
   };
 
-  // Chart data with proper configuration
+  // Chart data
   const chartData = [
     { time: '09:15', price: 2778 },
     { time: '10:00', price: 2785 },
@@ -126,14 +126,6 @@ const StockProductPageV2 = () => {
     { time: '14:00', price: 2834 },
     { time: '15:30', price: 2845 }
   ];
-
-  // Chart configuration
-  const chartConfig = {
-    price: {
-      label: "Price",
-      color: "hsl(var(--chart-1))",
-    },
-  };
 
   const newsData = [
     {
@@ -170,28 +162,6 @@ const StockProductPageV2 = () => {
     { company: 'BPCL', pe: 18.7, roe: 14.8, revenue_growth: 11.2, debt_ratio: 0.41 }
   ];
 
-  // Earnings data for detailed financial results
-  const earningsData = {
-    latestQuarter: {
-      quarter: 'Q3 FY25',
-      revenue: '2,35,676',
-      revenueGrowth: 15.2,
-      netProfit: '18,540',
-      netProfitGrowth: 8.7,
-      eps: 27.8,
-      ebitda: '42,150',
-      ebitdaMargin: 17.9
-    }
-  };
-
-  // Corporate actions and calendar
-  const corporateActions = [
-    { type: 'earnings', title: 'Q4 Results', date: 'Apr 18, 2024', status: 'upcoming' },
-    { type: 'agm', title: 'Annual General Meeting', date: 'Jun 28, 2024', status: 'upcoming' },
-    { type: 'dividend', title: 'Ex-Dividend Date', date: 'Jul 15, 2024', status: 'upcoming' },
-    { type: 'board', title: 'Board Meeting', date: 'Mar 15, 2024', status: 'completed' }
-  ];
-
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -215,7 +185,7 @@ const StockProductPageV2 = () => {
             
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
-                <GitCompare size={16} className="mr-2" />
+                <Compare size={16} className="mr-2" />
                 Compare
               </Button>
               <Button 
@@ -354,32 +324,26 @@ const StockProductPageV2 = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="h-64">
-                    <ChartContainer config={chartConfig}>
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={chartData}>
-                          <XAxis 
-                            dataKey="time" 
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6B7280' }}
-                          />
-                          <YAxis 
-                            domain={['dataMin - 5', 'dataMax + 5']}
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6B7280' }}
-                          />
-                          <ChartTooltip content={<ChartTooltipContent />} />
-                          <Area 
-                            type="monotone" 
-                            dataKey="price" 
-                            stroke="#3B82F6" 
-                            fill="#3B82F6" 
-                            fillOpacity={0.2}
-                            strokeWidth={2}
-                          />
-                        </AreaChart>
-                      </ResponsiveContainer>
+                    <ChartContainer
+                      config={{
+                        price: {
+                          label: "Price",
+                          color: "hsl(var(--chart-1))",
+                        },
+                      }}
+                    >
+                      <AreaChart data={chartData}>
+                        <XAxis dataKey="time" />
+                        <YAxis domain={['dataMin - 5', 'dataMax + 5']} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Area 
+                          type="monotone" 
+                          dataKey="price" 
+                          stroke="hsl(var(--chart-1))" 
+                          fill="hsl(var(--chart-1))" 
+                          fillOpacity={0.2} 
+                        />
+                      </AreaChart>
                     </ChartContainer>
                   </div>
                   
@@ -392,86 +356,6 @@ const StockProductPageV2 = () => {
                         <p className="text-sm text-purple-700">
                           Stock showing {aiAnalysis.technicalSignals.trend} trend with RSI at {aiAnalysis.technicalSignals.rsi} (neutral zone). 
                           Support at ₹{aiAnalysis.technicalSignals.supportLevel}, resistance at ₹{aiAnalysis.technicalSignals.resistanceLevel}.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Company Overview */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Info className="w-5 h-5" />
-                    Company Overview
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-700 mb-4">
-                    Reliance Industries Limited is India's largest private sector company, operating across energy, 
-                    petrochemicals, oil & gas, telecom, and retail sectors. The company is known for its integrated 
-                    business model spanning from oil refining to digital services through Jio platforms.
-                  </p>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div>
-                      <span className="text-sm text-gray-600">Sector</span>
-                      <p className="font-medium">{stockData.sector}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Exchange</span>
-                      <p className="font-medium">{stockData.exchange}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Market Cap</span>
-                      <p className="font-medium">{stockData.marketCap}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Earnings & Financial Results Summary */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5" />
-                    Latest Earnings Summary
-                    <Badge variant="secondary">AI Generated</Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="mb-4">
-                    <h4 className="font-semibold mb-2">{earningsData.latestQuarter}</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div>
-                        <span className="text-sm text-gray-600">Revenue</span>
-                        <p className="font-medium">₹{earningsData.latestQuarter.revenue} Cr</p>
-                        <span className="text-xs text-green-600">+{earningsData.latestQuarter.revenueGrowth}% YoY</span>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-600">Net Profit</span>
-                        <p className="font-medium">₹{earningsData.latestQuarter.netProfit} Cr</p>
-                        <span className="text-xs text-green-600">+{earningsData.latestQuarter.netProfitGrowth}% YoY</span>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-600">EPS</span>
-                        <p className="font-medium">₹{earningsData.latestQuarter.eps}</p>
-                      </div>
-                      <div>
-                        <span className="text-sm text-gray-600">EBITDA Margin</span>
-                        <p className="font-medium">{earningsData.latestQuarter.ebitdaMargin}%</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                    <div className="flex items-start gap-2">
-                      <Brain size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-green-800 mb-1">AI Earnings Summary:</p>
-                        <p className="text-sm text-green-700">
-                          Revenue grew 15.2% driven by strong retail expansion and digital services growth. 
-                          Net profit growth of 8.7% reflects higher raw material costs but improved operational efficiency.
                         </p>
                       </div>
                     </div>
@@ -673,40 +557,6 @@ const StockProductPageV2 = () => {
                   </div>
                 </CardContent>
               </Card>
-
-              {/* Detailed Financial Statements */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5" />
-                    Financial Statements
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Tabs defaultValue="income" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="income">Income Statement</TabsTrigger>
-                      <TabsTrigger value="balance">Balance Sheet</TabsTrigger>
-                      <TabsTrigger value="cashflow">Cash Flow</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="income" className="mt-4">
-                      <div className="text-sm text-gray-600">
-                        Detailed income statement data would be displayed here with quarterly and yearly breakdowns.
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="balance" className="mt-4">
-                      <div className="text-sm text-gray-600">
-                        Balance sheet information showing assets, liabilities, and equity over time.
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="cashflow" className="mt-4">
-                      <div className="text-sm text-gray-600">
-                        Cash flow statements showing operating, investing, and financing activities.
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </CardContent>
-              </Card>
             </div>
 
             {/* Right Sidebar */}
@@ -775,50 +625,26 @@ const StockProductPageV2 = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {corporateActions.filter(action => action.status === 'upcoming').map((action, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full ${
-                          action.type === 'earnings' ? 'bg-blue-500' :
-                          action.type === 'agm' ? 'bg-green-500' :
-                          action.type === 'dividend' ? 'bg-purple-500' : 'bg-gray-500'
-                        }`}></div>
-                        <div>
-                          <p className="text-sm font-medium">{action.title}</p>
-                          <p className="text-xs text-gray-600">{action.date}</p>
-                        </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div>
+                        <p className="text-sm font-medium">Q4 Results</p>
+                        <p className="text-xs text-gray-600">Apr 18, 2024</p>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Technical Indicators */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-sm">
-                    <Activity className="w-4 h-4" />
-                    Technical Indicators
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm">RSI (14)</span>
-                      <span className="text-sm font-medium">{aiAnalysis.technicalSignals.rsi}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">MACD</span>
-                      <Badge variant="outline" className="text-xs">
-                        {aiAnalysis.technicalSignals.macdSignal}
-                      </Badge>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div>
+                        <p className="text-sm font-medium">AGM</p>
+                        <p className="text-xs text-gray-600">Jun 28, 2024</p>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Support</span>
-                      <span className="text-sm font-medium">₹{aiAnalysis.technicalSignals.supportLevel}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Resistance</span>
-                      <span className="text-sm font-medium">₹{aiAnalysis.technicalSignals.resistanceLevel}</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <div>
+                        <p className="text-sm font-medium">Ex-Dividend</p>
+                        <p className="text-xs text-gray-600">Jul 15, 2024</p>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -846,60 +672,6 @@ const StockProductPageV2 = () => {
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs">
                       Should I buy for long term?
                     </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Social & Sentiment Widget */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-sm">
-                    <MessageCircle className="w-4 h-4" />
-                    Social Sentiment
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Overall Sentiment</span>
-                      <Badge variant="default" className="bg-green-100 text-green-700">Positive</Badge>
-                    </div>
-                    <Progress value={75} className="h-2" />
-                    <div className="text-xs text-gray-600">
-                      Based on 250+ social media mentions in the last 24 hours
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Analyst Ratings */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-sm">
-                    <Star className="w-4 h-4" />
-                    Analyst Ratings
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm">Buy</span>
-                      <span className="text-sm font-medium">12</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Hold</span>
-                      <span className="text-sm font-medium">8</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Sell</span>
-                      <span className="text-sm font-medium">2</span>
-                    </div>
-                    <div className="pt-2 border-t">
-                      <div className="flex justify-between">
-                        <span className="text-sm">Target Price</span>
-                        <span className="text-sm font-medium">₹3,100</span>
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
