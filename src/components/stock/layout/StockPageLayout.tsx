@@ -6,6 +6,8 @@ import InvestmentChecklist from '@/components/stock/overview/InvestmentChecklist
 import InteractivePriceChart from '@/components/stock/chart/InteractivePriceChart';
 import CompanyOverviewCards from '@/components/stock/overview/CompanyOverviewCards';
 import KeyMetricsTable from '@/components/stock/overview/KeyMetricsTable';
+import HistoricalGrowthMetrics from '@/components/stock/overview/HistoricalGrowthMetrics';
+import ResearchSharing from '@/components/ResearchSharing';
 import TechnicalDashboard from '@/components/stock/technical/TechnicalDashboard';
 import AnalystConsensus from '@/components/stock/forecast/AnalystConsensus';
 import PeerComparisonTable from '@/components/stock/peers/PeerComparisonTable';
@@ -32,7 +34,9 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
             <InvestmentChecklist />
             <InteractivePriceChart symbol={symbol} />
             <CompanyOverviewCards />
+            <HistoricalGrowthMetrics />
             <KeyMetricsTable />
+            <ResearchSharing />
           </div>
         );
       case 'technicals':
@@ -55,7 +59,9 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
             <InvestmentChecklist />
             <InteractivePriceChart symbol={symbol} />
             <CompanyOverviewCards />
+            <HistoricalGrowthMetrics />
             <KeyMetricsTable />
+            <ResearchSharing />
           </div>
         );
     }
