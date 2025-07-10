@@ -10,9 +10,9 @@ const Header = () => {
   const location = useLocation();
   const [isDark, setIsDark] = useState(false);
   
-  // Check if user is logged in
+  // Check if user is logged in - temporarily set to true for testing
   const userProfile = localStorage.getItem('userProfile');
-  const isLoggedIn = !!userProfile;
+  const isLoggedIn = true; // Force logged in state to show navigation
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
