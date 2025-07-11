@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -60,29 +59,41 @@ const NewsTimeline: React.FC = () => {
   };
 
   return (
-    <Card className="p-6">
-      {/* Header with Sentiment Summary and Filters */}
-      <div className="flex items-center justify-between mb-6">
-        {/* Left: Sentiment Summary */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-green-500" />
-            <span className="text-sm text-green-600 font-medium">{NEWS_SENTIMENT_SUMMARY.positive} Positive</span>
+    <Card className="p-4 sm:p-6">
+      {/* Mobile-first responsive header */}
+      <div className="space-y-4 mb-6">
+        {/* Title */}
+        <div>
+          <h2 className="text-lg font-semibold mb-1">News & Events</h2>
+          <p className="text-sm text-muted-foreground">Latest news, events, and market updates</p>
+        </div>
+
+        {/* Sentiment Summary - Mobile responsive */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1.5">
+            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-green-500" />
+            <span className="text-xs sm:text-sm text-green-600 font-medium">
+              {NEWS_SENTIMENT_SUMMARY.positive} Positive
+            </span>
           </div>
-          <div className="flex items-center gap-2">
-            <Minus className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground font-medium">{NEWS_SENTIMENT_SUMMARY.neutral} Neutral</span>
+          <div className="flex items-center gap-1.5">
+            <Minus className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+            <span className="text-xs sm:text-sm text-muted-foreground font-medium">
+              {NEWS_SENTIMENT_SUMMARY.neutral} Neutral
+            </span>
           </div>
-          <div className="flex items-center gap-2">
-            <TrendingDown className="h-4 w-4 text-red-500" />
-            <span className="text-sm text-red-600 font-medium">{NEWS_SENTIMENT_SUMMARY.negative} Negative</span>
+          <div className="flex items-center gap-1.5">
+            <TrendingDown className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
+            <span className="text-xs sm:text-sm text-red-600 font-medium">
+              {NEWS_SENTIMENT_SUMMARY.negative} Negative
+            </span>
           </div>
         </div>
 
-        {/* Right: Filters */}
-        <div className="flex gap-3">
+        {/* Filters - Mobile responsive */}
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full sm:w-40">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -96,7 +107,7 @@ const NewsTimeline: React.FC = () => {
           </Select>
 
           <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-full sm:w-32">
               <SelectValue placeholder="Time Period" />
             </SelectTrigger>
             <SelectContent>
@@ -111,25 +122,25 @@ const NewsTimeline: React.FC = () => {
         </div>
       </div>
 
-      {/* News Timeline */}
+      {/* News Timeline - Mobile responsive */}
       <div className="space-y-4">
         {displayedNews.map((item) => (
-          <div key={item.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-            <div className="flex items-start gap-4">
+          <div key={item.id} className="border rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow">
+            <div className="flex items-start gap-3 sm:gap-4">
               {/* Timeline dot */}
-              <div className="flex flex-col items-center mt-1">
-                <div className={`p-2 rounded-full border ${getSentimentColor(item.sentiment)}`}>
+              <div className="flex flex-col items-center mt-1 flex-shrink-0">
+                <div className={`p-1.5 sm:p-2 rounded-full border ${getSentimentColor(item.sentiment)}`}>
                   {getCategoryIcon(item.category)}
                 </div>
                 {item !== displayedNews[displayedNews.length - 1] && (
-                  <div className="w-px h-16 bg-border mt-2" />
+                  <div className="w-px h-12 sm:h-16 bg-border mt-2" />
                 )}
               </div>
 
               {/* Content */}
-              <div className="flex-1">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-2">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     <Badge variant="outline" className="text-xs">
                       {NEWS_CATEGORIES.find(c => c.value === item.category)?.label}
                     </Badge>
@@ -138,33 +149,33 @@ const NewsTimeline: React.FC = () => {
                       <span className="ml-1 capitalize">{item.sentiment}</span>
                     </Badge>
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-xs sm:text-sm text-muted-foreground flex-shrink-0">
                     {item.daysAgo === 0 ? 'Today' : `${item.daysAgo}d ago`}
                   </div>
                 </div>
 
-                <h3 className="font-semibold text-lg mb-2 hover:text-primary cursor-pointer">
+                <h3 className="font-semibold text-sm sm:text-lg mb-2 hover:text-primary cursor-pointer leading-tight">
                   {item.headline}
                 </h3>
 
-                <p className="text-muted-foreground mb-3">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-3 leading-relaxed">
                   {item.summary}
                 </p>
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <img 
                       src={item.sourceIcon} 
                       alt={item.source}
-                      className="w-5 h-5 rounded"
+                      className="w-4 h-4 sm:w-5 sm:h-5 rounded flex-shrink-0"
                     />
-                    <span className="text-sm font-medium">{item.source}</span>
-                    <span className="text-sm text-muted-foreground">• {item.timestamp}</span>
+                    <span className="text-xs sm:text-sm font-medium truncate">{item.source}</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">• {item.timestamp}</span>
                   </div>
                   
                   {item.url && (
-                    <Button variant="ghost" size="sm" className="p-1 h-auto">
-                      <ExternalLink className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" className="p-1 h-auto self-start sm:self-center">
+                      <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   )}
                 </div>
@@ -180,7 +191,7 @@ const NewsTimeline: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => setShowAll(true)}
-            className="px-6"
+            className="px-4 sm:px-6 text-sm"
           >
             View More ({sortedNews.length - 3} more articles)
           </Button>
@@ -193,7 +204,7 @@ const NewsTimeline: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => setShowAll(false)}
-            className="px-6"
+            className="px-4 sm:px-6 text-sm"
           >
             Show Less
           </Button>
@@ -202,7 +213,7 @@ const NewsTimeline: React.FC = () => {
 
       {filteredNews.length === 0 && (
         <div className="text-center py-8 text-muted-foreground">
-          No news found for the selected filters.
+          <p className="text-sm">No news found for the selected filters.</p>
         </div>
       )}
     </Card>
@@ -210,4 +221,3 @@ const NewsTimeline: React.FC = () => {
 };
 
 export default NewsTimeline;
-
