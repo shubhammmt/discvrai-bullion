@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, AlertTriangle, XCircle, HelpCircle } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle, HelpCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { INVESTMENT_CHECKLIST } from '@/data/stockMockData';
 import { cn } from '@/lib/utils';
 
@@ -28,6 +29,17 @@ const InvestmentChecklist: React.FC = () => {
     }
   };
 
+  const getTrendIcon = (trend?: 'up' | 'down' | 'neutral') => {
+    switch (trend) {
+      case 'up':
+        return <TrendingUp className="h-3 w-3 text-green-600" />;
+      case 'down':
+        return <TrendingDown className="h-3 w-3 text-red-600" />;
+      default:
+        return <Minus className="h-3 w-3 text-gray-600" />;
+    }
+  };
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -42,54 +54,92 @@ const InvestmentChecklist: React.FC = () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {INVESTMENT_CHECKLIST.map((item, index) => (
-          <Card 
-            key={index}
-            className={cn(
-              "p-4 transition-all duration-200 hover:shadow-md cursor-pointer group",
-              getStatusColor(item.score)
-            )}
-          >
-            <div className="text-center space-y-3">
-              {/* Category Icon */}
-              <div className="flex justify-center">
-                <div className="text-2xl">{item.icon}</div>
-              </div>
-              
-              {/* Status Icon */}
-              <div className="flex justify-center">
-                {getStatusIcon(item.score)}
-              </div>
+          <div key={index} className="relative group perspective-1000">
+            <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180">
+              {/* Front Side */}
+              <Card 
+                className={cn(
+                  "absolute inset-0 p-4 transition-all duration-200 hover:shadow-md cursor-pointer backface-hidden",
+                  getStatusColor(item.score)
+                )}
+              >
+                <div className="text-center space-y-3 h-full">
+                  {/* Category Icon */}
+                  <div className="flex justify-center">
+                    <div className="text-2xl">{item.icon}</div>
+                  </div>
+                  
+                  {/* Status Icon */}
+                  <div className="flex justify-center">
+                    {getStatusIcon(item.score)}
+                  </div>
 
-              {/* Category */}
-              <div>
-                <h3 className="font-medium text-sm text-foreground">
-                  {item.category}
-                </h3>
-              </div>
+                  {/* Category */}
+                  <div>
+                    <h3 className="font-medium text-sm text-foreground">
+                      {item.category}
+                    </h3>
+                  </div>
 
-              {/* Status */}
-              <div>
-                <Badge 
-                  variant="outline" 
-                  className={cn(
-                    "text-xs font-medium px-2 py-1",
-                    item.score === 'positive' && "border-green-300 text-green-700 dark:text-green-400",
-                    item.score === 'negative' && "border-red-300 text-red-700 dark:text-red-400",
-                    item.score === 'neutral' && "border-yellow-300 text-yellow-700 dark:text-yellow-400"
-                  )}
-                >
-                  {item.status}
-                </Badge>
-              </div>
+                  {/* Status */}
+                  <div>
+                    <Badge 
+                      variant="outline" 
+                      className={cn(
+                        "text-xs font-medium px-2 py-1",
+                        item.score === 'positive' && "border-green-300 text-green-700 dark:text-green-400",
+                        item.score === 'negative' && "border-red-300 text-red-700 dark:text-red-400",
+                        item.score === 'neutral' && "border-yellow-300 text-yellow-700 dark:text-yellow-400"
+                      )}
+                    >
+                      {item.status}
+                    </Badge>
+                  </div>
+                </div>
+              </Card>
 
-              {/* Details on hover */}
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <p className="text-xs text-muted-foreground mt-2">
-                  {item.details}
-                </p>
-              </div>
+              {/* Back Side - Metrics */}
+              <Card 
+                className={cn(
+                  "absolute inset-0 p-4 cursor-pointer backface-hidden rotate-y-180",
+                  getStatusColor(item.score)
+                )}
+              >
+                <div className="h-full flex flex-col justify-between">
+                  {/* Header */}
+                  <div className="text-center mb-3">
+                    <h4 className="font-semibold text-xs text-foreground">
+                      {item.category} Metrics
+                    </h4>
+                  </div>
+
+                  {/* Metrics */}
+                  <div className="space-y-2 flex-1">
+                    {item.metrics.map((metric, metricIndex) => (
+                      <div key={metricIndex} className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-foreground truncate">
+                          {metric.label}
+                        </span>
+                        <div className="flex items-center gap-1 ml-1">
+                          <span className="text-xs font-semibold text-foreground">
+                            {metric.value}
+                          </span>
+                          {metric.trend && getTrendIcon(metric.trend)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="text-center mt-2">
+                    <p className="text-xs text-muted-foreground">
+                      Hover to see overview
+                    </p>
+                  </div>
+                </div>
+              </Card>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
 
@@ -113,6 +163,24 @@ const InvestmentChecklist: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .transform-style-preserve-3d {
+          transform-style: preserve-3d;
+        }
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+          transform: rotateY(180deg);
+        }
+        .group:hover .group-hover\\:rotate-y-180 {
+          transform: rotateY(180deg);
+        }
+      `}</style>
     </Card>
   );
 };

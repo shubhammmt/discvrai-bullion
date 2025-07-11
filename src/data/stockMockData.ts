@@ -22,6 +22,11 @@ export interface InvestmentChecklistItem {
   score: 'positive' | 'neutral' | 'negative';
   icon: string;
   details: string;
+  metrics: {
+    label: string;
+    value: string;
+    trend?: 'up' | 'down' | 'neutral';
+  }[];
 }
 
 export interface KeyMetric {
@@ -84,42 +89,78 @@ export const INVESTMENT_CHECKLIST: InvestmentChecklistItem[] = [
     status: "STEADY PERFORMER",
     score: "neutral",
     icon: "📈",
-    details: "Consistent revenue growth with strong market position"
+    details: "Consistent revenue growth with strong market position",
+    metrics: [
+      { label: "Revenue Growth (3Y)", value: "18.5%", trend: "up" },
+      { label: "Market Share", value: "12.3%", trend: "up" },
+      { label: "CAGR (5Y)", value: "22.1%", trend: "up" },
+      { label: "Consistency Score", value: "7.8/10", trend: "neutral" }
+    ]
   },
   {
     category: "Valuation", 
     status: "REASONABLE",
     score: "neutral",
     icon: "⚖️",
-    details: "P/E ratio in line with sector averages"
+    details: "P/E ratio in line with sector averages",
+    metrics: [
+      { label: "P/E Ratio", value: "50.2x", trend: "neutral" },
+      { label: "Sector P/E", value: "49.3x", trend: "neutral" },
+      { label: "P/B Ratio", value: "7.0x", trend: "neutral" },
+      { label: "EV/EBITDA", value: "32.5x", trend: "down" }
+    ]
   },
   {
     category: "Growth",
     status: "STABLE",
     score: "neutral", 
     icon: "📊",
-    details: "Steady expansion in key markets"
+    details: "Steady expansion in key markets",
+    metrics: [
+      { label: "Sales Growth", value: "15.2%", trend: "up" },
+      { label: "New Launches", value: "8 Projects", trend: "up" },
+      { label: "Market Expansion", value: "3 Cities", trend: "up" },
+      { label: "Pipeline Value", value: "₹45K Cr", trend: "up" }
+    ]
   },
   {
     category: "Profitability",
     status: "HIGH MARGIN",
     score: "positive",
     icon: "💰",
-    details: "Strong operating margins and ROE"
+    details: "Strong operating margins and ROE",
+    metrics: [
+      { label: "Operating Margin", value: "28.5%", trend: "up" },
+      { label: "Net Margin", value: "12.8%", trend: "up" },
+      { label: "ROE", value: "13.7%", trend: "up" },
+      { label: "ROCE", value: "14.9%", trend: "up" }
+    ]
   },
   {
     category: "Technicals",
     status: "BULLISH", 
     score: "positive",
     icon: "📈",
-    details: "Technical indicators showing positive momentum"
+    details: "Technical indicators showing positive momentum",
+    metrics: [
+      { label: "RSI (14)", value: "68.5", trend: "up" },
+      { label: "MACD Signal", value: "Bullish", trend: "up" },
+      { label: "Moving Avg", value: "Above 50D", trend: "up" },
+      { label: "Volume Trend", value: "+25%", trend: "up" }
+    ]
   },
   {
     category: "Risk",
     status: "MODERATE RISK",
     score: "neutral",
     icon: "⚠️", 
-    details: "Balanced risk profile with manageable debt levels"
+    details: "Balanced risk profile with manageable debt levels",
+    metrics: [
+      { label: "Debt/Equity", value: "0.45x", trend: "down" },
+      { label: "Interest Cover", value: "4.2x", trend: "up" },
+      { label: "Beta", value: "1.8", trend: "neutral" },
+      { label: "Volatility", value: "High", trend: "neutral" }
+    ]
   }
 ];
 
