@@ -83,83 +83,71 @@ export const LODHA_STOCK_DATA: StockData = {
 };
 
 // Investment Checklist Assessment
-export const INVESTMENT_CHECKLIST: InvestmentChecklistItem[] = [
+export const INVESTMENT_CHECKLIST = [
   {
-    category: "Performance",
-    status: "STEADY PERFORMER",
-    score: "neutral",
-    icon: "📈",
-    details: "Consistent revenue growth with strong market position",
+    category: 'Returns',
+    icon: '📈',
+    score: 'neutral' as const,
+    status: 'STEADY RETURNS',
     metrics: [
-      { label: "Revenue Growth (3Y)", value: "18.5%", trend: "up" },
-      { label: "Market Share", value: "12.3%", trend: "up" },
-      { label: "CAGR (5Y)", value: "22.1%", trend: "up" },
-      { label: "Consistency Score", value: "7.8/10", trend: "neutral" }
+      { label: '1Y Return', value: '12.5%', trend: 'up' as const },
+      { label: '3Y CAGR', value: '8.2%', trend: 'neutral' as const },
+      { label: 'Volatility', value: '18.4%', trend: 'down' as const }
     ]
   },
   {
-    category: "Valuation", 
-    status: "REASONABLE",
-    score: "neutral",
-    icon: "⚖️",
-    details: "P/E ratio in line with sector averages",
+    category: 'Value',
+    icon: '⚖️',
+    score: 'neutral' as const,
+    status: 'FAIR VALUE',
     metrics: [
-      { label: "P/E Ratio", value: "50.2x", trend: "neutral" },
-      { label: "Sector P/E", value: "49.3x", trend: "neutral" },
-      { label: "P/B Ratio", value: "7.0x", trend: "neutral" },
-      { label: "EV/EBITDA", value: "32.5x", trend: "down" }
+      { label: 'P/E Ratio', value: '28.4x', trend: 'up' as const },
+      { label: 'P/B Ratio', value: '2.8x', trend: 'neutral' as const },
+      { label: 'EV/EBITDA', value: '18.2x', trend: 'up' as const }
     ]
   },
   {
-    category: "Growth",
-    status: "STABLE",
-    score: "neutral", 
-    icon: "📊",
-    details: "Steady expansion in key markets",
+    category: 'Expansion',
+    icon: '📊',
+    score: 'neutral' as const,
+    status: 'STEADY GROWTH',
     metrics: [
-      { label: "Sales Growth", value: "15.2%", trend: "up" },
-      { label: "New Launches", value: "8 Projects", trend: "up" },
-      { label: "Market Expansion", value: "3 Cities", trend: "up" },
-      { label: "Pipeline Value", value: "₹45K Cr", trend: "up" }
+      { label: 'Revenue Growth', value: '15.0%', trend: 'up' as const },
+      { label: 'Profit Growth', value: '12.3%', trend: 'up' as const },
+      { label: 'Market Share', value: '8.5%', trend: 'neutral' as const }
     ]
   },
   {
-    category: "Profitability",
-    status: "HIGH MARGIN",
-    score: "positive",
-    icon: "💰",
-    details: "Strong operating margins and ROE",
+    category: 'Margins',
+    icon: '💰',
+    score: 'positive' as const,
+    status: 'STRONG MARGINS',
     metrics: [
-      { label: "Operating Margin", value: "28.5%", trend: "up" },
-      { label: "Net Margin", value: "12.8%", trend: "up" },
-      { label: "ROE", value: "13.7%", trend: "up" },
-      { label: "ROCE", value: "14.9%", trend: "up" }
+      { label: 'Net Margin', value: '25.2%', trend: 'up' as const },
+      { label: 'EBITDA Margin', value: '32.1%', trend: 'up' as const },
+      { label: 'ROE', value: '15.2%', trend: 'neutral' as const }
     ]
   },
   {
-    category: "Technicals",
-    status: "BULLISH", 
-    score: "positive",
-    icon: "📈",
-    details: "Technical indicators showing positive momentum",
+    category: 'Momentum',
+    icon: '📈',
+    score: 'positive' as const,
+    status: 'STRONG TREND',
     metrics: [
-      { label: "RSI (14)", value: "68.5", trend: "up" },
-      { label: "MACD Signal", value: "Bullish", trend: "up" },
-      { label: "Moving Avg", value: "Above 50D", trend: "up" },
-      { label: "Volume Trend", value: "+25%", trend: "up" }
+      { label: 'RSI', value: '58', trend: 'neutral' as const },
+      { label: 'Price vs MA50', value: '+5.2%', trend: 'up' as const },
+      { label: 'Volume Trend', value: 'High', trend: 'up' as const }
     ]
   },
   {
-    category: "Risk",
-    status: "MODERATE RISK",
-    score: "neutral",
-    icon: "⚠️", 
-    details: "Balanced risk profile with manageable debt levels",
+    category: 'Safety',
+    icon: '⚠️',
+    score: 'neutral' as const,
+    status: 'BALANCED RISK',
     metrics: [
-      { label: "Debt/Equity", value: "0.45x", trend: "down" },
-      { label: "Interest Cover", value: "4.2x", trend: "up" },
-      { label: "Beta", value: "1.8", trend: "neutral" },
-      { label: "Volatility", value: "High", trend: "neutral" }
+      { label: 'Debt/Equity', value: '0.42x', trend: 'down' as const },
+      { label: 'Current Ratio', value: '1.85x', trend: 'up' as const },
+      { label: 'Beta', value: '0.95', trend: 'neutral' as const }
     ]
   }
 ];
