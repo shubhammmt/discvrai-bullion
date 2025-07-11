@@ -23,12 +23,12 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { id: 'overview', label: 'Overview', icon: <BarChart3 className="h-4 w-4" /> },
-  { id: 'technicals', label: 'Technicals', icon: <TrendingUp className="h-4 w-4" /> },
-  { id: 'forecast', label: 'Forecast', icon: <Target className="h-4 w-4" /> },
+  { id: 'overview', label: 'At a Glance', icon: <BarChart3 className="h-4 w-4" /> },
+  { id: 'technicals', label: 'Charts', icon: <TrendingUp className="h-4 w-4" /> },
+  { id: 'forecast', label: 'Targets', icon: <Target className="h-4 w-4" /> },
   { id: 'peers', label: 'Peers', icon: <Users className="h-4 w-4" /> },
   { id: 'financials', label: 'Financials', icon: <FileText className="h-4 w-4" /> },
-  { id: 'shareholdings', label: 'Shareholdings', icon: <PieChart className="h-4 w-4" /> },
+  { id: 'shareholdings', label: 'Ownership', icon: <PieChart className="h-4 w-4" /> },
   { id: 'news', label: 'News', icon: <Newspaper className="h-4 w-4" /> }
 ];
 

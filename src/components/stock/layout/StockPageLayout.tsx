@@ -128,7 +128,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           {/* Technicals Section */}
           <section ref={sectionRefs.technicals} id="technicals" className="scroll-mt-32">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold">Technical Analysis</h2>
+              <h2 className="text-2xl font-bold">Charts & Technical Analysis</h2>
               <p className="text-muted-foreground">Chart patterns, indicators, and technical signals</p>
             </div>
             <TechnicalDashboard />
@@ -137,8 +137,8 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           {/* Forecast Section */}
           <section ref={sectionRefs.forecast} id="forecast" className="scroll-mt-32">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold">Analyst Forecast</h2>
-              <p className="text-muted-foreground">Price targets and analyst recommendations</p>
+              <h2 className="text-2xl font-bold">Price Targets</h2>
+              <p className="text-muted-foreground">Analyst recommendations and price forecasts</p>
             </div>
             <AnalystConsensus />
           </section>
@@ -155,7 +155,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           {/* Financials Section */}
           <section ref={sectionRefs.financials} id="financials" className="scroll-mt-32">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold">Financial Statements</h2>
+              <h2 className="text-2xl font-bold">Financials</h2>
               <p className="text-muted-foreground">Income statement, balance sheet, and cash flow</p>
             </div>
             <FinancialStatementsView />
@@ -164,7 +164,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           {/* Shareholdings Section */}
           <section ref={sectionRefs.shareholdings} id="shareholdings" className="scroll-mt-32">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold">Shareholding Pattern</h2>
+              <h2 className="text-2xl font-bold">Ownership Structure</h2>
               <p className="text-muted-foreground">Institutional and promoter holdings analysis</p>
             </div>
             <ShareholdingAnalysis />
