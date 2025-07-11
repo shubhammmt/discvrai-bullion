@@ -43,17 +43,21 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -60% 0px', // Trigger when section is 20% from top
-      threshold: 0.1
+      rootMargin: '-10% 0px -70% 0px', // More precise detection
+      threshold: 0.3 // Require more of the section to be visible
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id as TabType;
-          setActiveSection(sectionId);
-        }
-      });
+      // Sort entries by their position on screen (top to bottom)
+      const sortedEntries = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      
+      // Set active section to the topmost visible section
+      if (sortedEntries.length > 0) {
+        const sectionId = sortedEntries[0].target.id as TabType;
+        setActiveSection(sectionId);
+      }
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
@@ -64,6 +68,16 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
         observer.observe(ref.current);
       }
     });
+
+    // Set initial state when component mounts
+    const checkInitialSection = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition < 200) { // If near top of page
+        setActiveSection('overview');
+      }
+    };
+    
+    checkInitialSection();
 
     return () => {
       observer.disconnect();
