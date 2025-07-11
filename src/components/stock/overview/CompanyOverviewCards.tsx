@@ -27,24 +27,11 @@ const CompanyOverviewCards: React.FC = () => {
         
         <div className="space-y-4">
           {OVERVIEW_CARDS.map((card, index) => (
-            <div key={index} className="flex items-start gap-4">
-              {/* Icon and Bullet Point */}
-              <div className="flex items-center gap-3 flex-shrink-0">
-                <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 text-lg">
-                  {card.icon}
-                </div>
-              </div>
-              
-              {/* Content */}
-              <div className="flex-1">
-                <h4 className="font-semibold text-foreground mb-2">
-                  {card.title}
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {card.content}
-                </p>
-              </div>
+            <div key={index} className="flex items-start gap-3">
+              <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {card.content}
+              </p>
             </div>
           ))}
         </div>
