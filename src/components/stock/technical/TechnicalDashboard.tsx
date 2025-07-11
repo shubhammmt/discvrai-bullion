@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { TECHNICAL_GAUGES, TECHNICAL_INDICATORS } from '@/data/stockMockData';
-import { Info } from 'lucide-react';
-import GaugeChart from '../shared/GaugeChart';
+import { Info, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const TechnicalDashboard: React.FC = () => {
   const getSignalColor = (signal: string) => {
@@ -28,6 +29,28 @@ const TechnicalDashboard: React.FC = () => {
     }
   };
 
+  const getSignalIcon = (signal: string) => {
+    switch (signal) {
+      case 'bullish':
+        return <TrendingUp className="h-4 w-4" />;
+      case 'bearish':
+        return <TrendingDown className="h-4 w-4" />;
+      default:
+        return <Minus className="h-4 w-4" />;
+    }
+  };
+
+  const getProgressColor = (signal: string) => {
+    switch (signal) {
+      case 'bullish':
+        return 'bg-green-500';
+      case 'bearish':
+        return 'bg-red-500';
+      default:
+        return 'bg-yellow-500';
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
@@ -35,25 +58,44 @@ const TechnicalDashboard: React.FC = () => {
         <Info className="h-4 w-4 text-muted-foreground" />
       </div>
 
-      {/* Technical Gauges */}
+      {/* Technical Signals - Simplified Layout */}
       <div className="grid gap-6 md:grid-cols-3">
         {/* Oscillators */}
         <Card className="p-6">
-          <div className="text-center space-y-4">
-            <h3 className="text-lg font-semibold">Oscillators</h3>
-            <GaugeChart 
-              value={TECHNICAL_GAUGES.oscillators.value} 
-              signal={TECHNICAL_GAUGES.oscillators.signal}
-              size={160}
-            />
-            <div className="space-y-2">
-              <Badge className={getSignalColor(TECHNICAL_GAUGES.oscillators.signal)}>
-                {getSignalText(TECHNICAL_GAUGES.oscillators.signal)}
-              </Badge>
-              <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                <span>Bearish <span className="font-medium">{TECHNICAL_GAUGES.oscillators.breakdown.bearish}</span></span>
-                <span>Neutral <span className="font-medium">{TECHNICAL_GAUGES.oscillators.breakdown.neutral}</span></span>
-                <span>Bullish <span className="font-medium">{TECHNICAL_GAUGES.oscillators.breakdown.bullish}</span></span>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Oscillators</h3>
+              <div className="flex items-center gap-2">
+                {getSignalIcon(TECHNICAL_GAUGES.oscillators.signal)}
+                <Badge className={getSignalColor(TECHNICAL_GAUGES.oscillators.signal)}>
+                  {getSignalText(TECHNICAL_GAUGES.oscillators.signal)}
+                </Badge>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>Signal Strength</span>
+                <span className="font-medium">{TECHNICAL_GAUGES.oscillators.value}%</span>
+              </div>
+              <Progress 
+                value={TECHNICAL_GAUGES.oscillators.value} 
+                className="h-2"
+              />
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="text-center p-2 bg-red-50 rounded border border-red-200">
+                <div className="font-medium text-red-600">{TECHNICAL_GAUGES.oscillators.breakdown.bearish}</div>
+                <div className="text-red-600">Bearish</div>
+              </div>
+              <div className="text-center p-2 bg-yellow-50 rounded border border-yellow-200">
+                <div className="font-medium text-yellow-600">{TECHNICAL_GAUGES.oscillators.breakdown.neutral}</div>
+                <div className="text-yellow-600">Neutral</div>
+              </div>
+              <div className="text-center p-2 bg-green-50 rounded border border-green-200">
+                <div className="font-medium text-green-600">{TECHNICAL_GAUGES.oscillators.breakdown.bullish}</div>
+                <div className="text-green-600">Bullish</div>
               </div>
             </div>
           </div>
@@ -61,21 +103,40 @@ const TechnicalDashboard: React.FC = () => {
 
         {/* Overall */}
         <Card className="p-6">
-          <div className="text-center space-y-4">
-            <h3 className="text-lg font-semibold">Overall</h3>
-            <GaugeChart 
-              value={TECHNICAL_GAUGES.overall.value} 
-              signal={TECHNICAL_GAUGES.overall.signal}
-              size={160}
-            />
-            <div className="space-y-2">
-              <Badge className={getSignalColor(TECHNICAL_GAUGES.overall.signal)}>
-                {getSignalText(TECHNICAL_GAUGES.overall.signal)}
-              </Badge>
-              <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                <span>Bearish <span className="font-medium">{TECHNICAL_GAUGES.overall.breakdown.bearish}</span></span>
-                <span>Neutral <span className="font-medium">{TECHNICAL_GAUGES.overall.breakdown.neutral}</span></span>
-                <span>Bullish <span className="font-medium">{TECHNICAL_GAUGES.overall.breakdown.bullish}</span></span>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Overall</h3>
+              <div className="flex items-center gap-2">
+                {getSignalIcon(TECHNICAL_GAUGES.overall.signal)}
+                <Badge className={getSignalColor(TECHNICAL_GAUGES.overall.signal)}>
+                  {getSignalText(TECHNICAL_GAUGES.overall.signal)}
+                </Badge>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>Signal Strength</span>
+                <span className="font-medium">{TECHNICAL_GAUGES.overall.value}%</span>
+              </div>
+              <Progress 
+                value={TECHNICAL_GAUGES.overall.value} 
+                className="h-2"
+              />
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="text-center p-2 bg-red-50 rounded border border-red-200">
+                <div className="font-medium text-red-600">{TECHNICAL_GAUGES.overall.breakdown.bearish}</div>
+                <div className="text-red-600">Bearish</div>
+              </div>
+              <div className="text-center p-2 bg-yellow-50 rounded border border-yellow-200">
+                <div className="font-medium text-yellow-600">{TECHNICAL_GAUGES.overall.breakdown.neutral}</div>
+                <div className="text-yellow-600">Neutral</div>
+              </div>
+              <div className="text-center p-2 bg-green-50 rounded border border-green-200">
+                <div className="font-medium text-green-600">{TECHNICAL_GAUGES.overall.breakdown.bullish}</div>
+                <div className="text-green-600">Bullish</div>
               </div>
             </div>
           </div>
@@ -83,21 +144,40 @@ const TechnicalDashboard: React.FC = () => {
 
         {/* Moving Averages */}
         <Card className="p-6">
-          <div className="text-center space-y-4">
-            <h3 className="text-lg font-semibold">Moving Averages</h3>
-            <GaugeChart 
-              value={TECHNICAL_GAUGES.movingAverages.value} 
-              signal={TECHNICAL_GAUGES.movingAverages.signal}
-              size={160}
-            />
-            <div className="space-y-2">
-              <Badge className={getSignalColor(TECHNICAL_GAUGES.movingAverages.signal)}>
-                {getSignalText(TECHNICAL_GAUGES.movingAverages.signal)}
-              </Badge>
-              <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                <span>Bearish <span className="font-medium">{TECHNICAL_GAUGES.movingAverages.breakdown.bearish}</span></span>
-                <span>Neutral <span className="font-medium">{TECHNICAL_GAUGES.movingAverages.breakdown.neutral}</span></span>
-                <span>Bullish <span className="font-medium">{TECHNICAL_GAUGES.movingAverages.breakdown.bullish}</span></span>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Moving Averages</h3>
+              <div className="flex items-center gap-2">
+                {getSignalIcon(TECHNICAL_GAUGES.movingAverages.signal)}
+                <Badge className={getSignalColor(TECHNICAL_GAUGES.movingAverages.signal)}>
+                  {getSignalText(TECHNICAL_GAUGES.movingAverages.signal)}
+                </Badge>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>Signal Strength</span>
+                <span className="font-medium">{TECHNICAL_GAUGES.movingAverages.value}%</span>
+              </div>
+              <Progress 
+                value={TECHNICAL_GAUGES.movingAverages.value} 
+                className="h-2"
+              />
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="text-center p-2 bg-red-50 rounded border border-red-200">
+                <div className="font-medium text-red-600">{TECHNICAL_GAUGES.movingAverages.breakdown.bearish}</div>
+                <div className="text-red-600">Bearish</div>
+              </div>
+              <div className="text-center p-2 bg-yellow-50 rounded border border-yellow-200">
+                <div className="font-medium text-yellow-600">{TECHNICAL_GAUGES.movingAverages.breakdown.neutral}</div>
+                <div className="text-yellow-600">Neutral</div>
+              </div>
+              <div className="text-center p-2 bg-green-50 rounded border border-green-200">
+                <div className="font-medium text-green-600">{TECHNICAL_GAUGES.movingAverages.breakdown.bullish}</div>
+                <div className="text-green-600">Bullish</div>
               </div>
             </div>
           </div>
