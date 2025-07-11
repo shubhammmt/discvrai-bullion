@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -54,26 +55,19 @@ const NewsTimeline: React.FC = () => {
 
   return (
     <Card className="p-6">
-      {/* Header with Sentiment Summary */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-bold">News & Events</h2>
-          <div className="flex items-center gap-4 mt-2">
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                <TrendingUp className="h-4 w-4 text-green-500" />
-                <span className="text-sm text-green-600 font-medium">{NEWS_SENTIMENT_SUMMARY.positive} Positive</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Minus className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground font-medium">{NEWS_SENTIMENT_SUMMARY.neutral} Neutral</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <TrendingDown className="h-4 w-4 text-red-500" />
-                <span className="text-sm text-red-600 font-medium">{NEWS_SENTIMENT_SUMMARY.negative} Negative</span>
-              </div>
-            </div>
-          </div>
+      {/* Sentiment Summary */}
+      <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-2">
+          <TrendingUp className="h-4 w-4 text-green-500" />
+          <span className="text-sm text-green-600 font-medium">{NEWS_SENTIMENT_SUMMARY.positive} Positive</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Minus className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm text-muted-foreground font-medium">{NEWS_SENTIMENT_SUMMARY.neutral} Neutral</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <TrendingDown className="h-4 w-4 text-red-500" />
+          <span className="text-sm text-red-600 font-medium">{NEWS_SENTIMENT_SUMMARY.negative} Negative</span>
         </div>
       </div>
 

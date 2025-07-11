@@ -39,8 +39,6 @@ const AnalystConsensus: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold">Analyst Forecasts</h2>
-
       {/* Top Row - Key Metrics in Compact Cards */}
       <div className="grid gap-3 md:grid-cols-4">
         {/* Number of Analysts */}

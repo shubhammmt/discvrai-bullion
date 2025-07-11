@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -54,7 +55,6 @@ const ProjectionSection: React.FC = () => {
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <Crown className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-bold">Financial Projections</h2>
             <Badge className="bg-gradient-to-r from-primary to-primary/80 text-white">
               Premium
             </Badge>
@@ -93,7 +93,6 @@ const ProjectionSection: React.FC = () => {
     <Card className="p-6">
       <div className="flex items-center gap-2 mb-6">
         <Crown className="h-5 w-5 text-primary" />
-        <h2 className="text-xl font-bold">Financial Projections</h2>
         <Badge className="bg-gradient-to-r from-primary to-primary/80 text-white">
           Premium
         </Badge>

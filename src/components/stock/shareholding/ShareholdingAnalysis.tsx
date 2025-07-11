@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -58,7 +59,6 @@ const ShareholdingAnalysis: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
-        <h2 className="text-xl font-bold">Shareholdings</h2>
         <Info className="h-4 w-4 text-muted-foreground" />
       </div>
 
