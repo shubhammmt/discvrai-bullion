@@ -68,55 +68,104 @@ const InvestmentChecklist: React.FC = () => {
     return 'Risky';
   };
 
+  const getHealthLabelColor = (score: number) => {
+    if (score >= 70) return "bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400";
+    if (score >= 50) return "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400";
+    return "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400";
+  };
+
   return (
-    <Card className="p-6">
+    <Card className="p-3 sm:p-6">
       {/* Header with Health Score Bar */}
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <h2 className="text-xl font-bold">Investment Health Radar</h2>
-        
-        <div className="flex items-center gap-4 min-w-0 flex-1 max-w-md">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="relative flex-1 cursor-pointer">
-                  <Progress value={healthScore} className="h-3" />
-                  <div 
-                    className="absolute top-0 left-0 h-3 rounded-full transition-all duration-500"
-                    style={{ 
-                      width: `${healthScore}%`,
-                      background: `linear-gradient(90deg, 
-                        #ef4444 0%, 
-                        #f97316 25%, 
-                        #eab308 50%, 
-                        #84cc16 75%, 
-                        #22c55e 100%)`
-                    }}
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Investment health score for LODHA</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+      <div className="mb-4 sm:mb-6">
+        {/* Mobile Layout - Stacked */}
+        <div className="block sm:hidden space-y-3">
+          <h2 className="text-lg font-bold">Investment Health Radar</h2>
           
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <span className="font-medium text-foreground text-sm">{healthScore}/100</span>
-            <span className={cn(
-              "text-xs font-medium px-2 py-1 rounded-full",
-              healthScore >= 70 && "bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400",
-              healthScore >= 50 && healthScore < 70 && "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400",
-              healthScore < 50 && "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400"
-            )}>
-              {getHealthLabel(healthScore)}
-            </span>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-foreground text-sm">{healthScore}/100</span>
+              <span className={cn(
+                "text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap",
+                getHealthLabelColor(healthScore)
+              )}>
+                {getHealthLabel(healthScore)}
+              </span>
+            </div>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="relative cursor-pointer">
+                    <Progress value={healthScore} className="h-3" />
+                    <div 
+                      className="absolute top-0 left-0 h-3 rounded-full transition-all duration-500"
+                      style={{ 
+                        width: `${healthScore}%`,
+                        background: `linear-gradient(90deg, 
+                          #ef4444 0%, 
+                          #f97316 25%, 
+                          #eab308 50%, 
+                          #84cc16 75%, 
+                          #22c55e 100%)`
+                      }}
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Investment health score for LODHA</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+
+        {/* Desktop Layout - Horizontal */}
+        <div className="hidden sm:flex items-center justify-between gap-4">
+          <h2 className="text-xl font-bold">Investment Health Radar</h2>
+          
+          <div className="flex items-center gap-4 min-w-0 flex-1 max-w-md">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="relative flex-1 cursor-pointer">
+                    <Progress value={healthScore} className="h-3" />
+                    <div 
+                      className="absolute top-0 left-0 h-3 rounded-full transition-all duration-500"
+                      style={{ 
+                        width: `${healthScore}%`,
+                        background: `linear-gradient(90deg, 
+                          #ef4444 0%, 
+                          #f97316 25%, 
+                          #eab308 50%, 
+                          #84cc16 75%, 
+                          #22c55e 100%)`
+                      }}
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Investment health score for LODHA</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="font-medium text-foreground text-sm">{healthScore}/100</span>
+              <span className={cn(
+                "text-xs font-medium px-2 py-1 rounded-full",
+                getHealthLabelColor(healthScore)
+              )}>
+                {getHealthLabel(healthScore)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
         {INVESTMENT_CHECKLIST.map((item, index) => (
-          <div key={index} className="relative group h-40" style={{ perspective: '1000px' }}>
+          <div key={index} className="relative group h-32 sm:h-40" style={{ perspective: '1000px' }}>
             <div 
               className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]" 
               style={{ 
@@ -127,7 +176,7 @@ const InvestmentChecklist: React.FC = () => {
               {/* Front Side */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-4 pb-6 transition-all duration-200 hover:shadow-md cursor-pointer",
+                  "absolute inset-0 p-2 sm:p-4 pb-4 sm:pb-6 transition-all duration-200 hover:shadow-md cursor-pointer",
                   getStatusColor(item.score)
                 )}
                 style={{ 
@@ -137,13 +186,13 @@ const InvestmentChecklist: React.FC = () => {
               >
                 <div className="h-full flex flex-col items-center justify-between text-center">
                   {/* Category Icon */}
-                  <div className="text-2xl">{item.icon}</div>
+                  <div className="text-xl sm:text-2xl">{item.icon}</div>
                   
                   {/* Status Icon */}
                   <div>{getStatusIcon(item.score)}</div>
 
                   {/* Category */}
-                  <h3 className="font-medium text-sm text-foreground">
+                  <h3 className="font-medium text-xs sm:text-sm text-foreground leading-tight">
                     {item.category}
                   </h3>
 
@@ -151,7 +200,7 @@ const InvestmentChecklist: React.FC = () => {
                   <Badge 
                     variant="outline" 
                     className={cn(
-                      "text-xs font-medium px-2 py-1 text-center",
+                      "text-xs font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 text-center",
                       item.score === 'positive' && "border-green-300 text-green-700 dark:text-green-400",
                       item.score === 'negative' && "border-red-300 text-red-700 dark:text-red-400",
                       item.score === 'neutral' && "border-yellow-300 text-yellow-700 dark:text-yellow-400"
@@ -165,7 +214,7 @@ const InvestmentChecklist: React.FC = () => {
               {/* Back Side - Metrics */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-4 pb-6 cursor-pointer",
+                  "absolute inset-0 p-2 sm:p-4 pb-4 sm:pb-6 cursor-pointer",
                   getStatusColor(item.score)
                 )}
                 style={{ 
@@ -175,14 +224,14 @@ const InvestmentChecklist: React.FC = () => {
               >
                 <div className="h-full flex flex-col justify-between">
                   {/* Header */}
-                  <div className="text-center mb-3">
+                  <div className="text-center mb-2 sm:mb-3">
                     <h4 className="font-semibold text-xs text-foreground">
                       {item.category} Metrics
                     </h4>
                   </div>
 
                   {/* Metrics */}
-                  <div className="space-y-2 flex-1">
+                  <div className="space-y-1 sm:space-y-2 flex-1">
                     {item.metrics.map((metric, metricIndex) => (
                       <div key={metricIndex} className="flex items-center justify-between">
                         <span className="text-xs font-medium text-foreground truncate">
@@ -199,7 +248,7 @@ const InvestmentChecklist: React.FC = () => {
                   </div>
 
                   {/* Footer */}
-                  <div className="text-center mt-3">
+                  <div className="text-center mt-2 sm:mt-3">
                     <p className="text-xs text-muted-foreground">
                       Hover to see overview
                     </p>
