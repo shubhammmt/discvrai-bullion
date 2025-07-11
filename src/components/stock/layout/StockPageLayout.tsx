@@ -43,19 +43,32 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-10% 0px -70% 0px', // More precise detection
-      threshold: 0.3 // Require more of the section to be visible
+      rootMargin: '-20% 0px -60% 0px', // When section is 20% from top and 60% from bottom
+      threshold: 0.2
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      // Sort entries by their position on screen (top to bottom)
-      const sortedEntries = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      // Find all intersecting entries
+      const intersectingEntries = entries.filter(entry => entry.isIntersecting);
       
-      // Set active section to the topmost visible section
-      if (sortedEntries.length > 0) {
-        const sectionId = sortedEntries[0].target.id as TabType;
+      if (intersectingEntries.length > 0) {
+        // Sort by how much of each section is visible (intersection ratio)
+        // and by position (topmost first)
+        intersectingEntries.sort((a, b) => {
+          const aTop = a.boundingClientRect.top;
+          const bTop = b.boundingClientRect.top;
+          
+          // If both are above the viewport center, pick the one closest to center
+          // If both are below, pick the topmost one
+          if (aTop < window.innerHeight / 2 && bTop < window.innerHeight / 2) {
+            return Math.abs(aTop - window.innerHeight / 2) - Math.abs(bTop - window.innerHeight / 2);
+          }
+          
+          return aTop - bTop;
+        });
+        
+        const sectionId = intersectingEntries[0].target.id as TabType;
+        console.log('Setting active section to:', sectionId);
         setActiveSection(sectionId);
       }
     };
@@ -68,16 +81,6 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
         observer.observe(ref.current);
       }
     });
-
-    // Set initial state when component mounts
-    const checkInitialSection = () => {
-      const scrollPosition = window.scrollY;
-      if (scrollPosition < 200) { // If near top of page
-        setActiveSection('overview');
-      }
-    };
-    
-    checkInitialSection();
 
     return () => {
       observer.disconnect();
