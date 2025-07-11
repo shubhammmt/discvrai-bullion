@@ -54,14 +54,15 @@ const InvestmentChecklist: React.FC = () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {INVESTMENT_CHECKLIST.map((item, index) => (
-          <div key={index} className="relative group perspective-1000">
-            <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180">
+          <div key={index} className="relative group h-32" style={{ perspective: '1000px' }}>
+            <div className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
               {/* Front Side */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-4 transition-all duration-200 hover:shadow-md cursor-pointer backface-hidden",
+                  "absolute inset-0 p-4 transition-all duration-200 hover:shadow-md cursor-pointer",
                   getStatusColor(item.score)
                 )}
+                style={{ backfaceVisibility: 'hidden' }}
               >
                 <div className="text-center space-y-3 h-full">
                   {/* Category Icon */}
@@ -101,9 +102,13 @@ const InvestmentChecklist: React.FC = () => {
               {/* Back Side - Metrics */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-4 cursor-pointer backface-hidden rotate-y-180",
+                  "absolute inset-0 p-4 cursor-pointer",
                   getStatusColor(item.score)
                 )}
+                style={{ 
+                  backfaceVisibility: 'hidden', 
+                  transform: 'rotateY(180deg)' 
+                }}
               >
                 <div className="h-full flex flex-col justify-between">
                   {/* Header */}
@@ -163,24 +168,6 @@ const InvestmentChecklist: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        .transform-style-preserve-3d {
-          transform-style: preserve-3d;
-        }
-        .backface-hidden {
-          backface-visibility: hidden;
-        }
-        .rotate-y-180 {
-          transform: rotateY(180deg);
-        }
-        .group:hover .group-hover\\:rotate-y-180 {
-          transform: rotateY(180deg);
-        }
-      `}</style>
     </Card>
   );
 };
