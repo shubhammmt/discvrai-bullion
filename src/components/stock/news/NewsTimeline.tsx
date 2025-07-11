@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +11,7 @@ import { NEWS_MOCK_DATA, NEWS_CATEGORIES, NEWS_TIME_PERIODS, NEWS_SENTIMENT_SUMM
 const NewsTimeline: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPeriod, setSelectedPeriod] = useState('all');
+  const [showAll, setShowAll] = useState(false);
 
   const filteredNews = NEWS_MOCK_DATA.filter(item => {
     const categoryMatch = selectedCategory === 'all' || item.category === selectedCategory;
@@ -26,6 +28,10 @@ const NewsTimeline: React.FC = () => {
     
     return categoryMatch && periodMatch;
   });
+
+  // Sort by latest (lowest daysAgo first) and limit to 3 by default
+  const sortedNews = filteredNews.sort((a, b) => a.daysAgo - b.daysAgo);
+  const displayedNews = showAll ? sortedNews : sortedNews.slice(0, 3);
 
   const getSentimentIcon = (sentiment: string) => {
     switch (sentiment) {
@@ -55,56 +61,59 @@ const NewsTimeline: React.FC = () => {
 
   return (
     <Card className="p-6">
-      {/* Sentiment Summary */}
-      <div className="flex items-center gap-4 mb-6">
-        <div className="flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-green-500" />
-          <span className="text-sm text-green-600 font-medium">{NEWS_SENTIMENT_SUMMARY.positive} Positive</span>
+      {/* Header with Sentiment Summary and Filters */}
+      <div className="flex items-center justify-between mb-6">
+        {/* Left: Sentiment Summary */}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-green-500" />
+            <span className="text-sm text-green-600 font-medium">{NEWS_SENTIMENT_SUMMARY.positive} Positive</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Minus className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground font-medium">{NEWS_SENTIMENT_SUMMARY.neutral} Neutral</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <TrendingDown className="h-4 w-4 text-red-500" />
+            <span className="text-sm text-red-600 font-medium">{NEWS_SENTIMENT_SUMMARY.negative} Negative</span>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Minus className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground font-medium">{NEWS_SENTIMENT_SUMMARY.neutral} Neutral</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <TrendingDown className="h-4 w-4 text-red-500" />
-          <span className="text-sm text-red-600 font-medium">{NEWS_SENTIMENT_SUMMARY.negative} Negative</span>
-        </div>
-      </div>
 
-      {/* Filters */}
-      <div className="flex gap-4 mb-6">
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
-            {NEWS_CATEGORIES.map((category) => (
-              <SelectItem key={category.value} value={category.value}>
-                {category.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {/* Right: Filters */}
+        <div className="flex gap-3">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              {NEWS_CATEGORIES.map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-        <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Time Period" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Time</SelectItem>
-            {NEWS_TIME_PERIODS.map((period) => (
-              <SelectItem key={period.value} value={period.value} disabled={period.premium}>
-                {period.label} {period.premium && '(Premium)'}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Time Period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Time</SelectItem>
+              {NEWS_TIME_PERIODS.map((period) => (
+                <SelectItem key={period.value} value={period.value} disabled={period.premium}>
+                  {period.label} {period.premium && '(Premium)'}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* News Timeline */}
       <div className="space-y-4">
-        {filteredNews.map((item) => (
+        {displayedNews.map((item) => (
           <div key={item.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
             <div className="flex items-start gap-4">
               {/* Timeline dot */}
@@ -112,7 +121,7 @@ const NewsTimeline: React.FC = () => {
                 <div className={`p-2 rounded-full border ${getSentimentColor(item.sentiment)}`}>
                   {getCategoryIcon(item.category)}
                 </div>
-                {item !== filteredNews[filteredNews.length - 1] && (
+                {item !== displayedNews[displayedNews.length - 1] && (
                   <div className="w-px h-16 bg-border mt-2" />
                 )}
               </div>
@@ -165,6 +174,32 @@ const NewsTimeline: React.FC = () => {
         ))}
       </div>
 
+      {/* View More Button */}
+      {!showAll && sortedNews.length > 3 && (
+        <div className="text-center mt-6">
+          <Button 
+            variant="outline" 
+            onClick={() => setShowAll(true)}
+            className="px-6"
+          >
+            View More ({sortedNews.length - 3} more articles)
+          </Button>
+        </div>
+      )}
+
+      {/* Show Less Button */}
+      {showAll && sortedNews.length > 3 && (
+        <div className="text-center mt-6">
+          <Button 
+            variant="outline" 
+            onClick={() => setShowAll(false)}
+            className="px-6"
+          >
+            Show Less
+          </Button>
+        </div>
+      )}
+
       {filteredNews.length === 0 && (
         <div className="text-center py-8 text-muted-foreground">
           No news found for the selected filters.
@@ -175,3 +210,4 @@ const NewsTimeline: React.FC = () => {
 };
 
 export default NewsTimeline;
+
