@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Heart, Share2, Bell, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -30,9 +31,11 @@ const StockHeader: React.FC<StockHeaderProps> = ({ stockData }) => {
                 <h1 className="text-xl font-bold text-foreground lg:text-2xl">
                   {stockData.companyName}
                 </h1>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-sm text-muted-foreground">{stockData.symbol}</span>
                   <Badge variant="outline" className="text-xs">NSE</Badge>
+                  <Badge variant="secondary" className="text-xs">Realty</Badge>
+                  <Badge variant="outline" className="text-xs">Construction - Housing - Large</Badge>
                 </div>
               </div>
             </div>

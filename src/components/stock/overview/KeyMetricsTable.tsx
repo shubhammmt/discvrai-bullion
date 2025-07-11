@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,16 +9,8 @@ import { cn } from '@/lib/utils';
 const KeyMetricsTable: React.FC = () => {
   return (
     <div className="space-y-6">
-      {/* Sector Information */}
-      <div className="grid gap-4 md:grid-cols-5">
-        <div className="md:col-span-1">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Sector</h3>
-          <p className="text-base font-medium">Realty</p>
-        </div>
-        <div className="md:col-span-2">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Industry</h3>
-          <p className="text-base font-medium">Construction - Housing - Large</p>
-        </div>
+      {/* Market Cap and Volatility Information */}
+      <div className="grid gap-4 md:grid-cols-3">
         <div className="md:col-span-1">
           <h3 className="text-sm font-medium text-muted-foreground mb-2">Market Cap</h3>
           <p className="text-base font-medium">₹1,38,853 Cr</p>
