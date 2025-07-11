@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { 
@@ -24,7 +25,7 @@ interface TabItem {
 
 const tabs: TabItem[] = [
   { id: 'overview', label: 'At a Glance', icon: <BarChart3 className="h-4 w-4" /> },
-  { id: 'technicals', label: 'Charts', icon: <TrendingUp className="h-4 w-4" /> },
+  { id: 'technicals', label: 'Technicals', icon: <TrendingUp className="h-4 w-4" /> },
   { id: 'forecast', label: 'Targets', icon: <Target className="h-4 w-4" /> },
   { id: 'peers', label: 'Peers', icon: <Users className="h-4 w-4" /> },
   { id: 'financials', label: 'Financials', icon: <FileText className="h-4 w-4" /> },
