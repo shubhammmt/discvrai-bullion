@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { StockData } from '@/data/stockMockData';
 import StockHeader from './StockHeader';
@@ -117,9 +118,9 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           {/* Overview Section */}
           <section ref={sectionRefs.overview} id="overview" className="scroll-mt-32">
             <div className="space-y-6">
+              <CompanyOverviewCards />
               <InvestmentChecklist />
               <InteractivePriceChart symbol={symbol} />
-              <CompanyOverviewCards />
               <HistoricalGrowthMetrics />
               <KeyMetricsTable />
             </div>
