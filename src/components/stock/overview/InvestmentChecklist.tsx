@@ -45,9 +45,16 @@ const InvestmentChecklist: React.FC = () => {
   // Calculate cumulative health score
   const calculateHealthScore = () => {
     const scores = INVESTMENT_CHECKLIST.map(item => {
-      if (item.score === 'positive') return 85;
-      if (item.score === 'negative') return 25;
-      return 55; // neutral
+      switch (item.score) {
+        case 'positive':
+          return 85;
+        case 'negative':
+          return 25;
+        case 'neutral':
+          return 55;
+        default:
+          return 55;
+      }
     });
     
     return Math.round(scores.reduce((acc, score) => acc + score, 0) / scores.length);
