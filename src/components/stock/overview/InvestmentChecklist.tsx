@@ -3,6 +3,7 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { CheckCircle, AlertTriangle, XCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { INVESTMENT_CHECKLIST } from '@/data/stockMockData';
 import { cn } from '@/lib/utils';
@@ -56,12 +57,6 @@ const InvestmentChecklist: React.FC = () => {
 
   const healthScore = calculateHealthScore();
 
-  const getHealthColor = (score: number) => {
-    if (score >= 70) return 'bg-green-500';
-    if (score >= 50) return 'bg-orange-500';
-    return 'bg-red-500';
-  };
-
   const getHealthLabel = (score: number) => {
     if (score >= 70) return 'Healthy';
     if (score >= 50) return 'Moderate';
@@ -70,8 +65,48 @@ const InvestmentChecklist: React.FC = () => {
 
   return (
     <Card className="p-6">
-      <div className="mb-6">
+      {/* Header with Health Score Bar */}
+      <div className="mb-6 flex items-center justify-between gap-4">
         <h2 className="text-xl font-bold">Investment Health Radar</h2>
+        
+        <div className="flex items-center gap-4 min-w-0 flex-1 max-w-md">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="relative flex-1 cursor-pointer">
+                  <Progress value={healthScore} className="h-3" />
+                  <div 
+                    className="absolute top-0 left-0 h-3 rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${healthScore}%`,
+                      background: `linear-gradient(90deg, 
+                        #ef4444 0%, 
+                        #f97316 25%, 
+                        #eab308 50%, 
+                        #84cc16 75%, 
+                        #22c55e 100%)`
+                    }}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Investment health score for LODHA</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className="font-medium text-foreground text-sm">{healthScore}/100</span>
+            <span className={cn(
+              "text-xs font-medium px-2 py-1 rounded-full",
+              healthScore >= 70 && "bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400",
+              healthScore >= 50 && healthScore < 70 && "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400",
+              healthScore < 50 && "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400"
+            )}>
+              {getHealthLabel(healthScore)}
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
@@ -169,46 +204,6 @@ const InvestmentChecklist: React.FC = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Health Score Bar */}
-      <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Investment Health Score:</span>
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-foreground">{healthScore}/100</span>
-              <span className={cn(
-                "text-xs font-medium px-2 py-1 rounded-full",
-                healthScore >= 70 && "bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400",
-                healthScore >= 50 && healthScore < 70 && "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400",
-                healthScore < 50 && "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400"
-              )}>
-                {getHealthLabel(healthScore)}
-              </span>
-            </div>
-          </div>
-          
-          <div className="relative">
-            <Progress 
-              value={healthScore} 
-              className="h-3"
-            />
-            <div 
-              className={cn(
-                "absolute top-0 left-0 h-3 rounded-full transition-all duration-500",
-                getHealthColor(healthScore)
-              )}
-              style={{ width: `${healthScore}%` }}
-            />
-          </div>
-          
-          <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Risky</span>
-            <span>Moderate</span>
-            <span>Healthy</span>
-          </div>
-        </div>
       </div>
     </Card>
   );
