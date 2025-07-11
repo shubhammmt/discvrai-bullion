@@ -111,7 +111,7 @@ const InvestmentChecklist: React.FC = () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {INVESTMENT_CHECKLIST.map((item, index) => (
-          <div key={index} className="relative group h-32" style={{ perspective: '1000px' }}>
+          <div key={index} className="relative group h-40" style={{ perspective: '1000px' }}>
             <div 
               className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]" 
               style={{ 
@@ -122,7 +122,7 @@ const InvestmentChecklist: React.FC = () => {
               {/* Front Side */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-3 transition-all duration-200 hover:shadow-md cursor-pointer",
+                  "absolute inset-0 p-4 pb-6 transition-all duration-200 hover:shadow-md cursor-pointer",
                   getStatusColor(item.score)
                 )}
                 style={{ 
@@ -160,7 +160,7 @@ const InvestmentChecklist: React.FC = () => {
               {/* Back Side - Metrics */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-4 cursor-pointer",
+                  "absolute inset-0 p-4 pb-6 cursor-pointer",
                   getStatusColor(item.score)
                 )}
                 style={{ 
@@ -194,7 +194,7 @@ const InvestmentChecklist: React.FC = () => {
                   </div>
 
                   {/* Footer */}
-                  <div className="text-center mt-2">
+                  <div className="text-center mt-3">
                     <p className="text-xs text-muted-foreground">
                       Hover to see overview
                     </p>
