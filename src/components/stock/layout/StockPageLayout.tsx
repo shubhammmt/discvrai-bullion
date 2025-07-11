@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import { StockData } from '@/data/stockMockData';
 import StockHeader from './StockHeader';
 import StockTabNavigation from './StockTabNavigation';
@@ -24,46 +25,32 @@ interface StockPageLayoutProps {
 export type TabType = 'overview' | 'technicals' | 'forecast' | 'peers' | 'financials' | 'shareholdings' | 'projection' | 'news';
 
 const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [activeSection, setActiveSection] = useState<TabType>('overview');
+  
+  // Create refs for each section
+  const sectionRefs = {
+    overview: useRef<HTMLDivElement>(null),
+    technicals: useRef<HTMLDivElement>(null),
+    forecast: useRef<HTMLDivElement>(null),
+    peers: useRef<HTMLDivElement>(null),
+    financials: useRef<HTMLDivElement>(null),
+    shareholdings: useRef<HTMLDivElement>(null),
+    projection: useRef<HTMLDivElement>(null),
+    news: useRef<HTMLDivElement>(null)
+  };
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 'overview':
-        return (
-          <div className="space-y-6">
-            <InvestmentChecklist />
-            <InteractivePriceChart symbol={symbol} />
-            <CompanyOverviewCards />
-            <HistoricalGrowthMetrics />
-            <KeyMetricsTable />
-            <ResearchSharing />
-          </div>
-        );
-      case 'technicals':
-        return <TechnicalDashboard />;
-      case 'forecast':
-        return <AnalystConsensus />;
-      case 'peers':
-        return <PeerComparisonTable />;
-      case 'financials':
-        return <FinancialStatementsView />;
-      case 'shareholdings':
-        return <ShareholdingAnalysis />;
-      case 'projection':
-        return <ProjectionSection />;
-      case 'news':
-        return <NewsTimeline />;
-      default:
-        return (
-          <div className="space-y-6">
-            <InvestmentChecklist />
-            <InteractivePriceChart symbol={symbol} />
-            <CompanyOverviewCards />
-            <HistoricalGrowthMetrics />
-            <KeyMetricsTable />
-            <ResearchSharing />
-          </div>
-        );
+  const scrollToSection = (section: TabType) => {
+    setActiveSection(section);
+    const element = sectionRefs[section].current;
+    if (element) {
+      const headerOffset = 140; // Account for sticky header and navigation
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -72,13 +59,88 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
       {/* Stock Price Header */}
       <StockHeader stockData={stockData} />
       
-      {/* Tab Navigation */}
-      <StockTabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+      {/* Section Navigation */}
+      <StockTabNavigation activeTab={activeSection} onTabChange={scrollToSection} />
       
-      {/* Main Content */}
+      {/* Main Content - Single Scrollable Page */}
       <div className="container mx-auto px-4 py-6 lg:px-6">
-        <div className="animate-fade-in">
-          {renderTabContent()}
+        <div className="space-y-12">
+          
+          {/* Override Section */}
+          <section ref={sectionRefs.overview} id="overview" className="scroll-mt-32">
+            <div className="space-y-6">
+              <InvestmentChecklist />
+              <InteractivePriceChart symbol={symbol} />
+              <CompanyOverviewCards />
+              <HistoricalGrowthMetrics />
+              <KeyMetricsTable />
+              <ResearchSharing />
+            </div>
+          </section>
+
+          {/* Technicals Section */}
+          <section ref={sectionRefs.technicals} id="technicals" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">Technical Analysis</h2>
+              <p className="text-muted-foreground">Chart patterns, indicators, and technical signals</p>
+            </div>
+            <TechnicalDashboard />
+          </section>
+
+          {/* Forecast Section */}
+          <section ref={sectionRefs.forecast} id="forecast" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">Analyst Forecast</h2>
+              <p className="text-muted-foreground">Price targets and analyst recommendations</p>
+            </div>
+            <AnalystConsensus />
+          </section>
+
+          {/* Peers Section */}
+          <section ref={sectionRefs.peers} id="peers" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">Peer Comparison</h2>
+              <p className="text-muted-foreground">Compare with industry peers and competitors</p>
+            </div>
+            <PeerComparisonTable />
+          </section>
+
+          {/* Financials Section */}
+          <section ref={sectionRefs.financials} id="financials" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">Financial Statements</h2>
+              <p className="text-muted-foreground">Income statement, balance sheet, and cash flow</p>
+            </div>
+            <FinancialStatementsView />
+          </section>
+
+          {/* Shareholdings Section */}
+          <section ref={sectionRefs.shareholdings} id="shareholdings" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">Shareholding Pattern</h2>
+              <p className="text-muted-foreground">Institutional and promoter holdings analysis</p>
+            </div>
+            <ShareholdingAnalysis />
+          </section>
+
+          {/* Projection Section */}
+          <section ref={sectionRefs.projection} id="projection" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">Financial Projections</h2>
+              <p className="text-muted-foreground">Future earnings and revenue projections</p>
+            </div>
+            <ProjectionSection />
+          </section>
+
+          {/* News Section */}
+          <section ref={sectionRefs.news} id="news" className="scroll-mt-32">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">News & Events</h2>
+              <p className="text-muted-foreground">Latest news, events, and market updates</p>
+            </div>
+            <NewsTimeline />
+          </section>
+
         </div>
       </div>
     </div>
