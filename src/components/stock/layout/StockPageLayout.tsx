@@ -125,7 +125,6 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
               <CompanyOverviewCards />
               <HistoricalGrowthMetrics />
               <KeyMetricsTable />
-              <ResearchSharing />
             </div>
           </section>
 
@@ -191,6 +190,11 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
             </div>
             <NewsTimeline />
           </section>
+
+          {/* Share Research & Community - Last Component */}
+          <div className="pt-6 border-t">
+            <ResearchSharing />
+          </div>
 
         </div>
       </div>
