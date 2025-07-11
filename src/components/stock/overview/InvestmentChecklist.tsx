@@ -92,7 +92,7 @@ const InvestmentChecklist: React.FC = () => {
                 )}
                 style={{ backfaceVisibility: 'hidden' }}
               >
-                <div className="text-center space-y-3 h-full">
+                <div className="text-center space-y-3 h-full flex flex-col justify-between">
                   {/* Category Icon */}
                   <div className="flex justify-center">
                     <div className="text-2xl">{item.icon}</div>
@@ -110,8 +110,8 @@ const InvestmentChecklist: React.FC = () => {
                     </h3>
                   </div>
 
-                  {/* Status */}
-                  <div>
+                  {/* Status Badge - Fixed alignment */}
+                  <div className="flex justify-center">
                     <Badge 
                       variant="outline" 
                       className={cn(
