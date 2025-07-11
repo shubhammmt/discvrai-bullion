@@ -43,32 +43,36 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -60% 0px', // When section is 20% from top and 60% from bottom
-      threshold: 0.2
+      rootMargin: '-50px 0px -50px 0px', // Small margin to avoid rapid switching
+      threshold: 0.1
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      // Find all intersecting entries
       const intersectingEntries = entries.filter(entry => entry.isIntersecting);
       
       if (intersectingEntries.length > 0) {
-        // Sort by how much of each section is visible (intersection ratio)
-        // and by position (topmost first)
-        intersectingEntries.sort((a, b) => {
-          const aTop = a.boundingClientRect.top;
-          const bTop = b.boundingClientRect.top;
+        // Find the section that's most prominently visible
+        let mostVisible = intersectingEntries[0];
+        let maxVisibility = 0;
+        
+        intersectingEntries.forEach(entry => {
+          const rect = entry.boundingClientRect;
+          const viewportHeight = window.innerHeight;
           
-          // If both are above the viewport center, pick the one closest to center
-          // If both are below, pick the topmost one
-          if (aTop < window.innerHeight / 2 && bTop < window.innerHeight / 2) {
-            return Math.abs(aTop - window.innerHeight / 2) - Math.abs(bTop - window.innerHeight / 2);
+          // Calculate how much of the section is visible in the viewport
+          const visibleTop = Math.max(0, rect.top);
+          const visibleBottom = Math.min(viewportHeight, rect.bottom);
+          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+          const visibilityRatio = visibleHeight / viewportHeight;
+          
+          if (visibilityRatio > maxVisibility) {
+            maxVisibility = visibilityRatio;
+            mostVisible = entry;
           }
-          
-          return aTop - bTop;
         });
         
-        const sectionId = intersectingEntries[0].target.id as TabType;
-        console.log('Setting active section to:', sectionId);
+        const sectionId = mostVisible.target.id as TabType;
+        console.log('Setting active section to:', sectionId, 'visibility:', maxVisibility);
         setActiveSection(sectionId);
       }
     };
