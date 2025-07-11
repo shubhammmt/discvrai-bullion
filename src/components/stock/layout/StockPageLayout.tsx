@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import { StockData } from '@/data/stockMockData';
 import StockHeader from './StockHeader';
@@ -93,7 +91,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
   const scrollToSection = (section: TabType) => {
     const element = sectionRefs[section].current;
     if (element) {
-      const headerOffset = 180; // Account for sticky header and navigation
+      const headerOffset = 140; // Account for sticky tab navigation only
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -117,7 +115,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
         <div className="space-y-12">
           
           {/* Overview Section */}
-          <section ref={sectionRefs.overview} id="overview" className="scroll-mt-44">
+          <section ref={sectionRefs.overview} id="overview" className="scroll-mt-32">
             <div className="space-y-6">
               <CompanyOverviewCards />
               <InvestmentChecklist />
@@ -128,7 +126,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           </section>
 
           {/* Technicals Section */}
-          <section ref={sectionRefs.technicals} id="technicals" className="scroll-mt-44">
+          <section ref={sectionRefs.technicals} id="technicals" className="scroll-mt-32">
             <div className="mb-6">
               <h2 className="text-2xl font-bold">Technical Analysis</h2>
               <p className="text-muted-foreground">Chart patterns, indicators, and technical signals</p>
@@ -137,7 +135,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           </section>
 
           {/* Forecast Section */}
-          <section ref={sectionRefs.forecast} id="forecast" className="scroll-mt-44">
+          <section ref={sectionRefs.forecast} id="forecast" className="scroll-mt-32">
             <div className="mb-6">
               <h2 className="text-2xl font-bold">Analyst Forecast</h2>
               <p className="text-muted-foreground">Price targets and analyst recommendations</p>
@@ -146,7 +144,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           </section>
 
           {/* Peers Section */}
-          <section ref={sectionRefs.peers} id="peers" className="scroll-mt-44">
+          <section ref={sectionRefs.peers} id="peers" className="scroll-mt-32">
             <div className="mb-6">
               <h2 className="text-2xl font-bold">Peer Comparison</h2>
               <p className="text-muted-foreground">Compare with industry peers and competitors</p>
@@ -155,7 +153,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           </section>
 
           {/* Financials Section */}
-          <section ref={sectionRefs.financials} id="financials" className="scroll-mt-44">
+          <section ref={sectionRefs.financials} id="financials" className="scroll-mt-32">
             <div className="mb-6">
               <h2 className="text-2xl font-bold">Financial Statements</h2>
               <p className="text-muted-foreground">Income statement, balance sheet, and cash flow</p>
@@ -164,7 +162,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           </section>
 
           {/* Shareholdings Section */}
-          <section ref={sectionRefs.shareholdings} id="shareholdings" className="scroll-mt-44">
+          <section ref={sectionRefs.shareholdings} id="shareholdings" className="scroll-mt-32">
             <div className="mb-6">
               <h2 className="text-2xl font-bold">Shareholding Pattern</h2>
               <p className="text-muted-foreground">Institutional and promoter holdings analysis</p>
@@ -173,7 +171,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           </section>
 
           {/* News Section */}
-          <section ref={sectionRefs.news} id="news" className="scroll-mt-44">
+          <section ref={sectionRefs.news} id="news" className="scroll-mt-32">
             <div className="mb-6">
               <h2 className="text-2xl font-bold">News & Events</h2>
               <p className="text-muted-foreground">Latest news, events, and market updates</p>
