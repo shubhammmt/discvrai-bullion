@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { StockData } from '@/data/stockMockData';
 import StockHeader from './StockHeader';
@@ -14,7 +13,6 @@ import AnalystConsensus from '@/components/stock/forecast/AnalystConsensus';
 import PeerComparisonTable from '@/components/stock/peers/PeerComparisonTable';
 import FinancialStatementsView from '@/components/stock/financials/FinancialStatementsView';
 import ShareholdingAnalysis from '@/components/stock/shareholding/ShareholdingAnalysis';
-import ProjectionSection from '@/components/stock/projections/ProjectionSection';
 import NewsTimeline from '@/components/stock/news/NewsTimeline';
 
 interface StockPageLayoutProps {
@@ -22,7 +20,7 @@ interface StockPageLayoutProps {
   stockData: StockData;
 }
 
-export type TabType = 'overview' | 'technicals' | 'forecast' | 'peers' | 'financials' | 'shareholdings' | 'projection' | 'news';
+export type TabType = 'overview' | 'technicals' | 'forecast' | 'peers' | 'financials' | 'shareholdings' | 'news';
 
 const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) => {
   const [activeSection, setActiveSection] = useState<TabType>('overview');
@@ -35,7 +33,6 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
     peers: useRef<HTMLDivElement>(null),
     financials: useRef<HTMLDivElement>(null),
     shareholdings: useRef<HTMLDivElement>(null),
-    projection: useRef<HTMLDivElement>(null),
     news: useRef<HTMLDivElement>(null)
   };
 
@@ -171,15 +168,6 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
               <p className="text-muted-foreground">Institutional and promoter holdings analysis</p>
             </div>
             <ShareholdingAnalysis />
-          </section>
-
-          {/* Projection Section */}
-          <section ref={sectionRefs.projection} id="projection" className="scroll-mt-32">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold">Financial Projections</h2>
-              <p className="text-muted-foreground">Future earnings and revenue projections</p>
-            </div>
-            <ProjectionSection />
           </section>
 
           {/* News Section */}

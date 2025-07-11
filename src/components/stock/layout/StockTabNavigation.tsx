@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { 
@@ -8,7 +7,6 @@ import {
   Users, 
   FileText, 
   PieChart, 
-  Presentation, 
   Newspaper 
 } from 'lucide-react';
 import { TabType } from './StockPageLayout';
@@ -31,7 +29,6 @@ const tabs: TabItem[] = [
   { id: 'peers', label: 'Peers', icon: <Users className="h-4 w-4" /> },
   { id: 'financials', label: 'Financials', icon: <FileText className="h-4 w-4" /> },
   { id: 'shareholdings', label: 'Shareholdings', icon: <PieChart className="h-4 w-4" /> },
-  { id: 'projection', label: 'Projection', icon: <Presentation className="h-4 w-4" /> },
   { id: 'news', label: 'News', icon: <Newspaper className="h-4 w-4" /> }
 ];
 
