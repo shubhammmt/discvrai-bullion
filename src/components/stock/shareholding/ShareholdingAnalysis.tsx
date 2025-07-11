@@ -58,121 +58,125 @@ const ShareholdingAnalysis: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Info className="h-4 w-4 text-muted-foreground" />
-      </div>
-
-      {/* Shareholding Pattern & Promoters Holding */}
+      {/* Shareholding Pattern & Promoters Holding - More Compact */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Shareholding Pattern */}
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-6 text-center">Shareholding Pattern</h3>
+        <Card className="p-4">
+          <h3 className="text-lg font-semibold mb-4 text-center">Shareholding Pattern</h3>
           
-          <div className="flex items-center justify-center mb-6">
-            <div className="relative">
-              <ResponsiveContainer width={200} height={200}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<CustomPieTooltip />} />
-                </PieChart>
-              </ResponsiveContainer>
-              
-              {/* Center Logo */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground text-xl font-bold">
-                  L
+          <div className="flex items-center justify-between gap-4">
+            {/* Compact Chart */}
+            <div className="flex-shrink-0">
+              <div className="relative">
+                <ResponsiveContainer width={120} height={120}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={25}
+                      outerRadius={50}
+                      dataKey="value"
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip content={<CustomPieTooltip />} />
+                  </PieChart>
+                </ResponsiveContainer>
+                
+                {/* Center Logo */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
+                    L
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="space-y-3">
-            {SHAREHOLDING_PATTERN.map((item, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div 
-                    className="w-4 h-4 rounded" 
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="font-medium">{item.category}</span>
+            {/* Legend */}
+            <div className="space-y-2 flex-1">
+              {SHAREHOLDING_PATTERN.map((item, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded" 
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-sm font-medium">{item.category}</span>
+                  </div>
+                  <span className="text-sm font-bold">{item.percentage.toFixed(2)}%</span>
                 </div>
-                <span className="font-bold">{item.percentage.toFixed(2)}%</span>
-              </div>
-            ))}
-            <div className="border-t border-border pt-2 mt-4">
-              <div className="flex items-center justify-between font-bold">
-                <span>Total</span>
-                <span>100.00%</span>
+              ))}
+              <div className="border-t border-border pt-2 mt-2">
+                <div className="flex items-center justify-between font-bold text-sm">
+                  <span>Total</span>
+                  <span>100.00%</span>
+                </div>
               </div>
             </div>
           </div>
         </Card>
 
         {/* Promoters Holding */}
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-6 text-center">Promoters Holding</h3>
+        <Card className="p-4">
+          <h3 className="text-lg font-semibold mb-4 text-center">Promoters Holding</h3>
           
-          <div className="flex items-center justify-center mb-6">
-            <div className="relative">
-              <ResponsiveContainer width={200} height={200}>
-                <PieChart>
-                  <Pie
-                    data={promotersData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    dataKey="value"
-                    startAngle={90}
-                    endAngle={450}
-                  >
-                    {promotersData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<CustomPieTooltip />} />
-                </PieChart>
-              </ResponsiveContainer>
-              
-              {/* Center Logo */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground text-xl font-bold">
-                  L
+          <div className="flex items-center justify-between gap-4">
+            {/* Compact Chart */}
+            <div className="flex-shrink-0">
+              <div className="relative">
+                <ResponsiveContainer width={120} height={120}>
+                  <PieChart>
+                    <Pie
+                      data={promotersData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={25}
+                      outerRadius={50}
+                      dataKey="value"
+                      startAngle={90}
+                      endAngle={450}
+                    >
+                      {promotersData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip content={<CustomPieTooltip />} />
+                  </PieChart>
+                </ResponsiveContainer>
+                
+                {/* Center Logo */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
+                    L
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded bg-blue-600" />
-                <span className="font-medium">Unpledged Holding</span>
+            {/* Legend */}
+            <div className="space-y-2 flex-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded bg-blue-600" />
+                  <span className="text-sm font-medium">Unpledged Holding</span>
+                </div>
+                <span className="text-sm font-bold">{PROMOTERS_HOLDING.unpledged.toFixed(2)}%</span>
               </div>
-              <span className="font-bold">{PROMOTERS_HOLDING.unpledged.toFixed(2)}%</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded bg-orange-500" />
-                <span className="font-medium">Pledged Holding</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded bg-orange-500" />
+                  <span className="text-sm font-medium">Pledged Holding</span>
+                </div>
+                <span className="text-sm font-bold">{PROMOTERS_HOLDING.pledged.toFixed(2)}%</span>
               </div>
-              <span className="font-bold">{PROMOTERS_HOLDING.pledged.toFixed(2)}%</span>
-            </div>
-            <div className="border-t border-border pt-2 mt-4">
-              <div className="flex items-center justify-between font-bold">
-                <span>Total</span>
-                <span>{PROMOTERS_HOLDING.total.toFixed(2)}%</span>
+              <div className="border-t border-border pt-2 mt-2">
+                <div className="flex items-center justify-between font-bold text-sm">
+                  <span>Total</span>
+                  <span>{PROMOTERS_HOLDING.total.toFixed(2)}%</span>
+                </div>
               </div>
             </div>
           </div>
