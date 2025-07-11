@@ -9,18 +9,6 @@ import { cn } from '@/lib/utils';
 const KeyMetricsTable: React.FC = () => {
   return (
     <div className="space-y-6">
-      {/* Market Cap and Volatility Information */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="md:col-span-1">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Market Cap</h3>
-          <p className="text-base font-medium">₹1,38,853 Cr</p>
-        </div>
-        <div className="md:col-span-1">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Volatility</h3>
-          <Badge variant="outline" className="text-red-600 border-red-200">High Risk</Badge>
-        </div>
-      </div>
-
       {/* Financial Ratios Grid */}
       <Card className="p-6">
         <h2 className="text-xl font-bold mb-6">Key Financial Ratios</h2>
