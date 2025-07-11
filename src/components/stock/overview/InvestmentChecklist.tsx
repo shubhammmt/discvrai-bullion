@@ -3,7 +3,7 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle, AlertTriangle, XCircle, HelpCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { INVESTMENT_CHECKLIST } from '@/data/stockMockData';
 import { cn } from '@/lib/utils';
 
@@ -70,60 +70,55 @@ const InvestmentChecklist: React.FC = () => {
 
   return (
     <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6">
         <h2 className="text-xl font-bold">Investment Health Radar</h2>
-        <div className="flex items-center gap-2">
-          <HelpCircle className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm text-primary cursor-pointer hover:underline">
-            How to read checklist?
-          </span>
-        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {INVESTMENT_CHECKLIST.map((item, index) => (
           <div key={index} className="relative group h-32" style={{ perspective: '1000px' }}>
-            <div className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
+            <div 
+              className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]" 
+              style={{ 
+                transformStyle: 'preserve-3d',
+                backfaceVisibility: 'hidden'
+              }}
+            >
               {/* Front Side */}
               <Card 
                 className={cn(
-                  "absolute inset-0 p-4 transition-all duration-200 hover:shadow-md cursor-pointer",
+                  "absolute inset-0 p-3 transition-all duration-200 hover:shadow-md cursor-pointer",
                   getStatusColor(item.score)
                 )}
-                style={{ backfaceVisibility: 'hidden' }}
+                style={{ 
+                  backfaceVisibility: 'hidden',
+                  transform: 'rotateY(0deg)'
+                }}
               >
-                <div className="text-center space-y-3 h-full flex flex-col justify-between">
+                <div className="h-full flex flex-col items-center justify-between text-center">
                   {/* Category Icon */}
-                  <div className="flex justify-center">
-                    <div className="text-2xl">{item.icon}</div>
-                  </div>
+                  <div className="text-2xl">{item.icon}</div>
                   
                   {/* Status Icon */}
-                  <div className="flex justify-center">
-                    {getStatusIcon(item.score)}
-                  </div>
+                  <div>{getStatusIcon(item.score)}</div>
 
                   {/* Category */}
-                  <div>
-                    <h3 className="font-medium text-sm text-foreground">
-                      {item.category}
-                    </h3>
-                  </div>
+                  <h3 className="font-medium text-sm text-foreground">
+                    {item.category}
+                  </h3>
 
-                  {/* Status Badge - Fixed alignment */}
-                  <div className="flex justify-center">
-                    <Badge 
-                      variant="outline" 
-                      className={cn(
-                        "text-xs font-medium px-2 py-1",
-                        item.score === 'positive' && "border-green-300 text-green-700 dark:text-green-400",
-                        item.score === 'negative' && "border-red-300 text-red-700 dark:text-red-400",
-                        item.score === 'neutral' && "border-yellow-300 text-yellow-700 dark:text-yellow-400"
-                      )}
-                    >
-                      {item.status}
-                    </Badge>
-                  </div>
+                  {/* Status Badge - Properly centered */}
+                  <Badge 
+                    variant="outline" 
+                    className={cn(
+                      "text-xs font-medium px-2 py-1 text-center",
+                      item.score === 'positive' && "border-green-300 text-green-700 dark:text-green-400",
+                      item.score === 'negative' && "border-red-300 text-red-700 dark:text-red-400",
+                      item.score === 'neutral' && "border-yellow-300 text-yellow-700 dark:text-yellow-400"
+                    )}
+                  >
+                    {item.status}
+                  </Badge>
                 </div>
               </Card>
 
