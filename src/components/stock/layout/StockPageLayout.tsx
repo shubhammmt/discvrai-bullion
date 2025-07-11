@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StockData } from '@/data/stockMockData';
 import StockHeader from './StockHeader';
 import StockTabNavigation from './StockTabNavigation';
@@ -39,8 +39,38 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
     news: useRef<HTMLDivElement>(null)
   };
 
+  // Intersection Observer to track which section is in view
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Trigger when section is 20% from top
+      threshold: 0.1
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id as TabType;
+          setActiveSection(sectionId);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    Object.values(sectionRefs).forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const scrollToSection = (section: TabType) => {
-    setActiveSection(section);
     const element = sectionRefs[section].current;
     if (element) {
       const headerOffset = 140; // Account for sticky header and navigation
@@ -66,7 +96,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
       <div className="container mx-auto px-4 py-6 lg:px-6">
         <div className="space-y-12">
           
-          {/* Override Section */}
+          {/* Overview Section */}
           <section ref={sectionRefs.overview} id="overview" className="scroll-mt-32">
             <div className="space-y-6">
               <InvestmentChecklist />
