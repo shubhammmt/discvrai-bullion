@@ -18,6 +18,7 @@ import { TeamBreakdownSlide } from './TeamBreakdownSlide';
 import { TeamSlide } from './TeamSlide';
 import { CompetitionSlide } from './CompetitionSlide';
 import { TechFoundationSlide } from './TechFoundationSlide';
+import { MarketSlide } from './MarketSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -59,6 +60,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <TeamBreakdownSlide slide={slide} />;
     case 'team':
       return <TeamSlide slide={slide} />;
+    case 'market':
+      return <MarketSlide slide={slide} />;
     case 'tech-foundation':
       return <TechFoundationSlide slide={slide} />;
     default:

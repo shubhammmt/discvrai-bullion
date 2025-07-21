@@ -14,6 +14,14 @@ interface TeamSlideProps {
       experience: string;
     }>;
     keyHires: string[];
+    funding?: {
+      amount: string;
+      runway: string;
+      useOfFunds: Array<{
+        category: string;
+        percentage: string;
+      }>;
+    };
     executionMilestones: string[];
   };
 }
@@ -56,6 +64,28 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
           </Card>
         ))}
       </div>
+
+      {/* Funding Ask */}
+      {slide.funding && (
+        <Card className="p-6 mb-6 border-2 border-purple-200 bg-purple-50">
+          <CardContent>
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-purple-600 mb-2">
+                Funding Ask: {slide.funding.amount}
+              </h3>
+              <p className="text-gray-600">{slide.funding.runway} runway to achieve milestones</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {slide.funding.useOfFunds.map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-lg font-bold text-purple-600">{item.percentage}</div>
+                  <div className="text-sm text-gray-700">{item.category}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Key Hires & Execution */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

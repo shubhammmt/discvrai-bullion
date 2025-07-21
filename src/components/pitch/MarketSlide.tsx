@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -7,20 +6,20 @@ interface MarketSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
-    marketData: Array<{
-      amount: string;
-      label: string;
-      description: string;
-    }>;
-    samSomBreakdown?: {
-      title: string;
-      breakdown: Array<{
-        metric: string;
-        value: string;
-        description: string;
-        percentage: string;
-      }>;
+    marketSize: {
+      tam: string;
+      tamDetails: string;
+      sam: string;
+      samDetails: string;
+      som: string;
+      somDetails: string;
     };
+    traction: Array<{
+      metric: string;
+      value: string;
+      growth: string;
+    }>;
+    competitors: string[];
   };
 }
 
@@ -30,44 +29,71 @@ export const MarketSlide: React.FC<MarketSlideProps> = ({ slide }) => {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <IconComponent className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+        <IconComponent className="w-16 h-16 mx-auto mb-4 text-green-600" />
         <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
-      
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-        {slide.marketData.map((data, index) => (
-          <Card key={index} className="text-center p-6">
-            <CardContent className="space-y-4">
-              <div className="text-3xl font-bold text-blue-600">{data.amount}</div>
-              <div className="text-lg font-semibold">{data.label}</div>
-              <div className="text-sm text-gray-600">{data.description}</div>
-            </CardContent>
-          </Card>
-        ))}
+
+      {/* Market Size */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <Card className="p-6 text-center border-2 border-green-200">
+          <CardContent className="space-y-2">
+            <div className="text-2xl font-bold text-green-600">{slide.marketSize.tam}</div>
+            <div className="text-lg font-semibold text-gray-800">TAM</div>
+            <div className="text-sm text-gray-600">{slide.marketSize.tamDetails}</div>
+          </CardContent>
+        </Card>
+        <Card className="p-6 text-center border-2 border-blue-200">
+          <CardContent className="space-y-2">
+            <div className="text-2xl font-bold text-blue-600">{slide.marketSize.sam}</div>
+            <div className="text-lg font-semibold text-gray-800">SAM</div>
+            <div className="text-sm text-gray-600">{slide.marketSize.samDetails}</div>
+          </CardContent>
+        </Card>
+        <Card className="p-6 text-center border-2 border-purple-200">
+          <CardContent className="space-y-2">
+            <div className="text-2xl font-bold text-purple-600">{slide.marketSize.som}</div>
+            <div className="text-lg font-semibold text-gray-800">SOM</div>
+            <div className="text-sm text-gray-600">{slide.marketSize.somDetails}</div>
+          </CardContent>
+        </Card>
       </div>
 
-      {slide.samSomBreakdown && (
-        <div className="mt-8">
-          <h3 className="text-2xl font-bold text-center mb-6">{slide.samSomBreakdown.title}</h3>
-          <div className="space-y-4">
-            {slide.samSomBreakdown.breakdown.map((item, index) => (
-              <Card key={index} className="p-4 border-l-4 border-blue-500">
-                <CardContent className="flex justify-between items-center space-y-0">
-                  <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-gray-900">{item.metric}</h4>
-                    <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+      {/* Traction & Competitors Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Traction Metrics */}
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Proven Traction</h3>
+            <div className="space-y-4">
+              {slide.traction.map((metric, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                  <div>
+                    <div className="text-lg font-semibold text-gray-800">{metric.metric}</div>
+                    <div className="text-sm text-gray-600">{metric.growth}</div>
                   </div>
-                  <div className="text-right ml-4">
-                    <div className="text-2xl font-bold text-blue-600">{item.value}</div>
-                    <div className="text-sm font-medium text-blue-500">{item.percentage}</div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
+                  <div className="text-2xl font-bold text-green-600">{metric.value}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Competitive Landscape */}
+        <Card className="p-6">
+          <CardContent>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Market Validation</h3>
+            <div className="space-y-4">
+              {slide.competitors.map((competitor, index) => (
+                <div key={index} className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-700">{competitor}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

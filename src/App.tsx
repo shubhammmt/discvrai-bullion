@@ -43,6 +43,7 @@ import StocksHome from './pages/StocksHome';
 import PitchPresentation from './pages/PitchPresentation';
 import PitchV1 from './pages/PitchV1';
 import PitchV2 from './pages/PitchV2';
+import PitchV3 from './pages/PitchV3';
 import StockPage from './pages/StockPage';
 import NotFound from './pages/NotFound';
 
@@ -95,6 +96,7 @@ function App() {
           <Route path="/pitch" element={<PitchPresentation />} />
           <Route path="/pitch-v1" element={<PitchV1 />} />
           <Route path="/pitch-v2" element={<PitchV2 />} />
+          <Route path="/pitch-v3" element={<PitchV3 />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -119,6 +119,14 @@ const Index = () => {
               >
                 Try Sample Analysis
               </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                onClick={() => navigate('/pitch-v3')} 
+                className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
+              >
+                📊 View Pitch Deck
+              </Button>
             </div>
           </div>
 
