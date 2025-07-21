@@ -140,11 +140,11 @@ export const pitchSlidesV3 = [
         '360 One: 13% AUM CAGR target',
         'Market Gap: Only 5% of affluent households use formal wealth management'
       ],
-      traction: [
-        { metric: '4,000 Waitlist Users', detail: 'Pre-launch validation' },
-        { metric: '200+ Beta Users', detail: '78% retention rate' },
-        { metric: '1.5M Social Views', detail: 'Strong organic reach' }
-      ]
+    traction: [
+      { metric: '4K+ Website Users', detail: 'Active user base' },
+      { metric: '200+ Beta Signups', detail: 'Strong early adoption' },
+      { metric: '1.5M+ Social Views', detail: 'Strong organic reach' }
+    ]
     },
     team: [
       {
@@ -160,11 +160,6 @@ export const pitchSlidesV3 = [
         experience: 'Ex-Microsoft, Ex-BigTech VP'
       }
     ],
-    keyHires: [
-      '4 Senior Engineers',
-      '2 Equity Research Analysts', 
-      '1 Marketing Head'
-    ],
     funding: {
       amount: '₹2.2M',
       runway: '18 months',
@@ -176,6 +171,7 @@ export const pitchSlidesV3 = [
       ]
     },
     executionMilestones: [
+      '1 Million users milestone',
       '50K paying subscribers in 18 months',
       '₹15 Cr ARR target',
       '100+ financial platform integrations',

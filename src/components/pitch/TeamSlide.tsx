@@ -21,7 +21,7 @@ interface TeamSlideProps {
       background: string[];
       experience: string;
     }>;
-    keyHires: string[];
+    keyHires?: string[];
     funding?: {
       amount: string;
       runway: string;
@@ -132,36 +132,20 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
         </Card>
       )}
 
-      {/* Key Hires & Execution */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
-          <CardContent>
-            <h3 className="text-xl font-bold text-blue-600 mb-4">Key Hires Needed</h3>
-            <div className="space-y-3">
-              {slide.keyHires.map((hire, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-700">{hire}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="p-6">
-          <CardContent>
-            <h3 className="text-xl font-bold text-green-600 mb-4">Execution Milestones</h3>
-            <div className="space-y-3">
-              {slide.executionMilestones.map((milestone, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-700">{milestone}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Execution Milestones */}
+      <Card className="p-6">
+        <CardContent>
+          <h3 className="text-xl font-bold text-green-600 mb-4 text-center">Execution Milestones</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {slide.executionMilestones.map((milestone, index) => (
+              <div key={index} className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-gray-700">{milestone}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
