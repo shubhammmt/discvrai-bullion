@@ -83,7 +83,17 @@ export const LODHA_STOCK_DATA: StockData = {
 };
 
 // Investment Checklist Assessment
-export const INVESTMENT_CHECKLIST = [
+export const INVESTMENT_CHECKLIST: Array<{
+  category: string;
+  icon: string;
+  score: 'positive' | 'neutral' | 'negative';
+  status: string;
+  metrics: Array<{
+    label: string;
+    value: string;
+    trend: 'up' | 'down' | 'neutral';
+  }>;
+}> = [
   {
     category: 'Returns',
     icon: '📈',

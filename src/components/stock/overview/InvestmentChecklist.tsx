@@ -9,7 +9,7 @@ import { INVESTMENT_CHECKLIST } from '@/data/stockMockData';
 import { cn } from '@/lib/utils';
 
 const InvestmentChecklist: React.FC = () => {
-  const getStatusIcon = (score: string) => {
+  const getStatusIcon = (score: 'positive' | 'neutral' | 'negative') => {
     switch (score) {
       case 'positive':
         return <CheckCircle className="h-5 w-5 text-green-600" />;
@@ -20,7 +20,7 @@ const InvestmentChecklist: React.FC = () => {
     }
   };
 
-  const getStatusColor = (score: string) => {
+  const getStatusColor = (score: 'positive' | 'neutral' | 'negative') => {
     switch (score) {
       case 'positive':
         return 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20';
@@ -197,15 +197,24 @@ const InvestmentChecklist: React.FC = () => {
                   </h3>
 
                   {/* Status Badge - Properly centered */}
-                  <Badge 
-                    variant="outline" 
-                    className={cn(
-                      "text-xs font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 text-center",
-                      item.score === 'positive' && "border-green-300 text-green-700 dark:text-green-400",
-                      item.score === 'negative' && "border-red-300 text-red-700 dark:text-red-400",
-                      item.score === 'neutral' && "border-yellow-300 text-yellow-700 dark:text-yellow-400"
-                    )}
-                  >
+                   <Badge 
+                     variant="outline" 
+                     className={cn(
+                       "text-xs font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 text-center",
+                       (() => {
+                         switch (item.score) {
+                           case 'positive':
+                             return "border-green-300 text-green-700 dark:text-green-400";
+                           case 'negative':
+                             return "border-red-300 text-red-700 dark:text-red-400";
+                           case 'neutral':
+                             return "border-yellow-300 text-yellow-700 dark:text-yellow-400";
+                           default:
+                             return "";
+                         }
+                       })()
+                     )}
+                   >
                     {item.status}
                   </Badge>
                 </div>
