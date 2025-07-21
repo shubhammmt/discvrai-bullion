@@ -19,6 +19,8 @@ import { TeamSlide } from './TeamSlide';
 import { CompetitionSlide } from './CompetitionSlide';
 import { TechFoundationSlide } from './TechFoundationSlide';
 import { MarketSlide } from './MarketSlide';
+import { MarketOpportunitySlideV2 } from './MarketOpportunitySlideV2';
+import { TargetPersonaSlideV2 } from './TargetPersonaSlideV2';
 
 interface SlideRendererProps {
   slide: any;
@@ -35,9 +37,9 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
     case 'competition':
       return <CompetitionSlide slide={slide} />;
     case 'market-opportunity':
-      return <MarketOpportunitySlide slide={slide} />;
+      return <MarketOpportunitySlideV2 slide={slide} />;
     case 'target-persona':
-      return <TargetPersonaSlide slide={slide} />;
+      return <TargetPersonaSlideV2 slide={slide} />;
     case 'revenue-model':
       return <RevenueSlide slide={slide} />;
     case 'unit-economics':

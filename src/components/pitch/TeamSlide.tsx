@@ -7,6 +7,14 @@ interface TeamSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
+    marketValidation?: {
+      tam: string;
+      successStories: string[];
+      traction: Array<{
+        metric: string;
+        detail: string;
+      }>;
+    };
     team: Array<{
       name: string;
       role: string;
@@ -36,6 +44,43 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
         <h2 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h2>
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
+
+      {/* Market Validation */}
+      {slide.marketValidation && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <Card className="p-6 border-2 border-green-200 bg-green-50">
+            <CardContent>
+              <h3 className="text-2xl font-bold text-green-600 mb-4 text-center">Market Validation</h3>
+              <div className="text-center mb-4">
+                <div className="text-3xl font-bold text-green-600">{slide.marketValidation.tam}</div>
+                <div className="text-sm text-gray-600">Total Addressable Market</div>
+              </div>
+              <div className="space-y-3">
+                {slide.marketValidation.successStories.map((story, index) => (
+                  <div key={index} className="flex items-start gap-2">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-sm text-gray-700">{story}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="p-6 border-2 border-blue-200 bg-blue-50">
+            <CardContent>
+              <h3 className="text-2xl font-bold text-blue-600 mb-4 text-center">Proven Traction</h3>
+              <div className="space-y-4">
+                {slide.marketValidation.traction.map((item, index) => (
+                  <div key={index} className="p-3 bg-white rounded-lg">
+                    <div className="text-lg font-semibold text-gray-800">{item.metric}</div>
+                    <div className="text-sm text-gray-600">{item.detail}</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Team Members */}
       <div className="space-y-6">
