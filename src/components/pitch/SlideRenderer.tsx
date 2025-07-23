@@ -31,6 +31,7 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
     case 'title':
       return <TitleSlide slide={slide} />;
     case 'problem':
+    case 'problem-statement':
       return <ProblemSlide slide={slide} />;
     case 'solution':
       return <SolutionSlide slide={slide} />;
@@ -61,6 +62,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
     case 'team-breakdown':
       return <TeamBreakdownSlide slide={slide} />;
     case 'team':
+      return <TeamSlide slide={slide} />;
+    case 'team-funding':
       return <TeamSlide slide={slide} />;
     case 'market':
       return <MarketSlide slide={slide} />;
