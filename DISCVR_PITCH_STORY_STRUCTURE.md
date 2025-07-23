@@ -152,7 +152,50 @@
 
 ---
 
-## 6. KEY DETAILS TO COMPLETE THE PITCH
+## 6. UNIT ECONOMICS & FINANCIAL PROJECTIONS
+
+### Core Unit Economics (Validated Data)
+| Metric | Annual | Monthly | Notes |
+|--------|--------|---------|-------|
+| **ARPU** | ₹1,792 | ₹149 | Average revenue per user |
+| **LTV** | ₹5,400 | - | Customer lifetime value |
+| **CAC** | ₹2,000 | - | Customer acquisition cost |
+| **Churn Rate** | 4% | - | Annual customer churn |
+| **Customer Lifetime** | 25 months | - | Average customer lifespan |
+| **LTV:CAC Ratio** | 1.867:1 | - | **NEEDS IMPROVEMENT** (Target: 3:1+) |
+| **Payback Period** | 13.4 months | - | Time to recover CAC |
+
+### Revenue Model Breakdown (*TO BE FILLED*)
+- **Subscription Revenue**: __% of total (Primary)
+- **Commission Revenue**: __% of total (Brokerage partnerships)
+- **Advertisement Revenue**: __% of total (₹1-4 per MAU estimated)
+- **Premium Features**: __% adoption rate
+- **Enterprise/Family Plans**: __% of revenue
+
+### Growth Projections (*TO BE FILLED*)
+- **Monthly User Acquisition**: __ new users/month
+- **Quarterly Revenue Growth**: __% QoQ growth rate
+- **Market Penetration**: __% of TAM in Year 1/2/3
+- **Paid Conversion Rate**: __% (current: need baseline)
+- **Revenue Milestones**: ₹__ Cr (Y1), ₹__ Cr (Y2), ₹__ Cr (Y3)
+
+### Cost Structure (*TO BE FILLED*)
+- **Technology Infrastructure**: ₹__/user/month
+- **Marketing Spend**: ₹__ (% of revenue)
+- **Team Costs**: ₹__ Cr annually
+- **Operational Expenses**: ₹__ Cr annually
+- **Customer Support**: ₹__/user/month
+
+### Key Issues to Address
+1. **LTV:CAC Ratio**: Currently 1.867 (below healthy 3:1 threshold)
+   - Need to increase LTV or reduce CAC
+   - Focus on retention and upselling strategies
+2. **Payback Period**: 13.4 months is reasonable but could be optimized
+3. **Missing**: Cohort retention data, churn by customer segment
+
+---
+
+## 7. KEY DETAILS TO COMPLETE THE PITCH
 
 ### Market Validation & Traction
 - **TAM**: ₹76,750 Cr (comprehensive market analysis)
