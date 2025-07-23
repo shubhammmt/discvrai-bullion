@@ -165,26 +165,26 @@
 | **LTV:CAC Ratio** | 1.867:1 | - | **NEEDS IMPROVEMENT** (Target: 3:1+) |
 | **Payback Period** | 13.4 months | - | Time to recover CAC |
 
-### Revenue Model Breakdown (*TO BE FILLED*)
-- **Subscription Revenue**: __% of total (Primary)
-- **Commission Revenue**: __% of total (Brokerage partnerships)
-- **Advertisement Revenue**: __% of total (₹1-4 per MAU estimated)
-- **Premium Features**: __% adoption rate
-- **Enterprise/Family Plans**: __% of revenue
+### Revenue Model Breakdown
+- **Advertisement Revenue**: 65% of total (Primary revenue driver)
+- **Subscription Revenue**: 35% of total (Premium features & plans)
+- **Conversion Rates**: 
+  - Annual Plans: 2.5% signup (2% churn-adjusted)
+  - Monthly Plans: 4.5% signup (4% churn-adjusted)
 
-### Growth Projections (*TO BE FILLED*)
-- **Monthly User Acquisition**: __ new users/month
-- **Quarterly Revenue Growth**: __% QoQ growth rate
-- **Market Penetration**: __% of TAM in Year 1/2/3
-- **Paid Conversion Rate**: __% (current: need baseline)
-- **Revenue Milestones**: ₹__ Cr (Y1), ₹__ Cr (Y2), ₹__ Cr (Y3)
+### Growth Projections
+- **User Growth Targets**: 1M users in Year 1, 10M users in Year 2
+- **Revenue Target**: ₹160 Cr MRR by end of Year 2
+- **Monthly User Acquisition**: 83K new users/month (Year 1 target)
+- **Market Penetration**: 0.14% of TAM in Year 1, 1.4% in Year 2
 
-### Cost Structure (*TO BE FILLED*)
-- **Technology Infrastructure**: ₹__/user/month
-- **Marketing Spend**: ₹__ (% of revenue)
-- **Team Costs**: ₹__ Cr annually
-- **Operational Expenses**: ₹__ Cr annually
-- **Customer Support**: ₹__/user/month
+### Cost Structure
+- **Team Costs**: 35% of total expenses
+- **Marketing Spend**: 39% of total expenses
+- **Infrastructure**: 5% of total expenses
+- **Compliance**: 5% of total expenses
+- **Vendor Costs**: 3% of total expenses
+- **Admin**: 3% of total expenses
 
 ### Key Issues to Address
 1. **LTV:CAC Ratio**: Currently 1.867 (below healthy 3:1 threshold)
@@ -199,7 +199,7 @@
 
 ### Market Validation & Traction
 - **TAM**: ₹76,750 Cr (comprehensive market analysis)
-- **Current Traction**: 4K MAUs, 200+ Beta Users, 2.5M+ Social Views, 2K LinkedIn Followers
+- **Current Traction**: 4K MAUs, 200+ Beta Users, 2.5M Meta Views, 2K LinkedIn Followers
 - **Market Gap**: Only 5% of affluent households use formal wealth management
 
 ### Business Model & Unit Economics
