@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -189,6 +189,79 @@ export const pitchSlidesV4 = [
   },
   {
     id: 6,
+    type: 'aa-validation',
+    title: 'Account Aggregator: Explosive Growth Validates Market Need',
+    subtitle: 'India\'s Fastest Growing Open Finance Network Proves Portfolio Consolidation Demand',
+    icon: Link,
+    validationData: {
+      headline: 'World\'s Fastest Growing Open Finance Network - 1059% Growth in FY24',
+      keyMetrics: [
+        {
+          metric: 'Total Consents',
+          value: '120M+',
+          growth: '17% MoM Growth',
+          icon: Users
+        },
+        {
+          metric: 'Unique Users',
+          value: '80-90M',
+          growth: 'Given Consent',
+          icon: Target
+        },
+        {
+          metric: 'Disbursals H1 FY25',
+          value: '₹74,500 Cr',
+          growth: '12% Monthly Growth',
+          icon: DollarSign
+        },
+        {
+          metric: 'Growth Rate FY24',
+          value: '1059%',
+          growth: 'Fastest Globally',
+          icon: TrendingUp
+        }
+      ],
+      marketValidation: [
+        {
+          point: 'Regulatory Infrastructure Ready',
+          impact: 'RBI-backed framework with 8 live Account Aggregators providing secure data sharing'
+        },
+        {
+          point: 'Mass Adoption Proven', 
+          impact: '80-90M users have willingly shared financial data - proving trust and demand for consolidation'
+        },
+        {
+          point: 'Financial Institution Buy-in',
+          impact: 'Banks, NBFCs, and digital lenders collectively disbursed ₹74,500 Cr via AA in just 6 months'
+        },
+        {
+          point: 'Explosive Growth Trajectory',
+          impact: '17% month-on-month growth indicates strong consumer pull for unified financial experiences'
+        },
+        {
+          point: 'Global Leadership Position',
+          impact: 'India leads the world in Open Finance adoption, creating first-mover advantage for comprehensive solutions'
+        },
+        {
+          point: 'Untapped Intelligence Layer',
+          impact: 'While infrastructure exists, no player offers AI-powered insights + action platform on top of AA data'
+        }
+      ],
+      businessCase: {
+        title: 'Perfect Storm: Infrastructure + Demand + Unmet Intelligence Need',
+        points: [
+          'AA infrastructure solves data aggregation - we add the intelligence layer',
+          '80M+ users already comfortable sharing financial data = reduced user acquisition friction',
+          'Proven willingness to pay: ₹74,500 Cr disbursals show users act on financial recommendations',
+          'Market gap: No comprehensive AI-powered portfolio intelligence platform exists on AA framework',
+          'First-mover advantage in AI layer while competition focuses on basic aggregation',
+          'Government backing + regulatory clarity reduces platform risk significantly'
+        ]
+      }
+    }
+  },
+  {
+    id: 7,
     type: 'team-funding',
     title: 'Proven Team, Market Validation, Strategic Funding',
     subtitle: '$2.2M to capture $9.2B TAM opportunity',

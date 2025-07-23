@@ -21,6 +21,7 @@ import { TechFoundationSlide } from './TechFoundationSlide';
 import { MarketSlide } from './MarketSlide';
 import { MarketOpportunitySlideV2 } from './MarketOpportunitySlideV2';
 import { TargetPersonaSlideV2 } from './TargetPersonaSlideV2';
+import { AAValidationSlide } from './AAValidationSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -41,6 +42,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <MarketOpportunitySlideV2 slide={slide} />;
     case 'target-persona':
       return <TargetPersonaSlideV2 slide={slide} />;
+    case 'aa-validation':
+      return <AAValidationSlide slide={slide} />;
     case 'revenue-model':
       return <RevenueSlide slide={slide} />;
     case 'unit-economics':
