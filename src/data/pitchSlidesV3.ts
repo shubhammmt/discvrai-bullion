@@ -141,9 +141,10 @@ export const pitchSlidesV3 = [
         'Market Gap: Only 5% of affluent households use formal wealth management'
       ],
     traction: [
-      { metric: '4K+ Website Users', detail: 'Active user base' },
-      { metric: '200+ Beta Signups', detail: 'Strong early adoption' },
-      { metric: '1.5M+ Social Views', detail: 'Strong organic reach' }
+      { metric: '4K MAUs', detail: 'Monthly active users' },
+      { metric: '200+ Beta Users', detail: 'Strong early adoption' },
+      { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
+      { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
     ]
     },
     team: [
