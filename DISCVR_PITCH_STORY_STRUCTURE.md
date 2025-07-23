@@ -298,7 +298,7 @@
 - **Unit Economics**: Positive at 25K+ users
 
 ### Funding & Milestones
-- **Funding Ask**: ₹2.2M (18 months runway)
+- **Funding Ask**: USD2.2M (18 months runway)
 - **Key Milestones**: 1M users, 50K paying subscribers, ₹15 Cr ARR, Series A readiness
 
 ### Use of Funds
