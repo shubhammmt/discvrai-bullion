@@ -17,11 +17,17 @@ The RBI's new open-finance (Account Aggregator) network already links ~140.5 mil
 Digital adoption is fast (India fintech CAGR ~17–30% over 2025–30). Embedded finance (BNPL, lending into e‐commerce) and MSME formalization (12.2M GST-registered MSMEs digitizing) are new demand pools. Crucially, the AA framework is unlocking verified financial data flows; by 2025 it could channel ~$300 billion in credit to retail/MSMEs, underscoring massive future use-cases.
 
 ### Summary Market Stats
-~659M smartphone users in 2022; ~508M on JAM rails; UPI volume ≈15B/month; fintech market ~US$121B (2024); AA-linked accounts ~140M (Mar'25). These indicate a robust base for a one-stop finance app.
+**Total Financial Assets**: ₹4,61,40,000+ Cr (≈ US$5.3 trillion) - All listed-company market cap (BSE + NSE)
+**Mutual Fund AUM**: ₹74.4 lakh crore (+23% YoY growth)
+**Equity Market Cap**: ₹461.4 lakh crore (+21% since Mar 2025)
+**Bond Market**: ₹226 lakh crore (US$2.66 trillion, 70% of GDP)
+**Crypto Market**: ₹33-35 thousand crore equivalent (93-97 million owners)
+**Digital Infrastructure**: ~659M smartphone users; UPI volume ≈15B/month; AA-linked accounts ~140M (Mar'25)
 
 ### Total Addressable Market (TAM)
+- **₹4,61,40,000+ Cr**: Total Financial Assets Under Management (≈ US$5.3 trillion)
 - **150M+ Users**: Multi-product consumers managing multiple financial accounts
-- **$121 Billion**: India's fintech market size (2024)
+- **6-7 Crore Investors**: Real addressable base managing 43+ Cr accounts across platforms
 - **17-30% CAGR**: Projected growth rate (2025-2030)
 
 ### Serviceable Addressable Market (SAM)
