@@ -16,13 +16,13 @@ export const pitchSlidesV4 = [
     subtitle: 'Massive Market with Automatic Demand Validation',
     icon: BarChart3,
     marketData: {
-      totalMarket: '₹1,75,00,000+ Cr',
-      description: 'Total Financial Assets Under Management (≈ US$21+ trillion)',
+      totalMarket: '₹8,25,58,000+ Cr',
+      description: 'Total Financial Assets Under Management (≈ US$9.5 trillion)',
       breakdown: [
-        { asset: 'Equity Market Cap', value: '₹40,40,000 Cr', growth: '+21% in 2024-25' },
-        { asset: 'Mutual Funds AUM', value: '₹72,20,000 Cr', growth: '+23% YoY growth' },
-        { asset: 'Bond Market', value: '₹53,00,000 Cr', growth: 'Record ₹10T corporate bond issuance in 2025' },
-        { asset: 'Other Financial Assets', value: '₹9,40,000 Cr', growth: 'Insurance, PMS, AIF growing rapidly' }
+        { asset: 'Equity Market Cap', value: '₹4,71,00,000 Cr', growth: 'US$5.4 trillion market cap' },
+        { asset: 'Bond Market', value: '₹2,26,00,000 Cr', growth: 'US$2.6 trillion including govt & corporate bonds' },
+        { asset: 'Fixed Deposits', value: '₹1,03,00,000 Cr', growth: 'US$1.2 trillion in bank deposits' },
+        { asset: 'Mutual Funds AUM', value: '₹74,79,000 Cr', growth: 'June 2025 figures, +23% YoY growth' }
       ]
     },
     userExplosion: [
