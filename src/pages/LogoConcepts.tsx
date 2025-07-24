@@ -10,6 +10,11 @@ import logoConcept2 from '@/assets/logo-concept-2-connected-nodes.png';
 import logoConcept3 from '@/assets/logo-concept-3-ai-brain-chart.png';
 import logoConcept4 from '@/assets/logo-concept-4-discover-eye.png';
 import logoConcept5 from '@/assets/logo-concept-5-geometric-mountain.png';
+import logoConcept6 from '@/assets/logo-concept-6-data-hexagon.png';
+import logoConcept7 from '@/assets/logo-concept-7-shield-growth.png';
+import logoConcept8 from '@/assets/logo-concept-8-portfolio-circle.png';
+import logoConcept9 from '@/assets/logo-concept-9-digital-compass.png';
+import logoConcept10 from '@/assets/logo-concept-10-infinity-growth.png';
 
 const LogoConcepts = () => {
   const navigate = useNavigate();
@@ -49,6 +54,41 @@ const LogoConcepts = () => {
       description: "Abstract mountain peaks in geometric style. Represents growth, stability, and reaching goals with modern gradients and timeless shape.",
       image: logoConcept5,
       features: ["Growth & Stability", "Geometric Style", "Aspirational", "Timeless Appeal"]
+    },
+    {
+      id: 6,
+      title: "Data Hexagon Pattern",
+      description: "Stylized 'D' made of hexagonal patterns representing data and analytics. Clean geometric design with modern tech aesthetic.",
+      image: logoConcept6,
+      features: ["Data Analytics", "Geometric Patterns", "Tech-Forward", "Modern Design"]
+    },
+    {
+      id: 7,
+      title: "Security Shield Growth",
+      description: "Abstract shield shape incorporating growth arrow and financial chart elements. Represents security and financial growth with premium appeal.",
+      image: logoConcept7,
+      features: ["Security Theme", "Premium Appeal", "Growth Elements", "Trustworthy"]
+    },
+    {
+      id: 8,
+      title: "Portfolio Diversification",
+      description: "Circular design with intersecting lines forming portfolio diversification concept. Clean geometric shapes in sophisticated gradients.",
+      image: logoConcept8,
+      features: ["Diversification", "Sophisticated", "Clean Geometry", "Professional"]
+    },
+    {
+      id: 9,
+      title: "Digital Compass",
+      description: "Stylized compass with digital elements pointing toward financial growth. Combines navigation/discovery theme with modern tech aesthetic.",
+      image: logoConcept9,
+      features: ["Navigation Theme", "Discovery Focus", "Digital Elements", "Purposeful Design"]
+    },
+    {
+      id: 10,
+      title: "Infinity Growth Loop",
+      description: "Abstract infinity symbol with financial growth elements integrated. Represents continuous financial improvement and AI learning.",
+      image: logoConcept10,
+      features: ["Continuous Growth", "AI Learning", "Infinity Concept", "Memorable Design"]
     }
   ];
 
@@ -114,22 +154,30 @@ const LogoConcepts = () => {
         {/* Decision Help Section */}
         <div className="mt-12 bg-card rounded-lg p-8 border border-border">
           <h2 className="text-2xl font-bold text-foreground mb-4">Choosing Your Logo</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
             <div>
               <h3 className="font-semibold text-foreground mb-2">For New Generation Appeal:</h3>
-              <p className="text-muted-foreground">Consider concepts 2 (Connected Nodes) or 3 (AI Brain) for their modern, tech-forward aesthetic that resonates with younger investors.</p>
+              <p className="text-muted-foreground">Consider concepts 2 (Connected Nodes), 3 (AI Brain), 6 (Data Hexagon), or 10 (Infinity Growth) for their modern, tech-forward aesthetic.</p>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-2">For Seasoned Investors:</h3>
-              <p className="text-muted-foreground">Concepts 1 (Minimalist D) or 5 (Geometric Mountain) offer professional stability while maintaining modern appeal.</p>
+              <p className="text-muted-foreground">Concepts 1 (Minimalist D), 5 (Geometric Mountain), 7 (Security Shield), or 8 (Portfolio Circle) offer professional stability and trust.</p>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-2">Best Balance:</h3>
-              <p className="text-muted-foreground">Concept 4 (Discover Eye) provides discovery theme with professional trust, appealing to both demographics.</p>
+              <p className="text-muted-foreground">Concepts 4 (Discover Eye) and 9 (Digital Compass) provide discovery themes with professional appeal for both demographics.</p>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-2">Mobile App Icon:</h3>
-              <p className="text-muted-foreground">All concepts are designed to work well at small sizes, but concepts 1 and 4 are particularly optimized for app icons.</p>
+              <p className="text-muted-foreground">Concepts 1, 4, 6, 7, and 8 are particularly optimized for small sizes and app icons with clear, recognizable shapes.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Premium Appeal:</h3>
+              <p className="text-muted-foreground">Concepts 7 (Security Shield), 8 (Portfolio Circle), and 10 (Infinity Growth) convey premium quality and sophistication.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Tech Innovation:</h3>
+              <p className="text-muted-foreground">Concepts 2 (Connected Nodes), 3 (AI Brain), 6 (Data Hexagon), and 9 (Digital Compass) emphasize technological advancement.</p>
             </div>
           </div>
         </div>
