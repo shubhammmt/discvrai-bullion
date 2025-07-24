@@ -16,10 +16,10 @@ export const pitchSlidesV4 = [
     subtitle: 'Massive Market with Automatic Demand Validation',
     icon: BarChart3,
     marketData: {
-      totalMarket: '₹4,61,40,000+ Cr',
+      totalMarket: '₹4,10,00,000+ Cr',
       description: 'Total Financial Assets Under Management (≈ US$5.3 trillion)',
       breakdown: [
-        { asset: 'Equity Market Cap', value: '₹4,61,40,000 Cr', growth: '+21% since Mar 2025' },
+        { asset: 'Equity Market Cap', value: '₹4,10,40,000 Cr', growth: '+21% since Mar 2025' },
         { asset: 'Bond Market', value: '₹2,26,00,000 Cr', growth: '3x growth vs 2014' },
         { asset: 'Mutual Funds AUM', value: '₹74,40,000 Cr', growth: '+23% YoY growth' },
         { asset: 'Corporate Bonds', value: '₹51,60,000 Cr', growth: '+28% YoY issuance' }
