@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2 } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -262,10 +262,10 @@ export const pitchSlidesV4 = [
   },
   {
     id: 7,
-    type: 'team-funding',
-    title: 'Proven Team, Market Validation, Strategic Funding',
-    subtitle: '$2.2M to capture $9.2B TAM opportunity',
-    icon: Rocket,
+    type: 'team',
+    title: 'Execution-Ready Leadership Team',
+    subtitle: 'Proven Track Record in Scale & AI/ML',
+    icon: Trophy,
     marketValidation: {
       tam: '$9.2B (₹76,750 Cr)',
       successStories: [
@@ -282,6 +282,16 @@ export const pitchSlidesV4 = [
     },
     team: [
       {
+        name: 'Shubham Srivastava',
+        role: 'CEO & Co-Founder',
+        background: [
+          'Scale Expert: Built platforms serving 100M+ users',
+          'AI/ML Pioneer: Implemented ML at MakeMyTrip and HT',
+          'Leadership: IIT Dhanbad, scaled multiple divisions'
+        ],
+        experience: '150+ team member management, 20% cost optimization'
+      },
+      {
         name: 'Chief Growth Officer',
         role: 'Growth & Strategy',
         background: ['20+ years experience', 'Built ₹100Cr+ business in 3 years', 'B2C consumer tech growth expertise'],
@@ -294,22 +304,113 @@ export const pitchSlidesV4 = [
         experience: 'Ex-Microsoft, Ex-BigTech VP'
       }
     ],
-    funding: {
-      amount: '$2.2M USD',
-      runway: '18 months',
-      useOfFunds: [
-        { category: 'Technology & Product', percentage: '40%' },
-        { category: 'Customer Acquisition', percentage: '30%' },
-        { category: 'Team Expansion', percentage: '20%' },
-        { category: 'Operations & Compliance', percentage: '10%' }
+    executionMilestones: [
+      'Q1: Core aggregation, AA integration, basic insights',
+      'Q2: AI intelligence engine, premium features, investment APIs',
+      'Q3: Advanced insights, insurance/credit integration, scale',
+      'Q4: Platform optimization, partnerships, Series A prep'
+    ]
+  },
+  {
+    id: 8,
+    type: 'b2b-partnerships',
+    title: 'Strategic B2B Partnerships',
+    subtitle: 'Core Enablers for Marketplace Execution',
+    icon: Building2,
+    partnerships: [
+      {
+        partner: 'Smallcase',
+        enablers: ['Holdings Import', 'MF Buy Sell', 'Stocks Buy Sell', 'Smallcase Sell'],
+        description: 'Comprehensive investment platform integration for portfolio management and execution'
+      },
+      {
+        partner: 'FMP',
+        enablers: ['US Stocks + Crypto'],
+        description: 'International market access and cryptocurrency trading capabilities'
+      },
+      {
+        partner: 'CMOTS',
+        enablers: ['Indian Equity(Stock,MF,IPO)'],
+        description: 'Full-spectrum Indian equity market access including IPO participation'
+      },
+      {
+        partner: 'Tarakki',
+        enablers: ['MF, FD Distribution'],
+        description: 'Mutual fund and fixed deposit distribution network integration'
+      }
+    ],
+    coreCapabilities: {
+      title: 'Core Enablers for Marketplace',
+      description: 'Strategic partnerships provide comprehensive financial product access across asset classes, enabling our AI platform to execute recommendations seamlessly.'
+    },
+    strategicValue: [
+      'Complete asset class coverage: Equity, MF, FD, IPO, US markets, and Crypto',
+      'Reduced time-to-market: Ready infrastructure vs building from scratch',
+      'Compliance advantage: Partner expertise in regulatory requirements',
+      'Scale efficiency: Leverage existing distribution networks',
+      'User experience: Single platform for all financial actions',
+      'Revenue diversification: Multiple monetization streams through partnerships'
+    ]
+  },
+  {
+    id: 9,
+    type: 'funding',
+    title: '$2.2M Seed Round',
+    subtitle: 'Building India\'s Financial Operating System',
+    icon: Wallet,
+    allocation: [
+      {
+        percentage: '35%',
+        category: 'Team',
+        description: 'Engineering, product, AI/ML specialists, leadership team'
+      },
+      {
+        percentage: '39%',
+        category: 'Marketing',
+        description: 'Digital marketing, partnerships, user acquisition, brand building'
+      },
+      {
+        percentage: '5%',
+        category: 'Compliance',
+        description: 'Regulatory compliance, legal framework, security audits'
+      },
+      {
+        percentage: '5%',
+        category: 'Infra',
+        description: 'Cloud infrastructure, security, scaling technology stack'
+      },
+      {
+        percentage: '3%',
+        category: 'Vendor',
+        description: 'Third-party integrations, API subscriptions, external services'
+      },
+      {
+        percentage: '3%',
+        category: 'Admin',
+        description: 'Operations, office setup, administrative expenses'
+      }
+    ],
+    fundDetails: {
+      raiseAmount: '$2.2M'
+    },
+    milestones: [
+      'Month 6: 50K users with complete portfolio aggregation',
+      'Month 12: 200K users with proven product-market fit',
+      'Month 18: 1M users and Series A readiness'
+    ],
+    competitiveContext: {
+      title: 'Market Validation & Funding Landscape',
+      examples: [
+        'INDmoney: $86M raised for portfolio tracking',
+        'CRED: $800M+ for credit-focused platform',
+        'Groww: $251M for investment-only platform'
       ]
     },
-    executionMilestones: [
-      '1 Million users milestone',
-      '50K paying subscribers in 18 months',
-      '₹15 Cr ARR target',
-      '100+ financial platform integrations',
-      'Series A readiness'
+    exitStrategy: [
+      '3-5 year exit via acquisition by major financial institution',
+      'Target valuation: $500M-1B based on user base and revenue',
+      'Strategic acquirers: Banks, insurance companies, fintech giants',
+      'IPO pathway available given Indian fintech market maturation'
     ]
   }
 ];
