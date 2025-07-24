@@ -120,6 +120,14 @@ const Index = () => {
                 Try Sample Analysis
               </Button>
               <Button 
+                size="lg" 
+                variant="ghost" 
+                onClick={() => navigate('/logo-concepts')} 
+                className="px-8 py-4 text-lg"
+              >
+                View Logo Concepts
+              </Button>
+              <Button 
                 size="sm" 
                 variant="ghost" 
                 onClick={() => navigate('/pitch-v3')} 
