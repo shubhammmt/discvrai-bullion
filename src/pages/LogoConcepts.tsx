@@ -16,8 +16,53 @@ import logoConcept8 from '@/assets/logo-concept-8-portfolio-circle.png';
 import logoConcept9 from '@/assets/logo-concept-9-digital-compass.png';
 import logoConcept10 from '@/assets/logo-concept-10-infinity-growth.png';
 
+// Import simple and subtle concepts
+import logoSimple1 from '@/assets/logo-simple-1-minimal-d.png';
+import logoSimple2 from '@/assets/logo-simple-2-dot-circle.png';
+import logoSimple3 from '@/assets/logo-simple-3-arrow-d.png';
+import logoSimple4 from '@/assets/logo-simple-4-lens-circles.png';
+import logoSimple5 from '@/assets/logo-simple-5-square-chart.png';
+
 const LogoConcepts = () => {
   const navigate = useNavigate();
+
+  const simpleLogoOptions = [
+    {
+      id: 1,
+      title: "Ultra Minimal D",
+      description: "Clean lowercase 'd' with subtle monoline design. Extremely simple and understated with muted color palette.",
+      image: logoSimple1,
+      features: ["Ultra Minimalist", "Monoline Design", "Subtle Colors", "Understated"]
+    },
+    {
+      id: 2,
+      title: "Discovery Dot",
+      description: "Simple circle with tiny dot representing discovery. Clean flat design with no gradients, pure simplicity.",
+      image: logoSimple2,
+      features: ["Pure Simplicity", "Discovery Symbol", "Flat Design", "Clean Lines"]
+    },
+    {
+      id: 3,
+      title: "Growth Arrow D",
+      description: "Minimal upward arrow integrated into 'd' shape. Thin strokes, understated elegance, professional simplicity.",
+      image: logoSimple3,
+      features: ["Growth Symbol", "Thin Strokes", "Professional", "Elegant"]
+    },
+    {
+      id: 4,
+      title: "Lens Circles",
+      description: "Two overlapping circles creating subtle lens effect. Minimal line weight with soft color palette.",
+      image: logoSimple4,
+      features: ["Lens Effect", "Overlapping Design", "Soft Colors", "Minimal Weight"]
+    },
+    {
+      id: 5,
+      title: "Chart Square",
+      description: "Simple rounded square with tiny chart line. Ultra clean design with muted navy, flat and professional.",
+      image: logoSimple5,
+      features: ["Rounded Square", "Chart Element", "Muted Colors", "Ultra Clean"]
+    }
+  ];
 
   const logoOptions = [
     {
@@ -116,7 +161,53 @@ const LogoConcepts = () => {
 
       {/* Logo Grid */}
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {/* Simple & Subtle Section */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Simple & Subtle Options</h2>
+          <p className="text-muted-foreground mb-8">Clean, understated designs focused on simplicity and elegance</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+            {simpleLogoOptions.map((logo) => (
+              <Card key={`simple-${logo.id}`} className="hover:shadow-lg transition-shadow duration-300 border-2 border-primary/20">
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 p-6 bg-white rounded-lg shadow-sm">
+                    <img 
+                      src={logo.image} 
+                      alt={logo.title}
+                      className="w-24 h-24 mx-auto object-contain"
+                    />
+                  </div>
+                  <CardTitle className="text-xl">{logo.title}</CardTitle>
+                  <CardDescription className="text-sm leading-relaxed">
+                    {logo.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-sm text-foreground">Key Features:</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {logo.features.map((feature, index) => (
+                        <div 
+                          key={index}
+                          className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-md text-center"
+                        >
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Original Concepts Section */}
+        <div>
+          <h2 className="text-2xl font-bold text-foreground mb-2">Additional Design Concepts</h2>
+          <p className="text-muted-foreground mb-8">More expressive designs with detailed elements</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {logoOptions.map((logo) => (
             <Card key={logo.id} className="hover:shadow-lg transition-shadow duration-300">
               <CardHeader className="text-center">
@@ -150,34 +241,35 @@ const LogoConcepts = () => {
             </Card>
           ))}
         </div>
+        </div>
 
         {/* Decision Help Section */}
         <div className="mt-12 bg-card rounded-lg p-8 border border-border">
           <h2 className="text-2xl font-bold text-foreground mb-4">Choosing Your Logo</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
             <div>
+              <h3 className="font-semibold text-foreground mb-2">For Simple & Subtle Appeal:</h3>
+              <p className="text-muted-foreground">The simple options above prioritize clean minimalism - perfect for a sophisticated, understated brand identity.</p>
+            </div>
+            <div>
               <h3 className="font-semibold text-foreground mb-2">For New Generation Appeal:</h3>
-              <p className="text-muted-foreground">Consider concepts 2 (Connected Nodes), 3 (AI Brain), 6 (Data Hexagon), or 10 (Infinity Growth) for their modern, tech-forward aesthetic.</p>
+              <p className="text-muted-foreground">Simple concepts 2 (Discovery Dot) and 3 (Growth Arrow) offer modern minimalism that resonates with younger users.</p>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-2">For Seasoned Investors:</h3>
-              <p className="text-muted-foreground">Concepts 1 (Minimalist D), 5 (Geometric Mountain), 7 (Security Shield), or 8 (Portfolio Circle) offer professional stability and trust.</p>
+              <p className="text-muted-foreground">Simple concepts 1 (Ultra Minimal D) and 5 (Chart Square) provide professional trust and reliability.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-foreground mb-2">Best Balance:</h3>
-              <p className="text-muted-foreground">Concepts 4 (Discover Eye) and 9 (Digital Compass) provide discovery themes with professional appeal for both demographics.</p>
+              <h3 className="font-semibold text-foreground mb-2">Best for App Icons:</h3>
+              <p className="text-muted-foreground">Simple concepts 2, 4, and 5 work exceptionally well at small sizes with clear, recognizable shapes.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-foreground mb-2">Mobile App Icon:</h3>
-              <p className="text-muted-foreground">Concepts 1, 4, 6, 7, and 8 are particularly optimized for small sizes and app icons with clear, recognizable shapes.</p>
+              <h3 className="font-semibold text-foreground mb-2">Maximum Versatility:</h3>
+              <p className="text-muted-foreground">Simple concept 1 (Ultra Minimal D) offers the most flexibility across different applications and contexts.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-foreground mb-2">Premium Appeal:</h3>
-              <p className="text-muted-foreground">Concepts 7 (Security Shield), 8 (Portfolio Circle), and 10 (Infinity Growth) convey premium quality and sophistication.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-2">Tech Innovation:</h3>
-              <p className="text-muted-foreground">Concepts 2 (Connected Nodes), 3 (AI Brain), 6 (Data Hexagon), and 9 (Digital Compass) emphasize technological advancement.</p>
+              <h3 className="font-semibold text-foreground mb-2">Timeless Appeal:</h3>
+              <p className="text-muted-foreground">All simple concepts are designed to remain relevant and elegant for years, avoiding trendy elements that date quickly.</p>
             </div>
           </div>
         </div>
