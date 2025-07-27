@@ -412,5 +412,64 @@ export const pitchSlidesV4 = [
       'Strategic acquirers: Banks, insurance companies, fintech giants',
       'IPO pathway available given Indian fintech market maturation'
     ]
+  },
+
+  // B2B Business Model Slide
+  {
+    id: 10,
+    type: 'b2b-business-model',
+    title: 'B2B Enterprise Revenue Strategy',
+    subtitle: 'Validated Market with Immediate Commercial Opportunity',
+    icon: Building2,
+    marketSize: {
+      global: '$1.1T by 2032',
+      growth: '16.2% CAGR',
+      opportunity: 'BaaS: $75B by 2030'
+    },
+    revenueStreams: [
+      {
+        segment: 'API & Data Services',
+        description: 'Portfolio aggregation APIs for banks, fintechs, and wealth managers',
+        pricing: '$50K-500K annually',
+        marketSize: '100+ enterprise clients',
+        timeline: '6-12 months'
+      },
+      {
+        segment: 'White Label Solutions',
+        description: 'Branded portfolio management dashboards for financial institutions',
+        pricing: '$300K setup + $100K/year',
+        marketSize: '20+ implementations',
+        timeline: '12-18 months'
+      },
+      {
+        segment: 'Alternative Data Licensing',
+        description: 'Aggregated investment behavior insights for hedge funds and asset managers',
+        pricing: '$200K-2M annually',
+        marketSize: '50+ institutional clients',
+        timeline: '18-24 months'
+      },
+      {
+        segment: 'Compliance & Reporting',
+        description: 'Automated regulatory reporting for multi-jurisdictional portfolios',
+        pricing: '$100K-1M annually',
+        marketSize: 'Global banks & brokers',
+        timeline: '24+ months'
+      }
+    ],
+    competitiveAdvantage: {
+      title: 'Unique B2B Positioning',
+      advantages: [
+        'Comprehensive asset coverage beyond traditional banking',
+        'AI-driven insights with institutional-grade analytics',
+        'India AA framework compliance + global expansion ready',
+        'Real-time cross-border portfolio management',
+        'Proven B2C validation reduces enterprise sales cycles'
+      ]
+    },
+    projections: {
+      year3Target: '$33M ARR',
+      revenueBreakdown: 'API: $15M | White Label: $8M | Alt Data: $10M',
+      exitValuation: '$250M-400M'
+    }
   }
 ];

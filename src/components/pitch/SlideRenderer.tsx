@@ -23,6 +23,7 @@ import { MarketOpportunitySlideV2 } from './MarketOpportunitySlideV2';
 import { TargetPersonaSlideV2 } from './TargetPersonaSlideV2';
 import { AAValidationSlide } from './AAValidationSlide';
 import { B2BPartnershipsSlide } from './B2BPartnershipsSlide';
+import { B2BBusinessModelSlide } from './B2BBusinessModelSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -75,6 +76,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <TechFoundationSlide slide={slide} />;
     case 'b2b-partnerships':
       return <B2BPartnershipsSlide slide={slide} />;
+    case 'b2b-business-model':
+      return <B2BBusinessModelSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
