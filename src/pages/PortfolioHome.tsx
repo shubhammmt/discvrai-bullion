@@ -27,8 +27,9 @@ import {
   FileText,
   Calendar
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import EmptyPortfolioState from '@/components/portfolio/EmptyPortfolioState';
 
 // Mock data based on research findings
 const portfolioData = {
@@ -91,6 +92,7 @@ const wealthSegment = portfolioData.netWorth.netWorthValue > 5000000 ? 'HNW' :
 
 const PortfolioHome = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [selectedPeriod, setSelectedPeriod] = useState('1M');
   const [showAdvanced, setShowAdvanced] = useState(wealthSegment !== 'Mass');
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({
@@ -98,6 +100,15 @@ const PortfolioHome = () => {
     protection: wealthSegment === 'Mass',
     analytics: wealthSegment === 'Mass'
   });
+
+  // Check if this is a first-time user (no portfolio data) or demo mode
+  const isDemo = searchParams.get('demo') === 'true';
+  const hasPortfolioData = portfolioData.netWorth.totalAssets > 0 || isDemo;
+
+  // Show empty state for first-time users
+  if (!hasPortfolioData) {
+    return <EmptyPortfolioState />;
+  }
 
   const toggleSection = (section: string) => {
     setCollapsedSections(prev => ({
@@ -155,10 +166,16 @@ const PortfolioHome = () => {
               <Download className="w-4 h-4" />
               <span className="hidden md:inline ml-2">Export</span>
             </Button>
-            <Button size="sm" onClick={() => navigate('/portfolio/update')}>
-              <Plus className="w-4 h-4" />
-              <span className="hidden md:inline ml-2">Add Asset</span>
-            </Button>
+            <div className="flex gap-2">
+              <Button size="sm" onClick={() => navigate('/portfolio/update')}>
+                <Plus className="w-4 h-4" />
+                <span className="hidden md:inline ml-2">Add Asset</span>
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => navigate('/portfolio/goals')}>
+                <Target className="w-4 h-4" />
+                <span className="hidden md:inline ml-2">Add Goal</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -607,21 +624,65 @@ const PortfolioHome = () => {
                     </div>
                   </TabsContent>
                   
-                  <TabsContent value="allocation">
-                    <div className="text-center">
-                      <p className="text-muted-foreground">Asset allocation analysis coming soon</p>
+                  <TabsContent value="allocation" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium">Current Allocation</h4>
+                        {assetAllocationData.map((asset, idx) => (
+                          <div key={idx} className="flex items-center justify-between p-2 rounded bg-muted/50">
+                            <span className="text-sm">{asset.name}</span>
+                            <span className="font-medium">{((asset.value / assetAllocationData.reduce((a, b) => a + b.value, 0)) * 100).toFixed(1)}%</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="space-y-2">
+                        <h4 className="font-medium">Recommended Allocation</h4>
+                        <div className="text-sm text-muted-foreground">Based on your risk profile and goals</div>
+                        <div className="flex items-center justify-between p-2 rounded bg-green-50 dark:bg-green-950">
+                          <span className="text-sm">Equity</span>
+                          <span className="font-medium text-green-600">60%</span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded bg-blue-50 dark:bg-blue-950">
+                          <span className="text-sm">Debt</span>
+                          <span className="font-medium text-blue-600">30%</span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded bg-yellow-50 dark:bg-yellow-950">
+                          <span className="text-sm">Alternative</span>
+                          <span className="font-medium text-yellow-600">10%</span>
+                        </div>
+                      </div>
                     </div>
                   </TabsContent>
                   
-                  <TabsContent value="risk">
-                    <div className="text-center">
-                      <p className="text-muted-foreground">Risk analysis coming soon</p>
+                  <TabsContent value="risk" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="text-center p-4 rounded-lg bg-muted/50">
+                        <p className="text-2xl font-bold text-yellow-600">Moderate</p>
+                        <p className="text-sm text-muted-foreground">Risk Profile</p>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-muted/50">
+                        <p className="text-2xl font-bold">8.5%</p>
+                        <p className="text-sm text-muted-foreground">Max Drawdown</p>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-muted/50">
+                        <p className="text-2xl font-bold">92</p>
+                        <p className="text-sm text-muted-foreground">Risk Score</p>
+                      </div>
                     </div>
                   </TabsContent>
                   
-                  <TabsContent value="tax">
-                    <div className="text-center">
-                      <p className="text-muted-foreground">Tax planning tools coming soon</p>
+                  <TabsContent value="tax" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 rounded-lg bg-green-50 dark:bg-green-950">
+                        <h4 className="font-medium mb-2">Tax Saved This Year</h4>
+                        <p className="text-2xl font-bold text-green-600">₹1.2L</p>
+                        <p className="text-sm text-muted-foreground">Through 80C investments</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-950">
+                        <h4 className="font-medium mb-2">Potential Additional Savings</h4>
+                        <p className="text-2xl font-bold text-blue-600">₹35K</p>
+                        <p className="text-sm text-muted-foreground">Available 80C limit</p>
+                      </div>
                     </div>
                   </TabsContent>
                 </Tabs>
