@@ -200,10 +200,29 @@ Create a comprehensive portfolio home page that serves as the primary landing de
 - **Total Returns**: Absolute amount and percentage
 - **XIRR/CAGR**: Prominent display of annualized returns
 
-#### 2. Asset Allocation (Pie Chart)
-- **Categories**: Equity, Debt, Gold, Real Estate, Insurance, Cash
-- **Interactive**: Click to drill down
-- **Mobile**: Simplified with legend below
+#### 2. Comprehensive Asset Overview 
+**Investment Assets**:
+- **Equity**: Stocks, Mutual Funds, ELSS, PMS, AIF (₹X.X L)
+- **Debt**: FDs, Bonds, PPF, NSC, EPF (₹X.X L)
+- **Gold**: Physical, ETFs, Digital gold (₹X.X L)
+- **Real Estate**: Properties, REITs (₹X.X L)
+- **Alternative**: P2P, International investments (₹X.X L)
+
+**Liabilities** (Net Worth Calculation):
+- **Home Loans**: Outstanding ₹X.X L (EMI: ₹X,XXX)
+- **Personal Loans**: Outstanding ₹X.X L
+- **Credit Cards**: Used ₹X,XXX / ₹X.X L limit
+- **Vehicle Loans**: Outstanding ₹X.X L
+
+**Protection Cover**:
+- **Life Insurance**: ₹X.X Cr coverage
+- **Health Insurance**: ₹X.X L coverage per person
+- **Property Insurance**: Yes/No status
+
+**Interactive Features**:
+- Toggle between Assets vs Net Worth view
+- Click categories to drill down into holdings
+- Mobile: Simplified cards with swipe navigation
 
 #### 3. Performance Chart
 - **Default**: 1 Year view
