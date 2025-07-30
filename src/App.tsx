@@ -21,6 +21,7 @@ import SmallcaseResearch from './pages/SmallcaseResearch';
 import MutualFundDetails from './pages/MutualFundDetails';
 import MutualFundFeed from './pages/MutualFundFeed';
 import Portfolio from './pages/Portfolio';
+import PortfolioHome from './pages/PortfolioHome';
 import PortfolioAnalysis from './pages/PortfolioAnalysis';
 import PortfolioUpdate from './pages/PortfolioUpdate';
 import Organize from './pages/Organize';
@@ -72,6 +73,7 @@ function App() {
           <Route path="/mutual-fund/:symbol" element={<MutualFundDetails />} />
           <Route path="/mutual-fund-feed" element={<MutualFundFeed />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/portfolio-home" element={<PortfolioHome />} />
           <Route path="/portfolio-analysis" element={<PortfolioAnalysis />} />
           <Route path="/portfolio-update" element={<PortfolioUpdate />} />
           <Route path="/organize" element={<Organize />} />
