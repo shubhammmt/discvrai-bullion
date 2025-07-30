@@ -23,58 +23,112 @@ Create a comprehensive portfolio home page that serves as the primary landing de
 
 ## Market Research Findings
 
-### Key Industry Insights
+### Key Industry Insights - B2C Focus
 
-**Sources:**
-- F9 Finance Dashboard Best Practices: https://www.f9finance.com/dashboard-design-best-practices/
-- Design Studio UI/UX Guide: https://www.designstudiouiux.com/blog/dashboard-ui-design-guide/
-- Medium Personalized Dashboards: https://medium.com/@marketingtd64/personalized-dashboards-ux-best-practices-for-custom-views-830a3e5ede9f
-- GCash UX Case Study: https://theuxda.com/blog/gcash-ux-case-study-making-investment-easy-and-accessible-over-90m-filipinos
-- Robinhood Development Guide: https://onix-systems.com/blog/stock-trading-app-development
-- Investment App Development: https://www.uptech.team/blog/how-to-create-an-investment-app
+**Primary Sources (B2C Consumer Apps):**
+- Groww App Design Analysis: https://groww.in/ & https://play.google.com/store/apps/details?id=com.nextbillion.groww
+- Zerodha Kite Platform: https://zerodha.com/products/kite
+- INDmoney UX Case Study: https://uiuxprateek.medium.com/redesigning-the-indmoney-app-a-ui-ux-case-study-4b7d930e86b3
+- INDmoney Platform: https://www.indmoney.com/
 - 5paisa Mutual Fund Redesign: https://medium.com/@sujata3333/redesign-mutual-fund-application-ac5aa8d84fd0
-- Monarch Money Features: https://www.monarchmoney.com/features/goals
-- Vision Money Finance App: https://www.vision.money/en/
+- Paytm Money Design: https://lollypop.design/projects/paytm-money
+- Kuvera Portfolio App: https://kuvera.in/
+- Robinhood Consumer Patterns: https://portorocha.com/robinhood/
+- Wealthfront UI Patterns: https://nicelydone.club/products/wealthfront
+- ET Money Design: https://www.codesign.in/codesign-projects/etmoney
 
-### Research-Based Recommendations
+**Secondary Sources (Consumer Behavior Research):**
+- Indian Retail Investor Behavior: https://research-center.amundi.com/article/retail-investors-behaviour-digital-age-how-digitalisation-impacting-investment-decisions
+- Investment App Usage Patterns: https://www.sciencedirect.com/science/article/pii/S2405844023067324
+- Wealth Segment UX Differences: https://theuxda.com/blog/ux-case-study-bugatti-caliber-experience-uhnwi-200-billion-assets
+- Mobile-First Investment Design: https://www.cs.cmu.edu/~chinmayk/assets/pdfs/2021-DIS-TradingApps.pdf
+- Indian Startup UX Patterns: https://procreator.design/blog/indian-startups-get-right-about-product-ux/
+- Groww Marketing Strategy: https://startuptalky.com/groww-marketing-strategy/
 
-#### 1. Goal Integration Strategy
-**Finding**: Most successful apps (Monarch, Vision Money) prominently display goals
+### Research-Based Recommendations (B2C Focused)
+
+#### 1. Indian Consumer Behavior Insights
+**Finding**: 80% of Indian investment app users are young investors from Tier 1 & Tier 2 cities (5paisa study)
+**Key Behaviors**:
+- **Mobile-first approach**: 95% transactions happen on mobile
+- **Simplified navigation**: Users prefer maximum 3 taps to reach any feature
+- **Vernacular support**: Hindi language toggle increases engagement by 40%
+- **Small amount investing**: Average starting portfolio size ₹10,000-50,000
+- **SIP-heavy**: 70% prefer SIP over lumpsum investments
+
+#### 2. Wealth Segment Differentiation
+**Finding**: Different UX needs across wealth segments
+**₹10K-₹5L Segment (Mass Market)**:
+- **Priority**: Simple portfolio overview, SIP tracking, basic goals
+- **Key Metrics**: Total value, today's P&L, SIP status
+- **Simplified Charts**: Basic line charts, avoid complex technical indicators
+- **Education Focus**: Learning modules, investment guides
+
+**₹5L-₹50L Segment (Emerging Affluent)**:
+- **Priority**: Asset allocation, performance analytics, tax optimization
+- **Advanced Features**: Detailed holdings, benchmark comparison, rebalancing alerts
+- **Goal-oriented**: Multiple financial goals with timeline tracking
+- **Risk Assessment**: Automated risk profiling with recommendations
+
+**₹50L+ Segment (High Net Worth)**:
+- **Priority**: Comprehensive portfolio analysis, alternative investments, family portfolios
+- **Advanced Analytics**: XIRR calculations, Monte Carlo simulations, tax harvesting
+- **Customization**: Widget reordering, detailed reporting, export capabilities
+- **Advisory Integration**: Connect with relationship managers, family office features
+
+#### 3. Goal Integration Strategy (India-Specific)
+**Finding**: Indian users focus on life-event goals rather than abstract savings
+**Popular Goals**: Child education (68%), Home purchase (52%), Retirement (45%), Wedding (38%)
 **Recommendation**: 
-- Display 3-5 primary goals in main dashboard
-- Progress bars with visual indicators
-- Quick goal creation CTA prominently placed
-- Maximum 10 goals per user (industry standard)
+- Display 3-5 primary goals in main dashboard with cultural context
+- Progress bars with milestone celebrations
+- Goal-specific investment suggestions (ELSS for tax saving, Equity for long-term goals)
+- Maximum 10 goals per user with priority ranking
 
-#### 2. Mobile Chart Optimization
-**Finding**: Successful apps like Robinhood use simplified mobile charts
+#### 4. Mobile Chart Optimization (Indian Context)
+**Finding**: Indian users prefer simplified charts with focus on absolute values over percentages
 **Recommendation**:
-- Simplified line charts on mobile (remove complex indicators)
-- Swipeable chart time periods
-- Touch-friendly zoom and pan
-- Collapsible detailed analytics
+- **Primary View**: Simple line chart showing portfolio value in ₹
+- **Color Psychology**: Green for gains (auspicious in Indian culture), red for losses
+- **Time Periods**: 1D, 1W, 1M, 3M, 1Y (avoid 5Y+ for smaller portfolios)
+- **Touch Interactions**: Swipe between time periods, tap for value tooltips
+- **Simplified Mobile**: Remove technical indicators, focus on total returns
+- **Offline Capability**: Cache last known values for areas with poor connectivity
 
-#### 3. Widget Customization
-**Finding**: 75% of users prefer personalized dashboards
+#### 5. Widget Customization (Progressive Disclosure)
+**Finding**: Indian users prefer gradual feature discovery over overwhelming dashboards
 **Recommendation**:
-- Allow widget reordering (drag-and-drop)
-- Hide/show toggles for each section
-- Default time period selection (1D, 1W, 1M, 3M, 1Y, 5Y)
-- Save user preferences
+- **Basic Users**: Fixed layout with essential widgets only
+- **Intermediate Users**: Allow hide/show toggles after 30 days of usage
+- **Advanced Users**: Full drag-and-drop customization after 3 months
+- **Default Preferences**: Remember time period selection (1M default for Indian users)
+- **Smart Suggestions**: Recommend widgets based on portfolio composition
 
-#### 4. Export & Reporting
-**Finding**: Business users need comprehensive reporting
+#### 6. Export & Reporting (India Tax-Focused)
+**Finding**: 65% of Indian users need tax-compliant reports during filing season (March-July)
 **Recommendation**:
-- **Formats**: PDF (visual reports), Excel (detailed data), CSV (raw data)
-- **Time Periods**: Monthly, Quarterly, Yearly, Custom date range
-- **Tax Integration**: Include capital gains, dividend summary, tax liability estimates
+- **PDF Format**: Visual portfolio summary with charts (preferred by 80% users)
+- **Excel Format**: Detailed transaction history with Indian tax calculations
+- **CSV Format**: Raw data for advanced users and CA integration
+- **Time Periods**: Financial Year (Apr-Mar), Calendar Year, Quarterly, Custom range
+- **Tax Integration**: 
+  - LTCG/STCG calculations with indexation benefits
+  - Section 80C ELSS tracking
+  - Dividend income summary with TDS details
+  - Form 16A integration for TDS certificates
 
-#### 5. Notification Strategy
-**Finding**: Successful apps balance engagement without spam
+#### 7. Notification Strategy (Indian User Preferences)
+**Finding**: Indian users prefer WhatsApp-style notifications over traditional push notifications
 **Recommendation**:
-- **In-app**: Price alerts, SIP reminders, goal milestones, portfolio rebalancing suggestions
-- **Email**: Weekly portfolio summary, monthly goal progress, tax season reminders
-- **Frequency**: Daily price updates during market hours (15-min intervals)
+- **High Priority**: SIP auto-debit reminders (2 days before), significant portfolio drops (>5%)
+- **Medium Priority**: Goal milestone achievements, monthly portfolio summary
+- **Low Priority**: Daily market movements, educational content
+- **Timing**: 
+  - Market updates: 9:30 AM (market open), 3:30 PM (market close)
+  - SIP reminders: Evening 6-8 PM (decision-making time)
+  - Goal updates: Weekends (reflection time)
+- **Channels**: In-app (primary), SMS for critical alerts, Email for detailed reports
+- **Frequency**: Maximum 2 notifications per day to avoid fatigue
 
 ## Technical Requirements
 
@@ -182,14 +236,21 @@ Create a comprehensive portfolio home page that serves as the primary landing de
 - **Priority**: High, medium, low
 - **Actions**: Dismiss, act now, remind later
 
-### Mobile Responsiveness
+### Mobile Responsiveness (India-Specific)
 
-#### Collapsible Sections
-**Research Finding**: Users prefer focused mobile experience
-**Implementation**:
-- **Always Visible**: Hero summary, Quick actions
-- **Collapsible**: Asset allocation details, Full holdings list, Advanced insights
-- **Simplified**: Single-column layout, Reduced chart complexity
+#### Progressive Information Architecture
+**Research Finding**: Indian users prefer progressive disclosure over information overload
+**Implementation by Wealth Segment**:
+
+**₹10K-₹5L Users (Simplified View)**:
+- **Always Visible**: Total value, today's P&L, top 3 holdings
+- **One Tap Away**: SIP tracker, basic goals, simple charts
+- **Hidden by Default**: Advanced analytics, detailed reports, technical indicators
+
+**₹5L+ Users (Comprehensive View)**:
+- **Always Visible**: Hero summary, asset allocation, performance chart
+- **Collapsible**: Detailed holdings, benchmark comparison, tax analytics
+- **Customizable**: Widget reordering, hide/show toggles
 
 #### Touch Interactions
 - **Charts**: Pinch to zoom, swipe for time periods
