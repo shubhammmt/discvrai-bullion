@@ -569,51 +569,172 @@ const MutualFundsHome = () => {
           </CardContent>
         </Card>
 
+        {/* AI Quick Analysis */}
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="w-5 h-5 text-purple-600" />
+                AI Quick Analysis
+              </CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('analytics')}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {collapsedSections.analytics ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+                <span className="ml-1 text-xs">
+                  {collapsedSections.analytics ? 'Expand' : 'Collapse'}
+                </span>
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            
+            {/* Analysis Cards Grid - Always visible */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* Quality Score */}
+              <div className="p-4 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border border-green-200 dark:border-green-800">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900">
+                    <Star className="w-4 h-4 text-green-600" />
+                  </div>
+                  <Badge variant="outline" className="text-xs border-green-200 text-green-700 dark:border-green-800 dark:text-green-300">
+                    Excellent
+                  </Badge>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-green-700 dark:text-green-300">8.7/10</p>
+                  <p className="text-sm text-green-600 dark:text-green-400">Portfolio Quality</p>
+                </div>
+              </div>
+
+              {/* Growth Potential */}
+              <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950 border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900">
+                    <TrendingUp className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <Badge variant="outline" className="text-xs border-blue-200 text-blue-700 dark:border-blue-800 dark:text-blue-300">
+                    High
+                  </Badge>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">16.8%</p>
+                  <p className="text-sm text-blue-600 dark:text-blue-400">Expected CAGR</p>
+                </div>
+              </div>
+
+              {/* Technical Score */}
+              <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950 dark:to-violet-950 border border-purple-200 dark:border-purple-800">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900">
+                    <BarChart3 className="w-4 h-4 text-purple-600" />
+                  </div>
+                  <Badge variant="outline" className="text-xs border-purple-200 text-purple-700 dark:border-purple-800 dark:text-purple-300">
+                    Good
+                  </Badge>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">0.84</p>
+                  <p className="text-sm text-purple-600 dark:text-purple-400">Sharpe Ratio</p>
+                </div>
+              </div>
+
+              {/* Risk Assessment */}
+              <div className="p-4 rounded-lg bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 border border-orange-200 dark:border-orange-800">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900">
+                    <Shield className="w-4 h-4 text-orange-600" />
+                  </div>
+                  <Badge variant="outline" className="text-xs border-orange-200 text-orange-700 dark:border-orange-800 dark:text-orange-300">
+                    Moderate
+                  </Badge>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">1.05</p>
+                  <p className="text-sm text-orange-600 dark:text-orange-400">Portfolio Beta</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Analysis - Only shown when expanded */}
+            {!collapsedSections.analytics && (
+              <>
+                {/* Key Insights */}
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-foreground">Key Insights</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {mutualFundsData.insights.map((insight, index) => (
+                      <div 
+                        key={index}
+                        className={`p-3 rounded-lg border-l-4 ${
+                          insight.type === 'success' ? 'bg-green-50 dark:bg-green-950 border-green-500' :
+                          insight.type === 'warning' ? 'bg-yellow-50 dark:bg-yellow-950 border-yellow-500' :
+                          'bg-blue-50 dark:bg-blue-950 border-blue-500'
+                        }`}
+                      >
+                        <div className="flex items-start gap-2">
+                          <div className={`p-1 rounded-full ${
+                            insight.type === 'success' ? 'bg-green-100 dark:bg-green-900' :
+                            insight.type === 'warning' ? 'bg-yellow-100 dark:bg-yellow-900' :
+                            'bg-blue-100 dark:bg-blue-900'
+                          }`}>
+                            {insight.type === 'success' && <Star className="w-3 h-3 text-green-600" />}
+                            {insight.type === 'warning' && <AlertCircle className="w-3 h-3 text-yellow-600" />}
+                            {insight.type === 'info' && <Activity className="w-3 h-3 text-blue-600" />}
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm text-foreground">{insight.message}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <Badge variant="secondary" className="text-xs">
+                                {insight.category}
+                              </Badge>
+                              <Badge 
+                                variant="outline" 
+                                className={`text-xs ${
+                                  insight.priority === 'high' ? 'border-red-300 text-red-700' :
+                                  insight.priority === 'medium' ? 'border-yellow-300 text-yellow-700' :
+                                  'border-gray-300 text-gray-700'
+                                }`}
+                              >
+                                {insight.priority} priority
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Advanced Metrics */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/30 rounded-lg">
+                  <div className="text-center">
+                    <p className="text-lg font-semibold text-foreground">{mutualFundsData.analytics.alpha}%</p>
+                    <p className="text-xs text-muted-foreground">Alpha</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-semibold text-foreground">{mutualFundsData.analytics.volatility}%</p>
+                    <p className="text-xs text-muted-foreground">Volatility</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-semibold text-foreground">{mutualFundsData.analytics.maxDrawdown}%</p>
+                    <p className="text-xs text-muted-foreground">Max Drawdown</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-semibold text-foreground">{mutualFundsData.analytics.informationRatio}</p>
+                    <p className="text-xs text-muted-foreground">Info Ratio</p>
+                  </div>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Insights & Recommendations */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
-          {/* Insights */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="w-5 h-5 text-yellow-600" />
-                Portfolio Insights
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {mutualFundsData.insights.map((insight, index) => (
-                  <div 
-                    key={index}
-                    className={`p-4 rounded-lg border-l-4 ${
-                      insight.type === 'warning' ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-950' :
-                      insight.type === 'success' ? 'border-green-500 bg-green-50 dark:bg-green-950' :
-                      'border-blue-500 bg-blue-50 dark:bg-blue-950'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start gap-2">
-                        <AlertCircle className={`w-4 h-4 mt-0.5 ${
-                          insight.type === 'warning' ? 'text-yellow-600' :
-                          insight.type === 'success' ? 'text-green-600' :
-                          'text-blue-600'
-                        }`} />
-                        <p className="text-sm">{insight.message}</p>
-                      </div>
-                      <div className="flex gap-1">
-                        <Badge variant="outline" className="text-xs">
-                          {insight.category}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {insight.priority}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
 
           {/* Recommendations */}
           <Card>
