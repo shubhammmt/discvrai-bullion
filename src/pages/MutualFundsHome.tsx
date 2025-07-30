@@ -620,67 +620,67 @@ const MutualFundsHome = () => {
                           </td>
                         </tr>
                       </HoverCardTrigger>
-                      <HoverCardContent className="w-96 p-6" side="right">
-                        <div className="space-y-4">
+                      <HoverCardContent className="w-80 p-4" side="left" align="start">
+                        <div className="space-y-3">
                           {/* Fund Header */}
-                          <div className="border-b pb-3">
-                            <h3 className="font-semibold text-lg">{fund.name}</h3>
+                          <div className="border-b pb-2">
+                            <h3 className="font-semibold text-base">{fund.name}</h3>
                             <p className="text-sm text-muted-foreground">{fund.category} • AUM: ₹{fund.aum}Cr</p>
                           </div>
 
-                          {/* Key Metrics */}
-                          <div className="grid grid-cols-3 gap-3">
-                            <div className="text-center p-2 rounded-lg bg-muted/50">
+                          {/* Key Metrics Grid */}
+                          <div className="grid grid-cols-3 gap-2">
+                            <div className="text-center p-2 rounded-lg bg-blue-50 dark:bg-blue-950">
                               <p className="text-lg font-bold text-blue-600">{fund.sharpeRatio}</p>
                               <p className="text-xs text-muted-foreground">Sharpe Ratio</p>
                             </div>
-                            <div className="text-center p-2 rounded-lg bg-muted/50">
+                            <div className="text-center p-2 rounded-lg bg-green-50 dark:bg-green-950">
                               <p className="text-lg font-bold text-green-600">{fund.alpha}%</p>
                               <p className="text-xs text-muted-foreground">Alpha</p>
                             </div>
-                            <div className="text-center p-2 rounded-lg bg-muted/50">
+                            <div className="text-center p-2 rounded-lg bg-purple-50 dark:bg-purple-950">
                               <p className="text-lg font-bold text-purple-600">{fund.beta}</p>
                               <p className="text-xs text-muted-foreground">Beta</p>
                             </div>
                           </div>
 
-                          {/* Returns */}
+                          {/* Historical Returns */}
                           <div>
-                            <h4 className="font-medium mb-2">Historical Returns</h4>
-                            <div className="grid grid-cols-3 gap-2 text-sm">
-                              <div className="text-center">
-                                <p className="font-semibold">{fund.returns['1Y']}%</p>
-                                <p className="text-muted-foreground">1Y</p>
+                            <h4 className="font-medium mb-2 text-sm">Historical Returns</h4>
+                            <div className="grid grid-cols-3 gap-2">
+                              <div className="text-center p-2 rounded bg-muted/50">
+                                <p className="font-semibold text-green-600">{fund.returns['1Y']}%</p>
+                                <p className="text-xs text-muted-foreground">1Y</p>
                               </div>
-                              <div className="text-center">
-                                <p className="font-semibold">{fund.returns['3Y']}%</p>
-                                <p className="text-muted-foreground">3Y</p>
+                              <div className="text-center p-2 rounded bg-muted/50">
+                                <p className="font-semibold text-green-600">{fund.returns['3Y']}%</p>
+                                <p className="text-xs text-muted-foreground">3Y</p>
                               </div>
-                              <div className="text-center">
-                                <p className="font-semibold">{fund.returns['5Y']}%</p>
-                                <p className="text-muted-foreground">5Y</p>
+                              <div className="text-center p-2 rounded bg-muted/50">
+                                <p className="font-semibold text-green-600">{fund.returns['5Y']}%</p>
+                                <p className="text-xs text-muted-foreground">5Y</p>
                               </div>
                             </div>
                           </div>
 
-                          {/* Fund Insights */}
+                          {/* Key Insights */}
                           <div>
-                            <h4 className="font-medium mb-2">Key Insights</h4>
-                            <div className="space-y-2">
-                              {fund.insights?.map((insight, idx) => (
+                            <h4 className="font-medium mb-2 text-sm">Key Insights</h4>
+                            <div className="space-y-1.5">
+                              {fund.insights?.slice(0, 3).map((insight, idx) => (
                                 <div 
                                   key={idx}
-                                  className={`p-2 rounded-lg text-xs border-l-3 ${
+                                  className={`p-2 rounded text-xs border-l-2 ${
                                     insight.type === 'success' ? 'bg-green-50 dark:bg-green-950 border-green-500' :
                                     insight.type === 'warning' ? 'bg-yellow-50 dark:bg-yellow-950 border-yellow-500' :
                                     'bg-blue-50 dark:bg-blue-950 border-blue-500'
                                   }`}
                                 >
-                                  <div className="flex items-center gap-1">
-                                    {insight.type === 'success' && <Star className="w-3 h-3 text-green-600" />}
-                                    {insight.type === 'warning' && <AlertCircle className="w-3 h-3 text-yellow-600" />}
-                                    {insight.type === 'info' && <Activity className="w-3 h-3 text-blue-600" />}
-                                    <p className="flex-1">{insight.message}</p>
+                                  <div className="flex items-start gap-1.5">
+                                    {insight.type === 'success' && <Star className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />}
+                                    {insight.type === 'warning' && <AlertCircle className="w-3 h-3 text-yellow-600 mt-0.5 flex-shrink-0" />}
+                                    {insight.type === 'info' && <Activity className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />}
+                                    <p className="flex-1 leading-relaxed">{insight.message}</p>
                                   </div>
                                 </div>
                               ))}
@@ -689,20 +689,20 @@ const MutualFundsHome = () => {
 
                           {/* Recommendations */}
                           <div>
-                            <h4 className="font-medium mb-2">Recommendations</h4>
-                            <div className="space-y-2">
-                              {fund.recommendations?.map((rec, idx) => (
-                                <div key={idx} className="p-2 rounded-lg bg-muted/30 border">
+                            <h4 className="font-medium mb-2 text-sm">Recommendations</h4>
+                            <div className="space-y-1.5">
+                              {fund.recommendations?.slice(0, 2).map((rec, idx) => (
+                                <div key={idx} className="p-2 rounded bg-muted/30 border border-muted">
                                   <div className="flex items-center justify-between mb-1">
-                                    <p className="font-medium text-sm">{rec.action}</p>
+                                    <p className="font-medium text-xs">{rec.action}</p>
                                     <Badge 
                                       variant={rec.priority === 'high' ? 'destructive' : 'secondary'}
-                                      className="text-xs"
+                                      className="text-xs px-1 py-0"
                                     >
                                       {rec.priority}
                                     </Badge>
                                   </div>
-                                  <p className="text-xs text-muted-foreground">{rec.description}</p>
+                                  <p className="text-xs text-muted-foreground leading-relaxed">{rec.description}</p>
                                 </div>
                               ))}
                             </div>
@@ -712,7 +712,7 @@ const MutualFundsHome = () => {
                           <div className="pt-2 border-t">
                             <Button 
                               size="sm" 
-                              className="w-full"
+                              className="w-full text-xs"
                               onClick={() => navigate(`/mutual-fund-details/${fund.id}`)}
                             >
                               View Detailed Analysis
