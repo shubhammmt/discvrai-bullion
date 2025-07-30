@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -69,7 +70,16 @@ const mutualFundsData = {
       alpha: 3.2,
       beta: 1.05,
       volatility: 16.2,
-      aum: 45600
+      aum: 45600,
+      insights: [
+        { type: 'warning', message: 'Underperforming category average by 2.1% in 1Y', priority: 'high' },
+        { type: 'info', message: 'Strong fund house with good track record', priority: 'medium' },
+        { type: 'success', message: 'Low expense ratio compared to peers', priority: 'low' }
+      ],
+      recommendations: [
+        { action: 'Review Performance', description: 'Consider switching to better performing large cap fund', priority: 'high' },
+        { action: 'Hold', description: 'Monitor for next 2 quarters before making decision', priority: 'medium' }
+      ]
     },
     {
       id: 2,
@@ -88,7 +98,16 @@ const mutualFundsData = {
       alpha: 8.5,
       beta: 1.28,
       volatility: 24.8,
-      aum: 12800
+      aum: 12800,
+      insights: [
+        { type: 'success', message: 'Excellent 1Y returns outperforming category by 8.2%', priority: 'high' },
+        { type: 'warning', message: 'High volatility requires close monitoring', priority: 'medium' },
+        { type: 'info', message: 'Good stock picking ability by fund manager', priority: 'medium' }
+      ],
+      recommendations: [
+        { action: 'Partial Booking', description: 'Consider booking partial profits due to high gains', priority: 'medium' },
+        { action: 'Monitor Closely', description: 'Watch for market correction signals', priority: 'high' }
+      ]
     },
     {
       id: 3,
@@ -107,7 +126,16 @@ const mutualFundsData = {
       alpha: 1.2,
       beta: 0.15,
       volatility: 3.8,
-      aum: 8900
+      aum: 8900,
+      insights: [
+        { type: 'success', message: 'Stable returns with low volatility', priority: 'medium' },
+        { type: 'success', message: 'Excellent credit quality portfolio', priority: 'medium' },
+        { type: 'info', message: 'Good option for debt allocation', priority: 'low' }
+      ],
+      recommendations: [
+        { action: 'Hold', description: 'Maintain for portfolio stability', priority: 'low' },
+        { action: 'Increase SIP', description: 'Consider increasing allocation in rising rate scenario', priority: 'medium' }
+      ]
     },
     {
       id: 4,
@@ -126,7 +154,16 @@ const mutualFundsData = {
       alpha: 4.8,
       beta: 1.12,
       volatility: 18.5,
-      aum: 23400
+      aum: 23400,
+      insights: [
+        { type: 'success', message: 'Consistent outperformance across time periods', priority: 'high' },
+        { type: 'success', message: 'Strong alpha generation capability', priority: 'high' },
+        { type: 'info', message: 'Good blend of large and mid cap exposure', priority: 'medium' }
+      ],
+      recommendations: [
+        { action: 'Continue SIP', description: 'Excellent fund for long-term wealth creation', priority: 'high' },
+        { action: 'Increase Allocation', description: 'Consider increasing SIP amount', priority: 'medium' }
+      ]
     },
     {
       id: 5,
@@ -145,7 +182,16 @@ const mutualFundsData = {
       alpha: 2.1,
       beta: 0.98,
       volatility: 15.2,
-      aum: 34200
+      aum: 34200,
+      insights: [
+        { type: 'warning', message: 'Below average returns compared to category', priority: 'medium' },
+        { type: 'info', message: 'Conservative large cap approach', priority: 'low' },
+        { type: 'success', message: 'Low volatility provides stability', priority: 'medium' }
+      ],
+      recommendations: [
+        { action: 'Review', description: 'Consider switching to higher performing large cap fund', priority: 'medium' },
+        { action: 'Reduce Allocation', description: 'Gradually reduce exposure', priority: 'low' }
+      ]
     },
     {
       id: 6,
@@ -164,7 +210,16 @@ const mutualFundsData = {
       alpha: 5.2,
       beta: 0.92,
       volatility: 17.8,
-      aum: 18900
+      aum: 18900,
+      insights: [
+        { type: 'success', message: 'International diversification adds value', priority: 'high' },
+        { type: 'success', message: 'Strong research-driven investment approach', priority: 'medium' },
+        { type: 'info', message: 'Good for portfolio diversification', priority: 'medium' }
+      ],
+      recommendations: [
+        { action: 'Hold', description: 'Good long-term wealth creation fund', priority: 'medium' },
+        { action: 'Patient Approach', description: 'Value investing style may take time to deliver', priority: 'low' }
+      ]
     }
   ],
   insights: [
@@ -523,45 +578,149 @@ const MutualFundsHome = () => {
                 </thead>
                 <tbody>
                   {mutualFundsData.holdings.map((fund) => (
-                    <tr key={fund.id} className="border-b hover:bg-muted/50 cursor-pointer">
-                      <td className="py-4 px-2">
-                        <div>
-                          <p className="font-medium text-sm">{fund.name}</p>
-                          <p className="text-xs text-muted-foreground">{fund.category}</p>
+                    <HoverCard key={fund.id}>
+                      <HoverCardTrigger asChild>
+                        <tr className="border-b hover:bg-muted/50 cursor-pointer">
+                          <td className="py-4 px-2">
+                            <div>
+                              <p className="font-medium text-sm">{fund.name}</p>
+                              <p className="text-xs text-muted-foreground">{fund.category}</p>
+                            </div>
+                          </td>
+                          <td className="text-right py-4 px-2">
+                            <p className="font-semibold">{formatCurrency(fund.currentValue)}</p>
+                            <p className="text-xs text-muted-foreground">{fund.units.toFixed(2)} units</p>
+                          </td>
+                          <td className="text-right py-4 px-2">
+                            <p className={`font-semibold ${getChangeColor(fund.gains)}`}>
+                              {formatCurrency(fund.gains)}
+                            </p>
+                            <p className={`text-xs ${getChangeColor(fund.gains)}`}>
+                              {fund.gainsPercentage > 0 ? '+' : ''}{fund.gainsPercentage}%
+                            </p>
+                          </td>
+                          <td className="text-right py-4 px-2">
+                            <p className={`font-semibold ${getChangeColor(fund.returns['1Y'])}`}>
+                              {fund.returns['1Y']}%
+                            </p>
+                          </td>
+                          <td className="text-center py-4 px-2">
+                            <Badge 
+                              variant={
+                                fund.riskRating === 'Low' ? 'default' :
+                                fund.riskRating === 'Moderate' ? 'secondary' : 'destructive'
+                              }
+                              className="text-xs"
+                            >
+                              {fund.riskRating}
+                            </Badge>
+                          </td>
+                          <td className="text-right py-4 px-2">
+                            <p className="font-medium">{fund.expenseRatio}%</p>
+                          </td>
+                        </tr>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-96 p-6" side="right">
+                        <div className="space-y-4">
+                          {/* Fund Header */}
+                          <div className="border-b pb-3">
+                            <h3 className="font-semibold text-lg">{fund.name}</h3>
+                            <p className="text-sm text-muted-foreground">{fund.category} • AUM: ₹{fund.aum}Cr</p>
+                          </div>
+
+                          {/* Key Metrics */}
+                          <div className="grid grid-cols-3 gap-3">
+                            <div className="text-center p-2 rounded-lg bg-muted/50">
+                              <p className="text-lg font-bold text-blue-600">{fund.sharpeRatio}</p>
+                              <p className="text-xs text-muted-foreground">Sharpe Ratio</p>
+                            </div>
+                            <div className="text-center p-2 rounded-lg bg-muted/50">
+                              <p className="text-lg font-bold text-green-600">{fund.alpha}%</p>
+                              <p className="text-xs text-muted-foreground">Alpha</p>
+                            </div>
+                            <div className="text-center p-2 rounded-lg bg-muted/50">
+                              <p className="text-lg font-bold text-purple-600">{fund.beta}</p>
+                              <p className="text-xs text-muted-foreground">Beta</p>
+                            </div>
+                          </div>
+
+                          {/* Returns */}
+                          <div>
+                            <h4 className="font-medium mb-2">Historical Returns</h4>
+                            <div className="grid grid-cols-3 gap-2 text-sm">
+                              <div className="text-center">
+                                <p className="font-semibold">{fund.returns['1Y']}%</p>
+                                <p className="text-muted-foreground">1Y</p>
+                              </div>
+                              <div className="text-center">
+                                <p className="font-semibold">{fund.returns['3Y']}%</p>
+                                <p className="text-muted-foreground">3Y</p>
+                              </div>
+                              <div className="text-center">
+                                <p className="font-semibold">{fund.returns['5Y']}%</p>
+                                <p className="text-muted-foreground">5Y</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Fund Insights */}
+                          <div>
+                            <h4 className="font-medium mb-2">Key Insights</h4>
+                            <div className="space-y-2">
+                              {fund.insights?.map((insight, idx) => (
+                                <div 
+                                  key={idx}
+                                  className={`p-2 rounded-lg text-xs border-l-3 ${
+                                    insight.type === 'success' ? 'bg-green-50 dark:bg-green-950 border-green-500' :
+                                    insight.type === 'warning' ? 'bg-yellow-50 dark:bg-yellow-950 border-yellow-500' :
+                                    'bg-blue-50 dark:bg-blue-950 border-blue-500'
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-1">
+                                    {insight.type === 'success' && <Star className="w-3 h-3 text-green-600" />}
+                                    {insight.type === 'warning' && <AlertCircle className="w-3 h-3 text-yellow-600" />}
+                                    {insight.type === 'info' && <Activity className="w-3 h-3 text-blue-600" />}
+                                    <p className="flex-1">{insight.message}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Recommendations */}
+                          <div>
+                            <h4 className="font-medium mb-2">Recommendations</h4>
+                            <div className="space-y-2">
+                              {fund.recommendations?.map((rec, idx) => (
+                                <div key={idx} className="p-2 rounded-lg bg-muted/30 border">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <p className="font-medium text-sm">{rec.action}</p>
+                                    <Badge 
+                                      variant={rec.priority === 'high' ? 'destructive' : 'secondary'}
+                                      className="text-xs"
+                                    >
+                                      {rec.priority}
+                                    </Badge>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground">{rec.description}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Button */}
+                          <div className="pt-2 border-t">
+                            <Button 
+                              size="sm" 
+                              className="w-full"
+                              onClick={() => navigate(`/mutual-fund-details/${fund.id}`)}
+                            >
+                              View Detailed Analysis
+                            </Button>
+                          </div>
                         </div>
-                      </td>
-                      <td className="text-right py-4 px-2">
-                        <p className="font-semibold">{formatCurrency(fund.currentValue)}</p>
-                        <p className="text-xs text-muted-foreground">{fund.units.toFixed(2)} units</p>
-                      </td>
-                      <td className="text-right py-4 px-2">
-                        <p className={`font-semibold ${getChangeColor(fund.gains)}`}>
-                          {formatCurrency(fund.gains)}
-                        </p>
-                        <p className={`text-xs ${getChangeColor(fund.gains)}`}>
-                          {fund.gainsPercentage > 0 ? '+' : ''}{fund.gainsPercentage}%
-                        </p>
-                      </td>
-                      <td className="text-right py-4 px-2">
-                        <p className={`font-semibold ${getChangeColor(fund.returns['1Y'])}`}>
-                          {fund.returns['1Y']}%
-                        </p>
-                      </td>
-                      <td className="text-center py-4 px-2">
-                        <Badge 
-                          variant={
-                            fund.riskRating === 'Low' ? 'default' :
-                            fund.riskRating === 'Moderate' ? 'secondary' : 'destructive'
-                          }
-                          className="text-xs"
-                        >
-                          {fund.riskRating}
-                        </Badge>
-                      </td>
-                      <td className="text-right py-4 px-2">
-                        <p className="font-medium">{fund.expenseRatio}%</p>
-                      </td>
-                    </tr>
+                      </HoverCardContent>
+                    </HoverCard>
                   ))}
                 </tbody>
               </table>
