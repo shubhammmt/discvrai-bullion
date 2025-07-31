@@ -998,7 +998,7 @@ const MutualFundsHome = () => {
                             {/* Three Column Layout */}
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                               
-                              {/* Column 1: Performance Overview */}
+                              {/* Column 1: Performance Overview & Fund Manager */}
                               <div className="space-y-6">
                                 <div>
                                   <h4 className="font-semibold text-lg mb-4">Performance Overview</h4>
@@ -1024,9 +1024,47 @@ const MutualFundsHome = () => {
                                     </div>
                                   </div>
                                 </div>
+
+                                {/* Fund Details - Moved from Column 3 */}
+                                <div>
+                                  <h4 className="font-semibold text-lg mb-4">Fund Details</h4>
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <div className="text-center p-3 bg-muted/30 rounded-lg">
+                                      <p className="text-xs text-muted-foreground mb-1">Expense Ratio</p>
+                                      <p className="font-bold text-lg">{fund.expenseRatio}%</p>
+                                    </div>
+                                    <div className="text-center p-3 bg-muted/30 rounded-lg">
+                                      <p className="text-xs text-muted-foreground mb-1">AUM</p>
+                                      <p className="font-bold text-lg">₹{fund.aum}Cr</p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Risk Metrics - Moved from Column 2 */}
+                                <div>
+                                  <h4 className="font-semibold text-lg mb-4">Risk Metrics</h4>
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                      <p className="text-xs text-muted-foreground">Sharpe</p>
+                                      <p className="font-bold">{fund.metrics.sharpeRatio}</p>
+                                    </div>
+                                    <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                      <p className="text-xs text-muted-foreground">Beta</p>
+                                      <p className="font-bold">{fund.metrics.beta}</p>
+                                    </div>
+                                    <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                      <p className="text-xs text-muted-foreground">Alpha</p>
+                                      <p className="font-bold">{fund.metrics.alpha}%</p>
+                                    </div>
+                                    <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                      <p className="text-xs text-muted-foreground">Volatility</p>
+                                      <p className="font-bold">{fund.metrics.standardDeviation}%</p>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
 
-                              {/* Column 2: Returns Comparison */}
+                              {/* Column 2: Returns Comparison & Top Holdings */}
                               <div className="space-y-6">
                                 <div>
                                   <h4 className="font-semibold text-lg mb-4">Returns Comparison</h4>
@@ -1059,60 +1097,21 @@ const MutualFundsHome = () => {
                                       </tbody>
                                     </table>
                                   </div>
+                                </div>
 
-                                  <div className="mt-4">
-                                    <h5 className="font-medium mb-3">Risk Metrics</h5>
-                                    <div className="grid grid-cols-2 gap-3">
-                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
-                                        <p className="text-xs text-muted-foreground">Sharpe</p>
-                                        <p className="font-bold">{fund.metrics.sharpeRatio}</p>
+                                {/* Top Holdings - Moved from Column 3 */}
+                                <div>
+                                  <h4 className="font-semibold text-lg mb-4">Top 5 Holdings</h4>
+                                  <div className="space-y-3">
+                                    {fund.holdings.topStocks.map((stock, index) => (
+                                      <div key={index} className="flex justify-between items-center text-sm p-3 bg-muted/30 rounded-lg">
+                                        <span className="font-medium">{stock.name}</span>
+                                        <span className="font-bold text-blue-600">{stock.weight}%</span>
                                       </div>
-                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
-                                        <p className="text-xs text-muted-foreground">Beta</p>
-                                        <p className="font-bold">{fund.metrics.beta}</p>
-                                      </div>
-                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
-                                        <p className="text-xs text-muted-foreground">Alpha</p>
-                                        <p className="font-bold">{fund.metrics.alpha}%</p>
-                                      </div>
-                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
-                                        <p className="text-xs text-muted-foreground">Volatility</p>
-                                        <p className="font-bold">{fund.metrics.standardDeviation}%</p>
-                                      </div>
-                                    </div>
+                                    ))}
                                   </div>
                                 </div>
                               </div>
-
-                              {/* Column 3: Holdings & Analysis */}
-                              <div className="space-y-6">
-                                <div>
-                                  <h4 className="font-semibold text-lg mb-4">Holdings & Analysis</h4>
-                                  
-                                  {/* Top Holdings */}
-                                  <div className="mb-6">
-                                    <h5 className="font-medium mb-3">Top 5 Holdings</h5>
-                                    <div className="space-y-2">
-                                      {fund.holdings.topStocks.map((stock, index) => (
-                                        <div key={index} className="flex justify-between items-center text-sm">
-                                          <span className="font-medium">{stock.name}</span>
-                                          <span className="font-bold text-blue-600">{stock.weight}%</span>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-
-                                  {/* Fund Details */}
-                                  <div className="grid grid-cols-2 gap-4 mb-6">
-                                    <div className="text-center p-3 bg-muted/30 rounded-lg">
-                                      <p className="text-xs text-muted-foreground mb-1">Expense Ratio</p>
-                                      <p className="font-bold text-lg">{fund.expenseRatio}%</p>
-                                    </div>
-                                    <div className="text-center p-3 bg-muted/30 rounded-lg">
-                                      <p className="text-xs text-muted-foreground mb-1">AUM</p>
-                                      <p className="font-bold text-lg">₹{fund.aum}Cr</p>
-                                    </div>
-                                  </div>
 
                                   {/* Suitability Score */}
                                   {fund.suitability_score && (
