@@ -41,6 +41,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, BarChart, Bar, RadialBarChart, RadialBar } from 'recharts';
+import PortfolioHealthRadar from '@/components/PortfolioHealthRadar';
 
 // Enhanced mock data with new structure
 const portfolioData = {
@@ -591,6 +592,9 @@ const MutualFundsHome = () => {
             SBI Small Cap Fund shows high gains but requires monitoring. HDFC Equity Fund - excellent performer, consider increasing allocation.
           </AlertDescription>
         </Alert>
+
+        {/* Portfolio Health Radar */}
+        <PortfolioHealthRadar portfolioData={portfolioData} />
 
         {/* AI Analysis & Actionable Insights */}
         <Collapsible open={expandedSections.aiAnalysis} onOpenChange={() => toggleSection('aiAnalysis')}>
