@@ -205,8 +205,8 @@ const MutualFundsHome = () => {
           formatCurrency={formatCurrency} 
         />
 
-        {/* Portfolio Health Radar */}
-        <PortfolioHealthRadar portfolioData={portfolioData} />
+        {/* Portfolio Health Radar - Temporarily disabled for debugging */}
+        {/* <PortfolioHealthRadar portfolioData={portfolioData} /> */}
 
         {/* Portfolio Health Alert */}
         <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950">

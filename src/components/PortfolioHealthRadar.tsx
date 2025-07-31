@@ -44,10 +44,13 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
     else if (performanceScore >= 8) performanceStatus = 'Good Returns';
     else if (performanceScore >= 0) performanceStatus = 'Moderate Returns';
 
-    // Find highest and lowest performing funds
-    const fundsByPerformance = portfolioData.funds.sort((a: any, b: any) => b.gainsPercentage - a.gainsPercentage);
-    const highestPerformer = fundsByPerformance[0];
-    const lowestPerformer = fundsByPerformance[fundsByPerformance.length - 1];
+    // Find highest and lowest performing funds - handle API data structure
+    const fundsByPerformance = portfolioData.funds
+      .filter((fund: any) => fund.returns && fund.returns['1Y'] !== null && fund.returns['1Y'] !== undefined)
+      .sort((a: any, b: any) => (b.returns['1Y'] || 0) - (a.returns['1Y'] || 0));
+    
+    const highestPerformer = fundsByPerformance[0] || { name: 'N/A', returns: { '1Y': 0 } };
+    const lowestPerformer = fundsByPerformance[fundsByPerformance.length - 1] || { name: 'N/A', returns: { '1Y': 0 } };
 
     indicators.push({
       id: 'performance',
@@ -59,9 +62,9 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
       detailedMetrics: [
         { label: 'Total Portfolio Gains', value: `${performanceScore.toFixed(1)}%`, percentage: performanceScore },
         { label: 'Best Performer', value: `${highestPerformer.name.substring(0, 25)}...`, percentage: 0 },
-        { label: 'Best Performance', value: `+${highestPerformer.gainsPercentage.toFixed(1)}%`, percentage: highestPerformer.gainsPercentage },
+        { label: 'Best Performance', value: `+${(highestPerformer.returns['1Y'] || 0).toFixed(1)}%`, percentage: highestPerformer.returns['1Y'] || 0 },
         { label: 'Worst Performer', value: `${lowestPerformer.name.substring(0, 25)}...`, percentage: 0 },
-        { label: 'Worst Performance', value: `+${lowestPerformer.gainsPercentage.toFixed(1)}%`, percentage: lowestPerformer.gainsPercentage },
+        { label: 'Worst Performance', value: `+${(lowestPerformer.returns['1Y'] || 0).toFixed(1)}%`, percentage: lowestPerformer.returns['1Y'] || 0 },
         { label: 'Portfolio XIRR', value: `${portfolioData.summary.xirr}%`, percentage: portfolioData.summary.xirr }
       ]
     });
@@ -82,10 +85,10 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
       description: `Risk score: ${portfolioRiskScore}/100`,
       detailedMetrics: [
         { label: 'Portfolio Risk Score', value: `${portfolioRiskScore}/100`, percentage: portfolioRiskScore },
-        { label: 'Portfolio Beta', value: portfolioData.metrics.beta.toFixed(2), percentage: portfolioData.metrics.beta * 50 },
-        { label: 'Volatility (Std Dev)', value: `${portfolioData.metrics.standardDeviation}%`, percentage: portfolioData.metrics.standardDeviation },
-        { label: 'Max Drawdown', value: `${portfolioData.metrics.maxDrawdown}%`, percentage: portfolioData.metrics.maxDrawdown },
-        { label: 'Sharpe Ratio', value: portfolioData.metrics.sharpeRatio.toFixed(2), percentage: portfolioData.metrics.sharpeRatio * 100 }
+        { label: 'Portfolio Beta', value: (portfolioData.performance?.metrics?.beta || 0).toFixed(2), percentage: (portfolioData.performance?.metrics?.beta || 0) * 50 },
+        { label: 'Volatility (Std Dev)', value: `${portfolioData.performance?.metrics?.standardDeviation || 0}%`, percentage: portfolioData.performance?.metrics?.standardDeviation || 0 },
+        { label: 'Max Drawdown', value: `${portfolioData.performance?.metrics?.maxDrawdown || 0}%`, percentage: portfolioData.performance?.metrics?.maxDrawdown || 0 },
+        { label: 'Sharpe Ratio', value: (portfolioData.performance?.metrics?.sharpeRatio || 0).toFixed(2), percentage: (portfolioData.performance?.metrics?.sharpeRatio || 0) * 100 }
       ]
     });
 
@@ -119,66 +122,77 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
       ]
     });
 
-    // 4. Portfolio Mix
-    const equityAllocation = portfolioData.allocation.assetClass.find((a: any) => a.name === 'Equity')?.value || 0;
-    const targetEquity = portfolioData.allocation.assetClass.find((a: any) => a.name === 'Equity')?.target || 0;
-    const allocationDiff = Math.abs(equityAllocation - targetEquity);
-    let mixStatus = 'Balanced Mix';
-    if (allocationDiff <= 5) mixStatus = 'Optimal Mix';
-    else if (allocationDiff <= 10) mixStatus = 'Well Balanced';
-    else if (allocationDiff <= 15) mixStatus = 'Needs Rebalancing';
-    else mixStatus = 'Poor Balance';
+    // 4. Portfolio Mix - Handle empty allocation data
+    const hasAllocationData = portfolioData.allocation?.assetClass && 
+                             Object.keys(portfolioData.allocation.assetClass).length > 0;
+    
+    let mixStatus = 'Data Unavailable';
+    let mixScore = 50; // Default score when no data
+    let equityAllocation = 0;
+    let targetEquity = 0;
+    
+    if (hasAllocationData) {
+      const assetClasses = Object.entries(portfolioData.allocation.assetClass);
+      const equityAsset = assetClasses.find(([name, _]: [string, any]) => 
+        name.toLowerCase().includes('equity')
+      );
+      
+      if (equityAsset) {
+        const [_, data] = equityAsset as [string, any];
+        equityAllocation = data.current || 0;
+        targetEquity = data.target || 0;
+        const allocationDiff = Math.abs(equityAllocation - targetEquity);
+        
+        if (allocationDiff <= 5) mixStatus = 'Optimal Mix';
+        else if (allocationDiff <= 10) mixStatus = 'Well Balanced';
+        else if (allocationDiff <= 15) mixStatus = 'Needs Rebalancing';
+        else mixStatus = 'Poor Balance';
+        
+        mixScore = Math.max(0, 100 - (allocationDiff * 5));
+      } else {
+        mixStatus = 'Balanced Mix'; // Default when no equity data
+        mixScore = 70;
+      }
+    }
 
     indicators.push({
       id: 'portfolio_mix',
       title: 'Portfolio Mix',
       status: mixStatus,
-      score: Math.max(0, 100 - (allocationDiff * 5)),
+      score: mixScore,
       icon: PieChart,
-      description: `${equityAllocation}% equity (target: ${targetEquity}%)`,
-      detailedMetrics: [
-        ...portfolioData.allocation.assetClass.map((asset: any) => ({
-          label: asset.name,
-          value: `${asset.value}%`,
-          percentage: asset.value
-        })),
-        ...portfolioData.allocation.sectors.slice(0, 5).map((sector: any) => ({
-          label: sector.name,
-          value: `${sector.value}%`,
-          percentage: sector.value
-        })),
-        ...portfolioData.allocation.marketCap.map((cap: any) => ({
-          label: cap.name,
-          value: `${cap.value}%`,
-          percentage: cap.value
-        }))
-      ]
+      description: hasAllocationData ? 
+        `${equityAllocation}% equity (target: ${targetEquity}%)` : 
+        'Mix analysis pending allocation data'
     });
 
-    // 5. Management Quality
-    const avgManagerTenure = portfolioData.funds.reduce((sum: number, fund: any) => {
-      const tenure = new Date().getFullYear() - parseInt(fund.managerTenure);
-      return sum + tenure;
-    }, 0) / portfolioData.funds.length;
+    // 5. Management Quality - Use available data or defaults
+    const fundHouses = [...new Set(portfolioData.funds.map((fund: any) => fund.amc))];
+    const knownFundHouses = fundHouses.filter((house: string) => house !== 'Unknown').length;
+    const totalFundHouses = fundHouses.length;
     
-    let managementStatus = 'New Team';
-    if (avgManagerTenure >= 15) managementStatus = 'Veteran Team';
-    else if (avgManagerTenure >= 10) managementStatus = 'Experienced Team';
-    else if (avgManagerTenure >= 5) managementStatus = 'Seasoned Team';
+    // Calculate management score based on fund house reputation and data availability
+    const managementScore = Math.min(100, (knownFundHouses / totalFundHouses) * 100);
+    
+    let managementStatus = 'Limited Data';
+    if (managementScore >= 80) managementStatus = 'Reputed Houses';
+    else if (managementScore >= 60) managementStatus = 'Mixed Quality';
+    else if (managementScore >= 40) managementStatus = 'Needs Review';
 
     indicators.push({
       id: 'management',
       title: 'Management',
       status: managementStatus,
-      score: Math.min(100, avgManagerTenure * 5),
+      score: managementScore,
       icon: Users,
-      description: `Avg manager tenure: ${avgManagerTenure.toFixed(0)} years`
+      description: `${knownFundHouses}/${totalFundHouses} known fund houses`
     });
 
     // 6. Suitability (from API data if available)
-    const avgSuitability = portfolioData.funds.filter((f: any) => f.suitability_score)
-      .reduce((sum: number, fund: any) => sum + fund.suitability_score.final_score, 0) / 
-      portfolioData.funds.filter((f: any) => f.suitability_score).length || 50;
+    const fundsWithSuitability = portfolioData.funds.filter((f: any) => f.suitabilityScore);
+    const avgSuitability = fundsWithSuitability.length > 0 ? 
+      fundsWithSuitability.reduce((sum: number, fund: any) => sum + fund.suitabilityScore, 0) / fundsWithSuitability.length : 
+      50;
 
     let suitabilityStatus = 'Poor Fit';
     if (avgSuitability >= 70) suitabilityStatus = 'Excellent Fit';
