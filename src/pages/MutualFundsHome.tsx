@@ -620,7 +620,7 @@ const MutualFundsHome = () => {
                           </td>
                         </tr>
                       </HoverCardTrigger>
-                      <HoverCardContent className="w-64 p-3 max-h-96 overflow-y-auto" side="left" align="center" sideOffset={10} avoidCollisions={true}>
+                      <HoverCardContent className="w-80 p-4" side="top" align="start" sideOffset={8} avoidCollisions={true} sticky="always">
                         <div className="space-y-3">
                           {/* Fund Header */}
                           <div className="border-b pb-2">
