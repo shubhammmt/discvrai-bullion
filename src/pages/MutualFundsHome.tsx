@@ -744,157 +744,189 @@ const MutualFundsHome = () => {
               <CardContent>
                 <div className="space-y-6">
                   {portfolioData.funds.map((fund) => (
-                    <div key={fund.id} className="border rounded-lg p-6 space-y-4">
-                      
-                      {/* Fund Header */}
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold">{fund.name}</h3>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                            <span>{fund.category}</span>
-                            <span>•</span>
-                            <span>{fund.scheme}</span>
-                            <span>•</span>
-                            <span>Risk: {fund.riskLevel}</span>
-                          </div>
-                        </div>
-                        <Badge className={`${getRecommendationColor(fund.recommendation)} border`}>
-                          {fund.recommendation}
-                        </Badge>
-                      </div>
-
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        
-                        {/* Performance Overview */}
-                        <div className="space-y-4">
-                          <h4 className="font-semibold">Performance Overview</h4>
+                    <Card key={fund.id} className="border rounded-lg">
+                      <Collapsible>
+                        <div className="p-6 space-y-4">
                           
-                          <div className="grid grid-cols-2 gap-4">
+                          {/* Fund Header - Always Visible */}
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <h3 className="text-lg font-semibold">{fund.name}</h3>
+                              <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+                                <span>{fund.category}</span>
+                                <span>•</span>
+                                <span>{fund.scheme}</span>
+                                <span>•</span>
+                                <span>Risk: {fund.riskLevel}</span>
+                              </div>
+                            </div>
+                            <Badge className={`${getRecommendationColor(fund.recommendation)} border`}>
+                              {fund.recommendation}
+                            </Badge>
+                          </div>
+
+                          {/* Minimal View - Always Visible */}
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div>
                               <p className="text-sm text-muted-foreground">Current Value</p>
-                              <p className="text-xl font-bold">{formatCurrency(fund.currentValue)}</p>
+                              <p className="text-lg font-bold">{formatCurrency(fund.currentValue)}</p>
                             </div>
                             <div>
-                              <p className="text-sm text-muted-foreground">Total Gains</p>
-                              <p className="text-xl font-bold text-green-600">
-                                +{formatCurrency(fund.gains)} ({fund.gainsPercentage}%)
+                              <p className="text-sm text-muted-foreground">1Y Return</p>
+                              <p className={`text-lg font-bold ${fund.returns['1Y'] >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {fund.returns['1Y'] > 0 ? '+' : ''}{fund.returns['1Y']}%
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-muted-foreground">3Y Return</p>
+                              <p className={`text-lg font-bold ${fund.returns['3Y'] >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {fund.returns['3Y'] > 0 ? '+' : ''}{fund.returns['3Y']}%
                               </p>
                             </div>
                             <div>
                               <p className="text-sm text-muted-foreground">NAV</p>
-                              <p className="text-lg font-semibold">₹{fund.nav}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-muted-foreground">Units</p>
-                              <p className="text-lg font-semibold">{fund.units.toLocaleString()}</p>
+                              <p className="text-lg font-bold">₹{fund.nav}</p>
                             </div>
                           </div>
 
-                          {/* Fund Manager */}
-                          <div>
-                            <p className="text-sm text-muted-foreground">Fund Manager</p>
-                            <p className="font-medium">{fund.manager}</p>
-                            <p className="text-xs text-muted-foreground">Managing since {fund.managerTenure}</p>
-                          </div>
-                        </div>
+                          {/* Expand/Collapse Trigger */}
+                          <CollapsibleTrigger asChild>
+                            <Button variant="ghost" className="w-full justify-center gap-2 hover:bg-muted">
+                              <Eye className="h-4 w-4" />
+                              View Detailed Analysis
+                              <ChevronDown className="h-4 w-4" />
+                            </Button>
+                          </CollapsibleTrigger>
 
-                        {/* Returns Comparison */}
-                        <div className="space-y-4">
-                          <h4 className="font-semibold">Returns Comparison</h4>
-                          
-                          <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                              <thead>
-                                <tr className="border-b">
-                                  <th className="text-left py-1">Period</th>
-                                  <th className="text-right py-1">Fund</th>
-                                  <th className="text-right py-1">Benchmark</th>
-                                  <th className="text-right py-1">Category</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {['1Y', '3Y', '5Y'].map(period => (
-                                  <tr key={period} className="border-b">
-                                    <td className="py-1">{period}</td>
-                                    <td className="text-right font-semibold">
-                                      {fund.returns[period as keyof typeof fund.returns]}%
-                                    </td>
-                                    <td className="text-right">
-                                      {fund.benchmarkReturns[period as keyof typeof fund.benchmarkReturns]}%
-                                    </td>
-                                    <td className="text-right">
-                                      {fund.categoryReturns[period as keyof typeof fund.categoryReturns]}%
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-
-                          {/* Risk Metrics */}
-                          <div className="space-y-2">
-                            <h5 className="font-medium">Risk Metrics</h5>
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                              <div>Sharpe: {fund.metrics.sharpeRatio}</div>
-                              <div>Beta: {fund.metrics.beta}</div>
-                              <div>Alpha: {fund.metrics.alpha}%</div>
-                              <div>Volatility: {fund.metrics.standardDeviation}%</div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Holdings & Analysis */}
-                        <div className="space-y-4">
-                          <h4 className="font-semibold">Holdings & Analysis</h4>
-                          
-                          {/* Top Holdings */}
-                          <div>
-                            <h5 className="font-medium mb-2">Top 5 Holdings</h5>
-                            <div className="space-y-1">
-                              {fund.holdings.topStocks.map((stock, index) => (
-                                <div key={index} className="flex justify-between text-sm">
-                                  <span>{stock.name}</span>
-                                  <span>{stock.weight}%</span>
+                          {/* Detailed Content - Collapsible */}
+                          <CollapsibleContent className="space-y-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                              
+                              {/* Performance Overview */}
+                              <div className="space-y-4">
+                                <h4 className="font-semibold">Performance Overview</h4>
+                                
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <p className="text-sm text-muted-foreground">Total Gains</p>
+                                    <p className="text-xl font-bold text-green-600">
+                                      +{formatCurrency(fund.gains)} ({fund.gainsPercentage}%)
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm text-muted-foreground">Units</p>
+                                    <p className="text-lg font-semibold">{fund.units.toLocaleString()}</p>
+                                  </div>
                                 </div>
-                              ))}
-                            </div>
-                          </div>
 
-                          {/* Expense Details */}
-                          <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                              <p className="text-muted-foreground">Expense Ratio</p>
-                              <p className="font-semibold">{fund.expenseRatio}%</p>
-                            </div>
-                            <div>
-                              <p className="text-muted-foreground">AUM</p>
-                              <p className="font-semibold">₹{fund.aum}Cr</p>
-                            </div>
-                          </div>
-
-                          {/* Fund Insights */}
-                          <div>
-                            <h5 className="font-medium mb-2">Insights</h5>
-                            <div className="space-y-2">
-                              {fund.insights.map((insight, index) => (
-                                <div key={index} className="flex items-start gap-2 text-sm">
-                                  {getInsightIcon(insight.type)}
-                                  <span>{insight.message}</span>
+                                {/* Fund Manager */}
+                                <div>
+                                  <p className="text-sm text-muted-foreground">Fund Manager</p>
+                                  <p className="font-medium">{fund.manager}</p>
+                                  <p className="text-xs text-muted-foreground">Managing since {fund.managerTenure}</p>
                                 </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                              </div>
 
-                      {/* Recommendation */}
-                      <Alert className="mt-4">
-                        <CheckCircle className="h-4 w-4" />
-                        <AlertDescription>
-                          <strong>{fund.recommendation}:</strong> {fund.recommendationReason}
-                        </AlertDescription>
-                      </Alert>
-                    </div>
+                              {/* Returns Comparison */}
+                              <div className="space-y-4">
+                                <h4 className="font-semibold">Returns Comparison</h4>
+                                
+                                <div className="overflow-x-auto">
+                                  <table className="w-full text-sm">
+                                    <thead>
+                                      <tr className="border-b">
+                                        <th className="text-left py-1">Period</th>
+                                        <th className="text-right py-1">Fund</th>
+                                        <th className="text-right py-1">Benchmark</th>
+                                        <th className="text-right py-1">Category</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {['1Y', '3Y', '5Y'].map(period => (
+                                        <tr key={period} className="border-b">
+                                          <td className="py-1">{period}</td>
+                                          <td className="text-right font-semibold">
+                                            {fund.returns[period as keyof typeof fund.returns]}%
+                                          </td>
+                                          <td className="text-right">
+                                            {fund.benchmarkReturns[period as keyof typeof fund.benchmarkReturns]}%
+                                          </td>
+                                          <td className="text-right">
+                                            {fund.categoryReturns[period as keyof typeof fund.categoryReturns]}%
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                                {/* Risk Metrics */}
+                                <div className="space-y-2">
+                                  <h5 className="font-medium">Risk Metrics</h5>
+                                  <div className="grid grid-cols-2 gap-2 text-sm">
+                                    <div>Sharpe: {fund.metrics.sharpeRatio}</div>
+                                    <div>Beta: {fund.metrics.beta}</div>
+                                    <div>Alpha: {fund.metrics.alpha}%</div>
+                                    <div>Volatility: {fund.metrics.standardDeviation}%</div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Holdings & Analysis */}
+                              <div className="space-y-4">
+                                <h4 className="font-semibold">Holdings & Analysis</h4>
+                                
+                                {/* Top Holdings */}
+                                <div>
+                                  <h5 className="font-medium mb-2">Top 5 Holdings</h5>
+                                  <div className="space-y-1">
+                                    {fund.holdings.topStocks.map((stock, index) => (
+                                      <div key={index} className="flex justify-between text-sm">
+                                        <span>{stock.name}</span>
+                                        <span>{stock.weight}%</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* Expense Details */}
+                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                  <div>
+                                    <p className="text-muted-foreground">Expense Ratio</p>
+                                    <p className="font-semibold">{fund.expenseRatio}%</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-muted-foreground">AUM</p>
+                                    <p className="font-semibold">₹{fund.aum}Cr</p>
+                                  </div>
+                                </div>
+
+                                {/* Fund Insights */}
+                                <div>
+                                  <h5 className="font-medium mb-2">Insights</h5>
+                                  <div className="space-y-2">
+                                    {fund.insights.map((insight, index) => (
+                                      <div key={index} className="flex items-start gap-2 text-sm">
+                                        {getInsightIcon(insight.type)}
+                                        <span>{insight.message}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Recommendation */}
+                            <Alert className="mt-4">
+                              <CheckCircle className="h-4 w-4" />
+                              <AlertDescription>
+                                <strong>{fund.recommendation}:</strong> {fund.recommendationReason}
+                              </AlertDescription>
+                            </Alert>
+                          </CollapsibleContent>
+                        </div>
+                      </Collapsible>
+                    </Card>
                   ))}
                 </div>
               </CardContent>
