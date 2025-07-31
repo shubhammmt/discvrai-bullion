@@ -547,15 +547,6 @@ const MutualFundsHome = () => {
             <CollapsibleContent>
               <CardContent>
                 <div className="space-y-6">
-                  
-                  {/* Overall Score */}
-                  <div className="text-center p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 rounded-lg">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 text-white rounded-full mb-4">
-                      <span className="text-2xl font-bold">{portfolioData.aiAnalysis.overallScore}</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Portfolio Health Score</h3>
-                    <p className="text-muted-foreground">Your portfolio shows strong fundamentals with good diversification</p>
-                  </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     
