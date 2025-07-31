@@ -1080,61 +1080,62 @@ const MutualFundsHome = () => {
                                 </div>
                               </div>
 
-                                  {/* Suitability Score */}
-                                  {fund.suitability_score && (
-                                    <div className="mb-6">
-                                      <h5 className="font-medium mb-3">Suitability Score</h5>
-                                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg border border-yellow-200">
-                                        <div className="flex items-center gap-3 mb-3">
-                                          <div className="text-3xl font-bold">
-                                            <span className={getSuitabilityColor(fund.suitability_score.final_score)}>
-                                              {fund.suitability_score.final_score}
-                                            </span>
-                                            <span className="text-muted-foreground text-lg">/100</span>
-                                          </div>
-                                          <Badge className={getSuitabilityBadgeColor(fund.suitability_score.category)}>
-                                            {fund.suitability_score.category}
-                                          </Badge>
+                              {/* Column 3: Suitability & AI Insights */}
+                              <div className="space-y-6">
+                                {/* Suitability Score */}
+                                {fund.suitability_score && (
+                                  <div className="mb-6">
+                                    <h5 className="font-medium mb-3">Suitability Score</h5>
+                                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg border border-yellow-200">
+                                      <div className="flex items-center gap-3 mb-3">
+                                        <div className="text-3xl font-bold">
+                                          <span className={getSuitabilityColor(fund.suitability_score.final_score)}>
+                                            {fund.suitability_score.final_score}
+                                          </span>
+                                          <span className="text-muted-foreground text-lg">/100</span>
                                         </div>
-                                        
-                                        <div>
-                                          <p className="text-xs text-muted-foreground mb-2 font-medium">Key Score Components:</p>
-                                          <div className="space-y-1">
-                                            {Object.entries(fund.suitability_score.sub_scores)
-                                              .sort(([,a], [,b]) => b - a)
-                                              .slice(0, 3)
-                                              .map(([key, score]) => (
-                                                <div key={key} className="flex justify-between text-sm">
-                                                  <span className="capitalize font-medium">{key.replace(/_/g, ' ')}</span>
-                                                  <span className={`font-bold ${getSuitabilityColor(score as number)}`}>
-                                                    {(score as number).toFixed(0)}
-                                                  </span>
-                                                </div>
-                                              ))}
-                                          </div>
+                                        <Badge className={getSuitabilityBadgeColor(fund.suitability_score.category)}>
+                                          {fund.suitability_score.category}
+                                        </Badge>
+                                      </div>
+                                      
+                                      <div>
+                                        <p className="text-xs text-muted-foreground mb-2 font-medium">Key Score Components:</p>
+                                        <div className="space-y-1">
+                                          {Object.entries(fund.suitability_score.sub_scores)
+                                            .sort(([,a], [,b]) => b - a)
+                                            .slice(0, 3)
+                                            .map(([key, score]) => (
+                                              <div key={key} className="flex justify-between text-sm">
+                                                <span className="capitalize font-medium">{key.replace(/_/g, ' ')}</span>
+                                                <span className={`font-bold ${getSuitabilityColor(score as number)}`}>
+                                                  {(score as number).toFixed(0)}
+                                                </span>
+                                              </div>
+                                            ))}
                                         </div>
                                       </div>
                                     </div>
-                                  )}
+                                  </div>
+                                )}
 
-                                  {/* AI-Generated Insights */}
-                                  <div>
-                                    <h5 className="font-medium mb-3">AI-Generated Insights</h5>
-                                    <div className="space-y-3">
-                                      {fund.suitability_score ? 
-                                        generateSuitabilityInsights(fund.suitability_score).map((insight, index) => (
-                                          <div key={index} className="flex items-start gap-3 text-sm p-3 bg-muted/30 rounded-lg">
-                                            {getInsightIcon(insight.type)}
-                                            <span className="flex-1">{insight.message}</span>
-                                          </div>
-                                        )) :
-                                        fund.insights.map((insight, index) => (
-                                          <div key={index} className="flex items-start gap-3 text-sm p-3 bg-muted/30 rounded-lg">
-                                            {getInsightIcon(insight.type)}
-                                            <span className="flex-1">{insight.message}</span>
-                                          </div>
-                                        ))}
-                                    </div>
+                                {/* AI-Generated Insights */}
+                                <div>
+                                  <h5 className="font-medium mb-3">AI-Generated Insights</h5>
+                                  <div className="space-y-3">
+                                    {fund.suitability_score ? 
+                                      generateSuitabilityInsights(fund.suitability_score).map((insight, index) => (
+                                        <div key={index} className="flex items-start gap-3 text-sm p-3 bg-muted/30 rounded-lg">
+                                          {getInsightIcon(insight.type)}
+                                          <span className="flex-1">{insight.message}</span>
+                                        </div>
+                                      )) :
+                                      fund.insights.map((insight, index) => (
+                                        <div key={index} className="flex items-start gap-3 text-sm p-3 bg-muted/30 rounded-lg">
+                                          {getInsightIcon(insight.type)}
+                                          <span className="flex-1">{insight.message}</span>
+                                        </div>
+                                      ))}
                                   </div>
                                 </div>
                               </div>
