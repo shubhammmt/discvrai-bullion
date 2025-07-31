@@ -9,7 +9,7 @@ interface PerformanceAnalysisProps {
   benchmarkComparison: {
     portfolio: Record<string, number>;
     benchmark: Record<string, number>;
-    category: Record<string, number>;
+    nifty50: Record<string, number>;
   };
   metrics: {
     sharpeRatio: number;
@@ -34,7 +34,7 @@ const PerformanceAnalysis: React.FC<PerformanceAnalysisProps> = ({
     period,
     portfolio: benchmarkComparison.portfolio[period],
     benchmark: benchmarkComparison.benchmark[period],
-    category: benchmarkComparison.category[period]
+    nifty50: benchmarkComparison.nifty50[period]
   }));
 
   const riskMetrics = [
@@ -109,7 +109,7 @@ const PerformanceAnalysis: React.FC<PerformanceAnalysisProps> = ({
                   />
                   <Bar dataKey="portfolio" fill="#3B82F6" name="Portfolio" />
                   <Bar dataKey="benchmark" fill="#10B981" name="Benchmark" />
-                  <Bar dataKey="category" fill="#F59E0B" name="Category Avg" />
+                  <Bar dataKey="nifty50" fill="#F59E0B" name="Nifty 50" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -187,11 +187,11 @@ const PerformanceAnalysis: React.FC<PerformanceAnalysisProps> = ({
                   />
                   <Line 
                     type="monotone" 
-                    dataKey="category" 
+                    dataKey="nifty50" 
                     stroke="#F59E0B" 
                     strokeWidth={2}
                     strokeDasharray="3 3"
-                    name="Category"
+                    name="Nifty 50"
                   />
                 </LineChart>
               </ResponsiveContainer>

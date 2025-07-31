@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { PieChart as PieIcon, BarChart3, Building2, TrendingUp } from 'lucide-react';
+import { PieChart as PieIcon, BarChart3, Building2, TrendingUp, Shield } from 'lucide-react';
 
 interface PortfolioCompositionProps {
   allocation: {
@@ -207,6 +207,20 @@ const PortfolioComposition: React.FC<PortfolioCompositionProps> = ({
                     <span className="text-sm font-semibold">{sector.value}%</span>
                   </div>
                 ))}
+                
+                {/* Sector Diversification Rule */}
+                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Shield className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm font-medium text-blue-800">Diversification Rule</span>
+                  </div>
+                  <p className="text-xs text-blue-700">
+                    Ideal: No single sector should exceed 25% to maintain balance. 
+                    {allocation.sectors.some(s => s.value > 25) 
+                      ? ' Warning: Some sectors are overweight.' 
+                      : ' ✓ Good sector diversification maintained.'}
+                  </p>
+                </div>
               </div>
             </div>
           </TabsContent>

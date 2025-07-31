@@ -246,17 +246,6 @@ const RebalancingRecommendations: React.FC<RebalancingRecommendationsProps> = ({
           )}
         </div>
 
-        {/* Action Buttons */}
-        {totalRecommendations > 0 && (
-          <div className="flex gap-2 pt-4 border-t">
-            <Button variant="default" className="flex-1">
-              Generate Rebalancing Plan
-            </Button>
-            <Button variant="outline" className="flex-1">
-              Schedule Review
-            </Button>
-          </div>
-        )}
       </CardContent>
     </Card>
   );

@@ -112,7 +112,7 @@ const portfolioData = {
   benchmarkComparison: {
     portfolio: { '1M': 2.1, '6M': 8.5, '1Y': 18.5, '3Y': 16.2, '5Y': 14.8 },
     benchmark: { '1M': 1.8, '6M': 7.2, '1Y': 16.8, '3Y': 15.1, '5Y': 13.9 },
-    category: { '1M': 1.5, '6M': 6.8, '1Y': 15.9, '3Y': 14.8, '5Y': 13.2 }
+    nifty50: { '1M': 1.2, '6M': 6.2, '1Y': 14.8, '3Y': 13.9, '5Y': 12.5 }
   },
 
   // Asset Allocation
@@ -517,13 +517,14 @@ const MutualFundsHome = () => {
           formatCurrency={formatCurrency} 
         />
 
-        {/* Actionable Summary Alert */}
+        {/* Enhanced Portfolio Summary Alert */}
         <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950">
           <Brain className="h-4 w-4 text-blue-600" />
           <AlertDescription className="text-blue-800 dark:text-blue-200">
-            <strong>Portfolio Summary:</strong> Your portfolio's 1-year return is {portfolioData.benchmarkComparison.portfolio['1Y']}%, 
-            outperforming benchmark by {(portfolioData.benchmarkComparison.portfolio['1Y'] - portfolioData.benchmarkComparison.benchmark['1Y']).toFixed(1)}%. 
-            SBI Small Cap Fund shows high gains but requires monitoring. HDFC Equity Fund - excellent performer, consider increasing allocation.
+            <strong>Portfolio Health Summary:</strong> Your portfolio shows a <strong>{portfolioData.summary.riskRating.toLowerCase()} risk profile</strong> with 
+            excellent 1-year returns of {portfolioData.benchmarkComparison.portfolio['1Y']}%, outperforming benchmark by {(portfolioData.benchmarkComparison.portfolio['1Y'] - portfolioData.benchmarkComparison.benchmark['1Y']).toFixed(1)}%. 
+            <strong>Overall Health: {portfolioData.aiAnalysis.overallScore}/100</strong> - Strong diversification across {portfolioData.allocation.assetClass.length} asset classes. 
+            SBI Small Cap Fund shows exceptional gains (35.7%) but requires monitoring due to high volatility. HDFC Equity Fund demonstrates consistent performance - consider increasing allocation.
           </AlertDescription>
         </Alert>
 
@@ -632,25 +633,6 @@ const MutualFundsHome = () => {
         />
 
 
-        {/* Action Buttons */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex gap-4">
-              <Button onClick={() => navigate('/mutual-fund-research')}>
-                <Plus className="w-4 h-4 mr-2" />
-                Explore New Funds
-              </Button>
-              <Button variant="outline" onClick={() => navigate('/portfolio-rebalance')}>
-                <Activity className="w-4 h-4 mr-2" />
-                Rebalance Portfolio
-              </Button>
-              <Button variant="outline">
-                <Download className="w-4 h-4 mr-2" />
-                Download Report
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
 
       </div>
     </div>

@@ -23,7 +23,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ summary, formatCurr
   const returnPercentage = summary.totalGainsPercentage;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       {/* Total Portfolio Value */}
       <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
         <CardContent className="p-4">
@@ -40,51 +40,39 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ summary, formatCurr
         </CardContent>
       </Card>
 
-      {/* Absolute Return */}
+      {/* Return % & XIRR Combined */}
       <Card>
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium text-muted-foreground">Absolute Return</p>
-            <TrendingUp className="w-4 h-4 text-green-600" />
-          </div>
-          <div className="space-y-1">
-            <p className="text-2xl font-bold text-foreground">{formatCurrency(absoluteReturn)}</p>
-            <TrendIndicator 
-              value={returnPercentage} 
-              showIcon={true}
-              showValue={true}
-              size="sm"
-              className="text-xs"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Return % */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium text-muted-foreground">Return %</p>
+            <p className="text-sm font-medium text-muted-foreground">Portfolio Returns</p>
             <Activity className="w-4 h-4 text-blue-600" />
           </div>
-          <div className="space-y-1">
-            <p className="text-2xl font-bold text-foreground">{returnPercentage.toFixed(2)}%</p>
-            <p className="text-xs text-muted-foreground">
-              Current NAV: {summary.currentNAV.toFixed(3)}
-            </p>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">Return %</span>
+              <span className="text-xl font-bold text-foreground">{returnPercentage.toFixed(2)}%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">XIRR</span>
+              <span className="text-xl font-bold text-foreground">{summary.xirr}%</span>
+            </div>
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Current NAV</span>
+              <span>{summary.currentNAV.toFixed(3)}</span>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* XIRR */}
+      {/* Risk Profile */}
       <Card>
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium text-muted-foreground">XIRR (Annualized)</p>
+            <p className="text-sm font-medium text-muted-foreground">Risk Profile</p>
             <Target className="w-4 h-4 text-purple-600" />
           </div>
           <div className="space-y-1">
-            <p className="text-2xl font-bold text-foreground">{summary.xirr}%</p>
+            <p className="text-2xl font-bold text-foreground">{summary.riskScore}/100</p>
             <Badge variant="outline" className="text-xs">
               {summary.riskRating} Risk
             </Badge>
