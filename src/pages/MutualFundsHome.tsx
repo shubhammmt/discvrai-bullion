@@ -19,6 +19,9 @@ import { useNavigate } from 'react-router-dom';
 import PortfolioHealthRadar from '@/components/PortfolioHealthRadar';
 import PortfolioSummary from '@/components/portfolio/PortfolioSummary';
 import PerformanceAnalysis from '@/components/portfolio/PerformanceAnalysis';
+import PortfolioComposition from '@/components/portfolio/PortfolioComposition';
+import RebalancingRecommendations from '@/components/portfolio/RebalancingRecommendations';
+import SimplifiedFundAnalysis from '@/components/portfolio/SimplifiedFundAnalysis';
 import { useMutualFundsDashboard } from '@/hooks/useMutualFundsDashboard';
 
 const MutualFundsHome = () => {
@@ -104,6 +107,68 @@ const MutualFundsHome = () => {
     );
   }
 
+  // Transform API data to match component expectations
+  const transformedAllocation = {
+    assetClass: portfolioData.allocation.assetClass ? 
+      Object.entries(portfolioData.allocation.assetClass).map(([name, data]: [string, any]) => ({
+        name,
+        value: data.current || 0,
+        target: data.target || 0,
+        color: data.color || '#3B82F6'
+      })) : [],
+    sectors: portfolioData.allocation.sectors ? 
+      Object.entries(portfolioData.allocation.sectors).map(([name, data]: [string, any]) => ({
+        name,
+        value: data.percentage || 0,
+        color: data.color || '#3B82F6'
+      })) : [],
+    marketCap: portfolioData.allocation.marketCap ? 
+      Object.entries(portfolioData.allocation.marketCap).map(([name, data]: [string, any]) => ({
+        name,
+        value: data.percentage || 0,
+        color: data.color || '#3B82F6'
+      })) : []
+  };
+
+  const transformedFunds = portfolioData.funds.map((fund, index) => ({
+    id: index + 1, // Convert string ID to number
+    name: fund.name,
+    category: fund.category,
+    scheme: fund.scheme,
+    currentValue: fund.currentValue,
+    gainsPercentage: fund.returns['1Y'] || 0,
+    expenseRatio: fund.expenseRatio,
+    returns: {
+      '1Y': fund.returns['1Y'] || 0,
+      '3Y': fund.returns['3Y'] || 0,
+      '5Y': fund.returns['5Y'] || 0
+    },
+    suitability_score: {
+      final_score: fund.suitabilityScore,
+      category: fund.suitabilityScore >= 70 ? 'Good' : fund.suitabilityScore >= 40 ? 'Neutral' : 'Poor',
+      sub_scores: {
+        one_year_return: fund.suitabilityBreakdown?.performance || 0,
+        expense_ratio: fund.suitabilityBreakdown?.cost || 0,
+        manager_tenure: fund.suitabilityBreakdown?.experience || 0,
+        aum: fund.suitabilityBreakdown?.scale || 0
+      },
+      metrics_used: {
+        one_year_return: fund.returns['1Y'] || 0,
+        expense_ratio: fund.expenseRatio,
+        manager_tenure_years: 5, // Default value
+        aum_crore: 1000 // Default value
+      }
+    },
+    recommendation: fund.recommendation,
+    insights: fund.insights || []
+  }));
+
+  const transformedFundsForComposition = portfolioData.funds.map((fund) => ({
+    category: fund.category,
+    scheme: fund.scheme,
+    currentValue: fund.currentValue
+  }));
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       {/* Header */}
@@ -174,112 +239,123 @@ const MutualFundsHome = () => {
           }}
         />
 
-        {/* Funds Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IndianRupee className="w-5 h-5 text-green-600" />
-              Fund Holdings ({portfolioData.funds.length})
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {portfolioData.funds.map((fund) => (
-                <div key={fund.id} className="p-4 border border-border rounded-lg">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-foreground mb-1">{fund.name}</h4>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Badge variant="outline">{fund.category}</Badge>
-                        <Badge variant="outline">{fund.scheme}</Badge>
-                        <span className="text-xs">{fund.amc}</span>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold text-lg">{formatCurrency(fund.currentValue)}</p>
-                      <Badge className={getRecommendationColor(fund.recommendation)}>
-                        {fund.recommendation}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <p className="text-muted-foreground">1Y Return</p>
-                      <p className="font-medium flex items-center gap-1">
-                        {fund.returns['1Y'] ? (
-                          <>
-                            {fund.returns['1Y'] > 0 ? (
-                              <TrendingUp className="w-3 h-3 text-green-600" />
-                            ) : (
-                              <TrendingDown className="w-3 h-3 text-red-600" />
-                            )}
-                            {fund.returns['1Y'].toFixed(1)}%
-                          </>
-                        ) : (
-                          'N/A'
-                        )}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground">3Y Return</p>
-                      <p className="font-medium">
-                        {fund.returns['3Y'] ? `${fund.returns['3Y'].toFixed(1)}%` : 'N/A'}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground">Expense Ratio</p>
-                      <p className="font-medium">{fund.expenseRatio}%</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground">Suitability</p>
-                      <p className="font-medium">{fund.suitabilityScore}/100</p>
-                    </div>
-                  </div>
-
-                  {fund.insights && fund.insights.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-border">
-                      <div className="flex flex-wrap gap-2">
-                        {fund.insights.map((insight, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs bg-muted p-2 rounded">
-                            {getInsightIcon(insight.type)}
-                            <span>{insight.message}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Analytics Summary */}
+        {/* Analysis Section */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Brain className="w-5 h-5 text-indigo-600" />
-              Portfolio Analytics
+              Analysis
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary mb-2">{portfolioData.analytics.riskProfile}</div>
-                <p className="text-sm text-muted-foreground">Risk Profile</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Strengths */}
+              <div>
+                <h3 className="text-lg font-semibold text-green-600 mb-4 flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5" />
+                  Strengths
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Strong diversification across {portfolioData.funds.length} funds with quality fund houses</span>
+                  </div>
+                  <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Balanced risk profile with moderate risk rating ({portfolioData.summary.riskRating})</span>
+                  </div>
+                  <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Good diversification score of {portfolioData.analytics.diversificationScore}/100</span>
+                  </div>
+                  <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Strong XIRR of {portfolioData.summary.xirr}% indicating good long-term returns</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600 mb-2">{portfolioData.analytics.diversificationScore}/100</div>
-                <p className="text-sm text-muted-foreground">Diversification Score</p>
+
+              {/* Areas of Concern */}
+              <div>
+                <h3 className="text-lg font-semibold text-orange-600 mb-4 flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5" />
+                  Areas of Concern
+                </h3>
+                <div className="space-y-3">
+                  {portfolioData.summary.totalGainsPercentage < 0 && (
+                    <div className="flex items-start gap-2 p-3 bg-orange-50 dark:bg-orange-950 rounded-lg">
+                      <AlertCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">Portfolio showing negative returns of {portfolioData.summary.totalGainsPercentage.toFixed(1)}%</span>
+                    </div>
+                  )}
+                  {portfolioData.analytics.rebalancingNeeded && (
+                    <div className="flex items-start gap-2 p-3 bg-orange-50 dark:bg-orange-950 rounded-lg">
+                      <AlertCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">Portfolio rebalancing recommended for optimal allocation</span>
+                    </div>
+                  )}
+                  <div className="flex items-start gap-2 p-3 bg-orange-50 dark:bg-orange-950 rounded-lg">
+                    <AlertCircle className="w-4 h-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">Monitor fund performance regularly and consider switching underperforming funds</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600 mb-2">{portfolioData.analytics.qualityScore}/100</div>
-                <p className="text-sm text-muted-foreground">Quality Score</p>
+            </div>
+
+            {/* Actionable Recommendations */}
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold text-blue-600 mb-4 flex items-center gap-2">
+                <Brain className="w-5 h-5" />
+                Actionable Recommendations
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">1</div>
+                  <span className="text-sm">Monitor portfolio regularly and maintain current allocation balance</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">2</div>
+                  <span className="text-sm">Consider switching from Regular to Direct plans to reduce expense ratios</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">3</div>
+                  <span className="text-sm">Review and rebalance portfolio quarterly based on market conditions</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">4</div>
+                  <span className="text-sm">Consider adding more mid-cap exposure for better diversification</span>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Portfolio Composition */}
+        <PortfolioComposition 
+          allocation={transformedAllocation}
+          funds={transformedFundsForComposition}
+        />
+
+        {/* Rebalancing & Recommendations */}
+        <RebalancingRecommendations
+          allocation={transformedAllocation}
+          funds={transformedFunds.map(fund => ({
+            name: fund.name,
+            recommendation: fund.recommendation,
+            recommendationReason: `Based on performance metrics and risk assessment`,
+            currentValue: fund.currentValue,
+            gainsPercentage: fund.gainsPercentage,
+            expenseRatio: fund.expenseRatio,
+            scheme: fund.scheme
+          }))}
+          formatCurrency={formatCurrency}
+        />
+
+        {/* Individual Fund Analysis */}
+        <SimplifiedFundAnalysis
+          funds={transformedFunds}
+          formatCurrency={formatCurrency}
+        />
       </div>
     </div>
   );
