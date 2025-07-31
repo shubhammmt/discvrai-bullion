@@ -157,9 +157,9 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
   return (
     <Card className="bg-gradient-to-br from-slate-800 to-slate-900 text-white border-slate-700">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Fund Health Radar</CardTitle>
+        <CardTitle className="text-xl font-bold">Portfolio Health Radar</CardTitle>
         <p className="text-sm text-slate-300">
-          A comprehensive at-a-glance view of key mutual fund health indicators
+          A comprehensive at-a-glance view of key portfolio health indicators
         </p>
       </CardHeader>
       <CardContent>
