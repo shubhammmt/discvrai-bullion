@@ -506,82 +506,49 @@ const MutualFundsHome = () => {
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 space-y-6">
 
-        {/* Portfolio Summary & Goal Progress */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-          {/* Portfolio Summary */}
-          <Card className="lg:col-span-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-sm opacity-90 mb-2">Total Portfolio Value</h3>
-                  <p className="text-4xl font-bold mb-2">{formatCurrency(portfolioData.summary.totalValue)}</p>
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="w-4 h-4" />
-                      <span>+{formatCurrency(portfolioData.summary.totalGains)} ({portfolioData.summary.totalGainsPercentage}%)</span>
-                    </div>
-                    <div>XIRR: {portfolioData.summary.xirr}%</div>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="bg-white/20 rounded-lg p-3 mb-2">
-                    <Gauge className="w-8 h-8 mx-auto mb-1" />
-                    <div className="text-xs">Risk Score</div>
-                    <div className="text-lg font-bold">{portfolioData.summary.riskScore}</div>
-                  </div>
+        {/* Portfolio Summary */}
+        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-sm opacity-90 mb-2">Total Portfolio Value</h3>
+                <p className="text-4xl font-bold mb-2">{formatCurrency(portfolioData.summary.totalValue)}</p>
+                <div className="flex items-center gap-4 text-sm opacity-90">
+                  <span className="flex items-center gap-1">
+                    <TrendingUp className="w-4 h-4" />
+                    {formatCurrency(portfolioData.summary.totalGains)} ({portfolioData.summary.totalGainsPercentage}%)
+                  </span>
+                  <span>XIRR: {portfolioData.summary.xirr}%</span>
                 </div>
               </div>
-
-              {/* Key Performance Metrics Summary */}
-              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/20">
-                <div className="text-center">
-                  <div className="text-xs opacity-80">Sharpe Ratio</div>
-                  <div className="text-lg font-semibold">{portfolioData.metrics.sharpeRatio}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xs opacity-80">Portfolio Beta</div>
-                  <div className="text-lg font-semibold">{portfolioData.metrics.beta}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xs opacity-80">Alpha</div>
-                  <div className="text-lg font-semibold">{portfolioData.metrics.alpha}%</div>
-                </div>
+              <div className="text-right">
+                <div className="text-xs opacity-80 mb-1">Risk Rating</div>
+                <Badge className="bg-white/20 text-white border-white/30">
+                  {portfolioData.summary.riskRating}
+                </Badge>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Goal Progress */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-green-600" />
-                Goal Progress
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {portfolioData.goals.map((goal) => (
-                <div key={goal.id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{goal.name}</span>
-                    <div className="flex items-center gap-1">
-                      {goal.onTrack ? 
-                        <CheckCircle className="w-4 h-4 text-green-600" /> : 
-                        <AlertCircle className="w-4 h-4 text-yellow-600" />
-                      }
-                      <span className="text-xs text-muted-foreground">{goal.progress}%</span>
-                    </div>
-                  </div>
-                  <Progress value={goal.progress} className="h-2" />
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{formatCurrency(goal.current)}</span>
-                    <span>{formatCurrency(goal.target)}</span>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+            
+            <div className="grid grid-cols-4 gap-4 text-center">
+              <div className="text-center">
+                <div className="text-xs opacity-80">Sharpe Ratio</div>
+                <div className="text-lg font-semibold">{portfolioData.metrics.sharpeRatio}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs opacity-80">Beta</div>
+                <div className="text-lg font-semibold">{portfolioData.metrics.beta}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs opacity-80">Volatility</div>
+                <div className="text-lg font-semibold">{portfolioData.metrics.standardDeviation}%</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs opacity-80">Alpha</div>
+                <div className="text-lg font-semibold">{portfolioData.metrics.alpha}%</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Actionable Summary Alert */}
         <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950">
