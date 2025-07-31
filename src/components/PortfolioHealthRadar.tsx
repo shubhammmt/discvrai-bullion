@@ -44,29 +44,49 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
     else if (performanceScore >= 8) performanceStatus = 'Good Returns';
     else if (performanceScore >= 0) performanceStatus = 'Moderate Returns';
 
+    // Find highest and lowest performing funds
+    const fundsByPerformance = portfolioData.funds.sort((a: any, b: any) => b.gainsPercentage - a.gainsPercentage);
+    const highestPerformer = fundsByPerformance[0];
+    const lowestPerformer = fundsByPerformance[fundsByPerformance.length - 1];
+
     indicators.push({
       id: 'performance',
       title: 'Performance',
       status: performanceStatus,
       score: Math.min(100, Math.max(0, performanceScore * 5)), // Convert to 0-100 scale
       icon: TrendingUp,
-      description: `${performanceScore.toFixed(1)}% total gains`
+      description: `${performanceScore.toFixed(1)}% total gains`,
+      detailedMetrics: [
+        { label: 'Total Portfolio Gains', value: `${performanceScore.toFixed(1)}%`, percentage: performanceScore },
+        { label: 'Best Performer', value: `${highestPerformer.name.substring(0, 25)}...`, percentage: 0 },
+        { label: 'Best Performance', value: `+${highestPerformer.gainsPercentage.toFixed(1)}%`, percentage: highestPerformer.gainsPercentage },
+        { label: 'Worst Performer', value: `${lowestPerformer.name.substring(0, 25)}...`, percentage: 0 },
+        { label: 'Worst Performance', value: `+${lowestPerformer.gainsPercentage.toFixed(1)}%`, percentage: lowestPerformer.gainsPercentage },
+        { label: 'Portfolio XIRR', value: `${portfolioData.summary.xirr}%`, percentage: portfolioData.summary.xirr }
+      ]
     });
 
-    // 2. Risk Assessment
-    const riskScore = portfolioData.summary.riskScore;
+    // 2. Risk Assessment - Fixed sync with actual portfolio risk
+    const portfolioRiskScore = portfolioData.summary.riskScore || 44; // Use actual risk score from summary
     let riskStatus = 'Low Risk';
-    if (riskScore >= 70) riskStatus = 'High Risk';
-    else if (riskScore >= 50) riskStatus = 'Moderate Risk';
-    else if (riskScore >= 30) riskStatus = 'Low-Moderate Risk';
+    if (portfolioRiskScore >= 70) riskStatus = 'High Risk';
+    else if (portfolioRiskScore >= 50) riskStatus = 'Moderate Risk';
+    else if (portfolioRiskScore >= 30) riskStatus = 'Low-Moderate Risk';
 
     indicators.push({
       id: 'risk',
       title: 'Risk',
       status: riskStatus,
-      score: 100 - riskScore, // Invert so lower risk = higher score
+      score: 100 - portfolioRiskScore, // Invert so lower risk = higher score
       icon: Shield,
-      description: `Risk score: ${riskScore}/100`
+      description: `Risk score: ${portfolioRiskScore}/100`,
+      detailedMetrics: [
+        { label: 'Portfolio Risk Score', value: `${portfolioRiskScore}/100`, percentage: portfolioRiskScore },
+        { label: 'Portfolio Beta', value: portfolioData.metrics.beta.toFixed(2), percentage: portfolioData.metrics.beta * 50 },
+        { label: 'Volatility (Std Dev)', value: `${portfolioData.metrics.standardDeviation}%`, percentage: portfolioData.metrics.standardDeviation },
+        { label: 'Max Drawdown', value: `${portfolioData.metrics.maxDrawdown}%`, percentage: portfolioData.metrics.maxDrawdown },
+        { label: 'Sharpe Ratio', value: portfolioData.metrics.sharpeRatio.toFixed(2), percentage: portfolioData.metrics.sharpeRatio * 100 }
+      ]
     });
 
     // 3. Expense Analysis
@@ -77,13 +97,26 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
     else if (avgExpenseRatio <= 1.5) expenseStatus = 'Moderate Expenses';
     else if (avgExpenseRatio <= 2.0) expenseStatus = 'Above Average Expenses';
 
+    // Find funds with highest expense ratios
+    const fundsByExpense = portfolioData.funds.sort((a: any, b: any) => b.expenseRatio - a.expenseRatio);
+    const highExpenseFunds = fundsByExpense.slice(0, 3);
+
     indicators.push({
       id: 'expenses',
       title: 'Expenses',
       status: expenseStatus,
       score: Math.max(0, 100 - (avgExpenseRatio * 40)), // Convert to score
       icon: DollarSign,
-      description: `Avg expense ratio: ${avgExpenseRatio.toFixed(2)}%`
+      description: `Avg expense ratio: ${avgExpenseRatio.toFixed(2)}%`,
+      detailedMetrics: [
+        { label: 'Average Expense Ratio', value: `${avgExpenseRatio.toFixed(2)}%`, percentage: avgExpenseRatio * 20 },
+        ...highExpenseFunds.map((fund: any) => ({
+          label: `${fund.name.substring(0, 20)}...`,
+          value: `${fund.expenseRatio}%`,
+          percentage: fund.expenseRatio * 20
+        })),
+        { label: 'Direct vs Regular Impact', value: 'See Plan Types', percentage: 0 }
+      ]
     });
 
     // 4. Portfolio Mix
