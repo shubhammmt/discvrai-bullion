@@ -180,6 +180,51 @@ const portfolioData = {
           { name: 'Automobiles', weight: 4.2 }
         ]
       },
+      suitability_score: {
+        final_score: 44,
+        category: "Neutral",
+        color: "Yellow",
+        sub_scores: {
+          one_year_return: 43.91,
+          since_inception_return: 60.64,
+          expense_ratio: 8.42,
+          risk_level: 20,
+          equity_allocation: 0,
+          aum: 69.40,
+          benchmark_outperformance: 50,
+          manager_tenure: 100
+        },
+        weighted_scores: {
+          one_year_return: 8.78,
+          since_inception_return: 9.10,
+          expense_ratio: 0.84,
+          risk_level: 2,
+          equity_allocation: 0,
+          aum: 3.47,
+          benchmark_outperformance: 10,
+          manager_tenure: 10
+        },
+        weights: {
+          one_year_return: 0.2,
+          since_inception_return: 0.15,
+          expense_ratio: 0.1,
+          risk_level: 0.1,
+          equity_allocation: 0.1,
+          aum: 0.05,
+          benchmark_outperformance: 0.2,
+          manager_tenure: 0.1
+        },
+        metrics_used: {
+          one_year_return: 6.35,
+          since_inception_return: 18.19,
+          expense_ratio: 1.84,
+          risk_level: "Very High",
+          equity_allocation: 0,
+          aum_crore: 7464.54,
+          benchmark_return: null,
+          manager_tenure_years: 30.53
+        }
+      },
       recommendation: "MAINTAIN",
       recommendationReason: "Performing well with consistent returns above category average",
       insights: [
@@ -371,6 +416,66 @@ const MutualFundsHome = () => {
       case 'info': return <Info className="w-4 h-4 text-blue-600" />;
       default: return <Info className="w-4 h-4 text-gray-600" />;
     }
+  };
+
+  const getSuitabilityColor = (score: number) => {
+    if (score >= 70) return 'text-green-600';
+    if (score >= 40) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  const getSuitabilityBadgeColor = (category: string) => {
+    switch (category.toLowerCase()) {
+      case 'excellent': return 'bg-green-100 text-green-800 border-green-200';
+      case 'good': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'neutral': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'poor': return 'bg-red-100 text-red-800 border-red-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const generateSuitabilityInsights = (suitabilityScore: any) => {
+    const insights = [];
+    const { sub_scores, final_score, metrics_used } = suitabilityScore;
+
+    // Return performance insights
+    if (sub_scores.one_year_return > 60) {
+      insights.push({ type: 'success', message: `Strong 1-year return of ${metrics_used.one_year_return}% scores ${sub_scores.one_year_return.toFixed(0)}/100` });
+    } else if (sub_scores.one_year_return < 30) {
+      insights.push({ type: 'warning', message: `Below average 1-year return of ${metrics_used.one_year_return}% scores ${sub_scores.one_year_return.toFixed(0)}/100` });
+    }
+
+    // Expense ratio insights
+    if (sub_scores.expense_ratio < 20) {
+      insights.push({ type: 'warning', message: `High expense ratio of ${metrics_used.expense_ratio}% impacts returns (score: ${sub_scores.expense_ratio.toFixed(0)}/100)` });
+    } else if (sub_scores.expense_ratio > 70) {
+      insights.push({ type: 'success', message: `Competitive expense ratio of ${metrics_used.expense_ratio}% (score: ${sub_scores.expense_ratio.toFixed(0)}/100)` });
+    }
+
+    // Manager tenure insights
+    if (sub_scores.manager_tenure === 100) {
+      insights.push({ type: 'success', message: `Excellent manager tenure of ${metrics_used.manager_tenure_years.toFixed(0)} years provides stability` });
+    } else if (sub_scores.manager_tenure < 50) {
+      insights.push({ type: 'info', message: `Relatively new manager (${metrics_used.manager_tenure_years.toFixed(0)} years) - monitor performance closely` });
+    }
+
+    // AUM insights
+    if (sub_scores.aum > 60) {
+      insights.push({ type: 'success', message: `Strong AUM of ₹${metrics_used.aum_crore.toFixed(0)}Cr indicates investor confidence` });
+    } else if (sub_scores.aum < 30) {
+      insights.push({ type: 'warning', message: `Lower AUM of ₹${metrics_used.aum_crore.toFixed(0)}Cr may impact liquidity` });
+    }
+
+    // Overall suitability insight
+    if (final_score >= 70) {
+      insights.push({ type: 'success', message: `High suitability score of ${final_score}/100 - well-suited for your profile` });
+    } else if (final_score < 40) {
+      insights.push({ type: 'warning', message: `Lower suitability score of ${final_score}/100 - consider alternatives` });
+    } else {
+      insights.push({ type: 'info', message: `Moderate suitability score of ${final_score}/100 - acceptable with monitoring` });
+    }
+
+    return insights;
   };
 
   return (
@@ -986,16 +1091,57 @@ const MutualFundsHome = () => {
                                   </div>
                                 </div>
 
+                                {/* Suitability Score */}
+                                {fund.suitability_score && (
+                                  <div className="mb-4">
+                                    <h5 className="font-medium mb-2">Suitability Score</h5>
+                                    <div className="flex items-center gap-3 mb-2">
+                                      <div className="text-2xl font-bold">
+                                        <span className={getSuitabilityColor(fund.suitability_score.final_score)}>
+                                          {fund.suitability_score.final_score}
+                                        </span>
+                                        <span className="text-muted-foreground text-base">/100</span>
+                                      </div>
+                                      <Badge className={getSuitabilityBadgeColor(fund.suitability_score.category)}>
+                                        {fund.suitability_score.category}
+                                      </Badge>
+                                    </div>
+                                    
+                                    {/* Top Contributing Factors */}
+                                    <div className="space-y-1">
+                                      <p className="text-xs text-muted-foreground mb-1">Key Score Components:</p>
+                                      {Object.entries(fund.suitability_score.sub_scores)
+                                        .sort(([,a], [,b]) => b - a)
+                                        .slice(0, 3)
+                                        .map(([key, score]) => (
+                                          <div key={key} className="flex justify-between text-xs">
+                                            <span className="capitalize">{key.replace(/_/g, ' ')}</span>
+                                            <span className={getSuitabilityColor(score as number)}>
+                                              {(score as number).toFixed(0)}
+                                            </span>
+                                          </div>
+                                        ))}
+                                    </div>
+                                  </div>
+                                )}
+
                                 {/* Fund Insights */}
                                 <div>
-                                  <h5 className="font-medium mb-2">Insights</h5>
+                                  <h5 className="font-medium mb-2">AI-Generated Insights</h5>
                                   <div className="space-y-2">
-                                    {fund.insights.map((insight, index) => (
-                                      <div key={index} className="flex items-start gap-2 text-sm">
-                                        {getInsightIcon(insight.type)}
-                                        <span>{insight.message}</span>
-                                      </div>
-                                    ))}
+                                    {fund.suitability_score ? 
+                                      generateSuitabilityInsights(fund.suitability_score).map((insight, index) => (
+                                        <div key={index} className="flex items-start gap-2 text-sm">
+                                          {getInsightIcon(insight.type)}
+                                          <span>{insight.message}</span>
+                                        </div>
+                                      )) :
+                                       fund.insights.map((insight, index) => (
+                                         <div key={index} className="flex items-start gap-2 text-sm">
+                                           {getInsightIcon(insight.type)}
+                                           <span>{insight.message}</span>
+                                         </div>
+                                       ))}
                                   </div>
                                 </div>
                               </div>
