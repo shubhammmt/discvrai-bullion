@@ -339,8 +339,8 @@ const MutualFundsHome = () => {
         {/* Rebalancing & Recommendations */}
         <RebalancingRecommendations
           allocation={transformedAllocation}
-          funds={transformedFunds.map(fund => ({
-            name: fund.name,
+          funds={transformedFunds.map((fund, index) => ({
+            name: `${fund.name} (ID: ${fund.id})`, // Make names unique
             recommendation: fund.recommendation,
             recommendationReason: `Based on performance metrics and risk assessment`,
             currentValue: fund.currentValue,
