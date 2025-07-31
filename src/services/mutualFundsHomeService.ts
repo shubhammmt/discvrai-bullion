@@ -1,7 +1,11 @@
-import { apiService } from './api';
+// Dedicated service for MutualFundsHome page
+const API_CONFIG = {
+  BASE_URL: 'https://p646lccs-8008.inc1.devtunnels.ms',
+  BEARER_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfdW85dnUwOTZ1MXNiaWk1biIsImNsaWVudF9pZCI6ImNsaWVudF91bzl2dTA5NnUxc2JpaTVuIiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDciLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgxMjMxMzIzNiwiaWF0IjoxNzUyMzEzMjk2LCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.nmSVBYbAv_2xy4kQ6sSLE07xPiygI2oeSWrOELJVPTU'
+};
 
-// Types for Mutual Funds Dashboard API
-export interface MutualFundsDashboardResponse {
+// Types specific to MutualFundsHome
+export interface MutualFundsHomeAPIResponse {
   summary: {
     total_value: number;
     total_investment: number;
@@ -82,7 +86,7 @@ export interface MutualFundsDashboardResponse {
   };
 }
 
-export interface TransformedMutualFundsData {
+export interface MutualFundsHomeData {
   summary: {
     totalValue: number;
     totalInvestment: number;
@@ -93,33 +97,33 @@ export interface TransformedMutualFundsData {
     riskRating: string;
     riskScore: number;
   };
-  performance: MutualFundsDashboardResponse['performance'];
-  allocation: MutualFundsDashboardResponse['allocation'];
-  funds: MutualFundsDashboardResponse['funds'];
-  analytics: MutualFundsDashboardResponse['analytics'];
-  metadata: MutualFundsDashboardResponse['metadata'];
+  performance: MutualFundsHomeAPIResponse['performance'];
+  allocation: MutualFundsHomeAPIResponse['allocation'];
+  funds: MutualFundsHomeAPIResponse['funds'];
+  analytics: MutualFundsHomeAPIResponse['analytics'];
+  metadata: MutualFundsHomeAPIResponse['metadata'];
 }
 
-class MutualFundsService {
-  async getPortfolioAnalysis(
-    profileId: string,
-    options: {
-      includeHistorical?: boolean;
-      includePeerComparison?: boolean;
-    } = {}
-  ): Promise<MutualFundsDashboardResponse> {
-    const params = {
-      include_historical: (options.includeHistorical ?? false).toString(),
-      include_peer_comparison: (options.includePeerComparison ?? true).toString()
-    };
-
-    return apiService.get<MutualFundsDashboardResponse>(
-      `/api/v1/analysis/portfolio/${profileId}`,
-      params
+class MutualFundsHomeService {
+  async fetchPortfolioAnalysis(profileId: string): Promise<MutualFundsHomeAPIResponse> {
+    const response = await fetch(
+      `${API_CONFIG.BASE_URL}/api/v1/analysis/portfolio/${profileId}?include_historical=false&include_peer_comparison=true`,
+      {
+        headers: {
+          'Authorization': `Bearer ${API_CONFIG.BEARER_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      }
     );
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
   }
 
-  transformApiData(apiData: MutualFundsDashboardResponse): TransformedMutualFundsData {
+  transformApiData(apiData: MutualFundsHomeAPIResponse): MutualFundsHomeData {
     return {
       summary: {
         totalValue: apiData.summary.total_value,
@@ -139,8 +143,7 @@ class MutualFundsService {
     };
   }
 
-  // Helper methods for data analysis
-  getPortfolioHealth(data: TransformedMutualFundsData): string {
+  getPortfolioHealth(data: MutualFundsHomeData): string {
     const { analytics, summary } = data;
     const healthFactors = [
       analytics.diversificationScore >= 70,
@@ -157,7 +160,7 @@ class MutualFundsService {
     return 'Needs Attention';
   }
 
-  getTopPerformingFunds(data: TransformedMutualFundsData, limit = 3) {
+  getTopPerformingFunds(data: MutualFundsHomeData, limit = 3) {
     if (!data?.funds) return [];
     
     return data.funds
@@ -166,7 +169,7 @@ class MutualFundsService {
       .slice(0, limit);
   }
 
-  getAssetClassBreakdown(data: TransformedMutualFundsData) {
+  getAssetClassBreakdown(data: MutualFundsHomeData) {
     if (!data?.funds) return {};
     
     const breakdown: Record<string, { value: number; percentage: number }> = {};
@@ -192,5 +195,5 @@ class MutualFundsService {
   }
 }
 
-export const mutualFundsService = new MutualFundsService();
-export default mutualFundsService;
+export const mutualFundsHomeService = new MutualFundsHomeService();
+export default mutualFundsHomeService;

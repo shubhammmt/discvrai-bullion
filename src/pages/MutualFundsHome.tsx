@@ -22,12 +22,12 @@ import PerformanceAnalysis from '@/components/portfolio/PerformanceAnalysis';
 import PortfolioComposition from '@/components/portfolio/PortfolioComposition';
 import RebalancingRecommendations from '@/components/portfolio/RebalancingRecommendations';
 import SimplifiedFundAnalysis from '@/components/portfolio/SimplifiedFundAnalysis';
-import { useMutualFundsDashboard } from '@/hooks/useMutualFundsDashboard';
+import { useMutualFundsHome } from '@/hooks/useMutualFundsHome';
 
 const MutualFundsHome = () => {
   const navigate = useNavigate();
   const userId = "af5a21a3-ed71-471c-885a-7415f6906f68";
-  const { data: portfolioData, isLoading, error, refreshData } = useMutualFundsDashboard(userId);
+  const { data: portfolioData, isLoading, error, refreshData } = useMutualFundsHome(userId);
 
   const formatCurrency = (amount: number) => {
     if (amount >= 10000000) return `₹${(amount / 10000000).toFixed(1)}Cr`;
