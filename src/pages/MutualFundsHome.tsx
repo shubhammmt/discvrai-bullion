@@ -180,7 +180,7 @@ const portfolioData = {
           { name: 'Automobiles', weight: 4.2 }
         ]
       },
-      recommendation: "HOLD",
+      recommendation: "MAINTAIN",
       recommendationReason: "Performing well with consistent returns above category average",
       insights: [
         { type: 'success', message: 'Outperforming category by 2.1% over 1Y' },
@@ -235,7 +235,7 @@ const portfolioData = {
           { name: 'Pharmaceuticals', weight: 6.8 }
         ]
       },
-      recommendation: "BUY",
+      recommendation: "INCREASE",
       recommendationReason: "Excellent track record with strong alpha generation",
       insights: [
         { type: 'success', message: 'Consistent outperformance over 3Y and 5Y' },
@@ -290,7 +290,7 @@ const portfolioData = {
           { name: 'Healthcare', weight: 8.7 }
         ]
       },
-      recommendation: "REVIEW",
+      recommendation: "REDUCE",
       recommendationReason: "High volatility requires close monitoring given recent gains",
       insights: [
         { type: 'success', message: 'Excellent 1Y returns outperforming category' },
@@ -357,9 +357,9 @@ const MutualFundsHome = () => {
 
   const getRecommendationColor = (recommendation: string) => {
     switch (recommendation) {
-      case 'BUY': return 'bg-green-100 text-green-800 border-green-200';
-      case 'HOLD': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'SELL': case 'REVIEW': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'INCREASE': return 'bg-green-100 text-green-800 border-green-200';
+      case 'MAINTAIN': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'REDUCE': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
