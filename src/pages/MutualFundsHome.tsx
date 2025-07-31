@@ -993,169 +993,192 @@ const MutualFundsHome = () => {
                           </CollapsibleTrigger>
 
                           {/* Detailed Content - Collapsible */}
-                          <CollapsibleContent className="space-y-6">
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                          <CollapsibleContent className="space-y-6 pt-4 border-t border-border">
+                            
+                            {/* Three Column Layout */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                               
-                              {/* Performance Overview */}
-                              <div className="space-y-4">
-                                <h4 className="font-semibold">Performance Overview</h4>
-                                
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div>
-                                    <p className="text-sm text-muted-foreground">Total Gains</p>
-                                    <p className="text-xl font-bold text-green-600">
-                                      +{formatCurrency(fund.gains)} ({fund.gainsPercentage}%)
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className="text-sm text-muted-foreground">Units</p>
-                                    <p className="text-lg font-semibold">{fund.units.toLocaleString()}</p>
-                                  </div>
-                                </div>
-
-                                {/* Fund Manager */}
+                              {/* Column 1: Performance Overview */}
+                              <div className="space-y-6">
                                 <div>
-                                  <p className="text-sm text-muted-foreground">Fund Manager</p>
-                                  <p className="font-medium">{fund.manager}</p>
-                                  <p className="text-xs text-muted-foreground">Managing since {fund.managerTenure}</p>
-                                </div>
-                              </div>
-
-                              {/* Returns Comparison */}
-                              <div className="space-y-4">
-                                <h4 className="font-semibold">Returns Comparison</h4>
-                                
-                                <div className="overflow-x-auto">
-                                  <table className="w-full text-sm">
-                                    <thead>
-                                      <tr className="border-b">
-                                        <th className="text-left py-1">Period</th>
-                                        <th className="text-right py-1">Fund</th>
-                                        <th className="text-right py-1">Benchmark</th>
-                                        <th className="text-right py-1">Category</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {['1Y', '3Y', '5Y'].map(period => (
-                                        <tr key={period} className="border-b">
-                                          <td className="py-1">{period}</td>
-                                          <td className="text-right font-semibold">
-                                            {fund.returns[period as keyof typeof fund.returns]}%
-                                          </td>
-                                          <td className="text-right">
-                                            {fund.benchmarkReturns[period as keyof typeof fund.benchmarkReturns]}%
-                                          </td>
-                                          <td className="text-right">
-                                            {fund.categoryReturns[period as keyof typeof fund.categoryReturns]}%
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                </div>
-
-                                {/* Risk Metrics */}
-                                <div className="space-y-2">
-                                  <h5 className="font-medium">Risk Metrics</h5>
-                                  <div className="grid grid-cols-2 gap-2 text-sm">
-                                    <div>Sharpe: {fund.metrics.sharpeRatio}</div>
-                                    <div>Beta: {fund.metrics.beta}</div>
-                                    <div>Alpha: {fund.metrics.alpha}%</div>
-                                    <div>Volatility: {fund.metrics.standardDeviation}%</div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Holdings & Analysis */}
-                              <div className="space-y-4">
-                                <h4 className="font-semibold">Holdings & Analysis</h4>
-                                
-                                {/* Top Holdings */}
-                                <div>
-                                  <h5 className="font-medium mb-2">Top 5 Holdings</h5>
-                                  <div className="space-y-1">
-                                    {fund.holdings.topStocks.map((stock, index) => (
-                                      <div key={index} className="flex justify-between text-sm">
-                                        <span>{stock.name}</span>
-                                        <span>{stock.weight}%</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-
-                                {/* Expense Details */}
-                                <div className="grid grid-cols-2 gap-4 text-sm">
-                                  <div>
-                                    <p className="text-muted-foreground">Expense Ratio</p>
-                                    <p className="font-semibold">{fund.expenseRatio}%</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-muted-foreground">AUM</p>
-                                    <p className="font-semibold">₹{fund.aum}Cr</p>
-                                  </div>
-                                </div>
-
-                                {/* Suitability Score */}
-                                {fund.suitability_score && (
-                                  <div className="mb-4">
-                                    <h5 className="font-medium mb-2">Suitability Score</h5>
-                                    <div className="flex items-center gap-3 mb-2">
-                                      <div className="text-2xl font-bold">
-                                        <span className={getSuitabilityColor(fund.suitability_score.final_score)}>
-                                          {fund.suitability_score.final_score}
-                                        </span>
-                                        <span className="text-muted-foreground text-base">/100</span>
-                                      </div>
-                                      <Badge className={getSuitabilityBadgeColor(fund.suitability_score.category)}>
-                                        {fund.suitability_score.category}
-                                      </Badge>
+                                  <h4 className="font-semibold text-lg mb-4">Performance Overview</h4>
+                                  
+                                  <div className="space-y-4">
+                                    <div>
+                                      <p className="text-sm text-muted-foreground mb-1">Total Gains</p>
+                                      <p className="text-2xl font-bold text-green-600">
+                                        +{formatCurrency(fund.gains)}
+                                      </p>
+                                      <p className="text-sm text-green-600">({fund.gainsPercentage}%)</p>
                                     </div>
-                                    
-                                    {/* Top Contributing Factors */}
-                                    <div className="space-y-1">
-                                      <p className="text-xs text-muted-foreground mb-1">Key Score Components:</p>
-                                      {Object.entries(fund.suitability_score.sub_scores)
-                                        .sort(([,a], [,b]) => b - a)
-                                        .slice(0, 3)
-                                        .map(([key, score]) => (
-                                          <div key={key} className="flex justify-between text-xs">
-                                            <span className="capitalize">{key.replace(/_/g, ' ')}</span>
-                                            <span className={getSuitabilityColor(score as number)}>
-                                              {(score as number).toFixed(0)}
+
+                                    <div>
+                                      <p className="text-sm text-muted-foreground mb-1">Units</p>
+                                      <p className="text-lg font-semibold">{fund.units.toLocaleString()}</p>
+                                    </div>
+
+                                    <div className="pt-2 border-t">
+                                      <p className="text-sm text-muted-foreground mb-1">Fund Manager</p>
+                                      <p className="font-semibold">{fund.manager}</p>
+                                      <p className="text-xs text-muted-foreground">Managing since {fund.managerTenure}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Column 2: Returns Comparison */}
+                              <div className="space-y-6">
+                                <div>
+                                  <h4 className="font-semibold text-lg mb-4">Returns Comparison</h4>
+                                  
+                                  <div className="bg-muted/50 rounded-lg p-4">
+                                    <table className="w-full text-sm">
+                                      <thead>
+                                        <tr className="border-b border-border">
+                                          <th className="text-left py-2 font-medium">Period</th>
+                                          <th className="text-right py-2 font-medium">Fund</th>
+                                          <th className="text-right py-2 font-medium">Benchmark</th>
+                                          <th className="text-right py-2 font-medium">Category</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {['1Y', '3Y', '5Y'].map(period => (
+                                          <tr key={period} className="border-b border-border/50">
+                                            <td className="py-2 font-medium">{period}</td>
+                                            <td className="text-right font-bold text-blue-600">
+                                              {fund.returns[period as keyof typeof fund.returns]}%
+                                            </td>
+                                            <td className="text-right">
+                                              {fund.benchmarkReturns[period as keyof typeof fund.benchmarkReturns]}%
+                                            </td>
+                                            <td className="text-right">
+                                              {fund.categoryReturns[period as keyof typeof fund.categoryReturns]}%
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                  <div className="mt-4">
+                                    <h5 className="font-medium mb-3">Risk Metrics</h5>
+                                    <div className="grid grid-cols-2 gap-3">
+                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                        <p className="text-xs text-muted-foreground">Sharpe</p>
+                                        <p className="font-bold">{fund.metrics.sharpeRatio}</p>
+                                      </div>
+                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                        <p className="text-xs text-muted-foreground">Beta</p>
+                                        <p className="font-bold">{fund.metrics.beta}</p>
+                                      </div>
+                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                        <p className="text-xs text-muted-foreground">Alpha</p>
+                                        <p className="font-bold">{fund.metrics.alpha}%</p>
+                                      </div>
+                                      <div className="bg-muted/30 p-3 rounded-lg text-center">
+                                        <p className="text-xs text-muted-foreground">Volatility</p>
+                                        <p className="font-bold">{fund.metrics.standardDeviation}%</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Column 3: Holdings & Analysis */}
+                              <div className="space-y-6">
+                                <div>
+                                  <h4 className="font-semibold text-lg mb-4">Holdings & Analysis</h4>
+                                  
+                                  {/* Top Holdings */}
+                                  <div className="mb-6">
+                                    <h5 className="font-medium mb-3">Top 5 Holdings</h5>
+                                    <div className="space-y-2">
+                                      {fund.holdings.topStocks.map((stock, index) => (
+                                        <div key={index} className="flex justify-between items-center text-sm">
+                                          <span className="font-medium">{stock.name}</span>
+                                          <span className="font-bold text-blue-600">{stock.weight}%</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+
+                                  {/* Fund Details */}
+                                  <div className="grid grid-cols-2 gap-4 mb-6">
+                                    <div className="text-center p-3 bg-muted/30 rounded-lg">
+                                      <p className="text-xs text-muted-foreground mb-1">Expense Ratio</p>
+                                      <p className="font-bold text-lg">{fund.expenseRatio}%</p>
+                                    </div>
+                                    <div className="text-center p-3 bg-muted/30 rounded-lg">
+                                      <p className="text-xs text-muted-foreground mb-1">AUM</p>
+                                      <p className="font-bold text-lg">₹{fund.aum}Cr</p>
+                                    </div>
+                                  </div>
+
+                                  {/* Suitability Score */}
+                                  {fund.suitability_score && (
+                                    <div className="mb-6">
+                                      <h5 className="font-medium mb-3">Suitability Score</h5>
+                                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg border border-yellow-200">
+                                        <div className="flex items-center gap-3 mb-3">
+                                          <div className="text-3xl font-bold">
+                                            <span className={getSuitabilityColor(fund.suitability_score.final_score)}>
+                                              {fund.suitability_score.final_score}
                                             </span>
+                                            <span className="text-muted-foreground text-lg">/100</span>
+                                          </div>
+                                          <Badge className={getSuitabilityBadgeColor(fund.suitability_score.category)}>
+                                            {fund.suitability_score.category}
+                                          </Badge>
+                                        </div>
+                                        
+                                        <div>
+                                          <p className="text-xs text-muted-foreground mb-2 font-medium">Key Score Components:</p>
+                                          <div className="space-y-1">
+                                            {Object.entries(fund.suitability_score.sub_scores)
+                                              .sort(([,a], [,b]) => b - a)
+                                              .slice(0, 3)
+                                              .map(([key, score]) => (
+                                                <div key={key} className="flex justify-between text-sm">
+                                                  <span className="capitalize font-medium">{key.replace(/_/g, ' ')}</span>
+                                                  <span className={`font-bold ${getSuitabilityColor(score as number)}`}>
+                                                    {(score as number).toFixed(0)}
+                                                  </span>
+                                                </div>
+                                              ))}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* AI-Generated Insights */}
+                                  <div>
+                                    <h5 className="font-medium mb-3">AI-Generated Insights</h5>
+                                    <div className="space-y-3">
+                                      {fund.suitability_score ? 
+                                        generateSuitabilityInsights(fund.suitability_score).map((insight, index) => (
+                                          <div key={index} className="flex items-start gap-3 text-sm p-3 bg-muted/30 rounded-lg">
+                                            {getInsightIcon(insight.type)}
+                                            <span className="flex-1">{insight.message}</span>
+                                          </div>
+                                        )) :
+                                        fund.insights.map((insight, index) => (
+                                          <div key={index} className="flex items-start gap-3 text-sm p-3 bg-muted/30 rounded-lg">
+                                            {getInsightIcon(insight.type)}
+                                            <span className="flex-1">{insight.message}</span>
                                           </div>
                                         ))}
                                     </div>
-                                  </div>
-                                )}
-
-                                {/* Fund Insights */}
-                                <div>
-                                  <h5 className="font-medium mb-2">AI-Generated Insights</h5>
-                                  <div className="space-y-2">
-                                    {fund.suitability_score ? 
-                                      generateSuitabilityInsights(fund.suitability_score).map((insight, index) => (
-                                        <div key={index} className="flex items-start gap-2 text-sm">
-                                          {getInsightIcon(insight.type)}
-                                          <span>{insight.message}</span>
-                                        </div>
-                                      )) :
-                                       fund.insights.map((insight, index) => (
-                                         <div key={index} className="flex items-start gap-2 text-sm">
-                                           {getInsightIcon(insight.type)}
-                                           <span>{insight.message}</span>
-                                         </div>
-                                       ))}
                                   </div>
                                 </div>
                               </div>
                             </div>
 
-                            {/* Recommendation */}
-                            <Alert className="mt-4">
-                              <CheckCircle className="h-4 w-4" />
-                              <AlertDescription>
-                                <strong>{fund.recommendation}:</strong> {fund.recommendationReason}
+                            {/* Recommendation Alert */}
+                            <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950">
+                              <CheckCircle className="h-4 w-4 text-blue-600" />
+                              <AlertDescription className="text-blue-800 dark:text-blue-200">
+                                <strong>Recommendation - {fund.recommendation}:</strong> {fund.recommendationReason}
                               </AlertDescription>
                             </Alert>
                           </CollapsibleContent>
