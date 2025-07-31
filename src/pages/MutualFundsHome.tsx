@@ -16,6 +16,7 @@ import {
   RefreshCcw
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import PortfolioHealthRadar from '@/components/PortfolioHealthRadar';
 import PortfolioSummary from '@/components/portfolio/PortfolioSummary';
 import PerformanceAnalysis from '@/components/portfolio/PerformanceAnalysis';
 import { useMutualFundsDashboard } from '@/hooks/useMutualFundsDashboard';
@@ -138,6 +139,9 @@ const MutualFundsHome = () => {
           summary={portfolioData.summary} 
           formatCurrency={formatCurrency} 
         />
+
+        {/* Portfolio Health Radar */}
+        <PortfolioHealthRadar portfolioData={portfolioData} />
 
         {/* Portfolio Health Alert */}
         <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950">
