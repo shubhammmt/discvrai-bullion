@@ -42,6 +42,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Pie, Cell, BarChart, Bar, RadialBarChart, RadialBar } from 'recharts';
 import PortfolioHealthRadar from '@/components/PortfolioHealthRadar';
+import PortfolioSummary from '@/components/portfolio/PortfolioSummary';
+import PerformanceAnalysis from '@/components/portfolio/PerformanceAnalysis';
+import PortfolioComposition from '@/components/portfolio/PortfolioComposition';
+import RebalancingRecommendations from '@/components/portfolio/RebalancingRecommendations';
+import SimplifiedFundAnalysis from '@/components/portfolio/SimplifiedFundAnalysis';
 
 // Enhanced mock data with new structure
 const portfolioData = {
@@ -506,49 +511,11 @@ const MutualFundsHome = () => {
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 space-y-6">
 
-        {/* Portfolio Summary */}
-        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-sm opacity-90 mb-2">Total Portfolio Value</h3>
-                <p className="text-4xl font-bold mb-2">{formatCurrency(portfolioData.summary.totalValue)}</p>
-                <div className="flex items-center gap-4 text-sm opacity-90">
-                  <span className="flex items-center gap-1">
-                    <TrendingUp className="w-4 h-4" />
-                    {formatCurrency(portfolioData.summary.totalGains)} ({portfolioData.summary.totalGainsPercentage}%)
-                  </span>
-                  <span>XIRR: {portfolioData.summary.xirr}%</span>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-xs opacity-80 mb-1">Risk Rating</div>
-                <Badge className="bg-white/20 text-white border-white/30">
-                  {portfolioData.summary.riskRating}
-                </Badge>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-4 gap-4 text-center">
-              <div className="text-center">
-                <div className="text-xs opacity-80">Sharpe Ratio</div>
-                <div className="text-lg font-semibold">{portfolioData.metrics.sharpeRatio}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xs opacity-80">Beta</div>
-                <div className="text-lg font-semibold">{portfolioData.metrics.beta}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xs opacity-80">Volatility</div>
-                <div className="text-lg font-semibold">{portfolioData.metrics.standardDeviation}%</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xs opacity-80">Alpha</div>
-                <div className="text-lg font-semibold">{portfolioData.metrics.alpha}%</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Portfolio Summary with new component */}
+        <PortfolioSummary 
+          summary={portfolioData.summary} 
+          formatCurrency={formatCurrency} 
+        />
 
         {/* Actionable Summary Alert */}
         <Alert className="border-blue-200 bg-blue-50 dark:bg-blue-950">
@@ -562,6 +529,31 @@ const MutualFundsHome = () => {
 
         {/* Portfolio Health Radar */}
         <PortfolioHealthRadar portfolioData={portfolioData} />
+
+        {/* Performance Analysis */}
+        <PerformanceAnalysis 
+          benchmarkComparison={portfolioData.benchmarkComparison}
+          metrics={portfolioData.metrics}
+        />
+
+        {/* Portfolio Composition */}
+        <PortfolioComposition 
+          allocation={portfolioData.allocation}
+          funds={portfolioData.funds}
+        />
+
+        {/* Rebalancing Recommendations */}
+        <RebalancingRecommendations 
+          allocation={portfolioData.allocation}
+          funds={portfolioData.funds}
+          formatCurrency={formatCurrency}
+        />
+
+        {/* Simplified Fund Analysis */}
+        <SimplifiedFundAnalysis 
+          funds={portfolioData.funds}
+          formatCurrency={formatCurrency}
+        />
 
         {/* AI Analysis & Actionable Insights */}
         <Collapsible open={expandedSections.aiAnalysis} onOpenChange={() => toggleSection('aiAnalysis')}>

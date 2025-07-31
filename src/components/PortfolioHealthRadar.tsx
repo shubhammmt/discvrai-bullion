@@ -1,12 +1,16 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { 
   TrendingUp, 
   Shield, 
   DollarSign, 
   PieChart, 
   Users, 
-  Target 
+  Target,
+  Gauge
 } from 'lucide-react';
 
 interface HealthIndicator {
@@ -16,6 +20,11 @@ interface HealthIndicator {
   score: number;
   icon: React.ComponentType<any>;
   description?: string;
+  detailedMetrics?: {
+    label: string;
+    value: string | number;
+    percentage?: number;
+  }[];
 }
 
 interface PortfolioHealthRadarProps {
@@ -93,7 +102,24 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
       status: mixStatus,
       score: Math.max(0, 100 - (allocationDiff * 5)),
       icon: PieChart,
-      description: `${equityAllocation}% equity (target: ${targetEquity}%)`
+      description: `${equityAllocation}% equity (target: ${targetEquity}%)`,
+      detailedMetrics: [
+        ...portfolioData.allocation.assetClass.map((asset: any) => ({
+          label: asset.name,
+          value: `${asset.value}%`,
+          percentage: asset.value
+        })),
+        ...portfolioData.allocation.sectors.slice(0, 5).map((sector: any) => ({
+          label: sector.name,
+          value: `${sector.value}%`,
+          percentage: sector.value
+        })),
+        ...portfolioData.allocation.marketCap.map((cap: any) => ({
+          label: cap.name,
+          value: `${cap.value}%`,
+          percentage: cap.value
+        }))
+      ]
     });
 
     // 5. Management Quality
@@ -140,6 +166,11 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
 
   const healthIndicators = calculateHealthIndicators();
 
+  // Calculate overall health score
+  const overallHealthScore = Math.round(
+    healthIndicators.reduce((sum, indicator) => sum + indicator.score, 0) / healthIndicators.length
+  );
+
   const getStatusColor = (score: number) => {
     if (score >= 70) return 'bg-green-100 border-green-200 text-green-800';
     if (score >= 50) return 'bg-blue-100 border-blue-200 text-blue-800';
@@ -154,31 +185,106 @@ const PortfolioHealthRadar = ({ portfolioData }: PortfolioHealthRadarProps) => {
     return 'text-red-600';
   };
 
+  const getOverallHealthLabel = (score: number) => {
+    if (score >= 80) return 'Excellent';
+    if (score >= 70) return 'Good';
+    if (score >= 60) return 'Fair';
+    if (score >= 40) return 'Needs Attention';
+    return 'Poor';
+  };
+
   return (
     <Card className="bg-gradient-to-br from-slate-800 to-slate-900 text-white border-slate-700">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Portfolio Health Radar</CardTitle>
-        <p className="text-sm text-slate-300">
-          A comprehensive at-a-glance view of key portfolio health indicators
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl font-bold">Portfolio Health Radar</CardTitle>
+            <p className="text-sm text-slate-300">
+              A comprehensive at-a-glance view of key portfolio health indicators
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center gap-2 mb-1">
+              <Gauge className="w-5 h-5 text-primary" />
+              <span className="text-sm font-medium text-slate-300">Overall Health</span>
+            </div>
+            <div className="space-y-1">
+              <div className="text-3xl font-bold text-white">{overallHealthScore}/100</div>
+              <Badge 
+                variant="outline" 
+                className={`text-xs ${getStatusColor(overallHealthScore)} bg-opacity-20`}
+              >
+                {getOverallHealthLabel(overallHealthScore)}
+              </Badge>
+            </div>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-4">
           {healthIndicators.map((indicator) => {
             const IconComponent = indicator.icon;
             return (
-              <div
-                key={indicator.id}
-                className={`p-4 rounded-lg border-2 transition-all hover:scale-105 cursor-default ${getStatusColor(indicator.score)}`}
-              >
-                <div className="flex flex-col items-center text-center space-y-2">
-                  <IconComponent className={`w-6 h-6 ${getIconColor(indicator.score)}`} />
-                  <div>
-                    <h3 className="font-semibold text-sm">{indicator.title}</h3>
-                    <p className="text-xs font-medium">{indicator.status}</p>
+              <HoverCard key={indicator.id}>
+                <HoverCardTrigger asChild>
+                  <div
+                    className={`p-4 rounded-lg border-2 transition-all hover:scale-105 cursor-pointer ${getStatusColor(indicator.score)}`}
+                  >
+                    <div className="flex flex-col items-center text-center space-y-2">
+                      <IconComponent className={`w-6 h-6 ${getIconColor(indicator.score)}`} />
+                      <div>
+                        <h3 className="font-semibold text-sm">{indicator.title}</h3>
+                        <p className="text-xs font-medium">{indicator.status}</p>
+                        <div className="mt-1">
+                          <div className="text-xs font-bold">{indicator.score.toFixed(0)}/100</div>
+                          <Progress 
+                            value={indicator.score} 
+                            className="h-1 mt-1 bg-white/20" 
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </HoverCardTrigger>
+                
+                <HoverCardContent className="w-80 bg-card text-foreground">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <IconComponent className={`w-4 h-4 ${getIconColor(indicator.score)}`} />
+                      <h4 className="font-semibold">{indicator.title}</h4>
+                      <Badge variant="outline" className={getStatusColor(indicator.score)}>
+                        {indicator.score.toFixed(0)}/100
+                      </Badge>
+                    </div>
+                    
+                    <p className="text-sm text-muted-foreground">{indicator.description}</p>
+                    
+                    {indicator.detailedMetrics && (
+                      <div className="space-y-2">
+                        <h5 className="text-sm font-medium">Detailed Breakdown:</h5>
+                        <div className="space-y-1 max-h-32 overflow-y-auto">
+                          {indicator.detailedMetrics.map((metric, index) => (
+                            <div key={index} className="flex items-center justify-between text-xs">
+                              <span className="text-muted-foreground">{metric.label}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium">{metric.value}</span>
+                                {metric.percentage && (
+                                  <div className="w-12 h-1 bg-muted rounded">
+                                    <div 
+                                      className="h-full bg-primary rounded transition-all"
+                                      style={{ width: `${Math.min(100, metric.percentage)}%` }}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             );
           })}
         </div>
