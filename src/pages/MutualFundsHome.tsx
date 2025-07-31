@@ -530,6 +530,91 @@ const MutualFundsHome = () => {
         {/* Portfolio Health Radar */}
         <PortfolioHealthRadar portfolioData={portfolioData} />
 
+        {/* Analysis (moved and renamed from AI Analysis & Actionable Insights) */}
+        <Collapsible open={expandedSections.aiAnalysis} onOpenChange={() => toggleSection('aiAnalysis')}>
+          <Card>
+            <CardHeader>
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center justify-between cursor-pointer">
+                  <CardTitle className="flex items-center gap-2">
+                    <Brain className="w-5 h-5 text-indigo-600" />
+                    Analysis
+                  </CardTitle>
+                  <ChevronDown className={`w-5 h-5 transition-transform ${expandedSections.aiAnalysis ? 'rotate-180' : ''}`} />
+                </div>
+              </CollapsibleTrigger>
+            </CardHeader>
+            <CollapsibleContent>
+              <CardContent>
+                <div className="space-y-6">
+                  
+                  {/* Overall Score */}
+                  <div className="text-center p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 rounded-lg">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 text-white rounded-full mb-4">
+                      <span className="text-2xl font-bold">{portfolioData.aiAnalysis.overallScore}</span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Portfolio Health Score</h3>
+                    <p className="text-muted-foreground">Your portfolio shows strong fundamentals with good diversification</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    {/* Strengths */}
+                    <div>
+                      <h4 className="font-semibold text-green-700 dark:text-green-400 mb-3 flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5" />
+                        Strengths
+                      </h4>
+                      <div className="space-y-3">
+                        {portfolioData.aiAnalysis.strengths.map((strength, index) => (
+                          <div key={index} className="flex items-start gap-3 p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                            <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-green-800 dark:text-green-200">{strength}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Concerns */}
+                    <div>
+                      <h4 className="font-semibold text-yellow-700 dark:text-yellow-400 mb-3 flex items-center gap-2">
+                        <AlertCircle className="w-5 h-5" />
+                        Areas of Concern
+                      </h4>
+                      <div className="space-y-3">
+                        {portfolioData.aiAnalysis.concerns.map((concern, index) => (
+                          <div key={index} className="flex items-start gap-3 p-3 bg-yellow-50 dark:bg-yellow-950 rounded-lg">
+                            <AlertCircle className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-yellow-800 dark:text-yellow-200">{concern}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actionable Recommendations */}
+                  <div>
+                    <h4 className="font-semibold text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
+                      <Target className="w-5 h-5" />
+                      Actionable Recommendations
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {portfolioData.aiAnalysis.recommendations.map((rec, index) => (
+                        <div key={index} className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                          <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                            {index + 1}
+                          </div>
+                          <span className="text-sm text-blue-800 dark:text-blue-200">{rec}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </CollapsibleContent>
+          </Card>
+        </Collapsible>
+
         {/* Performance Analysis */}
         <PerformanceAnalysis 
           benchmarkComparison={portfolioData.benchmarkComparison}
@@ -554,95 +639,6 @@ const MutualFundsHome = () => {
           funds={portfolioData.funds}
           formatCurrency={formatCurrency}
         />
-
-        {/* AI Analysis & Actionable Insights */}
-        <Collapsible open={expandedSections.aiAnalysis} onOpenChange={() => toggleSection('aiAnalysis')}>
-          <Card>
-            <CardHeader>
-              <CollapsibleTrigger asChild>
-                <div className="flex items-center justify-between cursor-pointer">
-                  <CardTitle className="flex items-center gap-2">
-                    <Brain className="w-5 h-5 text-indigo-600" />
-                    AI Analysis & Actionable Insights
-                  </CardTitle>
-                  <ChevronDown className={`w-5 h-5 transition-transform ${expandedSections.aiAnalysis ? 'rotate-180' : ''}`} />
-                </div>
-              </CollapsibleTrigger>
-            </CardHeader>
-            <CollapsibleContent>
-              <CardContent>
-                <div className="space-y-6">
-                  
-                  {/* Overall Score */}
-                  <div className="text-center p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 rounded-lg">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 text-white rounded-full mb-4">
-                      <span className="text-2xl font-bold">{portfolioData.aiAnalysis.overallScore}</span>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">Portfolio Health Score</h3>
-                    <p className="text-muted-foreground">Your portfolio shows strong fundamentals with good diversification</p>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    
-                    {/* Strengths */}
-                    <div>
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <CheckCircle className="w-5 h-5 text-green-600" />
-                        Portfolio Strengths
-                      </h4>
-                      <div className="space-y-2">
-                        {portfolioData.aiAnalysis.strengths.map((strength, index) => (
-                          <div key={index} className="flex items-start gap-2">
-                            <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0" />
-                            <p className="text-sm">{strength}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Areas of Concern */}
-                    <div>
-                      <h4 className="font-semibold mb-3 flex items-center gap-2">
-                        <AlertCircle className="w-5 h-5 text-yellow-600" />
-                        Areas of Concern
-                      </h4>
-                      <div className="space-y-2">
-                        {portfolioData.aiAnalysis.concerns.map((concern, index) => (
-                          <div key={index} className="flex items-start gap-2">
-                            <div className="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0" />
-                            <p className="text-sm">{concern}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* AI Recommendations */}
-                  <div>
-                    <h4 className="font-semibold mb-4 flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-purple-600" />
-                      AI Recommendations
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {portfolioData.aiAnalysis.recommendations.map((recommendation, index) => (
-                        <Alert key={index} className="border-purple-200 bg-purple-50 dark:bg-purple-950">
-                          <ArrowUpRight className="h-4 w-4 text-purple-600" />
-                          <AlertDescription className="text-purple-800 dark:text-purple-200">
-                            {recommendation}
-                          </AlertDescription>
-                        </Alert>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </CollapsibleContent>
-          </Card>
-        </Collapsible>
-
-
-
-        {/* Risk & Performance Metrics Explained */}
         <Collapsible open={expandedSections.metrics} onOpenChange={() => toggleSection('metrics')}>
           <Card>
             <CardHeader>
