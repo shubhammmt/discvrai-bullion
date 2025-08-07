@@ -2,38 +2,60 @@
 
 ## 🎯 TAM/SAM/SOM Framework for DISCVR.AI
 
-### Total Addressable Market (TAM): ₹76,750 Cr
-**Definition**: All digital retail investors in India with investable assets
-- **User Base**: 100M-120M digitally connected retail investors
-- **Calculation**: 6-7 Cr investors × ₹11,500 avg willingness to pay annually for portfolio management
+### Total Addressable Market (TAM): 100M-120M Users
+**Definition**: All digitally connected retail investors in India with investable assets
+- **Current User Base**: 100M-120M digitally connected retail investors
+- **2030 Projection**: ~200M users (12-15% CAGR)
 - **Market Context**: Everyone who could use comprehensive portfolio aggregation + AI insights
 
-### Serviceable Addressable Market (SAM): ₹30,700 Cr  
+### Serviceable Addressable Market (SAM): 20M-25M Users  
 **Definition**: Multi-asset, digital-first investors needing comprehensive portfolio management
-- **User Base**: 20M-25M tech-savvy investors with multi-account portfolios
-- **Calculation**: 4 Cr multi-account investors × ₹7,675 avg ARPU
+- **Current User Base**: 20M-25M tech-savvy investors with multi-account portfolios
+- **2030 Projection**: ~50M-60M users (20-25% CAGR)
 - **Filters Applied**: 
   - Digital-first investors (50-60M) → 
   - Comfortable with account linking (30-40M) → 
   - Interested in marketplace optimization (20-25M)
 
-### Serviceable Obtainable Market (SOM): ₹760 Cr
-**Definition**: Realistic 18-month target with strong execution
-- **User Base**: 1M users with 20% paid conversion
-- **Calculation**: 1M users × ₹3,800 ARPU (2.5% market penetration)
+### Serviceable Obtainable Market (SOM): 1M-2M Users
+**Definition**: Realistic 3-5 year target with strong execution
+- **Current Target**: 1M-2M users realistically reachable via platform
+- **2030 Projection**: ~6M-8M users (35-40% CAGR)
 - **Validation**: Achievable based on Groww (10M users in 5 years), INDmoney (6M+ users)
 
 ## 📊 5-Year User Growth Projections by Financial Product Category
 
 | Product Category | 2025 Users | 2030 Projection | CAGR | Key Growth Drivers |
 |------------------|-------------|------------------|------|-------------------|
-| **Mutual Funds** | 48M unique investors | 90M-100M | 13-15% | Tier 2-3 expansion, UPI-AIF/MF integrations |
-| **Equity (Active Demat)** | 35M active users | 70M active | 10-12% | Gen Z investors, mobile-first brokers |
-| **Bonds (Retail)** | <1M active buyers | 10M-12M | 55-60% | RBI Retail Direct, tokenization platforms |
-| **Loans (All Retail)** | 250M borrowers | 400M+ | 9-10% | Embedded lending, UPI Credit, BNPL |
-| **Insurance** | 200M combined | 250M+ | 12-14% | IRDA sandbox, digital claims |
-| **Credit Cards** | 50-60M users | 100M users | 10-11% | UPI Credit, co-brands, rewards |
-| **Portfolio Aggregators** | 3-4M active | 20M+ | 35-40% | AA ecosystem, embedded platforms |
+| **Mutual Funds** | ~48M unique investors | ~90M-100M | ~13-15% | Tier 2-3 expansion, UPI-AIF/MF integrations, SIPs |
+| **Equity (Demat holders)** | ~150M demat accounts (~35M active users) | ~250M accounts (~70M active) | ~10-12% | Gen Z investors, mobile-first brokers, gamified apps |
+| **Bonds (Retail)** | <1M active buyers | ~10M-12M | ~55-60% | RBI Retail Direct, tokenization, platforms like GoldenPi, NSE/BSE retail push |
+| **Loans (All Retail)** | ~250M borrowers | ~400M+ | ~9-10% | Embedded lending, UPI Credit, BNPL evolution, new-to-credit segment |
+| **Insurance (Life & General)** | ~120M unique policyholders (life), ~80M (non-life) | ~250M+ combined | ~12-14% | IRDA sandbox, digital claims, health-linked bundling |
+| **Credit Cards** | ~95M cards (~50-60M users) | ~160M+ cards (~100M users) | ~10-11% | UPI Credit, co-brands, rewards stacking |
+| **Portfolio Aggregators** | ~3-4M active users | ~20M+ | ~35-40% | AA ecosystem, awareness, embedded in neobanks/platforms |
+
+## 📈 Retail Investor Base Growth Context
+
+### Historical Growth Validation
+- **Mutual Fund Investors**: ~23M in FY18 → ~48M in FY25 (CAGR ≈ 11-12%)
+- **Demat Account Holders**: ~3.6 Cr (36M) in Mar 2020 → ~15 Cr (150M) in Aug 2025 (CAGR ≈ 35%+)
+- **Fintech User Base**: Many players grew from 0 to 5M-20M users in ~4-6 years (Groww hit 10M MF users in 5 years)
+
+### Portfolio Aggregation Adoption
+- **INDmoney**: 6M+ users, with ~1.5-2M active aggregation users
+- **CAGR in aggregation**: likely 25-30% YoY
+- **Driven by**: Account aggregation becoming simpler (via CAMS, KFintech, AA frameworks), multi-platform assets, tax visibility needs
+
+### TAM-SAM Growth Projections (5-Year Horizon)
+
+| Metric | 2025 | CAGR (est.) | 2030 Projection |
+|--------|------|-------------|------------------|
+| Total digital investors (TAM) | 100M-120M | 12-15% | ~200M |
+| Serviceable market (SAM) | 20M-25M | 20-25% | ~50M-60M |
+| Attainable users (SOM) | 1M-2M | ~35-40%* | ~6M-8M |
+
+*Platform's actual SOM CAGR depends on execution, differentiation, and marketing spend.
 
 ## 🏗️ Market Infrastructure Validation
 
