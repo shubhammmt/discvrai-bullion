@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -6,205 +6,354 @@ export const pitchSlidesV4 = [
     type: 'title',
     title: 'DISCVR.AI',
     subtitle: "India's Universal Financial Intelligence Platform",
-    author: 'Solving Portfolio Management Chaos for 6-7 Cr Investors',
+    author: 'AI-Powered Financial Intelligence for the Mass Market',
     icon: Brain
   },
   {
     id: 2,
     type: 'market-opportunity',
     title: 'India\'s Financial Explosion',
-    subtitle: 'Massive Market with Automatic Demand Validation',
+    subtitle: '$6.7T Market Creating Unprecedented Opportunity',
     icon: BarChart3,
     marketSize: {
       tam: {
-        number: '₹76,750 Cr',
-        label: 'Total Addressable Market',
-        description: 'Portfolio management services for all Indian investors (6-7 Cr investors × ₹11,500 avg willingness to pay annually)'
+        number: '$9.2B',
+        label: 'Total Addressable Market by 2030',
+        description: 'Comprehensive financial management for 400M+ users'
       },
       sam: {
-        number: '₹30,700 Cr', 
+        number: '$4.1B', 
         label: 'Serviceable Addressable Market',
-        description: 'Multi-account investors needing comprehensive portfolio management (4 Cr tech-savvy investors × ₹7,675 avg ARPU)'
+        description: '200M+ multi-account holders needing intelligent aggregation'
       },
       som: {
-        number: '₹760 Cr',
+        number: '$760M',
         label: 'Serviceable Obtainable Market',
-        description: 'Realistic 18-month target: 1M users × ₹3,800 ARPU with 20% paid conversion (2.5% market penetration)'
+        description: '25M users by 2030 at $3,800 annual ARPU (2.5% market penetration)'
       }
     },
     marketData: {
-      totalAssets: '₹8,25,58,000+ Cr',
-      description: 'Total Financial Assets Under Management (≈ US$9.5 trillion)',
+      totalAssets: '$6.7T',
+      description: 'Total Financial Assets Under Management',
       breakdown: [
-        { asset: 'Equity Market Cap', value: '₹4,71,00,000 Cr', growth: 'US$5.4 trillion market cap' },
-        { asset: 'Bond Market', value: '₹2,26,00,000 Cr', growth: 'US$2.6 trillion including govt & corporate bonds' },
-        { asset: 'Fixed Deposits', value: '₹1,03,00,000 Cr', growth: 'US$1.2 trillion in bank deposits' },
-        { asset: 'Mutual Funds AUM', value: '₹74,79,000 Cr', growth: 'June 2025 figures, +23% YoY growth' }
+        { asset: 'Equity Market Cap', value: '$4.5T', growth: '150M+ Demat accounts, 25% YoY growth' },
+        { asset: 'Mutual Funds AUM', value: '$850B', growth: '180M+ accounts, 30% YoY growth' },
+        { asset: 'Fixed Deposits', value: '$1.2T', growth: 'Stable base, digital transformation' },
+        { asset: 'Bonds & Others', value: '$150B', growth: 'Emerging retail participation' }
       ]
     },
     userExplosion: [
-      { metric: '19.2 Cr Demat Accounts', detail: '27% YoY growth, record 4.1 Cr additions' },
-      { metric: '24.13 Cr MF Accounts', detail: '25% CAGR, 26% women participation' },
-      { metric: '8.38 Cr Active SIPs', detail: '₹26,632 Cr monthly inflows' }
+      { metric: '150M+ Demat Accounts', detail: '25% YoY growth, digitally native investors' },
+      { metric: '180M+ MF Accounts', detail: '30% YoY growth, SIP culture adoption' },
+      { metric: 'Account Aggregator: 1059% Growth', detail: '120M+ consents, proving data sharing comfort' }
     ],
     validation: [
-      'Account Aggregator: 80M+ users sharing financial data (1059% growth FY24)',
-      'Multi-account chaos: 6-7 Cr investors managing 43+ Cr accounts (4x redundancy)',
-      'Premium willingness: Existing players like INDmoney ($86M raised), CRED ($800M+)',
-      'Regulatory clarity: RBI-backed AA framework provides infrastructure foundation'
+      'Government Infrastructure: RBI-backed Account Aggregator framework',
+      'User Behavior: 120M+ users sharing financial data voluntarily',
+      'Market Validation: INDmoney ($86M), CRED ($800M+) prove willingness to pay',
+      'Growth Momentum: 25-30% YoY growth across all financial products'
     ],
-    marketContext: 'Perfect Storm: Infrastructure + Massive User Base + Proven Demand + Regulatory Support'
+    marketContext: 'Perfect Storm: Infrastructure + User Base + Regulatory Support + Proven Demand'
   },
   {
     id: 3,
+    type: 'market-growth',
+    title: 'Market Growth Projections',
+    subtitle: '400M+ Users by 2030 with 35-40% CAGR',
+    icon: TrendingUp,
+    growthData: {
+      currentState: {
+        year: '2025',
+        totalUsers: '200M+',
+        multiAccountUsers: '100M+',
+        totalAssets: '$6.7T'
+      },
+      projectedState: {
+        year: '2030',
+        totalUsers: '400M+',
+        multiAccountUsers: '200M+',
+        totalAssets: '$12T+'
+      },
+      cagr: '35-40%'
+    },
+    segmentGrowth: [
+      {
+        segment: 'Demat Accounts',
+        current: '150M',
+        projected: '300M+',
+        cagr: '25%',
+        driver: 'Digital adoption, equity culture'
+      },
+      {
+        segment: 'MF Accounts',
+        current: '180M',
+        projected: '350M+',
+        cagr: '30%',
+        driver: 'SIP penetration, financial literacy'
+      },
+      {
+        segment: 'Multi-Account Holders',
+        current: '100M',
+        projected: '200M+',
+        cagr: '35%',
+        driver: 'Product diversification'
+      },
+      {
+        segment: 'Portfolio Aggregators',
+        current: '5M',
+        projected: '50M+',
+        cagr: '60%',
+        driver: 'Complexity management need'
+      }
+    ],
+    ourTarget: {
+      users: '25M by 2030',
+      marketShare: '12.5% of multi-account holders',
+      revenue: '$760M annual run rate',
+      cagr: '35-40%'
+    },
+    growthDrivers: [
+      'Digital-first Generation: 65% of users under 35',
+      'Wealth Creation: Middle class growing at 15% annually',
+      'Product Innovation: New financial products driving complexity',
+      'Regulatory Support: Government promoting financial inclusion'
+    ]
+  },
+  {
+    id: 4,
     type: 'problem-statement',
     title: 'The Portfolio Management Crisis',
-    subtitle: 'Quantified Pain Points Across Financial Health',
+    subtitle: '200M+ Users Drowning in Financial Complexity',
     icon: AlertTriangle,
     problemData: {
-      coreIssue: '6-7 Cr investors managing 43+ Cr accounts across fragmented platforms',
+      coreIssue: '200M+ investors managing 3.2 accounts each across fragmented platforms',
+      quantifiedPain: {
+        timeWaste: '2-3 hours weekly on manual portfolio tracking',
+        errors: '40% make suboptimal decisions due to information fragmentation',
+        costs: 'Average ₹50,000+ annual opportunity cost from poor coordination'
+      },
       painPoints: [
         {
           category: 'Insurance & Protection Gaps',
           severity: 'Critical',
           stats: [
-            '81% Indians are underinsured (Swiss Re)',
-            '76% families lack adequate health coverage',
-            '90% don\'t have term life insurance',
-            'Only 3.9% insurance penetration vs 7.4% global average'
+            '70% lack adequate health coverage',
+            '85% have insufficient life insurance',
+            '3.9% insurance penetration vs 7.4% global average'
           ]
         },
         {
           category: 'Emergency Fund Crisis',
           severity: 'High',
           stats: [
-            '40% Indians lack 3-month emergency funds',
+            '70% lack 6-month emergency funds',
             '68% middle-class families financially vulnerable',
-            'Emergency fund inadequacy across income segments'
+            'Post-COVID: Emergency fund awareness but no execution'
           ]
         },
         {
           category: 'Asset Allocation Chaos',
           severity: 'High',
           stats: [
+            '85% have poor asset allocation',
             '70% over-concentrated in single assets',
-            '85% lack structured asset allocation',
-            'Poor diversification across asset classes',
-            'Home bias: 95% investments in domestic assets only'
+            'Home bias: 95% invest only domestically'
           ]
         },
         {
-          category: 'Retirement Planning Gap',
+          category: 'Digital Fragmentation',
           severity: 'Critical',
           stats: [
-            '₹35 Lakh Cr pension market by 2030',
-            '85% Indians inadequately prepared for retirement',
-            'Average retirement corpus 40% below required'
+            'Average user: 3.2 financial accounts',
+            '5+ apps needed for complete portfolio view',
+            '2-3 hours weekly spent on manual tracking'
           ]
         }
       ],
       currentSolutionGaps: [
-        'No unified view across all financial products',
-        'Limited AI-driven insights for mass market',
-        'Complex interfaces, not user-friendly',
-        'Missing family portfolio management',
-        'No automated rebalancing or alerts'
+        '70%+ Unmet Need: No unified real-time aggregation',
+        'AI Gap: Generic advice, not personalized for mass market',
+        'Action Gap: Tracking tools without execution capability',
+        'Family Gap: No multi-member portfolio management',
+        'Intelligence Gap: Data without actionable insights'
       ]
     }
   },
   {
-    id: 4,
+    id: 5,
+    type: 'ai-advantages',
+    title: 'Why AI is Critical for This Problem',
+    subtitle: 'Only AI Can Solve Financial Complexity at Scale',
+    icon: Brain,
+    withoutAI: {
+      title: 'Without AI: Manual & Generic Solutions',
+      limitations: [
+        'Manual Data Entry: Users spend hours updating portfolios',
+        'Generic Advice: One-size-fits-all recommendations',
+        'Static Dashboards: No real-time insights or alerts',
+        'Information Overload: Raw data without actionable intelligence',
+        'Reactive Approach: Problems identified after losses occur'
+      ]
+    },
+    withAI: {
+      title: 'With AI: Intelligent & Personalized Platform',
+      advantages: [
+        {
+          capability: 'Data Normalization at Scale',
+          impact: 'Process 100+ data formats in real-time vs manual integration',
+          example: 'Automatically reconcile Zerodha, Groww, SBI data formats'
+        },
+        {
+          capability: 'Hyper-Personalization',
+          impact: 'Individual risk profiling vs generic recommendations',
+          example: 'Custom asset allocation based on age, income, goals, behavior'
+        },
+        {
+          capability: 'Predictive Intelligence',
+          impact: 'Proactive alerts vs reactive problem-solving',
+          example: 'Predict rebalancing needs before market volatility hits'
+        },
+        {
+          capability: 'Conversational Interface',
+          impact: 'Natural language queries vs complex financial jargon',
+          example: '"Should I invest more in equity?" gets personalized answer'
+        },
+        {
+          capability: 'Pattern Recognition',
+          impact: 'Identify trends across millions of users vs individual analysis',
+          example: 'Spot market opportunities based on successful user patterns'
+        }
+      ]
+    },
+    aiInfrastructure: {
+      title: 'Our AI Infrastructure Advantage',
+      components: [
+        'Real-time Processing: Handle 1M+ transactions simultaneously',
+        'Machine Learning Models: Personalized recommendations engine',
+        'NLP Engine: Convert complex financial data into simple insights',
+        'Predictive Analytics: Risk assessment and opportunity identification',
+        'Scalable Architecture: AI capabilities improve with user base growth'
+      ]
+    },
+    competitiveAdvantage: 'First-mover in AI-powered financial intelligence for mass market vs basic aggregation tools'
+  },
+  {
+    id: 6,
     type: 'solution',
     title: 'Universal Financial Intelligence Platform',
-    subtitle: 'AI-Powered Comprehensive Portfolio Management',
+    subtitle: 'AI-Powered Financial Operating System',
     icon: Zap,
     features: [
       {
         title: 'Universal Aggregation Engine',
-        description: 'Connect all financial accounts seamlessly',
+        description: 'Connect 200+ financial institutions seamlessly',
         capabilities: [
-          '50+ platform integrations (vs competitors\' 10-15)',
           'Account Aggregator (AA) framework integration',
-          'Real-time portfolio synchronization',
-          'Intelligent deduplication across platforms'
+          'Real-time portfolio synchronization across all platforms',
+          'Intelligent deduplication and data normalization',
+          'Email parsing for offline account data'
         ]
       },
       {
         title: 'AI-Powered Insights Layer',
-        description: 'Comprehensive financial health analysis',
+        description: 'Transform data into actionable intelligence',
         capabilities: [
-          'Insurance gap analysis & recommendations',
+          'Personalized financial health scoring',
+          'Insurance gap analysis with specific recommendations',
           'Emergency fund adequacy assessment',
-          'Asset allocation optimization',
-          'Retirement planning with projections',
-          'Tax optimization strategies'
+          'Asset allocation optimization based on goals',
+          'Tax optimization and retirement planning'
         ]
       },
       {
         title: 'Intelligent Action Platform',
-        description: 'Execute improvements across all platforms',
+        description: 'Execute financial improvements seamlessly',
         capabilities: [
-          'Automated rebalancing alerts',
-          'Goal-based investment recommendations',
+          'One-click rebalancing across platforms',
+          'Automated investment execution via partner APIs',
           'Insurance purchase integration',
-          'Emergency fund setup guidance',
-          'Family portfolio management'
+          'Goal-based SIP recommendations',
+          'Family portfolio coordination'
         ]
       }
     ],
     differentiators: [
-      'Comprehensive: Beyond investments - insurance, emergency funds, retirement',
-      'AI-Driven: Machine learning for personalized insights',
-      'Mass Market: ₹3,800/year vs ₹25,000+ premium solutions',
-      'Family-First: Multi-member portfolio management',
-      'Action-Oriented: Not just tracking, but improvement recommendations'
-    ]
+      'Comprehensive Coverage: All financial products vs investment-only platforms',
+      'AI-First Approach: Personalized intelligence vs generic dashboards',
+      'Mass Market Focus: ₹3,800/year vs ₹25,000+ premium solutions',
+      'Family Portfolio Management: Multi-member coordination capability',
+      'Action-Oriented: Execute improvements, not just track data'
+    ],
+    keyMetrics: {
+      integrations: '200+ financial institutions',
+      coverage: '95% of Indian financial products',
+      speed: 'Real-time data sync vs 24-hour delays',
+      accuracy: '99.9% data reconciliation rate'
+    }
   },
   {
-    id: 5,
+    id: 7,
     type: 'target-persona',
-    title: 'Target Market Segmentation',
-    subtitle: 'Clear User Segments with Validated Revenue Potential',
+    title: 'Refined User Segments',
+    subtitle: 'Clear Personas with Distinct Needs & Revenue Paths',
     icon: Users,
     personas: [
       {
-        title: 'Basic Portfolio Seekers',
-        size: '3-5 Crore Users',
-        profile: '1-2 accounts, seeking financial clarity',
-        problems: ['Need simple portfolio view', 'Basic financial health insights'],
-        revenue: '$60-240 annually',
-        marketSize: '$900M-1.2B'
+        title: 'Financial Starters',
+        size: '8-10 Crore Users',
+        profile: '22-30 years, ₹3-8L income, 1-2 accounts',
+        demographics: 'Urban professionals, new to investing',
+        keyBehaviors: ['Just opened first Demat/MF account', 'Uses 1-2 apps', 'Relies on social media advice'],
+        corePainPoint: '"I don\'t know if I\'m doing this right"',
+        productNeed: 'Financial education + basic portfolio tracking',
+        revenue: '₹1,500-2,400/year',
+        gtmApproach: 'Educational content, social media, referrals'
       },
       {
-        title: 'Multi-Platform Managers',
+        title: 'Multi-App Jugglers',
+        size: '4-5 Crore Users',
+        profile: '28-40 years, ₹8-25L income, 3-5 accounts',
+        demographics: 'Established professionals, frustrated with app switching',
+        keyBehaviors: ['Uses 3-4 financial apps', 'Manual Excel tracking', '2-3 hours weekly management'],
+        corePainPoint: '"I waste too much time switching between apps"',
+        productNeed: 'Unified dashboard + automated tracking',
+        revenue: '₹3,600-6,000/year',
+        gtmApproach: 'Productivity positioning, app integration marketing'
+      },
+      {
+        title: 'Wealth Builders',
+        size: '1.5-2 Crore Users',
+        profile: '32-50 years, ₹25L+ income, 5+ accounts',
+        demographics: 'Senior professionals/entrepreneurs, serious wealth creation',
+        keyBehaviors: ['Active across asset classes', 'Seeks advanced analytics', 'Values efficiency'],
+        corePainPoint: '"I need smarter insights, not just data"',
+        productNeed: 'AI recommendations + advanced analytics',
+        revenue: '₹8,400-15,000/year',
+        gtmApproach: 'Wealth management positioning, advisor partnerships'
+      },
+      {
+        title: 'Family Financial Managers',
         size: '2-3 Crore Users',
-        profile: '2-5 accounts across platforms',
-        problems: ['Account management complexity', 'No unified financial health view'],
-        revenue: '$240-960 annually',
-        marketSize: '$1.4B-2.1B'
-      },
-      {
-        title: 'Comprehensive Planners',
-        size: '1-2 Crore Users',
-        profile: 'Want full financial life management',
-        problems: ['Holistic planning needs', 'Family portfolio coordination'],
-        revenue: '$600-3000 annually',
-        marketSize: '$1.8B-3.6B'
-      },
-      {
-        title: 'Power Optimizers',
-        size: '50-80 Lakh Users',
-        profile: '>5 accounts, advanced analytics needs',
-        problems: ['Advanced optimization', 'Tax & retirement planning'],
-        revenue: '$1200-6000 annually',
-        marketSize: '$1.8B-2.9B'
+        profile: '35-55 years, ₹15L+ household income, 6+ accounts',
+        demographics: 'Heads of household, comprehensive planning needs',
+        keyBehaviors: ['Manages family finances', 'Insurance/tax coordination', 'Comprehensive planning'],
+        corePainPoint: '"I need to manage everyone\'s financial life"',
+        productNeed: 'Family portfolio management + planning tools',
+        revenue: '₹12,000-25,000/year',
+        gtmApproach: 'Family financial planning, insurance partnerships'
       }
     ],
-    totalTAM: '$9.2B',
-    keyInsight: 'Expanding TAM: From investment tracking to comprehensive financial health management'
+    totalTAM: '$9.2B by 2030',
+    gtmSequence: {
+      phase1: 'Multi-App Jugglers (Highest pain + willingness to pay)',
+      phase2: 'Wealth Builders (Higher revenue potential)',
+      phase3: 'Family Managers (Highest LTV)',
+      phase4: 'Financial Starters (Scale play)'
+    },
+    keyInsight: 'Clear progression path from starter to family manager with distinct pain points and solutions'
   },
   {
-    id: 6,
+    id: 8,
     type: 'aa-validation',
     title: 'Account Aggregator: Explosive Growth Validates Market Need',
     subtitle: 'India\'s Fastest Growing Open Finance Network Proves Portfolio Consolidation Demand',
@@ -277,7 +426,177 @@ export const pitchSlidesV4 = [
     }
   },
   {
-    id: 7,
+    id: 9,
+    type: 'competitive-landscape',
+    title: 'Competitive Landscape & Our Moats',
+    subtitle: 'Clear Differentiation in Crowded Market',
+    icon: Shield,
+    competitorAnalysis: {
+      directCompetitors: [
+        {
+          name: 'INDmoney',
+          strengths: ['Portfolio tracking', '$86M funding', 'US market access'],
+          weaknesses: ['Limited AI insights', 'Investment-focused only', 'Complex UI'],
+          marketShare: '2.5M users',
+          arpu: '$48/year'
+        },
+        {
+          name: 'ET Money',
+          strengths: ['MF platform', 'Insurance integration', 'Brand recognition'],
+          weaknesses: ['No real-time aggregation', 'Limited analytics', 'No family management'],
+          marketShare: '5M users',
+          arpu: '$24/year'
+        },
+        {
+          name: 'MProfit',
+          strengths: ['Comprehensive tracking', 'Desktop application'],
+          weaknesses: ['High price ₹25,000/year', 'Complex interface', 'No mobile-first'],
+          marketShare: '100K users',
+          arpu: '$300/year'
+        }
+      ],
+      indirectCompetitors: [
+        {
+          name: 'Groww',
+          threat: 'Could add aggregation features',
+          weakness: 'Investment-only focus, no comprehensive planning'
+        },
+        {
+          name: 'Zerodha',
+          threat: 'Large user base for expansion',
+          weakness: 'Brokerage model, limited product scope'
+        },
+        {
+          name: 'CRED',
+          threat: 'Credit-focused platform expansion',
+          weakness: 'Credit-centric, not comprehensive wealth management'
+        }
+      ],
+      bigTechThreats: [
+        {
+          name: 'PhonePe',
+          threat: 'Entering wealth management via acquisition',
+          timeline: '12-18 months',
+          mitigation: 'Specialized focus vs generalist approach'
+        },
+        {
+          name: 'Google Pay',
+          threat: 'Financial services expansion',
+          timeline: '18-24 months',
+          mitigation: 'Domain expertise and AI-first approach'
+        }
+      ]
+    },
+    ourMoats: {
+      shortTerm: [
+        'AI-First Architecture: Personalized insights from day one',
+        'Comprehensive Coverage: All financial products vs investment-only',
+        'Mass Market Focus: ₹3,800 vs ₹25,000+ pricing',
+        'Family Portfolio Management: Unique capability in market'
+      ],
+      mediumTerm: [
+        'Data Network Effects: Better insights with more users',
+        'Account Aggregator Leadership: First-mover in AA-powered solutions',
+        'B2B Partnership Ecosystem: Execution capability across platforms',
+        'AI Model Superiority: Continuously improving recommendations'
+      ],
+      longTerm: [
+        'Behavioral Data Moat: Understanding of financial decision patterns',
+        'Platform Ecosystem: All financial services in one place',
+        'Brand Trust: Financial intelligence authority for mass market',
+        'Regulatory Relationships: Deep integration with compliance framework'
+      ]
+    },
+    competitiveAdvantages: [
+      'Only AI-powered comprehensive platform for mass market',
+      'First-mover advantage in AA framework + AI combination',
+      'Domain expertise vs generalist big tech players',
+      'Execution focus vs feature-heavy complex solutions'
+    ]
+  },
+  {
+    id: 10,
+    type: 'risk-analysis',
+    title: 'Risk Analysis & Mitigation',
+    subtitle: 'Proactive Risk Management Strategy',
+    icon: AlertTriangle,
+    risks: [
+      {
+        risk: 'Regulatory Changes',
+        severity: 'Medium',
+        probability: 'Low',
+        impact: 'Could affect data aggregation permissions',
+        mitigation: [
+          'Built on government-backed AA framework',
+          'Proactive compliance team and legal advisory',
+          'Multiple data sources beyond AA framework',
+          'Strong relationships with regulatory bodies'
+        ],
+        timeline: 'Ongoing monitoring'
+      },
+      {
+        risk: 'Data Security Breach',
+        severity: 'High',
+        probability: 'Low',
+        impact: 'Loss of user trust and potential legal issues',
+        mitigation: [
+          'Bank-grade security infrastructure',
+          'Regular security audits and penetration testing',
+          'Compliance with RBI data protection guidelines',
+          'Cyber insurance and incident response plan'
+        ],
+        timeline: 'Continuous investment'
+      },
+      {
+        risk: 'Big Tech Entry',
+        severity: 'High',
+        probability: 'Medium',
+        impact: 'Competitive pressure and CAC inflation',
+        mitigation: [
+          'Specialized domain expertise vs generalist approach',
+          'First-mover advantage in AI + AA combination',
+          'Strong user acquisition before big tech entry',
+          'Focus on mass market vs premium segments'
+        ],
+        timeline: '12-24 months window'
+      },
+      {
+        risk: 'CAC Inflation',
+        severity: 'Medium',
+        probability: 'Medium',
+        impact: 'Reduced unit economics and growth challenges',
+        mitigation: [
+          'Diversified acquisition channels',
+          'Strong referral program and network effects',
+          'Product-led growth and organic acquisition',
+          'Efficient targeting using AI and data analytics'
+        ],
+        timeline: 'Ongoing optimization'
+      },
+      {
+        risk: 'Market Downturn',
+        severity: 'Medium',
+        probability: 'Medium',
+        impact: 'Reduced user engagement and subscription rates',
+        mitigation: [
+          'Focus on financial planning during uncertainty',
+          'Freemium model to maintain user base',
+          'Diversified revenue streams beyond subscriptions',
+          'Counter-cyclical value proposition (portfolio protection)'
+        ],
+        timeline: 'Economic cycle management'
+      }
+    ],
+    overallRiskProfile: 'Moderate risk with strong mitigation strategies and first-mover advantages',
+    keyStrengths: [
+      'Government-backed infrastructure reduces regulatory risk',
+      'Specialized focus provides competitive protection',
+      'Multiple revenue streams reduce single-point-of-failure',
+      'Strong team experience in scaling platforms'
+    ]
+  },
+  {
+    id: 11,
     type: 'team',
     title: 'Execution-Ready Leadership Team',
     subtitle: 'Proven Track Record in Scale & AI/ML',
@@ -328,7 +647,7 @@ export const pitchSlidesV4 = [
     ]
   },
   {
-    id: 8,
+    id: 12,
     type: 'b2b-partnerships',
     title: 'Strategic B2B Partnerships',
     subtitle: 'Core Enablers for Marketplace Execution',
@@ -369,241 +688,217 @@ export const pitchSlidesV4 = [
     ]
   },
   {
-    id: 9,
-    type: 'funding',
-    title: '$2.2M Seed Round',
-    subtitle: 'Building India\'s Financial Operating System',
-    icon: Wallet,
-    allocation: [
-      {
-        percentage: '35%',
-        category: 'Team',
-        description: 'Engineering, product, AI/ML specialists, leadership team'
-      },
-      {
-        percentage: '39%',
-        category: 'Marketing',
-        description: 'Digital marketing, partnerships, user acquisition, brand building'
-      },
-      {
-        percentage: '5%',
-        category: 'Compliance',
-        description: 'Regulatory compliance, legal framework, security audits'
-      },
-      {
-        percentage: '5%',
-        category: 'Infra',
-        description: 'Cloud infrastructure, security, scaling technology stack'
-      },
-      {
-        percentage: '3%',
-        category: 'Vendor',
-        description: 'Third-party integrations, API subscriptions, external services'
-      },
-      {
-        percentage: '3%',
-        category: 'Admin',
-        description: 'Operations, office setup, administrative expenses'
-      }
-    ],
-    fundDetails: {
-      raiseAmount: '$2.2M'
-    },
-    milestones: [
-      'Month 6: 50K users with complete portfolio aggregation',
-      'Month 12: 200K users with proven product-market fit',
-      'Month 18: 1M users and Series A readiness'
-    ],
-    competitiveContext: {
-      title: 'Market Validation & Funding Landscape',
-      examples: [
-        'INDmoney: $86M raised for portfolio tracking',
-        'CRED: $800M+ for credit-focused platform',
-        'Groww: $251M for investment-only platform'
-      ]
-    },
-    exitStrategy: [
-      '3-5 year exit via acquisition by major financial institution',
-      'Target valuation: $500M-1B based on user base and revenue',
-      'Strategic acquirers: Banks, insurance companies, fintech giants',
-      'IPO pathway available given Indian fintech market maturation'
-    ]
-  },
-
-  {
-    id: 9,
+    id: 13,
     type: 'gtm-detailed',
     title: 'Go-to-Market & 1M User Growth Path',
     subtitle: 'Validated Growth Strategy with Optimized CAC',
     icon: Rocket,
     phases: [
       {
-        phase: 'Phase 1: Foundation & Testing',
-        timeline: '0-3 months',
-        target: '50K-100K users',
+        phase: 'Phase 1: Multi-App Jugglers (0-6 months)',
+        timeline: '0-6 months',
+        target: '100K users',
+        targetSegment: 'Multi-App Jugglers',
+        strategy: 'Productivity positioning: "Stop juggling 5 financial apps"',
         channels: [
-          { name: 'Influencer Marketing', allocation: '30%', cac: '₹50-150', volume: '15K-30K users' },
-          { name: 'Referral Program', allocation: '25%', cac: '₹0-30', volume: '12.5K-25K users' },
-          { name: 'Performance Marketing', allocation: '20%', cac: '₹800-1200', volume: '10K-20K users' },
-          { name: 'Product-Led Growth', allocation: '10%', cac: '₹100-300', volume: '5K-10K users' },
-          { name: 'B2B2C Partnerships', allocation: '15%', cac: '₹200-400', volume: '7.5K-15K users' }
+          { name: 'LinkedIn + Productivity Content', allocation: '30%', cac: '₹2,500', volume: '30K users' },
+          { name: 'App Integration Reviews', allocation: '25%', cac: '₹2,000', volume: '25K users' },
+          { name: 'Referral Program', allocation: '20%', cac: '₹800', volume: '20K users' },
+          { name: 'Fintech Communities', allocation: '15%', cac: '₹3,000', volume: '15K users' },
+          { name: 'Partnership Marketing', allocation: '10%', cac: '₹2,200', volume: '10K users' }
         ],
         metrics: [
-          'Test channels and optimize funnel',
-          'Achieve 20% D7 retention',
-          'Validate product-market fit',
-          'Build referral mechanics'
+          'Target CAC: ₹2,500',
+          'ARPU: ₹3,600-6,000/year',
+          '15% paid conversion rate',
+          '25% D30 retention'
         ]
       },
       {
-        phase: 'Phase 2: Scale Proven Channels',
-        timeline: '3-9 months',
-        target: '250K-500K users',
+        phase: 'Phase 2: Wealth Builders (6-12 months)', 
+        timeline: '6-12 months',
+        target: '300K users',
+        targetSegment: 'Wealth Builders',
+        strategy: 'AI-powered wealth intelligence positioning',
         channels: [
-          { name: 'Influencer Marketing', allocation: '35%', cac: '₹50-150', volume: '87.5K-175K users' },
-          { name: 'Referral Program', allocation: '30%', cac: '₹0-30', volume: '75K-150K users' },
-          { name: 'Performance Marketing', allocation: '20%', cac: '₹600-900', volume: '50K-100K users' },
-          { name: 'Product-Led Growth', allocation: '10%', cac: '₹100-300', volume: '25K-50K users' },
-          { name: 'B2B2C Partnerships', allocation: '5%', cac: '₹200-400', volume: '12.5K-25K users' }
+          { name: 'Wealth Management Content', allocation: '35%', cac: '₹4,000', volume: '105K users' },
+          { name: 'Advisor Partnerships', allocation: '25%', cac: '₹3,500', volume: '75K users' },
+          { name: 'Investment Communities', allocation: '20%', cac: '₹4,500', volume: '60K users' },
+          { name: 'Referral Program', allocation: '15%', cac: '₹1,000', volume: '45K users' },
+          { name: 'Premium Events', allocation: '5%', cac: '₹6,000', volume: '15K users' }
         ],
         metrics: [
-          'Scale proven acquisition channels',
-          'Improve to 25% D7 retention',
-          'Launch premium features',
-          'Build viral coefficient > 0.3'
+          'Target CAC: ₹4,000',
+          'ARPU: ₹8,400-15,000/year',
+          '20% paid conversion rate',
+          '35% D30 retention'
         ]
       },
       {
-        phase: 'Phase 3: Blitz Scale to 1M',
-        timeline: '9-18 months',
+        phase: 'Phase 3: Family + Scale (12-18 months)',
+        timeline: '12-18 months',
         target: '1M users',
+        targetSegment: 'Family Managers + Scale',
+        strategy: 'Complete family financial command center',
         channels: [
-          { name: 'Influencer Marketing', allocation: '40%', cac: '₹50-150', volume: '400K users' },
-          { name: 'Referral Program', allocation: '25%', cac: '₹0-30', volume: '250K users' },
-          { name: 'Performance Marketing', allocation: '15%', cac: '₹500-700', volume: '150K users' },
-          { name: 'Product-Led Growth', allocation: '15%', cac: '₹100-300', volume: '150K users' },
-          { name: 'B2B2C Partnerships', allocation: '5%', cac: '₹200-400', volume: '50K users' }
+          { name: 'Family Financial Content', allocation: '25%', cac: '₹6,000', volume: '175K users' },
+          { name: 'Insurance Partnerships', allocation: '20%', cac: '₹5,000', volume: '140K users' },
+          { name: 'Referral + Viral', allocation: '30%', cac: '₹800', volume: '210K users' },
+          { name: 'Financial Starters (Scale)', allocation: '20%', cac: '₹800', volume: '140K users' },
+          { name: 'Mass Market Channels', allocation: '5%', cac: '₹1,200', volume: '35K users' }
         ],
         metrics: [
-          'Achieve 30% D30 retention',
-          'Convert 2-5% to paid users',
-          'Prepare for Series A',
-          'Build market leadership position'
+          'Blended CAC: ₹3,500',
+          'Family ARPU: ₹12,000-25,000/year',
+          'Scale ARPU: ₹1,500-2,400/year',
+          '40% D30 retention overall'
         ]
       }
     ],
-    totalBudget: '₹5-6 Cr ($600K-720K)',
-    targetCAC: '₹500-600/user'
+    totalBudget: '₹8.75 Cr ($1.05M)',
+    averageCAC: '₹3,500',
+    revenueProjection: '₹30 Cr ARR by month 18'
   },
   {
-    id: 10,
+    id: 14,
+    type: 'unit-economics',
+    title: 'Unit Economics & Revenue Model',
+    subtitle: 'Clear Path to Profitability with Strong LTV/CAC',
+    icon: DollarSign,
+    revenueModel: {
+      streams: [
+        {
+          name: 'Subscription Revenue',
+          percentage: '70%',
+          tiers: [
+            { tier: 'Essential', price: '₹0/month', features: 'Basic aggregation, 3 accounts' },
+            { tier: 'Pro', price: '₹299/month', features: 'Unlimited accounts, advanced analytics' },
+            { tier: 'Wealth', price: '₹699/month', features: 'AI insights, tax optimization' },
+            { tier: 'Family', price: '₹1,199/month', features: 'Family management, comprehensive planning' }
+          ]
+        },
+        {
+          name: 'Transaction Commissions',
+          percentage: '25%',
+          details: 'Commission from investment executions via partner platforms (0.25-0.5%)'
+        },
+        {
+          name: 'Intelligence Services',
+          percentage: '5%',
+          details: 'Premium AI insights, research reports, market intelligence'
+        }
+      ]
+    },
+    unitEconomics: {
+      cac: {
+        multiAppJugglers: '₹2,500',
+        wealthBuilders: '₹4,000',
+        familyManagers: '₹6,000',
+        blendedAverage: '₹3,500'
+      },
+      arpu: {
+        multiAppJugglers: '₹4,800/year',
+        wealthBuilders: '₹11,200/year',
+        familyManagers: '₹18,500/year',
+        blendedAverage: '₹8,800/year'
+      },
+      ltv: {
+        multiAppJugglers: '₹14,400 (3 years)',
+        wealthBuilders: '₹44,800 (4 years)',
+        familyManagers: '₹92,500 (5 years)',
+        blendedAverage: '₹35,200'
+      },
+      ltvCacRatio: {
+        multiAppJugglers: '5.8x',
+        wealthBuilders: '11.2x',
+        familyManagers: '15.4x',
+        blendedAverage: '10.1x'
+      },
+      paybackPeriod: {
+        multiAppJugglers: '6 months',
+        wealthBuilders: '4 months',
+        familyManagers: '4 months',
+        average: '5 months'
+      }
+    },
+    growthProjections: {
+      month6: { users: '100K', revenue: '₹4 Cr ARR', paidUsers: '15K' },
+      month12: { users: '300K', revenue: '₹12 Cr ARR', paidUsers: '50K' },
+      month18: { users: '1M', revenue: '₹30 Cr ARR', paidUsers: '150K' },
+      month24: { users: '2.5M', revenue: '₹75 Cr ARR', paidUsers: '350K' }
+    },
+    pathToProfitability: 'Profitable by month 15 with 15% net margins'
+  },
+  {
+    id: 15,
     type: 'funding',
-    title: '$1.25M Seed Round - Optimized for Efficient Growth',
-    subtitle: 'Building India\'s Financial Operating System',
+    title: '$1.25M Seed Round',
+    subtitle: 'Optimized for Efficient Growth & Market Leadership',
     icon: Wallet,
     allocation: [
       {
-        percentage: '35%',
+        percentage: '40%',
         category: 'Team',
-        description: 'Engineering, product, AI/ML specialists, leadership team'
+        amount: '₹4.0 Cr',
+        description: 'Core engineering, product, AI/ML specialists, growth team'
       },
       {
-        percentage: '39%',
+        percentage: '35%',
         category: 'Marketing',
-        description: 'Digital marketing, partnerships, user acquisition, brand building'
+        amount: '₹3.5 Cr',
+        description: 'Segmented user acquisition across personas, content marketing'
       },
       {
-        percentage: '5%',
-        category: 'Compliance',
-        description: 'Regulatory compliance, legal framework, security audits'
+        percentage: '15%',
+        category: 'Compliance & Security',
+        amount: '₹1.5 Cr',
+        description: 'SEBI IA registration, security audits, legal framework'
       },
       {
-        percentage: '5%',
-        category: 'Infra',
-        description: 'Cloud infrastructure, security, scaling technology stack'
-      },
-      {
-        percentage: '3%',
-        category: 'Vendor',
-        description: 'Third-party integrations, API subscriptions, external services'
-      },
-      {
-        percentage: '3%',
-        category: 'Admin',
-        description: 'Operations, office setup, administrative expenses'
+        percentage: '10%',
+        category: 'Operations',
+        amount: '₹1.0 Cr',
+        description: 'Infrastructure, partnerships, administrative expenses'
       }
     ],
     fundDetails: {
-      raiseAmount: '$1.25M USD',
-      previousAsk: '$2.2M',
-      efficiency: '43% reduction through optimized growth strategy'
+      raiseAmount: '$1.25M (₹10 Cr)',
+      timeline: '18-month runway to Series A',
+      valuation: 'Pre-money: $8-10M'
     },
-    milestones: [
-      'Month 6: 50K users with complete portfolio aggregation',
-      'Month 12: 200K users with proven product-market fit',
-      'Month 18: 1M users and Series A readiness'
+    keyMilestones: [
+      'Month 6: 100K users, ₹4 Cr ARR, Multi-App Jugglers PMF',
+      'Month 12: 300K users, ₹12 Cr ARR, Wealth Builders expansion',
+      'Month 18: 1M users, ₹30 Cr ARR, Series A readiness ($5-8M raise)'
     ],
-    unitEconomics: {
-      cac: '₹500-600',
-      arpu: '₹3,800',
-      ltvCacRatio: '7.6x',
-      paybackPeriod: '4-6 months'
+    useOfFunds: {
+      teamBuilding: '40% - Scale engineering (8-10), product (3-4), AI/ML (2-3), growth (2-3)',
+      userAcquisition: '35% - Phase 1: ₹1.5Cr, Phase 2: ₹1.5Cr, Phase 3: ₹0.5Cr contingency',
+      compliance: '15% - SEBI registration, security infrastructure, legal setup',
+      operations: '10% - Cloud infrastructure, partnerships, office setup'
     },
     competitiveContext: {
-      title: 'Market Validation & Funding Landscape',
+      title: 'Validated Market with Proven Unit Economics',
       examples: [
-        'INDmoney: $86M raised for portfolio tracking',
-        'CRED: $800M+ for credit-focused platform',
-        'Groww: $251M for investment-only platform'
+        'INDmoney: $86M raised, 2.5M users, $48 ARPU',
+        'CRED: $800M raised, 9M users, credit-focused',
+        'Our Advantage: AI-first, comprehensive, mass-market pricing'
       ]
     },
-    exitStrategy: [
-      '3-5 year exit via acquisition by major financial institution',
-      'Target valuation: $500M-1B based on user base and revenue',
-      'Strategic acquirers: Banks, insurance companies, fintech giants',
-      'IPO pathway available given Indian fintech market maturation'
-    ],
-    risks: [
-      {
-        risk: 'CAC Execution Risk',
-        severity: 'High' as const,
-        description: 'Our ₹500-600 CAC target is 65% below industry average (₹1,450)',
-        mitigation: [
-          'Validated viral channels: Referral (₹0-30), Influencer (₹50-150)',
-          'Account Aggregator reduces user acquisition friction (80M+ already comfortable)',
-          'Strong product-market fit shown in market research (78% face portfolio fragmentation)'
-        ]
-      },
-      {
-        risk: 'Regulatory Risk',
-        severity: 'Medium' as const,
-        description: 'SEBI regulations on AI-powered financial recommendations',
-        mitigation: [
-          'Phase 1: Portfolio aggregation (no license needed)',
-          'Phase 2: SEBI IA registration (₹10L deposit) for personalized advice',
-          'Recent SEBI guidelines (Dec 2024) provide clear framework for AI usage'
-        ]
-      },
-      {
-        risk: 'Competition Risk',
-        severity: 'Medium' as const,
-        description: 'Big Tech (Google Pay, PhonePe) or banks launching similar platforms',
-        mitigation: [
-          'First-mover advantage in comprehensive aggregation + AI layer',
-          'Deep partnerships with 4 key execution platforms',
-          'Focus on AI intelligence vs basic aggregation'
-        ]
-      },
-      {
-        risk: 'Unit Economics Risk',
-        severity: 'Medium' as const,
-        description: '₹3,800 ARPU target may be aggressive for mass market',
-        mitigation: [
-          'Tiered pricing: Basic (free), Premium (₹799/month), Power (₹1,499/month)',
-          'Multiple revenue streams: Subscription + transaction commissions',
-          'Conservative projections: 2-5% paid conversion rate'
-        ]
-      }
+    exitStrategy: {
+      timeline: '3-5 years',
+      pathways: [
+        'Strategic Acquisition: Financial institutions seeking digital transformation',
+        'Target Acquirers: HDFC, ICICI, Axis Bank, Bajaj Finserv, Tata Digital',
+        'IPO Path: Follow Paytm, PolicyBazaar model post-scale achievement',
+        'Valuation Target: $500M-1B based on user base and revenue multiples'
+      ]
+    },
+    investmentHighlights: [
+      'First-mover in AI + Account Aggregator combination',
+      'Clear path to ₹100 Cr+ ARR with proven unit economics',
+      'Massive TAM ($9.2B) with regulatory tailwinds',
+      'Experienced team with track record of scaling 100M+ user platforms'
     ]
   }
 ];
