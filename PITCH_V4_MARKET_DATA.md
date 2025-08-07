@@ -1,43 +1,70 @@
-# Pitch V4 - Indian Financial Market Data
+# Pitch V4 - Indian Financial Market Data & TAM/SAM/SOM Analysis
 
-## Size of Indian Financial Markets (Updated Data)
+## 🎯 TAM/SAM/SOM Framework for DISCVR.AI
+
+### Total Addressable Market (TAM): ₹76,750 Cr
+**Definition**: All digital retail investors in India with investable assets
+- **User Base**: 100M-120M digitally connected retail investors
+- **Calculation**: 6-7 Cr investors × ₹11,500 avg willingness to pay annually for portfolio management
+- **Market Context**: Everyone who could use comprehensive portfolio aggregation + AI insights
+
+### Serviceable Addressable Market (SAM): ₹30,700 Cr  
+**Definition**: Multi-asset, digital-first investors needing comprehensive portfolio management
+- **User Base**: 20M-25M tech-savvy investors with multi-account portfolios
+- **Calculation**: 4 Cr multi-account investors × ₹7,675 avg ARPU
+- **Filters Applied**: 
+  - Digital-first investors (50-60M) → 
+  - Comfortable with account linking (30-40M) → 
+  - Interested in marketplace optimization (20-25M)
+
+### Serviceable Obtainable Market (SOM): ₹760 Cr
+**Definition**: Realistic 18-month target with strong execution
+- **User Base**: 1M users with 20% paid conversion
+- **Calculation**: 1M users × ₹3,800 ARPU (2.5% market penetration)
+- **Validation**: Achievable based on Groww (10M users in 5 years), INDmoney (6M+ users)
+
+## 📊 5-Year User Growth Projections by Financial Product Category
+
+| Product Category | 2025 Users | 2030 Projection | CAGR | Key Growth Drivers |
+|------------------|-------------|------------------|------|-------------------|
+| **Mutual Funds** | 48M unique investors | 90M-100M | 13-15% | Tier 2-3 expansion, UPI-AIF/MF integrations |
+| **Equity (Active Demat)** | 35M active users | 70M active | 10-12% | Gen Z investors, mobile-first brokers |
+| **Bonds (Retail)** | <1M active buyers | 10M-12M | 55-60% | RBI Retail Direct, tokenization platforms |
+| **Loans (All Retail)** | 250M borrowers | 400M+ | 9-10% | Embedded lending, UPI Credit, BNPL |
+| **Insurance** | 200M combined | 250M+ | 12-14% | IRDA sandbox, digital claims |
+| **Credit Cards** | 50-60M users | 100M users | 10-11% | UPI Credit, co-brands, rewards |
+| **Portfolio Aggregators** | 3-4M active | 20M+ | 35-40% | AA ecosystem, embedded platforms |
+
+## 🏗️ Market Infrastructure Validation
+
+### Account Aggregator Framework (Government-Backed)
+- **Current Scale**: 80M+ users sharing financial data (1059% growth FY24)
+- **Regulatory Support**: RBI-mandated since 2016, provides infrastructure foundation
+- **Market Validation**: Proven demand for unified financial data access
+
+### Multi-Account Chaos (The Problem We Solve)
+- **Reality Check**: 6-7 Cr investors managing 43+ Cr accounts (4x redundancy)
+- **Stock Market**: ~5 Cr active investors across 19.2 Cr accounts = 3.8x redundancy  
+- **Mutual Funds**: ~5.4 Cr unique users across 24.13 Cr accounts = 4.5x redundancy
+- **Pain Point**: Massive fragmentation creating demand for aggregation
+
+### Premium Willingness Validation
+- **Market Proof**: INDmoney ($86M raised), CRED ($800M+ valuation)
+- **ARPU Evidence**: Existing players achieving ₹3,000-8,000 annual revenue per user
+- **Regulatory Clarity**: RBI-backed AA framework eliminates compliance uncertainty
+
+## 📈 Total Financial Assets Breakdown
 
 ### Individual Asset Classes
+- **Equity Market Cap**: ₹4,71,00,000 Cr (US$5.4 trillion)
+- **Bond Market**: ₹2,26,00,000 Cr (US$2.6 trillion)  
+- **Fixed Deposits**: ₹1,03,00,000 Cr (US$1.2 trillion)
+- **Mutual Fund AUM**: ₹74,79,000 Cr (June 2025)
 
-#### 1. Indian Equity Market
-- **Market Capitalization**: ₹4,71,00,000 Cr (US$5.4 trillion)
-- **Notes**: Total value of all listed stocks on Indian stock exchanges
-
-#### 2. Indian Bond Market  
-- **Overall Size**: ₹2,26,00,000 Cr (US$2.6 trillion)
-- **Corporate Bond Segment**: ₹53,60,000 Cr outstanding stock
-- **Notes**: Includes government bonds, treasury bills, state development loans, and corporate bonds
-
-#### 3. Indian Fixed Deposit (FD) Market
-- **Total Deposits**: ₹1,03,00,000 Cr (US$1.2 trillion)
-- **Notes**: Total deposits by individuals and institutions across banks
-
-#### 4. Indian Mutual Fund Market
-- **Assets Under Management (AUM)**: ₹74,79,000 Cr (June 2025)
-- **Notes**: Total market value of assets managed by all mutual fund schemes
-
-### Total Cumulative AUM Analysis
-
-#### Raw Total (Before Overlap Adjustment)
-- Equity Market: ₹4,71,00,000 Cr
-- Bond Market: ₹2,26,00,000 Cr  
-- FD Market: ₹1,03,00,000 Cr
-- Mutual Fund Market: ₹74,79,000 Cr
+### Total Cumulative Analysis
 - **Raw Total**: ₹8,74,79,000 Cr
-
-#### Overlap Considerations
-- **Passive Mutual Funds**: 16.59% of total MF AUM
-- **Potential Overlap**: ₹12,41,000 Cr (passive MFs investing in equities/bonds)
-- **Additional Minor Overlaps**: Accounted for in final calculation
-
-#### Final Cumulative AUM
-- **Total AUM (Overlap Adjusted)**: ₹8,25,58,000 Cr (US$9.5 trillion)
-- **Exchange Rate Used**: 1 USD = ₹86.35 INR
+- **Overlap Adjusted**: ₹8,25,58,000 Cr (US$9.5 trillion)
+- **Market Context**: One of world's largest financial ecosystems
 
 ## Key Market Insights for Pitch
 
