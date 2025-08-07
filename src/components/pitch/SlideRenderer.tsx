@@ -24,6 +24,8 @@ import { TargetPersonaSlideV2 } from './TargetPersonaSlideV2';
 import { AAValidationSlide } from './AAValidationSlide';
 import { B2BPartnershipsSlide } from './B2BPartnershipsSlide';
 import { B2BBusinessModelSlide } from './B2BBusinessModelSlide';
+import { RisksSlide } from './RisksSlide';
+import { GTMDetailedSlide } from './GTMDetailedSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -78,6 +80,10 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <B2BPartnershipsSlide slide={slide} />;
     case 'b2b-business-model':
       return <B2BBusinessModelSlide slide={slide} />;
+    case 'risks':
+      return <RisksSlide slide={slide} />;
+    case 'gtm-detailed':
+      return <GTMDetailedSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }

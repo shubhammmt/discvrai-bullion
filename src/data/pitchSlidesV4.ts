@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2 } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -414,62 +414,180 @@ export const pitchSlidesV4 = [
     ]
   },
 
-  // B2B Business Model Slide
   {
-    id: 10,
-    type: 'b2b-business-model',
-    title: 'B2B Enterprise Revenue Strategy',
-    subtitle: 'Validated Market with Immediate Commercial Opportunity',
-    icon: Building2,
-    marketSize: {
-      global: '$1.1T by 2032',
-      growth: '16.2% CAGR',
-      opportunity: 'BaaS: $75B by 2030'
-    },
-    revenueStreams: [
+    id: 9,
+    type: 'gtm-detailed',
+    title: 'Go-to-Market & 1M User Growth Path',
+    subtitle: 'Validated Growth Strategy with Optimized CAC',
+    icon: Rocket,
+    phases: [
       {
-        segment: 'API & Data Services',
-        description: 'Portfolio aggregation APIs for banks, fintechs, and wealth managers',
-        pricing: '$50K-500K annually',
-        marketSize: '100+ enterprise clients',
-        timeline: '6-12 months'
+        phase: 'Phase 1: Foundation & Testing',
+        timeline: '0-3 months',
+        target: '50K-100K users',
+        channels: [
+          { name: 'Influencer Marketing', allocation: '30%', cac: '₹50-150', volume: '15K-30K users' },
+          { name: 'Referral Program', allocation: '25%', cac: '₹0-30', volume: '12.5K-25K users' },
+          { name: 'Performance Marketing', allocation: '20%', cac: '₹800-1200', volume: '10K-20K users' },
+          { name: 'Product-Led Growth', allocation: '10%', cac: '₹100-300', volume: '5K-10K users' },
+          { name: 'B2B2C Partnerships', allocation: '15%', cac: '₹200-400', volume: '7.5K-15K users' }
+        ],
+        metrics: [
+          'Test channels and optimize funnel',
+          'Achieve 20% D7 retention',
+          'Validate product-market fit',
+          'Build referral mechanics'
+        ]
       },
       {
-        segment: 'White Label Solutions',
-        description: 'Branded portfolio management dashboards for financial institutions',
-        pricing: '$300K setup + $100K/year',
-        marketSize: '20+ implementations',
-        timeline: '12-18 months'
+        phase: 'Phase 2: Scale Proven Channels',
+        timeline: '3-9 months',
+        target: '250K-500K users',
+        channels: [
+          { name: 'Influencer Marketing', allocation: '35%', cac: '₹50-150', volume: '87.5K-175K users' },
+          { name: 'Referral Program', allocation: '30%', cac: '₹0-30', volume: '75K-150K users' },
+          { name: 'Performance Marketing', allocation: '20%', cac: '₹600-900', volume: '50K-100K users' },
+          { name: 'Product-Led Growth', allocation: '10%', cac: '₹100-300', volume: '25K-50K users' },
+          { name: 'B2B2C Partnerships', allocation: '5%', cac: '₹200-400', volume: '12.5K-25K users' }
+        ],
+        metrics: [
+          'Scale proven acquisition channels',
+          'Improve to 25% D7 retention',
+          'Launch premium features',
+          'Build viral coefficient > 0.3'
+        ]
       },
       {
-        segment: 'Alternative Data Licensing',
-        description: 'Aggregated investment behavior insights for hedge funds and asset managers',
-        pricing: '$200K-2M annually',
-        marketSize: '50+ institutional clients',
-        timeline: '18-24 months'
-      },
-      {
-        segment: 'Compliance & Reporting',
-        description: 'Automated regulatory reporting for multi-jurisdictional portfolios',
-        pricing: '$100K-1M annually',
-        marketSize: 'Global banks & brokers',
-        timeline: '24+ months'
+        phase: 'Phase 3: Blitz Scale to 1M',
+        timeline: '9-18 months',
+        target: '1M users',
+        channels: [
+          { name: 'Influencer Marketing', allocation: '40%', cac: '₹50-150', volume: '400K users' },
+          { name: 'Referral Program', allocation: '25%', cac: '₹0-30', volume: '250K users' },
+          { name: 'Performance Marketing', allocation: '15%', cac: '₹500-700', volume: '150K users' },
+          { name: 'Product-Led Growth', allocation: '15%', cac: '₹100-300', volume: '150K users' },
+          { name: 'B2B2C Partnerships', allocation: '5%', cac: '₹200-400', volume: '50K users' }
+        ],
+        metrics: [
+          'Achieve 30% D30 retention',
+          'Convert 2-5% to paid users',
+          'Prepare for Series A',
+          'Build market leadership position'
+        ]
       }
     ],
-    competitiveAdvantage: {
-      title: 'Unique B2B Positioning',
-      advantages: [
-        'Comprehensive asset coverage beyond traditional banking',
-        'AI-driven insights with institutional-grade analytics',
-        'India AA framework compliance + global expansion ready',
-        'Real-time cross-border portfolio management',
-        'Proven B2C validation reduces enterprise sales cycles'
+    totalBudget: '₹5-6 Cr ($600K-720K)',
+    targetCAC: '₹500-600/user'
+  },
+  {
+    id: 10,
+    type: 'funding',
+    title: '$1.25M Seed Round - Optimized for Efficient Growth',
+    subtitle: 'Building India\'s Financial Operating System',
+    icon: Wallet,
+    allocation: [
+      {
+        percentage: '35%',
+        category: 'Team',
+        description: 'Engineering, product, AI/ML specialists, leadership team'
+      },
+      {
+        percentage: '39%',
+        category: 'Marketing',
+        description: 'Digital marketing, partnerships, user acquisition, brand building'
+      },
+      {
+        percentage: '5%',
+        category: 'Compliance',
+        description: 'Regulatory compliance, legal framework, security audits'
+      },
+      {
+        percentage: '5%',
+        category: 'Infra',
+        description: 'Cloud infrastructure, security, scaling technology stack'
+      },
+      {
+        percentage: '3%',
+        category: 'Vendor',
+        description: 'Third-party integrations, API subscriptions, external services'
+      },
+      {
+        percentage: '3%',
+        category: 'Admin',
+        description: 'Operations, office setup, administrative expenses'
+      }
+    ],
+    fundDetails: {
+      raiseAmount: '$1.25M USD',
+      previousAsk: '$2.2M',
+      efficiency: '43% reduction through optimized growth strategy'
+    },
+    milestones: [
+      'Month 6: 50K users with complete portfolio aggregation',
+      'Month 12: 200K users with proven product-market fit',
+      'Month 18: 1M users and Series A readiness'
+    ],
+    unitEconomics: {
+      cac: '₹500-600',
+      arpu: '₹3,800',
+      ltvCacRatio: '7.6x',
+      paybackPeriod: '4-6 months'
+    },
+    competitiveContext: {
+      title: 'Market Validation & Funding Landscape',
+      examples: [
+        'INDmoney: $86M raised for portfolio tracking',
+        'CRED: $800M+ for credit-focused platform',
+        'Groww: $251M for investment-only platform'
       ]
     },
-    projections: {
-      year3Target: '$33M ARR',
-      revenueBreakdown: 'API: $15M | White Label: $8M | Alt Data: $10M',
-      exitValuation: '$250M-400M'
-    }
+    exitStrategy: [
+      '3-5 year exit via acquisition by major financial institution',
+      'Target valuation: $500M-1B based on user base and revenue',
+      'Strategic acquirers: Banks, insurance companies, fintech giants',
+      'IPO pathway available given Indian fintech market maturation'
+    ],
+    risks: [
+      {
+        risk: 'CAC Execution Risk',
+        severity: 'High' as const,
+        description: 'Our ₹500-600 CAC target is 65% below industry average (₹1,450)',
+        mitigation: [
+          'Validated viral channels: Referral (₹0-30), Influencer (₹50-150)',
+          'Account Aggregator reduces user acquisition friction (80M+ already comfortable)',
+          'Strong product-market fit shown in market research (78% face portfolio fragmentation)'
+        ]
+      },
+      {
+        risk: 'Regulatory Risk',
+        severity: 'Medium' as const,
+        description: 'SEBI regulations on AI-powered financial recommendations',
+        mitigation: [
+          'Phase 1: Portfolio aggregation (no license needed)',
+          'Phase 2: SEBI IA registration (₹10L deposit) for personalized advice',
+          'Recent SEBI guidelines (Dec 2024) provide clear framework for AI usage'
+        ]
+      },
+      {
+        risk: 'Competition Risk',
+        severity: 'Medium' as const,
+        description: 'Big Tech (Google Pay, PhonePe) or banks launching similar platforms',
+        mitigation: [
+          'First-mover advantage in comprehensive aggregation + AI layer',
+          'Deep partnerships with 4 key execution platforms',
+          'Focus on AI intelligence vs basic aggregation'
+        ]
+      },
+      {
+        risk: 'Unit Economics Risk',
+        severity: 'Medium' as const,
+        description: '₹3,800 ARPU target may be aggressive for mass market',
+        mitigation: [
+          'Tiered pricing: Basic (free), Premium (₹799/month), Power (₹1,499/month)',
+          'Multiple revenue streams: Subscription + transaction commissions',
+          'Conservative projections: 2-5% paid conversion rate'
+        ]
+      }
+    ]
   }
 ];
