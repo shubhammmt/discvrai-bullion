@@ -15,8 +15,25 @@ export const pitchSlidesV4 = [
     title: 'India\'s Financial Explosion',
     subtitle: 'Massive Market with Automatic Demand Validation',
     icon: BarChart3,
+    marketSize: {
+      tam: {
+        number: '₹76,750 Cr',
+        label: 'Total Addressable Market',
+        description: 'Portfolio management services for all Indian investors (6-7 Cr investors × ₹11,500 avg willingness to pay annually)'
+      },
+      sam: {
+        number: '₹30,700 Cr', 
+        label: 'Serviceable Addressable Market',
+        description: 'Multi-account investors needing comprehensive portfolio management (4 Cr tech-savvy investors × ₹7,675 avg ARPU)'
+      },
+      som: {
+        number: '₹760 Cr',
+        label: 'Serviceable Obtainable Market',
+        description: 'Realistic 18-month target: 1M users × ₹3,800 ARPU with 20% paid conversion (2.5% market penetration)'
+      }
+    },
     marketData: {
-      totalMarket: '₹8,25,58,000+ Cr',
+      totalAssets: '₹8,25,58,000+ Cr',
       description: 'Total Financial Assets Under Management (≈ US$9.5 trillion)',
       breakdown: [
         { asset: 'Equity Market Cap', value: '₹4,71,00,000 Cr', growth: 'US$5.4 trillion market cap' },
@@ -30,14 +47,13 @@ export const pitchSlidesV4 = [
       { metric: '24.13 Cr MF Accounts', detail: '25% CAGR, 26% women participation' },
       { metric: '8.38 Cr Active SIPs', detail: '₹26,632 Cr monthly inflows' }
     ],
-    keyInsight: {
-      title: 'Multi-Account Chaos Proven',
-      stats: [
-        '~5 Cr active stock investors across 19.2 Cr accounts = 3.8x redundancy',
-        '~5.4 Cr unique MF users across 24.13 Cr accounts = 4.5x redundancy',
-        'Real addressable base: 6-7 Cr investors managing 43+ Cr accounts'
-      ]
-    }
+    validation: [
+      'Account Aggregator: 80M+ users sharing financial data (1059% growth FY24)',
+      'Multi-account chaos: 6-7 Cr investors managing 43+ Cr accounts (4x redundancy)',
+      'Premium willingness: Existing players like INDmoney ($86M raised), CRED ($800M+)',
+      'Regulatory clarity: RBI-backed AA framework provides infrastructure foundation'
+    ],
+    marketContext: 'Perfect Storm: Infrastructure + Massive User Base + Proven Demand + Regulatory Support'
   },
   {
     id: 3,
