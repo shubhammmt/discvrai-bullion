@@ -1,115 +1,84 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { AlertTriangle, Shield, CheckCircle } from 'lucide-react';
 
 interface RisksSlideProps {
   slide: {
     title: string;
+    subtitle: string;
     icon: React.ComponentType<any>;
-    criticalRisk: {
-      title: string;
-      description: string;
-      concerns: string[];
-    };
     risks: Array<{
-      assumption: string;
-      level: string;
-      validation: string;
-      metric: string;
+      risk: string;
+      severity: 'High' | 'Medium' | 'Low';
+      description: string;
+      mitigation: string[];
     }>;
-    warningSignals: {
-      redFlags: string[];
-      greenFlags: string[];
-    };
   };
 }
 
 export const RisksSlide: React.FC<RisksSlideProps> = ({ slide }) => {
-  const IconComponent = slide.icon;
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'High': return 'bg-red-100 text-red-800 border-red-200';
+      case 'Medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Low': return 'bg-green-100 text-green-800 border-green-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
 
   return (
     <div className="space-y-8">
-      <div className="text-center">
-        <IconComponent className="w-16 h-16 mx-auto mb-4 text-orange-600" />
-        <h2 className="text-4xl font-bold text-gray-900 mb-8">{slide.title}</h2>
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="flex justify-center">
+          <slide.icon className="w-16 h-16 text-primary" />
+        </div>
+        <div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{slide.title}</h1>
+          <p className="text-xl text-gray-600">{slide.subtitle}</p>
+        </div>
       </div>
 
-      {/* Critical Risk Callout */}
-      <Card className="p-6 border-2 border-red-500 bg-red-50">
-        <CardContent>
-          <h3 className="text-xl font-bold text-red-800 mb-4">{slide.criticalRisk.title}</h3>
-          <p className="text-red-700 font-semibold mb-4">{slide.criticalRisk.description}</p>
-          <div className="space-y-2">
-            {slide.criticalRisk.concerns.map((concern, index) => (
-              <div key={index} className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-red-700 text-sm">{concern}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Risk Assessment Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-3 text-left">Assumption</th>
-              <th className="border border-gray-300 p-3 text-left">Risk Level</th>
-              <th className="border border-gray-300 p-3 text-left">Validation Method</th>
-              <th className="border border-gray-300 p-3 text-left">Success Metric</th>
-            </tr>
-          </thead>
-          <tbody>
-            {slide.risks.map((risk, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 p-3">{risk.assumption}</td>
-                <td className="border border-gray-300 p-3">{risk.level}</td>
-                <td className="border border-gray-300 p-3">{risk.validation}</td>
-                <td className="border border-gray-300 p-3 text-green-600 font-semibold">{risk.metric}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Warning Signals */}
+      {/* Risks Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6 border-2 border-red-200 bg-red-50">
-          <CardContent>
-            <div className="flex items-center gap-3 mb-4">
-              <XCircle className="w-8 h-8 text-red-600" />
-              <h3 className="text-xl font-bold text-red-800">🚩 Red Flags (Pivot Triggers)</h3>
-            </div>
-            <div className="space-y-2">
-              {slide.warningSignals.redFlags.map((flag, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-red-700 text-sm">{flag}</p>
+        {slide.risks.map((risk, index) => (
+          <Card key={index} className="border-l-4 border-l-orange-500">
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                {/* Risk Header */}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-orange-500" />
+                    <h3 className="font-semibold text-gray-900">{risk.risk}</h3>
+                  </div>
+                  <Badge className={`${getSeverityColor(risk.severity)} border`}>
+                    {risk.severity} Risk
+                  </Badge>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
 
-        <Card className="p-6 border-2 border-green-200 bg-green-50">
-          <CardContent>
-            <div className="flex items-center gap-3 mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
-              <h3 className="text-xl font-bold text-green-800">✅ Green Flags (Scale Indicators)</h3>
-            </div>
-            <div className="space-y-2">
-              {slide.warningSignals.greenFlags.map((flag, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-green-700 text-sm">{flag}</p>
+                {/* Risk Description */}
+                <p className="text-gray-600 text-sm">{risk.description}</p>
+
+                {/* Mitigation Strategies */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-green-600" />
+                    <span className="text-sm font-medium text-gray-900">Mitigation</span>
+                  </div>
+                  <ul className="space-y-1">
+                    {risk.mitigation.map((strategy, strategyIndex) => (
+                      <li key={strategyIndex} className="flex items-start gap-2 text-sm text-gray-600">
+                        <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>{strategy}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );
