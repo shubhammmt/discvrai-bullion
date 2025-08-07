@@ -1,27 +1,29 @@
-# Pitch V4 - Indian Financial Market Data & TAM/SAM/SOM Analysis
+# Pitch V4 - Indian Financial Market Data & Growth Story Structure
 
-## 🎯 TAM/SAM/SOM Framework for DISCVR.AI
+## 📊 SLIDE 1: Current Market State (2025)
+**Focus**: Where we are today - Market size and fragmentation
 
-### Total Addressable Market (TAM): 100M-120M Users
-**Definition**: All digitally connected retail investors in India with investable assets
-- **Current User Base**: 100M-120M digitally connected retail investors
-- **2030 Projection**: ~200M users (12-15% CAGR)
-- **Market Context**: Everyone who could use comprehensive portfolio aggregation + AI insights
+### Current Financial Ecosystem Overview
+- **Total Financial Assets**: ₹8.25+ lakh crore (US$9.5 trillion)
+- **Digital Investor Base**: 100M-120M retail investors
+- **Account Fragmentation**: 6-7 Cr investors managing 43+ Cr accounts (4x redundancy)
 
-### Serviceable Addressable Market (SAM): 20M-25M Users  
-**Definition**: Multi-asset, digital-first investors needing comprehensive portfolio management
-- **Current User Base**: 20M-25M tech-savvy investors with multi-account portfolios
-- **2030 Projection**: ~50M-60M users (20-25% CAGR)
-- **Filters Applied**: 
-  - Digital-first investors (50-60M) → 
-  - Comfortable with account linking (30-40M) → 
-  - Interested in marketplace optimization (20-25M)
+### Current User Base Across Financial Products (2025)
+- **Mutual Funds**: ~48M unique investors
+- **Equity (Demat holders)**: ~150M accounts (~35M active users)
+- **Bonds (Retail)**: <1M active buyers
+- **Loans (All retail types)**: ~250M borrowers
+- **Insurance**: ~120M life + ~80M non-life policyholders
+- **Credit Cards**: ~95M cards (~50-60M users)
+- **Portfolio Aggregators**: ~3-4M active users
 
-### Serviceable Obtainable Market (SOM): 1M-2M Users
-**Definition**: Realistic 3-5 year target with strong execution
-- **Current Target**: 1M-2M users realistically reachable via platform
-- **2030 Projection**: ~6M-8M users (35-40% CAGR)
-- **Validation**: Achievable based on Groww (10M users in 5 years), INDmoney (6M+ users)
+### Market Fragmentation Problem
+- **Multi-Account Chaos**: 4-5x account redundancy across asset classes
+- **Lack of Unified View**: Investors struggle with comprehensive portfolio management
+- **Infrastructure Ready**: Account Aggregator framework provides regulatory foundation
+
+## 📈 SLIDE 2: Market Growth → 2030 TAM/SAM/SOM
+**Focus**: Where the market is heading - Growth projections and our opportunity
 
 ## 📊 5-Year User Growth Projections by Financial Product Category
 
@@ -47,15 +49,23 @@
 - **CAGR in aggregation**: likely 25-30% YoY
 - **Driven by**: Account aggregation becoming simpler (via CAMS, KFintech, AA frameworks), multi-platform assets, tax visibility needs
 
-### TAM-SAM Growth Projections (5-Year Horizon)
+### 2030 TAM/SAM/SOM Framework for DISCVR.AI
 
-| Metric | 2025 | CAGR (est.) | 2030 Projection |
-|--------|------|-------------|------------------|
-| Total digital investors (TAM) | 100M-120M | 12-15% | ~200M |
-| Serviceable market (SAM) | 20M-25M | 20-25% | ~50M-60M |
-| Attainable users (SOM) | 1M-2M | ~35-40%* | ~6M-8M |
+| Market | 2025 Base | 2030 Projection | Growth | Definition |
+|--------|-----------|-----------------|--------|------------|
+| **TAM** | 100M-120M | ~200M users | 12-15% CAGR | All digitally connected retail investors with comprehensive financial needs |
+| **SAM** | 20M-25M | ~50M users | 20-25% CAGR | Multi-asset, digital-first investors needing portfolio aggregation + marketplace |
+| **SOM** | 1M-2M | **~25M users** | 35-40% CAGR | Realistic capture with strong execution across multiple growth waves |
 
-*Platform's actual SOM CAGR depends on execution, differentiation, and marketing spend.
+### Key Growth Story Insight
+- **Multiple Growth Waves**: We're riding 35-40% CAGR in portfolio aggregation + 13-15% in MF + 10-12% in equity
+- **Market Expansion**: From 150M demat accounts today → 250M by 2030
+- **Our Opportunity**: 25M users represents 10% of 2030 TAM - ambitious but achievable with execution
+
+### SOM Validation (25M Target by 2030)
+- **Historical Precedent**: Groww (0→10M in 5 years), INDmoney (0→6M), but in single categories
+- **Our Advantage**: Comprehensive aggregation + marketplace across ALL growing categories
+- **Platform CAGR**: 35-40% would take us from 1M (2025) → 25M (2030)
 
 ## 🏗️ Market Infrastructure Validation
 
