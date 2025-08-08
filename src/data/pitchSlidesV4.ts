@@ -181,64 +181,6 @@ export const pitchSlidesV4 = [
   },
   {
     id: 5,
-    type: 'ai-advantages',
-    title: 'Why AI is Critical for This Problem',
-    subtitle: 'Only AI Can Solve Financial Complexity at Scale',
-    icon: Brain,
-    withoutAI: {
-      title: 'Without AI: Manual & Generic Solutions',
-      limitations: [
-        'Manual Data Entry: Users spend hours updating portfolios',
-        'Generic Advice: One-size-fits-all recommendations',
-        'Static Dashboards: No real-time insights or alerts',
-        'Information Overload: Raw data without actionable intelligence',
-        'Reactive Approach: Problems identified after losses occur'
-      ]
-    },
-    withAI: {
-      title: 'With AI: Intelligent & Personalized Platform',
-      advantages: [
-        {
-          capability: 'Data Normalization at Scale',
-          impact: 'Process 100+ data formats in real-time vs manual integration',
-          example: 'Automatically reconcile Zerodha, Groww, SBI data formats'
-        },
-        {
-          capability: 'Hyper-Personalization',
-          impact: 'Individual risk profiling vs generic recommendations',
-          example: 'Custom asset allocation based on age, income, goals, behavior'
-        },
-        {
-          capability: 'Predictive Intelligence',
-          impact: 'Proactive alerts vs reactive problem-solving',
-          example: 'Predict rebalancing needs before market volatility hits'
-        },
-        {
-          capability: 'Conversational Interface',
-          impact: 'Natural language queries vs complex financial jargon',
-          example: '"Should I invest more in equity?" gets personalized answer'
-        },
-        {
-          capability: 'Pattern Recognition',
-          impact: 'Identify trends across millions of users vs individual analysis',
-          example: 'Spot market opportunities based on successful user patterns'
-        }
-      ]
-    },
-    aiInfrastructure: {
-      title: 'Our AI Infrastructure Advantage',
-      components: [
-        'Real-time Processing: Handle 1M+ transactions simultaneously',
-        'Machine Learning Models: Personalized recommendations engine',
-        'NLP Engine: Convert complex financial data into simple insights',
-        'Predictive Analytics: Risk assessment and opportunity identification',
-        'Scalable Architecture: AI capabilities improve with user base growth'
-      ]
-    },
-    competitiveAdvantage: 'First-mover in AI-powered financial intelligence for mass market vs basic aggregation tools'
-  },
-  {
-    id: 6,
     type: 'solution',
     title: 'Universal Financial Intelligence Platform',
     subtitle: 'AI-Powered Financial Operating System',
@@ -292,7 +234,7 @@ export const pitchSlidesV4 = [
     }
   },
   {
-    id: 7,
+    id: 6,
     type: 'target-persona',
     title: 'Refined User Segments',
     subtitle: 'Clear Personas with Distinct Needs & Revenue Paths',

@@ -26,6 +26,9 @@ import { B2BPartnershipsSlide } from './B2BPartnershipsSlide';
 import { B2BBusinessModelSlide } from './B2BBusinessModelSlide';
 import { RisksSlide } from './RisksSlide';
 import { GTMDetailedSlide } from './GTMDetailedSlide';
+import { MarketGrowthSlide } from './MarketGrowthSlide';
+import { CompetitiveLandscapeSlide } from './CompetitiveLandscapeSlide';
+import { RiskAnalysisSlide } from './RiskAnalysisSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -84,6 +87,12 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <RisksSlide slide={slide} />;
     case 'gtm-detailed':
       return <GTMDetailedSlide slide={slide} />;
+    case 'market-growth':
+      return <MarketGrowthSlide slide={slide} />;
+    case 'competitive-landscape':
+      return <CompetitiveLandscapeSlide slide={slide} />;
+    case 'risk-analysis':
+      return <RiskAnalysisSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
