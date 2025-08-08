@@ -178,7 +178,7 @@ export const pitchSlidesV4 = [
           category: 'Digital Fragmentation',
           severity: 'Critical',
           stats: [
-            'Average user: 1.7(2) financial accounts',
+            'Average user: 2 financial accounts',
             '5+ apps needed for complete portfolio view',
             '2-3 hours weekly spent on manual tracking'
           ]
@@ -236,7 +236,7 @@ export const pitchSlidesV4 = [
     differentiators: [
       'Comprehensive Coverage: All financial products vs investment-only platforms',
       'AI-First Approach: Personalized intelligence vs generic dashboards',
-      'Mass Market Focus: Focus on revenue with incremental millions',
+      'Mass Market Focus: Transaction focused',
       'Family Portfolio Management: Multi-member coordination capability',
       'Action-Oriented: Execute improvements, not just track data'
     ],
@@ -256,35 +256,35 @@ export const pitchSlidesV4 = [
     personas: [
       {
         title: 'Financial Starters',
-        size: '8-10 Crore Users',
+        size: '5-8 Crore Users',
         profile: '22-30 years, ₹3-8L income, 1-2 accounts',
         demographics: 'Urban professionals, new to investing',
         keyBehaviors: ['Just opened first Demat/MF account', 'Uses 1-2 apps', 'Relies on social media advice'],
         corePainPoint: '"I don\'t know if I\'m doing this right"',
         productNeed: 'Financial education + basic portfolio tracking',
-        revenue: '₹1,500-2,400/year',
+        revenue: '₹100-200/year',
         gtmApproach: 'Educational content, social media, referrals'
       },
       {
         title: 'Multi-App Jugglers',
-        size: '4-5 Crore Users',
+        size: '0.5 Crore Users',
         profile: '28-40 years, ₹8-25L income, 3-5 accounts',
         demographics: 'Established professionals, frustrated with app switching',
         keyBehaviors: ['Uses 3-4 financial apps', 'Manual Excel tracking', '2-3 hours weekly management'],
         corePainPoint: '"I waste too much time switching between apps"',
         productNeed: 'Unified dashboard + automated tracking',
-        revenue: '₹3,600-6,000/year',
+        revenue: '₹150-300/year',
         gtmApproach: 'Productivity positioning, app integration marketing'
       },
       {
         title: 'Wealth Builders',
-        size: '1.5-2 Crore Users',
+        size: '0.25 Crore Users',
         profile: '32-50 years, ₹25L+ income, 5+ accounts',
         demographics: 'Senior professionals/entrepreneurs, serious wealth creation',
         keyBehaviors: ['Active across asset classes', 'Seeks advanced analytics', 'Values efficiency'],
         corePainPoint: '"I need smarter insights, not just data"',
         productNeed: 'AI recommendations + advanced analytics',
-        revenue: '₹8,400-15,000/year',
+        revenue: '₹500-1,000/year',
         gtmApproach: 'Wealth management positioning, advisor partnerships'
       },
       {
