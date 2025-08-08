@@ -137,10 +137,10 @@ export const pitchSlidesV4 = [
     id: 4,
     type: 'problem-statement',
     title: 'The Portfolio Management Crisis',
-    subtitle: '200M+ Users Drowning in Financial Complexity',
+    subtitle: '100M+ Users Drowning in Financial Complexity',
     icon: AlertTriangle,
     problemData: {
-      coreIssue: '200M+ investors managing 3.2 accounts each across fragmented platforms',
+      coreIssue: '100M+ investors managing 2 accounts each across fragmented platforms',
       quantifiedPain: {
         timeWaste: '2-3 hours weekly on manual portfolio tracking',
         errors: '40% make suboptimal decisions due to information fragmentation',
@@ -178,7 +178,7 @@ export const pitchSlidesV4 = [
           category: 'Digital Fragmentation',
           severity: 'Critical',
           stats: [
-            'Average user: 3.2 financial accounts',
+            'Average user: 1.7(2) financial accounts',
             '5+ apps needed for complete portfolio view',
             '2-3 hours weekly spent on manual tracking'
           ]
@@ -236,7 +236,7 @@ export const pitchSlidesV4 = [
     differentiators: [
       'Comprehensive Coverage: All financial products vs investment-only platforms',
       'AI-First Approach: Personalized intelligence vs generic dashboards',
-      'Mass Market Focus: ₹3,800/year vs ₹25,000+ premium solutions',
+      'Mass Market Focus: Focus on revenue with incremental millions',
       'Family Portfolio Management: Multi-member coordination capability',
       'Action-Oriented: Execute improvements, not just track data'
     ],
@@ -394,21 +394,21 @@ export const pitchSlidesV4 = [
           strengths: ['Portfolio tracking', '$86M funding', 'US market access'],
           weaknesses: ['Limited AI insights', 'Investment-focused only', 'Complex UI'],
           marketShare: '2.5M users',
-          arpu: ''
+          arpu: '$48/year'
         },
         {
           name: 'ET Money',
           strengths: ['MF platform', 'Insurance integration', 'Brand recognition'],
           weaknesses: ['No real-time aggregation', 'Limited analytics', 'No family management'],
           marketShare: '5M users',
-          arpu: ''
+          arpu: '$24/year'
         },
         {
           name: 'MProfit',
           strengths: ['Comprehensive tracking', 'Desktop application'],
           weaknesses: ['High price ₹25,000/year', 'Complex interface', 'No mobile-first'],
           marketShare: '100K users',
-          arpu: ''
+          arpu: '$300/year'
         }
       ],
       indirectCompetitors: [
@@ -557,12 +557,20 @@ export const pitchSlidesV4 = [
     title: 'Execution-Ready Leadership Team',
     subtitle: 'Proven Track Record in Scale & AI/ML',
     icon: Trophy,
-    traction: [
-      { metric: '4K MAUs', detail: 'Monthly active users' },
-      { metric: '200+ Beta Users', detail: 'Strong early adoption' },
-      { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
-      { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
-    ],
+    marketValidation: {
+      tam: '$9.2B (₹76,750 Cr)',
+      successStories: [
+        'Nuvama: ₹2.1T AUM, 55% revenue growth',
+        '360 One: 13% AUM CAGR target',
+        'Market Gap: Only 5% of affluent households use formal wealth management'
+      ],
+      traction: [
+        { metric: '4K MAUs', detail: 'Monthly active users' },
+        { metric: '200+ Beta Users', detail: 'Strong early adoption' },
+        { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
+        { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
+      ]
+    },
     team: [
       {
         name: 'Shubham Srivastava',
