@@ -4,11 +4,30 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 
 interface MarketGrowthSlideProps {
-  slide: any;
+  slide: {
+    title: string;
+    subtitle: string;
+    icon: React.ComponentType<any>;
+    marketSizing: {
+      tam: { size: string; users: string; description: string; calculation: string; breakdown: string[]; };
+      sam: { size: string; users: string; description: string; calculation: string; criteria: string[]; };
+      som: { size: string; users: string; description: string; calculation: string; strategy: string[]; };
+    };
+    marketProgression: {
+      title: string;
+      flow: Array<{ stage: string; size: string; driver?: string; filter?: string; focus?: string; }>;
+    };
+    revenueValidation: {
+      title: string;
+      examples: string[];
+    };
+    keyInsight: string;
+  };
 }
 
 export const MarketGrowthSlide: React.FC<MarketGrowthSlideProps> = ({ slide }) => {
-  const { title, subtitle, icon: Icon, growthData, segmentGrowth, ourTarget, growthDrivers } = slide;
+
+  const { title, subtitle, icon: Icon, marketSizing, marketProgression, revenueValidation, keyInsight } = slide;
 
   return (
     <div className="space-y-8">
@@ -22,70 +41,62 @@ export const MarketGrowthSlide: React.FC<MarketGrowthSlideProps> = ({ slide }) =
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Current vs Projected */}
-        <Card>
+      {/* TAM/SAM/SOM Cards */}
+      <div className="grid md:grid-cols-3 gap-6">
+        <Card className="border-2 border-green-200 bg-green-50">
           <CardHeader>
-            <CardTitle>Market Evolution</CardTitle>
+            <CardTitle className="text-green-700">TAM</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-semibold text-blue-800">{growthData.currentState.year} (Current)</h3>
-                <div className="grid grid-cols-2 gap-4 mt-2">
-                  <div>
-                    <p className="text-sm text-blue-600">Total Users</p>
-                    <p className="font-bold text-blue-800">{growthData.currentState.totalUsers}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-blue-600">Multi-Account</p>
-                    <p className="font-bold text-blue-800">{growthData.currentState.multiAccountUsers}</p>
-                  </div>
+          <CardContent className="space-y-4">
+            <div className="text-3xl font-bold text-green-600">{marketSizing.tam.size}</div>
+            <div className="text-lg font-semibold text-gray-800">{marketSizing.tam.users}</div>
+            <p className="text-sm text-gray-600">{marketSizing.tam.description}</p>
+            <p className="text-xs text-gray-500">{marketSizing.tam.calculation}</p>
+            <div className="space-y-1">
+              {marketSizing.tam.breakdown.map((item, index) => (
+                <div key={index} className="text-xs text-gray-600 flex items-start gap-1">
+                  <div className="w-1 h-1 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                  {item}
                 </div>
-                <div className="mt-2">
-                  <p className="text-sm text-blue-600">Total Assets</p>
-                  <p className="font-bold text-blue-800">{growthData.currentState.totalAssets}</p>
-                </div>
-              </div>
-
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h3 className="font-semibold text-green-800">{growthData.projectedState.year} (Projected)</h3>
-                <div className="grid grid-cols-2 gap-4 mt-2">
-                  <div>
-                    <p className="text-sm text-green-600">Total Users</p>
-                    <p className="font-bold text-green-800">{growthData.projectedState.totalUsers}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-green-600">Multi-Account</p>
-                    <p className="font-bold text-green-800">{growthData.projectedState.multiAccountUsers}</p>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <p className="text-sm text-green-600">Total Assets</p>
-                  <p className="font-bold text-green-800">{growthData.projectedState.totalAssets}</p>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <Badge variant="secondary" className="text-lg px-4 py-2">
-                  {growthData.cagr} CAGR
-                </Badge>
-              </div>
+              ))}
             </div>
           </CardContent>
         </Card>
 
-        {/* Our Target */}
-        <Card>
+        <Card className="border-2 border-blue-200 bg-blue-50">
           <CardHeader>
-            <CardTitle>DISCVR.AI Target</CardTitle>
+            <CardTitle className="text-blue-700">SAM</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              {Object.entries(ourTarget).map(([key, value]) => (
-                <div key={key} className="p-3 bg-primary/5 rounded-lg">
-                  <p className="text-sm text-muted-foreground capitalize">{key.replace(/([A-Z])/g, ' $1')}</p>
-                  <p className="font-bold text-primary text-lg">{String(value)}</p>
+          <CardContent className="space-y-4">
+            <div className="text-3xl font-bold text-blue-600">{marketSizing.sam.size}</div>
+            <div className="text-lg font-semibold text-gray-800">{marketSizing.sam.users}</div>
+            <p className="text-sm text-gray-600">{marketSizing.sam.description}</p>
+            <p className="text-xs text-gray-500">{marketSizing.sam.calculation}</p>
+            <div className="space-y-1">
+              {marketSizing.sam.criteria.map((item, index) => (
+                <div key={index} className="text-xs text-gray-600 flex items-start gap-1">
+                  <div className="w-1 h-1 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-purple-200 bg-purple-50">
+          <CardHeader>
+            <CardTitle className="text-purple-700">SOM</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-3xl font-bold text-purple-600">{marketSizing.som.size}</div>
+            <div className="text-lg font-semibold text-gray-800">{marketSizing.som.users}</div>
+            <p className="text-sm text-gray-600">{marketSizing.som.description}</p>
+            <p className="text-xs text-gray-500">{marketSizing.som.calculation}</p>
+            <div className="space-y-1">
+              {marketSizing.som.strategy.map((item, index) => (
+                <div key={index} className="text-xs text-gray-600 flex items-start gap-1">
+                  <div className="w-1 h-1 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
+                  {item}
                 </div>
               ))}
             </div>
@@ -93,45 +104,55 @@ export const MarketGrowthSlide: React.FC<MarketGrowthSlideProps> = ({ slide }) =
         </Card>
       </div>
 
-      {/* Segment Growth */}
+      {/* Market Progression Flow */}
       <Card>
         <CardHeader>
-          <CardTitle>Segment Growth Breakdown</CardTitle>
+          <CardTitle>{marketProgression.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-2 gap-6">
-            {segmentGrowth.map((segment: any, index: number) => (
-              <div key={index} className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <h4 className="font-semibold">{segment.segment}</h4>
-                  <Badge variant="outline">{segment.cagr} CAGR</Badge>
+          <div className="grid md:grid-cols-3 gap-6">
+            {marketProgression.flow.map((stage, index) => (
+              <div key={index} className="text-center space-y-3">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-semibold text-lg text-gray-800">{stage.stage}</h4>
+                  <p className="text-2xl font-bold text-primary mt-2">{stage.size}</p>
+                  {stage.driver && <p className="text-sm text-gray-600 mt-2">{stage.driver}</p>}
+                  {stage.filter && <p className="text-sm text-gray-600 mt-2">{stage.filter}</p>}
+                  {stage.focus && <p className="text-sm text-gray-600 mt-2">{stage.focus}</p>}
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span>Current: {segment.current}</span>
-                  <span>Projected: {segment.projected}</span>
-                </div>
-                <Progress value={75} className="h-2" />
-                <p className="text-sm text-muted-foreground">{segment.driver}</p>
+                {index < marketProgression.flow.length - 1 && (
+                  <div className="flex justify-center">
+                    <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-gray-400"></div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Growth Drivers */}
+      {/* Revenue Validation */}
       <Card>
         <CardHeader>
-          <CardTitle>Growth Drivers</CardTitle>
+          <CardTitle>{revenueValidation.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-4">
-            {growthDrivers.map((driver: string, index: number) => (
-              <div key={index} className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                <p className="text-sm">{driver}</p>
+            {revenueValidation.examples.map((example, index) => (
+              <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
+                <p className="text-sm">{example}</p>
               </div>
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Key Insight */}
+      <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <CardContent className="text-center p-6">
+          <h3 className="text-2xl font-bold mb-4">Key Insight</h3>
+          <p className="text-lg">{keyInsight}</p>
         </CardContent>
       </Card>
     </div>
