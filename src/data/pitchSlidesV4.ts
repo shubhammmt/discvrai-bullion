@@ -557,20 +557,12 @@ export const pitchSlidesV4 = [
     title: 'Execution-Ready Leadership Team',
     subtitle: 'Proven Track Record in Scale & AI/ML',
     icon: Trophy,
-    marketValidation: {
-      tam: '$9.2B (₹76,750 Cr)',
-      successStories: [
-        'Nuvama: ₹2.1T AUM, 55% revenue growth',
-        '360 One: 13% AUM CAGR target',
-        'Market Gap: Only 5% of affluent households use formal wealth management'
-      ],
-      traction: [
-        { metric: '4K MAUs', detail: 'Monthly active users' },
-        { metric: '200+ Beta Users', detail: 'Strong early adoption' },
-        { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
-        { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
-      ]
-    },
+    traction: [
+      { metric: '4K MAUs', detail: 'Monthly active users' },
+      { metric: '200+ Beta Users', detail: 'Strong early adoption' },
+      { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
+      { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
+    ],
     team: [
       {
         name: 'Shubham Srivastava',
