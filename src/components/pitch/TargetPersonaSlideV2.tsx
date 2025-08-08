@@ -10,9 +10,12 @@ interface TargetPersonaSlideV2Props {
       title: string;
       size: string;
       profile: string;
-      problems: string[];
+      demographics: string;
+      keyBehaviors: string[];
+      corePainPoint: string;
+      productNeed: string;
       revenue: string;
-      marketSize: string;
+      gtmApproach: string;
     }>;
     totalTAM: string;
     keyInsight: string;
@@ -48,24 +51,34 @@ export const TargetPersonaSlideV2: React.FC<TargetPersonaSlideV2Props> = ({ slid
               
               <div className="mb-4">
                 <p className="text-gray-700 font-medium">{persona.profile}</p>
+                <p className="text-sm text-gray-600 mt-2">{persona.demographics}</p>
               </div>
               
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-gray-800 mb-2">Key Problems:</h4>
+                <h4 className="text-sm font-semibold text-gray-800 mb-2">Key Behaviors:</h4>
                 <div className="space-y-2">
-                  {persona.problems.map((problem, i) => (
+                  {persona.keyBehaviors?.map((behavior, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <p className="text-sm text-gray-600">{problem}</p>
+                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-sm text-gray-600">{behavior}</p>
                     </div>
                   ))}
                 </div>
               </div>
               
-              <div className="pt-4 border-t border-gray-200">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-blue-600">{persona.marketSize}</div>
-                  <div className="text-sm text-gray-600">Market Size</div>
+              <div className="mb-4 p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
+                <h4 className="text-sm font-semibold text-gray-800 mb-1">Core Pain Point:</h4>
+                <p className="text-sm text-red-700 italic">{persona.corePainPoint}</p>
+              </div>
+              
+              <div className="pt-4 border-t border-gray-200 space-y-3">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800 mb-1">Product Need:</h4>
+                  <p className="text-sm text-gray-600">{persona.productNeed}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800 mb-1">GTM Approach:</h4>
+                  <p className="text-sm text-gray-600">{persona.gtmApproach}</p>
                 </div>
               </div>
             </CardContent>
