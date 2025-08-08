@@ -122,8 +122,8 @@ export const pitchSlidesV4 = [
     ],
     ourTarget: {
       users: '25M by 2030',
-      marketShare: '12.5% of multi-account holders',
-      revenue: '$760M annual run rate',
+      marketShare: '10% of TAM',
+      revenue: '$1B annual run rate : ARPU:$4',
       cagr: '35-40%'
     },
     growthDrivers: [
