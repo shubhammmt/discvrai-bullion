@@ -5,8 +5,8 @@ export const pitchSlidesV4 = [
     id: 1,
     type: 'title',
     title: 'DISCVR.AI',
-    subtitle: "India's Universal Financial Intelligence Platform",
-    author: 'AI-Powered Financial Intelligence for the Mass Market',
+    subtitle: "India's Money Platform",
+    author: 'Simplify Money for the Mass Market',
     icon: Brain
   },
   {
@@ -19,27 +19,27 @@ export const pitchSlidesV4 = [
       tam: {
         number: '200M-300M',
         label: 'Total Addressable Market by 2030',
-        description: 'Mass market users with AUM > ₹0.5L, digital-native'
+        description: 'Users across asset classes(stocks,mf,bonds) ,secure products(insurance,ulips) anbd credit products(cc,loans)'
       },
       sam: {
         number: '150M-240M', 
         label: 'Serviceable Addressable Market',
-        description: 'Active portfolio managers accessing accounts >1 time/month'
+        description: 'Active digital users accessing portfolio >1 time/month'
       },
       som: {
         number: '15M-24M',
         label: 'Serviceable Obtainable Market',
-        description: 'Target: 25M users by 2030 (aggressive but achievable)'
+        description: 'Accessing a 10% market share'
       }
     },
     marketData: {
       totalAssets: '₹2000+ Lakh Crore',
       description: 'Current Financial Assets Under Management (2025)',
       breakdown: [
-        { asset: 'Stocks', value: '₹400 Lakh crore', growth: '70M-90M users, 9% YoY growth' },
-        { asset: 'Mutual Funds', value: '₹74 Lakh crore', growth: '55M users, 22% AUM growth' },
-        { asset: 'Bonds', value: '₹226 Lakh crore', growth: '30M users, 28% corp growth' },
-        { asset: 'Fixed Deposits', value: '₹120 Lakh crore', growth: '25M users, steady 11-13%' }
+        { asset: 'Stocks', value: '₹400 Lakh crore+', growth: '70M-90M users, 9% YoY growth' },
+        { asset: 'Mutual Funds', value: '₹74 Lakh crore+', growth: '55M users, 22% AUM growth' },
+        { asset: 'Bonds', value: '₹226 Lakh crore+', growth: '30M users, 28% corp growth' },
+        { asset: 'Fixed Deposits', value: '₹120 Lakh crore+', growth: '25M users, steady 11-13%' }
       ]
     },
     userExplosion: [
@@ -64,14 +64,14 @@ export const pitchSlidesV4 = [
     growthData: {
       currentState: {
         year: '2025',
-        totalUsers: '300M+',
-        multiAccountUsers: '150M+',
+        totalUsers: '110-150M+',
+        multiAccountUsers: '100M+',
         totalAssets: '₹2000+ Lakh Crore'
       },
       projectedState: {
         year: '2030',
-        totalUsers: '600M+',
-        multiAccountUsers: '300M+',
+        totalUsers: '200-300M+',
+        multiAccountUsers: '200M+',
         totalAssets: '₹3500+ Lakh Crore'
       },
       cagr: '12-15%'
@@ -108,7 +108,7 @@ export const pitchSlidesV4 = [
       {
         segment: 'Account Aggregator',
         current: '10 Crore',
-        projected: '100 Crore',
+        projected: '20 Crore',
         cagr: '20-25%',
         driver: 'Government push, data sharing comfort'
       },
