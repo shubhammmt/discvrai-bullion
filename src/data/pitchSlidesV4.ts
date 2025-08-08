@@ -12,91 +12,105 @@ export const pitchSlidesV4 = [
   {
     id: 2,
     type: 'market-opportunity',
-    title: 'India\'s Financial Explosion',
-    subtitle: '$6.7T Market Creating Unprecedented Opportunity',
+    title: 'India\'s Massive Financial Market',
+    subtitle: '₹2000+ Lakh Crore Market - The World\'s Fastest Growing Financial Economy',
     icon: BarChart3,
     marketSize: {
       tam: {
-        number: '$9.2B',
+        number: '200M-300M',
         label: 'Total Addressable Market by 2030',
-        description: 'Comprehensive financial management for 400M+ users'
+        description: 'Mass market users with AUM > ₹0.5L, digital-native'
       },
       sam: {
-        number: '$4.1B', 
+        number: '150M-240M', 
         label: 'Serviceable Addressable Market',
-        description: '200M+ multi-account holders needing intelligent aggregation'
+        description: 'Active portfolio managers accessing accounts >1 time/month'
       },
       som: {
-        number: '$760M',
+        number: '15M-24M',
         label: 'Serviceable Obtainable Market',
-        description: '25M users by 2030 at $3,800 annual ARPU (2.5% market penetration)'
+        description: 'Target: 25M users by 2030 (aggressive but achievable)'
       }
     },
     marketData: {
-      totalAssets: '$6.7T',
-      description: 'Total Financial Assets Under Management',
+      totalAssets: '₹2000+ Lakh Crore',
+      description: 'Current Financial Assets Under Management (2025)',
       breakdown: [
-        { asset: 'Equity Market Cap', value: '$4.5T', growth: '150M+ Demat accounts, 25% YoY growth' },
-        { asset: 'Mutual Funds AUM', value: '$850B', growth: '180M+ accounts, 30% YoY growth' },
-        { asset: 'Fixed Deposits', value: '$1.2T', growth: 'Stable base, digital transformation' },
-        { asset: 'Bonds & Others', value: '$150B', growth: 'Emerging retail participation' }
+        { asset: 'Stocks', value: '₹400 Lakh crore', growth: '70M-90M users, 9% YoY growth' },
+        { asset: 'Mutual Funds', value: '₹74 Lakh crore', growth: '55M users, 22% AUM growth' },
+        { asset: 'Bonds', value: '₹226 Lakh crore', growth: '30M users, 28% corp growth' },
+        { asset: 'Fixed Deposits', value: '₹120 Lakh crore', growth: '25M users, steady 11-13%' }
       ]
     },
     userExplosion: [
-      { metric: '150M+ Demat Accounts', detail: '25% YoY growth, digitally native investors' },
-      { metric: '180M+ MF Accounts', detail: '30% YoY growth, SIP culture adoption' },
-      { metric: 'Account Aggregator: 1059% Growth', detail: '120M+ consents, proving data sharing comfort' }
+      { metric: '70M-90M Stock Users', detail: 'Growing to 150M by 2030, digital-first investing' },
+      { metric: '55M MF Investors', detail: 'Growing to 100M by 2030, SIP culture boom' },
+      { metric: '10 Crore AA Users', detail: '1000% YoY growth, data sharing comfort proven' }
     ],
     validation: [
-      'Government Infrastructure: RBI-backed Account Aggregator framework',
-      'User Behavior: 120M+ users sharing financial data voluntarily',
-      'Market Validation: INDmoney ($86M), CRED ($800M+) prove willingness to pay',
-      'Growth Momentum: 25-30% YoY growth across all financial products'
+      'Government Enabler: Account Aggregator framework - RBI backed data sharing',
+      'User Behavior: 10 Crore users already sharing financial data voluntarily',
+      'Market Validation: INDmoney, ET Money, CRED prove strong monetization potential',
+      'Digital Shift: Every category showing 15-30% annual growth in digital adoption'
     ],
-    marketContext: 'Perfect Storm: Infrastructure + User Base + Regulatory Support + Proven Demand'
+    marketContext: 'Perfect Storm: Massive Market + Government Infrastructure + Proven User Behavior + Digital-First Generation'
   },
   {
     id: 3,
     type: 'market-growth',
-    title: 'Market Growth Projections',
-    subtitle: '400M+ Users by 2030 with 35-40% CAGR',
+    title: 'Where India\'s Financial Market Is Heading',
+    subtitle: 'Explosive Growth Across All Categories - Our 25M SAM Opportunity',
     icon: TrendingUp,
     growthData: {
       currentState: {
         year: '2025',
-        totalUsers: '200M+',
-        multiAccountUsers: '100M+',
-        totalAssets: '$6.7T'
+        totalUsers: '300M+',
+        multiAccountUsers: '150M+',
+        totalAssets: '₹2000+ Lakh Crore'
       },
       projectedState: {
         year: '2030',
-        totalUsers: '400M+',
-        multiAccountUsers: '200M+',
-        totalAssets: '$12T+'
+        totalUsers: '600M+',
+        multiAccountUsers: '300M+',
+        totalAssets: '₹3500+ Lakh Crore'
       },
-      cagr: '35-40%'
+      cagr: '12-15%'
     },
     segmentGrowth: [
       {
-        segment: 'Demat Accounts',
-        current: '150M',
-        projected: '300M+',
-        cagr: '25%',
-        driver: 'Digital adoption, equity culture'
+        segment: 'Stock Users',
+        current: '70M-90M',
+        projected: '150M',
+        cagr: '9-12%',
+        driver: 'Digital adoption, wealth creation'
       },
       {
-        segment: 'MF Accounts',
-        current: '180M',
-        projected: '350M+',
-        cagr: '30%',
-        driver: 'SIP penetration, financial literacy'
+        segment: 'MF Investors',
+        current: '55M',
+        projected: '100M',
+        cagr: '10-13%',
+        driver: 'SIP culture, financial literacy'
       },
       {
-        segment: 'Multi-Account Holders',
-        current: '100M',
-        projected: '200M+',
-        cagr: '35%',
-        driver: 'Product diversification'
+        segment: 'Bond Investors',
+        current: '30M',
+        projected: '70M',
+        cagr: '12-14%',
+        driver: 'Corporate bond retail participation'
+      },
+      {
+        segment: 'Credit Card Users',
+        current: '110M cards',
+        projected: '200M cards',
+        cagr: '11-12%',
+        driver: 'Spending power, digital payments'
+      },
+      {
+        segment: 'Account Aggregator',
+        current: '10 Crore',
+        projected: '100 Crore',
+        cagr: '20-25%',
+        driver: 'Government push, data sharing comfort'
       },
       {
         segment: 'Portfolio Aggregators',
