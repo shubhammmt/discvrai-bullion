@@ -5,133 +5,151 @@ export const pitchSlidesV4 = [
     id: 1,
     type: 'title',
     title: 'DISCVR.AI',
-    subtitle: "India's Money Platform",
-    author: 'Simplify Money for the Mass Market',
+    subtitle: "India's AI-Powered Money Platform",
+    author: 'Transforming Financial Management for 200M Indians',
     icon: Brain
   },
   {
     id: 2,
     type: 'market-opportunity',
-    title: 'India\'s Massive Financial Market',
-    subtitle: '₹2000+ Lakh Crore Market - The World\'s Fastest Growing Financial Economy',
+    title: 'India\'s Financial Mass Market Revolution',
+    subtitle: 'Digital Explosion Creating the World\'s Largest Financial User Base',
     icon: BarChart3,
-    marketSize: {
-      tam: {
-        number: '200M-300M',
-        label: 'Total Addressable Market by 2030',
-        description: 'Users across asset classes(stocks,mf,bonds) ,secure products(insurance,ulips) anbd credit products(cc,loans)'
-      },
-      sam: {
-        number: '150M-240M', 
-        label: 'Serviceable Addressable Market',
-        description: 'Active digital users accessing portfolio >1 time/month'
-      },
-      som: {
-        number: '15M-24M',
-        label: 'Serviceable Obtainable Market',
-        description: 'Accessing a 10% market share'
-      }
-    },
-    marketData: {
-      totalAssets: '₹2000+ Lakh Crore',
-      description: 'Current Financial Assets Under Management (2025)',
-      breakdown: [
-        { asset: 'Stocks', value: '₹400 Lakh crore+', growth: '70M-90M users, 9% YoY growth' },
-        { asset: 'Mutual Funds', value: '₹74 Lakh crore+', growth: '55M users, 22% AUM growth' },
-        { asset: 'Bonds', value: '₹226 Lakh crore+', growth: '30M users, 28% corp growth' },
-        { asset: 'Fixed Deposits', value: '₹120 Lakh crore+', growth: '25M users, steady 11-13%' }
+    marketStory: {
+      headline: 'From 70M to 300M Users: India\'s Financial Digital Transformation',
+      massMarketExplosion: [
+        {
+          category: 'Stock Market Users',
+          current: '70M-90M users',
+          projected2030: '150M users',
+          growth: '67% growth in 5 years',
+          catalyst: 'Mobile-first trading, social investing trends'
+        },
+        {
+          category: 'Mutual Fund Investors', 
+          current: '55M SIP accounts',
+          projected2030: '100M+ accounts',
+          growth: '82% growth, ₹22% AUM CAGR',
+          catalyst: 'Financial literacy boom, automated investing'
+        },
+        {
+          category: 'Account Aggregator Users',
+          current: '10 Crore consents',
+          projected2030: '20 Crore+ consents', 
+          growth: '1000% YoY current growth',
+          catalyst: 'Government push, proven data sharing comfort'
+        },
+        {
+          category: 'Credit Card Holders',
+          current: '110M cards active',
+          projected2030: '200M+ cards',
+          growth: '81% expansion in spending power',
+          catalyst: 'Digital payments adoption, rising incomes'
+        }
+      ],
+      massMarketValidation: [
+        'Digital-First Generation: 65% of users under 35, naturally multi-platform',
+        'Proven Willingness to Pay: ₹74,500 Cr disbursed via AA in H1 FY25 alone',
+        'Complexity Crisis: Average user manages 2+ financial accounts, needs unified view',
+        'Government Enabler: RBI-backed Account Aggregator creating data sharing comfort'
       ]
     },
-    userExplosion: [
-      { metric: '70M-90M Stock Users', detail: 'Growing to 150M by 2030, digital-first investing' },
-      { metric: '55M MF Investors', detail: 'Growing to 100M by 2030, SIP culture boom' },
-      { metric: '10 Crore AA Users', detail: '1000% YoY growth, data sharing comfort proven' }
-    ],
-    validation: [
-      'Government Enabler: Account Aggregator framework - RBI backed data sharing',
-      'User Behavior: 10 Crore users already sharing financial data voluntarily',
-      'Market Validation: INDmoney, ET Money, CRED prove strong monetization potential',
-      'Digital Shift: Every category showing 15-30% annual growth in digital adoption'
-    ],
-    marketContext: 'Perfect Storm: Massive Market + Government Infrastructure + Proven User Behavior + Digital-First Generation'
+    productGrowthAcrossCategories: {
+      investmentProducts: {
+        currentUsers: '125M combined (stocks + MF)',
+        projected2030: '250M+ users',
+        painPoint: 'Fragmented tracking across 5+ apps',
+        opportunitySize: '₹474 Lakh Crore+ AUM'
+      },
+      creditProducts: {
+        currentUsers: '110M credit card users',
+        projected2030: '200M+ users', 
+        painPoint: 'No unified spending analytics',
+        opportunitySize: '₹15+ Lakh Crore annual spends'
+      },
+      protectionProducts: {
+        currentGap: '70% lack adequate coverage',
+        projected2030: '150M+ insured digitally',
+        painPoint: 'No integrated risk assessment',
+        opportunitySize: '₹8+ Lakh Crore premiums'
+      }
+    },
+    keyInsight: 'India is creating the world\'s largest digitally-native financial user base, but they\'re drowning in fragmentation'
   },
   {
     id: 3,
     type: 'market-growth',
-    title: 'Where India\'s Financial Market Is Heading',
-    subtitle: 'Explosive Growth Across All Categories - Our 25M SAM Opportunity',
-    icon: TrendingUp,
-    growthData: {
-      currentState: {
-        year: '2025',
-        totalUsers: '110-150M+',
-        multiAccountUsers: '100M+',
-        totalAssets: '₹2000+ Lakh Crore'
+    title: 'TAM/SAM/SOM: Our $9.2B Market Opportunity',
+    subtitle: 'From Mass Market Growth to DISCVR\'s 25M User Target',
+    icon: Target,
+    marketSizing: {
+      tam: {
+        size: '$9.2B by 2030',
+        users: '200M-300M users',
+        description: 'Total addressable users across all financial products',
+        calculation: '250M avg users × $37 avg revenue per user',
+        breakdown: [
+          'Investment Products: 250M users (stocks, MF, bonds)',
+          'Credit Products: 200M users (cards, loans)', 
+          'Protection Products: 150M users (insurance, health)',
+          'Planning Services: 100M users (goals, tax)'
+        ]
       },
-      projectedState: {
-        year: '2030',
-        totalUsers: '200-300M+',
-        multiAccountUsers: '200M+',
-        totalAssets: '₹3500+ Lakh Crore'
+      sam: {
+        size: '$6.9B by 2030', 
+        users: '150M-240M users',
+        description: 'Serviceable addressable market - digitally active users',
+        calculation: '195M digital users × $36 ARPU',
+        criteria: [
+          'Multi-account holders (2+ financial products)',
+          'Active digital usage (>1 login/month)',
+          'Smartphone + internet access',
+          'Income >₹3L annually'
+        ]
       },
-      cagr: '12-15%'
-    },
-    segmentGrowth: [
-      {
-        segment: 'Stock Users',
-        current: '70M-90M',
-        projected: '150M',
-        cagr: '9-12%',
-        driver: 'Digital adoption, wealth creation'
-      },
-      {
-        segment: 'MF Investors',
-        current: '55M',
-        projected: '100M',
-        cagr: '10-13%',
-        driver: 'SIP culture, financial literacy'
-      },
-      {
-        segment: 'Bond Investors',
-        current: '30M',
-        projected: '70M',
-        cagr: '12-14%',
-        driver: 'Corporate bond retail participation'
-      },
-      {
-        segment: 'Credit Card Users',
-        current: '110M cards',
-        projected: '200M cards',
-        cagr: '11-12%',
-        driver: 'Spending power, digital payments'
-      },
-      {
-        segment: 'Account Aggregator',
-        current: '10 Crore',
-        projected: '20 Crore',
-        cagr: '20-25%',
-        driver: 'Government push, data sharing comfort'
-      },
-      {
-        segment: 'Portfolio Aggregators',
-        current: '5M',
-        projected: '50M+',
-        cagr: '60%',
-        driver: 'Complexity management need'
+      som: {
+        size: '$760M by 2030',
+        users: '25M target users',
+        description: 'Our serviceable obtainable market - 12.5% market share',
+        calculation: '25M users × $30.4 blended ARPU', 
+        strategy: [
+          'Phase 1: Multi-app jugglers (highest pain)',
+          'Phase 2: Wealth builders (highest revenue)',
+          'Phase 3: Family managers (highest LTV)',
+          'Phase 4: Scale to financial starters'
+        ]
       }
-    ],
-    ourTarget: {
-      users: '25M by 2030',
-      marketShare: '12.5% of multi-account holders',
-      revenue: '$760M annual run rate',
-      cagr: '35-40%'
     },
-    growthDrivers: [
-      'Digital-first Generation: 65% of users under 35',
-      'Wealth Creation: Middle class growing at 15% annually',
-      'Product Innovation: New financial products driving complexity',
-      'Regulatory Support: Government promoting financial inclusion'
-    ]
+    marketProgression: {
+      title: 'From Mass Market Explosion to DISCVR Opportunity',
+      flow: [
+        {
+          stage: 'Mass Market Growth',
+          size: '300M total users by 2030',
+          driver: 'Digital adoption + income growth'
+        },
+        {
+          stage: 'Digital-Active Subset', 
+          size: '195M serviceable users',
+          filter: 'Multi-account + smartphone + income'
+        },
+        {
+          stage: 'DISCVR Target Market',
+          size: '25M users (12.5% share)',
+          focus: 'Complexity-overwhelmed power users'
+        }
+      ]
+    },
+    revenueValidation: {
+      title: 'Proven Revenue Models in Market',
+      examples: [
+        'INDmoney: 2.5M users, $48 ARPU → $120M ARR',
+        'ET Money: 5M users, $24 ARPU → $120M ARR',
+        'CRED: 9M users, $45 ARPU → $405M ARR',
+        'Our Model: 25M users, $30.4 ARPU → $760M ARR'
+      ]
+    },
+    keyInsight: 'India\'s 200M+ financial user explosion creates a $9.2B market. We target the complexity-overwhelmed segment for $760M opportunity.'
   },
   {
     id: 4,
@@ -196,54 +214,72 @@ export const pitchSlidesV4 = [
   {
     id: 5,
     type: 'solution',
-    title: 'Universal Financial Intelligence Platform',
-    subtitle: 'AI-Powered Financial Operating System',
+    title: 'DISCVR.AI: Universal Financial Intelligence Platform',
+    subtitle: '4 Core Solutions for India\'s Financial Complexity Crisis',
     icon: Zap,
     features: [
       {
         title: 'Universal Aggregation Engine',
-        description: 'Connect 200+ financial institutions seamlessly',
+        description: 'Connect every financial account in India seamlessly',
         capabilities: [
           'Account Aggregator (AA) framework integration',
-          'Real-time portfolio synchronization across all platforms',
+          'Real-time sync across 200+ financial institutions', 
           'Intelligent deduplication and data normalization',
-          'Email parsing for offline account data'
-        ]
+          'Email parsing for offline account integration'
+        ],
+        icon: Link,
+        benefit: 'Replace 5+ apps with one unified dashboard'
       },
       {
-        title: 'AI-Powered Insights Layer',
-        description: 'Transform data into actionable intelligence',
+        title: 'AI-Powered Intelligence Layer', 
+        description: 'Transform fragmented data into personalized insights',
         capabilities: [
-          'Personalized financial health scoring',
+          'Personalized financial health scoring (0-100)',
           'Insurance gap analysis with specific recommendations',
-          'Emergency fund adequacy assessment',
-          'Asset allocation optimization based on goals',
-          'Tax optimization and retirement planning'
-        ]
+          'Asset allocation optimization based on goals & risk',
+          'Tax optimization and retirement planning guidance'
+        ],
+        icon: Brain,
+        benefit: 'Get AI advisor-level insights at ₹300/month vs ₹25,000'
       },
       {
-        title: 'Intelligent Action Platform',
-        description: 'Execute financial improvements seamlessly',
+        title: 'Intelligent Execution Platform',
+        description: 'Execute financial improvements with one click',
         capabilities: [
-          'One-click rebalancing across platforms',
+          'One-click portfolio rebalancing across platforms',
           'Automated investment execution via partner APIs',
           'Insurance purchase integration',
-          'Goal-based SIP recommendations',
-          'Family portfolio coordination'
-        ]
+          'Goal-based SIP automation and optimization'
+        ],
+        icon: Zap,
+        benefit: 'Act on insights instantly vs weeks of manual work'
+      },
+      {
+        title: 'Family Financial Command Center',
+        description: 'Manage entire family\'s financial life from one place',
+        capabilities: [
+          'Multi-member portfolio coordination',
+          'Shared financial goals and tracking',
+          'Family insurance and emergency fund planning',
+          'Generational wealth transfer planning'
+        ],
+        icon: Users,
+        benefit: 'First-ever family-centric financial management in India'
       }
     ],
-    differentiators: [
-      'Comprehensive Coverage: All financial products vs investment-only platforms',
-      'AI-First Approach: Personalized intelligence vs generic dashboards',
-      'Mass Market Focus: Transaction focused',
-      'Family Portfolio Management: Multi-member coordination capability',
-      'Action-Oriented: Execute improvements, not just track data'
-    ],
-    keyMetrics: {
+    solutionDifferentiators: {
+      title: 'Why DISCVR vs Competition',
+      comparisons: [
+        'Comprehensive vs Investment-Only: All financial products, not just stocks/MF',
+        'AI-First vs Dashboard: Personalized intelligence, not just data visualization', 
+        'Mass Market vs Premium: ₹300/month vs ₹25,000+ traditional wealth management',
+        'Action-Oriented vs Tracking: Execute improvements, not just monitor portfolios'
+      ]
+    },
+    platformMetrics: {
       integrations: '200+ financial institutions',
       coverage: '95% of Indian financial products',
-      speed: 'Real-time data sync vs 24-hour delays',
+      speed: 'Real-time sync vs 24-hour delays',
       accuracy: '99.9% data reconciliation rate'
     }
   },

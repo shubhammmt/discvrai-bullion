@@ -11,7 +11,19 @@ interface SolutionSlideProps {
       title: string;
       description: string;
       capabilities: string[];
+      icon: React.ComponentType<any>;
+      benefit: string;
     }>;
+    solutionDifferentiators?: {
+      title: string;
+      comparisons: string[];
+    };
+    platformMetrics?: {
+      integrations: string;
+      coverage: string;
+      speed: string;
+      accuracy: string;
+    };
   };
 }
 
@@ -26,24 +38,54 @@ export const SolutionSlide: React.FC<SolutionSlideProps> = ({ slide }) => {
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {slide.features.map((feature, index) => (
-          <Card key={index} className="p-6">
-            <CardContent>
-              <h3 className="text-xl font-bold text-blue-600 mb-3">{feature.title}</h3>
-              <p className="text-gray-700 mb-4">{feature.description}</p>
-              <div className="space-y-2">
-                {feature.capabilities.map((capability, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-sm text-gray-600">{capability}</p>
+      {/* 4 Symmetrical Solution Blocks */}
+      <div className="grid grid-cols-2 gap-6">
+        {slide.features.map((feature, index) => {
+          const FeatureIcon = feature.icon;
+          return (
+            <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-blue-50">
+                    <FeatureIcon className="w-8 h-8 text-blue-600" />
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                  <h3 className="text-xl font-bold text-gray-900">{feature.title}</h3>
+                </div>
+                
+                <p className="text-gray-600 mb-4">{feature.description}</p>
+                
+                <div className="space-y-2 mb-4">
+                  {feature.capabilities.map((capability, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-sm text-gray-600">{capability}</p>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="pt-3 border-t border-gray-100">
+                  <p className="text-sm font-medium text-blue-600">{feature.benefit}</p>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
+
+      {/* Differentiators Section */}
+      {slide.solutionDifferentiators && (
+        <div className="mt-8 p-6 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">{slide.solutionDifferentiators.title}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {slide.solutionDifferentiators.comparisons.map((comparison, index) => (
+              <div key={index} className="flex items-start gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-gray-700">{comparison}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
