@@ -248,67 +248,6 @@ export const pitchSlidesV4 = [
     }
   },
   {
-    id: 6,
-    type: 'target-persona',
-    title: 'Refined User Segments',
-    subtitle: 'Clear Personas with Distinct Needs & Revenue Paths',
-    icon: Users,
-    personas: [
-      {
-        title: 'Financial Starters',
-        size: '5-8 Crore Users',
-        profile: '22-30 years, ₹3-8L income, 1-2 accounts',
-        demographics: 'Urban professionals, new to investing',
-        keyBehaviors: ['Just opened first Demat/MF account', 'Uses 1-2 apps', 'Relies on social media advice'],
-        corePainPoint: '"I don\'t know if I\'m doing this right"',
-        productNeed: 'Financial education + basic portfolio tracking',
-        revenue: '₹100-200/year',
-        gtmApproach: 'Educational content, social media, referrals'
-      },
-      {
-        title: 'Multi-App Jugglers',
-        size: '0.5 Crore Users',
-        profile: '28-40 years, ₹8-25L income, 3-5 accounts',
-        demographics: 'Established professionals, frustrated with app switching',
-        keyBehaviors: ['Uses 3-4 financial apps', 'Manual Excel tracking', '2-3 hours weekly management'],
-        corePainPoint: '"I waste too much time switching between apps"',
-        productNeed: 'Unified dashboard + automated tracking',
-        revenue: '₹150-300/year',
-        gtmApproach: 'Productivity positioning, app integration marketing'
-      },
-      {
-        title: 'Wealth Builders',
-        size: '0.25 Crore Users',
-        profile: '32-50 years, ₹25L+ income, 5+ accounts',
-        demographics: 'Senior professionals/entrepreneurs, serious wealth creation',
-        keyBehaviors: ['Active across asset classes', 'Seeks advanced analytics', 'Values efficiency'],
-        corePainPoint: '"I need smarter insights, not just data"',
-        productNeed: 'AI recommendations + advanced analytics',
-        revenue: '₹500-1,000/year',
-        gtmApproach: 'Wealth management positioning, advisor partnerships'
-      },
-      {
-        title: 'Family Financial Managers',
-        size: '2-3 Crore Users',
-        profile: '35-55 years, ₹15L+ household income, 6+ accounts',
-        demographics: 'Heads of household, comprehensive planning needs',
-        keyBehaviors: ['Manages family finances', 'Insurance/tax coordination', 'Comprehensive planning'],
-        corePainPoint: '"I need to manage everyone\'s financial life"',
-        productNeed: 'Family portfolio management + planning tools',
-        revenue: '₹12,000-25,000/year',
-        gtmApproach: 'Family financial planning, insurance partnerships'
-      }
-    ],
-    totalTAM: '$9.2B by 2030',
-    gtmSequence: {
-      phase1: 'Multi-App Jugglers (Highest pain + willingness to pay)',
-      phase2: 'Wealth Builders (Higher revenue potential)',
-      phase3: 'Family Managers (Highest LTV)',
-      phase4: 'Financial Starters (Scale play)'
-    },
-    keyInsight: 'Clear progression path from starter to family manager with distinct pain points and solutions'
-  },
-  {
     id: 8,
     type: 'aa-validation',
     title: 'Account Aggregator: Explosive Growth Validates Market Need',
