@@ -137,10 +137,10 @@ export const pitchSlidesV4 = [
     id: 4,
     type: 'problem-statement',
     title: 'The Portfolio Management Crisis',
-    subtitle: '100M+ Users Drowning in Financial Complexity',
+    subtitle: '200M+ Users Drowning in Financial Complexity',
     icon: AlertTriangle,
     problemData: {
-      coreIssue: '100M+ investors managing > 2 accounts each across fragmented platforms',
+      coreIssue: '200M+ investors managing 3.2 accounts each across fragmented platforms',
       quantifiedPain: {
         timeWaste: '2-3 hours weekly on manual portfolio tracking',
         errors: '40% make suboptimal decisions due to information fragmentation',
@@ -178,7 +178,7 @@ export const pitchSlidesV4 = [
           category: 'Digital Fragmentation',
           severity: 'Critical',
           stats: [
-            'Average user: > 2(1.7) financial accounts',
+            'Average user: 3.2 financial accounts',
             '5+ apps needed for complete portfolio view',
             '2-3 hours weekly spent on manual tracking'
           ]
@@ -394,21 +394,21 @@ export const pitchSlidesV4 = [
           strengths: ['Portfolio tracking', '$86M funding', 'US market access'],
           weaknesses: ['Limited AI insights', 'Investment-focused only', 'Complex UI'],
           marketShare: '2.5M users',
-          arpu: '$48/year'
+          arpu: ''
         },
         {
           name: 'ET Money',
           strengths: ['MF platform', 'Insurance integration', 'Brand recognition'],
           weaknesses: ['No real-time aggregation', 'Limited analytics', 'No family management'],
           marketShare: '5M users',
-          arpu: '$24/year'
+          arpu: ''
         },
         {
           name: 'MProfit',
           strengths: ['Comprehensive tracking', 'Desktop application'],
           weaknesses: ['High price ₹25,000/year', 'Complex interface', 'No mobile-first'],
           marketShare: '100K users',
-          arpu: '$300/year'
+          arpu: ''
         }
       ],
       indirectCompetitors: [
