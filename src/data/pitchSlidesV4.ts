@@ -122,8 +122,8 @@ export const pitchSlidesV4 = [
     ],
     ourTarget: {
       users: '25M by 2030',
-      marketShare: '10% of TAM',
-      revenue: '$1B annual run rate : ARPU:$4',
+      marketShare: '12.5% of multi-account holders',
+      revenue: '$760M annual run rate',
       cagr: '35-40%'
     },
     growthDrivers: [
@@ -137,10 +137,10 @@ export const pitchSlidesV4 = [
     id: 4,
     type: 'problem-statement',
     title: 'The Portfolio Management Crisis',
-    subtitle: '200M+ Users Drowning in Financial Complexity',
+    subtitle: '100M+ Users Drowning in Financial Complexity',
     icon: AlertTriangle,
     problemData: {
-      coreIssue: '200M+ investors managing 3.2 accounts each across fragmented platforms',
+      coreIssue: '100M+ investors managing > 2 accounts each across fragmented platforms',
       quantifiedPain: {
         timeWaste: '2-3 hours weekly on manual portfolio tracking',
         errors: '40% make suboptimal decisions due to information fragmentation',
@@ -178,7 +178,7 @@ export const pitchSlidesV4 = [
           category: 'Digital Fragmentation',
           severity: 'Critical',
           stats: [
-            'Average user: 3.2 financial accounts',
+            'Average user: > 2(1.7) financial accounts',
             '5+ apps needed for complete portfolio view',
             '2-3 hours weekly spent on manual tracking'
           ]
