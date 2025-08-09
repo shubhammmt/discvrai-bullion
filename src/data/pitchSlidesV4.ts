@@ -566,64 +566,6 @@ export const pitchSlidesV4 = [
   },
   {
     id: 12,
-    type: 'b2b-partnerships',
-    title: 'Strategic B2B Partnerships',
-    subtitle: 'Core Enablers for Marketplace Execution',
-    icon: Building2,
-    partnerships: [
-      {
-        partner: 'Smallcase',
-        enablers: ['Holdings Import', 'MF Buy Sell', 'Stocks Buy Sell', 'Smallcase Sell'],
-        description: 'Comprehensive investment platform integration for portfolio management and execution'
-      },
-      {
-        partner: 'FMP',
-        enablers: ['US Stocks + Crypto'],
-        description: 'International market access and cryptocurrency trading capabilities'
-      },
-      {
-        partner: 'CMOTS',
-        enablers: ['Indian Equity(Stock,MF,IPO)'],
-        description: 'Full-spectrum Indian equity market access including IPO participation'
-      },
-      {
-        partner: 'Tarakki',
-        enablers: ['MF, FD Distribution'],
-        description: 'Mutual fund and fixed deposit distribution network integration'
-      },
-      {
-        partner: 'Decentro',
-        enablers: ['KYC Automation', 'Payment Workflows', 'Banking APIs'],
-        description: 'Complete KYC verification and payment automation infrastructure for seamless onboarding'
-      },
-      {
-        partner: 'GoldenPi',
-        enablers: ['Corporate Bonds', 'Government Bonds', 'Bond Analytics'],
-        description: 'Fully-fledged bond trading and analytics platform for fixed income investments'
-      },
-      {
-        partner: 'BSE/NSE Data Feeds',
-        enablers: ['Real-time Equity Data', 'Bond Market Data', 'Historical Analytics'],
-        description: 'Official exchange data feeds for comprehensive market coverage and real-time insights'
-      }
-    ],
-    coreCapabilities: {
-      title: 'Core Enablers for Marketplace',
-      description: 'Strategic partnerships provide comprehensive financial product access across asset classes, enabling our AI platform to execute recommendations seamlessly with full regulatory compliance.'
-    },
-    strategicValue: [
-      'Complete asset class coverage: Equity, MF, FD, IPO, US markets, Crypto, and Bonds',
-      'Full KYC & compliance automation through Decentro integration',
-      'Real-time market data directly from exchanges (BSE/NSE)',
-      'Reduced time-to-market: Ready infrastructure vs building from scratch',
-      'Regulatory advantage: Partner expertise in compliance requirements',
-      'Scale efficiency: Leverage existing distribution networks',
-      'User experience: Single platform for all financial actions',
-      'Revenue diversification: Multiple monetization streams through partnerships'
-    ]
-  },
-  {
-    id: 13,
     type: 'gtm-detailed',
     title: 'Go-to-Market & 1M User Growth Path',
     subtitle: 'Optimized $1M User Acquisition Strategy',
@@ -739,7 +681,7 @@ export const pitchSlidesV4 = [
     ]
   },
   {
-    id: 14,
+    id: 13,
     type: 'unit-economics',
     title: 'Unit Economics & Revenue Model',
     subtitle: 'Clear Path to Profitability with Strong LTV/CAC',
@@ -830,7 +772,7 @@ export const pitchSlidesV4 = [
     pathToProfitability: 'Profitable by month 15 with 15% net margins'
   },
   {
-    id: 15,
+    id: 14,
     type: 'funding',
     title: '$1.25M Seed Round',
     subtitle: 'Optimized for Efficient Growth & Market Leadership',
