@@ -625,37 +625,37 @@ export const pitchSlidesV4 = [
   {
     id: 13,
     type: 'funding',
-    title: '$1.25M Seed Round',
+    title: '$1.5M Seed Round',
     subtitle: 'Optimized for Efficient Growth & Market Leadership',
     icon: Wallet,
     allocation: [
       {
         percentage: '40%',
         category: 'Team',
-        amount: '₹4.0 Cr',
+        amount: '₹4.8 Cr',
         description: 'Core engineering, product, AI/ML specialists, growth team'
       },
       {
         percentage: '35%',
         category: 'Marketing',
-        amount: '₹3.5 Cr',
+        amount: '₹4.2 Cr',
         description: 'Segmented user acquisition across personas, content marketing'
       },
       {
         percentage: '15%',
         category: 'Compliance & Security',
-        amount: '₹1.5 Cr',
+        amount: '₹1.8 Cr',
         description: 'SEBI IA registration, security audits, legal framework'
       },
       {
         percentage: '10%',
         category: 'Operations',
-        amount: '₹1.0 Cr',
+        amount: '₹1.2 Cr',
         description: 'Infrastructure, partnerships, administrative expenses'
       }
     ],
     fundDetails: {
-      raiseAmount: '$1.25M (₹10 Cr)',
+      raiseAmount: '$1.5M (₹12 Cr)',
       timeline: '18-month runway to Series A',
       valuation: 'Pre-money: $8-10M'
     },
@@ -666,7 +666,7 @@ export const pitchSlidesV4 = [
     ],
     useOfFunds: {
       teamBuilding: '40% - Scale engineering (8-10), product (3-4), AI/ML (2-3), growth (2-3)',
-      userAcquisition: '35% - Phase 1: ₹1.5Cr, Phase 2: ₹1.5Cr, Phase 3: ₹0.5Cr contingency',
+      userAcquisition: '35% - Phase 1: ₹1.8Cr, Phase 2: ₹1.8Cr, Phase 3: ₹0.6Cr contingency',
       compliance: '15% - SEBI registration, security infrastructure, legal setup',
       operations: '10% - Cloud infrastructure, partnerships, office setup'
     },
