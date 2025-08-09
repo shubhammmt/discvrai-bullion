@@ -539,20 +539,6 @@ export const pitchSlidesV4 = [
     title: 'Execution-Ready Leadership Team',
     subtitle: 'Proven Track Record in Scale & AI/ML',
     icon: Trophy,
-    marketValidation: {
-      tam: '$9.2B (₹76,750 Cr)',
-      successStories: [
-        'Nuvama: ₹2.1T AUM, 55% revenue growth',
-        '360 One: 13% AUM CAGR target',
-        'Market Gap: Only 5% of affluent households use formal wealth management'
-      ],
-      traction: [
-        { metric: '4K MAUs', detail: 'Monthly active users' },
-        { metric: '200+ Beta Users', detail: 'Strong early adoption' },
-        { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
-        { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
-      ]
-    },
     team: [
       {
         name: 'Shubham Srivastava',
@@ -576,12 +562,6 @@ export const pitchSlidesV4 = [
         background: ['19+ years strategic product & AI leader', 'Scaled products to 200M+ MAU', 'GenAI/ML: 80%+ churn prediction accuracy', 'IIT Kanpur (AIR 22) + ISB MBA', 'Author of 2 AI books'],
         experience: 'Ex-Microsoft, Ex-BigTech VP'
       }
-    ],
-    executionMilestones: [
-      'Q1: Core aggregation, AA integration, basic insights',
-      'Q2: AI intelligence engine, premium features, investment APIs',
-      'Q3: Advanced insights, insurance/credit integration, scale',
-      'Q4: Platform optimization, partnerships, Series A prep'
     ]
   },
   {
