@@ -645,7 +645,6 @@ export const pitchSlidesV4 = [
         totalBudget: '₹142.5L ($171K)',
         metrics: [
           'Blended CAC: ₹143',
-          'ARPU: ₹3,600-6,000/year',
           '15% paid conversion rate',
           '25% D30 retention'
         ]
@@ -666,7 +665,6 @@ export const pitchSlidesV4 = [
         totalBudget: '₹740L ($890K)',
         metrics: [
           'Blended CAC: ₹185',
-          'ARPU: ₹8,400-15,000/year',
           '20% paid conversion rate',
           '35% D30 retention'
         ]
@@ -770,43 +768,64 @@ export const pitchSlidesV4 = [
         }
       ]
     },
-    unitEconomics: {
-      cac: {
-        multiAppJugglers: '₹2,500',
-        wealthBuilders: '₹4,000',
-        familyManagers: '₹6,000',
-        blendedAverage: '₹3,500'
-      },
-      arpu: {
-        multiAppJugglers: '₹4,800/year',
-        wealthBuilders: '₹11,200/year',
-        familyManagers: '₹18,500/year',
-        blendedAverage: '₹8,800/year'
-      },
-      ltv: {
-        multiAppJugglers: '₹14,400 (3 years)',
-        wealthBuilders: '₹44,800 (4 years)',
-        familyManagers: '₹92,500 (5 years)',
-        blendedAverage: '₹35,200'
-      },
-      ltvCacRatio: {
-        multiAppJugglers: '5.8x',
-        wealthBuilders: '11.2x',
-        familyManagers: '15.4x',
-        blendedAverage: '10.1x'
-      },
-      paybackPeriod: {
-        multiAppJugglers: '6 months',
-        wealthBuilders: '4 months',
-        familyManagers: '4 months',
-        average: '5 months'
-      }
+    metrics: {
+      cac: '₹2,500',
+      ltv: '₹35,200',
+      ltvCacRatio: '10.1x',
+      paybackPeriod: '5 months',
+      grossMargin: '85%'
     },
-    growthProjections: {
-      month6: { users: '100K', revenue: '₹4 Cr ARR', paidUsers: '15K' },
-      month12: { users: '300K', revenue: '₹12 Cr ARR', paidUsers: '50K' },
-      month18: { users: '1M', revenue: '₹30 Cr ARR', paidUsers: '150K' },
-      month24: { users: '2.5M', revenue: '₹75 Cr ARR', paidUsers: '350K' }
+    projections: [
+      {
+        timeline: 'Month 6',
+        users: '100K users',
+        arr: '₹4 Cr ARR',
+        milestone: 'Product-market fit achieved'
+      },
+      {
+        timeline: 'Month 12', 
+        users: '300K users',
+        arr: '₹12 Cr ARR',
+        milestone: 'Multi-segment penetration'
+      },
+      {
+        timeline: 'Month 18',
+        users: '1M users',
+        arr: '₹30 Cr ARR', 
+        milestone: 'Market leadership position'
+      },
+      {
+        timeline: 'Month 24',
+        users: '2.5M users',
+        arr: '₹75 Cr ARR',
+        milestone: 'Series A readiness'
+      }
+    ],
+    cacBreakdown: {
+      performanceMarketing: {
+        channel: 'Meta/Google Ads',
+        cac: '₹250-400',
+        conversionRate: '2.5-4%',
+        details: 'Higher CAC but precise targeting, scalable'
+      },
+      influencerMarketing: {
+        channel: 'Finance YouTubers/Instagram',
+        cac: '₹150-250',
+        conversionRate: '4-6%',  
+        details: 'Lower CAC, high trust, authentic recommendations'
+      },
+      socialMedia: {
+        channel: 'Organic + Paid Social',
+        cac: '₹100-200',
+        conversionRate: '1.5-3%',
+        details: 'Content-driven, community building, lower CAC'
+      },
+      referralProgram: {
+        channel: 'User Referrals',
+        cac: '₹50-100',
+        conversionRate: '8-12%',
+        details: 'Lowest CAC, highest LTV, viral growth potential'
+      }
     },
     pathToProfitability: 'Profitable by month 15 with 15% net margins'
   },
