@@ -429,7 +429,7 @@ export const pitchSlidesV4 = [
       shortTerm: [
         'AI-First Architecture: Personalized insights from day one',
         'Comprehensive Coverage: All financial products vs investment-only',
-        'Mass Market Focus: ₹3,800 vs ₹25,000+ pricing',
+        'Mass Market Focus: Affordable AI-powered financial intelligence for everyone',
         'Family Portfolio Management: Unique capability in market'
       ],
       mediumTerm: [

@@ -27,7 +27,7 @@ export const CompetitiveLandscapeSlide: React.FC<CompetitiveLandscapeSlideProps>
           <CardTitle>Direct Competitors</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {competitorAnalysis.directCompetitors.map((competitor: any, index: number) => (
               <div key={index} className="space-y-4 p-4 border rounded-lg">
                 <div className="flex justify-between items-start">
