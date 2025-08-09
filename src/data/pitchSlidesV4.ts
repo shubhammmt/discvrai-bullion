@@ -660,9 +660,9 @@ export const pitchSlidesV4 = [
       valuation: 'Pre-money: $8-10M'
     },
     keyMilestones: [
-      'Month 6: 100K users, ₹4 Cr ARR, Multi-App Jugglers PMF',
-      'Month 12: 300K users, ₹12 Cr ARR, Wealth Builders expansion',
-      'Month 18: 1M users, ₹30 Cr ARR, Series A readiness ($5-8M raise)'
+      'Month 6: 100K users, Multi-App Jugglers PMF',
+      'Month 12: 300K users, Wealth Builders expansion',
+      'Month 18: 1M users, Series A readiness ($5-8M raise)'
     ],
     useOfFunds: {
       teamBuilding: '40% - Scale engineering (8-10), product (3-4), AI/ML (2-3), growth (2-3)',
@@ -689,7 +689,7 @@ export const pitchSlidesV4 = [
     },
     investmentHighlights: [
       'First-mover in AI + Account Aggregator combination',
-      'Clear path to ₹100 Cr+ ARR with proven unit economics',
+      'Clear path to scale with proven unit economics',
       'Massive TAM ($9.2B) with regulatory tailwinds',
       'Experienced team with track record of scaling 100M+ user platforms'
     ]
