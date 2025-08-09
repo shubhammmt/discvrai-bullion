@@ -566,210 +566,164 @@ export const pitchSlidesV4 = [
   },
   {
     id: 12,
-    type: 'gtm-detailed',
-    title: 'Go-to-Market & 1M User Growth Path',
-    subtitle: 'Optimized $1M User Acquisition Strategy',
-    icon: Rocket,
-    phases: [
+    type: 'b2b-partnerships',
+    title: 'Strategic B2B Partnerships',
+    subtitle: 'Core Enablers for Marketplace Execution',
+    icon: Building2,
+    partnerships: [
       {
-        phase: 'Phase 1: Multi-App Jugglers (0-6 months)',
-        timeline: '0-6 months',
-        target: '100K users',
-        targetSegment: 'Multi-App Jugglers',
-        strategy: 'Productivity positioning: "Stop juggling 5 financial apps"',
-        channels: [
-          { name: 'Performance Marketing (Meta/Google)', allocation: '35%', cac: '₹200', volume: '35K users', budget: '₹70L' },
-          { name: 'Influencer Marketing (Finance YouTubers)', allocation: '25%', cac: '₹150', volume: '25K users', budget: '₹37.5L' },
-          { name: 'Referral Program + Viral Loops', allocation: '20%', cac: '₹50', volume: '20K users', budget: '₹10L' },
-          { name: 'Content Marketing + SEO', allocation: '15%', cac: '₹100', volume: '15K users', budget: '₹15L' },
-          { name: 'Partnership Marketing', allocation: '5%', cac: '₹200', volume: '5K users', budget: '₹10L' }
-        ],
-        totalBudget: '₹142.5L ($171K)',
-        metrics: [
-          'Blended CAC: ₹143',
-          '15% paid conversion rate',
-          '25% D30 retention'
-        ]
+        partner: 'Smallcase',
+        enablers: ['Holdings Import', 'MF Buy Sell', 'Stocks Buy Sell', 'Smallcase Sell'],
+        description: 'Comprehensive investment platform integration for portfolio management and execution'
       },
       {
-        phase: 'Phase 2: Wealth Builders (6-12 months)', 
-        timeline: '6-12 months',
-        target: '400K users',
-        targetSegment: 'Wealth Builders',
-        strategy: 'AI-powered wealth intelligence positioning',
-        channels: [
-          { name: 'Performance Marketing Scale-up', allocation: '40%', cac: '₹250', volume: '160K users', budget: '₹400L' },
-          { name: 'Influencer Marketing (Tier 1 Creators)', allocation: '25%', cac: '₹200', volume: '100K users', budget: '₹200L' },
-          { name: 'Referral Program (Enhanced)', allocation: '20%', cac: '₹75', volume: '80K users', budget: '₹60L' },
-          { name: 'Content + Community Building', allocation: '10%', cac: '₹150', volume: '40K users', budget: '₹60L' },
-          { name: 'B2B2C Partnerships', allocation: '5%', cac: '₹100', volume: '20K users', budget: '₹20L' }
-        ],
-        totalBudget: '₹740L ($890K)',
-        metrics: [
-          'Blended CAC: ₹185',
-          '20% paid conversion rate',
-          '35% D30 retention'
-        ]
+        partner: 'FMP',
+        enablers: ['US Stocks + Crypto'],
+        description: 'International market access and cryptocurrency trading capabilities'
+      },
+      {
+        partner: 'CMOTS',
+        enablers: ['Indian Equity(Stock,MF,IPO)'],
+        description: 'Full-spectrum Indian equity market access including IPO participation'
+      },
+      {
+        partner: 'Tarakki',
+        enablers: ['MF, FD Distribution'],
+        description: 'Mutual fund and fixed deposit distribution network integration'
+      },
+      {
+        partner: 'Decentro',
+        enablers: ['KYC Automation', 'Payment Workflows', 'Banking APIs'],
+        description: 'Complete KYC verification and payment automation infrastructure for seamless onboarding'
+      },
+      {
+        partner: 'GoldenPi',
+        enablers: ['Corporate Bonds', 'Government Bonds', 'Bond Analytics'],
+        description: 'Fully-fledged bond trading and analytics platform for fixed income investments'
+      },
+      {
+        partner: 'BSE/NSE Data Feeds',
+        enablers: ['Real-time Equity Data', 'Bond Market Data', 'Historical Analytics'],
+        description: 'Official exchange data feeds for comprehensive market coverage and real-time insights'
       }
     ],
-    optimizedAllocation: {
-      title: '$1M User Acquisition Budget Breakdown',
-      totalBudget: '$1M (₹830L)',
-      allocation: [
-        {
-          channel: 'Performance Marketing (Meta/Google)',
-          percentage: '40%',
-          amount: '$400K',
-          rationale: 'Scalable, measurable, precise targeting for multi-app users',
-          expectedUsers: '200K users',
-          expectedCAC: '₹166'
-        },
-        {
-          channel: 'Influencer Marketing',
-          percentage: '25%',
-          amount: '$250K', 
-          rationale: 'High trust, lower CAC, authentic recommendations from finance creators',
-          expectedUsers: '170K users',
-          expectedCAC: '₹122'
-        },
-        {
-          channel: 'Referral + Viral Loops',
-          percentage: '15%',
-          amount: '$150K',
-          rationale: 'Organic growth multiplier, lowest CAC, highest lifetime value',
-          expectedUsers: '200K users',
-          expectedCAC: '₹62'
-        },
-        {
-          channel: 'Content Marketing + SEO',
-          percentage: '12%',
-          amount: '$120K',
-          rationale: 'Long-term organic acquisition, builds authority and trust',
-          expectedUsers: '80K users',
-          expectedCAC: '₹125'
-        },
-        {
-          channel: 'Partnership Marketing',
-          percentage: '5%',
-          amount: '$50K',
-          rationale: 'B2B2C partnerships with financial advisors, communities',
-          expectedUsers: '30K users',
-          expectedCAC: '₹138'
-        },
-        {
-          channel: 'Reserve/Optimization',
-          percentage: '3%',
-          amount: '$30K',
-          rationale: 'Buffer for channel optimization and testing new approaches',
-          expectedUsers: '-',
-          expectedCAC: '-'
-        }
-      ],
-      projectedOutcome: {
-        totalUsers: '680K users',
-        blendedCAC: '₹122',
-        estimatedARR: '₹20.4 Cr ($2.45M)',
-        ltvCacRatio: '8.2x',
-        paybackPeriod: '4.5 months'
-      }
+    coreCapabilities: {
+      title: 'Core Enablers for Marketplace',
+      description: 'Strategic partnerships provide comprehensive financial product access across asset classes, enabling our AI platform to execute recommendations seamlessly with full regulatory compliance.'
     },
-    keyInsights: [
-      'Focus 65% budget on proven scalable channels (Performance + Influencer)',
-      'Referral program critical for viral growth - invest in gamification',
-      'Content marketing builds long-term moat and reduces future CAC',
-      'Reserve budget allows for real-time optimization based on channel performance'
+    strategicValue: [
+      'Complete asset class coverage: Equity, MF, FD, IPO, US markets, Crypto, and Bonds',
+      'Full KYC & compliance automation through Decentro integration',
+      'Real-time market data directly from exchanges (BSE/NSE)',
+      'Reduced time-to-market: Ready infrastructure vs building from scratch',
+      'Regulatory advantage: Partner expertise in compliance requirements',
+      'Scale efficiency: Leverage existing distribution networks',
+      'User experience: Single platform for all financial actions',
+      'Revenue diversification: Multiple monetization streams through partnerships'
     ]
   },
   {
     id: 13,
-    type: 'unit-economics',
-    title: 'Unit Economics & Revenue Model',
-    subtitle: 'Clear Path to Profitability with Strong LTV/CAC',
-    icon: DollarSign,
-    revenueModel: {
-      streams: [
-        {
-          name: 'Subscription Revenue',
-          percentage: '70%',
-          tiers: [
-            { tier: 'Essential', price: '₹0/month', features: 'Basic aggregation, 3 accounts' },
-            { tier: 'Pro', price: '₹299/month', features: 'Unlimited accounts, advanced analytics' },
-            { tier: 'Wealth', price: '₹699/month', features: 'AI insights, tax optimization' },
-            { tier: 'Family', price: '₹1,199/month', features: 'Family management, comprehensive planning' }
-          ]
-        },
-        {
-          name: 'Transaction Commissions',
-          percentage: '25%',
-          details: 'Commission from investment executions via partner platforms (0.25-0.5%)'
-        },
-        {
-          name: 'Intelligence Services',
-          percentage: '5%',
-          details: 'Premium AI insights, research reports, market intelligence'
-        }
-      ]
-    },
-    metrics: {
-      cac: '₹2,500',
-      ltv: '₹35,200',
-      ltvCacRatio: '10.1x',
-      paybackPeriod: '5 months',
-      grossMargin: '85%'
-    },
-    projections: [
+    type: 'gtm-detailed',
+    title: 'Go-to-Market & 1M User Growth Path',
+    subtitle: 'Optimized $1M User Acquisition Strategy',
+    icon: Target,
+    channels: [
       {
-        timeline: 'Month 6',
-        users: '100K users',
-        arr: '₹4 Cr ARR',
-        milestone: 'Product-market fit achieved'
+        name: 'Performance Marketing',
+        percentage: 65,
+        cac: '₹248',
+        volume: '650K users',
+        budget: '₹16.1L',
+        color: 'bg-blue-500',
+        strategies: [
+          'Google Ads (Search + Display)',
+          'Facebook/Instagram targeted ads',
+          'LinkedIn professional targeting',
+          'YouTube pre-roll campaigns'
+        ]
       },
       {
-        timeline: 'Month 12', 
-        users: '300K users',
-        arr: '₹12 Cr ARR',
-        milestone: 'Multi-segment penetration'
+        name: 'Social & Influencer',
+        percentage: 25,
+        cac: '₹180',
+        volume: '250K users',
+        budget: '₹4.5L',
+        color: 'bg-green-500',
+        strategies: [
+          'FinTech Instagram influencers',
+          'YouTube finance channel partnerships',
+          'Twitter finance community engagement',
+          'LinkedIn thought leadership content'
+        ]
       },
       {
-        timeline: 'Month 18',
-        users: '1M users',
-        arr: '₹30 Cr ARR', 
-        milestone: 'Market leadership position'
-      },
-      {
-        timeline: 'Month 24',
-        users: '2.5M users',
-        arr: '₹75 Cr ARR',
-        milestone: 'Series A readiness'
+        name: 'Content & SEO',
+        percentage: 10,
+        cac: '₹120',
+        volume: '100K users',
+        budget: '₹1.2L',
+        color: 'bg-purple-500',
+        strategies: [
+          'Investment education blog content',
+          'SEO-optimized finance guides',
+          'Webinar series on investing',
+          'Podcast sponsorships'
+        ]
       }
     ],
-    cacBreakdown: {
-      performanceMarketing: {
-        channel: 'Meta/Google Ads',
-        cac: '₹250-400',
-        conversionRate: '2.5-4%',
-        details: 'Higher CAC but precise targeting, scalable'
+    timeline: [
+      {
+        phase: 'Months 1-3',
+        focus: 'MVP Launch & Early Traction',
+        userTarget: '10K users',
+        keyActivities: [
+          'Soft launch with beta users',
+          'Performance marketing setup',
+          'Initial influencer partnerships',
+          'Content marketing foundation'
+        ]
       },
-      influencerMarketing: {
-        channel: 'Finance YouTubers/Instagram',
-        cac: '₹150-250',
-        conversionRate: '4-6%',  
-        details: 'Lower CAC, high trust, authentic recommendations'
+      {
+        phase: 'Months 4-8',
+        focus: 'Scale & Optimize',
+        userTarget: '100K users',
+        keyActivities: [
+          'Scale successful ad campaigns',
+          'Expand influencer network',
+          'SEO content acceleration',
+          'Referral program launch'
+        ]
       },
-      socialMedia: {
-        channel: 'Organic + Paid Social',
-        cac: '₹100-200',
-        conversionRate: '1.5-3%',
-        details: 'Content-driven, community building, lower CAC'
+      {
+        phase: 'Months 9-15',
+        focus: 'Mass Market Penetration',
+        userTarget: '500K users',
+        keyActivities: [
+          'Multi-channel optimization',
+          'Brand awareness campaigns',
+          'Strategic partnerships',
+          'Community building'
+        ]
       },
-      referralProgram: {
-        channel: 'User Referrals',
-        cac: '₹50-100',
-        conversionRate: '8-12%',
-        details: 'Lowest CAC, highest LTV, viral growth potential'
+      {
+        phase: 'Months 16-20',
+        focus: 'Market Leadership',
+        userTarget: '1M users',
+        keyActivities: [
+          'Premium features launch',
+          'Enterprise partnerships',
+          'International expansion prep',
+          'IPO positioning'
+        ]
       }
-    },
-    pathToProfitability: 'Profitable by month 15 with 15% net margins'
+    ],
+    keyMetrics: [
+      { metric: 'Total Investment', value: '₹22L', description: 'For 1M user acquisition' },
+      { metric: 'Blended CAC', value: '₹220', description: 'Weighted average across channels' },
+      { metric: 'Target Timeline', value: '20 months', description: 'To reach 1M users' },
+      { metric: 'Monthly Growth', value: '15-25%', description: 'Sustainable growth rate' }
+    ]
   },
   {
     id: 14,
