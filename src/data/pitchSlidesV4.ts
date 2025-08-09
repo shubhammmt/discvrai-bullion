@@ -240,7 +240,7 @@ export const pitchSlidesV4 = [
           'Tax optimization and retirement planning guidance'
         ],
         icon: Brain,
-        benefit: 'Get AI advisor-level insights at ₹300/month vs ₹25,000'
+        benefit: 'Personal financial advisory available for masses free of cost'
       },
       {
         title: 'Intelligent Execution Platform',
