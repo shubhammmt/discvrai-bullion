@@ -284,6 +284,65 @@ export const pitchSlidesV4 = [
     }
   },
   {
+    id: 6,
+    type: 'platform-architecture',
+    title: 'Complete Financial Platform Stack',
+    subtitle: 'AI-Driven Architecture for 200M+ Users',
+    icon: Building2,
+    platformLayers: {
+      distribution: {
+        title: 'Distribution Strategy',
+        channels: ['Social Media', 'Google', 'Product Led Growth Loop']
+      },
+      touchpoints: {
+        title: 'User Touchpoints', 
+        channels: ['Mobile App', 'Web Platform', 'WhatsApp Bot', 'Telegram Bot']
+      },
+      monetization: {
+        title: 'Revenue Streams',
+        streams: [
+          { type: 'Subscription', description: 'Premium AI insights & tools' },
+          { type: 'Transaction', description: 'Investment execution fees' },
+          { type: 'Commissions', description: 'Product referral revenue' },
+          { type: 'Advertising', description: 'Targeted financial content' }
+        ]
+      },
+      useCases: {
+        title: 'Core Use Cases',
+        cases: [
+          'Goal Oriented Planning',
+          'Portfolio Analysis', 
+          'Spend Analytics',
+          'Protection Planning',
+          'Debt Management'
+        ]
+      },
+      intelligence: {
+        title: 'AI Intelligence Layer',
+        description: 'Universal AI engine powering all financial decisions'
+      },
+      dataEngine: {
+        title: 'Dynamic Intelligence',
+        parameters: ['Market Data', 'News', 'Taxation', 'Govt Policies', 'Regulations']
+      },
+      products: {
+        title: 'Complete Product Suite',
+        categories: [
+          'Stocks', 'Mutual Funds', 'IPOs', 'Bonds/FDs', 'Gold',
+          'EPF/PPF/NPS', 'Crypto', 'Loans', 'Insurance', 'Real Estate'
+        ]
+      },
+      foundation: {
+        title: 'Data Foundation',
+        description: 'Universal Aggregation Engine - User Financial Data'
+      },
+      engagement: {
+        title: 'User Engagement',
+        hooks: ['Gamification', 'Timely Nudge/Communication']
+      }
+    }
+  },
+  {
     id: 8,
     type: 'aa-validation',
     title: 'Account Aggregator: Explosive Growth Validates Market Need',

@@ -29,6 +29,7 @@ import { GTMDetailedSlide } from './GTMDetailedSlide';
 import { MarketGrowthSlide } from './MarketGrowthSlide';
 import { CompetitiveLandscapeSlide } from './CompetitiveLandscapeSlide';
 import { RiskAnalysisSlide } from './RiskAnalysisSlide';
+import { PlatformArchitectureSlide } from './PlatformArchitectureSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -93,6 +94,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <CompetitiveLandscapeSlide slide={slide} />;
     case 'risk-analysis':
       return <RiskAnalysisSlide slide={slide} />;
+    case 'platform-architecture':
+      return <PlatformArchitectureSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
