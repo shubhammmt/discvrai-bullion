@@ -590,16 +590,33 @@ export const pitchSlidesV4 = [
         partner: 'Tarakki',
         enablers: ['MF, FD Distribution'],
         description: 'Mutual fund and fixed deposit distribution network integration'
+      },
+      {
+        partner: 'Decentro',
+        enablers: ['KYC Automation', 'Payment Workflows', 'Banking APIs'],
+        description: 'Complete KYC verification and payment automation infrastructure for seamless onboarding'
+      },
+      {
+        partner: 'GoldenPi',
+        enablers: ['Corporate Bonds', 'Government Bonds', 'Bond Analytics'],
+        description: 'Fully-fledged bond trading and analytics platform for fixed income investments'
+      },
+      {
+        partner: 'BSE/NSE Data Feeds',
+        enablers: ['Real-time Equity Data', 'Bond Market Data', 'Historical Analytics'],
+        description: 'Official exchange data feeds for comprehensive market coverage and real-time insights'
       }
     ],
     coreCapabilities: {
       title: 'Core Enablers for Marketplace',
-      description: 'Strategic partnerships provide comprehensive financial product access across asset classes, enabling our AI platform to execute recommendations seamlessly.'
+      description: 'Strategic partnerships provide comprehensive financial product access across asset classes, enabling our AI platform to execute recommendations seamlessly with full regulatory compliance.'
     },
     strategicValue: [
-      'Complete asset class coverage: Equity, MF, FD, IPO, US markets, and Crypto',
+      'Complete asset class coverage: Equity, MF, FD, IPO, US markets, Crypto, and Bonds',
+      'Full KYC & compliance automation through Decentro integration',
+      'Real-time market data directly from exchanges (BSE/NSE)',
       'Reduced time-to-market: Ready infrastructure vs building from scratch',
-      'Compliance advantage: Partner expertise in regulatory requirements',
+      'Regulatory advantage: Partner expertise in compliance requirements',
       'Scale efficiency: Leverage existing distribution networks',
       'User experience: Single platform for all financial actions',
       'Revenue diversification: Multiple monetization streams through partnerships'
@@ -609,7 +626,7 @@ export const pitchSlidesV4 = [
     id: 13,
     type: 'gtm-detailed',
     title: 'Go-to-Market & 1M User Growth Path',
-    subtitle: 'Validated Growth Strategy with Optimized CAC',
+    subtitle: 'Optimized $1M User Acquisition Strategy',
     icon: Rocket,
     phases: [
       {
@@ -619,14 +636,15 @@ export const pitchSlidesV4 = [
         targetSegment: 'Multi-App Jugglers',
         strategy: 'Productivity positioning: "Stop juggling 5 financial apps"',
         channels: [
-          { name: 'LinkedIn + Productivity Content', allocation: '30%', cac: '₹2,500', volume: '30K users' },
-          { name: 'App Integration Reviews', allocation: '25%', cac: '₹2,000', volume: '25K users' },
-          { name: 'Referral Program', allocation: '20%', cac: '₹800', volume: '20K users' },
-          { name: 'Fintech Communities', allocation: '15%', cac: '₹3,000', volume: '15K users' },
-          { name: 'Partnership Marketing', allocation: '10%', cac: '₹2,200', volume: '10K users' }
+          { name: 'Performance Marketing (Meta/Google)', allocation: '35%', cac: '₹200', volume: '35K users', budget: '₹70L' },
+          { name: 'Influencer Marketing (Finance YouTubers)', allocation: '25%', cac: '₹150', volume: '25K users', budget: '₹37.5L' },
+          { name: 'Referral Program + Viral Loops', allocation: '20%', cac: '₹50', volume: '20K users', budget: '₹10L' },
+          { name: 'Content Marketing + SEO', allocation: '15%', cac: '₹100', volume: '15K users', budget: '₹15L' },
+          { name: 'Partnership Marketing', allocation: '5%', cac: '₹200', volume: '5K users', budget: '₹10L' }
         ],
+        totalBudget: '₹142.5L ($171K)',
         metrics: [
-          'Target CAC: ₹2,500',
+          'Blended CAC: ₹143',
           'ARPU: ₹3,600-6,000/year',
           '15% paid conversion rate',
           '25% D30 retention'
@@ -635,47 +653,92 @@ export const pitchSlidesV4 = [
       {
         phase: 'Phase 2: Wealth Builders (6-12 months)', 
         timeline: '6-12 months',
-        target: '300K users',
+        target: '400K users',
         targetSegment: 'Wealth Builders',
         strategy: 'AI-powered wealth intelligence positioning',
         channels: [
-          { name: 'Wealth Management Content', allocation: '35%', cac: '₹4,000', volume: '105K users' },
-          { name: 'Advisor Partnerships', allocation: '25%', cac: '₹3,500', volume: '75K users' },
-          { name: 'Investment Communities', allocation: '20%', cac: '₹4,500', volume: '60K users' },
-          { name: 'Referral Program', allocation: '15%', cac: '₹1,000', volume: '45K users' },
-          { name: 'Premium Events', allocation: '5%', cac: '₹6,000', volume: '15K users' }
+          { name: 'Performance Marketing Scale-up', allocation: '40%', cac: '₹250', volume: '160K users', budget: '₹400L' },
+          { name: 'Influencer Marketing (Tier 1 Creators)', allocation: '25%', cac: '₹200', volume: '100K users', budget: '₹200L' },
+          { name: 'Referral Program (Enhanced)', allocation: '20%', cac: '₹75', volume: '80K users', budget: '₹60L' },
+          { name: 'Content + Community Building', allocation: '10%', cac: '₹150', volume: '40K users', budget: '₹60L' },
+          { name: 'B2B2C Partnerships', allocation: '5%', cac: '₹100', volume: '20K users', budget: '₹20L' }
         ],
+        totalBudget: '₹740L ($890K)',
         metrics: [
-          'Target CAC: ₹4,000',
+          'Blended CAC: ₹185',
           'ARPU: ₹8,400-15,000/year',
           '20% paid conversion rate',
           '35% D30 retention'
         ]
-      },
-      {
-        phase: 'Phase 3: Family + Scale (12-18 months)',
-        timeline: '12-18 months',
-        target: '1M users',
-        targetSegment: 'Family Managers + Scale',
-        strategy: 'Complete family financial command center',
-        channels: [
-          { name: 'Family Financial Content', allocation: '25%', cac: '₹6,000', volume: '175K users' },
-          { name: 'Insurance Partnerships', allocation: '20%', cac: '₹5,000', volume: '140K users' },
-          { name: 'Referral + Viral', allocation: '30%', cac: '₹800', volume: '210K users' },
-          { name: 'Financial Starters (Scale)', allocation: '20%', cac: '₹800', volume: '140K users' },
-          { name: 'Mass Market Channels', allocation: '5%', cac: '₹1,200', volume: '35K users' }
-        ],
-        metrics: [
-          'Blended CAC: ₹3,500',
-          'Family ARPU: ₹12,000-25,000/year',
-          'Scale ARPU: ₹1,500-2,400/year',
-          '40% D30 retention overall'
-        ]
       }
     ],
-    totalBudget: '₹8.75 Cr ($1.05M)',
-    averageCAC: '₹3,500',
-    revenueProjection: '₹30 Cr ARR by month 18'
+    optimizedAllocation: {
+      title: '$1M User Acquisition Budget Breakdown',
+      totalBudget: '$1M (₹830L)',
+      allocation: [
+        {
+          channel: 'Performance Marketing (Meta/Google)',
+          percentage: '40%',
+          amount: '$400K',
+          rationale: 'Scalable, measurable, precise targeting for multi-app users',
+          expectedUsers: '200K users',
+          expectedCAC: '₹166'
+        },
+        {
+          channel: 'Influencer Marketing',
+          percentage: '25%',
+          amount: '$250K', 
+          rationale: 'High trust, lower CAC, authentic recommendations from finance creators',
+          expectedUsers: '170K users',
+          expectedCAC: '₹122'
+        },
+        {
+          channel: 'Referral + Viral Loops',
+          percentage: '15%',
+          amount: '$150K',
+          rationale: 'Organic growth multiplier, lowest CAC, highest lifetime value',
+          expectedUsers: '200K users',
+          expectedCAC: '₹62'
+        },
+        {
+          channel: 'Content Marketing + SEO',
+          percentage: '12%',
+          amount: '$120K',
+          rationale: 'Long-term organic acquisition, builds authority and trust',
+          expectedUsers: '80K users',
+          expectedCAC: '₹125'
+        },
+        {
+          channel: 'Partnership Marketing',
+          percentage: '5%',
+          amount: '$50K',
+          rationale: 'B2B2C partnerships with financial advisors, communities',
+          expectedUsers: '30K users',
+          expectedCAC: '₹138'
+        },
+        {
+          channel: 'Reserve/Optimization',
+          percentage: '3%',
+          amount: '$30K',
+          rationale: 'Buffer for channel optimization and testing new approaches',
+          expectedUsers: '-',
+          expectedCAC: '-'
+        }
+      ],
+      projectedOutcome: {
+        totalUsers: '680K users',
+        blendedCAC: '₹122',
+        estimatedARR: '₹20.4 Cr ($2.45M)',
+        ltvCacRatio: '8.2x',
+        paybackPeriod: '4.5 months'
+      }
+    },
+    keyInsights: [
+      'Focus 65% budget on proven scalable channels (Performance + Influencer)',
+      'Referral program critical for viral growth - invest in gamification',
+      'Content marketing builds long-term moat and reduces future CAC',
+      'Reserve budget allows for real-time optimization based on channel performance'
+    ]
   },
   {
     id: 14,
