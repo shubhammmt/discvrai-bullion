@@ -80,43 +80,43 @@ export const pitchSlidesV4 = [
     id: 3,
     type: 'market-growth',
     title: 'TAM/SAM/SOM: User-Centric Market Opportunity',
-    subtitle: 'Simple Revenue Math: Users × Monetization = $2B+ Opportunity',
+    subtitle: 'Rs 1,200 ARPU × Strategic User Acquisition = $4B+ Market',
     icon: Target,
     marketSizing: {
       tam: {
-        size: '$2B - $3B by 2030',
-        users: '200M-300M users',
+        size: '**200M-300M users**',
+        users: '$2.9B - $4.3B revenue opportunity',
         description: 'Total addressable users across all financial products',
-        calculation: 'Simple math: Even ads CPM generates significant revenue',
+        calculation: '250M users × ₹1,200 ARPU = ₹30,000 Cr ($3.6B)',
         breakdown: [
-          'Investment Products: 250M users (stocks, MF, bonds)',
-          'Credit Products: 200M users (cards, loans)', 
-          'Protection Products: 150M users (insurance, health)',
-          'Planning Services: 100M users (goals, tax)'
+          '**Investment Products: 250M users** → ₹30,000 Cr potential',
+          '**Credit Products: 200M users** → ₹24,000 Cr potential', 
+          '**Protection Products: 150M users** → ₹18,000 Cr potential',
+          '**Planning Services: 100M users** → ₹12,000 Cr potential'
         ]
       },
       sam: {
-        size: '$1.5B - $2.5B by 2030', 
-        users: '150M-250M users',
+        size: '**150M-250M users**', 
+        users: '$2.2B - $3.6B revenue opportunity',
         description: 'Serviceable addressable market - digitally active users',
-        calculation: 'Multi-product users with proven monetization potential',
+        calculation: '200M digital users × ₹1,200 ARPU = ₹24,000 Cr ($2.9B)',
         criteria: [
-          'Multi-account holders (2+ financial products)',
-          'Active digital usage (>1 login/month)',
-          'Smartphone + internet access',
-          'Income >₹3L annually'
+          '**Multi-account holders: 150M users** → ₹18,000 Cr potential',
+          '**Active digital users (>1 login/month): 200M users**',
+          '**Income >₹3L annually: 180M users**',
+          '**Age 25-45 (prime financial years): 220M users**'
         ]
       },
       som: {
-        size: '$250M by 2030',
-        users: '25M target users',
-        description: 'Our serviceable obtainable market - 12.5% market share',
-        calculation: 'Conservative monetization across diverse revenue streams', 
+        size: '**25M target users**',
+        users: '₹3,000 Cr ($360M) revenue target',
+        description: 'Our serviceable obtainable market - 12.5% of SAM',
+        calculation: '25M users × ₹1,200 ARPU = ₹3,000 Cr ($360M)', 
         strategy: [
-          'Phase 1: Multi-app jugglers (highest pain)',
-          'Phase 2: Wealth builders (highest revenue)',
-          'Phase 3: Family managers (highest LTV)',
-          'Phase 4: Scale to financial starters'
+          '**Phase 1: Multi-app jugglers → 5M users** (₹600 Cr)',
+          '**Phase 2: Wealth builders → 15M users** (₹1,800 Cr)',
+          '**Phase 3: Family managers → 20M users** (₹2,400 Cr)',
+          '**Phase 4: Mass market → 25M users** (₹3,000 Cr)'
         ]
       }
     },
@@ -125,31 +125,31 @@ export const pitchSlidesV4 = [
       flow: [
         {
           stage: 'Mass Market Growth',
-          size: '300M total users by 2030',
-          driver: 'Digital adoption + income growth'
+          size: '**300M total users** by 2030',
+          driver: 'Digital adoption + income growth → ₹36,000 Cr potential'
         },
         {
           stage: 'Digital-Active Subset', 
-          size: '195M serviceable users',
-          filter: 'Multi-account + smartphone + income'
+          size: '**200M serviceable users**',
+          filter: 'Multi-account + smartphone + income → ₹24,000 Cr addressable'
         },
         {
           stage: 'DISCVR Target Market',
-          size: '25M users (12.5% share)',
-          focus: 'Complexity-overwhelmed power users'
+          size: '**25M users (12.5% share)**',
+          focus: 'Complexity-overwhelmed power users → ₹3,000 Cr target'
         }
       ]
     },
     revenueValidation: {
       title: 'Proven Revenue Models from Leading Fintech Players',
       examples: [
-        'Zerodha: 7.58M users → ₹9,372 Cr revenue (FY24)',
-        'Groww: 12.58M users → ₹4,056 Cr revenue (FY25)',
-        'CRED: 13M MAU → ₹2,473 Cr revenue (FY24)',
-        'Upstox: 2.57M users → ₹1,311 Cr revenue (FY24)'
+        '**Cred: 13M MAU** → ₹2,473 Cr revenue (₹1,966 ARPU)',
+        '**Groww: 13.1M MAU** → ₹4,056 Cr revenue (₹3,224 ARPU)',
+        '**Zerodha: 7.6M MAU** → ₹9,300 Cr revenue (₹12,000 ARPU)',
+        '**Upstox: 2.6M MAU** → ₹1,311 Cr revenue (₹5,101 ARPU)'
       ]
     },
-    keyInsight: 'India\'s fintech leaders prove massive user monetization. Our 25M user target represents a conservative $250M opportunity with multiple revenue streams.'
+    keyInsight: 'India\'s fintech leaders prove massive user monetization. Our conservative ₹1,200 ARPU × 25M users = ₹3,000 Cr ($360M) opportunity with multiple revenue streams.'
   },
   {
     id: 4,
