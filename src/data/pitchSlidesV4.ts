@@ -79,15 +79,15 @@ export const pitchSlidesV4 = [
   {
     id: 3,
     type: 'market-growth',
-    title: 'TAM/SAM/SOM: Our $9.2B Market Opportunity',
-    subtitle: 'From Mass Market Growth to DISCVR\'s 25M User Target',
+    title: 'TAM/SAM/SOM: User-Centric Market Opportunity',
+    subtitle: 'Simple Revenue Math: Users × Monetization = $2B+ Opportunity',
     icon: Target,
     marketSizing: {
       tam: {
-        size: '$9.2B by 2030',
+        size: '$2B - $3B by 2030',
         users: '200M-300M users',
         description: 'Total addressable users across all financial products',
-        calculation: '250M avg users × $37 avg revenue per user',
+        calculation: 'Simple math: Even ads CPM generates significant revenue',
         breakdown: [
           'Investment Products: 250M users (stocks, MF, bonds)',
           'Credit Products: 200M users (cards, loans)', 
@@ -96,10 +96,10 @@ export const pitchSlidesV4 = [
         ]
       },
       sam: {
-        size: '$6.9B by 2030', 
-        users: '150M-240M users',
+        size: '$1.5B - $2.5B by 2030', 
+        users: '150M-250M users',
         description: 'Serviceable addressable market - digitally active users',
-        calculation: '195M digital users × $36 ARPU',
+        calculation: 'Multi-product users with proven monetization potential',
         criteria: [
           'Multi-account holders (2+ financial products)',
           'Active digital usage (>1 login/month)',
@@ -108,10 +108,10 @@ export const pitchSlidesV4 = [
         ]
       },
       som: {
-        size: '$760M by 2030',
+        size: '$250M by 2030',
         users: '25M target users',
         description: 'Our serviceable obtainable market - 12.5% market share',
-        calculation: '25M users × $30.4 blended ARPU', 
+        calculation: 'Conservative monetization across diverse revenue streams', 
         strategy: [
           'Phase 1: Multi-app jugglers (highest pain)',
           'Phase 2: Wealth builders (highest revenue)',
@@ -141,15 +141,15 @@ export const pitchSlidesV4 = [
       ]
     },
     revenueValidation: {
-      title: 'Proven Revenue Models in Market',
+      title: 'Proven Revenue Models from Leading Fintech Players',
       examples: [
-        'INDmoney: 2.5M users, $48 ARPU → $120M ARR',
-        'ET Money: 5M users, $24 ARPU → $120M ARR',
-        'CRED: 9M users, $45 ARPU → $405M ARR',
-        'Our Model: 25M users, $30.4 ARPU → $760M ARR'
+        'Zerodha: 7.58M users → ₹9,372 Cr revenue (FY24)',
+        'Groww: 12.58M users → ₹4,056 Cr revenue (FY25)',
+        'CRED: 13M MAU → ₹2,473 Cr revenue (FY24)',
+        'Upstox: 2.57M users → ₹1,311 Cr revenue (FY24)'
       ]
     },
-    keyInsight: 'India\'s 200M+ financial user explosion creates a $9.2B market. We target the complexity-overwhelmed segment for $760M opportunity.'
+    keyInsight: 'India\'s fintech leaders prove massive user monetization. Our 25M user target represents a conservative $250M opportunity with multiple revenue streams.'
   },
   {
     id: 4,
