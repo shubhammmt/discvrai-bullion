@@ -291,54 +291,49 @@ export const pitchSlidesV4 = [
     icon: Building2,
     platformLayers: {
       distribution: {
-        title: 'Distribution Strategy',
-        channels: ['Social Media', 'Google', 'Product Led Growth Loop']
+        title: '1. Distribution',
+        channels: ['Product Led Growth Loop', 'Social Media', 'Google']
       },
-      touchpoints: {
-        title: 'User Touchpoints', 
-        channels: ['Mobile App', 'Web Platform', 'WhatsApp Bot', 'Telegram Bot']
+      channels: {
+        title: '2. Channels', 
+        items: ['App', 'Web', 'WhatsApp', 'Telegram']
       },
       monetization: {
-        title: 'Revenue Streams',
-        streams: [
-          { type: 'Subscription', description: 'Premium AI insights & tools' },
-          { type: 'Transaction', description: 'Investment execution fees' },
-          { type: 'Commissions', description: 'Product referral revenue' },
-          { type: 'Advertising', description: 'Targeted financial content' }
-        ]
+        title: '3. Monetization',
+        streams: ['ADs', 'Commissions', 'Subscription', 'Transaction']
+      },
+      hooks: {
+        title: '4. Hooks',
+        items: ['Gamification', 'Timely Nudge/Communication']
       },
       useCases: {
-        title: 'Core Use Cases',
+        title: '5. Use Cases',
         cases: [
-          'Goal Oriented Planning',
+          'Protection Planning',
           'Portfolio Analysis', 
           'Spend Analytics',
-          'Protection Planning',
-          'Debt Management'
+          'Debt Management',
+          'Goal Oriented Planning'
         ]
       },
-      intelligence: {
-        title: 'AI Intelligence Layer',
-        description: 'Universal AI engine powering all financial decisions'
+      insights: {
+        title: '6. Insights',
+        description: 'AI powered intelligence layer'
       },
-      dataEngine: {
-        title: 'Dynamic Intelligence',
+      dynamicParams: {
+        title: '7. Dynamic Params',
         parameters: ['Market Data', 'News', 'Taxation', 'Govt Policies', 'Regulations']
       },
       products: {
-        title: 'Complete Product Suite',
+        title: '8. Products',
         categories: [
           'Stocks', 'Mutual Funds', 'IPOs', 'Bonds/FDs', 'Gold',
           'EPF/PPF/NPS', 'Crypto', 'Loans', 'Insurance', 'Real Estate'
         ]
       },
-      foundation: {
-        title: 'Data Foundation',
-        description: 'Universal Aggregation Engine - User Financial Data'
-      },
-      engagement: {
-        title: 'User Engagement',
-        hooks: ['Gamification', 'Timely Nudge/Communication']
+      userdata: {
+        title: '9. UserData',
+        description: 'Universal Aggregation Engine – User Financial Data'
       }
     }
   },
