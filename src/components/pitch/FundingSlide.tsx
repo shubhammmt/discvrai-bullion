@@ -7,22 +7,25 @@ interface FundingSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
-    allocation: Array<{
+    allocation?: Array<{
       percentage: string;
       category: string;
       description: string;
     }>;
     fundDetails?: {
-      fullStretch: string;
       raiseAmount: string;
       timeline: string;
+      valuation?: string;
     };
-    milestones: string[];
-    competitiveContext: {
+    keyMilestones?: string[];
+    competitiveContext?: {
       title: string;
       examples: string[];
     };
-    exitStrategy: string[];
+    exitStrategy?: {
+      timeline: string;
+      pathways: string[];
+    };
   };
 }
 
@@ -50,71 +53,79 @@ export const FundingSlide: React.FC<FundingSlideProps> = ({ slide }) => {
       )}
 
       {/* Fund Allocation */}
-      <div>
-        <h3 className="text-2xl font-bold text-center mb-6">Fund Allocation</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {slide.allocation.map((item, index) => (
-            <Card key={index} className="p-4">
-              <CardContent>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    {item.percentage}
+      {slide.allocation && (
+        <div>
+          <h3 className="text-2xl font-bold text-center mb-6">Fund Allocation</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {slide.allocation.map((item, index) => (
+              <Card key={index} className="p-4">
+                <CardContent>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                      {item.percentage}
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-900">{item.category}</h4>
                   </div>
-                  <h4 className="text-lg font-bold text-gray-900">{item.category}</h4>
-                </div>
-                <p className="text-sm text-gray-700">{item.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Milestones */}
-      <Card className="p-6 bg-blue-50">
-        <CardContent>
-          <h3 className="text-xl font-bold text-blue-800 mb-4">Key Milestones</h3>
-          <div className="space-y-3">
-            {slide.milestones.map((milestone, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                  {index + 1}
-                </div>
-                <p className="text-blue-700">{milestone}</p>
-              </div>
+                  <p className="text-sm text-gray-700">{item.description}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      )}
+
+      {/* Milestones */}
+      {slide.keyMilestones && (
+        <Card className="p-6 bg-blue-50">
+          <CardContent>
+            <h3 className="text-xl font-bold text-blue-800 mb-4">Key Milestones</h3>
+            <div className="space-y-3">
+              {slide.keyMilestones.map((milestone, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <p className="text-blue-700">{milestone}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Competitive Context & Exit Strategy */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
-          <CardContent>
-            <h3 className="text-xl font-bold text-purple-600 mb-4">{slide.competitiveContext.title}</h3>
-            <div className="space-y-2">
-              {slide.competitiveContext.examples.map((example, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-700">{example}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {slide.competitiveContext && (
+          <Card className="p-6">
+            <CardContent>
+              <h3 className="text-xl font-bold text-purple-600 mb-4">{slide.competitiveContext.title}</h3>
+              <div className="space-y-2">
+                {slide.competitiveContext.examples?.map((example, index) => (
+                  <div key={index} className="flex items-start gap-2">
+                    <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-sm text-gray-700">{example}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
-        <Card className="p-6">
-          <CardContent>
-            <h3 className="text-xl font-bold text-orange-600 mb-4">Exit Strategy</h3>
-            <div className="space-y-2">
-              {slide.exitStrategy.map((strategy, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-700">{strategy}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {slide.exitStrategy && (
+          <Card className="p-6">
+            <CardContent>
+              <h3 className="text-xl font-bold text-orange-600 mb-4">Exit Strategy</h3>
+              <div className="space-y-2">
+                {slide.exitStrategy.pathways?.map((strategy, index) => (
+                  <div key={index} className="flex items-start gap-2">
+                    <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-sm text-gray-700">{strategy}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
