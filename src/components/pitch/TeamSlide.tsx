@@ -7,30 +7,12 @@ interface TeamSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
-    marketValidation?: {
-      tam: string;
-      successStories: string[];
-      traction: Array<{
-        metric: string;
-        detail: string;
-      }>;
-    };
-    team: Array<{
+    team?: Array<{
       name: string;
       role: string;
-      background: string[];
+      background?: string[];
       experience: string;
     }>;
-    keyHires?: string[];
-    funding?: {
-      amount: string;
-      runway: string;
-      useOfFunds: Array<{
-        category: string;
-        percentage: string;
-      }>;
-    };
-    executionMilestones: string[];
   };
 }
 
@@ -45,107 +27,35 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
 
-      {/* Market Validation */}
-      {slide.marketValidation && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <Card className="p-6 border-2 border-green-200 bg-green-50">
-            <CardContent>
-              <h3 className="text-2xl font-bold text-green-600 mb-4 text-center">Market Validation</h3>
-              <div className="text-center mb-4">
-                <div className="text-3xl font-bold text-green-600">{slide.marketValidation.tam}</div>
-                <div className="text-sm text-gray-600">Total Addressable Market</div>
-              </div>
-              <div className="space-y-3">
-                {slide.marketValidation.successStories.map((story, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-sm text-gray-700">{story}</p>
+      {/* Team Members */}
+      {slide.team && slide.team.length > 0 && (
+        <div className="space-y-6">
+          {slide.team.map((member, index) => (
+            <Card key={index} className="p-6">
+              <CardContent>
+                <div className="flex items-start gap-6">
+                  <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    {member.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="p-6 border-2 border-blue-200 bg-blue-50">
-            <CardContent>
-              <h3 className="text-2xl font-bold text-blue-600 mb-4 text-center">Proven Traction</h3>
-              <div className="space-y-4">
-                {slide.marketValidation.traction.map((item, index) => (
-                  <div key={index} className="p-3 bg-white rounded-lg">
-                    <div className="text-lg font-semibold text-gray-800">{item.metric}</div>
-                    <div className="text-sm text-gray-600">{item.detail}</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
+                    <p className="text-orange-600 font-semibold mb-3">{member.role}</p>
+                    <div className="space-y-2 mb-3">
+                      {member.background && member.background.map((bg, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
+                          <p className="text-sm text-gray-700">{bg}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-600 italic">{member.experience}</p>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
-
-      {/* Team Members */}
-      <div className="space-y-6">
-        {slide.team.map((member, index) => (
-          <Card key={index} className="p-6">
-            <CardContent>
-              <div className="flex items-start gap-6">
-                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  {member.name.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                  <p className="text-orange-600 font-semibold mb-3">{member.role}</p>
-                  <div className="space-y-2 mb-3">
-                    {member.background.map((bg, i) => (
-                      <div key={i} className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-sm text-gray-700">{bg}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 italic">{member.experience}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Funding Ask */}
-      {slide.funding && (
-        <Card className="p-6 mb-6 border-2 border-purple-200 bg-purple-50">
-          <CardContent>
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-purple-600 mb-2">
-                Funding Ask: {slide.funding.amount}
-              </h3>
-              <p className="text-gray-600">{slide.funding.runway} runway to achieve milestones</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {slide.funding.useOfFunds.map((item, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-lg font-bold text-purple-600">{item.percentage}</div>
-                  <div className="text-sm text-gray-700">{item.category}</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Execution Milestones */}
-      <Card className="p-6">
-        <CardContent>
-          <h3 className="text-xl font-bold text-green-600 mb-4 text-center">Execution Milestones</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {slide.executionMilestones.map((milestone, index) => (
-              <div key={index} className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
-                <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">{milestone}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
