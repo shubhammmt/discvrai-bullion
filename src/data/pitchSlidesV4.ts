@@ -365,42 +365,49 @@ export const pitchSlidesV4 = [
     competitorAnalysis: {
       directCompetitors: [
         {
-          name: 'INDmoney',
-          strengths: ['Portfolio tracking', '$86M funding', 'US market access'],
-          weaknesses: ['Limited AI insights', 'Investment-focused only', 'Complex UI'],
-          marketShare: '2.5M users',
-          arpu: '$48/year'
+          name: 'Groww',
+          strengths: ['Market leader: 13.1M users', '₹4,056 Cr revenue (FY25)', '$7B valuation'],
+          weaknesses: ['Investment-focused only', 'No comprehensive financial planning', 'Limited AI insights'],
+          marketShare: '13.1M users',
+          arpu: '₹3,224/year'
         },
         {
-          name: 'ET Money',
-          strengths: ['MF platform', 'Insurance integration', 'Brand recognition'],
-          weaknesses: ['No real-time aggregation', 'Limited analytics', 'No family management'],
-          marketShare: '5M users',
-          arpu: '$24/year'
+          name: 'Zerodha',
+          strengths: ['High ARPU: ₹12,000', '₹9,300 Cr revenue (FY24)', 'Advanced trading platform'],
+          weaknesses: ['Trader-focused, not mass market', 'No family portfolio management', 'Limited aggregation'],
+          marketShare: '7.6M users', 
+          arpu: '₹12,000/year'
         },
         {
-          name: 'MProfit',
-          strengths: ['Comprehensive tracking', 'Desktop application'],
-          weaknesses: ['High price ₹25,000/year', 'Complex interface', 'No mobile-first'],
-          marketShare: '100K users',
-          arpu: '$300/year'
+          name: 'Upstox',
+          strengths: ['Growing user base: 2.6M users', '₹1,311 Cr revenue', 'Active trader focus'],
+          weaknesses: ['Smaller scale', 'Investment-only platform', 'No comprehensive insights'],
+          marketShare: '2.6M users',
+          arpu: '₹5,101/year'
+        },
+        {
+          name: 'CRED',
+          strengths: ['13M MAU', '₹2,473 Cr revenue (FY24)', 'Strong brand recognition'],
+          weaknesses: ['Credit-focused only', 'No wealth management', 'Limited financial planning'],
+          marketShare: '13M users',
+          arpu: '₹1,966/year'
         }
       ],
       indirectCompetitors: [
         {
-          name: 'Groww',
-          threat: 'Could add aggregation features',
-          weakness: 'Investment-only focus, no comprehensive planning'
+          name: 'INDmoney',
+          threat: 'Portfolio tracking capabilities',
+          weakness: 'Limited AI insights, complex UI, investment-focused'
         },
         {
-          name: 'Zerodha',
-          threat: 'Large user base for expansion',
-          weakness: 'Brokerage model, limited product scope'
+          name: 'ET Money',
+          threat: 'Mutual fund platform with insurance',
+          weakness: 'No real-time aggregation, limited analytics'
         },
         {
-          name: 'CRED',
-          threat: 'Credit-focused platform expansion',
-          weakness: 'Credit-centric, not comprehensive wealth management'
+          name: 'PhonePe/Google Pay',
+          threat: 'Big tech expansion into financial services',
+          weakness: 'Generalist approach vs specialized domain expertise'
         }
       ],
       bigTechThreats: [
