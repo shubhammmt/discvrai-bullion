@@ -213,88 +213,52 @@ export const pitchSlidesV4 = [
   },
   {
     id: 5,
-    type: 'solution',
-    title: 'DISCVR.AI Solution Framework',
-    subtitle: 'Create Financial Twin of Every Indian Driving Wealth Creation via Actionable Insights',
-    icon: Zap,
-    solutionCore: 'Create Financial twin of every Indian driving wealth creation via actionable insights',
-    features: [
+    type: 'target-persona',
+    title: 'Target Persona: India\'s Emerging Wealth Builders',
+    subtitle: 'Young Professionals Ready for Smart Financial Management',
+    icon: Target,
+    personas: [
       {
-        title: 'Regulations',
-        description: 'Compliance-first approach enabling legal distribution',
-        capabilities: [
-          'Account Aggregator (AA) framework compliance',
-          'RIA (Registered Investment Advisor) certification',
-          'Licenses for product distribution across categories',
-          'OBPP (Open Banking Payment Platform) integration'
+        title: 'Digital-Native Investors',
+        size: '25M potential users',
+        profile: 'Tech-savvy professionals seeking financial growth',
+        demographics: {
+          age: '25-40 years',
+          income: '6+ LPA',
+          investableAssets: '₹50K+ (Equity/Fixed)',
+          monthlyInvestable: '₹10K+',
+          location: 'Tier 1 & 2 cities'
+        },
+        keyBehaviors: [
+          'Active on multiple financial apps (5-7 on average)',
+          'Monthly SIP investments but lacks portfolio view',
+          'Credit card heavy users seeking payment optimization',
+          'Research-oriented but overwhelmed by information',
+          'Mobile-first approach to financial management'
         ],
-        icon: Shield,
-        benefit: 'Legal foundation for comprehensive financial services'
-      },
-      {
-        title: 'Education & Awareness',
-        description: 'Multi-channel approach for financial literacy and acquisition',
-        capabilities: [
-          'Social media content strategy for financial education',
-          'SEO-optimized educational content and tools',
-          'Influencer partnerships for credibility and reach',
-          'Community building for peer-to-peer learning'
+        painPoints: [
+          'Finding the right investment instruments among 1000s of options',
+          'Getting meaningful analysis of existing portfolio performance',
+          'No simple way to ask direct questions about investments',
+          'Difficulty assessing if properly covered across asset classes',
+          'Manual tracking of CC payments and SIP schedules',
+          'Fragmented experience across 5+ financial apps'
         ],
-        icon: GraduationCap,
-        benefit: 'Build trust and acquire users through value-first education'
-      },
-      {
-        title: 'Distribution',
-        description: 'Seamless integration enabling product access on our platform',
-        capabilities: [
-          'Integration with 3rd party financial product providers',
-          'Enabled product proposition across asset classes',
-          'Partner API integrations for seamless transactions',
-          'White-label solutions for distribution partners'
-        ],
-        icon: Network,
-        benefit: 'One-stop shop for all financial products and services'
-      },
-      {
-        title: 'Consolidation',
-        description: 'Technology stack for unified financial intelligence',
-        capabilities: [
-          'Advanced data consolidation across all financial accounts',
-          'AI-powered intelligence layer for actionable insights',
-          'High quality minimal UI/UX for superior user experience',
-          'Real-time data processing and personalization engine'
-        ],
-        icon: Database,
-        benefit: 'Transform fragmented financial data into intelligent action'
+        productNeed: 'AI-powered unified platform that consolidates, analyzes, and provides actionable insights with conversational interface',
+        revenue: '₹2,400 annual revenue potential per user',
+        gtmApproach: 'Social media financial education → App download → Portfolio aggregation → AI insights → Product recommendations',
+        howDiscvrSolves: [
+          '🎯 AI-Powered Instrument Discovery: Our recommendation engine analyzes your profile, goals, and market data to suggest optimal investment instruments from our comprehensive universe',
+          '📊 Real-time Portfolio Intelligence: Aggregate all investments via Account Aggregator APIs and get AI-driven performance analysis, risk assessment, and rebalancing suggestions',
+          '💬 Conversational Financial AI: Ask direct questions like "Should I buy HDFC Bank?" or "Is my portfolio diversified?" and get personalized, data-backed answers',
+          '🛡️ Coverage Analysis Dashboard: Visual representation of your financial protection gaps across life insurance, health, investments with automated recommendations',
+          '💳 Smart Payment Automation: Integrated bill payments, SIP scheduling, and CC payment optimization with spending insights and alerts',
+          '🔄 Unified Financial Hub: Single platform replacing 5-7 apps with seamless execution capabilities across stocks, mutual funds, insurance, and payments'
+        ]
       }
     ],
-    strategy: {
-      title: 'Strategic Execution',
-      points: [
-        'Target Gen Z and Millennials (25-45 year old)',
-        'One Stop Shop for all assets',
-        'AI first Experience',
-        'Holistic financial advice vs broken transactions',
-        'Use insights and analytics as hook for acquisition',
-        'Build Growth loop with data, communication and insights',
-        'Utilize new age channels for transaction'
-      ]
-    },
-    accelerators: {
-      title: 'Market Accelerators',
-      factors: [
-        'Account aggregation APIs',
-        'AI Revolution',
-        'Indian Economic Growth',
-        'Tech-savvy GenZ and Millennials'
-      ]
-    },
-    platformMetrics: {
-      integrations: '200+ financial institutions',
-      coverage: '95% of Indian financial products',
-      speed: 'Real-time sync vs 24-hour delays',
-      accuracy: '99.9% data reconciliation rate'
-    }
+    totalTAM: '₹60,000 Cr addressable market from 25M target users',
+    keyInsight: 'These users are not beginners - they\'re actively investing but frustrated with fragmented experiences. They want intelligence, not just tracking. DISCVR.AI transforms their existing financial chaos into organized, actionable wealth-building system.'
   },
   {
     id: 6,
