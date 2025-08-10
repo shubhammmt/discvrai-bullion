@@ -691,8 +691,8 @@ export const pitchSlidesV4 = [
       valuation: 'Pre-money: $8-10M'
     },
     keyMilestones: [
-      'Month 6: 100K users, Multi-App Jugglers PMF',
-      'Month 12: 300K users, Wealth Builders expansion',
+      'Month 6: 400K users, Multi-App Jugglers PMF',
+      'Month 12: 900K users, Wealth Builders expansion',
       'Month 18: 1M users, Series A readiness ($5-8M raise)'
     ],
     useOfFunds: {
