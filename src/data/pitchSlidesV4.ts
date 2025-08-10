@@ -697,28 +697,28 @@ export const pitchSlidesV4 = [
     icon: Wallet,
     allocation: [
       {
-        percentage: '40%',
+        percentage: '50%',
+        category: 'User Acquisition',
+        amount: '₹6.0 Cr',
+        description: 'Marketing campaigns, influencer partnerships, content creation, user onboarding'
+      },
+      {
+        percentage: '30%',
         category: 'Team',
-        amount: '₹4.8 Cr',
-        description: 'Core engineering, product, AI/ML specialists, growth team'
+        amount: '₹3.6 Cr',
+        description: 'Core engineering, product, AI/ML specialists, growth team expansion'
       },
       {
-        percentage: '35%',
-        category: 'Marketing',
-        amount: '₹4.2 Cr',
-        description: 'Segmented user acquisition across personas, content marketing'
-      },
-      {
-        percentage: '15%',
-        category: 'Compliance & Security',
-        amount: '₹1.8 Cr',
-        description: 'SEBI IA registration, security audits, legal framework'
+        percentage: '10%',
+        category: 'Compliance & Infrastructure',
+        amount: '₹1.2 Cr',
+        description: 'SEBI IA registration, security audits, tech infrastructure, legal framework'
       },
       {
         percentage: '10%',
         category: 'Operations',
         amount: '₹1.2 Cr',
-        description: 'Infrastructure, partnerships, administrative expenses'
+        description: 'Administrative expenses, partnerships, office setup, working capital'
       }
     ],
     fundDetails: {
@@ -732,10 +732,10 @@ export const pitchSlidesV4 = [
       'Month 18: 1M users, Series A readiness ($5-8M raise)'
     ],
     useOfFunds: {
-      teamBuilding: '40% - Scale engineering (8-10), product (3-4), AI/ML (2-3), growth (2-3)',
-      userAcquisition: '35% - Phase 1: ₹1.8Cr, Phase 2: ₹1.8Cr, Phase 3: ₹0.6Cr contingency',
-      compliance: '15% - SEBI registration, security infrastructure, legal setup',
-      operations: '10% - Cloud infrastructure, partnerships, office setup'
+      userAcquisition: '50% - Digital marketing, influencer partnerships, content strategy, user onboarding optimization',
+      teamBuilding: '30% - Scale engineering (6-8), product (3-4), AI/ML (2-3), growth (2-3)',
+      compliance: '10% - SEBI registration, security infrastructure, legal setup, regulatory compliance',
+      operations: '10% - Cloud infrastructure, partnerships, office setup, administrative costs'
     },
     competitiveContext: {
       title: 'Validated Market with Proven Unit Economics',
