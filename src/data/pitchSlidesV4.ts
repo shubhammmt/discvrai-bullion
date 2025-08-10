@@ -215,8 +215,74 @@ export const pitchSlidesV4 = [
     id: 5,
     type: 'solution',
     title: 'DISCVR.AI: Universal Financial Intelligence Platform',
-    subtitle: '4 Core Solutions for India\'s Financial Complexity Crisis',
+    subtitle: 'Create Financial Twin of Every Indian Driving Wealth Creation via Actionable Insights',
     icon: Zap,
+    solutionCore: 'Create Financial twin of every Indian driving wealth creation via actionable insights',
+    strategy: {
+      title: 'Strategic Execution Framework',
+      targets: [
+        {
+          segment: 'Target Gen Z and Millennials',
+          detail: '25-45 year old digital natives',
+          icon: Target
+        },
+        {
+          segment: 'One Stop Shop for all assets',
+          detail: 'Unified platform across investment categories',
+          icon: Building2
+        },
+        {
+          segment: 'AI first Experience',
+          detail: 'Intelligence-driven recommendations and insights',
+          icon: Brain
+        },
+        {
+          segment: 'Holistic financial advice',
+          detail: 'Complete portfolio view vs broken transactions',
+          icon: Eye
+        },
+        {
+          segment: 'Insights and analytics as hook',
+          detail: 'Data-driven user acquisition and retention',
+          icon: BarChart3
+        },
+        {
+          segment: 'Growth loop with data',
+          detail: 'Communication and insights driving engagement',
+          icon: GitBranch
+        },
+        {
+          segment: 'New age channels',
+          detail: 'Multi-platform transaction capabilities',
+          icon: Rocket
+        }
+      ]
+    },
+    accelerators: {
+      title: 'Market Accelerators Driving Our Success',
+      factors: [
+        {
+          accelerator: 'Account Aggregation APIs',
+          impact: 'Ready infrastructure for seamless data aggregation',
+          icon: Link
+        },
+        {
+          accelerator: 'AI Revolution',
+          impact: 'Advanced ML models for personalized financial insights',
+          icon: Brain
+        },
+        {
+          accelerator: 'Indian Economic Growth',
+          impact: 'Rising incomes creating 200M+ potential users',
+          icon: TrendingUp
+        },
+        {
+          accelerator: 'Tech-savvy GenZ and Millennials',
+          impact: 'Digital-first generation demanding unified experiences',
+          icon: Users
+        }
+      ]
+    },
     features: [
       {
         title: 'Universal Aggregation Engine',
@@ -240,7 +306,7 @@ export const pitchSlidesV4 = [
           'Tax optimization and retirement planning guidance'
         ],
         icon: Brain,
-        benefit: 'Personal financial advisory available for masses free of cost'
+        benefit: 'Personal financial advisory available for masses'
       },
       {
         title: 'Intelligent Execution Platform',
@@ -267,15 +333,6 @@ export const pitchSlidesV4 = [
         benefit: 'First-ever family-centric financial management in India'
       }
     ],
-    solutionDifferentiators: {
-      title: 'Why DISCVR vs Competition',
-      comparisons: [
-        'Comprehensive vs Investment-Only: All financial products, not just stocks/MF',
-        'AI-First vs Dashboard: Personalized intelligence, not just data visualization', 
-        'Mass Market vs Premium: ₹300/month vs ₹25,000+ traditional wealth management',
-        'Action-Oriented vs Tracking: Execute improvements, not just monitor portfolios'
-      ]
-    },
     platformMetrics: {
       integrations: '200+ financial institutions',
       coverage: '95% of Indian financial products',
