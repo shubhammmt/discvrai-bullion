@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch, GraduationCap, Network, Database } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -214,125 +214,81 @@ export const pitchSlidesV4 = [
   {
     id: 5,
     type: 'solution',
-    title: 'DISCVR.AI: Universal Financial Intelligence Platform',
+    title: 'DISCVR.AI Solution Framework',
     subtitle: 'Create Financial Twin of Every Indian Driving Wealth Creation via Actionable Insights',
     icon: Zap,
     solutionCore: 'Create Financial twin of every Indian driving wealth creation via actionable insights',
+    features: [
+      {
+        title: 'Regulations',
+        description: 'Compliance-first approach enabling legal distribution',
+        capabilities: [
+          'Account Aggregator (AA) framework compliance',
+          'RIA (Registered Investment Advisor) certification',
+          'Licenses for product distribution across categories',
+          'OBPP (Open Banking Payment Platform) integration'
+        ],
+        icon: Shield,
+        benefit: 'Legal foundation for comprehensive financial services'
+      },
+      {
+        title: 'Education & Awareness',
+        description: 'Multi-channel approach for financial literacy and acquisition',
+        capabilities: [
+          'Social media content strategy for financial education',
+          'SEO-optimized educational content and tools',
+          'Influencer partnerships for credibility and reach',
+          'Community building for peer-to-peer learning'
+        ],
+        icon: GraduationCap,
+        benefit: 'Build trust and acquire users through value-first education'
+      },
+      {
+        title: 'Distribution',
+        description: 'Seamless integration enabling product access on our platform',
+        capabilities: [
+          'Integration with 3rd party financial product providers',
+          'Enabled product proposition across asset classes',
+          'Partner API integrations for seamless transactions',
+          'White-label solutions for distribution partners'
+        ],
+        icon: Network,
+        benefit: 'One-stop shop for all financial products and services'
+      },
+      {
+        title: 'Consolidation',
+        description: 'Technology stack for unified financial intelligence',
+        capabilities: [
+          'Advanced data consolidation across all financial accounts',
+          'AI-powered intelligence layer for actionable insights',
+          'High quality minimal UI/UX for superior user experience',
+          'Real-time data processing and personalization engine'
+        ],
+        icon: Database,
+        benefit: 'Transform fragmented financial data into intelligent action'
+      }
+    ],
     strategy: {
-      title: 'Strategic Execution Framework',
-      targets: [
-        {
-          segment: 'Target Gen Z and Millennials',
-          detail: '25-45 year old digital natives',
-          icon: Target
-        },
-        {
-          segment: 'One Stop Shop for all assets',
-          detail: 'Unified platform across investment categories',
-          icon: Building2
-        },
-        {
-          segment: 'AI first Experience',
-          detail: 'Intelligence-driven recommendations and insights',
-          icon: Brain
-        },
-        {
-          segment: 'Holistic financial advice',
-          detail: 'Complete portfolio view vs broken transactions',
-          icon: Eye
-        },
-        {
-          segment: 'Insights and analytics as hook',
-          detail: 'Data-driven user acquisition and retention',
-          icon: BarChart3
-        },
-        {
-          segment: 'Growth loop with data',
-          detail: 'Communication and insights driving engagement',
-          icon: GitBranch
-        },
-        {
-          segment: 'New age channels',
-          detail: 'Multi-platform transaction capabilities',
-          icon: Rocket
-        }
+      title: 'Strategic Execution',
+      points: [
+        'Target Gen Z and Millennials (25-45 year old)',
+        'One Stop Shop for all assets',
+        'AI first Experience',
+        'Holistic financial advice vs broken transactions',
+        'Use insights and analytics as hook for acquisition',
+        'Build Growth loop with data, communication and insights',
+        'Utilize new age channels for transaction'
       ]
     },
     accelerators: {
-      title: 'Market Accelerators Driving Our Success',
+      title: 'Market Accelerators',
       factors: [
-        {
-          accelerator: 'Account Aggregation APIs',
-          impact: 'Ready infrastructure for seamless data aggregation',
-          icon: Link
-        },
-        {
-          accelerator: 'AI Revolution',
-          impact: 'Advanced ML models for personalized financial insights',
-          icon: Brain
-        },
-        {
-          accelerator: 'Indian Economic Growth',
-          impact: 'Rising incomes creating 200M+ potential users',
-          icon: TrendingUp
-        },
-        {
-          accelerator: 'Tech-savvy GenZ and Millennials',
-          impact: 'Digital-first generation demanding unified experiences',
-          icon: Users
-        }
+        'Account aggregation APIs',
+        'AI Revolution',
+        'Indian Economic Growth',
+        'Tech-savvy GenZ and Millennials'
       ]
     },
-    features: [
-      {
-        title: 'Universal Aggregation Engine',
-        description: 'Connect every financial account in India seamlessly',
-        capabilities: [
-          'Account Aggregator (AA) framework integration',
-          'Real-time sync across 200+ financial institutions', 
-          'Intelligent deduplication and data normalization',
-          'Email parsing for offline account integration'
-        ],
-        icon: Link,
-        benefit: 'Replace 5+ apps with one unified dashboard'
-      },
-      {
-        title: 'AI-Powered Intelligence Layer', 
-        description: 'Transform fragmented data into personalized insights',
-        capabilities: [
-          'Personalized financial health scoring (0-100)',
-          'Insurance gap analysis with specific recommendations',
-          'Asset allocation optimization based on goals & risk',
-          'Tax optimization and retirement planning guidance'
-        ],
-        icon: Brain,
-        benefit: 'Personal financial advisory available for masses'
-      },
-      {
-        title: 'Intelligent Execution Platform',
-        description: 'Execute financial improvements with one click',
-        capabilities: [
-          'One-click portfolio rebalancing across platforms',
-          'Automated investment execution via partner APIs',
-          'Insurance purchase integration',
-          'Goal-based SIP automation and optimization'
-        ],
-        icon: Zap,
-        benefit: 'Act on insights instantly vs weeks of manual work'
-      },
-      {
-        title: 'Family Financial Command Center',
-        description: 'Manage entire family\'s financial life from one place',
-        capabilities: [
-          'Multi-member portfolio coordination',
-          'Shared financial goals and tracking',
-          'Family insurance and emergency fund planning',
-          'Generational wealth transfer planning'
-        ],
-        icon: Users,
-        benefit: 'First-ever family-centric financial management in India'
-      }
-    ],
     platformMetrics: {
       integrations: '200+ financial institutions',
       coverage: '95% of Indian financial products',

@@ -14,16 +14,15 @@ interface SolutionSlideProps {
       icon: React.ComponentType<any>;
       benefit: string;
     }>;
-    solutionDifferentiators?: {
-      title: string;
-      comparisons: string[];
-    };
-    platformMetrics?: {
-      integrations: string;
-      coverage: string;
-      speed: string;
-      accuracy: string;
-    };
+      strategy?: {
+        title: string;
+        points: string[];
+      };
+      accelerators?: {
+        title: string;
+        factors: string[];
+      };
+      solutionCore?: string;
   };
 }
 
@@ -72,15 +71,29 @@ export const SolutionSlide: React.FC<SolutionSlideProps> = ({ slide }) => {
         })}
       </div>
 
-      {/* Differentiators Section */}
-      {slide.solutionDifferentiators && (
-        <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">{slide.solutionDifferentiators.title}</h3>
+      {/* Strategy Section */}
+      {slide.strategy && (
+        <div className="mt-8 p-6 bg-blue-50 rounded-lg">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">{slide.strategy.title}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {slide.solutionDifferentiators.comparisons.map((comparison, index) => (
+            {slide.strategy.points.map((point, index) => (
               <div key={index} className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-gray-700">{comparison}</p>
+                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-gray-700 font-medium">{point}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Accelerators Section */}
+      {slide.accelerators && (
+        <div className="mt-6 p-6 bg-green-50 rounded-lg">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">{slide.accelerators.title}</h3>
+          <div className="flex flex-wrap gap-3">
+            {slide.accelerators.factors.map((factor, index) => (
+              <div key={index} className="px-3 py-2 bg-green-100 rounded-full">
+                <p className="text-sm text-green-800 font-medium">{factor}</p>
               </div>
             ))}
           </div>
