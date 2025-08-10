@@ -712,7 +712,7 @@ export const pitchSlidesV4 = [
         percentage: '10%',
         category: 'Compliance & Infrastructure',
         amount: '₹1.2 Cr',
-        description: 'SEBI IA registration, security audits, tech infrastructure, legal framework'
+        description: 'SEBI RIA registration, security audits, tech infrastructure, legal framework'
       },
       {
         percentage: '10%',
@@ -734,7 +734,7 @@ export const pitchSlidesV4 = [
     useOfFunds: {
       userAcquisition: '50% - Digital marketing, influencer partnerships, content strategy, user onboarding optimization',
       teamBuilding: '30% - Scale engineering (6-8), product (3-4), AI/ML (2-3), growth (2-3)',
-      compliance: '10% - SEBI registration, security infrastructure, legal setup, regulatory compliance',
+      compliance: '10% - SEBI RIA registration, security infrastructure, legal setup, regulatory compliance',
       operations: '10% - Cloud infrastructure, partnerships, office setup, administrative costs'
     },
     competitiveContext: {
