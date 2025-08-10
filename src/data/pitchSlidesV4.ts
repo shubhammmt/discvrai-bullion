@@ -80,43 +80,43 @@ export const pitchSlidesV4 = [
     id: 3,
     type: 'market-growth',
     title: 'TAM/SAM/SOM: User-Centric Market Opportunity',
-    subtitle: 'Rs 1,200 ARPU × Strategic User Acquisition = $4B+ Market',
+    subtitle: 'Strategic User Acquisition Across India\'s Digital Financial Ecosystem',
     icon: Target,
     marketSizing: {
       tam: {
         size: '**200M-300M users**',
-        users: '$2.9B - $4.3B revenue opportunity',
+        users: 'Total addressable user base',
         description: 'Total addressable users across all financial products',
-        calculation: '250M users × ₹1,200 ARPU = ₹30,000 Cr ($3.6B)',
+        calculation: '250M users across financial product categories',
         breakdown: [
-          '**Investment Products: 250M users** → ₹30,000 Cr potential',
-          '**Credit Products: 200M users** → ₹24,000 Cr potential', 
-          '**Protection Products: 150M users** → ₹18,000 Cr potential',
-          '**Planning Services: 100M users** → ₹12,000 Cr potential'
+          '**Investment Products: 250M users** (stocks, mutual funds, bonds)',
+          '**Credit Products: 200M users** (credit cards, loans, BNPL)', 
+          '**Protection Products: 150M users** (insurance, health plans)',
+          '**Planning Services: 100M users** (wealth management, tax planning)'
         ]
       },
       sam: {
         size: '**150M-250M users**', 
-        users: '$2.2B - $3.6B revenue opportunity',
+        users: 'Serviceable addressable market',
         description: 'Serviceable addressable market - digitally active users',
-        calculation: '200M digital users × ₹1,200 ARPU = ₹24,000 Cr ($2.9B)',
+        calculation: '200M digitally active financial service users',
         criteria: [
-          '**Multi-account holders: 150M users** → ₹18,000 Cr potential',
-          '**Active digital users (>1 login/month): 200M users**',
-          '**Income >₹3L annually: 180M users**',
-          '**Age 25-45 (prime financial years): 220M users**'
+          '**Multi-account holders: 150M users** managing 2+ financial accounts',
+          '**Active digital users: 200M users** (>1 login/month)',
+          '**Target income segment: 180M users** (>₹3L annually)',
+          '**Prime age group: 220M users** (Age 25-45, peak financial years)'
         ]
       },
       som: {
         size: '**25M target users**',
-        users: '₹3,000 Cr ($360M) revenue target',
+        users: 'Our serviceable obtainable market',
         description: 'Our serviceable obtainable market - 12.5% of SAM',
-        calculation: '25M users × ₹1,200 ARPU = ₹3,000 Cr ($360M)', 
+        calculation: '25M users - strategic market capture over 4 phases', 
         strategy: [
-          '**Phase 1: Multi-app jugglers → 5M users** (₹600 Cr)',
-          '**Phase 2: Wealth builders → 15M users** (₹1,800 Cr)',
-          '**Phase 3: Family managers → 20M users** (₹2,400 Cr)',
-          '**Phase 4: Mass market → 25M users** (₹3,000 Cr)'
+          '**Phase 1: Multi-app jugglers → 5M users** (complexity-overwhelmed early adopters)',
+          '**Phase 2: Wealth builders → 15M users** (growing portfolio managers)',
+          '**Phase 3: Family managers → 20M users** (household financial heads)',
+          '**Phase 4: Mass market → 25M users** (broader digital financial users)'
         ]
       }
     },
@@ -126,30 +126,30 @@ export const pitchSlidesV4 = [
         {
           stage: 'Mass Market Growth',
           size: '**300M total users** by 2030',
-          driver: 'Digital adoption + income growth → ₹36,000 Cr potential'
+          driver: 'Digital adoption + income growth driving massive user expansion'
         },
         {
           stage: 'Digital-Active Subset', 
           size: '**200M serviceable users**',
-          filter: 'Multi-account + smartphone + income → ₹24,000 Cr addressable'
+          filter: 'Multi-account + smartphone + target income segment'
         },
         {
           stage: 'DISCVR Target Market',
-          size: '**25M users (12.5% share)**',
-          focus: 'Complexity-overwhelmed power users → ₹3,000 Cr target'
+          size: '**25M users (12.5% market share)**',
+          focus: 'Complexity-overwhelmed power users seeking unified solutions'
         }
       ]
     },
-    revenueValidation: {
-      title: 'Proven Revenue Models from Leading Fintech Players',
+    userEngagementValidation: {
+      title: 'Proven User Engagement from Leading Fintech Players',
       examples: [
-        '**Cred: 13M MAU** → ₹2,473 Cr revenue (₹1,966 ARPU)',
-        '**Groww: 13.1M MAU** → ₹4,056 Cr revenue (₹3,224 ARPU)',
-        '**Zerodha: 7.6M MAU** → ₹9,300 Cr revenue (₹12,000 ARPU)',
-        '**Upstox: 2.6M MAU** → ₹1,311 Cr revenue (₹5,101 ARPU)'
+        '**Cred: 13M MAU** - High-engagement credit card users',
+        '**Groww: 13.1M MAU** - Active investment platform users',
+        '**Zerodha: 7.6M MAU** - Highly engaged trading community',
+        '**Upstox: 2.6M MAU** - Active retail traders and investors'
       ]
     },
-    keyInsight: 'India\'s fintech leaders prove massive user monetization. Our conservative ₹1,200 ARPU × 25M users = ₹3,000 Cr ($360M) opportunity with multiple revenue streams.'
+    keyInsight: 'India\'s leading fintech platforms demonstrate massive user engagement across financial services. Our 25M target users represent a validated, digitally-active segment ready for AI-powered financial intelligence.'
   },
   {
     id: 4,
