@@ -673,10 +673,16 @@ export const pitchSlidesV4 = [
         description: 'Core engineering, product, AI/ML specialists, growth team expansion'
       },
       {
-        percentage: '10%',
-        category: 'Compliance & Infrastructure',
-        amount: '₹1.2 Cr',
-        description: 'SEBI RIA registration, security audits, tech infrastructure, legal framework'
+        percentage: '5%',
+        category: 'Infrastructure',
+        amount: '₹0.6 Cr',
+        description: 'Cloud infrastructure, security systems, data storage, platform scaling'
+      },
+      {
+        percentage: '5%',
+        category: 'Compliance',
+        amount: '₹0.6 Cr',
+        description: 'SEBI RIA registration, legal setup, regulatory compliance, audit costs'
       },
       {
         percentage: '10%',
