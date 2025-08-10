@@ -10,12 +10,19 @@ interface TargetPersonaSlideV2Props {
       title: string;
       size: string;
       profile: string;
-      demographics: string;
+      demographics: {
+        age: string;
+        income: string;
+        investableAssets: string;
+        monthlyInvestable: string;
+        location: string;
+      };
       keyBehaviors: string[];
-      corePainPoint: string;
+      painPoints: string[];
       productNeed: string;
       revenue: string;
       gtmApproach: string;
+      howDiscvrSolves: string[];
     }>;
     totalTAM: string;
     keyInsight: string;
@@ -51,7 +58,13 @@ export const TargetPersonaSlideV2: React.FC<TargetPersonaSlideV2Props> = ({ slid
               
               <div className="mb-4">
                 <p className="text-gray-700 font-medium">{persona.profile}</p>
-                <p className="text-sm text-gray-600 mt-2">{persona.demographics}</p>
+                <div className="text-sm text-gray-600 mt-2 space-y-1">
+                  <div><strong>Age:</strong> {persona.demographics.age}</div>
+                  <div><strong>Income:</strong> {persona.demographics.income}</div>
+                  <div><strong>Assets:</strong> {persona.demographics.investableAssets}</div>
+                  <div><strong>Monthly:</strong> {persona.demographics.monthlyInvestable}</div>
+                  <div><strong>Location:</strong> {persona.demographics.location}</div>
+                </div>
               </div>
               
               <div className="mb-4">
@@ -67,11 +80,18 @@ export const TargetPersonaSlideV2: React.FC<TargetPersonaSlideV2Props> = ({ slid
               </div>
               
               <div className="mb-4 p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
-                <h4 className="text-sm font-semibold text-gray-800 mb-1">Core Pain Point:</h4>
-                <p className="text-sm text-red-700 italic">{persona.corePainPoint}</p>
+                <h4 className="text-sm font-semibold text-gray-800 mb-2">Key Pain Points:</h4>
+                <div className="space-y-1">
+                  {persona.painPoints?.map((painPoint, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-sm text-red-700">{painPoint}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               
-              <div className="pt-4 border-t border-gray-200 space-y-3">
+              <div className="pt-4 border-t border-gray-200 space-y-4">
                 <div>
                   <h4 className="text-sm font-semibold text-gray-800 mb-1">Product Need:</h4>
                   <p className="text-sm text-gray-600">{persona.productNeed}</p>
@@ -79,6 +99,16 @@ export const TargetPersonaSlideV2: React.FC<TargetPersonaSlideV2Props> = ({ slid
                 <div>
                   <h4 className="text-sm font-semibold text-gray-800 mb-1">GTM Approach:</h4>
                   <p className="text-sm text-gray-600">{persona.gtmApproach}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800 mb-2">How DISCVR Solves:</h4>
+                  <div className="space-y-2">
+                    {persona.howDiscvrSolves?.map((solution, i) => (
+                      <div key={i} className="text-xs text-gray-600 bg-blue-50 p-2 rounded border-l-2 border-blue-300">
+                        {solution}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardContent>
