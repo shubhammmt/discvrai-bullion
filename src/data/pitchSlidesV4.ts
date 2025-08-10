@@ -698,8 +698,9 @@ export const pitchSlidesV4 = [
     useOfFunds: {
       userAcquisition: '50% - Digital marketing, influencer partnerships, content strategy, user onboarding optimization',
       teamBuilding: '30% - Scale engineering (6-8), product (3-4), AI/ML (2-3), growth (2-3)',
-      compliance: '10% - SEBI RIA registration, security infrastructure, legal setup, regulatory compliance',
-      operations: '10% - Cloud infrastructure, partnerships, office setup, administrative costs'
+      infrastructure: '5% - Cloud infrastructure, security systems, data storage, platform scaling',
+      compliance: '5% - SEBI RIA registration, legal setup, regulatory compliance, audit costs',
+      operations: '10% - Partnerships, office setup, administrative costs, working capital'
     },
     competitiveContext: {
       title: 'Validated Market with Proven Unit Economics',
