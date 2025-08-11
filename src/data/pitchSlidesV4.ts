@@ -108,16 +108,10 @@ export const pitchSlidesV4 = [
         ]
       },
       som: {
-        size: '**25M target users**',
+        size: '**24M users**',
         users: 'Our serviceable obtainable market',
-        description: 'Our serviceable obtainable market - 12.5% of SAM',
-        calculation: '25M users - strategic market capture over 4 phases', 
-        strategy: [
-          '**Phase 1: Multi-app jugglers → 5M users** (complexity-overwhelmed early adopters)',
-          '**Phase 2: Wealth builders → 15M users** (growing portfolio managers)',
-          '**Phase 3: Family managers → 20M users** (household financial heads)',
-          '**Phase 4: Mass market → 25M users** (broader digital financial users)'
-        ]
+        description: 'Our serviceable obtainable market - 10% of SAM',
+        calculation: '24M premium users seeking unified financial platform'
       }
     },
     marketProgression: {
@@ -135,7 +129,7 @@ export const pitchSlidesV4 = [
         },
         {
           stage: 'DISCVR Target Market',
-          size: '**25M users (12.5% market share)**',
+          size: '**24M users (10% market share)**',
           focus: 'Complexity-overwhelmed power users seeking unified solutions'
         }
       ]
