@@ -11,7 +11,7 @@ interface MarketGrowthSlideProps {
     marketSizing: {
       tam: { size: string; users: string; description: string; calculation: string; breakdown: string[]; };
       sam: { size: string; users: string; description: string; calculation: string; criteria: string[]; };
-      som: { size: string; users: string; description: string; calculation: string; strategy: string[]; };
+      som: { size: string; users: string; description: string; calculation: string; };
     };
     marketProgression: {
       title: string;
@@ -92,15 +92,7 @@ export const MarketGrowthSlide: React.FC<MarketGrowthSlideProps> = ({ slide }) =
             <div className="text-lg font-semibold text-gray-800">{marketSizing.som.users}</div>
             <p className="text-sm text-gray-600">{marketSizing.som.description}</p>
             <p className="text-xs text-gray-500">{marketSizing.som.calculation}</p>
-            <div className="space-y-1">
-              {marketSizing.som.strategy.map((item, index) => (
-                <div key={index} className="text-xs text-gray-600 flex items-start gap-1">
-                  <div className="w-1 h-1 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </CardContent>
+            </CardContent>
         </Card>
       </div>
 
