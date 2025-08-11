@@ -11,7 +11,14 @@ interface MarketGrowthSlideProps {
     marketSizing: {
       tam: { size: string; users: string; description: string; calculation: string; breakdown: string[]; };
       sam: { size: string; users: string; description: string; calculation: string; criteria: string[]; };
-      som: { size: string; users: string; description: string; calculation: string; };
+      som: { 
+        size: string; 
+        users: string; 
+        description: string; 
+        calculation: string;
+        growthTrajectory?: Array<{ year: string; users: string; strategy: string; }>;
+        strategyPhases?: Array<{ phase: string; focus: string; description: string; }>;
+      };
     };
     marketProgression: {
       title: string;
@@ -92,7 +99,38 @@ export const MarketGrowthSlide: React.FC<MarketGrowthSlideProps> = ({ slide }) =
             <div className="text-lg font-semibold text-gray-800">{marketSizing.som.users}</div>
             <p className="text-sm text-gray-600">{marketSizing.som.description}</p>
             <p className="text-xs text-gray-500">{marketSizing.som.calculation}</p>
-            </CardContent>
+            
+            {/* Growth Trajectory */}
+            {marketSizing.som.growthTrajectory && (
+              <div className="mt-4 space-y-2">
+                <h5 className="font-semibold text-sm text-purple-700">5-Year Growth Plan</h5>
+                <div className="space-y-1">
+                  {marketSizing.som.growthTrajectory.map((milestone, index) => (
+                    <div key={index} className="flex justify-between items-center text-xs bg-white/50 p-2 rounded">
+                      <span className="font-medium">{milestone.year}: {milestone.users}</span>
+                      <span className="text-gray-600 text-[10px]">{milestone.strategy}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Strategy Phases */}
+            {marketSizing.som.strategyPhases && (
+              <div className="mt-4 space-y-2">
+                <h5 className="font-semibold text-sm text-purple-700">Growth Strategy</h5>
+                <div className="space-y-2">
+                  {marketSizing.som.strategyPhases.map((phase, index) => (
+                    <div key={index} className="bg-white/50 p-2 rounded">
+                      <div className="font-medium text-xs text-purple-600">{phase.phase}</div>
+                      <div className="font-semibold text-xs">{phase.focus}</div>
+                      <div className="text-[10px] text-gray-600 mt-1">{phase.description}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </CardContent>
         </Card>
       </div>
 

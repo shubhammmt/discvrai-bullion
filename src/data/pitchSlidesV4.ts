@@ -111,7 +111,26 @@ export const pitchSlidesV4 = [
         size: '**24M users**',
         users: 'Our serviceable obtainable market',
         description: 'Our serviceable obtainable market - 10% of SAM',
-        calculation: '24M premium users seeking unified financial platform'
+        calculation: '24M premium users seeking unified financial platform',
+        growthTrajectory: [
+          { year: 'Year 1', users: '3M', strategy: 'Social + SEO + Performance Marketing' },
+          { year: 'Year 2', users: '7M', strategy: 'Scaled marketing channels + word-of-mouth' },
+          { year: 'Year 3', users: '12M', strategy: 'Marketing optimization + early PLG signals' },
+          { year: 'Year 4', users: '18M', strategy: 'Product-led growth + user referrals' },
+          { year: 'Year 5', users: '24M', strategy: 'Viral PLG + repeat user expansion' }
+        ],
+        strategyPhases: [
+          {
+            phase: 'Foundation (Years 1-3)',
+            focus: 'Traditional Growth Channels',
+            description: 'Social media, SEO, and performance marketing to build initial user base of ~10M'
+          },
+          {
+            phase: 'Acceleration (Years 4-5)', 
+            focus: 'Product-Led Growth',
+            description: 'Leverage product virality, user referrals, and repeat engagement to reach 24M'
+          }
+        ]
       }
     },
     marketProgression: {
