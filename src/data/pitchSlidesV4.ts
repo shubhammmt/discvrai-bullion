@@ -84,10 +84,10 @@ export const pitchSlidesV4 = [
     icon: Target,
     marketSizing: {
       tam: {
-        size: '**200M-300M users**',
+        size: '**300M users**',
         users: 'Total addressable user base',
         description: 'Total addressable users across all financial products',
-        calculation: '250M users across financial product categories',
+        calculation: '300M users across financial product categories',
         breakdown: [
           '**Investment Products: 250M users** (stocks, mutual funds, bonds)',
           '**Credit Products: 200M users** (credit cards, loans, BNPL)', 
@@ -96,10 +96,10 @@ export const pitchSlidesV4 = [
         ]
       },
       sam: {
-        size: '**150M-250M users**', 
+        size: '**240M users**', 
         users: 'Serviceable addressable market',
         description: 'Serviceable addressable market - digitally active users',
-        calculation: '200M digitally active financial service users',
+        calculation: '240M digitally active financial service users',
         criteria: [
           '**Multi-account holders: 150M users** managing 2+ financial accounts',
           '**Active digital users: 200M users** (>1 login/month)',
@@ -130,7 +130,7 @@ export const pitchSlidesV4 = [
         },
         {
           stage: 'Digital-Active Subset', 
-          size: '**200M serviceable users**',
+          size: '**240M serviceable users**',
           filter: 'Multi-account + smartphone + target income segment'
         },
         {
@@ -140,7 +140,7 @@ export const pitchSlidesV4 = [
         }
       ]
     },
-    userEngagementValidation: {
+    revenueValidation: {
       title: 'Proven User Engagement from Leading Fintech Players',
       examples: [
         '**Cred: 13M MAU** - High-engagement credit card users',
