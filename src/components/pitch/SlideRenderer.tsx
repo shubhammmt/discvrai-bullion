@@ -36,6 +36,15 @@ interface SlideRendererProps {
 }
 
 export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
+  // Safety check for slide object
+  if (!slide || typeof slide !== 'object') {
+    return <div className="text-center text-red-500">Invalid slide data</div>;
+  }
+
+  if (!slide.type) {
+    return <div className="text-center text-red-500">Slide missing type property</div>;
+  }
+
   switch (slide.type) {
     case 'title':
       return <TitleSlide slide={slide} />;

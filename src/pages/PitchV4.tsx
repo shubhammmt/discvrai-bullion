@@ -45,7 +45,15 @@ const PitchV4 = () => {
       <div className="max-w-7xl mx-auto p-6">
         <Card className="min-h-[600px] p-8">
           <CardContent className="h-full flex items-center justify-center">
-            <SlideRenderer slide={pitchSlidesV4[currentSlide]} />
+            {pitchSlidesV4[currentSlide] ? (
+              <SlideRenderer slide={pitchSlidesV4[currentSlide]} />
+            ) : (
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Slide Not Found</h2>
+                <p className="text-gray-600">Current slide index: {currentSlide}</p>
+                <p className="text-gray-600">Total slides: {pitchSlidesV4.length}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
