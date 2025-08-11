@@ -50,55 +50,57 @@ export const MarketGrowthSlide: React.FC<MarketGrowthSlideProps> = ({ slide }) =
 
       {/* TAM/SAM/SOM Cards */}
       <div className="grid md:grid-cols-3 gap-6">
-        <Card className="border-2 border-green-200 bg-green-50">
-          <CardHeader>
-            <CardTitle className="text-green-700">TAM</CardTitle>
+        <Card className="border-2 border-green-200 bg-green-50 h-full">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-green-700 text-2xl">TAM</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-3xl font-bold text-green-600">{marketSizing.tam.size}</div>
-            <div className="text-lg font-semibold text-gray-800">{marketSizing.tam.users}</div>
-            <p className="text-sm text-gray-600">{marketSizing.tam.description}</p>
-            <p className="text-xs text-gray-500">{marketSizing.tam.calculation}</p>
-            <div className="space-y-1">
+          <CardContent className="space-y-6 flex-1">
+            <div className="text-4xl font-bold text-green-600">{marketSizing.tam.size}</div>
+            <div className="text-xl font-semibold text-gray-800">{marketSizing.tam.users}</div>
+            <p className="text-base text-gray-600 leading-relaxed">{marketSizing.tam.description}</p>
+            <p className="text-sm text-gray-500 bg-white/50 p-3 rounded">{marketSizing.tam.calculation}</p>
+            <div className="space-y-3">
+              <h5 className="font-semibold text-sm text-green-700">Market Breakdown</h5>
               {marketSizing.tam.breakdown.map((item, index) => (
-                <div key={index} className="text-xs text-gray-600 flex items-start gap-1">
-                  <div className="w-1 h-1 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
-                  {item}
+                <div key={index} className="text-sm text-gray-600 flex items-start gap-2 bg-white/30 p-2 rounded">
+                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>{item}</span>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-blue-200 bg-blue-50">
-          <CardHeader>
-            <CardTitle className="text-blue-700">SAM</CardTitle>
+        <Card className="border-2 border-blue-200 bg-blue-50 h-full">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-blue-700 text-2xl">SAM</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-3xl font-bold text-blue-600">{marketSizing.sam.size}</div>
-            <div className="text-lg font-semibold text-gray-800">{marketSizing.sam.users}</div>
-            <p className="text-sm text-gray-600">{marketSizing.sam.description}</p>
-            <p className="text-xs text-gray-500">{marketSizing.sam.calculation}</p>
-            <div className="space-y-1">
+          <CardContent className="space-y-6 flex-1">
+            <div className="text-4xl font-bold text-blue-600">{marketSizing.sam.size}</div>
+            <div className="text-xl font-semibold text-gray-800">{marketSizing.sam.users}</div>
+            <p className="text-base text-gray-600 leading-relaxed">{marketSizing.sam.description}</p>
+            <p className="text-sm text-gray-500 bg-white/50 p-3 rounded">{marketSizing.sam.calculation}</p>
+            <div className="space-y-3">
+              <h5 className="font-semibold text-sm text-blue-700">Market Criteria</h5>
               {marketSizing.sam.criteria.map((item, index) => (
-                <div key={index} className="text-xs text-gray-600 flex items-start gap-1">
-                  <div className="w-1 h-1 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                  {item}
+                <div key={index} className="text-sm text-gray-600 flex items-start gap-2 bg-white/30 p-2 rounded">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>{item}</span>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-purple-200 bg-purple-50">
-          <CardHeader>
-            <CardTitle className="text-purple-700">SOM</CardTitle>
+        <Card className="border-2 border-purple-200 bg-purple-50 h-full">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-purple-700 text-2xl">SOM</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-3xl font-bold text-purple-600">{marketSizing.som.size}</div>
-            <div className="text-lg font-semibold text-gray-800">{marketSizing.som.users}</div>
-            <p className="text-sm text-gray-600">{marketSizing.som.description}</p>
-            <p className="text-xs text-gray-500">{marketSizing.som.calculation}</p>
+          <CardContent className="space-y-6 flex-1">
+            <div className="text-4xl font-bold text-purple-600">{marketSizing.som.size}</div>
+            <div className="text-xl font-semibold text-gray-800">{marketSizing.som.users}</div>
+            <p className="text-base text-gray-600 leading-relaxed">{marketSizing.som.description}</p>
+            <p className="text-sm text-gray-500 bg-white/50 p-3 rounded">{marketSizing.som.calculation}</p>
             
             {/* Growth Trajectory */}
             {marketSizing.som.growthTrajectory && (
