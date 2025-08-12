@@ -51,6 +51,8 @@ import PitchV4 from './pages/PitchV4';
 import StockPage from './pages/StockPage';
 import LogoConcepts from './pages/LogoConcepts';
 import TermsAndConditions from './pages/TermsAndConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -109,6 +111,8 @@ function App() {
           <Route path="/pitch-v4" element={<PitchV4 />} />
           <Route path="/logo-concepts" element={<LogoConcepts />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/data-deletion-policy" element={<DataDeletionPolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
