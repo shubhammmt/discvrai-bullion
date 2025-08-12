@@ -50,6 +50,7 @@ import PitchV3 from './pages/PitchV3';
 import PitchV4 from './pages/PitchV4';
 import StockPage from './pages/StockPage';
 import LogoConcepts from './pages/LogoConcepts';
+import TermsAndConditions from './pages/TermsAndConditions';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -107,6 +108,7 @@ function App() {
           <Route path="/pitch-v3" element={<PitchV3 />} />
           <Route path="/pitch-v4" element={<PitchV4 />} />
           <Route path="/logo-concepts" element={<LogoConcepts />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
