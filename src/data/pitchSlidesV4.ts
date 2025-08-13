@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch, GraduationCap, Network, Database } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch, GraduationCap, Network, Database, Calculator } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -668,6 +668,149 @@ export const pitchSlidesV4 = [
   },
   {
     id: 13,
+    type: 'unit_economics',
+    title: 'Unit Economics & Growth Model',
+    subtitle: 'Path to ₹1,000+ Cr Revenue with 40% EBIT Margins',
+    icon: TrendingUp,
+    metrics: {
+      cac: '₹283 (Y1) → ₹716 (Y5)',
+      ltv: '₹3,600+',
+      ltvCacRatio: '12.7:1',
+      paybackPeriod: '8 months',
+      grossMargin: '85%+'
+    },
+    projections: [
+      {
+        timeline: 'Year 1',
+        users: '0.9M users',
+        arr: '₹325L ARR',
+        milestone: 'Product-Market Fit'
+      },
+      {
+        timeline: 'Year 2', 
+        users: '6.4M users',
+        arr: '₹3,390L ARR',
+        milestone: 'Market Leadership'
+      },
+      {
+        timeline: 'Year 3',
+        users: '20.2M users', 
+        arr: '₹24,620L ARR',
+        milestone: 'EBIT Positive (6.5%)'
+      },
+      {
+        timeline: 'Year 4',
+        users: '36.2M users',
+        arr: '₹56,095L ARR', 
+        milestone: 'Scale Efficiency (30% EBIT)'
+      },
+      {
+        timeline: 'Year 5',
+        users: '65M users',
+        arr: '₹104,431L ARR',
+        milestone: 'Market Domination (40% EBIT)'
+      }
+    ]
+  },
+  {
+    id: 14,
+    type: 'revenue_model',
+    title: 'Diversified Revenue Streams',
+    subtitle: 'Multiple Monetization Channels Driving ₹3,800 ARPU Target',
+    icon: DollarSign,
+    revenueStreams: [
+      {
+        name: 'Platform Subscriptions',
+        timeline: 'Year 1-5',
+        structure: '₹199-999/month tiers',
+        details: [
+          'Premium insights and analytics',
+          'Advanced portfolio tools',  
+          'Priority customer support',
+          'Enhanced security features'
+        ],
+        color: 'blue'
+      },
+      {
+        name: 'Marketplace Commissions',
+        timeline: 'Year 2-5',
+        structure: '0.25-0.75% transaction fee',
+        details: [
+          'Mutual fund transactions',
+          'Stock trading commissions',
+          'Insurance policy sales',
+          'FD/Bond placements'
+        ],
+        color: 'green'
+      },
+      {
+        name: 'PMS & Wealth Management',
+        timeline: 'Year 3-5',
+        structure: '1.5% AUM fee',
+        details: [
+          'AI-powered portfolio management',
+          'High net worth services',
+          'Customized investment strategies',
+          'Tax optimization services'
+        ],
+        color: 'purple'
+      },
+      {
+        name: 'Advertising Revenue',
+        timeline: 'Year 1-5',
+        structure: 'CPM/CPC model',
+        details: [
+          'Targeted financial product ads',
+          'Educational content sponsorships',
+          'Premium placement fees',
+          'Data-driven ad optimization'
+        ],
+        color: 'orange'
+      }
+    ],
+    totalArpu: '₹3,800/year by Year 5'
+  },
+  {
+    id: 15,
+    type: 'financial_assumptions',
+    title: 'Key Financial Assumptions',
+    subtitle: 'Conservative Growth Model with Validation Metrics',
+    icon: Calculator,
+    assumptions: [
+      {
+        category: 'User Growth',
+        items: [
+          '15% monthly growth Y1-Y2',
+          '8% monthly growth Y3-Y4', 
+          '5% monthly growth Y5',
+          'Churn rate: 3-5% monthly',
+          'Organic growth: 40% of acquisitions'
+        ]
+      },
+      {
+        category: 'Revenue Model',
+        items: [
+          'Freemium: 85% free, 15% paid',
+          'Subscription conversion: 18% of MAU',
+          'Average subscription: ₹399/month',
+          'Marketplace take rate: 0.5%',
+          'Ad revenue: ₹180 ARPU annually'
+        ]
+      },
+      {
+        category: 'Cost Structure',
+        items: [
+          'CAC: ₹283-716 across 5 years',
+          'Technology: 15% of revenue',
+          'Customer support: 8% of revenue',
+          'Compliance: 5% of revenue',
+          'Team scaling: 30% of revenue Y1-Y3'
+        ]
+      }
+    ]
+  },
+  {
+    id: 16,
     type: 'funding',
     title: '$1.5M Seed Round',
     subtitle: 'Optimized for Efficient Growth & Market Leadership',

@@ -105,6 +105,12 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <RiskAnalysisSlide slide={slide} />;
     case 'platform-architecture':
       return <PlatformArchitectureSlide slide={slide} />;
+    case 'unit_economics':
+      return <UnitEconomicsSlide slide={slide} />;
+    case 'revenue_model':
+      return <RevenueSlide slide={slide} />;
+    case 'financial_assumptions':
+      return <FinancialAssumptionsSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
