@@ -44,28 +44,6 @@ export const FinancialAssumptionsSlide: React.FC<FinancialAssumptionsSlideProps>
           </Card>
         ))}
       </div>
-      
-      <div className="mt-8 p-6 bg-blue-50 rounded-lg">
-        <h3 className="text-lg font-bold text-blue-800 mb-2">Key Validation Metrics</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div>
-            <div className="text-lg font-bold text-blue-600">₹1,200</div>
-            <div className="text-sm text-gray-600">Target CAC</div>
-          </div>
-          <div>
-            <div className="text-lg font-bold text-blue-600">18%</div>
-            <div className="text-sm text-gray-600">Revenue Conversion</div>
-          </div>
-          <div>
-            <div className="text-lg font-bold text-blue-600">₹2,200</div>
-            <div className="text-sm text-gray-600">Annual Revenue/User</div>
-          </div>
-          <div>
-            <div className="text-lg font-bold text-blue-600">8 months</div>
-            <div className="text-sm text-gray-600">CAC Payback</div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
