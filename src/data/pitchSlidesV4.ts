@@ -673,10 +673,10 @@ export const pitchSlidesV4 = [
     subtitle: '🎯 Million Users by 15 Months | 🚀 Breakeven by Year 3 | 💰 1000cr+ by Year 5',
     icon: TrendingUp,
     metrics: {
-      cac: '₹283 (Y1) → ₹716 (Y5)',
-      ltv: '₹3,600+',
-      ltvCacRatio: '12.7:1',
-      paybackPeriod: '8 months',
+      cac: '₹283 (Y1) → ₹147 (Y5)',
+      ltv: '₹5,371',
+      ltvCacRatio: '36.5:1',
+      paybackPeriod: '6 months',
       grossMargin: '85%+'
     },
     projections: [
@@ -716,13 +716,13 @@ export const pitchSlidesV4 = [
     id: 14,
     type: 'revenue_model',
     title: 'Diversified Revenue Streams',
-    subtitle: 'Multiple Monetization Channels Driving ₹3,800 ARPU Target',
+    subtitle: 'Multiple Monetization Channels | ₹1,606 ARPU by Year 5',
     icon: DollarSign,
     revenueStreams: [
       {
         name: 'Platform Subscriptions',
         timeline: 'Year 1-5',
-        structure: '₹199-999/month tiers',
+        structure: '₹5,000/year premium plan',
         details: [
           'Premium insights and analytics',
           'Advanced portfolio tools',  
@@ -768,7 +768,7 @@ export const pitchSlidesV4 = [
         color: 'orange'
       }
     ],
-    totalArpu: '₹3,800/year by Year 5'
+    totalArpu: '₹361/user (Y1) rising to ₹1,606/user by Year 5'
   },
   {
     id: 15,
