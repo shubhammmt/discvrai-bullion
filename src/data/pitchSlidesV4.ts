@@ -673,10 +673,10 @@ export const pitchSlidesV4 = [
     subtitle: '🎯 Million Users by 15 Months | 🚀 Breakeven by Year 3 | 💰 1000cr+ by Year 5',
     icon: TrendingUp,
     metrics: {
-      cac: '₹283 (Y1) → ₹147 (Y5)',
-      ltv: '₹5,371',
-      ltvCacRatio: '36.5:1',
-      paybackPeriod: '6 months',
+      cac: '₹912 (Y1) → ₹863 (Y5)',
+      ltv: '₹1,606 × 3.3 years = ₹5,300+',
+      ltvCacRatio: '6.1:1',
+      paybackPeriod: '6.8 months',
       grossMargin: '85%+'
     },
     projections: [
