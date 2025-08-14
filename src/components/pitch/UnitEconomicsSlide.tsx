@@ -34,39 +34,6 @@ export const UnitEconomicsSlide: React.FC<UnitEconomicsSlideProps> = ({ slide })
         <p className="text-xl text-gray-600 mb-8">{slide.subtitle}</p>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-        <Card className="p-4 text-center">
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-600">{slide.metrics.cac}</div>
-            <div className="text-sm text-gray-600">CAC</div>
-          </CardContent>
-        </Card>
-        <Card className="p-4 text-center">
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{slide.metrics.ltv}</div>
-            <div className="text-sm text-gray-600">LTV</div>
-          </CardContent>
-        </Card>
-        <Card className="p-4 text-center">
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{slide.metrics.ltvCacRatio}</div>
-            <div className="text-sm text-gray-600">LTV:CAC</div>
-          </CardContent>
-        </Card>
-        <Card className="p-4 text-center">
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">{slide.metrics.paybackPeriod}</div>
-            <div className="text-sm text-gray-600">Payback</div>
-          </CardContent>
-        </Card>
-        <Card className="p-4 text-center">
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600">{slide.metrics.grossMargin}</div>
-            <div className="text-sm text-gray-600">Gross Margin</div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Growth Projections */}
       <div>

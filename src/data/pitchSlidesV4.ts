@@ -672,13 +672,6 @@ export const pitchSlidesV4 = [
     title: 'Key Financial Milestones & Unit Economics',
     subtitle: '🎯 Million Users by 15 Months | 🚀 Breakeven by Year 3 | 💰 1000cr+ by Year 5',
     icon: TrendingUp,
-    metrics: {
-      cac: '',
-      ltv: '',
-      ltvCacRatio: '',
-      paybackPeriod: '',
-      grossMargin: ''
-    },
     projections: [
       {
         timeline: 'Year 1 (Launch)',
