@@ -597,7 +597,7 @@ export const pitchSlidesV4 = [
       {
         name: 'Chief Growth Officer',
         role: 'Growth & Strategy',
-        background: ['19+ years experience', 'Founded and scaled a ₹100Cr+ business in 3 years | Led P&L ownership of ₹1000Cr+', 'B2C consumer tech growth expertise'],
+        background: ['19+ years experience', 'Founded and scaled a ₹100Cr+ business in 3 years | Led P&L ownership of ₹1000Cr+', 'MBA from SPJAIN', 'B2C consumer tech growth expertise'],
         experience: 'Ex-TataSky'
       },
       {
