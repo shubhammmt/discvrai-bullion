@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { useReactToPrint } from 'react-to-print';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
 import { PitchHeader } from '@/components/pitch/PitchHeader';
 import { PitchNavigation } from '@/components/pitch/PitchNavigation';
 import { KeyboardShortcuts } from '@/components/pitch/KeyboardShortcuts';
-import { PDFExportView } from '@/components/pitch/PDFExportView';
 import { pitchSlidesV4 } from '@/data/pitchSlidesV4';
 
 const PitchV4 = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isDownloading, setIsDownloading] = useState(false);
-  const printRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % pitchSlidesV4.length);
@@ -27,19 +23,6 @@ const PitchV4 = () => {
     setCurrentSlide(index);
   };
 
-  const downloadPDF = useReactToPrint({
-    contentRef: printRef,
-    documentTitle: 'DiscvrAI-Pitch-Presentation',
-    onBeforePrint: () => {
-      setIsDownloading(true);
-      return new Promise(resolve => {
-        setTimeout(resolve, 500);
-      });
-    },
-    onAfterPrint: () => {
-      setIsDownloading(false);
-    },
-  });
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -61,16 +44,7 @@ const PitchV4 = () => {
       <PitchHeader 
         currentSlide={currentSlide} 
         totalSlides={pitchSlidesV4.length}
-        onDownload={downloadPDF}
-        isDownloading={isDownloading}
       />
-      
-      {/* Hidden PDF Export View */}
-      <div style={{ display: 'none' }}>
-        <div ref={printRef}>
-          <PDFExportView slides={pitchSlidesV4} />
-        </div>
-      </div>
 
       <div className="max-w-7xl mx-auto p-6">
         <Card className="min-h-[600px] p-8">

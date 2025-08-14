@@ -1,17 +1,15 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Heart, Brain, Download, Loader2 } from 'lucide-react';
+import { ArrowLeft, Heart, Brain } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface PitchHeaderProps {
   currentSlide: number;
   totalSlides: number;
-  onDownload?: () => void;
-  isDownloading?: boolean;
 }
 
-export const PitchHeader: React.FC<PitchHeaderProps> = ({ currentSlide, totalSlides, onDownload, isDownloading }) => {
+export const PitchHeader: React.FC<PitchHeaderProps> = ({ currentSlide, totalSlides }) => {
   const navigate = useNavigate();
 
   return (
@@ -42,20 +40,6 @@ export const PitchHeader: React.FC<PitchHeaderProps> = ({ currentSlide, totalSli
         </div>
 
         <div className="flex items-center gap-4">
-          {onDownload && (
-            <Button 
-              onClick={onDownload}
-              disabled={isDownloading}
-              className="flex items-center gap-2"
-            >
-              {isDownloading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4" />
-              )}
-              {isDownloading ? 'Generating PDF...' : 'Download PDF'}
-            </Button>
-          )}
           <div className="text-sm text-gray-500">
             {currentSlide + 1} / {totalSlides}
           </div>
