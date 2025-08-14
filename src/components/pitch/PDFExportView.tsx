@@ -10,7 +10,7 @@ interface PDFExportViewProps {
 const getSlideScaling = (slide: any) => {
   const contentHeavySlides = [
     'revenue', 'ai-tech-stack', 'competition', 'big-tech', 
-    'risks', 'team', 'funding', 'execution-example'
+    'risks', 'team', 'funding', 'execution-example', 'unit_economics'
   ];
   
   const mediumContentSlides = [
