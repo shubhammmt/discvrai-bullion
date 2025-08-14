@@ -669,8 +669,8 @@ export const pitchSlidesV4 = [
   {
     id: 13,
     type: 'unit_economics',
-    title: 'Unit Economics & Growth Model',
-    subtitle: 'Path to ₹1,000+ Cr Revenue with 40% EBIT Margins',
+    title: 'Key Financial Milestones & Unit Economics',
+    subtitle: '🎯 Million Users by 15 Months | 🚀 Breakeven by Year 3 | 💰 1000cr+ by Year 5',
     icon: TrendingUp,
     metrics: {
       cac: '₹283 (Y1) → ₹716 (Y5)',
@@ -681,34 +681,34 @@ export const pitchSlidesV4 = [
     },
     projections: [
       {
-        timeline: 'Year 1',
+        timeline: 'Year 1 (Launch)',
         users: '0.9M users',
-        arr: '₹325L ARR',
-        milestone: 'Product-Market Fit'
+        arr: '₹325L Revenue',
+        milestone: 'Product-Market Fit Foundation'
       },
       {
-        timeline: 'Year 2', 
+        timeline: 'Year 2 (15 Months)',
         users: '6.4M users',
-        arr: '₹3,390L ARR',
-        milestone: 'Market Leadership'
+        arr: '₹3,390L Revenue',
+        milestone: '🎯 MILLION USERS MILESTONE'
       },
       {
-        timeline: 'Year 3',
+        timeline: 'Year 3 (Breakeven)',
         users: '20.2M users', 
-        arr: '₹24,620L ARR',
-        milestone: 'EBIT Positive (6.5%)'
+        arr: '₹24,620L Revenue',
+        milestone: '🚀 PROFITABILITY + UNICORN VALUATION'
       },
       {
-        timeline: 'Year 4',
+        timeline: 'Year 4 (Scale)',
         users: '36.2M users',
-        arr: '₹56,095L ARR', 
-        milestone: 'Scale Efficiency (30% EBIT)'
+        arr: '₹56,095L Revenue', 
+        milestone: 'Market Leadership (30% EBIT)'
       },
       {
-        timeline: 'Year 5',
+        timeline: 'Year 5 (Domination)',
         users: '65M users',
-        arr: '₹104,431L ARR',
-        milestone: 'Market Domination (40% EBIT)'
+        arr: '₹104,431L Revenue',
+        milestone: '💰 1000CR+ TOPLINE (40% EBIT)'
       }
     ]
   },
@@ -773,38 +773,44 @@ export const pitchSlidesV4 = [
   {
     id: 15,
     type: 'financial_assumptions',
-    title: 'Key Financial Assumptions',
-    subtitle: 'Conservative Growth Model with Validation Metrics',
+    title: 'Path to Unicorn: Key Financial Drivers',
+    subtitle: 'Conservative assumptions driving exceptional milestone achievement',
     icon: Calculator,
     assumptions: [
       {
-        category: 'User Growth',
+        category: '🎯 Million Users by 15 Months',
         items: [
-          '15% monthly growth Y1-Y2',
-          '8% monthly growth Y3-Y4', 
-          '5% monthly growth Y5',
-          'Churn rate: 3-5% monthly',
-          'Organic growth: 40% of acquisitions'
+          '6.4M users by Year 2 (15-month mark)',
+          'Aggressive but proven growth in Indian fintech',
+          '15% monthly growth rate in first 18 months',
+          'Network effects + viral acquisition strategies'
         ]
       },
       {
-        category: 'Revenue Model',
+        category: '🚀 Breakeven by Year 3',
         items: [
-          'Freemium: 85% free, 15% paid',
-          'Subscription conversion: 18% of MAU',
-          'Average subscription: ₹399/month',
-          'Marketplace take rate: 0.5%',
-          'Ad revenue: ₹180 ARPU annually'
+          'Positive EBIT of ₹1,599L in Year 3 (6.5% margin)',
+          'Revenue scale beats expense growth curve',
+          'Operational leverage from platform business model',
+          '₹246cr revenue run rate enables unicorn valuation'
         ]
       },
       {
-        category: 'Cost Structure',
+        category: '💰 1000cr+ Topline by Year 5',
         items: [
-          'CAC: ₹283-716 across 5 years',
-          'Technology: 15% of revenue',
-          'Customer support: 8% of revenue',
-          'Compliance: 5% of revenue',
-          'Team scaling: 30% of revenue Y1-Y3'
+          '₹104,431L revenue = ₹1,044cr topline by Year 5',
+          'Multiple revenue streams: Subs + Marketplace + PMS',
+          '40% EBIT margins at maturity (₹41,422L profit)',
+          'Diversified monetization reducing single-point failure'
+        ]
+      },
+      {
+        category: '🦄 Unicorn Trajectory',
+        items: [
+          '$1B+ valuation by end of Year 3',
+          '12x revenue multiple on ₹246cr run rate',
+          'Comparable to Groww ($7B), CRED ($4B) valuations',
+          'First-mover advantage in AI + Account Aggregator space'
         ]
       }
     ]
