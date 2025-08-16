@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { SlideRenderer } from '@/components/pitch/SlideRenderer';
 import { PitchHeader } from '@/components/pitch/PitchHeader';
 import { PitchNavigation } from '@/components/pitch/PitchNavigation';
-import { KeyboardShortcuts } from '@/components/pitch/KeyboardShortcuts';
 import { pitchSlidesV4 } from '@/data/pitchSlidesV4';
 
 const PitchV4 = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % pitchSlidesV4.length);
@@ -23,6 +24,28 @@ const PitchV4 = () => {
     setCurrentSlide(index);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
+  };
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -47,7 +70,12 @@ const PitchV4 = () => {
       />
 
       <div className="max-w-7xl mx-auto p-6">
-        <Card className="min-h-[600px] p-8">
+        <Card 
+          className="min-h-[600px] p-8 touch-pan-y select-none"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <CardContent className="h-full flex items-center justify-center">
             {pitchSlidesV4[currentSlide] ? (
               <SlideRenderer slide={pitchSlidesV4[currentSlide]} />
@@ -69,8 +97,6 @@ const PitchV4 = () => {
         onNextSlide={nextSlide}
         onGoToSlide={goToSlide}
       />
-
-      <KeyboardShortcuts />
     </div>
   );
 };
