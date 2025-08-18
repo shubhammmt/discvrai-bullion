@@ -54,6 +54,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
+import NewsHub from './pages/NewsHub';
 
 const queryClient = new QueryClient();
 
@@ -113,6 +114,7 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/data-deletion-policy" element={<DataDeletionPolicy />} />
+          <Route path="/news-hub" element={<NewsHub />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
