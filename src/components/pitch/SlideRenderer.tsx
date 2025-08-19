@@ -30,6 +30,7 @@ import { MarketGrowthSlide } from './MarketGrowthSlide';
 import { CompetitiveLandscapeSlide } from './CompetitiveLandscapeSlide';
 import { RiskAnalysisSlide } from './RiskAnalysisSlide';
 import { PlatformArchitectureSlide } from './PlatformArchitectureSlide';
+import { CommunityGTMSlide } from './CommunityGTMSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -111,6 +112,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <RevenueSlide slide={slide} />;
     case 'financial_assumptions':
       return <FinancialAssumptionsSlide slide={slide} />;
+    case 'community-gtm':
+      return <CommunityGTMSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }

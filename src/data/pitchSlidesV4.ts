@@ -1,4 +1,4 @@
-import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch, GraduationCap, Network, Database, Calculator } from 'lucide-react';
+import { Brain, TrendingUp, Target, Users, Rocket, DollarSign, BarChart3, AlertTriangle, Zap, Link, Trophy, Wallet, Building2, Shield, Eye, GitBranch, GraduationCap, Network, Database, Calculator, Play } from 'lucide-react';
 
 export const pitchSlidesV4 = [
   {
@@ -886,5 +886,115 @@ export const pitchSlidesV4 = [
       'Massive TAM ($9.2B) with regulatory tailwinds',
       'Experienced team with track record of scaling 100M+ user platforms'
     ]
+  },
+  {
+    id: 17,
+    type: 'community-gtm',
+    title: 'Community-Driven GTM Strategy',
+    subtitle: 'Viral Growth Through Authentic Financial Contests & Content',
+    icon: Play,
+    contentStrategy: {
+      channels: [
+        {
+          platform: 'YouTube Shorts/Reels',
+          contentType: 'Quick financial tips, portfolio reviews, market reactions',
+          frequency: '2-3 per day',
+          audience: '18-35 year olds',
+          cac: '₹15-25'
+        },
+        {
+          platform: 'YouTube Long-form',
+          contentType: 'Deep-dive portfolio analysis, market education',
+          frequency: '3-4 per week',
+          audience: 'Serious investors',
+          cac: '₹35-50'
+        },
+        {
+          platform: 'Meta (Instagram/Facebook)',
+          contentType: 'Contest announcements, winner spotlights, tips',
+          frequency: 'Daily',
+          audience: 'Broad financial interest',
+          cac: '₹20-35'
+        }
+      ]
+    },
+    communityContests: [
+      {
+        contest: 'Pick Your Best Mutual Fund',
+        description: 'Users submit their top MF pick with reasoning. Community votes + AI analysis determines winners.',
+        engagement: '10K+ monthly submissions',
+        dataValue: 'Real user preferences, fund analysis patterns',
+        growthLoop: 'Winners share results → New users join to compete → Platform data improves'
+      },
+      {
+        contest: 'Build Your Dream Portfolio',
+        description: 'Create and justify a portfolio allocation. Real performance tracking over 3-6 months.',
+        engagement: '25K+ portfolio submissions',
+        dataValue: 'Asset allocation preferences, risk appetite mapping',
+        growthLoop: 'Portfolio performance shared → Social proof → New user acquisition'
+      },
+      {
+        contest: 'Stock Pick Challenge',
+        description: 'Monthly stock picking contest with real money simulation and leaderboards.',
+        engagement: '15K+ active participants',
+        dataValue: 'Stock sentiment, picking patterns, market timing',
+        growthLoop: 'Leaderboard competition → Social sharing → Viral acquisition'
+      },
+      {
+        contest: 'AI Query Championship',
+        description: 'Best financial questions asked to AI, community votes on most insightful queries.',
+        engagement: '8K+ monthly queries',
+        dataValue: 'User pain points, question patterns, knowledge gaps',
+        growthLoop: 'Featured queries → Educational content → Platform stickiness'
+      }
+    ],
+    growthLoop: {
+      phases: [
+        {
+          phase: 'Content Acquisition',
+          description: 'Users discover through viral content on Meta/YouTube',
+          outcome: 'Initial platform visit'
+        },
+        {
+          phase: 'Contest Participation',
+          description: 'Engage in financial contests, submit real preferences',
+          outcome: 'Profile data + engagement'
+        },
+        {
+          phase: 'Community Validation',
+          description: 'Vote on others, get feedback on submissions',
+          outcome: 'Network effects + retention'
+        },
+        {
+          phase: 'Performance Tracking',
+          description: 'Real-time tracking of contest performance vs market',
+          outcome: 'Product stickiness'
+        },
+        {
+          phase: 'Social Amplification',
+          description: 'Share wins, portfolio performance, learnings',
+          outcome: 'Viral referrals'
+        },
+        {
+          phase: 'Premium Conversion',
+          description: 'Access advanced AI insights, exclusive contests',
+          outcome: 'Revenue generation'
+        }
+      ]
+    },
+    metrics: {
+      contentMetrics: [
+        { metric: 'Monthly Content Views', target: '2M+ (Month 6)' },
+        { metric: 'Content-to-Signup Rate', target: '3.5%' },
+        { metric: 'Video Engagement Rate', target: '8-12%' },
+        { metric: 'Content CAC', target: '₹25 avg' }
+      ],
+      communityMetrics: [
+        { metric: 'Monthly Active Contestants', target: '50K+ (Month 6)' },
+        { metric: 'Contest Participation Rate', target: '35% of MAU' },
+        { metric: 'Community Referral Rate', target: '2.3x organic multiplier' },
+        { metric: 'Contest-to-Premium Rate', target: '12%' }
+      ]
+    }
   }
 ];
