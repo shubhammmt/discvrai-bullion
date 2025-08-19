@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Play, Trophy, Users, TrendingUp, Repeat, Share2 } from 'lucide-react';
+import { Play, Trophy, TrendingUp, Repeat } from 'lucide-react';
 
 interface CommunityGTMSlideProps {
   slide: {
@@ -12,9 +12,7 @@ interface CommunityGTMSlideProps {
       channels: Array<{
         platform: string;
         contentType: string;
-        frequency: string;
         audience: string;
-        cac: string;
       }>;
     };
     communityContests: Array<{
@@ -29,16 +27,6 @@ interface CommunityGTMSlideProps {
         phase: string;
         description: string;
         outcome: string;
-      }>;
-    };
-    metrics: {
-      contentMetrics: Array<{
-        metric: string;
-        target: string;
-      }>;
-      communityMetrics: Array<{
-        metric: string;
-        target: string;
       }>;
     };
   };
@@ -68,15 +56,9 @@ export const CommunityGTMSlide: React.FC<CommunityGTMSlideProps> = ({ slide }) =
           <CardContent className="space-y-4">
             {slide.contentStrategy.channels.map((channel, index) => (
               <div key={index} className="border rounded-lg p-4 bg-muted/30">
-                <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-semibold text-foreground">{channel.platform}</h4>
-                  <Badge variant="secondary">{channel.cac}</Badge>
-                </div>
+                <h4 className="font-semibold text-foreground mb-2">{channel.platform}</h4>
                 <p className="text-sm text-muted-foreground mb-2">{channel.contentType}</p>
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{channel.frequency}</span>
-                  <span>{channel.audience}</span>
-                </div>
+                <p className="text-xs text-muted-foreground">Target: {channel.audience}</p>
               </div>
             ))}
           </CardContent>
@@ -144,46 +126,6 @@ export const CommunityGTMSlide: React.FC<CommunityGTMSlideProps> = ({ slide }) =
         </CardContent>
       </Card>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2">
-              <Share2 className="w-5 h-5 text-primary" />
-              Content Metrics
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {slide.metrics.contentMetrics.map((metric, index) => (
-                <div key={index} className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">{metric.metric}</span>
-                  <span className="text-sm font-semibold text-foreground">{metric.target}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="p-6">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-primary" />
-              Community Metrics
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {slide.metrics.communityMetrics.map((metric, index) => (
-                <div key={index} className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">{metric.metric}</span>
-                  <span className="text-sm font-semibold text-foreground">{metric.target}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 };

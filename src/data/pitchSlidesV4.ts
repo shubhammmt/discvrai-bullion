@@ -898,23 +898,17 @@ export const pitchSlidesV4 = [
         {
           platform: 'YouTube Shorts/Reels',
           contentType: 'Quick financial tips, portfolio reviews, market reactions',
-          frequency: '2-3 per day',
-          audience: '18-35 year olds',
-          cac: '₹15-25'
+          audience: '18-35 year olds seeking quick insights'
         },
         {
           platform: 'YouTube Long-form',
           contentType: 'Deep-dive portfolio analysis, market education',
-          frequency: '3-4 per week',
-          audience: 'Serious investors',
-          cac: '₹35-50'
+          audience: 'Serious investors wanting comprehensive learning'
         },
         {
           platform: 'Meta (Instagram/Facebook)',
           contentType: 'Contest announcements, winner spotlights, tips',
-          frequency: 'Daily',
-          audience: 'Broad financial interest',
-          cac: '₹20-35'
+          audience: 'Broad financial interest community'
         }
       ]
     },
@@ -980,20 +974,6 @@ export const pitchSlidesV4 = [
           description: 'Access advanced AI insights, exclusive contests',
           outcome: 'Revenue generation'
         }
-      ]
-    },
-    metrics: {
-      contentMetrics: [
-        { metric: 'Monthly Content Views', target: '2M+ (Month 6)' },
-        { metric: 'Content-to-Signup Rate', target: '3.5%' },
-        { metric: 'Video Engagement Rate', target: '8-12%' },
-        { metric: 'Content CAC', target: '₹25 avg' }
-      ],
-      communityMetrics: [
-        { metric: 'Monthly Active Contestants', target: '50K+ (Month 6)' },
-        { metric: 'Contest Participation Rate', target: '35% of MAU' },
-        { metric: 'Community Referral Rate', target: '2.3x organic multiplier' },
-        { metric: 'Contest-to-Premium Rate', target: '12%' }
       ]
     }
   }
