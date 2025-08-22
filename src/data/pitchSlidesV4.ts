@@ -935,6 +935,16 @@ export const pitchSlidesV4 = [
           platform: 'Meta (Instagram/Facebook)',
           contentType: 'Contest announcements, winner spotlights, tips',
           audience: 'Broad financial interest community'
+        },
+        {
+          platform: 'SEO Content Pipeline',
+          contentType: 'AI-enabled deep research articles per SEO guidelines',
+          audience: 'Organic search traffic + serious researchers'
+        },
+        {
+          platform: 'Brand Ambassador Network',
+          contentType: 'Equity research analysts sharing authentic analysis',
+          audience: 'Professional network + social media followers'
         }
       ]
     },
