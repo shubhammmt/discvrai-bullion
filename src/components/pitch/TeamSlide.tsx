@@ -13,6 +13,15 @@ interface TeamSlideProps {
       background?: string[];
       experience: string;
     }>;
+    executionStrategy?: {
+      title: string;
+      initiatives: Array<{
+        category: string;
+        lead: string;
+        description: string;
+        details: string[];
+      }>;
+    };
   };
 }
 
@@ -54,6 +63,40 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
               </CardContent>
             </Card>
           ))}
+        </div>
+      )}
+
+      {/* Execution Strategy */}
+      {slide.executionStrategy && (
+        <div className="mt-12">
+          <div className="text-center mb-8">
+            <h3 className="text-3xl font-bold text-gray-900 mb-2">{slide.executionStrategy.title}</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {slide.executionStrategy.initiatives.map((initiative, index) => (
+              <Card key={index} className="p-6 bg-gradient-to-br from-orange-50 to-red-50 border-l-4 border-orange-600">
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">{initiative.category}</h4>
+                      <p className="text-orange-600 font-semibold text-sm mb-2">{initiative.lead}</p>
+                      <p className="text-gray-700 mb-4">{initiative.description}</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      {initiative.details.map((detail, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 flex-shrink-0"></div>
+                          <p className="text-sm text-gray-700">{detail}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       )}
     </div>
