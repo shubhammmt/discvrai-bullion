@@ -606,7 +606,33 @@ export const pitchSlidesV4 = [
         background: ['19+ years strategic product & AI leader', 'Scaled products to 200M+ MAU', 'GenAI/ML: 80%+ churn prediction accuracy', 'IIT Kanpur (AIR 22) + ISB MBA', 'Author of 2 AI books'],
         experience: 'Ex-Microsoft, Ex-BigTech VP'
       }
-    ]
+    ],
+    executionStrategy: {
+      title: 'Key Execution Initiatives - Q1 2025',
+      initiatives: [
+        {
+          category: 'SEO & Content Strategy',
+          lead: 'Hired SEO Head',
+          description: 'Drive organic traffic through content pipeline',
+          details: [
+            'Custom in-house CMS/deep research content generator',
+            'AI-enabled deep research articles per SEO guidelines',
+            'Topic-focused content automation for financial education'
+          ]
+        },
+        {
+          category: 'Brand Ambassadors Program',
+          lead: 'Community Strategy',
+          description: 'Equity research analysts community network',
+          details: [
+            '10 ambassadors onboarding starting this month',
+            'Platform usage for their own research workflows',
+            'Analysis sharing across social channels for visibility',
+            'Mass reach through authentic expert endorsements'
+          ]
+        }
+      ]
+    }
   },
   {
     id: 12,
