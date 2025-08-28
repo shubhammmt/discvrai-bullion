@@ -950,11 +950,18 @@ export const pitchSlidesV4 = [
     },
     communityContests: [
       {
+        contest: 'Founding Analyst Program',
+        description: '200+ equity research analysts onboarded as founding members with early access to features and exclusive contests.',
+        engagement: 'Active community of validated experts',
+        dataValue: 'Professional-grade research quality, credibility boost',
+        growthLoop: 'Expert validation → Retail user trust → Social sharing → Viral growth'
+      },
+      {
         contest: 'Pick Your Best Mutual Fund',
-        description: 'Users submit their top MF pick with reasoning. Community votes + AI analysis determines winners.',
-        engagement: '10K+ monthly submissions',
-        dataValue: 'Real user preferences, fund analysis patterns',
-        growthLoop: 'Winners share results → New users join to compete → Platform data improves'
+        description: 'Founding analysts submit top MF picks with detailed research. Retail users vote + AI analysis determines winners.',
+        engagement: '10K+ monthly submissions from analysts + users',
+        dataValue: 'Expert-validated preferences, professional analysis patterns',
+        growthLoop: 'Analysts share on social → Votes from followers → New user acquisition'
       },
       {
         contest: 'Build Your Dream Portfolio',
@@ -981,19 +988,29 @@ export const pitchSlidesV4 = [
     growthLoop: {
       phases: [
         {
-          phase: 'Content Acquisition',
-          description: 'Users discover through viral content on Meta/YouTube',
-          outcome: 'Initial platform visit'
+          phase: 'Expert Validation',
+          description: '200+ founding analysts create authenticated research content',
+          outcome: 'Credible, professional-grade insights'
+        },
+        {
+          phase: 'Retail Discovery',
+          description: 'Users discover expert research through platform and social channels',
+          outcome: 'Trust-based user acquisition'
         },
         {
           phase: 'Contest Participation',
-          description: 'Engage in financial contests, submit real preferences',
-          outcome: 'Profile data + engagement'
+          description: 'Users + analysts engage in contests, submit real preferences',
+          outcome: 'Community engagement + data collection'
         },
         {
-          phase: 'Community Validation',
-          description: 'Vote on others, get feedback on submissions',
-          outcome: 'Network effects + retention'
+          phase: 'AI Enhancement',
+          description: 'AI summarizes expert + user research for sharper insights',
+          outcome: 'Unique AI+Human hybrid intelligence'
+        },
+        {
+          phase: 'Social Amplification',
+          description: 'Analysts share results on social platforms to gain votes',
+          outcome: 'Viral growth through professional networks'
         },
         {
           phase: 'Performance Tracking',
