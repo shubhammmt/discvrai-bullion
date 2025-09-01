@@ -247,7 +247,7 @@ export const pitchSlidesV4 = [
     icon: Users,
     communityData: {
       startingPoint: 'Verified users contributing real experiences and insights',
-      currentTraction: '200+ verified analyst contributors already onboarded',
+      currentTraction: '10k+ MAUs in September (current run rate) + 200+ verified analyst contributors',
       communityEvolution: [
         {
           tier: 'Tier 1: Verified Contributors',
