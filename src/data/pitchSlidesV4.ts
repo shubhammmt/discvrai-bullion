@@ -438,27 +438,37 @@ export const pitchSlidesV4 = [
     title: 'Key Risks & Mitigation',
     subtitle: 'Proactive Risk Management',
     icon: AlertTriangle,
-    keyRisks: [
+    risks: [
       {
         risk: 'Big Tech Entry',
-        mitigation: 'Specialized domain expertise vs generalist approach',
-        timeline: '12-24 months'
+        severity: 'High',
+        description: 'Large tech companies (PhonePe, Google Pay) entering wealth management space',
+        mitigation: [
+          'Specialized domain expertise vs generalist approach',
+          'First-mover advantage in AI + AA combination',
+          'Focus on mass market vs premium segments'
+        ]
       },
       {
         risk: 'Regulatory Changes',
-        mitigation: 'Built on government-backed AA framework',
-        timeline: 'Ongoing'
+        severity: 'Medium',
+        description: 'Potential changes in Account Aggregator framework or data regulations',
+        mitigation: [
+          'Built on government-backed AA framework',
+          'Proactive compliance team and legal advisory',
+          'Multiple data sources beyond AA framework'
+        ]
       },
       {
         risk: 'CAC Inflation',
-        mitigation: 'Community-driven organic growth + referral network',
-        timeline: 'Continuous optimization'
+        severity: 'Medium',
+        description: 'Rising customer acquisition costs in competitive fintech market',
+        mitigation: [
+          'Community-driven organic growth + referral network',
+          'Product-led growth strategy',
+          'Diversified acquisition channels'
+        ]
       }
-    ],
-    strengths: [
-      'Government-backed infrastructure reduces regulatory risk',
-      'First-mover advantage in AI + community validation',
-      'Multiple revenue streams reduce single-point-of-failure'
     ]
   },
   {
@@ -498,11 +508,6 @@ export const pitchSlidesV4 = [
         ],
         experience: 'Ex-Microsoft, Ex-BigTech VP'
       }
-    ],
-    keyStrengths: [
-      'Combined 50+ years experience in scaling tech platforms',
-      'Proven track record in AI/ML implementation at scale',
-      'Deep domain expertise in financial services and user growth'
     ]
   },
   {
@@ -511,48 +516,38 @@ export const pitchSlidesV4 = [
     title: 'Seed Funding Ask: ₹15 Crores',
     subtitle: '18-Month Runway to Product-Market Fit & 1M Users',
     icon: DollarSign,
-    fundingDetails: {
-      amount: '₹15 Crores',
-      runway: '18 months',
-      stage: 'Seed Round',
-      useOfFunds: [
-        {
-          category: 'Product Development',
-          percentage: '40%',
-          amount: '₹6 Cr',
-          details: 'AI engine, mobile app, platform integrations'
-        },
-        {
-          category: 'Team Building',
-          percentage: '30%',
-          amount: '₹4.5 Cr',
-          details: 'Engineering, AI/ML, growth, and community teams'
-        },
-        {
-          category: 'User Acquisition',
-          percentage: '20%',
-          amount: '₹3 Cr',
-          details: 'College partnerships, expert community, marketing'
-        },
-        {
-          category: 'Operations & Legal',
-          percentage: '10%',
-          amount: '₹1.5 Cr',
-          details: 'Compliance, infrastructure, working capital'
-        }
-      ],
-      keyMilestones: [
-        '1M+ registered users by Month 15',
-        '200+ validated financial experts in community',
-        'Product-market fit with 40%+ retention',
-        'Series A readiness with clear unit economics'
-      ]
+    allocation: [
+      {
+        percentage: '40%',
+        category: 'Product Development',
+        description: 'AI engine, mobile app, platform integrations'
+      },
+      {
+        percentage: '30%',
+        category: 'Team Building',
+        description: 'Engineering, AI/ML, growth, and community teams'
+      },
+      {
+        percentage: '20%',
+        category: 'User Acquisition',
+        description: 'College partnerships, expert community, marketing'
+      },
+      {
+        percentage: '10%',
+        category: 'Operations & Legal',
+        description: 'Compliance, infrastructure, working capital'
+      }
+    ],
+    fundDetails: {
+      raiseAmount: '₹15 Crores (1.5M USD)',
+      timeline: '18 months',
+      valuation: 'Pre-money valuation discussion'
     },
-    investorValue: [
-      'Massive TAM: ₹60,000 Cr addressable market',
-      'First-mover advantage in AI + community validation',
-      'Government-backed infrastructure reduces risk',
-      'Experienced team with proven scale track record'
+    keyMilestones: [
+      '1M+ registered users by Month 15',
+      '200+ validated financial experts in community',
+      'Product-market fit with 40%+ retention',
+      'Series A readiness with clear unit economics'
     ]
   }
 ];

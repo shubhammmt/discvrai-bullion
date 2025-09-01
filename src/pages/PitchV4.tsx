@@ -84,6 +84,7 @@ const PitchV4 = () => {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Slide Not Found</h2>
                 <p className="text-gray-600">Current slide index: {currentSlide}</p>
                 <p className="text-gray-600">Total slides: {pitchSlidesV4.length}</p>
+                <p className="text-gray-600">Slide IDs: {pitchSlidesV4.map(s => s.id).join(', ')}</p>
               </div>
             )}
           </CardContent>
