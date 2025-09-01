@@ -31,6 +31,10 @@ import { CompetitiveLandscapeSlide } from './CompetitiveLandscapeSlide';
 import { RiskAnalysisSlide } from './RiskAnalysisSlide';
 import { PlatformArchitectureSlide } from './PlatformArchitectureSlide';
 import { CommunityGTMSlide } from './CommunityGTMSlide';
+import { CredibleInformationCrisisSlide } from './CredibleInformationCrisisSlide';
+import { HumanAISolutionSlide } from './HumanAISolutionSlide';
+import { CommunityStrategySlide } from './CommunityStrategySlide';
+import { ReviewEcosystemSlide } from './ReviewEcosystemSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -114,6 +118,14 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <FinancialAssumptionsSlide slide={slide} />;
     case 'community-gtm':
       return <CommunityGTMSlide slide={slide} />;
+    case 'credible-information-crisis':
+      return <CredibleInformationCrisisSlide slide={slide} />;
+    case 'human-ai-solution':
+      return <HumanAISolutionSlide slide={slide} />;
+    case 'community-strategy':
+      return <CommunityStrategySlide slide={slide} />;
+    case 'review-ecosystem':
+      return <ReviewEcosystemSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
