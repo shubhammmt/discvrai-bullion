@@ -236,14 +236,23 @@ A5. Extended Competitive Analysis
   - Target: MBA/CFA/CA/B.Com + B.Tech programs
   - Colleges: DU, Ashoka, Bangalore, Mumbai (MBA); IIT/NIT + regional colleges (Engineering)
   - Conversion: 1-2 weeks to connect community and onboard to platform
+  - Expected conversion rate: 10-15% of students become active contributors
 - **Incentive Structure**:
   - Current: ₹1k-5k per contest, 2-10 contests per week
+  - Contest format: "Share best mutual fund + answer 5 deep research questions (performance, risk, valuation, expense ratio, fund manager)"
   - Transition timeline: 6 months to 1 year shift to non-tangible incentives
   - Future: Platform amplification, visibility, profile building
 - **Community Metrics**:
   - Expert recognition threshold: 9.5/10 score
-  - Validation measurement: Consistent votes + AI scores of published research
+  - Validation measurement: Minimum 25 consistent votes + AI scores of published research
   - Expected retention: 80%+ for 1k+ experts
+  - Scale timeline: 200+ to 1k+ experts in "few days"
+- **Platform Amplification Features**:
+  - Leaderboard visibility
+  - Featured placement on mutual fund pages and contest entries
+  - Homepage visibility for achievements
+  - Social media highlighting and podcast appearances on DISCVR channel
+- **Competitive Advantage**: Profile visibility + initial cash rewards until critical mass achieved
 
 #### 6. Network Effects & Data Moats Slide
 **Title**: "Flywheel: More Experts → Better Insights → More Users"
