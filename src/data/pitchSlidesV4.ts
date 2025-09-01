@@ -424,14 +424,15 @@ export const pitchSlidesV4 = [
     icon: Users,
     team: [
       {
-        name: 'Founder 1',
+        name: 'Shubham Srivastava',
         role: 'Founder & CEO',
         background: [
-          'Previous fintech startup experience',
-          'Deep understanding of Indian financial markets',
-          'Product management background'
+          '2 decades in tech leadership',
+          'Last corporate role as CPTO for a listed unicorn company',
+          'Previous roles with MakeMyTrip and Hindustan Times',
+          'Led large scale mass market products'
         ],
-        experience: '8+ years in fintech and product development'
+        experience: '20+ years in technology leadership and product development'
       }
     ],
     advisors: [
