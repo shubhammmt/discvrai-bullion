@@ -654,7 +654,7 @@ export const appendixSlides = [
   {
     id: 'A6',
     type: 'platform-architecture',
-    title: 'Complete Financial Platform Stack',
+    title: 'Platform Architecture',
     subtitle: 'AI-Driven Architecture for 200M+ Users',
     icon: Building2,
     platformLayers: {
