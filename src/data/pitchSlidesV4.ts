@@ -166,56 +166,22 @@ export const pitchSlidesV4 = [
   },
   {
     id: 3,
-    type: 'credible-information-crisis',
+    type: 'credible-information-crisis-v2',
     title: 'The ₹1.8 Lakh Crore Problem: When Financial Information Fails Indians',
     subtitle: 'The Credible Information Crisis in Financial Decision Making',
     icon: AlertTriangle,
-    problemData: {
+    marketData: {
       hook: '93% of retail traders lost money in F&O trading (SEBI 2024)',
       scale: '1.1 crore traders lost ₹1.8 lakh crore in 3 years (2022-2024)',
-      coreIssue: 'Information overload without credibility validation',
-      quantifiedPain: {
-        averageLoss: '₹2 lakh per retail trader',
-        totalLoss: '₹1.8 lakh crore collective loss',
-        trustCrisis: 'Indians trust blindly because they have no choice'
-      },
+      coreProblemlm: 'Information overload without credibility validation',
       painPoints: [
-        {
-          category: 'Finfluencer Misinformation Crisis',
-          severity: 'Critical',
-          stats: [
-            'SEBI crackdowns on unregistered advisors',
-            '40-60% decline in brand deals due to regulatory scrutiny',
-            'Social media tips leading to "guaranteed profits" scams'
-          ]
-        },
-        {
-          category: 'Information Credibility Gap',
-          severity: 'High',
-          stats: [
-            'No way to verify quality of financial advice before acting',
-            'Generic AI advice lacking human expertise context',
-            'Users struggle to distinguish quality information from noise'
-          ]
-        },
-        {
-          category: 'Professional Community Validation Missing',
-          severity: 'High',
-          stats: [
-            'No professional community validation of insights',
-            'Information overload without expert consensus',
-            'Lack of verified user experiences with financial products'
-          ]
-        }
+        'Finfluencer misinformation crisis (SEBI crackdowns on unregistered advisors)',
+        '40-60% decline in brand deals due to regulatory scrutiny',
+        'Social media tips leading to "guaranteed profits" scams',
+        'No way to verify quality of financial advice before acting'
       ],
-      currentSolutionGaps: [
-        'Credibility Gap: No system to validate information quality',
-        'Expert Gap: Generic advice without professional validation',
-        'Community Gap: No peer review or consensus mechanisms',
-        'Experience Gap: No verified user reviews for financial products',
-        'Trust Gap: Users forced to trust without verification'
-      ],
-      emotionalImpact: 'Indians trust blindly because they have no choice - but collective losses prove this system is fundamentally broken'
+      marketEvidence: 'Average loss of ₹2 lakh per retail trader',
+      emotionalImpact: 'Indians trust blindly because they have no choice'
     }
   },
   {
@@ -1141,7 +1107,80 @@ export const pitchSlidesV4 = [
           phase: 'Social Amplification',
           description: 'Share wins, portfolio performance, learnings',
           outcome: 'Viral referrals'
-        },
+  },
+  {
+    id: 16,
+    type: 'network-effects-data-moats',
+    title: 'Flywheel: More Experts → Better Insights → More Users',
+    subtitle: 'Self-Reinforcing Data Advantages Create Defensible Moats',
+    icon: Network,
+    dataMoats: {
+      userBehaviorLoop: 'User views content → makes decisions → tracks outcomes → creates feedback loop for propensity learning',
+      selfImprovingAI: 'Each user interaction (portfolio additions, watchlists, alerts) teaches propensity models and improves recommendations',
+      humanAIHybrid: 'AI research engine competing with ChatGPT/Perplexity for financial research, enhanced by human insights',
+      emotionalExperienceData: 'Human experts provide context AI cannot - emotional insights and personal investment experiences',
+      defensibleMoats: 'Proprietary AI research + integrated human-led data validation creates unique competitive advantage'
+    },
+    networkLoop: [
+      {
+        phase: 'Expert Contributions',
+        description: 'Verified experts share research, insights, and experiences based on real market participation',
+        outcome: 'Higher quality content attracts more users'
+      },
+      {
+        phase: 'User Engagement & Decisions',
+        description: 'Users consume expert content, make investment decisions, and track outcomes over time',
+        outcome: 'More user data improves AI personalization'
+      },
+      {
+        phase: 'AI Learning & Enhancement',
+        description: 'Platform learns from user behavior patterns and expert validation to improve recommendations',
+        outcome: 'Better insights attract more experts'
+      }
+    ]
+  },
+  {
+    id: 17,
+    type: 'platform-differentiation-v2',
+    title: 'Why DISCVR ≠ Reddit/X/Perplexity Spaces',
+    subtitle: 'Building Financial Decision Intelligence, Not Another Social Platform',
+    icon: Shield,
+    differentiation: {
+      challenge: 'Why isn\'t this just another Reddit/X/Perplexity Spaces?',
+      redditXIssues: [
+        'No expertise validation - anyone can post financial advice',
+        'No accountability - anonymous users with no track record',
+        'Information quality chaos - good insights buried in noise',
+        'No decision integration - just discussion, not actionable intelligence'
+      ],
+      perplexityIssues: [
+        'Generic AI - no financial domain specialization',
+        'No human validation - pure AI responses without expert oversight',
+        'No community feedback loops - one-way AI interaction',
+        'No portfolio integration - research disconnected from actual investing'
+      ],
+      discvrMoats: [
+        'Verified Financial Expertise - CFA/NISM certified contributors, not social media opinions',
+        'Portfolio-Integrated Intelligence - Research directly connects to investment decisions',
+        'Financial Domain AI - Specialized models + human expert validation',
+        'Accountability Loop - Track expert recommendations vs outcomes over time',
+        'Decision-Driven Platform - Actionable investment intelligence, not just discussion'
+      ],
+      keyInsight: 'DISCVR isn\'t competing with social platforms - it\'s building a financial decision intelligence system with community validation.',
+      indiaStrategy: {
+        title: 'India-First Strategy (Despite US Product Launch)',
+        reasons: [
+          'Regulatory Complexity: Each market has unique compliance requirements',
+          'Community Building: Easier to build trusted expert networks in single market',
+          'Cultural Financial Behavior: Investment patterns vary significantly by region',
+          'Language & Context: Indian financial products need India-specific insights',
+          'Focused Execution: Better to dominate one market than be mediocre globally',
+          'Network Effects: Stronger when concentrated in single geography initially'
+        ],
+        usProductNote: 'Launching US stocks/funds for Indian investors (expanding product breadth), not targeting US users or building US expert communities yet. Keeping community and validation systems India-focused for now.'
+      }
+    }
+  },
         {
           phase: 'Premium Conversion',
           description: 'Access advanced AI insights, exclusive contests',

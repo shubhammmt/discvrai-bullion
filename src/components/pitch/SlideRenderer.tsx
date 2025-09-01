@@ -35,6 +35,9 @@ import { CredibleInformationCrisisSlide } from './CredibleInformationCrisisSlide
 import { HumanAISolutionSlide } from './HumanAISolutionSlide';
 import { CommunityStrategySlide } from './CommunityStrategySlide';
 import { ReviewEcosystemSlide } from './ReviewEcosystemSlide';
+import { CredibleInformationCrisisSlideV2 } from './CredibleInformationCrisisSlideV2';
+import { NetworkEffectsDataMoatsSlide } from './NetworkEffectsDataMoatsSlide';
+import { PlatformDifferentiationSlideV2 } from './PlatformDifferentiationSlideV2';
 
 interface SlideRendererProps {
   slide: any;
@@ -126,6 +129,12 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <CommunityStrategySlide slide={slide} />;
     case 'review-ecosystem':
       return <ReviewEcosystemSlide slide={slide} />;
+    case 'credible-information-crisis-v2':
+      return <CredibleInformationCrisisSlideV2 slide={slide} />;
+    case 'network-effects-data-moats':
+      return <NetworkEffectsDataMoatsSlide slide={slide} />;
+    case 'platform-differentiation-v2':
+      return <PlatformDifferentiationSlideV2 slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
