@@ -228,6 +228,23 @@ A5. Extended Competitive Analysis
 - **Community Platform**: Native community within discvr.ai
 - **Expert Validation**: AI models + static profile validation + human-in-loop review
 
+**Detailed Implementation**:
+- **Expert Validation Process**:
+  - AI models scan resumes, research reports, degrees, experience for profile scoring
+  - Human review by equity research team (2 people review 100 candidates/day)
+- **College Partnerships**:
+  - Target: MBA/CFA/CA/B.Com + B.Tech programs
+  - Colleges: DU, Ashoka, Bangalore, Mumbai (MBA); IIT/NIT + regional colleges (Engineering)
+  - Conversion: 1-2 weeks to connect community and onboard to platform
+- **Incentive Structure**:
+  - Current: ₹1k-5k per contest, 2-10 contests per week
+  - Transition timeline: 6 months to 1 year shift to non-tangible incentives
+  - Future: Platform amplification, visibility, profile building
+- **Community Metrics**:
+  - Expert recognition threshold: 9.5/10 score
+  - Validation measurement: Consistent votes + AI scores of published research
+  - Expected retention: 80%+ for 1k+ experts
+
 #### 6. Network Effects & Data Moats Slide
 **Title**: "Flywheel: More Experts → Better Insights → More Users"
 
