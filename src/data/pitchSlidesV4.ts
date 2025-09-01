@@ -312,6 +312,79 @@ export const pitchSlidesV4 = [
   },
   {
     id: 7,
+    type: 'network-effects-data-moats',
+    title: 'Flywheel: More Experts → Better Insights → More Users',
+    subtitle: 'Self-Reinforcing Data Advantages Create Defensible Moats',
+    icon: Network,
+    dataMoats: {
+      userBehaviorLoop: 'User views content → makes decisions → tracks outcomes → creates feedback loop for propensity learning',
+      selfImprovingAI: 'Each user interaction (portfolio additions, watchlists, alerts) teaches propensity models and improves recommendations',
+      humanAIHybrid: 'AI research engine competing with ChatGPT/Perplexity for financial research, enhanced by human insights',
+      emotionalExperienceData: 'Human experts provide context AI cannot - emotional insights and personal investment experiences',
+      defensibleMoats: 'Proprietary AI research + integrated human-led data validation creates unique competitive advantage'
+    },
+    networkLoop: [
+      {
+        phase: 'Expert Contributions',
+        description: 'Verified experts share research, insights, and experiences based on real market participation',
+        outcome: 'Higher quality content attracts more users'
+      },
+      {
+        phase: 'User Engagement & Decisions',
+        description: 'Users consume expert content, make investment decisions, and track outcomes over time',
+        outcome: 'More user data improves AI personalization'
+      },
+      {
+        phase: 'AI Learning & Enhancement',
+        description: 'Platform learns from user behavior patterns and expert validation to improve recommendations',
+        outcome: 'Better insights attract more experts'
+      }
+    ]
+  },
+  {
+    id: 8,
+    type: 'platform-differentiation-v2',
+    title: 'Why DISCVR ≠ Reddit/X/Perplexity Spaces',
+    subtitle: 'Building Financial Decision Intelligence, Not Another Social Platform',
+    icon: Shield,
+    differentiation: {
+      challenge: "Why isn't this just another Reddit/X/Perplexity Spaces?",
+      redditXIssues: [
+        'No expertise validation - anyone can post financial advice',
+        'No accountability - anonymous users with no track record',
+        'Information quality chaos - good insights buried in noise',
+        'No decision integration - just discussion, not actionable intelligence'
+      ],
+      perplexityIssues: [
+        'Generic AI - no financial domain specialization',
+        'No human validation - pure AI responses without expert oversight',
+        'No community feedback loops - one-way AI interaction',
+        'No portfolio integration - research disconnected from actual investing'
+      ],
+      discvrMoats: [
+        'Verified Financial Expertise - CFA/NISM certified contributors, not social media opinions',
+        'Portfolio-Integrated Intelligence - Research directly connects to investment decisions',
+        'Financial Domain AI - Specialized models + human expert validation',
+        'Accountability Loop - Track expert recommendations vs outcomes over time',
+        'Decision-Driven Platform - Actionable investment intelligence, not just discussion'
+      ],
+      keyInsight: "DISCVR isn't competing with social platforms - it's building a financial decision intelligence system with community validation.",
+      indiaStrategy: {
+        title: 'India-First Strategy (Despite US Product Launch)',
+        reasons: [
+          'Regulatory Complexity: Each market has unique compliance requirements',
+          'Community Building: Easier to build trusted expert networks in single market',
+          'Cultural Financial Behavior: Investment patterns vary significantly by region',
+          'Language & Context: Indian financial products need India-specific insights',
+          'Focused Execution: Better to dominate one market than be mediocre globally',
+          'Network Effects: Stronger when concentrated in single geography initially'
+        ],
+        usProductNote: 'Launching US stocks/funds for Indian investors (expanding product breadth), not targeting US users or building US expert communities yet. Keeping community and validation systems India-focused for now.'
+      }
+    }
+  },
+  {
+    id: 9,
     type: 'target-persona',
     title: 'Target Persona: India\'s Emerging Wealth Builders',
     subtitle: 'Young Professionals Ready for Smart Financial Management',
@@ -360,7 +433,7 @@ export const pitchSlidesV4 = [
     keyInsight: 'These users are not beginners - they\'re actively investing but frustrated with fragmented experiences. They want intelligence, not just tracking. DISCVR.AI transforms their existing financial chaos into organized, actionable wealth-building system.'
   },
   {
-    id: 6,
+    id: 10,
     type: 'platform-architecture',
     title: 'Complete Financial Platform Stack',
     subtitle: 'AI-Driven Architecture for 200M+ Users',
@@ -414,7 +487,7 @@ export const pitchSlidesV4 = [
     }
   },
   {
-    id: 8,
+    id: 11,
     type: 'aa-validation',
     title: 'Account Aggregator: Explosive Growth Validates Market Need',
     subtitle: 'India\'s Fastest Growing Open Finance Network Proves Portfolio Consolidation Demand',
@@ -487,7 +560,7 @@ export const pitchSlidesV4 = [
     }
   },
   {
-    id: 9,
+    id: 12,
     type: 'competitive-landscape',
     title: 'Competitive Landscape & Our Moats',
     subtitle: 'Clear Differentiation in Crowded Market',
@@ -583,7 +656,7 @@ export const pitchSlidesV4 = [
     ]
   },
   {
-    id: 10,
+    id: 13,
     type: 'risk-analysis',
     title: 'Risk Analysis & Mitigation',
     subtitle: 'Proactive Risk Management Strategy',
@@ -1140,13 +1213,44 @@ export const pitchSlidesV4 = [
     ]
   },
   {
-    id: 17,
+    id: 7,
+    type: 'network-effects-data-moats',
+    title: 'Flywheel: More Experts → Better Insights → More Users',
+    subtitle: 'Self-Reinforcing Data Advantages Create Defensible Moats',
+    icon: Network,
+    dataMoats: {
+      userBehaviorLoop: 'User views content → makes decisions → tracks outcomes → creates feedback loop for propensity learning',
+      selfImprovingAI: 'Each user interaction (portfolio additions, watchlists, alerts) teaches propensity models and improves recommendations',
+      humanAIHybrid: 'AI research engine competing with ChatGPT/Perplexity for financial research, enhanced by human insights',
+      emotionalExperienceData: 'Human experts provide context AI cannot - emotional insights and personal investment experiences',
+      defensibleMoats: 'Proprietary AI research + integrated human-led data validation creates unique competitive advantage'
+    },
+    networkLoop: [
+      {
+        phase: 'Expert Contributions',
+        description: 'Verified experts share research, insights, and experiences based on real market participation',
+        outcome: 'Higher quality content attracts more users'
+      },
+      {
+        phase: 'User Engagement & Decisions',
+        description: 'Users consume expert content, make investment decisions, and track outcomes over time',
+        outcome: 'More user data improves AI personalization'
+      },
+      {
+        phase: 'AI Learning & Enhancement',
+        description: 'Platform learns from user behavior patterns and expert validation to improve recommendations',
+        outcome: 'Better insights attract more experts'
+      }
+    ]
+  },
+  {
+    id: 8,
     type: 'platform-differentiation-v2',
     title: 'Why DISCVR ≠ Reddit/X/Perplexity Spaces',
     subtitle: 'Building Financial Decision Intelligence, Not Another Social Platform',
     icon: Shield,
     differentiation: {
-      challenge: 'Why isn\'t this just another Reddit/X/Perplexity Spaces?',
+      challenge: "Why isn't this just another Reddit/X/Perplexity Spaces?",
       redditXIssues: [
         'No expertise validation - anyone can post financial advice',
         'No accountability - anonymous users with no track record',
@@ -1166,7 +1270,7 @@ export const pitchSlidesV4 = [
         'Accountability Loop - Track expert recommendations vs outcomes over time',
         'Decision-Driven Platform - Actionable investment intelligence, not just discussion'
       ],
-      keyInsight: 'DISCVR isn\'t competing with social platforms - it\'s building a financial decision intelligence system with community validation.',
+      keyInsight: "DISCVR isn't competing with social platforms - it's building a financial decision intelligence system with community validation.",
       indiaStrategy: {
         title: 'India-First Strategy (Despite US Product Launch)',
         reasons: [
