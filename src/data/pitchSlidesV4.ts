@@ -165,67 +165,187 @@ export const pitchSlidesV4 = [
     keyInsight: 'India\'s leading fintech platforms demonstrate massive user engagement across financial services. Our 25M target users represent a validated, digitally-active segment ready for AI-powered financial intelligence.'
   },
   {
-    id: 4,
-    type: 'problem-statement',
-    title: 'The Portfolio Management Crisis',
-    subtitle: '100M+ Users Drowning in Financial Complexity',
+    id: 3,
+    type: 'credible-information-crisis',
+    title: 'The ₹1.8 Lakh Crore Problem: When Financial Information Fails Indians',
+    subtitle: 'The Credible Information Crisis in Financial Decision Making',
     icon: AlertTriangle,
     problemData: {
-      coreIssue: '100M+ investors managing 2 accounts each across fragmented platforms',
+      hook: '93% of retail traders lost money in F&O trading (SEBI 2024)',
+      scale: '1.1 crore traders lost ₹1.8 lakh crore in 3 years (2022-2024)',
+      coreIssue: 'Information overload without credibility validation',
       quantifiedPain: {
-        timeWaste: '2-3 hours weekly on manual portfolio tracking',
-        errors: '40% make suboptimal decisions due to information fragmentation',
-        costs: 'Average ₹50,000+ annual opportunity cost from poor coordination'
+        averageLoss: '₹2 lakh per retail trader',
+        totalLoss: '₹1.8 lakh crore collective loss',
+        trustCrisis: 'Indians trust blindly because they have no choice'
       },
       painPoints: [
         {
-          category: 'Insurance & Protection Gaps',
+          category: 'Finfluencer Misinformation Crisis',
           severity: 'Critical',
           stats: [
-            '70% lack adequate health coverage',
-            '85% have insufficient life insurance',
-            '3.9% insurance penetration vs 7.4% global average'
+            'SEBI crackdowns on unregistered advisors',
+            '40-60% decline in brand deals due to regulatory scrutiny',
+            'Social media tips leading to "guaranteed profits" scams'
           ]
         },
         {
-          category: 'Emergency Fund Crisis',
+          category: 'Information Credibility Gap',
           severity: 'High',
           stats: [
-            '70% lack 6-month emergency funds',
-            '68% middle-class families financially vulnerable',
-            'Post-COVID: Emergency fund awareness but no execution'
+            'No way to verify quality of financial advice before acting',
+            'Generic AI advice lacking human expertise context',
+            'Users struggle to distinguish quality information from noise'
           ]
         },
         {
-          category: 'Asset Allocation Chaos',
+          category: 'Professional Community Validation Missing',
           severity: 'High',
           stats: [
-            '85% have poor asset allocation',
-            '70% over-concentrated in single assets',
-            'Home bias: 95% invest only domestically'
-          ]
-        },
-        {
-          category: 'Digital Fragmentation',
-          severity: 'Critical',
-          stats: [
-            'Average user: 2 financial accounts',
-            '5+ apps needed for complete portfolio view',
-            '2-3 hours weekly spent on manual tracking'
+            'No professional community validation of insights',
+            'Information overload without expert consensus',
+            'Lack of verified user experiences with financial products'
           ]
         }
       ],
       currentSolutionGaps: [
-        '70%+ Unmet Need: No unified real-time aggregation',
-        'AI Gap: Generic advice, not personalized for mass market',
-        'Action Gap: Tracking tools without execution capability',
-        'Family Gap: No multi-member portfolio management',
-        'Intelligence Gap: Data without actionable insights'
+        'Credibility Gap: No system to validate information quality',
+        'Expert Gap: Generic advice without professional validation',
+        'Community Gap: No peer review or consensus mechanisms',
+        'Experience Gap: No verified user reviews for financial products',
+        'Trust Gap: Users forced to trust without verification'
+      ],
+      emotionalImpact: 'Indians trust blindly because they have no choice - but collective losses prove this system is fundamentally broken'
+    }
+  },
+  {
+    id: 4,
+    type: 'human-ai-solution',
+    title: 'Verified Community Intelligence: Starting Simple, Building Smart',
+    subtitle: 'Human + AI Intelligence: The First Credible Financial Platform',
+    icon: Brain,
+    solutionData: {
+      coreConcept: 'Begin with verified users, evolve them into experts through data contribution',
+      keyDifferentiator: 'Not AI replacing humans, but AI amplifying validated human intelligence',
+      simpleStart: 'Every expert was once a beginner who shared good insights',
+      threeLayers: [
+        {
+          layer: 'User Verification Layer',
+          description: 'Identity verification, track record building',
+          components: ['Identity verification systems', 'Basic track record establishment', 'Profile credibility scoring']
+        },
+        {
+          layer: 'Community Validation Layer', 
+          description: 'Peer review, voting, quality scoring',
+          components: ['Peer validation mechanisms', 'Community voting systems', 'Quality scoring algorithms']
+        },
+        {
+          layer: 'AI Enhancement Layer',
+          description: 'Pattern recognition, personalization, insights amplification',
+          components: ['Pattern recognition from validated data', 'Personalized recommendation engine', 'Insight amplification algorithms']
+        }
+      ],
+      flowDiagram: {
+        userJourney: 'New User → Verification → Contributions → Community Validation → Expert Recognition',
+        dataFlow: 'User Data + Community Insights → AI Processing → Personalized Intelligence'
+      },
+      valueProposition: [
+        'Professional communities provide domain expertise',
+        'AI learns from and enhances human insights', 
+        'Community validation ensures information quality',
+        'Personalized recommendations backed by expert consensus'
       ]
     }
   },
   {
     id: 5,
+    type: 'community-strategy',
+    title: 'Building India\'s First Verified Financial Community',
+    subtitle: 'Professional Communities: Our Core Competitive Moat',
+    icon: Users,
+    communityData: {
+      startingPoint: 'Verified users contributing real experiences and insights',
+      currentTraction: '200+ verified analyst contributors already onboarded',
+      communityEvolution: [
+        {
+          tier: 'Tier 1: Verified Contributors',
+          description: 'Identity + basic track record',
+          requirements: ['Identity verification', 'Basic financial profile', 'Initial contribution quality check']
+        },
+        {
+          tier: 'Tier 2: Experienced Contributors',
+          description: 'Consistent quality insights',
+          requirements: ['Track record of quality contributions', 'Community engagement metrics', 'Peer validation scores']
+        },
+        {
+          tier: 'Tier 3: Expert Contributors', 
+          description: 'High community rating + proven expertise',
+          requirements: ['High community ratings', 'Proven expertise validation', 'Leadership in community discussions']
+        }
+      ],
+      qualityMechanics: [
+        'Peer validation and voting systems',
+        'Track record transparency',
+        'Community-driven quality scoring',
+        'Reputation-based content weighting'
+      ],
+      valueExchange: {
+        contributors: ['Recognition and professional reputation building', 'Networking with industry professionals', 'Access to advanced analytics tools'],
+        users: ['Credible insights from verified experts', 'Quality information with community validation', 'Personalized recommendations from trusted sources']
+      },
+      networkEffects: 'More verified users → Better insights → More users → Higher quality community',
+      targetCommunities: [
+        'Equity analysts (200+ already onboarded)',
+        'AI engineers and quants',
+        'Financial advisors and planners',
+        'Investment researchers'
+      ]
+    }
+  },
+  {
+    id: 6,
+    type: 'review-ecosystem',
+    title: 'Amazon for Financial Products: Where Real Users Share Real Experiences',
+    subtitle: 'User Review Intelligence Platform',
+    icon: Eye,
+    reviewEcosystem: {
+      vision: 'Every financial product reviewed by verified users',
+      marketGap: 'No verified review system exists for Indian financial products',
+      reviewCategories: [
+        {
+          category: 'Mutual Funds',
+          aspects: ['Performance tracking', 'Service quality', 'Ease of use', 'Exit experience']
+        },
+        {
+          category: 'Stocks',
+          aspects: ['Research quality', 'Risk assessment', 'Community sentiment', 'Long-term viability']
+        },
+        {
+          category: 'Insurance',
+          aspects: ['Claim experience', 'Customer service', 'Value for money', 'Policy clarity']
+        },
+        {
+          category: 'Credit Cards',
+          aspects: ['Benefits utilization', 'Service experience', 'Hidden costs', 'Reward redemption']
+        }
+      ],
+      verificationSystem: [
+        'Portfolio linking for authentic reviews',
+        'Transaction verification where possible',
+        'Community validation of review quality',
+        'AI-powered fake review detection'
+      ],
+      aiPoweredInsights: [
+        'Sentiment analysis of reviews',
+        'Pattern recognition in user experiences',
+        'Personalized product recommendations based on verified user profiles',
+        'Trend analysis across product categories'
+      ],
+      trustMechanism: 'Reviews by people like you, verified by community, enhanced by AI'
+    }
+  },
+  {
+    id: 7,
     type: 'target-persona',
     title: 'Target Persona: India\'s Emerging Wealth Builders',
     subtitle: 'Young Professionals Ready for Smart Financial Management',
@@ -1027,6 +1147,143 @@ export const pitchSlidesV4 = [
           description: 'Access advanced AI insights, exclusive contests',
           outcome: 'Revenue generation'
         }
+      ]
+    }
+  }
+];
+
+// Appendix Slides - Supporting Details
+export const appendixSlides = [
+  {
+    id: 'A1',
+    type: 'portfolio-aggregation-technical',
+    title: 'Portfolio Aggregation Technical Details',
+    subtitle: 'Account Aggregator Integration & Data Architecture',
+    icon: Database,
+    technicalDetails: {
+      accountAggregatorIntegration: [
+        'Real-time data sync via RBI-approved AA framework',
+        'Support for 8+ Account Aggregators including OneMoney, Finvu',
+        'Consent-based secure data sharing protocols',
+        'Multi-bank, multi-product portfolio consolidation'
+      ],
+      dataArchitecture: [
+        'Encrypted data storage with user consent management',
+        'Real-time portfolio valuation and performance tracking',
+        'Historical data analysis and trend identification',
+        'Cross-platform reconciliation and duplicate detection'
+      ],
+      supportedProducts: [
+        'Stocks, Mutual Funds, Fixed Deposits, PPF/EPF',
+        'Credit Cards, Loans, Insurance policies',
+        'Digital Gold, Cryptocurrency holdings',
+        'Real Estate and alternative investments'
+      ]
+    }
+  },
+  {
+    id: 'A2', 
+    type: 'portfolio-management-pain',
+    title: 'Traditional Portfolio Management Pain Points',
+    subtitle: 'Current Market Gaps and User Frustrations',
+    icon: AlertTriangle,
+    traditionalPainPoints: {
+      fragmentationIssues: [
+        'Average user manages 2+ financial accounts across platforms',
+        '5+ apps needed for complete portfolio visibility',
+        '2-3 hours weekly spent on manual tracking and reconciliation'
+      ],
+      decisionMakingGaps: [
+        '40% make suboptimal decisions due to information fragmentation',
+        'No unified view leads to asset allocation imbalances',
+        'Difficulty in tax planning and optimization across accounts'
+      ],
+      costImplications: [
+        'Average ₹50,000+ annual opportunity cost from poor coordination',
+        'Missed rebalancing opportunities due to fragmented tracking',
+        'Suboptimal asset allocation leading to reduced returns'
+      ]
+    }
+  },
+  {
+    id: 'A3',
+    type: 'detailed-platform-architecture',
+    title: 'Detailed Platform Architecture',
+    subtitle: 'Complete Technical Stack for Scale',
+    icon: Building2,
+    detailedArchitecture: {
+      microservicesArchitecture: [
+        'User Management & Authentication Service',
+        'Account Aggregation & Data Sync Service', 
+        'AI/ML Recommendation Engine',
+        'Portfolio Analysis & Insights Service',
+        'Transaction Execution & Broker Integration'
+      ],
+      scalabilityFeatures: [
+        'Horizontal scaling for 200M+ users',
+        'Real-time data processing capabilities',
+        'Multi-region deployment for latency optimization',
+        'Event-driven architecture for real-time updates'
+      ],
+      securityMeasures: [
+        'End-to-end encryption for all financial data',
+        'Zero-knowledge architecture for sensitive information',
+        'Compliance with RBI and SEBI regulations',
+        'Multi-factor authentication and biometric security'
+      ]
+    }
+  },
+  {
+    id: 'A4',
+    type: 'additional-market-research',
+    title: 'Extended Market Research & Validation',
+    subtitle: 'Comprehensive Market Analysis',
+    icon: BarChart3,
+    extendedResearch: {
+      competitorBenchmarking: [
+        'Feature gap analysis across 15+ fintech platforms',
+        'ARPU and user engagement metrics comparison',
+        'Technology stack and scalability assessment',
+        'Geographic expansion patterns and success factors'
+      ],
+      userResearchInsights: [
+        '500+ user interviews across Tier 1 & 2 cities',
+        'Behavioral analysis of financial app usage patterns',
+        'Pain point prioritization and solution validation',
+        'Willingness to pay research across user segments'
+      ],
+      marketSizingValidation: [
+        'Third-party market research validation',
+        'Government data analysis and projections',
+        'Industry expert interviews and consensus',
+        'International market comparison and benchmarking'
+      ]
+    }
+  },
+  {
+    id: 'A5',
+    type: 'extended-competitive-analysis', 
+    title: 'Extended Competitive Analysis',
+    subtitle: 'Deep Dive into Competitive Landscape',
+    icon: Shield,
+    extendedCompetitive: {
+      internationalBenchmarks: [
+        'Personal Capital (US) - Portfolio aggregation leader',
+        'Mint (US) - Comprehensive financial management',
+        'Tink (Europe) - Open banking and aggregation',
+        'Emma (UK) - AI-powered financial insights'
+      ],
+      emergingThreats: [
+        'Big Tech entry: Google Pay, PhonePe expansion',
+        'Banking consolidation: HDFC Bank, ICICI direct offerings',
+        'Neo-banking growth: Jupiter, Fi money comprehensive solutions',
+        'Crypto platforms: WazirX, CoinDCX diversification'
+      ],
+      competitiveAdvantages: [
+        'First-mover in AI-powered community validation',
+        'Deep integration with Account Aggregator ecosystem',
+        'Human + AI hybrid intelligence approach',
+        'Comprehensive review and rating system'
       ]
     }
   }
