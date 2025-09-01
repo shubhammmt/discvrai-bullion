@@ -213,10 +213,51 @@ A5. Extended Competitive Analysis
 - **Market Gap**: "No verified review system exists for Indian financial products"
 
 ### Phase 2: GTM & Technical Slides (Week 2)
-- Community-Driven GTM
-- Network Effects & Data Moats
-- Professional Value Proposition
-- Platform Intelligence Architecture
+
+#### 5. Community-Driven GTM Slide
+**Title**: "Content-Powered Growth: Communities Drive User Acquisition"
+
+**Clarified Strategy from User Input**:
+- **Initial Community**: 200+ finance experts (CFA1-3, MBA/BBA/B.com, NISM certified) → scaling to 1k+
+- **User Acquisition Strategy**: 
+  - Organic growth through expert content
+  - College partnerships for student engagement
+  - Part-time professional engagement (equity analysts, CAs, software engineers)
+  - Paid acquisition post-fundraise
+- **Incentive Evolution**: Cash/gifts initially → platform amplification & profile building
+- **Community Platform**: Native community within discvr.ai
+- **Expert Validation**: AI models + static profile validation + human-in-loop review
+
+#### 6. Network Effects & Data Moats Slide
+**Title**: "Flywheel: More Experts → Better Insights → More Users"
+
+**Clarified Data Moats from User Input**:
+- **User Behavior Learning Loop**: User views content → makes decisions → tracks outcomes → creates feedback loop
+- **Self-Improving AI**: Each user interaction (portfolio additions, watchlists, alerts) teaches propensity models
+- **Human + AI Hybrid**: AI research engine competing with ChatGPT/Perplexity for financial research, enhanced by human insights
+- **Emotional + Experience Data**: Human experts provide context that AI cannot - emotional insights and personal investment experiences
+- **Defensible Moats**: Proprietary AI research + integrated human-led data validation
+
+#### 7. Professional Value Proposition Slide
+**Title**: "Every User is a User: From Beginner to Expert Through Platform Engagement"
+
+**Clarified Value Proposition from User Input**:
+- **No Professional Tier**: All users are users - some start with more expertise, others develop it
+- **Expert Journey**: Financial knowledge + platform engagement + community validation = expert status
+- **Discovery to Decision**: 4-hour research compressed to 10-minute decisions
+- **Human Insight Value**: Emotional context and personal experience that AI cannot provide
+- **Content Creation**: Experts add research/reviews/insights throughout product journey
+- **Content Consumption**: Experts also consume community content and AI research like any user
+- **Profile Building**: Community validates expertise through engagement and quality metrics
+
+#### 8. Platform Intelligence Architecture Slide
+**Title**: "Technical: How Human + AI Intelligence Works"
+
+**Content Structure**:
+- Human research input and validation
+- AI enhancement and personalization  
+- Community feedback loops
+- Continuous learning and improvement
 
 ### Phase 3: Integration & Polish (Week 3)
 - Update existing slides with new positioning
