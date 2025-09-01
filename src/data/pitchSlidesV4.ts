@@ -162,7 +162,7 @@ export const pitchSlidesV4 = [
         '**Upstox: 2.6M MAU** - Active retail traders and investors'
       ]
     },
-    keyInsight: 'India\'s leading fintech platforms demonstrate massive user engagement across financial services. Our 25M target users represent a validated, digitally-active segment ready for AI-powered financial intelligence.'
+    keyInsight: 'India\'s leading fintech platforms demonstrate massive user engagement across financial services. Our 24M target users represent a validated, digitally-active segment ready for AI-powered financial intelligence.'
   },
   {
     id: 3,
