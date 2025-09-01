@@ -5,8 +5,8 @@ export const pitchSlidesV4 = [
     id: 1,
     type: 'title',
     title: 'DISCVR.AI',
-    subtitle: "India's AI-Powered Money Platform",
-    author: 'Transforming Financial Management for 200M Indians',
+    subtitle: 'Human layer which AI cant replace',
+    author: 'Shubham Srivastava, Founder & CEO',
     icon: Brain
   },
   {
@@ -436,7 +436,7 @@ export const pitchSlidesV4 = [
     id: 10,
     type: 'team',
     title: 'Team',
-    subtitle: 'Experienced Founders + Strategic Advisors',
+    subtitle: 'Experienced Founder + Strategic Advisors',
     icon: Users,
     team: [
       {
