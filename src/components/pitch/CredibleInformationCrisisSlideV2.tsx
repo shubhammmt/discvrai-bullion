@@ -11,7 +11,11 @@ interface CredibleInformationCrisisSlideProps {
       hook: string;
       scale: string;
       coreProblem: string;
-      painPoints: string[];
+      validationPoints: Array<{
+        category: string;
+        data: string;
+        insight: string;
+      }>;
       marketEvidence: string;
       emotionalImpact: string;
     };
@@ -64,12 +68,16 @@ export const CredibleInformationCrisisSlideV2: React.FC<CredibleInformationCrisi
           </div>
           <p className="text-xl font-semibold text-center mb-6">{slide.marketData.coreProblem}</p>
           
-          {/* Pain Points Grid */}
+          {/* Validation Points Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {slide.marketData.painPoints.map((point, index) => (
-              <div key={index} className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg">
-                <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0" />
-                <p className="text-base">{point}</p>
+            {slide.marketData.validationPoints.map((point, index) => (
+              <div key={index} className="p-4 bg-muted/50 rounded-lg">
+                <div className="flex items-start gap-3 mb-2">
+                  <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0" />
+                  <h4 className="font-semibold text-sm text-primary">{point.category}</h4>
+                </div>
+                <p className="text-base font-medium mb-1">{point.data}</p>
+                <p className="text-sm text-muted-foreground">{point.insight}</p>
               </div>
             ))}
           </div>
