@@ -6,7 +6,7 @@ interface PlatformDifferentiationSlideProps {
   slide: {
     title: string;
     subtitle: string;
-    icon: React.ReactNode;
+    icon: React.ComponentType<any>;
     differentiation: {
       challenge: string;
       redditXIssues: string[];
@@ -28,7 +28,7 @@ export const PlatformDifferentiationSlideV2: React.FC<PlatformDifferentiationSli
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex justify-center mb-4">
-          {slide.icon}
+          {React.createElement(slide.icon, { className: "h-12 w-12 text-primary" })}
         </div>
         <h1 className="text-4xl font-bold text-foreground">{slide.title}</h1>
         <p className="text-xl text-muted-foreground max-w-4xl mx-auto">{slide.subtitle}</p>
