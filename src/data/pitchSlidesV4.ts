@@ -391,32 +391,28 @@ export const pitchSlidesV4 = [
     icon: AlertTriangle,
     risks: [
       {
-        category: 'Market Risk',
+        risk: 'Market Risk',
+        severity: 'High' as const,
         description: 'Regulatory changes in fintech space',
-        mitigation: 'Strong compliance team and proactive regulatory engagement',
-        probability: 'Medium',
-        impact: 'High'
+        mitigation: ['Strong compliance team and proactive regulatory engagement', 'Regular engagement with regulatory bodies', 'Flexible platform architecture for compliance changes']
       },
       {
-        category: 'Competition Risk',
+        risk: 'Competition Risk', 
+        severity: 'High' as const,
         description: 'Big tech companies entering the space',
-        mitigation: 'Focus on specialized AI + community moat, faster execution',
-        probability: 'High',
-        impact: 'Medium'
+        mitigation: ['Focus on specialized AI + community moat', 'Faster execution and product iteration', 'Deep India-specific market knowledge']
       },
       {
-        category: 'Technology Risk',
+        risk: 'Technology Risk',
+        severity: 'Medium' as const,
         description: 'AI model accuracy and data quality',
-        mitigation: 'Human validation layer, continuous model improvement',
-        probability: 'Medium',
-        impact: 'Medium'
+        mitigation: ['Human validation layer for all AI outputs', 'Continuous model improvement and retraining', 'Multi-source data validation']
       },
       {
-        category: 'User Acquisition Risk',
+        risk: 'User Acquisition Risk',
+        severity: 'Medium' as const,
         description: 'High customer acquisition costs',
-        mitigation: 'Product-led growth strategy, viral community features',
-        probability: 'Medium',
-        impact: 'High'
+        mitigation: ['Product-led growth strategy', 'Viral community features and referrals', 'Strategic partnerships for user acquisition']
       }
     ]
   },
