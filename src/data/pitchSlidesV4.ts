@@ -474,27 +474,33 @@ export const pitchSlidesV4 = [
     },
     allocation: [
       {
-        percentage: '40%',
-        category: 'Product Development',
-        description: 'AI platform development, mobile apps, core features'
+        percentage: '50%',
+        category: 'User Acquisition',
+        description: 'Marketing campaigns, partnerships, and growth initiatives'
       },
       {
-        percentage: '35%',
-        category: 'Team Building',
-        description: 'Engineering, AI specialists, community managers'
+        percentage: '30%',
+        category: 'Tech + Product',
+        description: 'AI development, platform enhancement, and new features'
       },
       {
-        percentage: '25%',
-        category: 'Marketing & Growth',
-        description: 'User acquisition, community building, partnerships'
+        percentage: '10%',
+        category: 'Infrastructure',
+        description: 'Scaling cloud infrastructure and technical operations'
+      },
+      {
+        percentage: '5%',
+        category: 'Compliance',
+        description: 'Regulatory compliance and legal requirements'
+      },
+      {
+        percentage: '5%',
+        category: 'Admin + Office + Buffer',
+        description: 'Operations, office setup, and contingency buffer'
       }
     ],
     keyMilestones: [
-      'Reach 100K+ verified users',
-      'Build core AI recommendation engine',
-      'Establish expert community of 1000+ contributors',
-      'Achieve product-market fit metrics',
-      'Series A fundraising readiness'
+      '1 million users by 12th month'
     ],
     competitiveContext: {
       title: 'Market Validation',
