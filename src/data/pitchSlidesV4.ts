@@ -431,6 +431,129 @@ export const pitchSlidesV4 = [
     ],
     totalTAM: '₹60,000 Cr addressable market from 25M target users',
     keyInsight: 'These users are not beginners - they\'re actively investing but frustrated with fragmented experiences. They want intelligence, not just tracking. DISCVR.AI transforms their existing financial chaos into organized, actionable wealth-building system.'
+  },
+  {
+    id: 10,
+    type: 'risks',
+    title: 'Key Risks & Mitigation',
+    subtitle: 'Proactive Risk Management',
+    icon: AlertTriangle,
+    keyRisks: [
+      {
+        risk: 'Big Tech Entry',
+        mitigation: 'Specialized domain expertise vs generalist approach',
+        timeline: '12-24 months'
+      },
+      {
+        risk: 'Regulatory Changes',
+        mitigation: 'Built on government-backed AA framework',
+        timeline: 'Ongoing'
+      },
+      {
+        risk: 'CAC Inflation',
+        mitigation: 'Community-driven organic growth + referral network',
+        timeline: 'Continuous optimization'
+      }
+    ],
+    strengths: [
+      'Government-backed infrastructure reduces regulatory risk',
+      'First-mover advantage in AI + community validation',
+      'Multiple revenue streams reduce single-point-of-failure'
+    ]
+  },
+  {
+    id: 11,
+    type: 'team',
+    title: 'Execution-Ready Leadership Team',
+    subtitle: 'Proven Track Record in Scale & AI/ML',
+    icon: Trophy,
+    team: [
+      {
+        name: 'Shubham Srivastava',
+        role: 'CEO & Co-Founder',
+        background: [
+          'Scale Expert: Built platforms serving 100M+ users',
+          'AI/ML Pioneer: Implemented ML at MakeMyTrip and HT',
+          'Leadership: IIT Dhanbad, scaled multiple divisions'
+        ],
+        experience: '150+ team member management, 20% cost optimization'
+      },
+      {
+        name: 'Chief Growth Officer',
+        role: 'Growth & Strategy',
+        background: [
+          '19+ years experience',
+          'Founded and scaled a ₹100Cr+ business in 3 years',
+          'MBA from SPJAIN, B2C consumer tech growth expertise'
+        ],
+        experience: 'Growth Strategy & P&L Leadership of ₹1000Cr+'
+      },
+      {
+        name: 'Chief Product Officer',
+        role: 'Product & AI Strategy',
+        background: [
+          '19+ years strategic product & AI leader',
+          'Scaled products to 200M+ MAU',
+          'IIT Kanpur (AIR 22) + ISB MBA, Author of 2 AI books'
+        ],
+        experience: 'Ex-Microsoft, Ex-BigTech VP'
+      }
+    ],
+    keyStrengths: [
+      'Combined 50+ years experience in scaling tech platforms',
+      'Proven track record in AI/ML implementation at scale',
+      'Deep domain expertise in financial services and user growth'
+    ]
+  },
+  {
+    id: 12,
+    type: 'funding',
+    title: 'Seed Funding Ask: ₹15 Crores',
+    subtitle: '18-Month Runway to Product-Market Fit & 1M Users',
+    icon: DollarSign,
+    fundingDetails: {
+      amount: '₹15 Crores',
+      runway: '18 months',
+      stage: 'Seed Round',
+      useOfFunds: [
+        {
+          category: 'Product Development',
+          percentage: '40%',
+          amount: '₹6 Cr',
+          details: 'AI engine, mobile app, platform integrations'
+        },
+        {
+          category: 'Team Building',
+          percentage: '30%',
+          amount: '₹4.5 Cr',
+          details: 'Engineering, AI/ML, growth, and community teams'
+        },
+        {
+          category: 'User Acquisition',
+          percentage: '20%',
+          amount: '₹3 Cr',
+          details: 'College partnerships, expert community, marketing'
+        },
+        {
+          category: 'Operations & Legal',
+          percentage: '10%',
+          amount: '₹1.5 Cr',
+          details: 'Compliance, infrastructure, working capital'
+        }
+      ],
+      keyMilestones: [
+        '1M+ registered users by Month 15',
+        '200+ validated financial experts in community',
+        'Product-market fit with 40%+ retention',
+        'Series A readiness with clear unit economics'
+      ]
+    },
+    investorValue: [
+      'Massive TAM: ₹60,000 Cr addressable market',
+      'First-mover advantage in AI + community validation',
+      'Government-backed infrastructure reduces risk',
+      'Experienced team with proven scale track record'
+    ]
   }
 ];
 
