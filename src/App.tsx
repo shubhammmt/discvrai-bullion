@@ -55,6 +55,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
 import NewsHub from './pages/NewsHub';
+import EngineerShowcase from './pages/EngineerShowcase';
 
 const queryClient = new QueryClient();
 
@@ -115,6 +116,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/data-deletion-policy" element={<DataDeletionPolicy />} />
           <Route path="/news-hub" element={<NewsHub />} />
+          <Route path="/engineer-showcase" element={<EngineerShowcase />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
