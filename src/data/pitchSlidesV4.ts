@@ -429,23 +429,13 @@ export const pitchSlidesV4 = [
     team: [
       {
         name: 'Founder 1',
-        role: 'Co-Founder & CEO',
+        role: 'Founder & CEO',
         background: [
           'Previous fintech startup experience',
           'Deep understanding of Indian financial markets',
           'Product management background'
         ],
         experience: '8+ years in fintech and product development'
-      },
-      {
-        name: 'Founder 2', 
-        role: 'Co-Founder & CTO',
-        background: [
-          'AI/ML engineering expertise',
-          'Previous startup technical leadership',
-          'Scalable systems architecture'
-        ],
-        experience: '10+ years in AI/ML and engineering leadership'
       }
     ],
     advisors: [
