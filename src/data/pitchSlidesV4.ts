@@ -385,170 +385,125 @@ export const pitchSlidesV4 = [
   },
   {
     id: 9,
-    type: 'target-persona',
-    title: 'Target Persona: India\'s Emerging Wealth Builders',
-    subtitle: 'Young Professionals Ready for Smart Financial Management',
-    icon: Target,
-    personas: [
-      {
-        title: 'Digital-Native Investors',
-        size: '25M potential users',
-        profile: 'Tech-savvy professionals seeking financial growth',
-        demographics: {
-          age: '25-40 years',
-          income: '6+ LPA',
-          investableAssets: '₹50K+ (Equity/Fixed)',
-          monthlyInvestable: '₹10K+',
-          location: 'Tier 1 & 2 cities'
-        },
-        keyBehaviors: [
-          'Active on multiple financial apps (5-7 on average)',
-          'Monthly SIP investments but lacks portfolio view',
-          'Credit card heavy users seeking payment optimization',
-          'Research-oriented but overwhelmed by information',
-          'Mobile-first approach to financial management'
-        ],
-        painPoints: [
-          'Finding the right investment instruments among 1000s of options',
-          'Getting meaningful analysis of existing portfolio performance',
-          'No simple way to ask direct questions about investments',
-          'Difficulty assessing if properly covered across asset classes',
-          'Manual tracking of CC payments and SIP schedules',
-          'Fragmented experience across 5+ financial apps'
-        ],
-        productNeed: 'AI-powered unified platform that consolidates, analyzes, and provides actionable insights with conversational interface',
-        revenue: '₹2,400 annual revenue potential per user',
-        gtmApproach: 'Social media financial education → App download → Portfolio aggregation → AI insights → Product recommendations',
-        howDiscvrSolves: [
-          '🎯 AI-Powered Instrument Discovery: Our recommendation engine analyzes your profile, goals, and market data to suggest optimal investment instruments from our comprehensive universe',
-          '📊 Real-time Portfolio Intelligence: Aggregate all investments via Account Aggregator APIs and get AI-driven performance analysis, risk assessment, and rebalancing suggestions',
-          '💬 Conversational Financial AI: Ask direct questions like "Should I buy HDFC Bank?" or "Is my portfolio diversified?" and get personalized, data-backed answers',
-          '🛡️ Coverage Analysis Dashboard: Visual representation of your financial protection gaps across life insurance, health, investments with automated recommendations',
-          '💳 Smart Payment Automation: Integrated bill payments, SIP scheduling, and CC payment optimization with spending insights and alerts',
-          '🔄 Unified Financial Hub: Single platform replacing 5-7 apps with seamless execution capabilities across stocks, mutual funds, insurance, and payments'
-        ]
-      }
-    ],
-    totalTAM: '₹60,000 Cr addressable market from 25M target users',
-    keyInsight: 'These users are not beginners - they\'re actively investing but frustrated with fragmented experiences. They want intelligence, not just tracking. DISCVR.AI transforms their existing financial chaos into organized, actionable wealth-building system.'
-  },
-  {
-    id: 10,
     type: 'risks',
-    title: 'Key Risks & Mitigation',
-    subtitle: 'Proactive Risk Management',
+    title: 'Risks & Mitigation',
+    subtitle: 'Proactive Risk Management Strategy',
     icon: AlertTriangle,
     risks: [
       {
-        risk: 'Big Tech Entry',
-        severity: 'High',
-        description: 'Large tech companies (PhonePe, Google Pay) entering wealth management space',
-        mitigation: [
-          'Specialized domain expertise vs generalist approach',
-          'First-mover advantage in AI + AA combination',
-          'Focus on mass market vs premium segments'
-        ]
+        category: 'Market Risk',
+        description: 'Regulatory changes in fintech space',
+        mitigation: 'Strong compliance team and proactive regulatory engagement',
+        probability: 'Medium',
+        impact: 'High'
       },
       {
-        risk: 'Regulatory Changes',
-        severity: 'Medium',
-        description: 'Potential changes in Account Aggregator framework or data regulations',
-        mitigation: [
-          'Built on government-backed AA framework',
-          'Proactive compliance team and legal advisory',
-          'Multiple data sources beyond AA framework'
-        ]
+        category: 'Competition Risk',
+        description: 'Big tech companies entering the space',
+        mitigation: 'Focus on specialized AI + community moat, faster execution',
+        probability: 'High',
+        impact: 'Medium'
       },
       {
-        risk: 'CAC Inflation',
-        severity: 'Medium',
-        description: 'Rising customer acquisition costs in competitive fintech market',
-        mitigation: [
-          'Community-driven organic growth + referral network',
-          'Product-led growth strategy',
-          'Diversified acquisition channels'
-        ]
+        category: 'Technology Risk',
+        description: 'AI model accuracy and data quality',
+        mitigation: 'Human validation layer, continuous model improvement',
+        probability: 'Medium',
+        impact: 'Medium'
+      },
+      {
+        category: 'User Acquisition Risk',
+        description: 'High customer acquisition costs',
+        mitigation: 'Product-led growth strategy, viral community features',
+        probability: 'Medium',
+        impact: 'High'
+      }
+    ]
+  },
+  {
+    id: 10,
+    type: 'team',
+    title: 'Team',
+    subtitle: 'Experienced Founders + Strategic Advisors',
+    icon: Users,
+    team: [
+      {
+        name: 'Founder 1',
+        role: 'Co-Founder & CEO',
+        background: [
+          'Previous fintech startup experience',
+          'Deep understanding of Indian financial markets',
+          'Product management background'
+        ],
+        experience: '8+ years in fintech and product development'
+      },
+      {
+        name: 'Founder 2', 
+        role: 'Co-Founder & CTO',
+        background: [
+          'AI/ML engineering expertise',
+          'Previous startup technical leadership',
+          'Scalable systems architecture'
+        ],
+        experience: '10+ years in AI/ML and engineering leadership'
+      }
+    ],
+    advisors: [
+      {
+        name: 'Advisory Team',
+        role: 'Strategic Advisors',
+        background: [
+          'CPO - Former product leader at major fintech',
+          'Growth Officer - Marketing and user acquisition expert',
+          'Financial Industry Expert - Regulatory and compliance guidance'
+        ],
+        experience: 'Combined 25+ years in fintech, product, and growth'
       }
     ]
   },
   {
     id: 11,
-    type: 'team',
-    title: 'Execution-Ready Leadership Team',
-    subtitle: 'Proven Track Record in Scale & AI/ML',
-    icon: Trophy,
-    team: [
-      {
-        name: 'Shubham Srivastava',
-        role: 'CEO & Co-Founder',
-        background: [
-          'Scale Expert: Built platforms serving 100M+ users',
-          'AI/ML Pioneer: Implemented ML at MakeMyTrip and HT',
-          'Leadership: IIT Dhanbad, scaled multiple divisions'
-        ],
-        experience: '150+ team member management, 20% cost optimization'
-      },
-      {
-        name: 'Chief Growth Officer',
-        role: 'Growth & Strategy',
-        background: [
-          '19+ years experience',
-          'Founded and scaled a ₹100Cr+ business in 3 years',
-          'MBA from SPJAIN, B2C consumer tech growth expertise'
-        ],
-        experience: 'Growth Strategy & P&L Leadership of ₹1000Cr+'
-      },
-      {
-        name: 'Chief Product Officer',
-        role: 'Product & AI Strategy',
-        background: [
-          '19+ years strategic product & AI leader',
-          'Scaled products to 200M+ MAU',
-          'IIT Kanpur (AIR 22) + ISB MBA, Author of 2 AI books'
-        ],
-        experience: 'Ex-Microsoft, Ex-BigTech VP'
-      }
-    ]
-  },
-  {
-    id: 12,
     type: 'funding',
-    title: 'Seed Funding Ask: ₹15 Crores',
-    subtitle: '18-Month Runway to Product-Market Fit & 1M Users',
+    title: 'Seed Ask: $1.5M USD (~₹13 Crores)',
+    subtitle: '18-Month Runway to Series A Readiness',
     icon: DollarSign,
+    fundDetails: {
+      raiseAmount: '$1.5M USD (~₹13 Cr)',
+      timeline: '18 months runway',
+      valuation: 'Pre-money valuation discussion'
+    },
     allocation: [
       {
         percentage: '40%',
         category: 'Product Development',
-        description: 'AI engine, mobile app, platform integrations'
+        description: 'AI platform development, mobile apps, core features'
       },
       {
-        percentage: '30%',
+        percentage: '35%',
         category: 'Team Building',
-        description: 'Engineering, AI/ML, growth, and community teams'
+        description: 'Engineering, AI specialists, community managers'
       },
       {
-        percentage: '20%',
-        category: 'User Acquisition',
-        description: 'College partnerships, expert community, marketing'
-      },
-      {
-        percentage: '10%',
-        category: 'Operations & Legal',
-        description: 'Compliance, infrastructure, working capital'
+        percentage: '25%',
+        category: 'Marketing & Growth',
+        description: 'User acquisition, community building, partnerships'
       }
     ],
-    fundDetails: {
-      raiseAmount: '₹15 Crores (1.5M USD)',
-      timeline: '18 months',
-      valuation: 'Pre-money valuation discussion'
-    },
     keyMilestones: [
-      '1M+ registered users by Month 15',
-      '200+ validated financial experts in community',
-      'Product-market fit with 40%+ retention',
-      'Series A readiness with clear unit economics'
-    ]
+      'Reach 100K+ verified users',
+      'Build core AI recommendation engine',
+      'Establish expert community of 1000+ contributors',
+      'Achieve product-market fit metrics',
+      'Series A fundraising readiness'
+    ],
+    competitiveContext: {
+      title: 'Market Validation',
+      examples: [
+        'Cred raised $200M+ with strong user engagement model',
+        'Groww achieved unicorn status with investment platform',
+        'Zerodha built profitable fintech with community focus'
+      ]
+    }
   }
 ];
 

@@ -13,6 +13,12 @@ interface TeamSlideProps {
       background?: string[];
       experience: string;
     }>;
+    advisors?: Array<{
+      name: string;
+      role: string;
+      background?: string[];
+      experience: string;
+    }>;
     executionStrategy?: {
       title: string;
       initiatives: Array<{
@@ -39,6 +45,7 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
       {/* Team Members */}
       {slide.team && slide.team.length > 0 && (
         <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Core Team</h3>
           {slide.team.map((member, index) => (
             <Card key={index} className="p-6">
               <CardContent>
@@ -58,6 +65,37 @@ export const TeamSlide: React.FC<TeamSlideProps> = ({ slide }) => {
                       ))}
                     </div>
                     <p className="text-sm text-gray-600 italic">{member.experience}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Advisors */}
+      {slide.advisors && slide.advisors.length > 0 && (
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Strategic Advisors</h3>
+          {slide.advisors.map((advisor, index) => (
+            <Card key={index} className="p-6 bg-gray-50">
+              <CardContent>
+                <div className="flex items-start gap-6">
+                  <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    {advisor.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-gray-900">{advisor.name}</h3>
+                    <p className="text-gray-600 font-semibold mb-3">{advisor.role}</p>
+                    <div className="space-y-2 mb-3">
+                      {advisor.background && advisor.background.map((bg, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
+                          <p className="text-sm text-gray-700">{bg}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-600 italic">{advisor.experience}</p>
                   </div>
                 </div>
               </CardContent>
