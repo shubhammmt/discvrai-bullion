@@ -6,11 +6,11 @@ interface CredibleInformationCrisisSlideProps {
   slide: {
     title: string;
     subtitle: string;
-    icon: React.ReactNode;
+    icon: React.ComponentType<any>;
     marketData: {
       hook: string;
       scale: string;
-      coreProblemlm: string;
+      coreProblem: string;
       painPoints: string[];
       marketEvidence: string;
       emotionalImpact: string;
@@ -24,7 +24,7 @@ export const CredibleInformationCrisisSlideV2: React.FC<CredibleInformationCrisi
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex justify-center mb-4">
-          {slide.icon}
+          {React.createElement(slide.icon, { className: "h-12 w-12 text-primary" })}
         </div>
         <h1 className="text-4xl font-bold text-foreground">{slide.title}</h1>
         <p className="text-xl text-muted-foreground max-w-4xl mx-auto">{slide.subtitle}</p>
@@ -62,7 +62,7 @@ export const CredibleInformationCrisisSlideV2: React.FC<CredibleInformationCrisi
             <AlertTriangle className="h-8 w-8 text-yellow-500" />
             <h3 className="text-2xl font-bold">The Root Cause</h3>
           </div>
-          <p className="text-xl font-semibold text-center mb-6">{slide.marketData.coreProblemlm}</p>
+          <p className="text-xl font-semibold text-center mb-6">{slide.marketData.coreProblem}</p>
           
           {/* Pain Points Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -173,7 +173,7 @@ export const pitchSlidesV4 = [
     marketData: {
       hook: '93% of retail traders lost money in F&O trading (SEBI 2024)',
       scale: '1.1 crore traders lost ₹1.8 lakh crore in 3 years (2022-2024)',
-      coreProblemlm: 'Information overload without credibility validation',
+      coreProblem: 'Information overload without credibility validation',
       painPoints: [
         'Finfluencer misinformation crisis (SEBI crackdowns on unregistered advisors)',
         '40-60% decline in brand deals due to regulatory scrutiny',
@@ -1181,9 +1181,9 @@ export const pitchSlidesV4 = [
           description: 'Share wins, portfolio performance, learnings',
           outcome: 'Viral referrals'
         }
-    ]
-  },
-  // === APPENDIX SLIDES ===
+      ]
+    }
+  }
 ];
 
 // Appendix Slides - Supporting Details
