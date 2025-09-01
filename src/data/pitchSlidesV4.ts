@@ -113,10 +113,10 @@ export const pitchSlidesV4 = [
         description: 'Our serviceable obtainable market - 10% of SAM',
         calculation: '24M premium users seeking unified financial platform',
         growthTrajectory: [
-          { year: 'Year 1', users: '3M', strategy: 'Social + SEO + Performance Marketing' },
-          { year: 'Year 2', users: '7M', strategy: 'Scaled marketing channels + word-of-mouth' },
-          { year: 'Year 3', users: '12M', strategy: 'Marketing optimization + early PLG signals' },
-          { year: 'Year 4', users: '18M', strategy: 'Product-led growth + user referrals' },
+          { year: 'Year 1', users: '1M', strategy: 'Social + SEO + Performance Marketing' },
+          { year: 'Year 2', users: '4M', strategy: 'Scaled marketing channels + word-of-mouth' },
+          { year: 'Year 3', users: '10M', strategy: 'Marketing optimization + early PLG signals' },
+          { year: 'Year 4', users: '16M', strategy: 'Product-led growth + user referrals' },
           { year: 'Year 5', users: '24M', strategy: 'Viral PLG + repeat user expansion' }
         ],
         strategyPhases: [
@@ -171,17 +171,33 @@ export const pitchSlidesV4 = [
     subtitle: 'The Credible Information Crisis in Financial Decision Making',
     icon: AlertTriangle,
     marketData: {
-      hook: '93% of retail traders lost money in F&O trading (SEBI 2024)',
+      hook: 'Multiple data points validate the massive need for credible financial guidance',
       scale: '1.1 crore traders lost ₹1.8 lakh crore in 3 years (2022-2024)',
-      coreProblem: 'Information overload without credibility validation',
-      painPoints: [
-        'Finfluencer misinformation crisis (SEBI crackdowns on unregistered advisors)',
-        '40-60% decline in brand deals due to regulatory scrutiny',
-        'Social media tips leading to "guaranteed profits" scams',
-        'No way to verify quality of financial advice before acting'
+      coreProblem: 'Massive demand for financial guidance but severe supply shortage',
+      validationPoints: [
+        {
+          category: 'F&O Trading Losses',
+          data: '93% of retail traders lost money (SEBI 2024)',
+          insight: 'Massive appetite for trading, but lacking proper guidance'
+        },
+        {
+          category: 'Advisor Supply Crisis', 
+          data: 'Only <1,000 SEBI-registered RIAs for 300M+ potential users',
+          insight: 'Extreme shortage of qualified financial advisors'
+        },
+        {
+          category: 'Finfluencer Crisis',
+          data: '40-60% decline in brand deals due to SEBI regulatory scrutiny',
+          insight: 'Current influencer model is unsustainable and unreliable'
+        },
+        {
+          category: 'DIY Investment Growth',
+          data: '70M+ users on direct investment platforms (Groww, Zerodha)',
+          insight: 'Users want to self-invest but need guidance and validation'
+        }
       ],
-      marketEvidence: 'Average loss of ₹2 lakh per retail trader',
-      emotionalImpact: 'Indians trust blindly because they have no choice'
+      marketEvidence: 'High demand + extreme supply shortage = massive market opportunity',
+      emotionalImpact: 'Indians are financially ambitious but guidance-starved'
     }
   },
   {
