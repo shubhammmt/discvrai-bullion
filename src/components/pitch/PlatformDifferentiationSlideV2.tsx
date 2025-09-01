@@ -144,3 +144,4 @@ export const PlatformDifferentiationSlideV2: React.FC<PlatformDifferentiationSli
     </div>
   );
 };
+

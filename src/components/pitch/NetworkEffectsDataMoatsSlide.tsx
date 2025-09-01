@@ -129,3 +129,4 @@ export const NetworkEffectsDataMoatsSlide: React.FC<NetworkEffectsDataMoatsSlide
     </div>
   );
 };
+
