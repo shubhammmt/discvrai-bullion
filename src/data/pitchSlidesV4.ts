@@ -431,758 +431,6 @@ export const pitchSlidesV4 = [
     ],
     totalTAM: '₹60,000 Cr addressable market from 25M target users',
     keyInsight: 'These users are not beginners - they\'re actively investing but frustrated with fragmented experiences. They want intelligence, not just tracking. DISCVR.AI transforms their existing financial chaos into organized, actionable wealth-building system.'
-  },
-  {
-    id: 10,
-    type: 'platform-architecture',
-    title: 'Complete Financial Platform Stack',
-    subtitle: 'AI-Driven Architecture for 200M+ Users',
-    icon: Building2,
-    platformLayers: {
-      distribution: {
-        title: '1. Distribution',
-        channels: ['Product Led Growth Loop', 'Social Media', 'Google']
-      },
-      channels: {
-        title: '2. Channels', 
-        items: ['App', 'Web', 'WhatsApp', 'Telegram']
-      },
-      monetization: {
-        title: '3. Monetization',
-        streams: ['ADs', 'Commissions', 'Subscription', 'Transaction']
-      },
-      hooks: {
-        title: '4. Hooks',
-        items: ['Gamification', 'Timely Nudge/Communication']
-      },
-      useCases: {
-        title: '5. Use Cases',
-        cases: [
-          'Protection Planning',
-          'Portfolio Analysis', 
-          'Spend Analytics',
-          'Debt Management',
-          'Goal Oriented Planning'
-        ]
-      },
-      insights: {
-        title: '6. Insights',
-        description: 'AI powered intelligence layer'
-      },
-      dynamicParams: {
-        title: '7. Dynamic Params',
-        parameters: ['Market Data', 'News', 'Taxation', 'Govt Policies', 'Regulations']
-      },
-      products: {
-        title: '8. Products',
-        categories: [
-          'Stocks', 'Mutual Funds', 'IPOs', 'Bonds/FDs', 'Gold',
-          'EPF/PPF/NPS', 'Crypto', 'Loans', 'Insurance', 'Real Estate'
-        ]
-      },
-      userdata: {
-        title: '9. UserData',
-        description: 'Universal Aggregation Engine – User Financial Data'
-      }
-    }
-  },
-  {
-    id: 11,
-    type: 'aa-validation',
-    title: 'Account Aggregator: Explosive Growth Validates Market Need',
-    subtitle: 'India\'s Fastest Growing Open Finance Network Proves Portfolio Consolidation Demand',
-    icon: Link,
-    validationData: {
-      headline: 'World\'s Fastest Growing Open Finance Network - 1059% Growth in FY24',
-      keyMetrics: [
-        {
-          metric: 'Total Consents',
-          value: '120M+',
-          growth: '17% MoM Growth',
-          icon: Users
-        },
-        {
-          metric: 'Unique Users',
-          value: '80-90M',
-          growth: 'Given Consent',
-          icon: Target
-        },
-        {
-          metric: 'Disbursals H1 FY25',
-          value: '₹74,500 Cr',
-          growth: '12% Monthly Growth',
-          icon: DollarSign
-        },
-        {
-          metric: 'Growth Rate FY24',
-          value: '1059%',
-          growth: 'Fastest Globally',
-          icon: TrendingUp
-        }
-      ],
-      marketValidation: [
-        {
-          point: 'Regulatory Infrastructure Ready',
-          impact: 'RBI-backed framework with 8 live Account Aggregators providing secure data sharing'
-        },
-        {
-          point: 'Mass Adoption Proven', 
-          impact: '80-90M users have willingly shared financial data - proving trust and demand for consolidation'
-        },
-        {
-          point: 'Financial Institution Buy-in',
-          impact: 'Banks, NBFCs, and digital lenders collectively disbursed ₹74,500 Cr via AA in just 6 months'
-        },
-        {
-          point: 'Explosive Growth Trajectory',
-          impact: '17% month-on-month growth indicates strong consumer pull for unified financial experiences'
-        },
-        {
-          point: 'Global Leadership Position',
-          impact: 'India leads the world in Open Finance adoption, creating first-mover advantage for comprehensive solutions'
-        },
-        {
-          point: 'Untapped Intelligence Layer',
-          impact: 'While infrastructure exists, no player offers AI-powered insights + action platform on top of AA data'
-        }
-      ],
-      businessCase: {
-        title: 'Perfect Storm: Infrastructure + Demand + Unmet Intelligence Need',
-        points: [
-          'AA infrastructure solves data aggregation - we add the intelligence layer',
-          '80M+ users already comfortable sharing financial data = reduced user acquisition friction',
-          'Proven willingness to pay: ₹74,500 Cr disbursals show users act on financial recommendations',
-          'Market gap: No comprehensive AI-powered portfolio intelligence platform exists on AA framework',
-          'First-mover advantage in AI layer while competition focuses on basic aggregation',
-          'Government backing + regulatory clarity reduces platform risk significantly'
-        ]
-      }
-    }
-  },
-  {
-    id: 12,
-    type: 'competitive-landscape',
-    title: 'Competitive Landscape & Our Moats',
-    subtitle: 'Clear Differentiation in Crowded Market',
-    icon: Shield,
-    competitorAnalysis: {
-      directCompetitors: [
-        {
-          name: 'Groww',
-          strengths: ['Market leader: 13.1M users', '₹4,056 Cr revenue (FY25)', '$7B valuation'],
-          weaknesses: ['Investment-focused only', 'No comprehensive financial planning', 'Limited AI insights'],
-          marketShare: '13.1M users',
-          arpu: '₹3,224/year'
-        },
-        {
-          name: 'Zerodha',
-          strengths: ['High ARPU: ₹12,000', '₹9,300 Cr revenue (FY24)', 'Advanced trading platform'],
-          weaknesses: ['Trader-focused, not mass market', 'No family portfolio management', 'Limited aggregation'],
-          marketShare: '7.6M users', 
-          arpu: '₹12,000/year'
-        },
-        {
-          name: 'Upstox',
-          strengths: ['Growing user base: 2.6M users', '₹1,311 Cr revenue', 'Active trader focus'],
-          weaknesses: ['Smaller scale', 'Investment-only platform', 'No comprehensive insights'],
-          marketShare: '2.6M users',
-          arpu: '₹5,101/year'
-        },
-        {
-          name: 'CRED',
-          strengths: ['13M MAU', '₹2,473 Cr revenue (FY24)', 'Strong brand recognition'],
-          weaknesses: ['Credit-focused only', 'No wealth management', 'Limited financial planning'],
-          marketShare: '13M users',
-          arpu: '₹1,966/year'
-        }
-      ],
-      indirectCompetitors: [
-        {
-          name: 'INDmoney',
-          threat: 'Portfolio tracking capabilities',
-          weakness: 'Limited AI insights, complex UI, investment-focused'
-        },
-        {
-          name: 'ET Money',
-          threat: 'Mutual fund platform with insurance',
-          weakness: 'No real-time aggregation, limited analytics'
-        },
-        {
-          name: 'PhonePe/Google Pay',
-          threat: 'Big tech expansion into financial services',
-          weakness: 'Generalist approach vs specialized domain expertise'
-        }
-      ],
-      bigTechThreats: [
-        {
-          name: 'PhonePe',
-          threat: 'Entering wealth management via acquisition',
-          timeline: '12-18 months',
-          mitigation: 'Specialized focus vs generalist approach'
-        },
-        {
-          name: 'Google Pay',
-          threat: 'Financial services expansion',
-          timeline: '18-24 months',
-          mitigation: 'Domain expertise and AI-first approach'
-        }
-      ]
-    },
-    ourMoats: {
-      shortTerm: [
-        'AI-First Architecture: Personalized insights from day one',
-        'Comprehensive Coverage: All financial products vs investment-only',
-        'Mass Market Focus: Affordable AI-powered financial intelligence for everyone',
-        'Family Portfolio Management: Unique capability in market'
-      ],
-      mediumTerm: [
-        'Data Network Effects: Better insights with more users',
-        'Account Aggregator Leadership: First-mover in AA-powered solutions',
-        'B2B Partnership Ecosystem: Execution capability across platforms',
-        'AI Model Superiority: Continuously improving recommendations'
-      ],
-      longTerm: [
-        'Behavioral Data Moat: Understanding of financial decision patterns',
-        'Platform Ecosystem: All financial services in one place',
-        'Brand Trust: Financial intelligence authority for mass market',
-        'Regulatory Relationships: Deep integration with compliance framework'
-      ]
-    },
-    competitiveAdvantages: [
-      'Only AI-powered comprehensive platform for mass market',
-      'First-mover advantage in AA framework + AI combination',
-      'Domain expertise vs generalist big tech players',
-      'Execution focus vs feature-heavy complex solutions'
-    ]
-  },
-  {
-    id: 13,
-    type: 'risk-analysis',
-    title: 'Risk Analysis & Mitigation',
-    subtitle: 'Proactive Risk Management Strategy',
-    icon: AlertTriangle,
-    risks: [
-      {
-        risk: 'Regulatory Changes',
-        severity: 'Medium',
-        probability: 'Low',
-        impact: 'Could affect data aggregation permissions',
-        mitigation: [
-          'Built on government-backed AA framework',
-          'Proactive compliance team and legal advisory',
-          'Multiple data sources beyond AA framework',
-          'Strong relationships with regulatory bodies'
-        ],
-        timeline: 'Ongoing monitoring'
-      },
-      {
-        risk: 'Data Security Breach',
-        severity: 'High',
-        probability: 'Low',
-        impact: 'Loss of user trust and potential legal issues',
-        mitigation: [
-          'Bank-grade security infrastructure',
-          'Regular security audits and penetration testing',
-          'Compliance with RBI data protection guidelines',
-          'Cyber insurance and incident response plan'
-        ],
-        timeline: 'Continuous investment'
-      },
-      {
-        risk: 'Big Tech Entry',
-        severity: 'High',
-        probability: 'Medium',
-        impact: 'Competitive pressure and CAC inflation',
-        mitigation: [
-          'Specialized domain expertise vs generalist approach',
-          'First-mover advantage in AI + AA combination',
-          'Strong user acquisition before big tech entry',
-          'Focus on mass market vs premium segments'
-        ],
-        timeline: '12-24 months window'
-      },
-      {
-        risk: 'CAC Inflation',
-        severity: 'Medium',
-        probability: 'Medium',
-        impact: 'Reduced unit economics and growth challenges',
-        mitigation: [
-          'Diversified acquisition channels',
-          'Strong referral program and network effects',
-          'Product-led growth and organic acquisition',
-          'Efficient targeting using AI and data analytics'
-        ],
-        timeline: 'Ongoing optimization'
-      },
-      {
-        risk: 'Market Downturn',
-        severity: 'Medium',
-        probability: 'Medium',
-        impact: 'Reduced user engagement and subscription rates',
-        mitigation: [
-          'Focus on financial planning during uncertainty',
-          'Freemium model to maintain user base',
-          'Diversified revenue streams beyond subscriptions',
-          'Counter-cyclical value proposition (portfolio protection)'
-        ],
-        timeline: 'Economic cycle management'
-      }
-    ],
-    overallRiskProfile: 'Moderate risk with strong mitigation strategies and first-mover advantages',
-    keyStrengths: [
-      'Government-backed infrastructure reduces regulatory risk',
-      'Specialized focus provides competitive protection',
-      'Multiple revenue streams reduce single-point-of-failure',
-      'Strong team experience in scaling platforms'
-    ]
-  },
-  {
-    id: 11,
-    type: 'team',
-    title: 'Execution-Ready Leadership Team',
-    subtitle: 'Proven Track Record in Scale & AI/ML',
-    icon: Trophy,
-    team: [
-      {
-        name: 'Shubham Srivastava',
-        role: 'CEO & Co-Founder',
-        background: [
-          'Scale Expert: Built platforms serving 100M+ users',
-          'AI/ML Pioneer: Implemented ML at MakeMyTrip and HT',
-          'Leadership: IIT Dhanbad, scaled multiple divisions'
-        ],
-        experience: '150+ team member management, 20% cost optimization'
-      },
-      {
-        name: 'Chief Growth Officer',
-        role: 'Growth & Strategy',
-        background: ['19+ years experience', 'Founded and scaled a ₹100Cr+ business in 3 years | Led P&L ownership of ₹1000Cr+', 'MBA from SPJAIN', 'B2C consumer tech growth expertise'],
-        experience: 'Growth Strategy & P&L Leadership'
-      },
-      {
-        name: 'Chief Product Officer',
-        role: 'Product & AI Strategy',
-        background: ['19+ years strategic product & AI leader', 'Scaled products to 200M+ MAU', 'GenAI/ML: 80%+ churn prediction accuracy', 'IIT Kanpur (AIR 22) + ISB MBA', 'Author of 2 AI books'],
-        experience: 'Ex-Microsoft, Ex-BigTech VP'
-      }
-    ],
-    executionStrategy: {
-      title: 'Key Execution Initiatives - Q1 2025',
-      initiatives: [
-        {
-          category: 'SEO & Content Strategy',
-          lead: 'Hired SEO Head',
-          description: 'Drive organic traffic through content pipeline',
-          details: [
-            'Custom in-house CMS/deep research content generator',
-            'AI-enabled deep research articles per SEO guidelines',
-            'Topic-focused content automation for financial education'
-          ]
-        },
-        {
-          category: 'Brand Ambassadors Program',
-          lead: 'Community Strategy',
-          description: 'Equity research analysts community network',
-          details: [
-            '10 ambassadors onboarding starting this month',
-            'Platform usage for their own research workflows',
-            'Analysis sharing across social channels for visibility',
-            'Mass reach through authentic expert endorsements'
-          ]
-        }
-      ]
-    }
-  },
-  {
-    id: 12,
-    type: 'b2b-partnerships',
-    title: 'Strategic B2B Partnerships',
-    subtitle: 'Core Enablers for Marketplace Execution',
-    icon: Building2,
-    partnerships: [
-      {
-        partner: 'Smallcase',
-        enablers: ['Holdings Import', 'MF Buy Sell', 'Stocks Buy Sell', 'Smallcase Sell'],
-        description: 'Comprehensive investment platform integration for portfolio management and execution'
-      },
-      {
-        partner: 'FMP',
-        enablers: ['US Stocks + Crypto'],
-        description: 'International market access and cryptocurrency trading capabilities'
-      },
-      {
-        partner: 'CMOTS',
-        enablers: ['Indian Equity(Stock,MF,IPO)'],
-        description: 'Full-spectrum Indian equity market access including IPO participation'
-      },
-      {
-        partner: 'Tarakki',
-        enablers: ['MF, FD Distribution'],
-        description: 'Mutual fund and fixed deposit distribution network integration'
-      },
-      {
-        partner: 'Decentro',
-        enablers: ['KYC Automation', 'Payment Workflows', 'Banking APIs'],
-        description: 'Complete KYC verification and payment automation infrastructure for seamless onboarding'
-      },
-      {
-        partner: 'GoldenPi',
-        enablers: ['Corporate Bonds', 'Government Bonds', 'Bond Analytics'],
-        description: 'Fully-fledged bond trading and analytics platform for fixed income investments'
-      },
-      {
-        partner: 'BSE/NSE Data Feeds',
-        enablers: ['Real-time Equity Data', 'Bond Market Data', 'Historical Analytics'],
-        description: 'Official exchange data feeds for comprehensive market coverage and real-time insights'
-      }
-    ],
-    coreCapabilities: {
-      title: 'Core Enablers for Marketplace',
-      description: 'Strategic partnerships provide comprehensive financial product access across asset classes, enabling our AI platform to execute recommendations seamlessly with full regulatory compliance.'
-    },
-    strategicValue: [
-      'Complete asset class coverage: Equity, MF, FD, IPO, US markets, Crypto, and Bonds',
-      'Full KYC & compliance automation through Decentro integration',
-      'Real-time market data directly from exchanges (BSE/NSE)',
-      'Reduced time-to-market: Ready infrastructure vs building from scratch',
-      'Regulatory advantage: Partner expertise in compliance requirements',
-      'Scale efficiency: Leverage existing distribution networks',
-      'User experience: Single platform for all financial actions',
-      'Revenue diversification: Multiple monetization streams through partnerships'
-    ]
-  },
-  {
-    id: 13,
-    type: 'unit_economics',
-    title: 'Key Financial Milestones & Unit Economics',
-    subtitle: '🎯 Million Users by 15 Months | 🚀 Breakeven by Year 3 | 💰 1000cr+ by Year 5',
-    icon: TrendingUp,
-    projections: [
-      {
-        timeline: 'Year 1 (Launch)',
-        users: '0.9M users',
-        arr: '₹325L Revenue',
-        milestone: 'Product-Market Fit Foundation'
-      },
-      {
-        timeline: 'Year 2 (15 Months)',
-        users: '6.4M users',
-        arr: '₹3,390L Revenue',
-        milestone: '🎯 MILLION USERS MILESTONE'
-      },
-      {
-        timeline: 'Year 3 (Breakeven)',
-        users: '20.2M users', 
-        arr: '₹24,620L Revenue',
-        milestone: '🚀 PROFITABILITY + UNICORN VALUATION'
-      },
-      {
-        timeline: 'Year 4 (Scale)',
-        users: '36.2M users',
-        arr: '₹56,095L Revenue', 
-        milestone: 'Market Leadership (30% EBIT)'
-      },
-      {
-        timeline: 'Year 5 (Domination)',
-        users: '65M users',
-        arr: '₹104,431L Revenue',
-        milestone: '💰 1000CR+ TOPLINE (40% EBIT)'
-      }
-    ]
-  },
-  {
-    id: 14,
-    type: 'revenue_model',
-    title: 'Diversified Revenue Streams',
-    subtitle: 'Multiple Monetization Channels | ₹1,606 ARPU by Year 5',
-    icon: DollarSign,
-    revenueStreams: [
-      {
-        name: 'Platform Subscriptions',
-        timeline: 'Year 1-5',
-        structure: '₹5,000/year premium plan',
-        details: [
-          'Premium insights and analytics',
-          'Advanced portfolio tools',  
-          'Priority customer support',
-          'Enhanced security features'
-        ],
-        color: 'blue'
-      },
-      {
-        name: 'Marketplace Commissions',
-        timeline: 'Year 2-5',
-        structure: '0.25-0.75% transaction fee',
-        details: [
-          'Mutual fund transactions',
-          'Stock trading commissions',
-          'Insurance policy sales',
-          'FD/Bond placements'
-        ],
-        color: 'green'
-      },
-      {
-        name: 'PMS & Wealth Management',
-        timeline: 'Year 3-5',
-        structure: '1.5% AUM fee',
-        details: [
-          'AI-powered portfolio management',
-          'High net worth services',
-          'Customized investment strategies',
-          'Tax optimization services'
-        ],
-        color: 'purple'
-      },
-      {
-        name: 'Advertising Revenue',
-        timeline: 'Year 1-5',
-        structure: 'CPM/CPC model',
-        details: [
-          'Targeted financial product ads',
-          'Educational content sponsorships',
-          'Premium placement fees',
-          'Data-driven ad optimization'
-        ],
-        color: 'orange'
-      }
-    ],
-    totalArpu: '₹361/user (Y1) rising to ₹1,606/user by Year 5'
-  },
-  {
-    id: 15,
-    type: 'financial_assumptions',
-    title: 'Path to Unicorn: Key Financial Drivers',
-    subtitle: 'Conservative assumptions driving exceptional milestone achievement',
-    icon: Calculator,
-    assumptions: [
-      {
-        category: '🎯 Million Users by 15 Months',
-        items: [
-          '6.4M users by Year 2 (15-month mark)',
-          'Aggressive but proven growth in Indian fintech',
-          '15% monthly growth rate in first 18 months',
-          'Network effects + viral acquisition strategies'
-        ]
-      },
-      {
-        category: '🚀 Breakeven by Year 3',
-        items: [
-          'Positive EBIT of ₹1,599L in Year 3 (6.5% margin)',
-          'Revenue scale beats expense growth curve',
-          'Operational leverage from platform business model',
-          '₹246cr revenue run rate enables unicorn valuation'
-        ]
-      },
-      {
-        category: '💰 1000cr+ Topline by Year 5',
-        items: [
-          '₹104,431L revenue = ₹1,044cr topline by Year 5',
-          'Multiple revenue streams: Subs + Marketplace + PMS',
-          '40% EBIT margins at maturity (₹41,422L profit)',
-          'Diversified monetization reducing single-point failure'
-        ]
-      },
-      {
-        category: '🦄 Unicorn Trajectory',
-        items: [
-          '$1B+ valuation by end of Year 3',
-          '12x revenue multiple on ₹246cr run rate',
-          'Comparable to Groww ($7B), CRED ($4B) valuations',
-          'First-mover advantage in AI + Account Aggregator space'
-        ]
-      }
-    ]
-  },
-  {
-    id: 16,
-    type: 'funding',
-    title: '$1.5M Seed Round',
-    subtitle: 'Optimized for Efficient Growth & Market Leadership',
-    icon: Wallet,
-    allocation: [
-      {
-        percentage: '50%',
-        category: 'User Acquisition',
-        amount: '₹6.0 Cr',
-        description: 'Marketing campaigns, influencer partnerships, content creation, user onboarding'
-      },
-      {
-        percentage: '30%',
-        category: 'Team',
-        amount: '₹3.6 Cr',
-        description: 'Core engineering, product, AI/ML specialists, growth team expansion'
-      },
-      {
-        percentage: '5%',
-        category: 'Infrastructure',
-        amount: '₹0.6 Cr',
-        description: 'Cloud infrastructure, security systems, data storage, platform scaling'
-      },
-      {
-        percentage: '5%',
-        category: 'Compliance',
-        amount: '₹0.6 Cr',
-        description: 'SEBI RIA registration, legal setup, regulatory compliance, audit costs'
-      },
-      {
-        percentage: '10%',
-        category: 'Operations',
-        amount: '₹1.2 Cr',
-        description: 'Administrative expenses, partnerships, office setup, working capital'
-      }
-    ],
-    fundDetails: {
-      raiseAmount: '$1.5M (₹12 Cr)',
-      timeline: '18-month runway to Series A',
-      valuation: 'Pre-money: $8-10M'
-    },
-    keyMilestones: [
-      'Month 6: 400K users, Multi-App Jugglers PMF',
-      'Month 12: 900K users, Wealth Builders expansion',
-      'Month 18: 1M users, Series A readiness ($5-8M raise)'
-    ],
-    useOfFunds: {
-      userAcquisition: '50% - Digital marketing, influencer partnerships, content strategy, user onboarding optimization',
-      teamBuilding: '30% - Scale engineering (6-8), product (3-4), AI/ML (2-3), growth (2-3)',
-      infrastructure: '5% - Cloud infrastructure, security systems, data storage, platform scaling',
-      compliance: '5% - SEBI RIA registration, legal setup, regulatory compliance, audit costs',
-      operations: '10% - Partnerships, office setup, administrative costs, working capital'
-    },
-    competitiveContext: {
-      title: 'Validated Market with Proven Unit Economics',
-      examples: [
-        'INDmoney: $86M raised, 2.5M users, $48 ARPU',
-        'CRED: $800M raised, 9M users, credit-focused',
-        'Our Advantage: AI-first, comprehensive, mass-market pricing'
-      ]
-    },
-    exitStrategy: {
-      timeline: '3-5 years',
-      pathways: [
-        'Strategic Acquisition: Financial institutions seeking digital transformation',
-        'Target Acquirers: HDFC, ICICI, Axis Bank, Bajaj Finserv, Tata Digital',
-        'IPO Path: Follow Paytm, PolicyBazaar model post-scale achievement',
-        'Valuation Target: $500M-1B based on user base and revenue multiples'
-      ]
-    },
-    investmentHighlights: [
-      'First-mover in AI + Account Aggregator combination',
-      'Clear path to scale with proven unit economics',
-      'Massive TAM ($9.2B) with regulatory tailwinds',
-      'Experienced team with track record of scaling 100M+ user platforms'
-    ]
-  },
-  {
-    id: 17,
-    type: 'community-gtm',
-    title: 'Community-Driven GTM Strategy',
-    subtitle: 'Viral Growth Through Authentic Financial Contests & Content',
-    icon: Play,
-    contentStrategy: {
-      channels: [
-        {
-          platform: 'YouTube Shorts/Reels',
-          contentType: 'Quick financial tips, portfolio reviews, market reactions',
-          audience: '18-35 year olds seeking quick insights'
-        },
-        {
-          platform: 'YouTube Long-form',
-          contentType: 'Deep-dive portfolio analysis, market education',
-          audience: 'Serious investors wanting comprehensive learning'
-        },
-        {
-          platform: 'Meta (Instagram/Facebook)',
-          contentType: 'Contest announcements, winner spotlights, tips',
-          audience: 'Broad financial interest community'
-        },
-        {
-          platform: 'SEO Content Pipeline',
-          contentType: 'AI-enabled deep research articles per SEO guidelines',
-          audience: 'Organic search traffic + serious researchers'
-        },
-        {
-          platform: 'Brand Ambassador Network',
-          contentType: 'Equity research analysts sharing authentic analysis',
-          audience: 'Professional network + social media followers'
-        }
-      ]
-    },
-    communityContests: [
-      {
-        contest: 'Founding Analyst Program',
-        description: '200+ equity research analysts onboarded as founding members with early access to features and exclusive contests.',
-        engagement: 'Active community of validated experts',
-        dataValue: 'Professional-grade research quality, credibility boost',
-        growthLoop: 'Expert validation → Retail user trust → Social sharing → Viral growth'
-      },
-      {
-        contest: 'Pick Your Best Mutual Fund',
-        description: 'Founding analysts submit top MF picks with detailed research. Retail users vote + AI analysis determines winners.',
-        engagement: '10K+ monthly submissions from analysts + users',
-        dataValue: 'Expert-validated preferences, professional analysis patterns',
-        growthLoop: 'Analysts share on social → Votes from followers → New user acquisition'
-      },
-      {
-        contest: 'Build Your Dream Portfolio',
-        description: 'Create and justify a portfolio allocation. Real performance tracking over 3-6 months.',
-        engagement: '25K+ portfolio submissions',
-        dataValue: 'Asset allocation preferences, risk appetite mapping',
-        growthLoop: 'Portfolio performance shared → Social proof → New user acquisition'
-      },
-      {
-        contest: 'Stock Pick Challenge',
-        description: 'Monthly stock picking contest with real money simulation and leaderboards.',
-        engagement: '15K+ active participants',
-        dataValue: 'Stock sentiment, picking patterns, market timing',
-        growthLoop: 'Leaderboard competition → Social sharing → Viral acquisition'
-      },
-      {
-        contest: 'AI Query Championship',
-        description: 'Best financial questions asked to AI, community votes on most insightful queries.',
-        engagement: '8K+ monthly queries',
-        dataValue: 'User pain points, question patterns, knowledge gaps',
-        growthLoop: 'Featured queries → Educational content → Platform stickiness'
-      }
-    ],
-    growthLoop: {
-      phases: [
-        {
-          phase: 'Expert Validation',
-          description: '200+ founding analysts create authenticated research content',
-          outcome: 'Credible, professional-grade insights'
-        },
-        {
-          phase: 'Retail Discovery',
-          description: 'Users discover expert research through platform and social channels',
-          outcome: 'Trust-based user acquisition'
-        },
-        {
-          phase: 'Contest Participation',
-          description: 'Users + analysts engage in contests, submit real preferences',
-          outcome: 'Community engagement + data collection'
-        },
-        {
-          phase: 'AI Enhancement',
-          description: 'AI summarizes expert + user research for sharper insights',
-          outcome: 'Unique AI+Human hybrid intelligence'
-        },
-        {
-          phase: 'Social Amplification',
-          description: 'Analysts share results on social platforms to gain votes',
-          outcome: 'Viral growth through professional networks'
-        },
-        {
-          phase: 'Performance Tracking',
-          description: 'Real-time tracking of contest performance vs market',
-          outcome: 'Product stickiness'
-        },
-        {
-          phase: 'Social Amplification',
-          description: 'Share wins, portfolio performance, learnings',
-          outcome: 'Viral referrals'
-        }
-      ]
-    }
   }
 ];
 
@@ -1320,5 +568,297 @@ export const appendixSlides = [
         'Comprehensive review and rating system'
       ]
     }
+  },
+  {
+    id: 'A6',
+    type: 'platform-architecture',
+    title: 'Complete Financial Platform Stack',
+    subtitle: 'AI-Driven Architecture for 200M+ Users',
+    icon: Building2,
+    platformLayers: {
+      distribution: {
+        title: '1. Distribution',
+        description: 'Multi-Channel User Acquisition & Engagement'
+      },
+      frontend: {
+        title: '2. Frontend',
+        description: 'React Native Cross-Platform Application'
+      },
+      userexperience: {
+        title: '3. User Experience',
+        description: 'Intuitive Financial Intelligence Interface'
+      },
+      aiengine: {
+        title: '4. AI Engine',
+        description: 'Personalized Financial Recommendations & Insights'
+      },
+      apis: {
+        title: '5. APIs',
+        description: 'Integration Layer for External Financial Services'
+      },
+      backend: {
+        title: '6. Backend',
+        description: 'Scalable Microservices Architecture'
+      },
+      database: {
+        title: '7. Database',
+        description: 'Secure Financial Data Storage & Management'
+      },
+      infrastructure: {
+        title: '8. Infrastructure',
+        description: 'Cloud-Native Scalable Computing Platform'
+      },
+      userdata: {
+        title: '9. UserData',
+        description: 'Universal Aggregation Engine – User Financial Data'
+      }
+    }
+  },
+  {
+    id: 'A7',
+    type: 'aa-validation',
+    title: 'Account Aggregator: Explosive Growth Validates Market Need',
+    subtitle: 'India\'s Fastest Growing Open Finance Network Proves Portfolio Consolidation Demand',
+    icon: Link,
+    validationData: {
+      headline: 'World\'s Fastest Growing Open Finance Network - 1059% Growth in FY24',
+      keyMetrics: [
+        {
+          metric: 'Data Sharing Growth',
+          value: '1059% YoY',
+          context: 'FY24 vs FY23 data sharing volume'
+        },
+        {
+          metric: 'Total Consents',
+          value: '10+ Crore',
+          context: 'Active user consents for data sharing'
+        },
+        {
+          metric: 'Transaction Volume',
+          value: '₹74,500 Cr',
+          context: 'Disbursed via AA in H1 FY25 alone'
+        },
+        {
+          metric: 'Active FIPs',
+          value: '2,000+',
+          context: 'Financial Information Providers connected'
+        }
+      ],
+      marketValidation: {
+        userComfort: [
+          'Massive adoption proves Indian users are comfortable sharing financial data',
+          'Government-backed framework provides trust and security assurance',
+          'Exponential growth indicates strong market need for unified financial view'
+        ],
+        platformReadiness: [
+          'Infrastructure already exists and is proven at scale',
+          'Regulatory framework supports innovation in financial aggregation',
+          'Banks and financial institutions are already integrated and compliant'
+        ],
+        competitiveAdvantage: [
+          'First-mover advantage in AI layer while competition focuses on basic aggregation',
+          'Government backing + regulatory clarity reduces platform risk significantly'
+        ]
+      }
+    }
+  },
+  {
+    id: 'A8',
+    type: 'competitive-landscape',
+    title: 'Competitive Landscape & Our Moats',
+    subtitle: 'Clear Differentiation in Crowded Market',
+    icon: Shield,
+    competitorAnalysis: {
+      directCompetitors: [
+        {
+          name: 'Cred',
+          threat: 'Credit card management + expanding financial services',
+          weakness: 'Premium-focused, limited portfolio aggregation'
+        },
+        {
+          name: 'Groww',
+          threat: 'Investment platform with high user engagement',
+          weakness: 'Investment-only, no comprehensive financial view'
+        },
+        {
+          name: 'Payday',
+          threat: 'Financial management and tracking',
+          weakness: 'Manual tracking, limited AI capabilities'
+        },
+        {
+          name: 'INDmoney',
+          threat: 'Portfolio tracking capabilities',
+          weakness: 'Limited AI insights, complex UI, investment-focused'
+        },
+        {
+          name: 'ET Money',
+          threat: 'Mutual fund platform with insurance',
+          weakness: 'No real-time aggregation, limited analytics'
+        },
+        {
+          name: 'PhonePe/Google Pay',
+          threat: 'Big tech expansion into financial services',
+          weakness: 'Generalist approach vs specialized domain expertise'
+        }
+      ],
+      bigTechThreats: [
+        {
+          name: 'PhonePe',
+          threat: 'Entering wealth management via acquisition',
+          timeline: '12-18 months',
+          mitigation: 'Specialized focus vs generalist approach'
+        },
+        {
+          name: 'Google Pay',
+          threat: 'Financial services expansion',
+          timeline: '18-24 months',
+          mitigation: 'Domain expertise and AI-first approach'
+        }
+      ]
+    },
+    ourMoats: {
+      shortTerm: [
+        'AI-First Architecture: Personalized insights from day one',
+        'Comprehensive Coverage: All financial products vs investment-only',
+        'Mass Market Focus: Affordable AI-powered financial intelligence for everyone',
+        'Family Portfolio Management: Unique capability in market'
+      ],
+      mediumTerm: [
+        'Data Network Effects: Better insights with more users',
+        'Account Aggregator Leadership: First-mover in AA-powered solutions',
+        'B2B Partnership Ecosystem: Execution capability across platforms',
+        'AI Model Superiority: Continuously improving recommendations'
+      ],
+      longTerm: [
+        'Behavioral Data Moat: Understanding of financial decision patterns',
+        'Platform Ecosystem: All financial services in one place',
+        'Brand Trust: Financial intelligence authority for mass market',
+        'Regulatory Relationships: Deep integration with compliance framework'
+      ]
+    },
+    competitiveAdvantages: [
+      'Only AI-powered comprehensive platform for mass market',
+      'First-mover advantage in AA framework + AI combination',
+      'Domain expertise vs generalist big tech players',
+      'Execution focus vs feature-heavy complex solutions'
+    ]
+  },
+  {
+    id: 'A9',
+    type: 'risk-analysis',
+    title: 'Risk Analysis & Mitigation',
+    subtitle: 'Proactive Risk Management Strategy',
+    icon: AlertTriangle,
+    risks: [
+      {
+        risk: 'Regulatory Changes',
+        severity: 'Medium',
+        probability: 'Low',
+        impact: 'Could affect data aggregation permissions',
+        mitigation: [
+          'Built on government-backed AA framework',
+          'Proactive compliance team and legal advisory',
+          'Multiple data sources beyond AA framework',
+          'Strong relationships with regulatory bodies'
+        ],
+        timeline: 'Ongoing monitoring'
+      },
+      {
+        risk: 'Data Security Breach',
+        severity: 'High',
+        probability: 'Low',
+        impact: 'Loss of user trust and potential legal issues',
+        mitigation: [
+          'Bank-grade security infrastructure',
+          'Regular security audits and penetration testing',
+          'Compliance with RBI data protection guidelines',
+          'Cyber insurance and incident response plan'
+        ],
+        timeline: 'Continuous investment'
+      },
+      {
+        risk: 'Big Tech Entry',
+        severity: 'High',
+        probability: 'Medium',
+        impact: 'Competitive pressure and CAC inflation',
+        mitigation: [
+          'Specialized domain expertise vs generalist approach',
+          'First-mover advantage in AI + AA combination',
+          'Strong user acquisition before big tech entry',
+          'Focus on mass market vs premium segments'
+        ],
+        timeline: '12-24 months window'
+      },
+      {
+        risk: 'CAC Inflation',
+        severity: 'Medium',
+        probability: 'Medium',
+        impact: 'Reduced unit economics and growth challenges',
+        mitigation: [
+          'Diversified acquisition channels',
+          'Strong referral program and network effects',
+          'Product-led growth and organic acquisition',
+          'Efficient targeting using AI and data analytics'
+        ],
+        timeline: 'Ongoing optimization'
+      },
+      {
+        risk: 'Market Downturn',
+        severity: 'Medium',
+        probability: 'Medium',
+        impact: 'Reduced user engagement and subscription rates',
+        mitigation: [
+          'Focus on financial planning during uncertainty',
+          'Freemium model to maintain user base',
+          'Diversified revenue streams beyond subscriptions',
+          'Counter-cyclical value proposition (portfolio protection)'
+        ],
+        timeline: 'Economic cycle management'
+      }
+    ],
+    overallRiskProfile: 'Moderate risk with strong mitigation strategies and first-mover advantages',
+    keyStrengths: [
+      'Government-backed infrastructure reduces regulatory risk',
+      'Specialized focus provides competitive protection',
+      'Multiple revenue streams reduce single-point-of-failure',
+      'Strong team experience in scaling platforms'
+    ]
+  },
+  {
+    id: 'A10',
+    type: 'revenue_model',
+    title: 'Diversified Revenue Streams',
+    subtitle: 'Multiple Monetization Channels | ₹1,606 ARPU by Year 5',
+    icon: DollarSign,
+    revenueStreams: [
+      {
+        name: 'Platform Subscriptions',
+        description: 'Tiered subscription model for premium features',
+        pricing: '₹199-999/month across 3 tiers',
+        targetShare: '35%',
+        launchTimeline: 'Month 6'
+      },
+      {
+        name: 'Transaction-Based Revenue',
+        description: 'Revenue sharing on executed transactions',
+        pricing: '0.25-0.5% per transaction',
+        targetShare: '30%',
+        launchTimeline: 'Month 9'
+      },
+      {
+        name: 'Financial Product Distribution',
+        description: 'Partner revenue from product recommendations',
+        pricing: '0.5-2% commission per product',
+        targetShare: '25%',
+        launchTimeline: 'Month 12'
+      },
+      {
+        name: 'Premium Analytics & Insights',
+        description: 'Advanced portfolio analytics and AI insights',
+        pricing: '₹499-1499/month enterprise',
+        targetShare: '10%',
+        launchTimeline: 'Month 18'
+      }
+    ]
   }
 ];
