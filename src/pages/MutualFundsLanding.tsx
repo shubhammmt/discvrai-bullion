@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '@/components/mutualfunds/HeroSection';
 import CoreFeatures from '@/components/mutualfunds/CoreFeatures';
+import CommunityShowcase from '@/components/mutualfunds/CommunityShowcase';
 import TrustSignals from '@/components/mutualfunds/TrustSignals';
 import FundThemes from '@/components/mutualfunds/FundThemes';
 import PersonalizationCTA from '@/components/mutualfunds/PersonalizationCTA';
@@ -43,6 +44,10 @@ const MutualFundsLanding = () => {
     }
   };
 
+  const handleJoinCommunity = () => {
+    navigate('/community');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -55,6 +60,9 @@ const MutualFundsLanding = () => {
 
       {/* Core Features */}
       <CoreFeatures onFeatureClick={handleFeatureClick} />
+
+      {/* Community Showcase */}
+      <CommunityShowcase onJoinCommunity={handleJoinCommunity} />
 
       {/* Trust Signals */}
       <TrustSignals />
