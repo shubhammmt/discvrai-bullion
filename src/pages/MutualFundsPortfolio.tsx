@@ -24,7 +24,7 @@ import RebalancingRecommendations from '@/components/portfolio/RebalancingRecomm
 import SimplifiedFundAnalysis from '@/components/portfolio/SimplifiedFundAnalysis';
 import { useMutualFundsHome } from '@/hooks/useMutualFundsHome';
 
-const MutualFundsHome = () => {
+const MutualFundsPortfolio = () => {
   const navigate = useNavigate();
   const userId = "af5a21a3-ed71-471c-885a-7415f6906f68";
   const { data: portfolioData, isLoading, error, refreshData } = useMutualFundsHome(userId);
@@ -361,4 +361,4 @@ const MutualFundsHome = () => {
   );
 };
 
-export default MutualFundsHome;
+export default MutualFundsPortfolio;
