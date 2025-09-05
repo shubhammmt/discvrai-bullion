@@ -34,14 +34,11 @@ const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) =
               </Badge>
               
               <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent leading-tight">
-                Invest Smarter with 
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent block">
-                  AI + Human Wisdom
-                </span>
+                <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">AI Research</span> + <span className="bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">Community</span> + <span className="bg-gradient-to-r from-secondary to-secondary/80 bg-clip-text text-transparent block mt-2">Gamified Discovery</span>
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                Where artificial intelligence meets verified human expertise. Get personalized mutual fund recommendations backed by professional insights and community wisdom.
+                AI agents analyze news & macros to find winning funds. Join contests, climb leaderboards, share research. Simplified, gamified mutual fund investing.
               </p>
             </div>
 
@@ -52,8 +49,8 @@ const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) =
                   <Brain className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm">AI-Powered</p>
-                  <p className="text-xs text-muted-foreground">Smart Analysis</p>
+                  <p className="font-semibold text-sm">AI Research</p>
+                  <p className="text-xs text-muted-foreground">News & Macro Analysis</p>
                 </div>
               </div>
               
@@ -62,8 +59,8 @@ const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) =
                   <Shield className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm">Expert Verified</p>
-                  <p className="text-xs text-muted-foreground">Human Wisdom</p>
+                  <p className="font-semibold text-sm">Community Driven</p>
+                  <p className="text-xs text-muted-foreground">Shared Research</p>
                 </div>
               </div>
               
@@ -72,8 +69,8 @@ const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) =
                   <Target className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm">Personalized</p>
-                  <p className="text-xs text-muted-foreground">Just for You</p>
+                  <p className="font-semibold text-sm">Gamified</p>
+                  <p className="text-xs text-muted-foreground">Contests & Rewards</p>
                 </div>
               </div>
             </div>
@@ -83,10 +80,10 @@ const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) =
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={onTakeAssessment}
+                onClick={onStartInvesting}
               >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Take Risk Assessment
+                <Brain className="w-5 h-5 mr-2" />
+                Discover Funds with AI
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               
@@ -94,26 +91,26 @@ const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) =
                 variant="outline" 
                 size="lg"
                 className="border-border hover:bg-accent/50 transition-all duration-300"
-                onClick={onStartInvesting}
+                onClick={onTakeAssessment}
               >
-                <TrendingUp className="w-5 h-5 mr-2" />
-                Explore Funds
+                <Target className="w-5 h-5 mr-2" />
+                Join Community
               </Button>
             </div>
 
             {/* Trust Indicators */}
             <div className="flex items-center gap-6 pt-4 border-t border-border/50">
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">₹1,200Cr+</p>
-                <p className="text-xs text-muted-foreground">Assets Analyzed</p>
+                <p className="text-2xl font-bold text-foreground">5,000+</p>
+                <p className="text-xs text-muted-foreground">Community Members</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">50K+</p>
-                <p className="text-xs text-muted-foreground">Smart Investors</p>
+                <p className="text-2xl font-bold text-foreground">150+</p>
+                <p className="text-xs text-muted-foreground">Daily Contests</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">98%</p>
-                <p className="text-xs text-muted-foreground">Satisfaction Rate</p>
+                <p className="text-2xl font-bold text-foreground">2,500+</p>
+                <p className="text-xs text-muted-foreground">Funds Tracked</p>
               </div>
             </div>
           </div>
