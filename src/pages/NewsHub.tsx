@@ -106,14 +106,14 @@ const NewsHub = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0a0f1c]">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-[hsl(var(--news-gradient-start))] to-[hsl(var(--news-gradient-end))]">
+      <div className="relative overflow-hidden bg-gradient-to-r from-[#1a2332] to-[#2a1b3d]">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
         <div className="container mx-auto px-4 py-16 relative z-10">
           <div className="text-center text-white">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
-              News <span className="text-accent">Feed</span>
+              News <span className="text-[#00d4aa]">Feed</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/80 animate-fade-in-up [animation-delay:200ms]">
               Stay updated with the latest stories
@@ -134,22 +134,17 @@ const NewsHub = () => {
 
       <div className="container mx-auto px-4 py-8 -mt-8 relative z-20">
         {/* Filter Buttons */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+        <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
           {categories.map((category) => (
             <Button
               key={category.name}
               variant={activeCategory === category.name ? "default" : "outline"}
               size="sm"
-              className={`whitespace-nowrap transition-all duration-300 ${
+              className={`whitespace-nowrap transition-all duration-300 border-[#334155] ${
                 activeCategory === category.name 
-                  ? 'text-white shadow-lg' 
-                  : 'hover:border-primary/50'
+                  ? 'bg-[#00d4aa] text-[#0a0f1c] shadow-lg border-[#00d4aa]' 
+                  : 'bg-[#1e293b] text-white hover:border-[#00d4aa]/50 hover:bg-[#334155]'
               }`}
-              style={
-                activeCategory === category.name 
-                  ? { backgroundColor: category.color }
-                  : {}
-              }
               onClick={() => setActiveCategory(category.name)}
             >
               {category.name}
@@ -157,17 +152,18 @@ const NewsHub = () => {
           ))}
         </div>
 
-        {/* Horizontal Scrolling News Cards */}
-        <div className="overflow-x-auto pb-4">
+        {/* Horizontal Scrolling News Cards with Snap */}
+        <div className="overflow-x-auto pb-4 scroll-smooth" style={{ scrollSnapType: 'x mandatory' }}>
           <div className="flex gap-6 min-w-max">
             {mockNewsData[activeCategory]?.map((item) => {
               const currentCategory = categories.find(cat => cat.name === activeCategory);
               return (
-                <NewsFeedCard
-                  key={item.id}
-                  item={item}
-                  categoryColor={currentCategory?.color || 'hsl(var(--primary))'}
-                />
+                <div key={item.id} style={{ scrollSnapAlign: 'start' }}>
+                  <NewsFeedCard
+                    item={item}
+                    categoryColor={currentCategory?.color || 'hsl(var(--primary))'}
+                  />
+                </div>
               );
             })}
           </div>
