@@ -259,20 +259,6 @@ const FundThemes = ({ onExploreTheme }: FundThemesProps) => {
           ))}
         </div>
 
-        {/* CTA Section */}
-        <div className="text-center">
-          <div className="bg-muted/30 rounded-2xl p-8 border border-border/50">
-            <Target className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl font-bold mb-4">Don't See Your Style?</h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Our AI can create personalized fund recommendations based on your specific goals, risk tolerance, and investment timeline.
-            </p>
-            <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90">
-              <Target className="w-5 h-5 mr-2" />
-              Get Personalized Recommendations
-            </Button>
-          </div>
-        </div>
       </div>
     </section>
   );

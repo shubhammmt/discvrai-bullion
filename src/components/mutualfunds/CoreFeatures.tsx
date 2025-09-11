@@ -15,7 +15,7 @@ const CoreFeatures = ({ onFeatureClick }: CoreFeaturesProps) => {
       description: 'Discover funds through AI agents analyzing news, events, and market macros',
       icon: Bot,
       items: ['News-driven fund discovery', 'AI screening & filtering', 'Macro/micro impact analysis', 'Watchlist & alerts'],
-      color: 'bg-primary/10 border-primary/20',
+      color: 'bg-primary/10 border-primary/20 hover:bg-primary/20',
       iconColor: 'text-primary'
     },
     {
@@ -24,7 +24,7 @@ const CoreFeatures = ({ onFeatureClick }: CoreFeaturesProps) => {
       description: 'Join contests, climb leaderboards, and share research with fellow investors',
       icon: Users,
       items: ['Community fund insights', 'Investment contests', 'Research leaderboards', 'Streak rewards'],
-      color: 'bg-accent/10 border-accent/20',
+      color: 'bg-accent/10 border-accent/20 hover:bg-accent/20',
       iconColor: 'text-accent'
     },
     {
@@ -33,7 +33,7 @@ const CoreFeatures = ({ onFeatureClick }: CoreFeaturesProps) => {
       description: 'Find trending funds, categories, and portfolio analysis tools',
       icon: TrendingUp,
       items: ['Trending funds tracker', 'Category discovery', 'Portfolio analysis', 'Performance insights'],
-      color: 'bg-secondary/10 border-secondary/20',
+      color: 'bg-secondary/10 border-secondary/20 hover:bg-secondary/20',
       iconColor: 'text-secondary'
     }
   ];
@@ -51,18 +51,19 @@ const CoreFeatures = ({ onFeatureClick }: CoreFeaturesProps) => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {features.map((feature) => {
+          {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
               <Card 
                 key={feature.id}
-                className={`${feature.color} hover:shadow-lg transition-all duration-300 cursor-pointer group`}
+                className={`${feature.color} hover:shadow-lg transition-all duration-500 cursor-pointer group animate-fade-in hover-scale border-2`}
+                style={{ animationDelay: `${index * 200}ms` }}
                 onClick={() => onFeatureClick(feature.id)}
               >
                 <CardContent className="p-8">
                   <div className="text-center mb-6">
-                    <div className={`w-16 h-16 rounded-full bg-background/50 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
-                      <IconComponent className={`w-8 h-8 ${feature.iconColor}`} />
+                    <div className={`w-16 h-16 rounded-full bg-background/50 flex items-center justify-center mx-auto mb-4 group-hover:scale-125 transition-all duration-300 group-hover:rotate-6`}>
+                      <IconComponent className={`w-8 h-8 ${feature.iconColor} group-hover:scale-110 transition-transform`} />
                     </div>
                     <h3 className="text-xl font-bold text-foreground mb-2">{feature.title}</h3>
                     <p className="text-muted-foreground">{feature.description}</p>
@@ -103,9 +104,9 @@ const CoreFeatures = ({ onFeatureClick }: CoreFeaturesProps) => {
           <Card className="bg-muted/50 border-muted">
             <CardContent className="p-6 text-center">
               <Award className="w-8 h-8 text-accent mx-auto mb-3" />
-              <h4 className="font-semibold text-foreground mb-2">Referral Program</h4>
+              <h4 className="font-semibold text-foreground mb-2">Be an Influencer</h4>
               <p className="text-sm text-muted-foreground">
-                Refer friends and win rewards while building your investment community
+                Enable your tribe - help people follow your investment insights and build a community
               </p>
             </CardContent>
           </Card>

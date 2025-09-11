@@ -55,10 +55,10 @@ const TrustSignals = () => {
   ];
 
   const stats = [
-    { value: "₹1,200Cr+", label: "Assets Under Analysis", icon: TrendingUp },
-    { value: "50,000+", label: "Active Investors", icon: Users },
-    { value: "18.5%", label: "Average Returns", icon: Award },
-    { value: "98%", label: "User Satisfaction", icon: Star }
+    { value: "₹1,200 Cr+", label: "Assets Under Analysis", icon: TrendingUp },
+    { value: "18,000+", label: "Active Investors", icon: Users },
+    { value: "5 Per User", label: "Average Alerts", icon: Award },
+    { value: "8,000+", label: "Total Mutual Funds Tracked", icon: Star }
   ];
 
   return (

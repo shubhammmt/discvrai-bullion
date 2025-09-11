@@ -40,10 +40,11 @@ const CommunityShowcase = ({ onJoinCommunity }: CommunityShowcaseProps) => {
   ];
 
   const communityStats = [
-    { label: "Active Researchers", value: "12.5K+", icon: Users },
-    { label: "Research Reports", value: "850+", icon: TrendingUp },
-    { label: "Contest Winners", value: "200+", icon: Trophy },
-    { label: "Avg. Rating", value: "4.8/5", icon: Star }
+    { label: "Total Researches", value: "12,456", icon: TrendingUp },
+    { label: "Active Influencers", value: "2,847", icon: Users },
+    { label: "Active Participants", value: "18,234", icon: Users },
+    { label: "Contest Winners", value: "389", icon: Trophy },
+    { label: "Trending Mutual Funds", value: "156", icon: TrendingUp }
   ];
 
   return (

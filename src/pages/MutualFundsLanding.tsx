@@ -5,7 +5,9 @@ import CoreFeatures from '@/components/mutualfunds/CoreFeatures';
 import CommunityShowcase from '@/components/mutualfunds/CommunityShowcase';
 import TrustSignals from '@/components/mutualfunds/TrustSignals';
 import FundThemes from '@/components/mutualfunds/FundThemes';
-import PersonalizationCTA from '@/components/mutualfunds/PersonalizationCTA';
+import NewsCarousel from '@/components/mutualfunds/NewsCarousel';
+import SecurityCompliance from '@/components/mutualfunds/SecurityCompliance';
+import HowItWorks from '@/components/mutualfunds/HowItWorks';
 import Header from '@/components/Header';
 
 const MutualFundsLanding = () => {
@@ -52,11 +54,18 @@ const MutualFundsLanding = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section */}
-      <HeroSection 
-        onStartInvesting={handleStartInvesting}
-        onTakeAssessment={handleTakeAssessment}
-      />
+      {/* Hero Section with News Sidebar */}
+      <div className="relative">
+        <HeroSection 
+          onStartInvesting={handleStartInvesting}
+          onTakeAssessment={handleTakeAssessment}
+        />
+        
+        {/* Desktop News Sidebar */}
+        <div className="hidden xl:block absolute top-24 right-8 w-80 z-10">
+          <NewsCarousel />
+        </div>
+      </div>
 
       {/* Core Features */}
       <CoreFeatures onFeatureClick={handleFeatureClick} />
@@ -67,11 +76,14 @@ const MutualFundsLanding = () => {
       {/* Trust Signals */}
       <TrustSignals />
 
+      {/* Security & Compliance */}
+      <SecurityCompliance />
+
       {/* Fund Themes */}
       <FundThemes onExploreTheme={handleExploreTheme} />
 
-      {/* Personalization CTA */}
-      <PersonalizationCTA onStartAssessment={handleStartAssessment} />
+      {/* How It Works */}
+      <HowItWorks />
 
       {/* SEO Elements */}
       <div className="sr-only">
