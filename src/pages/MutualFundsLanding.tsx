@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '@/components/mutualfunds/HeroSection';
-import CoreFeatures from '@/components/mutualfunds/CoreFeatures';
+import NewsCarousel from '@/components/mutualfunds/NewsCarousel';
+import ThreePillars from '@/components/mutualfunds/ThreePillars';
+import PortfolioAnalysisCarousel from '@/components/mutualfunds/PortfolioAnalysisCarousel';
 import CommunityShowcase from '@/components/mutualfunds/CommunityShowcase';
 import TrustSignals from '@/components/mutualfunds/TrustSignals';
-import FundThemes from '@/components/mutualfunds/FundThemes';
-import NewsCarousel from '@/components/mutualfunds/NewsCarousel';
 import SecurityCompliance from '@/components/mutualfunds/SecurityCompliance';
+import FundThemes from '@/components/mutualfunds/FundThemes';
 import HowItWorks from '@/components/mutualfunds/HowItWorks';
-import PortfolioAnalysisCarousel from '@/components/mutualfunds/PortfolioAnalysisCarousel';
 import Header from '@/components/Header';
 
 const MutualFundsLanding = () => {
@@ -59,45 +59,34 @@ const MutualFundsLanding = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section with News Sidebar */}
-      <div className="relative">
-        <div className="grid xl:grid-cols-4 gap-8">
-          {/* Main Hero Content */}
-          <div className="xl:col-span-3">
-            <HeroSection 
-              onStartInvesting={handleStartInvesting}
-              onTakeAssessment={handleTakeAssessment}
-            />
-          </div>
-          
-          {/* Desktop News Sidebar */}
-          <div className="hidden xl:block xl:col-span-1 pt-24">
-            <div className="sticky top-24">
-              <NewsCarousel />
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* 1. Hero Section - First Viewport */}
+      <HeroSection 
+        onStartInvesting={handleStartInvesting}
+        onTakeAssessment={handleTakeAssessment}
+      />
 
-      {/* Portfolio Analysis Carousel */}
+      {/* 2. News Carousel - Full Width */}
+      <NewsCarousel />
+
+      {/* 3. Three Pillars of Smart Investing */}
+      <ThreePillars />
+
+      {/* 4. Portfolio Analysis Carousel */}
       <PortfolioAnalysisCarousel onViewDetails={handleViewAnalysisDetails} />
 
-      {/* Core Features */}
-      <CoreFeatures onFeatureClick={handleFeatureClick} />
-
-      {/* Community Showcase */}
-      <CommunityShowcase onJoinCommunity={handleJoinCommunity} />
-
-      {/* Trust Signals */}
-      <TrustSignals />
-
-      {/* Security & Compliance */}
+      {/* 5. Security & Compliance - Trust Building */}
       <SecurityCompliance />
 
-      {/* Fund Themes */}
+      {/* 6. Community Showcase */}
+      <CommunityShowcase onJoinCommunity={handleJoinCommunity} />
+
+      {/* 7. Trust Signals */}
+      <TrustSignals />
+
+      {/* 8. Fund Themes */}
       <FundThemes onExploreTheme={handleExploreTheme} />
 
-      {/* How It Works */}
+      {/* 9. How It Works */}
       <HowItWorks />
 
       {/* SEO Elements */}

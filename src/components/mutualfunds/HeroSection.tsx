@@ -1,13 +1,16 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { 
   Brain, 
-  TrendingUp, 
-  Shield, 
-  ArrowRight,
-  Sparkles,
-  Target
+  Users, 
+  Trophy, 
+  TrendingUp,
+  Play,
+  Star,
+  Shield,
+  Zap
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -17,165 +20,156 @@ interface HeroSectionProps {
 
 const HeroSection = ({ onStartInvesting, onTakeAssessment }: HeroSectionProps) => {
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-background via-background/95 to-primary/5 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="absolute top-20 right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-20 w-48 h-48 bg-accent/10 rounded-full blur-2xl"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Content */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                <Brain className="w-4 h-4 mr-2" />
-                AI-Powered Financial Intelligence
+    <section className="relative py-24 overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+        <div className="absolute inset-0">
+          {/* Floating particles */}
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${3 + Math.random() * 2}s`
+              }}
+            >
+              <div className="w-1 h-1 bg-primary/20 rounded-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 relative">
+        <div className="max-w-7xl mx-auto">
+          {/* Social Proof Badges */}
+          <div className="flex justify-center mb-8">
+            <div className="flex items-center gap-4 flex-wrap justify-center">
+              <Badge variant="secondary" className="flex items-center gap-2">
+                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                4.8/5 Rating
               </Badge>
-              
-              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent leading-tight">
-                <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">AI Research</span> + <span className="bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">Community</span> + <span className="bg-gradient-to-r from-secondary to-secondary/80 bg-clip-text text-transparent block mt-2">Gamified Discovery</span>
-              </h1>
-              
-              <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                AI agents analyze news & macros to find winning funds. Join contests, climb leaderboards, share research. Simplified, gamified mutual fund investing.
-              </p>
-            </div>
-
-            {/* Key Value Props */}
-            <div className="grid sm:grid-cols-3 gap-4">
-              <div className="flex items-center gap-3 p-4 bg-card rounded-lg border border-border/50">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <Brain className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-sm">AI Research</p>
-                  <p className="text-xs text-muted-foreground">News & Macro Analysis</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3 p-4 bg-card rounded-lg border border-border/50">
-                <div className="p-2 bg-green-500/10 rounded-lg">
-                  <Shield className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-sm">Community Driven</p>
-                  <p className="text-xs text-muted-foreground">Shared Research</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3 p-4 bg-card rounded-lg border border-border/50">
-                <div className="p-2 bg-blue-500/10 rounded-lg">
-                  <Target className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-sm">Gamified</p>
-                  <p className="text-xs text-muted-foreground">Contests & Rewards</p>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={onStartInvesting}
-              >
-                <Brain className="w-5 h-5 mr-2" />
-                Start AI Research
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-border hover:bg-accent/50 transition-all duration-300"
-                onClick={onTakeAssessment}
-              >
-                <Target className="w-5 h-5 mr-2" />
-                Join Contests
-              </Button>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="flex items-center gap-6 pt-4 border-t border-border/50">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">5,000+</p>
-                <p className="text-xs text-muted-foreground">Community Members</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">150+</p>
-                <p className="text-xs text-muted-foreground">Daily Contests</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">2,500+</p>
-                <p className="text-xs text-muted-foreground">Funds Tracked</p>
-              </div>
+              <Badge variant="secondary" className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                Bank-Grade Security
+              </Badge>
+              <Badge variant="secondary" className="flex items-center gap-2">
+                <Zap className="w-4 h-4" />
+                Real-time AI Analysis
+              </Badge>
             </div>
           </div>
 
-          {/* Right Column - Visual */}
-          <div className="relative">
-            <div className="relative bg-gradient-to-br from-card to-card/50 rounded-2xl border border-border p-8 shadow-2xl">
-              {/* Mock Dashboard Preview */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold">AI Portfolio Analysis</h3>
-                  <Badge variant="secondary" className="bg-green-500/10 text-green-600">
-                    +18.5% Returns
-                  </Badge>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-background rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <TrendingUp className="w-4 h-4 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-sm">Growth Fund</p>
-                        <p className="text-xs text-muted-foreground">Large Cap</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold text-green-600">+24.5%</p>
-                      <p className="text-xs text-muted-foreground">1Y Return</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-background rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                        <Shield className="w-4 h-4 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-sm">Balanced Fund</p>
-                        <p className="text-xs text-muted-foreground">Hybrid</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold text-green-600">+16.8%</p>
-                      <p className="text-xs text-muted-foreground">1Y Return</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="pt-4 border-t border-border">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Brain className="w-4 h-4 text-primary" />
-                    AI Recommendation: Increase SIP by ₹5,000
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Main Hero Content */}
+          <div className="text-center mb-16">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
+              AI Research + Community +<br />
+              Gamified Discovery
+            </h1>
             
-            {/* Floating Elements */}
-            <div className="absolute -top-4 -right-4 bg-primary text-primary-foreground p-3 rounded-full shadow-lg">
-              <Sparkles className="w-6 h-6" />
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed">
+              AI agents analyze news & macros to find winning funds. Join contests, climb leaderboards, 
+              share research. Simplified, gamified mutual fund investing.
+            </p>
+
+            {/* Demo Preview */}
+            <div className="flex justify-center mb-12">
+              <Card className="relative overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer max-w-md">
+                <CardContent className="p-0">
+                  <div className="relative bg-gradient-to-br from-primary/10 to-secondary/10 p-8 text-center">
+                    <Play className="w-16 h-16 mx-auto mb-4 text-primary group-hover:scale-110 transition-transform" />
+                    <h3 className="font-semibold mb-2">See AI in Action</h3>
+                    <p className="text-sm text-muted-foreground">2-minute platform demo</p>
+                    <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-            <div className="absolute -bottom-4 -left-4 bg-green-500 text-white p-3 rounded-full shadow-lg">
-              <TrendingUp className="w-6 h-6" />
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-primary/20">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <Brain className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4">AI Research</h3>
+                <p className="text-muted-foreground mb-4">
+                  Advanced algorithms analyze market trends, news sentiment, and macro indicators
+                </p>
+                <div className="text-sm text-primary font-semibold">
+                  News & Macro Analysis
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-secondary/20">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 bg-secondary/10 rounded-full flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                  <Users className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4">Community Driven</h3>
+                <p className="text-muted-foreground mb-4">
+                  Learn from experienced investors and share your own research insights
+                </p>
+                <div className="text-sm text-secondary font-semibold">
+                  Shared Research
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-accent/20">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 bg-accent/10 rounded-full flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <Trophy className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4">Gamified</h3>
+                <p className="text-muted-foreground mb-4">
+                  Compete in contests, earn rewards, and climb leaderboards
+                </p>
+                <div className="text-sm text-accent font-semibold">
+                  Contests & Rewards
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Button 
+              size="lg" 
+              className="text-lg px-8 py-6 hover:scale-105 transition-all duration-200"
+              onClick={onStartInvesting}
+            >
+              Start AI Research
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="text-lg px-8 py-6 hover:scale-105 transition-all duration-200"
+              onClick={onTakeAssessment}
+            >
+              Join Contests
+            </Button>
+          </div>
+
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="group hover:scale-105 transition-transform">
+              <div className="text-4xl font-bold text-primary mb-2">5,000+</div>
+              <div className="text-muted-foreground">Community Members</div>
+            </div>
+            <div className="group hover:scale-105 transition-transform">
+              <div className="text-4xl font-bold text-secondary mb-2">150+</div>
+              <div className="text-muted-foreground">Daily Contests</div>
+            </div>
+            <div className="group hover:scale-105 transition-transform">
+              <div className="text-4xl font-bold text-accent mb-2">2,500+</div>
+              <div className="text-muted-foreground">Funds Tracked</div>
             </div>
           </div>
         </div>
