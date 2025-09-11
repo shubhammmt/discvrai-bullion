@@ -68,25 +68,20 @@ const MutualFundsLanding = () => {
       {/* 2. News Carousel - Full Width */}
       <NewsCarousel />
 
-      {/* 3. Three Pillars of Smart Investing */}
-      <ThreePillars />
 
-      {/* 4. Portfolio Analysis Carousel */}
+      {/* 3. Portfolio Analysis Carousel */}
       <PortfolioAnalysisCarousel onViewDetails={handleViewAnalysisDetails} />
 
-      {/* 5. Security & Compliance - Trust Building */}
-      <SecurityCompliance />
-
-      {/* 6. Community Showcase */}
+      {/* 4. Community Showcase */}
       <CommunityShowcase onJoinCommunity={handleJoinCommunity} />
 
-      {/* 7. Trust Signals */}
+      {/* 5. Trust Signals */}
       <TrustSignals />
 
-      {/* 8. Fund Themes */}
+      {/* 6. Fund Themes */}
       <FundThemes onExploreTheme={handleExploreTheme} />
 
-      {/* 9. How It Works */}
+      {/* 7. How It Works */}
       <HowItWorks />
 
       {/* SEO Elements */}

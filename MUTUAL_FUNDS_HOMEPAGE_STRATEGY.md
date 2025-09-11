@@ -1,12 +1,12 @@
-# Mutual Funds Homepage Strategy & Implementation Plan
+# Mutual Funds Homepage Strategy & Implementation Plan - Gen-Z Focus
 
 ## Overview
-This document outlines the strategic approach for the mutual funds homepage (`/mutual-funds`) targeting anonymous users with a primary goal of **user signup and engagement**.
+This document outlines the strategic approach for the mutual funds homepage (`/mutual-funds`) targeting anonymous Gen-Z users with a primary goal of **user signup and engagement**.
 
 ## Target Audience
-- **Primary**: Anonymous users (not logged in)
-- **Goal**: Convert visitors to signed-up users
-- **Secondary Goal**: Showcase platform capabilities and build trust
+- **Primary**: Gen-Z anonymous users (18-27 years old, not logged in)
+- **Goal**: Convert visitors to signed-up users with Gen-Z focused messaging
+- **Secondary Goal**: Showcase platform capabilities without overwhelming with compliance/security details
 
 ## Page Structure & Strategy
 
@@ -14,11 +14,11 @@ This document outlines the strategic approach for the mutual funds homepage (`/m
 **Purpose**: Immediate impact and clear value proposition
 
 **Content**:
-- **Headline**: "AI Research + Community + Gamified Discovery"
-- **Subheadline**: "AI agents analyze news & macros to find winning funds. Join contests, climb leaderboards, share research. Simplified, gamified mutual fund investing."
-- **Three Core Features**: AI Research, Community Driven, Gamified
-- **Primary CTAs**: "Start AI Research" & "Join Contests"
-- **Social Proof Stats**: 5,000+ Community Members, 150+ Daily Contests, 2,500+ Funds Tracked
+- **Headline**: "AI Research + Squad Insights + Achievement Unlocked" (Gen-Z friendly alternatives)
+- **Subheadline**: "AI bots do the heavy lifting while you vibe with the smartest squad. Level up through challenges, flex your gains, drop knowledge. Investing made actually fun."
+- **Three Core Features**: AI Research, Squad-Powered, Achievement System
+- **Primary CTAs**: "Start Creating" & "Join The Squad" (no subscription model)
+- **Social Proof Stats**: 5,000+ Squad Members, 150+ Daily Challenges, 2,500+ Funds Tracked
 
 **Design Enhancements**:
 - Subtle animated background (floating particles/charts)
@@ -32,17 +32,15 @@ This document outlines the strategic approach for the mutual funds homepage (`/m
 - Full-width carousel (desktop & mobile)
 - Category filters (Market News, Fund Updates, AI Insights)
 - Trending indicators and read time estimates
-- Personalization hints for logged-in users
+- YouTube demo integration for "Watch Demo"
 
-### 3. Three Pillars of Smart Investing
-**Purpose**: Educational content that builds credibility
-
-**Content**: "Combine AI intelligence, community wisdom, and gamified discovery for better investment decisions"
+### 3. Enhanced Feature Cards (removed Three Pillars section)
+**Purpose**: Showcase core platform features with improved visual design
 
 **Enhancements**:
-- Interactive cards with hover/flip effects
-- Real data points for each pillar
-- User testimonials specific to each pillar
+- Premium card designs optimized for light mode
+- Better contrast and visual hierarchy
+- Gen-Z focused copy and design elements
 
 ### 4. Portfolio Analysis Carousel
 **Purpose**: Showcase advanced features and capabilities
@@ -52,27 +50,25 @@ This document outlines the strategic approach for the mutual funds homepage (`/m
 - Sample portfolio insights
 - CTA to "Get Your Portfolio Analyzed"
 
-### 5. Trust Building Sequence
-**Strategic Order**:
-1. Security & Compliance (moved higher for trust)
-2. Community Impact & Statistics
-3. Trusted by Thousands (with real metrics)
-4. Popular Investment Themes
-5. How It Works
+### 5. Simplified Trust Building Sequence
+**Strategic Order** (Security & Compliance section removed):
+1. Community Impact & Statistics
+2. Popular Investment Themes  
+3. How It Works (simplified onboarding - no personal details required initially)
 
 ## Conversion Strategy
 
 ### Primary Conversion Points
-1. **Hero CTAs**: "Start AI Research" & "Join Contests"
+1. **Hero CTAs**: "Start Creating" & "Join The Squad" (Gen-Z style, no subscriptions)
 2. **Portfolio Analysis**: "Get Your Portfolio Analyzed" 
-3. **Community**: "Join Community" buttons
+3. **Community**: "Join Squad" buttons
 4. **Progressive CTAs**: Throughout the page at strategic points
 
-### Trust Building Elements
-1. **Security First**: Prominent security & compliance section
-2. **Real Data**: Actual user avatars and statistics
-3. **Performance Disclaimers**: Clear educational platform messaging
-4. **Social Proof**: Community numbers and testimonials
+### Trust Building Elements (Simplified)
+1. **Real Data**: Actual user avatars and statistics
+2. **Social Proof**: Community numbers and testimonials
+3. **Simplified Onboarding**: No personal details/risk assessment required initially
+4. **Educational Focus**: Clear platform purpose without heavy compliance messaging
 
 ### Micro-Interactions
 - Hover effects on cards
@@ -101,8 +97,15 @@ This document outlines the strategic approach for the mutual funds homepage (`/m
 - **Engagement**: News carousel interactions, pillar card hovers
 - **Trust**: Security section views, testimonial clicks
 
+## Gen-Z Focused Elements
+- **Language**: Casual, authentic tone (squad, vibe, flex, level up)
+- **Visual Design**: Clean, modern cards optimized for light mode
+- **No Friction**: Minimal personal info required upfront
+- **Achievement Focus**: Gamification over traditional investment language
+- **Community First**: Social learning and sharing emphasized
+
 ## Future Considerations
-- A/B testing different CTA placements
+- A/B testing different Gen-Z messaging variations
 - Personalization for returning visitors
 - Integration with authentication system
 - Analytics tracking for all conversion points

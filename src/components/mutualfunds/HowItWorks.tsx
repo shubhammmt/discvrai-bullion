@@ -18,11 +18,11 @@ const HowItWorks = () => {
   const steps = [
     {
       id: 1,
-      title: 'Enable Personal Profile',
-      description: 'Set up your investment preferences, risk tolerance, and financial goals to get personalized recommendations.',
+      title: 'Quick Setup',
+      description: 'Just basic info to get started - no lengthy forms or personal financial details required.',
       icon: User,
       color: 'bg-blue-500/10 text-blue-600',
-      features: ['Risk assessment', 'Goal setting', 'Preference mapping']
+      features: ['Basic profile only', 'No risk assessment', 'Skip the boring stuff']
     },
     {
       id: 2,
@@ -76,7 +76,7 @@ const HowItWorks = () => {
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Journey to Smart Investing</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Follow these simple steps to leverage our AI-powered research platform and community insights
+            Simple steps to start your investment journey - no complicated forms or personal details needed upfront
           </p>
         </div>
 
