@@ -8,6 +8,7 @@ import FundThemes from '@/components/mutualfunds/FundThemes';
 import NewsCarousel from '@/components/mutualfunds/NewsCarousel';
 import SecurityCompliance from '@/components/mutualfunds/SecurityCompliance';
 import HowItWorks from '@/components/mutualfunds/HowItWorks';
+import PortfolioAnalysisCarousel from '@/components/mutualfunds/PortfolioAnalysisCarousel';
 import Header from '@/components/Header';
 
 const MutualFundsLanding = () => {
@@ -50,22 +51,36 @@ const MutualFundsLanding = () => {
     navigate('/community');
   };
 
+  const handleViewAnalysisDetails = (analysisId: string) => {
+    navigate(`/portfolio/analysis?section=${analysisId}`);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
       {/* Hero Section with News Sidebar */}
       <div className="relative">
-        <HeroSection 
-          onStartInvesting={handleStartInvesting}
-          onTakeAssessment={handleTakeAssessment}
-        />
-        
-        {/* Desktop News Sidebar */}
-        <div className="hidden xl:block absolute top-24 right-8 w-80 z-10">
-          <NewsCarousel />
+        <div className="grid xl:grid-cols-4 gap-8">
+          {/* Main Hero Content */}
+          <div className="xl:col-span-3">
+            <HeroSection 
+              onStartInvesting={handleStartInvesting}
+              onTakeAssessment={handleTakeAssessment}
+            />
+          </div>
+          
+          {/* Desktop News Sidebar */}
+          <div className="hidden xl:block xl:col-span-1 pt-24">
+            <div className="sticky top-24">
+              <NewsCarousel />
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Portfolio Analysis Carousel */}
+      <PortfolioAnalysisCarousel onViewDetails={handleViewAnalysisDetails} />
 
       {/* Core Features */}
       <CoreFeatures onFeatureClick={handleFeatureClick} />
