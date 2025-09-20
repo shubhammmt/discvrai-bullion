@@ -57,6 +57,7 @@ import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
+import SRCCPitch from './pages/SRCCPitch';
 
 const queryClient = new QueryClient();
 
@@ -119,6 +120,7 @@ function App() {
           <Route path="/data-deletion-policy" element={<DataDeletionPolicy />} />
           <Route path="/news-hub" element={<NewsHub />} />
           <Route path="/engineer-showcase" element={<EngineerShowcase />} />
+          <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
