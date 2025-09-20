@@ -38,6 +38,8 @@ import { ReviewEcosystemSlide } from './ReviewEcosystemSlide';
 import { CredibleInformationCrisisSlideV2 } from './CredibleInformationCrisisSlideV2';
 import { NetworkEffectsDataMoatsSlide } from './NetworkEffectsDataMoatsSlide';
 import { PlatformDifferentiationSlideV2 } from './PlatformDifferentiationSlideV2';
+import { SRCCValuePropositionSlide } from './SRCCValuePropositionSlide';
+import { SRCCImplementationSlide } from './SRCCImplementationSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -135,6 +137,10 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <NetworkEffectsDataMoatsSlide slide={slide} />;
     case 'platform-differentiation-v2':
       return <PlatformDifferentiationSlideV2 slide={slide} />;
+    case 'srcc-value-proposition':
+      return <SRCCValuePropositionSlide slide={slide} />;
+    case 'srcc-implementation':
+      return <SRCCImplementationSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
