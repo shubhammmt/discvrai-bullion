@@ -62,7 +62,7 @@ const Chatbot = () => {
   useEffect(() => {
     const handleScroll = () => {
       const inputFieldTop = window.innerHeight - 140; // Input field area (140px from bottom)
-      const fadeStartOffset = 100; // Start fading 100px before input field
+      const fadeDistance = 60; // Distance below input field to completely fade
       
       const newOpacities: {[key: number]: number} = {};
       
@@ -72,11 +72,10 @@ const Chatbot = () => {
           const rect = messageElement.getBoundingClientRect();
           const messageBottom = rect.bottom;
           
-          if (messageBottom > inputFieldTop - fadeStartOffset) {
-            // Calculate opacity based on distance from fade start point
-            const distanceFromFadeStart = messageBottom - (inputFieldTop - fadeStartOffset);
-            const maxFadeDistance = fadeStartOffset;
-            const opacity = Math.max(0, 1 - (distanceFromFadeStart / maxFadeDistance));
+          if (messageBottom > inputFieldTop) {
+            // Only start fading when message goes below the input field
+            const distanceBelowInput = messageBottom - inputFieldTop;
+            const opacity = Math.max(0, 1 - (distanceBelowInput / fadeDistance));
             newOpacities[message.id] = opacity;
           } else {
             newOpacities[message.id] = 1;
@@ -160,7 +159,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="min-h-screen ai-surface">
+    <div className="min-h-screen ai-surface overflow-y-auto">
       <Header />
       
       {/* New Chat Button */}
