@@ -149,9 +149,11 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
       {/* Dialog */}
       <div
         ref={dialogRef}
-        className={`fixed z-50 w-96 h-[500px] ai-surface-elevated ai-border-glow border rounded-2xl flex flex-col shadow-2xl transition-all duration-200 ${
-          isClosing ? 'animate-scale-out opacity-0' : 'animate-scale-in opacity-100'
-        }`}
+        className={`fixed z-50 w-96 h-[500px] border rounded-2xl flex flex-col shadow-2xl transition-all duration-200 ${
+          isDarkMode 
+            ? 'ai-surface-elevated ai-border-glow' 
+            : 'bg-white border-gray-200'
+        } ${isClosing ? 'animate-scale-out opacity-0' : 'animate-scale-in opacity-100'}`}
         style={{
           right: `${position.x}px`,
           bottom: `${position.y}px`,
@@ -159,11 +161,15 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
       >
         {/* Header */}
         <div
-          className="flex items-center justify-between p-4 ai-gradient rounded-t-2xl cursor-move select-none"
+          className={`flex items-center justify-between p-4 rounded-t-2xl cursor-move select-none ${
+            isDarkMode ? 'ai-gradient' : 'bg-gradient-to-r from-blue-600 to-purple-600'
+          }`}
           onMouseDown={handleMouseDown}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+              isDarkMode ? 'bg-white/20' : 'bg-white/30'
+            }`}>
               <Brain className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -177,7 +183,7 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
               onClick={toggleTheme}
               variant="ghost"
               size="sm"
-              className="w-8 h-8 p-0 text-white hover:bg-white/20 rounded-lg"
+              className="w-8 h-8 p-0 text-white hover:bg-white/20 rounded-lg transition-colors"
               title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -207,18 +213,26 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
             /* Welcome State */
             <div className="flex-1 flex items-center justify-center p-6 text-center">
               <div>
-                <div className="w-12 h-12 ai-gradient rounded-xl flex items-center justify-center mb-3 mx-auto ai-glow">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 mx-auto ${
+                  isDarkMode ? 'ai-gradient ai-glow' : 'bg-gradient-to-r from-blue-600 to-purple-600'
+                }`}>
                   <Brain className="h-6 w-6 text-white" />
                 </div>
-                <h4 className="text-white font-semibold mb-2">Hi there!</h4>
-                <p className="text-gray-400 text-xs leading-relaxed">
+                <h4 className={`font-semibold mb-2 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Hi there!</h4>
+                <p className={`text-xs leading-relaxed ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   How can I help you today? Ask me anything!
                 </p>
               </div>
             </div>
           ) : (
             /* Messages */
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${
+              isDarkMode ? '' : 'bg-gray-50'
+            }`}>
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -229,13 +243,19 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
                   {/* Avatar */}
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     message.type === 'user' 
-                      ? 'ai-gradient ai-glow'
-                      : 'ai-surface-elevated ai-border-glow border'
+                      ? isDarkMode 
+                        ? 'ai-gradient ai-glow'
+                        : 'bg-gradient-to-r from-blue-600 to-purple-600'
+                      : isDarkMode 
+                        ? 'ai-surface-elevated ai-border-glow border'
+                        : 'bg-white border border-gray-200 shadow-sm'
                   }`}>
                     {message.type === 'user' ? (
                       <User className="h-4 w-4 text-white" />
                     ) : (
-                      <Brain className="h-4 w-4 text-blue-400" />
+                      <Brain className={`h-4 w-4 ${
+                        isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                      }`} />
                     )}
                   </div>
                   
@@ -244,8 +264,12 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
                     <div
                       className={`rounded-xl p-3 text-sm ${
                         message.type === 'user'
-                          ? 'bg-purple-600/70 border border-purple-500/50 text-white'
-                          : 'ai-surface-elevated border ai-border-glow text-white'
+                          ? isDarkMode
+                            ? 'bg-purple-600/70 border border-purple-500/50 text-white'
+                            : 'bg-blue-600 text-white'
+                          : isDarkMode
+                            ? 'ai-surface-elevated border ai-border-glow text-white'
+                            : 'bg-white border border-gray-200 text-gray-900 shadow-sm'
                       }`}
                     >
                       <p className="leading-relaxed">{message.content}</p>
@@ -260,14 +284,26 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
               {/* Loading indicator */}
               {isLoading && (
                 <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-lg ai-surface-elevated ai-border-glow border flex items-center justify-center flex-shrink-0">
-                    <Brain className="h-4 w-4 text-blue-400" />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    isDarkMode ? 'ai-surface-elevated ai-border-glow border' : 'bg-white border border-gray-200 shadow-sm'
+                  }`}>
+                    <Brain className={`h-4 w-4 ${
+                      isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                    }`} />
                   </div>
-                  <div className="ai-surface-elevated border ai-border-glow rounded-xl p-3">
+                  <div className={`rounded-xl p-3 ${
+                    isDarkMode ? 'ai-surface-elevated border ai-border-glow' : 'bg-white border border-gray-200 shadow-sm'
+                  }`}>
                     <div className="flex space-x-1">
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce"></div>
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
+                        isDarkMode ? 'bg-blue-400' : 'bg-blue-600'
+                      }`}></div>
+                      <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
+                        isDarkMode ? 'bg-blue-400' : 'bg-blue-600'
+                      }`} style={{ animationDelay: '0.1s' }}></div>
+                      <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
+                        isDarkMode ? 'bg-blue-400' : 'bg-blue-600'
+                      }`} style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -277,21 +313,31 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
           )}
 
           {/* Input Area */}
-          <div className="p-4 border-t ai-border-glow">
-            <div className="flex items-center gap-2 ai-surface-elevated rounded-full border ai-border-glow px-3 py-2">
+          <div className={`p-4 border-t ${
+            isDarkMode ? 'ai-border-glow' : 'border-gray-200 bg-white'
+          }`}>
+            <div className={`flex items-center gap-2 rounded-full border px-3 py-2 ${
+              isDarkMode ? 'ai-surface-elevated ai-border-glow' : 'bg-gray-50 border-gray-200'
+            }`}>
               <Input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
                 disabled={isLoading}
-                className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-sm placeholder:text-gray-500 text-white outline-none"
+                className={`flex-1 border-0 bg-transparent focus-visible:ring-0 text-sm outline-none ${
+                  isDarkMode 
+                    ? 'placeholder:text-gray-500 text-white' 
+                    : 'placeholder:text-gray-400 text-gray-900'
+                }`}
               />
               <Button
                 onClick={() => handleSendMessage()}
                 disabled={!inputMessage.trim() || isLoading}
                 size="sm"
-                className="ai-gradient hover:opacity-90 text-white rounded-full w-8 h-8 p-0 ai-glow"
+                className={`rounded-full w-8 h-8 p-0 hover:opacity-90 transition-all duration-300 ${
+                  isDarkMode ? 'ai-gradient ai-glow' : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
+                }`}
               >
                 <Send className="h-3 w-3" />
               </Button>
