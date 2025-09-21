@@ -258,9 +258,9 @@ const Chatbot = () => {
         )}
         
         {/* Input Field - Fixed at bottom */}
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-1/2 z-10">
-          <div className={`flex items-center gap-4 ai-surface-elevated rounded-full border transition-all duration-300 p-4 ${
-            isFocused ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] z-10">
+          <div className={`flex items-center gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-4 py-3 ${
+            isFocused && inputMessage.trim() ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
           }`}>
             <div className="flex items-center gap-3">
               <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
