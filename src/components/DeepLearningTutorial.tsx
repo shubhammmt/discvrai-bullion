@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
-import { Timer, Brain, Code, CheckCircle, XCircle, HelpCircle, Trophy, Play, Pause } from 'lucide-react';
+import { Timer, Brain, Code, CheckCircle, XCircle, HelpCircle, Trophy, Play, Pause, Terminal, Loader2, RefreshCw } from 'lucide-react';
 import { Alert, AlertDescription } from './ui/alert';
+import { Textarea } from './ui/textarea';
 
 interface Question {
   id: number;
@@ -23,7 +24,7 @@ interface Question {
 const deepLearningQuestions: Question[] = [
   {
     id: 1,
-    title: "Neural Network Basics",
+    title: "Neural Network Fundamentals",
     theory: "A neural network is inspired by how our brain processes information. It consists of interconnected nodes (neurons) that process and transmit information through weighted connections.",
     example: "Think of recognizing a handwritten digit: each pixel is an input, hidden layers detect patterns like curves and lines, and the output layer classifies the digit (0-9).",
     pythonCode: `import numpy as np
@@ -54,11 +55,11 @@ print(f"Neuron output: {result:.3f}")`,
     ],
     correctAnswer: 1,
     explanation: "Weights determine how strongly one neuron influences another. During training, these weights are adjusted to learn patterns in the data.",
-    image: "/src/assets/neural-network-diagram.jpg"
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop"
   },
   {
     id: 2,
-    title: "Activation Functions",
+    title: "Activation Functions & Non-linearity",
     theory: "Activation functions introduce non-linearity into neural networks, allowing them to learn complex patterns. Without activation functions, multiple layers would just be linear transformations.",
     example: "ReLU (Rectified Linear Unit) is like a one-way valve: it passes positive values unchanged but blocks negative values by setting them to zero.",
     pythonCode: `import numpy as np
@@ -90,11 +91,11 @@ print(f"Tanh(0) = {tanh(0):.3f}")`,
     ],
     correctAnswer: 1,
     explanation: "ReLU helps avoid vanishing gradients because its derivative is either 0 or 1, preventing gradients from becoming too small in deep networks.",
-    image: "/src/assets/activation-functions.jpg"
+    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop"
   },
   {
     id: 3,
-    title: "Forward Propagation",
+    title: "Forward Propagation Flow",
     theory: "Forward propagation is how data flows through the network from input to output. Each layer transforms the data using weights, biases, and activation functions.",
     example: "Like an assembly line: raw materials (input) pass through various stations (layers), each adding value (transformation) until you get the final product (output).",
     pythonCode: `import numpy as np
@@ -136,11 +137,11 @@ print(f"Network output: {output}")`,
     ],
     correctAnswer: 1,
     explanation: "Forward propagation is the process where input data flows through the network layers to produce an output prediction.",
-    image: "/src/assets/forward-propagation.jpg"
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop"
   },
   {
     id: 4,
-    title: "Loss Functions",
+    title: "Loss Functions & Optimization",
     theory: "Loss functions measure how far off our predictions are from the actual targets. The goal of training is to minimize this loss by adjusting weights and biases.",
     example: "Like a GPS calculating how far you are from your destination. Mean Squared Error measures the average squared difference between predicted and actual values.",
     pythonCode: `import numpy as np
@@ -174,11 +175,11 @@ print(f"Binary Crossentropy: {bce:.4f}")`,
     ],
     correctAnswer: 1,
     explanation: "MSE is ideal for regression problems where you predict continuous values, as it measures the average squared difference between predictions and targets.",
-    image: "/src/assets/loss-functions.jpg"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"
   },
   {
     id: 5,
-    title: "Backpropagation",
+    title: "Backpropagation & Learning",
     theory: "Backpropagation is how neural networks learn. It calculates gradients (how much each weight contributes to the error) and updates weights to reduce the loss.",
     example: "Like getting feedback on a test: you see which answers were wrong, understand why, and adjust your study strategy for next time.",
     pythonCode: `import numpy as np
@@ -242,7 +243,7 @@ print("Weights updated through backpropagation!")`,
     ],
     correctAnswer: 1,
     explanation: "Backpropagation calculates gradients that show how to adjust each weight to reduce the loss, enabling the network to learn from its mistakes.",
-    image: "/src/assets/backpropagation.jpg"
+    image: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?w=400&h=300&fit=crop"
   }
 ];
 
@@ -251,7 +252,7 @@ const DeepLearningTutorial: React.FC = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes per question
+  const [timeLeft, setTimeLeft] = useState(120);
   const [isActive, setIsActive] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
@@ -259,6 +260,37 @@ const DeepLearningTutorial: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [showCode, setShowCode] = useState(false);
+  const [pythonCode, setPythonCode] = useState('');
+  const [pythonOutput, setPythonOutput] = useState('');
+  const [isRunning, setIsRunning] = useState(false);
+  const [pyodide, setPyodide] = useState<any>(null);
+  const pyodideRef = useRef<any>(null);
+
+  // Initialize Pyodide
+  useEffect(() => {
+    const initPyodide = async () => {
+      try {
+        const { loadPyodide } = await import('pyodide');
+        const pyodideInstance = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+        });
+        await pyodideInstance.loadPackage(['numpy']);
+        pyodideRef.current = pyodideInstance;
+        setPyodide(pyodideInstance);
+      } catch (error) {
+        console.error('Failed to load Pyodide:', error);
+      }
+    };
+    initPyodide();
+  }, []);
+
+  // Set initial Python code when question changes
+  useEffect(() => {
+    if (deepLearningQuestions[currentQuestion]) {
+      setPythonCode(deepLearningQuestions[currentQuestion].pythonCode);
+      setPythonOutput('');
+    }
+  }, [currentQuestion]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -319,6 +351,37 @@ const DeepLearningTutorial: React.FC = () => {
     }
   };
 
+  const runPythonCode = async () => {
+    if (!pyodideRef.current) {
+      setPythonOutput('Python environment not ready. Please wait...');
+      return;
+    }
+
+    setIsRunning(true);
+    try {
+      // Capture stdout
+      pyodideRef.current.runPython(`
+import sys
+import io
+old_stdout = sys.stdout
+sys.stdout = io.StringIO()
+      `);
+
+      // Run the user's code
+      pyodideRef.current.runPython(pythonCode);
+
+      // Get the output
+      const output = pyodideRef.current.runPython('sys.stdout.getvalue()');
+      pyodideRef.current.runPython('sys.stdout = old_stdout');
+      
+      setPythonOutput(output || 'Code executed successfully (no output)');
+    } catch (error: any) {
+      setPythonOutput(`Error: ${error.message}`);
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
   const resetGame = () => {
     setCurrentQuestion(0);
     setSelectedAnswer(null);
@@ -331,6 +394,8 @@ const DeepLearningTutorial: React.FC = () => {
     setGameCompleted(false);
     setTotalTime(0);
     setShowCode(false);
+    setPythonCode('');
+    setPythonOutput('');
   };
 
   const formatTime = (seconds: number) => {
@@ -361,7 +426,7 @@ const DeepLearningTutorial: React.FC = () => {
               Deep Learning Fundamentals
             </CardTitle>
             <p className="text-slate-300 text-lg">
-              Master the core concepts of deep learning with interactive coding exercises
+              Master core deep learning concepts with interactive Python coding exercises
             </p>
           </CardHeader>
           <CardContent className="text-center space-y-6">
@@ -395,7 +460,7 @@ const DeepLearningTutorial: React.FC = () => {
               onClick={startGame}
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 text-lg"
             >
-              Start Deep Learning Journey
+              Begin Deep Learning Mastery
             </Button>
           </CardContent>
         </Card>
@@ -465,7 +530,7 @@ const DeepLearningTutorial: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <div className="flex justify-between items-center mb-4">
@@ -485,57 +550,117 @@ const DeepLearningTutorial: React.FC = () => {
               </Badge>
             </div>
           </div>
-          <Progress value={progress} className="h-2 bg-slate-700" />
+          
+          <Progress 
+            value={progress} 
+            className="h-3 bg-slate-700"
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Theory Section */}
           <Card className="bg-slate-800/90 border-slate-700 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <Brain className="h-5 w-5 text-blue-400" />
+              <CardTitle className="text-white flex items-center gap-2">
+                <Brain className="h-5 w-5" />
                 {question.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="aspect-video bg-slate-700/30 rounded-lg flex items-center justify-center">
-                <Brain className="h-16 w-16 text-blue-400" />
+              <div className="aspect-video bg-slate-700/30 rounded-lg overflow-hidden">
+                <img 
+                  src={question.image} 
+                  alt={question.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
               
-              <div className="space-y-3 text-slate-300">
-                <p className="leading-relaxed">{question.theory}</p>
-                
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                  <p className="text-blue-300 text-sm">
-                    <strong>Real-world example:</strong> {question.example}
-                  </p>
-                </div>
+              <div>
+                <h4 className="font-semibold text-slate-200 mb-2">Theory:</h4>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  {question.theory}
+                </p>
+              </div>
+              
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                <h4 className="font-semibold text-blue-300 mb-1">💡 Real-world Example:</h4>
+                <p className="text-blue-200 text-sm">
+                  {question.example}
+                </p>
               </div>
 
-              {/* Code Section */}
-              <div className="space-y-3">
-                <Button
-                  onClick={() => setShowCode(!showCode)}
-                  variant="outline"
-                  className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
-                  <Code className="h-4 w-4 mr-2" />
-                  {showCode ? 'Hide' : 'Show'} Python Implementation
-                </Button>
-                
-                {showCode && (
-                  <div className="space-y-3">
-                    <div className="bg-slate-900/80 rounded-lg p-4 border border-slate-600">
-                      <pre className="text-green-400 text-sm overflow-x-auto">
-                        <code>{question.pythonCode}</code>
-                      </pre>
+              <Button
+                onClick={() => setShowCode(!showCode)}
+                variant="outline"
+                className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
+              >
+                <Terminal className="h-4 w-4 mr-2" />
+                {showCode ? 'Hide' : 'Show'} Interactive Python Code
+              </Button>
+
+              {showCode && (
+                <Card className="bg-slate-800/90 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-white flex items-center gap-2">
+                      <Terminal className="h-5 w-5" />
+                      Interactive Python Code
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-slate-300">Edit and run the code:</label>
+                      <Textarea
+                        value={pythonCode}
+                        onChange={(e) => setPythonCode(e.target.value)}
+                        className="min-h-[200px] bg-slate-900 border-slate-700 text-green-400 font-mono text-sm"
+                        placeholder="Enter your Python code here..."
+                      />
                     </div>
-                    <p className="text-slate-400 text-sm">
-                      {question.codeExplanation}
-                    </p>
-                  </div>
-                )}
-              </div>
+                    
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={runPythonCode}
+                        disabled={isRunning || !pyodide}
+                        className="bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        {isRunning ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Running...
+                          </>
+                        ) : (
+                          <>
+                            <Play className="h-4 w-4 mr-2" />
+                            Run Code
+                          </>
+                        )}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setPythonCode(question.pythonCode)}
+                        className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Reset
+                      </Button>
+                    </div>
+
+                    {pythonOutput && (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-slate-300">Output:</label>
+                        <div className="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                          <pre className="text-sm text-blue-400 whitespace-pre-wrap">{pythonOutput}</pre>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="bg-slate-700/30 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-slate-200 mb-1">Code Explanation:</h4>
+                      <p className="text-slate-300 text-sm">{question.codeExplanation}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </CardContent>
           </Card>
 
@@ -588,16 +713,16 @@ const DeepLearningTutorial: React.FC = () => {
                       variant="outline"
                       onClick={() => handleAnswerSelect(index)}
                       disabled={showExplanation}
-                      className={`w-full text-left justify-start h-auto p-4 border-slate-600 text-slate-300 hover:bg-slate-700 ${
+                      className={`w-full text-left justify-start h-auto p-4 ${
                         showExplanation
                           ? index === question.correctAnswer
-                            ? 'bg-green-500/20 border-green-500 text-green-300'
+                            ? 'bg-green-600/20 border-green-500 text-green-300 hover:bg-green-600/20'
                             : selectedAnswer === index
-                            ? 'bg-red-500/20 border-red-500 text-red-300'
-                            : 'opacity-50'
+                            ? 'bg-red-600/20 border-red-500 text-red-300 hover:bg-red-600/20'
+                            : 'bg-slate-700/50 border-slate-600 text-slate-300 opacity-50'
                           : selectedAnswer === index
-                          ? 'bg-slate-600 border-slate-500'
-                          : ''
+                          ? 'bg-blue-600/20 border-blue-500 text-blue-300'
+                          : 'bg-slate-700/80 border-slate-600 text-slate-200 hover:bg-slate-600/80'
                       }`}
                     >
                       <div className="flex items-center gap-3">

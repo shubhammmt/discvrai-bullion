@@ -37,7 +37,7 @@ interface GameResult {
 const questions: Question[] = [
   {
     id: 1,
-    title: "What is Artificial Intelligence?",
+    title: "AI Fundamentals",
     content: "Artificial Intelligence (AI) is the simulation of human intelligence in machines. These machines are programmed to think and learn like humans. AI systems can perform tasks that typically require human intelligence, such as visual perception, speech recognition, decision-making, and language translation.",
     example: "Example: Netflix's recommendation system uses AI to analyze your viewing history and suggest movies you might like, just like how a friend would recommend based on knowing your preferences.",
     question: "What is the primary goal of Artificial Intelligence?",
@@ -54,7 +54,7 @@ const questions: Question[] = [
   },
   {
     id: 2,
-    title: "Machine Learning Basics",
+    title: "Machine Learning Essentials",
     content: "Machine Learning is a subset of AI that provides systems the ability to automatically learn and improve from experience without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
     example: "Example: Spam email detection gets better over time by learning from millions of emails marked as spam or not spam, without anyone programming specific rules for each type of spam.",
     question: "What is Machine Learning?",
@@ -71,7 +71,7 @@ const questions: Question[] = [
   },
   {
     id: 3,
-    title: "Neural Networks",
+    title: "Neural Network Architecture",
     content: "Neural networks are computing systems inspired by biological neural networks. They consist of interconnected nodes (neurons) that process information using a connectionist approach. These networks can recognize patterns and make decisions in a way similar to the human brain.",
     example: "Example: Just like your brain has billions of neurons connected together to recognize a friend's face, artificial neural networks have interconnected nodes that work together to recognize patterns in data.",
     question: "What are Neural Networks inspired by?",
@@ -88,7 +88,7 @@ const questions: Question[] = [
   },
   {
     id: 4,
-    title: "Deep Learning",
+    title: "Deep Learning Concepts",
     content: "Deep Learning is a machine learning technique that teaches computers to learn by example. It uses neural networks with many layers (hence 'deep') to model and understand complex patterns. Deep learning is behind many recent AI breakthroughs in image recognition, natural language processing, and game playing.",
     example: "Example: When you upload a photo to Facebook and it automatically suggests tagging your friends, that's deep learning with multiple layers analyzing facial features, comparing them to known faces, and making suggestions.",
     question: "What makes Deep Learning 'deep'?",
@@ -122,7 +122,7 @@ const questions: Question[] = [
   },
   {
     id: 6,
-    title: "Computer Vision",
+    title: "Computer Vision Technology",
     content: "Computer Vision is a field of AI that trains computers to interpret and understand visual information from the world. It seeks to automate tasks that human visual systems can do, such as recognizing objects, faces, or activities in images and videos.",
     example: "Example: Tesla's self-driving cars use computer vision to 'see' the road, identify pedestrians, read traffic signs, and detect other vehicles - essentially giving the car eyes that can understand what they see.",
     question: "What does Computer Vision enable computers to do?",
@@ -139,7 +139,7 @@ const questions: Question[] = [
   },
   {
     id: 7,
-    title: "AI in Healthcare",
+    title: "AI in Healthcare Innovation",
     content: "AI is revolutionizing healthcare by enabling more accurate diagnoses, personalized treatments, and efficient drug discovery. AI systems can analyze medical images, predict patient outcomes, and assist doctors in making better decisions for patient care.",
     example: "Example: AI can analyze thousands of X-rays in minutes to detect early signs of lung cancer that human doctors might miss, potentially saving lives through early detection and treatment.",
     question: "How is AI transforming healthcare?",
@@ -156,7 +156,7 @@ const questions: Question[] = [
   },
   {
     id: 8,
-    title: "AI in Finance",
+    title: "AI in Financial Services",
     content: "In finance, AI is used for fraud detection, algorithmic trading, risk assessment, and customer service. AI systems can analyze vast amounts of financial data in real-time, identify patterns, and make predictions about market trends and investment opportunities.",
     example: "Example: Your bank's fraud detection system uses AI to instantly analyze your transaction patterns and flag suspicious activity, like a purchase in a foreign country when you've never traveled there before.",
     question: "What is AI primarily used for in finance?",
@@ -173,7 +173,7 @@ const questions: Question[] = [
   },
   {
     id: 9,
-    title: "Supervised Learning",
+    title: "Supervised Learning Methods",
     content: "Supervised Learning is a type of machine learning where the algorithm learns from labeled training data. The system is provided with input-output pairs and learns to map inputs to correct outputs. Common examples include email spam detection and image classification.",
     example: "Example: Teaching AI to recognize cats in photos by showing it thousands of images labeled 'cat' or 'not cat' - like having a teacher show students examples with the correct answers.",
     question: "What characterizes Supervised Learning?",
@@ -190,7 +190,7 @@ const questions: Question[] = [
   },
   {
     id: 10,
-    title: "Unsupervised Learning",
+    title: "Unsupervised Learning Techniques",
     content: "Unsupervised Learning finds hidden patterns in data without labeled examples. The algorithm explores data to find structures, clusters, or associations. Common applications include customer segmentation, market basket analysis, and data compression.",
     example: "Example: Amazon analyzing customer purchase data to discover that people who buy coffee also tend to buy sugar and cream, without anyone telling it to look for that pattern - it discovered the connection on its own.",
     question: "What does Unsupervised Learning do?",
@@ -207,7 +207,7 @@ const questions: Question[] = [
   },
   {
     id: 11,
-    title: "Reinforcement Learning",
+    title: "Reinforcement Learning Systems",
     content: "Reinforcement Learning is a type of machine learning where an agent learns to make decisions by performing actions in an environment and receiving rewards or penalties. It's similar to how humans learn through trial and error. Famous applications include game-playing AI like AlphaGo.",
     example: "Example: Teaching AI to play chess by letting it play millions of games, rewarding wins and penalizing losses - like learning to ride a bicycle through practice, falling down, and getting back up.",
     question: "How does Reinforcement Learning work?",
@@ -224,7 +224,7 @@ const questions: Question[] = [
   },
   {
     id: 12,
-    title: "AI Ethics",
+    title: "AI Ethics & Responsibility",
     content: "AI Ethics involves ensuring that AI systems are fair, transparent, and beneficial to society. Key concerns include bias in AI algorithms, privacy protection, job displacement, and ensuring AI decisions can be explained and understood by humans.",
     example: "Example: Ensuring that an AI hiring system doesn't discriminate against candidates based on gender or race, and that loan approval algorithms treat all applicants fairly regardless of their background.",
     question: "What is a key concern in AI Ethics?",
@@ -241,7 +241,7 @@ const questions: Question[] = [
   },
   {
     id: 13,
-    title: "Big Data and AI",
+    title: "Big Data & AI Synergy",
     content: "Big Data refers to extremely large datasets that require special tools and techniques to process. AI and Big Data work together - AI algorithms need large amounts of data to learn effectively, while Big Data needs AI to extract meaningful insights and patterns.",
     example: "Example: Google processes billions of search queries daily (Big Data) and uses AI to understand what users are looking for and provide relevant results - neither would be effective without the other.",
     question: "How do AI and Big Data work together?",
@@ -258,7 +258,7 @@ const questions: Question[] = [
   },
   {
     id: 14,
-    title: "Future of AI",
+    title: "Future of AI Technology",
     content: "The future of AI includes Artificial General Intelligence (AGI) - AI systems that can perform any intellectual task that humans can do. Current AI is 'narrow' - designed for specific tasks. The development of AGI could revolutionize every aspect of human life and work.",
     example: "Example: Today's AI can beat humans at chess or recognize faces, but can't do both tasks with the same system. AGI would be like having a digital Einstein that could excel at chess, recognize faces, write poetry, and solve scientific problems all with one system.",
     question: "What is Artificial General Intelligence (AGI)?",
@@ -275,7 +275,7 @@ const questions: Question[] = [
   },
   {
     id: 15,
-    title: "AI Career Opportunities",
+    title: "AI Career Pathways",
     content: "AI offers numerous career opportunities including AI/ML Engineer, Data Scientist, Research Scientist, Product Manager, and AI Ethics Specialist. These roles are in high demand across industries like tech, healthcare, finance, and automotive, offering excellent growth prospects and competitive salaries.",
     example: "Example: An AI Engineer at a startup might develop recommendation algorithms earning ₹25 LPA, while a Data Scientist at a bank might build fraud detection systems earning ₹30 LPA - both using AI skills in different industries.",
     question: "Which statement about AI careers is most accurate?",
@@ -283,207 +283,158 @@ const questions: Question[] = [
       "AI jobs are only available in tech companies",
       "AI careers offer high demand and competitive salaries across industries",
       "AI jobs require only programming skills",
-      "AI careers are temporary trends"
+      "AI careers are limited to research positions"
     ],
     correctAnswer: 1,
-    explanation: "✅ Correct! AI careers offer high demand and competitive salaries across many industries, not just tech. From healthcare to finance to entertainment, every industry is adopting AI. These roles require a mix of technical skills, domain knowledge, and problem-solving abilities, making them both challenging and rewarding.",
-    image: aiBrainImage,
+    explanation: "✅ Correct! AI careers offer high demand and competitive salaries across many industries, not just tech. From healthcare and finance to automotive and retail, companies need AI talent. These roles require diverse skills including programming, statistics, domain expertise, and communication skills.",
+    image: aiFinanceImage,
     timeLimit: 60
   }
 ];
 
 const AITutorialGame: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameStarted, setGameStarted] = useState(false);
-  const [gameEnded, setGameEnded] = useState(false);
-  const [answers, setAnswers] = useState<number[]>([]);
-  const [questionStartTime, setQuestionStartTime] = useState<number>(0);
-  const [totalTime, setTotalTime] = useState<number>(0);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [showAIHelp, setShowAIHelp] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
+  // Timer effect
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
-
-  useEffect(() => {
-    if (gameStarted && !gameEnded && !showAnswer) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            handleTimeUp();
-            return 0;
-          }
-          return prev - 1;
-        });
+    let interval: NodeJS.Timeout | null = null;
+    if (isTimerActive && timeLeft > 0 && !showAnswer) {
+      interval = setInterval(() => {
+        setTimeLeft(timeLeft => timeLeft - 1);
+        setTotalTime(totalTime => totalTime + 1);
       }, 1000);
-
-      return () => clearInterval(timer);
+    } else if (timeLeft === 0 && !showAnswer) {
+      setShowAnswer(true);
+      setIsTimerActive(false);
     }
-  }, [gameStarted, gameEnded, showAnswer, currentQuestion]);
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isTimerActive, timeLeft, showAnswer]);
 
   const startGame = () => {
     setGameStarted(true);
-    setQuestionStartTime(Date.now());
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setShowAnswer(false);
+    setScore(0);
+    setCorrectAnswers(0);
+    setTotalTime(0);
     setTimeLeft(questions[0].timeLimit);
+    setIsTimerActive(true);
   };
 
-  const handleTimeUp = () => {
-    const timeSpent = questions[currentQuestion].timeLimit - timeLeft;
-    setTotalTime(prev => prev + timeSpent);
-    setAnswers(prev => [...prev, -1]); // -1 indicates timeout
-    setShowAnswer(true);
-  };
-
-  const selectAnswer = (answerIndex: number) => {
+  const handleAnswerSelect = (answerIndex: number) => {
     if (showAnswer) return;
-    setSelectedAnswer(answerIndex);
-  };
-
-  const submitAnswer = () => {
-    if (selectedAnswer === null) return;
     
-    const timeSpent = questions[currentQuestion].timeLimit - timeLeft;
-    setTotalTime(prev => prev + timeSpent);
-    setAnswers(prev => [...prev, selectedAnswer]);
+    setSelectedAnswer(answerIndex);
     setShowAnswer(true);
+    setIsTimerActive(false);
+    
+    if (answerIndex === questions[currentQuestion].correctAnswer) {
+      const timeBonus = Math.max(0, timeLeft * 2);
+      setScore(score + 100 + timeBonus);
+      setCorrectAnswers(correctAnswers + 1);
+    }
   };
 
   const nextQuestion = () => {
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
+      const nextQ = currentQuestion + 1;
+      setCurrentQuestion(nextQ);
       setSelectedAnswer(null);
       setShowAnswer(false);
-      setShowAIHelp(false);
-      setTimeLeft(questions[currentQuestion + 1].timeLimit);
-      setQuestionStartTime(Date.now());
+      setTimeLeft(questions[nextQ].timeLimit);
+      setIsTimerActive(true);
     } else {
-      setGameEnded(true);
+      setGameCompleted(true);
+      setIsTimerActive(false);
     }
-  };
-
-  const calculateResults = (): GameResult => {
-    const correctAnswers = answers.reduce((count, answer, index) => {
-      return answer === questions[index].correctAnswer ? count + 1 : count;
-    }, 0);
-    
-    const accuracy = (correctAnswers / questions.length) * 100;
-    const avgTimePerQuestion = totalTime / questions.length;
-    
-    // Scoring: 70% accuracy + 30% speed bonus
-    const accuracyScore = accuracy * 0.7;
-    const speedBonus = Math.max(0, (60 - avgTimePerQuestion) / 60) * 30;
-    const finalScore = Math.round(accuracyScore + speedBonus);
-    
-    let badge = "Beginner";
-    let rank = "Explorer";
-    
-    if (finalScore >= 90) {
-      badge = "AI Master 🧠";
-      rank = "Grandmaster";
-    } else if (finalScore >= 80) {
-      badge = "AI Expert 🎓";
-      rank = "Expert";
-    } else if (finalScore >= 70) {
-      badge = "AI Specialist ⚡";
-      rank = "Specialist";
-    } else if (finalScore >= 60) {
-      badge = "AI Enthusiast 🚀";
-      rank = "Practitioner";
-    }
-    
-    return {
-      totalQuestions: questions.length,
-      correctAnswers,
-      totalTime,
-      score: finalScore,
-      badge,
-      rank
-    };
   };
 
   const resetGame = () => {
+    setGameStarted(false);
+    setGameCompleted(false);
     setCurrentQuestion(0);
     setSelectedAnswer(null);
-    setTimeLeft(60);
-    setGameStarted(false);
-    setGameEnded(false);
-    setAnswers([]);
-    setTotalTime(0);
     setShowAnswer(false);
-    setShowAIHelp(false);
+    setScore(0);
+    setCorrectAnswers(0);
+    setTotalTime(0);
+    setTimeLeft(60);
+    setIsTimerActive(false);
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+  const getBadge = () => {
+    const accuracy = (correctAnswers / questions.length) * 100;
+    if (accuracy >= 90) return { name: "AI Master", color: "bg-gradient-to-r from-yellow-400 to-yellow-600", icon: Trophy };
+    if (accuracy >= 80) return { name: "AI Expert", color: "bg-gradient-to-r from-blue-400 to-blue-600", icon: Award };
+    if (accuracy >= 70) return { name: "AI Enthusiast", color: "bg-gradient-to-r from-green-400 to-green-600", icon: Star };
+    return { name: "AI Learner", color: "bg-gradient-to-r from-purple-400 to-purple-600", icon: Target };
   };
 
-  const getAIHelp = () => {
-    setShowAIHelp(true);
+  const formatTime = (seconds: number) => {
+    return `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
   };
-
-  const results = gameEnded ? calculateResults() : null;
-  const question = questions[currentQuestion];
 
   if (!gameStarted) {
     return (
-      <div className={`min-h-screen transition-all duration-500 ${isDarkMode ? 'ai-surface' : 'bg-gradient-to-br from-background via-background to-primary/5'} flex items-center justify-center p-4`}>
-        <Card className={`w-full max-w-4xl ${isDarkMode ? 'ai-surface-elevated ai-border-glow' : ''}`}>
-          <CardContent className="p-8 text-center space-y-8">
-            <div className="flex justify-between items-center">
-              <div className="flex justify-center flex-1">
-                <div className={`w-20 h-20 ${isDarkMode ? 'ai-gradient' : 'bg-primary/10'} rounded-full flex items-center justify-center ${isDarkMode ? 'ai-glow' : ''}`}>
-                  <Brain className={`w-10 h-10 ${isDarkMode ? 'text-white' : 'text-primary'}`} />
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleDarkMode}
-                className={isDarkMode ? 'text-white hover:bg-white/10' : ''}
-              >
-                {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+        <Card className="w-full max-w-2xl bg-slate-800/90 border-slate-700 backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <Brain className="h-16 w-16 text-blue-400" />
             </div>
-
-            <div>
-              <h1 className={`text-4xl font-bold mb-4 ${isDarkMode ? 'ai-text-gradient' : 'text-foreground'}`}>
-                AI Mastery Challenge
-              </h1>
-              <p className={`text-xl ${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>
-                Master AI concepts through 15 interactive questions with real-world examples
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/50'} p-6 rounded-lg transition-all hover:scale-105`}>
-                <Clock className={`w-8 h-8 ${isDarkMode ? 'text-ai-primary' : 'text-primary'} mb-3 mx-auto`} />
-                <div className={`font-semibold text-lg ${isDarkMode ? 'text-ai-text-primary' : ''}`}>1 minute per question</div>
-                <div className={`${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>Race against time</div>
+            <CardTitle className="text-3xl font-bold text-white mb-2">
+              🎯 AI Fundamentals Challenge
+            </CardTitle>
+            <p className="text-slate-300 text-lg">
+              Test your knowledge of AI concepts and technologies
+            </p>
+          </CardHeader>
+          <CardContent className="text-center space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-slate-300">
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-blue-400">{questions.length}</div>
+                <div className="text-sm">Questions</div>
               </div>
-              <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/50'} p-6 rounded-lg transition-all hover:scale-105`}>
-                <Trophy className={`w-8 h-8 ${isDarkMode ? 'text-ai-accent' : 'text-primary'} mb-3 mx-auto`} />
-                <div className={`font-semibold text-lg ${isDarkMode ? 'text-ai-text-primary' : ''}`}>Earn AI badges</div>
-                <div className={`${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>Unlock achievements</div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-green-400">1 min</div>
+                <div className="text-sm">Per Question</div>
               </div>
-              <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/50'} p-6 rounded-lg transition-all hover:scale-105`}>
-                <Star className={`w-8 h-8 ${isDarkMode ? 'text-ai-info' : 'text-primary'} mb-3 mx-auto`} />
-                <div className={`font-semibold text-lg ${isDarkMode ? 'text-ai-text-primary' : ''}`}>Detailed explanations</div>
-                <div className={`${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>Learn from every answer</div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-purple-400">Points</div>
+                <div className="text-sm">Time Bonus</div>
               </div>
             </div>
-
+            
+            <div className="bg-slate-700/30 p-4 rounded-lg text-left">
+              <h3 className="font-semibold text-white mb-2">Topics Covered:</h3>
+              <ul className="text-slate-300 space-y-1 text-sm">
+                <li>• AI Fundamentals & History</li>
+                <li>• Machine Learning & Deep Learning</li>
+                <li>• Neural Networks & Computer Vision</li>
+                <li>• NLP & AI Applications</li>
+                <li>• AI Ethics & Future Trends</li>
+              </ul>
+            </div>
+            
             <Button 
-              onClick={startGame} 
-              size="lg" 
-              className={`w-full max-w-sm text-lg py-6 ${isDarkMode ? 'ai-gradient ai-glow hover:ai-glow-intense' : ''}`}
+              onClick={startGame}
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 text-lg"
             >
-              <Brain className="w-5 h-5 mr-3" />
-              Start AI Challenge
-              <ArrowRight className="w-5 h-5 ml-3" />
+              Begin AI Fundamentals
             </Button>
           </CardContent>
         </Card>
@@ -491,79 +442,70 @@ const AITutorialGame: React.FC = () => {
     );
   }
 
-  if (gameEnded && results) {
+  if (gameCompleted) {
+    const badge = getBadge();
+    const accuracy = (correctAnswers / questions.length) * 100;
+    
     return (
-      <div className={`min-h-screen transition-all duration-500 ${isDarkMode ? 'ai-surface' : 'bg-gradient-to-br from-background via-background to-primary/5'} flex items-center justify-center p-4`}>
-        <Card className={`w-full max-w-4xl ${isDarkMode ? 'ai-surface-elevated ai-border-glow' : ''}`}>
-          <CardContent className="p-8 text-center space-y-8">
-            <div className="flex justify-between items-center">
-              <div className="flex justify-center flex-1">
-                <div className={`w-24 h-24 ${isDarkMode ? 'ai-gradient' : 'bg-primary/10'} rounded-full flex items-center justify-center ${isDarkMode ? 'ai-glow-intense' : ''}`}>
-                  <Trophy className={`w-12 h-12 ${isDarkMode ? 'text-white' : 'text-primary'}`} />
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleDarkMode}
-                className={isDarkMode ? 'text-white hover:bg-white/10' : ''}
-              >
-                {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </Button>
-            </div>
-
-            <div>
-              <h1 className={`text-4xl font-bold mb-4 ${isDarkMode ? 'ai-text-gradient' : 'text-foreground'}`}>
-                Challenge Complete!
-              </h1>
-              <Badge 
-                variant="secondary" 
-                className={`text-xl px-6 py-3 ${isDarkMode ? 'ai-gradient text-white' : ''}`}
-              >
-                {results.badge}
-              </Badge>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+        <Card className="w-full max-w-2xl bg-slate-800/90 border-slate-700 backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <badge.icon className="h-16 w-16 text-yellow-400 mx-auto mb-4" />
+            <CardTitle className="text-3xl font-bold text-white mb-2">
+              AI Fundamentals Mastered! 🎉
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-6">
+            <div className={`${badge.color} text-white px-6 py-3 rounded-full text-lg font-semibold inline-block`}>
+              {badge.name}
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/50'} p-8 rounded-lg`}>
-                <div className={`text-4xl font-bold ${isDarkMode ? 'text-ai-primary' : 'text-primary'}`}>{results.score}</div>
-                <div className={`text-lg ${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>Final Score</div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-green-400">{correctAnswers}/{questions.length}</div>
+                <div className="text-slate-300">Correct Answers</div>
               </div>
-              <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/50'} p-8 rounded-lg`}>
-                <div className={`text-4xl font-bold ${isDarkMode ? 'text-ai-text-primary' : 'text-foreground'}`}>{results.correctAnswers}/{results.totalQuestions}</div>
-                <div className={`text-lg ${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>Correct Answers</div>
-              </div>
-              <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/50'} p-8 rounded-lg`}>
-                <div className={`text-4xl font-bold ${isDarkMode ? 'text-ai-accent' : 'text-foreground'}`}>{Math.round(results.totalTime / 60)}m</div>
-                <div className={`text-lg ${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>Total Time</div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-blue-400">{score}</div>
+                <div className="text-slate-300">Total Score</div>
               </div>
             </div>
-
-            <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-secondary/30'} p-6 rounded-lg`}>
-              <div className={`text-2xl font-semibold mb-2 ${isDarkMode ? 'text-ai-text-primary' : 'text-foreground'}`}>
-                🏆 Your Rank: {results.rank}
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-purple-400">{accuracy.toFixed(1)}%</div>
+                <div className="text-slate-300">Accuracy</div>
               </div>
-              <div className={`text-lg ${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>
-                You've mastered the fundamentals of AI! Ready for advanced challenges?
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="text-2xl font-bold text-orange-400">{formatTime(totalTime)}</div>
+                <div className="text-slate-300">Total Time</div>
               </div>
             </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
+            
+            <div className="bg-slate-700/30 p-4 rounded-lg text-left">
+              <h3 className="font-semibold text-white mb-2">🎯 Next Steps:</h3>
+              <ul className="text-slate-300 space-y-1 text-sm">
+                <li>• Explore Deep Learning Fundamentals</li>
+                <li>• Try hands-on Python programming</li>
+                <li>• Build your first AI project</li>
+                <li>• Join the AI community</li>
+              </ul>
+            </div>
+            
+            <div className="flex gap-3">
               <Button 
-                onClick={resetGame} 
-                variant="outline" 
-                size="lg"
-                className={`flex-1 ${isDarkMode ? 'border-ai-border text-ai-text-primary hover:bg-ai-surface-elevated' : ''}`}
+                onClick={resetGame}
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
               >
-                <RefreshCw className="w-5 h-5 mr-2" />
-                Try Again
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Retry Challenge
               </Button>
               <Button 
-                size="lg"
-                className={`flex-1 ${isDarkMode ? 'ai-gradient ai-glow' : ''}`}
+                className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white"
               >
-                <Target className="w-5 h-5 mr-2" />
-                Next Challenge
+                <ArrowRight className="h-4 w-4 mr-2" />
+                Continue Learning
               </Button>
             </div>
           </CardContent>
@@ -572,191 +514,139 @@ const AITutorialGame: React.FC = () => {
     );
   }
 
-  return (
-    <div className={`min-h-screen transition-all duration-500 ${isDarkMode ? 'ai-surface' : 'bg-gradient-to-br from-background via-background to-primary/5'} p-4`}>
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <Card className={`${isDarkMode ? 'ai-surface-elevated ai-border-glow' : ''}`}>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-4">
-                <div className={`w-12 h-12 ${isDarkMode ? 'ai-gradient' : 'bg-primary/10'} rounded-full flex items-center justify-center`}>
-                  <Brain className={`w-6 h-6 ${isDarkMode ? 'text-white' : 'text-primary'}`} />
-                </div>
-                <div>
-                  <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-ai-text-primary' : 'text-foreground'}`}>
-                    AI Mastery Challenge
-                  </h1>
-                  <p className={`${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>
-                    Question {currentQuestion + 1} of {questions.length}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={getAIHelp}
-                  className={`${isDarkMode ? 'text-ai-text-primary hover:bg-ai-surface border-ai-border' : ''}`}
-                >
-                  <Bot className="w-4 h-4 mr-2" />
-                  AI Help
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleDarkMode}
-                  className={isDarkMode ? 'text-white hover:bg-white/10' : ''}
-                >
-                  {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </Button>
-              </div>
-            </div>
-            
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Clock className={`w-4 h-4 ${timeLeft <= 10 ? 'text-destructive' : isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`} />
-                  <span className={`font-mono ${timeLeft <= 10 ? 'text-destructive' : isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>
-                    {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-                  </span>
-                </div>
-                <Badge variant={timeLeft <= 10 ? "destructive" : "secondary"}>
-                  {timeLeft <= 10 ? "Hurry up!" : "Good pace"}
-                </Badge>
-              </div>
-              <Progress 
-                value={((60 - timeLeft) / 60) * 100} 
-                className={`h-2 ${isDarkMode ? 'bg-ai-surface' : ''}`}
-              />
-              <Progress 
-                value={((currentQuestion + 1) / questions.length) * 100} 
-                className={`h-1 ${isDarkMode ? 'bg-ai-surface' : ''}`}
-              />
-            </div>
-          </CardContent>
-        </Card>
+  const currentQ = questions[currentQuestion];
+  const progress = ((currentQuestion + 1) / questions.length) * 100;
 
-        {/* Question Content */}
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold text-white">AI Fundamentals Challenge</h1>
+            <div className="flex items-center gap-4">
+              <Badge variant="secondary" className="bg-slate-700 text-slate-200">
+                {currentQuestion + 1} / {questions.length}
+              </Badge>
+              <div className="flex items-center gap-2 text-slate-300">
+                <Clock className="h-4 w-4" />
+                <span className={`font-mono ${timeLeft < 10 ? 'text-red-400' : 'text-slate-300'}`}>
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+              <Badge className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                Score: {score}
+              </Badge>
+            </div>
+          </div>
+          
+          <Progress 
+            value={progress} 
+            className="h-3 bg-slate-700"
+          />
+        </div>
+
+        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left Column - Content & Image */}
-          <Card className={`${isDarkMode ? 'ai-surface-elevated ai-border-glow' : ''}`}>
+          {/* Content Card */}
+          <Card className="bg-slate-800/90 border-slate-700 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className={`text-xl ${isDarkMode ? 'text-ai-text-primary' : ''}`}>
-                {question.title}
+              <CardTitle className="text-white flex items-center gap-2">
+                <Brain className="h-5 w-5" />
+                {currentQ.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="relative overflow-hidden rounded-lg">
+              {/* Image */}
+              <div className="aspect-video bg-slate-700/30 rounded-lg overflow-hidden">
                 <img 
-                  src={question.image} 
-                  alt={question.title}
-                  className="w-full h-48 object-cover transition-transform hover:scale-105"
+                  src={currentQ.image} 
+                  alt={currentQ.title}
+                  className="w-full h-full object-cover"
                 />
-                <div className={`absolute inset-0 ${isDarkMode ? 'bg-ai-gradient opacity-20' : 'bg-gradient-to-t from-black/20 to-transparent'}`} />
               </div>
               
-              <div className="space-y-3">
-                <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-ai-text-secondary' : 'text-muted-foreground'}`}>
-                  {question.content}
+              {/* Content */}
+              <div>
+                <h4 className="font-semibold text-slate-200 mb-2">Concept:</h4>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  {currentQ.content}
                 </p>
-                
-                <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-blue-50 border border-blue-200'} p-4 rounded-lg`}>
-                  <div className="flex items-start space-x-2">
-                    <Lightbulb className={`w-5 h-5 mt-0.5 ${isDarkMode ? 'text-ai-warning' : 'text-blue-600'} flex-shrink-0`} />
-                    <p className={`text-sm ${isDarkMode ? 'text-ai-text-primary' : 'text-blue-800'}`}>
-                      {question.example}
-                    </p>
-                  </div>
-                </div>
               </div>
-
-              {showAIHelp && (
-                <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-green-50 border border-green-200'} p-4 rounded-lg`}>
-                  <div className="flex items-start space-x-2">
-                    <Bot className={`w-5 h-5 mt-0.5 ${isDarkMode ? 'text-ai-success' : 'text-green-600'} flex-shrink-0`} />
-                    <div className={`text-sm ${isDarkMode ? 'text-ai-text-primary' : 'text-green-800'}`}>
-                      <strong>AI Hint:</strong> Think about the core purpose or main characteristic mentioned in the content. 
-                      The example should give you a clue about the practical application!
-                    </div>
-                  </div>
-                </div>
-              )}
+              
+              {/* Example */}
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                <h4 className="font-semibold text-blue-300 mb-1">💡 Example:</h4>
+                <p className="text-blue-200 text-sm">
+                  {currentQ.example}
+                </p>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Right Column - Question & Options */}
-          <Card className={`${isDarkMode ? 'ai-surface-elevated ai-border-glow' : ''}`}>
+          {/* Question Card */}
+          <Card className="bg-slate-800/90 border-slate-700 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className={`text-lg ${isDarkMode ? 'text-ai-text-primary' : ''}`}>
-                {question.question}
-              </CardTitle>
+              <CardTitle className="text-white">Test Your Knowledge</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-3">
-                {question.options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => selectAnswer(index)}
-                    disabled={showAnswer}
-                    className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                      showAnswer
-                        ? index === question.correctAnswer
-                          ? isDarkMode ? 'border-ai-success bg-ai-success/20 text-ai-text-primary' : 'border-green-500 bg-green-50 text-green-800'
+              <div className="space-y-4">
+                <h3 className="font-semibold text-white text-lg">
+                  {currentQ.question}
+                </h3>
+                
+                <div className="space-y-2">
+                  {currentQ.options.map((option, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      onClick={() => handleAnswerSelect(index)}
+                      disabled={showAnswer}
+                      className={`w-full text-left justify-start h-auto p-4 ${
+                        showAnswer
+                          ? index === currentQ.correctAnswer
+                            ? 'bg-green-600/20 border-green-500 text-green-300 hover:bg-green-600/20'
+                            : selectedAnswer === index
+                            ? 'bg-red-600/20 border-red-500 text-red-300 hover:bg-red-600/20'
+                            : 'bg-slate-700/50 border-slate-600 text-slate-300 opacity-50'
                           : selectedAnswer === index
-                          ? isDarkMode ? 'border-destructive bg-destructive/20 text-ai-text-primary' : 'border-red-500 bg-red-50 text-red-800'
-                          : isDarkMode ? 'border-ai-border bg-ai-surface text-ai-text-secondary' : 'border-gray-200 bg-gray-50 text-gray-600'
-                        : selectedAnswer === index
-                        ? isDarkMode ? 'border-ai-primary bg-ai-primary/20 text-ai-text-primary' : 'border-blue-500 bg-blue-50 text-blue-800'
-                        : isDarkMode ? 'border-ai-border bg-ai-surface hover:bg-ai-surface-elevated text-ai-text-primary hover:border-ai-primary/50' : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-800 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{option}</span>
-                      {showAnswer && (
-                        <div className="flex-shrink-0">
-                          {index === question.correctAnswer ? (
-                            <CheckCircle className={`w-5 h-5 ${isDarkMode ? 'text-ai-success' : 'text-green-500'}`} />
-                          ) : selectedAnswer === index ? (
-                            <XCircle className="w-5 h-5 text-destructive" />
-                          ) : null}
-                        </div>
-                      )}
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {!showAnswer && (
-                <Button
-                  onClick={submitAnswer}
-                  disabled={selectedAnswer === null}
-                  className={`w-full ${isDarkMode ? 'ai-gradient ai-glow disabled:opacity-50' : ''}`}
-                >
-                  Submit Answer
-                </Button>
-              )}
-
-              {showAnswer && (
-                <div className="space-y-4">
-                  <div className={`${isDarkMode ? 'ai-gradient-subtle ai-border-glow' : 'bg-gray-50 border border-gray-200'} p-4 rounded-lg`}>
-                    <h4 className={`font-semibold mb-2 ${isDarkMode ? 'text-ai-text-primary' : 'text-gray-800'}`}>
-                      Explanation:
-                    </h4>
-                    <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-ai-text-secondary' : 'text-gray-700'}`}>
-                      {question.explanation}
-                    </p>
-                  </div>
-                  
-                  <Button
-                    onClick={nextQuestion}
-                    className={`w-full ${isDarkMode ? 'ai-gradient ai-glow' : ''}`}
-                  >
-                    {currentQuestion < questions.length - 1 ? 'Next Question' : 'View Results'}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
+                          ? 'bg-blue-600/20 border-blue-500 text-blue-300'
+                          : 'bg-slate-700/80 border-slate-600 text-slate-200 hover:bg-slate-600/80'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center text-xs font-semibold">
+                          {String.fromCharCode(65 + index)}
+                        </span>
+                        <span className="flex-1">{option}</span>
+                        {showAnswer && index === currentQ.correctAnswer && (
+                          <CheckCircle className="h-5 w-5 text-green-400" />
+                        )}
+                        {showAnswer && selectedAnswer === index && index !== currentQ.correctAnswer && (
+                          <XCircle className="h-5 w-5 text-red-400" />
+                        )}
+                      </div>
+                    </Button>
+                  ))}
                 </div>
-              )}
+
+                {showAnswer && (
+                  <div className="space-y-4">
+                    <div className="bg-slate-700/50 border border-slate-600 rounded-lg p-4">
+                      <h4 className="font-semibold text-white mb-2">Explanation:</h4>
+                      <p className="text-slate-300 text-sm">{currentQ.explanation}</p>
+                    </div>
+                    
+                    <Button 
+                      onClick={nextQuestion}
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white"
+                    >
+                      {currentQuestion < questions.length - 1 ? 'Next Question' : 'View Results'}
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </div>
+                )}
+              </div>
             </CardContent>
           </Card>
         </div>
