@@ -152,39 +152,39 @@ const Chatbot = () => {
           <div className="flex-1 flex items-center justify-center p-8 pb-32">
             <div className="max-w-4xl w-full text-center animate-fade-in-up">
               {/* AI Avatar with Glow */}
-              <div className="relative mb-8">
-                <div className="inline-flex items-center justify-center w-20 h-20 ai-gradient rounded-2xl mb-6 ai-glow-intense relative">
-                  <Brain className="h-10 w-10 text-white" />
+              <div className="relative mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 ai-gradient rounded-2xl mb-4 ai-glow-intense relative">
+                  <Brain className="h-8 w-8 text-white" />
                   <div className="absolute inset-0 ai-gradient rounded-2xl opacity-20 animate-pulse"></div>
                 </div>
               </div>
 
               {/* Greeting */}
-              <div className="mb-8">
-                <h1 className="text-5xl font-bold mb-4">
+              <div className="mb-6">
+                <h1 className="text-3xl font-bold mb-3">
                   <span className="ai-text-gradient">Hi, Welcome!</span>
                 </h1>
-                <h2 className="text-3xl font-semibold text-white mb-4">
+                <h2 className="text-xl font-semibold text-white mb-3">
                   Can I help you with anything?
                 </h2>
-                <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-sm text-gray-300 max-w-xl mx-auto leading-relaxed">
                   Ready to assist you with anything you need, from answering questions to providing recommendations. Let's get started!
                 </p>
               </div>
               
               {/* Quick Prompts - Smaller Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
                 {quickPrompts.map((prompt) => (
                   <Card 
                     key={prompt.id}
                     className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
                     onClick={() => handleQuickPrompt(prompt)}
                   >
-                    <CardContent className="p-4 text-center h-full flex flex-col items-center">
-                      <div className={`flex items-center justify-center w-10 h-10 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-3 text-white group-hover:scale-110 transition-transform duration-300`}>
-                        {React.cloneElement(prompt.icon as React.ReactElement, { className: "h-4 w-4" })}
+                    <CardContent className="p-3 text-center h-full flex flex-col items-center">
+                      <div className={`flex items-center justify-center w-8 h-8 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-2 text-white group-hover:scale-110 transition-transform duration-300`}>
+                        {React.cloneElement(prompt.icon as React.ReactElement, { className: "h-3 w-3" })}
                       </div>
-                      <h3 className="font-medium text-sm mb-2 text-white">{prompt.title}</h3>
+                      <h3 className="font-medium text-xs mb-1 text-white">{prompt.title}</h3>
                       <p className="text-xs text-gray-400 leading-relaxed flex-1">{prompt.description}</p>
                     </CardContent>
                   </Card>
