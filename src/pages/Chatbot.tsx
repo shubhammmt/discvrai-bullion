@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, TrendingUp, PieChart, Brain, FileText, Mic, Image, Star, Zap, Target } from 'lucide-react';
+import { Send, Bot, User, Sparkles, TrendingUp, PieChart, Brain, FileText, Mic, Image, Star, Zap, Target, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -26,6 +26,7 @@ const Chatbot = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const quickPrompts: QuickPrompt[] = [
@@ -115,15 +116,37 @@ const Chatbot = () => {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setInputMessage('');
+    setShowWelcome(true);
+    setIsLoading(false);
+  };
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
-    <div className="min-h-screen ai-surface">
+    <div className="min-h-screen ai-surface overflow-hidden">
       <Header />
       
-      <div className="flex flex-col h-[calc(100vh-4rem)]">
+      {/* New Chat Button */}
+      {!showWelcome && (
+        <div className="absolute top-20 left-6 z-10">
+          <Button
+            onClick={handleNewChat}
+            variant="ghost"
+            size="sm"
+            className="ai-surface-elevated ai-border-glow border text-white hover:ai-glow transition-all duration-300 rounded-xl p-3"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            New Chat
+          </Button>
+        </div>
+      )}
+      
+      <div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
         {/* Welcome Section */}
         {showWelcome && (
           <div className="flex-1 flex items-center justify-center p-8">
@@ -149,20 +172,20 @@ const Chatbot = () => {
                 </p>
               </div>
               
-              {/* Quick Prompts - Inspired by SayHalo cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              {/* Quick Prompts - Smaller Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
                 {quickPrompts.map((prompt) => (
                   <Card 
                     key={prompt.id}
                     className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
                     onClick={() => handleQuickPrompt(prompt)}
                   >
-                    <CardContent className="p-8 text-center h-full flex flex-col">
-                      <div className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r ${prompt.gradient} rounded-xl mb-4 text-white group-hover:scale-110 transition-transform duration-300`}>
-                        {prompt.icon}
+                    <CardContent className="p-4 text-center h-full flex flex-col">
+                      <div className={`inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-3 text-white group-hover:scale-110 transition-transform duration-300`}>
+                        {React.cloneElement(prompt.icon as React.ReactElement, { className: "h-4 w-4" })}
                       </div>
-                      <h3 className="font-semibold text-xl mb-3 text-white">{prompt.title}</h3>
-                      <p className="text-sm text-gray-400 leading-relaxed flex-1">{prompt.description}</p>
+                      <h3 className="font-medium text-sm mb-2 text-white">{prompt.title}</h3>
+                      <p className="text-xs text-gray-400 leading-relaxed flex-1">{prompt.description}</p>
                     </CardContent>
                   </Card>
                 ))}
@@ -173,7 +196,7 @@ const Chatbot = () => {
 
         {/* Chat Area */}
         {messages.length > 0 && (
-          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6">
+          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6 overflow-hidden">
             <ScrollArea className="h-full" ref={scrollAreaRef}>
               <div className="space-y-8">
                 {messages.map((message) => (
@@ -235,9 +258,11 @@ const Chatbot = () => {
         )}
         
         {/* Input Area - Fixed at bottom */}
-        <div className="ai-surface-elevated border-t border-gray-800 p-6">
+        <div className="ai-surface-elevated border-t border-gray-800 p-6 flex-shrink-0">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center gap-4 ai-surface-elevated rounded-2xl border ai-border-glow focus-within:ai-glow transition-all duration-300 p-4">
+            <div className={`flex items-center gap-4 ai-surface-elevated rounded-2xl border transition-all duration-300 p-4 ${
+              isFocused ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
+            }`}>
               <div className="flex items-center gap-3">
                 <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
                   <Image className="h-5 w-5" />
@@ -251,9 +276,11 @@ const Chatbot = () => {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask SayHalo anything..."
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Ask discvr.ai anything..."
                 disabled={isLoading}
-                className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-gray-500 text-white"
+                className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-gray-500 text-white outline-none"
               />
               
               <Button
