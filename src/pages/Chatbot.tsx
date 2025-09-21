@@ -196,7 +196,7 @@ const Chatbot = () => {
 
         {/* Chat Area */}
         {messages.length > 0 && (
-          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6 overflow-hidden">
+          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6 pb-32 overflow-hidden">
             <ScrollArea className="h-full" ref={scrollAreaRef}>
               <div className="space-y-8">
                 {messages.map((message) => (
