@@ -249,6 +249,9 @@ const Chatbot = () => {
           </div>
         )}
         
+        {/* Fade overlay to hide messages approaching input field */}
+        <div className="fixed bottom-24 left-0 right-0 h-20 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent z-[5]"></div>
+        
         {/* Input Field - Fixed at bottom */}
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] z-10">
           <div className={`flex items-center gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-4 py-3 ${
