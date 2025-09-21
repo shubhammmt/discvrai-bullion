@@ -28,6 +28,7 @@ const Chatbot = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
   const [messageOpacities, setMessageOpacities] = useState<{[key: number]: number}>({});
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const quickPrompts: QuickPrompt[] = [
     {
@@ -55,14 +56,20 @@ const Chatbot = () => {
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
   }, [messages]);
 
   // Handle scroll-based message fading (messages stay hidden once below certain point)
   useEffect(() => {
     const handleScroll = () => {
       const inputFieldTop = window.innerHeight - 140; // Input field area (140px from bottom)
-      const fadeDistance = 60; // Distance below input field to completely fade
+      const startFadeOffset = 24; // Start fading a bit below the input field
+      const fadeDistance = 80; // Distance to fully fade after crossing start offset
       
       const newOpacities: {[key: number]: number} = {};
       
@@ -72,10 +79,16 @@ const Chatbot = () => {
           const rect = messageElement.getBoundingClientRect();
           const messageBottom = rect.bottom;
           
-          if (messageBottom > inputFieldTop) {
-            // Only start fading when message goes below the input field
-            const distanceBelowInput = messageBottom - inputFieldTop;
-            const opacity = Math.max(0, 1 - (distanceBelowInput / fadeDistance));
+          // If a message was already fully hidden, keep it hidden
+          if (messageOpacities[message.id] === 0) {
+            newOpacities[message.id] = 0;
+            return;
+          }
+          
+          if (messageBottom > inputFieldTop + startFadeOffset) {
+            // Start fading only after the message goes below the input field + offset
+            const distanceBelow = messageBottom - (inputFieldTop + startFadeOffset);
+            const opacity = Math.max(0, 1 - (distanceBelow / fadeDistance));
             newOpacities[message.id] = opacity;
           } else {
             newOpacities[message.id] = 1;
@@ -86,11 +99,12 @@ const Chatbot = () => {
       setMessageOpacities(newOpacities);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    const el = scrollContainerRef.current ?? window;
+    el.addEventListener('scroll', handleScroll);
     handleScroll(); // Initial call to set correct opacities
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      el.removeEventListener('scroll', handleScroll);
     };
   }, [messages]);
 
@@ -159,7 +173,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className={`min-h-screen ai-surface ${messages.length > 0 ? 'overflow-y-auto' : 'overflow-y-hidden'}`}>
+    <div ref={scrollContainerRef} className={`ai-surface h-screen ${messages.length > 0 ? 'overflow-y-auto' : 'overflow-y-hidden'}`}>
       <Header />
       
       {/* New Chat Button */}
@@ -289,8 +303,8 @@ const Chatbot = () => {
         )}
         
         {/* Input Field - Fixed at bottom */}
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] z-10">
-          <div className={`flex items-center gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-4 py-3 ${
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] z-10 pointer-events-none">
+          <div className={`pointer-events-auto flex items-center gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-4 py-3 ${
             isFocused && inputMessage.trim() ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
           }`}>
             <div className="flex items-center gap-3">
