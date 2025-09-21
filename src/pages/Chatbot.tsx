@@ -222,9 +222,9 @@ const Chatbot = () => {
                     {/* Message Content */}
                     <div className={`max-w-[75%] ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
                       <div
-                        className={`rounded-2xl p-6 shadow-lg transition-all duration-300 ${
+                        className={`rounded-2xl p-4 shadow-lg transition-all duration-300 ${
                           message.type === 'user'
-                            ? 'ai-gradient text-white ml-auto'
+                            ? 'bg-slate-700/50 border border-slate-600/30 text-white ml-auto'
                             : 'ai-surface-elevated border ai-border-glow text-white'
                         }`}
                       >
