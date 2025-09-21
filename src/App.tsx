@@ -58,6 +58,7 @@ import NotFound from './pages/NotFound';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
+import AITransformationContest from './pages/AITransformationContest';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
@@ -124,6 +125,7 @@ function App() {
           <Route path="/data-deletion-policy" element={<DataDeletionPolicy />} />
           <Route path="/news-hub" element={<NewsHub />} />
           <Route path="/engineer-showcase" element={<EngineerShowcase />} />
+          <Route path="/ai-transformation-contest" element={<AITransformationContest />} />
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
