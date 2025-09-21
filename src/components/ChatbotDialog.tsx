@@ -21,6 +21,7 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState({ x: 20, y: 20 });
+  const [isClosing, setIsClosing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const navigate = useNavigate();
@@ -117,24 +118,35 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
   }, [isDragging, dragOffset]);
 
   const handleFullscreen = () => {
+    handleClose();
     navigate('/chatbot');
+  };
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 200); // Match animation duration
   };
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  if (!isOpen) return null;
+  if (!isOpen && !isClosing) return null;
 
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/20 z-40" onClick={onClose} />
+      <div className={`fixed inset-0 bg-black/20 z-40 transition-opacity duration-200 ${isClosing ? 'opacity-0' : 'opacity-100'}`} onClick={handleClose} />
       
       {/* Dialog */}
       <div
         ref={dialogRef}
-        className="fixed z-50 w-96 h-[500px] ai-surface-elevated ai-border-glow border rounded-2xl flex flex-col shadow-2xl animate-scale-in"
+        className={`fixed z-50 w-96 h-[500px] ai-surface-elevated ai-border-glow border rounded-2xl flex flex-col shadow-2xl transition-all duration-200 ${
+          isClosing ? 'animate-scale-out opacity-0' : 'animate-scale-in opacity-100'
+        }`}
         style={{
           right: `${position.x}px`,
           bottom: `${position.y}px`,
@@ -165,7 +177,7 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
               <Maximize2 className="h-4 w-4" />
             </Button>
             <Button
-              onClick={onClose}
+              onClick={handleClose}
               variant="ghost"
               size="sm"
               className="w-8 h-8 p-0 text-white hover:bg-white/20 rounded-lg"
