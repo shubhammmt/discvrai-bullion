@@ -77,8 +77,6 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Start dragging only when clicking the header background (not buttons/icons)
-    if (e.target !== e.currentTarget) return;
     if (dialogRef.current) {
       const rect = dialogRef.current.getBoundingClientRect();
       setDragOffset({
