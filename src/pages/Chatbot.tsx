@@ -224,7 +224,7 @@ const Chatbot = () => {
                       <div
                         className={`rounded-2xl p-4 shadow-lg transition-all duration-300 ${
                           message.type === 'user'
-                            ? 'bg-slate-700/50 border border-slate-600/30 text-white ml-auto'
+                            ? 'bg-blue-600/80 text-white ml-auto'
                             : 'ai-surface-elevated border ai-border-glow text-white'
                         }`}
                       >
