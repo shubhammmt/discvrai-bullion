@@ -28,7 +28,6 @@ const Chatbot = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
   const [messageOpacities, setMessageOpacities] = useState<{[key: number]: number}>({});
-  const [isScrolling, setIsScrolling] = useState(false);
 
   const quickPrompts: QuickPrompt[] = [
     {
@@ -59,16 +58,9 @@ const Chatbot = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
-  // Handle scroll-based message fading (only during active scrolling)
+  // Handle scroll-based message fading (messages stay hidden once below certain point)
   useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout;
-    
     const handleScroll = () => {
-      setIsScrolling(true);
-      
-      // Clear previous timeout
-      clearTimeout(scrollTimeout);
-      
       const inputFieldTop = window.innerHeight - 140; // Input field area (140px from bottom)
       const fadeStartOffset = 100; // Start fading 100px before input field
       
@@ -93,19 +85,13 @@ const Chatbot = () => {
       });
       
       setMessageOpacities(newOpacities);
-      
-      // Reset scrolling state and opacities after scroll ends
-      scrollTimeout = setTimeout(() => {
-        setIsScrolling(false);
-        setMessageOpacities({}); // Reset all opacities to default
-      }, 150);
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call to set correct opacities
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
     };
   }, [messages]);
 
@@ -251,7 +237,7 @@ const Chatbot = () => {
                     className={`flex gap-6 animate-fade-in-up transition-opacity duration-300 ease-out ${
                       message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
                     }`}
-                    style={{ opacity: isScrolling ? (messageOpacities[message.id] ?? 1) : 1 }}
+                    style={{ opacity: messageOpacities[message.id] ?? 1 }}
                   >
                     {/* Avatar */}
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
