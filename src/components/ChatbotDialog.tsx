@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Brain, X, Maximize2, MessageCircle } from 'lucide-react';
+import { Send, Bot, User, Brain, X, Maximize2, MessageCircle, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,7 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
   const [isClosing, setIsClosing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const navigate = useNavigate();
   const dialogRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -130,6 +131,10 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
     }, 200); // Match animation duration
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
@@ -168,6 +173,15 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
           </div>
           
           <div className="flex items-center gap-2">
+            <Button
+              onClick={toggleTheme}
+              variant="ghost"
+              size="sm"
+              className="w-8 h-8 p-0 text-white hover:bg-white/20 rounded-lg"
+              title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
             <Button
               onClick={handleFullscreen}
               variant="ghost"
