@@ -180,8 +180,8 @@ const Chatbot = () => {
                     className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
                     onClick={() => handleQuickPrompt(prompt)}
                   >
-                    <CardContent className="p-4 text-center h-full flex flex-col">
-                      <div className={`inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-3 text-white group-hover:scale-110 transition-transform duration-300`}>
+                    <CardContent className="p-4 text-center h-full flex flex-col items-center">
+                      <div className={`flex items-center justify-center w-10 h-10 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-3 text-white group-hover:scale-110 transition-transform duration-300`}>
                         {React.cloneElement(prompt.icon as React.ReactElement, { className: "h-4 w-4" })}
                       </div>
                       <h3 className="font-medium text-sm mb-2 text-white">{prompt.title}</h3>
