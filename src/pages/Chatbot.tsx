@@ -122,7 +122,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="h-screen ai-surface overflow-hidden">
+    <div className="min-h-screen ai-surface">
       <Header />
       
       {/* New Chat Button */}
@@ -140,7 +140,7 @@ const Chatbot = () => {
         </div>
       )}
       
-      <div className="flex flex-col h-[calc(100vh-4rem)]">
+      <div className="pb-32">  {/* Add bottom padding to prevent overlap with fixed input */}
         {/* Welcome Section */}
         {showWelcome && (
           <div className="flex-1 flex items-center justify-center p-8 pb-32">
@@ -190,7 +190,7 @@ const Chatbot = () => {
 
         {/* Chat Area */}
         {messages.length > 0 && (
-          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6 pb-32">
+          <div className="max-w-4xl mx-auto w-full px-8 py-6">
             <div className="space-y-8">
               {messages.map((message) => (
                   <div
