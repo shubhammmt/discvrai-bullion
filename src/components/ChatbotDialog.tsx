@@ -149,7 +149,7 @@ const ChatbotDialog: React.FC<ChatbotDialogProps> = ({ isOpen, onClose }) => {
       {/* Dialog */}
       <div
         ref={dialogRef}
-        className={`fixed z-50 w-96 h-[500px] border rounded-2xl flex flex-col shadow-2xl transition-all duration-200 ${
+        className={`fixed z-50 w-96 h-[500px] border rounded-2xl flex flex-col shadow-2xl transition-opacity duration-200 ${
           isDarkMode 
             ? 'ai-surface-elevated ai-border-glow' 
             : 'bg-white border-gray-200'
