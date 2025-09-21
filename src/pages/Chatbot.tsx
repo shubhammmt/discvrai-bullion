@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, TrendingUp, PieChart, Brain, FileText, Mic, Image } from 'lucide-react';
+import { Send, Bot, User, Sparkles, TrendingUp, PieChart, Brain, FileText, Mic, Image, Star, Zap, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -33,21 +33,21 @@ const Chatbot = () => {
       id: 'market-analysis',
       title: 'Market Analysis',
       description: 'Get insights on current market trends and opportunities',
-      icon: <TrendingUp className="h-5 w-5" />,
+      icon: <TrendingUp className="h-6 w-6" />,
       gradient: 'from-blue-500 to-cyan-500'
     },
     {
       id: 'portfolio-review',
       title: 'Portfolio Review',
       description: 'Analyze your investment portfolio and get recommendations',
-      icon: <PieChart className="h-5 w-5" />,
+      icon: <PieChart className="h-6 w-6" />,
       gradient: 'from-purple-500 to-pink-500'
     },
     {
       id: 'stock-research',
       title: 'Stock Research',
       description: 'Deep dive into specific stocks and their fundamentals',
-      icon: <FileText className="h-5 w-5" />,
+      icon: <FileText className="h-6 w-6" />,
       gradient: 'from-green-500 to-emerald-500'
     }
   ];
@@ -120,146 +120,158 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen ai-surface">
       <Header />
       
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="flex flex-col h-[calc(100vh-4rem)]">
         {/* Welcome Section */}
         {showWelcome && (
-          <div className="text-center mb-8 animate-fade-in-up">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full mb-6 shadow-lg">
-              <Brain className="h-8 w-8 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4">
-              How can I help you today?
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
-              I'm your AI-powered financial assistant. Ask me anything about markets, investments, portfolio analysis, or get personalized recommendations.
-            </p>
-            
-            {/* Quick Prompts */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              {quickPrompts.map((prompt) => (
-                <Card 
-                  key={prompt.id}
-                  className="cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg border-2 hover:border-primary/20"
-                  onClick={() => handleQuickPrompt(prompt)}
-                >
-                  <CardContent className="p-6 text-center">
-                    <div className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-3 text-white`}>
-                      {prompt.icon}
-                    </div>
-                    <h3 className="font-semibold text-lg mb-2">{prompt.title}</h3>
-                    <p className="text-sm text-muted-foreground">{prompt.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
+          <div className="flex-1 flex items-center justify-center p-8">
+            <div className="max-w-4xl w-full text-center animate-fade-in-up">
+              {/* AI Avatar with Glow */}
+              <div className="relative mb-8">
+                <div className="inline-flex items-center justify-center w-20 h-20 ai-gradient rounded-2xl mb-6 ai-glow-intense relative">
+                  <Brain className="h-10 w-10 text-white" />
+                  <div className="absolute inset-0 ai-gradient rounded-2xl opacity-20 animate-pulse"></div>
+                </div>
+              </div>
+
+              {/* Greeting */}
+              <div className="mb-8">
+                <h1 className="text-5xl font-bold mb-4">
+                  <span className="ai-text-gradient">Hi, Welcome!</span>
+                </h1>
+                <h2 className="text-3xl font-semibold text-white mb-4">
+                  Can I help you with anything?
+                </h2>
+                <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                  Ready to assist you with anything you need, from answering questions to providing recommendations. Let's get started!
+                </p>
+              </div>
+              
+              {/* Quick Prompts - Inspired by SayHalo cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                {quickPrompts.map((prompt) => (
+                  <Card 
+                    key={prompt.id}
+                    className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
+                    onClick={() => handleQuickPrompt(prompt)}
+                  >
+                    <CardContent className="p-8 text-center h-full flex flex-col">
+                      <div className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r ${prompt.gradient} rounded-xl mb-4 text-white group-hover:scale-110 transition-transform duration-300`}>
+                        {prompt.icon}
+                      </div>
+                      <h3 className="font-semibold text-xl mb-3 text-white">{prompt.title}</h3>
+                      <p className="text-sm text-gray-400 leading-relaxed flex-1">{prompt.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
         {/* Chat Area */}
-        <Card className={`${showWelcome ? '' : 'h-[calc(100vh-12rem)]'} shadow-xl border-2`}>
-          <CardContent className="p-0 flex flex-col h-full">
-            {/* Messages Area */}
-            {messages.length > 0 && (
-              <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
-                <div className="space-y-6">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex gap-4 animate-fade-in-up ${
-                        message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
-                      }`}
-                    >
-                      {/* Avatar */}
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        message.type === 'user' 
-                          ? 'bg-gradient-to-br from-primary to-accent'
-                          : 'bg-gradient-to-br from-muted to-muted/50 border-2 border-primary/10'
-                      }`}>
-                        {message.type === 'user' ? (
-                          <User className="h-5 w-5 text-white" />
-                        ) : (
-                          <Brain className="h-5 w-5 text-primary" />
-                        )}
+        {messages.length > 0 && (
+          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6">
+            <ScrollArea className="h-full" ref={scrollAreaRef}>
+              <div className="space-y-8">
+                {messages.map((message) => (
+                  <div
+                    key={message.id}
+                    className={`flex gap-6 animate-fade-in-up ${
+                      message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
+                    }`}
+                  >
+                    {/* Avatar */}
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      message.type === 'user' 
+                        ? 'ai-gradient ai-glow'
+                        : 'ai-surface-elevated ai-border-glow border'
+                    }`}>
+                      {message.type === 'user' ? (
+                        <User className="h-6 w-6 text-white" />
+                      ) : (
+                        <Brain className="h-6 w-6 text-blue-400" />
+                      )}
+                    </div>
+                    
+                    {/* Message Content */}
+                    <div className={`max-w-[75%] ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
+                      <div
+                        className={`rounded-2xl p-6 shadow-lg transition-all duration-300 ${
+                          message.type === 'user'
+                            ? 'ai-gradient text-white ml-auto'
+                            : 'ai-surface-elevated border ai-border-glow text-white'
+                        }`}
+                      >
+                        <p className="text-base leading-relaxed whitespace-pre-wrap">{message.content}</p>
                       </div>
-                      
-                      {/* Message Content */}
-                      <div className={`max-w-[75%] ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
-                        <div
-                          className={`rounded-2xl p-4 shadow-sm ${
-                            message.type === 'user'
-                              ? 'bg-gradient-to-r from-primary to-accent text-white'
-                              : 'bg-muted/50 border border-border'
-                          }`}
-                        >
-                          <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-                        </div>
-                        <span className="text-xs text-muted-foreground mt-2 block">
-                          {formatTime(message.timestamp)}
-                        </span>
+                      <span className="text-xs text-gray-500 mt-2 block">
+                        {formatTime(message.timestamp)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Loading indicator */}
+                {isLoading && (
+                  <div className="flex gap-6 animate-fade-in-up">
+                    <div className="w-12 h-12 rounded-xl ai-surface-elevated ai-border-glow border flex items-center justify-center flex-shrink-0">
+                      <Brain className="h-6 w-6 text-blue-400" />
+                    </div>
+                    <div className="ai-surface-elevated border ai-border-glow rounded-2xl p-6">
+                      <div className="flex space-x-2">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                       </div>
                     </div>
-                  ))}
-                  
-                  {/* Loading indicator */}
-                  {isLoading && (
-                    <div className="flex gap-4 animate-fade-in-up">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-muted to-muted/50 border-2 border-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Brain className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="bg-muted/50 border border-border rounded-2xl p-4">
-                        <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </ScrollArea>
-            )}
-            
-            {/* Input Area */}
-            <div className="border-t bg-muted/20 p-6">
-              <div className="flex items-center gap-3 bg-background rounded-xl border-2 border-border focus-within:border-primary/50 transition-colors p-2">
-                <div className="flex items-center gap-2 px-2">
-                  <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-muted-foreground hover:text-primary">
-                    <Image className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-muted-foreground hover:text-primary">
-                    <Mic className="h-4 w-4" />
-                  </Button>
-                </div>
-                
-                <Input
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask me anything about investments, markets, or your portfolio..."
-                  disabled={isLoading}
-                  className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-muted-foreground/70"
-                />
-                
-                <Button
-                  onClick={() => handleSendMessage()}
-                  disabled={!inputMessage.trim() || isLoading}
-                  size="sm"
-                  className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white rounded-lg px-4"
-                >
-                  <Send className="h-4 w-4" />
+                  </div>
+                )}
+              </div>
+            </ScrollArea>
+          </div>
+        )}
+        
+        {/* Input Area - Fixed at bottom */}
+        <div className="ai-surface-elevated border-t border-gray-800 p-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 ai-surface-elevated rounded-2xl border ai-border-glow focus-within:ai-glow transition-all duration-300 p-4">
+              <div className="flex items-center gap-3">
+                <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
+                  <Image className="h-5 w-5" />
+                </Button>
+                <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
+                  <Mic className="h-5 w-5" />
                 </Button>
               </div>
               
-              {/* Footer text */}
-              <p className="text-xs text-muted-foreground text-center mt-3">
-                AI can make mistakes. Consider checking important information.
-              </p>
+              <Input
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask SayHalo anything..."
+                disabled={isLoading}
+                className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-gray-500 text-white"
+              />
+              
+              <Button
+                onClick={() => handleSendMessage()}
+                disabled={!inputMessage.trim() || isLoading}
+                size="sm"
+                className="ai-gradient hover:opacity-90 text-white rounded-xl px-6 py-2 h-10 ai-glow transition-all duration-300"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
             </div>
-          </CardContent>
-        </Card>
+            
+            {/* Footer text */}
+            <p className="text-xs text-gray-500 text-center mt-4">
+              AI can make mistakes. Consider checking important information.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

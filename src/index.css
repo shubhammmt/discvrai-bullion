@@ -32,6 +32,21 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
     
+    /* AI Assistant Premium Colors */
+    --ai-primary: 220 68% 55%;
+    --ai-accent: 270 65% 60%;
+    --ai-success: 142 76% 36%;
+    --ai-warning: 25 95% 53%;
+    --ai-info: 195 85% 55%;
+    --ai-gradient-start: 220 68% 55%;
+    --ai-gradient-end: 270 65% 60%;
+    --ai-glow: 220 68% 55%;
+    --ai-surface: 240 10% 8%;
+    --ai-surface-elevated: 240 10% 12%;
+    --ai-border: 240 10% 20%;
+    --ai-text-primary: 0 0% 98%;
+    --ai-text-secondary: 240 5% 64.9%;
+    
     /* News Hub specific colors */
     --news-gradient-start: 220 68% 55%;
     --news-gradient-end: 270 65% 60%;
@@ -51,13 +66,13 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 220 68% 55%;
+    --primary-foreground: 0 0% 98%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --accent: 270 65% 60%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -69,6 +84,21 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    
+    /* AI Assistant Dark Mode Premium Colors */
+    --ai-primary: 220 68% 55%;
+    --ai-accent: 270 65% 60%;
+    --ai-success: 142 76% 36%;
+    --ai-warning: 25 95% 53%;
+    --ai-info: 195 85% 55%;
+    --ai-gradient-start: 220 68% 55%;
+    --ai-gradient-end: 270 65% 60%;
+    --ai-glow: 220 68% 55%;
+    --ai-surface: 240 10% 8%;
+    --ai-surface-elevated: 240 10% 12%;
+    --ai-border: 240 10% 20%;
+    --ai-text-primary: 0 0% 98%;
+    --ai-text-secondary: 240 5% 64.9%;
   }
 }
 
@@ -113,4 +143,41 @@
   background: linear-gradient(to right, #22c55e 0%, #22c55e var(--progress, 60%), #e5e7eb var(--progress, 60%), #e5e7eb 100%);
   height: 8px;
   border-radius: 4px;
+}
+
+/* AI Assistant Premium Effects */
+.ai-glow {
+  box-shadow: 0 0 20px hsla(var(--ai-glow), 0.3);
+}
+
+.ai-glow-intense {
+  box-shadow: 0 0 30px hsla(var(--ai-glow), 0.5), 0 0 60px hsla(var(--ai-glow), 0.2);
+}
+
+.ai-gradient {
+  background: linear-gradient(135deg, hsl(var(--ai-gradient-start)), hsl(var(--ai-gradient-end)));
+}
+
+.ai-gradient-subtle {
+  background: linear-gradient(135deg, hsla(var(--ai-gradient-start), 0.1), hsla(var(--ai-gradient-end), 0.1));
+}
+
+.ai-border-glow {
+  border: 1px solid hsla(var(--ai-glow), 0.3);
+  box-shadow: 0 0 10px hsla(var(--ai-glow), 0.1);
+}
+
+.ai-text-gradient {
+  background: linear-gradient(135deg, hsl(var(--ai-gradient-start)), hsl(var(--ai-gradient-end)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ai-surface {
+  background: hsl(var(--ai-surface));
+}
+
+.ai-surface-elevated {
+  background: hsl(var(--ai-surface-elevated));
 }
