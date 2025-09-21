@@ -62,6 +62,7 @@ import AITransformationContest from './pages/AITransformationContest';
 import AIMasteryWorkshop from './pages/AIMasteryWorkshop';
 import AITutorialGame from './components/AITutorialGame';
 import DeepLearningTutorial from './components/DeepLearningTutorial';
+import CFAEquityChallenge from './components/CFAEquityChallenge';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
@@ -132,6 +133,7 @@ function App() {
           <Route path="/ai-mastery-workshop" element={<AIMasteryWorkshop />} />
           <Route path="/ai-tutorial-game" element={<AITutorialGame />} />
           <Route path="/deep-learning-tutorial" element={<DeepLearningTutorial />} />
+          <Route path="/cfa-equity-challenge" element={<CFAEquityChallenge />} />
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
