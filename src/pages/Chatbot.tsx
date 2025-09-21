@@ -128,7 +128,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="min-h-screen ai-surface overflow-hidden">
+    <div className="h-screen ai-surface overflow-hidden">
       <Header />
       
       {/* New Chat Button */}
