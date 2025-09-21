@@ -60,6 +60,7 @@ import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
 import AITransformationContest from './pages/AITransformationContest';
 import AIMasteryWorkshop from './pages/AIMasteryWorkshop';
+import AITutorialGame from './components/AITutorialGame';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
@@ -128,6 +129,7 @@ function App() {
           <Route path="/engineer-showcase" element={<EngineerShowcase />} />
           <Route path="/ai-transformation-contest" element={<AITransformationContest />} />
           <Route path="/ai-mastery-workshop" element={<AIMasteryWorkshop />} />
+          <Route path="/ai-tutorial-game" element={<AITutorialGame />} />
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
