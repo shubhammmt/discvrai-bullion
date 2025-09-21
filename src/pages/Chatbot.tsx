@@ -257,47 +257,45 @@ const Chatbot = () => {
           </div>
         )}
         
-        {/* Input Area - Fixed at bottom */}
-        <div className="mt-auto ai-surface-elevated border-t border-gray-800 p-4 flex-shrink-0">
-          <div className="max-w-2xl mx-auto">
-            <div className={`flex items-center gap-4 ai-surface-elevated rounded-2xl border transition-all duration-300 p-4 ${
-              isFocused ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
-            }`}>
-              <div className="flex items-center gap-3">
-                <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
-                  <Image className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
-                  <Mic className="h-5 w-5" />
-                </Button>
-              </div>
-              
-              <Input
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                placeholder="Ask discvr.ai anything..."
-                disabled={isLoading}
-                className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-gray-500 text-white outline-none"
-              />
-              
-              <Button
-                onClick={() => handleSendMessage()}
-                disabled={!inputMessage.trim() || isLoading}
-                size="sm"
-                className="ai-gradient hover:opacity-90 text-white rounded-xl px-6 py-2 h-10 ai-glow transition-all duration-300"
-              >
-                <Send className="h-4 w-4" />
+        {/* Input Field - Fixed at bottom */}
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-1/2 z-10">
+          <div className={`flex items-center gap-4 ai-surface-elevated rounded-full border transition-all duration-300 p-4 ${
+            isFocused ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
+          }`}>
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
+                <Image className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
+                <Mic className="h-5 w-5" />
               </Button>
             </div>
             
-            {/* Footer text */}
-            <p className="text-xs text-gray-500 text-center mt-4">
-              AI can make mistakes. Consider checking important information.
-            </p>
+            <Input
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder="Ask discvr.ai anything..."
+              disabled={isLoading}
+              className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-gray-500 text-white outline-none"
+            />
+            
+            <Button
+              onClick={() => handleSendMessage()}
+              disabled={!inputMessage.trim() || isLoading}
+              size="sm"
+              className="ai-gradient hover:opacity-90 text-white rounded-xl px-6 py-2 h-10 ai-glow transition-all duration-300"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
           </div>
+          
+          {/* Footer text */}
+          <p className="text-xs text-gray-500 text-center mt-4">
+            AI can make mistakes. Consider checking important information.
+          </p>
         </div>
       </div>
     </div>
