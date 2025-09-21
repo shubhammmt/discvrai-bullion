@@ -27,6 +27,7 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
+  const [messageOpacities, setMessageOpacities] = useState<{[key: number]: number}>({});
 
   const quickPrompts: QuickPrompt[] = [
     {
@@ -55,6 +56,41 @@ const Chatbot = () => {
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }, [messages]);
+
+  // Handle scroll-based message fading
+  useEffect(() => {
+    const handleScroll = () => {
+      const inputFieldTop = window.innerHeight - 140; // Input field area (140px from bottom)
+      const fadeStartOffset = 100; // Start fading 100px before input field
+      
+      const newOpacities: {[key: number]: number} = {};
+      
+      messages.forEach((message) => {
+        const messageElement = document.querySelector(`[data-message-id="${message.id}"]`);
+        if (messageElement) {
+          const rect = messageElement.getBoundingClientRect();
+          const messageBottom = rect.bottom;
+          
+          if (messageBottom > inputFieldTop - fadeStartOffset) {
+            // Calculate opacity based on distance from fade start point
+            const distanceFromFadeStart = messageBottom - (inputFieldTop - fadeStartOffset);
+            const maxFadeDistance = fadeStartOffset;
+            const opacity = Math.max(0, 1 - (distanceFromFadeStart / maxFadeDistance));
+            newOpacities[message.id] = opacity;
+          } else {
+            newOpacities[message.id] = 1;
+          }
+        }
+      });
+      
+      setMessageOpacities(newOpacities);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+    
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [messages]);
 
   const handleSendMessage = async (message?: string) => {
@@ -192,12 +228,14 @@ const Chatbot = () => {
         {messages.length > 0 && (
           <div className="max-w-4xl mx-auto w-full px-8 py-6">
             <div className="space-y-8">
-              {messages.map((message) => (
+                {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`flex gap-6 animate-fade-in-up ${
+                    data-message-id={message.id}
+                    className={`flex gap-6 animate-fade-in-up transition-opacity duration-300 ease-out ${
                       message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
                     }`}
+                    style={{ opacity: messageOpacities[message.id] ?? 1 }}
                   >
                     {/* Avatar */}
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
@@ -248,9 +286,6 @@ const Chatbot = () => {
             </div>
           </div>
         )}
-        
-        {/* Fade overlay to hide messages approaching input field */}
-        <div className="fixed bottom-24 left-0 right-0 h-20 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent z-[5]"></div>
         
         {/* Input Field - Fixed at bottom */}
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] z-10">
