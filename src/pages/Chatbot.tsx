@@ -3,7 +3,7 @@ import { Send, Bot, User, Sparkles, TrendingUp, PieChart, Brain, FileText, Mic, 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
 import Header from '@/components/Header';
 
 interface ChatMessage {
@@ -27,7 +27,6 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const quickPrompts: QuickPrompt[] = [
     {
@@ -55,12 +54,7 @@ const Chatbot = () => {
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      const scrollElement = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-      if (scrollElement) {
-        scrollElement.scrollTop = scrollElement.scrollHeight;
-      }
-    }
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
   const handleSendMessage = async (message?: string) => {
@@ -196,10 +190,9 @@ const Chatbot = () => {
 
         {/* Chat Area */}
         {messages.length > 0 && (
-          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6 pb-32 overflow-hidden">
-            <ScrollArea className="h-full" ref={scrollAreaRef}>
-              <div className="space-y-8">
-                {messages.map((message) => (
+          <div className="flex-1 max-w-4xl mx-auto w-full px-8 py-6 pb-32">
+            <div className="space-y-8">
+              {messages.map((message) => (
                   <div
                     key={message.id}
                     className={`flex gap-6 animate-fade-in-up ${
@@ -252,8 +245,7 @@ const Chatbot = () => {
                     </div>
                   </div>
                 )}
-              </div>
-            </ScrollArea>
+            </div>
           </div>
         )}
         
