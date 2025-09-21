@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/sonner";
@@ -59,10 +59,13 @@ import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
 import Chatbot from './pages/Chatbot';
+import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
 const queryClient = new QueryClient();
 
 function App() {
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -125,6 +128,13 @@ function App() {
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        
+        {/* Global Chatbot Dialog */}
+        <ChatbotDialog 
+          isOpen={isChatbotOpen} 
+          onClose={() => setIsChatbotOpen(false)} 
+        />
+        <ChatbotTrigger onClick={() => setIsChatbotOpen(true)} />
       </Router>
       <Toaster />
     </QueryClientProvider>
