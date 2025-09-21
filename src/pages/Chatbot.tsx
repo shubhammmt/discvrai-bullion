@@ -258,7 +258,7 @@ const Chatbot = () => {
         )}
         
         {/* Input Area - Fixed at bottom */}
-        <div className="ai-surface-elevated border-t border-gray-800 p-6 flex-shrink-0">
+        <div className="ai-surface-elevated border-t border-gray-800 p-3 flex-shrink-0">
           <div className="max-w-4xl mx-auto">
             <div className={`flex items-center gap-4 ai-surface-elevated rounded-2xl border transition-all duration-300 p-4 ${
               isFocused ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
