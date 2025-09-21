@@ -16,8 +16,14 @@ import {
   LineChart,
   CheckCircle,
   XCircle,
-  Brain
+  Brain,
+  Trophy,
+  Star,
+  Zap
 } from 'lucide-react';
+import cfaHeroImage from '@/assets/cfa-equity-hero.jpg';
+import financialAnalysisImage from '@/assets/financial-analysis.jpg';
+import equityTradingImage from '@/assets/equity-trading.jpg';
 
 interface Question {
   id: number;
@@ -242,41 +248,55 @@ const CFAEquityChallenge = () => {
     const percentage = Math.round((score / totalPoints) * 100);
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
         <div className="max-w-4xl mx-auto">
-          <Card className="border-2 border-primary/20 shadow-2xl">
-            <CardHeader className="text-center bg-gradient-to-r from-primary/10 to-secondary/10">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Award className="w-8 h-8 text-primary" />
-                <CardTitle className="text-3xl font-bold">CFA Challenge Complete!</CardTitle>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">{score}</div>
-                  <div className="text-sm text-muted-foreground">Total Points</div>
+          <Card className="border-2 border-blue-500/30 shadow-2xl bg-slate-800/50 backdrop-blur">
+            <CardHeader className="text-center bg-gradient-to-r from-blue-600/20 to-purple-600/20 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+              <div className="relative">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Trophy className="w-8 h-8 text-yellow-400" />
+                  <CardTitle className="text-3xl font-bold text-white">CFA Challenge Complete!</CardTitle>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-secondary">{percentage}%</div>
-                  <div className="text-sm text-muted-foreground">Accuracy</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-accent">{formatTime(timeElapsed)}</div>
-                  <div className="text-sm text-muted-foreground">Time Taken</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-400">{score}</div>
+                    <div className="text-sm text-slate-300">Total Points</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-400">{percentage}%</div>
+                    <div className="text-sm text-slate-300">Accuracy</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-purple-400">{formatTime(timeElapsed)}</div>
+                    <div className="text-sm text-slate-300">Time Taken</div>
+                  </div>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="p-6 bg-slate-800/30">
               <div className="text-center mb-6">
-                <Badge variant={percentage >= 70 ? "default" : "secondary"} className="text-lg px-4 py-2">
-                  {percentage >= 90 ? "CFA Expert!" : 
-                   percentage >= 70 ? "Strong Candidate" : 
-                   "Needs More Study"}
+                <Badge 
+                  variant={percentage >= 70 ? "default" : "secondary"} 
+                  className={`text-lg px-4 py-2 ${
+                    percentage >= 90 ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' :
+                    percentage >= 70 ? 'bg-green-500/20 text-green-300 border-green-500/30' :
+                    'bg-slate-500/20 text-slate-300 border-slate-500/30'
+                  }`}
+                >
+                  {percentage >= 90 ? (
+                    <><Trophy className="w-4 h-4 mr-2" />CFA Expert!</>
+                  ) : percentage >= 70 ? (
+                    <><Star className="w-4 h-4 mr-2" />Strong Candidate</>
+                  ) : (
+                    <><BookOpen className="w-4 h-4 mr-2" />Needs More Study</>
+                  )}
                 </Badge>
               </div>
               
               <div className="space-y-4 mb-6">
-                <h3 className="text-xl font-semibold flex items-center gap-2">
-                  <Brain className="w-5 h-5" />
+                <h3 className="text-xl font-semibold flex items-center gap-2 text-white">
+                  <Brain className="w-5 h-5 text-blue-400" />
                   Performance Breakdown
                 </h3>
                 {questions.map((q, index) => {
@@ -286,21 +306,27 @@ const CFAEquityChallenge = () => {
                     : userAnswer === q.correctAnswer;
                   
                   return (
-                    <div key={q.id} className="flex items-center justify-between p-3 rounded-lg border">
+                    <div key={q.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-600/50 bg-slate-700/30">
                       <div className="flex items-center gap-3">
-                        {getCategoryIcon(q.category)}
+                        <div className="text-blue-400">{getCategoryIcon(q.category)}</div>
                         <div>
-                          <div className="font-medium">{q.category}</div>
-                          <div className="text-sm text-muted-foreground">{q.level} • {q.points} points</div>
+                          <div className="font-medium text-white">{q.category}</div>
+                          <div className="text-sm text-slate-400">{q.level} • {q.points} points</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {correct ? (
-                          <CheckCircle className="w-5 h-5 text-green-500" />
+                          <CheckCircle className="w-5 h-5 text-green-400" />
                         ) : (
-                          <XCircle className="w-5 h-5 text-red-500" />
+                          <XCircle className="w-5 h-5 text-red-400" />
                         )}
-                        <Badge variant={correct ? "default" : "secondary"}>
+                        <Badge 
+                          variant={correct ? "default" : "secondary"}
+                          className={correct ? 
+                            'bg-green-500/20 text-green-300 border-green-500/30' : 
+                            'bg-slate-500/20 text-slate-400 border-slate-500/30'
+                          }
+                        >
                           {correct ? `+${q.points}` : '0'}
                         </Badge>
                       </div>
@@ -309,10 +335,30 @@ const CFAEquityChallenge = () => {
                 })}
               </div>
 
-              <div className="flex justify-center">
-                <Button onClick={resetChallenge} size="lg" className="px-8">
+              <div className="flex flex-col gap-4 items-center">
+                <Button 
+                  onClick={resetChallenge} 
+                  size="lg" 
+                  className="px-8 bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Zap className="w-4 h-4 mr-2" />
                   Take Challenge Again
                 </Button>
+                
+                <div className="text-center space-y-2">
+                  <p className="text-slate-300 text-sm">Want more challenges?</p>
+                  <div className="flex gap-2 flex-wrap justify-center">
+                    <Button variant="outline" size="sm" className="border-blue-500/30 text-blue-300 hover:bg-blue-500/20">
+                      Fixed Income Challenge
+                    </Button>
+                    <Button variant="outline" size="sm" className="border-purple-500/30 text-purple-300 hover:bg-purple-500/20">
+                      Derivatives Challenge
+                    </Button>
+                    <Button variant="outline" size="sm" className="border-green-500/30 text-green-300 hover:bg-green-500/20">
+                      Portfolio Management
+                    </Button>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -322,68 +368,105 @@ const CFAEquityChallenge = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <Card className="mb-6 border-2 border-primary/20 shadow-xl">
-          <CardHeader className="bg-gradient-to-r from-primary/10 to-secondary/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <TrendingUp className="w-8 h-8 text-primary" />
-                <div>
-                  <CardTitle className="text-2xl font-bold">CFA Equity Research Challenge</CardTitle>
-                  <p className="text-muted-foreground">Master the fundamentals of equity analysis</p>
+        {/* Hero Section */}
+        <div 
+          className="relative mb-6 rounded-2xl overflow-hidden border-2 border-blue-500/30 shadow-2xl"
+          style={{
+            backgroundImage: `url(${cfaHeroImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-800/80 to-slate-900/90"></div>
+          <Card className="relative bg-transparent border-0 shadow-none">
+            <CardHeader className="relative z-10 text-center py-12">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <TrendingUp className="w-10 h-10 text-blue-400" />
+                <div className="text-center">
+                  <CardTitle className="text-4xl font-bold text-white mb-2">CFA Equity Research Challenge</CardTitle>
+                  <p className="text-slate-300 text-lg">Master the fundamentals of equity analysis</p>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-primary">{score}</div>
-                <div className="text-sm text-muted-foreground">Points</div>
+              
+              <div className="flex justify-center gap-8 mt-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400">{score}</div>
+                  <div className="text-sm text-slate-300">Points</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-400">{formatTime(timeElapsed)}</div>
+                  <div className="text-sm text-slate-300">Time</div>
+                </div>
               </div>
-            </div>
-            
-            <div className="mt-4 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Progress: {currentQuestion + 1} of {questions.length}</span>
-                <span>Time: {formatTime(timeElapsed)}</span>
+              
+              <div className="mt-6 space-y-3">
+                <div className="flex justify-between text-sm text-slate-300">
+                  <span>Progress: {currentQuestion + 1} of {questions.length}</span>
+                  <span className="flex items-center gap-1">
+                    <Target className="w-4 h-4" />
+                    Question {currentQuestion + 1}
+                  </span>
+                </div>
+                <Progress value={progress} className="h-3 bg-slate-700" />
               </div>
-              <Progress value={progress} className="h-2" />
-            </div>
-          </CardHeader>
-        </Card>
+            </CardHeader>
+          </Card>
+        </div>
 
         {/* Question Card */}
-        <Card className="border-2 border-primary/20 shadow-2xl">
-          <CardHeader className="bg-gradient-to-r from-secondary/10 to-accent/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {getCategoryIcon(question.category)}
-                <Badge variant="outline">{question.category}</Badge>
-                <Badge variant={question.level === 'CFA I' ? 'default' : 'secondary'}>
-                  {question.level}
+        <Card className="border-2 border-blue-500/30 shadow-2xl bg-slate-800/50 backdrop-blur">
+          <CardHeader className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-20">
+              <img 
+                src={currentQuestion % 2 === 0 ? financialAnalysisImage : equityTradingImage} 
+                alt="Financial background" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="text-blue-400">{getCategoryIcon(question.category)}</div>
+                  <Badge variant="outline" className="border-slate-500/50 text-slate-200 bg-slate-700/50">
+                    {question.category}
+                  </Badge>
+                  <Badge 
+                    variant={question.level === 'CFA I' ? 'default' : 'secondary'}
+                    className={question.level === 'CFA I' ? 
+                      'bg-blue-500/20 text-blue-300 border-blue-500/30' : 
+                      'bg-purple-500/20 text-purple-300 border-purple-500/30'
+                    }
+                  >
+                    {question.level}
+                  </Badge>
+                </div>
+                <Badge variant="outline" className="border-yellow-500/50 text-yellow-300 font-semibold bg-yellow-500/10">
+                  <Star className="w-3 h-3 mr-1" />
+                  {question.points} points
                 </Badge>
               </div>
-              <Badge variant="outline" className="text-primary font-semibold">
-                {question.points} points
-              </Badge>
-            </div>
             
-            {question.context && (
-              <div className="mt-3 p-3 bg-muted/50 rounded-lg border-l-4 border-primary">
-                <p className="text-sm text-muted-foreground">
-                  <strong>Context:</strong> {question.context}
-                </p>
-              </div>
-            )}
+              {question.context && (
+                <div className="mt-3 p-3 bg-slate-700/50 rounded-lg border-l-4 border-blue-500">
+                  <p className="text-sm text-slate-300">
+                    <strong className="text-blue-300">Context:</strong> {question.context}
+                  </p>
+                </div>
+              )}
+            </div>
           </CardHeader>
           
-          <CardContent className="p-6">
+          <CardContent className="p-6 bg-slate-800/30">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4">{question.question}</h2>
+              <h2 className="text-xl font-semibold mb-4 text-white">{question.question}</h2>
               
               {question.formula && (
-                <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                  <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                    Formula: <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">{question.formula}</code>
+                <div className="mb-4 p-3 bg-blue-900/30 rounded-lg border border-blue-500/30">
+                  <p className="text-sm font-medium text-blue-200">
+                    <Calculator className="w-4 h-4 inline mr-2" />
+                    Formula: <code className="bg-blue-800/50 px-2 py-1 rounded text-blue-100 font-mono">{question.formula}</code>
                   </p>
                 </div>
               )}
@@ -397,10 +480,14 @@ const CFAEquityChallenge = () => {
                       <Button
                         key={index}
                         variant={selectedAnswer === option ? "default" : "outline"}
-                        className="w-full text-left justify-start h-auto p-4"
+                        className={`w-full text-left justify-start h-auto p-4 transition-all ${
+                          selectedAnswer === option 
+                            ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-500' 
+                            : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 border-slate-600/50 hover:border-slate-500'
+                        }`}
                         onClick={() => setSelectedAnswer(option)}
                       >
-                        <span className="font-medium mr-3">{String.fromCharCode(65 + index)}.</span>
+                        <span className="font-medium mr-3 text-blue-300">{String.fromCharCode(65 + index)}.</span>
                         {option}
                       </Button>
                     ))}
@@ -410,8 +497,8 @@ const CFAEquityChallenge = () => {
                 {question.type === 'calculation' && (
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                      <Calculator className="w-5 h-5 text-primary" />
-                      <label className="font-medium">Enter your calculation result:</label>
+                      <Calculator className="w-5 h-5 text-blue-400" />
+                      <label className="font-medium text-white">Enter your calculation result:</label>
                     </div>
                     <Input
                       type="number"
@@ -419,9 +506,9 @@ const CFAEquityChallenge = () => {
                       placeholder="Enter numerical answer (e.g., 1.17)"
                       value={calculationInput}
                       onChange={(e) => setCalculationInput(e.target.value)}
-                      className="text-lg font-mono"
+                      className="text-lg font-mono bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-blue-500"
                     />
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-slate-400">
                       Round to 2 decimal places where applicable
                     </p>
                   </div>
@@ -433,9 +520,10 @@ const CFAEquityChallenge = () => {
                     (question.type === 'multiple-choice' && !selectedAnswer) ||
                     (question.type === 'calculation' && !calculationInput)
                   }
-                  className="w-full mt-6"
+                  className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white disabled:bg-slate-600 disabled:text-slate-400"
                   size="lg"
                 >
+                  <Zap className="w-4 h-4 mr-2" />
                   Submit Answer
                 </Button>
               </div>
@@ -444,23 +532,23 @@ const CFAEquityChallenge = () => {
             {showResult && (
               <div className={`p-6 rounded-lg border-2 ${
                 isCorrect 
-                  ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' 
-                  : 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800'
+                  ? 'bg-green-900/30 border-green-500/50' 
+                  : 'bg-red-900/30 border-red-500/50'
               }`}>
                 <div className="flex items-center gap-3 mb-4">
                   {isCorrect ? (
-                    <CheckCircle className="w-8 h-8 text-green-600" />
+                    <CheckCircle className="w-8 h-8 text-green-400" />
                   ) : (
-                    <XCircle className="w-8 h-8 text-red-600" />
+                    <XCircle className="w-8 h-8 text-red-400" />
                   )}
                   <div>
                     <h3 className={`text-xl font-bold ${
-                      isCorrect ? 'text-green-800 dark:text-green-200' : 'text-red-800 dark:text-red-200'
+                      isCorrect ? 'text-green-300' : 'text-red-300'
                     }`}>
                       {isCorrect ? 'Correct!' : 'Incorrect'}
                     </h3>
                     <p className={`${
-                      isCorrect ? 'text-green-600 dark:text-green-300' : 'text-red-600 dark:text-red-300'
+                      isCorrect ? 'text-green-400' : 'text-red-400'
                     }`}>
                       {isCorrect ? `+${question.points} points` : '0 points'}
                     </p>
@@ -468,19 +556,27 @@ const CFAEquityChallenge = () => {
                 </div>
 
                 <div className="mb-4">
-                  <p className="font-medium mb-2">Correct Answer:</p>
-                  <p className="text-lg font-mono bg-background/50 p-2 rounded">
+                  <p className="font-medium mb-2 text-white">Correct Answer:</p>
+                  <p className="text-lg font-mono bg-slate-800/50 p-3 rounded border border-slate-600/50 text-blue-300">
                     {question.correctAnswer}
                   </p>
                 </div>
 
                 <div className="mb-6">
-                  <p className="font-medium mb-2">Explanation:</p>
-                  <p className="text-sm leading-relaxed">{question.explanation}</p>
+                  <p className="font-medium mb-2 text-white">Explanation:</p>
+                  <p className="text-sm leading-relaxed text-slate-300">{question.explanation}</p>
                 </div>
 
-                <Button onClick={nextQuestion} className="w-full" size="lg">
-                  {currentQuestion < questions.length - 1 ? 'Next Question' : 'View Results'}
+                <Button 
+                  onClick={nextQuestion} 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                  size="lg"
+                >
+                  {currentQuestion < questions.length - 1 ? (
+                    <>Next Question <TrendingUp className="w-4 h-4 ml-2" /></>
+                  ) : (
+                    <>View Results <Award className="w-4 h-4 ml-2" /></>
+                  )}
                 </Button>
               </div>
             )}
