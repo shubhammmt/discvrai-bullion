@@ -96,10 +96,10 @@ const AITransformationContest = () => {
   ];
 
   const prizes = [
-    { category: "Grand Prize Winner", amount: "₹50,000", description: "Best Overall Strategy + McKinsey Mentorship" },
-    { category: "Most Innovative", amount: "₹15,000", description: "Creative AI Technology Approach" },
-    { category: "Best Financial Analysis", amount: "₹15,000", description: "Strongest ROI & Business Case" },
-    { category: "Community Choice", amount: "₹15,000", description: "Highest Public Voting Score" }
+    { category: "Grand Prize Winner", amount: "₹2,500", description: "Best Overall Strategy + McKinsey Mentorship" },
+    { category: "Most Innovative", amount: "₹2,500", description: "Creative AI Technology Approach" },
+    { category: "Best Financial Analysis", amount: "₹2,500", description: "Strongest ROI & Business Case" },
+    { category: "Community Choice", amount: "₹2,500", description: "Highest Public Voting Score" }
   ];
 
   return (
@@ -127,7 +127,7 @@ const AITransformationContest = () => {
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
               <Trophy className="h-8 w-8 mx-auto mb-2" />
-              <div className="text-2xl font-bold">₹95,000</div>
+              <div className="text-2xl font-bold">₹10,000</div>
               <div className="text-blue-100">Total Prize Pool</div>
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
