@@ -62,6 +62,8 @@ import AITransformationContest from './pages/AITransformationContest';
 import AIMasteryWorkshop from './pages/AIMasteryWorkshop';
 import AITutorialGame from './components/AITutorialGame';
 import DeepLearningTutorial from './components/DeepLearningTutorial';
+import MachineLearningTutorial from './components/MachineLearningTutorial';
+import ComputerVisionNLPTutorial from './components/ComputerVisionNLPTutorial';
 import CFAEquityChallenge from './components/CFAEquityChallenge';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
