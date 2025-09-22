@@ -60,6 +60,7 @@ import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
 import AITransformationContest from './pages/AITransformationContest';
 import AshokaAIContest from './pages/AshokaAIContest';
+import SXCAIContest from './pages/SXCAIContest';
 import AIMasteryWorkshop from './pages/AIMasteryWorkshop';
 import AITutorialGame from './components/AITutorialGame';
 import DeepLearningTutorial from './components/DeepLearningTutorial';
@@ -134,6 +135,7 @@ function App() {
           <Route path="/engineer-showcase" element={<EngineerShowcase />} />
         <Route path="/ai-transformation-contest" element={<AITransformationContest />} />
         <Route path="/ashoka-ai-contest" element={<AshokaAIContest />} />
+        <Route path="/sxc-ai-contest" element={<SXCAIContest />} />
           <Route path="/ai-mastery-workshop" element={<AIMasteryWorkshop />} />
           <Route path="/ai-tutorial-game" element={<AITutorialGame />} />
           <Route path="/deep-learning-tutorial" element={<DeepLearningTutorial />} />
