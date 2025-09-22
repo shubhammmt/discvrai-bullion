@@ -605,22 +605,26 @@ const ComputerVisionNLPTutorial: React.FC = () => {
   const [pyodide, setPyodide] = useState<any>(null);
   const pyodideRef = useRef<any>(null);
 
-  // Initialize Pyodide
-  useEffect(() => {
-    const initPyodide = async () => {
-      try {
-        const { loadPyodide } = await import('pyodide');
-        const pyodideInstance = await loadPyodide({
-          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/"
-        });
-        await pyodideInstance.loadPackage(['numpy', 'regex']);
-        pyodideRef.current = pyodideInstance;
-        setPyodide(pyodideInstance);
-      } catch (error) {
-        console.error('Failed to load Pyodide:', error);
-      }
-    };
-    initPyodide();
+  // Initialize Pyodide only when needed
+  const initPyodide = useCallback(async () => {
+    if (pyodideRef.current) return pyodideRef.current;
+    
+    try {
+      setPythonOutput('Loading Python environment...');
+      const { loadPyodide } = await import('pyodide');
+      const pyodideInstance = await loadPyodide({
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/"
+      });
+      await pyodideInstance.loadPackage(['numpy']);
+      pyodideRef.current = pyodideInstance;
+      setPyodide(pyodideInstance);
+      setPythonOutput('Python environment ready!');
+      return pyodideInstance;
+    } catch (error) {
+      console.error('Failed to load Pyodide:', error);
+      setPythonOutput('Failed to load Python environment. Please try again.');
+      return null;
+    }
   }, []);
 
   // Set initial Python code when question changes
@@ -691,23 +695,24 @@ const ComputerVisionNLPTutorial: React.FC = () => {
   };
 
   const runPythonCode = async () => {
-    if (!pyodideRef.current) {
-      setPythonOutput('Python environment not ready. Please wait...');
-      return;
-    }
-
     setIsRunning(true);
     try {
-      pyodideRef.current.runPython(`
+      const pyodideInstance = await initPyodide();
+      if (!pyodideInstance) {
+        setPythonOutput('Failed to initialize Python environment.');
+        return;
+      }
+
+      pyodideInstance.runPython(`
 import sys
 import io
 old_stdout = sys.stdout
 sys.stdout = io.StringIO()
       `);
 
-      pyodideRef.current.runPython(pythonCode);
-      const output = pyodideRef.current.runPython('sys.stdout.getvalue()');
-      pyodideRef.current.runPython('sys.stdout = old_stdout');
+      pyodideInstance.runPython(pythonCode);
+      const output = pyodideInstance.runPython('sys.stdout.getvalue()');
+      pyodideInstance.runPython('sys.stdout = old_stdout');
       
       setPythonOutput(output || 'Code executed successfully (no output)');
     } catch (error: any) {
@@ -852,8 +857,8 @@ sys.stdout = io.StringIO()
   const progress = ((currentQuestion + 1) / cvNlpQuestions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 overflow-y-auto">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+      <div className="max-w-6xl mx-auto space-y-6 pb-8">
         {/* Header */}
         <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -918,7 +923,7 @@ sys.stdout = io.StringIO()
                 <Textarea
                   value={pythonCode}
                   onChange={(e) => setPythonCode(e.target.value)}
-                  className="font-mono text-sm bg-slate-900 border-slate-600 text-green-400 min-h-[200px]"
+                  className="font-mono text-sm bg-slate-900 border-slate-600 text-green-400 h-48 overflow-auto"
                   placeholder="Python code will appear here..."
                 />
                 <Button 
@@ -939,7 +944,7 @@ sys.stdout = io.StringIO()
                   )}
                 </Button>
                 {pythonOutput && (
-                  <div className="bg-slate-900 p-3 rounded border border-slate-600">
+                  <div className="bg-slate-900 p-3 rounded border border-slate-600 max-h-40 overflow-auto">
                     <pre className="text-green-400 text-sm whitespace-pre-wrap">{pythonOutput}</pre>
                   </div>
                 )}

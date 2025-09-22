@@ -112,23 +112,29 @@ const MachineLearningTutorial: React.FC = () => {
   const [pythonOutput, setPythonOutput] = useState('');
   const [pyodide, setPyodide] = useState<any>(null);
 
-  // Lazy-load Pyodide only when needed
-  const ensurePyodide = useCallback(async () => {
-    if (pyodide) return;
+  // Initialize Pyodide only when needed
+  const initPyodide = useCallback(async () => {
+    if (pyodide) return pyodide;
+    
     try {
+      setPythonOutput('Loading Python environment...');
       const { loadPyodide } = await import('pyodide');
-      const instance = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.28.2/full/' });
+      const instance = await loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.28.2/full/'
+      });
+      
+      // Load required packages
+      await instance.loadPackage(['numpy', 'scikit-learn', 'pandas']);
       setPyodide(instance);
       setPyodideReady(true);
+      setPythonOutput('Python environment ready!');
+      return instance;
     } catch (error) {
       console.error('Failed to load Pyodide:', error);
+      setPythonOutput('Failed to load Python environment. Please try again.');
+      return null;
     }
   }, [pyodide]);
-
-  // Preload Pyodide in background so the first run is fast
-  useEffect(() => {
-    ensurePyodide();
-  }, [ensurePyodide]);
 
   // Timer effect
   useEffect(() => {
@@ -176,42 +182,29 @@ const MachineLearningTutorial: React.FC = () => {
 
   const runPythonCode = useCallback(async () => {
     try {
-      await ensurePyodide();
-      if (!pyodide) {
-        setPythonOutput('Python environment not ready. Please try again.');
+      const pyodideInstance = await initPyodide();
+      if (!pyodideInstance) {
+        setPythonOutput('Failed to initialize Python environment.');
         return;
       }
-      // Load required packages for this question
-      const pkgsMap: Record<number, string[]> = {
-        0: ['numpy', 'scikit-learn'],
-        1: ['numpy', 'scikit-learn'],
-        2: ['numpy', 'scikit-learn'],
-        3: ['numpy', 'pandas', 'scikit-learn'],
-        4: ['numpy', 'scikit-learn'],
-      };
-      const required = pkgsMap[currentQuestion] || ['numpy'];
-      if ((pyodide as any).loadPackage) {
-        await (pyodide as any).loadPackage(required);
-      }
-      setPyodideReady(true);
 
-      pyodide.runPython(`
+      pyodideInstance.runPython(`
 import sys
 from io import StringIO
 sys.stdout = StringIO()
 sys.stderr = StringIO()
       `);
 
-      pyodide.runPython(machineLearningQuestions[currentQuestion].pythonCode);
+      pyodideInstance.runPython(machineLearningQuestions[currentQuestion].pythonCode);
 
-      const stdout = pyodide.runPython("sys.stdout.getvalue()");
-      const stderr = pyodide.runPython("sys.stderr.getvalue()");
+      const stdout = pyodideInstance.runPython("sys.stdout.getvalue()");
+      const stderr = pyodideInstance.runPython("sys.stderr.getvalue()");
 
       setPythonOutput(stdout || stderr || 'Code executed successfully!');
     } catch (error) {
       setPythonOutput(`Error: ${error}`);
     }
-  }, [ensurePyodide, pyodide, currentQuestion]);
+  }, [initPyodide, currentQuestion]);
 
   const resetGame = () => {
     setGameStarted(false);
@@ -361,8 +354,8 @@ sys.stderr = StringIO()
   const progress = ((currentQuestion + 1) / machineLearningQuestions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 overflow-y-auto">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4">
+      <div className="max-w-6xl mx-auto space-y-6 pb-8">
         {/* Header */}
         <div className="mb-6 flex justify-between items-center">
           <div>
@@ -464,7 +457,7 @@ sys.stderr = StringIO()
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <div className="bg-gray-900 rounded-lg p-4 overflow-auto max-h-60">
                   <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap">
                     {question.pythonCode}
                   </pre>
@@ -480,7 +473,7 @@ sys.stderr = StringIO()
                 </Button>
 
                 {pythonOutput && (
-                  <div className="bg-black rounded-lg p-4">
+                  <div className="bg-black rounded-lg p-4 max-h-40 overflow-auto">
                     <pre className="text-green-400 text-xs font-mono whitespace-pre-wrap">
                       {pythonOutput}
                     </pre>
