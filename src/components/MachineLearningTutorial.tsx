@@ -23,7 +23,7 @@ const machineLearningQuestions: Question[] = [
     title: "Linear Regression Fundamentals",
     theory: "Linear regression is a fundamental algorithm that models the relationship between a dependent variable and independent variables by fitting a linear equation. It assumes a linear relationship and uses least squares to minimize prediction errors.",
     example: "Predicting house prices based on size, location, and age. If size increases by 100 sq ft, price might increase by $15,000 (linear relationship).",
-    pythonCode: "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score\n\n# Sample data: house sizes vs prices\nsizes = np.array([1000, 1200, 1400, 1600, 1800, 2000]).reshape(-1, 1)\nprices = np.array([150000, 180000, 210000, 240000, 270000, 300000])\n\n# Create and train model\nmodel = LinearRegression()\nmodel.fit(sizes, prices)\n\n# Make predictions\npredicted_prices = model.predict(sizes)\n\n# Calculate R² score\nr2 = r2_score(prices, predicted_prices)\n\nprint(f'Model equation: Price = {model.coef_[0]:.2f} * Size + {model.intercept_:.2f}')\nprint(f'R² Score: {r2:.4f}')\nprint(f'Prediction for 1500 sq ft: ${model.predict([[1500]])[0]:,.2f}')",
+    pythonCode: "import numpy as np\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score\n\n# Sample data: house sizes vs prices\nsizes = np.array([1000, 1200, 1400, 1600, 1800, 2000]).reshape(-1, 1)\nprices = np.array([150000, 180000, 210000, 240000, 270000, 300000])\n\n# Create and train model\nmodel = LinearRegression()\nmodel.fit(sizes, prices)\n\n# Make predictions\npredicted_prices = model.predict(sizes)\n\n# Calculate R² score\nr2 = r2_score(prices, predicted_prices)\n\nprint(f'Model equation: Price = {model.coef_[0]:.2f} * Size + {model.intercept_:.2f}')\nprint(f'R² Score: {r2:.4f}')\nprint(f'Prediction for 1500 sq ft: ${model.predict([[1500]])[0]:,.2f}')",
     explanation: "Linear regression finds the best-fit line through data points. The R² score measures how well the model explains the data variance (1.0 = perfect fit). The equation shows the relationship: for every additional sq ft, price increases by the coefficient amount.",
     options: [
       "Linear regression can only work with one input variable",
@@ -112,25 +112,23 @@ const MachineLearningTutorial: React.FC = () => {
   const [pythonOutput, setPythonOutput] = useState('');
   const [pyodide, setPyodide] = useState<any>(null);
 
-  // Initialize Pyodide
-  useEffect(() => {
-    const initPyodide = async () => {
-      try {
-        const pyodideModule = await import('pyodide');
-        const pyodideInstance = await pyodideModule.loadPyodide({
-          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/"
-        });
-        
-        await pyodideInstance.loadPackage(["numpy", "matplotlib", "scikit-learn", "pandas"]);
-        setPyodide(pyodideInstance);
-        setPyodideReady(true);
-      } catch (error) {
-        console.error('Failed to load Pyodide:', error);
-      }
-    };
+  // Lazy-load Pyodide only when needed
+  const ensurePyodide = useCallback(async () => {
+    if (pyodide) return;
+    try {
+      const { loadPyodide } = await import('pyodide');
+      const instance = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.28.2/full/' });
+      setPyodide(instance);
+      setPyodideReady(true);
+    } catch (error) {
+      console.error('Failed to load Pyodide:', error);
+    }
+  }, [pyodide]);
 
-    initPyodide();
-  }, []);
+  // Preload Pyodide in background so the first run is fast
+  useEffect(() => {
+    ensurePyodide();
+  }, [ensurePyodide]);
 
   // Timer effect
   useEffect(() => {
@@ -177,12 +175,26 @@ const MachineLearningTutorial: React.FC = () => {
   };
 
   const runPythonCode = useCallback(async () => {
-    if (!pyodide || !pyodideReady) {
-      setPythonOutput('Pyodide is not ready yet. Please wait...');
-      return;
-    }
-
     try {
+      await ensurePyodide();
+      if (!pyodide) {
+        setPythonOutput('Python environment not ready. Please try again.');
+        return;
+      }
+      // Load required packages for this question
+      const pkgsMap: Record<number, string[]> = {
+        0: ['numpy', 'scikit-learn'],
+        1: ['numpy', 'scikit-learn'],
+        2: ['numpy', 'scikit-learn'],
+        3: ['numpy', 'pandas', 'scikit-learn'],
+        4: ['numpy', 'scikit-learn'],
+      };
+      const required = pkgsMap[currentQuestion] || ['numpy'];
+      if ((pyodide as any).loadPackage) {
+        await (pyodide as any).loadPackage(required);
+      }
+      setPyodideReady(true);
+
       pyodide.runPython(`
 import sys
 from io import StringIO
@@ -199,7 +211,7 @@ sys.stderr = StringIO()
     } catch (error) {
       setPythonOutput(`Error: ${error}`);
     }
-  }, [pyodide, pyodideReady, currentQuestion]);
+  }, [ensurePyodide, pyodide, currentQuestion]);
 
   const resetGame = () => {
     setGameStarted(false);
@@ -349,7 +361,7 @@ sys.stderr = StringIO()
   const progress = ((currentQuestion + 1) / machineLearningQuestions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 overflow-y-auto">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 flex justify-between items-center">
