@@ -100,11 +100,11 @@ const AshokaAIContest = () => {
   ];
 
   const prizes = [
-    { category: "Grand Prize Winner", amount: "₹15,000", description: "Best Overall Strategy + BCG Mentorship" },
-    { category: "Most Innovative Approach", amount: "₹10,000", description: "Creative AI Integration Strategy" },
-    { category: "Best Sustainability Focus", amount: "₹10,000", description: "Outstanding ESG & AI Combination" },
-    { category: "Peer Choice Award", amount: "₹7,500", description: "Highest Collaborative Score" },
-    { category: "Rising Strategist", amount: "₹7,500", description: "Best First-Year Student Strategy" }
+    { category: "Grand Prize Winner", amount: "₹5,000", description: "Best Overall Strategy + BCG Mentorship" },
+    { category: "Most Innovative Approach", amount: "₹5,000", description: "Creative AI Integration Strategy" },
+    { category: "Best Sustainability Focus", amount: "₹5,000", description: "Outstanding ESG & AI Combination" },
+    { category: "Peer Choice Award", amount: "₹5,000", description: "Highest Collaborative Score" },
+    { category: "Rising Strategist", amount: "₹5,000", description: "Best First-Year Student Strategy" }
   ];
 
   return (
@@ -133,7 +133,7 @@ const AshokaAIContest = () => {
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
               <Trophy className="h-8 w-8 mx-auto mb-2" />
-              <div className="text-2xl font-bold">₹50,000</div>
+              <div className="text-2xl font-bold">₹25,000</div>
               <div className="text-emerald-100">Total Prize Pool</div>
             </div>
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
