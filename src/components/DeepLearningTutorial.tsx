@@ -272,7 +272,7 @@ const DeepLearningTutorial: React.FC = () => {
       try {
         const { loadPyodide } = await import('pyodide');
         const pyodideInstance = await loadPyodide({
-          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/"
         });
         await pyodideInstance.loadPackage(['numpy']);
         pyodideRef.current = pyodideInstance;

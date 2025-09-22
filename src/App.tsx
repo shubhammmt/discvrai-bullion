@@ -133,6 +133,8 @@ function App() {
           <Route path="/ai-mastery-workshop" element={<AIMasteryWorkshop />} />
           <Route path="/ai-tutorial-game" element={<AITutorialGame />} />
           <Route path="/deep-learning-tutorial" element={<DeepLearningTutorial />} />
+          <Route path="/machine-learning-tutorial" element={<MachineLearningTutorial />} />
+          <Route path="/computer-vision-nlp-tutorial" element={<ComputerVisionNLPTutorial />} />
           <Route path="/cfa-equity-challenge" element={<CFAEquityChallenge />} />
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
