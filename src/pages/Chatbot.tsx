@@ -310,7 +310,7 @@ const Chatbot = () => {
         </div>
         
         {/* Fixed Input Field */}
-        <div className="absolute bottom-0 left-0 right-0 lg:pt-2 px-3 lg:px-4 pb-3 lg:pb-4 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 lg:pt-2 px-3 lg:px-4 pb-2 lg:pb-3 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none">
           <div className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl mx-auto pointer-events-auto">
             <div className={`flex items-center gap-2 lg:gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-3 lg:px-4 py-2 lg:py-3 ${
               isFocused && inputMessage.trim() ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
