@@ -224,7 +224,7 @@ const Chatbot = () => {
                 </div>
                 
                 {/* Quick Prompts */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2 lg:gap-3 mb-2 md:mb-3 lg:mb-4 place-items-center sm:[&>*:nth-child(3)]:col-span-2 sm:[&>*:nth-child(3)]:justify-self-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2 lg:gap-3 mb-2 md:mb-3 lg:mb-4 justify-items-center">
                   {quickPrompts.map((prompt) => (
                     <Card 
                       key={prompt.id}
