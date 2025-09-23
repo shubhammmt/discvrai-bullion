@@ -200,7 +200,7 @@ const Chatbot = () => {
         >
           {/* Welcome Section */}
           {showWelcome && (
-            <div className="flex-1 flex items-center justify-center px-4 lg:px-8 pt-4 lg:pt-2 pb-4 min-h-[calc(100vh-12rem)]">
+            <div className="flex-1 flex items-center justify-center px-4 lg:px-8 lg:pt-2 pb-4 min-h-[calc(100vh-12rem)]">
               <div className="w-full max-w-sm sm:max-w-md lg:max-w-4xl text-center animate-fade-in-up">
                 {/* AI Avatar with Glow */}
                 <div className="relative mb-2 lg:mb-4">
