@@ -225,10 +225,12 @@ const Chatbot = () => {
                 
                 {/* Quick Prompts */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2 lg:gap-3 mb-2 md:mb-3 lg:mb-4 place-items-center sm:[&>*:nth-child(3)]:col-span-2 sm:[&>*:nth-child(3)]:justify-self-center">
-                  {quickPrompts.map((prompt) => (
+                  {quickPrompts.map((prompt, index) => (
                     <Card 
                       key={prompt.id}
-                      className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
+                      className={`ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group ${
+                        index === 2 ? 'sm:max-w-xs' : ''
+                      }`}
                       onClick={() => handleQuickPrompt(prompt)}
                     >
                       <CardContent className="p-2 lg:p-3 text-center h-full flex flex-col items-center">
