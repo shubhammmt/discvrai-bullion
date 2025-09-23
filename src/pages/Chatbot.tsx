@@ -200,22 +200,22 @@ const Chatbot = () => {
         >
           {/* Welcome Section */}
           {showWelcome && (
-            <div className="flex-1 flex items-center justify-center px-4 lg:px-8 lg:pt-2 pb-4 min-h-[calc(100vh-12rem)]">
+            <div className="flex-1 flex items-center justify-center px-4 lg:px-8 lg:pt-2 pb-2 md:pb-3 lg:pb-4 min-h-[calc(100vh-12rem)]">
               <div className="w-full max-w-sm sm:max-w-md lg:max-w-4xl text-center animate-fade-in-up">
                 {/* AI Avatar with Glow */}
-                <div className="relative mb-2 lg:mb-4">
-                  <div className="inline-flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 ai-gradient rounded-xl mb-2 ai-glow-intense relative">
+                <div className="relative mb-2 md:mb-3 lg:mb-4">
+                  <div className="inline-flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 ai-gradient rounded-xl mb-1 md:mb-2 ai-glow-intense relative">
                     <Brain className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
                     <div className="absolute inset-0 ai-gradient rounded-xl opacity-20 animate-pulse"></div>
                   </div>
                 </div>
 
                 {/* Greeting */}
-                <div className="mb-4 lg:mb-6">
-                  <h1 className="text-xl lg:text-2xl font-bold mb-2">
+                <div className="mb-3 md:mb-4 lg:mb-5">
+                  <h1 className="text-xl lg:text-2xl font-bold mb-1 md:mb-2">
                     <span className="ai-text-gradient">Hi, Welcome!</span>
                   </h1>
-                  <h2 className="text-base lg:text-lg font-semibold text-white mb-2">
+                  <h2 className="text-base lg:text-lg font-semibold text-white mb-1 md:mb-2">
                     Can I help you with anything?
                   </h2>
                   <p className="text-xs lg:text-sm text-gray-300 max-w-xs sm:max-w-md lg:max-w-xl mx-auto leading-relaxed">
@@ -224,7 +224,7 @@ const Chatbot = () => {
                 </div>
                 
                 {/* Quick Prompts */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2 lg:gap-3 mb-2 md:mb-3 lg:mb-4">
                   {quickPrompts.map((prompt) => (
                     <Card 
                       key={prompt.id}
