@@ -197,7 +197,7 @@ const Chatbot = () => {
         {/* Welcome Section */}
         {showWelcome && (
           <div className={`flex-1 flex items-center justify-center ${isMobile ? 'p-4 pb-32 pt-40' : 'p-8 pb-32 pt-48'}`}>
-            <div className={`${isMobile ? 'max-w-sm' : 'max-w-4xl'} w-full text-center animate-fade-in-up ${isMobile ? 'mt-8' : 'mt-16'}`}>
+            <div className={`${isMobile ? 'max-w-sm' : 'max-w-4xl'} w-full text-center animate-fade-in-up-smooth ${isMobile ? 'mt-8' : 'mt-16'}`}>
               {/* AI Avatar with Glow */}
               <div className="relative mb-4">
                 <div className={`inline-flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'w-16 h-16'} ai-gradient rounded-2xl mb-4 ai-glow-intense relative`}>
