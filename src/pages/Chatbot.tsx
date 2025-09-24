@@ -196,7 +196,8 @@ const Chatbot = () => {
         {/* Scrollable Content Area */}
         <div 
           ref={scrollContainerRef} 
-          className={`flex-1 ${messages.length > 0 ? 'overflow-y-auto' : 'overflow-y-hidden'} pb-[8rem] lg:pb-[10rem]`}
+          className="flex-1 overflow-y-auto pb-[8rem] lg:pb-[10rem]"
+          style={{ overflowY: messages.length > 0 ? 'auto' : 'hidden' }}
         >
           {/* Welcome Section */}
           {showWelcome && (
