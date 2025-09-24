@@ -3,6 +3,7 @@ import { Send, Bot, User, Sparkles, TrendingUp, PieChart, Brain, FileText, Mic, 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import Header from '@/components/Header';
 
@@ -29,6 +30,7 @@ const Chatbot = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [messageOpacities, setMessageOpacities] = useState<{[key: number]: number}>({});
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const quickPrompts: QuickPrompt[] = [
     {
@@ -178,15 +180,15 @@ const Chatbot = () => {
       
       {/* New Chat Button */}
       {!showWelcome && (
-        <div className="absolute top-20 left-6 z-10">
+        <div className={`absolute top-20 z-10 ${isMobile ? 'left-4' : 'left-6'}`}>
           <Button
             onClick={handleNewChat}
             variant="ghost"
             size="sm"
-            className="ai-surface-elevated ai-border-glow border text-white hover:ai-glow transition-all duration-300 rounded-xl p-3"
+            className={`ai-surface-elevated ai-border-glow border text-white hover:ai-glow transition-all duration-300 rounded-xl ${isMobile ? 'p-2' : 'p-3'}`}
           >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            New Chat
+            <RotateCcw className={`${isMobile ? 'h-3 w-3 mr-1' : 'h-4 w-4 mr-2'}`} />
+            {!isMobile && 'New Chat'}
           </Button>
         </div>
       )}
@@ -194,43 +196,43 @@ const Chatbot = () => {
       <div className="pb-32">  {/* Add bottom padding to prevent overlap with fixed input */}
         {/* Welcome Section */}
         {showWelcome && (
-          <div className="flex-1 flex items-center justify-center p-8 pb-32 pt-40">
-            <div className="max-w-4xl w-full text-center animate-fade-in-up mt-16">
+          <div className={`flex-1 flex items-center justify-center ${isMobile ? 'p-4 pb-32 pt-32' : 'p-8 pb-32 pt-40'}`}>
+            <div className={`${isMobile ? 'max-w-sm' : 'max-w-4xl'} w-full text-center animate-fade-in-up ${isMobile ? 'mt-8' : 'mt-16'}`}>
               {/* AI Avatar with Glow */}
               <div className="relative mb-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 ai-gradient rounded-2xl mb-4 ai-glow-intense relative">
-                  <Brain className="h-8 w-8 text-white" />
+                <div className={`inline-flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'w-16 h-16'} ai-gradient rounded-2xl mb-4 ai-glow-intense relative`}>
+                  <Brain className={`${isMobile ? 'h-6 w-6' : 'h-8 w-8'} text-white`} />
                   <div className="absolute inset-0 ai-gradient rounded-2xl opacity-20 animate-pulse"></div>
                 </div>
               </div>
 
               {/* Greeting */}
               <div className="mb-6">
-                <h1 className="text-3xl font-bold mb-3">
+                <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold mb-3`}>
                   <span className="ai-text-gradient">Hi, Welcome!</span>
                 </h1>
-                <h2 className="text-xl font-semibold text-white mb-3">
+                <h2 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold text-white mb-3`}>
                   Can I help you with anything?
                 </h2>
-                <p className="text-sm text-gray-300 max-w-xl mx-auto leading-relaxed">
+                <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-gray-300 max-w-xl mx-auto leading-relaxed ${isMobile ? 'px-4' : ''}`}>
                   Ready to assist you with anything you need, from answering questions to providing recommendations. Let's get started!
                 </p>
               </div>
               
               {/* Quick Prompts - Smaller Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+              <div className={`grid grid-cols-1 ${isMobile ? 'gap-2 mb-4' : 'md:grid-cols-3 gap-3 mb-6'}`}>
                 {quickPrompts.map((prompt) => (
                   <Card 
                     key={prompt.id}
                     className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
                     onClick={() => handleQuickPrompt(prompt)}
                   >
-                    <CardContent className="p-3 text-center h-full flex flex-col items-center">
-                      <div className={`flex items-center justify-center w-8 h-8 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-2 text-white group-hover:scale-110 transition-transform duration-300`}>
-                        {React.cloneElement(prompt.icon as React.ReactElement, { className: "h-3 w-3" })}
+                    <CardContent className={`${isMobile ? 'p-2' : 'p-3'} text-center h-full flex flex-col items-center`}>
+                      <div className={`flex items-center justify-center ${isMobile ? 'w-6 h-6' : 'w-8 h-8'} bg-gradient-to-r ${prompt.gradient} rounded-lg mb-2 text-white group-hover:scale-110 transition-transform duration-300`}>
+                        {React.cloneElement(prompt.icon as React.ReactElement, { className: isMobile ? "h-2.5 w-2.5" : "h-3 w-3" })}
                       </div>
-                      <h3 className="font-medium text-xs mb-1 text-white">{prompt.title}</h3>
-                      <p className="text-xs text-gray-400 leading-relaxed flex-1">{prompt.description}</p>
+                      <h3 className={`font-medium ${isMobile ? 'text-xs' : 'text-xs'} mb-1 text-white`}>{prompt.title}</h3>
+                      <p className={`${isMobile ? 'text-xs' : 'text-xs'} text-gray-400 leading-relaxed flex-1`}>{prompt.description}</p>
                     </CardContent>
                   </Card>
                 ))}
@@ -241,40 +243,40 @@ const Chatbot = () => {
 
         {/* Chat Area */}
         {messages.length > 0 && (
-          <div className="max-w-4xl mx-auto w-full px-8 py-6">
-            <div className="space-y-8">
+          <div className={`${isMobile ? 'max-w-full' : 'max-w-4xl'} mx-auto w-full ${isMobile ? 'px-4 py-4' : 'px-8 py-6'}`}>
+            <div className={`${isMobile ? 'space-y-4' : 'space-y-8'}`}>
                 {messages.map((message) => (
                   <div
                     key={message.id}
                     data-message-id={message.id}
-                    className={`flex gap-6 animate-fade-in-up transition-opacity duration-300 ease-out ${
+                    className={`flex ${isMobile ? 'gap-3' : 'gap-6'} animate-fade-in-up transition-opacity duration-300 ease-out ${
                       message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
                     }`}
                     style={{ opacity: messageOpacities[message.id] ?? 1 }}
                   >
                     {/* Avatar */}
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-12 h-12'} rounded-xl flex items-center justify-center flex-shrink-0 ${
                       message.type === 'user' 
                         ? 'ai-gradient ai-glow'
                         : 'ai-surface-elevated ai-border-glow border'
                     }`}>
                       {message.type === 'user' ? (
-                        <User className="h-6 w-6 text-white" />
+                        <User className={`${isMobile ? 'h-4 w-4' : 'h-6 w-6'} text-white`} />
                       ) : (
-                        <Brain className="h-6 w-6 text-blue-400" />
+                        <Brain className={`${isMobile ? 'h-4 w-4' : 'h-6 w-6'} text-blue-400`} />
                       )}
                     </div>
                     
                     {/* Message Content */}
-                    <div className={`max-w-[75%] ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
+                    <div className={`${isMobile ? 'max-w-[85%]' : 'max-w-[75%]'} ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
                       <div
-                        className={`rounded-2xl p-4 shadow-lg transition-all duration-300 ${
+                        className={`rounded-2xl ${isMobile ? 'p-3' : 'p-4'} shadow-lg transition-all duration-300 ${
                           message.type === 'user'
                             ? 'bg-purple-600/70 border border-purple-500/50 text-white ml-auto'
                             : 'ai-surface-elevated border ai-border-glow text-white'
                         }`}
                       >
-                        <p className="text-base leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                        <p className={`${isMobile ? 'text-sm' : 'text-base'} leading-relaxed whitespace-pre-wrap`}>{message.content}</p>
                       </div>
                       <span className="text-xs text-gray-500 mt-2 block">
                         {formatTime(message.timestamp)}
@@ -285,11 +287,11 @@ const Chatbot = () => {
                 
                 {/* Loading indicator */}
                 {isLoading && (
-                  <div className="flex gap-6 animate-fade-in-up">
-                    <div className="w-12 h-12 rounded-xl ai-surface-elevated ai-border-glow border flex items-center justify-center flex-shrink-0">
-                      <Brain className="h-6 w-6 text-blue-400" />
+                  <div className={`flex ${isMobile ? 'gap-3' : 'gap-6'} animate-fade-in-up`}>
+                    <div className={`${isMobile ? 'w-8 h-8' : 'w-12 h-12'} rounded-xl ai-surface-elevated ai-border-glow border flex items-center justify-center flex-shrink-0`}>
+                      <Brain className={`${isMobile ? 'h-4 w-4' : 'h-6 w-6'} text-blue-400`} />
                     </div>
-                    <div className="ai-surface-elevated border ai-border-glow rounded-2xl p-6">
+                    <div className={`ai-surface-elevated border ai-border-glow rounded-2xl ${isMobile ? 'p-4' : 'p-6'}`}>
                       <div className="flex space-x-2">
                         <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
                         <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -303,18 +305,20 @@ const Chatbot = () => {
         )}
         
         {/* Input Field - Fixed at bottom */}
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw] z-10 pointer-events-none">
-          <div className={`pointer-events-auto flex items-center gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-4 py-3 ${
+        <div className={`fixed ${isMobile ? 'bottom-4 left-4 right-4' : 'bottom-6 left-1/2 transform -translate-x-1/2 w-[600px] max-w-[90vw]'} z-10 pointer-events-none`}>
+          <div className={`pointer-events-auto flex items-center ${isMobile ? 'gap-2' : 'gap-3'} ai-surface-elevated rounded-full border transition-all duration-300 ${isMobile ? 'px-3 py-2' : 'px-4 py-3'} ${
             isFocused && inputMessage.trim() ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
           }`}>
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
-                <Image className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
-                <Mic className="h-5 w-5" />
-              </Button>
-            </div>
+            {!isMobile && (
+              <div className="flex items-center gap-3">
+                <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
+                  <Image className="h-5 w-5" />
+                </Button>
+                <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl">
+                  <Mic className="h-5 w-5" />
+                </Button>
+              </div>
+            )}
             
             <Input
               value={inputMessage}
@@ -324,21 +328,21 @@ const Chatbot = () => {
               onBlur={() => setIsFocused(false)}
               placeholder="Ask discvr.ai anything..."
               disabled={isLoading}
-              className="flex-1 border-0 bg-transparent focus-visible:ring-0 text-base placeholder:text-gray-500 text-white outline-none"
+              className={`flex-1 border-0 bg-transparent focus-visible:ring-0 ${isMobile ? 'text-sm' : 'text-base'} placeholder:text-gray-500 text-white outline-none`}
             />
             
             <Button
               onClick={() => handleSendMessage()}
               disabled={!inputMessage.trim() || isLoading}
               size="sm"
-              className="ai-gradient hover:opacity-90 text-white rounded-xl px-6 py-2 h-10 ai-glow transition-all duration-300"
+              className={`ai-gradient hover:opacity-90 text-white rounded-xl ${isMobile ? 'px-4 py-1.5 h-8' : 'px-6 py-2 h-10'} ai-glow transition-all duration-300`}
             >
-              <Send className="h-4 w-4" />
+              <Send className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
             </Button>
           </div>
           
           {/* Footer text */}
-          <p className="text-xs text-gray-500 text-center mt-4">
+          <p className={`${isMobile ? 'text-xs' : 'text-xs'} text-gray-500 text-center mt-4`}>
             AI can make mistakes. Consider checking important information.
           </p>
         </div>
