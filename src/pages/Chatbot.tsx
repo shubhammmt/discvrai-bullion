@@ -196,48 +196,47 @@ const Chatbot = () => {
         {/* Scrollable Content Area */}
         <div 
           ref={scrollContainerRef} 
-          className="flex-1 overflow-y-auto pb-[8rem] lg:pb-[10rem]"
-          style={{ overflowY: messages.length > 0 ? 'auto' : 'hidden' }}
+          className={`flex-1 ${messages.length > 0 ? 'overflow-y-auto' : 'overflow-y-hidden'} pb-[8rem] lg:pb-[10rem]`}
         >
           {/* Welcome Section */}
           {showWelcome && (
-            <div className="flex-1 flex items-center justify-center px-4 lg:px-8 lg:pt-2 pb-2 md:pb-3 lg:pb-4 min-h-[calc(100vh-12rem)]">
+            <div className="flex-1 flex items-center justify-center px-4 lg:px-8 py-8 min-h-[calc(100vh-8rem)]">
               <div className="w-full max-w-sm sm:max-w-md lg:max-w-4xl text-center animate-fade-in-up">
                 {/* AI Avatar with Glow */}
-                <div className="relative mb-2 md:mb-3 lg:mb-4">
-                  <div className="inline-flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 ai-gradient rounded-xl mb-1 md:mb-2 ai-glow-intense relative">
-                    <Brain className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
-                    <div className="absolute inset-0 ai-gradient rounded-xl opacity-20 animate-pulse"></div>
+                <div className="relative mb-4 lg:mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 ai-gradient rounded-2xl mb-4 ai-glow-intense relative">
+                    <Brain className="h-6 w-6 lg:h-8 lg:w-8 text-white" />
+                    <div className="absolute inset-0 ai-gradient rounded-2xl opacity-20 animate-pulse"></div>
                   </div>
                 </div>
 
                 {/* Greeting */}
-                <div className="mb-3 md:mb-4 lg:mb-5">
-                  <h1 className="text-xl lg:text-2xl font-bold mb-1 md:mb-2">
+                <div className="mb-6 lg:mb-8">
+                  <h1 className="text-2xl lg:text-3xl font-bold mb-3">
                     <span className="ai-text-gradient">Hi, Welcome!</span>
                   </h1>
-                  <h2 className="text-base lg:text-lg font-semibold text-white mb-1 md:mb-2">
+                  <h2 className="text-lg lg:text-xl font-semibold text-white mb-3">
                     Can I help you with anything?
                   </h2>
-                  <p className="text-xs lg:text-sm text-gray-300 max-w-xs sm:max-w-md lg:max-w-xl mx-auto leading-relaxed">
+                  <p className="text-sm lg:text-base text-gray-300 max-w-xs sm:max-w-md lg:max-w-xl mx-auto leading-relaxed">
                     Ready to assist you with anything you need, from answering questions to providing recommendations. Let's get started!
                   </p>
                 </div>
                 
                 {/* Quick Prompts */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2 lg:gap-3 mb-2 md:mb-3 lg:mb-4 justify-items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mb-6">
                   {quickPrompts.map((prompt) => (
                     <Card 
                       key={prompt.id}
                       className="ai-surface-elevated ai-border-glow cursor-pointer transition-all duration-300 hover:scale-105 hover:ai-glow border-0 group"
                       onClick={() => handleQuickPrompt(prompt)}
                     >
-                      <CardContent className="p-2 lg:p-3 text-center h-full flex flex-col items-center">
-                        <div className={`flex items-center justify-center w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-1 text-white group-hover:scale-110 transition-transform duration-300`}>
+                      <CardContent className="p-3 lg:p-4 text-center h-full flex flex-col items-center">
+                        <div className={`flex items-center justify-center w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r ${prompt.gradient} rounded-lg mb-2 text-white group-hover:scale-110 transition-transform duration-300`}>
                           {React.cloneElement(prompt.icon as React.ReactElement, { className: "h-3 w-3 lg:h-4 lg:w-4" })}
                         </div>
                         <h3 className="font-medium text-xs lg:text-sm mb-1 text-white">{prompt.title}</h3>
-                        <p className="text-xs lg:text-xs text-gray-400 leading-tight flex-1">{prompt.description}</p>
+                        <p className="text-xs lg:text-sm text-gray-400 leading-relaxed flex-1">{prompt.description}</p>
                       </CardContent>
                     </Card>
                   ))}
@@ -311,7 +310,7 @@ const Chatbot = () => {
         </div>
         
         {/* Fixed Input Field */}
-        <div className="absolute bottom-0 left-0 right-0 lg:pt-1 px-3 lg:px-4 pb-2 lg:pb-2 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6 bg-gradient-to-t from-background via-background/90 to-transparent pointer-events-none">
           <div className="w-full max-w-sm sm:max-w-lg lg:max-w-2xl mx-auto pointer-events-auto">
             <div className={`flex items-center gap-2 lg:gap-3 ai-surface-elevated rounded-full border transition-all duration-300 px-3 lg:px-4 py-2 lg:py-3 ${
               isFocused && inputMessage.trim() ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]' : 'ai-border-glow'
@@ -347,7 +346,7 @@ const Chatbot = () => {
             </div>
             
             {/* Footer text */}
-            <p className="text-xs text-gray-500 text-center mt-2 lg:mt-3">
+            <p className="text-xs text-gray-500 text-center mt-3 lg:mt-4">
               AI can make mistakes. Consider checking important information.
             </p>
           </div>
