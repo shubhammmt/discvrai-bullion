@@ -196,7 +196,7 @@ const Chatbot = () => {
       <div className="pb-32">  {/* Add bottom padding to prevent overlap with fixed input */}
         {/* Welcome Section */}
         {showWelcome && (
-          <div className={`flex-1 flex items-center justify-center ${isMobile ? 'p-4 pb-32 pt-32' : 'p-8 pb-32 pt-40'}`}>
+          <div className={`flex-1 flex items-center justify-center ${isMobile ? 'p-4 pb-32 pt-40' : 'p-8 pb-32 pt-48'}`}>
             <div className={`${isMobile ? 'max-w-sm' : 'max-w-4xl'} w-full text-center animate-fade-in-up ${isMobile ? 'mt-8' : 'mt-16'}`}>
               {/* AI Avatar with Glow */}
               <div className="relative mb-4">
