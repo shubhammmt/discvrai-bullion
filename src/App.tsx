@@ -58,15 +58,6 @@ import NotFound from './pages/NotFound';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
-import AITransformationContest from './pages/AITransformationContest';
-import AshokaAIContest from './pages/AshokaAIContest';
-import SXCAIContest from './pages/SXCAIContest';
-import AIMasteryWorkshop from './pages/AIMasteryWorkshop';
-import AITutorialGame from './components/AITutorialGame';
-import DeepLearningTutorial from './components/DeepLearningTutorial';
-import MachineLearningTutorial from './components/MachineLearningTutorial';
-import ComputerVisionNLPTutorial from './components/ComputerVisionNLPTutorial';
-import CFAEquityChallenge from './components/CFAEquityChallenge';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
@@ -133,15 +124,6 @@ function App() {
           <Route path="/data-deletion-policy" element={<DataDeletionPolicy />} />
           <Route path="/news-hub" element={<NewsHub />} />
           <Route path="/engineer-showcase" element={<EngineerShowcase />} />
-        <Route path="/ai-transformation-contest" element={<AITransformationContest />} />
-        <Route path="/ashoka-ai-contest" element={<AshokaAIContest />} />
-        <Route path="/sxc-ai-contest" element={<SXCAIContest />} />
-          <Route path="/ai-mastery-workshop" element={<AIMasteryWorkshop />} />
-          <Route path="/ai-tutorial-game" element={<AITutorialGame />} />
-          <Route path="/deep-learning-tutorial" element={<DeepLearningTutorial />} />
-          <Route path="/machine-learning-tutorial" element={<MachineLearningTutorial />} />
-          <Route path="/computer-vision-nlp-tutorial" element={<ComputerVisionNLPTutorial />} />
-          <Route path="/cfa-equity-challenge" element={<CFAEquityChallenge />} />
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
