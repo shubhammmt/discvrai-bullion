@@ -46,6 +46,8 @@ import { ValueSlide } from './ValueSlide';
 import { OfferingsSlide } from './OfferingsSlide';
 import { PricingSlide } from './PricingSlide';
 import { CTASlide } from './CTASlide';
+import { OpportunitySlide } from './OpportunitySlide';
+import { ContestFormatsSlide } from './ContestFormatsSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -159,6 +161,10 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <PricingSlide slide={slide} />;
     case 'cta':
       return <CTASlide slide={slide} />;
+    case 'opportunity':
+      return <OpportunitySlide slide={slide} />;
+    case 'contest-formats':
+      return <ContestFormatsSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
