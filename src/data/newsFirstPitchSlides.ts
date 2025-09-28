@@ -193,13 +193,40 @@ export const newsFirstPitchSlides = [
         },
         {
           category: 'News + Finance App Overlap',
-          current: 'Massive overlap',
+          current: 'Fragmented ecosystem',
           projected2030: 'Complete convergence',
           growth: 'Multi-billion dollar opportunity',
           catalyst: 'Information-driven investing trend'
         }
+      ],
+      massMarketValidation: [
+        'News is the most frequent touchpoint for investors globally',
+        'Finance and news apps have massive user overlap',
+        'Mobile-first generation demands integrated experiences',
+        'Information drives 80%+ of investment decisions'
       ]
-    }
+    },
+    productGrowthAcrossCategories: {
+      investmentProducts: {
+        currentUsers: '500M+ global retail investors',
+        projected2030: '1B+ users worldwide',
+        painPoint: 'Fragmented news and research platforms',
+        opportunitySize: 'Multi-billion dollar global market'
+      },
+      creditProducts: {
+        currentUsers: '300M+ users across markets',
+        projected2030: '600M+ users',
+        painPoint: 'No integrated news-to-action flow',
+        opportunitySize: 'Expanding fintech market'
+      },
+      protectionProducts: {
+        currentGap: 'No news-first finance platforms',
+        projected2030: '200M+ engaged users',
+        painPoint: 'Information scattered across platforms',
+        opportunitySize: 'First-mover advantage'
+      }
+    },
+    keyInsight: 'News is the common denominator across all global markets - owning the news-to-action funnel creates massive defensible value'
   },
   {
     id: 7,
