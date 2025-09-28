@@ -48,6 +48,9 @@ import { PricingSlide } from './PricingSlide';
 import { CTASlide } from './CTASlide';
 import { OpportunitySlide } from './OpportunitySlide';
 import { ContestFormatsSlide } from './ContestFormatsSlide';
+import { RoadmapSlide } from './RoadmapSlide';
+import { BusinessModelSlide } from './BusinessModelSlide';
+import { PlatformDifferentiationSlide } from './PlatformDifferentiationSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -165,6 +168,12 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <OpportunitySlide slide={slide} />;
     case 'contest-formats':
       return <ContestFormatsSlide slide={slide} />;
+    case 'roadmap':
+      return <RoadmapSlide slide={slide} />;
+    case 'business-model':
+      return <BusinessModelSlide slide={slide} />;
+    case 'platform-differentiation':
+      return <PlatformDifferentiationSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }

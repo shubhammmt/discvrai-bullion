@@ -60,6 +60,7 @@ import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
 import StartupCoveragePitch from './pages/StartupCoveragePitch';
 import ContestSponsorshipPitch from './pages/ContestSponsorshipPitch';
+import NewsFirstPitch from './pages/NewsFirstPitch';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
@@ -129,6 +130,7 @@ function App() {
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
           <Route path="/startup-coverage-pitch" element={<StartupCoveragePitch />} />
           <Route path="/contest-sponsorship-pitch" element={<ContestSponsorshipPitch />} />
+          <Route path="/news-first-pitch" element={<NewsFirstPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
