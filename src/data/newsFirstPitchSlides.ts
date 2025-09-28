@@ -46,32 +46,49 @@ export const newsFirstPitchSlides = [
       coreIssue: 'Finance info scattered across multiple platforms with no unified experience',
       painPoints: [
         {
-          pain: 'News → Bloomberg/Reuters',
-          severity: 'high',
-          description: 'Expensive, not retail-focused'
+          category: 'News Sources',
+          severity: 'Critical',
+          stats: [
+            'Bloomberg/Reuters are expensive and not retail-focused',
+            'Most retail investors can\'t afford premium news services',
+            'Generic news lacks financial context for individual investors'
+          ]
         },
         {
-          pain: 'Community → Reddit/Discord', 
-          severity: 'high',
-          description: 'Noisy, not finance-first'
+          category: 'Community Platforms', 
+          severity: 'High',
+          stats: [
+            'Reddit/Discord are noisy and not finance-first',
+            'Information quality varies dramatically',
+            'No verification of financial expertise or credentials'
+          ]
         },
         {
-          pain: 'Research → TradingView/Yahoo',
-          severity: 'medium', 
-          description: 'Data-heavy, low engagement'
+          category: 'Research Platforms',
+          severity: 'Medium',
+          stats: [
+            'TradingView/Yahoo are data-heavy with low engagement',
+            'No connection between news events and investment actions',
+            'Complex interfaces overwhelm casual investors'
+          ]
         }
+      ],
+      currentSolutionGaps: [
+        'No unified platform connecting news to actionable insights',
+        'Lack of personalized financial context',
+        'Missing community validation of information quality'
       ]
     },
     keyStats: [
       {
-        metric: 'Average Apps Used',
-        value: '5-7 apps',
-        growth: 'per investor'
+        number: '5-7',
+        label: 'Apps Per Investor',
+        description: 'Average number of apps investors use daily'
       },
       {
-        metric: 'Daily Context Switching',
-        value: '15+ times',
-        growth: 'between platforms'
+        number: '15+',
+        label: 'Daily Switches',
+        description: 'Context switches between platforms'
       }
     ]
   },
