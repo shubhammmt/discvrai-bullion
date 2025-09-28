@@ -40,6 +40,12 @@ import { NetworkEffectsDataMoatsSlide } from './NetworkEffectsDataMoatsSlide';
 import { PlatformDifferentiationSlideV2 } from './PlatformDifferentiationSlideV2';
 import { SRCCValuePropositionSlide } from './SRCCValuePropositionSlide';
 import { SRCCImplementationSlide } from './SRCCImplementationSlide';
+import { AboutSlide } from './AboutSlide';
+import { AudienceSlide } from './AudienceSlide';
+import { ValueSlide } from './ValueSlide';
+import { OfferingsSlide } from './OfferingsSlide';
+import { PricingSlide } from './PricingSlide';
+import { CTASlide } from './CTASlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -141,6 +147,18 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <SRCCValuePropositionSlide slide={slide} />;
     case 'srcc-implementation':
       return <SRCCImplementationSlide slide={slide} />;
+    case 'about':
+      return <AboutSlide slide={slide} />;
+    case 'audience':
+      return <AudienceSlide slide={slide} />;
+    case 'value':
+      return <ValueSlide slide={slide} />;
+    case 'offerings':
+      return <OfferingsSlide slide={slide} />;
+    case 'pricing':
+      return <PricingSlide slide={slide} />;
+    case 'cta':
+      return <CTASlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }

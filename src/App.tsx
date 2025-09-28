@@ -58,6 +58,7 @@ import NotFound from './pages/NotFound';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
+import StartupCoveragePitch from './pages/StartupCoveragePitch';
 import Chatbot from './pages/Chatbot';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
@@ -125,6 +126,7 @@ function App() {
           <Route path="/news-hub" element={<NewsHub />} />
           <Route path="/engineer-showcase" element={<EngineerShowcase />} />
           <Route path="/srcc-pitch" element={<SRCCPitch />} />
+          <Route path="/startup-coverage-pitch" element={<StartupCoveragePitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
