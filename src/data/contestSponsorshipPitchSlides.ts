@@ -176,7 +176,7 @@ export const contestSponsorshipPitchSlides = [
     contact: {
       email: 'shubham@discvr.ai',
       phone: '+91 98739 61591',
-      linkedin: 'linkedin.com/company/discvr-ai'
+      linkedin: 'https://www.linkedin.com/company/discvrai/'
     },
     cta: 'Start Your Contest Campaign Today'
   }

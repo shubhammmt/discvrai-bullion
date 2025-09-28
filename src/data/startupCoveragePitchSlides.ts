@@ -151,9 +151,9 @@ export const startupCoveragePitchSlides = [
     icon: Mail,
     description: 'Join leading fintech companies who trust Discvr.ai to reach engaged retail investors.',
     contact: {
-      email: 'partnerships@discvr.ai',
-      phone: '+91 98765 43210',
-      linkedin: 'linkedin.com/company/discvr-ai'
+      email: 'shubham@discvr.ai',
+      phone: '+91 98739 61591',
+      linkedin: 'https://www.linkedin.com/company/discvrai/'
     },
     cta: 'Book Your Sponsored Coverage Slot Today'
   }
