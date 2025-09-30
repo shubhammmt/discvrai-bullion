@@ -106,7 +106,7 @@ export const startupCoveragePitchSlides = [
     packages: [
       {
         tier: 'Bronze',
-        price: '₹50,000',
+        price: '₹1,00,000',
         duration: 'per campaign',
         features: [
           'Byte-sized sponsored news feature',
@@ -118,7 +118,7 @@ export const startupCoveragePitchSlides = [
       },
       {
         tier: 'Silver',
-        price: '₹1,00,000',
+        price: '₹2,50,000',
         duration: 'per campaign',
         features: [
           'Startup Spotlight feature',
@@ -131,7 +131,7 @@ export const startupCoveragePitchSlides = [
       },
       {
         tier: 'Gold',
-        price: '₹2,00,000+',
+        price: '₹5,00,000',
         duration: 'per campaign',
         features: [
           'Sponsored contest/IPO package',
