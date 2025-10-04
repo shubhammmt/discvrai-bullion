@@ -62,6 +62,8 @@ import StartupCoveragePitch from './pages/StartupCoveragePitch';
 import ContestSponsorshipPitch from './pages/ContestSponsorshipPitch';
 import NewsFirstPitch from './pages/NewsFirstPitch';
 import Chatbot from './pages/Chatbot';
+import CryptoHub from './pages/CryptoHub';
+import CryptoAsset from './pages/CryptoAsset';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
 const queryClient = new QueryClient();
@@ -132,6 +134,8 @@ function App() {
           <Route path="/contest-sponsorship-pitch" element={<ContestSponsorshipPitch />} />
           <Route path="/news-first-pitch" element={<NewsFirstPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/crypto" element={<CryptoHub />} />
+          <Route path="/crypto/:symbol" element={<CryptoAsset />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
