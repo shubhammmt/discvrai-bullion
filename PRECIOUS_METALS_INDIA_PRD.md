@@ -117,7 +117,7 @@ All cities will have dedicated pages for complete SEO coverage.
    - Organized by state
    - Internal linking structure
 
-### 3.2 Metal Overview Page (/metals/gold)
+### 3.2 Metal Overview Page (/metals/gold) - Based on Reference UI
 
 #### SEO Meta
 ```html
@@ -126,42 +126,152 @@ All cities will have dedicated pages for complete SEO coverage.
 <meta name="keywords" content="gold price today, 22k gold rate, 24k gold price, gold rate in india, city wise gold price">
 ```
 
+#### Page Layout (Two-Column)
+**Left Column (Main Content - 70%)**
+**Right Sidebar (30%)**
+
 #### Page Components
-1. **Header**
-   - H1: "Gold Prices in India Today"
-   - Current national average (22K/24K)
-   - 24h/7d/30d change
 
-2. **Weather Widget** (Same as home page)
+1. **Breadcrumb Navigation**
+   - Home > Gold Rates
+   - Small text, linked
 
-3. **Price Table (State-wise)**
-   - Sortable columns: State, City, 22K (10g), 24K (10g), Change
-   - Filter by state
-   - Search cities
-   - Each row links to city page
+2. **Hero Section**
+   - H1: "Gold Rate Today in India" with country dropdown
+   - Large price display: ₹11,956.30/GM
+   - Price change indicator: -1.00 (-0.01%) in red/green
+   - Carat toggle pills: "24 Carat" (active) | "22 Carat"
+   - Share button with icon
+   - Last updated: "Last updated on 6 Oct, 2025"
 
-4. **Historical Chart**
-   - Line chart showing price trends
-   - Toggle: 7 days / 30 days / 3 months / 1 year
-   - Compare 22K vs 24K
+3. **24K Gold Rate in India Table**
+   - Clean table design with alternating row colors
+   - Headers: Gram | Today | Yesterday
+   - Rows: 1 Gram, 10 Gram, 100 Gram
+   - Price formatting: ₹11,956.30
+   - Change display: -1.00 (-0.01%) with color coding
+   - Green for positive, red for negative
 
-5. **Price Alert Widget**
-   - "Set Price Alert for Your City"
-   - City selector
-   - Target price input
-   - Email/Phone submission
+4. **Gold Investment Education Section**
+   - Heading: "Gold Investment in India"
+   - Two-column price display:
+     - Left: 24K Gold / 10 Grams - ₹1,19,563.00
+     - Right: 22K Gold / 10 Grams - ₹1,09,613.00
+   - Educational content paragraph
+   - "Read More" expandable link in purple/primary color
 
-6. **FAQs Section**
-   - Expandable accordion
-   - 8-10 common questions about gold
+5. **Gold Rate Analysis Section**
+   - Heading: "Gold Rate Analysis"
+   - Month selector dropdown (Oct'25)
+   - Table with 3 columns:
+     - Gold Rate (Date)
+     - 24K Gold (with percentage)
+     - 22K Gold (with percentage)
+   - Show 4-5 recent dates
+   - Color-coded percentage changes
 
-7. **Latest Gold News**
-   - 4 news cards specific to gold
-   - "Read More" links
+6. **Month Wise Gold Rate (Accordion)**
+   - Heading: "Month Wise Gold Rate"
+   - Expandable accordion for each month
+   - Current month expanded by default
+   - Inside accordion:
+     - Table: Rate | 24K Gold / (10GM)
+     - Rows: Oct 1, Oct 6, Highest in Oct, Lowest in Oct
+     - "Overall performance" row with trend (Rising/Falling)
+   - Collapse/expand icon on right
 
-8. **SEO Footer**
-   - Links to all gold city pages
-   - Organized by state
+7. **Gold Rates Over Last 10 Days**
+   - Table: Date | 24K Gold | 22K Gold
+   - Show 4-5 recent dates
+   - Price with percentage change
+   - "View More" link in primary color
+
+8. **Gold Rates in Major Cities**
+   - Clean table: City | 24K Gold | 22K Gold
+   - Show 6-8 major cities
+   - Each city name is a link to city page
+   - Sorted alphabetically or by popularity
+
+9. **FAQs Section**
+   - Heading: "Frequently Asked Questions"
+   - Accordion-style expandable questions
+   - Questions:
+     - How many grams of gold are present in one 'tola' of gold?
+     - What is the difference between 22k and 24k gold?
+     - How is the gold rate in India determined?
+     - What do the terms hallmark, 916, and KDM in gold jewelry mean?
+     - What should I look out for when buying gold in India?
+     - How can I check the purity of gold in India
+   - Chevron down icon to expand
+   - Answer appears below in smaller text
+
+10. **What's in News? Section**
+    - Heading: "What's in news?"
+    - Collapse/expand icon
+    - Horizontal scrollable carousel (4 cards visible)
+    - News card design:
+      - Publisher avatar (circular, purple background)
+      - Publisher name (Upstox) • Time posted (17d, 19d)
+      - Headline text (2-3 lines)
+      - Card background: Light gray
+      - Padding and rounded corners
+      - No image thumbnails
+
+#### Right Sidebar Components
+
+1. **Current Price Widget** (Top)
+   - Same as hero but compact
+   - Shows current rate with change
+
+2. **Invest in Gold Funds Card**
+   - Purple gradient background
+   - Heading: "Invest in Gold Funds"
+   - Gold ETFs section with icon
+     - "No entry or exit loads"
+   - Gold Mutual Funds section with icon
+     - "0% commission on direct funds"
+   - Mobile number input field
+   - "Enter a 10-digit valid mobile number" error text
+   - "Invest in Gold ETF" button (purple)
+   - Terms and conditions link
+   - "Quick links" section below
+
+3. **City Quick Links**
+   - List of city links
+   - Cities: Ahmedabad, Amritsar, Nagpur, Patna, Rajkot, Jaipur, Meerut, Chandigarh, Jalgaon, etc.
+   - Each link underlined
+   - Organized vertically
+
+4. **Top 5 Gold ETFs Card** (Optional)
+   - List of ETF names
+   - Current price with percentage change
+   - Green/red color coding
+
+#### Design Specifications
+- **Typography**:
+  - H1: 32px, bold
+  - H2: 24px, bold
+  - H3: 20px, semi-bold
+  - Body: 16px, regular
+  - Price displays: 24-32px, bold
+  - Percentage: 14px, colored
+  
+- **Colors**:
+  - Positive change: Green (#10b981 or similar)
+  - Negative change: Red (#ef4444 or similar)
+  - Primary/CTA: Purple (#8b5cf6 or brand color)
+  - Table headers: Light gray background
+  - Alternate rows: Very light gray
+
+- **Spacing**:
+  - Section margins: 40-60px vertical
+  - Card padding: 24px
+  - Table cell padding: 12-16px
+
+- **Responsive**:
+  - Desktop: Two-column layout (70/30)
+  - Tablet: Sidebar moves below main content
+  - Mobile: Single column, stacked sections
 
 ### 3.3 City-Specific Page (/metals/gold/maharashtra/mumbai)
 
