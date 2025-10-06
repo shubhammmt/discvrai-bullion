@@ -203,7 +203,7 @@ All cities will have dedicated pages for complete SEO coverage.
 
 2. **City Header**
    - H1: "Gold Price in Mumbai Today"
-   - Weather & AQI Widget (Mumbai-specific)
+   - Weather & AQI Widget (Mumbai-specific) - Enhanced view
    - Last updated timestamp
 
 3. **Current Prices Card**
@@ -386,53 +386,97 @@ Based on Indian CPCB standards:
 
 ---
 
-## 5. Weather & AQI Widget Specifications
+## 5. Weather & AQI Widget Specifications (Enhanced Based on Reference UI)
 
 ### Widget Placement
-1. **Home Page (/metals)**: Top right corner or below hero
-2. **City Pages**: Adjacent to price display
-3. **State Pages**: Top of page
+1. **Home Page (/metals)**: Compact widget in hero or sidebar
+2. **City Pages**: Expanded widget adjacent to price display
+3. **State Pages**: Compact widget in header
+4. **Dedicated /weather page**: Full AQI dashboard
 
-### Widget Design
+### Enhanced AQI Page Design (/weather)
 
-#### Compact View (Default)
-```
-┌─────────────────────────────┐
-│  📍 Mumbai, Maharashtra      │
-│  🌤️ 32°C  Feels like 35°C   │
-│  AQI: 145 (Moderate)  🟡     │
-│  Updated: 2:30 PM            │
-└─────────────────────────────┘
-```
+#### Hero Section
+- **LIVE Badge**: Red badge with pulsing dot indicator
+- **Location Breadcrumb**: Dashboard > India > State > City
+- **Tab Navigation**: AQI (active) | Weather | History | PM2.5 | PM10 | CO | SO2 | NO2 | O3
+- **Search Bar**: "Search any Location, City, State or Country" with geolocation icon
 
-#### Expanded View (On Click)
-```
-┌─────────────────────────────────────┐
-│  Weather & Air Quality - Mumbai     │
-├─────────────────────────────────────┤
-│  Temperature:     32°C / 89.6°F     │
-│  Feels Like:      35°C              │
-│  Humidity:        65%               │
-│  Wind Speed:      12.5 km/h NE      │
-│  Visibility:      8 km              │
-├─────────────────────────────────────┤
-│  Air Quality Index: 145 (Moderate)  │
-│  PM2.5:  45.3 μg/m³                │
-│  PM10:   78.2 μg/m³                │
-│  CO:     320.5 μg/m³               │
-│  NO2:    8.2 μg/m³                 │
-│  O3:     95.0 μg/m³                │
-│  SO2:    18.5 μg/m³                │
-├─────────────────────────────────────┤
-│  Last Updated: Oct 6, 2:30 PM      │
-└─────────────────────────────────────┘
-```
+#### Live AQI Display Card
+- **Large AQI Number**: 129 (color-coded based on level)
+- **Quality Description**: "Poor" / "Moderate" / "Good" etc.
+- **Gradient Background**: Matching AQI color (orange for moderate, red for poor)
+- **PM Readings**: Prominent PM10 and PM2.5 values
+- **AQI Scale Bar**: 
+  - Horizontal gradient from green (0) to maroon (500+)
+  - Tick marks at 50, 100, 150, 200, 300, 500
+  - Labels: Good, Moderate, Poor, Severe
+- **Weather Integration**:
+  - Weather icon with description
+  - Temperature (°C)
+  - 3-column grid: Humidity % | Wind Speed km/h | UV Index
+
+#### Major Air Pollutants Grid (3x2 on desktop)
+Each pollutant card contains:
+- **Left Border**: Color-coded (green/yellow/orange/red) based on level
+- **Icon**: Molecular representation of pollutant
+- **Name & Formula**: "Particulate Matter (PM2.5)"
+- **Value & Unit**: "48 μg/m³" or "232 ppb"
+- **Chevron**: Right arrow for detail view
+
+Pollutants displayed:
+1. PM2.5 (Particulate Matter)
+2. PM10 (Particulate Matter)  
+3. CO (Carbon Monoxide)
+4. SO2 (Sulfur Dioxide)
+5. NO2 (Nitrogen Dioxide)
+6. O3 (Ozone)
+
+#### Historical AQI Graph
+- **Chart Type Toggle**: Line chart | Bar chart icons
+- **Time Period Selector**: Dropdown with "24 Hours" / "7 Days" / "30 Days"
+- **Data Type Selector**: "AQI" dropdown
+- **Min/Max Cards**: 
+  - Left card: Min value (100) with yellow badge, timestamp
+  - Right card: Max value (163) with red badge, timestamp
+- **Color-Coded Bars**: Each bar colored by AQI range
+- **Interactive Tooltips**: Show exact value on hover
+
+#### Annual AQI Trends
+- **Year-by-Year Breakdown**: 2020-2025 vertical list
+- **Horizontal Bar Chart**: Monthly data within each year
+- **Color Gradient**: Bars colored by pollution level
+- **Stats Panel**:
+  - Each year shows: AQI value, percentage change
+  - Arrow indicators: ↑ Rise (red) | ↓ Fall (green)
+  - Overall percentage: "Overall Annual Percentage (%) change of AQI in (2020 to 2025): -3%"
+- **Most & Least Polluted Months**:
+  - Cards showing month/year with color-coded AQI badges
+  - "November, 2021 - 257 AQI" (purple badge)
+  - "July, 2025 - 81 AQI" (yellow badge)
+
+### Color-Coded AQI System (Indian CPCB Standard)
+- **0-50**: Good (Green #10b981)
+- **51-100**: Satisfactory (Yellow #eab308)  
+- **101-200**: Moderate (Orange #f97316)
+- **201-300**: Poor (Red #ef4444)
+- **301-400**: Very Poor (Purple #a855f7)
+- **401-500**: Severe (Maroon #991b1b)
+
+### Compact Widget (For Metals Pages)
+- Location icon + city name
+- Temperature with weather icon
+- AQI badge with color and number
+- "Last updated" timestamp
+- Click to expand or link to /weather page
 
 ### Technical Implementation
-- Auto-detect user location via browser geolocation
-- Cache weather/AQI data for 30 minutes
+- Auto-detect user location via browser geolocation API
+- Cache weather/AQI data for 30 minutes (reduce API calls)
 - Fallback to city coordinates for city-specific pages
-- Error handling for API failures
+- Error states with retry mechanism
+- Responsive: Full dashboard on desktop, collapsible on mobile
+- Accessibility: Proper ARIA labels, keyboard navigation
 
 ---
 
