@@ -64,6 +64,11 @@ import NewsFirstPitch from './pages/NewsFirstPitch';
 import Chatbot from './pages/Chatbot';
 import CryptoHub from './pages/CryptoHub';
 import CryptoAsset from './pages/CryptoAsset';
+import MetalsHub from './pages/MetalsHub';
+import GoldPrices from './pages/GoldPrices';
+import SilverPrices from './pages/SilverPrices';
+import PlatinumPrices from './pages/PlatinumPrices';
+import WeatherHub from './pages/WeatherHub';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
 const queryClient = new QueryClient();
@@ -136,6 +141,11 @@ function App() {
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
+          <Route path="/metals" element={<MetalsHub />} />
+          <Route path="/metals/gold" element={<GoldPrices />} />
+          <Route path="/metals/silver" element={<SilverPrices />} />
+          <Route path="/metals/platinum" element={<PlatinumPrices />} />
+          <Route path="/weather" element={<WeatherHub />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
