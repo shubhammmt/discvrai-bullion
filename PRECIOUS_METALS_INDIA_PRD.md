@@ -15,18 +15,11 @@ A comprehensive precious metals (Gold, Silver, Platinum) price discovery platfor
 /metals/platinum                  - Platinum overview page
 ```
 
-### State-Level Pages
-```
-/metals/gold/[state-slug]         - e.g., /metals/gold/delhi
-/metals/silver/[state-slug]       - e.g., /metals/silver/maharashtra
-/metals/platinum/[state-slug]     - e.g., /metals/platinum/karnataka
-```
-
 ### City-Level Pages (SEO-Optimized)
 ```
-/metals/gold/[state-slug]/[city-slug]       - e.g., /metals/gold/delhi/new-delhi
-/metals/silver/[state-slug]/[city-slug]     - e.g., /metals/silver/maharashtra/mumbai
-/metals/platinum/[state-slug]/[city-slug]   - e.g., /metals/platinum/karnataka/bangalore
+/metals/gold/[city-slug]         - e.g., /metals/gold/delhi, /metals/gold/mumbai
+/metals/silver/[city-slug]       - e.g., /metals/silver/mumbai
+/metals/platinum/[city-slug]     - e.g., /metals/platinum/bangalore
 ```
 
 ### News Pages
@@ -273,14 +266,19 @@ All cities will have dedicated pages for complete SEO coverage.
   - Tablet: Sidebar moves below main content
   - Mobile: Single column, stacked sections
 
-### 3.3 City-Specific Page (/metals/gold/maharashtra/mumbai)
+### 3.3 City-Specific Page (/metals/gold/[city])
+
+#### URL Pattern
+- `/metals/gold/[city-name]` (e.g., `/metals/gold/nagpur`, `/metals/gold/delhi`)
+- `/metals/silver/[city-name]`
+- `/metals/platinum/[city-name]`
 
 #### SEO Meta (Dynamic)
 ```html
-<title>Gold Price in Mumbai Today - 22K & 24K Gold Rate in Mumbai, Maharashtra</title>
-<meta name="description" content="Today's gold price in Mumbai: 22K gold at ₹X, 24K gold at ₹Y per 10 grams. Check historical trends, price charts, and set alerts for Mumbai.">
-<meta name="keywords" content="gold price mumbai, mumbai gold rate, 22k gold mumbai, 24k gold rate mumbai">
-<link rel="canonical" href="https://yourdomain.com/metals/gold/maharashtra/mumbai">
+<title>Gold Rate Today in [City Name] - 22K & 24K Gold Price in [City]</title>
+<meta name="description" content="Today's gold price in [City]: 24K gold at ₹X, 22K gold at ₹Y per gram. Check historical trends, price charts, and invest in gold funds.">
+<meta name="keywords" content="gold price [city], [city] gold rate, 22k gold [city], 24k gold rate [city]">
+<link rel="canonical" href="https://yourdomain.com/metals/gold/[city-slug]">
 ```
 
 #### Structured Data (JSON-LD)
@@ -288,10 +286,10 @@ All cities will have dedicated pages for complete SEO coverage.
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "22K Gold in Mumbai",
+  "name": "24K Gold in [City]",
   "offers": {
     "@type": "Offer",
-    "price": "48100",
+    "price": "11941.70",
     "priceCurrency": "INR",
     "availability": "https://schema.org/InStock"
   },
@@ -299,57 +297,161 @@ All cities will have dedicated pages for complete SEO coverage.
     "@type": "Place",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Mumbai",
-      "addressRegion": "Maharashtra",
+      "addressLocality": "[City]",
       "addressCountry": "IN"
     }
   }
 }
 ```
 
-#### Page Components
-1. **Breadcrumbs**
-   - Home > Metals > Gold > Maharashtra > Mumbai
+#### Breadcrumb Navigation
+```
+Home > Gold Rate Today > [City Name]
+```
 
-2. **City Header**
-   - H1: "Gold Price in Mumbai Today"
-   - Weather & AQI Widget (Mumbai-specific) - Enhanced view
-   - Last updated timestamp
+#### Hero Section (City-Specific)
+- **Large Price Display**: Current rate per gram for primary carat (24K for gold)
+  - Display format: ₹XX,XXX.XX/GM
+  - Change indicator with percentage (red for negative, green for positive)
+- **City Name Selector**: Dropdown to switch between cities
+- **Last Updated**: Timestamp with date (e.g., "Last updated on 6 Oct, 2025")
+- **Share Button**: Social sharing functionality
+- **Carat Toggle Buttons**: 
+  - "24 Carat" button
+  - "22 Carat" button
+  - Active state clearly indicated
 
-3. **Current Prices Card**
-   - Large display: 22K Gold (10g): ₹XX,XXX
-   - Large display: 24K Gold (10g): ₹XX,XXX
-   - 24h change with color indicator
-   - "Set Alert" button
+#### Introductory Text Section
+Brief description about gold prices in that specific city:
+- Mention gold as a hedge against inflation
+- Data source (reputable jewellers in the country)
+- Current rate highlights for both 24K and 22K gold
+- Example: "At Discvr, we provide gold prices in [City] for informational purposes, updated regularly from reputable jewellers..."
 
-4. **Historical Price Chart**
-   - Interactive chart (Recharts)
-   - Toggle: Today, 7d, 30d
-   - Dual axis for 22K and 24K
-   - Export chart option
+#### Price Tables (City-Specific)
 
-5. **Price Comparison Table**
-   - Compare Mumbai with nearby cities
-   - Columns: City, 22K, 24K, Difference
-   - Highlight Mumbai row
+**24K Gold Rate in [City]**
 
-6. **Price Alert Widget**
-   - Pre-filled with Mumbai
-   - "Notify me when price reaches ₹___"
+Table with columns:
+| Gram | Today | Yesterday |
+|------|-------|-----------|
+| 1 Gram | ₹XX,XXX.XX with change % (colored) | ₹XX,XXX.XX with change % (colored) |
+| 10 Gram | ₹X,XX,XXX.XX with change % (colored) | ₹X,XX,XXX.XX with change % (colored) |
+| 100 Gram | ₹XX,XX,XXX.XX with change % (colored) | ₹XX,XX,XXX.XX with change % (colored) |
 
-7. **City-Specific FAQs**
-   - "Why are gold prices different in Mumbai?"
-   - "Best time to buy gold in Mumbai"
-   - "Gold tax in Maharashtra"
+**22K Gold Rate in [City]**
 
-8. **Related News**
-   - News filtered for Mumbai/Maharashtra
-   - 3-4 cards
+Same structure as above with 22K prices
 
-9. **SEO Links Footer**
-   - Links to other cities in Maharashtra
-   - Links to other metals in Mumbai
-   - Links to nearby cities
+#### Gold Rate Analysis Section
+
+Display in card format:
+- **Highest in [Current Month]**: ₹XX,XXX.XX
+- **Lowest in [Current Month]**: ₹XX,XXX.XX  
+- **Overall performance**: Rising/Falling indicator
+
+#### Historical Monthly Data (Accordion Component)
+
+Collapsible accordion sections:
+- **Gold Price in [City], Sep 2025** (expandable)
+- **Gold Price in [City], Aug 2025** (expandable)
+- **Gold Price in [City], Jul 2025** (expandable)
+- **Gold Price in [City], Jun 2025** (expandable)
+- **Gold Price in [City], May 2025** (expandable)
+- **Gold Price in [City], Apr 2025** (expandable)
+
+Each section expands to show detailed day-by-day data when clicked
+
+**View More** button to load additional historical months
+
+#### Gold Rates Over Last 10 Days
+
+Table Layout:
+| Date | 24K Gold | 22K Gold |
+|------|----------|----------|
+| 6 Oct 2025 | ₹XX,XXX.XX (-X.XX%) | ₹XX,XXX.XX (-X.XX%) |
+| 5 Oct 2025 | ₹XX,XXX.XX (+X.XX%) | ₹XX,XXX.XX (+X.XX%) |
+| 4 Oct 2025 | ₹XX,XXX.XX (+X.XX%) | ₹XX,XXX.XX (+X.XX%) |
+| ... | ... | ... |
+
+- Display 10 most recent trading days
+- Color-coded percentage changes (green for positive, red for negative)
+- Both 24K and 22K rates side-by-side
+
+#### Sidebar (Sticky on Desktop)
+
+**Invest in Gold Funds Section:**
+
+Two prominent cards:
+1. **Gold ETFs Card**
+   - Icon: TrendingUp or gold icon
+   - Title: "Gold ETFs"
+   - Badge: "No entry or exit loads"
+   
+2. **Gold Mutual Funds Card**
+   - Icon: TrendingUp or fund icon
+   - Title: "Gold Mutual Funds"
+   - Badge: "0% commission on direct funds"
+
+**Investment CTA Form:**
+- Label: "Enter your mobile number to continue"
+- Input field: "+91" placeholder
+- Validation message: "Enter a 10-digit valid mobile number."
+- Primary CTA button: "Invest in Gold ETF"
+- Terms link: "By signing up you agree to our Terms and Conditions"
+
+**Quick Links Section:**
+- "Invest in Gold Mutual Funds" (link)
+- "Invest in Gold ETFs" (link)
+- "Gold Rates in India" (link to national overview)
+
+**Gold Rates in Other Cities:**
+- Dynamic list showing 5-6 major cities
+- Format: "Gold Rates in [City Name]" as clickable links
+- Excludes current city from list
+
+#### Major Cities to Support
+1. Delhi
+2. Mumbai  
+3. Bangalore
+4. Chennai
+5. Hyderabad
+6. Kolkata
+7. Pune
+8. Ahmedabad
+9. Jaipur
+10. Lucknow
+11. Nagpur
+12. Surat
+13. Chandigarh
+14. Indore
+15. Bhopal
+
+#### Design Specifications
+- **Color Scheme**:
+  - Positive changes: Green (#10b981 or semantic success color)
+  - Negative changes: Red (#ef4444 or semantic destructive color)
+  - Primary CTA: Brand primary color
+  - Card backgrounds: bg-card (semantic)
+  - Table alternating rows: bg-muted
+  
+- **Typography**:
+  - Hero price: 4xl-5xl font size, bold
+  - Section headings: 2xl, bold
+  - Table headers: semibold
+  - Body text: base size
+  
+- **Layout**:
+  - Desktop: 2-column grid (2/3 main content, 1/3 sidebar)
+  - Tablet/Mobile: Single column, sidebar stacks below
+  - Sticky sidebar on desktop for better UX
+  
+- **Interactive Elements**:
+  - City selector dropdown integrated in heading
+  - Carat toggle buttons with active states
+  - Accordion for historical data
+  - Share button for social sharing
+  - Mobile number input with validation
 
 ### 3.4 News Article Page (/metals/news/[slug])
 
