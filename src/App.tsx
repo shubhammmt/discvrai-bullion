@@ -71,6 +71,9 @@ import SilverPrices from './pages/SilverPrices';
 import PlatinumPrices from './pages/PlatinumPrices';
 import WeatherHub from './pages/WeatherHub';
 import AIStockScreener from './pages/AIStockScreener';
+import AIScreenerLanding from './pages/AIScreenerLanding';
+import AIQueryLibrary from './pages/AIQueryLibrary';
+import AIQueryResult from './pages/AIQueryResult';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 
 const queryClient = new QueryClient();
@@ -149,7 +152,10 @@ function App() {
         <Route path="/metals/silver" element={<SilverPrices />} />
         <Route path="/metals/platinum" element={<PlatinumPrices />} />
           <Route path="/weather" element={<WeatherHub />} />
-          <Route path="/ai-screener" element={<AIStockScreener />} />
+          <Route path="/ai" element={<AIScreenerLanding />} />
+          <Route path="/ai/chat" element={<AIStockScreener />} />
+          <Route path="/ai/queries" element={<AIQueryLibrary />} />
+          <Route path="/ai/queries/:queryId" element={<AIQueryResult />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
