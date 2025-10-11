@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import InvestmentChecklist from '@/components/stock/overview/InvestmentChecklist';
 import InteractivePriceChart from '@/components/stock/chart/InteractivePriceChart';
 import CompanyOverviewCards from '@/components/stock/overview/CompanyOverviewCards';
@@ -11,6 +11,7 @@ import PeerComparisonTable from '@/components/stock/peers/PeerComparisonTable';
 import FinancialStatementsView from '@/components/stock/financials/FinancialStatementsView';
 import ShareholdingAnalysis from '@/components/stock/shareholding/ShareholdingAnalysis';
 import NewsTimeline from '@/components/stock/news/NewsTimeline';
+import { useInvestmentHealthRadar } from '@/hooks/useInvestmentHealthRadar';
 import { TabType } from './StockPageLayout';
 
 interface StockSectionsProps {
@@ -27,6 +28,9 @@ interface StockSectionsProps {
 }
 
 const StockSections: React.FC<StockSectionsProps> = ({ symbol, sectionRefs }) => {
+  // API Hooks
+  const { data: healthRadarData, isLoading: isHealthRadarLoading, error: healthRadarError } = useInvestmentHealthRadar(symbol);
+  
   return (
     <div className="container mx-auto px-4 py-6 lg:px-6">
       <div className="space-y-12">
@@ -35,7 +39,12 @@ const StockSections: React.FC<StockSectionsProps> = ({ symbol, sectionRefs }) =>
         <section ref={sectionRefs.overview} id="overview" className="scroll-mt-32">
           <div className="space-y-6">
             <CompanyOverviewCards />
-            <InvestmentChecklist symbol={symbol} />
+            <InvestmentChecklist 
+              symbol={symbol} 
+              data={healthRadarData}
+              isLoading={isHealthRadarLoading}
+              error={healthRadarError}
+            />
             <InteractivePriceChart symbol={symbol} />
             <HistoricalGrowthMetrics />
             <KeyMetricsTable />

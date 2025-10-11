@@ -6,14 +6,21 @@ import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { CheckCircle, AlertTriangle, XCircle, TrendingUp, TrendingDown, Minus, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useInvestmentHealthRadar } from '@/hooks/useInvestmentHealthRadar';
+import { InvestmentHealthRadarResponse } from '@/types/investmentHealthRadar';
 
 interface InvestmentChecklistProps {
-  symbol?: string;
+  symbol: string;
+  data?: InvestmentHealthRadarResponse;
+  isLoading?: boolean;
+  error?: string | null;
 }
 
-const InvestmentChecklist: React.FC<InvestmentChecklistProps> = ({ symbol }) => {
-  const { data, isLoading, error } = useInvestmentHealthRadar(symbol);
+const InvestmentChecklist: React.FC<InvestmentChecklistProps> = ({ 
+  symbol, 
+  data, 
+  isLoading = false, 
+  error = null 
+}) => {
   
   // Map category names to emoji icons
   const getCategoryIcon = (categoryName: string) => {
