@@ -118,7 +118,7 @@ const StockPageLayout: React.FC<StockPageLayoutProps> = ({ symbol, stockData }) 
           <section ref={sectionRefs.overview} id="overview" className="scroll-mt-32">
             <div className="space-y-6">
               <CompanyOverviewCards />
-              <InvestmentChecklist />
+              <InvestmentChecklist symbol={symbol} />
               <InteractivePriceChart symbol={symbol} />
               <HistoricalGrowthMetrics />
               <KeyMetricsTable />
