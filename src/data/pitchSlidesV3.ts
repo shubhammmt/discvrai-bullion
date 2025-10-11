@@ -139,14 +139,14 @@ export const pitchSlidesV3 = [
         'Nuvama: ₹2.1T AUM, 55% revenue growth',
         '360 One: 13% AUM CAGR target',
         'Market Gap: Only 5% of affluent households use formal wealth management'
-      ],
+      ]
+    },
     traction: [
       { metric: '4K MAUs', detail: 'Monthly active users' },
       { metric: '200+ Beta Users', detail: 'Strong early adoption' },
       { metric: '2.5M+ Social Views', detail: 'Strong organic reach' },
       { metric: '2K LinkedIn Followers', detail: 'Professional network growth' }
-    ]
-    },
+    ],
     team: [
       {
         name: 'Chief Growth Officer',
