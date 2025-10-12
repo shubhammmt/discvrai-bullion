@@ -50,7 +50,7 @@ export const familyFriendsPitchSlides = [
   // Slide 3: Solution
   {
     id: 3,
-    type: 'solution',
+    type: 'solution-pillars',
     title: 'AI-Native Financial Intelligence Platform',
     subtitle: 'Four Integrated Revenue Streams',
     icon: Rocket,
