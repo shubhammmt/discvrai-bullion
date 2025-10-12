@@ -296,7 +296,7 @@ export const familyFriendsPitchSlides = [
       { icon: '🏛️', title: 'Regulatory Support', description: 'SEBI pushing investor education, fintech-friendly policies' }
     ],
     ask: {
-      amount: '₹100-120L to build India\'s first AI-native financial platform',
+      amount: '₹150-200L to build India\'s first AI-native financial platform',
       timeline: 'Break-even in 11 months, Series A ready in 18 months',
       opportunity: '$50B market at perfect inflection point'
     },
