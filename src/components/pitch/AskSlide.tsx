@@ -31,6 +31,17 @@ interface AskSlideProps {
       returns: string;
       multiple: string;
     }>;
+    exitScenarios?: {
+      title: string;
+      scenarios: Array<{
+        title: string;
+        description: string;
+        timeline: string;
+        method: string;
+        likelihood: string;
+      }>;
+      note: string;
+    };
     useOfFunds: Array<{
       category: string;
       percentage: number;
@@ -198,6 +209,35 @@ export const AskSlide: React.FC<AskSlideProps> = ({ slide }) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Exit Scenarios */}
+      {slide.exitScenarios && (
+        <Card className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200 dark:border-amber-800">
+          <CardContent className="p-6">
+            <h3 className="font-bold text-lg mb-4 text-amber-900 dark:text-amber-100">
+              {slide.exitScenarios.title}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              {slide.exitScenarios.scenarios.map((scenario, idx) => (
+                <div key={idx} className="bg-background/60 rounded-lg p-4 border border-amber-200 dark:border-amber-800">
+                  <h4 className="font-bold text-sm mb-2 text-amber-900 dark:text-amber-100">{scenario.title}</h4>
+                  <p className="text-xs text-muted-foreground mb-2">{scenario.description}</p>
+                  <div className="space-y-1 text-xs">
+                    <p><span className="font-semibold">Timeline:</span> {scenario.timeline}</p>
+                    <p><span className="font-semibold">Method:</span> {scenario.method}</p>
+                    <p className="text-amber-700 dark:text-amber-400 font-medium">{scenario.likelihood}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="bg-background/60 rounded-lg p-3 border border-amber-300 dark:border-amber-700">
+              <p className="text-xs text-muted-foreground">
+                <span className="font-semibold text-amber-900 dark:text-amber-100">Note:</span> {slide.exitScenarios.note}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Milestones */}
       <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 border-purple-200 dark:border-purple-800">

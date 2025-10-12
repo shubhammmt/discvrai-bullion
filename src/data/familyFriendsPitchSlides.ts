@@ -216,7 +216,7 @@ export const familyFriendsPitchSlides = [
         effectiveValuation: '₹37.5 Cr (25% disc)', 
         exitValuation: '₹500 Cr',
         investment: '₹10L',
-        returns: '₹133L', 
+        returns: '₹1.33 Cr', 
         multiple: '13x' 
       },
       { 
@@ -225,7 +225,7 @@ export const familyFriendsPitchSlides = [
         effectiveValuation: '₹75 Cr (25% disc)', 
         exitValuation: '₹2000 Cr',
         investment: '₹10L',
-        returns: '₹267L', 
+        returns: '₹2.67 Cr', 
         multiple: '27x' 
       },
       { 
@@ -234,17 +234,44 @@ export const familyFriendsPitchSlides = [
         effectiveValuation: '₹112.5 Cr (25% disc)', 
         exitValuation: '₹5000 Cr',
         investment: '₹10L',
-        returns: '₹444L', 
+        returns: '₹4.44 Cr', 
         multiple: '44x' 
       }
     ],
+    exitScenarios: {
+      title: 'When & How Can You Exit?',
+      scenarios: [
+        {
+          title: 'Standard Exit (5-7 years)',
+          description: 'IPO or acquisition',
+          timeline: '5-7 years',
+          method: 'Full liquidity event',
+          likelihood: 'Target path'
+        },
+        {
+          title: 'Early Exit (1-3 years)',
+          description: 'Secondary sale to new investors',
+          timeline: '1-3 years (post Series A)',
+          method: 'Partial or full sale of your shares',
+          likelihood: 'Available if desired'
+        },
+        {
+          title: 'No Series A Scenario',
+          description: 'If profitable without raising Series A',
+          timeline: '24 months (note maturity)',
+          method: 'Company buyback at 2x-3x fair valuation OR conversion at ₹25-50 Cr valuation',
+          likelihood: 'Backup option'
+        }
+      ],
+      note: 'Break-even by M11 means we\'re not dependent on Series A. If we grow profitably, we can offer buyback or dividend options.'
+    },
     useOfFunds: [
-      { category: 'Product Development', percentage: 25, amount: '₹30L' },
-      { category: 'Content & SEO', percentage: 25, amount: '₹30L' },
-      { category: 'Marketing & Growth', percentage: 20, amount: '₹24L' },
-      { category: 'Team Expansion', percentage: 15, amount: '₹18L' },
-      { category: 'Infrastructure', percentage: 10, amount: '₹12L' },
-      { category: 'Legal & Compliance', percentage: 5, amount: '₹6L' }
+      { category: 'Product Development', percentage: 25, amount: '₹37.5-50L' },
+      { category: 'Content & SEO', percentage: 25, amount: '₹37.5-50L' },
+      { category: 'Marketing & Growth', percentage: 20, amount: '₹30-40L' },
+      { category: 'Team Expansion', percentage: 15, amount: '₹22.5-30L' },
+      { category: 'Infrastructure', percentage: 10, amount: '₹15-20L' },
+      { category: 'Legal & Compliance', percentage: 5, amount: '₹7.5-10L' }
     ],
     milestones: [
       { month: 'M3', goal: '150K MAUs, Mobile apps live, Contest launched' },
