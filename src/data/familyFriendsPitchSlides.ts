@@ -191,7 +191,7 @@ export const familyFriendsPitchSlides = [
       interest: '0% (standard for F&F rounds)',
       maturity: '24 months or upon Series A',
       minimum: '₹10 Lakhs',
-      close: 'December 2025',
+      close: 'October 2025',
       qualifiedFinancing: 'Converts at any "Qualified Financing" (raise of ₹2 Cr+ from institutional investors) with 25% discount. If we raise a seed round, your note converts then.'
     },
     convertibleNoteExplanation: {
