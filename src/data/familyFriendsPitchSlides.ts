@@ -115,7 +115,7 @@ export const familyFriendsPitchSlides = [
     subtitle: 'Break-even in 11 Months | 81% Profit Margin',
     icon: Trophy,
     traction: {
-      product: ['News platform live with AI', 'Stock research tool (beta)', 'MF comparison (beta)', 'Contest platform in dev'],
+      product: ['News platform live with AI', 'Stock research tool (beta) (launch in Oct25)', 'MF comparison (beta) (Live for India, US end Nov25)', 'Contest platform (Live)'],
       metrics: ['50K Monthly Active Users', '30% user retention (D7/D30)', '2 min avg session time', '2 B2B pilots in progress']
     },
     financials: {
