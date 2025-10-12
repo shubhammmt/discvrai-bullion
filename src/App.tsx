@@ -61,6 +61,7 @@ import SRCCPitch from './pages/SRCCPitch';
 import StartupCoveragePitch from './pages/StartupCoveragePitch';
 import ContestSponsorshipPitch from './pages/ContestSponsorshipPitch';
 import NewsFirstPitch from './pages/NewsFirstPitch';
+import FamilyFriendsPitch from './pages/FamilyFriendsPitch';
 import Chatbot from './pages/Chatbot';
 import CryptoHub from './pages/CryptoHub';
 import CryptoAsset from './pages/CryptoAsset';
@@ -143,6 +144,7 @@ function App() {
           <Route path="/startup-coverage-pitch" element={<StartupCoveragePitch />} />
           <Route path="/contest-sponsorship-pitch" element={<ContestSponsorshipPitch />} />
           <Route path="/news-first-pitch" element={<NewsFirstPitch />} />
+          <Route path="/family-friends-pitch" element={<FamilyFriendsPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />

@@ -51,6 +51,13 @@ import { ContestFormatsSlide } from './ContestFormatsSlide';
 import { RoadmapSlide } from './RoadmapSlide';
 import { BusinessModelSlide } from './BusinessModelSlide';
 import { PlatformDifferentiationSlide } from './PlatformDifferentiationSlide';
+import { ProblemOpportunitySlide } from './ProblemOpportunitySlide';
+import { SolutionPillarsSlide } from './SolutionPillarsSlide';
+import { BusinessMarketSlide } from './BusinessMarketSlide';
+import { TractionFinancialsSlide } from './TractionFinancialsSlide';
+import { TeamGTMSlide } from './TeamGTMSlide';
+import { AskSlide } from './AskSlide';
+import { ClosingSlide } from './ClosingSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -174,6 +181,20 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <BusinessModelSlide slide={slide} />;
     case 'platform-differentiation':
       return <PlatformDifferentiationSlide slide={slide} />;
+    case 'problem-opportunity':
+      return <ProblemOpportunitySlide slide={slide} />;
+    case 'solution-pillars':
+      return <SolutionPillarsSlide slide={slide} />;
+    case 'business-market':
+      return <BusinessMarketSlide slide={slide} />;
+    case 'traction-financials':
+      return <TractionFinancialsSlide slide={slide} />;
+    case 'team-gtm':
+      return <TeamGTMSlide slide={slide} />;
+    case 'ask':
+      return <AskSlide slide={slide} />;
+    case 'closing':
+      return <ClosingSlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
