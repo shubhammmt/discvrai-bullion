@@ -182,25 +182,61 @@ export const familyFriendsPitchSlides = [
     id: 7,
     type: 'ask',
     title: 'Join Us in Building the Future of Financial Intelligence',
-    subtitle: 'Raising ₹150-200 Lakhs for Family & Friends Round',
+    subtitle: 'Raising ₹150-200 Lakhs via Convertible Notes',
     icon: CheckCircle,
     investment: {
       amount: '₹150-200 Lakhs',
-      security: 'CCPS / SAFE / Equity',
+      structure: 'Convertible Notes (converts at Series A)',
+      discount: '25% discount to Series A valuation',
+      interest: '0% (standard for F&F rounds)',
+      maturity: '24 months or upon Series A',
       minimum: '₹10 Lakhs',
       close: 'December 2025'
     },
+    convertibleNoteExplanation: {
+      title: 'What is a Convertible Note?',
+      description: 'Your investment converts to equity at our next funding round (Series A) at a 25% discount. This rewards you for investing early without needing to set a valuation now.',
+      example: [
+        'Series A values company at ₹100 Crores',
+        'You convert at ₹75 Crores (25% discount)',
+        'You get 33% more shares than Series A investors'
+      ]
+    },
     benefits: [
-      'Equity stake in high-growth AI-fintech',
-      'Quarterly board updates',
-      'Pro-rata rights in future rounds',
-      'Preferred returns on exit',
+      '25% discount to Series A valuation (bonus for early investment)',
+      'Quarterly investor updates',
+      'Pro-rata rights in Series A (optional participation)',
+      'Priority conversion rights',
       'Ground floor in democratizing finance'
     ],
     returns: [
-      { scenario: 'Conservative', valuation: '₹500M', investment: '₹10L', returns: '₹25L', multiple: '2.5x' },
-      { scenario: 'Base', valuation: '₹2B', investment: '₹10L', returns: '₹100L', multiple: '10x' },
-      { scenario: 'Stretch', valuation: '₹5B+', investment: '₹10L', returns: '₹250L+', multiple: '25x+' }
+      { 
+        scenario: 'Conservative', 
+        seriesAValuation: '₹50 Cr', 
+        effectiveValuation: '₹37.5 Cr (25% disc)', 
+        exitValuation: '₹500 Cr',
+        investment: '₹10L',
+        returns: '₹133L', 
+        multiple: '13x' 
+      },
+      { 
+        scenario: 'Base', 
+        seriesAValuation: '₹100 Cr', 
+        effectiveValuation: '₹75 Cr (25% disc)', 
+        exitValuation: '₹2000 Cr',
+        investment: '₹10L',
+        returns: '₹267L', 
+        multiple: '27x' 
+      },
+      { 
+        scenario: 'Stretch', 
+        seriesAValuation: '₹150 Cr', 
+        effectiveValuation: '₹112.5 Cr (25% disc)', 
+        exitValuation: '₹5000 Cr',
+        investment: '₹10L',
+        returns: '₹444L', 
+        multiple: '44x' 
+      }
     ],
     useOfFunds: [
       { category: 'Product Development', percentage: 25, amount: '₹30L' },

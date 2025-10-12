@@ -9,14 +9,24 @@ interface AskSlideProps {
     icon: React.ComponentType<any>;
     investment: {
       amount: string;
-      security: string;
+      structure: string;
+      discount: string;
+      interest: string;
+      maturity: string;
       minimum: string;
       close: string;
+    };
+    convertibleNoteExplanation?: {
+      title: string;
+      description: string;
+      example: string[];
     };
     benefits: string[];
     returns: Array<{
       scenario: string;
-      valuation: string;
+      seriesAValuation: string;
+      effectiveValuation: string;
+      exitValuation: string;
       investment: string;
       returns: string;
       multiple: string;
@@ -43,21 +53,33 @@ export const AskSlide: React.FC<AskSlideProps> = ({ slide }) => {
         <h2 className="text-3xl font-bold mb-2">{slide.title}</h2>
         <p className="text-xl text-muted-foreground mb-4">{slide.subtitle}</p>
         
-        <Card className="max-w-2xl mx-auto bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-800">
+        <Card className="max-w-3xl mx-auto bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-800">
           <CardContent className="p-6">
             <p className="text-4xl font-bold text-green-700 dark:text-green-300 mb-4">
               {slide.investment.amount}
             </p>
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-3 gap-4 text-sm mb-4">
               <div>
-                <p className="text-muted-foreground">Security</p>
-                <p className="font-semibold">{slide.investment.security}</p>
+                <p className="text-muted-foreground">Structure</p>
+                <p className="font-semibold">{slide.investment.structure}</p>
               </div>
               <div>
-                <p className="text-muted-foreground">Minimum</p>
+                <p className="text-muted-foreground">Discount Rate</p>
+                <p className="font-semibold">{slide.investment.discount}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Interest Rate</p>
+                <p className="font-semibold">{slide.investment.interest}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Maturity</p>
+                <p className="font-semibold">{slide.investment.maturity}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Minimum Check</p>
                 <p className="font-semibold">{slide.investment.minimum}</p>
               </div>
-              <div className="col-span-2">
+              <div>
                 <p className="text-muted-foreground">Target Close</p>
                 <p className="font-semibold">{slide.investment.close}</p>
               </div>
@@ -65,8 +87,33 @@ export const AskSlide: React.FC<AskSlideProps> = ({ slide }) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Convertible Note Explanation */}
+      {slide.convertibleNoteExplanation && (
+        <Card className="max-w-3xl mx-auto bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 border-blue-200 dark:border-blue-800">
+          <CardContent className="p-6">
+            <h3 className="font-bold text-lg mb-2 text-blue-900 dark:text-blue-100">
+              {slide.convertibleNoteExplanation.title}
+            </h3>
+            <p className="text-sm mb-4 text-muted-foreground">
+              {slide.convertibleNoteExplanation.description}
+            </p>
+            <div className="bg-background/50 rounded-lg p-4">
+              <p className="font-semibold text-sm mb-2">Example:</p>
+              <ul className="space-y-1 text-sm">
+                {slide.convertibleNoteExplanation.example.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="text-blue-600 dark:text-blue-400 flex-shrink-0">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      )}
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* What You Get */}
         <Card>
           <CardContent className="p-4">
@@ -86,25 +133,41 @@ export const AskSlide: React.FC<AskSlideProps> = ({ slide }) => {
         </Card>
 
         {/* Expected Returns */}
-        <Card>
+        <Card className="lg:col-span-2">
           <CardContent className="p-4">
             <h3 className="font-semibold mb-3 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-primary" />
-              Expected Returns (5Y)
+              Expected Returns (5Y) - <span className="text-xs text-muted-foreground font-normal">Includes 25% discount bonus</span>
             </h3>
-            <div className="space-y-3">
-              {slide.returns.map((scenario, idx) => (
-                <div key={idx} className={`p-2 rounded-lg ${
-                  scenario.scenario === 'Base' 
-                    ? 'bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800'
-                    : 'bg-secondary'
-                }`}>
-                  <p className="text-xs font-semibold text-muted-foreground mb-1">{scenario.scenario}</p>
-                  <p className="text-xs"><span className="text-muted-foreground">Valuation:</span> <span className="font-medium">{scenario.valuation}</span></p>
-                  <p className="text-lg font-bold text-green-600 dark:text-green-400">{scenario.returns}</p>
-                  <p className="text-xs text-muted-foreground">{scenario.multiple} return</p>
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-2 font-semibold">Scenario</th>
+                    <th className="text-left p-2 font-semibold">Series A Val.</th>
+                    <th className="text-left p-2 font-semibold">Your Eff. Val.</th>
+                    <th className="text-left p-2 font-semibold">Exit Val.</th>
+                    <th className="text-right p-2 font-semibold">₹10L →</th>
+                    <th className="text-right p-2 font-semibold">Return</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {slide.returns.map((scenario, idx) => (
+                    <tr key={idx} className={`${
+                      scenario.scenario === 'Base' 
+                        ? 'bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500'
+                        : ''
+                    }`}>
+                      <td className="p-2 font-semibold">{scenario.scenario}</td>
+                      <td className="p-2">{scenario.seriesAValuation}</td>
+                      <td className="p-2 text-green-600 dark:text-green-400 font-medium">{scenario.effectiveValuation}</td>
+                      <td className="p-2">{scenario.exitValuation}</td>
+                      <td className="p-2 text-right font-bold text-green-700 dark:text-green-300">{scenario.returns}</td>
+                      <td className="p-2 text-right font-bold text-lg text-green-700 dark:text-green-300">{scenario.multiple}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </CardContent>
         </Card>
