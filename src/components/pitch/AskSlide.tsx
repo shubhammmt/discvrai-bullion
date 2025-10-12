@@ -7,15 +7,16 @@ interface AskSlideProps {
     title: string;
     subtitle: string;
     icon: React.ComponentType<any>;
-    investment: {
-      amount: string;
-      structure: string;
-      discount: string;
-      interest: string;
-      maturity: string;
-      minimum: string;
-      close: string;
-    };
+  investment: {
+    amount: string;
+    structure: string;
+    discount: string;
+    interest: string;
+    maturity: string;
+    minimum: string;
+    close: string;
+    qualifiedFinancing?: string;
+  };
     convertibleNoteExplanation?: {
       title: string;
       description: string;
@@ -95,6 +96,13 @@ export const AskSlide: React.FC<AskSlideProps> = ({ slide }) => {
                 <p className="font-semibold">{slide.investment.close}</p>
               </div>
             </div>
+            {slide.investment.qualifiedFinancing && (
+              <div className="pt-3 border-t border-green-300 dark:border-green-700">
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-semibold text-green-900 dark:text-green-100">Note:</span> {slide.investment.qualifiedFinancing}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

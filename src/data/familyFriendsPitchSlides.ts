@@ -191,15 +191,16 @@ export const familyFriendsPitchSlides = [
       interest: '0% (standard for F&F rounds)',
       maturity: '24 months or upon Series A',
       minimum: '₹10 Lakhs',
-      close: 'December 2025'
+      close: 'December 2025',
+      qualifiedFinancing: 'Converts at any "Qualified Financing" (raise of ₹2 Cr+ from institutional investors) with 25% discount. If we raise a seed round, your note converts then.'
     },
     convertibleNoteExplanation: {
       title: 'What is a Convertible Note?',
-      description: 'Your investment converts to equity at our next funding round (Series A) at a 25% discount. This rewards you for investing early without needing to set a valuation now.',
+      description: 'Your investment converts to equity at our next "Qualified Financing" (any raise of ₹2 Cr+ from institutional investors) at a 25% discount. This rewards you for investing early without needing to set a valuation now.',
       example: [
-        'Series A values company at ₹100 Crores',
-        'You convert at ₹75 Crores (25% discount)',
-        'You get 33% more shares than Series A investors'
+        'If we raise ₹5 Cr seed round at ₹40 Cr valuation → you convert at ₹30 Cr (25% discount)',
+        'If we raise Series A at ₹100 Cr valuation → you convert at ₹75 Cr (25% discount)',
+        'You get 33% more shares than the new investors in that round'
       ]
     },
     benefits: [
