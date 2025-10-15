@@ -152,9 +152,10 @@ export const familyFriendsPitchSlides = [
         { role: 'Content Team', count: '3 writers + 1 video' },
         { role: 'SEO Expert', count: '1' },
         { role: 'Equity Research', count: '1 analyst' },
-        { role: 'Product Manager', count: '1' }
+        { role: 'Product Manager', count: '1' },
+        { role: 'Sales (BD Lead)', count: '1' }
       ],
-      total: '12 people',
+      total: '13 people',
       hiring: ['Product Manager (M2)', '2 Sales/BDRs (M3-4)', '2 Developers (M4-6)', 'Content Lead + 2 writers (M5-8)']
     },
     gtm: {
@@ -275,7 +276,7 @@ export const familyFriendsPitchSlides = [
       { category: 'Legal & Compliance', percentage: 5, amount: '₹7.5-10L' }
     ],
     milestones: [
-      { month: 'M3', goal: '150K MAUs, Mobile apps live, Contest launched' },
+      { month: 'M3', goal: '150K MAUs, Mobile apps live' },
       { month: 'M6', goal: '250K MAUs, ₹1M+ monthly revenue, 5-8 B2B clients' },
       { month: 'M11', goal: '800K MAUs, Break-even/cash flow positive, Series A ready' }
     ]
