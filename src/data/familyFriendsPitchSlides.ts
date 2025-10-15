@@ -183,10 +183,10 @@ export const familyFriendsPitchSlides = [
     id: 7,
     type: 'ask',
     title: 'Join Us in Building the Future of Financial Intelligence',
-    subtitle: 'Raising ₹150-200 Lakhs via Convertible Notes',
+    subtitle: 'Raising ₹2 Cr via Convertible Notes',
     icon: CheckCircle,
     investment: {
-      amount: '₹150-200 Lakhs',
+      amount: '₹2 Cr',
       structure: 'Convertible Notes (converts at Series A)',
       discount: '25% discount to Series A valuation',
       interest: '0% (standard for F&F rounds)',
@@ -268,12 +268,12 @@ export const familyFriendsPitchSlides = [
       note: 'Break-even by M11 means we\'re not dependent on Series A. If we grow profitably, we can offer buyback or dividend options.'
     },
     useOfFunds: [
-      { category: 'Product Development', percentage: 25, amount: '₹37.5-50L' },
-      { category: 'Content & SEO', percentage: 25, amount: '₹37.5-50L' },
-      { category: 'Marketing & Growth', percentage: 20, amount: '₹30-40L' },
-      { category: 'Team Expansion', percentage: 15, amount: '₹22.5-30L' },
-      { category: 'Infrastructure', percentage: 10, amount: '₹15-20L' },
-      { category: 'Legal & Compliance', percentage: 5, amount: '₹7.5-10L' }
+      { category: 'Product Development', percentage: 25, amount: '₹50L' },
+      { category: 'Content & SEO', percentage: 25, amount: '₹50L' },
+      { category: 'Marketing & Growth', percentage: 20, amount: '₹40L' },
+      { category: 'Team Expansion', percentage: 15, amount: '₹30L' },
+      { category: 'Infrastructure', percentage: 10, amount: '₹20L' },
+      { category: 'Legal & Compliance', percentage: 5, amount: '₹10L' }
     ],
     milestones: [
       { month: 'M3', goal: '150K MAUs, Mobile apps live' },
@@ -297,7 +297,7 @@ export const familyFriendsPitchSlides = [
       { icon: '🏛️', title: 'Regulatory Support', description: 'SEBI pushing investor education, fintech-friendly policies' }
     ],
     ask: {
-      amount: '₹150-200L to build India\'s first AI-native financial platform',
+      amount: '₹2 Cr to build India\'s first AI-native financial platform',
       timeline: 'Break-even in 11 months, Series A ready in 18 months',
       opportunity: '$50B market at perfect inflection point'
     },
