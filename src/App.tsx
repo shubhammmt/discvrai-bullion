@@ -76,6 +76,7 @@ import AIScreenerLanding from './pages/AIScreenerLanding';
 import AIQueryLibrary from './pages/AIQueryLibrary';
 import AIQueryResult from './pages/AIQueryResult';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
+import GlobalFooter from './components/GlobalFooter';
 
 const queryClient = new QueryClient();
 
@@ -167,6 +168,9 @@ function App() {
           onClose={() => setIsChatbotOpen(false)} 
         />
         <ChatbotTrigger onClick={() => setIsChatbotOpen(true)} />
+        
+        {/* Global Footer */}
+        <GlobalFooter />
       </Router>
       <Toaster />
     </QueryClientProvider>
