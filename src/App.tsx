@@ -77,6 +77,10 @@ import AIQueryLibrary from './pages/AIQueryLibrary';
 import AIQueryResult from './pages/AIQueryResult';
 import ChatbotDialog, { ChatbotTrigger } from './components/ChatbotDialog';
 import GlobalFooter from './components/GlobalFooter';
+import { NewsHubPage } from './pages/NewsHubPage';
+import { NewsArticlePage } from './pages/NewsArticlePage';
+import { NewsAuthorPage } from './pages/NewsAuthorPage';
+import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
 
@@ -84,8 +88,9 @@ function App() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <Router>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -116,7 +121,10 @@ function App() {
           <Route path="/stock-v2/:symbol" element={<StockProductPageV2 />} />
           <Route path="/stock-v3/:symbol" element={<StockPage />} />
           <Route path="/stock-info/:symbol" element={<StockInfoPage />} />
-          <Route path="/news" element={<NewsFeed />} />
+          <Route path="/news" element={<NewsHubPage />} />
+          <Route path="/news/article/:slug" element={<NewsArticlePage />} />
+          <Route path="/news/author/:authorId" element={<NewsAuthorPage />} />
+          <Route path="/news-old" element={<NewsFeed />} />
           <Route path="/financial-profile" element={<FinancialProfile />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/health-assessment" element={<HealthAssessment />} />
@@ -171,9 +179,10 @@ function App() {
         
         {/* Global Footer */}
         <GlobalFooter />
-      </Router>
-      <Toaster />
-    </QueryClientProvider>
+        </Router>
+        <Toaster />
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 
