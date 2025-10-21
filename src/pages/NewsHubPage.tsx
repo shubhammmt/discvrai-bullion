@@ -12,6 +12,9 @@ import { newsCategories } from '@/data/newsCategories';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { BreadcrumbStructuredData } from '@/components/seo/BreadcrumbStructuredData';
 import { mockNewsArticles, mockByteNews } from '@/data/mockNewsData';
+import { mockPolls, mockQuizzes } from '@/data/mockEngagementData';
+import { PollCard } from '@/components/engagement/PollCard';
+import { QuizCard } from '@/components/engagement/QuizCard';
 
 export const NewsHubPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -124,15 +127,42 @@ export const NewsHubPage = () => {
               </div>
             )}
 
-            {/* Articles Grid */}
+            {/* Articles Grid with Polls & Quizzes */}
             <div>
               <h2 className="text-2xl font-bold mb-6">
                 {activeCategory === 'all' ? 'Latest Articles' : `${newsCategories.find(c => c.slug === activeCategory)?.name} News`}
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredArticles.map((article) => (
-                  <ArticleCard key={article.id} article={article} />
-                ))}
+                {filteredArticles.map((article, index) => {
+                  const components = [];
+                  
+                  // Add article
+                  components.push(
+                    <ArticleCard key={article.id} article={article} />
+                  );
+                  
+                  // Add poll after every 2 articles
+                  if ((index + 1) % 2 === 0 && mockPolls[Math.floor(index / 2) % mockPolls.length]) {
+                    const poll = mockPolls[Math.floor(index / 2) % mockPolls.length];
+                    components.push(
+                      <div key={`poll-${index}`} className="md:col-span-2 lg:col-span-1">
+                        <PollCard poll={poll} compact />
+                      </div>
+                    );
+                  }
+                  
+                  // Add quiz after every 4 articles
+                  if ((index + 1) % 4 === 0 && mockQuizzes[Math.floor(index / 4) % mockQuizzes.length]) {
+                    const quiz = mockQuizzes[Math.floor(index / 4) % mockQuizzes.length];
+                    components.push(
+                      <div key={`quiz-${index}`} className="md:col-span-2 lg:col-span-1">
+                        <QuizCard quiz={quiz} compact />
+                      </div>
+                    );
+                  }
+                  
+                  return components;
+                })}
               </div>
 
               {filteredArticles.length === 0 && (
@@ -149,9 +179,26 @@ export const NewsHubPage = () => {
                 Byte-Sized News Updates
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredByteNews.map((news) => (
-                  <ByteNewsCard key={news.id} news={news} />
-                ))}
+                {filteredByteNews.map((news, index) => {
+                  const components = [];
+                  
+                  // Add byte news
+                  components.push(
+                    <ByteNewsCard key={news.id} news={news} />
+                  );
+                  
+                  // Add poll after every 3 byte news
+                  if ((index + 1) % 3 === 0 && mockPolls[Math.floor(index / 3) % mockPolls.length]) {
+                    const poll = mockPolls[Math.floor(index / 3) % mockPolls.length];
+                    components.push(
+                      <div key={`poll-byte-${index}`} className="md:col-span-2 lg:col-span-1">
+                        <PollCard poll={poll} compact />
+                      </div>
+                    );
+                  }
+                  
+                  return components;
+                })}
               </div>
 
               {filteredByteNews.length === 0 && (
