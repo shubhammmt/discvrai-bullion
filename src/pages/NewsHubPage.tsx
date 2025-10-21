@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import GlobalFooter from '@/components/GlobalFooter';
 import { ArticleCard } from '@/components/news/ArticleCard';
-import { ByteNewsCard } from '@/components/news/ByteNewsCard';
+import { EnhancedByteNewsCard } from '@/components/news/EnhancedByteNewsCard';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,7 @@ import { mockNewsArticles, mockByteNews } from '@/data/mockNewsData';
 import { mockPolls, mockQuizzes } from '@/data/mockEngagementData';
 import { PollCard } from '@/components/engagement/PollCard';
 import { QuizCard } from '@/components/engagement/QuizCard';
+import { CategoryEngagementFilter } from '@/components/engagement/CategoryEngagementFilter';
 
 export const NewsHubPage = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -184,16 +185,30 @@ export const NewsHubPage = () => {
                   
                   // Add byte news
                   components.push(
-                    <ByteNewsCard key={news.id} news={news} />
+                    <EnhancedByteNewsCard key={news.id} news={news} type="news" />
                   );
                   
                   // Add poll after every 3 byte news
                   if ((index + 1) % 3 === 0 && mockPolls[Math.floor(index / 3) % mockPolls.length]) {
                     const poll = mockPolls[Math.floor(index / 3) % mockPolls.length];
                     components.push(
-                      <div key={`poll-byte-${index}`} className="md:col-span-2 lg:col-span-1">
-                        <PollCard poll={poll} compact />
-                      </div>
+                      <EnhancedByteNewsCard 
+                        key={`poll-byte-${index}`}
+                        poll={poll}
+                        type="poll"
+                      />
+                    );
+                  }
+
+                  // Add quiz after every 6 byte news
+                  if ((index + 1) % 6 === 0 && mockQuizzes[Math.floor(index / 6) % mockQuizzes.length]) {
+                    const quiz = mockQuizzes[Math.floor(index / 6) % mockQuizzes.length];
+                    components.push(
+                      <EnhancedByteNewsCard 
+                        key={`quiz-byte-${index}`}
+                        quiz={quiz}
+                        type="quiz"
+                      />
                     );
                   }
                   
@@ -207,6 +222,11 @@ export const NewsHubPage = () => {
                 </div>
               )}
             </div>
+
+            {/* Category-specific engagement section */}
+            {activeCategory !== 'all' && (
+              <CategoryEngagementFilter category={activeCategory} />
+            )}
           </TabsContent>
         </Tabs>
       </main>

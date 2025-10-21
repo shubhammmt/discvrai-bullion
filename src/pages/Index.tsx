@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn, Heart, Activity, CheckCircle, Newspaper } from 'lucide-react';
 import FinanceCopilot from '@/components/FinanceCopilot';
 import { EngagementWidget } from '@/components/engagement/EngagementWidget';
+import { TrendingPollResults } from '@/components/engagement/TrendingPollResults';
+import { LatestQuizzes } from '@/components/engagement/LatestQuizzes';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -156,8 +158,18 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Trending Poll Results */}
+      <div className="max-w-6xl mx-auto px-4">
+        <TrendingPollResults />
+      </div>
+
       {/* Engagement Widget */}
       <EngagementWidget />
+
+      {/* Latest Quizzes */}
+      <div className="max-w-6xl mx-auto px-4">
+        <LatestQuizzes />
+      </div>
 
       {/* Goal-Oriented Planning Section */}
       <div className="py-16 bg-white">
