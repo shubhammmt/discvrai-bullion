@@ -3,8 +3,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn, Heart, Activity, CheckCircle } from 'lucide-react';
+import { Brain, Zap, Target, TrendingUp, Shield, Globe, ArrowRight, Sparkles, BarChart3, LogIn, Heart, Activity, CheckCircle, Newspaper } from 'lucide-react';
 import FinanceCopilot from '@/components/FinanceCopilot';
+import { EngagementWidget } from '@/components/engagement/EngagementWidget';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -154,6 +155,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Engagement Widget */}
+      <EngagementWidget />
 
       {/* Goal-Oriented Planning Section */}
       <div className="py-16 bg-white">

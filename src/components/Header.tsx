@@ -78,6 +78,38 @@ const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm"
+                onClick={() => navigate('/news')}
+                className={`font-medium ${location.pathname === '/news' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                News
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/polls')}
+                className={`font-medium ${location.pathname === '/polls' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Polls
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/quizzes')}
+                className={`font-medium ${location.pathname === '/quizzes' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Quizzes
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/leaderboard')}
+                className={`font-medium ${location.pathname === '/leaderboard' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Leaderboard
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
                 onClick={() => navigate('/stocks')}
                 className={`font-medium ${location.pathname === '/stocks' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >

@@ -80,6 +80,9 @@ import GlobalFooter from './components/GlobalFooter';
 import { NewsHubPage } from './pages/NewsHubPage';
 import { NewsArticlePage } from './pages/NewsArticlePage';
 import { NewsAuthorPage } from './pages/NewsAuthorPage';
+import { PollsHub } from './pages/PollsHub';
+import { QuizzesHub } from './pages/QuizzesHub';
+import { Leaderboard } from './pages/Leaderboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -124,6 +127,9 @@ function App() {
           <Route path="/news" element={<NewsHubPage />} />
           <Route path="/news/article/:slug" element={<NewsArticlePage />} />
           <Route path="/news/author/:authorId" element={<NewsAuthorPage />} />
+          <Route path="/polls" element={<PollsHub />} />
+          <Route path="/quizzes" element={<QuizzesHub />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/news-old" element={<NewsFeed />} />
           <Route path="/financial-profile" element={<FinancialProfile />} />
           <Route path="/onboarding" element={<Onboarding />} />
