@@ -17,6 +17,8 @@ import { FinancialAssumptionsSlide } from './FinancialAssumptionsSlide';
 import { TeamBreakdownSlide } from './TeamBreakdownSlide';
 import { TeamSlide } from './TeamSlide';
 import { CompetitionSlide } from './CompetitionSlide';
+import { CompoundingGrowthSlide } from './CompoundingGrowthSlide';
+import { PathToProfitabilitySlide } from './PathToProfitabilitySlide';
 import { TechFoundationSlide } from './TechFoundationSlide';
 import { MarketSlide } from './MarketSlide';
 import { MarketOpportunitySlideV2 } from './MarketOpportunitySlideV2';
@@ -195,6 +197,10 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <AskSlide slide={slide} />;
     case 'closing':
       return <ClosingSlide slide={slide} />;
+    case 'compounding-growth':
+      return <CompoundingGrowthSlide slide={slide} />;
+    case 'path-to-profitability':
+      return <PathToProfitabilitySlide slide={slide} />;
     default:
       return <div>Slide type not supported: {slide.type}</div>;
   }
