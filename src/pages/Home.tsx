@@ -36,6 +36,17 @@ const Home = () => {
       
       <Header />
       
+      {/* Hero Intro */}
+      <section className="container mx-auto px-4 py-12 text-center max-w-4xl">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Your AI-Powered Financial Companion
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground">
+          Discover smarter investments with AI research, real-time market insights, and a community of informed investors. 
+          From mutual funds to stocks, get personalized recommendations that match your goals.
+        </p>
+      </section>
+      
       <main className="container mx-auto px-4 py-8 space-y-12">
         {/* Polls Section */}
         <section className="space-y-6">
