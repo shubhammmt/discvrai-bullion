@@ -278,8 +278,8 @@ export const familyFriendsPitchSlides = [
     ],
     milestones: [
       { month: 'M3', goal: '150K MAUs, Mobile apps live' },
-      { month: 'M6', goal: '250K MAUs, ₹1M+ monthly revenue, 5-8 B2B clients' },
-      { month: 'M11', goal: '800K MAUs, Break-even/cash flow positive, Series A ready' }
+      { month: 'M6', goal: '260K MAUs, ₹9L+ monthly revenue, 2+ B2B clients' },
+      { month: 'M14', goal: 'Break-even/cash flow positive, Series A ready' }
     ]
   },
 
