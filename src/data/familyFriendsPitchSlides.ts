@@ -77,6 +77,13 @@ export const familyFriendsPitchSlides = [
         impact: 'Retention'
       },
       {
+        icon: '💼',
+        title: 'Distribution Platform',
+        description: 'Financial product partnerships',
+        features: ['Loan Against Mutual Funds (live mid-Nov)', 'Fixed Deposits (live mid-Nov)', 'Personal Loans (onboarding)'],
+        impact: 'Revenue'
+      },
+      {
         icon: '🏢',
         title: 'B2B SaaS',
         description: 'White-label platforms',
@@ -96,7 +103,7 @@ export const familyFriendsPitchSlides = [
     revenueStreams: [
       { name: 'Advertising', percentage: 69, amount: '₹18.2M/mo', description: 'Display ads, CPM ₹160-900' },
       { name: 'Subscriptions', percentage: 19, amount: '₹5.1M/mo', description: 'Freemium: ₹99-999/mo' },
-      { name: 'Lead Generation', percentage: 6, amount: '₹1.7M/mo', description: 'Affiliate commissions' },
+      { name: 'Lead Generation', percentage: 6, amount: '₹1.7M/mo', description: 'Partner commissions (LAMF, FDs, Loans)' },
       { name: 'B2B SaaS', percentage: 6, amount: '₹1.5M/mo', description: 'White-label tools' }
     ],
     market: {
@@ -116,6 +123,7 @@ export const familyFriendsPitchSlides = [
     icon: Trophy,
     traction: {
       product: ['News platform live with AI', 'Stock research tool (beta) (launch in Oct25)', 'MF comparison (beta) (Live for India, US end Nov25)', 'Contest platform (Live)'],
+      partnerships: ['Loan Against Mutual Funds (live mid-Nov)', 'Fixed Deposits (live mid-Nov)', 'Personal Loans (onboarding)'],
       metrics: ['50K Monthly Active Users', '30% user retention (D7/D30)', '2 min avg session time', '2 B2B pilots in progress']
     },
     financials: {
