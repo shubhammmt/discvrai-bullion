@@ -84,6 +84,7 @@ import { NewsAuthorPage } from './pages/NewsAuthorPage';
 import { PollsHub } from './pages/PollsHub';
 import { QuizzesHub } from './pages/QuizzesHub';
 import { Leaderboard } from './pages/Leaderboard';
+import ProductFeaturePreview from './pages/ProductFeaturePreview';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -177,6 +178,7 @@ const AppContent = () => {
           <Route path="/ai/chat" element={<AIStockScreener />} />
           <Route path="/ai/queries" element={<AIQueryLibrary />} />
           <Route path="/ai/queries/:queryId" element={<AIQueryResult />} />
+          <Route path="/product-features-preview" element={<ProductFeaturePreview />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
