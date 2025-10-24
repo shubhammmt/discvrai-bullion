@@ -52,7 +52,7 @@ export const familyFriendsPitchSlides = [
     id: 3,
     type: 'solution-pillars',
     title: 'AI-Native Financial Intelligence Platform',
-    subtitle: 'Five Integrated Revenue Streams',
+    subtitle: 'Four Integrated Revenue Streams',
     icon: Rocket,
     pillars: [
       {
@@ -64,10 +64,10 @@ export const familyFriendsPitchSlides = [
       },
       {
         icon: '🔬',
-        title: 'AI Research Tools',
-        description: 'Professional-grade analysis',
-        features: ['Stock analysis & screening', 'Mutual fund comparison', 'IPO & crypto insights'],
-        impact: 'Value'
+        title: 'AI-Powered Distribution',
+        description: 'Research-backed financial product recommendations',
+        features: ['Stock/MF analysis & screening', 'Vetted product distribution (LAMF, FDs, Loans)', 'IPO & crypto insights'],
+        impact: 'Revenue'
       },
       {
         icon: '🎮',
@@ -77,18 +77,11 @@ export const familyFriendsPitchSlides = [
         impact: 'Retention'
       },
       {
-        icon: '💼',
-        title: 'Distribution Platform',
-        description: 'Financial product partnerships',
-        features: ['Loan Against Mutual Funds (live mid-Nov)', 'Fixed Deposits (live mid-Nov)', 'Personal Loans (onboarding)'],
-        impact: 'Revenue'
-      },
-      {
         icon: '🏢',
         title: 'B2B SaaS',
         description: 'White-label platforms',
         features: ['For AMCs, brokers, fintechs', '₹50K-500K per client/month', 'High-margin revenue'],
-        impact: 'Revenue'
+        impact: 'Scale'
       }
     ]
   },
@@ -102,8 +95,8 @@ export const familyFriendsPitchSlides = [
     icon: DollarSign,
     revenueStreams: [
       { name: 'Advertising', percentage: 69, amount: '₹18.2M/mo', description: 'Display ads, CPM ₹160-900' },
+      { name: 'Lead Generation', percentage: 6, amount: '₹1.7M/mo', description: 'Partner commissions (LAMF, FDs, Loans) - ₹500-2000/conversion' },
       { name: 'Subscriptions', percentage: 19, amount: '₹5.1M/mo', description: 'Freemium: ₹99-999/mo' },
-      { name: 'Lead Generation', percentage: 6, amount: '₹1.7M/mo', description: 'Partner commissions (LAMF, FDs, Loans)' },
       { name: 'B2B SaaS', percentage: 6, amount: '₹1.5M/mo', description: 'White-label tools' }
     ],
     market: {
