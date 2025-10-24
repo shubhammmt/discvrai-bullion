@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from "@/components/ui/sonner";
 import Index from './pages/Index';
 import Dashboard from './pages/Dashboard';
@@ -88,14 +88,16 @@ import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
 
-function App() {
+const AppContent = () => {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const location = useLocation();
+  
+  // Hide footer on pitch deck pages
+  const isPitchPage = location.pathname.includes('-pitch');
 
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-        <Routes>
+    <>
+      <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/feed" element={<Feed />} />
@@ -185,8 +187,18 @@ function App() {
         />
         <ChatbotTrigger onClick={() => setIsChatbotOpen(true)} />
         
-        {/* Global Footer */}
-        <GlobalFooter />
+        {/* Global Footer - Hidden on pitch pages */}
+        {!isPitchPage && <GlobalFooter />}
+    </>
+  );
+};
+
+function App() {
+  return (
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <AppContent />
         </Router>
         <Toaster />
       </QueryClientProvider>
