@@ -1,0 +1,358 @@
+import React from 'react';
+import { TrendingUp, Target, Rocket, DollarSign, Trophy, Users, CheckCircle, Mail, ArrowRight } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+
+export default function FamilyFriendsOnePager() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Print Button */}
+      <div className="fixed top-4 right-4 print:hidden z-50">
+        <Button onClick={() => window.print()} variant="default">
+          Print / Save as PDF
+        </Button>
+      </div>
+
+      {/* One Pager Content */}
+      <div className="max-w-[1200px] mx-auto p-8 space-y-6 print:p-4">
+        
+        {/* Header */}
+        <div className="text-center border-b pb-6">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <TrendingUp className="w-12 h-12 text-primary" />
+            <h1 className="text-5xl font-bold">Discvr.ai</h1>
+          </div>
+          <p className="text-2xl font-semibold text-muted-foreground mb-1">AI-Powered Financial Product Distribution Platform</p>
+          <p className="text-lg text-muted-foreground">Making Professional Research Accessible to 200M+ Retail Investors</p>
+          <p className="text-sm text-muted-foreground mt-2">Family & Friends Round | October 2025</p>
+        </div>
+
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-2 gap-6">
+          
+          {/* Left Column */}
+          <div className="space-y-4">
+            
+            {/* Problem */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Target className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">The Problem</h2>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="font-semibold">For Users:</p>
+                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                      <li>Discovery ≠ Execution platforms</li>
+                      <li>User context lost in transition</li>
+                      <li>Fragmented experience</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold">For Providers:</p>
+                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                      <li>₹2000-5000/user CAC</li>
+                      <li>Expensive cold lead marketing</li>
+                      <li>No quality research tools</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Solution */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Rocket className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">Our Solution</h2>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div className="bg-muted/50 p-2 rounded">
+                    <p className="font-semibold">📰 Engagement Layer</p>
+                    <p className="text-muted-foreground">Daily news & insights</p>
+                  </div>
+                  <div className="bg-muted/50 p-2 rounded">
+                    <p className="font-semibold">🔬 B2C Distribution</p>
+                    <p className="text-muted-foreground">Discovery → execution</p>
+                  </div>
+                  <div className="bg-muted/50 p-2 rounded">
+                    <p className="font-semibold">🏢 B2B SaaS</p>
+                    <p className="text-muted-foreground">White-label tools</p>
+                  </div>
+                  <div className="bg-muted/50 p-2 rounded">
+                    <p className="font-semibold">🎮 Gamification</p>
+                    <p className="text-muted-foreground">Contests & retention</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Business Model */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <DollarSign className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">Revenue Streams</h2>
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span>Advertising (47%)</span>
+                    <span className="font-semibold">₹9.0M/mo</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Distribution (33%)</span>
+                    <span className="font-semibold">₹6.3M/mo</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Subscriptions (12%)</span>
+                    <span className="font-semibold">₹2.3M/mo</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>B2B SaaS (8%)</span>
+                    <span className="font-semibold">₹1.5M/mo</span>
+                  </div>
+                  <div className="border-t pt-2 mt-2">
+                    <p className="font-bold">FY27-28: ₹23 Cr Revenue | ₹8 Cr Profit</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Traction */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Trophy className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">Current Traction</h2>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="font-semibold">Product:</p>
+                    <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1">
+                      <li>News platform live with AI</li>
+                      <li>Stock research (beta, Oct 25)</li>
+                      <li>Contest platform (Live)</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Metrics:</p>
+                    <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1">
+                      <li>100K users for Nov (40K Oct)</li>
+                      <li>2 min avg session (organic)</li>
+                      <li>2 B2B discussions ongoing</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-4">
+            
+            {/* Financials */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">18-Month Projections</h2>
+                </div>
+                <div className="space-y-2">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-1">Month</th>
+                        <th className="text-right py-1">MAUs</th>
+                        <th className="text-right py-1">Revenue</th>
+                        <th className="text-right py-1">Profit</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-muted-foreground">
+                      <tr>
+                        <td className="py-1">M1</td>
+                        <td className="text-right">100K</td>
+                        <td className="text-right">₹1L</td>
+                        <td className="text-right text-red-600">-₹12L</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1">M6</td>
+                        <td className="text-right">260K</td>
+                        <td className="text-right">₹9L</td>
+                        <td className="text-right text-red-600">-₹18L</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1">M12</td>
+                        <td className="text-right">1.2M</td>
+                        <td className="text-right">₹30L</td>
+                        <td className="text-right text-red-600">-₹7L</td>
+                      </tr>
+                      <tr className="font-bold border-t">
+                        <td className="py-1">M24</td>
+                        <td className="text-right">3.5M</td>
+                        <td className="text-right">₹71L</td>
+                        <td className="text-right text-green-600">+₹14L</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="bg-muted/50 p-2 rounded text-xs space-y-1">
+                    <p className="font-semibold">Key Highlights:</p>
+                    <ul className="list-disc list-inside text-muted-foreground">
+                      <li>Break-even: Month 14</li>
+                      <li>Gross Margin: 30%+</li>
+                      <li>CAC: ₹0.94 blended</li>
+                      <li>LTV/CAC: 60-80x</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Team & GTM */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Users className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">Team & Strategy</h2>
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div>
+                    <p className="font-semibold">Current: 13 people</p>
+                    <p className="text-muted-foreground">3 devs, 3 writers, 1 SEO, 1 analyst, 1 PM, 1 BD</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">GTM: Organic-First</p>
+                    <ul className="list-disc list-inside text-muted-foreground">
+                      <li>180→410 articles/day (AI-assisted)</li>
+                      <li>77% organic traffic by M18</li>
+                      <li>Weekly contests for virality</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* The Ask */}
+            <Card className="border-2 border-primary">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">The Ask</h2>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <p className="text-2xl font-bold text-primary">₹2 Cr</p>
+                    <p className="text-xs text-muted-foreground">via Convertible Notes</p>
+                  </div>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Structure:</span>
+                      <span className="font-semibold">Convertible Note</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Discount:</span>
+                      <span className="font-semibold">25% to Series A</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Interest:</span>
+                      <span className="font-semibold">0%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Maturity:</span>
+                      <span className="font-semibold">24 months</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Minimum:</span>
+                      <span className="font-semibold">₹10 Lakhs</span>
+                    </div>
+                  </div>
+                  <div className="border-t pt-2">
+                    <p className="font-semibold mb-1">Potential Returns (₹10L investment):</p>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between">
+                        <span>Conservative:</span>
+                        <span className="font-bold text-green-600">₹1.33 Cr (13x)</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Base:</span>
+                        <span className="font-bold text-green-600">₹2.67 Cr (27x)</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Stretch:</span>
+                        <span className="font-bold text-green-600">₹4.44 Cr (44x)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Use of Funds */}
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-bold text-sm mb-2">Use of Funds</h3>
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span>Product Development</span>
+                    <span className="font-semibold">₹50L (25%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Content & SEO</span>
+                    <span className="font-semibold">₹50L (25%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Marketing & Growth</span>
+                    <span className="font-semibold">₹40L (20%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Team Expansion</span>
+                    <span className="font-semibold">₹30L (15%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Infrastructure</span>
+                    <span className="font-semibold">₹20L (10%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Legal & Compliance</span>
+                    <span className="font-semibold">₹10L (5%)</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+          </div>
+        </div>
+
+        {/* Footer */}
+        <Card className="bg-muted/50">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Mail className="w-4 h-4 text-primary" />
+                  <h3 className="font-bold">Contact</h3>
+                </div>
+                <div className="text-sm space-y-1">
+                  <p><strong>Shubham</strong></p>
+                  <p>shubham@discvr.ai | +91 9873961591</p>
+                  <p>www.discvr.ai</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold text-primary mb-1">
+                  Let's Democratize Financial Intelligence
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Help 100M+ people make better financial decisions
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+      </div>
+    </div>
+  );
+}
