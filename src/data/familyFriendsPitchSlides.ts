@@ -112,25 +112,25 @@ export const familyFriendsPitchSlides = [
     id: 5,
     type: 'traction-financials',
     title: 'Building Momentum',
-    subtitle: 'Break-even in 11 Months | 81% Profit Margin',
+    subtitle: 'Break-even in 14 Months | 30%+ Gross Margin',
     icon: Trophy,
     traction: {
       product: ['News platform live with AI', 'Stock research tool (beta) (launch in Oct25)', 'MF comparison (beta) (Live for India, US end Nov25)', 'Contest platform (Live)'],
-      partnerships: ['Loan Against Mutual Funds (live mid-Nov)', 'Fixed Deposits (live mid-Nov)', 'Personal Loans (onboarding)'],
-      metrics: ['50K Monthly Active Users', '30% user retention (D7/D30)', '2 min avg session time', '2 B2B pilots in progress']
+      partnerships: ['2 Partnerships closed: MF-LAF & FD', 'Personal Loans (onboarding)'],
+      metrics: ['100K users for Nov (40K Oct, 11K Sept)', 'Organic user engagement: 2 min avg session', '2 B2B discussions for SaaS ongoing']
     },
     financials: {
       projections: [
         { month: 'M1', maus: '100K', revenue: '₹100K', profit: '-₹1.2M' },
-        { month: 'M6', maus: '209K', revenue: '₹1.3M', profit: '-₹584K' },
-        { month: 'M12', maus: '798K', revenue: '₹6.3M', profit: '+₹3.1M' },
-        { month: 'M18', maus: '2.86M', revenue: '₹26.5M', profit: '+₹21.5M' }
+        { month: 'M6', maus: '260K', revenue: '₹9.23L', profit: '-₹18L' },
+        { month: 'M12', maus: '1.2M', revenue: '₹30L', profit: '-₹7.36L' },
+        { month: 'M24', maus: '3.5M', revenue: '₹71.35L', profit: '+₹14L' }
       ],
       highlights: [
-        'Break-even: Month 11',
-        'Profit Margin (M18): 81%',
-        'LTV:CAC Ratio: 95:1',
-        'Gross Margin: 85%+'
+        'Break-even: Month 14',
+        'Gross Margin: 30%+',
+        'Strong organic growth trajectory',
+        'Multiple revenue streams de-risk'
       ]
     },
     unitEconomics: {
