@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from "@/components/ui/sonner";
 import Index from './pages/Index';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Feed from './pages/Feed';
 import FeedV2 from './pages/FeedV2';
@@ -99,8 +100,9 @@ const AppContent = () => {
   return (
     <>
       <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Index />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/feed-v2" element={<FeedV2 />} />
           <Route path="/feed-v3" element={<FeedV3 />} />
