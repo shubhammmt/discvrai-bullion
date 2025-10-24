@@ -16,34 +16,34 @@ export const familyFriendsPitchSlides = [
   {
     id: 2,
     type: 'problem-opportunity',
-    title: 'The Financial Literacy Gap is Massive',
-    subtitle: '$50B+ Market Opportunity',
+    title: 'The Financial Product Distribution Problem',
+    subtitle: 'Fragmented Silos & Expensive User Acquisition',
     icon: Target,
     problem: {
       investors: {
-        title: 'Retail Investors',
+        title: 'For Users: Broken Experience',
         stats: [
-          '150M+ demat accounts in India',
-          '58M+ brokerage accounts in US',
-          '95% lack access to quality research',
-          'Information overload: 1000+ articles daily'
+          'Discovery platforms (research/news) ≠ Execution platforms (brokers)',
+          'Fragmented journey: research on one app, execute on another',
+          'User data & context lost in transition',
+          'No single platform for discovery → research → execution'
         ]
       },
       currentSolutions: {
-        title: 'Current Solutions',
+        title: 'For Providers: Expensive CAC',
         stats: [
-          'Professional research: $500-5000/month',
-          'Only available to institutions',
-          'Generic, not personalized',
-          'Difficult to find actionable insights'
+          'Financial service providers spend ₹2000-5000/user to convert',
+          'Heavy marketing spend on cold leads',
+          'No quality research tools for their own platforms',
+          'Depend on expensive third-party APIs'
         ]
       }
     },
     opportunity: {
-      marketSize: '$50B+ global market',
-      growth: '25% CAGR in retail participation',
-      enabler: 'AI makes professional research affordable',
-      model: 'Content-first engagement model'
+      marketSize: '$50B+ financial distribution market',
+      growth: '200M+ investors (India + US) seeking unified platforms',
+      enabler: 'AI enables seamless discovery-to-execution with intact user context',
+      model: 'Dual revenue: Distribution platform + B2B SaaS'
     }
   },
 
@@ -51,37 +51,37 @@ export const familyFriendsPitchSlides = [
   {
     id: 3,
     type: 'solution-pillars',
-    title: 'AI-Native Financial Intelligence Platform',
-    subtitle: 'Four Integrated Revenue Streams',
+    title: 'We Solve Both Sides: Distribution Platform + B2B SaaS',
+    subtitle: 'The Middleman Connecting Users & Financial Service Providers',
     icon: Rocket,
     pillars: [
       {
         icon: '📰',
-        title: 'Daily Financial News',
-        description: 'Bite-sized updates from 100+ sources',
-        features: ['AI-summarized and personalized', 'Web, app, WhatsApp delivery', 'Creates daily habit'],
-        impact: 'Engagement'
+        title: 'Engagement Layer',
+        description: 'Daily financial news & insights',
+        features: ['AI-summarized from 100+ sources', 'Personalized to user profile', 'Creates daily habit & trust'],
+        impact: 'Sticky Users'
       },
       {
         icon: '🔬',
-        title: 'AI-Powered Distribution',
-        description: 'Research-backed financial product recommendations',
-        features: ['Stock/MF analysis & screening', 'Vetted product distribution (LAMF, FDs, Loans)', 'IPO & crypto insights'],
-        impact: 'Revenue'
-      },
-      {
-        icon: '🎮',
-        title: 'Gamification',
-        description: 'Investment contests & predictions',
-        features: ['Weekly competitions', 'Leaderboards & rewards', 'Community engagement'],
-        impact: 'Retention'
+        title: 'B2C Distribution Platform',
+        description: 'Seamless discovery → research → execution',
+        features: ['AI-powered product recommendations (LAMF, FDs, Loans, MF)', 'User data & context intact throughout', 'Full-stack execution OR lead-gen to providers'],
+        impact: 'Commission Revenue'
       },
       {
         icon: '🏢',
-        title: 'B2B SaaS',
-        description: 'White-label platforms',
-        features: ['For AMCs, brokers, fintechs', '₹50K-500K per client/month', 'High-margin revenue'],
-        impact: 'Scale'
+        title: 'B2B SaaS Platform',
+        description: 'White-label research tools for providers',
+        features: ['APIs for AMCs, brokers, fintechs to use our AI research', 'Plug into their digital platforms', '₹50K-500K per client/month'],
+        impact: 'Recurring SaaS Revenue'
+      },
+      {
+        icon: '🎮',
+        title: 'Gamification & Retention',
+        description: 'Investment contests & predictions',
+        features: ['Weekly competitions', 'Leaderboards & rewards', 'Viral community engagement'],
+        impact: 'Retention & Virality'
       }
     ]
   },
