@@ -3,25 +3,31 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { ExternalLink, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { ByteNews } from '@/types/news';
+import { ByteNews, ProductFeature } from '@/types/news';
 import { Poll, Quiz } from '@/types/engagement';
 import { QuickPollWidget } from '@/components/engagement/QuickPollWidget';
 import { QuizCard } from '@/components/engagement/QuizCard';
+import { ProductFeatureCard } from './ProductFeatureCard';
 
 interface EnhancedByteNewsCardProps {
   news?: ByteNews;
   poll?: Poll;
   quiz?: Quiz;
-  type: 'news' | 'poll' | 'quiz';
+  productFeature?: ProductFeature;
+  type: 'news' | 'poll' | 'quiz' | 'product-feature';
 }
 
-export const EnhancedByteNewsCard = ({ news, poll, quiz, type }: EnhancedByteNewsCardProps) => {
+export const EnhancedByteNewsCard = ({ news, poll, quiz, productFeature, type }: EnhancedByteNewsCardProps) => {
   if (type === 'poll' && poll) {
     return <QuickPollWidget poll={poll} compact />;
   }
 
   if (type === 'quiz' && quiz) {
     return <QuizCard quiz={quiz} compact />;
+  }
+
+  if (type === 'product-feature' && productFeature) {
+    return <ProductFeatureCard feature={productFeature} />;
   }
 
   if (type === 'news' && news) {

@@ -49,6 +49,19 @@ export interface ByteNews {
   relatedArticle?: string;
 }
 
+export interface ProductFeature {
+  id: string;
+  title: string;
+  description: string;
+  benefit: string;
+  icon: string;
+  ctaText: string;
+  route: string;
+  gradient: string;
+  statLabel?: string;
+  statValue?: string;
+}
+
 export interface NewsCategory {
   slug: string;
   name: string;
