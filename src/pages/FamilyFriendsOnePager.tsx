@@ -135,7 +135,9 @@ export default function FamilyFriendsOnePager() {
                     <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1">
                       <li>News platform live with AI</li>
                       <li>Stock research (beta, Oct 25)</li>
+                      <li>Crypto hub (Live, Oct 25)</li>
                       <li>Contest platform (Live)</li>
+                      <li>FD & Loan against MF launched (partnerships closed)</li>
                     </ul>
                   </div>
                   <div>
@@ -221,8 +223,8 @@ export default function FamilyFriendsOnePager() {
                 </div>
                 <div className="space-y-2 text-xs">
                   <div>
-                    <p className="font-semibold">Current: 13 people</p>
-                    <p className="text-muted-foreground">3 devs, 3 writers, 1 SEO, 1 analyst, 1 PM, 1 BD</p>
+                    <p className="font-semibold">Current: 12 people</p>
+                    <p className="text-muted-foreground">3 devs, 2 dev-interns, 3 writers, 1 SEO, 1 analyst, 1 BD, 1 video</p>
                   </div>
                   <div>
                     <p className="font-semibold">GTM: Organic-First</p>
@@ -245,30 +247,8 @@ export default function FamilyFriendsOnePager() {
                 </div>
                 <div className="space-y-3 text-sm">
                   <div className="bg-primary/10 p-3 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">$250K - $500K</p>
-                    <p className="text-xs text-muted-foreground">as part of $2M Pre-Seed Round</p>
-                  </div>
-                  <div className="space-y-1 text-xs">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Total Round:</span>
-                      <span className="font-semibold">$2M Pre-Seed</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Structure:</span>
-                      <span className="font-semibold">SAFE / Convertible</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Valuation Cap:</span>
-                      <span className="font-semibold">$10M - $12M</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Discount:</span>
-                      <span className="font-semibold">20% to Series A</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Use:</span>
-                      <span className="font-semibold">18-month runway</span>
-                    </div>
+                    <p className="text-2xl font-bold text-primary">$250K - $500K USD</p>
+                    <p className="text-xs text-muted-foreground">Pre-Seed Round</p>
                   </div>
                   <div className="border-t pt-2">
                     <p className="font-semibold mb-1">Why Distribution Platform Wins:</p>
@@ -290,27 +270,27 @@ export default function FamilyFriendsOnePager() {
                 <div className="space-y-1 text-xs">
                   <div className="flex justify-between">
                     <span>Product Development</span>
-                    <span className="font-semibold">₹50L (25%)</span>
+                    <span className="font-semibold">25%</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Content & SEO</span>
-                    <span className="font-semibold">₹50L (25%)</span>
+                    <span className="font-semibold">25%</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Marketing & Growth</span>
-                    <span className="font-semibold">₹40L (20%)</span>
+                    <span className="font-semibold">20%</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Team Expansion</span>
-                    <span className="font-semibold">₹30L (15%)</span>
+                    <span className="font-semibold">15%</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Infrastructure</span>
-                    <span className="font-semibold">₹20L (10%)</span>
+                    <span className="font-semibold">10%</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Legal & Compliance</span>
-                    <span className="font-semibold">₹10L (5%)</span>
+                    <span className="font-semibold">5%</span>
                   </div>
                 </div>
               </CardContent>
@@ -318,33 +298,6 @@ export default function FamilyFriendsOnePager() {
 
           </div>
         </div>
-
-        {/* Footer */}
-        <Card className="bg-muted/50">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Mail className="w-4 h-4 text-primary" />
-                  <h3 className="font-bold">Contact</h3>
-                </div>
-                <div className="text-sm space-y-1">
-                  <p><strong>Shubham</strong></p>
-                  <p>shubham@discvr.ai | +91 9873961591</p>
-                  <p>www.discvr.ai</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-2xl font-bold text-primary mb-1">
-                  Building the Rails for Financial Product Distribution
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Own discovery, capture context, power distribution
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
       </div>
     </div>
