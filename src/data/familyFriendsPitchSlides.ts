@@ -52,7 +52,7 @@ export const familyFriendsPitchSlides = [
     id: 3,
     type: 'solution-pillars',
     title: 'AI-Native Financial Intelligence Platform',
-    subtitle: 'Four Integrated Revenue Streams',
+    subtitle: 'Five Integrated Revenue Streams',
     icon: Rocket,
     pillars: [
       {
@@ -88,7 +88,7 @@ export const familyFriendsPitchSlides = [
         title: 'B2B SaaS',
         description: 'White-label platforms',
         features: ['For AMCs, brokers, fintechs', '₹50K-500K per client/month', 'High-margin revenue'],
-        impact: 'Quality'
+        impact: 'Revenue'
       }
     ]
   },
