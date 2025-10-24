@@ -6,7 +6,7 @@ export const familyFriendsPitchSlides = [
     id: 1,
     type: 'title',
     title: 'Discvr.ai',
-    subtitle: 'AI-Powered Financial Intelligence for Everyone',
+    subtitle: 'AI-Powered Financial Product Distribution Platform',
     tagline: 'Making Professional Research Accessible to 200M+ Retail Investors',
     author: 'Family & Friends Round | October 2025',
     icon: TrendingUp
