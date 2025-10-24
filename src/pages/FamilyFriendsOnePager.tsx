@@ -22,9 +22,9 @@ export default function FamilyFriendsOnePager() {
             <TrendingUp className="w-12 h-12 text-primary" />
             <h1 className="text-5xl font-bold">Discvr.ai</h1>
           </div>
-          <p className="text-2xl font-semibold text-muted-foreground mb-1">AI-Powered Financial Product Distribution Platform</p>
-          <p className="text-lg text-muted-foreground">Making Professional Research Accessible to 200M+ Retail Investors</p>
-          <p className="text-sm text-muted-foreground mt-2">Family & Friends Round | October 2025</p>
+          <p className="text-2xl font-semibold text-muted-foreground mb-1">The Distribution Platform for Financial Products</p>
+          <p className="text-lg text-muted-foreground">Solving the Discovery-to-Execution Gap for 200M+ Retail Investors</p>
+          <p className="text-sm text-muted-foreground mt-2">Pre-Seed Round | Eximus Ventures | October 2025</p>
         </div>
 
         {/* Two Column Layout */}
@@ -38,24 +38,21 @@ export default function FamilyFriendsOnePager() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Target className="w-5 h-5 text-primary" />
-                  <h2 className="text-xl font-bold">The Problem</h2>
+                  <h2 className="text-xl font-bold">The Distribution Problem</h2>
                 </div>
-                <div className="space-y-2 text-sm">
-                  <div>
-                    <p className="font-semibold">For Users:</p>
-                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                      <li>Discovery ≠ Execution platforms</li>
-                      <li>User context lost in transition</li>
-                      <li>Fragmented experience</li>
+                <div className="space-y-3 text-sm">
+                  <div className="bg-red-50 dark:bg-red-950/20 p-3 rounded">
+                    <p className="font-semibold text-red-900 dark:text-red-100 mb-2">Financial products fail at distribution, not innovation</p>
+                    <ul className="list-disc list-inside text-red-800 dark:text-red-200 space-y-1 text-xs">
+                      <li>Discovery happens on social/news platforms</li>
+                      <li>Execution on separate broker/MF platforms</li>
+                      <li>Context & intent lost in transition</li>
+                      <li>Product providers pay ₹2000-5000 CAC for cold leads</li>
                     </ul>
                   </div>
                   <div>
-                    <p className="font-semibold">For Providers:</p>
-                    <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                      <li>₹2000-5000/user CAC</li>
-                      <li>Expensive cold lead marketing</li>
-                      <li>No quality research tools</li>
-                    </ul>
+                    <p className="font-semibold">Market Gap:</p>
+                    <p className="text-muted-foreground text-xs">No platform bridges content consumption → product distribution with user context intact</p>
                   </div>
                 </div>
               </CardContent>
@@ -66,24 +63,29 @@ export default function FamilyFriendsOnePager() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Rocket className="w-5 h-5 text-primary" />
-                  <h2 className="text-xl font-bold">Our Solution</h2>
+                  <h2 className="text-xl font-bold">The Distribution Platform</h2>
                 </div>
-                <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="bg-muted/50 p-2 rounded">
-                    <p className="font-semibold">📰 Engagement Layer</p>
-                    <p className="text-muted-foreground">Daily news & insights</p>
+                <div className="space-y-3">
+                  <div className="bg-green-50 dark:bg-green-950/20 p-3 rounded">
+                    <p className="font-semibold text-green-900 dark:text-green-100 text-sm mb-2">We own the discovery → execution journey</p>
                   </div>
-                  <div className="bg-muted/50 p-2 rounded">
-                    <p className="font-semibold">🔬 B2C Distribution</p>
-                    <p className="text-muted-foreground">Discovery → execution</p>
-                  </div>
-                  <div className="bg-muted/50 p-2 rounded">
-                    <p className="font-semibold">🏢 B2B SaaS</p>
-                    <p className="text-muted-foreground">White-label tools</p>
-                  </div>
-                  <div className="bg-muted/50 p-2 rounded">
-                    <p className="font-semibold">🎮 Gamification</p>
-                    <p className="text-muted-foreground">Contests & retention</p>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold">1️⃣ Content Moat</p>
+                      <p className="text-muted-foreground">Daily news, AI research</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold">2️⃣ Context Engine</p>
+                      <p className="text-muted-foreground">User intent capture</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold">3️⃣ Distribution Rails</p>
+                      <p className="text-muted-foreground">Multi-product execution</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold">4️⃣ B2B Licensing</p>
+                      <p className="text-muted-foreground">White-label platform</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -239,50 +241,42 @@ export default function FamilyFriendsOnePager() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <CheckCircle className="w-5 h-5 text-primary" />
-                  <h2 className="text-xl font-bold">The Ask</h2>
+                  <h2 className="text-xl font-bold">The Ask - Eximus Ventures</h2>
                 </div>
                 <div className="space-y-3 text-sm">
                   <div className="bg-primary/10 p-3 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">₹2 Cr</p>
-                    <p className="text-xs text-muted-foreground">via Convertible Notes</p>
+                    <p className="text-2xl font-bold text-primary">$250K - $500K</p>
+                    <p className="text-xs text-muted-foreground">as part of $2M Pre-Seed Round</p>
                   </div>
                   <div className="space-y-1 text-xs">
                     <div className="flex justify-between">
+                      <span className="text-muted-foreground">Total Round:</span>
+                      <span className="font-semibold">$2M Pre-Seed</span>
+                    </div>
+                    <div className="flex justify-between">
                       <span className="text-muted-foreground">Structure:</span>
-                      <span className="font-semibold">Convertible Note</span>
+                      <span className="font-semibold">SAFE / Convertible</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Valuation Cap:</span>
+                      <span className="font-semibold">$10M - $12M</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Discount:</span>
-                      <span className="font-semibold">25% to Series A</span>
+                      <span className="font-semibold">20% to Series A</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Interest:</span>
-                      <span className="font-semibold">0%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Maturity:</span>
-                      <span className="font-semibold">24 months</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Minimum:</span>
-                      <span className="font-semibold">₹10 Lakhs</span>
+                      <span className="text-muted-foreground">Use:</span>
+                      <span className="font-semibold">18-month runway</span>
                     </div>
                   </div>
                   <div className="border-t pt-2">
-                    <p className="font-semibold mb-1">Potential Returns (₹10L investment):</p>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span>Conservative:</span>
-                        <span className="font-bold text-green-600">₹1.33 Cr (13x)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Base:</span>
-                        <span className="font-bold text-green-600">₹2.67 Cr (27x)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Stretch:</span>
-                        <span className="font-bold text-green-600">₹4.44 Cr (44x)</span>
-                      </div>
+                    <p className="font-semibold mb-1">Why Distribution Platform Wins:</p>
+                    <div className="space-y-1 text-xs text-muted-foreground">
+                      <div>✓ Multi-sided revenue (Users + Providers)</div>
+                      <div>✓ Network effects from day 1</div>
+                      <div>✓ Product-agnostic scalability</div>
+                      <div>✓ Clear path to B2B SaaS</div>
                     </div>
                   </div>
                 </div>
@@ -342,10 +336,10 @@ export default function FamilyFriendsOnePager() {
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold text-primary mb-1">
-                  Let's Democratize Financial Intelligence
+                  Building the Rails for Financial Product Distribution
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Help 100M+ people make better financial decisions
+                  Own discovery, capture context, power distribution
                 </p>
               </div>
             </div>
