@@ -91,13 +91,13 @@ export const familyFriendsPitchSlides = [
     id: 4,
     type: 'business-market',
     title: 'Multiple Revenue Streams = Lower Risk',
-    subtitle: '₹318M ARR by Month 18',
+    subtitle: 'FY27-28: ₹23 Cr Revenue | ₹8 Cr Profit',
     icon: DollarSign,
     revenueStreams: [
-      { name: 'Advertising', percentage: 69, amount: '₹18.2M/mo', description: 'Display ads, CPM ₹160-900' },
-      { name: 'Lead Generation', percentage: 6, amount: '₹1.7M/mo', description: 'Partner commissions (LAMF, FDs, Loans) - ₹500-2000/conversion' },
-      { name: 'Subscriptions', percentage: 19, amount: '₹5.1M/mo', description: 'Freemium: ₹99-999/mo' },
-      { name: 'B2B SaaS', percentage: 6, amount: '₹1.5M/mo', description: 'White-label tools' }
+      { name: 'Advertising', percentage: 47, amount: '₹9.0M/mo', description: 'Display ads, CPM ₹160-900' },
+      { name: 'Distribution', percentage: 33, amount: '₹6.3M/mo', description: 'Partner commissions (LAMF, FDs, Loans, MF) - ₹500-2000/conversion' },
+      { name: 'Subscriptions', percentage: 12, amount: '₹2.3M/mo', description: 'Freemium: ₹99-999/mo' },
+      { name: 'B2B SaaS', percentage: 8, amount: '₹1.5M/mo', description: 'White-label research tools' }
     ],
     market: {
       tam: '$50B global financial data & analytics',
