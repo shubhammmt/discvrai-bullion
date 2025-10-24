@@ -24,7 +24,7 @@ export default function FamilyFriendsOnePager() {
           </div>
           <p className="text-2xl font-semibold text-muted-foreground mb-1">The Distribution Platform for Financial Products</p>
           <p className="text-lg text-muted-foreground">Solving the Discovery-to-Execution Gap for 200M+ Retail Investors</p>
-          <p className="text-sm text-muted-foreground mt-2">Pre-Seed Round | Eximus Ventures | October 2025</p>
+          <p className="text-sm text-muted-foreground mt-2">Pre-Seed Round | October 2025</p>
         </div>
 
         {/* Two Column Layout */}
