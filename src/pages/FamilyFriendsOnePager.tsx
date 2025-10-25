@@ -243,21 +243,37 @@ export default function FamilyFriendsOnePager() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <CheckCircle className="w-5 h-5 text-primary" />
-                  <h2 className="text-xl font-bold">The Ask</h2>
+                  <h2 className="text-xl font-bold">Friends & Family Round</h2>
                 </div>
                 <div className="space-y-3 text-sm">
                   <div className="bg-primary/10 p-3 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">$250K - $500K USD</p>
-                    <p className="text-xs text-muted-foreground">Pre-Seed Round</p>
+                    <p className="text-2xl font-bold text-primary">₹2 Cr ($250K)</p>
+                    <p className="text-xs text-muted-foreground">Convertible Note Structure</p>
                   </div>
-                  <div className="border-t pt-2">
-                    <p className="font-semibold mb-1">Why Distribution Platform Wins:</p>
-                    <div className="space-y-1 text-xs text-muted-foreground">
-                      <div>✓ Multi-sided revenue (Users + Providers)</div>
-                      <div>✓ Network effects from day 1</div>
-                      <div>✓ Product-agnostic scalability</div>
-                      <div>✓ Clear path to B2B SaaS</div>
+                  
+                  <div className="bg-green-50 dark:bg-green-950/20 p-3 rounded-lg space-y-2">
+                    <p className="font-bold text-green-900 dark:text-green-100">Convertible Note Terms</p>
+                    <div className="text-xs space-y-1 text-green-800 dark:text-green-200">
+                      <div>✓ <span className="font-semibold">25% discount</span> on next fundraise valuation</div>
+                      <div>✓ Converts to equity at Series A pricing</div>
+                      <div>✓ <span className="font-semibold">Min: ₹10L</span> | <span className="font-semibold">Max: ₹50L</span> per investor</div>
+                      <div>✓ 18-month maturity with auto-conversion</div>
                     </div>
+                  </div>
+                  
+                  <div className="border-t pt-2">
+                    <p className="font-semibold mb-1 text-xs">Why This Makes Sense:</p>
+                    <div className="space-y-1 text-xs text-muted-foreground">
+                      <div>• Lower risk with proven MVP & traction</div>
+                      <div>• Significant upside via 25% discount</div>
+                      <div>• Runway to profitability in 14 months</div>
+                      <div>• Clear path to institutional funding</div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-muted/50 p-2 rounded text-xs">
+                    <p className="font-semibold mb-1">Example Returns:</p>
+                    <p className="text-muted-foreground">₹10L investment → ~8-12% ownership if Series A at ₹10-15 Cr valuation (with 25% discount)</p>
                   </div>
                 </div>
               </CardContent>
