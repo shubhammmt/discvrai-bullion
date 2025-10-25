@@ -247,33 +247,53 @@ export default function FamilyFriendsOnePager() {
                 </div>
                 <div className="space-y-3 text-sm">
                   <div className="bg-primary/10 p-3 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">₹2 Cr ($250K)</p>
+                    <p className="text-2xl font-bold text-primary">₹2 Cr</p>
                     <p className="text-xs text-muted-foreground">Convertible Note Structure</p>
                   </div>
                   
-                  <div className="bg-green-50 dark:bg-green-950/20 p-3 rounded-lg space-y-2">
-                    <p className="font-bold text-green-900 dark:text-green-100">Convertible Note Terms</p>
-                    <div className="text-xs space-y-1 text-green-800 dark:text-green-200">
-                      <div>✓ <span className="font-semibold">25% discount</span> on next fundraise valuation</div>
-                      <div>✓ Converts to equity at Series A pricing</div>
-                      <div>✓ <span className="font-semibold">Min: ₹10L</span> | <span className="font-semibold">Max: ₹50L</span> per investor</div>
-                      <div>✓ 18-month maturity with auto-conversion</div>
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold mb-1">Structure</p>
+                      <p className="text-muted-foreground">Convertible Notes (converts at Series A)</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold mb-1">Discount Rate</p>
+                      <p className="text-green-600 dark:text-green-400 font-bold">25% discount to Series A valuation</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold mb-1">Interest Rate</p>
+                      <p className="text-muted-foreground">0% (standard for F&F)</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold mb-1">Maturity</p>
+                      <p className="text-muted-foreground">24 months or upon Series A</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold mb-1">Minimum Check</p>
+                      <p className="text-muted-foreground font-bold">₹10 Lakhs</p>
+                    </div>
+                    <div className="bg-muted/50 p-2 rounded">
+                      <p className="font-semibold mb-1">Target Close</p>
+                      <p className="text-muted-foreground">October 2025</p>
                     </div>
                   </div>
                   
-                  <div className="border-t pt-2">
-                    <p className="font-semibold mb-1 text-xs">Why This Makes Sense:</p>
-                    <div className="space-y-1 text-xs text-muted-foreground">
-                      <div>• Lower risk with proven MVP & traction</div>
-                      <div>• Significant upside via 25% discount</div>
-                      <div>• Runway to profitability in 14 months</div>
-                      <div>• Clear path to institutional funding</div>
-                    </div>
+                  <div className="bg-blue-50 dark:bg-blue-950/20 p-2 rounded text-xs">
+                    <p className="font-semibold text-blue-900 dark:text-blue-100 mb-1">What is a Convertible Note?</p>
+                    <p className="text-blue-800 dark:text-blue-200 text-xs">Your investment converts to equity at our next "Qualified Financing" (raise of ₹2 Cr+ from institutional investors) at a 25% discount. This rewards you for investing early without needing to set a valuation now.</p>
                   </div>
                   
-                  <div className="bg-muted/50 p-2 rounded text-xs">
-                    <p className="font-semibold mb-1">Example Returns:</p>
-                    <p className="text-muted-foreground">₹10L investment → ~8-12% ownership if Series A at ₹10-15 Cr valuation (with 25% discount)</p>
+                  <div className="bg-green-50 dark:bg-green-950/20 p-2 rounded">
+                    <p className="font-semibold text-green-900 dark:text-green-100 mb-1 text-xs">What You Get</p>
+                    <div className="text-xs space-y-0.5 text-green-800 dark:text-green-200">
+                      <div>✓ 25% discount to Series A valuation (bonus for early investment)</div>
+                      <div>✓ Quarterly investor updates</div>
+                      <div>✓ Pro-rata rights in Series A (optional participation)</div>
+                      <div>✓ Priority conversion rights</div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
