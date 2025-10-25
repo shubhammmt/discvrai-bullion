@@ -272,8 +272,8 @@ export default function FamilyFriendsOnePager() {
                       <p className="text-muted-foreground">24 months or upon Series A</p>
                     </div>
                     <div className="bg-muted/50 p-2 rounded">
-                      <p className="font-semibold mb-1">Minimum Check</p>
-                      <p className="text-muted-foreground font-bold">₹10 Lakhs</p>
+                      <p className="font-semibold mb-1">Investment Range</p>
+                      <p className="text-muted-foreground font-bold">₹10L - ₹50L</p>
                     </div>
                     <div className="bg-muted/50 p-2 rounded">
                       <p className="font-semibold mb-1">Target Close</p>
@@ -293,6 +293,16 @@ export default function FamilyFriendsOnePager() {
                       <div>✓ Quarterly investor updates</div>
                       <div>✓ Pro-rata rights in Series A (optional participation)</div>
                       <div>✓ Priority conversion rights</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 dark:bg-amber-950/20 p-2 rounded">
+                    <p className="font-semibold text-amber-900 dark:text-amber-100 mb-1 text-xs">What Happens at Maturity (24 months)?</p>
+                    <p className="text-xs text-amber-800 dark:text-amber-200 mb-1">If Series A doesn't happen:</p>
+                    <div className="text-xs space-y-0.5 text-amber-800 dark:text-amber-200">
+                      <div>• <span className="font-semibold">Option 1:</span> Convert at ₹25-50 Cr valuation (fair market value)</div>
+                      <div>• <span className="font-semibold">Option 2:</span> Company buyback at 2x-3x fair valuation</div>
+                      <div>• <span className="font-semibold">Note:</span> We break-even at M14, so not dependent on Series A</div>
                     </div>
                   </div>
                 </div>
