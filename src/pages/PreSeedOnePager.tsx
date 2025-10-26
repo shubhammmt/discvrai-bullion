@@ -275,27 +275,32 @@ const PreSeedOnePager = () => {
             <Card>
               <CardContent className="pt-4">
                 <h2 className="text-lg font-bold mb-3 text-primary">Use of Funds</h2>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between p-2 bg-muted rounded">
-                    <span>Engineering & Product</span>
-                    <span className="font-bold">40%</span>
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span>Product Development</span>
+                    <span className="font-semibold">25%</span>
                   </div>
-                  <div className="flex justify-between p-2 bg-muted rounded">
+                  <div className="flex justify-between">
+                    <span>Content & SEO</span>
+                    <span className="font-semibold">25%</span>
+                  </div>
+                  <div className="flex justify-between">
                     <span>Marketing & Growth</span>
-                    <span className="font-bold">30%</span>
+                    <span className="font-semibold">20%</span>
                   </div>
-                  <div className="flex justify-between p-2 bg-muted rounded">
-                    <span>Compliance & Licensing</span>
-                    <span className="font-bold">15%</span>
+                  <div className="flex justify-between">
+                    <span>Team Expansion</span>
+                    <span className="font-semibold">15%</span>
                   </div>
-                  <div className="flex justify-between p-2 bg-muted rounded">
-                    <span>Operations & Infrastructure</span>
-                    <span className="font-bold">15%</span>
+                  <div className="flex justify-between">
+                    <span>Infrastructure</span>
+                    <span className="font-semibold">10%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Legal & Compliance</span>
+                    <span className="font-semibold">5%</span>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  18-month runway to profitability with capital efficiency as core principle.
-                </p>
               </CardContent>
             </Card>
           </div>
