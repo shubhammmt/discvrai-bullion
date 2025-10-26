@@ -64,6 +64,7 @@ import ContestSponsorshipPitch from './pages/ContestSponsorshipPitch';
 import NewsFirstPitch from './pages/NewsFirstPitch';
 import FamilyFriendsPitch from './pages/FamilyFriendsPitch';
 import FamilyFriendsOnePager from './pages/FamilyFriendsOnePager';
+import PreSeedOnePager from './pages/PreSeedOnePager';
 import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import Chatbot from './pages/Chatbot';
 import CryptoHub from './pages/CryptoHub';
@@ -168,6 +169,7 @@ const AppContent = () => {
           <Route path="/news-first-pitch" element={<NewsFirstPitch />} />
           <Route path="/family-friends-pitch" element={<FamilyFriendsPitch />} />
           <Route path="/family-friends-1pager" element={<FamilyFriendsOnePager />} />
+          <Route path="/preseed-1pager" element={<PreSeedOnePager />} />
           <Route path="/b2b-preipo-pitch" element={<B2BPreIPOPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/crypto" element={<CryptoHub />} />
