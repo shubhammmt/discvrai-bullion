@@ -122,6 +122,43 @@ export default function FamilyFriendsOnePager() {
               </CardContent>
             </Card>
 
+            {/* Founder's Distribution DNA */}
+            <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Rocket className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">Founder's Distribution DNA</h2>
+                </div>
+                <p className="text-sm font-semibold mb-2">Shubham Chaudhary - Built to Solve Distribution at Scale</p>
+                
+                <div className="space-y-3">
+                  <div className="border-l-2 border-primary pl-3">
+                    <p className="font-semibold text-sm">HT Digital - CTO (2019-2022)</p>
+                    <p className="text-xs text-muted-foreground mb-1.5">Scaled from a few million to <span className="font-semibold">100M+ users/month</span> while transforming to profitability</p>
+                    <ul className="text-xs space-y-0.5 text-muted-foreground list-disc pl-4">
+                      <li>Built real-time publication infrastructure scaling from 10s to 100s of publishers with ML from day 1</li>
+                      <li>Optimized content distribution across Google, social channels & syndicators with perfect technical SEO</li>
+                      <li>Balanced advertising revenue with page experience (conflicting goals) and scaled both simultaneously</li>
+                    </ul>
+                  </div>
+
+                  <div className="border-l-2 border-primary pl-3">
+                    <p className="font-semibold text-sm">MakeMyTrip Hotels - Engineering Lead (2011-2015)</p>
+                    <p className="text-xs text-muted-foreground mb-1.5">Built Hotels' core engineering & product architecture</p>
+                    <ul className="text-xs space-y-0.5 text-muted-foreground list-disc pl-4">
+                      <li>Designed new-age tech platform handling millions of real-time transactions</li>
+                      <li>Built dynamic ML-based e-commerce transaction layer at scale</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-primary/20 p-2 rounded mt-2">
+                    <p className="text-xs font-semibold text-primary">Why This Matters:</p>
+                    <p className="text-xs">Solved large-scale distribution twice. Building India's biggest financial services distributor requires exactly this DNA.</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Traction */}
             <Card>
               <CardContent className="p-4">
