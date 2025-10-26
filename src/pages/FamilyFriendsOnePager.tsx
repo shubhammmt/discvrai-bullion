@@ -129,7 +129,7 @@ export default function FamilyFriendsOnePager() {
                   <Rocket className="w-5 h-5 text-primary" />
                   <h2 className="text-xl font-bold">Founder's Distribution DNA</h2>
                 </div>
-                <p className="text-sm font-semibold mb-2">Shubham Chaudhary - Built to Solve Distribution at Scale</p>
+                <p className="text-sm font-semibold mb-2">Shubham Srivastava - Built to Solve Distribution at Scale</p>
                 
                 <div className="space-y-3">
                   <div className="border-l-2 border-primary pl-3">

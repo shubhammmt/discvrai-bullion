@@ -82,7 +82,7 @@ const PreSeedOnePager = () => {
             <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
               <CardContent className="pt-4">
                 <h2 className="text-lg font-bold mb-3 text-primary">Founder's Distribution DNA</h2>
-                <p className="text-sm font-semibold mb-2">Shubham Chaudhary - Built to Solve Distribution at Scale</p>
+                <p className="text-sm font-semibold mb-2">Shubham Srivastava - Built to Solve Distribution at Scale</p>
                 
                 <div className="space-y-3">
                   <div className="border-l-2 border-primary pl-3">
@@ -116,22 +116,25 @@ const PreSeedOnePager = () => {
             <Card>
               <CardContent className="pt-4">
                 <h2 className="text-lg font-bold mb-3 text-primary">Revenue Streams</h2>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between items-center p-2 bg-muted rounded">
-                    <span className="font-medium">Distribution Fees</span>
-                    <span className="font-bold">₹15L/month</span>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span>Advertising (47%)</span>
+                    <span className="font-semibold">₹9.0M/mo</span>
                   </div>
-                  <div className="flex justify-between items-center p-2 bg-muted rounded">
-                    <span className="font-medium">Performance Marketing</span>
-                    <span className="font-bold">₹25L/month</span>
+                  <div className="flex justify-between">
+                    <span>Distribution (33%)</span>
+                    <span className="font-semibold">₹6.3M/mo</span>
                   </div>
-                  <div className="flex justify-between items-center p-2 bg-muted rounded">
-                    <span className="font-medium">Premium Subscriptions</span>
-                    <span className="font-bold">₹5L/month</span>
+                  <div className="flex justify-between">
+                    <span>Subscriptions (12%)</span>
+                    <span className="font-semibold">₹2.3M/mo</span>
                   </div>
-                  <div className="flex justify-between items-center p-2 bg-primary text-primary-foreground rounded font-bold">
-                    <span>Target (Month 18)</span>
-                    <span>₹5.4 Cr ARR</span>
+                  <div className="flex justify-between">
+                    <span>B2B SaaS (8%)</span>
+                    <span className="font-semibold">₹1.5M/mo</span>
+                  </div>
+                  <div className="border-t pt-2 mt-2">
+                    <p className="font-bold">FY27-28: ₹23 Cr Revenue | ₹8 Cr Profit</p>
                   </div>
                 </div>
               </CardContent>
@@ -170,22 +173,24 @@ const PreSeedOnePager = () => {
             <Card>
               <CardContent className="pt-4">
                 <h2 className="text-lg font-bold mb-3 text-primary">Current Traction</h2>
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="bg-green-50 dark:bg-green-950/20 p-2 rounded text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Product</p>
-                    <p className="font-bold text-green-600 dark:text-green-400">Live Beta</p>
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="font-semibold">Product:</p>
+                    <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1">
+                      <li>News platform live with AI</li>
+                      <li>Stock research (beta, Oct 25)</li>
+                      <li>Crypto hub (Live, Oct 25)</li>
+                      <li>Contest platform (Live)</li>
+                      <li>FD & Loan against MF launched (partnerships closed)</li>
+                    </ul>
                   </div>
-                  <div className="bg-blue-50 dark:bg-blue-950/20 p-2 rounded text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Beta Users</p>
-                    <p className="font-bold text-blue-600 dark:text-blue-400">500+</p>
-                  </div>
-                  <div className="bg-purple-50 dark:bg-purple-950/20 p-2 rounded text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Engagement</p>
-                    <p className="font-bold text-purple-600 dark:text-purple-400">12 min avg</p>
-                  </div>
-                  <div className="bg-orange-50 dark:bg-orange-950/20 p-2 rounded text-center">
-                    <p className="text-xs text-muted-foreground mb-1">B2B Pipeline</p>
-                    <p className="font-bold text-orange-600 dark:text-orange-400">8 AMCs</p>
+                  <div>
+                    <p className="font-semibold">Metrics:</p>
+                    <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1">
+                      <li>100K users for Nov (40K Oct)</li>
+                      <li>2 min avg session (organic)</li>
+                      <li>2 B2B discussions ongoing</li>
+                    </ul>
                   </div>
                 </div>
               </CardContent>
@@ -194,46 +199,52 @@ const PreSeedOnePager = () => {
             {/* 18-Month Plan */}
             <Card>
               <CardContent className="pt-4">
-                <h2 className="text-lg font-bold mb-3 text-primary">18-Month Milestones</h2>
-                <div className="space-y-2 text-xs">
-                  <div className="grid grid-cols-4 gap-1 font-semibold border-b pb-1">
-                    <div>Month</div>
-                    <div className="text-right">MAUs</div>
-                    <div className="text-right">Revenue</div>
-                    <div className="text-right">Profit</div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-1 text-muted-foreground">
-                    <div>M6</div>
-                    <div className="text-right">50K</div>
-                    <div className="text-right">₹5L</div>
-                    <div className="text-right text-red-500">-₹15L</div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-1 text-muted-foreground">
-                    <div>M12</div>
-                    <div className="text-right">200K</div>
-                    <div className="text-right">₹25L</div>
-                    <div className="text-right text-red-500">-₹5L</div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-1 text-muted-foreground bg-green-50 dark:bg-green-950/20 p-1 rounded">
-                    <div className="font-semibold">M14</div>
-                    <div className="text-right font-semibold">250K</div>
-                    <div className="text-right font-semibold">₹30L</div>
-                    <div className="text-right font-bold text-green-600 dark:text-green-400">Break-even</div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-1 text-muted-foreground">
-                    <div className="font-semibold">M18</div>
-                    <div className="text-right font-semibold">500K</div>
-                    <div className="text-right font-semibold">₹45L</div>
-                    <div className="text-right font-bold text-green-600 dark:text-green-400">+₹10L</div>
-                  </div>
-                </div>
-                <div className="mt-3 p-2 bg-primary/10 rounded">
-                  <p className="text-xs font-semibold">Key Metrics:</p>
-                  <div className="grid grid-cols-2 gap-2 mt-1 text-xs">
-                    <div>• LTV: ₹25,000</div>
-                    <div>• CAC: ₹500</div>
-                    <div>• LTV/CAC: 50x</div>
-                    <div>• Payback: 2 months</div>
+                <h2 className="text-lg font-bold mb-3 text-primary">18-Month Projections</h2>
+                <div className="space-y-2">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-1">Month</th>
+                        <th className="text-right py-1">MAUs</th>
+                        <th className="text-right py-1">Revenue</th>
+                        <th className="text-right py-1">Profit</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-muted-foreground">
+                      <tr>
+                        <td className="py-1">M1</td>
+                        <td className="text-right">100K</td>
+                        <td className="text-right">₹1L</td>
+                        <td className="text-right text-red-600">-₹12L</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1">M6</td>
+                        <td className="text-right">260K</td>
+                        <td className="text-right">₹9L</td>
+                        <td className="text-right text-red-600">-₹18L</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1">M12</td>
+                        <td className="text-right">1.2M</td>
+                        <td className="text-right">₹30L</td>
+                        <td className="text-right text-red-600">-₹7L</td>
+                      </tr>
+                      <tr className="font-bold border-t">
+                        <td className="py-1">M24</td>
+                        <td className="text-right">3.5M</td>
+                        <td className="text-right">₹71L</td>
+                        <td className="text-right text-green-600">+₹14L</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="bg-muted/50 p-2 rounded text-xs space-y-1">
+                    <p className="font-semibold">Key Highlights:</p>
+                    <ul className="list-disc list-inside text-muted-foreground">
+                      <li>Break-even: Month 14</li>
+                      <li>Gross Margin: 30%+</li>
+                      <li>CAC: ₹0.94 blended</li>
+                      <li>LTV/CAC: 60-80x</li>
+                    </ul>
                   </div>
                 </div>
               </CardContent>
@@ -245,16 +256,15 @@ const PreSeedOnePager = () => {
                 <h2 className="text-lg font-bold mb-3 text-primary">Team & Go-To-Market</h2>
                 <div className="space-y-3 text-sm">
                   <div>
-                    <p className="font-semibold mb-1">Current Team: 6</p>
-                    <p className="text-xs text-muted-foreground">2 Engineering • 2 Product • 1 Design • 1 Content</p>
+                    <p className="font-semibold mb-1">Current Team: 12 people</p>
+                    <p className="text-xs text-muted-foreground">3 devs, 2 dev-interns, 3 writers, 1 SEO, 1 analyst, 1 BD, 1 video</p>
                   </div>
                   <div>
                     <p className="font-semibold mb-1">GTM Strategy: Organic-First</p>
                     <ul className="text-xs space-y-1 text-muted-foreground list-disc pl-4">
-                      <li>SEO-optimized financial content (target: 1M+ monthly organic traffic by M12)</li>
-                      <li>Community-driven growth via contests & engagement</li>
-                      <li>Performance marketing to high-intent users (CAC: ₹500)</li>
-                      <li>B2B partnerships with AMCs, brokers, insurers for distribution</li>
+                      <li>180→410 articles/day (AI-assisted)</li>
+                      <li>77% organic traffic by M18</li>
+                      <li>Weekly contests for virality</li>
                     </ul>
                   </div>
                 </div>
@@ -293,7 +303,7 @@ const PreSeedOnePager = () => {
 
         {/* Footer */}
         <div className="text-center pt-4 border-t text-sm text-muted-foreground">
-          <p>Shubham Chaudhary • Founder & CEO</p>
+          <p>Shubham Srivastava • Founder & CEO</p>
           <p>shubham@discvr.ai • +91-XXXXXXXXXX</p>
         </div>
       </div>
