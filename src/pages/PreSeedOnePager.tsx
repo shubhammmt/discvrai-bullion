@@ -309,7 +309,7 @@ const PreSeedOnePager = () => {
         {/* Footer */}
         <div className="text-center pt-4 border-t text-sm text-muted-foreground">
           <p>Shubham Srivastava • Founder & CEO</p>
-          <p>shubham@discvr.ai • +91-XXXXXXXXXX</p>
+          <p>shubham@discvr.ai • +91-9873961591</p>
         </div>
       </div>
     </div>
