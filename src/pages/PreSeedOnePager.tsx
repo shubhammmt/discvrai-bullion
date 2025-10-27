@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { FileText, Users, Gamepad2, Share2, TrendingUp } from "lucide-react";
 
 const PreSeedOnePager = () => {
   const handlePrint = () => {
@@ -305,6 +306,72 @@ const PreSeedOnePager = () => {
             </Card>
           </div>
         </div>
+
+        {/* Growth Flywheel - Full Width */}
+        <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
+          <CardContent className="pt-6">
+            <h2 className="text-xl font-bold mb-4 text-center text-primary">The Growth Flywheel</h2>
+            <div className="grid grid-cols-5 gap-3 items-center">
+              {/* Step 1: Content Distribution */}
+              <div className="text-center">
+                <div className="bg-background rounded-lg p-3 border-2 border-primary/30 h-full">
+                  <FileText className="w-8 h-8 mx-auto mb-2 text-primary" />
+                  <p className="font-bold text-sm mb-1">Content Distribution</p>
+                  <p className="text-xs text-muted-foreground">410 articles/day + videos</p>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <TrendingUp className="w-6 h-6 mx-auto text-primary" />
+              </div>
+
+              {/* Step 2: User Acquisition */}
+              <div className="text-center">
+                <div className="bg-background rounded-lg p-3 border-2 border-primary/30 h-full">
+                  <Users className="w-8 h-8 mx-auto mb-2 text-primary" />
+                  <p className="font-bold text-sm mb-1">Acquire Users</p>
+                  <p className="text-xs text-muted-foreground">77% organic traffic</p>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <TrendingUp className="w-6 h-6 mx-auto text-primary" />
+              </div>
+
+              {/* Step 3: Engage & Convert */}
+              <div className="text-center">
+                <div className="bg-background rounded-lg p-3 border-2 border-primary/30 h-full">
+                  <Gamepad2 className="w-8 h-8 mx-auto mb-2 text-primary" />
+                  <p className="font-bold text-sm mb-1">Engage & Convert</p>
+                  <p className="text-xs text-muted-foreground">Polls, quizzes, contests</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-5 gap-3 items-center mt-3">
+              {/* Bottom row - completing the loop */}
+              <div className="col-start-2 text-center">
+                <TrendingUp className="w-6 h-6 mx-auto text-primary rotate-90" />
+              </div>
+
+              <div className="text-center">
+                <div className="bg-background rounded-lg p-3 border-2 border-primary/30 h-full">
+                  <Share2 className="w-8 h-8 mx-auto mb-2 text-primary" />
+                  <p className="font-bold text-sm mb-1">Viral Sharing</p>
+                  <p className="text-xs text-muted-foreground">Contest amplification</p>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <TrendingUp className="w-6 h-6 mx-auto text-primary rotate-180" />
+              </div>
+            </div>
+
+            <div className="bg-primary/10 rounded-lg p-3 mt-4 text-center">
+              <p className="text-xs font-semibold text-primary">Each user brings more users → Higher engagement → More conversions → Compounding growth</p>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Footer */}
         <div className="text-center pt-4 border-t text-sm text-muted-foreground">
