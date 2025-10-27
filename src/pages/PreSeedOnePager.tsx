@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Users, Gamepad2, Share2, TrendingUp } from "lucide-react";
+import { FileText, Users, Gamepad2, Share2, TrendingUp, Building2, Cog, ArrowRight } from "lucide-react";
 
 const PreSeedOnePager = () => {
   const handlePrint = () => {
@@ -267,6 +267,67 @@ const PreSeedOnePager = () => {
                       <li>77% organic traffic by M18</li>
                       <li>Weekly contests for virality</li>
                     </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* B2B SaaS Strategy */}
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
+              <CardContent className="pt-4">
+                <h2 className="text-lg font-bold mb-3 text-primary">B2B SaaS Revenue Stream</h2>
+                <p className="text-xs text-muted-foreground mb-3">
+                  Predictable, high-margin SaaS revenue from financial institutions alongside B2C growth
+                </p>
+                
+                <div className="space-y-2">
+                  <div className="bg-background/80 rounded-lg p-2">
+                    <div className="flex items-start gap-2">
+                      <Building2 className="w-4 h-4 text-primary mt-0.5" />
+                      <div>
+                        <p className="font-semibold text-xs">White-Label AI Platform</p>
+                        <p className="text-xs text-muted-foreground">Consumer-facing: Banks, brokers, wealth managers deploy our AI research & portfolio tools under their brand</p>
+                        <p className="text-xs font-semibold mt-1">₹5-15L/year per enterprise</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-background/80 rounded-lg p-2">
+                    <div className="flex items-start gap-2">
+                      <Cog className="w-4 h-4 text-primary mt-0.5" />
+                      <div>
+                        <p className="font-semibold text-xs">Internal Operations AI</p>
+                        <p className="text-xs text-muted-foreground">Back-office: Risk assessment, customer profiling, portfolio analysis APIs</p>
+                        <p className="text-xs font-semibold mt-1">₹3-10L/year per enterprise</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-primary/10 rounded-lg p-2 mt-2">
+                    <p className="font-semibold text-xs mb-1">Path to ₹1Cr ARR (12-18 months)</p>
+                    <div className="space-y-1 text-xs text-muted-foreground">
+                      <div className="flex justify-between">
+                        <span>5-8 mid-size institutions</span>
+                        <span className="font-semibold">₹40-60L ARR</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>2-3 large banks/AMCs</span>
+                        <span className="font-semibold">₹30-45L ARR</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>API/Data licensing</span>
+                        <span className="font-semibold">₹10-15L ARR</span>
+                      </div>
+                      <div className="border-t border-primary/20 pt-1 mt-1 flex justify-between font-bold text-primary">
+                        <span>Total B2B SaaS ARR</span>
+                        <span>₹80L-₹1.2Cr</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-background/80 rounded-lg p-2 mt-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    <p className="text-xs font-semibold">Current: 2 pilots in discussions (₹8-12L potential ARR)</p>
                   </div>
                 </div>
               </CardContent>
