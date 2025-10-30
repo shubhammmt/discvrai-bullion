@@ -262,7 +262,7 @@ const AMCPitch = () => {
       options: [
         {
           title: "Full Pilot (60 Days)",
-          price: "₹12L investment",
+          price: "₹20L investment",
           features: [
             "10-20 distributors OR D2C launch",
             "Prove ROI before commitment"
