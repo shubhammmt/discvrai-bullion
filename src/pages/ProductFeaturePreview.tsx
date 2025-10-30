@@ -3,7 +3,7 @@ import GlobalFooter from '@/components/GlobalFooter';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import { EnhancedByteNewsCard } from '@/components/news/EnhancedByteNewsCard';
 import { ByteNewsCard } from '@/components/news/ByteNewsCard';
-import { MUTUAL_FUND_FEATURES } from '@/data/productFeatures';
+import { MUTUAL_FUND_FEATURES, AI_SCREENING_QUERIES } from '@/data/productFeatures';
 import { mockByteNews } from '@/data/mockNewsData';
 
 const ProductFeaturePreview = () => {
@@ -35,13 +35,30 @@ const ProductFeaturePreview = () => {
 
         {/* All Feature Cards Showcase */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">All Feature Cards</h2>
+          <h2 className="text-2xl font-semibold mb-4">Mutual Fund Features</h2>
           <div className="grid md:grid-cols-2 gap-4">
             {MUTUAL_FUND_FEATURES.map((feature) => (
               <EnhancedByteNewsCard
                 key={feature.id}
                 type="product-feature"
                 productFeature={feature}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* AI Screening Query Cards */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4">AI Screening Query Cards</h2>
+          <p className="text-muted-foreground mb-6">
+            Smart query cards that link directly to pre-filled AI screening results
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {AI_SCREENING_QUERIES.map((query) => (
+              <EnhancedByteNewsCard
+                key={query.id}
+                type="product-feature"
+                productFeature={query}
               />
             ))}
           </div>
