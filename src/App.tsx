@@ -66,6 +66,7 @@ import FamilyFriendsPitch from './pages/FamilyFriendsPitch';
 import FamilyFriendsOnePager from './pages/FamilyFriendsOnePager';
 import PreSeedOnePager from './pages/PreSeedOnePager';
 import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
+import AMCPitch from './pages/AMCPitch';
 import Chatbot from './pages/Chatbot';
 import CryptoHub from './pages/CryptoHub';
 import CryptoAsset from './pages/CryptoAsset';
@@ -171,6 +172,7 @@ const AppContent = () => {
           <Route path="/family-friends-1pager" element={<FamilyFriendsOnePager />} />
           <Route path="/preseed-1pager" element={<PreSeedOnePager />} />
           <Route path="/b2b-preipo-pitch" element={<B2BPreIPOPitch />} />
+          <Route path="/amc-pitch" element={<AMCPitch />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
