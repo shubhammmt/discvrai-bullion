@@ -22,7 +22,7 @@ const InvestorDeck = () => {
         
         {/* COVER */}
         <section className="text-center space-y-3 py-6">
-          <Badge className="px-4 py-1 mb-2">Investor Summary • January 2025</Badge>
+          <Badge className="px-4 py-1 mb-2">Investor Summary • November 2025</Badge>
           <h1 className="text-4xl font-bold">DiscvrAI</h1>
           <h2 className="text-2xl font-semibold text-primary">
             The AI-Powered Discovery & Research Platform
@@ -276,7 +276,7 @@ const InvestorDeck = () => {
               </div>
 
               <div className="text-center text-xs text-muted-foreground pt-3 border-t">
-                Last Updated: January 2025 | Projections based on detailed 30-month PnL model
+                Last Updated: November 2025 | Projections based on detailed 30-month PnL model
               </div>
             </CardContent>
           </Card>
