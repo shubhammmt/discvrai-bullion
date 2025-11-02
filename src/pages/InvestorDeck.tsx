@@ -238,7 +238,14 @@ const InvestorDeck = () => {
           <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary">
             <CardContent className="p-6 space-y-5">
               <div className="text-center">
-                <h2 className="text-2xl font-bold mb-2">THE BOTTOM LINE</h2>
+                <h2 className="text-2xl font-bold mb-2">THE ASK</h2>
+                <div className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg">
+                  <p className="text-2xl font-bold">Raising $500K - $1M USD</p>
+                </div>
+              </div>
+
+              <div className="text-center pt-2">
+                <h3 className="text-xl font-bold mb-3">THE BOTTOM LINE</h3>
               </div>
               
               <div className="space-y-3 text-sm">
