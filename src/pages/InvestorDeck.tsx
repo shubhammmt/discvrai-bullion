@@ -28,7 +28,7 @@ const InvestorDeck = () => {
             The AI-Powered Discovery & Research Platform
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Building India's Agentic Financial Intelligence Platform - Profitably, From Day One
+            Building India's Agentic Financial Intelligence Platform
           </p>
         </section>
 
@@ -286,9 +286,6 @@ const InvestorDeck = () => {
               </div>
 
               <div className="pt-4 border-t text-center">
-                <p className="text-lg font-bold mb-3">
-                  An AI agentic platform that enterprises pay premium for, retail users rely on, and scales profitably from Day 13.
-                </p>
                 <p className="text-sm font-semibold text-primary">
                   Join us in building India's first profitable fintech unicorn.
                 </p>
