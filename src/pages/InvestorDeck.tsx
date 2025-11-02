@@ -167,65 +167,49 @@ const InvestorDeck = () => {
             <h2 className="text-2xl font-bold">THE NUMBERS</h2>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <Card className="bg-primary/5">
               <CardContent className="p-4 text-center space-y-1">
                 <TrendingUp className="w-6 h-6 text-primary mx-auto" />
-                <div className="text-2xl font-bold">Month 13</div>
-                <div className="text-sm text-muted-foreground">Break-even (Nov-26)</div>
+                <div className="text-2xl font-bold">12-18 months</div>
+                <div className="text-sm text-muted-foreground">Path to profitability</div>
               </CardContent>
             </Card>
 
             <Card className="bg-primary/5">
               <CardContent className="p-4 text-center space-y-1">
                 <BarChart3 className="w-6 h-6 text-primary mx-auto" />
-                <div className="text-2xl font-bold">37%</div>
-                <div className="text-sm text-muted-foreground">Profit margins</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-primary/5">
-              <CardContent className="p-4 text-center space-y-1">
-                <Users className="w-6 h-6 text-primary mx-auto" />
-                <div className="text-2xl font-bold">526x</div>
-                <div className="text-sm text-muted-foreground">User growth (30 mo)</div>
+                <div className="text-2xl font-bold">60-70%</div>
+                <div className="text-sm text-muted-foreground">B2B gross margins</div>
               </CardContent>
             </Card>
 
             <Card className="bg-primary/5">
               <CardContent className="p-4 text-center space-y-1">
                 <Rocket className="w-6 h-6 text-primary mx-auto" />
-                <div className="text-2xl font-bold">₹0.5</div>
-                <div className="text-sm text-muted-foreground">Cost/MAU (10x better)</div>
+                <div className="text-2xl font-bold">10:1</div>
+                <div className="text-sm text-muted-foreground">LTV:CAC ratio</div>
               </CardContent>
             </Card>
           </div>
 
           <Card>
             <CardContent className="p-5">
-              <div className="grid md:grid-cols-3 gap-6 text-sm">
+              <div className="grid md:grid-cols-2 gap-6 text-sm">
                 <div>
                   <div className="font-bold mb-2">Unit Economics</div>
                   <div className="space-y-1 text-muted-foreground">
-                    <div>• LTV:CAC → 10:1</div>
-                    <div>• CAC payback → &lt;6 months</div>
-                    <div>• B2B renewal → 90%+</div>
+                    <div>• CAC payback &lt; 6 months</div>
+                    <div>• B2B contracts: ₹100K-₹600K/month</div>
+                    <div>• High retention rates (90%+)</div>
                   </div>
                 </div>
                 <div>
-                  <div className="font-bold mb-2">Growth Trajectory</div>
+                  <div className="font-bold mb-2">Revenue Strategy</div>
                   <div className="space-y-1 text-muted-foreground">
-                    <div>• Launch: 50K MAUs</div>
-                    <div>• Month 13: 1.4M MAUs</div>
-                    <div>• Year 2.5: 26.3M MAUs</div>
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold mb-2">Revenue Mix</div>
-                  <div className="space-y-1 text-muted-foreground">
-                    <div>• Year 1 → 75% B2B</div>
-                    <div>• Year 2 → 40% B2B</div>
-                    <div>• Year 2.5 → 26% B2B</div>
+                    <div>• B2B-led growth (Year 1)</div>
+                    <div>• Platform flywheel effect</div>
+                    <div>• Diversified revenue streams</div>
                   </div>
                 </div>
               </div>
@@ -280,7 +264,7 @@ const InvestorDeck = () => {
                 <div className="flex gap-2">
                   <Badge className="h-5 px-2 text-xs">Proof</Badge>
                   <p className="flex-1 text-muted-foreground">
-                    Month 13 profitability, 37% margins, 526x growth, ₹100K-₹600K/month B2B contracts.
+                    Strong unit economics, high B2B margins, enterprise contracts validated, clear path to profitability.
                   </p>
                 </div>
               </div>
