@@ -98,8 +98,10 @@ const AppContent = () => {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const location = useLocation();
   
-  // Hide footer on pitch deck pages and one-pagers
-  const isPitchPage = location.pathname.includes('-pitch') || location.pathname.includes('-1pager');
+  // Hide footer on pitch deck pages, one-pagers, and investor deck
+  const isPitchPage = location.pathname.includes('-pitch') || 
+                      location.pathname.includes('-1pager') || 
+                      location.pathname === '/investor-deck';
 
   return (
     <>
