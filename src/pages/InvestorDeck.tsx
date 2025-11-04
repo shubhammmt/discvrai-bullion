@@ -161,6 +161,68 @@ const InvestorDeck = () => {
           </div>
         </section>
 
+        {/* FOUNDER - BUILT TO SOLVE THIS */}
+        <section className="space-y-4">
+          <div className="border-l-4 border-primary pl-4">
+            <h2 className="text-2xl font-bold">FOUNDER - BUILT TO SOLVE THIS</h2>
+          </div>
+
+          <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
+            <CardContent className="p-5 space-y-4">
+              <div>
+                <h3 className="text-lg font-bold mb-1">Shubham Srivastava - Distribution DNA</h3>
+                <p className="text-sm text-muted-foreground">2nd Time Founder | Decade+ in AI/ML & Digital Transformation</p>
+              </div>
+
+              <div className="space-y-3 text-sm">
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">HT Digital - CTO (2019-2022)</div>
+                  <p className="text-muted-foreground">Scaled from few million to <strong>100M+ users/month</strong> while transforming to profitability. Built real-time infrastructure for 100s of publishers with ML. Mastered content distribution at scale.</p>
+                </div>
+
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">Eureka Forbes - CPTO/CIO</div>
+                  <p className="text-muted-foreground">Led digital transformation building D2C platform with <strong>1M+ monthly users</strong> and IoT ecosystem for predictive services. Optimized IT costs 20% YoY while driving innovation.</p>
+                </div>
+
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">MakeMyTrip Hotels - Engineering Lead (2011-2015)</div>
+                  <p className="text-muted-foreground">Built core product architecture handling <strong>millions of real-time transactions</strong>. Designed dynamic ML-based e-commerce platform at scale.</p>
+                </div>
+
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">Tekch (1st Startup) - Founder</div>
+                  <p className="text-muted-foreground">Built AI & IoT-driven SaaS for commercial real estate, scaled to <strong>10M+ sq. ft.</strong> management. Key learnings: importance of distribution-first strategy and sustainable unit economics from Day 1.</p>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="text-sm font-semibold text-primary">
+                  Why This Matters: Solved large-scale distribution twice. Building India's financial services distributor requires exactly this DNA.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-5">
+              <div className="space-y-2">
+                <h3 className="font-bold">Current Cap Table</h3>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Shubham Srivastava</span>
+                    <span className="font-semibold">50%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Smriti Srivastava</span>
+                    <span className="font-semibold">50%</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* THE NUMBERS */}
         <section className="space-y-4">
           <div className="border-l-4 border-primary pl-4">
