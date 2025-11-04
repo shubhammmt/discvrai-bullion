@@ -67,7 +67,7 @@ import FamilyFriendsOnePager from './pages/FamilyFriendsOnePager';
 import PreSeedOnePager from './pages/PreSeedOnePager';
 import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import AMCPitch from './pages/AMCPitch';
-import B2BCapabilities from './pages/B2BCapabilities';
+import { B2BCapabilities } from './pages/B2BCapabilities';
 import InvestorDeck from './pages/InvestorDeck';
 import Chatbot from './pages/Chatbot';
 import CryptoHub from './pages/CryptoHub';
