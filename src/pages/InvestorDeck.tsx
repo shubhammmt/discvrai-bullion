@@ -170,35 +170,40 @@ const InvestorDeck = () => {
           <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
             <CardContent className="p-5 space-y-4">
               <div>
-                <h3 className="text-lg font-bold mb-1">Shubham Srivastava - Distribution DNA</h3>
-                <p className="text-sm text-muted-foreground">2nd Time Founder | Decade+ in AI/ML & Digital Transformation</p>
+                <h3 className="text-lg font-bold mb-1">Shubham Srivastava - 2nd Time Founder</h3>
+                <p className="text-sm font-semibold text-primary">Rare Combination: B2B Digital Transformation + B2C Scale + AI/ML Expertise</p>
               </div>
 
               <div className="space-y-3 text-sm">
                 <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">HT Digital - CTO (2019-2022)</div>
-                  <p className="text-muted-foreground">Scaled from few million to <strong>100M+ users/month</strong> while transforming to profitability. Built real-time infrastructure for 100s of publishers with ML. Mastered content distribution at scale.</p>
-                </div>
-
-                <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">Eureka Forbes - CPTO/CIO</div>
-                  <p className="text-muted-foreground">Led digital transformation building D2C platform with <strong>1M+ monthly users</strong> and IoT ecosystem for predictive services. Optimized IT costs 20% YoY while driving innovation.</p>
+                  <div className="font-semibold">iTrust - Engineering Lead (2008-2011)</div>
+                  <p className="text-muted-foreground">Drove development across multiple <strong>fintech products</strong>. Strong IP base contributed to acquisition by Karvy. Real estate division evolved into Housing.com.</p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
                   <div className="font-semibold">MakeMyTrip Hotels - Engineering Lead (2011-2015)</div>
-                  <p className="text-muted-foreground">Built core product architecture handling <strong>millions of real-time transactions</strong>. Designed dynamic ML-based e-commerce platform at scale.</p>
+                  <p className="text-muted-foreground"><strong>B2C at scale:</strong> Built product architecture handling <strong>millions of real-time transactions</strong>. Designed dynamic ML-based e-commerce platform.</p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">Tekch (1st Startup) - Founder</div>
-                  <p className="text-muted-foreground">Built AI & IoT-driven SaaS for commercial real estate, scaled to <strong>10M+ sq. ft.</strong> management. Key learnings: importance of distribution-first strategy and sustainable unit economics from Day 1.</p>
+                  <div className="font-semibold">Tekch - Founder (2015-2019)</div>
+                  <p className="text-muted-foreground"><strong>1st startup:</strong> Built AI & IoT-driven <strong>B2B SaaS</strong> for commercial real estate, scaled to <strong>10M+ sq. ft.</strong> Key learnings: distribution-first + sustainable unit economics.</p>
+                </div>
+
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">HT Digital - CTO (2019-2022)</div>
+                  <p className="text-muted-foreground"><strong>B2B transformation + B2C scale:</strong> Scaled from few million to <strong>100M+ users/month</strong> while achieving profitability. Built real-time infrastructure for <strong>100s of publishers</strong> with ML from Day 1.</p>
+                </div>
+
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">Eureka Forbes - CPTO/CIO (2022-2024)</div>
+                  <p className="text-muted-foreground"><strong>Enterprise digital transformation:</strong> Led D2C platform with <strong>1M+ monthly users</strong> and IoT ecosystem. Optimized IT costs 20% YoY while driving AI-powered innovation.</p>
                 </div>
               </div>
 
               <div className="pt-3 border-t">
                 <p className="text-sm font-semibold text-primary">
-                  Why This Matters: Solved large-scale distribution twice. Building India's financial services distributor requires exactly this DNA.
+                  Why This Matters: Successfully executed B2B digital transformation at scale (HT, Eureka Forbes, Tekch) + B2C platforms at massive scale (MMT, HT) + AI/ML integration throughout. Exactly the DNA needed to transform financial services infrastructure.
                 </p>
               </div>
             </CardContent>
