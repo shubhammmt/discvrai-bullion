@@ -221,8 +221,10 @@ export const B2BCapabilities = () => {
               "DiscvrAI — Where Data Thinks, and Wealth Acts."
             </p>
           </div>
-          <div className="pt-8">
-            <p className="text-muted-foreground">Contact: hello@discvr.ai</p>
+          <div className="pt-8 space-y-2">
+            <p className="text-lg font-medium text-foreground">Shubham Srivastava</p>
+            <p className="text-muted-foreground">Shubham@discvr.ai</p>
+            <p className="text-muted-foreground">+91-9873961591</p>
           </div>
         </div>
       </section>

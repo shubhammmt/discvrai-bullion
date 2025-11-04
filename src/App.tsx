@@ -102,7 +102,8 @@ const AppContent = () => {
   // Hide footer on pitch deck pages, one-pagers, and investor deck
   const isPitchPage = location.pathname.includes('-pitch') || 
                       location.pathname.includes('-1pager') || 
-                      location.pathname === '/investor-deck';
+                      location.pathname === '/investor-deck' ||
+                      location.pathname === '/b2b-capabilities';
 
   return (
     <>
