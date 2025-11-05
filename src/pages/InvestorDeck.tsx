@@ -161,6 +161,96 @@ const InvestorDeck = () => {
           </div>
         </section>
 
+        {/* B2C TRACTION - PROOF OF DISTRIBUTION */}
+        <section className="space-y-4">
+          <div className="border-l-4 border-primary pl-4">
+            <h2 className="text-2xl font-bold">B2C TRACTION - PROOF OF DISTRIBUTION</h2>
+            <p className="text-sm text-muted-foreground mt-1">6 months, organic growth only</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card className="bg-primary/5">
+              <CardContent className="p-4 text-center space-y-1">
+                <Users className="w-6 h-6 text-primary mx-auto" />
+                <div className="text-2xl font-bold">50K MAUs</div>
+                <div className="text-sm text-muted-foreground">Monthly Active Users</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-primary/5">
+              <CardContent className="p-4 text-center space-y-1">
+                <TrendingUp className="w-6 h-6 text-primary mx-auto" />
+                <div className="text-2xl font-bold">11K → 100K</div>
+                <div className="text-sm text-muted-foreground">60-day growth (Sep-Nov)</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-primary/5">
+              <CardContent className="p-4 text-center space-y-1">
+                <BarChart3 className="w-6 h-6 text-primary mx-auto" />
+                <div className="text-2xl font-bold">2+ min</div>
+                <div className="text-sm text-muted-foreground">Avg engagement time</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardContent className="p-5 space-y-3">
+              <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div className="font-bold mb-2">Global Reach</div>
+                  <p className="text-muted-foreground">Users from 15+ countries including US, UK, Singapore - validating international demand</p>
+                </div>
+                <div>
+                  <div className="font-bold mb-2">Organic Only</div>
+                  <p className="text-muted-foreground">Zero paid acquisition. Proves low-CAC distribution model works at scale</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-primary/5 border-primary">
+            <CardContent className="p-4 text-center">
+              <p className="font-semibold text-sm">
+                <strong>Key Insight:</strong> B2C traction proves we can acquire users cheaply. B2B monetizes this distribution engine.
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* WHY INDIA FIRST, GLOBAL NEXT */}
+        <section className="space-y-4">
+          <div className="border-l-4 border-primary pl-4">
+            <h2 className="text-2xl font-bold">WHY INDIA FIRST, GLOBAL NEXT</h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <Card>
+              <CardContent className="p-5 space-y-2">
+                <h3 className="font-bold">India: Proving Ground</h3>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Highest inefficiency = fastest validation</li>
+                  <li>• CAC sensitivity drives sustainable unit economics</li>
+                  <li>• 150M+ retail investors, growing 20%+ YoY</li>
+                  <li>• Proven: Can build low-CAC distribution here</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-5 space-y-2">
+                <h3 className="font-bold">US/Global: Blueprint Ready</h3>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Same problem globally: 10-15% AUM on acquisition</li>
+                  <li>• Unit economics proven in India = US playbook</li>
+                  <li>• Early US/UK/SG users validate demand</li>
+                  <li>• $500K accelerates product + US entry prep</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
         {/* FOUNDER - BUILT TO SOLVE THIS */}
         <section className="space-y-4">
           <div className="border-l-4 border-primary pl-4">
@@ -317,7 +407,7 @@ const InvestorDeck = () => {
                 <div className="flex gap-2">
                   <Badge className="h-5 px-2 text-xs">Strategy</Badge>
                   <p className="flex-1 text-muted-foreground">
-                    B2B-first validates early, funds build. B2C scale creates discovery data that makes B2B more valuable.
+                    B2C traction (50K MAUs, organic) proves low-CAC distribution. B2B monetizes it with 60-70% margins. Platform flywheel compounds both.
                   </p>
                 </div>
                 
@@ -331,7 +421,7 @@ const InvestorDeck = () => {
                 <div className="flex gap-2">
                   <Badge className="h-5 px-2 text-xs">Proof</Badge>
                   <p className="flex-1 text-muted-foreground">
-                    Strong unit economics, high B2B margins, enterprise contracts validated, clear path to profitability.
+                    50K MAUs (organic), 15+ countries, B2B contracts validated, 60-70% margins, 12-18mo profitability path.
                   </p>
                 </div>
               </div>
@@ -342,8 +432,9 @@ const InvestorDeck = () => {
                 </p>
               </div>
 
-              <div className="text-center text-xs text-muted-foreground pt-3 border-t">
-                Last Updated: November 2025 | Projections based on detailed 30-month PnL model
+              <div className="text-center text-xs text-muted-foreground pt-3 border-t space-y-1">
+                <p>Last Updated: November 2025 | Projections based on detailed 30-month PnL model</p>
+                <p className="font-medium text-foreground">Shubham Srivastava | Shubham@discvr.ai | +91-9873961591</p>
               </div>
             </CardContent>
           </Card>
