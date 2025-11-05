@@ -25,10 +25,13 @@ const InvestorDeck = () => {
           <Badge className="px-4 py-1 mb-2">Investor Summary • November 2025</Badge>
           <h1 className="text-4xl font-bold">DiscvrAI</h1>
           <h2 className="text-2xl font-semibold text-primary">
-            The AI-Powered Discovery & Research Platform
+            Content-Led Financial Distribution Platform
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Building India's Agentic Financial Intelligence Platform
+            Solving the $50B CAC crisis through AI-powered content & intelligent product discovery
+          </p>
+          <p className="text-sm text-muted-foreground">
+            India First → Global Next
           </p>
         </section>
 
@@ -67,7 +70,7 @@ const InvestorDeck = () => {
           <Card className="bg-primary/5 border-primary">
             <CardContent className="p-5 text-center">
               <p className="font-semibold">
-                $50B+ market gap. No platform enables agentic discovery and research at scale - profitably.
+                $50B+ CAC crisis globally. Financial brands spend 10-15% of AUM on acquisition. No scalable, profitable solution exists.
               </p>
             </CardContent>
           </Card>
@@ -76,32 +79,43 @@ const InvestorDeck = () => {
         {/* THE SOLUTION */}
         <section className="space-y-4">
           <div className="border-l-4 border-primary pl-4">
-            <h2 className="text-2xl font-bold">THE SOLUTION</h2>
+            <h2 className="text-2xl font-bold">THE SOLUTION: CONTENT-LED DISTRIBUTION</h2>
           </div>
 
           <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
             <CardContent className="p-5 space-y-4">
               <div className="flex items-center gap-2">
                 <Brain className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-bold">AI-Powered Agentic Platform</h3>
+                <h3 className="text-xl font-bold">AI-Powered Content Engine → Product Conversion Funnel</h3>
               </div>
               
-              <p className="text-sm">
-                Conversational AI agents (text/voice) that combine quantitative analysis + qualitative insights. Same platform serves B2B enterprises (discovery intelligence, research tools) and B2C users (frictionless research).
-              </p>
+              <div className="space-y-3 text-sm">
+                <div className="border-l-2 border-primary pl-3">
+                  <p className="font-semibold">Step 1: Mass Distribution (Low CAC)</p>
+                  <p className="text-muted-foreground">
+                    <strong>180 articles/day</strong> (scaling to 500+) across text, video, interactive formats. AI-generated, high-quality content on news, stocks, mutual funds, crypto, precious metals.
+                  </p>
+                </div>
+                
+                <div className="border-l-2 border-primary pl-3">
+                  <p className="font-semibold">Step 2: Engagement & Habit Building</p>
+                  <p className="text-muted-foreground">
+                    Polls, quizzes, personalized feeds keep users engaged (2+ min avg). Build daily financial information habit.
+                  </p>
+                </div>
+                
+                <div className="border-l-2 border-primary pl-3">
+                  <p className="font-semibold">Step 3: Intelligent Product Conversion</p>
+                  <p className="text-muted-foreground">
+                    Feed → Ecommerce funnel. Convert engaged users to financial products: mutual funds, loans, digital gold/silver, insurance.
+                  </p>
+                </div>
+              </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  'Conversational (text/voice)',
-                  'Quantitative + Qualitative',
-                  'Multi-modal interface',
-                  'Scales B2B & B2C'
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-2 items-center text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span>{item}</span>
-                  </div>
-                ))}
+              <div className="pt-3 border-t">
+                <p className="text-sm font-semibold text-primary">
+                  Result: Organic lead acquisition at near-zero CAC → high-margin product conversions
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -118,13 +132,13 @@ const InvestorDeck = () => {
               <CardContent className="p-5 space-y-2">
                 <div className="flex items-center gap-2">
                   <DollarSign className="w-6 h-6 text-primary" />
-                  <h3 className="font-bold">B2B Strategy</h3>
+                  <h3 className="font-bold">Content = Distribution</h3>
                 </div>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Enterprises pay ₹100K-₹600K/month</li>
-                  <li>• 60-70% margins</li>
-                  <li>• Funds platform build (non-dilutive)</li>
-                  <li>• 75%+ revenue Year 1</li>
+                  <li>• 180 → 500+ articles/day (AI-powered)</li>
+                  <li>• Near-zero CAC organic acquisition</li>
+                  <li>• Proven at HT: 100M+ users/month</li>
+                  <li>• Habit building → conversion ready</li>
                 </ul>
               </CardContent>
             </Card>
@@ -133,13 +147,13 @@ const InvestorDeck = () => {
               <CardContent className="p-5 space-y-2">
                 <div className="flex items-center gap-2">
                   <Shield className="w-6 h-6 text-primary" />
-                  <h3 className="font-bold">Platform Flywheel</h3>
+                  <h3 className="font-bold">Dual Revenue Engine</h3>
                 </div>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• B2C creates discovery data</li>
-                  <li>• Makes B2B more valuable</li>
-                  <li>• B2B margins fund B2C</li>
-                  <li>• Network effects compound</li>
+                  <li>• B2B SaaS: Discovery intelligence tools</li>
+                  <li>• B2C: Product commissions (MF, loans, gold)</li>
+                  <li>• Platform flywheel amplifies both</li>
+                  <li>• 60-70% B2B margins fund growth</li>
                 </ul>
               </CardContent>
             </Card>
@@ -151,10 +165,10 @@ const InvestorDeck = () => {
                   <h3 className="font-bold">Moats</h3>
                 </div>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• AI agentic platform</li>
-                  <li>• Discovery data moat</li>
-                  <li>• Dual analysis capability</li>
-                  <li>• Financial discipline</li>
+                  <li>• Content velocity (500+ articles/day)</li>
+                  <li>• Discovery data moat (user behavior)</li>
+                  <li>• Founder's proven distribution expertise</li>
+                  <li>• Network effects compound</li>
                 </ul>
               </CardContent>
             </Card>
@@ -227,24 +241,24 @@ const InvestorDeck = () => {
           <div className="grid md:grid-cols-2 gap-4">
             <Card>
               <CardContent className="p-5 space-y-2">
-                <h3 className="font-bold">India: Proving Ground</h3>
+                <h3 className="font-bold">India: High-Growth Proving Ground</h3>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Highest inefficiency = fastest validation</li>
-                  <li>• CAC sensitivity drives sustainable unit economics</li>
-                  <li>• 150M+ retail investors, growing 20%+ YoY</li>
-                  <li>• Proven: Can build low-CAC distribution here</li>
+                  <li>• 150M+ retail investors, 20%+ YoY growth</li>
+                  <li>• Highest CAC sensitivity = best place to prove low-CAC model</li>
+                  <li>• Content consumption in local languages scales reach</li>
+                  <li>• Unit economics proven here = blueprint for global</li>
                 </ul>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-5 space-y-2">
-                <h3 className="font-bold">US/Global: Blueprint Ready</h3>
+                <h3 className="font-bold">US/Global: Expansion Ready</h3>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Same problem globally: 10-15% AUM on acquisition</li>
-                  <li>• Unit economics proven in India = US playbook</li>
-                  <li>• Early US/UK/SG users validate demand</li>
-                  <li>• $500K accelerates product + US entry prep</li>
+                  <li>• Same $50B CAC problem globally (10-15% AUM)</li>
+                  <li>• Early validation: Users from US, UK, Singapore</li>
+                  <li>• India playbook = US market entry blueprint</li>
+                  <li>• <strong>$500K-$1M funding = product polish + US prep</strong></li>
                 </ul>
               </CardContent>
             </Card>
@@ -261,39 +275,45 @@ const InvestorDeck = () => {
             <CardContent className="p-5 space-y-4">
               <div>
                 <h3 className="text-lg font-bold mb-1">Shubham Srivastava - 2nd Time Founder</h3>
-                <p className="text-sm font-semibold text-primary">Rare Combination: B2B Digital Transformation + B2C Scale + AI/ML Expertise</p>
+                <p className="text-sm font-semibold text-primary">Proven Track Record: Built & Scaled Content Distribution to 100M+ Users</p>
               </div>
 
               <div className="space-y-3 text-sm">
-                <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">iTrust - Engineering Lead (2008-2011)</div>
-                  <p className="text-muted-foreground">Drove development across multiple <strong>fintech products</strong>. Strong IP base contributed to acquisition by Karvy. Real estate division evolved into Housing.com.</p>
+                <div className="border-l-2 border-primary pl-3 bg-primary/5 p-3">
+                  <div className="font-semibold">HT Digital - CTO (2019-2022) ⭐ KEY PROOF POINT</div>
+                  <p className="text-muted-foreground">
+                    <strong>Exactly this playbook at scale:</strong> Built content distribution platform serving <strong>100M+ users/month</strong> while achieving profitability. 
+                    Scaled infrastructure for <strong>100s of publishers</strong> with AI-powered content recommendation from Day 1.
+                  </p>
+                  <p className="text-primary font-semibold mt-2">
+                    → Same model, applied to financial products distribution
+                  </p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
                   <div className="font-semibold">MakeMyTrip Hotels - Engineering Lead (2011-2015)</div>
-                  <p className="text-muted-foreground"><strong>B2C at scale:</strong> Built product architecture handling <strong>millions of real-time transactions</strong>. Designed dynamic ML-based e-commerce platform.</p>
+                  <p className="text-muted-foreground"><strong>B2C conversion funnels:</strong> Built e-commerce platform handling <strong>millions of transactions</strong>. Designed ML-based product recommendation engine.</p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
                   <div className="font-semibold">Tekch - Founder (2015-2019)</div>
-                  <p className="text-muted-foreground"><strong>1st startup:</strong> Built AI & IoT-driven <strong>B2B SaaS</strong> for commercial real estate, scaled to <strong>10M+ sq. ft.</strong> Key learnings: distribution-first + sustainable unit economics.</p>
-                </div>
-
-                <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">HT Digital - CTO (2019-2022)</div>
-                  <p className="text-muted-foreground"><strong>B2B transformation + B2C scale:</strong> Scaled from few million to <strong>100M+ users/month</strong> while achieving profitability. Built real-time infrastructure for <strong>100s of publishers</strong> with ML from Day 1.</p>
+                  <p className="text-muted-foreground"><strong>1st startup:</strong> Built AI & IoT <strong>B2B SaaS</strong>, scaled to <strong>10M+ sq. ft.</strong> Learned: distribution-first + sustainable unit economics.</p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
                   <div className="font-semibold">Eureka Forbes - CPTO/CIO (2022-2024)</div>
-                  <p className="text-muted-foreground"><strong>Enterprise digital transformation:</strong> Led D2C platform with <strong>1M+ monthly users</strong> and IoT ecosystem. Optimized IT costs 20% YoY while driving AI-powered innovation.</p>
+                  <p className="text-muted-foreground"><strong>D2C platform:</strong> Led platform with <strong>1M+ monthly users</strong>. Optimized costs 20% YoY while driving AI innovation.</p>
+                </div>
+
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">iTrust - Engineering Lead (2008-2011)</div>
+                  <p className="text-muted-foreground"><strong>Fintech foundation:</strong> Built multiple fintech products. Acquired by Karvy.</p>
                 </div>
               </div>
 
               <div className="pt-3 border-t">
                 <p className="text-sm font-semibold text-primary">
-                  Why This Matters: Successfully executed B2B digital transformation at scale (HT, Eureka Forbes, Tekch) + B2C platforms at massive scale (MMT, HT) + AI/ML integration throughout. Exactly the DNA needed to transform financial services infrastructure.
+                  Why This Matters: Already executed this exact playbook - content-led distribution at 100M+ scale (HT Digital). Now applying proven model to financial products where margins are 10x higher.
                 </p>
               </div>
             </CardContent>
@@ -393,42 +413,42 @@ const InvestorDeck = () => {
                 <div className="flex gap-2">
                   <Badge className="h-5 px-2 text-xs">Problem</Badge>
                   <p className="flex-1 text-muted-foreground">
-                    Financial institutions need retail discovery intelligence. Retail investors need agentic research. $50B+ gap.
+                    Financial brands globally spend 10-15% of AUM on customer acquisition. $50B+ wasted annually.
                   </p>
                 </div>
                 
                 <div className="flex gap-2">
                   <Badge className="h-5 px-2 text-xs">Solution</Badge>
                   <p className="flex-1 text-muted-foreground">
-                    AI-powered agentic platform (text/voice) combining quantitative + qualitative analysis for B2B & B2C.
-                  </p>
-                </div>
-                
-                <div className="flex gap-2">
-                  <Badge className="h-5 px-2 text-xs">Strategy</Badge>
-                  <p className="flex-1 text-muted-foreground">
-                    B2C traction (50K MAUs, organic) proves low-CAC distribution. B2B monetizes it with 60-70% margins. Platform flywheel compounds both.
-                  </p>
-                </div>
-                
-                <div className="flex gap-2">
-                  <Badge className="h-5 px-2 text-xs">Moats</Badge>
-                  <p className="flex-1 text-muted-foreground">
-                    AI agentic capability, discovery data, dual analysis, network effects, financial discipline.
+                    Content-led distribution platform. 180 → 500+ AI articles/day → engagement/habit → product conversion funnel.
                   </p>
                 </div>
                 
                 <div className="flex gap-2">
                   <Badge className="h-5 px-2 text-xs">Proof</Badge>
                   <p className="flex-1 text-muted-foreground">
-                    50K MAUs (organic), 15+ countries, B2B contracts validated, 60-70% margins, 12-18mo profitability path.
+                    Founder already executed at 100M+ scale (HT Digital). 50K MAUs in 6 months organic. 15+ countries validated.
+                  </p>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Badge className="h-5 px-2 text-xs">Strategy</Badge>
+                  <p className="flex-1 text-muted-foreground">
+                    India first (high-growth, CAC sensitivity) → prove unit economics → US/global expansion with funding.
+                  </p>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Badge className="h-5 px-2 text-xs">Moats</Badge>
+                  <p className="flex-1 text-muted-foreground">
+                    Content velocity (500+ articles/day), discovery data, proven founder, network effects, dual revenue (B2B + B2C).
                   </p>
                 </div>
               </div>
 
               <div className="pt-4 border-t text-center">
                 <p className="text-sm font-semibold text-primary">
-                  Join us in building India's first profitable fintech unicorn.
+                  Join us in solving the $50B CAC crisis - India first, global next.
                 </p>
               </div>
 
