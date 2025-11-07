@@ -279,15 +279,9 @@ const InvestorDeck = () => {
               </div>
 
               <div className="space-y-3 text-sm">
-                <div className="border-l-2 border-primary pl-3 bg-primary/5 p-3">
-                  <div className="font-semibold">HT Digital - CTO (2019-2022) ⭐ KEY PROOF POINT</div>
-                  <p className="text-muted-foreground">
-                    <strong>Exactly this playbook at scale:</strong> Built content distribution platform serving <strong>100M+ users/month</strong> while achieving profitability. 
-                    Scaled infrastructure for <strong>100s of publishers</strong> with AI-powered content recommendation from Day 1.
-                  </p>
-                  <p className="text-primary font-semibold mt-2">
-                    → Same model, applied to financial products distribution
-                  </p>
+                <div className="border-l-2 border-primary/50 pl-3">
+                  <div className="font-semibold">iTrust - Engineering Lead (2008-2011)</div>
+                  <p className="text-muted-foreground"><strong>Fintech foundation:</strong> Built multiple fintech products. Acquired by Karvy.</p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
@@ -300,14 +294,20 @@ const InvestorDeck = () => {
                   <p className="text-muted-foreground"><strong>1st startup:</strong> Built AI & IoT <strong>B2B SaaS</strong>, scaled to <strong>10M+ sq. ft.</strong> Learned: distribution-first + sustainable unit economics.</p>
                 </div>
 
-                <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">Eureka Forbes - CPTO/CIO (2022-2024)</div>
-                  <p className="text-muted-foreground"><strong>D2C platform:</strong> Led platform with <strong>1M+ monthly users</strong>. Optimized costs 20% YoY while driving AI innovation.</p>
+                <div className="border-l-2 border-primary pl-3 bg-primary/5 p-3">
+                  <div className="font-semibold">HT Digital - CTO (2019-2022) ⭐ KEY PROOF POINT</div>
+                  <p className="text-muted-foreground">
+                    <strong>Exactly this playbook at scale:</strong> Built content distribution platform serving <strong>100M+ users/month</strong> while achieving profitability. 
+                    Scaled infrastructure for <strong>100s of publishers</strong> with AI-powered content recommendation from Day 1.
+                  </p>
+                  <p className="text-primary font-semibold mt-2">
+                    → Same model, applied to financial products distribution
+                  </p>
                 </div>
 
                 <div className="border-l-2 border-primary/50 pl-3">
-                  <div className="font-semibold">iTrust - Engineering Lead (2008-2011)</div>
-                  <p className="text-muted-foreground"><strong>Fintech foundation:</strong> Built multiple fintech products. Acquired by Karvy.</p>
+                  <div className="font-semibold">Eureka Forbes - CPTO/CIO (2022-2024)</div>
+                  <p className="text-muted-foreground"><strong>D2C platform:</strong> Led platform with <strong>1M+ monthly users</strong>. Optimized costs 20% YoY while driving AI innovation.</p>
                 </div>
               </div>
 
