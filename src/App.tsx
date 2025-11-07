@@ -69,6 +69,7 @@ import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import AMCPitch from './pages/AMCPitch';
 import { B2BCapabilities } from './pages/B2BCapabilities';
 import InvestorDeck from './pages/InvestorDeck';
+import InvestorDeckFull from './pages/InvestorDeckFull';
 import Chatbot from './pages/Chatbot';
 import CryptoHub from './pages/CryptoHub';
 import CryptoAsset from './pages/CryptoAsset';
@@ -103,6 +104,7 @@ const AppContent = () => {
   const isPitchPage = location.pathname.includes('-pitch') || 
                       location.pathname.includes('-1pager') || 
                       location.pathname === '/investor-deck' ||
+                      location.pathname === '/investor-deck-full' ||
                       location.pathname === '/b2b-capabilities';
 
   return (
@@ -180,6 +182,7 @@ const AppContent = () => {
           <Route path="/amc-pitch" element={<AMCPitch />} />
           <Route path="/b2b-capabilities" element={<B2BCapabilities />} />
           <Route path="/investor-deck" element={<InvestorDeck />} />
+          <Route path="/investor-deck-full" element={<InvestorDeckFull />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
