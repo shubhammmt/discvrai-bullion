@@ -179,6 +179,141 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
+      {/* Slide 3: Team (Placeholder) */}
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white p-8 border-b">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-5xl font-bold text-foreground mb-4">Team & Advisors</h2>
+          <p className="text-xl text-muted-foreground">[Placeholder - To be added]</p>
+        </div>
+      </section>
+
+      {/* Slide 4: Market Opportunity - Pyramid Structure */}
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-slate-50 p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full space-y-12">
+          {/* Hero - Beachhead Total */}
+          <div className="text-center space-y-4">
+            <Badge variant="secondary" className="text-sm mb-4">12-24 Month Beachhead</Badge>
+            <h2 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              ₹46,500 Crore
+            </h2>
+            <p className="text-2xl text-muted-foreground font-medium">Bottom-Up, Product-Led Market Entry</p>
+          </div>
+
+          {/* 4 Product Pillars Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* LAMF Pillar */}
+            <Card className="p-8 hover:shadow-xl transition-all border-2 border-blue-100">
+              <div className="space-y-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground">Loan Against Mutual Funds</h3>
+                    <p className="text-sm text-muted-foreground mt-1">1.2M top-tier MF investors</p>
+                  </div>
+                  <Badge className="bg-blue-600 text-white text-lg px-4 py-1">₹12,000 Cr</Badge>
+                </div>
+                <p className="text-foreground font-medium">"Don't redeem, borrow"</p>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    <strong className="text-foreground">Target:</strong> Top-8 metros, &gt;₹10L MF holdings, 30-50 age<br/>
+                    <strong className="text-foreground">Hook:</strong> Portfolio doctor + EMI vs. pledge calculators
+                  </p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Digital Gold/Silver Pillar */}
+            <Card className="p-8 hover:shadow-xl transition-all border-2 border-yellow-100">
+              <div className="space-y-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground">Digital Gold/Silver</h3>
+                    <p className="text-sm text-muted-foreground mt-1">3M UPI millennials</p>
+                  </div>
+                  <Badge className="bg-yellow-600 text-white text-lg px-4 py-1">₹18,000 Cr</Badge>
+                </div>
+                <p className="text-foreground font-medium">"₹100/day wealth building"</p>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    <strong className="text-foreground">Target:</strong> 23-35 age, Tier-1/2 cities, ₹25-75k disposable<br/>
+                    <strong className="text-foreground">Hook:</strong> Low entry (₹1-₹10) + SIP + gifting kits
+                  </p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Smallcases Pillar */}
+            <Card className="p-8 hover:shadow-xl transition-all border-2 border-purple-100">
+              <div className="space-y-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground">Smallcases / Thematic Baskets</h3>
+                    <p className="text-sm text-muted-foreground mt-1">600K self-directed professionals</p>
+                  </div>
+                  <Badge className="bg-purple-600 text-white text-lg px-4 py-1">₹9,000 Cr</Badge>
+                </div>
+                <p className="text-foreground font-medium">"News → Portfolio"</p>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    <strong className="text-foreground">Target:</strong> IT/finance/startups, ₹12L-₹35L income<br/>
+                    <strong className="text-foreground">Hook:</strong> Daily explainers → actionable smallcase flows
+                  </p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Credit Cards Pillar */}
+            <Card className="p-8 hover:shadow-xl transition-all border-2 border-green-100">
+              <div className="space-y-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground">Credit Cards + Protection</h3>
+                    <p className="text-sm text-muted-foreground mt-1">2.5M emerging affluent</p>
+                  </div>
+                  <Badge className="bg-green-600 text-white text-lg px-4 py-1">₹7,500 Cr</Badge>
+                </div>
+                <p className="text-foreground font-medium">"Discovery → Protection"</p>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    <strong className="text-foreground">Target:</strong> ₹7L-₹18L income, Tier-1/2 cities<br/>
+                    <strong className="text-foreground">Hook:</strong> Card ladders + contextual insurance upsell
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* TAM Scaling Context */}
+          <Card className="p-8 bg-gradient-to-r from-slate-900 to-slate-800 text-white">
+            <div className="text-center space-y-6">
+              <h3 className="text-3xl font-bold">Path to ₹2.3 Lakh Crore+ by 2030</h3>
+              <div className="flex items-center justify-center gap-8 text-sm">
+                <div className="space-y-1">
+                  <div className="text-blue-400 font-bold">Phase 1 (0-12M)</div>
+                  <div className="text-slate-300">Tier-1 Metros</div>
+                  <div className="text-slate-300">SEO + WhatsApp</div>
+                </div>
+                <div className="text-3xl text-slate-600">→</div>
+                <div className="space-y-1">
+                  <div className="text-purple-400 font-bold">Phase 2 (12-24M)</div>
+                  <div className="text-slate-300">Tier-2 Cities</div>
+                  <div className="text-slate-300">Vernacular + Advisors</div>
+                </div>
+                <div className="text-3xl text-slate-600">→</div>
+                <div className="space-y-1">
+                  <div className="text-green-400 font-bold">Phase 3 (24M+)</div>
+                  <div className="text-slate-300">Semi-Urban</div>
+                  <div className="text-slate-300">NBFC/AMC Partnerships</div>
+                </div>
+              </div>
+              <p className="text-slate-400 text-sm max-w-3xl mx-auto pt-4 border-t border-slate-700">
+                <strong className="text-white">Extensible Platform:</strong> Each pillar proves content-to-commerce engine. 
+                Add new partners (5 lenders, 10 card issuers) or verticals (Insurance, Bonds, FDs) using same playbook.
+              </p>
+            </div>
+          </Card>
+        </div>
+      </section>
+
       {/* Navigation hint */}
       <div className="fixed bottom-8 right-8">
         <Badge variant="outline" className="px-4 py-2">
