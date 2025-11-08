@@ -84,6 +84,10 @@ export const pitchSlidesV3 = [
   },
   {
     id: 4,
+    type: 'market-opportunity-bottom-up'
+  },
+  {
+    id: 5,
     type: 'solution',
     title: 'Universal Financial Aggregation + AI Intelligence',
     subtitle: 'Cohort-Specific Solutions for Every Investor Type',
@@ -128,7 +132,7 @@ export const pitchSlidesV3 = [
     ]
   },
   {
-    id: 5,
+    id: 6,
     type: 'team',
     title: 'Proven Market, Strong Team, Strategic Funding',
     subtitle: '₹2.2M to capture ₹76,750 Cr TAM opportunity',

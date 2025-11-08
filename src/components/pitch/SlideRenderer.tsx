@@ -60,6 +60,7 @@ import { TractionFinancialsSlide } from './TractionFinancialsSlide';
 import { TeamGTMSlide } from './TeamGTMSlide';
 import { AskSlide } from './AskSlide';
 import { ClosingSlide } from './ClosingSlide';
+import { MarketOpportunityBottomUpSlide } from './MarketOpportunityBottomUpSlide';
 
 interface SlideRendererProps {
   slide: any;
@@ -87,6 +88,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
       return <CompetitionSlide slide={slide} />;
     case 'market-opportunity':
       return <MarketOpportunitySlideV2 slide={slide} />;
+    case 'market-opportunity-bottom-up':
+      return <MarketOpportunityBottomUpSlide />;
     case 'target-persona':
       return <TargetPersonaSlideV2 slide={slide} />;
     case 'aa-validation':
