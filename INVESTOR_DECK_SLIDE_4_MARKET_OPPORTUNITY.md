@@ -1,99 +1,89 @@
-# Slide 4: Market Opportunity - Simplified
+# Slide 4: Market Opportunity - 3-Category Focus
 
 ---
 
-## TAM Overview (Year 1 to Year 10)
+## The TAM Story
 
 **Year 1 TAM**: ₹53,750 crore  
 **Year 10 TAM**: ₹1,63,399 crore  
-
-**Key Message**: The TAM is so massive that even executing well on a limited set of categories will build a mass-scale digital business.
+**3x Growth in 10 Years**
 
 ---
 
-## Market Breakdown by Category
+## Market Size by Category
 
-| Category | Year 1 TAM | Year 10 TAM | Growth Driver |
-|----------|------------|-------------|---------------|
-| **LAMF** | ₹37,500 cr | ₹75,000 cr | 12% CAGR (MF market growth) |
-| **Digital Gold** | ₹15,000 cr | ₹30,000 cr | 15% CAGR (UPI gold adoption) |
-| **Digital Silver** | ₹1,250 cr | ₹2,400 cr | 18% CAGR (ETF inflows) |
-| **Stocks Research** | - | ₹25,999 cr | Partner brokerage flows |
-| **MF Research** | - | ₹30,000 cr | AMC partnerships, SIP nudges |
-| **TOTAL** | **₹53,750 cr** | **₹1,63,399 cr** | 3x growth |
+| Product | Year 1 Market (₹ cr) | Year 10 Market (₹ cr) | Our Year 10 Market Share |
+|---------|---------------------|----------------------|------------------------|
+| **LAMF** | 37,350 | 1,03,460 | 0.25% |
+| **Digital Gold** | 14,000 | 49,280 | 0.61% |
+| **Digital Silver** | 2,400 | 10,659 | 0.21% |
+| **TOTAL** | **53,750** | **1,63,399** | **0.42% avg** |
 
 ---
 
 ## Our Conservative Capture Strategy
 
-**Even 1% market penetration = ₹1,634 crore business by Year 10**
+**Even 0.42% average market share = ₹683.57 crore business by Year 10**
 
-**Our Plan**:
-- Year 1-2: 0.02% penetration → ₹12.59 cr revenue
-- Year 3-5: 0.13% penetration → ₹176.4 cr revenue
-- Year 10: 0.42% penetration → ₹683.57 cr revenue
-
-**Reality Check**: We're not trying to capture the whole market. We're building systematic content-to-commerce funnels in 3-5 focused categories and letting compounding effects do the work.
+### Revenue Trajectory:
+- **Year 1**: ₹1.14 cr (prove PMF with fixed cohorts)
+- **Year 2**: ₹5.04 cr (validate economics)
+- **Year 5**: ₹69.94 cr (expand cohorts with market CAGR)
+- **Year 10**: ₹683.57 cr (mass-scale digital business)
 
 ---
 
-## Content-to-Commerce Blueprint
+## 3-Category Beachhead Strategy
 
-**The Formula**: Daily research (14K+ AI-assisted pages) → Behavioral signals → Right CTA at right moment
+### 1. LAMF (Loan Against Mutual Funds)
+- **Who**: 1.2M SIP-heavy investors (₹10L+ MF holdings) in top-8 metros
+- **Why**: Liquidity without selling investments
+- **Year 1-3**: Fixed cohort, prove PMF (₹0.86 cr → ₹3.14 cr)
+- **Year 4+**: Expand with 12% market CAGR
+
+### 2. Digital Gold
+- **Who**: 3M UPI power users (23-35, ₹25-75K income)
+- **Why**: ₹1 minimum entry, festival gifting, SIP savings
+- **Year 1-3**: Fixed cohort (₹0.21 cr → ₹1.55 cr)
+- **Year 4+**: Expand with 15% market CAGR
+
+### 3. Digital Silver
+- **Who**: 1M early adopters seeking affordable precious metal exposure
+- **Why**: Lower entry than gold, inflation hedge
+- **Year 1-3**: Fixed cohort (₹0.06 cr → ₹0.35 cr)
+- **Year 4+**: Expand with 18% market CAGR
+
+---
+
+## Content-to-Commerce Engine
+
+**Daily Research → Behavioral Signals → Right CTA at Right Moment**
+
+- 14K+ AI-assisted pages (stocks, MF, gold, silver)
+- Personalization layer (scroll depth, dwell time, tool usage)
+- Commerce CTAs embedded naturally (calculators → buy widgets)
+- Zero pushy sales, content anchors investors
 
 **Examples**:
-- Stock deep-dive article → Broker widget CTA
-- MF review → SIP quick-start journey
+- Stock deep-dive → Broker widget
+- MF review → SIP quick-start
 - MF liquidity story → LAMF calculator → loan application
-- Digital gold Diwali article → SIP sign-up
-
-**Personalization Layer**:
-- Scroll depth, dwell time, tool usage, cohort affinity
-- Tailored article recommendations, WhatsApp nudges, commerce CTAs
-- Raises "read → transact" conversion signals before any sales touchpoint
-
-**Why This Works**: Content anchors investors, delivers behavioral insights, and embeds commerce naturally—zero pushy sales.
+- Gold Diwali article → SIP sign-up
 
 ---
 
-## Target User Segments
+## Key Takeaway
 
-### 1. HNI (SIP-heavy investors)
-- **Product**: LAMF Loans
-- **Profile**: ₹10L+ MF corpus, running SIPs, needs liquidity without breaking investments
-- **Year 10 TAM**: ₹75,000 cr
-- **Growth**: 12% CAGR
+**TAM grows 3x (₹53,750 cr → ₹1,63,399 cr) by Year 10**
 
-### 2. Digital Savers (UPI-native millennials)
-- **Product**: Digital Gold
-- **Profile**: PhonePe users, ₹50k disposable income, festival-driven savers
-- **Year 10 TAM**: ₹30,000 cr
-- **Growth**: 15% CAGR
+We don't need to capture the whole market. Just **0.42% average market share** across 3 focused categories = **₹683.57 crore business**.
 
-### 3. Value Seekers (Tier-2 early adopters)
-- **Product**: Digital Silver
-- **Profile**: Tech-savvy, value investors, want affordable metal savings
-- **Year 10 TAM**: ₹2,400 cr
-- **Growth**: 18% CAGR
+**The Strategy**:
+1. Years 1-3: Prove PMF with fixed cohorts (₹1.14 cr → ₹5.04 cr → ₹17.47 cr)
+2. Years 4+: Expand cohorts with market CAGR
+3. Content-to-commerce funnels drive organic, zero-CAC growth
 
-### 4. Active Investors (research-driven)
-- **Products**: Stocks & MF Research
-- **Profile**: Daily market followers, using broker apps, making informed decisions
-- **Year 10 TAM**: ₹55,999 cr (combined)
-- **Monetization**: Partner brokerage flows, AMC partnerships
-
----
-
-## Key Takeaway for Investors
-
-**The TAM is 3x bigger by Year 10 (₹53,750 cr → ₹1,63,399 cr).**
-
-Even at **0.42% penetration**, we build a **₹683.57 crore business** by executing well on:
-- Content-to-commerce funnels (read → tool → transact)
-- Limited categories (3-5 focused products)
-- Systematic growth (proven in Year 1-2, scaled in Year 3-5)
-
-**Bottom line**: Limited execution + massive TAM = mass-scale digital business.
+**Bottom line**: Limited execution on massive TAM = mass-scale digital business.
 
 ---
 
