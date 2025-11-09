@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, TrendingUp, Users, DollarSign, Target } from "lucide-react";
-import { MarketOpportunityBottomUpSlide } from "@/components/pitch/MarketOpportunityBottomUpSlide";
+import { MarketOpportunitySimplifiedSlide } from "@/components/pitch/MarketOpportunitySimplifiedSlide";
 
 const InvestorDeckFull = () => {
   return (
@@ -188,10 +188,10 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
-      {/* Slide 4: Market Opportunity - Bottom Up Story */}
+      {/* Slide 4: Market Opportunity - Simplified */}
       <section className="min-h-screen flex items-center justify-center p-8 border-b">
         <div className="max-w-7xl mx-auto w-full">
-          <MarketOpportunityBottomUpSlide />
+          <MarketOpportunitySimplifiedSlide />
         </div>
       </section>
 
