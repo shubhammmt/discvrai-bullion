@@ -276,6 +276,134 @@ Year 6-10: Market Leader → Network Effects → Category Expansion
 
 ---
 
+## Content-to-Commerce Flywheel (Core Engine)
+
+### Daily Content Engine
+Daily stocks & mutual fund research (14K+ AI-assisted pages) keeps investors anchored, delivers behavioural signals, and embeds the right CTA at the right moment:
+- **Stock deep-dive** → broker widget
+- **MF review** → SIP quick-start
+- **MF liquidity story** → LAMF calculator
+
+### Personalisation Layer
+Scroll depth, dwell time, tool usage, and cohort affinity tailor:
+- Article recommendations
+- WhatsApp nudges
+- Commerce CTAs
+
+**Result**: Raises "read → transact" conversion signals before any sales touchpoint.
+
+---
+
+## Slide 5: Product/Service/Cause
+
+### Name
+**Discvr.ai - India's Financial Content-to-Commerce Platform**
+
+### Screen Captures
+- Feed interface showing stocks & MF research
+- Calculator tools (LAMF EMI calculator, Gold SIP calculator)
+- Conversion widgets (broker integration, LAMF application, digital gold purchase)
+- Personalisation engine (recommended articles, nudges)
+
+### Demo Flow
+1. **Discovery**: User reads "Should You Break Your SIP for Emergency Expenses?"
+2. **Education**: Uses LAMF calculator to compare EMI vs. pledge
+3. **Conversion**: Applies for LAMF via embedded partner widget
+4. **Engagement**: Returns for weekly MF news, shares calculator with colleagues
+
+---
+
+## Slide 6: Business Model & GTM
+
+### Business Model
+**Commission on every product transaction:**
+- **LAMF loans**: 0.6% commission
+- **Digital gold and silver purchases**: 2% commission
+- **Future equity/MF partner journeys**: Similar commission splits
+
+**Unit Economics**: 100% gross margin (commission-based), positive from day 1
+
+### Go-To-Market
+**Content-first distribution across:**
+- Web + app (built for SEO and AI search surfaces)
+- Cross-posting to Instagram/YouTube/LinkedIn
+- WhatsApp & Telegram communities
+
+**Interlinked funnels**: "read → tool → transact"
+- Stock deep-dive → broker widget
+- MF review → SIP quick-start
+- MF liquidity story → LAMF calculator
+
+**Result**: Content converts at zero CAC
+
+### Acquiring Customers
+**Digitally aligned, low-CAC channels:**
+- In-house content production (180 → 500 articles/day)
+- SEO (organic discovery)
+- Newsletters & email campaigns
+- WhatsApp broadcasts & Telegram groups
+- Influencer partnerships
+- Display inventory swaps
+- Co-marketing with brokers/NBFCs/payment apps
+
+**CAC**: ≈ ₹0 (organic content-driven)
+
+### Channels & Verticals
+
+#### LAMF (Loan Against Mutual Funds)
+- **Target**: SIP-heavy HNIs
+- **Channels**: Long-form explainers, calculators, webinars, LinkedIn, WhatsApp
+- **Content**: "Should you break your SIP?", "LAMF vs. personal loan calculator"
+
+#### Digital Gold
+- **Target**: UPI-native savers
+- **Channels**: Short-form video, festival gifting journeys, Hindi/regional influencers
+- **Content**: "₹100/day gold challenge", "5 Smart Ways to Buy Gold This Diwali"
+
+#### Digital Silver
+- **Target**: Value-conscious early adopters
+- **Channels**: Vernacular content, Tier-2 creators, cross-sell nudges from gold users
+- **Content**: "Why Silver is Outperforming Gold in 2025", silver SIP calculator
+
+#### Stocks & MF Research
+- **Purpose**: Daily coverage that feeds partner widgets and broker flows
+- **Distribution**: 14K+ AI-assisted pages, SEO-optimized
+- **Monetization**: Indirect (drives engagement, behavioral signals, trust)
+
+### Current Traction
+
+**Sessions Growth:**
+- September: 11K sessions
+- October: 25K sessions
+- November (tracking): 100K sessions
+
+**Engagement Metrics:**
+- Average session: >3 minutes
+- Organic reach: ~10% across content surfaces
+
+**Content Library:**
+- 14K+ AI-assisted pages (stocks & MF research)
+- 180 articles/day (scaling to 500/day)
+
+### Scaling Momentum
+
+**Content Ramp:**
+- Text articles: 180 → 500/day
+- Short-form video: 50+ pieces/month (reels/shorts)
+
+**Product Enhancements:**
+- Richer tools (calculators, trackers)
+- Expanded vernacular coverage
+- Double influencer bench
+
+**Partnerships:**
+- Deepen broker/NBFC integrations
+- Co-marketing with payment apps/AMCs
+
+**Result**: Compound organic discovery and conversion
+
+---
+
 ## Immediate Next Steps
 
 1. **Validate house data**: Confirm daily content velocity, funnel conversion baselines, current MAUs.
@@ -283,6 +411,9 @@ Year 6-10: Market Leader → Network Effects → Category Expansion
 3. **Pressure-test TAM/SAM/SOM math** with internal analytics & partner feedback (e.g., NBFC LTV appetite for LAMF, gold/silver provider commission structures).
 4. **Prepare visual assets**: CAC vs. zero-CAC graphic, content→conversion funnel schematic, metro heatmap for beachhead cohorts, TAM/SAM/SOM pyramid diagram.
 5. **Line up proof points** (case studies, conversion %, repeat rates) for appendix.
+6. **Slide 4 download optimization**: Enable standalone download/export of Slide 4 as single-page infographic
+7. **Slide 5 demo assets**: Prepare screen captures, demo flow videos
+8. **Slide 6 visual design**: Create GTM funnel diagram, channel breakdown, traction growth chart
 
 **Reference**: See TAM-SAM-SOM-Conservative.md for detailed conservative calculations (recommended) and TAM-SAM-SOM-Strategy.md for original estimates. Beachhead-Calculations-Breakdown.md contains step-by-step math.
 
