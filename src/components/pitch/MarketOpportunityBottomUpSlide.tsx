@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, Coins, Zap, ArrowRight, Target, TrendingUp } from 'lucide-react';
+import { Users, Coins, Zap, ArrowRight, ArrowDown, TrendingUp } from 'lucide-react';
 
 export const MarketOpportunityBottomUpSlide = () => {
   return (
@@ -9,269 +9,362 @@ export const MarketOpportunityBottomUpSlide = () => {
       {/* Header */}
       <div className="text-center space-y-3">
         <Badge variant="secondary" className="mb-2">Market Opportunity</Badge>
-        <h2 className="text-5xl font-bold">How We Win: Content-Led Distribution</h2>
-        <p className="text-xl text-muted-foreground">3 Target Groups → 3 Content Strategies → Zero-CAC Scale</p>
-        <p className="text-sm text-muted-foreground mt-2">TAM: LAMF ₹37,500 cr • Digital Gold ₹15,000 cr • Digital Silver ₹2,400 cr</p>
+        <h2 className="text-5xl font-bold">Bottom-Up: From One User to ₹54,900 Cr Market</h2>
+        <p className="text-xl text-muted-foreground">We start specific, then scale systematically</p>
       </div>
 
-      {/* The 3 Target Groups */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* LAMF Target Group */}
-        <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-primary/10">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                <Users className="w-6 h-6 text-primary" />
+      {/* The 3 User Stories - Bottom Layer */}
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold">1</div>
+          <h3 className="text-2xl font-bold">Start Here: Individual Users</h3>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Rahul - LAMF */}
+          <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-primary/10">
+            <CardContent className="p-6 space-y-3">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold">Meet Rahul</h4>
+                  <p className="text-xs text-muted-foreground">LAMF User</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xl font-bold">LAMF Users</h3>
-                <p className="text-sm text-muted-foreground">1.2M MF Investors</p>
+              <div className="space-y-2 text-sm">
+                <p className="text-muted-foreground">• 35 years, Bangalore</p>
+                <p className="text-muted-foreground">• ₹10L MF corpus, running SIPs</p>
+                <p className="text-muted-foreground">• Needs ₹6L for child's education</p>
+                <p className="font-semibold text-primary mt-3">Takes ₹6L LAMF loan</p>
+                <p className="text-xs text-muted-foreground">We earn: ₹3,600 (0.6% commission)</p>
               </div>
-            </div>
+            </CardContent>
+          </Card>
 
-            <div className="space-y-3">
-              <div>
-                <p className="font-semibold text-sm mb-1">Who We Serve (Years 1-3)</p>
-                <p className="text-sm text-muted-foreground">1.2M SIP-heavy HNIs (₹10L+ MF corpus) in top-8 metros</p>
+          {/* Priya - Gold */}
+          <Card className="border-2 border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-yellow-500/10">
+            <CardContent className="p-6 space-y-3">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                  <Coins className="w-5 h-5 text-yellow-600" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold">Meet Priya</h4>
+                  <p className="text-xs text-muted-foreground">Digital Gold User</p>
+                </div>
               </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Why They Care</p>
-                <p className="text-xs text-muted-foreground">Need liquidity without breaking compounding or triggering exit loads</p>
+              <div className="space-y-2 text-sm">
+                <p className="text-muted-foreground">• 28 years, Mumbai</p>
+                <p className="text-muted-foreground">• PhonePe user, ₹50k disposable</p>
+                <p className="text-muted-foreground">• Wants to save for festivals</p>
+                <p className="font-semibold text-yellow-600 mt-3">Buys 2g gold (₹23,698)</p>
+                <p className="text-xs text-muted-foreground">We earn: ₹474 (2% commission)</p>
               </div>
+            </CardContent>
+          </Card>
 
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">Core Content Hooks</p>
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Deep-dive guides on "pledge vs redeem"</p>
+          {/* Aditya - Silver */}
+          <Card className="border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-purple-500/10">
+            <CardContent className="p-6 space-y-3">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold">Meet Aditya</h4>
+                  <p className="text-xs text-muted-foreground">Digital Silver User</p>
+                </div>
+              </div>
+              <div className="space-y-2 text-sm">
+                <p className="text-muted-foreground">• 30 years, Pune</p>
+                <p className="text-muted-foreground">• Tech-savvy, value investor</p>
+                <p className="text-muted-foreground">• Starts ₹3k/month silver SIP</p>
+                <p className="font-semibold text-purple-600 mt-3">Buys 150g silver (₹24,000)</p>
+                <p className="text-xs text-muted-foreground">We earn: ₹480 (2% commission)</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      <div className="flex justify-center">
+        <ArrowDown className="w-8 h-8 text-muted-foreground animate-bounce" />
+      </div>
+
+      {/* Scale to Cohorts - Middle Layer */}
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold">2</div>
+          <h3 className="text-2xl font-bold">Scale to Cohorts: Year 1-2 Beachhead</h3>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* LAMF Cohort */}
+          <Card className="border-2 border-primary/30">
+            <CardContent className="p-6 space-y-3">
+              <h4 className="text-lg font-bold text-primary">LAMF Cohort</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Target Group:</span>
+                  <span className="font-semibold">1.2M users</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Year 1-2 Users:</span>
+                  <span className="font-semibold">7,200</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Penetration:</span>
+                  <span className="font-semibold text-primary">0.6%</span>
+                </div>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Revenue:</span>
+                    <span className="text-xl font-bold text-primary">₹3.67 cr</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">EMI vs redemption calculators, SIP preservation case studies</p>
+                  <p className="text-xs text-muted-foreground mt-1">7,200 × ₹5,100 ARPU</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Gold Cohort */}
+          <Card className="border-2 border-yellow-500/30">
+            <CardContent className="p-6 space-y-3">
+              <h4 className="text-lg font-bold text-yellow-600">Digital Gold Cohort</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Target Group:</span>
+                  <span className="font-semibold">3M users</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Year 1-2 Users:</span>
+                  <span className="font-semibold">27,600</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Penetration:</span>
+                  <span className="font-semibold text-yellow-600">0.92%</span>
+                </div>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Revenue:</span>
+                    <span className="text-xl font-bold text-yellow-600">₹7.4 cr</span>
                   </div>
+                  <p className="text-xs text-muted-foreground mt-1">27,600 × ₹2,680 ARPU</p>
                 </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">Organic Channels</p>
-                <p className="text-xs text-muted-foreground">SEO (long-form explainers) • LinkedIn & YouTube webinars with CAs • WhatsApp Business groups</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Signature Assets</p>
-                <p className="text-xs text-muted-foreground">Loan-against-MF calculator, pledge-readiness checklist, monthly "SIP health" newsletter</p>
-              </div>
-
-              <div className="pt-3 border-t bg-primary/10 -mx-6 -mb-6 px-6 py-3 rounded-b-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs font-semibold">Year 1-2 Target</span>
-                  <span className="font-bold text-primary">7,200 users</span>
+          {/* Silver Cohort */}
+          <Card className="border-2 border-purple-500/30">
+            <CardContent className="p-6 space-y-3">
+              <h4 className="text-lg font-bold text-purple-600">Digital Silver Cohort</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Target Group:</span>
+                  <span className="font-semibold">1M users</span>
                 </div>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-muted-foreground">Revenue</span>
-                  <span className="font-bold text-primary">₹3.67 cr</span>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Year 1-2 Users:</span>
+                  <span className="font-semibold">5,900</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Penetration:</span>
+                  <span className="font-semibold text-purple-600">0.59%</span>
+                </div>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Revenue:</span>
+                    <span className="text-xl font-bold text-purple-600">₹1.52 cr</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">5,900 × ₹2,576 ARPU</p>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
 
-        {/* Digital Gold Target Group */}
-        <Card className="border-2 border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-yellow-500/10">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center">
-                <Coins className="w-6 h-6 text-yellow-600" />
-              </div>
+        {/* Year 1-2 Total */}
+        <Card className="mt-6 border-2 border-primary/40 bg-gradient-to-r from-primary/10 to-purple-500/10">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-xl font-bold">Digital Gold</h3>
-                <p className="text-sm text-muted-foreground">3M UPI Power Users</p>
+                <h4 className="text-xl font-bold">Year 1-2 Total (Beachhead)</h4>
+                <p className="text-sm text-muted-foreground">40,700 users across 3 products</p>
               </div>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <p className="font-semibold text-sm mb-1">Who We Serve (Years 1-3)</p>
-                <p className="text-sm text-muted-foreground">3M UPI-native savers (23–35, Tier-1/2) with ₹25–75K disposable income</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Why They Care</p>
-                <p className="text-xs text-muted-foreground">Want ₹1 micro-savings, festival gifting, simple SIP experience</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">Core Content Hooks</p>
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">"₹100/day gold challenge", festival gifting playbooks</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Short reels comparing digital vs jewellery gold</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">Organic Channels</p>
-                <p className="text-xs text-muted-foreground">Instagram Reels • YouTube Shorts • Hindi/English finfluencers • WhatsApp broadcast lists</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Signature Assets</p>
-                <p className="text-xs text-muted-foreground">Gold SIP calculator, instant "gift gold" flow, festival campaign packs</p>
-              </div>
-
-              <div className="pt-3 border-t bg-yellow-500/10 -mx-6 -mb-6 px-6 py-3 rounded-b-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs font-semibold">Year 1-2 Target</span>
-                  <span className="font-bold text-yellow-600">24,000 users</span>
-                </div>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-muted-foreground">Revenue</span>
-                  <span className="font-bold text-yellow-600">₹7.4 cr</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Digital Silver Target Group */}
-        <Card className="border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-purple-500/10">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <Zap className="w-6 h-6 text-purple-600" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">Digital Silver</h3>
-                <p className="text-sm text-muted-foreground">5M Early Adopters</p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <p className="font-semibold text-sm mb-1">Who We Serve (Years 1-3)</p>
-                <p className="text-sm text-muted-foreground">1M value-conscious early adopters (Tier-1/2) starting ₹3K/month SIPs</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Why They Care</p>
-                <p className="text-xs text-muted-foreground">Want affordable metal hedge, industrial-growth story, gifting options</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">Core Content Hooks</p>
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">"Silver in everyday life" stories, ₹10/day saving challenges</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Regional festival content, cross-sell nudges from gold app</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">Organic Channels</p>
-                <p className="text-xs text-muted-foreground">Facebook & YouTube (vernacular) • Regional finfluencers • WhatsApp referrals</p>
-              </div>
-
-              <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Signature Assets</p>
-                <p className="text-xs text-muted-foreground">Silver SIP calculator, bilingual FAQ hub, "Silver Saver" combo nudges for gold users</p>
-              </div>
-
-              <div className="pt-3 border-t bg-purple-500/10 -mx-6 -mb-6 px-6 py-3 rounded-b-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs font-semibold">Year 1-2 Target</span>
-                  <span className="font-bold text-purple-600">25,000 users</span>
-                </div>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-muted-foreground">Revenue</span>
-                  <span className="font-bold text-purple-600">₹1.52 cr</span>
-                </div>
+              <div className="text-right">
+                <div className="text-4xl font-bold text-primary">₹12.59 cr</div>
+                <p className="text-sm text-muted-foreground">Cumulative revenue</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* The Scale Path */}
-      <Card className="border-2 border-primary/20">
-        <CardContent className="p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <Target className="w-8 h-8 text-primary" />
-            <h3 className="text-3xl font-bold">The Scale Path: Bottom-Up → Market Leadership</h3>
-          </div>
+      <div className="flex justify-center">
+        <ArrowDown className="w-8 h-8 text-muted-foreground animate-bounce" />
+      </div>
 
-          <div className="grid md:grid-cols-4 gap-4">
-            {/* Start Here */}
-            <div className="space-y-3">
-              <Badge variant="outline" className="mb-2">Year 1-2: Prove It</Badge>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold text-primary">₹12.59 cr</div>
-                <p className="text-sm text-muted-foreground">56,200 users across 3 products</p>
-                <p className="text-xs text-muted-foreground font-semibold pt-2 border-t">Focus: Top-8 cities, prove PMF, 0% CAC</p>
+      {/* Path to TAM - Top Layer */}
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold">3</div>
+          <h3 className="text-2xl font-bold">The Full Market: TAM & Growth Path</h3>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 mb-6">
+          {/* LAMF TAM */}
+          <Card className="border-2 border-primary/30">
+            <CardContent className="p-6 space-y-3">
+              <h4 className="text-lg font-bold text-primary">LAMF Market</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Total TAM:</span>
+                  <span className="text-xl font-bold text-primary">₹37,500 cr</span>
+                </div>
+                <p className="text-xs text-muted-foreground">{'<'}1% of ₹76L cr MF AUM</p>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Our Year 1-2:</span>
+                    <span className="font-semibold">₹3.67 cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">% of TAM:</span>
+                    <span className="font-semibold text-primary">0.01%</span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-muted-foreground">Year 10 Target:</span>
+                    <span className="font-semibold text-primary">₹153.57 cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">% of TAM:</span>
+                    <span className="font-semibold text-primary">0.41%</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Gold TAM */}
+          <Card className="border-2 border-yellow-500/30">
+            <CardContent className="p-6 space-y-3">
+              <h4 className="text-lg font-bold text-yellow-600">Digital Gold Market</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Total TAM:</span>
+                  <span className="text-xl font-bold text-yellow-600">₹15,000 cr</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Almost all is SAM (digital)</p>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Our Year 1-2:</span>
+                    <span className="font-semibold">₹7.4 cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">% of TAM:</span>
+                    <span className="font-semibold text-yellow-600">0.05%</span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-muted-foreground">Year 10 Target:</span>
+                    <span className="font-semibold text-yellow-600">₹399.34 cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">% of TAM:</span>
+                    <span className="font-semibold text-yellow-600">2.66%</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Silver TAM */}
+          <Card className="border-2 border-purple-500/30">
+            <CardContent className="p-6 space-y-3">
+              <h4 className="text-lg font-bold text-purple-600">Digital Silver Market</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Total TAM:</span>
+                  <span className="text-xl font-bold text-purple-600">₹2,400 cr</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Almost all is SAM (digital)</p>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Our Year 1-2:</span>
+                    <span className="font-semibold">₹1.52 cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">% of TAM:</span>
+                    <span className="font-semibold text-purple-600">0.06%</span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-muted-foreground">Year 10 Target:</span>
+                    <span className="font-semibold text-purple-600">₹130.66 cr</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">% of TAM:</span>
+                    <span className="font-semibold text-purple-600">5.44%</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Total Market Summary */}
+        <Card className="border-2 border-primary/40 bg-gradient-to-r from-primary/10 via-yellow-500/10 to-purple-500/10">
+          <CardContent className="p-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-2xl font-bold mb-4">Combined Market Opportunity</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg text-muted-foreground">Total TAM:</span>
+                    <span className="text-4xl font-bold text-primary">₹54,900 cr</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">LAMF (₹37.5K cr) + Gold (₹15K cr) + Silver (₹2.4K cr)</p>
+                </div>
+              </div>
+              <div>
+                <h4 className="text-2xl font-bold mb-4">Our Growth Path</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Year 1-2:</span>
+                    <span className="font-bold text-primary">₹12.59 cr (0.02% of TAM)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Year 3-5:</span>
+                    <span className="font-bold text-purple-600">₹69.94 cr (0.13% of TAM)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Year 10:</span>
+                    <span className="font-bold text-green-600">₹683.57 cr (1.25% of TAM)</span>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="flex items-center justify-center">
-              <ArrowRight className="w-8 h-8 text-muted-foreground" />
-            </div>
-
-            {/* Then Scale */}
-            <div className="space-y-3">
-              <Badge variant="outline" className="mb-2">Year 3-5: Expand</Badge>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold text-purple-600">₹176.4 cr</div>
-                <p className="text-sm text-muted-foreground">367K users, Top-30 cities</p>
-                <p className="text-xs text-muted-foreground font-semibold pt-2 border-t">Scale: Vernacular content, partnerships</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center">
-              <ArrowRight className="w-8 h-8 text-muted-foreground" />
-            </div>
-
-            {/* Finally Dominate */}
-            <div className="space-y-3">
-              <Badge variant="outline" className="mb-2">Year 6-10: Lead</Badge>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold text-green-600">₹1,192 cr</div>
-                <p className="text-sm text-muted-foreground">1.06M users, Pan-India</p>
-                <p className="text-xs text-muted-foreground font-semibold pt-2 border-t">Dominate: Category leader, add products</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Why This Works */}
-      <Card className="bg-gradient-to-r from-primary/10 via-purple-500/10 to-green-500/10 border-2 border-primary/20">
+      <Card className="bg-gradient-to-r from-primary/10 to-purple-500/10 border-2 border-primary/20">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp className="w-6 h-6 text-primary" />
-            <h4 className="text-2xl font-bold">Why This Works: Content Compounds, CAC Stays Zero</h4>
+            <h4 className="text-2xl font-bold">Why Bottom-Up Matters: Content Compounds, CAC Stays Zero</h4>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <p className="font-semibold text-primary">Specific Target Groups</p>
-              <p className="text-sm text-muted-foreground">We don't chase everyone. We solve specific pain points for 3 well-defined groups.</p>
+              <p className="font-semibold text-primary">Conservative Start (0.02% TAM)</p>
+              <p className="text-sm text-muted-foreground">We prove PMF with specific users in Years 1-2. No spray-and-pray.</p>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold text-purple-600">Content-Led Distribution</p>
-              <p className="text-sm text-muted-foreground">Every article = permanent SEO asset. Traffic compounds while CAC stays ₹0.</p>
+              <p className="font-semibold text-purple-600">Systematic Scale (12-18% CAGR)</p>
+              <p className="text-sm text-muted-foreground">Content library compounds. Market grows 12-18% annually. We ride both waves.</p>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold text-green-600">Proven Before Scaling</p>
-              <p className="text-sm text-muted-foreground">Years 1-2 prove PMF. Years 3+ layer market growth (12-18% CAGR) on top.</p>
+              <p className="font-semibold text-green-600">Still 1.25% TAM at Year 10</p>
+              <p className="text-sm text-muted-foreground">Even after 10 years, we're only at 1.25% of ₹54,900 cr. Massive upside remains.</p>
             </div>
           </div>
         </CardContent>
