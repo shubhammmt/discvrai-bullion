@@ -11,6 +11,7 @@ export const MarketOpportunityBottomUpSlide = () => {
         <Badge variant="secondary" className="mb-2">Market Opportunity</Badge>
         <h2 className="text-5xl font-bold">How We Win: Content-Led Distribution</h2>
         <p className="text-xl text-muted-foreground">3 Target Groups → 3 Content Strategies → Zero-CAC Scale</p>
+        <p className="text-sm text-muted-foreground mt-2">TAM: LAMF ₹37,500 cr • Digital Gold ₹15,000 cr • Digital Silver ₹2,400 cr</p>
       </div>
 
       {/* The 3 Target Groups */}
@@ -30,31 +31,37 @@ export const MarketOpportunityBottomUpSlide = () => {
 
             <div className="space-y-3">
               <div>
-                <p className="font-semibold text-sm mb-1">Who They Are</p>
-                <p className="text-sm text-muted-foreground">Salaried professionals, 30-50 years, ₹12-50L income, &gt;₹10L MF holdings</p>
+                <p className="font-semibold text-sm mb-1">Who We Serve (Years 1-3)</p>
+                <p className="text-sm text-muted-foreground">1.2M SIP-heavy HNIs (₹10L+ MF corpus) in top-8 metros</p>
               </div>
 
               <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">How We Reach Them</p>
+                <p className="font-semibold text-sm mb-1">Why They Care</p>
+                <p className="text-xs text-muted-foreground">Need liquidity without breaking compounding or triggering exit loads</p>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="font-semibold text-sm mb-2">Core Content Hooks</p>
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">SEO content: "Loan against mutual funds", "liquidity without selling SIP"</p>
+                    <p className="text-xs text-muted-foreground">Deep-dive guides on "pledge vs redeem"</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Tools: Portfolio analyzer, EMI calculators, pledge vs. withdrawal guides</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Distribution: 50+ articles/month → 100K monthly organic visits</p>
+                    <p className="text-xs text-muted-foreground">EMI vs redemption calculators, SIP preservation case studies</p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Why It Works</p>
-                <p className="text-xs text-muted-foreground">They search for solutions → We provide education + product → Zero-CAC conversion</p>
+                <p className="font-semibold text-sm mb-2">Organic Channels</p>
+                <p className="text-xs text-muted-foreground">SEO (long-form explainers) • LinkedIn & YouTube webinars with CAs • WhatsApp Business groups</p>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="font-semibold text-sm mb-1">Signature Assets</p>
+                <p className="text-xs text-muted-foreground">Loan-against-MF calculator, pledge-readiness checklist, monthly "SIP health" newsletter</p>
               </div>
 
               <div className="pt-3 border-t bg-primary/10 -mx-6 -mb-6 px-6 py-3 rounded-b-lg">
@@ -86,31 +93,37 @@ export const MarketOpportunityBottomUpSlide = () => {
 
             <div className="space-y-3">
               <div>
-                <p className="font-semibold text-sm mb-1">Who They Are</p>
-                <p className="text-sm text-muted-foreground">Young professionals, 23-35 years, ₹25-75k monthly disposable, PhonePe/GPay users</p>
+                <p className="font-semibold text-sm mb-1">Who We Serve (Years 1-3)</p>
+                <p className="text-sm text-muted-foreground">3M UPI-native savers (23–35, Tier-1/2) with ₹25–75K disposable income</p>
               </div>
 
               <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">How We Reach Them</p>
+                <p className="font-semibold text-sm mb-1">Why They Care</p>
+                <p className="text-xs text-muted-foreground">Want ₹1 micro-savings, festival gifting, simple SIP experience</p>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="font-semibold text-sm mb-2">Core Content Hooks</p>
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">SEO content: "Digital gold vs physical gold", "₹100/day gold SIP"</p>
+                    <p className="text-xs text-muted-foreground">"₹100/day gold challenge", festival gifting playbooks</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Engagement: Festival buying guides, gold price alerts, gifting calculators</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Distribution: 40+ articles/month → 80K monthly organic visits</p>
+                    <p className="text-xs text-muted-foreground">Short reels comparing digital vs jewellery gold</p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Why It Works</p>
-                <p className="text-xs text-muted-foreground">Festival intent + trust in digital platforms → Content educates → Seamless UPI checkout</p>
+                <p className="font-semibold text-sm mb-2">Organic Channels</p>
+                <p className="text-xs text-muted-foreground">Instagram Reels • YouTube Shorts • Hindi/English finfluencers • WhatsApp broadcast lists</p>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="font-semibold text-sm mb-1">Signature Assets</p>
+                <p className="text-xs text-muted-foreground">Gold SIP calculator, instant "gift gold" flow, festival campaign packs</p>
               </div>
 
               <div className="pt-3 border-t bg-yellow-500/10 -mx-6 -mb-6 px-6 py-3 rounded-b-lg">
@@ -142,31 +155,37 @@ export const MarketOpportunityBottomUpSlide = () => {
 
             <div className="space-y-3">
               <div>
-                <p className="font-semibold text-sm mb-1">Who They Are</p>
-                <p className="text-sm text-muted-foreground">Tech-savvy investors, 25-40 years, looking for affordable precious metal entry</p>
+                <p className="font-semibold text-sm mb-1">Who We Serve (Years 1-3)</p>
+                <p className="text-sm text-muted-foreground">1M value-conscious early adopters (Tier-1/2) starting ₹3K/month SIPs</p>
               </div>
 
               <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-2">How We Reach Them</p>
+                <p className="font-semibold text-sm mb-1">Why They Care</p>
+                <p className="text-xs text-muted-foreground">Want affordable metal hedge, industrial-growth story, gifting options</p>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="font-semibold text-sm mb-2">Core Content Hooks</p>
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">SEO content: "Silver investment guide", "Silver vs gold returns", "₹3k/month SIP"</p>
+                    <p className="text-xs text-muted-foreground">"Silver in everyday life" stories, ₹10/day saving challenges</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Education: Industrial demand insights, price trend analysis, portfolio diversification</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">Distribution: 30+ articles/month → 60K monthly organic visits</p>
+                    <p className="text-xs text-muted-foreground">Regional festival content, cross-sell nudges from gold app</p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-3 border-t">
-                <p className="font-semibold text-sm mb-1">Why It Works</p>
-                <p className="text-xs text-muted-foreground">Lower entry barrier vs gold → Content builds category awareness → Early mover advantage</p>
+                <p className="font-semibold text-sm mb-2">Organic Channels</p>
+                <p className="text-xs text-muted-foreground">Facebook & YouTube (vernacular) • Regional finfluencers • WhatsApp referrals</p>
+              </div>
+
+              <div className="pt-3 border-t">
+                <p className="font-semibold text-sm mb-1">Signature Assets</p>
+                <p className="text-xs text-muted-foreground">Silver SIP calculator, bilingual FAQ hub, "Silver Saver" combo nudges for gold users</p>
               </div>
 
               <div className="pt-3 border-t bg-purple-500/10 -mx-6 -mb-6 px-6 py-3 rounded-b-lg">
