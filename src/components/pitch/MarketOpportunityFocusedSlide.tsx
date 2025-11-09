@@ -1,187 +1,198 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Target, Zap } from "lucide-react";
+import { Users, TrendingUp, Target } from "lucide-react";
 
 export const MarketOpportunityFocusedSlide = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-8 p-8">
+    <div className="w-full max-w-7xl mx-auto space-y-6 p-8">
       {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-          Market Opportunity
-        </h1>
-        <p className="text-2xl text-muted-foreground">
-          3-Category Focus • ₹53,750 Cr → ₹1,63,399 Cr (10 Years)
+      <div className="text-center space-y-2">
+        <h1 className="text-4xl font-bold">Market Opportunity</h1>
+        <p className="text-xl text-muted-foreground">
+          Persona-First, Conservative Growth Strategy
         </p>
       </div>
 
-      {/* TAM Overview */}
-      <Card className="border-2 border-primary/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl">
-            <TrendingUp className="h-6 w-6 text-primary" />
-            TAM Growth Story
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-6 text-center">
-            <div>
-              <div className="text-4xl font-bold text-primary">₹53,750 Cr</div>
-              <div className="text-sm text-muted-foreground mt-2">Year 1 TAM</div>
-            </div>
-            <div className="flex items-center justify-center">
-              <TrendingUp className="h-12 w-12 text-primary animate-pulse" />
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-primary">₹1,63,399 Cr</div>
-              <div className="text-sm text-muted-foreground mt-2">Year 10 TAM</div>
-            </div>
-          </div>
-          <div className="mt-6 text-center">
-            <Badge variant="secondary" className="text-lg px-4 py-2">
-              3x Growth in 10 Years
-            </Badge>
-          </div>
+      {/* Strategy Overview */}
+      <Card className="bg-primary/5 border-primary/20">
+        <CardContent className="p-5">
+          <p className="text-lg text-center font-medium">
+            We're NOT trying to capture the entire market. We're targeting <strong>3 specific user personas</strong> with real pain points,
+            proving unit economics in Years 1-3, then scaling conservatively.
+          </p>
         </CardContent>
       </Card>
 
-      {/* Market Breakdown */}
-      <div className="grid grid-cols-3 gap-4">
-        <Card className="border-l-4 border-l-primary">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">LAMF</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Year 1</span>
-              <span className="font-semibold">₹37,350 Cr</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Year 10</span>
-              <span className="font-semibold">₹1,03,460 Cr</span>
-            </div>
-            <div className="flex justify-between text-sm pt-2 border-t">
-              <span className="text-muted-foreground">Market Share</span>
-              <span className="font-bold text-primary">0.25%</span>
-            </div>
-          </CardContent>
-        </Card>
+      {/* The 3 User Personas */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-center">The 3 User Personas We Serve</h2>
+        
+        <div className="grid md:grid-cols-3 gap-4">
+          {/* LAMF Persona */}
+          <Card className="border-2">
+            <CardContent className="p-5 space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-5 h-5 text-primary" />
+                <h3 className="text-lg font-bold">The SIP-Heavy Investor</h3>
+              </div>
+              <div className="space-y-1.5 text-sm">
+                <p><strong>Product:</strong> LAMF</p>
+                <p><strong>Who:</strong> 1.2M investors in top-8 metros with ₹10L+ MF holdings</p>
+                <p><strong>Pain:</strong> Need liquidity but don't want to break SIPs</p>
+                <p><strong>Solution:</strong> Pledge mutual funds, get loans at lower rates</p>
+                <Badge variant="secondary" className="mt-2">Fixed 1.2M cohort (Years 1-3)</Badge>
+              </div>
+            </CardContent>
+          </Card>
 
-        <Card className="border-l-4 border-l-amber-500">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Digital Gold</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Year 1</span>
-              <span className="font-semibold">₹14,000 Cr</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Year 10</span>
-              <span className="font-semibold">₹49,280 Cr</span>
-            </div>
-            <div className="flex justify-between text-sm pt-2 border-t">
-              <span className="text-muted-foreground">Market Share</span>
-              <span className="font-bold text-amber-500">0.61%</span>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Gold Persona */}
+          <Card className="border-2">
+            <CardContent className="p-5 space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-5 h-5 text-primary" />
+                <h3 className="text-lg font-bold">The Micro-Saver</h3>
+              </div>
+              <div className="space-y-1.5 text-sm">
+                <p><strong>Product:</strong> Digital Gold</p>
+                <p><strong>Who:</strong> 3M UPI power users (23-35) with ₹25-75K income</p>
+                <p><strong>Pain:</strong> Gold too expensive (min 1g = ₹11,849)</p>
+                <p><strong>Solution:</strong> Start with ₹1, build gold SIPs, gift digitally</p>
+                <Badge variant="secondary" className="mt-2">Fixed 3M cohort (Years 1-3)</Badge>
+              </div>
+            </CardContent>
+          </Card>
 
-        <Card className="border-l-4 border-l-slate-400">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Digital Silver</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Year 1</span>
-              <span className="font-semibold">₹2,400 Cr</span>
+          {/* Silver Persona */}
+          <Card className="border-2">
+            <CardContent className="p-5 space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-5 h-5 text-primary" />
+                <h3 className="text-lg font-bold">The Value Seeker</h3>
+              </div>
+              <div className="space-y-1.5 text-sm">
+                <p><strong>Product:</strong> Digital Silver</p>
+                <p><strong>Who:</strong> 1M early adopters wanting affordable precious metal</p>
+                <p><strong>Pain:</strong> Need inflation hedge at lower ticket size</p>
+                <p><strong>Solution:</strong> Silver at ₹160/g, ₹3K/month SIPs</p>
+                <Badge variant="secondary" className="mt-2">Fixed 1M cohort (Years 1-3)</Badge>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Conservative Growth Table */}
+      <div className="space-y-3">
+        <h2 className="text-2xl font-bold text-center">Conservative Growth: Niche → Proven → Scale</h2>
+        
+        <Card>
+          <CardContent className="p-5">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-2 font-bold">Product</th>
+                    <th className="text-right p-2 font-bold">Year 1 Users</th>
+                    <th className="text-right p-2 font-bold">Year 10 Users</th>
+                    <th className="text-right p-2 font-bold">Year 1 Revenue</th>
+                    <th className="text-right p-2 font-bold">Year 10 Revenue</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">LAMF</td>
+                    <td className="text-right p-2">2,400</td>
+                    <td className="text-right p-2">390,760</td>
+                    <td className="text-right p-2">₹0.86 cr</td>
+                    <td className="text-right p-2">₹164.12 cr</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Digital Gold</td>
+                    <td className="text-right p-2">9,000</td>
+                    <td className="text-right p-2">2,190,634</td>
+                    <td className="text-right p-2">₹0.21 cr</td>
+                    <td className="text-right p-2">₹217.15 cr</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Digital Silver</td>
+                    <td className="text-right p-2">2,000</td>
+                    <td className="text-right p-2">863,496</td>
+                    <td className="text-right p-2">₹0.06 cr</td>
+                    <td className="text-right p-2">₹78.98 cr</td>
+                  </tr>
+                  <tr className="bg-primary/5 font-bold">
+                    <td className="p-2">TOTAL</td>
+                    <td className="text-right p-2">13,400</td>
+                    <td className="text-right p-2">3,444,890</td>
+                    <td className="text-right p-2">₹1.13 cr</td>
+                    <td className="text-right p-2">₹460.25 cr</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Year 10</span>
-              <span className="font-semibold">₹10,659 Cr</span>
-            </div>
-            <div className="flex justify-between text-sm pt-2 border-t">
-              <span className="text-muted-foreground">Market Share</span>
-              <span className="font-bold text-slate-500">0.21%</span>
+
+            <div className="mt-4 space-y-2 text-sm">
+              <div className="flex items-start gap-2">
+                <Target className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                <p><strong>Years 1-3:</strong> Keep cohorts FIXED, prove PMF with 0.2-0.8% penetration</p>
+              </div>
+              <div className="flex items-start gap-2">
+                <TrendingUp className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                <p><strong>Years 4+:</strong> Expand cohorts with category CAGR (12-18%)</p>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Revenue Trajectory */}
-      <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Target className="h-5 w-5 text-primary" />
-            Conservative Revenue Trajectory
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-4 gap-4 text-center">
-            <div>
-              <div className="text-2xl font-bold">₹1.14 Cr</div>
-              <div className="text-xs text-muted-foreground mt-1">Year 1</div>
+      {/* Content-to-Commerce Engine */}
+      <Card className="bg-secondary/10 border-secondary/20">
+        <CardContent className="p-5 space-y-3">
+          <h3 className="text-xl font-bold">Content-to-Commerce Engine</h3>
+          <p className="text-sm text-muted-foreground">We don't chase users, they find us:</p>
+          <div className="grid md:grid-cols-2 gap-3 text-sm">
+            <div className="space-y-1">
+              <p>✓ <strong>14K+ AI-assisted pages</strong> → organic discovery</p>
+              <p>✓ <strong>Behavioral signals</strong> → right timing</p>
+              <p>✓ <strong>Embedded CTAs</strong> → zero-CAC conversions</p>
             </div>
-            <div>
-              <div className="text-2xl font-bold">₹5.04 Cr</div>
-              <div className="text-xs text-muted-foreground mt-1">Year 2</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold">₹69.94 Cr</div>
-              <div className="text-xs text-muted-foreground mt-1">Year 5</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-primary">₹683.57 Cr</div>
-              <div className="text-xs text-muted-foreground mt-1">Year 10</div>
-            </div>
-          </div>
-          <div className="mt-4 text-center text-sm text-muted-foreground">
-            0.42% avg market share across 3 categories = ₹683.57 Cr business
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Key Strategy */}
-      <Card className="border-2 border-primary">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-primary" />
-            Content-to-Commerce Strategy
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <div className="font-semibold text-sm">Years 1-3: Prove PMF</div>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Fixed cohorts (1.2M LAMF, 3M Gold, 1M Silver)</li>
-                <li>• Content-led education + calculators</li>
-                <li>• Zero-CAC, organic growth</li>
-                <li>• ₹1.14 Cr → ₹17.47 Cr revenue</li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <div className="font-semibold text-sm">Years 4+: Scale with Market</div>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Expand cohorts with market CAGR</li>
-                <li>• 14K+ AI-assisted research pages</li>
-                <li>• Behavioral CTAs (scroll, dwell, tools)</li>
-                <li>• ₹69.94 Cr → ₹683.57 Cr by Year 10</li>
-              </ul>
+            <div className="space-y-1 text-muted-foreground">
+              <p>→ Stock research → Broker widget</p>
+              <p>→ MF deep-dive → SIP quick-start</p>
+              <p>→ MF liquidity article → LAMF calculator</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Bottom Line */}
-      <div className="bg-gradient-to-r from-primary to-primary/60 text-primary-foreground rounded-lg p-6 text-center">
-        <div className="text-2xl font-bold mb-2">
-          Limited Execution + Massive TAM = Mass-Scale Digital Business
-        </div>
-        <div className="text-lg opacity-90">
-          Just 0.42% market share across 3 focused categories = ₹683.57 Cr by Year 10
-        </div>
-      </div>
+      <Card className="bg-primary/5 border-primary/20">
+        <CardContent className="p-5">
+          <div className="space-y-3">
+            <h3 className="text-xl font-bold text-center">Bottom Line</h3>
+            <div className="grid md:grid-cols-3 gap-3 text-center text-sm">
+              <div>
+                <p className="text-muted-foreground">Start Small</p>
+                <p className="text-lg font-bold">13,400 users</p>
+                <p className="text-xs">₹1.13 cr revenue (Y1)</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Prove It</p>
+                <p className="text-lg font-bold">Fixed cohorts</p>
+                <p className="text-xs">Zero-CAC, validate economics</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Scale Smart</p>
+                <p className="text-lg font-bold">3.4M+ users</p>
+                <p className="text-xs">₹460 cr revenue (Y10)</p>
+              </div>
+            </div>
+            <p className="text-center text-sm text-muted-foreground mt-3">
+              Not betting on the whole market. Just <strong>3 focused personas, proven playbook, disciplined scale.</strong>
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
