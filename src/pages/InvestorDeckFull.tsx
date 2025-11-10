@@ -5,6 +5,7 @@ import { MarketOpportunityFocusedSlide } from "@/components/pitch/MarketOpportun
 import { BusinessModelGTMSlide } from "@/components/pitch/BusinessModelGTMSlide";
 import { PartnershipsSlide } from "@/components/pitch/PartnershipsSlide";
 import { CompetitionSlideV2 } from "@/components/pitch/CompetitionSlideV2";
+import { CompetitiveMoatsSlide } from "@/components/pitch/CompetitiveMoatsSlide";
 
 const InvestorDeckFull = () => {
   return (
@@ -224,6 +225,13 @@ const InvestorDeckFull = () => {
       <section className="min-h-screen flex items-center justify-center p-8 border-b">
         <div className="max-w-7xl mx-auto w-full">
           <CompetitionSlideV2 />
+        </div>
+      </section>
+
+      {/* Slide 9: Competitive Moats */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <CompetitiveMoatsSlide />
         </div>
       </section>
 
