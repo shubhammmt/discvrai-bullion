@@ -12,6 +12,85 @@ export const MarketOpportunityFocusedSlide = () => {
         </p>
       </div>
 
+      {/* User Cohorts */}
+      <div className="space-y-3">
+        <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+          <Target className="w-6 h-6 text-primary" />
+          Our Focus: 3 User Cohorts
+        </h2>
+        
+        <div className="grid md:grid-cols-3 gap-4">
+          {/* LAMF Cohort */}
+          <Card className="border-primary/20">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-start gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-bold text-primary">1</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm">LAMF SIP-heavy investors</h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Who:</strong> 1.2M cohort with ₹5L+ MF portfolios, stable SIPs
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Pain:</strong> Need emergency liquidity without redeeming long-term SIPs
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Solution:</strong> LAMF calculator + instant quotes embedded in MF research
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Digital Gold Cohort */}
+          <Card className="border-primary/20">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-start gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-bold text-primary">2</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm">Digital Gold micro-savers</h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Who:</strong> 3M cohort making small recurring gold purchases (₹500-2K/month)
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Pain:</strong> Trust physical gold but want convenience + transparency
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Solution:</strong> Real-time gold prices + 1-click buy within price-tracking content
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Digital Silver Cohort */}
+          <Card className="border-primary/20">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-start gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-bold text-primary">3</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm">Digital Silver value seekers</h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Who:</strong> 1M cohort exploring lower-cost precious metal diversification
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Pain:</strong> Want precious metals exposure without high gold premiums
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Solution:</strong> Silver price comparison + quick-buy in commodity research
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
       {/* Market Sizing Table */}
       <div className="space-y-3">
         <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
