@@ -315,38 +315,39 @@ Scroll depth, dwell time, tool usage, and cohort affinity tailor:
 
 ## Slide 6: Business Model & GTM
 
-### Business Model
-**Commission on every product transaction:**
-- **LAMF loans**: 0.6% commission
-- **Digital gold and silver purchases**: 2% commission
-- **Future equity/MF partner journeys**: Similar commission splits
+### Business Model - How We Make Money
 
-**Unit Economics**: 100% gross margin (commission-based), positive from day 1
+**Commission-only monetisation:**
+- **LAMF**: 0.6% commission on loan disbursals
+- **Digital Gold & Silver**: 2% commission on purchases
+- **Equity/MF**: Partner revenue-share via content-to-commerce flows
 
-### Go-To-Market
-**Content-first distribution across:**
-- Web + app (built for SEO and AI search surfaces)
-- Cross-posting to Instagram/YouTube/LinkedIn
-- WhatsApp & Telegram communities
+**AI-boosted research:** 8K+ mutual fund pages and 6K+ stock pages enriched by AI summaries, screeners, and "next-best action" CTAs keep users engaged and ready to transact.
 
-**Interlinked funnels**: "read → tool → transact"
-- Stock deep-dive → broker widget
-- MF review → SIP quick-start
-- MF liquidity story → LAMF calculator
+**Multiple polls and quizzes:** Keep users engaged and hooked.
 
-**Result**: Content converts at zero CAC
+**Zero CAC engine:** Every piece of content, tool, and community touchpoint is a reusable growth node; no paid acquisition required to drive conversions.
 
-### Acquiring Customers
-**Digitally aligned, low-CAC channels:**
-- In-house content production (180 → 500 articles/day)
-- SEO (organic discovery)
-- Newsletters & email campaigns
-- WhatsApp broadcasts & Telegram groups
-- Influencer partnerships
-- Display inventory swaps
-- Co-marketing with brokers/NBFCs/payment apps
+**Unit Economics:** 100% gross margin (commission-based), positive from day 1.
 
-**CAC**: ≈ ₹0 (organic content-driven)
+---
+
+### GTM - How We Reach Customers
+
+**Organic distribution channels:**
+- SEO (web + app)
+- AI search surfaces
+- Instagram/YouTube/LinkedIn
+- Newsletters
+- WhatsApp + Telegram communities
+- Equity/MF widgets
+- Co-marketing placements
+
+**Low-cost reach:** Digitally aligned channels (display inventory swaps, partner embeds, influencer pods) bring in traffic while WhatsApp/Telegram nurture high-intent cohorts.
+
+**Personalisation loop:** Engagement depth, tool usage, and AI screeners generate behavioural signals that personalise feeds, notifications, and partner widgets—raising "read → transact" conversion likelihood.
+
+---
 
 ### Channels & Verticals
 
@@ -367,40 +368,40 @@ Scroll depth, dwell time, tool usage, and cohort affinity tailor:
 
 #### Stocks & MF Research
 - **Purpose**: Daily coverage that feeds partner widgets and broker flows
-- **Distribution**: 14K+ AI-assisted pages, SEO-optimized
+- **Distribution**: 8K+ MF pages, 6K+ stock pages, AI-assisted, SEO-optimized
 - **Monetization**: Indirect (drives engagement, behavioral signals, trust)
 
-### Current Traction
+---
 
-**Sessions Growth:**
-- September: 11K sessions
-- October: 25K sessions
-- November (tracking): 100K sessions
+### Traction Highlights
 
-**Engagement Metrics:**
-- Average session: >3 minutes
-- Organic reach: ~10% across content surfaces
+**Sessions:**
+- 11K (Sep) → 25K (Oct) → 100K run-rate (Nov)
 
-**Content Library:**
-- 14K+ AI-assisted pages (stocks & MF research)
-- 180 articles/day (scaling to 500/day)
+**Engagement:**
+- >3 minutes average session
+- ~10% organic reach across surfaces
 
-### Scaling Momentum
+**Content footprint:**
+- 180 articles/day today
+- AI research pages already powering partner journeys via embedded widgets and APIs
 
-**Content Ramp:**
-- Text articles: 180 → 500/day
-- Short-form video: 50+ pieces/month (reels/shorts)
+---
 
-**Product Enhancements:**
-- Richer tools (calculators, trackers)
-- Expanded vernacular coverage
-- Double influencer bench
+### Building Momentum
 
-**Partnerships:**
-- Deepen broker/NBFC integrations
-- Co-marketing with payment apps/AMCs
+**Scale output:**
+- 500 text articles/day
+- 50+ reels/shorts per month (vernacular + influencer collaborations)
 
-**Result**: Compound organic discovery and conversion
+**Expand AI screeners:**
+- Personalised "article → CTA" modules
+- Equity/MF partner integrations
+
+**Deepen communities:**
+- WhatsApp/Telegram micro-communities
+- Regional influencers
+- Formalise additional broker/NBFC/payment partnerships using proven content-led funnels
 
 ---
 

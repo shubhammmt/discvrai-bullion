@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, TrendingUp, Users, DollarSign, Target } from "lucide-react";
 import { MarketOpportunityFocusedSlide } from "@/components/pitch/MarketOpportunityFocusedSlide";
+import { BusinessModelGTMSlide } from "@/components/pitch/BusinessModelGTMSlide";
 
 const InvestorDeckFull = () => {
   return (
@@ -192,6 +193,21 @@ const InvestorDeckFull = () => {
       <section className="min-h-screen flex items-center justify-center p-8 border-b">
         <div className="max-w-7xl mx-auto w-full">
           <MarketOpportunityFocusedSlide />
+        </div>
+      </section>
+
+      {/* Slide 5: Product/Service (Placeholder) */}
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white p-8 border-b">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-5xl font-bold text-foreground mb-4">Product Demo & Screens</h2>
+          <p className="text-xl text-muted-foreground">[Placeholder - To be added]</p>
+        </div>
+      </section>
+
+      {/* Slide 6: Business Model & GTM */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <BusinessModelGTMSlide slide={{ title: 'Business Model & GTM', subtitle: 'How We Make Money & Reach Customers', icon: DollarSign }} />
         </div>
       </section>
 
