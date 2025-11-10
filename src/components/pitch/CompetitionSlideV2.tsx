@@ -13,11 +13,11 @@ import zeptoLogo from '@/assets/competitors/zepto-logo.jpeg';
 export const CompetitionSlideV2: React.FC = () => {
   const competitors = [
     {
-      name: 'Groww, Jar, PhonePe, HDFC',
-      logos: [growwLogo, jarLogo, phonepeLogo, hdfcLogo],
-      type: 'Financial Platforms',
-      approach: 'Product-first with high CAC',
-      weakness: 'Paid acquisition funnels, one-size-fits-all approach'
+      name: 'Groww, Jar, PhonePe, HDFC, Blinkit, Zepto',
+      logos: [growwLogo, jarLogo, phonepeLogo, hdfcLogo, blinkitLogo, zeptoLogo],
+      type: 'Financial & Quick Commerce Platforms',
+      approach: 'Strong brand recall through paid acquisition & subsidized growth',
+      weakness: 'Rely on high-recall flywheel (subsidies, ads, discounts) to stay top-of-mind—expensive, hard to replicate our organic habit-forming content-to-commerce journey'
     }
   ];
 
@@ -119,21 +119,6 @@ export const CompetitionSlideV2: React.FC = () => {
         </Card>
       </div>
 
-      {/* Inspiration note */}
-      <div className="pt-4">
-        <Card className="p-4 bg-secondary/50">
-          <div className="flex items-center justify-center gap-6">
-            <span className="text-sm text-muted-foreground">Inspiration:</span>
-            <div className="flex items-center gap-4">
-              <img src={blinkitLogo} alt="Blinkit" className="h-8 object-contain" />
-              <img src={zeptoLogo} alt="Zepto" className="h-8 object-contain" />
-            </div>
-            <span className="text-sm text-muted-foreground">
-              → Quick commerce for financial products
-            </span>
-          </div>
-        </Card>
-      </div>
     </div>
   );
 };
