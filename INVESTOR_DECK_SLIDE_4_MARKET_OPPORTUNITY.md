@@ -1,74 +1,48 @@
-# Slide 4: Market Opportunity - Persona-First, Conservative Growth
+# Slide 4: Market Opportunity - Focused Growth Strategy
 
 ---
 
-## Our Strategy: Start Small, Prove It, Scale Smart
+## Market Sizing & Revenue Projections
 
-We're NOT trying to capture the entire market. We're targeting **3 specific user personas** with real pain points, proving unit economics in Years 1-3, then scaling conservatively.
-
----
-
-## The 3 User Personas We Serve
-
-### 1. **LAMF User: The SIP-Heavy Investor**
-- **Who**: 1.2M investors in top-8 metros with ₹10L+ MF holdings
-- **Pain**: Need liquidity but don't want to break SIPs or pay high personal loan rates
-- **Our Solution**: Pledge mutual funds, get loans at lower rates
-- **Cohort Size**: Fixed 1.2M for Years 1-3, then expand with market growth
-
-### 2. **Digital Gold User: The Micro-Saver**
-- **Who**: 3M UPI power users (age 23-35) with ₹25-75K monthly income
-- **Pain**: Want to save in gold but traditional buying is expensive (minimum 1g = ₹11,849)
-- **Our Solution**: Start with ₹1, build gold SIPs, gift digitally
-- **Cohort Size**: Fixed 3M for Years 1-3, then expand with market growth
-
-### 3. **Digital Silver User: The Value Seeker**
-- **Who**: 1M early adopters wanting affordable precious metal exposure
-- **Pain**: Gold too expensive, need inflation hedge at lower ticket size
-- **Our Solution**: Silver at ₹160/g, ₹3K/month SIPs, industrial growth story
-- **Cohort Size**: Fixed 1M for Years 1-3, then expand with market growth
+| Product | Cohort Size (3 Years) | Year 1 Market (₹ Cr) | Year 10 Market (₹ Cr) | Year 1 GMV (₹ Cr) | Year 10 GMV (₹ Cr) | Year 1 Revenue (₹ Cr) | Year 10 Revenue (₹ Cr) |
+|---------|----------------------|---------------------|----------------------|------------------|-------------------|---------------------|----------------------|
+| **LAMF** | 1,200,000 | 37,350 | 103,460 | 144 | 27,353 | 0.86 | 164.12 |
+| **Digital Gold** | 3,000,000 | 14,000 | 49,280 | 10.66 | 10,857.28 | 0.21 | 217.15 |
+| **Digital Silver** | 1,000,000 | 2,400 | 10,659 | 3 | 3,949 | 0.06 | 78.98 |
+| **TOTAL** | **5,200,000** | **53,750** | **163,399** | **157.66** | **42,159.28** | **1.13** | **460.25** |
 
 ---
 
-## Conservative Growth: Niche → Proven → Scale
-
-| Product | Year 1 Users | Year 10 Users | Year 1 Revenue | Year 10 Revenue |
-|---------|-------------|---------------|----------------|-----------------|
-| **LAMF** | 2,400 | 390,760 | ₹0.86 cr | ₹164.12 cr |
-| **Digital Gold** | 9,000 | 2,190,634 | ₹0.21 cr | ₹217.15 cr |
-| **Digital Silver** | 2,000 | 863,496 | ₹0.06 cr | ₹78.98 cr |
-| **TOTAL** | **13,400** | **3,444,890** | **₹1.13 cr** | **₹460.25 cr** |
-
-**The Plan**:
-- **Years 1-3**: Keep cohorts FIXED, prove PMF with conservative 0.2-0.8% penetration
-- **Years 4+**: Expand cohorts with category CAGR (12-18% depending on category)
-- **Market Share by Year 10**: 22-37% of transaction value (not market, just our focused cohorts)
-
----
-
-## Why This Works: Content-to-Commerce Engine
+## Content-to-Commerce Engine
 
 **We don't chase users, they find us:**
 
-1. **14K+ AI-assisted content pages** (stocks, MF, gold, silver) → organic discovery
-2. **Behavioral signals** (scroll depth, calculator usage, dwell time) → right timing
-3. **Embedded CTAs** at perfect moment → zero-CAC conversions
+✓ **14K+ AI-assisted pages** → organic discovery  
+✓ **Behavioral signals** → right timing  
+✓ **Embedded CTAs** → zero-CAC conversions
 
-**Examples**:
+**Examples:**
 - Stock research → Broker widget
 - MF deep-dive → SIP quick-start
-- MF liquidity article → LAMF calculator → loan application
-- Diwali gold story → Gold SIP widget
+- MF liquidity article → LAMF calculator
 
 ---
 
 ## Bottom Line
 
-✅ **Start small**: 13,400 users, ₹1.13 cr revenue (Year 1)  
-✅ **Prove it**: Fixed cohorts, zero-CAC model, validate unit economics  
-✅ **Scale smart**: 3.4M+ users, ₹460 cr revenue by Year 10 with conservative market penetration
+**Start Small**  
+→ 13,400 users  
+→ ₹1.13 cr revenue (Y1)
 
-**We're not betting on capturing the whole ₹1.6L crore market. Just 3 focused personas, proven playbook, and disciplined scale.**
+**Prove It**  
+→ Fixed cohorts  
+→ Zero-CAC, validate economics
+
+**Scale Smart**  
+→ 3.4M+ users  
+→ ₹460 cr revenue (Y10)
+
+**Not betting on the whole market. Just 3 focused personas, proven playbook, disciplined scale.**
 
 ---
 
