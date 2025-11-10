@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, TrendingUp, Users, DollarSign, Target } from "lucide-react";
 import { MarketOpportunityFocusedSlide } from "@/components/pitch/MarketOpportunityFocusedSlide";
 import { BusinessModelGTMSlide } from "@/components/pitch/BusinessModelGTMSlide";
+import { PartnershipsSlide } from "@/components/pitch/PartnershipsSlide";
+import { CompetitionSlideV2 } from "@/components/pitch/CompetitionSlideV2";
 
 const InvestorDeckFull = () => {
   return (
@@ -208,6 +210,20 @@ const InvestorDeckFull = () => {
       <section className="min-h-screen flex items-center justify-center p-8 border-b">
         <div className="max-w-7xl mx-auto w-full">
           <BusinessModelGTMSlide slide={{ title: 'Business Model & GTM', subtitle: 'How We Make Money & Reach Customers', icon: DollarSign }} />
+        </div>
+      </section>
+
+      {/* Slide 7: Strategic Partnerships */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <PartnershipsSlide />
+        </div>
+      </section>
+
+      {/* Slide 8: Competition */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <CompetitionSlideV2 />
         </div>
       </section>
 
