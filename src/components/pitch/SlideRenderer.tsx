@@ -103,7 +103,7 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ slide }) => {
     case 'go-to-market':
       return <GoToMarketSlide slide={slide} />;
     case 'competitive-moats':
-      return <CompetitiveMoatsSlide slide={slide} />;
+      return <CompetitiveMoatsSlide />;
     case 'traction':
       return <TractionSlide slide={slide} />;
     case 'vision-new':
