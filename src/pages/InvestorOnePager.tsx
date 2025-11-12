@@ -75,7 +75,7 @@ const InvestorOnePager = () => {
                   <div>
                     <p className="font-bold text-lg">Shubham Srivastava, Founder & CEO</p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      2nd-time founder with 20+ years scaling digital platforms. Ex-CTO Hindustan Times Digital (10M to 100M+ MAU), Ex-CTO Eureka Forbes (1M+ MAU), Ex-MakeMyTrip (Hotels LOB). Founded Tekch (PropTech SaaS). B.Tech, IIT(ISM) Dhanbad.
+                      2nd-time founder with 20+ years scaling digital platforms. Ex-CTO Hindustan Times Digital (scaled to 100M+ MAUs), Ex-CTO Eureka Forbes (1M+ MAU), Ex-MakeMyTrip (NoSQL, search pioneer, 1M QPS, Hotels LOB). Founded Tekch (PropTech SaaS). B.Tech, IIT(ISM) Dhanbad.
                     </p>
                     <a 
                       href="https://www.linkedin.com/in/shubhamsrivastava1/" 
@@ -90,7 +90,7 @@ const InvestorOnePager = () => {
                   <div>
                     <p className="font-bold">Smriti Srivastava, Co-Founder</p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Equal equity partner, contributing to strategic direction and operations.
+                      Equal equity partner, contributing to strategic direction and operations. B.Tech, IIT(ISM) Dhanbad.
                     </p>
                   </div>
 

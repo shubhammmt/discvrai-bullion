@@ -45,10 +45,10 @@ const InvestorDeckFull = () => {
                 Ex-CTO, Eureka Forbes
               </Badge>
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
-                Ex-CTO, HT Digital (100M+ MAU)
+                Ex-CTO, HT Digital (scaled to 100M+ MAU)
               </Badge>
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
-                Ex-MakeMyTrip
+                Ex-MakeMyTrip (NoSQL, search pioneer, 1M QPS)
               </Badge>
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
                 Founder, Tekch (PropTech SaaS)
@@ -202,14 +202,14 @@ const InvestorDeckFull = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-foreground">Shubham Srivastava</h3>
-                  <p className="text-lg text-primary font-medium mb-2">Founder & CEO, Discvr.ai</p>
+                  <p className="text-lg text-primary font-medium mb-2">Founder & CEO, Discvr.ai | 2nd-Time Founder</p>
                   <p className="text-muted-foreground mb-3">
-                    Ex-CTO, Eureka Forbes | Ex-CTO, Hindustan Times | Ex-MakeMyTrip | Founder, Tekch (PropTech SaaS)
+                    Ex-CTO, Eureka Forbes | Ex-CTO, Hindustan Times (scaled to 100M+ MAUs) | Ex-MakeMyTrip (NoSQL, search pioneer, 1M QPS) | Founder, Tekch (PropTech SaaS) | B.Tech, IIT(ISM) Dhanbad
                   </p>
                   <div className="space-y-2 text-sm text-muted-foreground">
                     <p>• 20+ years building and scaling large-scale digital platforms across fintech, media, and consumer tech</p>
                     <p>• Founded Discvr.ai to simplify financial decision-making through AI-powered product discovery and intelligence</p>
-                    <p>• Led tech and product at Eureka Forbes (1M+ MAUs), HT Digital (10M→100M+ MAU), and MakeMyTrip Hotels (global scale systems)</p>
+                    <p>• Led tech and product at Eureka Forbes (1M+ MAUs), HT Digital (scaled to 100M+ MAUs), and MakeMyTrip (NoSQL, search pioneer, 1M QPS - global scale systems)</p>
                     <p>• Deep expertise in AI, product-led growth, and platform scalability</p>
                   </div>
                 </div>
