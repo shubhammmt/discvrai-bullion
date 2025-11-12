@@ -272,11 +272,11 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
-      {/* Slide 5: Product/Service (Placeholder) */}
+      {/* Slide 5: Product/Service */}
       <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white p-8 border-b">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-5xl font-bold text-foreground mb-4">Product Demo & Screens</h2>
-          <p className="text-xl text-muted-foreground">[Placeholder - To be added]</p>
+          <p className="text-2xl text-muted-foreground mt-8">Live demo at the time of pitch</p>
         </div>
       </section>
 
