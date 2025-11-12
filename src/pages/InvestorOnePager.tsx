@@ -39,7 +39,16 @@ const InvestorOnePager = () => {
           <CardContent className="pt-6">
             <h2 className="text-2xl font-bold mb-4 text-primary">Executive Snapshot</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              DISCVR.AI is creating a content-to-commerce financial intelligence platform that connects Indian consumers to the right financial products through trusted content, not ads. They are solving two main problems: 1) High customer acquisition costs (CAC) plaguing Indian fintech, and 2) Poor product discovery and financial literacy for consumers. DISCVR.AI launched in 2025 as a content-first platform and is facilitating financial product distribution through organic discovery—producing 180-500 daily articles, 14K+ AI-assisted research pages, and habit-forming engagement tools (quizzes, polls, virtual portfolio analysis) that convert readers to transactors at zero CAC.
+              DISCVR.AI is creating a content-to-commerce financial intelligence platform that connects Indian consumers to the right financial products through trusted content, not ads. They are solving two main problems:
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+              1) High customer acquisition costs (CAC) plaguing Indian fintech, and
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              2) Poor product discovery and financial literacy for consumers.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+              DISCVR.AI launched in 2025 as a content-first platform and is facilitating financial product distribution through organic discovery—producing 180-500 daily articles, 14K+ AI-assisted research pages, and habit-forming engagement tools (quizzes, polls, virtual portfolio analysis) that convert readers to transactors at zero CAC.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed mt-4">
               DISCVR.AI has established strategic partnerships with CMOTS (India exchanges data), FMP (US exchanges), Smallcase (LAMF), Augmont (Gold/Silver), ETMoney, and Mpokket (Personal Loans). The platform focuses on four beachhead categories: Loan Against Mutual Funds (LAMF), Digital Gold, Digital Silver, and Personal Loans targeting ~6.2M users in under-penetrated segments.
