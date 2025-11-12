@@ -14,7 +14,7 @@ export const FundingRequestSlide: React.FC<FundingRequestSlideProps> = ({ slide 
   const IconComponent = slide.icon;
 
   const raiseDetails = {
-    amount: '₹4 crore',
+    amount: '₹4.2 cr',
     round: 'Pre-Seed',
     structure: 'Convertible notes with 25% discount on next raise'
   };
