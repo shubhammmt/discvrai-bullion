@@ -101,7 +101,7 @@ const AppContent = () => {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const location = useLocation();
   
-  // Hide footer on pitch deck pages, one-pagers, and investor deck
+  // Hide footer and chatbot on pitch deck pages, one-pagers, and investor deck
   const isPitchPage = location.pathname.includes('-pitch') || 
                       location.pathname.includes('-1pager') || 
                       location.pathname === '/investor-deck' ||
@@ -202,12 +202,16 @@ const AppContent = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
         
-        {/* Global Chatbot Dialog */}
-        <ChatbotDialog 
-          isOpen={isChatbotOpen} 
-          onClose={() => setIsChatbotOpen(false)} 
-        />
-        <ChatbotTrigger onClick={() => setIsChatbotOpen(true)} />
+        {/* Global Chatbot Dialog - Hidden on pitch pages */}
+        {!isPitchPage && (
+          <>
+            <ChatbotDialog 
+              isOpen={isChatbotOpen} 
+              onClose={() => setIsChatbotOpen(false)} 
+            />
+            <ChatbotTrigger onClick={() => setIsChatbotOpen(true)} />
+          </>
+        )}
         
         {/* Global Footer - Hidden on pitch pages */}
         {!isPitchPage && <GlobalFooter />}
