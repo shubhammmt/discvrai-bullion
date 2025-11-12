@@ -84,7 +84,7 @@
 - LAMF: 33.52%
 - Digital Gold: 35.72%
 - Digital Silver: 4.35%
-- Product Listings (B2B): 26.41%
+- Personal Loans (B2B): 26.41%
 
 #### GTM Strategy (Zero-CAC Organic)
 - SEO (web + app)
@@ -189,7 +189,7 @@
 - LAMF: 33.52%
 - Digital Gold: 35.72%
 - Digital Silver: 4.35%
-- Product Listings: 26.41%
+- Personal Loans: 26.41%
 
 ---
 
@@ -211,15 +211,19 @@
 - Launch of premium and B2B offerings
 - AI-driven personalization and analytics platform for retail investors
 
-#### Allocation of Current Raise
+#### Allocation of Current Raise (₹4.2 Crore)
 
-| Category | % Allocation | Key Focus |
-|----------|-------------|-----------|
-| Product & Tech | 35% | Platform enhancement, AI tools, data infra |
-| Growth & Marketing | 30% | Organic + performance channels |
-| Content & Community | 20% | Financial education, SEO scaling |
-| Operations & Compliance | 10% | Infrastructure, risk, legal |
-| Working Capital | 5% | Contingency and runway buffer |
+| Category | Amount (₹) | Key Focus |
+|----------|------------|-----------|
+| Tech + Product | ₹1,83,90,000 | Platform enhancement, AI tools, data infrastructure |
+| Content + SEO | ₹49,50,000 | Financial education, SEO scaling |
+| Infra + Tools | ₹41,50,000 | Infrastructure, tools, technology stack |
+| Marketing | ₹26,58,076 | Organic + performance channels |
+| Support + Office | ₹19,90,000 | Operations, office, support |
+| Compliance | ₹7,20,000 | Risk, legal, regulatory |
+| Sales | ₹7,00,000 | Sales team and growth |
+| Buffer | ₹84,41,924 | Contingency and runway buffer |
+| **Total** | **₹4,20,00,000** | |
 
 ---
 

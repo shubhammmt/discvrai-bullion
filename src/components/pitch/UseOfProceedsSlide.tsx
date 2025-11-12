@@ -48,14 +48,6 @@ export const UseOfProceedsSlide: React.FC<UseOfProceedsSlideProps> = ({ slide })
     }
   ];
 
-  const allocation = [
-    { category: 'Product & Tech', percentage: 35, keyFocus: 'Platform enhancement, AI tools, data infra', color: 'bg-blue-500' },
-    { category: 'Growth & Marketing', percentage: 30, keyFocus: 'Organic + performance channels', color: 'bg-green-500' },
-    { category: 'Content & Community', percentage: 20, keyFocus: 'Financial education, SEO scaling', color: 'bg-purple-500' },
-    { category: 'Operations & Compliance', percentage: 10, keyFocus: 'Infrastructure, risk, legal', color: 'bg-orange-500' },
-    { category: 'Working Capital', percentage: 5, keyFocus: 'Contingency and runway buffer', color: 'bg-gray-500' }
-  ];
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -98,36 +90,61 @@ export const UseOfProceedsSlide: React.FC<UseOfProceedsSlideProps> = ({ slide })
         </div>
       </div>
 
-      {/* Allocation Table */}
+      {/* Allocation Grid */}
       <div>
-        <h3 className="text-2xl font-bold text-foreground mb-4 text-center">Allocation of Current Raise</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-4 text-center">Allocation of Current Raise (₹4.2 Cr)</h3>
         
-        <Card>
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              {allocation.map((item, index) => (
-                <div key={index} className="border-b border-border last:border-0 pb-4 last:pb-0">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-                      <span className="font-semibold text-foreground">{item.category}</span>
-                    </div>
-                    <span className="text-2xl font-bold text-primary">{item.percentage}%</span>
-                  </div>
-                  <div className="ml-6">
-                    <p className="text-sm text-muted-foreground">{item.keyFocus}</p>
-                  </div>
-                  <div className="w-full bg-secondary/30 rounded-full h-2 mt-2 ml-6">
-                    <div 
-                      className={`${item.color} h-2 rounded-full transition-all duration-500`}
-                      style={{ width: `${item.percentage}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Tech + Product</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹1.84 Cr</div>
+              <div className="text-xs text-muted-foreground">Platform enhancement, AI tools, data infrastructure</div>
             </div>
-          </CardContent>
-        </Card>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Content + SEO</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.50 Cr</div>
+              <div className="text-xs text-muted-foreground">Financial education, SEO scaling</div>
+            </div>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Infra + Tools</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.42 Cr</div>
+              <div className="text-xs text-muted-foreground">Infrastructure, tools, technology stack</div>
+            </div>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Marketing</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.27 Cr</div>
+              <div className="text-xs text-muted-foreground">Organic + performance channels</div>
+            </div>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Support + Office</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.20 Cr</div>
+              <div className="text-xs text-muted-foreground">Operations, office, support</div>
+            </div>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Compliance</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.07 Cr</div>
+              <div className="text-xs text-muted-foreground">Risk, legal, regulatory</div>
+            </div>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Sales</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.07 Cr</div>
+              <div className="text-xs text-muted-foreground">Sales team and growth</div>
+            </div>
+            
+            <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+              <div className="text-sm text-muted-foreground mb-1">Buffer</div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.84 Cr</div>
+              <div className="text-xs text-muted-foreground">Contingency and runway buffer</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Summary */}
