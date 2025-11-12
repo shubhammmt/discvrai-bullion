@@ -122,7 +122,7 @@ export const UseOfProceedsSlide: React.FC<UseOfProceedsSlideProps> = ({ slide })
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Marketing</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.27 Cr <span className="text-sm text-muted-foreground">(6.33%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.31 Cr <span className="text-sm text-muted-foreground">(7.33%)</span></div>
               <div className="text-xs text-muted-foreground">Organic + performance channels</div>
             </div>
             
@@ -140,7 +140,7 @@ export const UseOfProceedsSlide: React.FC<UseOfProceedsSlideProps> = ({ slide })
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Buffer</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.84 Cr <span className="text-sm text-muted-foreground">(20.10%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.80 Cr <span className="text-sm text-muted-foreground">(19.10%)</span></div>
               <div className="text-xs text-muted-foreground">Contingency and runway buffer</div>
             </div>
           </div>

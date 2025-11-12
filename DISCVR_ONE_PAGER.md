@@ -38,11 +38,11 @@ Equal equity partner, contributing to strategic direction and operations.
 
 **Revenue Projections:**
 - Dec25-Mar26: ₹7,439
-- FY26: ₹6.94 lakh
-- FY27: ₹0.73 crore
-- FY28: ₹39.27 crore
-- FY29: ₹77.45 crore (Break-even achieved, 18.19% EBITDA margin)
-- FY30: ₹102.12 crore (28.12% EBITDA margin)
+- FY27: ₹0.12 crore
+- FY28: ₹1.89 crore
+- FY29: ₹14.14 crore (Break-even achieved, 56.17% EBITDA margin)
+- FY30: ₹44.77 crore (79.55% EBITDA margin)
+- FY31: ₹86.70 crore (84.97% EBITDA margin)
 
 **Revenue Model:**
 - 0.6% commission on LAMF disbursals
@@ -99,10 +99,10 @@ India's financial distribution market represents a **₹1,53,750 crore / $17 bil
 - **Content + SEO (19.88%):** ₹83.5 lakh – Scale from 180 to 500 articles/day + vernacular content
 - **Infrastructure + Tools (9.88%):** ₹41.5 lakh – Platform scalability and AI personalization engine
 - **Sales (9.76%):** ₹41 lakh – Distribution partnerships and B2B SaaS foundation
-- **Marketing (6.33%):** ₹26.58 lakh – Organic channel amplification (SEO, social, influencer)
+- **Marketing (7.33%):** ₹30.8 lakh – Organic channel amplification (SEO, social, influencer)
 - **Support + Office (4.74%):** ₹19.9 lakh – Operations and customer success
 - **Compliance (1.71%):** ₹7.2 lakh – Regulatory setup for financial products
-- **Buffer (20.10%):** ₹84.42 lakh – Contingency and strategic opportunities
+- **Buffer (19.10%):** ₹80.2 lakh – Contingency and strategic opportunities
 
 ---
 

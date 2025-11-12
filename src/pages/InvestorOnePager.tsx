@@ -123,24 +123,24 @@ const InvestorOnePager = () => {
                         <span className="font-semibold">₹7,439</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>FY26:</span>
-                        <span className="font-semibold">₹6.94 lakh</span>
-                      </div>
-                      <div className="flex justify-between">
                         <span>FY27:</span>
-                        <span className="font-semibold">₹0.73 crore</span>
+                        <span className="font-semibold">₹0.12 crore</span>
                       </div>
                       <div className="flex justify-between">
                         <span>FY28:</span>
-                        <span className="font-semibold">₹39.27 crore</span>
+                        <span className="font-semibold">₹1.89 crore</span>
                       </div>
                       <div className="flex justify-between border-t pt-1 mt-1">
                         <span className="font-bold">FY29 (Break-even):</span>
-                        <span className="font-bold text-green-600">₹77.45 crore (18.19% EBITDA)</span>
+                        <span className="font-bold text-green-600">₹14.14 crore (56.17% EBITDA)</span>
                       </div>
                       <div className="flex justify-between">
                         <span>FY30:</span>
-                        <span className="font-semibold">₹102.12 crore (28.12% EBITDA)</span>
+                        <span className="font-semibold">₹44.77 crore (79.55% EBITDA)</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>FY31:</span>
+                        <span className="font-semibold">₹86.70 crore (84.97% EBITDA)</span>
                       </div>
                     </div>
                   </div>
@@ -311,8 +311,8 @@ const InvestorOnePager = () => {
                         <span className="font-semibold">₹41 lakh</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Marketing (6.33%)</span>
-                        <span className="font-semibold">₹26.58 lakh</span>
+                        <span>Marketing (7.33%)</span>
+                        <span className="font-semibold">₹30.8 lakh</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Support + Office (4.74%)</span>
@@ -323,8 +323,8 @@ const InvestorOnePager = () => {
                         <span className="font-semibold">₹7.2 lakh</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Buffer (20.10%)</span>
-                        <span className="font-semibold">₹84.42 lakh</span>
+                        <span>Buffer (19.10%)</span>
+                        <span className="font-semibold">₹80.2 lakh</span>
                       </div>
                     </div>
                   </div>

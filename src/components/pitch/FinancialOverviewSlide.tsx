@@ -23,19 +23,19 @@ export const FinancialOverviewSlide: React.FC<FinancialOverviewSlideProps> = ({ 
   };
 
   const projections = [
-    { period: 'Dec25-Mar26', revenue: '₹7,439', grossMargin: '93.76%', ebitda: '-₹37.19 L', ebitdaMargin: '-50000%', yoyGrowth: '—', highlight: false },
-    { period: 'FY26', revenue: '₹6.94 L', grossMargin: '96.20%', ebitda: '-₹2.04 Cr', ebitdaMargin: '-2946%', yoyGrowth: '9224%', highlight: false },
-    { period: 'FY27', revenue: '₹73.95 L', grossMargin: '95.78%', ebitda: '-₹2.51 Cr', ebitdaMargin: '-339%', yoyGrowth: '966%', highlight: false },
-    { period: 'FY28', revenue: '₹39.27 Cr', grossMargin: '95.82%', ebitda: '-₹95.34 L', ebitdaMargin: '-24%', yoyGrowth: '431%', highlight: false },
-    { period: 'FY29', revenue: '₹77.45 Cr', grossMargin: '96.12%', ebitda: '₹12.89 Cr', ebitdaMargin: '16.64%', yoyGrowth: '97%', highlight: true, label: 'BREAK-EVEN' },
-    { period: 'FY30', revenue: '₹102.12 Cr', grossMargin: '96.04%', ebitda: '₹27.03 Cr', ebitdaMargin: '26.47%', yoyGrowth: '32%', highlight: true, label: 'PROFITABILITY' }
+    { period: 'Dec25-Mar26', revenue: '₹7,439', grossMargin: '93.76%', ebitda: '-₹40.19 L', ebitdaMargin: '-54033%', yoyGrowth: '—', highlight: false },
+    { period: 'FY27', revenue: '₹0.12 Cr', grossMargin: '95.80%', ebitda: '-₹2.27 Cr', ebitdaMargin: '-1839%', yoyGrowth: '16517%', highlight: false },
+    { period: 'FY28', revenue: '₹1.89 Cr', grossMargin: '96.12%', ebitda: '-₹1.64 Cr', ebitdaMargin: '-87%', yoyGrowth: '1430%', highlight: false },
+    { period: 'FY29', revenue: '₹14.14 Cr', grossMargin: '95.88%', ebitda: '₹7.95 Cr', ebitdaMargin: '56.17%', yoyGrowth: '648%', highlight: true, label: 'BREAK-EVEN' },
+    { period: 'FY30', revenue: '₹44.77 Cr', grossMargin: '96.19%', ebitda: '₹35.62 Cr', ebitdaMargin: '79.55%', yoyGrowth: '217%', highlight: true, label: 'PROFITABILITY' },
+    { period: 'FY31', revenue: '₹86.70 Cr', grossMargin: '95.59%', ebitda: '₹73.67 Cr', ebitdaMargin: '84.97%', yoyGrowth: '94%', highlight: true }
   ];
 
   const revenueMix = [
-    { category: 'LAMF', percentage: '33.52%', color: 'bg-blue-500' },
-    { category: 'Digital Gold', percentage: '35.72%', color: 'bg-yellow-500' },
-    { category: 'Digital Silver', percentage: '4.35%', color: 'bg-gray-400' },
-    { category: 'Product Listings', percentage: '26.41%', color: 'bg-purple-500' }
+    { category: 'LAMF', percentage: '27.60%', color: 'bg-blue-500' },
+    { category: 'Digital Gold', percentage: '32.41%', color: 'bg-yellow-500' },
+    { category: 'Digital Silver', percentage: '13.15%', color: 'bg-gray-400' },
+    { category: 'Personal Loans', percentage: '26.84%', color: 'bg-purple-500' }
   ];
 
   return (
@@ -115,11 +115,15 @@ export const FinancialOverviewSlide: React.FC<FinancialOverviewSlideProps> = ({ 
             <div className="space-y-2 text-sm">
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
-                <p className="text-foreground"><span className="font-semibold">Break-Even:</span> FY29 (₹12.9 Cr EBITDA, 16.6% margin)</p>
+                <p className="text-foreground"><span className="font-semibold">Break-Even:</span> FY29 (₹7.95 Cr EBITDA, 56.17% margin)</p>
               </div>
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
-                <p className="text-foreground"><span className="font-semibold">Profitability:</span> FY30 (₹27 Cr EBITDA, 26.5% margin)</p>
+                <p className="text-foreground"><span className="font-semibold">Profitability:</span> FY30 (₹35.62 Cr EBITDA, 79.55% margin)</p>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
+                <p className="text-foreground"><span className="font-semibold">Peak Efficiency:</span> FY31 (₹73.67 Cr EBITDA, 84.97% margin)</p>
               </div>
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
@@ -136,7 +140,7 @@ export const FinancialOverviewSlide: React.FC<FinancialOverviewSlideProps> = ({ 
         {/* Revenue Mix */}
         <Card>
           <CardContent className="p-4">
-            <h3 className="text-lg font-bold text-foreground mb-3">Revenue Mix (FY30)</h3>
+            <h3 className="text-lg font-bold text-foreground mb-3">Revenue Mix (FY31)</h3>
             <div className="space-y-3">
               {revenueMix.map((item, index) => (
                 <div key={index}>
