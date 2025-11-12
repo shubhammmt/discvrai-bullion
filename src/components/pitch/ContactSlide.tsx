@@ -18,7 +18,7 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ slide }) => {
     title: 'Founder, DISCVR.AI',
     email: 'shubham@discvr.ai',
     phone: '+91 98739 61591',
-    linkedin: 'shubham@discvr.ai'
+    linkedin: 'https://www.linkedin.com/in/shubhamsrivastava1/'
   };
 
   const cta = "Let's build India's zero-CAC financial intelligence platform together.";
@@ -72,15 +72,20 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ slide }) => {
                 </div>
               </a>
 
-              <div className="flex items-center gap-4 p-4 bg-background/50 rounded-lg">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+              <a 
+                href={contactDetails.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-4 bg-background/50 rounded-lg hover:bg-background/80 transition-colors group"
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <Linkedin className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">LinkedIn</p>
-                  <p className="text-lg font-semibold text-foreground">{contactDetails.linkedin}</p>
+                  <p className="text-lg font-semibold text-foreground">shubhamsrivastava1</p>
                 </div>
-              </div>
+              </a>
             </div>
           </CardContent>
         </Card>
