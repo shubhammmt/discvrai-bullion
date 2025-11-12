@@ -48,28 +48,12 @@ export const FinancialOverviewSlide: React.FC<FinancialOverviewSlideProps> = ({ 
 
       {/* Investments to Date */}
       <Card className="bg-secondary/30">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-2 mb-4">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-center gap-2">
             <DollarSign className="w-5 h-5 text-primary" />
-            <h3 className="text-xl font-bold text-foreground">Investments to Date</h3>
-          </div>
-          <div className="space-y-3">
-            <div className="text-center mb-3">
-              <p className="text-sm text-muted-foreground mb-1">Founder-Funded Total</p>
-              <p className="text-3xl font-bold text-primary">{investmentsToDate.total}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {investmentsToDate.breakdown.map((item, index) => (
-                <div key={index} className="bg-background/50 p-3 rounded-lg">
-                  <p className="text-sm font-semibold text-foreground">{item.label}</p>
-                  <p className="text-lg font-bold text-primary">{item.amount}</p>
-                  <p className="text-xs text-muted-foreground">{item.detail}</p>
-                </div>
-              ))}
-            </div>
-            <div className="text-center pt-2">
-              <p className="text-sm text-muted-foreground">External Funding: <span className="font-semibold text-foreground">{investmentsToDate.externalFunding}</span></p>
-            </div>
+            <h3 className="text-lg font-bold text-foreground">Investments to Date:</h3>
+            <p className="text-lg font-bold text-primary">{investmentsToDate.total}</p>
+            <span className="text-sm text-muted-foreground">(Founder-funded, bootstrapped to date)</span>
           </div>
         </CardContent>
       </Card>
