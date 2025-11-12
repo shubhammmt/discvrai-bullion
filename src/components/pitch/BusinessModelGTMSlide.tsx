@@ -30,21 +30,26 @@ export const BusinessModelGTMSlide: React.FC<BusinessModelGTMSlideProps> = ({ sl
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-4 gap-4">
             <div className="p-4 rounded-lg bg-muted/30">
               <div className="font-semibold mb-1">LAMF</div>
               <div className="text-2xl font-bold text-primary">0.6%</div>
               <div className="text-sm text-muted-foreground">commission on loan disbursals</div>
             </div>
             <div className="p-4 rounded-lg bg-muted/30">
-              <div className="font-semibold mb-1">Digital Gold & Silver</div>
+              <div className="font-semibold mb-1">Digital Gold</div>
               <div className="text-2xl font-bold text-primary">2%</div>
               <div className="text-sm text-muted-foreground">commission on purchases</div>
             </div>
             <div className="p-4 rounded-lg bg-muted/30">
-              <div className="font-semibold mb-1">Equity/MF</div>
-              <div className="text-2xl font-bold text-primary">Rev-share</div>
-              <div className="text-sm text-muted-foreground">via content-to-commerce flows</div>
+              <div className="font-semibold mb-1">Digital Silver</div>
+              <div className="text-2xl font-bold text-primary">2%</div>
+              <div className="text-sm text-muted-foreground">commission on purchases</div>
+            </div>
+            <div className="p-4 rounded-lg bg-muted/30">
+              <div className="font-semibold mb-1">Personal Loans</div>
+              <div className="text-2xl font-bold text-primary">1.5%</div>
+              <div className="text-sm text-muted-foreground">commission on disbursals</div>
             </div>
           </div>
 
@@ -52,25 +57,25 @@ export const BusinessModelGTMSlide: React.FC<BusinessModelGTMSlideProps> = ({ sl
             <div className="flex items-start gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
               <div className="text-sm">
-                <span className="font-semibold">AI-boosted research:</span> 8K+ MF pages, 6K+ stock pages with AI summaries & screeners
+                <span className="font-semibold">Content-to-commerce:</span> Daily explainers, calculators, and AI tools embedded with CTAs
               </div>
             </div>
             <div className="flex items-start gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
               <div className="text-sm">
-                <span className="font-semibold">Engagement hooks:</span> Polls, quizzes keep users hooked
+                <span className="font-semibold">Engagement hooks:</span> Polls, quizzes, virtual portfolios keep users engaged
               </div>
             </div>
             <div className="flex items-start gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
               <div className="text-sm">
-                <span className="font-semibold">Zero CAC engine:</span> Content & community = reusable growth nodes
+                <span className="font-semibold">Low CAC engine:</span> Content & community = reusable growth nodes
               </div>
             </div>
             <div className="flex items-start gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
               <div className="text-sm">
-                <span className="font-semibold">Unit economics:</span> 100% gross margin, positive from day 1
+                <span className="font-semibold">Unit economics:</span> 95%+ gross margin, path to profitability
               </div>
             </div>
           </div>
@@ -118,9 +123,10 @@ export const BusinessModelGTMSlide: React.FC<BusinessModelGTMSlideProps> = ({ sl
           <CardContent className="space-y-3">
             <div className="space-y-2">
               {[
-                { name: 'LAMF', target: 'SIP-heavy HNIs', channel: 'Calculators, LinkedIn, WhatsApp' },
+                { name: 'LAMF', target: 'SIP-heavy investors', channel: 'Calculators, LinkedIn, WhatsApp' },
                 { name: 'Digital Gold', target: 'UPI savers', channel: 'Reels, gifting kits, influencers' },
-                { name: 'Digital Silver', target: 'Value seekers', channel: 'Vernacular, Tier-2 creators' }
+                { name: 'Digital Silver', target: 'Value seekers', channel: 'Vernacular, Tier-2 creators' },
+                { name: 'Personal Loans', target: 'Sub-₹25K seekers', channel: 'Community, quick access tools' }
               ].map((vertical) => (
                 <div key={vertical.name} className="pb-2 border-b border-border/50 last:border-0">
                   <div className="font-semibold text-sm">{vertical.name}</div>
