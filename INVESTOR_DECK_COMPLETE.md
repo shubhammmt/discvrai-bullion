@@ -213,17 +213,17 @@
 
 #### Allocation of Current Raise (₹4.2 Crore)
 
-| Category | Amount (₹) | Key Focus |
-|----------|------------|-----------|
-| Tech + Product | ₹1,83,90,000 | Platform enhancement, AI tools, data infrastructure |
-| Content + SEO | ₹49,50,000 | Financial education, SEO scaling |
-| Infra + Tools | ₹41,50,000 | Infrastructure, tools, technology stack |
-| Marketing | ₹26,58,076 | Organic + performance channels |
-| Support + Office | ₹19,90,000 | Operations, office, support |
-| Compliance | ₹7,20,000 | Risk, legal, regulatory |
-| Sales | ₹7,00,000 | Sales team and growth |
-| Buffer | ₹84,41,924 | Contingency and runway buffer |
-| **Total** | **₹4,20,00,000** | |
+| Category | Amount (₹) | Percentage | Key Focus |
+|----------|------------|------------|-----------|
+| Tech + Product | ₹1,15,90,000 | 27.60% | Platform enhancement, AI tools, data infrastructure |
+| Content + SEO | ₹83,50,000 | 19.88% | Financial education, SEO scaling |
+| Infra + Tools | ₹41,50,000 | 9.88% | Infrastructure, tools, technology stack |
+| Sales | ₹41,00,000 | 9.76% | Sales team and growth |
+| Marketing | ₹26,58,076 | 6.33% | Organic + performance channels |
+| Support + Office | ₹19,90,000 | 4.74% | Operations, office, support |
+| Compliance | ₹7,20,000 | 1.71% | Risk, legal, regulatory |
+| Buffer | ₹84,41,924 | 20.10% | Contingency and runway buffer |
+| **Total** | **₹4,20,00,000** | **100.00%** | |
 
 ---
 
