@@ -6,6 +6,10 @@ import { BusinessModelGTMSlide } from "@/components/pitch/BusinessModelGTMSlide"
 import { PartnershipsSlide } from "@/components/pitch/PartnershipsSlide";
 import { CompetitionSlideV2 } from "@/components/pitch/CompetitionSlideV2";
 import { CompetitiveMoatsSlide } from "@/components/pitch/CompetitiveMoatsSlide";
+import { FinancialOverviewSlide } from "@/components/pitch/FinancialOverviewSlide";
+import { UseOfProceedsSlide } from "@/components/pitch/UseOfProceedsSlide";
+import { FundingRequestSlide } from "@/components/pitch/FundingRequestSlide";
+import { ContactSlide } from "@/components/pitch/ContactSlide";
 
 const InvestorDeckFull = () => {
   return (
@@ -232,6 +236,34 @@ const InvestorDeckFull = () => {
       <section className="min-h-screen flex items-center justify-center p-8 border-b">
         <div className="max-w-7xl mx-auto w-full">
           <CompetitiveMoatsSlide />
+        </div>
+      </section>
+
+      {/* Slide 10: Financial Overview */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <FinancialOverviewSlide slide={{ title: 'Financial Overview', subtitle: 'Investments, Projections & Path to Profitability', icon: TrendingUp }} />
+        </div>
+      </section>
+
+      {/* Slide 11: Use of Proceeds */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <UseOfProceedsSlide slide={{ title: 'Use of Proceeds', subtitle: 'Strategic Allocation Across Phases', icon: Target }} />
+        </div>
+      </section>
+
+      {/* Slide 12: Funding Request */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <FundingRequestSlide slide={{ title: 'Funding Request', subtitle: 'Pre-Seed Round Details', icon: DollarSign }} />
+        </div>
+      </section>
+
+      {/* Slide 13: Contact */}
+      <section className="min-h-screen flex items-center justify-center p-8">
+        <div className="max-w-7xl mx-auto w-full">
+          <ContactSlide slide={{ title: 'Let\'s Connect', subtitle: 'Ready to revolutionize fintech distribution', icon: Users }} />
         </div>
       </section>
 
