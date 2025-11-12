@@ -16,10 +16,10 @@ export const MarketOpportunityFocusedSlide = () => {
       <div className="space-y-3">
         <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
           <Target className="w-6 h-6 text-primary" />
-          Our Focus: 3 User Cohorts
+          Our Focus: 4 User Cohorts
         </h2>
         
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* LAMF Cohort */}
           <Card className="border-primary/20">
             <CardContent className="p-4 space-y-2">
@@ -30,13 +30,13 @@ export const MarketOpportunityFocusedSlide = () => {
                 <div>
                   <h3 className="font-bold text-sm">LAMF SIP-heavy investors</h3>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Who:</strong> 1.2M cohort with ₹5L+ MF portfolios, stable SIPs
+                    <strong>Who:</strong> 1.2M investors, top-8 metros, age 30-50
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Pain:</strong> Need emergency liquidity without redeeming long-term SIPs
+                    <strong>Pain:</strong> Need liquidity without breaking compounding
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Solution:</strong> LAMF calculator + instant quotes embedded in MF research
+                    <strong>Market:</strong> ₹37,350 cr (Y1) → ₹1,03,460 cr (Y10)
                   </p>
                 </div>
               </div>
@@ -53,13 +53,13 @@ export const MarketOpportunityFocusedSlide = () => {
                 <div>
                   <h3 className="font-bold text-sm">Digital Gold micro-savers</h3>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Who:</strong> 3M cohort making small recurring gold purchases (₹500-2K/month)
+                    <strong>Who:</strong> 3M UPI-native savers, age 23-35, Tier-1/2 cities
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Pain:</strong> Trust physical gold but want convenience + transparency
+                    <strong>Pain:</strong> Want convenience + transparency in gold
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Solution:</strong> Real-time gold prices + 1-click buy within price-tracking content
+                    <strong>Market:</strong> ₹14,000 cr (Y1) → ₹49,280 cr (Y10)
                   </p>
                 </div>
               </div>
@@ -76,13 +76,36 @@ export const MarketOpportunityFocusedSlide = () => {
                 <div>
                   <h3 className="font-bold text-sm">Digital Silver value seekers</h3>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Who:</strong> 1M cohort exploring lower-cost precious metal diversification
+                    <strong>Who:</strong> 1M early adopters, age 25-40
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Pain:</strong> Want precious metals exposure without high gold premiums
+                    <strong>Pain:</strong> Want inflation hedge via ₹3K/month SIPs
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    <strong>Solution:</strong> Silver price comparison + quick-buy in commodity research
+                    <strong>Market:</strong> ₹2,400 cr (Y1) → ₹10,659 cr (Y10)
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Personal Loan Cohort */}
+          <Card className="border-primary/20">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-start gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-bold text-primary">4</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm">Personal Loan seekers</h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Who:</strong> 1M users seeking sub-₹25K loans
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Pain:</strong> Underbanked, need quick small-ticket credit
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <strong>Market:</strong> ₹1,00,000 cr (Y1) → ₹2,77,308 cr (Y10)
                   </p>
                 </div>
               </div>
@@ -95,7 +118,7 @@ export const MarketOpportunityFocusedSlide = () => {
       <div className="space-y-3">
         <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
           <TrendingUp className="w-6 h-6 text-primary" />
-          Market Sizing & Revenue Projections
+          Market Sizing Across Categories
         </h2>
         
         <Card>
@@ -105,55 +128,65 @@ export const MarketOpportunityFocusedSlide = () => {
                 <thead>
                   <tr className="border-b">
                     <th className="text-left p-2 font-bold">Product</th>
-                    <th className="text-right p-2 font-bold">Cohort Size<br/>(3 Years)</th>
-                    <th className="text-right p-2 font-bold">Y1 Market<br/>(₹ Cr)</th>
-                    <th className="text-right p-2 font-bold">Y10 Market<br/>(₹ Cr)</th>
-                    <th className="text-right p-2 font-bold">Y1 GMV<br/>(₹ Cr)</th>
-                    <th className="text-right p-2 font-bold">Y10 GMV<br/>(₹ Cr)</th>
-                    <th className="text-right p-2 font-bold">Y1 Revenue<br/>(₹ Cr)</th>
-                    <th className="text-right p-2 font-bold">Y10 Revenue<br/>(₹ Cr)</th>
+                    <th className="text-center p-2 font-bold" colSpan={2}>Year 1</th>
+                    <th className="text-center p-2 font-bold" colSpan={2}>Year 5</th>
+                    <th className="text-center p-2 font-bold" colSpan={2}>Year 10</th>
+                  </tr>
+                  <tr className="border-b text-xs text-muted-foreground">
+                    <th></th>
+                    <th className="text-right p-2">₹ Cr</th>
+                    <th className="text-right p-2">$ M</th>
+                    <th className="text-right p-2">₹ Cr</th>
+                    <th className="text-right p-2">$ M</th>
+                    <th className="text-right p-2">₹ Cr</th>
+                    <th className="text-right p-2">$ M</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b">
                     <td className="p-2 font-medium">LAMF</td>
-                    <td className="text-right p-2">1,200,000</td>
                     <td className="text-right p-2">37,350</td>
-                    <td className="text-right p-2">103,460</td>
-                    <td className="text-right p-2">144</td>
-                    <td className="text-right p-2">27,353</td>
-                    <td className="text-right p-2">0.86</td>
-                    <td className="text-right p-2">164.12</td>
+                    <td className="text-right p-2">4,150</td>
+                    <td className="text-right p-2">58,640</td>
+                    <td className="text-right p-2">6,516</td>
+                    <td className="text-right p-2">1,03,460</td>
+                    <td className="text-right p-2">11,496</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-2 font-medium">Digital Gold</td>
-                    <td className="text-right p-2">3,000,000</td>
                     <td className="text-right p-2">14,000</td>
+                    <td className="text-right p-2">1,556</td>
+                    <td className="text-right p-2">24,500</td>
+                    <td className="text-right p-2">2,722</td>
                     <td className="text-right p-2">49,280</td>
-                    <td className="text-right p-2">10.66</td>
-                    <td className="text-right p-2">10,857.28</td>
-                    <td className="text-right p-2">0.21</td>
-                    <td className="text-right p-2">217.15</td>
+                    <td className="text-right p-2">5,476</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-2 font-medium">Digital Silver</td>
-                    <td className="text-right p-2">1,000,000</td>
                     <td className="text-right p-2">2,400</td>
+                    <td className="text-right p-2">267</td>
+                    <td className="text-right p-2">4,653</td>
+                    <td className="text-right p-2">517</td>
                     <td className="text-right p-2">10,659</td>
-                    <td className="text-right p-2">3</td>
-                    <td className="text-right p-2">3,949</td>
-                    <td className="text-right p-2">0.06</td>
-                    <td className="text-right p-2">78.98</td>
+                    <td className="text-right p-2">1,184</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Personal Loan</td>
+                    <td className="text-right p-2">1,00,000</td>
+                    <td className="text-right p-2">11,111</td>
+                    <td className="text-right p-2">1,57,352</td>
+                    <td className="text-right p-2">17,484</td>
+                    <td className="text-right p-2">2,77,308</td>
+                    <td className="text-right p-2">30,812</td>
                   </tr>
                   <tr className="bg-primary/5 font-bold">
-                    <td className="p-2">TOTAL</td>
-                    <td className="text-right p-2">5,200,000</td>
-                    <td className="text-right p-2">53,750</td>
-                    <td className="text-right p-2">163,399</td>
-                    <td className="text-right p-2">157.66</td>
-                    <td className="text-right p-2">42,159.28</td>
-                    <td className="text-right p-2">1.13</td>
-                    <td className="text-right p-2">460.25</td>
+                    <td className="p-2">TOTAL TAM</td>
+                    <td className="text-right p-2">1,53,750</td>
+                    <td className="text-right p-2">17,084</td>
+                    <td className="text-right p-2">2,45,145</td>
+                    <td className="text-right p-2">27,239</td>
+                    <td className="text-right p-2">4,40,707</td>
+                    <td className="text-right p-2">48,968</td>
                   </tr>
                 </tbody>
               </table>
@@ -202,25 +235,8 @@ export const MarketOpportunityFocusedSlide = () => {
               <Target className="w-5 h-5 text-primary" />
               Bottom Line
             </h3>
-            <div className="grid md:grid-cols-3 gap-4 text-center text-sm">
-              <div>
-                <p className="text-lg font-bold text-primary">Start Small</p>
-                <p className="text-muted-foreground">→ 13,400 users</p>
-                <p className="text-muted-foreground">→ ₹1.13 cr revenue (Y1)</p>
-              </div>
-              <div>
-                <p className="text-lg font-bold text-primary">Prove It</p>
-                <p className="text-muted-foreground">→ Fixed cohorts</p>
-                <p className="text-muted-foreground">→ Zero-CAC, validate economics</p>
-              </div>
-              <div>
-                <p className="text-lg font-bold text-primary">Scale Smart</p>
-                <p className="text-muted-foreground">→ 3.4M+ users</p>
-                <p className="text-muted-foreground">→ ₹460 cr revenue (Y10)</p>
-              </div>
-            </div>
-            <p className="text-center text-sm font-medium pt-3 border-t border-border/30">
-              Not betting on the whole market. Just 3 focused personas, proven playbook, disciplined scale.
+            <p className="text-center text-sm font-medium">
+              Four focused cohorts across under-penetrated categories, targeting <span className="font-bold text-primary">₹1.54 lakh cr ($17B)</span> Year 1 TAM scaling to <span className="font-bold text-primary">₹4.41 lakh cr ($49B)</span> by Year 10.
             </p>
           </div>
         </CardContent>

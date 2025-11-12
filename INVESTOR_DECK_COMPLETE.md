@@ -40,49 +40,38 @@
 
 #### Four Product Categories & Market Sizing
 
-| Product | Market Size (in ₹ Cr) | | | |
-|---------|---------------------|---|---|---|
-| | **Year 1** | **Year 5** | **Year 10** |
-| **LAMF** | 37,350 | 58,640 | 1,03,460 |
-| **Digital Gold** | 14,000 | 24,500 | 49,280 |
-| **Digital Silver** | 2,400 | 4,653 | 10,659 |
-| **Personal Loan** | 1,00,000 | 1,57,352 | 2,77,308 |
+| Product | Year 1 | | Year 5 | | Year 10 | |
+|---------|--------|---------|---------|---------|---------|---------|
+| | **₹ Cr** | **$ M** | **₹ Cr** | **$ M** | **₹ Cr** | **$ M** |
+| **LAMF** | 37,350 | 4,150 | 58,640 | 6,516 | 1,03,460 | 11,496 |
+| **Digital Gold** | 14,000 | 1,556 | 24,500 | 2,722 | 49,280 | 5,476 |
+| **Digital Silver** | 2,400 | 267 | 4,653 | 517 | 10,659 | 1,184 |
+| **Personal Loan** | 1,00,000 | 11,111 | 1,57,352 | 17,484 | 2,77,308 | 30,812 |
+| **TOTAL TAM** | **1,53,750** | **17,084** | **2,45,145** | **27,239** | **4,40,707** | **48,968** |
 
-#### Revenue Projections by Product (FY26-FY30)
+#### Four Core Cohorts (Focused Strategy)
 
-| Period | LAMF Revenue | Gold Revenue | Silver Revenue | PL Revenue | Total Revenue |
-|--------|--------------|--------------|----------------|------------|---------------|
-| Dec25-Mar26 | ₹2,462 | ₹1,975 | ₹3,001 | ₹0 | ₹7,439 |
-| FY26 | ₹1,56,682 | ₹1,79,002 | ₹94,991 | ₹2,62,887 | ₹6,93,562 |
-| FY27 | ₹18,84,904 | ₹25,31,397 | ₹6,66,028 | ₹23,12,597 | ₹73,94,925 |
-| FY28 | ₹1,26,99,684 | ₹1,45,63,993 | ₹20,83,274 | ₹99,20,353 | ₹3,92,67,304 |
-| FY29 | ₹2,57,22,323 | ₹2,69,65,884 | ₹34,99,876 | ₹2,12,66,605 | ₹7,74,54,688 |
-| FY30 | ₹3,42,27,554 | ₹3,64,79,212 | ₹44,38,688 | ₹2,69,71,197 | ₹10,21,16,652 |
-| **% Mix** | **33.52%** | **35.72%** | **4.35%** | **26.41%** | **100%** |
-
-#### Three Core Personas (Years 1-3 Beachhead)
-
-**Persona 1: LAMF SIP-Heavy Investor**
+**Cohort 1: LAMF SIP-Heavy Investor**
 - **Who:** 1.2M investors in top-8 metros, age 30-50
 - **Profile:** ₹10L+ MF holdings, need liquidity without breaking compounding
 - **Market Size:** ₹37,350 cr (Y1) → ₹1,03,460 cr (Y10)
 
-**Persona 2: Digital Gold Micro-Saver**
+**Cohort 2: Digital Gold Micro-Saver**
 - **Who:** 3M UPI-native savers, age 23-35, Tier-1/2 cities
 - **Profile:** ₹25-75K disposable income, micro-savings + festival gifting
 - **Market Size:** ₹14,000 cr (Y1) → ₹49,280 cr (Y10)
 
-**Persona 3: Digital Silver Value Seeker**
+**Cohort 3: Digital Silver Value Seeker**
 - **Who:** 1M value-conscious early adopters, age 25-40
 - **Profile:** Seeking affordable inflation hedge via ₹3K/month SIPs
 - **Market Size:** ₹2,400 cr (Y1) → ₹10,659 cr (Y10)
 
-**Persona 4: Personal Loan Seeker (Community-First)**
+**Cohort 4: Personal Loan Seeker (Community-First)**
 - **Who:** 1M users in community seeking access to sub-₹25K loans
 - **Profile:** Underbanked, looking for quick, small-ticket credit
 - **Market Size:** ₹1,00,000 cr (Y1) → ₹2,77,308 cr (Y10)
 
-**Bottom Line:** Start small → Prove it (fixed cohorts, low-CAC) → Scale smart across 4 focused categories
+**Bottom Line:** Four focused cohorts across under-penetrated categories, targeting ₹1.54 lakh cr ($17B) Year 1 TAM scaling to ₹4.41 lakh cr ($49B) by Year 10.
 
 ---
 
