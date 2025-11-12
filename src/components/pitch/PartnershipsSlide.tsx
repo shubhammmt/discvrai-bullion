@@ -28,6 +28,11 @@ export const PartnershipsSlide: React.FC = () => {
       name: 'ETMoney',
       description: 'WIP',
       category: 'Financial Platform'
+    },
+    {
+      name: 'mPokket',
+      description: 'WIP',
+      category: 'Loan Lender'
     }
   ];
 
