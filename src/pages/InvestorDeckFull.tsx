@@ -27,11 +27,8 @@ const InvestorDeckFull = () => {
           {/* Company Name */}
           <div className="space-y-4">
             <h1 className="text-7xl font-bold tracking-tight">Discvr.ai</h1>
-            <p className="text-2xl text-muted-foreground font-medium">
-              Content-Led Financial Distribution Platform
-            </p>
-            <p className="text-xl text-muted-foreground">
-              Zero-CAC Fintech Distribution for India
+            <p className="text-3xl text-muted-foreground font-medium">
+              Building India's Biggest Financial Distribution Platform
             </p>
           </div>
 
@@ -39,22 +36,22 @@ const InvestorDeckFull = () => {
           <div className="space-y-6 pt-8">
             <div className="space-y-2">
               <h2 className="text-3xl font-semibold">Shubham Srivastava</h2>
-              <p className="text-xl text-muted-foreground">Founder & CEO</p>
+              <p className="text-xl text-muted-foreground">Founder & CEO • 2nd Time Founder</p>
             </div>
 
             {/* Credentials */}
             <div className="flex flex-wrap justify-center gap-3 pt-4">
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
-                Ex-CTO, Eureka Forbes (Listed Unicorn)
+                Ex-CTO, Eureka Forbes
               </Badge>
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
-                Ex-CTO, HT Digital (100M+ Users)
+                Ex-CTO, HT Digital (100M+ MAU)
               </Badge>
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
-                Ex-MMT (Nasdaq Listed)
+                Ex-MakeMyTrip
               </Badge>
               <Badge variant="secondary" className="px-6 py-3 text-base font-medium">
-                Ex-iTrust Financial Advisors
+                Founder, Tekch (PropTech SaaS)
               </Badge>
             </div>
           </div>
@@ -66,11 +63,11 @@ const InvestorDeckFull = () => {
         <div className="max-w-7xl w-full space-y-12">
           {/* Hook */}
           <div className="text-center space-y-4">
-            <h2 className="text-5xl font-bold leading-tight">
-              Indian fintech spends <span className="text-primary">$50B+</span> on customer acquisition.
+            <h2 className="text-4xl font-bold leading-tight">
+              Trusted content drives discovery. Discovery drives distribution.
             </h2>
-            <p className="text-3xl text-muted-foreground font-medium">
-              We're building the zero-CAC alternative.
+            <p className="text-2xl text-muted-foreground font-medium">
+              We marry the right financial product to the right consumer through information, not ads.
             </p>
           </div>
 
@@ -87,26 +84,26 @@ const InvestorDeckFull = () => {
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-destructive">$50B+ CAC Crisis</h4>
+                  <h4 className="text-lg font-semibold text-destructive">The Trust Gap</h4>
                   <p className="text-muted-foreground">
-                    Traditional fintech burns massive capital acquiring users through paid ads
+                    400M+ Indians lack accessible, trusted financial guidance for making informed decisions
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-destructive">Content-Commerce Gap</h4>
+                  <h4 className="text-lg font-semibold text-destructive">Discovery Problem</h4>
                   <p className="text-muted-foreground">
-                    400M+ Indians lack trusted, engaging financial content → product discovery
+                    Users don't know which financial products fit their needs—they rely on ads or word-of-mouth
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-destructive">Why It Exists</h4>
+                  <h4 className="text-lg font-semibold text-destructive">Distribution Inefficiency</h4>
                   <p className="text-muted-foreground">
-                    Platforms are either pure content (no monetization) or pure product (high CAC)
+                    Platforms spend heavily on CAC to acquire users, making distribution expensive
                   </p>
                   <p className="text-muted-foreground">
-                    No one has scaled content → commerce in fintech for India
+                    No one bridges content → trust → product fit at scale in Indian fintech
                   </p>
                 </div>
               </div>
@@ -125,38 +122,38 @@ const InvestorDeckFull = () => {
                 <div className="space-y-2">
                   <h4 className="text-lg font-semibold text-primary">What We Do</h4>
                   <p className="text-muted-foreground">
-                    Content-led financial distribution platform combining news/engagement (180 articles/day) 
-                    with product conversion funnels (mutual funds, loans, digital gold)
+                    Information-driven platform that helps users discover the right financial products through trusted content, 
+                    engagement tools, and personalized recommendations
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-primary">Our Advantages</h4>
+                  <h4 className="text-lg font-semibold text-primary">How It Works</h4>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
                       <Users className="w-5 h-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium">Proven Playbook</p>
+                        <p className="font-medium">Content That Educates</p>
                         <p className="text-sm text-muted-foreground">
-                          Founder scaled content distribution to 100M+ users at HT Digital
+                          180 articles/day covering stocks, mutual funds, gold, credit—scaling to 500+
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <TrendingUp className="w-5 h-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium">180 Articles/Day Engine</p>
+                        <p className="font-medium">Tools That Engage</p>
                         <p className="text-sm text-muted-foreground">
-                          Already producing scaled content (scaling to 500+)
+                          Quizzes, polls, calculators, watchlists—building daily habits and trust
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <DollarSign className="w-5 h-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium">Low CAC Model</p>
+                        <p className="font-medium">Distribution That Works</p>
                         <p className="text-sm text-muted-foreground">
-                          Organic acquisition through SEO + engagement (polls, quizzes, news)
+                          When users trust us, they transact—better experience, lower provider costs
                         </p>
                       </div>
                     </div>
@@ -166,33 +163,105 @@ const InvestorDeckFull = () => {
             </Card>
           </div>
 
-          {/* Why Care */}
+          {/* Why This Matters */}
           <div className="grid md:grid-cols-4 gap-6 pt-4">
             <Card className="p-6 text-center space-y-2 bg-card/50">
-              <p className="text-4xl font-bold text-primary">$230B+</p>
-              <p className="text-sm text-muted-foreground">Indian Fintech Market by 2030</p>
+              <p className="text-4xl font-bold text-primary">₹53K Cr</p>
+              <p className="text-sm text-muted-foreground">Year 1 Market Opportunity</p>
             </Card>
             <Card className="p-6 text-center space-y-2 bg-card/50">
-              <p className="text-4xl font-bold text-primary">Zero CAC</p>
-              <p className="text-sm text-muted-foreground">Content = Distribution</p>
+              <p className="text-4xl font-bold text-primary">Low CAC</p>
+              <p className="text-sm text-muted-foreground">Content-Driven Acquisition</p>
             </Card>
             <Card className="p-6 text-center space-y-2 bg-card/50">
-              <p className="text-4xl font-bold text-primary">Day 1</p>
-              <p className="text-sm text-muted-foreground">Unit Economics Work</p>
+              <p className="text-4xl font-bold text-primary">Win-Win</p>
+              <p className="text-sm text-muted-foreground">Better UX, Lower Provider Costs</p>
             </Card>
             <Card className="p-6 text-center space-y-2 bg-card/50">
-              <p className="text-4xl font-bold text-primary">Global</p>
-              <p className="text-sm text-muted-foreground">India → US Markets</p>
+              <p className="text-4xl font-bold text-primary">Proven DNA</p>
+              <p className="text-sm text-muted-foreground">100M+ MAU Track Record</p>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* Slide 3: Team (Placeholder) */}
-      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white p-8 border-b">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-5xl font-bold text-foreground mb-4">Team & Advisors</h2>
-          <p className="text-xl text-muted-foreground">[Placeholder - To be added]</p>
+      {/* Slide 3: Team & Advisors */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full space-y-12">
+          <div className="text-center">
+            <h2 className="text-5xl font-bold text-foreground mb-4">Team & Advisors</h2>
+            <p className="text-xl text-muted-foreground">Proven execution team with deep domain expertise</p>
+          </div>
+
+          {/* Founder */}
+          <Card className="p-8">
+            <div className="space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-3xl font-bold text-primary">SS</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-foreground">Shubham Srivastava</h3>
+                  <p className="text-lg text-primary font-medium mb-2">Founder & CEO, Discvr.ai</p>
+                  <p className="text-muted-foreground mb-3">
+                    Ex-CTO, Eureka Forbes | Ex-CTO, Hindustan Times | Ex-MakeMyTrip | Founder, Tekch (PropTech SaaS)
+                  </p>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p>• 20+ years building and scaling large-scale digital platforms across fintech, media, and consumer tech</p>
+                    <p>• Founded Discvr.ai to simplify financial decision-making through AI-powered product discovery and intelligence</p>
+                    <p>• Led tech and product at Eureka Forbes (1M+ MAUs), HT Digital (10M→100M+ MAU), and MakeMyTrip Hotels (global scale systems)</p>
+                    <p>• Deep expertise in AI, product-led growth, and platform scalability</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Advisors & Key People */}
+          <div>
+            <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Advisors & Key People</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="p-6">
+                <div className="space-y-2">
+                  <p className="text-sm text-primary font-semibold">Tech Advisor</p>
+                  <h4 className="text-xl font-bold text-foreground">Sharat Singh</h4>
+                  <p className="text-muted-foreground">Ex-CTO MakeMyTrip, Ex-CTO Nexttag</p>
+                </div>
+              </Card>
+              
+              <Card className="p-6">
+                <div className="space-y-2">
+                  <p className="text-sm text-primary font-semibold">Content & SEO Lead</p>
+                  <h4 className="text-xl font-bold text-foreground">Anil Singh</h4>
+                  <p className="text-muted-foreground">Ex-TOI, Ex-HT (Employed Part-time)</p>
+                </div>
+              </Card>
+              
+              <Card className="p-6">
+                <div className="space-y-2">
+                  <p className="text-sm text-primary font-semibold">Growth & Marketing Advisor</p>
+                  <h4 className="text-xl font-bold text-foreground">Inderpreet Singh</h4>
+                  <p className="text-muted-foreground">Ex-Tata Sky, Business Head OTTPlay</p>
+                </div>
+              </Card>
+              
+              <Card className="p-6">
+                <div className="space-y-2">
+                  <p className="text-sm text-primary font-semibold">Product Advisor</p>
+                  <h4 className="text-xl font-bold text-foreground">Ramji Tripathi</h4>
+                  <p className="text-muted-foreground">Ex-TOI, Ex-HT, Ex-Airtel, VP Reliance</p>
+                </div>
+              </Card>
+              
+              <Card className="p-6 md:col-span-2">
+                <div className="space-y-2">
+                  <p className="text-sm text-primary font-semibold">Finance & Compliance</p>
+                  <h4 className="text-xl font-bold text-foreground">Abhishek Singh</h4>
+                  <p className="text-muted-foreground">Enabled INDmoney from 0→1 (Employed Part-time)</p>
+                </div>
+              </Card>
+            </div>
+          </div>
         </div>
       </section>
 
