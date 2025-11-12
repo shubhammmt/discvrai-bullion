@@ -9,7 +9,7 @@ DISCVR.AI is creating a content-to-commerce financial intelligence platform that
 
 DISCVR.AI has established strategic partnerships with CMOTS (India exchanges data), FMP (US exchanges), Smallcase (LAMF), Augmont (Gold/Silver), ETMoney, and Mpokket (Personal Loans). The platform focuses on four beachhead categories: Loan Against Mutual Funds (LAMF), Digital Gold, Digital Silver, and Personal Loans targeting ~6.2M users in under-penetrated segments.
 
-Till date, DISCVR.AI has scaled from 11K monthly sessions (Sep 2024) to 100K run-rate (Nov 2024) with >3 min average session duration and ~10% organic reach—demonstrating early product-market fit in content-led financial distribution.
+Till date, DISCVR.AI has scaled from 11K monthly sessions (Sep 2025) to 100K run-rate (Nov 2025) with 3+ min average session duration and ~10% organic reach—demonstrating early product-market fit in content-led financial distribution.
 
 ---
 
@@ -38,11 +38,11 @@ Equal equity partner, contributing to strategic direction and operations.
 
 **Revenue Projections:**
 - Dec25-Mar26: ₹7,439
-- FY26: ₹6.93 lakh
-- FY27: ₹73.95 lakh
+- FY26: ₹6.94 lakh
+- FY27: ₹0.73 crore
 - FY28: ₹3.93 crore
-- FY29: ₹7.75 crore (Break-even achieved, 16.64% EBITDA margin)
-- FY30: ₹10.21 crore (26.47% EBITDA margin)
+- FY29: ₹7.75 crore (Break-even achieved, 18.19% EBITDA margin)
+- FY30: ₹10.21 crore (28.12% EBITDA margin)
 
 **Revenue Model:**
 - 0.6% commission on LAMF disbursals
@@ -61,7 +61,7 @@ Equal equity partner, contributing to strategic direction and operations.
 
 ## Market
 
-India's financial distribution market represents a **₹53,750 crore Year 1 opportunity** growing to **₹1,63,399 crore by Year 10** ($18.15 billion at ₹9,000/USD exchange rate).
+India's financial distribution market represents a **₹1,53,750 crore / $17 billion Year 1 opportunity** growing to **₹4,40,707 crore / $50 billion by Year 10**.
 
 **Target Segments:**
 - **LAMF:** 1.2M SIP-heavy investors in top-8 metros with ₹10L+ MF holdings (Market: ₹37,350 cr → ₹1,03,460 cr)
@@ -116,13 +116,11 @@ India's financial distribution market represents a **₹53,750 crore Year 1 oppo
 
 ## Next Milestone
 
-With **₹4.2 crore raised**, DISCVR.AI aims to hit:
-- **10M Monthly Active Users** (from 1M baseline)
-- **₹7.75 crore revenue** in FY29
-- **Break-even profitability** by FY29 (16.64% EBITDA margin)
-- **Scale distribution partnerships** across LAMF, Gold, Silver, and Personal Loans
-- **Expand product stack** to insurance, smallcases, and Loan Against Securities
-- **Build B2B SaaS layer** for institutional monetization
+With **₹4.2 crore raised**, DISCVR.AI aims to achieve:
+- **Runway:** 12-18 months of operations
+- **User Growth:** 1 million baseline users
+- **Transaction Volume:** Steady monthly ₹4+ crore GMV across all categories
+- **Seed Readiness:** Position for seed round fundraise
 
 **Timeline:** 18-36 months (targeting FY29 break-even)
 
@@ -130,13 +128,13 @@ With **₹4.2 crore raised**, DISCVR.AI aims to hit:
 
 ## Capitalization Table
 
-| **Stakeholder** | **Equity** | **Invested** |
-|-----------------|-----------|--------------|
-| Shubham Srivastava (Founder) | 50% | ₹50 lakh |
-| Smriti Srivastava (Co-Founder) | 50% | ₹50 lakh |
-| **Total** | **100%** | **₹1.0 crore** |
+| **Stakeholder** | **Equity** |
+|-----------------|-----------|
+| Shubham Srivastava (Founder) | 50% |
+| Smriti Srivastava (Co-Founder) | 50% |
+| **Total** | **100%** |
 
-*Note: ₹1.0 crore includes ₹50 lakh direct business investment + ₹50 lakh self-funded founder salary (no salary drawn from company account)*
+**Total Founder Investment:** ₹1.0 crore (₹50L direct business investment + ₹50L self-funded founder salary)
 
 ---
 

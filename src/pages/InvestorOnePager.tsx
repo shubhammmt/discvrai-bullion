@@ -45,7 +45,7 @@ const InvestorOnePager = () => {
               DISCVR.AI has established strategic partnerships with CMOTS (India exchanges data), FMP (US exchanges), Smallcase (LAMF), Augmont (Gold/Silver), ETMoney, and Mpokket (Personal Loans). The platform focuses on four beachhead categories: Loan Against Mutual Funds (LAMF), Digital Gold, Digital Silver, and Personal Loans targeting ~6.2M users in under-penetrated segments.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed mt-4">
-              Till date, DISCVR.AI has scaled from 11K monthly sessions (Sep 2024) to 100K run-rate (Nov 2024) with 3+ min average session duration and ~10% organic reach—demonstrating early product-market fit in content-led financial distribution.
+              Till date, DISCVR.AI has scaled from 11K monthly sessions (Sep 2025) to 100K run-rate (Nov 2025) with 3+ min average session duration and ~10% organic reach—demonstrating early product-market fit in content-led financial distribution.
             </p>
           </CardContent>
         </Card>
@@ -124,11 +124,11 @@ const InvestorOnePager = () => {
                       </div>
                       <div className="flex justify-between">
                         <span>FY26:</span>
-                        <span className="font-semibold">₹6.93 lakh</span>
+                        <span className="font-semibold">₹6.94 lakh</span>
                       </div>
                       <div className="flex justify-between">
                         <span>FY27:</span>
-                        <span className="font-semibold">₹73.95 lakh</span>
+                        <span className="font-semibold">₹0.73 crore</span>
                       </div>
                       <div className="flex justify-between">
                         <span>FY28:</span>
@@ -136,11 +136,11 @@ const InvestorOnePager = () => {
                       </div>
                       <div className="flex justify-between border-t pt-1 mt-1">
                         <span className="font-bold">FY29 (Break-even):</span>
-                        <span className="font-bold text-green-600">₹7.75 crore (16.64% EBITDA)</span>
+                        <span className="font-bold text-green-600">₹7.75 crore (18.19% EBITDA)</span>
                       </div>
                       <div className="flex justify-between">
                         <span>FY30:</span>
-                        <span className="font-semibold">₹10.21 crore (26.47% EBITDA)</span>
+                        <span className="font-semibold">₹10.21 crore (28.12% EBITDA)</span>
                       </div>
                     </div>
                   </div>
@@ -190,10 +190,10 @@ const InvestorOnePager = () => {
                 
                 <div className="space-y-4">
                   <div className="bg-gradient-to-r from-primary/20 to-primary/5 p-4 rounded">
-                    <p className="font-bold text-2xl text-primary">₹53,750 crore</p>
+                    <p className="font-bold text-2xl text-primary">₹1.54 Lakh Cr / $17B</p>
                     <p className="text-xs text-muted-foreground">Year 1 Market Opportunity</p>
-                    <p className="font-bold text-xl text-primary mt-2">₹1,63,399 crore</p>
-                    <p className="text-xs text-muted-foreground">Year 10 Market Opportunity ($18.15B USD)</p>
+                    <p className="font-bold text-xl text-primary mt-2">₹4.41 Lakh Cr / $50B</p>
+                    <p className="text-xs text-muted-foreground">Year 10 Market Opportunity</p>
                   </div>
 
                   <div>
@@ -225,7 +225,7 @@ const InvestorOnePager = () => {
                   <div className="bg-green-50 dark:bg-green-950 p-3 rounded">
                     <p className="font-bold text-sm mb-1">Current Traction:</p>
                     <p className="text-xs text-muted-foreground">
-                      11K to 25K to 100K monthly sessions (Sep-Nov 2024), 3+ min session duration, 10% organic reach
+                      11K to 25K to 100K monthly sessions (Sep-Nov 2025), 3+ min session duration, 10% organic reach
                     </p>
                   </div>
                 </div>
@@ -362,40 +362,40 @@ const InvestorOnePager = () => {
                 </h2>
                 
                 <p className="text-sm text-muted-foreground mb-3">
-                  With <span className="font-bold text-primary">₹4.2 crore raised</span>, DISCVR.AI aims to hit:
+                  With <span className="font-bold text-primary">₹4.2 crore raised</span>, DISCVR.AI aims to achieve:
                 </p>
 
                 <div className="space-y-2 text-sm">
                   <div className="bg-muted/50 p-3 rounded">
                     <div className="flex items-center gap-2 mb-2">
-                      <Users className="w-4 h-4 text-primary" />
-                      <span className="font-bold">10M Monthly Active Users</span>
+                      <Zap className="w-4 h-4 text-primary" />
+                      <span className="font-bold">Runway</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">(from 1M baseline)</p>
+                    <p className="text-xs text-muted-foreground">12-18 months of operations</p>
+                  </div>
+
+                  <div className="bg-muted/50 p-3 rounded">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Users className="w-4 h-4 text-primary" />
+                      <span className="font-bold">User Growth</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">1 million baseline users</p>
                   </div>
 
                   <div className="bg-muted/50 p-3 rounded">
                     <div className="flex items-center gap-2 mb-2">
                       <DollarSign className="w-4 h-4 text-primary" />
-                      <span className="font-bold">₹7.75 crore revenue in FY29</span>
+                      <span className="font-bold">Transaction Volume</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">Break-even profitability (16.64% EBITDA margin)</p>
-                  </div>
-
-                  <div className="bg-muted/50 p-3 rounded">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-primary" />
-                      <span className="font-bold">Scale distribution partnerships</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Across LAMF, Gold, Silver, and Personal Loans</p>
+                    <p className="text-xs text-muted-foreground">Steady monthly ₹4+ crore GMV across all categories</p>
                   </div>
 
                   <div className="bg-muted/50 p-3 rounded">
                     <div className="flex items-center gap-2 mb-2">
                       <TrendingUp className="w-4 h-4 text-primary" />
-                      <span className="font-bold">Expand product stack</span>
+                      <span className="font-bold">Seed Readiness</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">Insurance, smallcases, Loan Against Securities, and B2B SaaS layer</p>
+                    <p className="text-xs text-muted-foreground">Position for seed round fundraise</p>
                   </div>
                 </div>
 
@@ -415,30 +415,26 @@ const InvestorOnePager = () => {
                     <tr className="border-b">
                       <th className="text-left py-2">Stakeholder</th>
                       <th className="text-right py-2">Equity</th>
-                      <th className="text-right py-2">Invested</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b">
                       <td className="py-2">Shubham Srivastava (Founder)</td>
                       <td className="text-right">50%</td>
-                      <td className="text-right">₹50 lakh</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2">Smriti Srivastava (Co-Founder)</td>
                       <td className="text-right">50%</td>
-                      <td className="text-right">₹50 lakh</td>
                     </tr>
                     <tr className="font-bold">
                       <td className="py-2">Total</td>
                       <td className="text-right">100%</td>
-                      <td className="text-right">₹1.0 crore</td>
                     </tr>
                   </tbody>
                 </table>
 
                 <p className="text-xs text-muted-foreground mt-3">
-                  *Note: ₹1.0 crore includes ₹50 lakh direct business investment + ₹50 lakh self-funded founder salary (no salary drawn from company account)
+                  <strong>Total Founder Investment:</strong> ₹1.0 crore (₹50L direct business investment + ₹50L self-funded founder salary)
                 </p>
               </CardContent>
             </Card>

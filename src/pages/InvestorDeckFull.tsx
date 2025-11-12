@@ -166,7 +166,7 @@ const InvestorDeckFull = () => {
           {/* Why This Matters */}
           <div className="grid md:grid-cols-4 gap-6 pt-4">
             <Card className="p-6 text-center space-y-2 bg-card/50">
-              <p className="text-4xl font-bold text-primary">₹53K Cr</p>
+              <p className="text-4xl font-bold text-primary">₹1.54L Cr / $17B</p>
               <p className="text-sm text-muted-foreground">Year 1 Market Opportunity</p>
             </Card>
             <Card className="p-6 text-center space-y-2 bg-card/50">
