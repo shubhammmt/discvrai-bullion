@@ -40,9 +40,9 @@ Equal equity partner, contributing to strategic direction and operations.
 - Dec25-Mar26: ₹7,439
 - FY26: ₹6.94 lakh
 - FY27: ₹0.73 crore
-- FY28: ₹3.93 crore
-- FY29: ₹7.75 crore (Break-even achieved, 18.19% EBITDA margin)
-- FY30: ₹10.21 crore (28.12% EBITDA margin)
+- FY28: ₹39.27 crore
+- FY29: ₹77.45 crore (Break-even achieved, 18.19% EBITDA margin)
+- FY30: ₹102.12 crore (28.12% EBITDA margin)
 
 **Revenue Model:**
 - 0.6% commission on LAMF disbursals

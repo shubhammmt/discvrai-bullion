@@ -132,15 +132,15 @@ const InvestorOnePager = () => {
                       </div>
                       <div className="flex justify-between">
                         <span>FY28:</span>
-                        <span className="font-semibold">₹3.93 crore</span>
+                        <span className="font-semibold">₹39.27 crore</span>
                       </div>
                       <div className="flex justify-between border-t pt-1 mt-1">
                         <span className="font-bold">FY29 (Break-even):</span>
-                        <span className="font-bold text-green-600">₹7.75 crore (18.19% EBITDA)</span>
+                        <span className="font-bold text-green-600">₹77.45 crore (18.19% EBITDA)</span>
                       </div>
                       <div className="flex justify-between">
                         <span>FY30:</span>
-                        <span className="font-semibold">₹10.21 crore (28.12% EBITDA)</span>
+                        <span className="font-semibold">₹102.12 crore (28.12% EBITDA)</span>
                       </div>
                     </div>
                   </div>
