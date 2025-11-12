@@ -65,6 +65,7 @@ import NewsFirstPitch from './pages/NewsFirstPitch';
 import FamilyFriendsPitch from './pages/FamilyFriendsPitch';
 import FamilyFriendsOnePager from './pages/FamilyFriendsOnePager';
 import PreSeedOnePager from './pages/PreSeedOnePager';
+import InvestorOnePager from './pages/InvestorOnePager';
 import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import AMCPitch from './pages/AMCPitch';
 import { B2BCapabilities } from './pages/B2BCapabilities';
@@ -178,6 +179,7 @@ const AppContent = () => {
           <Route path="/family-friends-pitch" element={<FamilyFriendsPitch />} />
           <Route path="/family-friends-1pager" element={<FamilyFriendsOnePager />} />
           <Route path="/preseed-1pager" element={<PreSeedOnePager />} />
+          <Route path="/investor-1pager" element={<InvestorOnePager />} />
           <Route path="/b2b-preipo-pitch" element={<B2BPreIPOPitch />} />
           <Route path="/amc-pitch" element={<AMCPitch />} />
           <Route path="/b2b-capabilities" element={<B2BCapabilities />} />
