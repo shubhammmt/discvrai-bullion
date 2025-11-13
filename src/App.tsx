@@ -68,6 +68,7 @@ import PreSeedOnePager from './pages/PreSeedOnePager';
 import InvestorOnePager from './pages/InvestorOnePager';
 import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import AMCPitch from './pages/AMCPitch';
+import PartnerDistribution from './pages/PartnerDistribution';
 import { B2BCapabilities } from './pages/B2BCapabilities';
 import InvestorDeck from './pages/InvestorDeck';
 import InvestorDeckFull from './pages/InvestorDeckFull';
@@ -106,6 +107,7 @@ const AppContent = () => {
                       location.pathname.includes('-1pager') || 
                       location.pathname === '/investor-deck' ||
                       location.pathname === '/investor-deck-full' ||
+                      location.pathname === '/partner-distribution' ||
                       location.pathname === '/b2b-capabilities';
 
   return (
@@ -182,6 +184,7 @@ const AppContent = () => {
           <Route path="/investor-1pager" element={<InvestorOnePager />} />
           <Route path="/b2b-preipo-pitch" element={<B2BPreIPOPitch />} />
           <Route path="/amc-pitch" element={<AMCPitch />} />
+          <Route path="/partner-distribution" element={<PartnerDistribution />} />
           <Route path="/b2b-capabilities" element={<B2BCapabilities />} />
           <Route path="/investor-deck" element={<InvestorDeck />} />
           <Route path="/investor-deck-full" element={<InvestorDeckFull />} />
