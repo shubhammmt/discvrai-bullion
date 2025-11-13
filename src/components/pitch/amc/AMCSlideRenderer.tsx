@@ -5,10 +5,13 @@ import { ChallengeSlide } from './ChallengeSlide';
 import { D2CFunnelSlide } from './D2CFunnelSlide';
 import { ContentDistributionSlide } from './ContentDistributionSlide';
 import { EngagementSlide } from './EngagementSlide';
-import { GTMSlide } from '../GTMSlide';
-import { MoatsSlide } from '../MoatsSlide';
-import { RoadmapSlide } from '../RoadmapSlide';
-import { AudienceSlide } from '../AudienceSlide';
+import { EnginesSlide } from './EnginesSlide';
+import { FlywheelSlide } from './FlywheelSlide';
+import { IntegrationSlide } from './IntegrationSlide';
+import { DistributorSlide } from './DistributorSlide';
+import { ROISlide } from './ROISlide';
+import { CompetitiveSlide } from './CompetitiveSlide';
+import { CTASlide } from './CTASlide';
 
 interface AMCSlideRendererProps {
   slide: any;
@@ -29,19 +32,19 @@ export const AMCSlideRenderer: React.FC<AMCSlideRendererProps> = ({ slide }) => 
     case 'engagement':
       return <EngagementSlide slide={slide} />;
     case 'engines':
+      return <EnginesSlide slide={slide} />;
     case 'flywheel':
+      return <FlywheelSlide slide={slide} />;
     case 'integration':
+      return <IntegrationSlide slide={slide} />;
     case 'distributor':
+      return <DistributorSlide slide={slide} />;
     case 'roi':
+      return <ROISlide slide={slide} />;
     case 'competitive':
+      return <CompetitiveSlide slide={slide} />;
     case 'cta':
-      return <GTMSlide slide={slide} />;
-    case 'moats':
-      return <MoatsSlide slide={slide} />;
-    case 'roadmap':
-      return <RoadmapSlide slide={slide} />;
-    case 'audience':
-      return <AudienceSlide slide={slide} />;
+      return <CTASlide slide={slide} />;
     default:
       return <div className="p-12">Slide type not found: {slide.type}</div>;
   }
