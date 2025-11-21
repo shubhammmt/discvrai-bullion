@@ -234,7 +234,7 @@ const InvestorOnePager = () => {
                   <div className="bg-green-50 dark:bg-green-950 p-3 rounded">
                     <p className="font-bold text-sm mb-1">Current Traction:</p>
                     <p className="text-xs text-muted-foreground">
-                      11K to 25K to 100K monthly sessions (Sep-Nov 2025), 3+ min session duration, 10% organic reach
+                      11K to 25K to 50K monthly sessions (Sep-Nov 2025), 3+ min session duration, 10% organic reach
                     </p>
                   </div>
                 </div>
