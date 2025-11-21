@@ -356,7 +356,7 @@ const InvestorOnePager = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="font-semibold">Pre-Money Valuation Cap:</span>
-                    <span>TBD</span>
+                    <span>₹5 crore</span>
                   </div>
                 </div>
               </CardContent>
