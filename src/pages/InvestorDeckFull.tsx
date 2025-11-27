@@ -329,7 +329,263 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
-      {/* Slide 13: Contact */}
+      {/* Slide 13: B2B Proposition + TAM/SAM/SOM */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full space-y-10">
+          <div className="text-center space-y-4">
+            <h2 className="text-5xl font-bold text-foreground">AI-Enabled Wealth & Investment Transformation for BFSI (B2B)</h2>
+            <p className="text-xl text-muted-foreground">Enterprise platform for banks, NBFCs, brokers, AMCs, and PMS</p>
+          </div>
+
+          {/* B2B Proposition */}
+          <Card className="p-8 space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-primary">Our B2B Proposition</h3>
+              <div className="grid gap-4 text-muted-foreground">
+                <div className="flex items-start gap-3">
+                  <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <p><span className="font-semibold text-foreground">Agentic Discovery → Advisory → Execution Platform</span> for banks, NBFCs, brokers, AMCs, PMS.</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <p><span className="font-semibold text-foreground">Plug-and-Play AI Agents</span> to automate product discovery, suitability, research, portfolio analytics and RM workflows.</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <p><span className="font-semibold text-foreground">Modular Deployment</span> (API + white-label UI) with compliance guardrails.</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <p><span className="font-semibold text-foreground">Multi-budget Capture:</span> wealth + advisory + analytics + customer intelligence.</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <p><span className="font-semibold text-foreground">Reduces cost-to-serve,</span> improves investor conversions and multiplies RM productivity.</p>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Target Market */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="p-8 space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-2xl font-bold text-primary">Target Market (India, 2025)</h3>
+                <p className="text-muted-foreground">AI-enabled wealth/advisory transformation across BFSI</p>
+                <div className="space-y-3 pt-2">
+                  <div className="flex justify-between items-center py-2 border-b border-border/50">
+                    <span className="font-medium">Banks</span>
+                    <span className="text-muted-foreground">₹1,600–₹3,200 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border/50">
+                    <span className="font-medium">NBFCs</span>
+                    <span className="text-muted-foreground">₹400–₹1,200 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border/50">
+                    <span className="font-medium">Brokerages</span>
+                    <span className="text-muted-foreground">₹800–₹2,400 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-border/50">
+                    <span className="font-medium">AMCs / PMS / AIFs</span>
+                    <span className="text-muted-foreground">₹300–₹800 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 bg-primary/5 px-4 rounded-lg mt-4">
+                    <span className="font-bold">TAM Range</span>
+                    <span className="font-bold text-primary">₹3,100–₹7,600 Cr</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-8 space-y-6">
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-primary">Market Sizing</h3>
+                  
+                  <div className="space-y-3">
+                    <div className="p-4 bg-primary/5 rounded-lg">
+                      <p className="text-sm font-semibold text-muted-foreground mb-2">TAM (India)</p>
+                      <p className="text-3xl font-bold text-foreground">₹3,000–₹7,500 Cr</p>
+                      <p className="text-lg text-muted-foreground">~$0.5–0.9B USD</p>
+                      <p className="text-sm text-muted-foreground mt-2">Growing 22–30% CAGR → 5× expansion in 10 years</p>
+                    </div>
+
+                    <div className="p-4 bg-secondary/50 rounded-lg">
+                      <p className="text-sm font-semibold text-muted-foreground mb-2">Our SAM (3–5 Years)</p>
+                      <p className="text-2xl font-bold text-foreground">₹1,600–₹2,400 Cr</p>
+                      <p className="text-sm text-muted-foreground mt-2">Mid-large BFSI institutions with active wealth/advisory transformation budgets</p>
+                    </div>
+
+                    <div className="p-4 bg-accent/50 rounded-lg">
+                      <p className="text-sm font-semibold text-muted-foreground mb-2">Our SOM (24–36 Months)</p>
+                      <p className="text-2xl font-bold text-foreground">₹20–₹40 Cr ARR</p>
+                      <p className="text-sm text-muted-foreground mt-2">25–40 B2B clients × ₹35–90L ACV achievable in 2.5–3 years</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Summary */}
+          <Card className="p-6 bg-primary/5">
+            <div className="space-y-2">
+              <p className="text-lg"><span className="font-bold text-foreground">B2B Proposition:</span> <span className="text-muted-foreground">AI agentic platform enabling BFSI to automate discovery, advisory, research & execution workflows. Modular, compliant, multi-budget capture.</span></p>
+              <p className="text-lg"><span className="font-bold text-foreground">TAM:</span> <span className="text-muted-foreground">₹3,000–7,500 Cr ($0.5–0.9B). Growing 22–30% CAGR → 5× by 2035.</span></p>
+              <p className="text-lg"><span className="font-bold text-foreground">SAM:</span> <span className="text-muted-foreground">₹1,600–2,400 Cr over 3–5 years.</span></p>
+              <p className="text-lg"><span className="font-bold text-foreground">SOM:</span> <span className="text-muted-foreground">₹20–40 Cr ARR achievable in 24–36 months.</span></p>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* Slide 14: B2B Revenue & Profitability Projections */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full space-y-10">
+          <div className="text-center space-y-4">
+            <h2 className="text-5xl font-bold text-foreground">Revenue & Profitability Outlook</h2>
+            <p className="text-xl text-muted-foreground">5-Year B2B Financial Projections (₹ Crore)</p>
+          </div>
+
+          {/* Financial Table */}
+          <Card className="p-8">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b-2 border-border">
+                    <th className="text-left py-4 px-4 font-bold text-foreground">Metric (₹ Cr)</th>
+                    <th className="text-right py-4 px-4 font-bold text-foreground">Y1</th>
+                    <th className="text-right py-4 px-4 font-bold text-foreground">Y2</th>
+                    <th className="text-right py-4 px-4 font-bold text-foreground">Y3</th>
+                    <th className="text-right py-4 px-4 font-bold text-foreground">Y4</th>
+                    <th className="text-right py-4 px-4 font-bold text-foreground">Y5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-border bg-primary/5">
+                    <td className="py-4 px-4 font-semibold">Revenue</td>
+                    <td className="text-right py-4 px-4 font-semibold text-primary">2.6</td>
+                    <td className="text-right py-4 px-4 font-semibold text-primary">15.3</td>
+                    <td className="text-right py-4 px-4 font-semibold text-primary">45.6</td>
+                    <td className="text-right py-4 px-4 font-semibold text-primary">84.0</td>
+                    <td className="text-right py-4 px-4 font-semibold text-primary">162.3</td>
+                  </tr>
+                  <tr className="border-b border-border/50">
+                    <td className="py-3 px-4 text-muted-foreground">Salary</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">3.0</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">7.0</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">14.0</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">23.0</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">41.0</td>
+                  </tr>
+                  <tr className="border-b border-border/50">
+                    <td className="py-3 px-4 text-muted-foreground">Infrastructure</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.3</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.3</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.4</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.4</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.5</td>
+                  </tr>
+                  <tr className="border-b border-border/50">
+                    <td className="py-3 px-4 text-muted-foreground">Marketing</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.3</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.3</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.4</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.4</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">0.5</td>
+                  </tr>
+                  <tr className="border-b border-border">
+                    <td className="py-3 px-4 font-medium">COGS</td>
+                    <td className="text-right py-3 px-4">3.0</td>
+                    <td className="text-right py-3 px-4">7.0</td>
+                    <td className="text-right py-3 px-4">14.0</td>
+                    <td className="text-right py-3 px-4">24.0</td>
+                    <td className="text-right py-3 px-4">41.0</td>
+                  </tr>
+                  <tr className="border-b border-border bg-secondary/30">
+                    <td className="py-4 px-4 font-semibold">Gross Profit</td>
+                    <td className="text-right py-4 px-4 font-semibold">-0.8</td>
+                    <td className="text-right py-4 px-4 font-semibold">8.4</td>
+                    <td className="text-right py-4 px-4 font-semibold">31.6</td>
+                    <td className="text-right py-4 px-4 font-semibold">60.4</td>
+                    <td className="text-right py-4 px-4 font-semibold">120.9</td>
+                  </tr>
+                  <tr className="border-b border-border/50">
+                    <td className="py-3 px-4 text-muted-foreground">Gross Margin %</td>
+                    <td className="text-right py-3 px-4 text-destructive">-31.4%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">54.9%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">69.2%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">71.9%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">74.5%</td>
+                  </tr>
+                  <tr className="border-b border-border bg-accent/30">
+                    <td className="py-4 px-4 font-semibold">EBITDA</td>
+                    <td className="text-right py-4 px-4 font-semibold">-1.1</td>
+                    <td className="text-right py-4 px-4 font-semibold">8.1</td>
+                    <td className="text-right py-4 px-4 font-semibold">31.2</td>
+                    <td className="text-right py-4 px-4 font-semibold">60.0</td>
+                    <td className="text-right py-4 px-4 font-semibold">120.4</td>
+                  </tr>
+                  <tr className="border-b border-border/50">
+                    <td className="py-3 px-4 text-muted-foreground">EBITDA Margin %</td>
+                    <td className="text-right py-3 px-4 text-destructive">-41.2%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">52.9%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">68.4%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">71.4%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">74.2%</td>
+                  </tr>
+                  <tr className="border-b border-border bg-primary/10">
+                    <td className="py-4 px-4 font-bold">Net Profit</td>
+                    <td className="text-right py-4 px-4 font-bold">-1.1</td>
+                    <td className="text-right py-4 px-4 font-bold text-primary">8.1</td>
+                    <td className="text-right py-4 px-4 font-bold text-primary">31.2</td>
+                    <td className="text-right py-4 px-4 font-bold text-primary">60.0</td>
+                    <td className="text-right py-4 px-4 font-bold text-primary">120.4</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 text-muted-foreground">Net Profit Margin %</td>
+                    <td className="text-right py-3 px-4 text-destructive">-41.2%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">52.9%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">68.4%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">71.4%</td>
+                    <td className="text-right py-3 px-4 text-muted-foreground">74.2%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Card>
+
+          {/* Key Highlights */}
+          <div className="grid md:grid-cols-4 gap-6">
+            <Card className="p-6 space-y-2 bg-card/50">
+              <TrendingUp className="w-8 h-8 text-primary mb-2" />
+              <p className="text-sm font-semibold text-muted-foreground">Rapid Scale</p>
+              <p className="text-2xl font-bold text-foreground">₹2.6 → ₹162 Cr</p>
+              <p className="text-xs text-muted-foreground">Revenue growth in 5 years</p>
+            </Card>
+            <Card className="p-6 space-y-2 bg-card/50">
+              <Target className="w-8 h-8 text-primary mb-2" />
+              <p className="text-sm font-semibold text-muted-foreground">Margin Expansion</p>
+              <p className="text-2xl font-bold text-foreground">-31% → 74%</p>
+              <p className="text-xs text-muted-foreground">Gross margin improvement</p>
+            </Card>
+            <Card className="p-6 space-y-2 bg-card/50">
+              <DollarSign className="w-8 h-8 text-primary mb-2" />
+              <p className="text-sm font-semibold text-muted-foreground">Operating Leverage</p>
+              <p className="text-2xl font-bold text-foreground">-41% → 74%</p>
+              <p className="text-xs text-muted-foreground">EBITDA margin growth</p>
+            </Card>
+            <Card className="p-6 space-y-2 bg-card/50">
+              <TrendingUp className="w-8 h-8 text-primary mb-2" />
+              <p className="text-sm font-semibold text-muted-foreground">Profitability</p>
+              <p className="text-2xl font-bold text-foreground">Year 2+</p>
+              <p className="text-xs text-muted-foreground">Break-even & aggressive growth</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Slide 15: Contact */}
       <section className="min-h-screen flex items-center justify-center p-8">
         <div className="max-w-7xl mx-auto w-full">
           <ContactSlide slide={{ title: 'Let\'s Connect', subtitle: 'Ready to revolutionize fintech distribution', icon: Users }} />
