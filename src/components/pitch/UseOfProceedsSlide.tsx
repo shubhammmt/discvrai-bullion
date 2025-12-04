@@ -92,55 +92,55 @@ export const UseOfProceedsSlide: React.FC<UseOfProceedsSlideProps> = ({ slide })
 
       {/* Allocation Grid */}
       <div>
-        <h3 className="text-2xl font-bold text-foreground mb-4 text-center">Allocation of Current Raise (₹4.2 Cr)</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-4 text-center">Allocation of Current Raise (₹5 Cr)</h3>
         
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Tech + Product</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹1.16 Cr <span className="text-sm text-muted-foreground">(27.60%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹1.35 Cr <span className="text-sm text-muted-foreground">(27.09%)</span></div>
               <div className="text-xs text-muted-foreground">Platform enhancement, AI tools, data infrastructure</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Content + SEO</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.84 Cr <span className="text-sm text-muted-foreground">(19.88%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.88 Cr <span className="text-sm text-muted-foreground">(17.63%)</span></div>
               <div className="text-xs text-muted-foreground">Financial education, SEO scaling</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Infra + Tools</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.42 Cr <span className="text-sm text-muted-foreground">(9.88%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.42 Cr <span className="text-sm text-muted-foreground">(8.30%)</span></div>
               <div className="text-xs text-muted-foreground">Infrastructure, tools, technology stack</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Sales</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.41 Cr <span className="text-sm text-muted-foreground">(9.76%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.46 Cr <span className="text-sm text-muted-foreground">(9.13%)</span></div>
               <div className="text-xs text-muted-foreground">Sales team and growth</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Marketing</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.31 Cr <span className="text-sm text-muted-foreground">(7.33%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.31 Cr <span className="text-sm text-muted-foreground">(6.16%)</span></div>
               <div className="text-xs text-muted-foreground">Organic + performance channels</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Support + Office</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.20 Cr <span className="text-sm text-muted-foreground">(4.74%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.20 Cr <span className="text-sm text-muted-foreground">(3.98%)</span></div>
               <div className="text-xs text-muted-foreground">Operations, office, support</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Compliance</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.07 Cr <span className="text-sm text-muted-foreground">(1.71%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹0.07 Cr <span className="text-sm text-muted-foreground">(1.44%)</span></div>
               <div className="text-xs text-muted-foreground">Risk, legal, regulatory</div>
             </div>
             
             <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
               <div className="text-sm text-muted-foreground mb-1">Buffer</div>
-              <div className="text-2xl font-bold text-primary mb-2">₹0.80 Cr <span className="text-sm text-muted-foreground">(19.10%)</span></div>
+              <div className="text-2xl font-bold text-primary mb-2">₹1.31 Cr <span className="text-sm text-muted-foreground">(26.26%)</span></div>
               <div className="text-xs text-muted-foreground">Contingency and runway buffer</div>
             </div>
           </div>
