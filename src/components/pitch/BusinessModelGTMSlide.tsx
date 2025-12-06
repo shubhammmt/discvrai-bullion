@@ -149,8 +149,8 @@ export const BusinessModelGTMSlide: React.FC<BusinessModelGTMSlideProps> = ({ sl
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-primary">11K → 100K</span>
-              <span className="text-sm text-muted-foreground">sessions (Sep to Nov run-rate)</span>
+              <span className="text-2xl font-bold text-primary">11K → 25K</span>
+              <span className="text-sm text-muted-foreground">sessions (Sep to Nov)</span>
             </div>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-primary">&gt;3 min</span>

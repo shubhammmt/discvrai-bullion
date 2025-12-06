@@ -194,8 +194,8 @@ const InvestorDeck = () => {
             <Card className="bg-primary/5">
               <CardContent className="p-4 text-center space-y-1">
                 <TrendingUp className="w-6 h-6 text-primary mx-auto" />
-                <div className="text-2xl font-bold">11K → 100K</div>
-                <div className="text-sm text-muted-foreground">60-day growth (Sep-Nov)</div>
+                <div className="text-2xl font-bold">11K → 25K</div>
+                <div className="text-sm text-muted-foreground">sessions (Sep-Nov)</div>
               </CardContent>
             </Card>
 
