@@ -329,7 +329,14 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
-      {/* Slide 13: B2B Proposition + TAM/SAM/SOM */}
+      {/* Slide 13: Thank You / Contact */}
+      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+        <div className="max-w-7xl mx-auto w-full">
+          <ContactSlide slide={{ title: 'Let\'s Connect', subtitle: 'Ready to revolutionize fintech distribution', icon: Users }} />
+        </div>
+      </section>
+
+      {/* Slide 14: B2B Proposition + TAM/SAM/SOM */}
       <section className="min-h-screen flex items-center justify-center p-8 border-b">
         <div className="max-w-7xl mx-auto w-full space-y-10">
           <div className="text-center space-y-4">
@@ -439,8 +446,8 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
-      {/* Slide 14: B2B Revenue & Profitability Projections */}
-      <section className="min-h-screen flex items-center justify-center p-8 border-b">
+      {/* Slide 15: B2B Revenue & Profitability Projections */}
+      <section className="min-h-screen flex items-center justify-center p-8">
         <div className="max-w-7xl mx-auto w-full space-y-10">
           <div className="text-center space-y-4">
             <h2 className="text-5xl font-bold text-foreground">Revenue & Profitability Outlook</h2>
@@ -585,12 +592,6 @@ const InvestorDeckFull = () => {
         </div>
       </section>
 
-      {/* Slide 15: Contact */}
-      <section className="min-h-screen flex items-center justify-center p-8">
-        <div className="max-w-7xl mx-auto w-full">
-          <ContactSlide slide={{ title: 'Let\'s Connect', subtitle: 'Ready to revolutionize fintech distribution', icon: Users }} />
-        </div>
-      </section>
 
       {/* Navigation hint */}
       <div className="fixed bottom-8 right-8">
