@@ -8,6 +8,7 @@ import FinanceCopilot from '@/components/FinanceCopilot';
 import { EngagementWidget } from '@/components/engagement/EngagementWidget';
 import { TrendingPollResults } from '@/components/engagement/TrendingPollResults';
 import { LatestQuizzes } from '@/components/engagement/LatestQuizzes';
+import LAMFBanner from '@/components/LAMFBanner';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -57,6 +58,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* LAMF Banner */}
+      <LAMFBanner />
+      
       {/* Hero Section - First Viewport */}
       <div className="min-h-screen flex flex-col justify-center">
         <div className="max-w-6xl mx-auto px-4 py-12">
