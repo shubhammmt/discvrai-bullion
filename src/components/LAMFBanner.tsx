@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Zap, Shield, ArrowRight, X } from 'lucide-react';
+import { Zap, Shield, ArrowRight, X, TrendingDown } from 'lucide-react';
 import LAMFCreditDisplay from './LAMFCreditDisplay';
 
 const LAMFBanner = () => {
@@ -44,18 +44,22 @@ const LAMFBanner = () => {
           {/* Left Section: Info + CTA */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 flex-1">
             {/* Title and badges */}
-            <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
-              <h3 className="text-base md:text-lg font-bold text-white">
+            <div className="flex flex-col items-center md:items-start gap-3 text-center md:text-left">
+              <h3 className="text-lg md:text-xl font-bold text-white">
                 Loan Against Mutual Funds
               </h3>
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/15 backdrop-blur-sm rounded-full">
-                  <Zap className="w-3.5 h-3.5 text-yellow-300" />
-                  <span className="text-xs text-white/90">Money in 2 hours</span>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg border border-white/20">
+                  <Zap className="w-4 h-4 text-yellow-300" />
+                  <span className="text-sm font-medium text-white">Money in 2 hours</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/15 backdrop-blur-sm rounded-full">
-                  <Shield className="w-3.5 h-3.5 text-green-300" />
-                  <span className="text-xs text-white/90">No CIBIL impact</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg border border-white/20">
+                  <Shield className="w-4 h-4 text-green-300" />
+                  <span className="text-sm font-medium text-white">No CIBIL impact</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg border border-white/20">
+                  <TrendingDown className="w-4 h-4 text-emerald-300" />
+                  <span className="text-sm font-medium text-white">Lowest interest rate</span>
                 </div>
               </div>
             </div>
