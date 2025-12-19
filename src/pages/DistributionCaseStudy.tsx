@@ -358,50 +358,6 @@ const DistributionCaseStudy = () => {
           </CardContent>
         </Card>
 
-        {/* How to Present */}
-        <Card className="mb-8 border-2 border-slate-200 shadow-sm">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-                <PieChart className="w-5 h-5 text-slate-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900">How to Present This</h3>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="flex items-start gap-4 p-4 bg-emerald-50 rounded-lg border border-emerald-100">
-                <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-emerald-700 font-bold">1</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-emerald-800 mb-1">Don't hide the "Savings"</p>
-                  <p className="text-sm text-emerald-700">CFOs love the "7 bps savings" metric. It pays for your software 10x over.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-blue-700 font-bold">2</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-blue-800 mb-1">Highlight the "Win-Win"</p>
-                  <p className="text-sm text-blue-700">Emphasize that while overall cost went down, top performers earned more. This proves you aren't just a cost-cutting tool, but a performance tool.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4 p-4 bg-purple-50 rounded-lg border border-purple-100">
-                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-purple-700 font-bold">3</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-purple-800 mb-1">Visual Proof</p>
-                  <p className="text-sm text-purple-700">When showing this page, have a screenshot of your "Distributor Segmentation Matrix" (Stars vs. Dogs) ready to show how you achieved these numbers.</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Footer */}
         <div className="text-center pt-8 border-t-2 border-blue-100">
           <div className="flex items-center justify-center gap-3 mb-3">
@@ -414,6 +370,13 @@ const DistributionCaseStudy = () => {
           </div>
           <p className="text-slate-600 text-sm mb-2">Distribution Expense Management Platform</p>
           <p className="text-slate-500 text-xs">Commission Intelligence • Performance Analytics • Automated Payouts</p>
+          
+          {/* Disclaimer */}
+          <div className="mt-8 pt-6 border-t border-slate-200">
+            <p className="text-slate-400 text-xs italic">
+              Disclaimer: The AMC name and all figures presented in this case study have been modified to ensure client data privacy.
+            </p>
+          </div>
         </div>
       </div>
     </div>
