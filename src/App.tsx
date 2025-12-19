@@ -95,6 +95,7 @@ import { PollsHub } from './pages/PollsHub';
 import { QuizzesHub } from './pages/QuizzesHub';
 import { Leaderboard } from './pages/Leaderboard';
 import ProductFeaturePreview from './pages/ProductFeaturePreview';
+import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -204,6 +205,7 @@ const AppContent = () => {
           <Route path="/ai/queries" element={<AIQueryLibrary />} />
           <Route path="/ai/queries/:queryId" element={<AIQueryResult />} />
           <Route path="/product-features-preview" element={<ProductFeaturePreview />} />
+          <Route path="/distribution-case-study" element={<DistributionCaseStudy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
