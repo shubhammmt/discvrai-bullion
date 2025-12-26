@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Bell, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,17 @@ import { SellModal } from "@/components/bullion/SellModal";
 import { SIPModal } from "@/components/bullion/SIPModal";
 import { PortfolioVault } from "@/components/bullion/PortfolioVault";
 import { AIAgentChat } from "@/components/bullion/AIAgentChat";
-import { BullionPromoGrid, BuyGoldCard, BuySilverCard, GoldSIPCard, SilverSIPCard, BullionInlineWidget } from "@/components/bullion";
+import { 
+  QuickTradePanel, 
+  PortfolioSummaryWidget, 
+  EducationalCards,
+  BullionPromoGrid, 
+  BuyGoldCard, 
+  BuySilverCard, 
+  GoldSIPCard, 
+  SilverSIPCard, 
+  BullionInlineWidget 
+} from "@/components/bullion";
 
 export default function BullionInvestment() {
   const navigate = useNavigate();
@@ -40,11 +50,21 @@ export default function BullionInvestment() {
     setActiveModal("buy");
   };
 
+  const openSell = (metal: "gold" | "silver") => {
+    setSelectedMetal(metal);
+    setActiveModal("sell");
+  };
+
+  const openSIP = (metal: "gold" | "silver") => {
+    setSelectedMetal(metal);
+    setActiveModal("sip");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-border/50">
-        <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-5 h-5" />
@@ -60,8 +80,8 @@ export default function BullionInvestment() {
         </div>
       </header>
 
-      {/* View Toggle */}
-      <div className="max-w-lg mx-auto px-4 py-3">
+      {/* View Toggle - Only visible on mobile/tablet */}
+      <div className="lg:hidden max-w-lg mx-auto px-4 py-3">
         <div className="flex gap-2 p-1 bg-muted/50 rounded-xl">
           <button
             onClick={() => setView("market")}
@@ -79,22 +99,103 @@ export default function BullionInvestment() {
             onClick={() => setView("cards")}
             className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${view === "cards" ? "bg-background shadow-sm" : ""}`}
           >
-            Promo Cards
+            Explore
           </button>
         </div>
       </div>
 
-      <main className="max-w-lg mx-auto px-4 pb-32">
+      {/* DESKTOP: 3-Column Layout */}
+      <div className="hidden lg:block max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-12 gap-6">
+          {/* Left Column - Quick Trade Panel */}
+          <aside className="col-span-3">
+            <div className="sticky top-24">
+              <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Quick Trade</h2>
+              <QuickTradePanel
+                goldPrice={goldPrice}
+                silverPrice={silverPrice}
+                onBuyGold={() => openBuy("gold")}
+                onBuySilver={() => openBuy("silver")}
+                onSellGold={() => openSell("gold")}
+                onSellSilver={() => openSell("silver")}
+                onStartSIP={openSIP}
+              />
+            </div>
+          </aside>
+
+          {/* Center Column - Price Cards + Education */}
+          <main className="col-span-6 space-y-6">
+            {/* Live Prices Section */}
+            <section>
+              <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Live Prices</h2>
+              <div className="space-y-4">
+                <BullionPriceCard
+                  metal="gold"
+                  price={goldPrice}
+                  change={goldChange}
+                  changePercent={(goldChange / goldPrice) * 100}
+                  sparklineData={goldSparkline}
+                  showActions
+                  onBuy={() => openBuy("gold")}
+                  onSell={() => openSell("gold")}
+                  onSIP={() => openSIP("gold")}
+                />
+                <BullionPriceCard
+                  metal="silver"
+                  price={silverPrice}
+                  change={silverChange}
+                  changePercent={(silverChange / silverPrice) * 100}
+                  sparklineData={silverSparkline}
+                  showActions
+                  onBuy={() => openBuy("silver")}
+                  onSell={() => openSell("silver")}
+                  onSIP={() => openSIP("silver")}
+                />
+              </div>
+            </section>
+
+            {/* Learn Section */}
+            <section>
+              <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Learn & Grow</h2>
+              <EducationalCards 
+                onBuyGold={() => openBuy("gold")} 
+                onStartSIP={() => openSIP("gold")} 
+              />
+            </section>
+          </main>
+
+          {/* Right Column - Portfolio Summary */}
+          <aside className="col-span-3">
+            <div className="sticky top-24">
+              <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Your Portfolio</h2>
+              <PortfolioSummaryWidget
+                goldHoldings={holdings.gold.total}
+                silverHoldings={holdings.silver.total}
+                goldPrice={goldPrice}
+                silverPrice={silverPrice}
+                transactions={transactions}
+                onViewVault={() => setView("vault")}
+              />
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      {/* MOBILE/TABLET: Single Column Layout */}
+      <main className="lg:hidden max-w-lg mx-auto px-4 pb-32">
         {view === "market" ? (
           <div className="space-y-4">
-            {/* Price Cards */}
+            {/* Price Cards with inline actions */}
             <BullionPriceCard
               metal="gold"
               price={goldPrice}
               change={goldChange}
               changePercent={(goldChange / goldPrice) * 100}
               sparklineData={goldSparkline}
-              onClick={() => openBuy("gold")}
+              showActions
+              onBuy={() => openBuy("gold")}
+              onSell={() => openSell("gold")}
+              onSIP={() => openSIP("gold")}
             />
             <BullionPriceCard
               metal="silver"
@@ -102,7 +203,26 @@ export default function BullionInvestment() {
               change={silverChange}
               changePercent={(silverChange / silverPrice) * 100}
               sparklineData={silverSparkline}
-              onClick={() => openBuy("silver")}
+              showActions
+              onBuy={() => openBuy("silver")}
+              onSell={() => openSell("silver")}
+              onSIP={() => openSIP("silver")}
+            />
+
+            {/* Quick Portfolio Summary */}
+            <PortfolioSummaryWidget
+              goldHoldings={holdings.gold.total}
+              silverHoldings={holdings.silver.total}
+              goldPrice={goldPrice}
+              silverPrice={silverPrice}
+              transactions={transactions}
+              onViewVault={() => setView("vault")}
+            />
+
+            {/* Educational Content */}
+            <EducationalCards 
+              onBuyGold={() => openBuy("gold")} 
+              onStartSIP={() => openSIP("gold")} 
             />
           </div>
         ) : view === "vault" ? (
@@ -117,22 +237,22 @@ export default function BullionInvestment() {
           <div className="space-y-8">
             {/* Full Grid */}
             <section>
-              <h2 className="text-lg font-semibold mb-3">Full Promo Grid</h2>
+              <h2 className="text-lg font-semibold mb-3">Explore Investment Options</h2>
               <BullionPromoGrid />
             </section>
 
             {/* Banner Variants */}
             <section>
-              <h2 className="text-lg font-semibold mb-3">Banner Variants</h2>
+              <h2 className="text-lg font-semibold mb-3">Featured</h2>
               <div className="space-y-3">
                 <BuyGoldCard variant="banner" />
                 <GoldSIPCard variant="banner" />
               </div>
             </section>
 
-            {/* Compact (for sidebars/articles) */}
+            {/* Compact Cards */}
             <section>
-              <h2 className="text-lg font-semibold mb-3">Compact (Inline)</h2>
+              <h2 className="text-lg font-semibold mb-3">Quick Actions</h2>
               <div className="grid grid-cols-2 gap-3">
                 <BuyGoldCard variant="compact" />
                 <BuySilverCard variant="compact" />
@@ -140,24 +260,42 @@ export default function BullionInvestment() {
                 <SilverSIPCard variant="compact" />
               </div>
             </section>
-
-            {/* Article Widget */}
-            <section>
-              <h2 className="text-lg font-semibold mb-3">Article Inline Widget</h2>
-              <p className="text-sm text-muted-foreground mb-3">This widget can be embedded within article content:</p>
-              <BullionInlineWidget metal="gold" />
-              <BullionInlineWidget metal="silver" />
-            </section>
           </div>
         )}
       </main>
 
-      {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-xl border-t border-border/50 p-4 z-40">
+      {/* Bottom Action Bar - MOBILE ONLY (enhanced visibility) */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/80 backdrop-blur-xl border-t border-border/50 p-4 z-40">
         <div className="max-w-lg mx-auto flex gap-3">
-          <Button onClick={() => { setSelectedMetal("gold"); setActiveModal("buy"); }} className="flex-1 h-12 bg-emerald-600 hover:bg-emerald-700">Buy</Button>
-          <Button onClick={() => { setSelectedMetal("gold"); setActiveModal("sell"); }} variant="outline" className="flex-1 h-12">Sell</Button>
-          <Button onClick={() => { setSelectedMetal("gold"); setActiveModal("sip"); }} variant="outline" className="flex-1 h-12">SIP</Button>
+          <Button 
+            onClick={() => openBuy("gold")} 
+            className="flex-1 h-14 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold text-base shadow-lg shadow-amber-500/25"
+          >
+            🪙 Buy Gold
+          </Button>
+          <Button 
+            onClick={() => openBuy("silver")} 
+            variant="secondary"
+            className="flex-1 h-14 bg-slate-700 hover:bg-slate-600 text-white font-semibold text-base"
+          >
+            🥈 Buy Silver
+          </Button>
+        </div>
+        <div className="max-w-lg mx-auto flex gap-3 mt-2">
+          <Button 
+            onClick={() => openSell("gold")} 
+            variant="outline" 
+            className="flex-1 h-10"
+          >
+            Sell
+          </Button>
+          <Button 
+            onClick={() => openSIP("gold")} 
+            variant="outline" 
+            className="flex-1 h-10"
+          >
+            Start SIP
+          </Button>
         </div>
       </div>
 
