@@ -1,5 +1,6 @@
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, ShoppingCart, Repeat } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface BullionPriceCardProps {
   metal: "gold" | "silver";
@@ -7,7 +8,11 @@ interface BullionPriceCardProps {
   change: number;
   changePercent: number;
   sparklineData: number[];
-  onClick: () => void;
+  onClick?: () => void;
+  onBuy?: () => void;
+  onSell?: () => void;
+  onSIP?: () => void;
+  showActions?: boolean;
 }
 
 export function BullionPriceCard({
@@ -17,6 +22,10 @@ export function BullionPriceCard({
   changePercent,
   sparklineData,
   onClick,
+  onBuy,
+  onSell,
+  onSIP,
+  showActions = false,
 }: BullionPriceCardProps) {
   const isPositive = change >= 0;
   const metalConfig = {
@@ -24,6 +33,7 @@ export function BullionPriceCard({
       gradient: "from-amber-500/20 via-yellow-400/10 to-amber-600/20",
       border: "border-amber-500/30",
       accent: "text-amber-400",
+      buttonBg: "bg-amber-500 hover:bg-amber-600 text-black",
       icon: "🪙",
       name: "Gold",
     },
@@ -31,6 +41,7 @@ export function BullionPriceCard({
       gradient: "from-slate-400/20 via-gray-300/10 to-slate-500/20",
       border: "border-slate-400/30",
       accent: "text-slate-300",
+      buttonBg: "bg-slate-500 hover:bg-slate-600 text-white",
       icon: "🥈",
       name: "Silver",
     },
@@ -56,10 +67,14 @@ export function BullionPriceCard({
     return `M${points.join(" L")}`;
   };
 
+  const handleCardClick = () => {
+    if (onClick && !showActions) onClick();
+  };
+
   return (
     <Card
-      onClick={onClick}
-      className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl bg-gradient-to-br ${config.gradient} ${config.border} border backdrop-blur-sm`}
+      onClick={handleCardClick}
+      className={`relative overflow-hidden transition-all duration-300 ${!showActions ? 'cursor-pointer hover:scale-[1.02]' : ''} hover:shadow-xl bg-gradient-to-br ${config.gradient} ${config.border} border backdrop-blur-sm`}
     >
       {/* Sparkline Background */}
       <div className="absolute inset-0 opacity-30">
@@ -114,6 +129,37 @@ export function BullionPriceCard({
         <div className={`mt-2 text-sm ${isPositive ? "text-emerald-400" : "text-red-400"}`}>
           {isPositive ? "+" : ""}₹{Math.abs(change).toFixed(2)} today
         </div>
+
+        {/* Inline Action Buttons */}
+        {showActions && (
+          <div className="flex gap-2 mt-4 pt-4 border-t border-border/30">
+            <Button 
+              onClick={(e) => { e.stopPropagation(); onBuy?.(); }} 
+              size="sm" 
+              className={`flex-1 ${config.buttonBg} font-medium`}
+            >
+              <ShoppingCart className="w-3 h-3 mr-1" />
+              Buy
+            </Button>
+            <Button 
+              onClick={(e) => { e.stopPropagation(); onSell?.(); }} 
+              size="sm" 
+              variant="outline"
+              className="flex-1"
+            >
+              Sell
+            </Button>
+            <Button 
+              onClick={(e) => { e.stopPropagation(); onSIP?.(); }} 
+              size="sm" 
+              variant="outline"
+              className="flex-1"
+            >
+              <Repeat className="w-3 h-3 mr-1" />
+              SIP
+            </Button>
+          </div>
+        )}
       </div>
     </Card>
   );

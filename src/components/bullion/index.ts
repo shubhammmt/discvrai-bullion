@@ -8,3 +8,8 @@ export {
   BullionPromoGrid,
   BullionInlineWidget,
 } from './BullionPromotionCard';
+
+// Dashboard components
+export { QuickTradePanel } from './QuickTradePanel';
+export { PortfolioSummaryWidget } from './PortfolioSummaryWidget';
+export { EducationalCards } from './EducationalCards';
