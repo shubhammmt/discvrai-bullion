@@ -8,12 +8,13 @@ import { SellModal } from "@/components/bullion/SellModal";
 import { SIPModal } from "@/components/bullion/SIPModal";
 import { PortfolioVault } from "@/components/bullion/PortfolioVault";
 import { AIAgentChat } from "@/components/bullion/AIAgentChat";
+import { BullionPromoGrid, BuyGoldCard, BuySilverCard, GoldSIPCard, SilverSIPCard, BullionInlineWidget } from "@/components/bullion";
 
 export default function BullionInvestment() {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState<"buy" | "sell" | "sip" | null>(null);
   const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
-  const [view, setView] = useState<"market" | "vault">("market");
+  const [view, setView] = useState<"market" | "vault" | "cards">("market");
 
   // Mock data
   const goldPrice = 6250.50;
@@ -74,6 +75,12 @@ export default function BullionInvestment() {
           >
             My Vault
           </button>
+          <button
+            onClick={() => setView("cards")}
+            className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${view === "cards" ? "bg-background shadow-sm" : ""}`}
+          >
+            Promo Cards
+          </button>
         </div>
       </div>
 
@@ -98,7 +105,7 @@ export default function BullionInvestment() {
               onClick={() => openBuy("silver")}
             />
           </div>
-        ) : (
+        ) : view === "vault" ? (
           <PortfolioVault
             goldHoldings={holdings.gold.total}
             silverHoldings={holdings.silver.total}
@@ -106,6 +113,42 @@ export default function BullionInvestment() {
             silverPrice={silverPrice}
             transactions={transactions}
           />
+        ) : (
+          <div className="space-y-8">
+            {/* Full Grid */}
+            <section>
+              <h2 className="text-lg font-semibold mb-3">Full Promo Grid</h2>
+              <BullionPromoGrid />
+            </section>
+
+            {/* Banner Variants */}
+            <section>
+              <h2 className="text-lg font-semibold mb-3">Banner Variants</h2>
+              <div className="space-y-3">
+                <BuyGoldCard variant="banner" />
+                <GoldSIPCard variant="banner" />
+              </div>
+            </section>
+
+            {/* Compact (for sidebars/articles) */}
+            <section>
+              <h2 className="text-lg font-semibold mb-3">Compact (Inline)</h2>
+              <div className="grid grid-cols-2 gap-3">
+                <BuyGoldCard variant="compact" />
+                <BuySilverCard variant="compact" />
+                <GoldSIPCard variant="compact" />
+                <SilverSIPCard variant="compact" />
+              </div>
+            </section>
+
+            {/* Article Widget */}
+            <section>
+              <h2 className="text-lg font-semibold mb-3">Article Inline Widget</h2>
+              <p className="text-sm text-muted-foreground mb-3">This widget can be embedded within article content:</p>
+              <BullionInlineWidget metal="gold" />
+              <BullionInlineWidget metal="silver" />
+            </section>
+          </div>
         )}
       </main>
 
