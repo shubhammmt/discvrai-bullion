@@ -96,6 +96,7 @@ import { QuizzesHub } from './pages/QuizzesHub';
 import { Leaderboard } from './pages/Leaderboard';
 import ProductFeaturePreview from './pages/ProductFeaturePreview';
 import DistributionCaseStudy from './pages/DistributionCaseStudy';
+import BullionInvestment from './pages/BullionInvestment';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -195,6 +196,7 @@ const AppContent = () => {
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
         <Route path="/metals" element={<MetalsHub />} />
+        <Route path="/bullion" element={<BullionInvestment />} />
         <Route path="/metals/gold" element={<GoldPrices />} />
         <Route path="/metals/gold/:city" element={<GoldPricesCity />} />
         <Route path="/metals/silver" element={<SilverPrices />} />

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Award, Shield } from "lucide-react";
+import { TrendingUp, Award, Shield, Wallet } from "lucide-react";
 
 const MetalsHub = () => {
   const metals = [
@@ -39,6 +39,14 @@ const MetalsHub = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Real-time gold, silver, and platinum prices across all major cities in India
             </p>
+            
+            {/* Invest CTA */}
+            <Link to="/bullion">
+              <Button size="lg" className="mt-6 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white">
+                <Wallet className="w-5 h-5 mr-2" />
+                Buy Digital Gold & Silver
+              </Button>
+            </Link>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
