@@ -18,7 +18,13 @@ import {
   FileText,
   LineChart,
   Gamepad2,
-  Clock
+  Clock,
+  Cpu,
+  GitBranch,
+  Lock,
+  Grid3X3,
+  Smartphone,
+  Code
 } from 'lucide-react';
 
 export const enterprisePitchSlides = [
@@ -414,5 +420,123 @@ export const enterprisePitchSlides = [
       linkedin: 'https://www.linkedin.com/in/shubhamsrivastava1/'
     },
     closingMessage: 'We don\'t just sell AI. We become your AI infrastructure partner.'
+  },
+  // Technical Deep Dive Slides
+  {
+    id: 14,
+    type: 'platform-architecture',
+    title: 'Platform Architecture',
+    subtitle: 'Runtime-Capsule Architecture for Enterprise Scale',
+    icon: Cpu,
+    readinessScore: 75,
+    capsules: ['LAMF Vertical', 'E-commerce', 'Healthcare', 'Media & Publishing'],
+    differentiators: [
+      'Reasoning engine decoupled from business logic',
+      'Modular capsule pattern for rapid vertical expansion',
+      'Config-driven agent provisioning via API',
+      'Seamless knowledge base integration per capsule'
+    ],
+    bottomNote: 'The engine is built. New verticals plug in—not rebuild from scratch.'
+  },
+  {
+    id: 15,
+    type: 'technical-pillars',
+    title: 'Technical Capability Audit',
+    subtitle: 'Enterprise-Grade Infrastructure Status',
+    icon: GitBranch,
+    pillars: [
+      {
+        name: 'Orchestration',
+        subtitle: 'LangGraph Framework',
+        icon: Network,
+        gradient: 'bg-gradient-to-r from-purple-600 to-indigo-600',
+        features: [
+          { name: 'LangGraph Core', status: 'ready', detail: 'Custom state-graph loop with agent, tools, classifier nodes' },
+          { name: 'State Persistence', status: 'ready', detail: 'MongoDB integration, resumes context effortlessly' },
+          { name: 'Conditional Flows', status: 'ready', detail: 'Handles infinite tool-loops until resolution' },
+          { name: 'Structural Classifier', status: 'ready', detail: 'Intent classification beyond text patterns' },
+          { name: 'Guardrail Node', status: 'ready', detail: 'Safety/Policy node intercepts responses' }
+        ]
+      },
+      {
+        name: 'Agent Anatomy',
+        subtitle: 'Modular Architecture',
+        icon: Layers,
+        gradient: 'bg-gradient-to-r from-cyan-600 to-blue-600',
+        features: [
+          { name: 'Modular Capsules', status: 'ready', detail: 'Separates verticals cleanly' },
+          { name: 'LLM Factory', status: 'ready', detail: 'Swappable: OpenAI, Bedrock, Nova' },
+          { name: 'Tool Registry', status: 'ready', detail: 'Centralized ToolPool for cross-agent reuse' },
+          { name: 'API Provisioning', status: 'ready', detail: 'Live-inject new agents via /provision endpoint' },
+          { name: 'RAG/Knowledge Base', status: 'ready', detail: 'Per-capsule markdown loader' }
+        ]
+      },
+      {
+        name: 'Security & Compliance',
+        subtitle: 'Enterprise-Grade',
+        icon: Shield,
+        gradient: 'bg-gradient-to-r from-emerald-600 to-teal-600',
+        features: [
+          { name: 'Session Isolation', status: 'ready', detail: 'X-Session-ID ensures per-user isolation' },
+          { name: 'Execution Logging', status: 'ready', detail: 'CloudWatch-ready with tool-call traces' },
+          { name: 'Multi-Tenancy', status: 'ready', detail: 'Tenant Fence context is first-class' },
+          { name: 'PII Redaction', status: 'ready', detail: 'Enabled per client requirements' },
+          { name: 'Data Isolation', status: 'partial', detail: 'Tenant-filtered DB access available' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 16,
+    type: 'use-case-matrix',
+    title: 'Text & Voice Use Cases',
+    subtitle: 'Multi-Modal AI Deployment Options',
+    icon: Grid3X3,
+    voiceCapabilities: [
+      '11 Languages',
+      'Regional Dialects',
+      'Real-time STT/TTS',
+      'Emotion Detection',
+      'Call Recording',
+      'Live Handoff',
+      'IVR Integration',
+      'Outbound Campaigns'
+    ],
+    textCapabilities: [
+      'Web Chat Widget',
+      'WhatsApp Bot',
+      'Telegram Integration',
+      'SMS Automation',
+      'Email Assistant',
+      'In-App Chat',
+      'Slack/Teams Bot',
+      'API-First Design'
+    ],
+    deploymentOptions: [
+      {
+        type: 'Widget Embed',
+        icon: Code,
+        gradient: 'bg-gradient-to-br from-purple-500 to-indigo-600',
+        description: 'Drop-in components for your existing site',
+        timeline: '2-3 Days',
+        features: ['Chat Widget', 'Voice Button', 'Calculator Tools', 'Content Feed']
+      },
+      {
+        type: 'API Integration',
+        icon: GitBranch,
+        gradient: 'bg-gradient-to-br from-cyan-500 to-blue-600',
+        description: 'Backend integration with your platform',
+        timeline: '1-2 Weeks',
+        features: ['REST APIs', 'Webhooks', 'SDKs', 'Custom Flows']
+      },
+      {
+        type: 'Full Platform',
+        icon: Smartphone,
+        gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+        description: 'Complete white-label solution',
+        timeline: '2-4 Weeks',
+        features: ['Admin Dashboard', 'Analytics', 'User Management', 'Custom Branding']
+      }
+    ]
   }
 ];
