@@ -38,12 +38,12 @@ const EnterprisePitch = () => {
       
       {/* Top Controls - Hidden in presentation mode */}
       {!presentationMode && (
-        <div className="fixed top-6 left-6 z-50">
+        <div className="fixed top-3 left-3 z-50">
           <button
             onClick={() => setPresentationMode(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/70 hover:bg-white/20 hover:text-white transition-all text-sm"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/70 hover:bg-white/20 hover:text-white transition-all text-xs"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="w-3 h-3" />
             <span>Present</span>
           </button>
         </div>
@@ -53,9 +53,9 @@ const EnterprisePitch = () => {
       {presentationMode && (
         <button
           onClick={() => setPresentationMode(false)}
-          className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/40 hover:bg-white/10 hover:text-white/70 transition-all text-sm"
+          className="fixed top-3 left-3 z-50 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/40 hover:bg-white/10 hover:text-white/70 transition-all text-xs"
         >
-          <EyeOff className="w-4 h-4" />
+          <EyeOff className="w-3 h-3" />
           <span>Exit (P)</span>
         </button>
       )}
