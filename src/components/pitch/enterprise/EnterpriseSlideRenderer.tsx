@@ -12,6 +12,9 @@ import { CaseStudySlide } from './CaseStudySlide';
 import { EnterpriseROISlide } from './EnterpriseROISlide';
 import { WhyUsSlide } from './WhyUsSlide';
 import { EnterpriseCTASlide } from './EnterpriseCTASlide';
+import { PlatformArchitectureSlide } from './PlatformArchitectureSlide';
+import { TechnicalPillarsSlide } from './TechnicalPillarsSlide';
+import { UseCaseMatrixSlide } from './UseCaseMatrixSlide';
 
 interface EnterpriseSlideRendererProps {
   slide: any;
@@ -45,6 +48,12 @@ export const EnterpriseSlideRenderer: React.FC<EnterpriseSlideRendererProps> = (
       return <WhyUsSlide slide={slide} />;
     case 'enterprise-cta':
       return <EnterpriseCTASlide slide={slide} />;
+    case 'platform-architecture':
+      return <PlatformArchitectureSlide slide={slide} />;
+    case 'technical-pillars':
+      return <TechnicalPillarsSlide slide={slide} />;
+    case 'use-case-matrix':
+      return <UseCaseMatrixSlide slide={slide} />;
     default:
       return <div className="p-12 text-white">Slide type not found: {slide.type}</div>;
   }
