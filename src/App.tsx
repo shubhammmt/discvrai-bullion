@@ -98,6 +98,7 @@ import { Leaderboard } from './pages/Leaderboard';
 import ProductFeaturePreview from './pages/ProductFeaturePreview';
 import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import BullionInvestment from './pages/BullionInvestment';
+import NirmalBangProposal from './pages/NirmalBangProposal';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -210,6 +211,7 @@ const AppContent = () => {
           <Route path="/ai/queries/:queryId" element={<AIQueryResult />} />
           <Route path="/product-features-preview" element={<ProductFeaturePreview />} />
           <Route path="/distribution-case-study" element={<DistributionCaseStudy />} />
+          <Route path="/proposal/nirmalbang" element={<NirmalBangProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
