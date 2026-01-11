@@ -36,9 +36,9 @@ export const ProposalLayout: React.FC<ProposalLayoutProps> = ({
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <FileText className="w-5 h-5 text-blue-600" />
-            <span className="font-semibold text-slate-800">AI Recruitment Platform Proposal</span>
+            <span className="font-semibold text-slate-800">Proposal</span>
             <span className="text-slate-400">|</span>
-            <span className="text-slate-600">NirmalBang</span>
+            <span className="text-slate-600">Nirmal Bang Securities</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-slate-500">
