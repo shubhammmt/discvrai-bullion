@@ -99,6 +99,7 @@ import ProductFeaturePreview from './pages/ProductFeaturePreview';
 import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import BullionInvestment from './pages/BullionInvestment';
 import NirmalBangProposal from './pages/NirmalBangProposal';
+import NirmalBangLeadDeck from './pages/NirmalBangLeadDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -212,6 +213,7 @@ const AppContent = () => {
           <Route path="/product-features-preview" element={<ProductFeaturePreview />} />
           <Route path="/distribution-case-study" element={<DistributionCaseStudy />} />
           <Route path="/proposal/nirmalbang" element={<NirmalBangProposal />} />
+          <Route path="/proposal/nirmalbang-leads" element={<NirmalBangLeadDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
