@@ -20,6 +20,7 @@ interface UnifiedBuyModalProps {
 
 type BuyMode = "sip" | "onetime";
 type Frequency = "daily" | "weekly" | "monthly";
+type OneTimeMode = "amount" | "grams";
 
 const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -33,7 +34,10 @@ const metalConfig = {
       weekly: { min: 1500, max: 25000, step: 100 },
       monthly: { min: 1500, max: 25000, step: 100 }
     },
-    oneTime: { minGrams: 0.1, maxGrams: 50, stepGrams: 0.1 }
+    oneTime: {
+      amount: { min: 10, max: 100000, step: 10 },
+      grams: { min: 0.1, max: 50, step: 1 }
+    }
   },
   silver: {
     name: "Silver",
@@ -43,7 +47,10 @@ const metalConfig = {
       weekly: { min: 750, max: 25000, step: 50 },
       monthly: { min: 500, max: 25000, step: 50 }
     },
-    oneTime: { minGrams: 1, maxGrams: 1300, stepGrams: 1 }
+    oneTime: {
+      amount: { min: 10, max: 100000, step: 10 },
+      grams: { min: 1, max: 1300, step: 1 }
+    }
   }
 };
 
@@ -52,8 +59,10 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
   
   const [mode, setMode] = useState<BuyMode>("sip");
   const [frequency, setFrequency] = useState<Frequency>("daily");
+  const [oneTimeMode, setOneTimeMode] = useState<OneTimeMode>("amount");
   const [sipAmount, setSipAmount] = useState(config.sip.daily.min);
-  const [grams, setGrams] = useState(config.oneTime.minGrams);
+  const [oneTimeAmount, setOneTimeAmount] = useState(config.oneTime.amount.min);
+  const [grams, setGrams] = useState(config.oneTime.grams.min);
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [stepUpEnabled, setStepUpEnabled] = useState(true);
@@ -68,11 +77,22 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
   }, [metal, frequency]);
 
   useEffect(() => {
-    setGrams(config.oneTime.minGrams);
+    setOneTimeAmount(config.oneTime.amount.min);
+    setGrams(config.oneTime.grams.min);
   }, [metal]);
 
+  // Reset one-time values when switching modes
+  useEffect(() => {
+    if (oneTimeMode === "amount") {
+      setOneTimeAmount(config.oneTime.amount.min);
+    } else {
+      setGrams(config.oneTime.grams.min);
+    }
+  }, [oneTimeMode, metal]);
+
   const getSipConfig = () => config.sip[frequency];
-  const getOneTimeConfig = () => config.oneTime;
+  const getOneTimeAmountConfig = () => config.oneTime.amount;
+  const getOneTimeGramsConfig = () => config.oneTime.grams;
 
   // Calculate projected returns (simplified 5-year projection with ~10% annual return)
   const calculateProjection = () => {
@@ -102,7 +122,10 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
         earnings: Math.round(projectedValue - totalInvested)
       };
     } else {
-      const investment = grams * currentPrice;
+      // One-time purchase calculation
+      const investment = oneTimeMode === "amount" 
+        ? oneTimeAmount 
+        : grams * currentPrice;
       const projected = investment * Math.pow(1.10, 5);
       return {
         projected: Math.round(projected),
@@ -118,9 +141,12 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
     if (mode === "sip") {
       const sipConfig = getSipConfig();
       setSipAmount(prev => Math.min(prev + sipConfig.step, sipConfig.max));
+    } else if (oneTimeMode === "amount") {
+      const amountConfig = getOneTimeAmountConfig();
+      setOneTimeAmount(prev => Math.min(prev + amountConfig.step, amountConfig.max));
     } else {
-      const oneTimeConfig = getOneTimeConfig();
-      setGrams(prev => Math.min(prev + oneTimeConfig.stepGrams, oneTimeConfig.maxGrams));
+      const gramsConfig = getOneTimeGramsConfig();
+      setGrams(prev => Math.min(prev + gramsConfig.step, gramsConfig.max));
     }
   };
 
@@ -128,15 +154,20 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
     if (mode === "sip") {
       const sipConfig = getSipConfig();
       setSipAmount(prev => Math.max(prev - sipConfig.step, sipConfig.min));
+    } else if (oneTimeMode === "amount") {
+      const amountConfig = getOneTimeAmountConfig();
+      setOneTimeAmount(prev => Math.max(prev - amountConfig.step, amountConfig.min));
     } else {
-      const oneTimeConfig = getOneTimeConfig();
-      setGrams(prev => Math.max(prev - oneTimeConfig.stepGrams, oneTimeConfig.minGrams));
+      const gramsConfig = getOneTimeGramsConfig();
+      setGrams(prev => Math.max(prev - gramsConfig.step, gramsConfig.min));
     }
   };
 
   const handleSliderChange = (value: number[]) => {
     if (mode === "sip") {
       setSipAmount(value[0]);
+    } else if (oneTimeMode === "amount") {
+      setOneTimeAmount(value[0]);
     } else {
       setGrams(value[0]);
     }
@@ -147,14 +178,19 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessing(false);
     setIsSuccess(true);
-    toast.success(mode === "sip" ? "SIP activated successfully!" : `${config.name} purchase successful!`);
+    const purchaseDetail = oneTimeMode === "amount" 
+      ? `₹${formatIndianNumber(oneTimeAmount)} worth of ${config.name}` 
+      : `${grams.toFixed(metal === "gold" ? 1 : 0)}g of ${config.name}`;
+    toast.success(mode === "sip" ? "SIP activated successfully!" : `${purchaseDetail} purchased!`);
   };
 
   const handleClose = () => {
     setMode("sip");
     setFrequency("daily");
+    setOneTimeMode("amount");
     setSipAmount(config.sip.daily.min);
-    setGrams(config.oneTime.minGrams);
+    setOneTimeAmount(config.oneTime.amount.min);
+    setGrams(config.oneTime.grams.min);
     setIsSuccess(false);
     onOpenChange(false);
   };
@@ -167,9 +203,23 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
     if (mode === "sip") {
       const sipConfig = getSipConfig();
       return { min: sipConfig.min, max: sipConfig.max, step: sipConfig.step, value: sipAmount };
+    } else if (oneTimeMode === "amount") {
+      const amountConfig = getOneTimeAmountConfig();
+      return { min: amountConfig.min, max: amountConfig.max, step: amountConfig.step, value: oneTimeAmount };
     } else {
-      const oneTimeConfig = getOneTimeConfig();
-      return { min: oneTimeConfig.minGrams, max: oneTimeConfig.maxGrams, step: oneTimeConfig.stepGrams, value: grams };
+      const gramsConfig = getOneTimeGramsConfig();
+      return { min: gramsConfig.min, max: gramsConfig.max, step: gramsConfig.step, value: grams };
+    }
+  };
+
+  // Calculate equivalent values for display
+  const getEquivalentDisplay = () => {
+    if (oneTimeMode === "amount") {
+      const equivalentGrams = oneTimeAmount / currentPrice;
+      return `≈ ${equivalentGrams.toFixed(metal === "gold" ? 2 : 1)}g ${config.name}`;
+    } else {
+      const equivalentAmount = grams * currentPrice;
+      return `≈ ₹${formatIndianNumber(Math.round(equivalentAmount))}`;
     }
   };
 
@@ -189,7 +239,9 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
             <p className="text-gray-600 mb-6">
               {mode === "sip" 
                 ? `₹${formatIndianNumber(sipAmount)} ${frequency} SIP in ${config.name}`
-                : `${grams.toFixed(1)}g of ${config.name} has been credited`
+                : oneTimeMode === "amount"
+                  ? `₹${formatIndianNumber(oneTimeAmount)} worth of ${config.name} has been credited`
+                  : `${grams.toFixed(metal === "gold" ? 1 : 0)}g of ${config.name} has been credited`
               }
             </p>
             <Button onClick={handleClose} className="w-full h-14 bg-[#1B4B43] hover:bg-[#163d37] text-white font-semibold text-lg rounded-xl">
@@ -274,6 +326,34 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
             </div>
           )}
 
+          {/* One-Time Mode Selection: Amount vs Grams */}
+          {mode === "onetime" && (
+            <div className="flex justify-center gap-2">
+              <button
+                onClick={() => setOneTimeMode("amount")}
+                className={cn(
+                  "px-5 py-2.5 rounded-full border text-sm font-medium transition-all",
+                  oneTimeMode === "amount"
+                    ? "border-[#1B4B43] bg-[#1B4B43]/5 text-[#1B4B43]"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                By Amount (₹)
+              </button>
+              <button
+                onClick={() => setOneTimeMode("grams")}
+                className={cn(
+                  "px-5 py-2.5 rounded-full border text-sm font-medium transition-all",
+                  oneTimeMode === "grams"
+                    ? "border-[#1B4B43] bg-[#1B4B43]/5 text-[#1B4B43]"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                By Grams
+              </button>
+            </div>
+          )}
+
           {/* Day/Date Selector for SIP */}
           {mode === "sip" && frequency === "weekly" && (
             <div className="flex justify-center items-center gap-2 text-gray-600">
@@ -322,11 +402,13 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
             >
               <Minus className="w-5 h-5" />
             </button>
-            <div className="text-center min-w-[140px]">
+            <div className="text-center min-w-[160px]">
               {mode === "sip" ? (
                 <span className="text-4xl font-bold text-gray-900">₹{formatIndianNumber(sipAmount)}</span>
+              ) : oneTimeMode === "amount" ? (
+                <span className="text-4xl font-bold text-gray-900">₹{formatIndianNumber(oneTimeAmount)}</span>
               ) : (
-                <span className="text-4xl font-bold text-gray-900">{grams.toFixed(1)}gm</span>
+                <span className="text-4xl font-bold text-gray-900">{grams.toFixed(metal === "gold" ? 1 : 0)}g</span>
               )}
             </div>
             <button
@@ -337,10 +419,22 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
             </button>
           </div>
 
+          {/* Equivalent display for one-time purchases */}
+          {mode === "onetime" && (
+            <p className="text-center text-gray-500 text-sm -mt-2">
+              {getEquivalentDisplay()}
+            </p>
+          )}
+
           {/* Amount Payable for One-Time */}
           {mode === "onetime" && (
             <p className="text-center text-gray-600">
-              Amount payable: <span className="font-semibold text-gray-900">₹{formatIndianNumber(Math.round(grams * currentPrice * 1.03))}</span>
+              Amount payable: <span className="font-semibold text-gray-900">
+                ₹{formatIndianNumber(Math.round(
+                  (oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice) * 1.03
+                ))}
+              </span>
+              <span className="text-gray-400 text-xs ml-1">(incl. 3% GST)</span>
             </p>
           )}
 
