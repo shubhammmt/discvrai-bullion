@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, ShoppingCart, Repeat } from "lucide-react";
+import { TrendingUp, TrendingDown, ShoppingCart } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -11,8 +11,8 @@ interface BullionPriceCardProps {
   onClick?: () => void;
   onBuy?: () => void;
   onSell?: () => void;
-  onSIP?: () => void;
   showActions?: boolean;
+  hasHoldings?: boolean;
 }
 
 export function BullionPriceCard({
@@ -24,8 +24,8 @@ export function BullionPriceCard({
   onClick,
   onBuy,
   onSell,
-  onSIP,
   showActions = false,
+  hasHoldings = false,
 }: BullionPriceCardProps) {
   const isPositive = change >= 0;
   const metalConfig = {
@@ -141,23 +141,16 @@ export function BullionPriceCard({
               <ShoppingCart className="w-3 h-3 mr-1" />
               Buy
             </Button>
-            <Button 
-              onClick={(e) => { e.stopPropagation(); onSell?.(); }} 
-              size="sm" 
-              variant="outline"
-              className="flex-1"
-            >
-              Sell
-            </Button>
-            <Button 
-              onClick={(e) => { e.stopPropagation(); onSIP?.(); }} 
-              size="sm" 
-              variant="outline"
-              className="flex-1"
-            >
-              <Repeat className="w-3 h-3 mr-1" />
-              SIP
-            </Button>
+            {hasHoldings && (
+              <Button 
+                onClick={(e) => { e.stopPropagation(); onSell?.(); }} 
+                size="sm" 
+                variant="outline"
+                className="flex-1"
+              >
+                Sell
+              </Button>
+            )}
           </div>
         )}
       </div>
