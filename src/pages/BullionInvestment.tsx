@@ -3,9 +3,8 @@ import { Bell, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { BullionPriceCard } from "@/components/bullion/BullionPriceCard";
-import { BuyModal } from "@/components/bullion/BuyModal";
+import { UnifiedBuyModal } from "@/components/bullion/UnifiedBuyModal";
 import { SellModal } from "@/components/bullion/SellModal";
-import { SIPModal } from "@/components/bullion/SIPModal";
 import { PortfolioVault } from "@/components/bullion/PortfolioVault";
 import { AIAgentChat } from "@/components/bullion/AIAgentChat";
 import { 
@@ -16,13 +15,12 @@ import {
   BuyGoldCard, 
   BuySilverCard, 
   GoldSIPCard, 
-  SilverSIPCard, 
-  BullionInlineWidget 
+  SilverSIPCard
 } from "@/components/bullion";
 
 export default function BullionInvestment() {
   const navigate = useNavigate();
-  const [activeModal, setActiveModal] = useState<"buy" | "sell" | "sip" | null>(null);
+  const [activeModal, setActiveModal] = useState<"buy" | "sell" | null>(null);
   const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
   const [view, setView] = useState<"market" | "vault" | "cards">("market");
 
@@ -55,10 +53,10 @@ export default function BullionInvestment() {
     setActiveModal("sell");
   };
 
-  const openSIP = (metal: "gold" | "silver") => {
-    setSelectedMetal(metal);
-    setActiveModal("sip");
-  };
+  // Check if user has any holdings
+  const hasGoldHoldings = holdings.gold.total > 0;
+  const hasSilverHoldings = holdings.silver.total > 0;
+  const hasAnyHoldings = hasGoldHoldings || hasSilverHoldings;
 
   return (
     <div className="min-h-screen bg-background">
@@ -118,7 +116,9 @@ export default function BullionInvestment() {
                 onBuySilver={() => openBuy("silver")}
                 onSellGold={() => openSell("gold")}
                 onSellSilver={() => openSell("silver")}
-                onStartSIP={openSIP}
+                onStartSIP={() => openBuy("gold")}
+                hasGoldHoldings={hasGoldHoldings}
+                hasSilverHoldings={hasSilverHoldings}
               />
             </div>
           </aside>
@@ -138,7 +138,7 @@ export default function BullionInvestment() {
                   showActions
                   onBuy={() => openBuy("gold")}
                   onSell={() => openSell("gold")}
-                  onSIP={() => openSIP("gold")}
+                  hasHoldings={hasGoldHoldings}
                 />
                 <BullionPriceCard
                   metal="silver"
@@ -149,7 +149,7 @@ export default function BullionInvestment() {
                   showActions
                   onBuy={() => openBuy("silver")}
                   onSell={() => openSell("silver")}
-                  onSIP={() => openSIP("silver")}
+                  hasHoldings={hasSilverHoldings}
                 />
               </div>
             </section>
@@ -159,7 +159,7 @@ export default function BullionInvestment() {
               <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Learn & Grow</h2>
               <EducationalCards 
                 onBuyGold={() => openBuy("gold")} 
-                onStartSIP={() => openSIP("gold")} 
+                onStartSIP={() => openBuy("gold")} 
               />
             </section>
           </main>
@@ -195,7 +195,7 @@ export default function BullionInvestment() {
               showActions
               onBuy={() => openBuy("gold")}
               onSell={() => openSell("gold")}
-              onSIP={() => openSIP("gold")}
+              hasHoldings={hasGoldHoldings}
             />
             <BullionPriceCard
               metal="silver"
@@ -206,7 +206,7 @@ export default function BullionInvestment() {
               showActions
               onBuy={() => openBuy("silver")}
               onSell={() => openSell("silver")}
-              onSIP={() => openSIP("silver")}
+              hasHoldings={hasSilverHoldings}
             />
 
             {/* Quick Portfolio Summary */}
@@ -222,7 +222,7 @@ export default function BullionInvestment() {
             {/* Educational Content */}
             <EducationalCards 
               onBuyGold={() => openBuy("gold")} 
-              onStartSIP={() => openSIP("gold")} 
+              onStartSIP={() => openBuy("gold")} 
             />
           </div>
         ) : view === "vault" ? (
@@ -264,7 +264,7 @@ export default function BullionInvestment() {
         )}
       </main>
 
-      {/* Bottom Action Bar - MOBILE ONLY (enhanced visibility) */}
+      {/* Bottom Action Bar - MOBILE ONLY */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/80 backdrop-blur-xl border-t border-border/50 p-4 z-40">
         <div className="max-w-lg mx-auto flex gap-3">
           <Button 
@@ -281,28 +281,42 @@ export default function BullionInvestment() {
             🥈 Buy Silver
           </Button>
         </div>
-        <div className="max-w-lg mx-auto flex gap-3 mt-2">
-          <Button 
-            onClick={() => openSell("gold")} 
-            variant="outline" 
-            className="flex-1 h-10"
-          >
-            Sell
-          </Button>
-          <Button 
-            onClick={() => openSIP("gold")} 
-            variant="outline" 
-            className="flex-1 h-10"
-          >
-            Start SIP
-          </Button>
-        </div>
+        {hasAnyHoldings && (
+          <div className="max-w-lg mx-auto flex gap-3 mt-2">
+            <Button 
+              onClick={() => openSell("gold")} 
+              variant="outline" 
+              className="flex-1 h-10"
+              disabled={!hasGoldHoldings}
+            >
+              Sell Gold
+            </Button>
+            <Button 
+              onClick={() => openSell("silver")} 
+              variant="outline" 
+              className="flex-1 h-10"
+              disabled={!hasSilverHoldings}
+            >
+              Sell Silver
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Modals */}
-      <BuyModal open={activeModal === "buy"} onOpenChange={(o) => !o && setActiveModal(null)} metal={selectedMetal} currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} />
-      <SellModal open={activeModal === "sell"} onOpenChange={(o) => !o && setActiveModal(null)} metal={selectedMetal} currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} holdings={holdings[selectedMetal]} />
-      <SIPModal open={activeModal === "sip"} onOpenChange={(o) => !o && setActiveModal(null)} metal={selectedMetal} currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} />
+      <UnifiedBuyModal 
+        open={activeModal === "buy"} 
+        onOpenChange={(o) => !o && setActiveModal(null)} 
+        metal={selectedMetal} 
+        currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} 
+      />
+      <SellModal 
+        open={activeModal === "sell"} 
+        onOpenChange={(o) => !o && setActiveModal(null)} 
+        metal={selectedMetal} 
+        currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} 
+        holdings={holdings[selectedMetal]} 
+      />
 
       {/* AI Agent */}
       <AIAgentChat goldPrice={goldPrice} silverPrice={silverPrice} />
