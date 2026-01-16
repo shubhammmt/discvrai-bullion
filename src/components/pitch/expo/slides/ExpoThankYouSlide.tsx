@@ -1,0 +1,1 @@
+export { ExpoThankYouSlide } from './ExpoWhyNowSlide';

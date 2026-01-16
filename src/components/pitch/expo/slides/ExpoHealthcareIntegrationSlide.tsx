@@ -1,0 +1,1 @@
+export { ExpoHealthcareIntegrationSlide } from './ExpoHealthcareValueSlide';
