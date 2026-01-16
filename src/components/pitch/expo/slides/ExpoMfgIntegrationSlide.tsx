@@ -1,0 +1,1 @@
+export { ExpoMfgIntegrationSlide } from './ExpoMfgValueSlide';
