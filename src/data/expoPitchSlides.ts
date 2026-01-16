@@ -290,7 +290,7 @@ export const expoPitchSlides: ExpoSlide[] = [
       deployments: [
         { name: 'AMC SaaS', detail: 'Multiple AMCs live' },
         { name: 'Enterprise Manufacturing Client', detail: '5 agents operational' },
-        { name: 'Helios Analytics', detail: 'Distribution platform' }
+        { name: 'AMC Distribution Analytics Platform', detail: 'Live deployment' }
       ],
       metrics: [
         { value: '99.9%', label: 'Uptime' },
