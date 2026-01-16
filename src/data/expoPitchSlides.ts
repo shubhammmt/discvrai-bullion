@@ -289,7 +289,7 @@ export const expoPitchSlides: ExpoSlide[] = [
     content: {
       deployments: [
         { name: 'AMC SaaS', detail: 'Multiple AMCs live' },
-        { name: 'Jindal Stainless Steel', detail: '5 agents operational' },
+        { name: 'Enterprise Manufacturing Client', detail: '5 agents operational' },
         { name: 'Helios Analytics', detail: 'Distribution platform' }
       ],
       metrics: [
@@ -419,7 +419,7 @@ export const expoPitchSlides: ExpoSlide[] = [
     id: 17,
     type: 'mfg-case-study',
     section: 'manufacturing',
-    title: 'Jindal Stainless Steel',
+    title: 'Enterprise Client Case Study',
     subtitle: '5 AI Agents in Production',
     icon: Factory,
     timing: 25,
@@ -487,7 +487,7 @@ export const expoPitchSlides: ExpoSlide[] = [
         { area: 'Collaboration', result: '90% action items extracted, zero missed follow-ups' },
         { area: 'Skilling', result: '60% reduction in admin time, scalable deployment' }
       ],
-      keyMessage: 'Proven in production with Jindal Stainless Steel.'
+      keyMessage: 'Proven in production with enterprise manufacturing clients.'
     }
   },
 
