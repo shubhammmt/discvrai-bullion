@@ -242,16 +242,7 @@ const ExpoPitch = () => {
         </div>
       )}
 
-      {/* Presentation mode exit button */}
-      {presentationMode && (
-        <button
-          onClick={() => setPresentationMode(false)}
-          className="fixed top-4 left-4 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 backdrop-blur-sm text-white/50 hover:bg-black/40 hover:text-white transition-all text-sm"
-        >
-          <EyeOff className="w-4 h-4" />
-          Exit (P)
-        </button>
-      )}
+      {/* Presentation mode - press P or Escape to exit (no visible button for clean screenshots) */}
 
       {/* Click navigation in presentation mode */}
       {presentationMode && (
