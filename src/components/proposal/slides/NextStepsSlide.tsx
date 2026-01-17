@@ -57,10 +57,15 @@ export const NextStepsSlide: React.FC<NextStepsSlideProps> = ({ slide }) => {
             </div>
           </div>
 
-          {/* CTA */}
-          <div className="mt-6 p-4 bg-slate-800 rounded-lg text-center">
-            <p className="text-white font-medium">Ready to proceed?</p>
-            <p className="text-sm text-slate-400 mt-1">Contact DiscvrAI to schedule alignment meeting</p>
+          {/* Contact */}
+          <div className="mt-6 p-5 bg-slate-800 rounded-lg">
+            <p className="text-white font-medium mb-3">Ready to proceed?</p>
+            <div className="space-y-1">
+              <p className="text-white font-semibold">Shubham Srivastava</p>
+              <p className="text-slate-300 text-sm">Founder - DiscvrAI</p>
+              <p className="text-slate-400 text-sm">shubham@discvr.ai</p>
+              <p className="text-slate-400 text-sm">+91-9873961591</p>
+            </div>
           </div>
         </div>
       </div>
