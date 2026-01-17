@@ -101,6 +101,7 @@ import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import BullionInvestment from './pages/BullionInvestment';
 import NirmalBangProposal from './pages/NirmalBangProposal';
 import NirmalBangLeadDeck from './pages/NirmalBangLeadDeck';
+import JindalProposal from './pages/JindalProposal';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -109,9 +110,10 @@ const AppContent = () => {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const location = useLocation();
   
-  // Hide footer and chatbot on pitch deck pages, one-pagers, and investor deck
+  // Hide footer and chatbot on pitch deck pages, one-pagers, investor deck, and proposals
   const isPitchPage = location.pathname.includes('-pitch') || 
                       location.pathname.includes('-1pager') || 
+                      location.pathname.includes('/proposal/') ||
                       location.pathname === '/investor-deck' ||
                       location.pathname === '/investor-deck-full' ||
                       location.pathname === '/partner-distribution' ||
@@ -216,6 +218,7 @@ const AppContent = () => {
           <Route path="/distribution-case-study" element={<DistributionCaseStudy />} />
           <Route path="/proposal/nirmalbang" element={<NirmalBangProposal />} />
           <Route path="/proposal/nirmalbang-leads" element={<NirmalBangLeadDeck />} />
+          <Route path="/proposal/jindal" element={<JindalProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
