@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AlertTriangle, Clock, Building2, CheckCircle2, ArrowRight, CreditCard, RefreshCw, Info, ChevronDown, ChevronUp, Lock, Unlock } from "lucide-react";
+import { AlertTriangle, Clock, Building2, ArrowRight, CreditCard, RefreshCw, Info, ChevronDown, ChevronUp, Lock, Unlock } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { UPISelector } from "./UPISelector";
+import { SellSuccessScreen } from "./SellSuccessScreen";
+import { SellFailureScreen } from "./SellFailureScreen";
 
 interface LockedPurchase {
   id: string;
@@ -13,6 +16,12 @@ interface LockedPurchase {
   purchaseDate: Date;
   unlockDate: Date;
   source: "one_time" | "sip";
+}
+
+interface UPIAccount {
+  id: string;
+  upiId: string;
+  isPrimary: boolean;
 }
 
 interface SellModalProps {
@@ -26,6 +35,8 @@ interface SellModalProps {
   sipCredits?: number;
   nextSIPDate?: Date;
   nextSIPAmount?: number;
+  savedUPIAccounts?: UPIAccount[];
+  onBuyMore?: () => void;
 }
 
 export function SellModal({ 
@@ -39,11 +50,28 @@ export function SellModal({
   sipCredits = 0,
   nextSIPDate,
   nextSIPAmount,
+  savedUPIAccounts: initialUPIAccounts = [
+    { id: "1", upiId: "user@okaxis", isPrimary: true },
+    { id: "2", upiId: "user@paytm", isPrimary: false },
+  ],
+  onBuyMore,
 }: SellModalProps) {
   const [amount, setAmount] = useState("");
-  const [step, setStep] = useState<"input" | "review" | "success">("input");
+  const [step, setStep] = useState<"input" | "upi" | "review" | "processing">("input");
   const [isProcessing, setIsProcessing] = useState(false);
   const [showLockDetails, setShowLockDetails] = useState(false);
+  
+  // UPI State
+  const [upiAccounts, setUpiAccounts] = useState<UPIAccount[]>(initialUPIAccounts);
+  const [selectedUpiId, setSelectedUpiId] = useState<string | null>(
+    initialUPIAccounts.find(a => a.isPrimary)?.id || null
+  );
+
+  // Result states
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailure, setShowFailure] = useState(false);
+  const [failureType, setFailureType] = useState<"sell_failed" | "payout_failed">("sell_failed");
+  const [transactionId, setTransactionId] = useState("");
 
   const metalConfig = {
     gold: { name: "Gold", icon: "🪙" },
@@ -54,6 +82,8 @@ export function SellModal({
   const numericAmount = parseFloat(amount) || 0;
   const payoutAmount = numericAmount * currentPrice;
 
+  const selectedUpiAccount = upiAccounts.find(a => a.id === selectedUpiId);
+
   const getTimeUntilUnlock = (unlockDate: Date) => {
     const now = new Date();
     const diff = unlockDate.getTime() - now.getTime();
@@ -63,7 +93,7 @@ export function SellModal({
     return `${Math.ceil(hours / 24)}d`;
   };
 
-  const handleReview = () => {
+  const handleProceedToUPI = () => {
     if (numericAmount <= 0) {
       toast.error("Please enter a valid amount");
       return;
@@ -72,46 +102,118 @@ export function SellModal({
       toast.error(`Maximum sellable: ${holdings.sellable.toFixed(4)}g`);
       return;
     }
+    setStep("upi");
+  };
+
+  const handleReview = () => {
+    if (!selectedUpiId) {
+      toast.error("Please select a UPI ID to receive payment");
+      return;
+    }
     setStep("review");
+  };
+
+  const handleAddUPIAccount = (upiId: string) => {
+    const newAccount: UPIAccount = {
+      id: Date.now().toString(),
+      upiId,
+      isPrimary: upiAccounts.length === 0,
+    };
+    setUpiAccounts([...upiAccounts, newAccount]);
+    setSelectedUpiId(newAccount.id);
+  };
+
+  const handleRemoveUPIAccount = (id: string) => {
+    setUpiAccounts(upiAccounts.filter(a => a.id !== id));
+    if (selectedUpiId === id) {
+      setSelectedUpiId(upiAccounts.find(a => a.id !== id && a.isPrimary)?.id || null);
+    }
   };
 
   const handleSell = async () => {
     setIsProcessing(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setStep("processing");
+    
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+    
+    // Generate transaction ID
+    const txId = `SELL${Date.now().toString(36).toUpperCase()}`;
+    setTransactionId(txId);
+    
+    // Simulate 85% success, 10% sell failure, 5% payout failure
+    const random = Math.random();
+    
     setIsProcessing(false);
-    setStep("success");
-    toast.success("Sale completed successfully!");
+    
+    if (random < 0.85) {
+      // Success
+      setShowSuccess(true);
+    } else if (random < 0.95) {
+      // Sell failed
+      setFailureType("sell_failed");
+      setShowFailure(true);
+    } else {
+      // Payout failed
+      setFailureType("payout_failed");
+      setShowFailure(true);
+    }
   };
 
   const handleClose = () => {
     setAmount("");
     setStep("input");
+    setShowSuccess(false);
+    setShowFailure(false);
     onOpenChange(false);
   };
 
-  if (step === "success") {
+  const handleRetry = () => {
+    setShowFailure(false);
+    setStep("review");
+  };
+
+  // Success Screen
+  if (showSuccess) {
     return (
-      <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-border/50">
-          <div className="flex flex-col items-center py-8 text-center">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
-              <CheckCircle2 className="w-10 h-10 text-emerald-400" />
-            </div>
-            <h3 className="text-xl font-bold text-foreground mb-2">Sale Completed!</h3>
-            <p className="text-muted-foreground mb-2">
-              {numericAmount.toFixed(4)}g {config.name} sold
-            </p>
-            <p className="text-2xl font-bold text-emerald-400 mb-4">
-              ₹{payoutAmount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-            </p>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-              <Building2 className="w-4 h-4" />
-              <span>Funds will be credited in T+3 days</span>
-            </div>
-            <Button onClick={handleClose} className="w-full">Done</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <SellSuccessScreen
+        open={open}
+        onOpenChange={handleClose}
+        metal={metal}
+        grams={numericAmount}
+        amount={payoutAmount}
+        transactionId={transactionId}
+        upiId={selectedUpiAccount?.upiId || ""}
+        settlementDate={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)} // T+3
+        onBuyMore={() => {
+          handleClose();
+          onBuyMore?.();
+        }}
+        onShare={() => toast.success("Share link copied!")}
+        onDone={handleClose}
+      />
+    );
+  }
+
+  // Failure Screen
+  if (showFailure) {
+    return (
+      <SellFailureScreen
+        open={open}
+        onOpenChange={handleClose}
+        type={failureType}
+        metal={metal}
+        grams={numericAmount}
+        amount={payoutAmount}
+        reason={
+          failureType === "sell_failed"
+            ? "Unable to process sale at this time. Please try again."
+            : "Bank server not responding. We'll retry automatically."
+        }
+        referenceId={transactionId}
+        onRetry={handleRetry}
+        onContactSupport={() => toast.info("Opening support chat...")}
+        onClose={handleClose}
+      />
     );
   }
 
@@ -127,7 +229,7 @@ export function SellModal({
 
         {step === "input" && (
           <div className="space-y-4">
-            {/* Holdings Summary with clear breakdown */}
+            {/* Holdings Summary */}
             <div className="p-4 rounded-xl bg-muted/50 border border-border/50">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-xl">{config.icon}</span>
@@ -137,15 +239,15 @@ export function SellModal({
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
-                    <Unlock className="w-4 h-4 text-emerald-400" />
+                    <Unlock className="w-4 h-4 text-bullion-success" />
                     <span className="text-muted-foreground">Sellable Now</span>
                   </div>
-                  <span className="font-semibold text-emerald-400">{holdings.sellable.toFixed(4)}g</span>
+                  <span className="font-semibold text-bullion-success">{holdings.sellable.toFixed(4)}g</span>
                 </div>
                 {holdings.locked > 0 && (
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
-                      <Lock className="w-4 h-4 text-amber-400" />
+                      <Lock className="w-4 h-4 text-bullion-warning" />
                       <span className="text-muted-foreground">Locked (48hr)</span>
                       <TooltipProvider>
                         <Tooltip>
@@ -160,19 +262,19 @@ export function SellModal({
                         </Tooltip>
                       </TooltipProvider>
                     </div>
-                    <span className="font-semibold text-amber-400">{holdings.locked.toFixed(4)}g</span>
+                    <span className="font-semibold text-bullion-warning">{holdings.locked.toFixed(4)}g</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Lock Details (Expandable) - Only show if we have locked purchases */}
+            {/* Lock Details (Expandable) */}
             {holdings.locked > 0 && lockedPurchases.length > 0 && (
               <Collapsible open={showLockDetails} onOpenChange={setShowLockDetails}>
                 <CollapsibleTrigger asChild>
                   <Button variant="ghost" className="w-full justify-between h-auto py-3">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-amber-400" />
+                      <Clock className="w-4 h-4 text-bullion-warning" />
                       <span className="text-sm font-medium">View Lock Details</span>
                     </div>
                     {showLockDetails ? (
@@ -183,7 +285,7 @@ export function SellModal({
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-3">
+                  <div className="p-4 rounded-xl bg-bullion-warning-light border border-bullion-warning/30 space-y-3">
                     {lockedPurchases.map((purchase) => (
                       <div key={purchase.id} className="flex items-center justify-between text-sm">
                         <div className="flex items-center gap-2">
@@ -205,7 +307,7 @@ export function SellModal({
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-amber-400 font-medium">
+                          <p className="text-bullion-warning font-medium">
                             Unlocks in {getTimeUntilUnlock(purchase.unlockDate)}
                           </p>
                         </div>
@@ -216,31 +318,22 @@ export function SellModal({
               </Collapsible>
             )}
 
-            {/* Simple 48-hour lock warning (when no detailed lock purchases provided) */}
+            {/* Simple lock warning */}
             {holdings.locked > 0 && lockedPurchases.length === 0 && (
-              <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+              <div className="p-4 rounded-xl bg-bullion-warning-light border border-bullion-warning/30">
                 <div className="flex items-start gap-3">
-                  <Clock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                  <Clock className="w-5 h-5 text-bullion-warning flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-amber-400 mb-1">48-Hour Lock Active</p>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      {holdings.locked.toFixed(4)}g is currently in lock-in period and cannot be sold yet.
+                    <p className="font-semibold text-bullion-warning mb-1">48-Hour Lock Active</p>
+                    <p className="text-sm text-muted-foreground">
+                      {holdings.locked.toFixed(4)}g is currently locked and cannot be sold yet.
                     </p>
-                    <details className="text-xs text-muted-foreground">
-                      <summary className="cursor-pointer hover:text-foreground transition-colors">
-                        Why 48-hour lock?
-                      </summary>
-                      <p className="mt-2 pl-2 border-l-2 border-amber-500/30">
-                        To ensure secure settlement with our vault partners and prevent fraud, 
-                        newly purchased {metal} is locked for 48 hours before it can be sold.
-                      </p>
-                    </details>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Source Breakdown (SIP vs One-time) */}
+            {/* Source Breakdown */}
             {(oneTimePurchases > 0 || sipCredits > 0) && (
               <div className="p-4 rounded-xl bg-muted/30 border border-border/30">
                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
@@ -300,10 +393,10 @@ export function SellModal({
 
             {/* Payout Preview */}
             {numericAmount > 0 && (
-              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+              <div className="p-4 rounded-xl bg-bullion-success-light border border-bullion-success/30">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">You'll receive</span>
-                  <span className="text-2xl font-bold text-emerald-400">
+                  <span className="text-2xl font-bold text-bullion-success">
                     ₹{payoutAmount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                   </span>
                 </div>
@@ -312,13 +405,54 @@ export function SellModal({
             )}
 
             <Button
-              onClick={handleReview}
+              onClick={handleProceedToUPI}
               disabled={numericAmount <= 0 || numericAmount > holdings.sellable}
               className="w-full h-12 text-lg"
             >
-              Review Sale
+              Continue
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
+          </div>
+        )}
+
+        {step === "upi" && (
+          <div className="space-y-4">
+            {/* Sale Summary */}
+            <div className="p-4 rounded-xl bg-muted/50 border border-border/50">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Selling</span>
+                <span className="font-semibold">{numericAmount.toFixed(4)}g {config.name}</span>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-muted-foreground">You'll receive</span>
+                <span className="font-bold text-bullion-success">
+                  ₹{payoutAmount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                </span>
+              </div>
+            </div>
+
+            {/* UPI Selector */}
+            <UPISelector
+              accounts={upiAccounts}
+              selectedId={selectedUpiId}
+              onSelect={setSelectedUpiId}
+              onAddAccount={handleAddUPIAccount}
+              onRemoveAccount={handleRemoveUPIAccount}
+            />
+
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => setStep("input")} className="flex-1">
+                Back
+              </Button>
+              <Button
+                onClick={handleReview}
+                disabled={!selectedUpiId}
+                className="flex-1"
+              >
+                Review Sale
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
           </div>
         )}
 
@@ -335,7 +469,7 @@ export function SellModal({
               </div>
               <div className="border-t border-border/50 pt-3 flex justify-between">
                 <span className="font-medium">Payout Amount</span>
-                <span className="font-bold text-xl text-emerald-400">
+                <span className="font-bold text-xl text-bullion-success">
                   ₹{payoutAmount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                 </span>
               </div>
@@ -344,23 +478,35 @@ export function SellModal({
             <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
               <Building2 className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
               <div className="text-sm">
-                <p className="font-medium">Settlement: T+3 Business Days</p>
-                <p className="text-muted-foreground">Funds will be credited to your linked bank account</p>
+                <p className="font-medium">Payment to: {selectedUpiAccount?.upiId}</p>
+                <p className="text-muted-foreground">Settlement: T+3 Business Days</p>
               </div>
             </div>
 
             <div className="flex gap-3">
-              <Button variant="outline" onClick={() => setStep("input")} className="flex-1">
+              <Button variant="outline" onClick={() => setStep("upi")} className="flex-1">
                 Back
               </Button>
               <Button
                 onClick={handleSell}
                 disabled={isProcessing}
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                className="flex-1 bg-bullion-success hover:bg-bullion-success/90"
               >
                 {isProcessing ? "Processing..." : "Confirm Sale"}
               </Button>
             </div>
+          </div>
+        )}
+
+        {step === "processing" && (
+          <div className="py-12 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center animate-pulse">
+              <RefreshCw className="w-8 h-8 text-muted-foreground animate-spin" />
+            </div>
+            <h3 className="font-semibold mb-2">Processing Sale...</h3>
+            <p className="text-sm text-muted-foreground">
+              Please wait while we process your {config.name} sale
+            </p>
           </div>
         )}
       </DialogContent>

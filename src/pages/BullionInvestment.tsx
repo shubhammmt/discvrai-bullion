@@ -25,6 +25,7 @@ import {
   EmptyHoldingsPrompt,
   UserStateSwitcher,
   OfferCards,
+  ThemeSwitcher,
 } from "@/components/bullion";
 
 // User state type for personalized experience
@@ -464,7 +465,18 @@ export default function BullionInvestment() {
         onOpenChange={(o) => !o && setActiveModal(null)} 
         metal={selectedMetal} 
         currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} 
-        holdings={holdings[selectedMetal]} 
+        holdings={holdings[selectedMetal]}
+        lockedPurchases={userState === "investor" ? [
+          { id: "1", amount: 0.3, purchaseDate: new Date(Date.now() - 26 * 60 * 60 * 1000), unlockDate: new Date(Date.now() + 22 * 60 * 60 * 1000), source: "one_time" as const },
+          { id: "2", amount: 0.2, purchaseDate: new Date(Date.now() - 2 * 60 * 60 * 1000), unlockDate: new Date(Date.now() + 46 * 60 * 60 * 1000), source: "sip" as const },
+        ] : []}
+        oneTimePurchases={userState === "investor" ? 1.5 : 0}
+        sipCredits={userState === "investor" ? 1.0 : 0}
+        nextSIPDate={new Date(Date.now() + 12 * 24 * 60 * 60 * 1000)}
+        nextSIPAmount={500}
+        onBuyMore={() => {
+          setActiveModal("buy");
+        }}
       />
 
       {/* Empty Holdings Prompt */}
@@ -494,6 +506,9 @@ export default function BullionInvestment() {
         onGoldHoldingsChange={setSimulatedGoldHoldings}
         onSilverHoldingsChange={setSimulatedSilverHoldings}
       />
+
+      {/* Theme Switcher */}
+      <ThemeSwitcher />
     </div>
   );
 }
