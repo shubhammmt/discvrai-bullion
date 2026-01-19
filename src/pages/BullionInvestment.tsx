@@ -350,6 +350,19 @@ export default function BullionInvestment() {
               onViewVault={() => setView("vault")}
             />
 
+            {/* Offer Cards - Mobile Carousel */}
+            <OfferCards 
+              userState={userState} 
+              variant="carousel"
+              onClaimOffer={(offerId) => {
+                if (offerId.includes("sip")) {
+                  openBuy("gold");
+                } else {
+                  openBuy("gold");
+                }
+              }}
+            />
+
             {/* Educational Content */}
             <EducationalCards 
               onBuyGold={() => openBuy("gold")} 

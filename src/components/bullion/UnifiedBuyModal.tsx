@@ -10,12 +10,15 @@ import { ArrowLeft, Minus, Plus, ChevronDown, Pencil, CheckCircle2 } from "lucid
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { PurchaseSuccessScreen } from "./PurchaseSuccessScreen";
+import { PaymentFailureScreen } from "./PaymentFailureScreen";
 
 interface UnifiedBuyModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   metal: "gold" | "silver";
   currentPrice: number;
+  onPurchaseComplete?: (holdings: { gold: number; silver: number }) => void;
 }
 
 type BuyMode = "sip" | "onetime";
@@ -54,7 +57,7 @@ const metalConfig = {
   }
 };
 
-export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: UnifiedBuyModalProps) {
+export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPurchaseComplete }: UnifiedBuyModalProps) {
   const config = metalConfig[metal];
   
   const [mode, setMode] = useState<BuyMode>("sip");
@@ -69,6 +72,11 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
   const [stepUpPercent, setStepUpPercent] = useState(10);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailure, setIsFailure] = useState(false);
+  const [failureType, setFailureType] = useState<"payment_failed" | "order_failed">("payment_failed");
+  const [purchaseGrams, setPurchaseGrams] = useState(0);
+  const [purchaseAmount, setPurchaseAmount] = useState(0);
+  const [transactionId, setTransactionId] = useState("");
 
   // Reset values when metal or frequency changes
   useEffect(() => {
@@ -177,11 +185,36 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
     setIsProcessing(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessing(false);
+    
+    // Simulate random failure for demo (10% chance)
+    const shouldFail = Math.random() < 0.1;
+    if (shouldFail) {
+      setFailureType(Math.random() < 0.5 ? "payment_failed" : "order_failed");
+      setIsFailure(true);
+      return;
+    }
+    
+    // Calculate purchased grams and amount
+    const finalAmount = mode === "sip" 
+      ? sipAmount 
+      : oneTimeMode === "amount" 
+        ? oneTimeAmount 
+        : grams * currentPrice;
+    const finalGrams = mode === "sip"
+      ? sipAmount / currentPrice
+      : oneTimeMode === "grams"
+        ? grams
+        : oneTimeAmount / currentPrice;
+    
+    setPurchaseAmount(finalAmount);
+    setPurchaseGrams(finalGrams);
+    setTransactionId(`BUL-${Date.now().toString(36).toUpperCase()}`);
     setIsSuccess(true);
-    const purchaseDetail = oneTimeMode === "amount" 
-      ? `₹${formatIndianNumber(oneTimeAmount)} worth of ${config.name}` 
-      : `${grams.toFixed(metal === "gold" ? 1 : 0)}g of ${config.name}`;
-    toast.success(mode === "sip" ? "SIP activated successfully!" : `${purchaseDetail} purchased!`);
+    
+    onPurchaseComplete?.({ 
+      gold: metal === "gold" ? finalGrams : 0, 
+      silver: metal === "silver" ? finalGrams : 0 
+    });
   };
 
   const handleClose = () => {
@@ -192,7 +225,13 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
     setOneTimeAmount(config.oneTime.amount.min);
     setGrams(config.oneTime.grams.min);
     setIsSuccess(false);
+    setIsFailure(false);
     onOpenChange(false);
+  };
+  
+  const handleRetry = () => {
+    setIsFailure(false);
+    handleProceed();
   };
 
   const formatIndianNumber = (num: number) => {
@@ -225,31 +264,45 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice }: Uni
 
   const sliderConfig = getSliderConfig();
 
+  // Show Failure Screen
+  if (isFailure) {
+    return (
+      <PaymentFailureScreen
+        open={open}
+        onOpenChange={handleClose}
+        type={failureType}
+        amount={mode === "sip" ? sipAmount : oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice}
+        referenceId={`PAY-${Date.now().toString(36).toUpperCase()}`}
+        reason={failureType === "payment_failed" ? "Payment timeout - please try again" : "Unable to process gold order"}
+        onRetry={handleRetry}
+        onTryAnotherMethod={() => {
+          setIsFailure(false);
+          toast.info("You can try UPI, Net Banking, or Card");
+        }}
+      />
+    );
+  }
+
+  // Show Success Screen
   if (isSuccess) {
     return (
-      <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md p-0 bg-[#FFF8E7] border-0 overflow-hidden">
-          <div className="flex flex-col items-center py-12 px-6 text-center">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
-              <CheckCircle2 className="w-10 h-10 text-emerald-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              {mode === "sip" ? "SIP Activated! 🎉" : `${config.name} Added to Vault!`}
-            </h3>
-            <p className="text-gray-600 mb-6">
-              {mode === "sip" 
-                ? `₹${formatIndianNumber(sipAmount)} ${frequency} SIP in ${config.name}`
-                : oneTimeMode === "amount"
-                  ? `₹${formatIndianNumber(oneTimeAmount)} worth of ${config.name} has been credited`
-                  : `${grams.toFixed(metal === "gold" ? 1 : 0)}g of ${config.name} has been credited`
-              }
-            </p>
-            <Button onClick={handleClose} className="w-full h-14 bg-[#1B4B43] hover:bg-[#163d37] text-white font-semibold text-lg rounded-xl">
-              Done
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <PurchaseSuccessScreen
+        open={open}
+        onOpenChange={handleClose}
+        type={mode === "sip" ? "sip" : "one_time"}
+        metal={metal}
+        amount={purchaseAmount}
+        grams={purchaseGrams}
+        transactionId={transactionId}
+        onStartSIP={mode === "onetime" ? () => {
+          setIsSuccess(false);
+          setMode("sip");
+          setSipAmount(Math.max(purchaseAmount, 100));
+        } : undefined}
+        onViewPortfolio={handleClose}
+        onShare={() => toast.success("Share link copied!")}
+        bonusAmount={10}
+      />
     );
   }
 
