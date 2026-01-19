@@ -2,8 +2,18 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AlertTriangle, Clock, Building2, CheckCircle2, ArrowRight } from "lucide-react";
+import { AlertTriangle, Clock, Building2, CheckCircle2, ArrowRight, CreditCard, RefreshCw, Info, ChevronDown, ChevronUp, Lock, Unlock } from "lucide-react";
 import { toast } from "sonner";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
+interface LockedPurchase {
+  id: string;
+  amount: number;
+  purchaseDate: Date;
+  unlockDate: Date;
+  source: "one_time" | "sip";
+}
 
 interface SellModalProps {
   open: boolean;
@@ -11,12 +21,29 @@ interface SellModalProps {
   metal: "gold" | "silver";
   currentPrice: number;
   holdings: { total: number; sellable: number; locked: number };
+  lockedPurchases?: LockedPurchase[];
+  oneTimePurchases?: number;
+  sipCredits?: number;
+  nextSIPDate?: Date;
+  nextSIPAmount?: number;
 }
 
-export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }: SellModalProps) {
+export function SellModal({ 
+  open, 
+  onOpenChange, 
+  metal, 
+  currentPrice, 
+  holdings,
+  lockedPurchases = [],
+  oneTimePurchases = 0,
+  sipCredits = 0,
+  nextSIPDate,
+  nextSIPAmount,
+}: SellModalProps) {
   const [amount, setAmount] = useState("");
   const [step, setStep] = useState<"input" | "review" | "success">("input");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showLockDetails, setShowLockDetails] = useState(false);
 
   const metalConfig = {
     gold: { name: "Gold", icon: "🪙" },
@@ -26,6 +53,15 @@ export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }:
   const config = metalConfig[metal];
   const numericAmount = parseFloat(amount) || 0;
   const payoutAmount = numericAmount * currentPrice;
+
+  const getTimeUntilUnlock = (unlockDate: Date) => {
+    const now = new Date();
+    const diff = unlockDate.getTime() - now.getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    if (hours < 1) return "< 1hr";
+    if (hours < 24) return `${hours}hr`;
+    return `${Math.ceil(hours / 24)}d`;
+  };
 
   const handleReview = () => {
     if (numericAmount <= 0) {
@@ -101,7 +137,7 @@ export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }:
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <Unlock className="w-4 h-4 text-emerald-400" />
                     <span className="text-muted-foreground">Sellable Now</span>
                   </div>
                   <span className="font-semibold text-emerald-400">{holdings.sellable.toFixed(4)}g</span>
@@ -109,8 +145,20 @@ export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }:
                 {holdings.locked > 0 && (
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-amber-400" />
+                      <Lock className="w-4 h-4 text-amber-400" />
                       <span className="text-muted-foreground">Locked (48hr)</span>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="w-3 h-3 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs">
+                            <p className="text-sm">
+                              Newly purchased {metal} is locked for 48 hours to ensure secure settlement.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                     <span className="font-semibold text-amber-400">{holdings.locked.toFixed(4)}g</span>
                   </div>
@@ -118,8 +166,58 @@ export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }:
               </div>
             </div>
 
-            {/* 48-hour lock warning with explanation */}
-            {holdings.locked > 0 && (
+            {/* Lock Details (Expandable) - Only show if we have locked purchases */}
+            {holdings.locked > 0 && lockedPurchases.length > 0 && (
+              <Collapsible open={showLockDetails} onOpenChange={setShowLockDetails}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-between h-auto py-3">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-amber-400" />
+                      <span className="text-sm font-medium">View Lock Details</span>
+                    </div>
+                    {showLockDetails ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-3">
+                    {lockedPurchases.map((purchase) => (
+                      <div key={purchase.id} className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          {purchase.source === "sip" ? (
+                            <RefreshCw className="w-4 h-4 text-muted-foreground" />
+                          ) : (
+                            <CreditCard className="w-4 h-4 text-muted-foreground" />
+                          )}
+                          <div>
+                            <p className="font-medium">{purchase.amount.toFixed(4)}g</p>
+                            <p className="text-xs text-muted-foreground">
+                              {purchase.purchaseDate.toLocaleDateString("en-IN", { 
+                                month: "short", 
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                              })}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-amber-400 font-medium">
+                            Unlocks in {getTimeUntilUnlock(purchase.unlockDate)}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+
+            {/* Simple 48-hour lock warning (when no detailed lock purchases provided) */}
+            {holdings.locked > 0 && lockedPurchases.length === 0 && (
               <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
@@ -139,6 +237,41 @@ export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }:
                     </details>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Source Breakdown (SIP vs One-time) */}
+            {(oneTimePurchases > 0 || sipCredits > 0) && (
+              <div className="p-4 rounded-xl bg-muted/30 border border-border/30">
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                  By Source
+                </h4>
+                <div className="space-y-2 text-sm">
+                  {oneTimePurchases > 0 && (
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="w-4 h-4 text-muted-foreground" />
+                        <span>One-Time Purchases</span>
+                      </div>
+                      <span className="font-medium">{oneTimePurchases.toFixed(4)}g</span>
+                    </div>
+                  )}
+                  {sipCredits > 0 && (
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <RefreshCw className="w-4 h-4 text-muted-foreground" />
+                        <span>SIP Credits</span>
+                      </div>
+                      <span className="font-medium">{sipCredits.toFixed(4)}g</span>
+                    </div>
+                  )}
+                </div>
+                {nextSIPDate && nextSIPAmount && (
+                  <div className="mt-3 pt-3 border-t border-border/30 text-sm text-muted-foreground">
+                    Next SIP: ₹{nextSIPAmount.toLocaleString("en-IN")} on{" "}
+                    {nextSIPDate.toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
+                  </div>
+                )}
               </div>
             )}
 
