@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, ArrowLeft } from "lucide-react";
+import { Bell, ArrowLeft, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { BullionPriceCard } from "@/components/bullion/BullionPriceCard";
@@ -25,11 +25,20 @@ import {
   EmptyHoldingsPrompt,
 } from "@/components/bullion";
 
+// User state type for personalized experience
+type UserState = "new" | "logged_in_no_holdings" | "investor";
+
 export default function BullionInvestment() {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState<"buy" | "sell" | null>(null);
   const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
   const [view, setView] = useState<"market" | "vault" | "cards">("market");
+  const [showEmptyHoldingsPrompt, setShowEmptyHoldingsPrompt] = useState(false);
+
+  // User state simulation - in production, this would come from auth/API
+  // Change this to test different user states: "new" | "logged_in_no_holdings" | "investor"
+  const [userState] = useState<UserState>("new");
+  const userName = userState !== "new" ? "Shubham" : undefined;
 
   // Mock data
   const goldPrice = 6250.50;
@@ -40,15 +49,31 @@ export default function BullionInvestment() {
   const goldSparkline = [6180, 6200, 6190, 6220, 6240, 6210, 6250];
   const silverSparkline = [78, 77.5, 78.2, 77, 76.5, 77.2, 76.8];
 
-  const holdings = {
-    gold: { total: 2.5, sellable: 2.0, locked: 0.5 },
-    silver: { total: 15.0, sellable: 15.0, locked: 0 },
-  };
+  // Holdings based on user state
+  const holdings = userState === "investor" 
+    ? {
+        gold: { total: 2.5, sellable: 2.0, locked: 0.5 },
+        silver: { total: 15.0, sellable: 15.0, locked: 0 },
+      }
+    : {
+        gold: { total: 0, sellable: 0, locked: 0 },
+        silver: { total: 0, sellable: 0, locked: 0 },
+      };
 
-  const transactions = [
-    { id: "1", type: "buy" as const, metal: "gold" as const, grams: 0.5, amount: 3125, date: "Dec 24, 2025", status: "success" as const },
-    { id: "2", type: "buy" as const, metal: "silver" as const, grams: 10, amount: 768, date: "Dec 20, 2025", status: "success" as const },
-  ];
+  // Portfolio calculations for investor state
+  const totalGoldValue = holdings.gold.total * goldPrice;
+  const totalSilverValue = holdings.silver.total * silverPrice;
+  const totalValue = totalGoldValue + totalSilverValue;
+  const investedAmount = 15000; // Mock invested amount
+  const totalGain = totalValue - investedAmount;
+  const gainPercent = (totalGain / investedAmount) * 100;
+
+  const transactions = userState === "investor" 
+    ? [
+        { id: "1", type: "buy" as const, metal: "gold" as const, grams: 0.5, amount: 3125, date: "Dec 24, 2025", status: "success" as const },
+        { id: "2", type: "buy" as const, metal: "silver" as const, grams: 10, amount: 768, date: "Dec 20, 2025", status: "success" as const },
+      ]
+    : [];
 
   const openBuy = (metal: "gold" | "silver") => {
     setSelectedMetal(metal);
@@ -56,6 +81,12 @@ export default function BullionInvestment() {
   };
 
   const openSell = (metal: "gold" | "silver") => {
+    const hasHolding = metal === "gold" ? holdings.gold.total > 0 : holdings.silver.total > 0;
+    if (!hasHolding) {
+      setSelectedMetal(metal);
+      setShowEmptyHoldingsPrompt(true);
+      return;
+    }
     setSelectedMetal(metal);
     setActiveModal("sell");
   };
@@ -64,6 +95,9 @@ export default function BullionInvestment() {
   const hasGoldHoldings = holdings.gold.total > 0;
   const hasSilverHoldings = holdings.silver.total > 0;
   const hasAnyHoldings = hasGoldHoldings || hasSilverHoldings;
+
+  // Determine if we should show educational content (for new/no-holdings users)
+  const showEducationalContent = userState === "new" || userState === "logged_in_no_holdings";
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,9 +113,14 @@ export default function BullionInvestment() {
               <p className="text-xs text-muted-foreground">Digital Gold & Silver</p>
             </div>
           </div>
-          <Button variant="ghost" size="icon">
-            <Bell className="w-5 h-5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/profile")}>
+              <User className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Bell className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -130,8 +169,35 @@ export default function BullionInvestment() {
             </div>
           </aside>
 
-          {/* Center Column - Price Cards + Education */}
+          {/* Center Column - Hero + Price Cards + Education */}
           <main className="col-span-6 space-y-6">
+            {/* Hero Section - Personalized by User State */}
+            <BullionHero
+              goldPrice={goldPrice}
+              silverPrice={silverPrice}
+              goldChange={goldChange}
+              silverChange={silverChange}
+              userState={userState}
+              userName={userName}
+              totalValue={totalValue}
+              totalGain={totalGain}
+              gainPercent={gainPercent}
+              goldHoldings={holdings.gold.total}
+              silverHoldings={holdings.silver.total}
+              onBuyGold={() => openBuy("gold")}
+              onBuySilver={() => openBuy("silver")}
+              onCompleteProfile={() => navigate("/bullion/profile")}
+            />
+
+            {/* Educational Content - For New/No Holdings Users */}
+            {showEducationalContent && (
+              <>
+                <WhyDigitalCards variant="grid" />
+                <PhysicalVsDigital variant="table" />
+                <HowItWorks variant="horizontal" />
+              </>
+            )}
+
             {/* Live Prices Section */}
             <section>
               <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Live Prices</h2>
@@ -161,6 +227,11 @@ export default function BullionInvestment() {
               </div>
             </section>
 
+            {/* Trust Signals */}
+            {showEducationalContent && (
+              <TrustSignals variant="full" />
+            )}
+
             {/* Learn Section */}
             <section>
               <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Learn & Grow</h2>
@@ -169,6 +240,11 @@ export default function BullionInvestment() {
                 onStartSIP={() => openBuy("gold")} 
               />
             </section>
+
+            {/* FAQ Section - For New Users */}
+            {showEducationalContent && (
+              <BullionFAQ />
+            )}
           </main>
 
           {/* Right Column - Portfolio Summary */}
@@ -192,6 +268,34 @@ export default function BullionInvestment() {
       <main className="lg:hidden max-w-lg mx-auto px-4 pb-32">
         {view === "market" ? (
           <div className="space-y-4">
+            {/* Hero Section - Personalized by User State */}
+            <BullionHero
+              goldPrice={goldPrice}
+              silverPrice={silverPrice}
+              goldChange={goldChange}
+              silverChange={silverChange}
+              userState={userState}
+              userName={userName}
+              totalValue={totalValue}
+              totalGain={totalGain}
+              gainPercent={gainPercent}
+              goldHoldings={holdings.gold.total}
+              silverHoldings={holdings.silver.total}
+              onBuyGold={() => openBuy("gold")}
+              onBuySilver={() => openBuy("silver")}
+              onCompleteProfile={() => navigate("/bullion/profile")}
+            />
+
+            {/* Educational Content - Mobile Carousel for New/No Holdings */}
+            {showEducationalContent && (
+              <>
+                <WhyDigitalCards variant="carousel" />
+                <PhysicalVsDigital variant="cards" />
+                <HowItWorks variant="vertical" />
+                <TrustSignals variant="compact" />
+              </>
+            )}
+
             {/* Price Cards with inline actions */}
             <BullionPriceCard
               metal="gold"
@@ -231,6 +335,11 @@ export default function BullionInvestment() {
               onBuyGold={() => openBuy("gold")} 
               onStartSIP={() => openBuy("gold")} 
             />
+
+            {/* FAQ for new users */}
+            {showEducationalContent && (
+              <BullionFAQ />
+            )}
           </div>
         ) : view === "vault" ? (
           <PortfolioVault
@@ -323,6 +432,21 @@ export default function BullionInvestment() {
         metal={selectedMetal} 
         currentPrice={selectedMetal === "gold" ? goldPrice : silverPrice} 
         holdings={holdings[selectedMetal]} 
+      />
+
+      {/* Empty Holdings Prompt */}
+      <EmptyHoldingsPrompt
+        open={showEmptyHoldingsPrompt}
+        onOpenChange={setShowEmptyHoldingsPrompt}
+        metal={selectedMetal}
+        onBuy={() => {
+          setShowEmptyHoldingsPrompt(false);
+          setActiveModal("buy");
+        }}
+        onStartSIP={() => {
+          setShowEmptyHoldingsPrompt(false);
+          setActiveModal("buy");
+        }}
       />
 
       {/* AI Agent */}
