@@ -15,7 +15,14 @@ import {
   BuyGoldCard, 
   BuySilverCard, 
   GoldSIPCard, 
-  SilverSIPCard
+  SilverSIPCard,
+  BullionHero,
+  WhyDigitalCards,
+  PhysicalVsDigital,
+  HowItWorks,
+  TrustSignals,
+  BullionFAQ,
+  EmptyHoldingsPrompt,
 } from "@/components/bullion";
 
 export default function BullionInvestment() {
