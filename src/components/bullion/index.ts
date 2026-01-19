@@ -29,3 +29,9 @@ export { PurchaseSuccessScreen } from './PurchaseSuccessScreen';
 export { PaymentFailureScreen } from './PaymentFailureScreen';
 export { OfferCards } from './OfferCards';
 export { HoldingsBreakdown } from './HoldingsBreakdown';
+
+// Phase 3 - Theme & Sell Journey
+export { ThemeSwitcher } from './ThemeSwitcher';
+export { SellSuccessScreen } from './SellSuccessScreen';
+export { SellFailureScreen } from './SellFailureScreen';
+export { UPISelector } from './UPISelector';
