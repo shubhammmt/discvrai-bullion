@@ -91,27 +91,53 @@ export function SellModal({ open, onOpenChange, metal, currentPrice, holdings }:
 
         {step === "input" && (
           <div className="space-y-4">
-            {/* Holdings Summary */}
+            {/* Holdings Summary with clear breakdown */}
             <div className="p-4 rounded-xl bg-muted/50 border border-border/50">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Total Holdings</span>
-                  <p className="font-semibold">{holdings.total.toFixed(4)}g</p>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-xl">{config.icon}</span>
+                <h4 className="font-semibold">Your {config.name} Holdings</h4>
+              </div>
+              <div className="text-2xl font-bold mb-3">{holdings.total.toFixed(4)}g</div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <span className="text-muted-foreground">Sellable Now</span>
+                  </div>
+                  <span className="font-semibold text-emerald-400">{holdings.sellable.toFixed(4)}g</span>
                 </div>
-                <div>
-                  <span className="text-muted-foreground">Sellable</span>
-                  <p className="font-semibold text-emerald-400">{holdings.sellable.toFixed(4)}g</p>
-                </div>
+                {holdings.locked > 0 && (
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span className="text-muted-foreground">Locked (48hr)</span>
+                    </div>
+                    <span className="font-semibold text-amber-400">{holdings.locked.toFixed(4)}g</span>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* 48-hour lock warning */}
+            {/* 48-hour lock warning with explanation */}
             {holdings.locked > 0 && (
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-                <Clock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                <div className="text-sm">
-                  <p className="font-medium text-amber-400">48-Hour Lock Active</p>
-                  <p className="text-muted-foreground">{holdings.locked.toFixed(4)}g is in lock-in period</p>
+              <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <div className="flex items-start gap-3">
+                  <Clock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-amber-400 mb-1">48-Hour Lock Active</p>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {holdings.locked.toFixed(4)}g is currently in lock-in period and cannot be sold yet.
+                    </p>
+                    <details className="text-xs text-muted-foreground">
+                      <summary className="cursor-pointer hover:text-foreground transition-colors">
+                        Why 48-hour lock?
+                      </summary>
+                      <p className="mt-2 pl-2 border-l-2 border-amber-500/30">
+                        To ensure secure settlement with our vault partners and prevent fraud, 
+                        newly purchased {metal} is locked for 48 hours before it can be sold.
+                      </p>
+                    </details>
+                  </div>
                 </div>
               </div>
             )}
