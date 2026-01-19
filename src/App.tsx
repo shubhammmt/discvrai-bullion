@@ -99,6 +99,7 @@ import { Leaderboard } from './pages/Leaderboard';
 import ProductFeaturePreview from './pages/ProductFeaturePreview';
 import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import BullionInvestment from './pages/BullionInvestment';
+import BullionProfile from './pages/BullionProfile';
 import NirmalBangProposal from './pages/NirmalBangProposal';
 import NirmalBangLeadDeck from './pages/NirmalBangLeadDeck';
 import JindalProposal from './pages/JindalProposal';
@@ -205,6 +206,7 @@ const AppContent = () => {
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
         <Route path="/metals" element={<MetalsHub />} />
         <Route path="/bullion" element={<BullionInvestment />} />
+        <Route path="/bullion/profile" element={<BullionProfile />} />
         <Route path="/metals/gold" element={<GoldPrices />} />
         <Route path="/metals/gold/:city" element={<GoldPricesCity />} />
         <Route path="/metals/silver" element={<SilverPrices />} />
