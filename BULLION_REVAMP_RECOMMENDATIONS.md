@@ -746,5 +746,111 @@ For recurring purchases (SIP), show breakdown:
 
 ---
 
+## Developer Testing Checklist
+
+### What Changed - Summary for Developers
+
+#### New Components Created
+| Component | Path | Purpose |
+|-----------|------|---------|
+| `UserStateSwitcher` | `src/components/bullion/UserStateSwitcher.tsx` | Dev tool to toggle user states & simulate holdings |
+| `PurchaseSuccessScreen` | `src/components/bullion/PurchaseSuccessScreen.tsx` | Success modal with dynamic SIP upsell + bonus offer |
+| `PaymentFailureScreen` | `src/components/bullion/PaymentFailureScreen.tsx` | Handles payment_failed & order_failed scenarios |
+| `OfferCards` | `src/components/bullion/OfferCards.tsx` | Contextual promotions based on user state |
+| `HoldingsBreakdown` | `src/components/bullion/HoldingsBreakdown.tsx` | Detailed view: sellable vs locked, source bifurcation |
+| `BullionProfile` | `src/pages/BullionProfile.tsx` | Profile/KYC management page |
+
+#### Modified Components
+| Component | Changes |
+|-----------|---------|
+| `BullionInvestment.tsx` | Added UserStateSwitcher, OfferCards, state-based UI logic |
+| `UnifiedBuyModal.tsx` | Integrated PurchaseSuccessScreen & PaymentFailureScreen |
+| `SellModal.tsx` | Enhanced 48hr lock display, collapsible lock details, source bifurcation |
+
+#### Theme System Updates
+| File | Changes |
+|------|---------|
+| `src/index.css` | Added bullion-specific CSS variables (gold, silver, success, warning, error) |
+| `tailwind.config.ts` | Added `bullion.*` color tokens for Tailwind classes |
+
+### Testing Scenarios
+
+#### 1. User State Switching (DEV MODE Panel)
+- [ ] Click DEV MODE icon (bottom-left corner)
+- [ ] Switch to "New User" → Verify educational content, hero, trust signals
+- [ ] Switch to "Logged In (No Holdings)" → Verify onboarding prompts
+- [ ] Switch to "Investor" → Verify portfolio view, holdings display
+- [ ] Toggle simulated holdings slider → Verify UI updates
+
+#### 2. Purchase Success Flow
+- [ ] Open Buy Modal → Complete purchase
+- [ ] Verify PurchaseSuccessScreen appears with:
+  - [ ] Correct metal type (Gold/Silver)
+  - [ ] Correct amount and grams
+  - [ ] Dynamic SIP suggestion matching purchase amount
+  - [ ] ₹10 bonus gold offer for SIP
+  - [ ] Share, Download Invoice, View Portfolio buttons
+
+#### 3. Payment Failure Flow
+- [ ] Trigger payment failure (10% simulated chance in dev)
+- [ ] Verify PaymentFailureScreen shows:
+  - [ ] "payment_failed" type: Retry, Change Payment options
+  - [ ] "order_failed" type: Auto-refund notice, Track Refund option
+
+#### 4. 48-Hour Lock Display (Sell Modal)
+- [ ] Open Sell modal with simulated investor holdings
+- [ ] Verify display shows:
+  - [ ] Sellable Now vs Locked (48hr) split
+  - [ ] "View Lock Details" collapsible
+  - [ ] Individual purchase unlock times
+  - [ ] Source bifurcation (One-Time vs SIP)
+  - [ ] Next SIP date display
+
+#### 5. Offer Cards
+- [ ] New user → Welcome bonus, first purchase offers
+- [ ] Investor → Referral, SIP bonus offers
+- [ ] Test grid vs carousel layout
+
+#### 6. Theme Colors
+- [ ] Verify gold elements use `bullion-gold` tokens
+- [ ] Verify silver elements use `bullion-silver` tokens
+- [ ] Test dark mode appearance
+- [ ] Check success/warning/error badges
+
+### New Tailwind Classes Available
+```css
+/* Color tokens */
+bg-bullion-gold, text-bullion-gold, border-bullion-gold
+bg-bullion-gold-dark, bg-bullion-gold-light, bg-bullion-gold-muted
+bg-bullion-silver, text-bullion-silver, border-bullion-silver
+bg-bullion-silver-dark, bg-bullion-silver-light, bg-bullion-silver-muted
+bg-bullion-success, bg-bullion-success-light
+bg-bullion-warning, bg-bullion-warning-light
+bg-bullion-error, bg-bullion-error-light
+bg-bullion-surface, bg-bullion-surface-elevated
+text-bullion-text-primary, text-bullion-text-secondary
+border-bullion-border
+
+/* Utility classes (in CSS) */
+.bullion-card-gold       /* Gold-themed card background */
+.bullion-card-silver     /* Silver-themed card background */
+.bullion-gradient-gold   /* Gold gradient */
+.bullion-gradient-silver /* Silver gradient */
+.bullion-text-gold       /* Gold gradient text */
+.bullion-text-silver     /* Silver gradient text */
+.bullion-glow-gold       /* Gold box-shadow glow */
+.bullion-glow-silver     /* Silver box-shadow glow */
+.bullion-success-badge   /* Green success badge */
+.bullion-warning-badge   /* Amber warning badge */
+.bullion-error-badge     /* Red error badge */
+```
+
+### Routes Added
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/bullion/profile` | `BullionProfile` | User profile & KYC management |
+
+---
+
 *Document created: January 19, 2026*  
-*Updated: January 19, 2026 - Added Dev Tools, Success/Failure Screens, Offers, Lock Display*
+*Updated: January 19, 2026 - Added Dev Tools, Success/Failure Screens, Offers, Lock Display, Developer Checklist, Theme System*

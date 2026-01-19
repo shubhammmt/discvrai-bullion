@@ -57,6 +57,29 @@
     --politics-accent: 25 95% 53%;
     --sports-accent: 142 76% 36%;
     --entertainment-accent: 320 85% 60%;
+    
+    /* Bullion Investment Theme */
+    --bullion-gold: 43 96% 56%;
+    --bullion-gold-dark: 43 96% 46%;
+    --bullion-gold-light: 43 96% 70%;
+    --bullion-gold-muted: 43 40% 85%;
+    --bullion-silver: 220 14% 70%;
+    --bullion-silver-dark: 220 14% 50%;
+    --bullion-silver-light: 220 14% 85%;
+    --bullion-silver-muted: 220 10% 92%;
+    --bullion-success: 152 76% 40%;
+    --bullion-success-light: 152 76% 90%;
+    --bullion-warning: 38 92% 50%;
+    --bullion-warning-light: 38 92% 90%;
+    --bullion-error: 0 84% 60%;
+    --bullion-error-light: 0 84% 95%;
+    --bullion-surface: 220 20% 97%;
+    --bullion-surface-elevated: 0 0% 100%;
+    --bullion-text-primary: 220 20% 10%;
+    --bullion-text-secondary: 220 10% 45%;
+    --bullion-border: 220 15% 90%;
+    --bullion-gradient-gold: linear-gradient(135deg, hsl(43 96% 56%), hsl(35 95% 50%));
+    --bullion-gradient-silver: linear-gradient(135deg, hsl(220 14% 70%), hsl(210 15% 60%));
   }
 
   .dark {
@@ -99,6 +122,27 @@
     --ai-border: 240 10% 20%;
     --ai-text-primary: 0 0% 98%;
     --ai-text-secondary: 240 5% 64.9%;
+    
+    /* Bullion Investment Theme - Dark Mode */
+    --bullion-gold: 43 96% 56%;
+    --bullion-gold-dark: 43 96% 66%;
+    --bullion-gold-light: 43 96% 40%;
+    --bullion-gold-muted: 43 30% 20%;
+    --bullion-silver: 220 14% 75%;
+    --bullion-silver-dark: 220 14% 85%;
+    --bullion-silver-light: 220 14% 35%;
+    --bullion-silver-muted: 220 10% 18%;
+    --bullion-success: 152 76% 45%;
+    --bullion-success-light: 152 50% 15%;
+    --bullion-warning: 38 92% 55%;
+    --bullion-warning-light: 38 50% 15%;
+    --bullion-error: 0 84% 60%;
+    --bullion-error-light: 0 50% 15%;
+    --bullion-surface: 220 15% 8%;
+    --bullion-surface-elevated: 220 15% 12%;
+    --bullion-text-primary: 0 0% 98%;
+    --bullion-text-secondary: 220 10% 65%;
+    --bullion-border: 220 15% 20%;
   }
 }
 
@@ -180,4 +224,63 @@
 
 .ai-surface-elevated {
   background: hsl(var(--ai-surface-elevated));
+}
+
+/* Bullion Theme Utilities */
+.bullion-card-gold {
+  background: linear-gradient(135deg, hsl(var(--bullion-gold-muted)), hsl(var(--bullion-surface-elevated)));
+  border: 1px solid hsl(var(--bullion-gold) / 0.3);
+}
+
+.bullion-card-silver {
+  background: linear-gradient(135deg, hsl(var(--bullion-silver-muted)), hsl(var(--bullion-surface-elevated)));
+  border: 1px solid hsl(var(--bullion-silver) / 0.3);
+}
+
+.bullion-gradient-gold {
+  background: linear-gradient(135deg, hsl(var(--bullion-gold)), hsl(var(--bullion-gold-dark)));
+}
+
+.bullion-gradient-silver {
+  background: linear-gradient(135deg, hsl(var(--bullion-silver)), hsl(var(--bullion-silver-dark)));
+}
+
+.bullion-text-gold {
+  background: linear-gradient(135deg, hsl(var(--bullion-gold)), hsl(var(--bullion-gold-dark)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bullion-text-silver {
+  background: linear-gradient(135deg, hsl(var(--bullion-silver)), hsl(var(--bullion-silver-dark)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bullion-glow-gold {
+  box-shadow: 0 0 20px hsl(var(--bullion-gold) / 0.3), 0 4px 12px hsl(var(--bullion-gold) / 0.15);
+}
+
+.bullion-glow-silver {
+  box-shadow: 0 0 20px hsl(var(--bullion-silver) / 0.3), 0 4px 12px hsl(var(--bullion-silver) / 0.15);
+}
+
+.bullion-success-badge {
+  background: hsl(var(--bullion-success-light));
+  color: hsl(var(--bullion-success));
+  border: 1px solid hsl(var(--bullion-success) / 0.2);
+}
+
+.bullion-warning-badge {
+  background: hsl(var(--bullion-warning-light));
+  color: hsl(var(--bullion-warning));
+  border: 1px solid hsl(var(--bullion-warning) / 0.2);
+}
+
+.bullion-error-badge {
+  background: hsl(var(--bullion-error-light));
+  color: hsl(var(--bullion-error));
+  border: 1px solid hsl(var(--bullion-error) / 0.2);
 }

@@ -61,6 +61,41 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				bullion: {
+					gold: {
+						DEFAULT: 'hsl(var(--bullion-gold))',
+						dark: 'hsl(var(--bullion-gold-dark))',
+						light: 'hsl(var(--bullion-gold-light))',
+						muted: 'hsl(var(--bullion-gold-muted))'
+					},
+					silver: {
+						DEFAULT: 'hsl(var(--bullion-silver))',
+						dark: 'hsl(var(--bullion-silver-dark))',
+						light: 'hsl(var(--bullion-silver-light))',
+						muted: 'hsl(var(--bullion-silver-muted))'
+					},
+					success: {
+						DEFAULT: 'hsl(var(--bullion-success))',
+						light: 'hsl(var(--bullion-success-light))'
+					},
+					warning: {
+						DEFAULT: 'hsl(var(--bullion-warning))',
+						light: 'hsl(var(--bullion-warning-light))'
+					},
+					error: {
+						DEFAULT: 'hsl(var(--bullion-error))',
+						light: 'hsl(var(--bullion-error-light))'
+					},
+					surface: {
+						DEFAULT: 'hsl(var(--bullion-surface))',
+						elevated: 'hsl(var(--bullion-surface-elevated))'
+					},
+					text: {
+						primary: 'hsl(var(--bullion-text-primary))',
+						secondary: 'hsl(var(--bullion-text-secondary))'
+					},
+					border: 'hsl(var(--bullion-border))'
 				}
 			},
 			borderRadius: {
