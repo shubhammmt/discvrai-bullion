@@ -22,3 +22,10 @@ export { HowItWorks } from './HowItWorks';
 export { TrustSignals } from './TrustSignals';
 export { BullionFAQ } from './BullionFAQ';
 export { EmptyHoldingsPrompt } from './EmptyHoldingsPrompt';
+
+// Phase 2 Components
+export { UserStateSwitcher } from './UserStateSwitcher';
+export { PurchaseSuccessScreen } from './PurchaseSuccessScreen';
+export { PaymentFailureScreen } from './PaymentFailureScreen';
+export { OfferCards } from './OfferCards';
+export { HoldingsBreakdown } from './HoldingsBreakdown';

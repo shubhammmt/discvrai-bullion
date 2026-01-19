@@ -556,5 +556,195 @@ interface BullionUserContext {
 
 ---
 
+## Dev Tools & Testing
+
+### User State Switcher (Development Only)
+
+A floating dev panel to quickly switch between user states for testing:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🔧 DEV MODE - User State                                   │
+│  ─────────────────────────────────────────────────────────  │
+│  ○ New User (no account)                                    │
+│  ○ Logged In (no holdings)                                  │
+│  ● Investor (has holdings)                                  │
+│                                                              │
+│  Simulated Holdings:                                         │
+│  Gold: [2.5]g | Silver: [15.0]g                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Enhanced Success & Failure Screens
+
+### One-Time Purchase Success (with Dynamic SIP Suggestion)
+
+**Logic**: SIP suggestion = same amount as purchase (₹100 purchase → ₹100/month SIP)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🎉 Purchase Successful!                                     │
+│                                                              │
+│  ┌─────────────────────────────────────┐                    │
+│  │  🪙 +0.016g Gold                     │                    │
+│  │  ₹100 • Jan 19, 2026                 │                    │
+│  │  Tx: BUL-2026-XXXX                   │                    │
+│  └─────────────────────────────────────┘                    │
+│                                                              │
+│  ─────────────────────────────────────────────────────────  │
+│  🎁 SPECIAL OFFER (Limited Time)                             │
+│  ┌─────────────────────────────────────┐                    │
+│  │  Start ₹100/month Gold SIP           │                    │
+│  │  Get ₹10 BONUS GOLD on 1st SIP!      │                    │
+│  │                                       │                    │
+│  │  [Start SIP Now →]                    │                    │
+│  └─────────────────────────────────────┘                    │
+│  ─────────────────────────────────────────────────────────  │
+│                                                              │
+│  [Share] [Download Invoice] [View Portfolio]                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Payment Failure Screen
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  ❌ Payment Failed                                           │
+│                                                              │
+│  ┌─────────────────────────────────────┐                    │
+│  │  Your payment of ₹100 could not      │                    │
+│  │  be processed.                        │                    │
+│  │                                       │                    │
+│  │  Reason: UPI timeout/Bank declined   │                    │
+│  │  Ref: PAY-2026-XXXX                   │                    │
+│  └─────────────────────────────────────┘                    │
+│                                                              │
+│  No amount has been deducted from your account.             │
+│  If debited, refund will be processed in 3-5 business days. │
+│                                                              │
+│  [Retry Payment] [Try Another Method] [Contact Support]     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Gold Purchase Failed (Payment Success, Order Failed)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  ⚠️ Order Processing Failed                                  │
+│                                                              │
+│  ┌─────────────────────────────────────┐                    │
+│  │  Payment received: ₹100              │                    │
+│  │  Gold not credited due to            │                    │
+│  │  processing error.                   │                    │
+│  │                                       │                    │
+│  │  Payment Ref: PAY-2026-XXXX          │                    │
+│  └─────────────────────────────────────┘                    │
+│                                                              │
+│  ⏳ Your refund is being processed automatically.            │
+│  Expected: 24-48 hours                                       │
+│                                                              │
+│  [Retry Purchase] [Track Refund] [Contact Support]          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Offer Cards System
+
+### Offer Card Types
+
+| Type | Target Users | Example |
+|------|--------------|---------|
+| **Welcome Bonus** | New Users | "Get ₹10 bonus gold on first purchase" |
+| **SIP Bonus** | All Users | "Start SIP, get extra gold worth ₹25" |
+| **Festival Offer** | All Users | "Dhanteras Special: 5% extra gold" |
+| **Referral Reward** | Existing Users | "Refer friend, both get ₹100 gold" |
+| **Milestone Reward** | Investors | "Invested ₹10K? Get ₹50 bonus" |
+
+### Offer Card UI
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🎁 OFFERS FOR YOU                                           │
+│                                                              │
+│  ┌──────────────────────┐  ┌──────────────────────┐         │
+│  │ 🌟 NEW USER OFFER     │  │ 💰 SIP BONUS          │         │
+│  │ ₹10 Bonus Gold        │  │ Extra ₹25 Gold        │         │
+│  │ On 1st purchase       │  │ On 1st SIP setup      │         │
+│  │ [Claim Now]           │  │ [Start SIP]           │         │
+│  └──────────────────────┘  └──────────────────────┘         │
+│                                                              │
+│  ┌──────────────────────┐  ┌──────────────────────┐         │
+│  │ 🤝 REFER & EARN       │  │ 🎯 MILESTONE          │         │
+│  │ ₹100 for you + friend │  │ ₹50 at ₹10K invested │         │
+│  │ Share your link       │  │ Progress: 65%        │         │
+│  │ [Share Now]           │  │ [View Details]        │         │
+│  └──────────────────────┘  └──────────────────────┘         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 48-Hour Lock-In Period Display
+
+### Rationale (Display to Users)
+
+**Why 48-hour lock?**
+> "To ensure secure settlement with our vault partners and prevent fraud, 
+> newly purchased gold/silver is locked for 48 hours before it can be sold."
+
+### Lock Display in Sell Modal
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  📊 YOUR HOLDINGS                                            │
+│  ─────────────────────────────────────────────────────────  │
+│                                                              │
+│  Total Gold: 2.50g                                           │
+│  ├── ✅ Sellable Now: 2.00g                                  │
+│  └── 🔒 Locked (48hr): 0.50g                                 │
+│                                                              │
+│  ┌─────────────────────────────────────┐                    │
+│  │  🕐 LOCK DETAILS                     │                    │
+│  │  ───────────────────────────────────│                    │
+│  │  Jan 18, 2:30 PM → 0.30g            │                    │
+│  │  Unlocks: Jan 20, 2:30 PM (22hr)    │                    │
+│  │  ───────────────────────────────────│                    │
+│  │  Jan 19, 10:00 AM → 0.20g           │                    │
+│  │  Unlocks: Jan 21, 10:00 AM (46hr)   │                    │
+│  └─────────────────────────────────────┘                    │
+│                                                              │
+│  ℹ️ Why 48-hour lock?                                        │
+│  Ensures secure settlement with vault partners.              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### SIP Bifurcation Display
+
+For recurring purchases (SIP), show breakdown:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  📊 HOLDINGS BREAKDOWN                                       │
+│  ─────────────────────────────────────────────────────────  │
+│                                                              │
+│  Total Gold: 5.50g                                           │
+│                                                              │
+│  BY SOURCE:                                                  │
+│  ├── 💳 One-Time Purchases: 3.00g                           │
+│  └── 🔄 SIP Credits: 2.50g                                  │
+│                                                              │
+│  BY STATUS:                                                  │
+│  ├── ✅ Sellable: 5.00g                                     │
+│  └── 🔒 Locked: 0.50g (from SIP Jan 18)                     │
+│                                                              │
+│  Next SIP: ₹500 on Feb 1, 2026                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 *Document created: January 19, 2026*  
-*Ready for Phase 1 execution*
+*Updated: January 19, 2026 - Added Dev Tools, Success/Failure Screens, Offers, Lock Display*

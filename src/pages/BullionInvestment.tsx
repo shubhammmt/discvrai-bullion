@@ -23,6 +23,8 @@ import {
   TrustSignals,
   BullionFAQ,
   EmptyHoldingsPrompt,
+  UserStateSwitcher,
+  OfferCards,
 } from "@/components/bullion";
 
 // User state type for personalized experience
@@ -35,9 +37,10 @@ export default function BullionInvestment() {
   const [view, setView] = useState<"market" | "vault" | "cards">("market");
   const [showEmptyHoldingsPrompt, setShowEmptyHoldingsPrompt] = useState(false);
 
-  // User state simulation - in production, this would come from auth/API
-  // Change this to test different user states: "new" | "logged_in_no_holdings" | "investor"
-  const [userState] = useState<UserState>("new");
+  // User state simulation - controllable via dev switcher
+  const [userState, setUserState] = useState<UserState>("new");
+  const [simulatedGoldHoldings, setSimulatedGoldHoldings] = useState(2.5);
+  const [simulatedSilverHoldings, setSimulatedSilverHoldings] = useState(15);
   const userName = userState !== "new" ? "Shubham" : undefined;
 
   // Mock data
@@ -49,11 +52,15 @@ export default function BullionInvestment() {
   const goldSparkline = [6180, 6200, 6190, 6220, 6240, 6210, 6250];
   const silverSparkline = [78, 77.5, 78.2, 77, 76.5, 77.2, 76.8];
 
-  // Holdings based on user state
+  // Holdings based on user state with simulated values
   const holdings = userState === "investor" 
     ? {
-        gold: { total: 2.5, sellable: 2.0, locked: 0.5 },
-        silver: { total: 15.0, sellable: 15.0, locked: 0 },
+        gold: { 
+          total: simulatedGoldHoldings, 
+          sellable: Math.max(0, simulatedGoldHoldings - 0.5), 
+          locked: Math.min(0.5, simulatedGoldHoldings) 
+        },
+        silver: { total: simulatedSilverHoldings, sellable: simulatedSilverHoldings, locked: 0 },
       }
     : {
         gold: { total: 0, sellable: 0, locked: 0 },
@@ -231,6 +238,19 @@ export default function BullionInvestment() {
             {showEducationalContent && (
               <TrustSignals variant="full" />
             )}
+
+            {/* Offer Cards - For all users */}
+            <OfferCards 
+              userState={userState} 
+              onClaimOffer={(offerId) => {
+                // Handle offer claim - typically opens buy modal or SIP flow
+                if (offerId.includes("sip")) {
+                  openBuy("gold");
+                } else {
+                  openBuy("gold");
+                }
+              }}
+            />
 
             {/* Learn Section */}
             <section>
@@ -451,6 +471,16 @@ export default function BullionInvestment() {
 
       {/* AI Agent */}
       <AIAgentChat goldPrice={goldPrice} silverPrice={silverPrice} />
+
+      {/* Dev Mode: User State Switcher */}
+      <UserStateSwitcher
+        userState={userState}
+        onUserStateChange={setUserState}
+        goldHoldings={simulatedGoldHoldings}
+        silverHoldings={simulatedSilverHoldings}
+        onGoldHoldingsChange={setSimulatedGoldHoldings}
+        onSilverHoldingsChange={setSimulatedSilverHoldings}
+      />
     </div>
   );
 }
