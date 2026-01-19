@@ -104,9 +104,9 @@ export function ThemeSwitcher({ onThemeChange }: ThemeSwitcherProps) {
         <Button
           variant="outline"
           size="icon"
-          className="fixed bottom-20 right-4 z-50 h-10 w-10 rounded-full shadow-lg bg-background/80 backdrop-blur-sm border-bullion-gold/30 hover:border-bullion-gold"
+          className="fixed bottom-32 right-4 z-50 h-12 w-12 rounded-full shadow-xl bg-gradient-to-br from-bullion-gold to-bullion-gold-dark border-2 border-bullion-gold hover:scale-110 transition-transform"
         >
-          <Palette className="h-4 w-4 text-bullion-gold" />
+          <Palette className="h-5 w-5 text-black" />
         </Button>
       </PopoverTrigger>
       <PopoverContent 
