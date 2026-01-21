@@ -1,6 +1,7 @@
 import { Wallet, TrendingUp, TrendingDown, Clock, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface Transaction {
   id: string;
@@ -26,8 +27,8 @@ export function PortfolioSummaryWidget({
   goldPrice,
   silverPrice,
   transactions,
-  onViewVault,
 }: PortfolioSummaryWidgetProps) {
+  const navigate = useNavigate();
   const goldValue = goldHoldings * goldPrice;
   const silverValue = silverHoldings * silverPrice;
   const totalValue = goldValue + silverValue;
@@ -50,7 +51,7 @@ export function PortfolioSummaryWidget({
             </div>
             <span className="text-sm font-medium">Your Portfolio</span>
           </div>
-          <Button variant="ghost" size="sm" onClick={onViewVault} className="text-xs">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/bullion/portfolio")} className="text-xs">
             View All <ChevronRight className="w-3 h-3 ml-1" />
           </Button>
         </div>
