@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Gem, Scale, TrendingUp, Heart, Share2, Filter, Search } from "lucide-react";
+import { ArrowLeft, Gem, TrendingUp, Heart, Share2, Filter, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -116,16 +116,6 @@ export default function BullionTrends() {
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         <Tabs defaultValue="designs" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
-            <TabsTrigger value="designs" className="flex items-center gap-2">
-              <Gem className="w-4 h-4" />
-              Designs
-            </TabsTrigger>
-            <TabsTrigger value="compare" className="flex items-center gap-2">
-              <Scale className="w-4 h-4" />
-              Compare
-            </TabsTrigger>
-          </TabsList>
 
           {/* Latest Designs Tab */}
           <TabsContent value="designs" className="space-y-6">
@@ -217,91 +207,6 @@ export default function BullionTrends() {
             </div>
           </TabsContent>
 
-          {/* Price Comparison Tab */}
-          <TabsContent value="compare" className="space-y-6">
-            <Card className="p-6">
-              <h3 className="font-semibold text-lg mb-4">Digital vs Physical Gold Price Comparison</h3>
-              
-              <div className="space-y-4">
-                {/* Comparison Table */}
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-border/50">
-                        <th className="text-left py-3 text-sm font-medium text-muted-foreground">Component</th>
-                        <th className="text-right py-3 text-sm font-medium text-muted-foreground">Digital Gold</th>
-                        <th className="text-right py-3 text-sm font-medium text-muted-foreground">Physical Jewellery</th>
-                        <th className="text-right py-3 text-sm font-medium text-amber-500">You Save</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-border/30">
-                        <td className="py-3 text-sm">Gold Rate (10g)</td>
-                        <td className="py-3 text-sm text-right">₹62,505</td>
-                        <td className="py-3 text-sm text-right">₹62,505</td>
-                        <td className="py-3 text-sm text-right text-muted-foreground">—</td>
-                      </tr>
-                      <tr className="border-b border-border/30">
-                        <td className="py-3 text-sm">Making Charges</td>
-                        <td className="py-3 text-sm text-right text-emerald-500">₹0</td>
-                        <td className="py-3 text-sm text-right">₹9,376 (15%)</td>
-                        <td className="py-3 text-sm text-right text-emerald-500 font-medium">₹9,376</td>
-                      </tr>
-                      <tr className="border-b border-border/30">
-                        <td className="py-3 text-sm">GST (3%)</td>
-                        <td className="py-3 text-sm text-right">₹1,875</td>
-                        <td className="py-3 text-sm text-right">₹2,156</td>
-                        <td className="py-3 text-sm text-right text-emerald-500 font-medium">₹281</td>
-                      </tr>
-                      <tr className="border-b border-border/30">
-                        <td className="py-3 text-sm">Storage Cost (Annual)</td>
-                        <td className="py-3 text-sm text-right text-emerald-500">₹0</td>
-                        <td className="py-3 text-sm text-right">₹2,000+</td>
-                        <td className="py-3 text-sm text-right text-emerald-500 font-medium">₹2,000</td>
-                      </tr>
-                      <tr className="bg-muted/30">
-                        <td className="py-3 text-sm font-semibold">Total for 10g</td>
-                        <td className="py-3 text-sm text-right font-bold text-amber-500">₹64,380</td>
-                        <td className="py-3 text-sm text-right font-bold">₹76,037</td>
-                        <td className="py-3 text-sm text-right font-bold text-emerald-500">₹11,657</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* Savings Highlight */}
-                <Card className="p-4 bg-emerald-500/10 border-emerald-500/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                      <span className="text-lg">💰</span>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-emerald-500">15.3% Savings</p>
-                      <p className="text-sm text-muted-foreground">By choosing digital gold over physical jewellery</p>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Making Charges by Category */}
-                <div className="mt-6">
-                  <h4 className="font-semibold mb-3">Typical Making Charges by Category</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[
-                      { category: "Plain Gold", range: "8-12%", color: "emerald" },
-                      { category: "Temple", range: "12-16%", color: "blue" },
-                      { category: "Kundan/Polki", range: "18-25%", color: "amber" },
-                      { category: "Diamond", range: "20-30%", color: "purple" },
-                    ].map((item) => (
-                      <Card key={item.category} className="p-3 text-center">
-                        <p className="text-xs text-muted-foreground">{item.category}</p>
-                        <p className={`text-lg font-bold text-${item.color}-500`}>{item.range}</p>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
 
         </Tabs>
       </main>
