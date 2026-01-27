@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
 
 const premiumFeatures = [
+  {
+    icon: BookOpen,
+    title: "Enhance Your Knowledge",
+    description: "Access premium educational content, courses, and webinars from industry experts",
+    highlight: "50+ courses",
+  },
   {
     icon: TrendingUp,
     title: "Lower Spread Rates",
