@@ -101,6 +101,11 @@ import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import BullionInvestment from './pages/BullionInvestment';
 import BullionProfile from './pages/BullionProfile';
 import BullionPortfolio from './pages/BullionPortfolio';
+import BullionNews from './pages/BullionNews';
+import BullionContests from './pages/BullionContests';
+import BullionGoals from './pages/BullionGoals';
+import BullionPremium from './pages/BullionPremium';
+import BullionTax from './pages/BullionTax';
 import NirmalBangProposal from './pages/NirmalBangProposal';
 import NirmalBangLeadDeck from './pages/NirmalBangLeadDeck';
 import JindalProposal from './pages/JindalProposal';
@@ -209,6 +214,11 @@ const AppContent = () => {
         <Route path="/bullion" element={<BullionInvestment />} />
         <Route path="/bullion/profile" element={<BullionProfile />} />
         <Route path="/bullion/portfolio" element={<BullionPortfolio />} />
+        <Route path="/bullion/news" element={<BullionNews />} />
+        <Route path="/bullion/contests" element={<BullionContests />} />
+        <Route path="/bullion/goals" element={<BullionGoals />} />
+        <Route path="/bullion/premium" element={<BullionPremium />} />
+        <Route path="/bullion/tax" element={<BullionTax />} />
         <Route path="/metals/gold" element={<GoldPrices />} />
         <Route path="/metals/gold/:city" element={<GoldPricesCity />} />
         <Route path="/metals/silver" element={<SilverPrices />} />
