@@ -11,7 +11,7 @@ export function EducationalCards({ onBuyGold, onStartSIP }: EducationalCardsProp
   return (
     <div className="space-y-4">
       {/* Why Gold - Gen-Z friendly */}
-      <Card className="p-4 bg-gradient-to-br from-amber-500/10 to-transparent border-amber-500/20 overflow-hidden relative">
+      <Card className="p-4 bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-700 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/10 rounded-full blur-2xl" />
         
         <div className="flex items-start gap-3 relative">
@@ -40,7 +40,7 @@ export function EducationalCards({ onBuyGold, onStartSIP }: EducationalCardsProp
       </Card>
 
       {/* SIP Benefits - Relatable messaging */}
-      <Card className="p-4 bg-gradient-to-br from-emerald-500/10 to-transparent border-emerald-500/20 overflow-hidden relative">
+      <Card className="p-4 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 overflow-hidden relative">
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl" />
         
         <div className="flex items-start gap-3 relative">
