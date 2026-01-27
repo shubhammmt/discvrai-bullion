@@ -487,6 +487,25 @@ export default function BullionPortfolio() {
 
               {/* Growth Calculator */}
               <GrowthCalculator variant="compact" />
+
+              {/* To Know More Card */}
+              <Card 
+                className="p-4 cursor-pointer hover:bg-muted/50 transition-colors border-primary/20 bg-gradient-to-br from-primary/5 to-transparent group"
+                onClick={() => navigate("/bullion/calculators")}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">To Know More</p>
+                      <p className="text-xs text-muted-foreground">Explore calculators & tools</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+              </Card>
             </div>
           </aside>
         </div>
