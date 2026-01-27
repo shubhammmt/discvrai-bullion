@@ -7,6 +7,7 @@ import {
   Trophy, 
   Target, 
   Crown,
+  Gem,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -22,6 +23,7 @@ const navTabs: NavTab[] = [
   { id: "trade", label: "Trade", route: "/bullion", icon: TrendingUp },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
   { id: "news", label: "News", route: "/bullion/news", icon: Newspaper },
+  { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem },
   { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy },
   { id: "goals", label: "Goals", route: "/bullion/goals", icon: Target },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO" },
