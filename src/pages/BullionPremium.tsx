@@ -31,12 +31,6 @@ const premiumFeatures = [
     highlight: "2x faster",
   },
   {
-    icon: Shield,
-    title: "Extended Price Lock",
-    description: "Lock prices for up to 10 minutes instead of standard 5 minutes",
-    highlight: "10 min lock",
-  },
-  {
     icon: Sparkles,
     title: "AI-Powered Insights",
     description: "Get personalized buy/sell recommendations based on market conditions",
