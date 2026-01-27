@@ -139,8 +139,13 @@ export default function BullionPremium() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {premiumFeatures.map((feature) => {
               const Icon = feature.icon;
+              const isKnowledgeCard = feature.title === "Enhance Your Knowledge";
               return (
-                <Card key={feature.title} className="p-6 hover:shadow-lg transition-shadow">
+                <Card 
+                  key={feature.title} 
+                  className={`p-6 hover:shadow-lg transition-shadow ${isKnowledgeCard ? "cursor-pointer hover:border-amber-500/50" : ""}`}
+                  onClick={isKnowledgeCard ? () => navigate("/bullion/learn") : undefined}
+                >
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-amber-500" />
                   </div>
