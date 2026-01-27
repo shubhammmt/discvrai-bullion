@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, ArrowLeft, User, Search, Moon, Sun, LogOut } from "lucide-react";
+import { Bell, ArrowLeft, User, Search, Moon, Sun, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { BullionPriceCard } from "@/components/bullion/BullionPriceCard";
@@ -155,8 +155,8 @@ export default function BullionInvestment() {
                 <LogOut className="w-5 h-5" />
               </Button>
             ) : (
-              <Button variant="outline" size="sm" className="hidden sm:flex" onClick={() => setUserState("logged_in_no_holdings")}>
-                Login
+              <Button variant="ghost" size="icon" onClick={() => setUserState("logged_in_no_holdings")}>
+                <LogIn className="w-5 h-5" />
               </Button>
             )}
           </div>
