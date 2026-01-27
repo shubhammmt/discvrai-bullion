@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LoginPromptModal } from "@/components/bullion/LoginPromptModal";
 import { GrowthCalculator } from "@/components/bullion/GrowthCalculator";
+import { GoalBasedPlanner } from "@/components/bullion/GoalBasedPlanner";
 import { UnifiedBuyModal } from "@/components/bullion/UnifiedBuyModal";
 import { UserStateSwitcher, ThemeSwitcher } from "@/components/bullion";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
@@ -485,8 +486,8 @@ export default function BullionPortfolio() {
                 </div>
               </Card>
 
-              {/* Growth Calculator */}
-              <GrowthCalculator variant="compact" />
+              {/* Goal-Based Planner */}
+              <GoalBasedPlanner variant="compact" />
 
               {/* To Know More Card */}
               <Card 
