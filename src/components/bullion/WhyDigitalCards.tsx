@@ -89,7 +89,7 @@ export function WhyDigitalCards({ variant = "carousel" }: WhyDigitalCardsProps) 
     return (
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Why Go Digital?</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
           {whyDigitalReasons.map((reason, index) => {
             const Icon = reason.icon;
             const colors = colorClasses[reason.color as keyof typeof colorClasses];
