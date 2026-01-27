@@ -23,7 +23,7 @@ interface NavTab {
 }
 
 const navTabs: NavTab[] = [
-  { id: "trade", label: "Trade", route: "/bullion", icon: TrendingUp },
+  { id: "trade", label: "Bullion", route: "/bullion", icon: TrendingUp },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
   { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote },
   { id: "mutual-funds", label: "Mutual Funds", route: "/bullion/mutual-funds", icon: PieChart },
