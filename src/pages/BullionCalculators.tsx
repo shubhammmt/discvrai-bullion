@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -66,12 +67,18 @@ export default function BullionCalculators() {
   const [goalMonths, setGoalMonths] = useState(0);
   const [goalDays, setGoalDays] = useState(0);
   
+  // Toggle states for goal targets
+  const [goldEnabled, setGoldEnabled] = useState(true);
+  const [silverEnabled, setSilverEnabled] = useState(false);
+  const [amountEnabled, setAmountEnabled] = useState(false);
+  
   const goldPrice = 6250;
   const silverPrice = 75;
   
-  const goldValue = targetGoldGrams * goldPrice;
-  const silverValue = targetSilverGrams * silverPrice;
-  const totalTargetValue = goldValue + silverValue + targetAmount;
+  const goalGoldValue = goldEnabled ? targetGoldGrams * goldPrice : 0;
+  const goalSilverValue = silverEnabled ? targetSilverGrams * silverPrice : 0;
+  const goalAmountValue = amountEnabled ? targetAmount : 0;
+  const totalTargetValue = goalGoldValue + goalSilverValue + goalAmountValue;
   
   const totalDays = (goalYears * 365) + (goalMonths * 30) + goalDays;
   const totalMonthsForGoal = totalDays / 30;
@@ -451,9 +458,12 @@ export default function BullionCalculators() {
                   
                   <div className="space-y-5">
                     {/* Target Gold */}
-                    <div>
-                      <Label className="text-sm font-medium">Target Gold (grams)</Label>
-                      <div className="flex items-center gap-3 mt-2">
+                    <div className={!goldEnabled ? "opacity-50" : ""}>
+                      <div className="flex items-center justify-between mb-2">
+                        <Label className="text-sm font-medium">Target Gold (grams)</Label>
+                        <Switch checked={goldEnabled} onCheckedChange={setGoldEnabled} />
+                      </div>
+                      <div className="flex items-center gap-3">
                         <Slider
                           value={[targetGoldGrams]}
                           onValueChange={(v) => setTargetGoldGrams(v[0])}
@@ -461,20 +471,25 @@ export default function BullionCalculators() {
                           max={500}
                           step={10}
                           className="flex-1"
+                          disabled={!goldEnabled}
                         />
                         <Input 
                           type="number" 
                           value={targetGoldGrams}
                           onChange={(e) => setTargetGoldGrams(Number(e.target.value))}
                           className="w-20"
+                          disabled={!goldEnabled}
                         />
                       </div>
                     </div>
 
                     {/* Target Silver */}
-                    <div>
-                      <Label className="text-sm font-medium">Target Silver (grams)</Label>
-                      <div className="flex items-center gap-3 mt-2">
+                    <div className={!silverEnabled ? "opacity-50" : ""}>
+                      <div className="flex items-center justify-between mb-2">
+                        <Label className="text-sm font-medium">Target Silver (grams)</Label>
+                        <Switch checked={silverEnabled} onCheckedChange={setSilverEnabled} />
+                      </div>
+                      <div className="flex items-center gap-3">
                         <Slider
                           value={[targetSilverGrams]}
                           onValueChange={(v) => setTargetSilverGrams(v[0])}
@@ -482,20 +497,25 @@ export default function BullionCalculators() {
                           max={5000}
                           step={100}
                           className="flex-1"
+                          disabled={!silverEnabled}
                         />
                         <Input 
                           type="number" 
                           value={targetSilverGrams}
                           onChange={(e) => setTargetSilverGrams(Number(e.target.value))}
                           className="w-20"
+                          disabled={!silverEnabled}
                         />
                       </div>
                     </div>
 
                     {/* Target Amount */}
-                    <div>
-                      <Label className="text-sm font-medium">Target Amount (₹)</Label>
-                      <div className="flex items-center gap-3 mt-2">
+                    <div className={!amountEnabled ? "opacity-50" : ""}>
+                      <div className="flex items-center justify-between mb-2">
+                        <Label className="text-sm font-medium">Target Amount (₹)</Label>
+                        <Switch checked={amountEnabled} onCheckedChange={setAmountEnabled} />
+                      </div>
+                      <div className="flex items-center gap-3">
                         <Slider
                           value={[targetAmount]}
                           onValueChange={(v) => setTargetAmount(v[0])}
@@ -503,12 +523,14 @@ export default function BullionCalculators() {
                           max={1000000}
                           step={10000}
                           className="flex-1"
+                          disabled={!amountEnabled}
                         />
                         <Input 
                           type="number" 
                           value={targetAmount}
                           onChange={(e) => setTargetAmount(Number(e.target.value))}
                           className="w-24"
+                          disabled={!amountEnabled}
                         />
                       </div>
                     </div>
@@ -595,31 +617,33 @@ export default function BullionCalculators() {
                   
                   <div className="space-y-4">
                     {/* Gold Value */}
-                    <div className="p-4 rounded-xl bg-background/50 border border-border/50">
-                      <div className="text-center">
-                        <p className="text-sm text-muted-foreground mb-1">Gold Value</p>
-                        <p className="text-2xl font-bold text-amber-600">₹{goldValue.toLocaleString('en-IN')}</p>
-                        <p className="text-xs text-muted-foreground mt-1">({targetGoldGrams}g × ₹{goldPrice}/g)</p>
+                    {goldEnabled && (
+                      <div className="p-4 rounded-xl bg-background/50 border border-border/50">
+                        <div className="text-center">
+                          <p className="text-sm text-muted-foreground mb-1">Gold Value</p>
+                          <p className="text-2xl font-bold text-amber-600">₹{goalGoldValue.toLocaleString('en-IN')}</p>
+                          <p className="text-xs text-muted-foreground mt-1">({targetGoldGrams}g × ₹{goldPrice}/g)</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Silver Value */}
-                    {targetSilverGrams > 0 && (
+                    {silverEnabled && targetSilverGrams > 0 && (
                       <div className="p-4 rounded-xl bg-background/50 border border-border/50">
                         <div className="text-center">
                           <p className="text-sm text-muted-foreground mb-1">Silver Value</p>
-                          <p className="text-2xl font-bold text-slate-400">₹{silverValue.toLocaleString('en-IN')}</p>
+                          <p className="text-2xl font-bold text-slate-400">₹{goalSilverValue.toLocaleString('en-IN')}</p>
                           <p className="text-xs text-muted-foreground mt-1">({targetSilverGrams}g × ₹{silverPrice}/g)</p>
                         </div>
                       </div>
                     )}
 
                     {/* Additional Amount */}
-                    {targetAmount > 0 && (
+                    {amountEnabled && targetAmount > 0 && (
                       <div className="p-4 rounded-xl bg-background/50 border border-border/50">
                         <div className="text-center">
                           <p className="text-sm text-muted-foreground mb-1">Additional Amount</p>
-                          <p className="text-2xl font-bold text-emerald-500">₹{targetAmount.toLocaleString('en-IN')}</p>
+                          <p className="text-2xl font-bold text-emerald-500">₹{goalAmountValue.toLocaleString('en-IN')}</p>
                         </div>
                       </div>
                     )}
