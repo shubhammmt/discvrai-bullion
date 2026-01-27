@@ -129,7 +129,7 @@ export default function BullionPremium() {
             <span className="text-sm font-medium text-amber-700 dark:text-amber-400">Premium Membership</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Trade Like a <span className="text-amber-500">Pro</span>
+            Build wealth in bullion like <span className="text-amber-500">Pro</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Unlock exclusive features, lower spreads, and expert insights with Discvr Bullion Premium
