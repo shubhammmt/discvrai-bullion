@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ArrowLeft, Bell, User, TrendingDown, Target, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper } from "lucide-react";
+import { ArrowLeft, Bell, User, TrendingDown, Target, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, AlertCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const BullionNotifications = () => {
   const navigate = useNavigate();
@@ -26,6 +27,11 @@ const BullionNotifications = () => {
   
   // Offers
   const [offersEnabled, setOffersEnabled] = useState(true);
+  
+  // Mock check - in production, this would come from user profile context/API
+  // For now, we'll simulate that anniversary is not filled
+  const [hasAnniversaryDate, setHasAnniversaryDate] = useState(false);
+  const [hasBirthdayDate, setHasBirthdayDate] = useState(true); // Assuming birthday is filled
 
   return (
     <div className="min-h-screen bg-background">
@@ -159,15 +165,38 @@ const BullionNotifications = () => {
             </div>
             
             {/* Anniversary */}
-            <div className="flex items-center justify-between py-2">
-              <div className="flex items-center gap-3">
-                <Heart className="w-5 h-5 text-red-500" />
-                <div>
-                  <p className="font-medium text-sm">Anniversary</p>
-                  <p className="text-xs text-muted-foreground">Gift gold/silver on your anniversary</p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center gap-3">
+                  <Heart className="w-5 h-5 text-red-500" />
+                  <div>
+                    <p className="font-medium text-sm">Anniversary</p>
+                    <p className="text-xs text-muted-foreground">Gift gold/silver on your anniversary</p>
+                  </div>
                 </div>
+                <Switch checked={anniversaryAlert} onCheckedChange={setAnniversaryAlert} />
               </div>
-              <Switch checked={anniversaryAlert} onCheckedChange={setAnniversaryAlert} />
+              
+              {/* Show prompt if anniversary toggle is ON but date not set */}
+              {anniversaryAlert && !hasAnniversaryDate && (
+                <Alert className="ml-8 bg-amber-500/10 border-amber-500/30">
+                  <AlertCircle className="h-4 w-4 text-amber-500" />
+                  <AlertDescription className="flex items-center justify-between">
+                    <span className="text-sm text-amber-600">
+                      Add your anniversary date to receive alerts
+                    </span>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-amber-600 hover:text-amber-700 hover:bg-amber-500/20 gap-1 h-7 px-2"
+                      onClick={() => navigate("/bullion/profile")}
+                    >
+                      Add Now
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </AlertDescription>
+                </Alert>
+              )}
             </div>
             
             {/* Akshaya Tritiya */}
