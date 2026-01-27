@@ -27,17 +27,36 @@ import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
 export default function BullionCalculators() {
   const navigate = useNavigate();
   
-  // Making Charge Calculator State
-  const [calcWeight, setCalcWeight] = useState([10]);
-  const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
+  // Making Charge Calculator State - Gold
+  const [calcGoldWeight, setCalcGoldWeight] = useState([10]);
+  const [calcGoldMakingCharge, setCalcGoldMakingCharge] = useState([15]);
   const calcGoldRate = 6250;
   
-  const calcGoldValue = calcWeight[0] * calcGoldRate;
-  const makingCharges = (calcGoldValue * calcMakingCharge[0]) / 100;
-  const gst = (calcGoldValue + makingCharges) * 0.03;
-  const totalPrice = calcGoldValue + makingCharges + gst;
-  const digitalGoldPrice = calcGoldValue * 1.03; // Just GST for digital gold
-  const savings = totalPrice - digitalGoldPrice;
+  // Making Charge Calculator State - Silver
+  const [calcSilverWeight, setCalcSilverWeight] = useState([100]);
+  const [calcSilverMakingCharge, setCalcSilverMakingCharge] = useState([12]);
+  const calcSilverRate = 75;
+  
+  // Gold calculations
+  const calcGoldValue = calcGoldWeight[0] * calcGoldRate;
+  const goldMakingCharges = (calcGoldValue * calcGoldMakingCharge[0]) / 100;
+  const goldGst = (calcGoldValue + goldMakingCharges) * 0.03;
+  const goldTotalPrice = calcGoldValue + goldMakingCharges + goldGst;
+  const digitalGoldPrice = calcGoldValue * 1.03;
+  const goldSavings = goldTotalPrice - digitalGoldPrice;
+  
+  // Silver calculations
+  const calcSilverValue = calcSilverWeight[0] * calcSilverRate;
+  const silverMakingCharges = (calcSilverValue * calcSilverMakingCharge[0]) / 100;
+  const silverGst = (calcSilverValue + silverMakingCharges) * 0.03;
+  const silverTotalPrice = calcSilverValue + silverMakingCharges + silverGst;
+  const digitalSilverPrice = calcSilverValue * 1.03;
+  const silverSavings = silverTotalPrice - digitalSilverPrice;
+  
+  // Combined totals
+  const totalPhysicalPrice = goldTotalPrice + silverTotalPrice;
+  const totalDigitalPrice = digitalGoldPrice + digitalSilverPrice;
+  const totalSavings = goldSavings + silverSavings;
 
   // Goal Calculator State
   const [targetGoldGrams, setTargetGoldGrams] = useState(50);
@@ -208,7 +227,8 @@ export default function BullionCalculators() {
               </Card>
 
               {/* Making Charge Calculator */}
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid lg:grid-cols-2 gap-6">
+                {/* Input Controls */}
                 <Card className="p-6">
                   <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
                     <Calculator className="w-5 h-5 text-amber-500" />
@@ -216,84 +236,183 @@ export default function BullionCalculators() {
                   </h3>
 
                   <div className="space-y-6">
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <label className="text-sm font-medium">Gold Weight</label>
-                        <span className="text-sm text-amber-500 font-bold">{calcWeight[0]} grams</span>
-                      </div>
-                      <Slider
-                        value={calcWeight}
-                        onValueChange={setCalcWeight}
-                        min={1}
-                        max={100}
-                        step={0.5}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                        <span>1g</span>
-                        <span>100g</span>
+                    {/* Gold Section */}
+                    <div className="p-4 rounded-lg bg-amber-500/5 border border-amber-500/20">
+                      <h4 className="text-sm font-semibold text-amber-600 mb-4">Gold</h4>
+                      
+                      <div className="space-y-4">
+                        <div>
+                          <div className="flex justify-between mb-2">
+                            <label className="text-sm font-medium">Weight</label>
+                            <span className="text-sm text-amber-500 font-bold">{calcGoldWeight[0]} grams</span>
+                          </div>
+                          <Slider
+                            value={calcGoldWeight}
+                            onValueChange={setCalcGoldWeight}
+                            min={0}
+                            max={100}
+                            step={1}
+                            className="w-full"
+                          />
+                          <div className="flex justify-between mt-1 text-xs text-muted-foreground">
+                            <span>0g</span>
+                            <span>100g</span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-2">
+                            <label className="text-sm font-medium">Making Charge %</label>
+                            <span className="text-sm text-amber-500 font-bold">{calcGoldMakingCharge[0]}%</span>
+                          </div>
+                          <Slider
+                            value={calcGoldMakingCharge}
+                            onValueChange={setCalcGoldMakingCharge}
+                            min={5}
+                            max={35}
+                            step={1}
+                            className="w-full"
+                          />
+                          <div className="flex justify-between mt-1 text-xs text-muted-foreground">
+                            <span>5%</span>
+                            <span>35%</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <label className="text-sm font-medium">Making Charge %</label>
-                        <span className="text-sm text-amber-500 font-bold">{calcMakingCharge[0]}%</span>
-                      </div>
-                      <Slider
-                        value={calcMakingCharge}
-                        onValueChange={setCalcMakingCharge}
-                        min={5}
-                        max={35}
-                        step={1}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                        <span>5%</span>
-                        <span>35%</span>
+                    {/* Silver Section */}
+                    <div className="p-4 rounded-lg bg-slate-500/5 border border-slate-500/20">
+                      <h4 className="text-sm font-semibold text-slate-400 mb-4">Silver</h4>
+                      
+                      <div className="space-y-4">
+                        <div>
+                          <div className="flex justify-between mb-2">
+                            <label className="text-sm font-medium">Weight</label>
+                            <span className="text-sm text-slate-400 font-bold">{calcSilverWeight[0]} grams</span>
+                          </div>
+                          <Slider
+                            value={calcSilverWeight}
+                            onValueChange={setCalcSilverWeight}
+                            min={0}
+                            max={1000}
+                            step={10}
+                            className="w-full"
+                          />
+                          <div className="flex justify-between mt-1 text-xs text-muted-foreground">
+                            <span>0g</span>
+                            <span>1000g</span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between mb-2">
+                            <label className="text-sm font-medium">Making Charge %</label>
+                            <span className="text-sm text-slate-400 font-bold">{calcSilverMakingCharge[0]}%</span>
+                          </div>
+                          <Slider
+                            value={calcSilverMakingCharge}
+                            onValueChange={setCalcSilverMakingCharge}
+                            min={5}
+                            max={25}
+                            step={1}
+                            className="w-full"
+                          />
+                          <div className="flex justify-between mt-1 text-xs text-muted-foreground">
+                            <span>5%</span>
+                            <span>25%</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
+                    {/* Current Rates */}
                     <Card className="p-3 bg-muted/30">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Current Gold Rate</span>
-                        <span className="font-bold">₹{calcGoldRate.toLocaleString('en-IN')}/g</span>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Gold Rate</span>
+                        <span className="font-bold text-amber-500">₹{calcGoldRate.toLocaleString('en-IN')}/g</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm mt-1">
+                        <span className="text-muted-foreground">Silver Rate</span>
+                        <span className="font-bold text-slate-400">₹{calcSilverRate.toLocaleString('en-IN')}/g</span>
                       </div>
                     </Card>
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-gradient-to-br from-amber-500/5 to-orange-500/5 border-amber-500/30">
+                {/* Price Breakdown */}
+                <Card className="p-6 bg-gradient-to-br from-amber-500/5 to-slate-500/5 border-amber-500/30">
                   <h3 className="font-semibold text-lg mb-6">Price Breakdown</h3>
 
                   <div className="space-y-4">
-                    <div className="flex justify-between py-2 border-b border-border/30">
-                      <span className="text-sm text-muted-foreground">Gold Value ({calcWeight[0]}g × ₹{calcGoldRate})</span>
-                      <span className="font-medium">₹{calcGoldValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                    </div>
-                    <div className="flex justify-between py-2 border-b border-border/30">
-                      <span className="text-sm text-muted-foreground">Making Charges ({calcMakingCharge[0]}%)</span>
-                      <span className="font-medium">₹{makingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                    </div>
-                    <div className="flex justify-between py-2 border-b border-border/30">
-                      <span className="text-sm text-muted-foreground">GST (3%)</span>
-                      <span className="font-medium">₹{gst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                    </div>
+                    {/* Gold Breakdown */}
+                    {calcGoldWeight[0] > 0 && (
+                      <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20">
+                        <h4 className="text-sm font-semibold text-amber-600 mb-2">Gold</h4>
+                        <div className="space-y-1 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Value ({calcGoldWeight[0]}g × ₹{calcGoldRate})</span>
+                            <span>₹{calcGoldValue.toLocaleString('en-IN')}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Making ({calcGoldMakingCharge[0]}%)</span>
+                            <span>₹{goldMakingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">GST (3%)</span>
+                            <span>₹{goldGst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between font-medium pt-1 border-t border-amber-500/20">
+                            <span>Physical Price</span>
+                            <span className="text-amber-600">₹{goldTotalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Silver Breakdown */}
+                    {calcSilverWeight[0] > 0 && (
+                      <div className="p-3 rounded-lg bg-slate-500/5 border border-slate-500/20">
+                        <h4 className="text-sm font-semibold text-slate-400 mb-2">Silver</h4>
+                        <div className="space-y-1 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Value ({calcSilverWeight[0]}g × ₹{calcSilverRate})</span>
+                            <span>₹{calcSilverValue.toLocaleString('en-IN')}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Making ({calcSilverMakingCharge[0]}%)</span>
+                            <span>₹{silverMakingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">GST (3%)</span>
+                            <span>₹{silverGst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between font-medium pt-1 border-t border-slate-500/20">
+                            <span>Physical Price</span>
+                            <span className="text-slate-400">₹{silverTotalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Total Physical */}
                     <div className="flex justify-between py-3 bg-muted/30 rounded-lg px-3">
-                      <span className="font-semibold">Physical Jewellery Price</span>
-                      <span className="font-bold text-lg">₹{totalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                      <span className="font-semibold">Total Physical Price</span>
+                      <span className="font-bold text-lg">₹{totalPhysicalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
                     </div>
                     
+                    {/* Digital Price */}
                     <div className="flex justify-between py-2 border-b border-emerald-500/30">
-                      <span className="text-sm text-emerald-600">Digital Gold Price (same weight)</span>
-                      <span className="font-medium text-emerald-600">₹{digitalGoldPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                      <span className="text-sm text-emerald-600">Digital Bullion Price</span>
+                      <span className="font-medium text-emerald-600">₹{totalDigitalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
                     </div>
                     
+                    {/* Savings */}
                     <Card className="p-4 bg-emerald-500/10 border-emerald-500/30">
                       <div className="text-center">
-                        <p className="text-sm text-muted-foreground mb-1">Your Savings with Digital Gold</p>
-                        <p className="text-2xl font-bold text-emerald-500">₹{savings.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
-                        <p className="text-xs text-emerald-600">({((savings / totalPrice) * 100).toFixed(1)}% saved)</p>
+                        <p className="text-sm text-muted-foreground mb-1">Your Savings with Digital Bullion</p>
+                        <p className="text-2xl font-bold text-emerald-500">₹{totalSavings.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                        <p className="text-xs text-emerald-600">({totalPhysicalPrice > 0 ? ((totalSavings / totalPhysicalPrice) * 100).toFixed(1) : 0}% saved)</p>
                       </div>
                     </Card>
                   </div>
