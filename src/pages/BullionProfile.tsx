@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Shield, Users, ChevronRight, Check, AlertCircle } from "lucide-react";
+import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Shield, Users, ChevronRight, Check, AlertCircle, CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -31,6 +35,7 @@ interface ProfileData {
     dob: string;
     pan: string;
     verified: boolean;
+    anniversary?: string;
   };
   upiAccounts: {
     id: string;
@@ -62,6 +67,7 @@ export default function BullionProfile() {
       dob: "1990-01-15",
       pan: "ABCDE1234F",
       verified: true,
+      anniversary: "",
     },
     upiAccounts: [
       { id: "1", upiId: "shubham@okaxis", isPrimary: true },
@@ -287,6 +293,53 @@ export default function BullionProfile() {
                     />
                   </div>
                 </div>
+                
+                {/* Anniversary Date - Optional */}
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    Anniversary Date
+                    <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !profile.kyc.anniversary && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {profile.kyc.anniversary ? (
+                          format(new Date(profile.kyc.anniversary), "PPP")
+                        ) : (
+                          <span>Select your anniversary date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={profile.kyc.anniversary ? new Date(profile.kyc.anniversary) : undefined}
+                        onSelect={(date) => {
+                          setProfile(prev => ({
+                            ...prev,
+                            kyc: {
+                              ...prev.kyc,
+                              anniversary: date ? date.toISOString() : ""
+                            }
+                          }));
+                        }}
+                        initialFocus
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <p className="text-xs text-muted-foreground">
+                    Get special offers & reminders on your anniversary
+                  </p>
+                </div>
+                
                 {profile.kyc.verified && (
                   <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
                     <Check className="w-4 h-4 text-emerald-500" />
