@@ -39,3 +39,7 @@ export { UPISelector } from './UPISelector';
 // Phase 4 - Portfolio Dashboard Components
 export { LoginPromptModal } from './LoginPromptModal';
 export { GrowthCalculator } from './GrowthCalculator';
+
+// Phase 5 - Navigation Components
+export { BullionNavTabs } from './BullionNavTabs';
+export { BullionMobileMenu } from './BullionMobileMenu';

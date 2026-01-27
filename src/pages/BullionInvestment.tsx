@@ -26,6 +26,8 @@ import {
   UserStateSwitcher,
   OfferCards,
   ThemeSwitcher,
+  BullionNavTabs,
+  BullionMobileMenu,
 } from "@/components/bullion";
 
 // User state type for personalized experience
@@ -113,7 +115,8 @@ export default function BullionInvestment() {
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-border/50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <BullionMobileMenu />
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="lg:flex hidden">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
@@ -131,6 +134,9 @@ export default function BullionInvestment() {
           </div>
         </div>
       </header>
+
+      {/* Desktop Navigation Tabs */}
+      <BullionNavTabs />
 
       {/* View Toggle - Only visible on mobile/tablet */}
       <div className="lg:hidden max-w-lg mx-auto px-4 py-3">
