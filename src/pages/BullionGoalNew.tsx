@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowLeft, Bell, User, Target, Sparkles, Heart, GraduationCap, Home, Gift } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowLeft, Bell, User, Target, Sparkles, Heart, GraduationCap, Home, Gift, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,14 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const goalTemplates: Record<string, { icon: typeof Heart; suggestedGold: number; suggestedSilver: number }> = {
-  "Wedding": { icon: Heart, suggestedGold: 50, suggestedSilver: 500 },
-  "Education": { icon: GraduationCap, suggestedGold: 100, suggestedSilver: 1000 },
-  "Home": { icon: Home, suggestedGold: 200, suggestedSilver: 2000 },
-  "Retirement": { icon: Sparkles, suggestedGold: 500, suggestedSilver: 5000 },
-  "Emergency Fund": { icon: Target, suggestedGold: 25, suggestedSilver: 250 },
-  "Custom Goal": { icon: Gift, suggestedGold: 10, suggestedSilver: 100 },
+const goalTemplates: Record<string, { icon: typeof Heart; suggestedAmount: number; suggestedYears: number }> = {
+  "Wedding": { icon: Heart, suggestedAmount: 500000, suggestedYears: 5 },
+  "Education": { icon: GraduationCap, suggestedAmount: 1000000, suggestedYears: 10 },
+  "Home": { icon: Home, suggestedAmount: 2000000, suggestedYears: 7 },
+  "Retirement": { icon: Sparkles, suggestedAmount: 5000000, suggestedYears: 20 },
+  "Emergency Fund": { icon: Target, suggestedAmount: 200000, suggestedYears: 2 },
+  "Custom Goal": { icon: Gift, suggestedAmount: 100000, suggestedYears: 3 },
 };
 
 export default function BullionGoalNew() {
@@ -25,24 +26,60 @@ export default function BullionGoalNew() {
   const TemplateIcon = template.icon;
 
   const [goalName, setGoalName] = useState(templateName === "Custom Goal" ? "" : templateName);
-  const [targetGoldGrams, setTargetGoldGrams] = useState(template.suggestedGold);
-  const [targetSilverGrams, setTargetSilverGrams] = useState(template.suggestedSilver);
-  const [years, setYears] = useState(3);
+  const [targetAmount, setTargetAmount] = useState(template.suggestedAmount);
+  const [years, setYears] = useState(template.suggestedYears);
   const [months, setMonths] = useState(0);
+  const [preferredMetal, setPreferredMetal] = useState<"gold" | "silver" | "both">("gold");
 
   const goldPrice = 6250; // Current price per gram
   const silverPrice = 75; // Current price per gram
   
-  const goldValue = targetGoldGrams * goldPrice;
-  const silverValue = targetSilverGrams * silverPrice;
-  const totalTargetValue = goldValue + silverValue;
-  
   const totalMonths = (years * 12) + months;
-  const monthlyRequired = totalMonths > 0 ? Math.ceil(totalTargetValue / totalMonths) : 0;
+  const monthlyRequired = totalMonths > 0 ? Math.ceil(targetAmount / totalMonths) : 0;
+
+  // Calculate recommended SIP based on preferred metal
+  const sipRecommendation = useMemo(() => {
+    if (totalMonths === 0) return { goldSIP: 0, silverSIP: 0, goldGrams: 0, silverGrams: 0 };
+    
+    if (preferredMetal === "gold") {
+      const goldGramsTotal = targetAmount / goldPrice;
+      const goldGramsMonthly = goldGramsTotal / totalMonths;
+      return {
+        goldSIP: monthlyRequired,
+        silverSIP: 0,
+        goldGrams: goldGramsMonthly,
+        silverGrams: 0,
+        totalGoldGrams: goldGramsTotal
+      };
+    } else if (preferredMetal === "silver") {
+      const silverGramsTotal = targetAmount / silverPrice;
+      const silverGramsMonthly = silverGramsTotal / totalMonths;
+      return {
+        goldSIP: 0,
+        silverSIP: monthlyRequired,
+        goldGrams: 0,
+        silverGrams: silverGramsMonthly,
+        totalSilverGrams: silverGramsTotal
+      };
+    } else {
+      // 70% Gold, 30% Silver split
+      const goldAllocation = targetAmount * 0.7;
+      const silverAllocation = targetAmount * 0.3;
+      const goldGramsTotal = goldAllocation / goldPrice;
+      const silverGramsTotal = silverAllocation / silverPrice;
+      return {
+        goldSIP: Math.ceil(goldAllocation / totalMonths),
+        silverSIP: Math.ceil(silverAllocation / totalMonths),
+        goldGrams: goldGramsTotal / totalMonths,
+        silverGrams: silverGramsTotal / totalMonths,
+        totalGoldGrams: goldGramsTotal,
+        totalSilverGrams: silverGramsTotal
+      };
+    }
+  }, [targetAmount, totalMonths, preferredMetal, monthlyRequired, goldPrice, silverPrice]);
 
   const handleCreateGoal = () => {
-    // TODO: Implement goal creation logic
-    console.log("Creating goal:", { goalName, targetGoldGrams, targetSilverGrams, years, months });
+    console.log("Creating goal:", { goalName, targetAmount, years, months, preferredMetal, sipRecommendation });
     navigate("/bullion/goals");
   };
 
@@ -65,7 +102,7 @@ export default function BullionGoalNew() {
             <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/profile")}>
               <User className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/notifications")}>
               <Bell className="w-5 h-5" />
             </Button>
           </div>
@@ -78,38 +115,18 @@ export default function BullionGoalNew() {
       {/* Main Content */}
       <main className="max-w-3xl mx-auto px-4 py-6">
         {/* Page Header */}
-        <div className="flex items-center justify-between gap-3 mb-6">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/goals")} className="lg:hidden">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
-              <TemplateIcon className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Create New Goal</h1>
-              <p className="text-muted-foreground">
-                {templateName !== "Custom Goal" ? `${templateName} savings goal` : "Set your savings target"}
-              </p>
-            </div>
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/goals")} className="lg:hidden">
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+            <TemplateIcon className="w-6 h-6 text-white" />
           </div>
-          
-          {/* Buy Gold/Silver Tabs */}
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              className="border-amber-500/50 text-amber-600 hover:bg-amber-500/10 hover:text-amber-600"
-              onClick={() => navigate("/bullion?metal=gold")}
-            >
-              Buy Gold
-            </Button>
-            <Button 
-              variant="outline" 
-              className="border-slate-400/50 text-slate-500 hover:bg-slate-500/10 hover:text-slate-500"
-              onClick={() => navigate("/bullion?metal=silver")}
-            >
-              Buy Silver
-            </Button>
+          <div>
+            <h1 className="text-2xl font-bold">Create New Goal</h1>
+            <p className="text-muted-foreground">
+              {templateName !== "Custom Goal" ? `${templateName} savings goal` : "Set your savings target"}
+            </p>
           </div>
         </div>
 
@@ -119,66 +136,60 @@ export default function BullionGoalNew() {
             <Label className="text-sm font-medium">Goal Name</Label>
             <Input 
               type="text" 
-              placeholder="Enter goal name"
+              placeholder="Enter goal name (e.g., Wedding, Retirement)"
               value={goalName}
               onChange={(e) => setGoalName(e.target.value)}
               className="mt-2"
             />
           </Card>
 
-          {/* Gold Target */}
+          {/* Target Amount */}
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <Label className="text-sm font-medium">Target Gold (grams)</Label>
-              <span className="text-sm text-amber-600 font-medium">₹{goldValue.toLocaleString()}</span>
+              <div>
+                <Label className="text-sm font-medium">Target Amount</Label>
+                <p className="text-xs text-muted-foreground mt-1">How much do you want to save?</p>
+              </div>
+              <span className="text-lg font-bold text-primary">₹{targetAmount.toLocaleString()}</span>
             </div>
             <div className="flex items-center gap-3">
               <Slider
-                value={[targetGoldGrams]}
-                onValueChange={(v) => setTargetGoldGrams(v[0])}
-                min={0}
-                max={500}
-                step={5}
+                value={[targetAmount]}
+                onValueChange={(v) => setTargetAmount(v[0])}
+                min={10000}
+                max={10000000}
+                step={10000}
                 className="flex-1"
               />
               <Input 
                 type="number" 
-                value={targetGoldGrams}
-                onChange={(e) => setTargetGoldGrams(Number(e.target.value))}
-                className="w-24"
+                value={targetAmount}
+                onChange={(e) => setTargetAmount(Number(e.target.value))}
+                className="w-32"
               />
             </div>
-            <p className="text-xs text-muted-foreground mt-2">Current rate: ₹{goldPrice.toLocaleString()}/gram</p>
-          </Card>
-
-          {/* Silver Target */}
-          <Card className="p-5">
-            <div className="flex items-center justify-between mb-4">
-              <Label className="text-sm font-medium">Target Silver (grams)</Label>
-              <span className="text-sm text-slate-500 font-medium">₹{silverValue.toLocaleString()}</span>
+            {/* Quick Amount Presets */}
+            <div className="flex flex-wrap gap-2 mt-3">
+              {[100000, 500000, 1000000, 2500000, 5000000].map((amount) => (
+                <Button
+                  key={amount}
+                  variant={targetAmount === amount ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setTargetAmount(amount)}
+                  className="text-xs"
+                >
+                  ₹{(amount / 100000).toLocaleString()}L
+                </Button>
+              ))}
             </div>
-            <div className="flex items-center gap-3">
-              <Slider
-                value={[targetSilverGrams]}
-                onValueChange={(v) => setTargetSilverGrams(v[0])}
-                min={0}
-                max={5000}
-                step={50}
-                className="flex-1"
-              />
-              <Input 
-                type="number" 
-                value={targetSilverGrams}
-                onChange={(e) => setTargetSilverGrams(Number(e.target.value))}
-                className="w-24"
-              />
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">Current rate: ₹{silverPrice.toLocaleString()}/gram</p>
           </Card>
 
           {/* Time Horizon */}
           <Card className="p-5">
-            <Label className="text-sm font-medium mb-4 block">Time Horizon</Label>
+            <div className="mb-4">
+              <Label className="text-sm font-medium">Time Horizon</Label>
+              <p className="text-xs text-muted-foreground mt-1">When do you need this amount?</p>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label className="text-xs text-muted-foreground">Years</Label>
@@ -187,7 +198,7 @@ export default function BullionGoalNew() {
                     value={[years]}
                     onValueChange={(v) => setYears(v[0])}
                     min={0}
-                    max={20}
+                    max={25}
                     step={1}
                     className="flex-1"
                   />
@@ -219,46 +230,129 @@ export default function BullionGoalNew() {
                 </div>
               </div>
             </div>
+            {totalMonths > 0 && (
+              <p className="text-sm text-muted-foreground mt-3 text-center">
+                Total: <span className="font-medium text-foreground">{totalMonths} months</span>
+              </p>
+            )}
           </Card>
 
-          {/* Summary */}
-          <Card className="p-5 bg-gradient-to-br from-amber-500/10 to-amber-600/10 border-amber-500/20">
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground">Gold Value</p>
-                <p className="text-lg font-bold text-amber-600">₹{goldValue.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">{targetGoldGrams}g</p>
-              </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground">Silver Value</p>
-                <p className="text-lg font-bold text-slate-500">₹{silverValue.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">{targetSilverGrams}g</p>
-              </div>
+          {/* Preferred Metal */}
+          <Card className="p-5">
+            <div className="mb-4">
+              <Label className="text-sm font-medium">Preferred Investment</Label>
+              <p className="text-xs text-muted-foreground mt-1">Choose how to invest your SIP</p>
             </div>
-            
-            <div className="border-t border-amber-500/20 pt-4 text-center">
-              <p className="text-sm text-muted-foreground">Total Target Value</p>
-              <p className="text-2xl font-bold text-primary">₹{totalTargetValue.toLocaleString()}</p>
-            </div>
-            
-            <div className="border-t border-amber-500/20 mt-4 pt-4 text-center">
-              <p className="text-sm text-muted-foreground mb-1">Monthly SIP Required</p>
-              <p className="text-3xl font-bold text-primary">₹{monthlyRequired.toLocaleString()}</p>
-              <p className="text-xs text-muted-foreground">
-                for {years > 0 ? `${years} year${years > 1 ? 's' : ''} ` : ''}{months > 0 ? `${months} month${months > 1 ? 's' : ''}` : ''}
-                {years === 0 && months === 0 ? 'Select duration' : ''}
-              </p>
-            </div>
+            <Tabs value={preferredMetal} onValueChange={(v) => setPreferredMetal(v as "gold" | "silver" | "both")}>
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="gold" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white">
+                  🥇 Gold Only
+                </TabsTrigger>
+                <TabsTrigger value="silver" className="data-[state=active]:bg-slate-500 data-[state=active]:text-white">
+                  🥈 Silver Only
+                </TabsTrigger>
+                <TabsTrigger value="both" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-slate-500 data-[state=active]:text-white">
+                  Both (70:30)
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </Card>
+
+          {/* SIP Recommendation Summary */}
+          {totalMonths > 0 && (
+            <Card className="p-5 bg-gradient-to-br from-amber-500/10 to-amber-600/10 border-amber-500/20">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-amber-600" />
+                <h3 className="font-semibold text-lg">Your SIP Recommendation</h3>
+              </div>
+              
+              {/* Monthly SIP Required */}
+              <div className="text-center p-4 rounded-xl bg-background/60 mb-4">
+                <p className="text-sm text-muted-foreground mb-1">Monthly SIP Required</p>
+                <p className="text-4xl font-bold text-primary">₹{monthlyRequired.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  for {years > 0 ? `${years} year${years > 1 ? 's' : ''} ` : ''}{months > 0 ? `${months} month${months > 1 ? 's' : ''}` : ''}
+                </p>
+              </div>
+
+              {/* Metal Breakdown */}
+              <div className="space-y-3">
+                {(preferredMetal === "gold" || preferredMetal === "both") && sipRecommendation.goldSIP > 0 && (
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white font-bold">
+                        Au
+                      </div>
+                      <div>
+                        <p className="font-medium text-amber-600">Gold SIP</p>
+                        <p className="text-xs text-muted-foreground">
+                          ~{sipRecommendation.goldGrams.toFixed(2)}g/month
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-lg">₹{sipRecommendation.goldSIP.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Total: {sipRecommendation.totalGoldGrams?.toFixed(1)}g
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {(preferredMetal === "silver" || preferredMetal === "both") && sipRecommendation.silverSIP > 0 && (
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-slate-500/10 border border-slate-500/20">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-slate-500 flex items-center justify-center text-white font-bold">
+                        Ag
+                      </div>
+                      <div>
+                        <p className="font-medium text-slate-600">Silver SIP</p>
+                        <p className="text-xs text-muted-foreground">
+                          ~{sipRecommendation.silverGrams.toFixed(2)}g/month
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-lg">₹{sipRecommendation.silverSIP.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Total: {sipRecommendation.totalSilverGrams?.toFixed(1)}g
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Target Summary */}
+              <div className="border-t border-amber-500/20 mt-4 pt-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Target Amount</span>
+                  <span className="font-semibold">₹{targetAmount.toLocaleString()}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm mt-1">
+                  <span className="text-muted-foreground">Duration</span>
+                  <span className="font-semibold">{totalMonths} months</span>
+                </div>
+                <div className="flex items-center justify-between text-sm mt-1">
+                  <span className="text-muted-foreground">Investment Type</span>
+                  <span className="font-semibold capitalize">{preferredMetal === "both" ? "Gold + Silver (70:30)" : preferredMetal}</span>
+                </div>
+              </div>
+            </Card>
+          )}
 
           {/* Action Buttons */}
           <div className="flex gap-3">
             <Button variant="outline" className="flex-1" onClick={() => navigate("/bullion/goals")}>
               Cancel
             </Button>
-            <Button className="flex-1" size="lg" onClick={handleCreateGoal} disabled={!goalName || totalMonths === 0}>
+            <Button 
+              className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white" 
+              size="lg" 
+              onClick={handleCreateGoal} 
+              disabled={!goalName || totalMonths === 0}
+            >
               <Sparkles className="w-4 h-4 mr-2" />
-              Create Goal
+              Create Goal & Start SIP
             </Button>
           </div>
         </div>
