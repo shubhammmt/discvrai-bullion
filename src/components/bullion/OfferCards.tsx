@@ -87,11 +87,11 @@ const defaultOffers: Record<string, Offer[]> = {
 };
 
 const typeConfig = {
-  welcome: { icon: Gift, gradient: "from-amber-500/20 to-amber-600/10", border: "border-amber-500/30", iconColor: "text-amber-400" },
-  sip_bonus: { icon: Sparkles, gradient: "from-primary/20 to-primary/10", border: "border-primary/30", iconColor: "text-primary" },
-  referral: { icon: Users, gradient: "from-blue-500/20 to-blue-600/10", border: "border-blue-500/30", iconColor: "text-blue-400" },
-  milestone: { icon: Target, gradient: "from-emerald-500/20 to-emerald-600/10", border: "border-emerald-500/30", iconColor: "text-emerald-400" },
-  festival: { icon: Gift, gradient: "from-purple-500/20 to-purple-600/10", border: "border-purple-500/30", iconColor: "text-purple-400" },
+  welcome: { icon: Gift, bgColor: "bg-amber-50 dark:bg-amber-950/50", border: "border-amber-300 dark:border-amber-700", iconColor: "text-amber-600 dark:text-amber-400" },
+  sip_bonus: { icon: Sparkles, bgColor: "bg-sky-50 dark:bg-sky-950/50", border: "border-sky-300 dark:border-sky-700", iconColor: "text-sky-600 dark:text-sky-400" },
+  referral: { icon: Users, bgColor: "bg-blue-50 dark:bg-blue-950/50", border: "border-blue-300 dark:border-blue-700", iconColor: "text-blue-600 dark:text-blue-400" },
+  milestone: { icon: Target, bgColor: "bg-emerald-50 dark:bg-emerald-950/50", border: "border-emerald-300 dark:border-emerald-700", iconColor: "text-emerald-600 dark:text-emerald-400" },
+  festival: { icon: Gift, bgColor: "bg-purple-50 dark:bg-purple-950/50", border: "border-purple-300 dark:border-purple-700", iconColor: "text-purple-600 dark:text-purple-400" },
 };
 
 export function OfferCards({
@@ -131,7 +131,7 @@ export function OfferCards({
               transition={{ delay: index * 0.1 }}
               className={`${variant === "carousel" ? "min-w-[160px] flex-shrink-0" : ""}`}
             >
-              <div className={`p-4 rounded-xl bg-gradient-to-br ${config.gradient} border ${config.border} h-full flex flex-col`}>
+              <div className={`p-4 rounded-xl ${config.bgColor} border ${config.border} h-full flex flex-col`}>
                 <div className="flex items-center gap-2 mb-2">
                   <Icon className={`w-5 h-5 ${config.iconColor}`} />
                   <span className={`text-xs font-semibold ${config.iconColor} uppercase`}>

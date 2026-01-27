@@ -8,6 +8,9 @@ import {
   Target, 
   Crown,
   Gem,
+  Banknote,
+  PieChart,
+  Calculator,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -22,6 +25,9 @@ interface NavTab {
 const navTabs: NavTab[] = [
   { id: "trade", label: "Trade", route: "/bullion", icon: TrendingUp },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
+  { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote, badge: "NEW" },
+  { id: "mutual-funds", label: "Mutual Funds", route: "/bullion/mutual-funds", icon: PieChart, badge: "NEW" },
+  { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator },
   { id: "news", label: "News", route: "/bullion/news", icon: Newspaper },
   { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem },
   { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy },
