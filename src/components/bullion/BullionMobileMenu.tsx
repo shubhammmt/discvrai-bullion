@@ -3,18 +3,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { 
   Menu, 
-  X, 
   TrendingUp, 
   Wallet, 
   Newspaper, 
   Trophy, 
   Target, 
   Crown,
-  FileText,
-  User,
   Settings,
   ChevronRight,
   Gem,
+  Banknote,
+  Calculator,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,15 +31,15 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { id: "trade", label: "Trade", route: "/bullion", icon: TrendingUp, section: "main" },
+  { id: "trade", label: "Bullion", route: "/bullion", icon: TrendingUp, section: "main" },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet, section: "main" },
-  { id: "news", label: "Market News", route: "/bullion/news", icon: Newspaper, section: "main" },
+  { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote, section: "main" },
+  { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator, section: "main" },
+  { id: "news", label: "News", route: "/bullion/news", icon: Newspaper, section: "main" },
   { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem, section: "main" },
-  { id: "contests", label: "Contests & Leaderboard", route: "/bullion/contests", icon: Trophy, section: "main" },
-  { id: "goals", label: "Goal-Based Planning", route: "/bullion/goals", icon: Target, section: "main" },
+  { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy, section: "main" },
+  { id: "goals", label: "Goals", route: "/bullion/goals", icon: Target, section: "main" },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO", section: "main" },
-  { id: "tax", label: "Tax & Compliance", route: "/bullion/tax", icon: FileText, section: "more" },
-  { id: "profile", label: "Profile & KYC", route: "/bullion/profile", icon: User, section: "more" },
 ];
 
 export function BullionMobileMenu() {
@@ -59,8 +59,7 @@ export function BullionMobileMenu() {
     setOpen(false);
   };
 
-  const mainItems = navItems.filter(item => item.section === "main");
-  const moreItems = navItems.filter(item => item.section === "more");
+  const mainItems = navItems;
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -120,40 +119,6 @@ export function BullionMobileMenu() {
                           {item.badge}
                         </Badge>
                       )}
-                    </div>
-                    <ChevronRight className={cn("w-4 h-4", active ? "text-primary-foreground/70" : "text-muted-foreground")} />
-                  </button>
-                );
-              })}
-            </nav>
-
-            <Separator className="my-4" />
-
-            {/* More Section */}
-            <div className="px-3 mb-2">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3">
-                More
-              </p>
-            </div>
-            <nav className="space-y-1 px-3">
-              {moreItems.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.route);
-                
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavigate(item.route)}
-                    className={cn(
-                      "w-full flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-all",
-                      active 
-                        ? "bg-primary text-primary-foreground shadow-sm" 
-                        : "text-foreground hover:bg-muted/50"
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className="w-5 h-5" />
-                      <span>{item.label}</span>
                     </div>
                     <ChevronRight className={cn("w-4 h-4", active ? "text-primary-foreground/70" : "text-muted-foreground")} />
                   </button>
