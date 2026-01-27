@@ -18,6 +18,8 @@ interface BullionHeroProps {
   silverHoldings?: number;
   onBuyGold: () => void;
   onBuySilver: () => void;
+  onSellGold?: () => void;
+  onSellSilver?: () => void;
   onCompleteProfile?: () => void;
 }
 
@@ -35,6 +37,8 @@ export function BullionHero({
   silverHoldings = 0,
   onBuyGold,
   onBuySilver,
+  onSellGold,
+  onSellSilver,
   onCompleteProfile,
 }: BullionHeroProps) {
   const [activeSlide, setActiveSlide] = useState(0); // 0 = gold, 1 = silver
@@ -119,12 +123,12 @@ export function BullionHero({
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                   <Button 
-                    onClick={onBuySilver}
+                    onClick={onSellGold}
                     size="lg"
                     variant="outline"
-                    className="border-slate-600 hover:bg-slate-800"
+                    className="border-amber-600/50 hover:bg-amber-500/10"
                   >
-                    🥈 Buy Silver
+                    🪙 Sell Gold
                   </Button>
                 </div>
               </div>
@@ -183,12 +187,12 @@ export function BullionHero({
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                   <Button 
-                    onClick={onBuyGold}
+                    onClick={onSellSilver}
                     size="lg"
                     variant="outline"
-                    className="border-amber-600/50 hover:bg-amber-500/10"
+                    className="border-slate-600 hover:bg-slate-800"
                   >
-                    🪙 Buy Gold
+                    🥈 Sell Silver
                   </Button>
                 </div>
               </div>
