@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
 import silverInvestment1 from "@/assets/silver-investment-1.jpg";
 import silverInvestment2 from "@/assets/silver-investment-2.jpg";
+import goldInvestment1 from "@/assets/gold-investment-1.jpg";
+import goldInvestment2 from "@/assets/gold-investment-2.jpg";
 
 const learnCategories = [
   { id: "all", label: "All", icon: BookOpen },
@@ -26,7 +28,7 @@ const articles = [
     readTime: 8,
     date: "2024-01-15",
     featured: true,
-    image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=400",
+    image: goldInvestment1,
   },
   {
     id: "2",
@@ -76,7 +78,7 @@ const articles = [
     readTime: 9,
     date: "2024-01-10",
     featured: true,
-    image: "https://images.unsplash.com/photo-1624365168968-f283d506c6b6?w=400",
+    image: goldInvestment2,
   },
   {
     id: "7",
