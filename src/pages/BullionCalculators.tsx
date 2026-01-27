@@ -32,19 +32,31 @@ export default function BullionCalculators() {
   const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
   const calcGoldRate = 6250;
   
-  const goldValue = calcWeight[0] * calcGoldRate;
-  const makingCharges = (goldValue * calcMakingCharge[0]) / 100;
-  const gst = (goldValue + makingCharges) * 0.03;
-  const totalPrice = goldValue + makingCharges + gst;
-  const digitalGoldPrice = goldValue * 1.03; // Just GST for digital gold
+  const calcGoldValue = calcWeight[0] * calcGoldRate;
+  const makingCharges = (calcGoldValue * calcMakingCharge[0]) / 100;
+  const gst = (calcGoldValue + makingCharges) * 0.03;
+  const totalPrice = calcGoldValue + makingCharges + gst;
+  const digitalGoldPrice = calcGoldValue * 1.03; // Just GST for digital gold
   const savings = totalPrice - digitalGoldPrice;
 
   // Goal Calculator State
-  const [targetGrams, setTargetGrams] = useState(50);
-  const [years, setYears] = useState(3);
+  const [targetGoldGrams, setTargetGoldGrams] = useState(50);
+  const [targetSilverGrams, setTargetSilverGrams] = useState(0);
+  const [targetAmount, setTargetAmount] = useState(0);
+  const [goalYears, setGoalYears] = useState(3);
+  const [goalMonths, setGoalMonths] = useState(0);
+  const [goalDays, setGoalDays] = useState(0);
+  
   const goldPrice = 6250;
-  const targetValue = targetGrams * goldPrice;
-  const monthlyRequired = Math.ceil(targetValue / (years * 12));
+  const silverPrice = 75;
+  
+  const goldValue = targetGoldGrams * goldPrice;
+  const silverValue = targetSilverGrams * silverPrice;
+  const totalTargetValue = goldValue + silverValue + targetAmount;
+  
+  const totalDays = (goalYears * 365) + (goalMonths * 30) + goalDays;
+  const totalMonthsForGoal = totalDays / 30;
+  const monthlyRequired = totalMonthsForGoal > 0 ? Math.ceil(totalTargetValue / totalMonthsForGoal) : 0;
 
   // SIP vs FD vs Digital Gold Calculator State
   const [monthlyInvestment, setMonthlyInvestment] = useState([5000]);
@@ -257,7 +269,7 @@ export default function BullionCalculators() {
                   <div className="space-y-4">
                     <div className="flex justify-between py-2 border-b border-border/30">
                       <span className="text-sm text-muted-foreground">Gold Value ({calcWeight[0]}g × ₹{calcGoldRate})</span>
-                      <span className="font-medium">₹{goldValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                      <span className="font-medium">₹{calcGoldValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
                     </div>
                     <div className="flex justify-between py-2 border-b border-border/30">
                       <span className="text-sm text-muted-foreground">Making Charges ({calcMakingCharge[0]}%)</span>
@@ -324,102 +336,207 @@ export default function BullionCalculators() {
                   </h3>
                   
                   <p className="text-sm text-muted-foreground mb-6">
-                    Plan for life events like weddings, education, or retirement by saving in grams of gold.
+                    Plan for life events like weddings, education, or retirement by saving in gold, silver, or a target amount.
                   </p>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-5">
+                    {/* Target Gold */}
                     <div>
                       <Label className="text-sm font-medium">Target Gold (grams)</Label>
                       <div className="flex items-center gap-3 mt-2">
                         <Slider
-                          value={[targetGrams]}
-                          onValueChange={(v) => setTargetGrams(v[0])}
-                          min={10}
+                          value={[targetGoldGrams]}
+                          onValueChange={(v) => setTargetGoldGrams(v[0])}
+                          min={0}
                           max={500}
                           step={10}
                           className="flex-1"
                         />
                         <Input 
                           type="number" 
-                          value={targetGrams}
-                          onChange={(e) => setTargetGrams(Number(e.target.value))}
-                          className="w-24"
+                          value={targetGoldGrams}
+                          onChange={(e) => setTargetGoldGrams(Number(e.target.value))}
+                          className="w-20"
                         />
-                      </div>
-                      <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                        <span>10g</span>
-                        <span>500g</span>
                       </div>
                     </div>
 
+                    {/* Target Silver */}
                     <div>
-                      <Label className="text-sm font-medium">Time Horizon (years)</Label>
+                      <Label className="text-sm font-medium">Target Silver (grams)</Label>
                       <div className="flex items-center gap-3 mt-2">
                         <Slider
-                          value={[years]}
-                          onValueChange={(v) => setYears(v[0])}
-                          min={1}
-                          max={15}
+                          value={[targetSilverGrams]}
+                          onValueChange={(v) => setTargetSilverGrams(v[0])}
+                          min={0}
+                          max={5000}
+                          step={100}
+                          className="flex-1"
+                        />
+                        <Input 
+                          type="number" 
+                          value={targetSilverGrams}
+                          onChange={(e) => setTargetSilverGrams(Number(e.target.value))}
+                          className="w-20"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Target Amount */}
+                    <div>
+                      <Label className="text-sm font-medium">Target Amount (₹)</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <Slider
+                          value={[targetAmount]}
+                          onValueChange={(v) => setTargetAmount(v[0])}
+                          min={0}
+                          max={1000000}
+                          step={10000}
+                          className="flex-1"
+                        />
+                        <Input 
+                          type="number" 
+                          value={targetAmount}
+                          onChange={(e) => setTargetAmount(Number(e.target.value))}
+                          className="w-24"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Time Horizon - Years */}
+                    <div>
+                      <Label className="text-sm font-medium">Time Horizon (Years)</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <Slider
+                          value={[goalYears]}
+                          onValueChange={(v) => setGoalYears(v[0])}
+                          min={0}
+                          max={10}
                           step={1}
                           className="flex-1"
                         />
                         <Input 
                           type="number" 
-                          value={years}
-                          onChange={(e) => setYears(Number(e.target.value))}
-                          className="w-24"
+                          value={goalYears}
+                          onChange={(e) => setGoalYears(Number(e.target.value))}
+                          className="w-20"
                         />
                       </div>
-                      <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                        <span>1 year</span>
-                        <span>15 years</span>
+                    </div>
+
+                    {/* Time Horizon - Months */}
+                    <div>
+                      <Label className="text-sm font-medium">Time Horizon (Months)</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <Slider
+                          value={[goalMonths]}
+                          onValueChange={(v) => setGoalMonths(v[0])}
+                          min={0}
+                          max={11}
+                          step={1}
+                          className="flex-1"
+                        />
+                        <Input 
+                          type="number" 
+                          value={goalMonths}
+                          onChange={(e) => setGoalMonths(Number(e.target.value))}
+                          className="w-20"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Time Horizon - Days */}
+                    <div>
+                      <Label className="text-sm font-medium">Time Horizon (Days)</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <Slider
+                          value={[goalDays]}
+                          onValueChange={(v) => setGoalDays(v[0])}
+                          min={0}
+                          max={30}
+                          step={1}
+                          className="flex-1"
+                        />
+                        <Input 
+                          type="number" 
+                          value={goalDays}
+                          onChange={(e) => setGoalDays(Number(e.target.value))}
+                          className="w-20"
+                        />
                       </div>
                     </div>
 
                     <Card className="p-3 bg-muted/30">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Current Gold Rate</span>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Gold Rate</span>
                         <span className="font-bold">₹{goldPrice.toLocaleString('en-IN')}/g</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm mt-1">
+                        <span className="text-muted-foreground">Silver Rate</span>
+                        <span className="font-bold">₹{silverPrice.toLocaleString('en-IN')}/g</span>
                       </div>
                     </Card>
                   </div>
                 </Card>
 
                 {/* Goal Result */}
-                <Card className="p-6 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-500/30">
+                <Card className="p-6 bg-gradient-to-br from-amber-500/10 to-amber-600/10 border-amber-500/20">
                   <h3 className="font-semibold text-lg mb-6">Your Goal Summary</h3>
                   
                   <div className="space-y-4">
+                    {/* Gold Value */}
                     <div className="p-4 rounded-xl bg-background/50 border border-border/50">
                       <div className="text-center">
-                        <p className="text-sm text-muted-foreground mb-1">Target Value</p>
-                        <p className="text-3xl font-bold text-amber-600">₹{targetValue.toLocaleString('en-IN')}</p>
-                        <p className="text-xs text-muted-foreground mt-1">({targetGrams}g × ₹{goldPrice}/g)</p>
+                        <p className="text-sm text-muted-foreground mb-1">Gold Value</p>
+                        <p className="text-2xl font-bold text-amber-600">₹{goldValue.toLocaleString('en-IN')}</p>
+                        <p className="text-xs text-muted-foreground mt-1">({targetGoldGrams}g × ₹{goldPrice}/g)</p>
+                      </div>
+                    </div>
+
+                    {/* Silver Value */}
+                    {targetSilverGrams > 0 && (
+                      <div className="p-4 rounded-xl bg-background/50 border border-border/50">
+                        <div className="text-center">
+                          <p className="text-sm text-muted-foreground mb-1">Silver Value</p>
+                          <p className="text-2xl font-bold text-slate-400">₹{silverValue.toLocaleString('en-IN')}</p>
+                          <p className="text-xs text-muted-foreground mt-1">({targetSilverGrams}g × ₹{silverPrice}/g)</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Additional Amount */}
+                    {targetAmount > 0 && (
+                      <div className="p-4 rounded-xl bg-background/50 border border-border/50">
+                        <div className="text-center">
+                          <p className="text-sm text-muted-foreground mb-1">Additional Amount</p>
+                          <p className="text-2xl font-bold text-emerald-500">₹{targetAmount.toLocaleString('en-IN')}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Total Target Value */}
+                    <div className="p-4 rounded-xl bg-primary/10 border border-primary/30">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground mb-1">Total Target Value</p>
+                        <p className="text-3xl font-bold text-primary">₹{totalTargetValue.toLocaleString('en-IN')}</p>
                       </div>
                     </div>
                     
+                    {/* Monthly SIP */}
                     <div className="p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/30">
                       <div className="text-center">
                         <p className="text-sm text-muted-foreground mb-1">Monthly SIP Required</p>
                         <p className="text-4xl font-bold text-emerald-600">₹{monthlyRequired.toLocaleString('en-IN')}</p>
-                        <p className="text-sm text-muted-foreground mt-1">for {years} {years === 1 ? 'year' : 'years'} ({years * 12} months)</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          for {goalYears > 0 ? `${goalYears}y ` : ''}{goalMonths > 0 ? `${goalMonths}m ` : ''}{goalDays > 0 ? `${goalDays}d` : ''}
+                          {goalYears === 0 && goalMonths === 0 && goalDays === 0 ? 'Select duration' : ''}
+                        </p>
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <Card className="p-3 text-center">
-                        <p className="text-xs text-muted-foreground">Total Investment</p>
-                        <p className="font-bold">₹{(monthlyRequired * years * 12).toLocaleString('en-IN')}</p>
-                      </Card>
-                      <Card className="p-3 text-center">
-                        <p className="text-xs text-muted-foreground">Gold Accumulated</p>
-                        <p className="font-bold text-amber-500">{targetGrams}g</p>
-                      </Card>
                     </div>
 
                     <Button className="w-full" size="lg">
                       <Coins className="w-4 h-4 mr-2" />
-                      Start Gold SIP @ ₹{monthlyRequired.toLocaleString('en-IN')}/month
+                      Start SIP @ ₹{monthlyRequired.toLocaleString('en-IN')}/month
                     </Button>
                   </div>
                 </Card>
@@ -439,8 +556,12 @@ export default function BullionCalculators() {
                       key={goal.name}
                       className="p-4 cursor-pointer hover:shadow-md hover:border-primary/50 transition-all"
                       onClick={() => {
-                        setTargetGrams(goal.grams);
-                        setYears(goal.years);
+                        setTargetGoldGrams(goal.grams);
+                        setTargetSilverGrams(0);
+                        setTargetAmount(0);
+                        setGoalYears(goal.years);
+                        setGoalMonths(0);
+                        setGoalDays(0);
                       }}
                     >
                       <div className="text-center">
