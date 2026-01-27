@@ -228,6 +228,8 @@ export default function BullionInvestment() {
               silverHoldings={holdings.silver.total}
               onBuyGold={() => openBuy("gold")}
               onBuySilver={() => openBuy("silver")}
+              onSellGold={() => openSell("gold")}
+              onSellSilver={() => openSell("silver")}
               onCompleteProfile={() => navigate("/bullion/profile")}
             />
 
@@ -338,6 +340,8 @@ export default function BullionInvestment() {
               silverHoldings={holdings.silver.total}
               onBuyGold={() => openBuy("gold")}
               onBuySilver={() => openBuy("silver")}
+              onSellGold={() => openSell("gold")}
+              onSellSilver={() => openSell("silver")}
               onCompleteProfile={() => navigate("/bullion/profile")}
             />
 
