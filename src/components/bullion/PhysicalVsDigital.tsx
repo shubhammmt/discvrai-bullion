@@ -34,10 +34,10 @@ const comparisons = [
     physicalBad: true,
   },
   {
-    aspect: "Physical Delivery",
-    physical: "Immediate",
-    digital: "Convert anytime",
-    physicalBad: false,
+    aspect: "Resale Value",
+    physical: "Deduction on melting",
+    digital: "Full market price",
+    physicalBad: true,
   },
 ];
 

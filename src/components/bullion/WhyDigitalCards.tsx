@@ -10,6 +10,12 @@ const whyDigitalReasons = [
     color: "amber",
   },
   {
+    icon: Shield,
+    title: "999 Pure Silver",
+    description: "Guaranteed 99.9% pure silver directly from refiners",
+    color: "slate",
+  },
+  {
     icon: Home,
     title: "Sell Anytime",
     description: "Sell from home anytime, money direct to your bank account",
@@ -41,6 +47,12 @@ const colorClasses = {
     border: "border-amber-500/30",
     icon: "text-amber-500",
     hover: "hover:border-amber-500/50",
+  },
+  slate: {
+    bg: "bg-slate-500/10",
+    border: "border-slate-500/30",
+    icon: "text-slate-400",
+    hover: "hover:border-slate-500/50",
   },
   emerald: {
     bg: "bg-emerald-500/10",

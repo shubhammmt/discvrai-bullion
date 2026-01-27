@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, ArrowLeft, User } from "lucide-react";
+import { Bell, ArrowLeft, User, Search, Moon, Sun, LogOut, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { BullionPriceCard } from "@/components/bullion/BullionPriceCard";
@@ -125,12 +125,45 @@ export default function BullionInvestment() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Search */}
+            <Button variant="ghost" size="icon" className="hidden sm:flex">
+              <Search className="w-5 h-5" />
+            </Button>
+            {/* Latest Trends */}
+            <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-1.5 text-xs">
+              <Gem className="w-4 h-4" />
+              <span>Jewellery Trends</span>
+            </Button>
+            {/* Day/Night Mode */}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => {
+                const html = document.documentElement;
+                html.classList.toggle('dark');
+              }}
+            >
+              <Sun className="w-5 h-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute w-5 h-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </Button>
+            {/* Profile */}
             <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/profile")}>
               <User className="w-5 h-5" />
             </Button>
+            {/* Notifications */}
             <Button variant="ghost" size="icon">
               <Bell className="w-5 h-5" />
             </Button>
+            {/* Login/Logout */}
+            {userState !== "new" ? (
+              <Button variant="ghost" size="icon" onClick={() => setUserState("new")}>
+                <LogOut className="w-5 h-5" />
+              </Button>
+            ) : (
+              <Button variant="outline" size="sm" className="hidden sm:flex" onClick={() => setUserState("logged_in_no_holdings")}>
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </header>
