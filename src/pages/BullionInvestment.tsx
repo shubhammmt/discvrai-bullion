@@ -146,7 +146,7 @@ export default function BullionInvestment() {
               <User className="w-5 h-5" />
             </Button>
             {/* Notifications */}
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/notifications")}>
               <Bell className="w-5 h-5" />
             </Button>
             {/* Login/Logout */}
