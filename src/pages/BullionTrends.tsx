@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ArrowLeft, Gem, Scale, Calculator, TrendingUp, Heart, Share2, Filter, Search } from "lucide-react";
+import { ArrowLeft, Gem, Scale, TrendingUp, Heart, Share2, Filter, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -81,16 +81,7 @@ export default function BullionTrends() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   
-  // Making charge calculator state
-  const [calcWeight, setCalcWeight] = useState([10]);
-  const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
   const [calcGoldRate] = useState(6250); // Current gold rate per gram
-  
-  // Calculate totals
-  const goldValue = calcWeight[0] * calcGoldRate;
-  const makingCharges = (goldValue * calcMakingCharge[0]) / 100;
-  const gst = (goldValue + makingCharges) * 0.03;
-  const totalPrice = goldValue + makingCharges + gst;
   
   // Filter designs
   const filteredDesigns = jewelleryDesigns.filter(design => {
@@ -114,7 +105,7 @@ export default function BullionTrends() {
                 <Gem className="w-5 h-5 text-amber-500" />
                 Jewellery Trends
               </h1>
-              <p className="text-xs text-muted-foreground">Latest designs & price calculator</p>
+              <p className="text-xs text-muted-foreground">Latest designs & price comparison</p>
             </div>
           </div>
         </div>
@@ -125,7 +116,7 @@ export default function BullionTrends() {
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         <Tabs defaultValue="designs" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
             <TabsTrigger value="designs" className="flex items-center gap-2">
               <Gem className="w-4 h-4" />
               Designs
@@ -133,10 +124,6 @@ export default function BullionTrends() {
             <TabsTrigger value="compare" className="flex items-center gap-2">
               <Scale className="w-4 h-4" />
               Compare
-            </TabsTrigger>
-            <TabsTrigger value="calculator" className="flex items-center gap-2">
-              <Calculator className="w-4 h-4" />
-              Calculator
             </TabsTrigger>
           </TabsList>
 
@@ -316,122 +303,6 @@ export default function BullionTrends() {
             </Card>
           </TabsContent>
 
-          {/* Making Charge Calculator Tab */}
-          <TabsContent value="calculator" className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Calculator Inputs */}
-              <Card className="p-6">
-                <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
-                  <Calculator className="w-5 h-5 text-amber-500" />
-                  Making Charge Calculator
-                </h3>
-
-                <div className="space-y-6">
-                  {/* Gold Weight */}
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <label className="text-sm font-medium">Gold Weight</label>
-                      <span className="text-sm text-amber-500 font-bold">{calcWeight[0]} grams</span>
-                    </div>
-                    <Slider
-                      value={calcWeight}
-                      onValueChange={setCalcWeight}
-                      min={1}
-                      max={100}
-                      step={0.5}
-                      className="w-full"
-                    />
-                    <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                      <span>1g</span>
-                      <span>100g</span>
-                    </div>
-                  </div>
-
-                  {/* Making Charge Percentage */}
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <label className="text-sm font-medium">Making Charge %</label>
-                      <span className="text-sm text-amber-500 font-bold">{calcMakingCharge[0]}%</span>
-                    </div>
-                    <Slider
-                      value={calcMakingCharge}
-                      onValueChange={setCalcMakingCharge}
-                      min={5}
-                      max={35}
-                      step={1}
-                      className="w-full"
-                    />
-                    <div className="flex justify-between mt-1 text-xs text-muted-foreground">
-                      <span>5%</span>
-                      <span>35%</span>
-                    </div>
-                  </div>
-
-                  {/* Current Gold Rate Display */}
-                  <Card className="p-3 bg-muted/30">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Current Gold Rate</span>
-                      <span className="font-bold">₹{calcGoldRate.toLocaleString('en-IN')}/g</span>
-                    </div>
-                  </Card>
-                </div>
-              </Card>
-
-              {/* Calculator Results */}
-              <Card className="p-6 bg-gradient-to-br from-amber-500/5 to-orange-500/5 border-amber-500/30">
-                <h3 className="font-semibold text-lg mb-6">Price Breakdown</h3>
-
-                <div className="space-y-4">
-                  <div className="flex justify-between py-2 border-b border-border/30">
-                    <span className="text-sm text-muted-foreground">Gold Value ({calcWeight[0]}g × ₹{calcGoldRate})</span>
-                    <span className="font-medium">₹{goldValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b border-border/30">
-                    <span className="text-sm text-muted-foreground">Making Charges ({calcMakingCharge[0]}%)</span>
-                    <span className="font-medium text-red-400">+₹{makingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b border-border/30">
-                    <span className="text-sm text-muted-foreground">GST (3%)</span>
-                    <span className="font-medium">+₹{gst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                  </div>
-                  
-                  <div className="flex justify-between py-4 bg-amber-500/10 rounded-lg px-4 -mx-4">
-                    <span className="font-semibold">Total Price</span>
-                    <span className="text-2xl font-bold text-amber-500">₹{totalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                  </div>
-
-                  {/* Digital Gold Comparison */}
-                  <Card className="p-4 bg-emerald-500/10 border-emerald-500/30">
-                    <p className="text-sm font-medium mb-2">Same gold as Digital Gold:</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold text-emerald-500">₹{(goldValue * 1.03).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                      <Badge className="bg-emerald-500/20 text-emerald-500 border-emerald-500/30">
-                        Save ₹{(makingCharges + (gst - goldValue * 0.03)).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
-                      </Badge>
-                    </div>
-                  </Card>
-
-                  <p className="text-xs text-muted-foreground text-center">
-                    Buy digital gold now, convert to jewellery later and save on making charges!
-                  </p>
-                </div>
-              </Card>
-            </div>
-
-            {/* Pro Tip */}
-            <Card className="p-4 border-dashed">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">💡</span>
-                <div>
-                  <h4 className="font-semibold text-sm">Pro Tip: Exchange Gold Programs</h4>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Many jewellers offer exchange programs where you can convert your digital gold to jewellery 
-                    with reduced making charges (as low as 5-8%). Check with CaratLane, Tanishq, and Kalyan for current offers.
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
         </Tabs>
       </main>
     </div>
