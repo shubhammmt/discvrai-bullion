@@ -78,18 +78,38 @@ export default function BullionGoalNew() {
       {/* Main Content */}
       <main className="max-w-3xl mx-auto px-4 py-6">
         {/* Page Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/goals")} className="lg:hidden">
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
-            <TemplateIcon className="w-6 h-6 text-white" />
+        <div className="flex items-center justify-between gap-3 mb-6">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/goals")} className="lg:hidden">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+              <TemplateIcon className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Create New Goal</h1>
+              <p className="text-muted-foreground">
+                {templateName !== "Custom Goal" ? `${templateName} savings goal` : "Set your savings target"}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold">Create New Goal</h1>
-            <p className="text-muted-foreground">
-              {templateName !== "Custom Goal" ? `${templateName} savings goal` : "Set your savings target"}
-            </p>
+          
+          {/* Buy Gold/Silver Tabs */}
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              className="border-amber-500/50 text-amber-600 hover:bg-amber-500/10 hover:text-amber-600"
+              onClick={() => navigate("/bullion?metal=gold")}
+            >
+              Buy Gold
+            </Button>
+            <Button 
+              variant="outline" 
+              className="border-slate-400/50 text-slate-500 hover:bg-slate-500/10 hover:text-slate-500"
+              onClick={() => navigate("/bullion?metal=silver")}
+            >
+              Buy Silver
+            </Button>
           </div>
         </div>
 
