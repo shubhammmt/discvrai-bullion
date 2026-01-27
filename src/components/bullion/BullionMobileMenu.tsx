@@ -14,6 +14,7 @@ import {
   User,
   Settings,
   ChevronRight,
+  Gem,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +34,7 @@ const navItems: NavItem[] = [
   { id: "trade", label: "Trade", route: "/bullion", icon: TrendingUp, section: "main" },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet, section: "main" },
   { id: "news", label: "Market News", route: "/bullion/news", icon: Newspaper, section: "main" },
+  { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem, section: "main" },
   { id: "contests", label: "Contests & Leaderboard", route: "/bullion/contests", icon: Trophy, section: "main" },
   { id: "goals", label: "Goal-Based Planning", route: "/bullion/goals", icon: Target, section: "main" },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO", section: "main" },
