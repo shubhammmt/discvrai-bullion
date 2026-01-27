@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { Shield, TrendingUp, TrendingDown, Sparkles, ArrowRight, Check } from "lucide-react";
+import { Shield, TrendingUp, TrendingDown, Sparkles, ArrowRight, Check, Gift, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
-
 interface BullionHeroProps {
   goldPrice: number;
   silverPrice: number;
@@ -20,6 +19,7 @@ interface BullionHeroProps {
   onBuySilver: () => void;
   onSellGold?: () => void;
   onSellSilver?: () => void;
+  onGiftGold?: () => void;
   onCompleteProfile?: () => void;
 }
 
@@ -39,9 +39,10 @@ export function BullionHero({
   onBuySilver,
   onSellGold,
   onSellSilver,
+  onGiftGold,
   onCompleteProfile,
 }: BullionHeroProps) {
-  const [activeSlide, setActiveSlide] = useState(0); // 0 = gold, 1 = silver
+  const [activeSlide, setActiveSlide] = useState(0); // 0 = gold, 1 = silver, 2 = gift
   const goldChangePercent = (goldChange / goldPrice) * 100;
   const silverChangePercent = (silverChange / silverPrice) * 100;
 
@@ -50,7 +51,7 @@ export function BullionHero({
     if (userState === "investor") return;
     
     const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev === 0 ? 1 : 0));
+      setActiveSlide((prev) => (prev + 1) % 3);
     }, 5000);
 
     return () => clearInterval(interval);
@@ -133,7 +134,7 @@ export function BullionHero({
                 </div>
               </div>
             </motion.div>
-          ) : (
+          ) : activeSlide === 1 ? (
             <motion.div
               key="silver-banner"
               initial={{ opacity: 0 }}
@@ -197,6 +198,72 @@ export function BullionHero({
                 </div>
               </div>
             </motion.div>
+          ) : (
+            <motion.div
+              key="gift-banner"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-500/10 via-pink-500/5 to-purple-500/10 border border-rose-400/20 p-6 lg:p-8"
+            >
+              {/* Background decoration */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/5 rounded-full blur-3xl" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <Gift className="w-5 h-5 text-rose-400" />
+                  <span className="text-sm font-medium text-rose-400">Perfect Gift</span>
+                </div>
+                
+                <h1 className="text-2xl lg:text-4xl font-bold mb-2">
+                  Gift <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">Digital Gold</span> to Your Loved Ones
+                </h1>
+                
+                <p className="text-muted-foreground mb-4 max-w-lg">
+                  Share the timeless gift of 24K pure gold. Perfect for birthdays, anniversaries, festivals, or just because. ✨
+                </p>
+
+                {/* Gift Benefits */}
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Heart className="w-4 h-4 text-rose-400" /> Instant Delivery
+                  </span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>🎁</span> Beautiful Gift Card
+                  </span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>💰</span> From just ₹51
+                  </span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>🔒</span> 100% Secure
+                  </span>
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-wrap gap-3">
+                  <Button 
+                    onClick={onGiftGold}
+                    size="lg"
+                    className="bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-semibold shadow-lg shadow-rose-500/25"
+                  >
+                    <Gift className="w-4 h-4 mr-2" />
+                    Send Gold as Gift
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button 
+                    onClick={onBuyGold}
+                    size="lg"
+                    variant="outline"
+                    className="border-amber-600/50 hover:bg-amber-500/10"
+                  >
+                    🪙 Buy for Yourself
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -212,6 +279,12 @@ export function BullionHero({
             onClick={() => setActiveSlide(1)}
             className={`w-2 h-2 rounded-full transition-all ${
               activeSlide === 1 ? "w-6 bg-slate-400" : "bg-muted-foreground/30"
+            }`}
+          />
+          <button
+            onClick={() => setActiveSlide(2)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              activeSlide === 2 ? "w-6 bg-rose-400" : "bg-muted-foreground/30"
             }`}
           />
         </div>
@@ -283,7 +356,7 @@ export function BullionHero({
                 </div>
               </div>
             </motion.div>
-          ) : (
+          ) : activeSlide === 1 ? (
             <motion.div
               key="silver-banner-loggedin"
               initial={{ opacity: 0 }}
@@ -343,6 +416,72 @@ export function BullionHero({
                 </div>
               </div>
             </motion.div>
+          ) : (
+            <motion.div
+              key="gift-banner-loggedin"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-500/10 via-pink-500/5 to-purple-500/10 border border-rose-400/20 p-6 lg:p-8"
+            >
+              {/* Background decoration */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/5 rounded-full blur-3xl" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <Gift className="w-5 h-5 text-rose-400" />
+                  <span className="text-sm font-medium text-rose-400">Perfect Gift</span>
+                </div>
+                
+                <h1 className="text-2xl lg:text-3xl font-bold mb-2">
+                  Gift <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">Digital Gold</span> to Your Loved Ones
+                </h1>
+                
+                <p className="text-muted-foreground mb-4 max-w-lg">
+                  Share the timeless gift of 24K pure gold. Perfect for birthdays, anniversaries, festivals, or just because. ✨
+                </p>
+
+                {/* Gift Benefits */}
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Heart className="w-4 h-4 text-rose-400" /> Instant Delivery
+                  </span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>🎁</span> Beautiful Gift Card
+                  </span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>💰</span> From just ₹51
+                  </span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>🔒</span> 100% Secure
+                  </span>
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-wrap gap-3">
+                  <Button 
+                    onClick={onGiftGold}
+                    size="lg"
+                    className="bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-semibold shadow-lg shadow-rose-500/25"
+                  >
+                    <Gift className="w-4 h-4 mr-2" />
+                    Send Gold as Gift
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button 
+                    onClick={onBuyGold}
+                    size="lg"
+                    variant="outline"
+                    className="border-amber-600/50 hover:bg-amber-500/10"
+                  >
+                    🪙 Buy for Yourself
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -358,6 +497,12 @@ export function BullionHero({
             onClick={() => setActiveSlide(1)}
             className={`w-2 h-2 rounded-full transition-all ${
               activeSlide === 1 ? "w-6 bg-slate-400" : "bg-muted-foreground/30"
+            }`}
+          />
+          <button
+            onClick={() => setActiveSlide(2)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              activeSlide === 2 ? "w-6 bg-rose-400" : "bg-muted-foreground/30"
             }`}
           />
         </div>

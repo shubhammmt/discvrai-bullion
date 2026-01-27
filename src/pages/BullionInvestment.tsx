@@ -230,6 +230,7 @@ export default function BullionInvestment() {
               onBuySilver={() => openBuy("silver")}
               onSellGold={() => openSell("gold")}
               onSellSilver={() => openSell("silver")}
+              onGiftGold={() => openBuy("gold")}
               onCompleteProfile={() => navigate("/bullion/profile")}
             />
 
@@ -342,6 +343,7 @@ export default function BullionInvestment() {
               onBuySilver={() => openBuy("silver")}
               onSellGold={() => openSell("gold")}
               onSellSilver={() => openSell("silver")}
+              onGiftGold={() => openBuy("gold")}
               onCompleteProfile={() => navigate("/bullion/profile")}
             />
 
