@@ -1,6 +1,6 @@
 export interface MasterTrustSlide {
   id: number;
-  type: 'cover' | 'executive' | 'opportunity' | 'horizons-overview' | 'horizon-1' | 'horizon-2' | 'horizon-3' | 'pillars' | 'impact' | 'next-steps';
+  type: 'cover' | 'executive' | 'opportunity' | 'horizons-overview' | 'horizon-1' | 'horizon-2' | 'horizon-3' | 'horizon-4' | 'parallel-execution' | 'pillars' | 'impact' | 'aum-trajectory' | 'competitive' | 'next-steps';
   title: string;
   subtitle?: string;
   content?: any;
@@ -11,13 +11,19 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
   {
     id: 1,
     type: 'cover',
-    title: 'Master Trust',
-    subtitle: 'AI-Powered Digital Transformation',
+    title: 'AI-Powered Digital Transformation for Master Trust',
+    subtitle: 'Driving Acquisition, Engagement & ARPU Growth Across Trading & Mutual Funds',
     content: {
-      tagline: 'Driving Acquisition, Engagement & ARPU Growth Across Trading & Mutual Funds',
+      tagline: 'Transform from Transaction-Led Broker to AI-First Vertically Integrated AMC',
       date: 'January 2025',
-      preparedFor: 'Puneet Singhania, CEO',
-      preparedBy: 'Discvr AI'
+      preparedFor: 'Puneet Singhania, CEO, Master Trust',
+      preparedBy: 'Shubham Srivastava, Discvr AI',
+      metrics: [
+        { value: '₹950+ Cr', label: 'Year 1 AUM Target' },
+        { value: '₹7+ Cr', label: 'New Annual ARR' },
+        { value: '30-40%', label: 'ARPU Expansion' },
+        { value: '4.26L+', label: 'Existing Customers' }
+      ]
     }
   },
 
@@ -25,17 +31,17 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
   {
     id: 2,
     type: 'executive',
-    title: 'The Strategic Recommendation',
-    subtitle: 'Transform from Transaction-Led Broker to AI-First Vertically Integrated AMC',
+    title: 'Strategic Recommendation',
+    subtitle: 'The "Vertical Wealth" Pivot',
     content: {
-      recommendation: 'With the new SEBI in-principle MF license, Master Trust should pivot to capture ₹950+ Cr in captive AUM, generate ₹7+ Cr in new ARR, and expand ARPU by 30-40% through product density.',
+      recommendation: 'With the new SEBI in-principle MF license, Master Trust should transform from a transaction-led broker to an AI-first vertically integrated AMC to capture ₹950+ Cr AUM in Year 1 (scaling to ₹5,000-10,000 Cr in 4-5 years), generate ₹7+ Cr in new ARR from Year 1, and expand ARPU by 30-40%.',
       imperatives: [
         {
-          title: 'Defend Core Trading',
+          title: 'Defend Core Trading Revenue',
           description: 'Convert transactional relationships into daily engagement habits'
         },
         {
-          title: 'Scale MF Business',
+          title: 'Scale New MF Business',
           description: 'Leverage AI-powered distribution to cross-sell your own schemes to 4.26L+ trading customers'
         }
       ],
@@ -43,218 +49,299 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
         { 
           priority: '1', 
           name: 'Brokerage Velocity', 
-          impact: '15-20% increase in trading frequency',
-          rationale: 'Zero incremental CAC, immediate revenue impact'
+          impact: '15-20% trading frequency increase',
+          rationale: 'Zero incremental CAC, immediate revenue',
+          timeline: 'Months 1-12'
         },
         { 
           priority: '2', 
           name: 'MF Distribution', 
           impact: '₹950+ Cr AUM, ₹7+ Cr ARR',
-          rationale: '2x margin expansion via own AMC management fees'
+          rationale: '2x margin via own AMC fees',
+          timeline: 'Months 1-12'
         },
         { 
           priority: '3', 
+          name: 'Organic Traffic Engine', 
+          impact: '50-70% CAC reduction',
+          rationale: 'Content-driven acquisition',
+          timeline: 'Months 1-12'
+        },
+        { 
+          priority: '4', 
           name: 'Adjacency Products', 
           impact: '₹25+ Cr lending book',
-          rationale: 'Expand wallet share through LAMF/LAS'
+          rationale: 'Ecosystem monetization',
+          timeline: 'Months 12-18'
         }
       ]
     }
   },
 
-  // Slide 3: The Opportunity (Revenue Levers Detail)
+  // Slide 3: Four Revenue Levers Overview
   {
     id: 3,
     type: 'opportunity',
-    title: 'Three Revenue Levers',
+    title: 'Four Revenue Levers',
     subtitle: 'Prioritized by ROI & Speed-to-Value',
     content: {
       levers: [
         {
-          priority: 'HIGHEST PRIORITY',
+          priority: 'LEVER 1',
           name: 'Brokerage Velocity',
-          description: 'Maximize ARPU from Existing Users',
+          description: 'Maximize ARPU from Existing 4.26L+ Users',
           points: [
-            'AI "Nudges" (earnings alerts, sector risks, portfolio intelligence) increase trading frequency by 15-20%',
-            'Zero incremental CAC - leveraging existing 4.26L+ customer relationships',
-            'If average customer trades 10x/year, 15-20% increase = 1.5-2 additional trades per customer'
+            'AI nudges (earnings alerts, sector risks) → 15-20% higher trading frequency',
+            'Zero incremental CAC - leveraging existing relationships',
+            'Fastest ROI - immediate brokerage revenue impact'
           ],
-          timeline: 'Months 1-6',
+          timeline: 'Months 1-12',
           color: 'blue'
         },
         {
-          priority: 'SECOND PRIORITY',
+          priority: 'LEVER 2',
           name: 'MF Lead Distribution',
-          description: 'Dual Strategy: Distribution + Own Schemes',
+          description: 'Dual Strategy: All MFs + Own Schemes',
           points: [
-            'Strategy A: Commission-based revenue (~0.5-0.75% AUM) from third-party MF distribution',
-            'Strategy B: Migrate 15% of trading base into internal MF schemes → ₹950+ Cr captive AUM',
-            '2x margin expansion: AMC management fees (1-1.5%) vs distribution commission (0.5-0.75%)'
+            'Strategy A: Commission (0.5-0.75% AUM) from third-party MF distribution',
+            'Strategy B: Migrate 15% of base into own schemes → ₹950+ Cr AUM',
+            '2x margin expansion: AMC fees (1-1.5%) vs distribution (0.5-0.75%)'
           ],
-          timeline: 'Months 7-12',
+          timeline: 'Months 1-12',
           color: 'emerald'
         },
         {
-          priority: 'THIRD PRIORITY',
-          name: 'Adjacency Expansion',
-          description: 'Credit Monetization & Family Wealth',
+          priority: 'LEVER 3',
+          name: 'Organic Traffic Engine',
+          description: 'Content-Driven Acquisition at Scale',
           points: [
-            'LAMF/LAS: AI-driven identification of eligible borrowers via NBFC partnership',
-            '5% penetration in base → ₹25+ Cr lending book → ₹25-75L annual revenue',
-            'Family Wealth Platform increases AUM per household by 2-3x'
+            'AI chatbot + discvr.ai news + YouTube academy + blog content',
+            '40-50% higher organic traffic, 50-70% CAC reduction',
+            '20-30% of new users from organic discovery'
           ],
-          timeline: 'Months 13-18',
+          timeline: 'Months 1-12',
+          color: 'amber'
+        },
+        {
+          priority: 'LEVER 4',
+          name: 'Ecosystem Expansion',
+          description: 'Adjacency Products & Wallet Share',
+          points: [
+            'LAMF/LAS: ₹25+ Cr lending book → ₹25-75L annual revenue',
+            'Family Wealth Platform: 2-3x AUM per household',
+            'Enable after core levers (1,2,3) are firing'
+          ],
+          timeline: 'Months 12-18',
           color: 'purple'
         }
       ]
     }
   },
 
-  // Slide 4: Three-Horizon Framework Overview
+  // Slide 4: Parallel Execution Framework
   {
     id: 4,
-    type: 'horizons-overview',
-    title: 'Three-Horizon Growth Framework',
-    subtitle: '18-Month Transformation Roadmap',
+    type: 'parallel-execution',
+    title: 'Parallel Execution Framework',
+    subtitle: 'All Core Levers Fire in 6-12 Months',
     content: {
-      horizons: [
+      principle: 'Enable Lever 1, Lever 2, and Lever 3 in parallel so all core revenue streams start firing within initial 6-12 months, creating compound growth effects.',
+      timeline: [
         {
-          name: 'Horizon 1',
-          title: 'Defend & Extend Core',
-          timeline: 'Months 1-6',
-          focus: 'Brokerage Velocity',
-          outcome: '15-20% increase in trading frequency',
-          color: 'blue'
+          phase: 'Months 1-3',
+          title: 'Foundation + All Levers Start',
+          items: [
+            'Platform assessment & optimization',
+            'AI stock research chatbot & portfolio alerts (Lever 1)',
+            'Start third-party MF distribution (Lever 2A)',
+            'Launch content engine & discvr.ai integration (Lever 3)'
+          ]
         },
         {
-          name: 'Horizon 2',
-          title: 'Scale MF Business',
-          timeline: 'Months 7-12',
-          focus: 'MF Distribution + AMC Launch',
-          outcome: '₹950+ Cr AUM, ₹7+ Cr ARR',
-          color: 'emerald'
+          phase: 'Months 4-6',
+          title: 'All Three Levers Active',
+          items: [
+            'Brokerage velocity improvements compound',
+            'MF distribution active, own schemes preparation',
+            'Content engine scales (daily news, articles, YouTube)',
+            'Cross-lever synergies emerge'
+          ]
         },
         {
-          name: 'Horizon 3',
-          title: 'Ecosystem Expansion',
-          timeline: 'Months 13-18',
-          focus: 'Adjacency Products',
-          outcome: '30-40% ARPU expansion',
-          color: 'purple'
+          phase: 'Months 7-12',
+          title: 'Full Scale - All Core Levers Firing',
+          items: [
+            'Trading frequency improvements compound',
+            'Launch own MF schemes with AI distribution',
+            'Organic traffic engine matures, CAC compounds',
+            'Flywheel: Organic → Trading → MF conversion'
+          ]
+        },
+        {
+          phase: 'Months 12-18',
+          title: 'Lever 4: Ecosystem Expansion',
+          items: [
+            'LAMF/LAS products activated',
+            'Family Wealth Platform launch',
+            'Premium research subscriptions',
+            '40%+ total ARPU expansion achieved'
+          ]
         }
       ],
-      unitEconomics: [
-        { metric: 'LTV/CAC Ratio', current: '2-3x', target: '4-5x', driver: 'Cross-sell increases lifetime value' },
-        { metric: 'MF Margin', current: '0.5-0.75%', target: '1-1.5%', driver: 'Vertical integration (2x expansion)' },
-        { metric: 'AUM per Customer', current: '₹2-3L', target: '₹8-12L', driver: 'Family Wealth aggregation' }
+      benefits: [
+        'Faster time-to-market: All revenue streams start earlier',
+        'Compound growth: Three streams grow simultaneously',
+        'Lower overall risk: Multiple revenue streams reduce dependency'
       ]
     }
   },
 
-  // Slide 5: Horizon 1 Detail
+  // Slide 5: Horizon 1 - Brokerage Velocity
   {
     id: 5,
     type: 'horizon-1',
-    title: 'Horizon 1: Brokerage Velocity',
-    subtitle: 'Months 1-6 | Maximize ARPU from Existing Users',
+    title: 'Lever 1: Brokerage Velocity',
+    subtitle: 'Months 1-12 | Maximize ARPU from Existing Users',
     content: {
-      objective: 'Activate existing 4.26L+ customers to increase trading frequency and brokerage revenue',
+      objective: 'Activate existing 4.26L+ customers to increase trading frequency and brokerage revenue with zero incremental CAC',
       enablers: [
         { 
-          name: 'Hyper-Personalized Engagement', 
-          description: 'AI-powered research chatbot and portfolio alerts transform transactional relationships into daily habits'
+          name: 'AI Stock Research Chatbot', 
+          description: 'Answers queries, explains market movements, SEO-optimized content'
         },
         { 
-          name: 'Portfolio Intelligence', 
-          description: 'Real-time earnings alerts, price movements, sector risks drive trading decisions'
+          name: 'Portfolio Intelligence Alerts', 
+          description: 'Real-time earnings, price movements, sector risks drive decisions'
         },
         { 
           name: 'Daily Trading Brief', 
           description: 'Personalized 2-minute digest creates daily return habit'
         },
         { 
-          name: 'Conversational Trading', 
-          description: 'Lower friction order placement via chatbot'
+          name: 'Latest News Integration', 
+          description: 'Byte-sized market news via discvr.ai drives daily engagement'
         },
         { 
           name: 'Conversational Onboarding', 
-          description: 'Reduce 30-40% drop-off through AI-guided KYC recovery'
+          description: 'AI-guided KYC recovery → 30% reduction in drop-offs'
         }
       ],
       outcomes: [
         '15-20% increase in trading frequency via AI nudges',
         '20% increase in app sessions via Portfolio Intelligence',
         '30% reduction in KYC drop-offs via AI agents',
-        'Foundation established for MF cross-sell in Horizon 2'
+        'Foundation for MF cross-sell (Lever 2)'
       ],
       impact: 'If average customer trades 10x/year, 15-20% increase = 1.5-2 additional trades × 4.26L customers = significant incremental brokerage revenue with zero acquisition cost'
     }
   },
 
-  // Slide 6: Horizon 2 Detail
+  // Slide 6: Horizon 2 - MF Distribution
   {
     id: 6,
     type: 'horizon-2',
-    title: 'Horizon 2: MF Lead Distribution',
-    subtitle: 'Months 7-12 | Dual Strategy for MF Revenue',
+    title: 'Lever 2: MF Lead Distribution',
+    subtitle: 'Months 1-12 | Dual Strategy for MF Revenue',
     content: {
-      objective: 'Build MF revenue stream through distribution of all MFs + launch own schemes',
+      objective: 'Build MF revenue stream through distribution of all MFs + launch own schemes with 2x margin expansion',
       strategies: [
         {
           name: 'Strategy A: All MF Distribution',
           type: 'Quick Revenue',
           points: [
-            'AI-powered recommendations for all MF schemes (not just own)',
-            'Commission-based revenue (~0.5-0.75% AUM) from third-party MF distribution',
-            'Builds MF investing habit in customer base, making cross-sell easier'
+            'AI-powered recommendations for all MF schemes',
+            'Commission revenue (~0.5-0.75% AUM)',
+            'Builds MF investing habit in customer base'
           ]
         },
         {
           name: 'Strategy B: Own MF Schemes',
           type: 'Strategic Long-term',
           points: [
-            'Deploy enterprise-grade AMC distribution platform',
-            'AI-powered recommendations convert trading customers to your MF schemes → 15% migration target',
-            'NFO launch support via AI-powered campaign agent → 100% automated distribution'
+            'Enterprise-grade AMC distribution platform',
+            'AI recommendations convert traders to your MF schemes',
+            'NFO launch with 100% automated distribution'
           ]
         }
       ],
       outcomes: [
-        '₹950+ Cr captive AUM from own schemes',
-        '₹7+ Cr ARR from management fees (0.75% net)',
-        '2x margin expansion: Own schemes vs distribution commission',
+        '₹950+ Cr captive AUM (Year 1)',
+        '₹7+ Cr ARR from management fees',
+        '2x margin: Own schemes vs distribution',
         '+15% ARPU from MF conversion'
       ],
-      marginExplanation: 'AMC management fees (1-1.5% AUM) vs distributing third-party MFs (0.5-0.75% commission) = 2x margin expansion'
+      marginExplanation: 'AMC management fees (1-1.5% AUM) vs third-party distribution (0.5-0.75% commission) = 2x margin expansion'
     }
   },
 
-  // Slide 7: Horizon 3 Detail
+  // Slide 7: Horizon 3 - Organic Traffic Engine
   {
     id: 7,
     type: 'horizon-3',
-    title: 'Horizon 3: Ecosystem Expansion',
-    subtitle: 'Months 13-18 | Adjacency Products & Wallet Share',
+    title: 'Lever 3: Organic Traffic Engine',
+    subtitle: 'Months 1-12 | Content-Driven Acquisition at Scale',
     content: {
-      objective: 'Expand wallet share through adjacency products and create ecosystem stickiness',
+      objective: 'Build organic traffic through high-volume content across multiple mediums for sustainable, low-CAC acquisition',
+      channels: [
+        {
+          name: 'AI Research Chatbot',
+          description: 'SEO-optimized answers to trading/MF queries',
+          volume: 'Continuous (indexed by Google)',
+          impact: '40-50% higher organic traffic'
+        },
+        {
+          name: 'discvr.ai News Integration',
+          description: 'Daily byte-sized market news & updates',
+          volume: 'Daily updates',
+          impact: '20-30% new users from organic'
+        },
+        {
+          name: 'YouTube Investor Academy',
+          description: 'Educational content: "How to start trading", "MF basics"',
+          volume: '2-3 videos/week',
+          impact: '10-15% new users from YouTube'
+        },
+        {
+          name: 'Blog/Article Content',
+          description: 'AI-generated market trends, investment strategies',
+          volume: '5-10 articles/week',
+          impact: '50-70% CAC reduction vs paid'
+        }
+      ],
+      newUserTargets: {
+        year1: '50,000-75,000 new users (12-18% growth)',
+        year23: '1,00,000-1,50,000 new users/year',
+        year45: '2,00,000+ new users/year'
+      }
+    }
+  },
+
+  // Slide 8: Horizon 4 - Ecosystem Expansion
+  {
+    id: 8,
+    type: 'horizon-4',
+    title: 'Lever 4: Ecosystem Expansion',
+    subtitle: 'Months 12-18 | Adjacency Products & Wallet Share',
+    content: {
+      objective: 'Expand wallet share through adjacency products and create ecosystem stickiness after core levers are firing',
       products: [
         {
           name: 'Credit Monetization (LAMF/LAS)',
           description: 'AI-driven identification of eligible borrowers',
-          impact: '5% penetration → ₹25+ Cr lending book → ₹25-75L annual revenue',
-          model: 'Master Trust earns 1-3% margin from NBFC partner'
+          impact: '₹25+ Cr lending book → ₹25-75L annual revenue',
+          model: '1-3% margin from NBFC partner'
         },
         {
           name: 'Family Wealth Platform',
-          description: 'Household-level engagement via multi-account aggregation',
+          description: 'Household-level dashboard (parents + children)',
           impact: '2-3x increase in AUM per customer',
-          model: 'Parents + children portfolios under single view'
+          model: 'Multi-account aggregation'
         },
         {
           name: 'CIBIL-Powered Personalization',
           description: 'Right product at right time based on financial health',
           impact: 'Higher conversion through personalized recommendations',
-          model: 'Credit score insights drive product matching'
+          model: 'Credit score insights drive matching'
         },
         {
           name: 'Premium Research',
@@ -263,13 +350,52 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
           model: 'Subscription-based recurring revenue'
         }
       ],
-      totalImpact: 'Base ARPU → +15% (Brokerage Velocity) → +15% (MF) → +10% (Premium) = 40%+ ARPU increase'
+      totalImpact: 'Base ARPU → +15% (Velocity) → +15% (MF) → +10% (Premium) = 40%+ ARPU increase'
     }
   },
 
-  // Slide 8: Strategic Pillars
+  // Slide 9: AUM Growth Trajectory
   {
-    id: 8,
+    id: 9,
+    type: 'aum-trajectory',
+    title: 'AUM Growth Trajectory',
+    subtitle: 'Scaling to ₹5,000-10,000 Cr in 4-5 Years',
+    content: {
+      trajectory: [
+        {
+          period: 'Year 1',
+          aum: '₹950 Cr',
+          description: '15% of existing 4.26L base migrates',
+          calculation: 'Avg ₹1.5L AUM/user × 63K users',
+          highlight: true
+        },
+        {
+          period: 'Year 2-3',
+          aum: '₹3,000-5,000 Cr',
+          description: 'Expanded base + new acquisitions via organic',
+          calculation: 'AI distribution + content engine scaling'
+        },
+        {
+          period: 'Year 4-5',
+          aum: '₹5,000-10,000 Cr',
+          description: 'Established AMC scale',
+          calculation: 'Multiple schemes, NFOs, institutional investors'
+        }
+      ],
+      comparison: {
+        benchmark: 'Zerodha AMC achieved ₹10,000 Cr AUM in 2 years',
+        advantage: 'Master Trust has 4.26L+ existing trading customers for cross-sell'
+      },
+      revenue: [
+        { label: 'Year 1 ARR', value: '₹7+ Cr', calculation: '₹950 Cr × 0.75% net management fee' },
+        { label: 'Year 4-5 ARR', value: '₹37-75 Cr', calculation: '₹5K-10K Cr × 0.75% net management fee' }
+      ]
+    }
+  },
+
+  // Slide 10: Strategic Pillars
+  {
+    id: 10,
     type: 'pillars',
     title: 'Strategic Pillars',
     subtitle: 'How We Create Value',
@@ -280,75 +406,102 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
           objective: 'Transform transactional relationships into daily engagement habits',
           enablers: [
             'AI Stock Research Chatbot',
-            'Portfolio Intelligence Alerts (real-time earnings, price movements)',
-            'Daily Trading Brief (personalized 2-min digest)',
-            'Latest News Integration (byte-sized market news)',
-            'Conversational Trading (place orders via chatbot)',
-            'OpenAI App Distribution for broader reach'
+            'Portfolio Intelligence Alerts',
+            'Daily Trading Brief',
+            'Latest News Integration (discvr.ai)',
+            'Conversational Trading',
+            'OpenAI App Distribution'
           ],
           value: 'Higher trading frequency → Increased brokerage revenue'
         },
         {
           name: 'Vertical Integration (AMC Launch)',
-          objective: 'Enable launch of your own MF business with AI-powered distribution from Day 1',
+          objective: 'Enable launch of your own MF business with AI-powered distribution',
           enablers: [
             'End-to-end AMC distribution platform',
-            'AI-powered fund recommendations (goal-based, risk-profiled)',
-            'Conversational onboarding (KYC → Investment → Portfolio)',
+            'AI-powered fund recommendations',
+            'Conversational onboarding (KYC → Investment)',
             'Transaction execution (SIP, lumpsum)',
-            'Business intelligence (AUM, conversion, attribution)',
-            'NFO launch support (AI-powered campaign agent)'
+            'Business intelligence & attribution',
+            'NFO launch support (AI campaign agent)'
           ],
-          value: '2x margin expansion + Cross-sell to 4.26L+ trading customers'
+          value: '2x margin expansion + Cross-sell to 4.26L+ customers'
         },
         {
           name: 'Ecosystem Monetization',
-          objective: 'Build daily engagement habits and unlock new revenue streams',
+          objective: 'Build daily habits and unlock new revenue streams',
           enablers: [
             'Family Wealth Monitor (household dashboard)',
-            'CIBIL Integration (financial health insights)',
+            'CIBIL Integration (financial health)',
             'Adjacency Products (LAMF, LAS)',
-            'Gamification (trading streaks, portfolio health)',
-            'AI Service Bot (24/7 support, 70-80% deflection)'
+            'Gamification (streaks, health scores)',
+            'AI Service Bot (70-80% deflection)'
           ],
-          value: 'Loan commission income + 2-3x AUM per household + Reduced support costs'
+          value: 'Loan commission + 2-3x AUM per household + Reduced support costs'
         }
       ]
     }
   },
 
-  // Slide 9: Expected Business Impact
+  // Slide 11: Competitive Positioning
   {
-    id: 9,
+    id: 11,
+    type: 'competitive',
+    title: 'Competitive Positioning',
+    subtitle: 'Why Not Generic Marketing Platforms?',
+    content: {
+      generic: {
+        title: 'CleverTap, MoEngage',
+        capabilities: ['Send push notifications, emails, SMS'],
+        limitations: [
+          'Cannot provide financial advice',
+          'Cannot execute transactions',
+          'No regulatory compliance',
+          'No domain knowledge (stocks, MF)'
+        ]
+      },
+      ourPlatform: {
+        title: 'Discvr AI Platform',
+        capabilities: [
+          'Complete financial advisory (stocks + MF recommendations)',
+          'End-to-end transaction execution (KYC → Investment → Portfolio)',
+          'Built-in SEBI compliance (suitability checks, disclosures)',
+          'Domain-specific AI (RAG for financial products)',
+          'Business outcome tracking (AUM, conversions, ARPU)',
+          'OpenAI App Distribution for broader reach'
+        ]
+      },
+      recommendation: 'Use our platform for financial advisory + transaction execution, integrate with CleverTap for generic marketing campaigns.'
+    }
+  },
+
+  // Slide 12: Expected Business Impact
+  {
+    id: 12,
     type: 'impact',
     title: 'Expected Business Impact',
     subtitle: 'Revenue Bridge & Unit Economics',
     content: {
       bridge: [
         { stage: 'Current State', description: 'Transaction-Led Broker', impact: '' },
-        { stage: 'Brokerage Velocity', description: '15-20% increase in trading frequency via AI nudges', impact: 'Zero incremental CAC' },
-        { stage: 'MF Distribution', description: 'Distribution of all MFs (0.5-0.75% commission)', impact: 'Quick revenue' },
-        { stage: 'MF Management', description: '₹950+ Cr AUM × 0.75% = ₹7+ Cr ARR', impact: '2x margin expansion' },
-        { stage: 'Loan Commission', description: '₹25+ Cr lending book → ₹25-75L annual', impact: '1-3% NBFC margin' },
-        { stage: 'Premium Subscriptions', description: 'AI research subscription', impact: '+10% ARPU' },
-        { stage: 'Target State', description: 'AI-First Vertically Integrated AMC', impact: '40%+ ARPU expansion' }
+        { stage: 'Lever 1', description: '15-20% trading frequency increase', impact: 'Zero incremental CAC' },
+        { stage: 'Lever 2', description: '₹950+ Cr AUM → ₹7+ Cr ARR', impact: '2x margin expansion' },
+        { stage: 'Lever 3', description: '40-50% higher organic traffic', impact: '50-70% CAC reduction' },
+        { stage: 'Lever 4', description: '₹25+ Cr lending book', impact: '₹25-75L annual revenue' },
+        { stage: 'Target State', description: 'AI-First Integrated AMC', impact: '40%+ ARPU expansion' }
       ],
       unitEconomics: [
-        { metric: 'LTV/CAC Ratio', current: '~2-3x (Trading-only)', target: '4-5x (Hybrid: Trading + MF)', driver: 'Cross-sell increases lifetime value' },
-        { metric: 'MF Margin', current: '0.5-0.75% (Distribution)', target: '1-1.5% (AMC Management)', driver: 'Vertical integration (2x expansion)' },
-        { metric: 'AUM per Customer', current: '₹2-3L (Single user)', target: '₹8-12L (Household)', driver: 'Family Wealth Monitor aggregates accounts' },
-        { metric: 'Support Cost', current: 'Baseline', target: '70-80% deflection', driver: 'AI Service Bot handles majority queries' }
-      ],
-      competitive: {
-        generic: ['Send push notifications, emails, SMS', 'Cannot provide financial advice', 'Cannot execute transactions', 'No regulatory compliance'],
-        ourPlatform: ['Complete financial advisory (stocks + MF)', 'End-to-end transaction execution', 'Built-in SEBI compliance', 'Domain-specific AI (RAG for financial products)', 'OpenAI App Distribution']
-      }
+        { metric: 'LTV/CAC Ratio', current: '2-3x (Trading-only)', target: '4-5x (Trading + MF)', driver: 'Cross-sell increases LTV' },
+        { metric: 'MF Margin', current: '0.5-0.75% (Distribution)', target: '1-1.5% (AMC)', driver: 'Vertical integration' },
+        { metric: 'AUM per Customer', current: '₹2-3L (Single)', target: '₹8-12L (Household)', driver: 'Family Wealth Platform' },
+        { metric: 'CAC', current: 'High (Physical + Digital)', target: '50-70% reduction', driver: 'Content-driven acquisition' }
+      ]
     }
   },
 
-  // Slide 10: Next Steps
+  // Slide 13: Next Steps
   {
-    id: 10,
+    id: 13,
     type: 'next-steps',
     title: 'Recommended Next Steps',
     subtitle: 'Path to Implementation',
@@ -358,43 +511,47 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
           name: 'Phase 1: Strategic Alignment',
           timeline: 'Week 1-2',
           items: [
-            'Review and prioritize interventions based on business objectives',
-            'Select initial focus (Horizon 1: Trading, Horizon 2: MF Launch, or Balanced)',
-            'Define success metrics and measurement framework'
+            'Review and prioritize interventions',
+            'Select initial focus areas',
+            'Define success metrics'
           ]
         },
         {
           name: 'Phase 2: Detailed Planning',
           timeline: 'Week 3-4',
           items: [
-            'Detailed execution plan with timeline, costs, resource requirements',
-            'Technical integration requirements and dependencies',
-            'Risk mitigation and compliance framework'
+            'Execution plan with costs & resources',
+            'Technical integration requirements',
+            'Risk mitigation & compliance framework'
           ]
         },
         {
           name: 'Phase 3: Technical Kickoff',
           timeline: 'Month 2',
           items: [
-            'Read-Only Portfolio Sync: Connect AI to back-office (Agnik/MasterSwift)',
-            'KYC API Integration: Plug AI Agent into onboarding flow',
-            'Content Feed: Connect discvr.ai news engine for Daily Brief',
-            'CIBIL Bridge: Enable credit-score pull for LAMF/LAS products'
+            'Portfolio Sync: Connect to Agnik/MasterSwift',
+            'KYC API: Plug into onboarding flow',
+            'Content Feed: Connect discvr.ai news',
+            'CIBIL Bridge: Enable credit-score pull'
           ]
         }
       ],
       horizonTimeline: [
-        { horizon: 'Horizon 1 (Months 1-6)', outcome: '30% reduction in KYC drop-offs, 15-20% trading frequency increase' },
-        { horizon: 'Horizon 2 (Months 7-12)', outcome: '100% automated MF distribution, ₹950+ Cr AUM target' },
-        { horizon: 'Horizon 3 (Months 13-18)', outcome: '₹25+ Cr lending book, 30-40% ARPU expansion' }
+        { horizon: 'Lever 1-3 (Months 1-12)', outcome: 'All core levers firing in parallel' },
+        { horizon: 'Lever 4 (Months 12-18)', outcome: '₹25+ Cr lending, 40%+ ARPU expansion' }
       ],
       guardrails: [
-        'Suitability Checks: AI ensures MF recommendations match user risk profile',
-        'No "Buy/Sell" Calls: Agent provides research-backed data, not direct investment advice',
-        'SEBI Compliance: Built-in regulatory guardrails, audit trails, disclosure management',
-        'Success KPI Scorecard: Daily dashboard for CEO tracking (AUM, conversions, ARPU, CAC)'
+        'Suitability Checks: AI matches recommendations to user risk profile',
+        'No "Buy/Sell" Calls: Research-backed data, not direct investment advice',
+        'SEBI Compliance: Built-in guardrails, audit trails, disclosures',
+        'Success KPI Scorecard: Daily CEO dashboard (AUM, conversions, ARPU, CAC)'
       ],
-      cta: 'We\'re ready to transform Master Trust into India\'s AI-first vertically integrated AMC.'
+      cta: 'We\'re ready to transform Master Trust into India\'s AI-first vertically integrated AMC.',
+      contact: {
+        name: 'Shubham Srivastava',
+        company: 'Discvr AI',
+        email: 'shubham@discvr.ai'
+      }
     }
   }
 ];
