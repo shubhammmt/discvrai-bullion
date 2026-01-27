@@ -1,4 +1,4 @@
-import { Shield, TrendingUp, Repeat, Gift, Sparkles, ArrowRight } from "lucide-react";
+import { Shield, TrendingUp, Repeat, Sparkles, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +19,7 @@ export function EducationalCards({ onBuyGold, onStartSIP }: EducationalCardsProp
             <Shield className="w-5 h-5 text-amber-400" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-sm mb-1">Why Gold? 🤔</h3>
+            <h3 className="font-semibold text-sm mb-1">Why Gold?</h3>
             <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
               Gold has preserved wealth for 5000+ years. It's your hedge against inflation and market crashes. 
               When stocks crash, gold often rises.
@@ -48,10 +48,10 @@ export function EducationalCards({ onBuyGold, onStartSIP }: EducationalCardsProp
             <Repeat className="w-5 h-5 text-emerald-400" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-sm mb-1">SIP = Lazy Investing ✨</h3>
+            <h3 className="font-semibold text-sm mb-1">SIP = Lazy Investing</h3>
             <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
               Set it and forget it. Auto-invest every month and benefit from rupee cost averaging. 
-              No timing the market, no stress.
+              No timing to go to market, no stress.
             </p>
             <div className="flex items-center gap-4 text-xs">
               <div className="flex items-center gap-1 text-emerald-400">
@@ -73,21 +73,6 @@ export function EducationalCards({ onBuyGold, onStartSIP }: EducationalCardsProp
         )}
       </Card>
 
-      {/* Digital vs Physical */}
-      <Card className="p-4 border-dashed">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-            <Gift className="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-sm mb-1">Digital {'>'} Physical</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              No storage costs, no theft risk, no making charges. Buy 0.001g at a time. 
-              Convert to physical gold anytime.
-            </p>
-          </div>
-        </div>
-      </Card>
 
       {/* Quick Facts */}
       <div className="grid grid-cols-3 gap-2">

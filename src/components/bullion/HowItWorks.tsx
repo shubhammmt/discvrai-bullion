@@ -20,8 +20,8 @@ const steps = [
   {
     step: 3,
     icon: Shield,
-    title: "Gold in Your Vault",
-    description: "Your gold is stored safely in insured vaults",
+    title: "Gold/Silver in Your Vault",
+    description: "Your Gold or Silver is stored safely in insured vaults",
     color: "emerald",
   },
 ];
