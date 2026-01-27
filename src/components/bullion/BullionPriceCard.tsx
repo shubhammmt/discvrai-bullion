@@ -139,7 +139,7 @@ export function BullionPriceCard({
               className={`flex-1 ${config.buttonBg} font-medium`}
             >
               <ShoppingCart className="w-3 h-3 mr-1" />
-              Buy
+              Buy {config.name}
             </Button>
             {hasHoldings && (
               <Button 
@@ -148,7 +148,7 @@ export function BullionPriceCard({
                 variant="outline"
                 className="flex-1"
               >
-                Sell
+                Sell {config.name}
               </Button>
             )}
           </div>
