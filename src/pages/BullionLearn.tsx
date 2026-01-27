@@ -34,7 +34,7 @@ const articles = [
     readTime: 6,
     date: "2024-01-14",
     featured: false,
-    image: "https://images.unsplash.com/photo-1574607383476-f517f260d30b?w=400",
+    image: "https://images.unsplash.com/photo-1589787168422-0c3774c28102?w=400",
   },
   {
     id: "3",
@@ -84,7 +84,7 @@ const articles = [
     readTime: 8,
     date: "2024-01-09",
     featured: false,
-    image: "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=400",
+    image: "https://images.unsplash.com/photo-1607292803062-5b8ff0531b88?w=400",
   },
   {
     id: "8",
