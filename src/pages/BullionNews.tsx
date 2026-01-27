@@ -59,7 +59,7 @@ const newsItems = [
   },
 ];
 
-const categories = ["All", "Gold", "Silver", "Policy", "Global", "Tax"];
+const categories = ["All", "Gold", "Silver", "Policy", "Global", "Tax", "Mutual Funds", "LAMF", "Videos"];
 
 export default function BullionNews() {
   const navigate = useNavigate();
@@ -117,7 +117,7 @@ export default function BullionNews() {
             <Newspaper className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Market News</h1>
+            <h1 className="text-2xl font-bold">Quick Insights</h1>
             <p className="text-muted-foreground">Curated feed on bullion prices and inflation data</p>
           </div>
         </div>
