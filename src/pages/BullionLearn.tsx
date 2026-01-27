@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
+import silverInvestment1 from "@/assets/silver-investment-1.jpg";
+import silverInvestment2 from "@/assets/silver-investment-2.jpg";
 
 const learnCategories = [
   { id: "all", label: "All", icon: BookOpen },
@@ -34,7 +36,7 @@ const articles = [
     readTime: 6,
     date: "2024-01-14",
     featured: false,
-    image: "https://images.unsplash.com/photo-1592296294817-d5fa9c42e0e4?w=400",
+    image: silverInvestment1,
   },
   {
     id: "3",
@@ -84,7 +86,7 @@ const articles = [
     readTime: 8,
     date: "2024-01-09",
     featured: false,
-    image: "https://images.unsplash.com/photo-1574607383476-f517f260d30b?w=400",
+    image: silverInvestment2,
   },
   {
     id: "8",
