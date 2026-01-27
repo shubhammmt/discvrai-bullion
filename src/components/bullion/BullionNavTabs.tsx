@@ -18,12 +18,12 @@ interface NavTab {
   id: string;
   label: string;
   route: string;
-  icon: React.ElementType;
+  icon: React.ElementType | null;
   badge?: string;
 }
 
 const navTabs: NavTab[] = [
-  { id: "trade", label: "Bullion", route: "/bullion", icon: TrendingUp },
+  { id: "trade", label: "Bullion", route: "/bullion", icon: null },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
   { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote },
   { id: "mutual-funds", label: "Mutual Funds", route: "/bullion/mutual-funds", icon: PieChart },
@@ -65,7 +65,7 @@ export function BullionNavTabs() {
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
-                <Icon className="w-4 h-4" />
+                {Icon && <Icon className="w-4 h-4" />}
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <Badge 
