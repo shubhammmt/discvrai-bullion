@@ -277,24 +277,55 @@ export default function BullionCalculators() {
                     {/* Gold Breakdown */}
                     {calcGoldWeight[0] > 0 && (
                       <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20">
-                        <h4 className="text-sm font-semibold text-amber-600 mb-2">Gold</h4>
-                        <div className="space-y-1 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Value ({calcGoldWeight[0]}g × ₹{calcGoldRate})</span>
-                            <span>₹{calcGoldValue.toLocaleString('en-IN')}</span>
+                        <h4 className="text-sm font-semibold text-amber-600 mb-3">Gold ({calcGoldWeight[0]}g)</h4>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          {/* Physical Gold */}
+                          <div className="space-y-1 text-sm">
+                            <p className="text-xs font-medium text-muted-foreground mb-2">Physical Jewellery</p>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Metal Value</span>
+                              <span>₹{calcGoldValue.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Making ({calcGoldMakingCharge[0]}%)</span>
+                              <span>₹{goldMakingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">GST (3%)</span>
+                              <span>₹{goldGst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
+                            <div className="flex justify-between font-medium pt-1 border-t border-amber-500/20">
+                              <span>Total</span>
+                              <span className="text-amber-600">₹{goldTotalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Making ({calcGoldMakingCharge[0]}%)</span>
-                            <span>₹{goldMakingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          
+                          {/* Digital Gold */}
+                          <div className="space-y-1 text-sm">
+                            <p className="text-xs font-medium text-emerald-600 mb-2">Digital Gold</p>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Metal Value</span>
+                              <span>₹{calcGoldValue.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Making</span>
+                              <span className="text-emerald-500">₹0</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">GST (3%)</span>
+                              <span>₹{(calcGoldValue * 0.03).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
+                            <div className="flex justify-between font-medium pt-1 border-t border-emerald-500/20">
+                              <span>Total</span>
+                              <span className="text-emerald-600">₹{digitalGoldPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">GST (3%)</span>
-                            <span>₹{goldGst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                          </div>
-                          <div className="flex justify-between font-medium pt-1 border-t border-amber-500/20">
-                            <span>Physical Price</span>
-                            <span className="text-amber-600">₹{goldTotalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                          </div>
+                        </div>
+                        
+                        <div className="mt-2 pt-2 border-t border-amber-500/20 flex justify-between text-sm">
+                          <span className="text-emerald-600 font-medium">You Save</span>
+                          <span className="text-emerald-600 font-bold">₹{goldSavings.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
                         </div>
                       </div>
                     )}
@@ -302,38 +333,69 @@ export default function BullionCalculators() {
                     {/* Silver Breakdown */}
                     {calcSilverWeight[0] > 0 && (
                       <div className="p-3 rounded-lg bg-slate-500/5 border border-slate-500/20">
-                        <h4 className="text-sm font-semibold text-slate-400 mb-2">Silver</h4>
-                        <div className="space-y-1 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Value ({calcSilverWeight[0]}g × ₹{calcSilverRate})</span>
-                            <span>₹{calcSilverValue.toLocaleString('en-IN')}</span>
+                        <h4 className="text-sm font-semibold text-slate-400 mb-3">Silver ({calcSilverWeight[0]}g)</h4>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          {/* Physical Silver */}
+                          <div className="space-y-1 text-sm">
+                            <p className="text-xs font-medium text-muted-foreground mb-2">Physical Jewellery</p>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Metal Value</span>
+                              <span>₹{calcSilverValue.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Making ({calcSilverMakingCharge[0]}%)</span>
+                              <span>₹{silverMakingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">GST (3%)</span>
+                              <span>₹{silverGst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
+                            <div className="flex justify-between font-medium pt-1 border-t border-slate-500/20">
+                              <span>Total</span>
+                              <span className="text-slate-400">₹{silverTotalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Making ({calcSilverMakingCharge[0]}%)</span>
-                            <span>₹{silverMakingCharges.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                          
+                          {/* Digital Silver */}
+                          <div className="space-y-1 text-sm">
+                            <p className="text-xs font-medium text-emerald-600 mb-2">Digital Silver</p>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Metal Value</span>
+                              <span>₹{calcSilverValue.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Making</span>
+                              <span className="text-emerald-500">₹0</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">GST (3%)</span>
+                              <span>₹{(calcSilverValue * 0.03).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
+                            <div className="flex justify-between font-medium pt-1 border-t border-emerald-500/20">
+                              <span>Total</span>
+                              <span className="text-emerald-600">₹{digitalSilverPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">GST (3%)</span>
-                            <span>₹{silverGst.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                          </div>
-                          <div className="flex justify-between font-medium pt-1 border-t border-slate-500/20">
-                            <span>Physical Price</span>
-                            <span className="text-slate-400">₹{silverTotalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                          </div>
+                        </div>
+                        
+                        <div className="mt-2 pt-2 border-t border-slate-500/20 flex justify-between text-sm">
+                          <span className="text-emerald-600 font-medium">You Save</span>
+                          <span className="text-emerald-600 font-bold">₹{silverSavings.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
                         </div>
                       </div>
                     )}
 
-                    {/* Total Physical */}
-                    <div className="flex justify-between py-3 bg-muted/30 rounded-lg px-3">
-                      <span className="font-semibold">Total Physical Price</span>
-                      <span className="font-bold text-lg">₹{totalPhysicalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
-                    </div>
-                    
-                    {/* Digital Price */}
-                    <div className="flex justify-between py-2 border-b border-emerald-500/30">
-                      <span className="text-sm text-emerald-600">Digital Bullion Price</span>
-                      <span className="font-medium text-emerald-600">₹{totalDigitalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
+                    {/* Total Summary */}
+                    <div className="grid grid-cols-2 gap-3 py-3 bg-muted/30 rounded-lg px-3">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Total Physical</p>
+                        <p className="font-bold text-lg">₹{totalPhysicalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-emerald-600">Total Digital</p>
+                        <p className="font-bold text-lg text-emerald-600">₹{totalDigitalPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
+                      </div>
                     </div>
                     
                     {/* Savings */}
