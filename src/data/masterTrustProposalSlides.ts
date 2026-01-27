@@ -16,7 +16,7 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
     content: {
       tagline: 'Transform from Transaction-Led Broker to AI-First Vertically Integrated AMC',
       date: 'January 2025',
-      preparedFor: 'Puneet Singhania, CEO, Master Trust',
+      preparedFor: 'Puneet Singhania, CFA, Whole-time Director - Master Capital Services Limited',
       preparedBy: 'Shubham Srivastava, Discvr AI',
       metrics: [
         { value: '₹950+ Cr', label: 'Year 1 AUM Target' },
