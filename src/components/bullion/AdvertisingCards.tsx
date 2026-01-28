@@ -4,9 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Rocket, Sparkles, TrendingUp, Shield, Gift, Clock, 
   Zap, Target, PiggyBank, Wallet, Star, ArrowRight,
-  ShieldCheck, Building, Coins, RefreshCw
+  ShieldCheck, Building, Coins, RefreshCw, Bell
 } from "lucide-react";
 import { motion } from "framer-motion";
+import digitalGoldCoin from "@/assets/digital-gold-coin.png";
+import digitalSilverCoin from "@/assets/digital-silver-coin.png";
 
 // Smart Investment Card - Gold Focus
 export const SmartGoldCard = () => (
@@ -311,60 +313,77 @@ export const SIPEducationCard = () => (
   </motion.div>
 );
 
-// Hero Banner Card - Compact & Attractive
+// Hero Banner Card - Matching Launch Announcement style
 export const HeroBannerCard = () => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
+    initial={{ opacity: 0, scale: 0.98 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.5 }}
     className="ad-card"
   >
-    <Card className="relative overflow-hidden bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 text-white rounded-2xl">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-4 right-8 text-8xl">🪙</div>
-        <div className="absolute bottom-2 right-24 text-6xl opacity-50">✨</div>
-      </div>
+    <Card className="relative overflow-hidden p-6 bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-slate-400/10 border-2 border-primary/20">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(251,191,36,0.1),transparent_50%),radial-gradient(circle_at_70%_50%,rgba(148,163,184,0.1),transparent_50%)]" />
       
-      {/* Main content */}
-      <div className="relative z-10 p-6 flex items-center justify-between gap-6">
-        {/* Left side - Content */}
-        <div className="flex-1">
-          <Badge className="bg-white/25 text-white font-bold px-3 py-1 mb-3 backdrop-blur-sm">
-            <Rocket className="w-3.5 h-3.5 mr-1.5" />
-            LAUNCHING SOON
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <Rocket className="w-5 h-5 text-primary animate-bounce" />
+          <Badge className="bg-primary text-primary-foreground font-bold px-4 py-1.5 text-sm">
+            🚀 LAUNCHING SOON
           </Badge>
+          <Rocket className="w-5 h-5 text-primary animate-bounce" />
+        </div>
 
-          <h2 className="text-2xl md:text-3xl font-bold mb-1">Start Your Gold Journey</h2>
-          <p className="text-white/90 mb-4">Invest in 24K Pure Gold from just ₹10</p>
+        {/* Main Message */}
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-amber-500 via-primary to-slate-400 bg-clip-text text-transparent">
+          Start Your Investment Journey
+        </h2>
+        <p className="text-center text-muted-foreground mb-6 max-w-xl mx-auto">
+          Invest in Digital Gold & Silver from just ₹10. 100% Insured, Free Vault Storage, Sell Anytime!
+        </p>
 
-          <div className="flex items-center gap-4 text-sm mb-4">
-            <span className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-full">
-              <Shield className="w-3.5 h-3.5" /> Insured
-            </span>
-            <span className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-full">
-              <Building className="w-3.5 h-3.5" /> Free Vault
-            </span>
-            <span className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-full">
-              <Zap className="w-3.5 h-3.5" /> Instant
-            </span>
+        {/* Products Grid with Images */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-amber-500/10 border border-amber-400/30">
+            <img src={digitalGoldCoin} alt="Digital Gold" className="w-16 h-16 object-contain rounded-lg" />
+            <div>
+              <p className="font-bold text-amber-600 text-lg">Digital Gold</p>
+              <p className="text-sm text-muted-foreground">24K Pure • 99.9% Certified</p>
+            </div>
           </div>
-
-          <div className="flex gap-3">
-            <Button className="bg-white text-amber-600 font-bold hover:bg-white/90 shadow-lg">
-              Buy Gold
-            </Button>
-            <Button className="bg-slate-800 text-white font-bold hover:bg-slate-900 shadow-lg">
-              Buy Silver
-            </Button>
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-400/10 border border-slate-400/30">
+            <img src={digitalSilverCoin} alt="Digital Silver" className="w-16 h-16 object-contain rounded-lg" />
+            <div>
+              <p className="font-bold text-slate-500 text-lg">Digital Silver</p>
+              <p className="text-sm text-muted-foreground">999 Pure • 99.9% Certified</p>
+            </div>
           </div>
         </div>
 
-        {/* Right side - Visual element */}
-        <div className="hidden md:flex flex-col items-center justify-center">
-          <div className="w-28 h-28 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-xl border-4 border-white/30">
-            <span className="text-5xl">🪙</span>
-          </div>
-          <p className="mt-2 text-sm font-medium text-white/80">24K Pure</p>
+        {/* Features */}
+        <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground mb-6">
+          <span className="flex items-center gap-1.5">
+            <Shield className="w-4 h-4 text-emerald-500" /> 100% Insured
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Building className="w-4 h-4 text-blue-500" /> Free Vault
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-amber-500" /> Instant Buy/Sell
+          </span>
+        </div>
+
+        {/* CTA */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button size="lg" className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white font-semibold hover:opacity-90">
+            <Bell className="w-4 h-4 mr-2" />
+            Get Early Access
+          </Button>
+          <Button size="lg" variant="outline" className="font-semibold">
+            Learn More
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
         </div>
       </div>
     </Card>
