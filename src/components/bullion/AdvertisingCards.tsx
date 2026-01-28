@@ -52,9 +52,12 @@ export const SmartGoldCard = () => (
         </div>
       </div>
 
-      <div className="flex items-center gap-2 p-3 rounded-xl bg-amber-100 border border-amber-200">
-        <Sparkles className="w-5 h-5 text-amber-600" />
-        <span className="text-sm font-medium text-amber-700">Powered by Augmont</span>
+      <div className="flex items-center justify-between gap-2 p-3 rounded-xl bg-amber-100 border border-amber-200">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-amber-600" />
+          <span className="text-sm font-medium text-amber-700">Powered by Augmont</span>
+        </div>
+        <span className="text-xs font-bold bg-gradient-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">DiscvrAI</span>
       </div>
     </Card>
   </motion.div>
@@ -102,9 +105,12 @@ export const SmartSilverCard = () => (
         </div>
       </div>
 
-      <div className="flex items-center gap-2 p-3 rounded-xl bg-slate-100 border border-slate-200">
-        <Sparkles className="w-5 h-5 text-slate-500" />
-        <span className="text-sm font-medium text-slate-600">Powered by Augmont</span>
+      <div className="flex items-center justify-between gap-2 p-3 rounded-xl bg-slate-100 border border-slate-200">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-slate-500" />
+          <span className="text-sm font-medium text-slate-600">Powered by Augmont</span>
+        </div>
+        <span className="text-xs font-bold bg-gradient-to-r from-slate-600 to-zinc-500 bg-clip-text text-transparent">DiscvrAI</span>
       </div>
     </Card>
   </motion.div>
@@ -135,9 +141,10 @@ export const WelcomeBonusCard = () => (
       </div>
       <p className="text-emerald-600 mb-6">On your first purchase</p>
 
-      <Button className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold">
+      <Button className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold mb-3">
         Claim Now <ArrowRight className="w-4 h-4 ml-2" />
       </Button>
+      <p className="text-center text-xs font-bold bg-gradient-to-r from-emerald-600 to-green-500 bg-clip-text text-transparent">Exclusive on DiscvrAI</p>
     </Card>
   </motion.div>
 );
@@ -167,9 +174,10 @@ export const SIPBonusCard = () => (
       </div>
       <p className="text-sky-600 mb-6">On your first SIP</p>
 
-      <Button className="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold">
+      <Button className="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold mb-3">
         Start SIP <ArrowRight className="w-4 h-4 ml-2" />
       </Button>
+      <p className="text-center text-xs font-bold bg-gradient-to-r from-sky-600 to-blue-500 bg-clip-text text-transparent">Exclusive on DiscvrAI</p>
     </Card>
   </motion.div>
 );
@@ -211,9 +219,10 @@ export const DontMissCard = () => (
           </div>
         </div>
 
-        <Button className="w-full bg-white text-purple-600 font-bold hover:bg-white/90">
+        <Button className="w-full bg-white text-purple-600 font-bold hover:bg-white/90 mb-3">
           Grab Now <Sparkles className="w-4 h-4 ml-2" />
         </Button>
+        <p className="text-center text-xs font-semibold text-white/80">Only on <span className="font-bold text-white">DiscvrAI</span></p>
       </div>
     </Card>
   </motion.div>
@@ -266,7 +275,7 @@ export const WhyDigitalCard = () => (
       <div className="mt-4 p-3 rounded-xl bg-gradient-to-r from-amber-100 to-slate-100 border border-amber-200">
         <p className="text-center text-sm font-medium text-slate-700">
           <Sparkles className="w-4 h-4 inline mr-1 text-amber-500" />
-          Smart Investment Starts Here
+          Smart Investment with <span className="font-bold bg-gradient-to-r from-amber-600 to-slate-600 bg-clip-text text-transparent">DiscvrAI</span>
         </p>
       </div>
     </Card>
@@ -306,9 +315,10 @@ export const SIPEducationCard = () => (
         </div>
       </div>
 
-      <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold">
+      <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold mb-3">
         Start Gold SIP <ArrowRight className="w-4 h-4 ml-2" />
       </Button>
+      <p className="text-center text-xs font-bold bg-gradient-to-r from-teal-600 to-cyan-500 bg-clip-text text-transparent">Powered by DiscvrAI</p>
     </Card>
   </motion.div>
 );
@@ -374,6 +384,12 @@ export const HeroBannerCard = () => (
           </span>
         </div>
 
+        {/* DiscvrAI Branding */}
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <span className="text-sm text-muted-foreground">Exclusive on</span>
+          <span className="font-bold text-lg bg-gradient-to-r from-amber-500 via-primary to-slate-400 bg-clip-text text-transparent">DiscvrAI</span>
+        </div>
+
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button size="lg" className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white font-semibold hover:opacity-90">
@@ -425,7 +441,7 @@ export const ComparisonCard = () => (
 
       <div className="mt-4 p-3 rounded-xl bg-gradient-to-r from-amber-100 to-emerald-100">
         <p className="text-center text-sm font-semibold text-slate-700">
-          Digital Gold = Smart Investment 💡
+          <span className="font-bold bg-gradient-to-r from-amber-600 to-emerald-600 bg-clip-text text-transparent">DiscvrAI</span> = Smart Investment 💡
         </p>
       </div>
     </Card>
