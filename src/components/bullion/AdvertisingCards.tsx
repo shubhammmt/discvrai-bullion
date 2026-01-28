@@ -350,7 +350,7 @@ export const HeroBannerCard = () => (
           <Button className="bg-white text-amber-600 font-bold hover:bg-white/90">
             Buy Gold <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
-          <Button variant="outline" className="border-white text-white hover:bg-white/10">
+          <Button className="bg-slate-700 text-white font-bold hover:bg-slate-800 border-2 border-slate-600">
             Buy Silver
           </Button>
         </div>
