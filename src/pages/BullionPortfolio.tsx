@@ -773,7 +773,7 @@ function HoldingCard({
   );
 }
 
-// Transaction Row Component
+// Transaction Row Component - New Black Card Design
 function TransactionRow({ 
   transaction,
   goldPrice = 6250.50,
@@ -791,8 +791,9 @@ function TransactionRow({
   goldPrice?: number;
   silverPrice?: number;
 }) {
-  const { type, metal, grams, amount, date, status, id } = transaction;
+  const { type, metal, grams, amount, date, status } = transaction;
   const isGold = metal === "gold";
+  const ratePerGram = isGold ? goldPrice : silverPrice;
   
   const handleDownloadInvoice = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -801,41 +802,56 @@ function TransactionRow({
   };
   
   return (
-    <div className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-          type === "sell" 
-            ? "bg-red-500/20" 
-            : type === "sip" 
-              ? "bg-blue-500/20" 
-              : "bg-emerald-500/20"
-        }`}>
-          <span className="text-lg">{isGold ? "🪙" : "🥈"}</span>
-        </div>
-        <div>
-          <p className="font-medium capitalize">
-            {type === "sip" ? "SIP" : type} {metal}
-          </p>
-          <p className="text-xs text-muted-foreground">{date}</p>
-        </div>
+    <div className="relative pt-3 mb-4">
+      {/* Floating Date Badge */}
+      <div 
+        className="absolute top-0 left-6 z-10 px-4 py-1.5 rounded-full text-white text-sm font-medium"
+        style={{ backgroundColor: '#A89F73' }}
+      >
+        {date}
       </div>
-      <div className="flex items-center gap-3">
-        <div className="text-right">
-          <p className={`font-medium ${type === "sell" ? "text-red-400" : "text-emerald-400"}`}>
-            {type === "sell" ? "-" : "+"}{grams}g
-          </p>
-          <p className="text-xs text-muted-foreground">₹{amount.toLocaleString()}</p>
+
+      {/* Card Container */}
+      <div className="bg-black rounded-2xl p-6 pt-8">
+        {/* 3-Column Grid */}
+        <div className="grid grid-cols-3 gap-4">
+          {/* Column 1 - Left Aligned */}
+          <div className="text-left">
+            <p className="text-white text-sm mb-1">
+              {type === "sip" ? "SIP" : type === "buy" ? "Purchased" : "Sold"} {isGold ? "Gold" : "Silver"}
+            </p>
+            <p className="text-xl sm:text-2xl font-semibold" style={{ color: '#F4CE14' }}>
+              {grams.toFixed(4)} g
+            </p>
+            {status === "success" && (
+              <button
+                onClick={handleDownloadInvoice}
+                className="flex items-center gap-1.5 mt-2 group"
+              >
+                <Download className="w-4 h-4" style={{ color: '#F4CE14' }} />
+                <span className="text-white text-sm group-hover:underline">
+                  Download Invoice
+                </span>
+              </button>
+            )}
+          </div>
+
+          {/* Column 2 - Center Aligned */}
+          <div className="text-center">
+            <p className="text-white text-sm mb-1">Total amount</p>
+            <p className="text-xl sm:text-2xl font-semibold" style={{ color: '#F4CE14' }}>
+              ₹{amount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+            </p>
+          </div>
+
+          {/* Column 3 - Right Aligned */}
+          <div className="text-right">
+            <p className="text-white text-sm mb-1">{isGold ? "Gold" : "Silver"} rate/g</p>
+            <p className="text-xl sm:text-2xl font-semibold" style={{ color: '#F4CE14' }}>
+              ₹{ratePerGram.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+            </p>
+          </div>
         </div>
-        {status === "success" && (
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="h-8 w-8 hover:bg-amber-500/10"
-            onClick={handleDownloadInvoice}
-          >
-            <Download className="w-4 h-4 text-amber-500" />
-          </Button>
-        )}
       </div>
     </div>
   );
