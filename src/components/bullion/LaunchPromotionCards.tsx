@@ -91,12 +91,13 @@ export const LaunchPromoCard = ({ metal, className = "" }: LaunchPromoCardProps)
 
         {/* CTA */}
         <Link to="/bullion">
-          <Button className={`w-full bg-gradient-to-r ${config.gradient} text-white font-semibold hover:opacity-90`}>
+          <Button className={`w-full bg-gradient-to-r ${config.gradient} text-white font-semibold hover:opacity-90 mb-3`}>
             <Bell className="w-4 h-4 mr-2" />
             Notify Me
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </Link>
+        <p className={`text-center text-xs font-bold bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent`}>Exclusive on DiscvrAI</p>
       </Card>
     </motion.div>
   );
@@ -129,8 +130,12 @@ export const LaunchPromoBanner = ({ className = "" }: { className?: string }) =>
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 bg-gradient-to-r from-amber-500 via-primary to-slate-400 bg-clip-text text-transparent">
             Don't Miss the Launch Offers!
           </h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-xl mx-auto">
+          <p className="text-center text-muted-foreground mb-2 max-w-xl mx-auto">
             Be the first to invest in Digital Gold & Silver. Exclusive bonuses for early investors!
+          </p>
+          <p className="text-center mb-6">
+            <span className="text-sm text-muted-foreground">Only on </span>
+            <span className="font-bold text-lg bg-gradient-to-r from-amber-500 via-primary to-slate-400 bg-clip-text text-transparent">DiscvrAI</span>
           </p>
 
           {/* Offers Grid */}
