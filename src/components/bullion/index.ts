@@ -9,6 +9,13 @@ export {
   BullionInlineWidget,
 } from './BullionPromotionCard';
 
+// Launch promotion cards
+export {
+  LaunchPromoCard,
+  LaunchPromoBanner,
+  LaunchPromoGrid,
+} from './LaunchPromotionCards';
+
 // Dashboard components
 export { QuickTradePanel } from './QuickTradePanel';
 export { PortfolioSummaryWidget } from './PortfolioSummaryWidget';
