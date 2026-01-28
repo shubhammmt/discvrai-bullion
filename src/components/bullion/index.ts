@@ -55,3 +55,4 @@ export { BullionMobileMenu } from './BullionMobileMenu';
 // Phase 6 - Goals & Invoice
 export { generateInvoicePDF } from './InvoiceGenerator';
 export { StartSIPDialog } from './StartSIPDialog';
+export { TransactionCard } from './TransactionCard';

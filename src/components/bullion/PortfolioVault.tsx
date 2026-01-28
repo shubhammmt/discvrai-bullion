@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, Download, TrendingUp, TrendingDown, Clock, CheckCircle2 } from "lucide-react";
-import { toast } from "sonner";
-import { generateInvoicePDF } from "./InvoiceGenerator";
+import { Shield } from "lucide-react";
+import { TransactionCard } from "./TransactionCard";
 
 interface Transaction {
   id: string;
@@ -37,17 +34,6 @@ export function PortfolioVault({
   const goldValue = goldHoldings * goldPrice;
   const silverValue = silverHoldings * silverPrice;
   const totalValue = goldValue + silverValue;
-
-  const handleDownloadInvoice = (tx: Transaction) => {
-    // Convert to the format expected by generateInvoicePDF
-    const txForPDF = {
-      ...tx,
-      type: tx.type as "buy" | "sell" | "sip",
-      status: tx.status as "success" | "pending" | "failed",
-    };
-    generateInvoicePDF(txForPDF, goldPrice, silverPrice);
-    toast.success("Invoice downloaded successfully!");
-  };
 
   return (
     <div className="space-y-6">
@@ -97,89 +83,44 @@ export function PortfolioVault({
         </div>
       </Card>
 
-      {/* Transaction History */}
-      <Card className="border-border/50">
+      {/* Transaction Details */}
+      <div className="bg-white rounded-xl p-6">
+        <h2 className="text-2xl font-semibold text-black mb-6">Transaction Details</h2>
+        
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="p-4 border-b border-border/50">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="holdings">Passbook</TabsTrigger>
-              <TabsTrigger value="sips">Active SIPs</TabsTrigger>
-            </TabsList>
-          </div>
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="holdings">Passbook</TabsTrigger>
+            <TabsTrigger value="sips">Active SIPs</TabsTrigger>
+          </TabsList>
 
-          <TabsContent value="holdings" className="p-4 space-y-3">
+          <TabsContent value="holdings" className="mt-0">
             {transactions.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
                 <p>No transactions yet</p>
                 <p className="text-sm">Your transaction history will appear here</p>
               </div>
             ) : (
-              transactions.map((tx) => (
-                <div
-                  key={tx.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      tx.type === "buy" 
-                        ? "bg-emerald-500/20" 
-                        : "bg-red-500/20"
-                    }`}>
-                      {tx.type === "buy" ? (
-                        <TrendingUp className={`w-5 h-5 ${tx.type === "buy" ? "text-emerald-400" : "text-red-400"}`} />
-                      ) : (
-                        <TrendingDown className="w-5 h-5 text-red-400" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-medium capitalize">{tx.type} {tx.metal}</p>
-                      <p className="text-sm text-muted-foreground">{tx.date}</p>
-                    </div>
-                  </div>
-                  <div className="text-right flex items-center gap-3">
-                    <div>
-                      <p className="font-semibold">{tx.grams.toFixed(4)}g</p>
-                      <p className={`text-sm ${tx.type === "buy" ? "text-red-400" : "text-emerald-400"}`}>
-                        {tx.type === "buy" ? "-" : "+"}₹{tx.amount.toLocaleString("en-IN")}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {tx.status === "success" ? (
-                        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
-                          <CheckCircle2 className="w-3 h-3 mr-1" />
-                          Success
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="bg-amber-500/10 text-amber-400 border-amber-500/30">
-                          <Clock className="w-3 h-3 mr-1" />
-                          Pending
-                        </Badge>
-                      )}
-                      {tx.status === "success" && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDownloadInvoice(tx)}
-                          className="h-8 w-8 hover:bg-amber-500/10"
-                        >
-                          <Download className="w-4 h-4 text-amber-500" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))
+              <div className="space-y-2">
+                {transactions.map((tx) => (
+                  <TransactionCard
+                    key={tx.id}
+                    transaction={tx}
+                    goldPrice={goldPrice}
+                    silverPrice={silverPrice}
+                  />
+                ))}
+              </div>
             )}
           </TabsContent>
 
-          <TabsContent value="sips" className="p-4">
+          <TabsContent value="sips" className="mt-0">
             <div className="text-center py-8 text-muted-foreground">
               <p>No active SIPs</p>
               <p className="text-sm">Start a SIP to see it here</p>
             </div>
           </TabsContent>
         </Tabs>
-      </Card>
+      </div>
     </div>
   );
 }
