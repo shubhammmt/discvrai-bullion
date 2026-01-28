@@ -448,7 +448,7 @@ export default function BullionProfile() {
           </h3>
           <Card className="divide-y divide-border">
             <QuickLinkItem icon={Shield} label="Privacy & Security" />
-            <QuickLinkItem icon={CreditCard} label="Transaction History" />
+            <QuickLinkItem icon={CreditCard} label="Transaction History" onClick={() => navigate("/bullion/portfolio")} />
             <QuickLinkItem icon={Users} label="Refer & Earn" />
           </Card>
         </div>
@@ -462,9 +462,12 @@ export default function BullionProfile() {
   );
 }
 
-function QuickLinkItem({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
+function QuickLinkItem({ icon: Icon, label, onClick }: { icon: React.ElementType; label: string; onClick?: () => void }) {
   return (
-    <button className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
+    <button 
+      className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
+      onClick={onClick}
+    >
       <div className="flex items-center gap-3">
         <Icon className="w-5 h-5 text-muted-foreground" />
         <span className="font-medium">{label}</span>

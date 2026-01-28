@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Bell, User, TrendingUp, TrendingDown, Wallet, Calendar, Filter, ChevronRight, Clock, Target, Sparkles } from "lucide-react";
+import { ArrowLeft, Bell, User, TrendingUp, TrendingDown, Wallet, Calendar, Filter, ChevronRight, Clock, Target, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -8,8 +8,9 @@ import { LoginPromptModal } from "@/components/bullion/LoginPromptModal";
 import { GrowthCalculator } from "@/components/bullion/GrowthCalculator";
 import { GoalBasedPlanner } from "@/components/bullion/GoalBasedPlanner";
 import { UnifiedBuyModal } from "@/components/bullion/UnifiedBuyModal";
-import { UserStateSwitcher, ThemeSwitcher } from "@/components/bullion";
+import { UserStateSwitcher, ThemeSwitcher, generateInvoicePDF } from "@/components/bullion";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { toast } from "sonner";
 
 type UserState = "new" | "logged_in_no_holdings" | "investor";
 
@@ -774,7 +775,9 @@ function HoldingCard({
 
 // Transaction Row Component
 function TransactionRow({ 
-  transaction 
+  transaction,
+  goldPrice = 6250.50,
+  silverPrice = 76.80,
 }: { 
   transaction: { 
     id: string; 
@@ -785,9 +788,17 @@ function TransactionRow({
     date: string; 
     status: "success" | "pending" | "failed";
   };
+  goldPrice?: number;
+  silverPrice?: number;
 }) {
-  const { type, metal, grams, amount, date } = transaction;
+  const { type, metal, grams, amount, date, status, id } = transaction;
   const isGold = metal === "gold";
+  
+  const handleDownloadInvoice = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    generateInvoicePDF(transaction, goldPrice, silverPrice);
+    toast.success("Invoice downloaded successfully!");
+  };
   
   return (
     <div className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
@@ -808,11 +819,23 @@ function TransactionRow({
           <p className="text-xs text-muted-foreground">{date}</p>
         </div>
       </div>
-      <div className="text-right">
-        <p className={`font-medium ${type === "sell" ? "text-red-400" : "text-emerald-400"}`}>
-          {type === "sell" ? "-" : "+"}{grams}g
-        </p>
-        <p className="text-xs text-muted-foreground">₹{amount.toLocaleString()}</p>
+      <div className="flex items-center gap-3">
+        <div className="text-right">
+          <p className={`font-medium ${type === "sell" ? "text-red-400" : "text-emerald-400"}`}>
+            {type === "sell" ? "-" : "+"}{grams}g
+          </p>
+          <p className="text-xs text-muted-foreground">₹{amount.toLocaleString()}</p>
+        </div>
+        {status === "success" && (
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 hover:bg-amber-500/10"
+            onClick={handleDownloadInvoice}
+          >
+            <Download className="w-4 h-4 text-amber-500" />
+          </Button>
+        )}
       </div>
     </div>
   );
