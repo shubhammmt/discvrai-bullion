@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Download, TrendingUp, TrendingDown, Clock, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { generateInvoicePDF } from "./InvoiceGenerator";
 
 interface Transaction {
   id: string;
@@ -37,8 +38,15 @@ export function PortfolioVault({
   const silverValue = silverHoldings * silverPrice;
   const totalValue = goldValue + silverValue;
 
-  const handleDownloadInvoice = (transactionId: string) => {
-    toast.success("Invoice download started");
+  const handleDownloadInvoice = (tx: Transaction) => {
+    // Convert to the format expected by generateInvoicePDF
+    const txForPDF = {
+      ...tx,
+      type: tx.type as "buy" | "sell" | "sip",
+      status: tx.status as "success" | "pending" | "failed",
+    };
+    generateInvoicePDF(txForPDF, goldPrice, silverPrice);
+    toast.success("Invoice downloaded successfully!");
   };
 
   return (
@@ -147,14 +155,16 @@ export function PortfolioVault({
                           Pending
                         </Badge>
                       )}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDownloadInvoice(tx.id)}
-                        className="h-8 w-8"
-                      >
-                        <Download className="w-4 h-4" />
-                      </Button>
+                      {tx.status === "success" && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDownloadInvoice(tx)}
+                          className="h-8 w-8 hover:bg-amber-500/10"
+                        >
+                          <Download className="w-4 h-4 text-amber-500" />
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>
