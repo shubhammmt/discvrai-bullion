@@ -111,6 +111,7 @@ import BullionTax from './pages/BullionTax';
 import BullionTrends from './pages/BullionTrends';
 import BullionCalculators from './pages/BullionCalculators';
 import BullionNotifications from './pages/BullionNotifications';
+import BullionLaunchOffers from './pages/BullionLaunchOffers';
 import NirmalBangProposal from './pages/NirmalBangProposal';
 import NirmalBangLeadDeck from './pages/NirmalBangLeadDeck';
 import JindalProposal from './pages/JindalProposal';
@@ -230,6 +231,7 @@ const AppContent = () => {
         <Route path="/bullion/trends" element={<BullionTrends />} />
         <Route path="/bullion/calculators" element={<BullionCalculators />} />
         <Route path="/bullion/notifications" element={<BullionNotifications />} />
+        <Route path="/bullion/launch-offers" element={<BullionLaunchOffers />} />
         <Route path="/metals/gold" element={<GoldPrices />} />
         <Route path="/metals/gold/:city" element={<GoldPricesCity />} />
         <Route path="/metals/silver" element={<SilverPrices />} />
