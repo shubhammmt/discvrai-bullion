@@ -311,62 +311,60 @@ export const SIPEducationCard = () => (
   </motion.div>
 );
 
-// Hero Banner Card - 3:2 aspect ratio
+// Hero Banner Card - Compact & Attractive
 export const HeroBannerCard = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className="ad-card"
   >
-    <Card 
-      className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500 text-white"
-      style={{ aspectRatio: '3 / 2' }}
-    >
-      {/* Decorative circles */}
-      <div className="absolute top-0 right-0 w-1/4 aspect-square bg-white/10 rounded-full -translate-y-1/3 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-1/5 aspect-square bg-white/10 rounded-full translate-y-1/3 -translate-x-1/4" />
+    <Card className="relative overflow-hidden bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 text-white rounded-2xl">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-4 right-8 text-8xl">🪙</div>
+        <div className="absolute bottom-2 right-24 text-6xl opacity-50">✨</div>
+      </div>
       
-      {/* Content container with flex layout */}
-      <div className="relative z-10 h-full flex flex-col justify-between p-6">
-        {/* Top section */}
-        <div>
-          <Badge className="bg-white/20 text-white font-bold px-3 py-1.5 text-sm">
-            <Rocket className="w-4 h-4 mr-1.5" />
+      {/* Main content */}
+      <div className="relative z-10 p-6 flex items-center justify-between gap-6">
+        {/* Left side - Content */}
+        <div className="flex-1">
+          <Badge className="bg-white/25 text-white font-bold px-3 py-1 mb-3 backdrop-blur-sm">
+            <Rocket className="w-3.5 h-3.5 mr-1.5" />
             LAUNCHING SOON
           </Badge>
-        </div>
 
-        {/* Middle section - Main content */}
-        <div className="flex-1 flex flex-col justify-center">
-          <h2 className="text-4xl font-bold mb-2">Start Your Gold Journey</h2>
-          <p className="text-xl text-white/90">Invest in 24K Pure Gold from ₹10</p>
-        </div>
+          <h2 className="text-2xl md:text-3xl font-bold mb-1">Start Your Gold Journey</h2>
+          <p className="text-white/90 mb-4">Invest in 24K Pure Gold from just ₹10</p>
 
-        {/* Bottom section - Features & CTAs */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5" />
-              <span className="font-medium">100% Insured</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Building className="w-5 h-5" />
-              <span className="font-medium">Free Vault</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5" />
-              <span className="font-medium">Sell Anytime</span>
-            </div>
+          <div className="flex items-center gap-4 text-sm mb-4">
+            <span className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-full">
+              <Shield className="w-3.5 h-3.5" /> Insured
+            </span>
+            <span className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-full">
+              <Building className="w-3.5 h-3.5" /> Free Vault
+            </span>
+            <span className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1 rounded-full">
+              <Zap className="w-3.5 h-3.5" /> Instant
+            </span>
           </div>
 
           <div className="flex gap-3">
-            <Button size="lg" className="bg-white text-amber-600 font-bold hover:bg-white/90 px-6">
+            <Button className="bg-white text-amber-600 font-bold hover:bg-white/90 shadow-lg">
               Buy Gold
             </Button>
-            <Button size="lg" className="bg-slate-700 text-white font-bold hover:bg-slate-800 border-2 border-slate-600 px-6">
+            <Button className="bg-slate-800 text-white font-bold hover:bg-slate-900 shadow-lg">
               Buy Silver
             </Button>
           </div>
+        </div>
+
+        {/* Right side - Visual element */}
+        <div className="hidden md:flex flex-col items-center justify-center">
+          <div className="w-28 h-28 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-xl border-4 border-white/30">
+            <span className="text-5xl">🪙</span>
+          </div>
+          <p className="mt-2 text-sm font-medium text-white/80">24K Pure</p>
         </div>
       </div>
     </Card>
