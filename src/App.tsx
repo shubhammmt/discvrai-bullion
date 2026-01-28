@@ -226,7 +226,7 @@ const AppContent = () => {
         <Route path="/bullion/goals" element={<BullionGoals />} />
         <Route path="/bullion/goals/new" element={<BullionGoalNew />} />
         <Route path="/bullion/premium" element={<BullionPremium />} />
-        <Route path="/bullion/learn" element={<BullionLearn />} />
+        <Route path="/bullion/learn" element={<BullionPremium />} />
         <Route path="/bullion/tax" element={<BullionTax />} />
         <Route path="/bullion/trends" element={<BullionTrends />} />
         <Route path="/bullion/calculators" element={<BullionCalculators />} />

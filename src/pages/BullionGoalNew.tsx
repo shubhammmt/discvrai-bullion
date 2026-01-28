@@ -79,8 +79,27 @@ export default function BullionGoalNew() {
   }, [targetAmount, totalMonths, preferredMetal, monthlyRequired, goldPrice, silverPrice]);
 
   const handleCreateGoal = () => {
-    console.log("Creating goal:", { goalName, targetAmount, years, months, preferredMetal, sipRecommendation });
-    navigate("/bullion/goals");
+    // Create goal object
+    const newGoal = {
+      id: `goal_${Date.now()}`,
+      name: goalName,
+      targetAmount,
+      years,
+      months,
+      totalMonths,
+      monthlyRequired,
+      preferredMetal,
+      sipRecommendation,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Save to localStorage
+    const existingGoals = JSON.parse(localStorage.getItem("bullion_goals") || "[]");
+    existingGoals.push(newGoal);
+    localStorage.setItem("bullion_goals", JSON.stringify(existingGoals));
+
+    // Navigate to goals page with the new goal ID to trigger SIP dialog
+    navigate(`/bullion/goals?newGoal=${newGoal.id}`);
   };
 
   return (

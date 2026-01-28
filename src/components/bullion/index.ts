@@ -51,3 +51,7 @@ export { GoalBasedPlanner } from './GoalBasedPlanner';
 // Phase 5 - Navigation Components
 export { BullionNavTabs } from './BullionNavTabs';
 export { BullionMobileMenu } from './BullionMobileMenu';
+
+// Phase 6 - Goals & Invoice
+export { generateInvoicePDF } from './InvoiceGenerator';
+export { StartSIPDialog } from './StartSIPDialog';
