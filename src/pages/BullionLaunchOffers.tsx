@@ -10,9 +10,15 @@ import {
   HeroBannerCard,
   ComparisonCard,
 } from "@/components/bullion/AdvertisingCards";
-import { ArrowLeft, Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, Loader2, Image, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -22,11 +28,11 @@ const BullionLaunchOffers = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const downloadAllCards = async () => {
+  const downloadAllAsPDF = async () => {
     if (!cardsRef.current) return;
 
     setIsDownloading(true);
-    toast.info("Preparing cards for download...");
+    toast.info("Preparing PDF...");
 
     try {
       const cards = cardsRef.current.querySelectorAll('.ad-card');
@@ -44,25 +50,64 @@ const BullionLaunchOffers = () => {
           logging: false,
         });
 
-        const imgData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
         const imgWidth = pageWidth - (margin * 2);
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Check if we need a new page
         if (currentY + imgHeight > pageHeight - margin) {
           pdf.addPage();
           currentY = margin;
         }
 
-        pdf.addImage(imgData, 'PNG', margin, currentY, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'JPEG', margin, currentY, imgWidth, imgHeight);
         currentY += imgHeight + 10;
       }
 
       pdf.save('discvr-bullion-promotional-cards.pdf');
-      toast.success("Cards downloaded successfully!");
+      toast.success("PDF downloaded!");
     } catch (error) {
       console.error("Download error:", error);
-      toast.error("Failed to download cards");
+      toast.error("Failed to download PDF");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const downloadAllAsJPG = async () => {
+    if (!cardsRef.current) return;
+
+    setIsDownloading(true);
+    toast.info("Preparing JPG files...");
+
+    try {
+      const cards = cardsRef.current.querySelectorAll('.ad-card');
+      const cardNames = [
+        'hero-banner', 'launch-banner', 'smart-gold', 'smart-silver',
+        'launch-gold', 'launch-silver', 'welcome-bonus', 'sip-bonus',
+        'dont-miss', 'why-digital', 'sip-education', 'comparison'
+      ];
+
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i] as HTMLElement;
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          logging: false,
+        });
+
+        const link = document.createElement('a');
+        link.download = `discvr-${cardNames[i] || `card-${i + 1}`}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.click();
+        
+        // Small delay between downloads to prevent browser blocking
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
+
+      toast.success("All JPG files downloaded!");
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to download JPG files");
     } finally {
       setIsDownloading(false);
     }
@@ -103,14 +148,28 @@ const BullionLaunchOffers = () => {
             </Link>
             <h1 className="text-lg font-semibold">Launch Offers & Promotional Cards</h1>
           </div>
-          <Button onClick={downloadAllCards} disabled={isDownloading} className="gap-2">
-            {isDownloading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Download className="w-4 h-4" />
-            )}
-            Download All Cards (PDF)
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={isDownloading} className="gap-2">
+                {isDownloading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4" />
+                )}
+                Download All Cards
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={downloadAllAsJPG} className="gap-2">
+                <Image className="w-4 h-4" />
+                Download as JPG files
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={downloadAllAsPDF} className="gap-2">
+                <FileText className="w-4 h-4" />
+                Download as PDF
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
