@@ -318,37 +318,37 @@ export const HeroBannerCard = () => (
     animate={{ opacity: 1, y: 0 }}
     className="ad-card"
   >
-    <Card className="relative overflow-hidden p-8 bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500 text-white min-h-[280px]">
-      <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-1/4 w-32 h-32 bg-white/10 rounded-full translate-y-1/2" />
+    <Card className="relative overflow-hidden p-6 bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500 text-white min-h-[200px]">
+      <div className="absolute top-0 right-0 w-36 h-36 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3" />
+      <div className="absolute bottom-0 left-1/4 w-20 h-20 bg-white/10 rounded-full translate-y-1/2" />
       
       <div className="relative z-10">
-        <Badge className="bg-white/20 text-white font-bold px-4 py-1.5 mb-4">
-          <Rocket className="w-4 h-4 mr-1.5" />
+        <Badge className="bg-white/20 text-white font-bold px-3 py-1 mb-3">
+          <Rocket className="w-3.5 h-3.5 mr-1" />
           LAUNCHING SOON
         </Badge>
 
-        <h2 className="text-4xl font-bold mb-2">Start Your Gold Journey</h2>
-        <p className="text-xl text-white/90 mb-6">Invest in 24K Pure Gold from ₹10</p>
+        <h2 className="text-3xl font-bold mb-1">Start Your Gold Journey</h2>
+        <p className="text-lg text-white/90 mb-4">Invest in 24K Pure Gold from ₹10</p>
 
-        <div className="flex items-center gap-6 mb-6">
-          <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5" />
+        <div className="flex items-center gap-4 mb-4 text-sm">
+          <div className="flex items-center gap-1.5">
+            <Shield className="w-4 h-4" />
             <span>100% Insured</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Building className="w-5 h-5" />
-            <span>Free Vault Storage</span>
+          <div className="flex items-center gap-1.5">
+            <Building className="w-4 h-4" />
+            <span>Free Vault</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5" />
+          <div className="flex items-center gap-1.5">
+            <Zap className="w-4 h-4" />
             <span>Sell Anytime</span>
           </div>
         </div>
 
         <div className="flex gap-3">
           <Button className="bg-white text-amber-600 font-bold hover:bg-white/90">
-            Buy Gold <ArrowRight className="w-4 h-4 ml-2" />
+            Buy Gold
           </Button>
           <Button className="bg-slate-700 text-white font-bold hover:bg-slate-800 border-2 border-slate-600">
             Buy Silver
