@@ -311,48 +311,62 @@ export const SIPEducationCard = () => (
   </motion.div>
 );
 
-// Hero Banner Card
+// Hero Banner Card - 3:2 aspect ratio
 export const HeroBannerCard = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className="ad-card"
   >
-    <Card className="relative overflow-hidden p-6 bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500 text-white min-h-[200px]">
-      <div className="absolute top-0 right-0 w-36 h-36 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-1/4 w-20 h-20 bg-white/10 rounded-full translate-y-1/2" />
+    <Card 
+      className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500 text-white"
+      style={{ aspectRatio: '3 / 2' }}
+    >
+      {/* Decorative circles */}
+      <div className="absolute top-0 right-0 w-1/4 aspect-square bg-white/10 rounded-full -translate-y-1/3 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-1/5 aspect-square bg-white/10 rounded-full translate-y-1/3 -translate-x-1/4" />
       
-      <div className="relative z-10">
-        <Badge className="bg-white/20 text-white font-bold px-3 py-1 mb-3">
-          <Rocket className="w-3.5 h-3.5 mr-1" />
-          LAUNCHING SOON
-        </Badge>
-
-        <h2 className="text-3xl font-bold mb-1">Start Your Gold Journey</h2>
-        <p className="text-lg text-white/90 mb-4">Invest in 24K Pure Gold from ₹10</p>
-
-        <div className="flex items-center gap-4 mb-4 text-sm">
-          <div className="flex items-center gap-1.5">
-            <Shield className="w-4 h-4" />
-            <span>100% Insured</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Building className="w-4 h-4" />
-            <span>Free Vault</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Zap className="w-4 h-4" />
-            <span>Sell Anytime</span>
-          </div>
+      {/* Content container with flex layout */}
+      <div className="relative z-10 h-full flex flex-col justify-between p-6">
+        {/* Top section */}
+        <div>
+          <Badge className="bg-white/20 text-white font-bold px-3 py-1.5 text-sm">
+            <Rocket className="w-4 h-4 mr-1.5" />
+            LAUNCHING SOON
+          </Badge>
         </div>
 
-        <div className="flex gap-3">
-          <Button className="bg-white text-amber-600 font-bold hover:bg-white/90">
-            Buy Gold
-          </Button>
-          <Button className="bg-slate-700 text-white font-bold hover:bg-slate-800 border-2 border-slate-600">
-            Buy Silver
-          </Button>
+        {/* Middle section - Main content */}
+        <div className="flex-1 flex flex-col justify-center">
+          <h2 className="text-4xl font-bold mb-2">Start Your Gold Journey</h2>
+          <p className="text-xl text-white/90">Invest in 24K Pure Gold from ₹10</p>
+        </div>
+
+        {/* Bottom section - Features & CTAs */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              <span className="font-medium">100% Insured</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Building className="w-5 h-5" />
+              <span className="font-medium">Free Vault</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Zap className="w-5 h-5" />
+              <span className="font-medium">Sell Anytime</span>
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <Button size="lg" className="bg-white text-amber-600 font-bold hover:bg-white/90 px-6">
+              Buy Gold
+            </Button>
+            <Button size="lg" className="bg-slate-700 text-white font-bold hover:bg-slate-800 border-2 border-slate-600 px-6">
+              Buy Silver
+            </Button>
+          </div>
         </div>
       </div>
     </Card>
