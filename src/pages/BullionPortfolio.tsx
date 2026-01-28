@@ -812,15 +812,15 @@ function TransactionRow({
       </div>
 
       {/* Card Container */}
-      <div className="bg-black rounded-xl p-4 pt-6">
+      <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-4 pt-6 border border-slate-200 dark:border-slate-700">
         {/* 3-Column Grid */}
         <div className="grid grid-cols-3 gap-2">
           {/* Column 1 - Left Aligned */}
           <div className="text-left">
-            <p className="text-white/70 text-xs mb-0.5">
+            <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">
               {type === "sip" ? "SIP" : type === "buy" ? "Purchased" : "Sold"} {isGold ? "Gold" : "Silver"}
             </p>
-            <p className="text-base font-semibold" style={{ color: '#F4CE14' }}>
+            <p className="text-base font-semibold text-amber-600 dark:text-amber-400">
               {grams.toFixed(4)} g
             </p>
             {status === "success" && (
@@ -828,8 +828,8 @@ function TransactionRow({
                 onClick={handleDownloadInvoice}
                 className="flex items-center gap-1 mt-1.5 group"
               >
-                <Download className="w-3 h-3" style={{ color: '#F4CE14' }} />
-                <span className="text-white/80 text-xs group-hover:underline">
+                <Download className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                <span className="text-slate-600 dark:text-slate-300 text-xs group-hover:underline">
                   Invoice
                 </span>
               </button>
@@ -838,16 +838,16 @@ function TransactionRow({
 
           {/* Column 2 - Center Aligned */}
           <div className="text-center">
-            <p className="text-white/70 text-xs mb-0.5">Total amount</p>
-            <p className="text-base font-semibold" style={{ color: '#F4CE14' }}>
+            <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">Total amount</p>
+            <p className="text-base font-semibold text-amber-600 dark:text-amber-400">
               ₹{amount.toLocaleString("en-IN")}
             </p>
           </div>
 
           {/* Column 3 - Right Aligned */}
           <div className="text-right">
-            <p className="text-white/70 text-xs mb-0.5">{isGold ? "Gold" : "Silver"} rate/g</p>
-            <p className="text-base font-semibold" style={{ color: '#F4CE14' }}>
+            <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">{isGold ? "Gold" : "Silver"} rate/g</p>
+            <p className="text-base font-semibold text-amber-600 dark:text-amber-400">
               ₹{ratePerGram.toLocaleString("en-IN")}
             </p>
           </div>
