@@ -71,7 +71,7 @@ export function TransactionCard({ transaction, goldPrice, silverPrice }: Transac
           <div className="text-center">
             <p className="text-white text-sm mb-1">Total amount</p>
             <p className="text-2xl font-semibold" style={{ color: '#F4CE14' }}>
-              ₹{transaction.amount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+              ₹{transaction.amount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
 
@@ -79,7 +79,7 @@ export function TransactionCard({ transaction, goldPrice, silverPrice }: Transac
           <div className="text-right">
             <p className="text-white text-sm mb-1">{isGold ? "Gold" : "Silver"} rate/g</p>
             <p className="text-2xl font-semibold" style={{ color: '#F4CE14' }}>
-              ₹{ratePerGram.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+              ₹{ratePerGram.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
         </div>
