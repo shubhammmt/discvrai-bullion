@@ -48,4 +48,65 @@
 
 ---
 
-## All Tasks Completed ✅
+## Task 5: KYC Failure Screen (PAN Not Available) 🔲
+**Status:** Pending  
+**Trigger:** Before Payment
+
+### Requirements:
+- **Screen Type:** Full page (desktop, mobile web, app)
+- **Recovery Action:** "Login with mobile number with attached PAN" - user authenticates with registered mobile to link existing PAN
+- **Use Case:** User attempts buy/sell but PAN verification is missing
+
+### UI Elements:
+- [ ] Error icon/illustration (red/destructive theme)
+- [ ] Headline: "PAN Verification Required"
+- [ ] Explanation text about regulatory requirement
+- [ ] Primary CTA: "Login with Mobile Number" → mobile auth flow
+- [ ] Secondary: Contact Support link
+- [ ] Back/Cancel navigation
+
+---
+
+## Task 6: Payment Success but Order Failed Screen 🔲
+**Status:** Pending  
+**Trigger:** After payment gateway success, backend order fails
+
+### Applies To:
+- Gold Buy (payment success, gold credit failed)
+- Gold Sell (payment received, payout failed)
+- Silver Buy (payment success, silver credit failed)
+- Silver Sell (payment received, payout failed)
+
+### Requirements:
+- **Screen Type:** Full page (desktop, mobile web, app)
+- **Info Displayed:** Auto-Refund Notice (24-48 hour timeline)
+
+### UI Elements:
+- [ ] Warning icon (amber/orange theme - distinguishes from total failure)
+- [ ] Headline: "Payment Received, Order Processing Failed"
+- [ ] Transaction reference ID
+- [ ] Auto-refund notice with timeline
+- [ ] Metal type indicator (Gold 🪙 / Silver 🥈)
+- [ ] Amount attempted
+- [ ] Primary CTA: "Track Refund Status"
+- [ ] Secondary: "Contact Support"
+- [ ] Option to retry purchase
+
+---
+
+## Design Notes for Tasks 5 & 6
+
+### Reference Existing Screens:
+- `PaymentFailureScreen.tsx` - Modal-based payment failure
+- `SellFailureScreen.tsx` - Modal-based sell/payout failure
+
+### Full-Page Approach:
+- Full viewport height, centered content
+- Responsive (mobile-first)
+- Consistent with bullion theme tokens
+- Clear visual hierarchy
+- Easy to screenshot for support tickets
+
+### Color Coding:
+- KYC Error: Red/destructive (blocking issue)
+- Order Failed: Amber/warning (payment safe, order issue)
