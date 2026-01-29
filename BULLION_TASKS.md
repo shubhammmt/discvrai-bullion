@@ -54,7 +54,7 @@
 
 ### Requirements:
 - **Screen Type:** Full page (desktop, mobile web, app)
-- **Recovery Action:** "Login with mobile number with attached PAN" - user authenticates with registered mobile to link existing PAN
+- **Recovery Action:** "Login with the same mobile number with which your PAN is linked" - user authenticates with registered mobile to link existing PAN
 - **Use Case:** User attempts buy/sell but PAN verification is missing
 
 ### UI Elements:
