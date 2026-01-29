@@ -7,14 +7,12 @@ export default function OrderFailurePage() {
   const [searchParams] = useSearchParams();
 
   // Get parameters from URL or use defaults for demo
-  const metal = (searchParams.get("metal") as "gold" | "silver") || "gold";
   const transactionType = (searchParams.get("type") as "buy" | "sell") || "buy";
   const amount = Number(searchParams.get("amount")) || 5000;
   const referenceId = searchParams.get("ref") || "TXN" + Date.now().toString().slice(-8);
 
   return (
     <OrderExecutionFailureScreen
-      metal={metal}
       transactionType={transactionType}
       amount={amount}
       referenceId={referenceId}

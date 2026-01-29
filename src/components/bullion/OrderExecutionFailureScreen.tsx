@@ -3,11 +3,9 @@ import { Button } from "@/components/ui/button";
 import { AlertTriangle, Clock, RefreshCw, HeadphonesIcon, ArrowLeft, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-type MetalType = "gold" | "silver";
 type TransactionType = "buy" | "sell";
 
 interface OrderExecutionFailureScreenProps {
-  metal: MetalType;
   transactionType: TransactionType;
   amount: number;
   referenceId: string;
@@ -18,7 +16,6 @@ interface OrderExecutionFailureScreenProps {
 }
 
 export function OrderExecutionFailureScreen({
-  metal,
   transactionType,
   amount,
   referenceId,
@@ -29,23 +26,17 @@ export function OrderExecutionFailureScreen({
 }: OrderExecutionFailureScreenProps) {
   const navigate = useNavigate();
 
-  const metalConfig = {
-    gold: { name: "Gold", icon: "🪙", color: "text-amber-400" },
-    silver: { name: "Silver", icon: "🥈", color: "text-slate-300" },
-  };
-
   const transactionConfig = {
     buy: {
       title: "Purchase",
-      failureMessage: `${metalConfig[metal].name} could not be credited to your vault`,
+      failureMessage: "Your order could not be processed",
     },
     sell: {
       title: "Sale",
-      failureMessage: `Payout for your ${metalConfig[metal].name} sale could not be processed`,
+      failureMessage: "Payout for your sale could not be processed",
     },
   };
 
-  const config = metalConfig[metal];
   const txConfig = transactionConfig[transactionType];
 
   const handleBack = () => {
@@ -113,16 +104,7 @@ export function OrderExecutionFailureScreen({
             transition={{ delay: 0.4 }}
             className="p-5 rounded-xl bg-muted/50 border border-border/50 mb-4"
           >
-            <div className="space-y-4">
-              {/* Metal Type */}
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Metal</span>
-                <span className={`font-semibold flex items-center gap-2 ${config.color}`}>
-                  <span className="text-xl">{config.icon}</span>
-                  {config.name}
-                </span>
-              </div>
-
+          <div className="space-y-4">
               {/* Transaction Type */}
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Transaction</span>
