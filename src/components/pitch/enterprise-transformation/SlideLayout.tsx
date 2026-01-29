@@ -38,23 +38,23 @@ export const SlideLayout: React.FC<SlideLayoutProps> = ({
       )}
       
       {/* Gold accent line at top */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-enterprise-gold via-enterprise-gold-light to-enterprise-gold" />
+      <div className={`absolute top-0 left-0 right-0 h-1 ${isDark ? 'bg-gradient-to-r from-enterprise-gold via-enterprise-gold-light to-enterprise-gold' : 'bg-gradient-to-r from-enterprise-navy via-enterprise-blue to-enterprise-navy'}`} />
       
       {/* Logo */}
-      <div className="absolute top-6 right-8 z-20 flex items-center gap-2">
-        <Bot className={`w-6 h-6 ${isDark ? 'text-enterprise-gold' : 'text-enterprise-navy'}`} />
-        <span className={`text-lg font-bold tracking-tight ${isDark ? 'text-white' : 'text-enterprise-navy'}`}>
+      <div className="absolute top-4 right-6 z-20 flex items-center gap-2">
+        <Bot className={`w-5 h-5 ${isDark ? 'text-enterprise-gold' : 'text-enterprise-navy'}`} />
+        <span className={`text-base font-bold tracking-tight ${isDark ? 'text-white' : 'text-enterprise-navy'}`}>
           DiscvrAI
         </span>
       </div>
       
       {/* Main content */}
-      <div className="flex-1 relative z-10 px-12 pt-16 pb-12">
+      <div className="flex-1 relative z-10 px-10 pt-12 pb-8">
         {children}
       </div>
       
       {/* Footer */}
-      <div className={`absolute bottom-0 left-0 right-0 px-12 pb-4 flex justify-between items-center text-xs ${
+      <div className={`absolute bottom-0 left-0 right-0 px-10 pb-3 flex justify-between items-center text-xs ${
         isDark ? 'text-enterprise-text-muted' : 'text-gray-400'
       }`}>
         <span>© 2025 DiscvrAI. Confidential.</span>
@@ -64,7 +64,7 @@ export const SlideLayout: React.FC<SlideLayoutProps> = ({
       </div>
       
       {/* Bottom accent line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-enterprise-gold/30 to-transparent" />
+      <div className={`absolute bottom-0 left-0 right-0 h-px ${isDark ? 'bg-gradient-to-r from-transparent via-enterprise-gold/30 to-transparent' : 'bg-gradient-to-r from-transparent via-enterprise-navy/20 to-transparent'}`} />
     </div>
   );
 };
