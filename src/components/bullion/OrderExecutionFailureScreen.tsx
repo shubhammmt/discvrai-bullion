@@ -141,7 +141,7 @@ export function OrderExecutionFailureScreen({
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className="w-4 h-4 text-amber-400" />
-                  <span className="font-semibold text-sm text-amber-400">Auto-Refund in Progress</span>
+                  <span className="font-semibold text-sm text-foreground">Auto-Refund in Progress</span>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Your payment is safe. A full refund will be processed automatically within{" "}
