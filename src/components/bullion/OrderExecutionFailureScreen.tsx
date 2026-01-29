@@ -137,10 +137,10 @@ export function OrderExecutionFailureScreen({
             className="p-5 rounded-xl bg-amber-500/10 border border-amber-500/30 mb-8"
           >
             <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+              <Shield className="w-5 h-5 text-foreground flex-shrink-0 mt-0.5" />
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Clock className="w-4 h-4 text-amber-400" />
+                  <Clock className="w-4 h-4 text-foreground" />
                   <span className="font-semibold text-sm text-foreground">Auto-Refund in Progress</span>
                 </div>
                 <p className="text-sm text-muted-foreground">
