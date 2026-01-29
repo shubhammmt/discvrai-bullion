@@ -840,7 +840,7 @@ function TransactionRow({
           <div className="text-center">
             <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">Total amount</p>
             <p className="text-base font-semibold text-amber-600 dark:text-amber-400">
-              ₹{amount.toLocaleString("en-IN")}
+              ₹{amount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
 
@@ -848,7 +848,7 @@ function TransactionRow({
           <div className="text-right">
             <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">{isGold ? "Gold" : "Silver"} rate/g</p>
             <p className="text-base font-semibold text-amber-600 dark:text-amber-400">
-              ₹{ratePerGram.toLocaleString("en-IN")}
+              ₹{ratePerGram.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
         </div>
