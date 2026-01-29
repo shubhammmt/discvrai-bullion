@@ -80,6 +80,24 @@
     --bullion-border: 220 15% 90%;
     --bullion-gradient-gold: linear-gradient(135deg, hsl(43 96% 56%), hsl(35 95% 50%));
     --bullion-gradient-silver: linear-gradient(135deg, hsl(220 14% 70%), hsl(210 15% 60%));
+    
+    /* Enterprise Pitch Theme - McKinsey Style */
+    --enterprise-navy: 220 50% 15%;
+    --enterprise-navy-dark: 220 55% 8%;
+    --enterprise-navy-light: 220 40% 25%;
+    --enterprise-blue: 220 70% 50%;
+    --enterprise-blue-light: 220 80% 65%;
+    --enterprise-gold: 38 95% 55%;
+    --enterprise-gold-dark: 38 90% 45%;
+    --enterprise-gold-light: 38 100% 70%;
+    --enterprise-text-primary: 0 0% 100%;
+    --enterprise-text-secondary: 220 20% 75%;
+    --enterprise-text-muted: 220 15% 55%;
+    --enterprise-surface: 220 50% 12%;
+    --enterprise-surface-elevated: 220 45% 18%;
+    --enterprise-border: 220 30% 25%;
+    --enterprise-success: 152 70% 45%;
+    --enterprise-danger: 0 75% 55%;
   }
 
   .dark {

@@ -94,9 +94,37 @@ export default {
 					text: {
 						primary: 'hsl(var(--bullion-text-primary))',
 						secondary: 'hsl(var(--bullion-text-secondary))'
-					},
-					border: 'hsl(var(--bullion-border))'
-				}
+				},
+				border: 'hsl(var(--bullion-border))'
+			},
+			enterprise: {
+				navy: {
+					DEFAULT: 'hsl(var(--enterprise-navy))',
+					dark: 'hsl(var(--enterprise-navy-dark))',
+					light: 'hsl(var(--enterprise-navy-light))'
+				},
+				blue: {
+					DEFAULT: 'hsl(var(--enterprise-blue))',
+					light: 'hsl(var(--enterprise-blue-light))'
+				},
+				gold: {
+					DEFAULT: 'hsl(var(--enterprise-gold))',
+					dark: 'hsl(var(--enterprise-gold-dark))',
+					light: 'hsl(var(--enterprise-gold-light))'
+				},
+				text: {
+					primary: 'hsl(var(--enterprise-text-primary))',
+					secondary: 'hsl(var(--enterprise-text-secondary))',
+					muted: 'hsl(var(--enterprise-text-muted))'
+				},
+				surface: {
+					DEFAULT: 'hsl(var(--enterprise-surface))',
+					elevated: 'hsl(var(--enterprise-surface-elevated))'
+				},
+				border: 'hsl(var(--enterprise-border))',
+				success: 'hsl(var(--enterprise-success))',
+				danger: 'hsl(var(--enterprise-danger))'
+			}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
