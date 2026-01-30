@@ -9,8 +9,6 @@ interface YatharthSlideLayoutProps {
 
 export const YatharthSlideLayout: React.FC<YatharthSlideLayoutProps> = ({
   children,
-  slideNumber,
-  totalSlides
 }) => {
   return (
     <div 
@@ -28,17 +26,11 @@ export const YatharthSlideLayout: React.FC<YatharthSlideLayoutProps> = ({
         </span>
       </div>
       
-      {/* Main content */}
-      <div className="flex-1 relative z-10 px-10 pt-10 pb-6">
-        {children}
-      </div>
-      
-      {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 px-10 pb-3 flex justify-between items-center text-xs text-gray-400">
-        <span>© 2025 DiscvrAI. Confidential.</span>
-        <span className="font-mono text-gray-500">
-          {String(slideNumber).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
-        </span>
+      {/* Main content - centered in middle */}
+      <div className="flex-1 relative z-10 px-10 py-8 flex items-center">
+        <div className="w-full">
+          {children}
+        </div>
       </div>
       
       {/* Bottom accent line */}
