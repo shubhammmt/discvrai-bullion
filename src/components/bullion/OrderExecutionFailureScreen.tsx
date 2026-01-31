@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Clock, RefreshCw, HeadphonesIcon, ArrowLeft, Shield } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 type TransactionType = "buy" | "sell";
 
@@ -12,7 +11,7 @@ interface OrderExecutionFailureScreenProps {
   onTrackRefund?: () => void;
   onRetry?: () => void;
   onContactSupport?: () => void;
-  onBack?: () => void;
+  onBack: () => void;
 }
 
 export function OrderExecutionFailureScreen({
@@ -24,8 +23,6 @@ export function OrderExecutionFailureScreen({
   onContactSupport,
   onBack,
 }: OrderExecutionFailureScreenProps) {
-  const navigate = useNavigate();
-
   const transactionConfig = {
     buy: {
       title: "Purchase",
@@ -39,14 +36,6 @@ export function OrderExecutionFailureScreen({
 
   const txConfig = transactionConfig[transactionType];
 
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else {
-      navigate(-1);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header with back button */}
@@ -54,7 +43,7 @@ export function OrderExecutionFailureScreen({
         <Button
           variant="ghost"
           size="icon"
-          onClick={handleBack}
+          onClick={onBack}
           className="text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="w-5 h-5" />
