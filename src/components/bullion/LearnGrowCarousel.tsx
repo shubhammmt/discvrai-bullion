@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { BookOpen, Clock, ChevronLeft, ChevronRight, Crown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 // Articles data
@@ -98,7 +98,10 @@ export function LearnGrowCarousel() {
           <div className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
             <BookOpen className="w-4 h-4 text-violet-600 dark:text-violet-400" />
           </div>
-          <h3 className="font-semibold text-sm text-violet-900 dark:text-violet-100">Premium</h3>
+          <h3 className="font-semibold text-sm text-violet-900 dark:text-violet-100 flex items-center gap-1">
+            Premium
+            <Crown className="w-3.5 h-3.5 text-amber-500" />
+          </h3>
         </div>
         <div className="flex items-center gap-1">
           <Button
