@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,31 +57,54 @@ const getCategoryColor = (category: string) => {
 export function LearnGrowCarousel() {
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = 280;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
+      const scrollAmount = 250;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      
+      if (direction === "right" && scrollLeft + clientWidth >= scrollWidth - 10) {
+        // Reset to start when reaching end
+        scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        scrollRef.current.scrollBy({
+          left: direction === "left" ? -scrollAmount : scrollAmount,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
+  // Auto-slide effect
+  useEffect(() => {
+    if (isPaused) return;
+    
+    const interval = setInterval(() => {
+      scroll("right");
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
   return (
-    <Card className="p-4 bg-card border-border overflow-hidden">
+    <Card 
+      className="p-4 bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-violet-950/40 dark:via-purple-950/30 dark:to-fuchsia-950/40 border-violet-200/50 dark:border-violet-800/30 overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <BookOpen className="w-4 h-4 text-primary" />
+          <div className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
+            <BookOpen className="w-4 h-4 text-violet-600 dark:text-violet-400" />
           </div>
-          <h3 className="font-semibold text-sm">Learn & Grow</h3>
+          <h3 className="font-semibold text-sm text-violet-900 dark:text-violet-100">Learn & Grow</h3>
         </div>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7"
+            className="h-7 w-7 text-violet-600 hover:text-violet-700 hover:bg-violet-100 dark:text-violet-400 dark:hover:bg-violet-900/50"
             onClick={() => scroll("left")}
           >
             <ChevronLeft className="w-4 h-4" />
@@ -89,7 +112,7 @@ export function LearnGrowCarousel() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7"
+            className="h-7 w-7 text-violet-600 hover:text-violet-700 hover:bg-violet-100 dark:text-violet-400 dark:hover:bg-violet-900/50"
             onClick={() => scroll("right")}
           >
             <ChevronRight className="w-4 h-4" />
@@ -105,7 +128,7 @@ export function LearnGrowCarousel() {
         {articles.map((article) => (
           <Card
             key={article.id}
-            className="flex-shrink-0 w-[240px] p-3 bg-muted/50 hover:bg-muted/80 cursor-pointer transition-colors border-border/50"
+            className="flex-shrink-0 w-[240px] p-3 bg-white/70 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 cursor-pointer transition-all border-violet-100 dark:border-violet-800/30 shadow-sm hover:shadow-md"
             onClick={() => navigate("/bullion/premium")}
           >
             <div className="flex items-center gap-2 mb-2">
@@ -117,7 +140,7 @@ export function LearnGrowCarousel() {
                 {article.readTime}m
               </span>
             </div>
-            <h4 className="text-xs font-medium leading-tight line-clamp-2">
+            <h4 className="text-xs font-medium leading-tight line-clamp-2 text-foreground">
               {article.title}
             </h4>
           </Card>
@@ -127,7 +150,7 @@ export function LearnGrowCarousel() {
       <Button
         variant="ghost"
         size="sm"
-        className="w-full mt-3 text-xs text-primary hover:text-primary/80 h-8"
+        className="w-full mt-3 text-xs text-violet-600 hover:text-violet-700 hover:bg-violet-100 dark:text-violet-400 dark:hover:bg-violet-900/50 h-8"
         onClick={() => navigate("/bullion/premium")}
       >
         View All Articles →
