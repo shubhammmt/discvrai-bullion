@@ -1,6 +1,7 @@
 import { Shield, TrendingUp, Repeat, Sparkles, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LearnGrowCarousel } from "./LearnGrowCarousel";
 
 interface EducationalCardsProps {
   onBuyGold?: () => void;
@@ -80,6 +81,9 @@ export function EducationalCards({ onBuyGold, onStartSIP }: EducationalCardsProp
           </Button>
         )}
       </Card>
+
+      {/* Learn & Grow Carousel */}
+      <LearnGrowCarousel />
 
 
       {/* Quick Facts */}
