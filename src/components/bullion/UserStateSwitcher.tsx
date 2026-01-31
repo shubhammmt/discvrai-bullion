@@ -112,30 +112,69 @@ export function UserStateSwitcher({
             )}
 
             {/* Quick Presets */}
-            <div className="flex gap-2 pt-2">
+            <div className="space-y-2 pt-2">
+              <Label className="text-xs font-medium text-muted-foreground">Quick Presets</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => {
+                    onUserStateChange("investor");
+                    onGoldHoldingsChange(2.5);
+                    onSilverHoldingsChange(15);
+                  }}
+                >
+                  Both Holdings
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => {
+                    onUserStateChange("investor");
+                    onGoldHoldingsChange(2.5);
+                    onSilverHoldingsChange(0);
+                  }}
+                >
+                  Gold Only
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => {
+                    onUserStateChange("investor");
+                    onGoldHoldingsChange(0);
+                    onSilverHoldingsChange(15);
+                  }}
+                >
+                  Silver Only
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => {
+                    onUserStateChange("investor");
+                    onGoldHoldingsChange(0);
+                    onSilverHoldingsChange(0);
+                  }}
+                >
+                  No Holdings
+                </Button>
+              </div>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="flex-1 text-xs"
-                onClick={() => {
-                  onUserStateChange("investor");
-                  onGoldHoldingsChange(2.5);
-                  onSilverHoldingsChange(15);
-                }}
-              >
-                Load Demo
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 text-xs"
+                className="w-full text-xs text-muted-foreground"
                 onClick={() => {
                   onUserStateChange("new");
                   onGoldHoldingsChange(0);
                   onSilverHoldingsChange(0);
                 }}
               >
-                Reset
+                Reset to New User
               </Button>
             </div>
           </div>

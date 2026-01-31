@@ -548,30 +548,28 @@ export function BullionHero({
             <p className="text-xl font-bold text-white">{goldHoldings.toFixed(2)}g</p>
             <p className="text-xs text-slate-400 mb-3">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
             
-            {/* Gold Actions */}
-            <div className="flex gap-2">
+            {/* Gold Actions - Vertical Stack */}
+            <div className="flex flex-col gap-2">
               <Button 
                 onClick={onBuyGold}
                 size="sm"
-                className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold text-xs h-8"
+                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold text-xs h-8"
               >
-                Buy Gold
+                Buy
               </Button>
               {goldHoldings > 0 ? (
                 <Button 
                   onClick={onSellGold}
                   size="sm"
-                  variant="outline"
-                  className="flex-1 border-amber-500/30 hover:bg-amber-500/10 text-amber-400 text-xs h-8"
+                  className="w-full bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs h-8"
                 >
-                  Sell Gold
+                  Sell
                 </Button>
               ) : (
                 <Button 
                   onClick={onBuyGold}
                   size="sm"
-                  variant="outline"
-                  className="flex-1 border-amber-500/30 hover:bg-amber-500/10 text-amber-400 text-xs h-8"
+                  className="w-full bg-amber-700/80 hover:bg-amber-700 text-amber-100 font-medium text-xs h-8"
                 >
                   Start Investing
                 </Button>
@@ -588,30 +586,28 @@ export function BullionHero({
             <p className="text-xl font-bold text-white">{silverHoldings.toFixed(0)}g</p>
             <p className="text-xs text-slate-400 mb-3">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
             
-            {/* Silver Actions */}
-            <div className="flex gap-2">
+            {/* Silver Actions - Vertical Stack */}
+            <div className="flex flex-col gap-2">
               <Button 
                 onClick={onBuySilver}
                 size="sm"
-                className="flex-1 bg-gradient-to-r from-slate-400 to-slate-500 hover:from-slate-500 hover:to-slate-600 text-black font-semibold text-xs h-8"
+                className="w-full bg-slate-400 hover:bg-slate-500 text-black font-semibold text-xs h-8"
               >
-                Buy Silver
+                Buy
               </Button>
               {silverHoldings > 0 ? (
                 <Button 
                   onClick={onSellSilver}
                   size="sm"
-                  variant="outline"
-                  className="flex-1 border-slate-500/30 hover:bg-slate-500/10 text-slate-300 text-xs h-8"
+                  className="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium text-xs h-8"
                 >
-                  Sell Silver
+                  Sell
                 </Button>
               ) : (
                 <Button 
                   onClick={onBuySilver}
                   size="sm"
-                  variant="outline"
-                  className="flex-1 border-slate-500/30 hover:bg-slate-500/10 text-slate-300 text-xs h-8"
+                  className="w-full bg-slate-600/80 hover:bg-slate-600 text-slate-100 font-medium text-xs h-8"
                 >
                   Start Investing
                 </Button>
