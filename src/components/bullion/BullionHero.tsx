@@ -518,22 +518,22 @@ export function BullionHero({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-900 border border-slate-700/50 p-6 lg:p-8"
+      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-900 border border-slate-700/50 p-5 sm:p-6 lg:p-8"
     >
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
       
       <div className="relative z-10">
-        <div className="flex items-center gap-2 mb-2">
-          <Shield className="w-5 h-5 text-amber-500" />
-          <span className="text-sm text-slate-400">Your Portfolio</span>
+        <div className="flex items-center gap-2 mb-3">
+          <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+          <span className="text-sm sm:text-base text-slate-300 font-medium">Your Portfolio</span>
         </div>
         
-        <div className="flex flex-wrap items-end gap-4 mb-6">
+        <div className="flex flex-wrap items-end gap-4 mb-5 sm:mb-6">
           <div>
-            <p className="text-3xl lg:text-4xl font-bold text-white">
+            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
               ₹{totalValue.toLocaleString("en-IN", { minimumFractionDigits: 0 })}
             </p>
-            <p className={`text-sm font-medium ${totalGain >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+            <p className={`text-sm sm:text-base font-semibold mt-1 ${totalGain >= 0 ? "text-red-400" : "text-red-400"}`}>
               {totalGain >= 0 ? "+" : ""}₹{Math.abs(totalGain).toLocaleString("en-IN")} 
               ({totalGain >= 0 ? "+" : ""}{gainPercent.toFixed(1)}%)
             </p>
@@ -541,49 +541,49 @@ export function BullionHero({
         </div>
 
         {/* Holdings Summary with Inline Actions - Side by Side Layout */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {/* Gold Card */}
-          <Card className="p-4 bg-amber-500/10 border-amber-500/30">
-            <div className="flex items-start justify-between gap-2">
+          <Card className="p-3 sm:p-4 bg-amber-950/40 border-amber-600/40 shadow-lg">
+            <div className="flex items-start justify-between gap-2 sm:gap-3">
               {/* Left: Info */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg">🪙</span>
-                  <span className="text-amber-400 text-sm font-medium">Gold</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5">
+                  <span className="text-xl sm:text-2xl">🪙</span>
+                  <span className="text-amber-400 text-sm sm:text-base font-semibold">Gold</span>
                 </div>
-                <p className="text-xl font-bold text-white">{goldHoldings.toFixed(2)}g</p>
-                <p className="text-xs text-slate-400">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
+                <p className="text-xl sm:text-2xl font-bold text-white tracking-tight">{goldHoldings.toFixed(2)}g</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-0.5">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
               </div>
               
               {/* Right: Actions */}
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {useIconButtons ? (
                   <>
                     <Button 
                       onClick={onBuyGold}
                       size="icon"
-                      className="h-8 w-8 bg-amber-500 hover:bg-amber-600 text-black"
+                      className="h-9 w-9 sm:h-10 sm:w-10 bg-amber-500 hover:bg-amber-400 text-amber-950 shadow-md"
                       title="Buy Gold"
                     >
-                      <Plus className="w-4 h-4" />
+                      <Plus className="w-5 h-5" />
                     </Button>
                     {goldHoldings > 0 ? (
                       <Button 
                         onClick={onSellGold}
                         size="icon"
-                        className="h-8 w-8 bg-amber-700 hover:bg-amber-800 text-white"
+                        className="h-9 w-9 sm:h-10 sm:w-10 bg-amber-800 hover:bg-amber-700 text-amber-100 shadow-md"
                         title="Sell Gold"
                       >
-                        <Minus className="w-4 h-4" />
+                        <Minus className="w-5 h-5" />
                       </Button>
                     ) : (
                       <Button 
                         onClick={onBuyGold}
                         size="icon"
-                        className="h-8 w-8 bg-amber-700/60 hover:bg-amber-700 text-amber-200"
+                        className="h-9 w-9 sm:h-10 sm:w-10 bg-amber-700 hover:bg-amber-600 text-amber-100 shadow-md"
                         title="Start Investing"
                       >
-                        <Sparkles className="w-4 h-4" />
+                        <Sparkles className="w-5 h-5" />
                       </Button>
                     )}
                   </>
@@ -592,7 +592,7 @@ export function BullionHero({
                     <Button 
                       onClick={onBuyGold}
                       size="sm"
-                      className="h-7 px-3 bg-amber-500 hover:bg-amber-600 text-black font-semibold text-xs"
+                      className="h-8 sm:h-9 px-3 sm:px-4 bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold text-xs sm:text-sm shadow-md"
                     >
                       Buy
                     </Button>
@@ -600,7 +600,7 @@ export function BullionHero({
                       <Button 
                         onClick={onSellGold}
                         size="sm"
-                        className="h-7 px-3 bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs"
+                        className="h-8 sm:h-9 px-3 sm:px-4 bg-amber-800 hover:bg-amber-700 text-amber-100 font-semibold text-xs sm:text-sm shadow-md"
                       >
                         Sell
                       </Button>
@@ -608,7 +608,7 @@ export function BullionHero({
                       <Button 
                         onClick={onBuyGold}
                         size="sm"
-                        className="h-7 px-2 bg-amber-700/60 hover:bg-amber-700 text-amber-200 font-medium text-[10px]"
+                        className="h-8 sm:h-9 px-2.5 sm:px-3 bg-amber-700 hover:bg-amber-600 text-amber-100 font-semibold text-xs sm:text-sm shadow-md"
                       >
                         Invest
                       </Button>
@@ -620,47 +620,47 @@ export function BullionHero({
           </Card>
           
           {/* Silver Card */}
-          <Card className="p-4 bg-slate-400/10 border-slate-500/30">
-            <div className="flex items-start justify-between gap-2">
+          <Card className="p-3 sm:p-4 bg-slate-800/60 border-slate-500/40 shadow-lg">
+            <div className="flex items-start justify-between gap-2 sm:gap-3">
               {/* Left: Info */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg">🥈</span>
-                  <span className="text-slate-300 text-sm font-medium">Silver</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5">
+                  <span className="text-xl sm:text-2xl">🥈</span>
+                  <span className="text-slate-200 text-sm sm:text-base font-semibold">Silver</span>
                 </div>
-                <p className="text-xl font-bold text-white">{silverHoldings.toFixed(0)}g</p>
-                <p className="text-xs text-slate-400">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
+                <p className="text-xl sm:text-2xl font-bold text-white tracking-tight">{silverHoldings.toFixed(0)}g</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-0.5">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
               </div>
               
               {/* Right: Actions */}
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {useIconButtons ? (
                   <>
                     <Button 
                       onClick={onBuySilver}
                       size="icon"
-                      className="h-8 w-8 bg-slate-400 hover:bg-slate-500 text-black"
+                      className="h-9 w-9 sm:h-10 sm:w-10 bg-slate-300 hover:bg-slate-200 text-slate-900 shadow-md"
                       title="Buy Silver"
                     >
-                      <Plus className="w-4 h-4" />
+                      <Plus className="w-5 h-5" />
                     </Button>
                     {silverHoldings > 0 ? (
                       <Button 
                         onClick={onSellSilver}
                         size="icon"
-                        className="h-8 w-8 bg-slate-600 hover:bg-slate-700 text-white"
+                        className="h-9 w-9 sm:h-10 sm:w-10 bg-slate-600 hover:bg-slate-500 text-slate-100 shadow-md"
                         title="Sell Silver"
                       >
-                        <Minus className="w-4 h-4" />
+                        <Minus className="w-5 h-5" />
                       </Button>
                     ) : (
                       <Button 
                         onClick={onBuySilver}
                         size="icon"
-                        className="h-8 w-8 bg-slate-600/60 hover:bg-slate-600 text-slate-200"
+                        className="h-9 w-9 sm:h-10 sm:w-10 bg-slate-600 hover:bg-slate-500 text-slate-100 shadow-md"
                         title="Start Investing"
                       >
-                        <Sparkles className="w-4 h-4" />
+                        <Sparkles className="w-5 h-5" />
                       </Button>
                     )}
                   </>
@@ -669,7 +669,7 @@ export function BullionHero({
                     <Button 
                       onClick={onBuySilver}
                       size="sm"
-                      className="h-7 px-3 bg-slate-400 hover:bg-slate-500 text-black font-semibold text-xs"
+                      className="h-8 sm:h-9 px-3 sm:px-4 bg-slate-300 hover:bg-slate-200 text-slate-900 font-bold text-xs sm:text-sm shadow-md"
                     >
                       Buy
                     </Button>
@@ -677,7 +677,7 @@ export function BullionHero({
                       <Button 
                         onClick={onSellSilver}
                         size="sm"
-                        className="h-7 px-3 bg-slate-600 hover:bg-slate-700 text-white font-medium text-xs"
+                        className="h-8 sm:h-9 px-3 sm:px-4 bg-slate-600 hover:bg-slate-500 text-slate-100 font-semibold text-xs sm:text-sm shadow-md"
                       >
                         Sell
                       </Button>
@@ -685,7 +685,7 @@ export function BullionHero({
                       <Button 
                         onClick={onBuySilver}
                         size="sm"
-                        className="h-7 px-2 bg-slate-600/60 hover:bg-slate-600 text-slate-200 font-medium text-[10px]"
+                        className="h-8 sm:h-9 px-2.5 sm:px-3 bg-slate-600 hover:bg-slate-500 text-slate-100 font-semibold text-xs sm:text-sm shadow-md"
                       >
                         Invest
                       </Button>
