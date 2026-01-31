@@ -537,42 +537,87 @@ export function BullionHero({
           </div>
         </div>
 
-        {/* Holdings Summary */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
+        {/* Holdings Summary with Inline Actions */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Gold Card */}
           <Card className="p-4 bg-amber-500/10 border-amber-500/30">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-lg">🪙</span>
               <span className="text-amber-400 text-sm font-medium">Gold</span>
             </div>
             <p className="text-xl font-bold text-white">{goldHoldings.toFixed(2)}g</p>
-            <p className="text-xs text-slate-400">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
+            <p className="text-xs text-slate-400 mb-3">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
+            
+            {/* Gold Actions */}
+            <div className="flex gap-2">
+              <Button 
+                onClick={onBuyGold}
+                size="sm"
+                className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold text-xs h-8"
+              >
+                Buy Gold
+              </Button>
+              {goldHoldings > 0 ? (
+                <Button 
+                  onClick={onSellGold}
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 border-amber-500/30 hover:bg-amber-500/10 text-amber-400 text-xs h-8"
+                >
+                  Sell Gold
+                </Button>
+              ) : (
+                <Button 
+                  onClick={onBuyGold}
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 border-amber-500/30 hover:bg-amber-500/10 text-amber-400 text-xs h-8"
+                >
+                  Start Investing
+                </Button>
+              )}
+            </div>
           </Card>
           
+          {/* Silver Card */}
           <Card className="p-4 bg-slate-400/10 border-slate-500/30">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-lg">🥈</span>
               <span className="text-slate-300 text-sm font-medium">Silver</span>
             </div>
             <p className="text-xl font-bold text-white">{silverHoldings.toFixed(0)}g</p>
-            <p className="text-xs text-slate-400">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
+            <p className="text-xs text-slate-400 mb-3">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
+            
+            {/* Silver Actions */}
+            <div className="flex gap-2">
+              <Button 
+                onClick={onBuySilver}
+                size="sm"
+                className="flex-1 bg-gradient-to-r from-slate-400 to-slate-500 hover:from-slate-500 hover:to-slate-600 text-black font-semibold text-xs h-8"
+              >
+                Buy Silver
+              </Button>
+              {silverHoldings > 0 ? (
+                <Button 
+                  onClick={onSellSilver}
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 border-slate-500/30 hover:bg-slate-500/10 text-slate-300 text-xs h-8"
+                >
+                  Sell Silver
+                </Button>
+              ) : (
+                <Button 
+                  onClick={onBuySilver}
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 border-slate-500/30 hover:bg-slate-500/10 text-slate-300 text-xs h-8"
+                >
+                  Start Investing
+                </Button>
+              )}
+            </div>
           </Card>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="flex flex-wrap gap-3">
-          <Button 
-            onClick={onBuyGold}
-            className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold"
-          >
-            Buy More
-          </Button>
-          <Button 
-            onClick={onBuySilver}
-            variant="outline"
-            className="border-slate-600 hover:bg-slate-800 text-white"
-          >
-            Start SIP
-          </Button>
         </div>
       </div>
     </motion.div>
