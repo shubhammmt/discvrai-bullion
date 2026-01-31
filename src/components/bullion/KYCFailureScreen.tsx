@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ShieldX, Smartphone, HeadphonesIcon, ArrowLeft, AlertCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 interface KYCFailureScreenProps {
   onLoginWithMobile?: () => void;
   onContactSupport?: () => void;
-  onBack?: () => void;
+  onBack: () => void;
 }
 
 export function KYCFailureScreen({
@@ -14,15 +13,6 @@ export function KYCFailureScreen({
   onContactSupport,
   onBack,
 }: KYCFailureScreenProps) {
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else {
-      navigate(-1);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -31,7 +21,7 @@ export function KYCFailureScreen({
         <Button
           variant="ghost"
           size="icon"
-          onClick={handleBack}
+          onClick={onBack}
           className="text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -138,7 +128,7 @@ export function KYCFailureScreen({
 
             <Button
               variant="ghost"
-              onClick={handleBack}
+              onClick={onBack}
               className="w-full text-muted-foreground"
             >
               Go Back
