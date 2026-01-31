@@ -20,6 +20,7 @@ export {
 export { QuickTradePanel } from './QuickTradePanel';
 export { PortfolioSummaryWidget } from './PortfolioSummaryWidget';
 export { EducationalCards } from './EducationalCards';
+export { LearnGrowCarousel } from './LearnGrowCarousel';
 
 // New Homepage Components (Phase 1)
 export { BullionHero } from './BullionHero';
