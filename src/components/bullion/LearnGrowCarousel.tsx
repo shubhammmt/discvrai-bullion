@@ -98,7 +98,7 @@ export function LearnGrowCarousel() {
           <div className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center">
             <BookOpen className="w-4 h-4 text-violet-600 dark:text-violet-400" />
           </div>
-          <h3 className="font-semibold text-sm text-violet-900 dark:text-violet-100">Learn & Grow</h3>
+          <h3 className="font-semibold text-sm text-violet-900 dark:text-violet-100">Premium</h3>
         </div>
         <div className="flex items-center gap-1">
           <Button
