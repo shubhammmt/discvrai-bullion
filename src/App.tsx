@@ -112,6 +112,7 @@ import BullionTrends from './pages/BullionTrends';
 import BullionCalculators from './pages/BullionCalculators';
 import BullionNotifications from './pages/BullionNotifications';
 import BullionLaunchOffers from './pages/BullionLaunchOffers';
+import BullionDesignSystem from './pages/BullionDesignSystem';
 import KYCFailurePage from './pages/bullion/KYCFailurePage';
 import OrderFailurePage from './pages/bullion/OrderFailurePage';
 import NirmalBangProposal from './pages/NirmalBangProposal';
@@ -237,6 +238,7 @@ const AppContent = () => {
         <Route path="/bullion/calculators" element={<BullionCalculators />} />
         <Route path="/bullion/notifications" element={<BullionNotifications />} />
         <Route path="/bullion/launch-offers" element={<BullionLaunchOffers />} />
+        <Route path="/bullion/design-system" element={<BullionDesignSystem />} />
         <Route path="/metals/gold" element={<GoldPrices />} />
         <Route path="/metals/gold/:city" element={<GoldPricesCity />} />
         <Route path="/metals/silver" element={<SilverPrices />} />
