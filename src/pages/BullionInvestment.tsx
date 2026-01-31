@@ -44,6 +44,7 @@ export default function BullionInvestment() {
   const [userState, setUserState] = useState<UserState>("new");
   const [simulatedGoldHoldings, setSimulatedGoldHoldings] = useState(2.5);
   const [simulatedSilverHoldings, setSimulatedSilverHoldings] = useState(15);
+  const [useIconButtons, setUseIconButtons] = useState(false);
   const userName = userState !== "new" ? "Shubham" : undefined;
 
   // Mock data
@@ -232,6 +233,7 @@ export default function BullionInvestment() {
               onSellSilver={() => openSell("silver")}
               onGiftGold={() => openBuy("gold")}
               onCompleteProfile={() => navigate("/bullion/profile")}
+              useIconButtons={useIconButtons}
             />
 
             {/* Educational Content - For New/No Holdings Users */}
@@ -345,6 +347,7 @@ export default function BullionInvestment() {
               onSellSilver={() => openSell("silver")}
               onGiftGold={() => openBuy("gold")}
               onCompleteProfile={() => navigate("/bullion/profile")}
+              useIconButtons={useIconButtons}
             />
 
             {/* Educational Content - Mobile Carousel for New/No Holdings */}
@@ -545,6 +548,8 @@ export default function BullionInvestment() {
         silverHoldings={simulatedSilverHoldings}
         onGoldHoldingsChange={setSimulatedGoldHoldings}
         onSilverHoldingsChange={setSimulatedSilverHoldings}
+        useIconButtons={useIconButtons}
+        onIconButtonsChange={setUseIconButtons}
       />
 
       {/* Theme Switcher */}

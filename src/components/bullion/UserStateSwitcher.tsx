@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Settings, ChevronDown, ChevronUp, User, UserCheck, Briefcase } from "lucide-react";
+import { Settings, ChevronDown, ChevronUp, User, UserCheck, Briefcase, ToggleLeft, ToggleRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,8 @@ interface UserStateSwitcherProps {
   silverHoldings: number;
   onGoldHoldingsChange: (value: number) => void;
   onSilverHoldingsChange: (value: number) => void;
+  useIconButtons?: boolean;
+  onIconButtonsChange?: (value: boolean) => void;
 }
 
 export function UserStateSwitcher({
@@ -23,6 +25,8 @@ export function UserStateSwitcher({
   silverHoldings,
   onGoldHoldingsChange,
   onSilverHoldingsChange,
+  useIconButtons = false,
+  onIconButtonsChange,
 }: UserStateSwitcherProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -177,6 +181,23 @@ export function UserStateSwitcher({
                 Reset to New User
               </Button>
             </div>
+
+            {/* Icon Mode Toggle */}
+            {onIconButtonsChange && (
+              <div className="pt-2 border-t border-border">
+                <button
+                  onClick={() => onIconButtonsChange(!useIconButtons)}
+                  className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                >
+                  <span className="text-xs font-medium">Icon-only Buttons</span>
+                  {useIconButtons ? (
+                    <ToggleRight className="w-5 h-5 text-primary" />
+                  ) : (
+                    <ToggleLeft className="w-5 h-5 text-muted-foreground" />
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
