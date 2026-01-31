@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Shield, TrendingUp, TrendingDown, Sparkles, ArrowRight, Check, Gift, Heart } from "lucide-react";
+import { Shield, TrendingUp, TrendingDown, Sparkles, ArrowRight, Check, Gift, Heart, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
+
 interface BullionHeroProps {
   goldPrice: number;
   silverPrice: number;
@@ -21,6 +22,7 @@ interface BullionHeroProps {
   onSellSilver?: () => void;
   onGiftGold?: () => void;
   onCompleteProfile?: () => void;
+  useIconButtons?: boolean;
 }
 
 export function BullionHero({
@@ -41,6 +43,7 @@ export function BullionHero({
   onSellSilver,
   onGiftGold,
   onCompleteProfile,
+  useIconButtons = false,
 }: BullionHeroProps) {
   const [activeSlide, setActiveSlide] = useState(0); // 0 = gold, 1 = silver, 2 = gift
   const goldChangePercent = (goldChange / goldPrice) * 100;
@@ -537,81 +540,159 @@ export function BullionHero({
           </div>
         </div>
 
-        {/* Holdings Summary with Inline Actions */}
+        {/* Holdings Summary with Inline Actions - Side by Side Layout */}
         <div className="grid grid-cols-2 gap-3">
           {/* Gold Card */}
           <Card className="p-4 bg-amber-500/10 border-amber-500/30">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-lg">🪙</span>
-              <span className="text-amber-400 text-sm font-medium">Gold</span>
-            </div>
-            <p className="text-xl font-bold text-white">{goldHoldings.toFixed(2)}g</p>
-            <p className="text-xs text-slate-400 mb-3">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
-            
-            {/* Gold Actions - Vertical Stack */}
-            <div className="flex flex-col gap-2">
-              <Button 
-                onClick={onBuyGold}
-                size="sm"
-                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold text-xs h-8"
-              >
-                Buy
-              </Button>
-              {goldHoldings > 0 ? (
-                <Button 
-                  onClick={onSellGold}
-                  size="sm"
-                  className="w-full bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs h-8"
-                >
-                  Sell
-                </Button>
-              ) : (
-                <Button 
-                  onClick={onBuyGold}
-                  size="sm"
-                  className="w-full bg-amber-700/80 hover:bg-amber-700 text-amber-100 font-medium text-xs h-8"
-                >
-                  Start Investing
-                </Button>
-              )}
+            <div className="flex items-start justify-between gap-2">
+              {/* Left: Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-lg">🪙</span>
+                  <span className="text-amber-400 text-sm font-medium">Gold</span>
+                </div>
+                <p className="text-xl font-bold text-white">{goldHoldings.toFixed(2)}g</p>
+                <p className="text-xs text-slate-400">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
+              </div>
+              
+              {/* Right: Actions */}
+              <div className="flex flex-col gap-1.5">
+                {useIconButtons ? (
+                  <>
+                    <Button 
+                      onClick={onBuyGold}
+                      size="icon"
+                      className="h-8 w-8 bg-amber-500 hover:bg-amber-600 text-black"
+                      title="Buy Gold"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                    {goldHoldings > 0 ? (
+                      <Button 
+                        onClick={onSellGold}
+                        size="icon"
+                        className="h-8 w-8 bg-amber-700 hover:bg-amber-800 text-white"
+                        title="Sell Gold"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={onBuyGold}
+                        size="icon"
+                        className="h-8 w-8 bg-amber-700/60 hover:bg-amber-700 text-amber-200"
+                        title="Start Investing"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      onClick={onBuyGold}
+                      size="sm"
+                      className="h-7 px-3 bg-amber-500 hover:bg-amber-600 text-black font-semibold text-xs"
+                    >
+                      Buy
+                    </Button>
+                    {goldHoldings > 0 ? (
+                      <Button 
+                        onClick={onSellGold}
+                        size="sm"
+                        className="h-7 px-3 bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs"
+                      >
+                        Sell
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={onBuyGold}
+                        size="sm"
+                        className="h-7 px-2 bg-amber-700/60 hover:bg-amber-700 text-amber-200 font-medium text-[10px]"
+                      >
+                        Invest
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </Card>
           
           {/* Silver Card */}
           <Card className="p-4 bg-slate-400/10 border-slate-500/30">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-lg">🥈</span>
-              <span className="text-slate-300 text-sm font-medium">Silver</span>
-            </div>
-            <p className="text-xl font-bold text-white">{silverHoldings.toFixed(0)}g</p>
-            <p className="text-xs text-slate-400 mb-3">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
-            
-            {/* Silver Actions - Vertical Stack */}
-            <div className="flex flex-col gap-2">
-              <Button 
-                onClick={onBuySilver}
-                size="sm"
-                className="w-full bg-slate-400 hover:bg-slate-500 text-black font-semibold text-xs h-8"
-              >
-                Buy
-              </Button>
-              {silverHoldings > 0 ? (
-                <Button 
-                  onClick={onSellSilver}
-                  size="sm"
-                  className="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium text-xs h-8"
-                >
-                  Sell
-                </Button>
-              ) : (
-                <Button 
-                  onClick={onBuySilver}
-                  size="sm"
-                  className="w-full bg-slate-600/80 hover:bg-slate-600 text-slate-100 font-medium text-xs h-8"
-                >
-                  Start Investing
-                </Button>
-              )}
+            <div className="flex items-start justify-between gap-2">
+              {/* Left: Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-lg">🥈</span>
+                  <span className="text-slate-300 text-sm font-medium">Silver</span>
+                </div>
+                <p className="text-xl font-bold text-white">{silverHoldings.toFixed(0)}g</p>
+                <p className="text-xs text-slate-400">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
+              </div>
+              
+              {/* Right: Actions */}
+              <div className="flex flex-col gap-1.5">
+                {useIconButtons ? (
+                  <>
+                    <Button 
+                      onClick={onBuySilver}
+                      size="icon"
+                      className="h-8 w-8 bg-slate-400 hover:bg-slate-500 text-black"
+                      title="Buy Silver"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                    {silverHoldings > 0 ? (
+                      <Button 
+                        onClick={onSellSilver}
+                        size="icon"
+                        className="h-8 w-8 bg-slate-600 hover:bg-slate-700 text-white"
+                        title="Sell Silver"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={onBuySilver}
+                        size="icon"
+                        className="h-8 w-8 bg-slate-600/60 hover:bg-slate-600 text-slate-200"
+                        title="Start Investing"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      onClick={onBuySilver}
+                      size="sm"
+                      className="h-7 px-3 bg-slate-400 hover:bg-slate-500 text-black font-semibold text-xs"
+                    >
+                      Buy
+                    </Button>
+                    {silverHoldings > 0 ? (
+                      <Button 
+                        onClick={onSellSilver}
+                        size="sm"
+                        className="h-7 px-3 bg-slate-600 hover:bg-slate-700 text-white font-medium text-xs"
+                      >
+                        Sell
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={onBuySilver}
+                        size="sm"
+                        className="h-7 px-2 bg-slate-600/60 hover:bg-slate-600 text-slate-200 font-medium text-[10px]"
+                      >
+                        Invest
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </Card>
         </div>
