@@ -99,6 +99,7 @@ import { Leaderboard } from './pages/Leaderboard';
 import ProductFeaturePreview from './pages/ProductFeaturePreview';
 import DistributionCaseStudy from './pages/DistributionCaseStudy';
 import BullionInvestment from './pages/BullionInvestment';
+import DiscvrHomepage from './pages/DiscvrHomepage';
 import BullionProfile from './pages/BullionProfile';
 import BullionPortfolio from './pages/BullionPortfolio';
 import BullionNews from './pages/BullionNews';
@@ -223,7 +224,8 @@ const AppContent = () => {
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
         <Route path="/metals" element={<MetalsHub />} />
-        <Route path="/bullion" element={<BullionInvestment />} />
+        <Route path="/bullion" element={<DiscvrHomepage />} />
+        <Route path="/bullion/trade" element={<BullionInvestment />} />
         <Route path="/bullion/profile" element={<BullionProfile />} />
         <Route path="/bullion/portfolio" element={<BullionPortfolio />} />
         <Route path="/bullion/news" element={<BullionNews />} />

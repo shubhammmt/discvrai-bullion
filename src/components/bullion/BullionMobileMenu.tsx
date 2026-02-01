@@ -15,6 +15,7 @@ import {
   Banknote,
   Calculator,
   User,
+  Home,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +32,8 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { id: "trade", label: "Bullion", route: "/bullion", icon: TrendingUp, section: "main" },
+  { id: "home", label: "Home", route: "/bullion", icon: Home, section: "main" },
+  { id: "trade", label: "Trade", route: "/bullion/trade", icon: TrendingUp, section: "main" },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet, section: "main" },
   { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote, section: "main" },
   { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator, section: "main" },
