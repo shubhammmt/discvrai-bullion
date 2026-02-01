@@ -11,6 +11,7 @@ import {
   Banknote,
   PieChart,
   Calculator,
+  Home,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -23,7 +24,8 @@ interface NavTab {
 }
 
 const navTabs: NavTab[] = [
-  { id: "trade", label: "Bullion", route: "/bullion", icon: null },
+  { id: "home", label: "Home", route: "/bullion", icon: Home },
+  { id: "trade", label: "Trade", route: "/bullion/trade", icon: TrendingUp },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
   { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote },
   { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator },
