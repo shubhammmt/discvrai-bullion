@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star, BookOpen, Newspaper, BadgeIndianRupee, Coins, Clock, ChevronRight } from "lucide-react";
+import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star, BookOpen, BadgeIndianRupee, Coins, Clock, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,6 @@ import goldInvestment2 from "@/assets/gold-investment-2.jpg";
 // Learn Categories
 const learnCategories = [
   { id: "all", label: "All", icon: BookOpen },
-  { id: "news", label: "News", icon: Newspaper },
   { id: "lamf", label: "LAMF", icon: BadgeIndianRupee },
   { id: "gold", label: "Gold", icon: Coins },
   { id: "silver", label: "Silver", icon: Coins },
@@ -51,16 +50,6 @@ const articles = [
     date: "2024-01-13",
     featured: true,
     image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400",
-  },
-  {
-    id: "4",
-    title: "RBI's New Gold Policy: What It Means for Investors",
-    summary: "Breaking down the latest RBI regulations on gold investments and how they impact retail investors in India.",
-    category: "news",
-    readTime: 5,
-    date: "2024-01-12",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400",
   },
   {
     id: "5",
@@ -101,16 +90,6 @@ const articles = [
     date: "2024-01-08",
     featured: false,
     image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400",
-  },
-  {
-    id: "9",
-    title: "Global Markets Update: Impact on Indian Gold Prices",
-    summary: "How international market movements, Fed decisions, and geopolitical events affect gold and silver prices in India.",
-    category: "news",
-    readTime: 5,
-    date: "2024-01-07",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=400",
   },
   {
     id: "10",
@@ -221,8 +200,6 @@ export default function BullionPremium() {
         return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
       case "lamf":
         return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
-      case "news":
-        return "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400";
       case "personal":
         return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
       default:
