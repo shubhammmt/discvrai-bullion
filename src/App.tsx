@@ -224,7 +224,8 @@ const AppContent = () => {
           <Route path="/crypto" element={<CryptoHub />} />
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
         <Route path="/metals" element={<MetalsHub />} />
-        <Route path="/bullion" element={<DiscvrHomepage />} />
+        <Route path="/discvr" element={<DiscvrHomepage />} />
+        <Route path="/bullion" element={<BullionInvestment />} />
         <Route path="/bullion/trade" element={<BullionInvestment />} />
         <Route path="/bullion/profile" element={<BullionProfile />} />
         <Route path="/bullion/portfolio" element={<BullionPortfolio />} />
