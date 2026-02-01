@@ -15,7 +15,6 @@ import {
   Banknote,
   Calculator,
   User,
-  Home,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -32,16 +31,15 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { id: "home", label: "Home", route: "/bullion", icon: Home, section: "main" },
-  { id: "trade", label: "Trade", route: "/bullion/trade", icon: TrendingUp, section: "main" },
+  { id: "bullion", label: "Bullion", route: "/bullion", icon: TrendingUp, section: "main" },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet, section: "main" },
   { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote, section: "main" },
-  { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator, section: "main" },
   { id: "news", label: "News", route: "/bullion/news", icon: Newspaper, section: "main" },
-  { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem, section: "main" },
   { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy, section: "main" },
-  { id: "goals", label: "Goals", route: "/bullion/goals", icon: Target, section: "main" },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO", section: "main" },
+  { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator, section: "main" },
+  { id: "goals", label: "Goals", route: "/bullion/goals", icon: Target, section: "main" },
+  { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem, section: "main" },
 ];
 
 export function BullionMobileMenu() {
@@ -50,10 +48,7 @@ export function BullionMobileMenu() {
   const navigate = useNavigate();
 
   const isActive = (route: string) => {
-    if (route === "/bullion") {
-      return location.pathname === "/bullion";
-    }
-    return location.pathname.startsWith(route);
+    return location.pathname === route || location.pathname.startsWith(route + "/");
   };
 
   const handleNavigate = (route: string) => {
@@ -76,7 +71,7 @@ export function BullionMobileMenu() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
               <span className="text-white text-sm font-bold">D</span>
             </div>
-            <div className="text-left">
+            <div className="text-left cursor-pointer" onClick={() => { navigate('/discvr'); setOpen(false); }}>
               <p className="font-bold text-base">Discvr Bullion</p>
               <p className="text-xs text-muted-foreground font-normal">Digital Gold & Silver</p>
             </div>
