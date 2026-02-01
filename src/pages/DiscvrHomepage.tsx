@@ -120,12 +120,7 @@ const featuredItems = [
 
 export default function DiscvrHomepage() {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState("all");
   const [featuredIndex, setFeaturedIndex] = useState(0);
-
-  const filteredArticles = activeCategory === "all" 
-    ? newsArticles 
-    : newsArticles.filter(a => a.category === activeCategory);
 
   const activeFeatured = featuredItems[featuredIndex];
 
@@ -269,11 +264,11 @@ export default function DiscvrHomepage() {
           </motion.div>
         </section>
 
-        {/* Top Latest News Section */}
+        {/* Quick Insight Section */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-xl md:text-2xl font-bold">Top Latest News</h2>
+              <h2 className="text-xl md:text-2xl font-bold">Quick Insight</h2>
               <p className="text-sm text-muted-foreground">Stay updated with real-time financial news and insights</p>
             </div>
             <Button variant="outline" onClick={() => navigate("/bullion/news")}>
@@ -281,28 +276,9 @@ export default function DiscvrHomepage() {
             </Button>
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-hide mb-4">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={cn(
-                  "flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all",
-                  activeCategory === cat.id
-                    ? "bg-foreground text-background"
-                    : "bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {cat.icon && <span>{cat.icon}</span>}
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
           {/* News Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredArticles.map((article, index) => (
+            {newsArticles.map((article, index) => (
               <motion.div
                 key={article.id}
                 initial={{ opacity: 0, y: 20 }}
