@@ -414,7 +414,9 @@ export const ComparisonCard = () => (
     className="ad-card"
   >
     <Card className="relative overflow-hidden p-6 bg-white border-2 border-slate-200 min-h-[420px]">
-      <h3 className="text-2xl font-bold text-slate-800 mb-6">Physical vs Digital Gold</h3>
+      <h3 className="text-2xl font-bold text-slate-800 mb-6">
+        Physical <span className="text-amber-600">vs</span> Digital Gold
+      </h3>
       
       <div className="space-y-4">
         {[
@@ -441,7 +443,7 @@ export const ComparisonCard = () => (
 
       <div className="mt-4 p-3 rounded-xl bg-gradient-to-r from-amber-100 to-emerald-100">
         <p className="text-center text-sm font-semibold text-slate-700">
-          <span className="font-bold bg-gradient-to-r from-amber-600 to-emerald-600 bg-clip-text text-transparent">DiscvrAI</span> = Smart Investment 💡
+          <span className="font-bold text-amber-600">DiscvrAI</span> = Smart Investment 💡
         </p>
       </div>
     </Card>
