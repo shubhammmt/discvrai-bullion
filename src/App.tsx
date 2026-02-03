@@ -123,6 +123,7 @@ import JindalProposal from './pages/JindalProposal';
 import MasterTrustProposal from './pages/MasterTrustProposal';
 import YatharthPitch from './pages/YatharthPitch';
 import XaltProposal from './pages/XaltProposal';
+import ManufacturingPitch from './pages/ManufacturingPitch';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -262,6 +263,7 @@ const AppContent = () => {
           <Route path="/proposal/mastertrust" element={<MasterTrustProposal />} />
           <Route path="/proposal/yatharth" element={<YatharthPitch />} />
           <Route path="/proposal/xalt" element={<XaltProposal />} />
+          <Route path="/manufacturing-pitch" element={<ManufacturingPitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
