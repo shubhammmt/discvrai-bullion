@@ -1,6 +1,10 @@
 import React from 'react';
 import { XaltSlide } from '@/data/xaltProposalSlides';
-import { ProblemSlide } from './slides/ProblemSlide';
+import { TitleSlide } from './slides/TitleSlide';
+import { StrategicQuestionSlide } from './slides/StrategicQuestionSlide';
+import { PainPointsSlide } from './slides/PainPointsSlide';
+import { AIModelSlide } from './slides/AIModelSlide';
+import { ValueSlide } from './slides/ValueSlide';
 import { SolutionSlide1 } from './slides/SolutionSlide1';
 import { SolutionSlide2 } from './slides/SolutionSlide2';
 import { AssistantsSlide } from './slides/AssistantsSlide';
@@ -22,8 +26,16 @@ export const XaltSlideRenderer: React.FC<XaltSlideRendererProps> = ({
   const props = { slideNumber, totalSlides };
   
   switch (slide.type) {
-    case 'problem':
-      return <ProblemSlide {...props} />;
+    case 'title':
+      return <TitleSlide {...props} />;
+    case 'strategic':
+      return <StrategicQuestionSlide {...props} />;
+    case 'painpoints':
+      return <PainPointsSlide {...props} />;
+    case 'aimodel':
+      return <AIModelSlide {...props} />;
+    case 'value':
+      return <ValueSlide {...props} />;
     case 'solution1':
       return <SolutionSlide1 {...props} />;
     case 'solution2':
