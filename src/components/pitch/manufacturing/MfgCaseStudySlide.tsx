@@ -28,25 +28,25 @@ interface MfgCaseStudySlideProps {
 export const MfgCaseStudySlide: React.FC<MfgCaseStudySlideProps> = ({ slide, slideNumber, totalSlides }) => {
   return (
     <MfgSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="h-full flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-3"
+          className="mb-2 flex-shrink-0"
         >
-          <div className="flex items-center gap-3 mb-1">
-            <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
-              <Award className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+              <Award className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-800">{slide.headline}</h2>
-              <p className="text-sm text-slate-600">{slide.subheadline}</p>
+              <h2 className="text-xl font-bold text-slate-800">{slide.headline}</h2>
+              <p className="text-xs text-slate-600">{slide.subheadline}</p>
             </div>
           </div>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-12 gap-4 min-h-0">
+        <div className="flex-1 grid grid-cols-12 gap-3 min-h-0">
           {/* Left: Profile & Challenges */}
           <div className="col-span-4 flex flex-col gap-4">
             {/* Client Profile */}
@@ -114,16 +114,16 @@ export const MfgCaseStudySlide: React.FC<MfgCaseStudySlideProps> = ({ slide, sli
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-4 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4"
+          className="mt-2 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-3 flex-shrink-0"
         >
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp className="w-5 h-5 text-amber-400" />
-            <h3 className="text-base font-semibold text-white">Impact Delivered</h3>
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="w-4 h-4 text-amber-400" />
+            <h3 className="text-sm font-semibold text-white">Impact Delivered</h3>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {slide.overallImpact.map((impact, index) => (
-              <span key={index} className="bg-white/10 text-white text-sm px-3 py-2 rounded-full flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-emerald-400" />
+              <span key={index} className="bg-white/10 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                <CheckCircle className="w-3 h-3 text-emerald-400" />
                 {impact}
               </span>
             ))}

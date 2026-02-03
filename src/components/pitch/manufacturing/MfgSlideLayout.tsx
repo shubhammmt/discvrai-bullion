@@ -15,7 +15,6 @@ export const MfgSlideLayout: React.FC<MfgSlideLayoutProps> = ({
   return (
     <div 
       className="w-full h-screen flex flex-col relative overflow-hidden bg-white"
-      style={{ aspectRatio: '16/9' }}
     >
       {/* Gold accent line at top */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500" />
@@ -28,8 +27,8 @@ export const MfgSlideLayout: React.FC<MfgSlideLayoutProps> = ({
         </span>
       </div>
       
-      {/* Main content */}
-      <div className="flex-1 relative z-10 px-10 pt-12 pb-8 overflow-hidden">
+      {/* Main content - reduced padding, fills available height */}
+      <div className="flex-1 relative z-10 px-8 pt-8 pb-10 flex flex-col">
         {children}
       </div>
       
