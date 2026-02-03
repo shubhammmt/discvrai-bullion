@@ -36,28 +36,28 @@ export const MfgChallengeSlide: React.FC<MfgChallengeSlideProps> = ({ slide, sli
           <p className="text-lg text-slate-600">{slide.subheadline}</p>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-12 gap-4 overflow-hidden">
+        <div className="flex-1 grid grid-cols-12 gap-4 min-h-0">
           {/* Left: System Landscape */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="col-span-4 bg-slate-50 rounded-xl p-4 border border-slate-200"
+            className="col-span-4 bg-slate-50 rounded-xl p-4 border border-slate-200 flex flex-col"
           >
             <div className="flex items-center gap-2 mb-3">
               <Server className="w-4 h-4 text-slate-600" />
               <h3 className="text-sm font-semibold text-slate-700">{slide.systemLandscape.title}</h3>
             </div>
-            <div className="space-y-2">
+            <div className="flex-1 space-y-3">
               {slide.systemLandscape.systems.map((system, index) => (
-                <div key={index} className="bg-white rounded-lg p-2 border border-slate-100">
-                  <p className="text-xs font-semibold text-slate-700">{system.category}</p>
-                  <p className="text-xs text-slate-500 truncate">{system.examples}</p>
+                <div key={index} className="bg-white rounded-lg p-3 border border-slate-100">
+                  <p className="text-sm font-semibold text-slate-700">{system.category}</p>
+                  <p className="text-sm text-slate-500">{system.examples}</p>
                 </div>
               ))}
             </div>
-            <div className="mt-3 bg-red-50 rounded-lg p-2 border border-red-100">
-              <p className="text-xs font-semibold text-red-600">{slide.systemLandscape.totalSystems}</p>
+            <div className="mt-3 bg-red-50 rounded-lg p-3 border border-red-100">
+              <p className="text-sm font-semibold text-red-600">{slide.systemLandscape.totalSystems}</p>
             </div>
           </motion.div>
 
@@ -66,26 +66,26 @@ export const MfgChallengeSlide: React.FC<MfgChallengeSlideProps> = ({ slide, sli
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="col-span-8"
+            className="col-span-8 flex flex-col"
           >
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-              <div className="grid grid-cols-3 bg-slate-800 text-white text-xs font-semibold">
-                <div className="p-2">Function</div>
-                <div className="p-2">Challenge</div>
-                <div className="p-2">Business Impact</div>
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden flex-1 flex flex-col">
+              <div className="grid grid-cols-3 bg-slate-800 text-white text-sm font-semibold">
+                <div className="p-3">Function</div>
+                <div className="p-3">Challenge</div>
+                <div className="p-3">Business Impact</div>
               </div>
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-slate-100 flex-1">
                 {slide.challenges.map((challenge, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 + index * 0.05 }}
-                    className="grid grid-cols-3 text-xs hover:bg-slate-50 transition-colors"
+                    className="grid grid-cols-3 text-sm hover:bg-slate-50 transition-colors flex-1"
                   >
-                    <div className="p-2 font-medium text-slate-700">{challenge.function}</div>
-                    <div className="p-2 text-slate-600">{challenge.challenge}</div>
-                    <div className="p-2 text-red-600">{challenge.impact}</div>
+                    <div className="p-3 font-medium text-slate-700 flex items-center">{challenge.function}</div>
+                    <div className="p-3 text-slate-600 flex items-center">{challenge.challenge}</div>
+                    <div className="p-3 text-red-600 flex items-center">{challenge.impact}</div>
                   </motion.div>
                 ))}
               </div>
