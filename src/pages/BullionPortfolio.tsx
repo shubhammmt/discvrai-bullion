@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Bell, User, TrendingUp, TrendingDown, Wallet, Calendar, Filter, ChevronRight, Clock, Target, Sparkles, Download } from "lucide-react";
+import { ArrowLeft, Bell, User, TrendingUp, TrendingDown, Wallet, Calendar, Filter, ChevronRight, ChevronUp, ChevronDown, Clock, Target, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -791,9 +791,15 @@ function TransactionRow({
   goldPrice?: number;
   silverPrice?: number;
 }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const { type, metal, grams, amount, date, status } = transaction;
   const isGold = metal === "gold";
   const ratePerGram = isGold ? goldPrice : silverPrice;
+  
+  // Tax calculations (3% GST for gold/silver)
+  const taxRate = 3;
+  const basePrice = amount / (1 + taxRate / 100);
+  const taxAmount = amount - basePrice;
   
   const handleDownloadInvoice = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -812,7 +818,10 @@ function TransactionRow({
       </div>
 
       {/* Card Container */}
-      <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-4 pt-6 border border-slate-200 dark:border-slate-700">
+      <div 
+        className="bg-slate-100 dark:bg-slate-800 rounded-xl p-4 pt-6 border border-slate-200 dark:border-slate-700 cursor-pointer transition-all duration-200 hover:bg-slate-200 dark:hover:bg-slate-700"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
         {/* 3-Column Grid */}
         <div className="grid grid-cols-3 gap-2">
           {/* Column 1 - Left Aligned */}
@@ -852,6 +861,43 @@ function TransactionRow({
             </p>
           </div>
         </div>
+
+        {/* Expand/Collapse Indicator */}
+        <div className="flex justify-center mt-3">
+          {isExpanded ? (
+            <ChevronUp className="w-4 h-4 text-slate-400" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-slate-400" />
+          )}
+        </div>
+
+        {/* Expanded Tax Details */}
+        {isExpanded && (
+          <div className="mt-3 pt-3 border-t border-slate-300 dark:border-slate-600 grid grid-cols-2 gap-3">
+            <div>
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">Base Price (excl. tax)</p>
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                ₹{basePrice.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">Tax Rate</p>
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">{taxRate}% GST</p>
+            </div>
+            <div>
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">Tax Amount</p>
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                ₹{taxAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-0.5">Total Amount</p>
+              <p className="text-sm font-semibold text-amber-600 dark:text-amber-400">
+                ₹{amount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
