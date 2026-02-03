@@ -1,6 +1,6 @@
 export interface XaltSlide {
   id: number;
-  type: 'problem' | 'assistants' | 'paths' | 'roi' | 'timeline' | 'cta';
+  type: 'problem' | 'solution1' | 'solution2' | 'assistants' | 'paths' | 'roi' | 'timeline';
   title: string;
 }
 
@@ -12,27 +12,32 @@ export const xaltProposalSlides: XaltSlide[] = [
   },
   {
     id: 2,
+    type: 'solution1',
+    title: 'Foundation Agents'
+  },
+  {
+    id: 3,
+    type: 'solution2',
+    title: 'Scale Agents'
+  },
+  {
+    id: 4,
     type: 'assistants',
     title: 'AI Assistants'
   },
   {
-    id: 3,
+    id: 5,
     type: 'paths',
     title: 'Recommended Paths'
   },
   {
-    id: 4,
+    id: 6,
     type: 'roi',
     title: 'The Value'
   },
   {
-    id: 5,
+    id: 7,
     type: 'timeline',
     title: 'Timeline'
-  },
-  {
-    id: 6,
-    type: 'cta',
-    title: 'Next Steps'
   }
 ];
