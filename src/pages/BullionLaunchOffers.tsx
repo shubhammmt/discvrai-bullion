@@ -113,7 +113,7 @@ const BullionLaunchOffers = () => {
     }
   };
 
-  const downloadSingleCard = async (cardId: string) => {
+  const downloadSingleCard = async (cardId: string, format: 'jpg' | 'png' = 'png') => {
     const card = document.getElementById(cardId);
     if (!card) return;
 
@@ -125,8 +125,13 @@ const BullionLaunchOffers = () => {
       });
 
       const link = document.createElement('a');
-      link.download = `${cardId}.png`;
-      link.href = canvas.toDataURL('image/png');
+      if (format === 'jpg') {
+        link.download = `discvr-${cardId}.jpg`;
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+      } else {
+        link.download = `${cardId}.png`;
+        link.href = canvas.toDataURL('image/png');
+      }
       link.click();
       toast.success("Card downloaded!");
     } catch (error) {
@@ -242,7 +247,18 @@ const BullionLaunchOffers = () => {
 
         {/* Comparison Card */}
         <section>
-          <h2 className="text-2xl font-bold mb-4">Comparison Card</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">Comparison Card</h2>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2"
+              onClick={() => downloadSingleCard('comparison', 'jpg')}
+            >
+              <Download className="w-4 h-4" />
+              Download JPG
+            </Button>
+          </div>
           <div id="comparison" className="max-w-2xl">
             <ComparisonCard />
           </div>
