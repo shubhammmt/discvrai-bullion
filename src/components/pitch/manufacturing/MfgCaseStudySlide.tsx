@@ -46,21 +46,21 @@ export const MfgCaseStudySlide: React.FC<MfgCaseStudySlideProps> = ({ slide, sli
           </div>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-12 gap-3 overflow-hidden">
+        <div className="flex-1 grid grid-cols-12 gap-4 min-h-0">
           {/* Left: Profile & Challenges */}
-          <div className="col-span-4 flex flex-col gap-3">
+          <div className="col-span-4 flex flex-col gap-4">
             {/* Client Profile */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-slate-50 border border-slate-200 rounded-xl p-3"
+              className="bg-slate-50 border border-slate-200 rounded-xl p-4"
             >
-              <div className="flex items-center gap-2 mb-2">
-                <Building2 className="w-4 h-4 text-slate-600" />
-                <h3 className="text-sm font-semibold text-slate-700">Client Profile</h3>
+              <div className="flex items-center gap-2 mb-3">
+                <Building2 className="w-5 h-5 text-slate-600" />
+                <h3 className="text-base font-semibold text-slate-700">Client Profile</h3>
               </div>
-              <div className="space-y-1 text-xs">
+              <div className="space-y-2 text-sm">
                 <p><span className="font-medium text-slate-700">Industry:</span> <span className="text-slate-600">{slide.clientProfile.industry}</span></p>
                 {slide.clientProfile.revenue && (
                   <p><span className="font-medium text-slate-700">Revenue:</span> <span className="text-amber-600 font-semibold">{slide.clientProfile.revenue}</span></p>
@@ -75,14 +75,14 @@ export const MfgCaseStudySlide: React.FC<MfgCaseStudySlideProps> = ({ slide, sli
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-red-50 border border-red-200 rounded-xl p-3 flex-1 overflow-auto"
+              className="bg-red-50 border border-red-200 rounded-xl p-4 flex-1"
             >
-              <h3 className="text-sm font-semibold text-red-700 mb-2">Challenges</h3>
-              <div className="space-y-1.5">
+              <h3 className="text-base font-semibold text-red-700 mb-3">Challenges</h3>
+              <div className="space-y-2">
                 {slide.challenges.map((challenge, index) => (
-                  <div key={index} className="flex items-start gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-                    <p className="text-xs text-red-700">{challenge}</p>
+                  <div key={index} className="flex items-start gap-2">
+                    <div className="w-2 h-2 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
+                    <p className="text-sm text-red-700">{challenge}</p>
                   </div>
                 ))}
               </div>
@@ -94,15 +94,15 @@ export const MfgCaseStudySlide: React.FC<MfgCaseStudySlideProps> = ({ slide, sli
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            className="col-span-8 bg-emerald-50 border border-emerald-200 rounded-xl p-3 overflow-auto"
+            className="col-span-8 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex flex-col"
           >
-            <h3 className="text-sm font-semibold text-emerald-700 mb-2">What We Delivered</h3>
-            <div className="grid grid-cols-2 gap-2">
+            <h3 className="text-base font-semibold text-emerald-700 mb-3">What We Delivered</h3>
+            <div className="grid grid-cols-2 gap-3 flex-1">
               {slide.deliverables.map((deliverable, index) => (
-                <div key={index} className="bg-white border border-emerald-100 rounded-lg p-2">
-                  <h4 className="text-xs font-bold text-slate-800 mb-1">{deliverable.name}</h4>
-                  <p className="text-xs text-slate-600 mb-1">{deliverable.description}</p>
-                  <p className="text-xs text-emerald-600 font-medium">→ {deliverable.impact}</p>
+                <div key={index} className="bg-white border border-emerald-100 rounded-lg p-3 flex flex-col">
+                  <h4 className="text-sm font-bold text-slate-800 mb-1">{deliverable.name}</h4>
+                  <p className="text-sm text-slate-600 mb-2 flex-1">{deliverable.description}</p>
+                  <p className="text-sm text-emerald-600 font-medium">→ {deliverable.impact}</p>
                 </div>
               ))}
             </div>
@@ -114,16 +114,16 @@ export const MfgCaseStudySlide: React.FC<MfgCaseStudySlideProps> = ({ slide, sli
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-3 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-3"
+          className="mt-4 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4"
         >
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="w-4 h-4 text-amber-400" />
-            <h3 className="text-sm font-semibold text-white">Impact Delivered</h3>
+          <div className="flex items-center gap-2 mb-3">
+            <TrendingUp className="w-5 h-5 text-amber-400" />
+            <h3 className="text-base font-semibold text-white">Impact Delivered</h3>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             {slide.overallImpact.map((impact, index) => (
-              <span key={index} className="bg-white/10 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                <CheckCircle className="w-3 h-3 text-emerald-400" />
+              <span key={index} className="bg-white/10 text-white text-sm px-3 py-2 rounded-full flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-emerald-400" />
                 {impact}
               </span>
             ))}

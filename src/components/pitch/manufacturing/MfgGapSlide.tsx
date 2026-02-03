@@ -47,25 +47,25 @@ export const MfgGapSlide: React.FC<MfgGapSlideProps> = ({ slide, slideNumber, to
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex-1 bg-white rounded-xl border border-slate-200 overflow-hidden"
+          className="flex-1 bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col min-h-0"
         >
           <div className="grid grid-cols-3 bg-slate-800 text-white text-sm font-semibold">
             <div className="p-3">Function</div>
             <div className="p-3 bg-red-900/30">Current Reality</div>
             <div className="p-3 bg-emerald-900/30">How We Help</div>
           </div>
-          <div className="divide-y divide-slate-100 overflow-auto max-h-[280px]">
+          <div className="divide-y divide-slate-100 flex-1">
             {slide.comparisons.map((comparison, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + index * 0.05 }}
-                className="grid grid-cols-3 text-sm hover:bg-slate-50 transition-colors"
+                className="grid grid-cols-3 text-sm hover:bg-slate-50 transition-colors flex-1"
               >
-                <div className="p-3 font-medium text-slate-700">{comparison.function}</div>
-                <div className="p-3 text-red-600 bg-red-50/50">{comparison.current}</div>
-                <div className="p-3 text-emerald-600 bg-emerald-50/50">{comparison.solution}</div>
+                <div className="p-3 font-medium text-slate-700 flex items-center">{comparison.function}</div>
+                <div className="p-3 text-red-600 bg-red-50/50 flex items-center">{comparison.current}</div>
+                <div className="p-3 text-emerald-600 bg-emerald-50/50 flex items-center">{comparison.solution}</div>
               </motion.div>
             ))}
           </div>
@@ -79,9 +79,9 @@ export const MfgGapSlide: React.FC<MfgGapSlideProps> = ({ slide, slideNumber, to
           className="mt-4 grid grid-cols-2 gap-3"
         >
           {slide.capabilities.map((capability, index) => (
-            <div key={index} className="flex items-start gap-2 bg-slate-50 rounded-lg p-2">
-              <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-slate-700">{capability}</p>
+            <div key={index} className="flex items-start gap-2 bg-slate-50 rounded-lg p-3">
+              <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-slate-700">{capability}</p>
             </div>
           ))}
         </motion.div>

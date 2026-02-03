@@ -52,20 +52,20 @@ export const MfgUseCaseSlide: React.FC<MfgUseCaseSlideProps> = ({ slide, slideNu
           <p className="text-sm text-slate-600">{slide.subheadline}</p>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-12 gap-3 overflow-hidden">
+        <div className="flex-1 grid grid-cols-12 gap-4 min-h-0">
           {/* Left: Problem */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="col-span-3 bg-red-50 border border-red-200 rounded-xl p-3"
+            className="col-span-3 bg-red-50 border border-red-200 rounded-xl p-4 flex flex-col"
           >
-            <h3 className="text-sm font-bold text-red-700 mb-2">{slide.problem.title}</h3>
-            <div className="space-y-2">
+            <h3 className="text-base font-bold text-red-700 mb-3">{slide.problem.title}</h3>
+            <div className="flex-1 space-y-3">
               {slide.problem.points.map((point, index) => (
-                <div key={index} className="flex items-start gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-                  <p className="text-xs text-red-700">{point}</p>
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-2 h-2 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
+                  <p className="text-sm text-red-700">{point}</p>
                 </div>
               ))}
             </div>
@@ -76,18 +76,18 @@ export const MfgUseCaseSlide: React.FC<MfgUseCaseSlideProps> = ({ slide, slideNu
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="col-span-6 bg-emerald-50 border border-emerald-200 rounded-xl p-3 overflow-auto"
+            className="col-span-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex flex-col"
           >
-            <h3 className="text-sm font-bold text-emerald-700 mb-2">{slide.solution.title}</h3>
-            <div className="space-y-3">
+            <h3 className="text-base font-bold text-emerald-700 mb-3">{slide.solution.title}</h3>
+            <div className="flex-1 space-y-4">
               {slide.solution.categories.slice(0, 3).map((category, index) => (
                 <div key={index}>
-                  <h4 className="text-xs font-semibold text-emerald-800 mb-1">{category.name}</h4>
-                  <div className="grid grid-cols-1 gap-1">
+                  <h4 className="text-sm font-semibold text-emerald-800 mb-2">{category.name}</h4>
+                  <div className="grid grid-cols-1 gap-1.5">
                     {category.points.slice(0, 2).map((point, pointIndex) => (
-                      <div key={pointIndex} className="flex items-start gap-1.5">
-                        <CheckCircle className="w-3 h-3 text-emerald-500 flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-emerald-700">{point}</p>
+                      <div key={pointIndex} className="flex items-start gap-2">
+                        <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-emerald-700">{point}</p>
                       </div>
                     ))}
                   </div>
@@ -101,17 +101,17 @@ export const MfgUseCaseSlide: React.FC<MfgUseCaseSlideProps> = ({ slide, slideNu
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            className="col-span-3 flex flex-col gap-2"
+            className="col-span-3 flex flex-col"
           >
-            <div className="bg-slate-800 text-white rounded-xl p-3 flex-1">
-              <h3 className="text-xs font-bold mb-2">Impact</h3>
-              <div className="space-y-2">
+            <div className="bg-slate-800 text-white rounded-xl p-4 flex-1 flex flex-col">
+              <h3 className="text-base font-bold mb-3">Impact</h3>
+              <div className="flex-1 space-y-3">
                 {slide.impact.slice(0, 4).map((item, index) => (
-                  <div key={index} className="bg-white/10 rounded-lg p-2">
-                    <p className="text-xs text-white/70 mb-0.5">{item.metric}</p>
-                    <div className="flex items-center gap-1 text-xs">
+                  <div key={index} className="bg-white/10 rounded-lg p-3 flex-1">
+                    <p className="text-sm text-white/70 mb-1">{item.metric}</p>
+                    <div className="flex items-center gap-2 text-sm">
                       <span className="text-red-300 line-through">{item.before}</span>
-                      <ArrowRight className="w-3 h-3 text-white/50" />
+                      <ArrowRight className="w-4 h-4 text-white/50" />
                       <span className="text-emerald-300 font-semibold">{item.after}</span>
                     </div>
                   </div>
@@ -126,10 +126,10 @@ export const MfgUseCaseSlide: React.FC<MfgUseCaseSlideProps> = ({ slide, slideNu
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-3 flex items-center gap-2 flex-wrap"
+          className="mt-4 flex items-center gap-3 flex-wrap"
         >
           {slide.scale.map((item, index) => (
-            <span key={index} className="bg-amber-100 text-amber-700 text-xs px-2 py-1 rounded-full">
+            <span key={index} className="bg-amber-100 text-amber-700 text-sm px-3 py-2 rounded-full">
               {item}
             </span>
           ))}
