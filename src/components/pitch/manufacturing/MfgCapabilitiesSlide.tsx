@@ -39,19 +39,19 @@ export const MfgCapabilitiesSlide: React.FC<MfgCapabilitiesSlideProps> = ({ slid
 
   return (
     <MfgSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="h-full flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-4"
+          className="mb-3 flex-shrink-0"
         >
-          <h2 className="text-3xl font-bold text-slate-800 mb-1">{slide.headline}</h2>
-          <p className="text-lg text-slate-600">{slide.subheadline}</p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-1">{slide.headline}</h2>
+          <p className="text-base text-slate-600">{slide.subheadline}</p>
         </motion.div>
 
-        {/* Capabilities Grid */}
-        <div className="flex-1 grid grid-cols-3 gap-4 min-h-0">
+        {/* Capabilities Grid - 2 rows of 3 */}
+        <div className="flex-1 grid grid-cols-3 grid-rows-2 gap-3 min-h-0">
           {slide.categories.map((category, index) => {
             const Icon = iconMap[category.icon] || Brain;
             const color = colors[index % colors.length];
@@ -62,19 +62,19 @@ export const MfgCapabilitiesSlide: React.FC<MfgCapabilitiesSlideProps> = ({ slid
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.1 }}
-                className={`${color.bg} ${color.border} border rounded-xl p-4 flex flex-col`}
+                className={`${color.bg} ${color.border} border rounded-xl p-3 flex flex-col min-h-0`}
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={`w-8 h-8 ${color.iconBg} rounded-lg flex items-center justify-center`}>
-                    <Icon className="w-5 h-5 text-white" />
+                <div className="flex items-center gap-2 mb-2 flex-shrink-0">
+                  <div className={`w-7 h-7 ${color.iconBg} rounded-lg flex items-center justify-center`}>
+                    <Icon className="w-4 h-4 text-white" />
                   </div>
-                  <h3 className={`font-semibold text-base ${color.text}`}>{category.name}</h3>
+                  <h3 className={`font-semibold text-sm ${color.text}`}>{category.name}</h3>
                 </div>
-                <div className="flex-1 space-y-2">
-                  {category.capabilities.slice(0, 5).map((capability, capIndex) => (
+                <div className="flex-1 space-y-1.5 overflow-hidden">
+                  {category.capabilities.slice(0, 4).map((capability, capIndex) => (
                     <div key={capIndex} className="flex items-start gap-2">
-                      <div className={`w-2 h-2 ${color.iconBg} rounded-full mt-1.5 flex-shrink-0`} />
-                      <p className="text-sm text-slate-600 leading-tight">{capability}</p>
+                      <div className={`w-1.5 h-1.5 ${color.iconBg} rounded-full mt-1.5 flex-shrink-0`} />
+                      <p className="text-xs text-slate-600 leading-snug">{capability}</p>
                     </div>
                   ))}
                 </div>
@@ -88,9 +88,9 @@ export const MfgCapabilitiesSlide: React.FC<MfgCapabilitiesSlideProps> = ({ slid
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mt-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl px-4 py-3 text-center"
+          className="mt-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl px-3 py-2 text-center flex-shrink-0"
         >
-          <p className="text-amber-700 font-semibold">{slide.keyMessage}</p>
+          <p className="text-amber-700 font-semibold text-sm">{slide.keyMessage}</p>
         </motion.div>
       </div>
     </MfgSlideLayout>

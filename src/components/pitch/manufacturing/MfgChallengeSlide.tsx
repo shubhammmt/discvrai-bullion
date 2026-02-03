@@ -22,21 +22,21 @@ interface MfgChallengeSlideProps {
 export const MfgChallengeSlide: React.FC<MfgChallengeSlideProps> = ({ slide, slideNumber, totalSlides }) => {
   return (
     <MfgSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="h-full flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-4"
+          className="mb-3 flex-shrink-0"
         >
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-1">
             <AlertTriangle className="w-6 h-6 text-red-500" />
-            <h2 className="text-3xl font-bold text-slate-800">{slide.headline}</h2>
+            <h2 className="text-2xl font-bold text-slate-800">{slide.headline}</h2>
           </div>
-          <p className="text-lg text-slate-600">{slide.subheadline}</p>
+          <p className="text-base text-slate-600">{slide.subheadline}</p>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-12 gap-4 min-h-0">
+        <div className="flex-1 grid grid-cols-12 gap-3 min-h-0">
           {/* Left: System Landscape */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -98,7 +98,7 @@ export const MfgChallengeSlide: React.FC<MfgChallengeSlideProps> = ({ slide, sli
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-4 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-xl p-4"
+          className="mt-3 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-xl p-3 flex-shrink-0"
         >
           <p className="text-sm text-slate-700 leading-relaxed">
             <span className="font-semibold text-red-600">The Core Issue: </span>

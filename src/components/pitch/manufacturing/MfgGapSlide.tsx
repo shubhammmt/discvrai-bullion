@@ -18,18 +18,18 @@ interface MfgGapSlideProps {
 export const MfgGapSlide: React.FC<MfgGapSlideProps> = ({ slide, slideNumber, totalSlides }) => {
   return (
     <MfgSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="h-full flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-4"
+          className="mb-2 flex-shrink-0"
         >
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-1">
             <Layers className="w-6 h-6 text-amber-600" />
-            <h2 className="text-3xl font-bold text-slate-800">{slide.headline}</h2>
+            <h2 className="text-2xl font-bold text-slate-800">{slide.headline}</h2>
           </div>
-          <p className="text-lg text-slate-600">{slide.subheadline}</p>
+          <p className="text-base text-slate-600">{slide.subheadline}</p>
         </motion.div>
 
         {/* Positioning */}
@@ -37,7 +37,7 @@ export const MfgGapSlide: React.FC<MfgGapSlideProps> = ({ slide, slideNumber, to
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 mb-4"
+          className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-3 flex-shrink-0"
         >
           <p className="text-amber-800 font-medium text-sm">"{slide.positioning}"</p>
         </motion.div>
@@ -47,7 +47,7 @@ export const MfgGapSlide: React.FC<MfgGapSlideProps> = ({ slide, slideNumber, to
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex-1 bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col min-h-0"
+          className="flex-1 bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col"
         >
           <div className="grid grid-cols-3 bg-slate-800 text-white text-sm font-semibold">
             <div className="p-3">Function</div>
@@ -76,11 +76,11 @@ export const MfgGapSlide: React.FC<MfgGapSlideProps> = ({ slide, slideNumber, to
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-4 grid grid-cols-2 gap-3"
+          className="mt-3 grid grid-cols-2 gap-2 flex-shrink-0"
         >
           {slide.capabilities.map((capability, index) => (
-            <div key={index} className="flex items-start gap-2 bg-slate-50 rounded-lg p-3">
-              <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+            <div key={index} className="flex items-start gap-2 bg-slate-50 rounded-lg p-2">
+              <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-slate-700">{capability}</p>
             </div>
           ))}

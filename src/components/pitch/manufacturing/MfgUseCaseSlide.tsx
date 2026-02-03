@@ -33,26 +33,26 @@ interface MfgUseCaseSlideProps {
 export const MfgUseCaseSlide: React.FC<MfgUseCaseSlideProps> = ({ slide, slideNumber, totalSlides }) => {
   return (
     <MfgSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="h-full flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-3"
+          className="mb-2 flex-shrink-0"
         >
           <div className="flex items-center gap-3 mb-1">
-            <h2 className="text-2xl font-bold text-slate-800">{slide.headline}</h2>
+            <h2 className="text-xl font-bold text-slate-800">{slide.headline}</h2>
             {slide.aiEnabled && (
-              <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+              <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
                 <Brain className="w-3 h-3" />
-                AI-Enabled
+                AI
               </span>
             )}
           </div>
           <p className="text-sm text-slate-600">{slide.subheadline}</p>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-12 gap-4 min-h-0">
+        <div className="flex-1 grid grid-cols-12 gap-3 min-h-0">
           {/* Left: Problem */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -126,10 +126,10 @@ export const MfgUseCaseSlide: React.FC<MfgUseCaseSlideProps> = ({ slide, slideNu
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-4 flex items-center gap-3 flex-wrap"
+          className="mt-2 flex items-center gap-2 flex-wrap flex-shrink-0"
         >
           {slide.scale.map((item, index) => (
-            <span key={index} className="bg-amber-100 text-amber-700 text-sm px-3 py-2 rounded-full">
+            <span key={index} className="bg-amber-100 text-amber-700 text-xs px-2 py-1 rounded-full">
               {item}
             </span>
           ))}
