@@ -69,6 +69,7 @@ import InvestorOnePager from './pages/InvestorOnePager';
 import AIFintechOnePager from './pages/AIFintechOnePager';
 import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import AMCPitch from './pages/AMCPitch';
+import AMCEnterprisePitch from './pages/AMCEnterprisePitch';
 import EnterprisePitch from './pages/EnterprisePitch';
 import ExpoPitch from './pages/ExpoPitch';
 import PartnerDistribution from './pages/PartnerDistribution';
@@ -217,6 +218,7 @@ const AppContent = () => {
           <Route path="/ai-fintech-1pager" element={<AIFintechOnePager />} />
           <Route path="/b2b-preipo-pitch" element={<B2BPreIPOPitch />} />
           <Route path="/amc-pitch" element={<AMCPitch />} />
+          <Route path="/amc-enterprise-pitch" element={<AMCEnterprisePitch />} />
           <Route path="/enterprise-pitch" element={<EnterprisePitch />} />
           <Route path="/expo-pitch" element={<ExpoPitch />} />
           <Route path="/partner-distribution" element={<PartnerDistribution />} />
