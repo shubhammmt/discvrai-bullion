@@ -245,6 +245,11 @@ export default function BullionInvestment() {
               </>
             )}
 
+            {/* Physical vs Digital for Investors */}
+            {userState === "investor" && (
+              <PhysicalVsDigital variant="table" />
+            )}
+
             {/* Live Prices Section */}
             <section>
               <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Live Prices</h2>
@@ -356,6 +361,11 @@ export default function BullionInvestment() {
                 <HowItWorks variant="vertical" />
                 <TrustSignals variant="compact" />
               </>
+            )}
+
+            {/* Physical vs Digital for Investors */}
+            {userState === "investor" && (
+              <PhysicalVsDigital variant="cards" />
             )}
 
             {/* Price Cards with inline actions */}
