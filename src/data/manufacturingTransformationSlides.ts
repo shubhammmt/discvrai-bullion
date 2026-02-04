@@ -163,7 +163,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
     id: 6,
     type: 'mfg-usecase',
     headline: 'Field Force Enablement at Scale',
-    subheadline: 'Transforming 10,000+ Field Force Operations — Proven at Eureka Forbes',
+    subheadline: 'Transforming 10,000+ Field Force Operations — Proven at Leading Consumer Durables Company',
     aiEnabled: false,
     problem: {
       title: 'The Problem',
@@ -205,7 +205,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
     id: 7,
     type: 'mfg-usecase',
     headline: 'Product Authentication & Channel Control',
-    subheadline: 'Eliminating Gray Market & Proxy Sales — Proven at Eureka Forbes',
+    subheadline: 'Eliminating Gray Market & Proxy Sales — Proven at Leading Consumer Durables Company',
     aiEnabled: false,
     problem: {
       title: 'The Problem',
@@ -552,11 +552,11 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
     scale: ['10,000+ invoices/month processed', '500+ vendors managed', '₹2,000+ Cr revenue operations']
   },
 
-  // Slide 15: Case Study - Eureka Forbes
+  // Slide 15: Case Study - Consumer Durables Enterprise
   {
     id: 15,
     type: 'mfg-casestudy',
-    headline: 'Eureka Forbes Transformation',
+    headline: 'Consumer Durables Enterprise Transformation',
     subheadline: 'Large-Scale Manufacturing Transformation: ₹2,000+ Cr Revenue, 10,000+ Field Force',
     clientProfile: {
       industry: 'Consumer Durables (Water Purifiers, Vacuum Cleaners)',
@@ -771,12 +771,12 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       experience: [
         '20 years of technology leadership experience',
         '10 years as CXO of listed companies',
-        'CIO Experience: Led transformation at Eureka Forbes (₹2,000+ Cr revenue)',
+        'CIO Experience: Led transformation at ₹2,000+ Cr consumer durables enterprise',
         'Deep understanding of capital allocation, P&L pressure, operational risk'
       ]
     },
     trackRecord: [
-      { client: 'Eureka Forbes', detail: '₹2,000+ Cr revenue, 10,000+ field force, 20M+ customers' },
+      { client: 'Consumer Durables Enterprise', detail: '₹2,000+ Cr revenue, 10,000+ field force, 20M+ customers' },
       { client: 'Manufacturing Enterprise', detail: '₹2,000+ Cr revenue, complete digital transformation' },
       { client: 'Distribution Networks', detail: '39+ distributors, complete multi-tier visibility' }
     ],
@@ -812,7 +812,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       },
       {
         title: 'Case Studies & Materials',
-        details: ['Detailed case studies (Eureka Forbes, manufacturing enterprises)', 'Use case deep-dives', 'Technical architecture overview']
+        details: ['Detailed case studies (consumer durables, manufacturing enterprises)', 'Use case deep-dives', 'Technical architecture overview']
       }
     ],
     pocCriteria: [
@@ -842,7 +842,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       company: 'DiscvrAI'
     },
     resources: [
-      'Detailed case studies (Eureka Forbes, manufacturing enterprises)',
+      'Detailed case studies (consumer durables, manufacturing enterprises)',
       'Use case deep-dives and technical specifications',
       'Platform capabilities documentation',
       'PoC proposal (upon request)'
