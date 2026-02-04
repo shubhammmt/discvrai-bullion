@@ -301,10 +301,8 @@ export default function BullionInvestment() {
               />
             </section>
 
-            {/* FAQ Section - For New Users */}
-            {showEducationalContent && (
-              <BullionFAQ />
-            )}
+            {/* FAQ Section - Variant based on user state */}
+            <BullionFAQ variant={userState === "investor" ? "investor" : "general"} />
           </main>
 
           {/* Right Column - Portfolio Summary */}
@@ -413,10 +411,8 @@ export default function BullionInvestment() {
               onStartSIP={() => openBuy("gold")} 
             />
 
-            {/* FAQ for new users */}
-            {showEducationalContent && (
-              <BullionFAQ />
-            )}
+            {/* FAQ Section - Variant based on user state */}
+            <BullionFAQ variant={userState === "investor" ? "investor" : "general"} />
           </div>
         ) : view === "vault" ? (
           <PortfolioVault
