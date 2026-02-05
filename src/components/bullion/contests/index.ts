@@ -6,6 +6,8 @@
  export { ActionCard } from "./ActionCard";
  export { MarketSentimentPoll } from "./MarketSentimentPoll";
  export { SavingsStreakContest } from "./SavingsStreakContest";
+export { GoldPricePrediction } from "./GoldPricePrediction";
+export { SilverMovementPoll } from "./SilverMovementPoll";
  export { BullionSprint } from "./BullionSprint";
  export { ReferralHub } from "./ReferralHub";
  export { FirstTimerJackpot } from "./FirstTimerJackpot";
