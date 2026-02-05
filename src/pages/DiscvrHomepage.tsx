@@ -8,31 +8,23 @@ import {
   Sun, 
   ChevronRight,
   Clock,
-  ArrowRight,
   TrendingUp,
-  Shield,
   Zap,
-  Percent,
-  Coins,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
+import { DiscvrHeroCarousel } from "@/components/discvr";
 import { cn } from "@/lib/utils";
 
 // News categories
 const categories = [
-  { id: "all", label: "All", icon: null },
-  { id: "markets", label: "Markets", icon: "📊" },
-  { id: "gold", label: "Gold", icon: "🪙" },
-  { id: "silver", label: "Silver", icon: "🥈" },
-  { id: "economy", label: "Economy", icon: "📈" },
-  { id: "personal-finance", label: "Personal Finance", icon: "💰" },
-  { id: "crypto", label: "Crypto", icon: "₿" },
-  { id: "global", label: "Global", icon: "🌍" },
-  { id: "ipo", label: "IPO", icon: "🚀" },
-  { id: "mutual-funds", label: "Mutual Funds", icon: "📁" },
+  {
+    id: "all",
+    label: "All",
+    icon: null,
+  },
 ];
 
 // Mock news data
@@ -93,35 +85,8 @@ const newsArticles = [
   },
 ];
 
-// Featured carousel items
-const featuredItems = [
-  {
-    id: "lamf",
-    title: "Loan Against Gold",
-    subtitle: "Access funds instantly while keeping your gold safe",
-    benefits: ["Low rates (8.5-12% p.a.)", "Same-day disbursal", "No foreclosure charges", "Gold remains insured"],
-    cta: "Explore Loans",
-    route: "/bullion/loans",
-    gradient: "from-amber-500/20 to-amber-600/20",
-    iconBg: "bg-amber-500",
-  },
-  {
-    id: "sip",
-    title: "Gold SIP",
-    subtitle: "Build wealth with systematic gold investments",
-    benefits: ["Start with ₹100", "Auto-invest monthly", "No lock-in period", "100% purity assured"],
-    cta: "Start SIP",
-    route: "/bullion",
-    gradient: "from-emerald-500/20 to-emerald-600/20",
-    iconBg: "bg-emerald-500",
-  },
-];
-
 export default function DiscvrHomepage() {
   const navigate = useNavigate();
-  const [featuredIndex, setFeaturedIndex] = useState(0);
-
-  const activeFeatured = featuredItems[featuredIndex];
 
   return (
     <div className="min-h-screen bg-background">
@@ -174,90 +139,9 @@ export default function DiscvrHomepage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">
-        {/* Hero Banner */}
+        {/* Hero Carousel */}
         <section className="mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className={cn(
-              "relative overflow-hidden rounded-2xl p-6 md:p-8",
-              "bg-gradient-to-br",
-              activeFeatured.gradient,
-              "border border-border/50"
-            )}
-          >
-            <div className="grid md:grid-cols-2 gap-6 items-center">
-              {/* Left: Content */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", activeFeatured.iconBg)}>
-                    <Coins className="w-5 h-5 text-white" />
-                  </div>
-                  <Badge variant="secondary" className="bg-background/50">Featured</Badge>
-                </div>
-                
-                <h2 className="text-2xl md:text-3xl font-bold">{activeFeatured.title}</h2>
-                <p className="text-muted-foreground text-base md:text-lg">{activeFeatured.subtitle}</p>
-                
-                <ul className="space-y-2">
-                  {activeFeatured.benefits.map((benefit, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm">
-                      <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                        <span className="text-emerald-500 text-xs">✓</span>
-                      </div>
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-                
-                <Button 
-                  className="bg-foreground text-background hover:bg-foreground/90"
-                  onClick={() => navigate(activeFeatured.route)}
-                >
-                  {activeFeatured.cta}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-              
-              {/* Right: Visual */}
-              <div className="hidden md:flex justify-center">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400/30 to-amber-600/30 blur-3xl rounded-full" />
-                  <div className="relative grid grid-cols-3 gap-3">
-                    {[
-                      { icon: Clock, label: "INSTANT", sublabel: "DISBURSAL" },
-                      { icon: Percent, label: "LOW", sublabel: "INTEREST" },
-                      { icon: Shield, label: "100%", sublabel: "SECURED" },
-                    ].map(({ icon: Icon, label, sublabel }, i) => (
-                      <div 
-                        key={i}
-                        className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 text-center"
-                      >
-                        <Icon className="w-6 h-6 mx-auto mb-2 text-amber-500" />
-                        <p className="text-xs font-semibold">{label}</p>
-                        <p className="text-[10px] text-muted-foreground">{sublabel}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Carousel Dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {featuredItems.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setFeaturedIndex(i)}
-                  className={cn(
-                    "w-2 h-2 rounded-full transition-all",
-                    i === featuredIndex ? "w-6 bg-foreground" : "bg-foreground/30"
-                  )}
-                />
-              ))}
-            </div>
-          </motion.div>
+          <DiscvrHeroCarousel />
         </section>
 
         {/* Live Prices Widget */}
