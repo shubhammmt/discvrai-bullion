@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Shield, Users, ChevronRight, Check, AlertCircle, CalendarIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Shield, Users, ChevronRight, Check, AlertCircle, CalendarIcon, Copy, Gift, Share2 } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 import {
   Accordion,
   AccordionContent,
@@ -48,8 +49,19 @@ interface ProfileData {
   } | null;
 }
 
+// Generate a unique referral code
+const generateReferralCode = (name: string): string => {
+  const prefix = name.split(' ')[0].toUpperCase().slice(0, 4);
+  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `${prefix}${random}`;
+};
+
 export default function BullionProfile() {
   const navigate = useNavigate();
+  
+  // Referral state
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [referralCount, setReferralCount] = useState<number>(0);
   
   // Mock profile data - in production, this would come from API/context
   const [profile, setProfile] = useState<ProfileData>({
@@ -79,7 +91,39 @@ export default function BullionProfile() {
     },
   });
 
+  // Initialize referral code on mount
+  useEffect(() => {
+    const storedCode = localStorage.getItem("bullion_referral_code");
+    const storedCount = localStorage.getItem("bullion_referral_count");
+    
+    if (storedCode) {
+      setReferralCode(storedCode);
+    } else {
+      const newCode = generateReferralCode(profile.kyc.name);
+      setReferralCode(newCode);
+      localStorage.setItem("bullion_referral_code", newCode);
+    }
+    
+    if (storedCount) {
+      setReferralCount(parseInt(storedCount, 10));
+    } else {
+      // Mock: Set a random count for demo (0-15)
+      const mockCount = Math.floor(Math.random() * 16);
+      setReferralCount(mockCount);
+      localStorage.setItem("bullion_referral_count", mockCount.toString());
+    }
+  }, [profile.kyc.name]);
+
   const [editingSection, setEditingSection] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`);
+  };
+
+  const getInviteLink = () => {
+    return `${window.location.origin}/bullion?ref=${referralCode}`;
+  };
 
   // Calculate profile completion
   const getProfileCompletion = () => {
@@ -149,6 +193,102 @@ export default function BullionProfile() {
                 </p>
               )}
             </div>
+          </Card>
+        </motion.div>
+
+        {/* Referral Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <Card className="p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                  <Share2 className="w-5 h-5 text-purple-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Refer & Earn</h3>
+                  <p className="text-xs text-muted-foreground">Share with friends, earn rewards</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold text-purple-500">{referralCount}</p>
+                <p className="text-xs text-muted-foreground">Referrals</p>
+              </div>
+            </div>
+
+            {/* Referral Code */}
+            <div className="space-y-2">
+              <Label className="text-xs text-muted-foreground">Your Referral Code</Label>
+              <div className="flex gap-2">
+                <div className="flex-1 bg-muted/50 rounded-lg px-4 py-2.5 font-mono font-semibold tracking-wider text-center">
+                  {referralCode}
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="icon"
+                  onClick={() => copyToClipboard(referralCode, "Referral code")}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Copy Invite Link */}
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={() => copyToClipboard(getInviteLink(), "Invite link")}
+            >
+              <Copy className="w-4 h-4 mr-2" />
+              Copy Invite Link
+            </Button>
+
+            {/* Reward Progress */}
+            <div className="pt-2 border-t border-border/50">
+              <div className="flex items-center justify-between text-sm mb-2">
+                <span className="text-muted-foreground">Progress to ₹50 reward</span>
+                <span className="font-semibold">{Math.min(referralCount, 10)}/10</span>
+              </div>
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <motion.div 
+                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min((referralCount / 10) * 100, 100)}%` }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                />
+              </div>
+            </div>
+
+            {/* Reward Claim - Only show if 10+ referrals */}
+            {referralCount >= 10 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-4 rounded-xl bg-gradient-to-br from-amber-500/20 via-amber-500/10 to-transparent border border-amber-500/30"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                    <Gift className="w-5 h-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-amber-400">🎉 Congratulations!</p>
+                    <p className="text-xs text-muted-foreground">You've unlocked a special reward</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Get <span className="font-bold text-amber-400">₹50 worth of Gold or Silver</span> as a thank you for your referrals!
+                </p>
+                <Button 
+                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold"
+                  onClick={() => navigate("/bullion?reward=referral50")}
+                >
+                  Claim ₹50 Reward
+                </Button>
+              </motion.div>
+            )}
           </Card>
         </motion.div>
 
@@ -449,7 +589,6 @@ export default function BullionProfile() {
           <Card className="divide-y divide-border">
             <QuickLinkItem icon={Shield} label="Privacy & Security" onClick={() => navigate("/terms-and-conditions")} />
             <QuickLinkItem icon={CreditCard} label="Transaction History" onClick={() => navigate("/bullion/portfolio")} />
-            <QuickLinkItem icon={Users} label="Refer & Earn" />
           </Card>
         </div>
 
