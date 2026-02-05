@@ -264,6 +264,75 @@ export default function DiscvrHomepage() {
           </motion.div>
         </section>
 
+        {/* Live Prices Widget */}
+        <section className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">Live Prices</h2>
+            <Button variant="ghost" onClick={() => navigate("/bullion")}>
+              Trade Now <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              { metal: "Gold", price: "₹6,250.50", change: "+0.72%", isUp: true, icon: "🪙" },
+              { metal: "Silver", price: "₹76.80", change: "-1.63%", isUp: false, icon: "🥈" },
+            ].map((item) => (
+              <Card 
+                key={item.metal}
+                className="cursor-pointer hover:shadow-md transition-all"
+                onClick={() => navigate("/bullion")}
+              >
+                <CardContent className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{item.icon}</span>
+                    <div>
+                      <p className="font-semibold">{item.metal}</p>
+                      <p className="text-xs text-muted-foreground">per gram</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-lg">{item.price}</p>
+                    <p className={cn(
+                      "text-sm font-medium",
+                      item.isUp ? "text-emerald-500" : "text-red-500"
+                    )}>
+                      {item.change}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Quick Actions */}
+        <section className="mb-8">
+          <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Buy Gold", icon: "🪙", route: "/bullion", color: "from-amber-500/20 to-amber-600/20" },
+              { label: "Buy Silver", icon: "🥈", route: "/bullion", color: "from-slate-400/20 to-slate-500/20" },
+              { label: "Start SIP", icon: "📅", route: "/bullion", color: "from-emerald-500/20 to-emerald-600/20" },
+              { label: "Get Loan", icon: "💰", route: "/bullion/loans", color: "from-blue-500/20 to-blue-600/20" },
+            ].map((action) => (
+              <Card 
+                key={action.label}
+                className={cn(
+                  "cursor-pointer hover:shadow-md transition-all group bg-gradient-to-br",
+                  action.color
+                )}
+                onClick={() => navigate(action.route)}
+              >
+                <CardContent className="p-4 flex items-center gap-3">
+                  <span className="text-2xl">{action.icon}</span>
+                  <span className="font-medium group-hover:text-primary transition-colors">{action.label}</span>
+                  <ChevronRight className="w-4 h-4 ml-auto text-muted-foreground group-hover:text-primary transition-colors" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
         {/* Quick Insight Section */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -326,75 +395,6 @@ export default function DiscvrHomepage() {
                   </CardContent>
                 </Card>
               </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Quick Actions */}
-        <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Buy Gold", icon: "🪙", route: "/bullion", color: "from-amber-500/20 to-amber-600/20" },
-              { label: "Buy Silver", icon: "🥈", route: "/bullion", color: "from-slate-400/20 to-slate-500/20" },
-              { label: "Start SIP", icon: "📅", route: "/bullion", color: "from-emerald-500/20 to-emerald-600/20" },
-              { label: "Get Loan", icon: "💰", route: "/bullion/loans", color: "from-blue-500/20 to-blue-600/20" },
-            ].map((action) => (
-              <Card 
-                key={action.label}
-                className={cn(
-                  "cursor-pointer hover:shadow-md transition-all group bg-gradient-to-br",
-                  action.color
-                )}
-                onClick={() => navigate(action.route)}
-              >
-                <CardContent className="p-4 flex items-center gap-3">
-                  <span className="text-2xl">{action.icon}</span>
-                  <span className="font-medium group-hover:text-primary transition-colors">{action.label}</span>
-                  <ChevronRight className="w-4 h-4 ml-auto text-muted-foreground group-hover:text-primary transition-colors" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Live Prices Widget */}
-        <section className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">Live Prices</h2>
-            <Button variant="ghost" onClick={() => navigate("/bullion")}>
-              Trade Now <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            {[
-              { metal: "Gold", price: "₹6,250.50", change: "+0.72%", isUp: true, icon: "🪙" },
-              { metal: "Silver", price: "₹76.80", change: "-1.63%", isUp: false, icon: "🥈" },
-            ].map((item) => (
-              <Card 
-                key={item.metal}
-                className="cursor-pointer hover:shadow-md transition-all"
-                onClick={() => navigate("/bullion")}
-              >
-                <CardContent className="p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl">{item.icon}</span>
-                    <div>
-                      <p className="font-semibold">{item.metal}</p>
-                      <p className="text-xs text-muted-foreground">per gram</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-lg">{item.price}</p>
-                    <p className={cn(
-                      "text-sm font-medium",
-                      item.isUp ? "text-emerald-500" : "text-red-500"
-                    )}>
-                      {item.change}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
             ))}
           </div>
         </section>
