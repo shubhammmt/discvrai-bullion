@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { ArrowLeft, Bell, User, TrendingDown, Target, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, AlertCircle, ChevronRight } from "lucide-react";
+import { ArrowLeft, Bell, User, TrendingDown, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, AlertCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const BullionNotifications = () => {
@@ -13,10 +12,22 @@ const BullionNotifications = () => {
   
   // Price Alert Settings
   const [priceAlertEnabled, setPriceAlertEnabled] = useState(true);
+  
+  // Gold Alerts
   const [goldDropAlert, setGoldDropAlert] = useState(true);
-  const [goldTargetPrice, setGoldTargetPrice] = useState("");
+  const [goldJumpAlert, setGoldJumpAlert] = useState(true);
+  const [goldPercentHighAlert, setGoldPercentHighAlert] = useState(false);
+  const [goldPercentHighValue, setGoldPercentHighValue] = useState("5");
+  const [goldPercentDropAlert, setGoldPercentDropAlert] = useState(false);
+  const [goldPercentDropValue, setGoldPercentDropValue] = useState("5");
+  
+  // Silver Alerts
   const [silverDropAlert, setSilverDropAlert] = useState(true);
-  const [silverTargetPrice, setSilverTargetPrice] = useState("");
+  const [silverJumpAlert, setSilverJumpAlert] = useState(true);
+  const [silverPercentHighAlert, setSilverPercentHighAlert] = useState(false);
+  const [silverPercentHighValue, setSilverPercentHighValue] = useState("5");
+  const [silverPercentDropAlert, setSilverPercentDropAlert] = useState(false);
+  const [silverPercentDropValue, setSilverPercentDropValue] = useState("5");
   
   // Auspicious Day Alerts
   const [birthdayAlert, setBirthdayAlert] = useState(true);
@@ -82,6 +93,8 @@ const BullionNotifications = () => {
                   <div className="w-3 h-3 rounded-full bg-amber-500" />
                   Gold Alerts
                 </h3>
+                
+                {/* Price Drop Alert */}
                 <div className="flex items-center justify-between pl-5">
                   <div>
                     <p className="font-medium text-sm">Price Drop Alert</p>
@@ -89,19 +102,54 @@ const BullionNotifications = () => {
                   </div>
                   <Switch checked={goldDropAlert} onCheckedChange={setGoldDropAlert} />
                 </div>
-                <div className="pl-5 space-y-2">
-                  <Label className="text-sm">Target Price (₹/gram)</Label>
+                
+                {/* Price Jump Alert */}
+                <div className="flex items-center justify-between pl-5">
+                  <div>
+                    <p className="font-medium text-sm">Price Jump Alert</p>
+                    <p className="text-xs text-muted-foreground">Notify when gold price rises sharply</p>
+                  </div>
+                  <Switch checked={goldJumpAlert} onCheckedChange={setGoldJumpAlert} />
+                </div>
+                
+                {/* X% High Alert */}
+                <div className="flex items-center justify-between pl-5">
+                  <div className="flex-1">
+                    <p className="font-medium text-sm">Percentage High Alert</p>
+                    <p className="text-xs text-muted-foreground">Notify when gold rises by X%</p>
+                  </div>
                   <div className="flex items-center gap-2">
-                    <Target className="w-4 h-4 text-muted-foreground" />
                     <Input 
                       type="number" 
-                      placeholder="e.g., 7000" 
-                      value={goldTargetPrice}
-                      onChange={(e) => setGoldTargetPrice(e.target.value)}
-                      className="max-w-[150px]"
+                      placeholder="5" 
+                      value={goldPercentHighValue}
+                      onChange={(e) => setGoldPercentHighValue(e.target.value)}
+                      className="w-16 h-8 text-center"
+                      disabled={!goldPercentHighAlert}
                     />
+                    <span className="text-sm text-muted-foreground">%</span>
+                    <Switch checked={goldPercentHighAlert} onCheckedChange={setGoldPercentHighAlert} />
                   </div>
-                  <p className="text-xs text-muted-foreground">Get notified when gold reaches this price</p>
+                </div>
+                
+                {/* X% Drop Alert */}
+                <div className="flex items-center justify-between pl-5">
+                  <div className="flex-1">
+                    <p className="font-medium text-sm">Percentage Drop Alert</p>
+                    <p className="text-xs text-muted-foreground">Notify when gold drops by X%</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Input 
+                      type="number" 
+                      placeholder="5" 
+                      value={goldPercentDropValue}
+                      onChange={(e) => setGoldPercentDropValue(e.target.value)}
+                      className="w-16 h-8 text-center"
+                      disabled={!goldPercentDropAlert}
+                    />
+                    <span className="text-sm text-muted-foreground">%</span>
+                    <Switch checked={goldPercentDropAlert} onCheckedChange={setGoldPercentDropAlert} />
+                  </div>
                 </div>
               </div>
               
@@ -111,6 +159,8 @@ const BullionNotifications = () => {
                   <div className="w-3 h-3 rounded-full bg-slate-400" />
                   Silver Alerts
                 </h3>
+                
+                {/* Price Drop Alert */}
                 <div className="flex items-center justify-between pl-5">
                   <div>
                     <p className="font-medium text-sm">Price Drop Alert</p>
@@ -118,19 +168,54 @@ const BullionNotifications = () => {
                   </div>
                   <Switch checked={silverDropAlert} onCheckedChange={setSilverDropAlert} />
                 </div>
-                <div className="pl-5 space-y-2">
-                  <Label className="text-sm">Target Price (₹/gram)</Label>
+                
+                {/* Price Jump Alert */}
+                <div className="flex items-center justify-between pl-5">
+                  <div>
+                    <p className="font-medium text-sm">Price Jump Alert</p>
+                    <p className="text-xs text-muted-foreground">Notify when silver price rises sharply</p>
+                  </div>
+                  <Switch checked={silverJumpAlert} onCheckedChange={setSilverJumpAlert} />
+                </div>
+                
+                {/* X% High Alert */}
+                <div className="flex items-center justify-between pl-5">
+                  <div className="flex-1">
+                    <p className="font-medium text-sm">Percentage High Alert</p>
+                    <p className="text-xs text-muted-foreground">Notify when silver rises by X%</p>
+                  </div>
                   <div className="flex items-center gap-2">
-                    <Target className="w-4 h-4 text-muted-foreground" />
                     <Input 
                       type="number" 
-                      placeholder="e.g., 85" 
-                      value={silverTargetPrice}
-                      onChange={(e) => setSilverTargetPrice(e.target.value)}
-                      className="max-w-[150px]"
+                      placeholder="5" 
+                      value={silverPercentHighValue}
+                      onChange={(e) => setSilverPercentHighValue(e.target.value)}
+                      className="w-16 h-8 text-center"
+                      disabled={!silverPercentHighAlert}
                     />
+                    <span className="text-sm text-muted-foreground">%</span>
+                    <Switch checked={silverPercentHighAlert} onCheckedChange={setSilverPercentHighAlert} />
                   </div>
-                  <p className="text-xs text-muted-foreground">Get notified when silver reaches this price</p>
+                </div>
+                
+                {/* X% Drop Alert */}
+                <div className="flex items-center justify-between pl-5">
+                  <div className="flex-1">
+                    <p className="font-medium text-sm">Percentage Drop Alert</p>
+                    <p className="text-xs text-muted-foreground">Notify when silver drops by X%</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Input 
+                      type="number" 
+                      placeholder="5" 
+                      value={silverPercentDropValue}
+                      onChange={(e) => setSilverPercentDropValue(e.target.value)}
+                      className="w-16 h-8 text-center"
+                      disabled={!silverPercentDropAlert}
+                    />
+                    <span className="text-sm text-muted-foreground">%</span>
+                    <Switch checked={silverPercentDropAlert} onCheckedChange={setSilverPercentDropAlert} />
+                  </div>
                 </div>
               </div>
             </div>
