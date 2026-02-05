@@ -6,3 +6,6 @@
  export { ActionCard } from "./ActionCard";
  export { MarketSentimentPoll } from "./MarketSentimentPoll";
  export { SavingsStreakContest } from "./SavingsStreakContest";
+ export { BullionSprint } from "./BullionSprint";
+ export { ReferralHub } from "./ReferralHub";
+ export { FirstTimerJackpot } from "./FirstTimerJackpot";
