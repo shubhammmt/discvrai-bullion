@@ -447,7 +447,7 @@ export default function BullionProfile() {
             More Options
           </h3>
           <Card className="divide-y divide-border">
-            <QuickLinkItem icon={Shield} label="Privacy & Security" />
+            <QuickLinkItem icon={Shield} label="Privacy & Security" onClick={() => navigate("/terms-and-conditions")} />
             <QuickLinkItem icon={CreditCard} label="Transaction History" onClick={() => navigate("/bullion/portfolio")} />
             <QuickLinkItem icon={Users} label="Refer & Earn" />
           </Card>
