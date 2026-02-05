@@ -15,7 +15,11 @@ const BullionNotifications = () => {
   
   // Gold Alerts
   const [goldDropAlert, setGoldDropAlert] = useState(true);
+  const [goldDropValue, setGoldDropValue] = useState("");
+  const [goldDropUnit, setGoldDropUnit] = useState<"amount" | "gm">("amount");
   const [goldJumpAlert, setGoldJumpAlert] = useState(true);
+  const [goldJumpValue, setGoldJumpValue] = useState("");
+  const [goldJumpUnit, setGoldJumpUnit] = useState<"amount" | "gm">("amount");
   const [goldPercentHighAlert, setGoldPercentHighAlert] = useState(false);
   const [goldPercentHighValue, setGoldPercentHighValue] = useState("5");
   const [goldPercentDropAlert, setGoldPercentDropAlert] = useState(false);
@@ -23,7 +27,11 @@ const BullionNotifications = () => {
   
   // Silver Alerts
   const [silverDropAlert, setSilverDropAlert] = useState(true);
+  const [silverDropValue, setSilverDropValue] = useState("");
+  const [silverDropUnit, setSilverDropUnit] = useState<"amount" | "gm">("amount");
   const [silverJumpAlert, setSilverJumpAlert] = useState(true);
+  const [silverJumpValue, setSilverJumpValue] = useState("");
+  const [silverJumpUnit, setSilverJumpUnit] = useState<"amount" | "gm">("amount");
   const [silverPercentHighAlert, setSilverPercentHighAlert] = useState(false);
   const [silverPercentHighValue, setSilverPercentHighValue] = useState("5");
   const [silverPercentDropAlert, setSilverPercentDropAlert] = useState(false);
@@ -95,21 +103,67 @@ const BullionNotifications = () => {
                 </h3>
                 
                 {/* Price Drop Alert */}
-                <div className="flex items-center justify-between pl-5">
-                  <div>
-                    <p className="font-medium text-sm">Price Drop Alert</p>
-                    <p className="text-xs text-muted-foreground">Notify when gold price drops significantly</p>
+                <div className="space-y-2 pl-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">Price Drop Alert</p>
+                      <p className="text-xs text-muted-foreground">Notify when gold drops by amount</p>
+                    </div>
+                    <Switch checked={goldDropAlert} onCheckedChange={setGoldDropAlert} />
                   </div>
-                  <Switch checked={goldDropAlert} onCheckedChange={setGoldDropAlert} />
+                  {goldDropAlert && (
+                    <div className="flex items-center gap-2">
+                      <Input 
+                        type="number" 
+                        placeholder={goldDropUnit === "amount" ? "500" : "0.5"}
+                        value={goldDropValue}
+                        onChange={(e) => setGoldDropValue(e.target.value)}
+                        className="w-20 h-8 text-center"
+                      />
+                      <div className="flex rounded-md border overflow-hidden">
+                        <button 
+                          onClick={() => setGoldDropUnit("amount")}
+                          className={`px-2 py-1 text-xs ${goldDropUnit === "amount" ? "bg-amber-500 text-white" : "bg-muted"}`}
+                        >₹</button>
+                        <button 
+                          onClick={() => setGoldDropUnit("gm")}
+                          className={`px-2 py-1 text-xs ${goldDropUnit === "gm" ? "bg-amber-500 text-white" : "bg-muted"}`}
+                        >gm</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Price Jump Alert */}
-                <div className="flex items-center justify-between pl-5">
-                  <div>
-                    <p className="font-medium text-sm">Price Jump Alert</p>
-                    <p className="text-xs text-muted-foreground">Notify when gold price rises sharply</p>
+                <div className="space-y-2 pl-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">Price Jump Alert</p>
+                      <p className="text-xs text-muted-foreground">Notify when gold rises by amount</p>
+                    </div>
+                    <Switch checked={goldJumpAlert} onCheckedChange={setGoldJumpAlert} />
                   </div>
-                  <Switch checked={goldJumpAlert} onCheckedChange={setGoldJumpAlert} />
+                  {goldJumpAlert && (
+                    <div className="flex items-center gap-2">
+                      <Input 
+                        type="number" 
+                        placeholder={goldJumpUnit === "amount" ? "500" : "0.5"}
+                        value={goldJumpValue}
+                        onChange={(e) => setGoldJumpValue(e.target.value)}
+                        className="w-20 h-8 text-center"
+                      />
+                      <div className="flex rounded-md border overflow-hidden">
+                        <button 
+                          onClick={() => setGoldJumpUnit("amount")}
+                          className={`px-2 py-1 text-xs ${goldJumpUnit === "amount" ? "bg-amber-500 text-white" : "bg-muted"}`}
+                        >₹</button>
+                        <button 
+                          onClick={() => setGoldJumpUnit("gm")}
+                          className={`px-2 py-1 text-xs ${goldJumpUnit === "gm" ? "bg-amber-500 text-white" : "bg-muted"}`}
+                        >gm</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* X% High Alert */}
@@ -161,21 +215,67 @@ const BullionNotifications = () => {
                 </h3>
                 
                 {/* Price Drop Alert */}
-                <div className="flex items-center justify-between pl-5">
-                  <div>
-                    <p className="font-medium text-sm">Price Drop Alert</p>
-                    <p className="text-xs text-muted-foreground">Notify when silver price drops significantly</p>
+                <div className="space-y-2 pl-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">Price Drop Alert</p>
+                      <p className="text-xs text-muted-foreground">Notify when silver drops by amount</p>
+                    </div>
+                    <Switch checked={silverDropAlert} onCheckedChange={setSilverDropAlert} />
                   </div>
-                  <Switch checked={silverDropAlert} onCheckedChange={setSilverDropAlert} />
+                  {silverDropAlert && (
+                    <div className="flex items-center gap-2">
+                      <Input 
+                        type="number" 
+                        placeholder={silverDropUnit === "amount" ? "50" : "5"}
+                        value={silverDropValue}
+                        onChange={(e) => setSilverDropValue(e.target.value)}
+                        className="w-20 h-8 text-center"
+                      />
+                      <div className="flex rounded-md border overflow-hidden">
+                        <button 
+                          onClick={() => setSilverDropUnit("amount")}
+                          className={`px-2 py-1 text-xs ${silverDropUnit === "amount" ? "bg-slate-500 text-white" : "bg-muted"}`}
+                        >₹</button>
+                        <button 
+                          onClick={() => setSilverDropUnit("gm")}
+                          className={`px-2 py-1 text-xs ${silverDropUnit === "gm" ? "bg-slate-500 text-white" : "bg-muted"}`}
+                        >gm</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Price Jump Alert */}
-                <div className="flex items-center justify-between pl-5">
-                  <div>
-                    <p className="font-medium text-sm">Price Jump Alert</p>
-                    <p className="text-xs text-muted-foreground">Notify when silver price rises sharply</p>
+                <div className="space-y-2 pl-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">Price Jump Alert</p>
+                      <p className="text-xs text-muted-foreground">Notify when silver rises by amount</p>
+                    </div>
+                    <Switch checked={silverJumpAlert} onCheckedChange={setSilverJumpAlert} />
                   </div>
-                  <Switch checked={silverJumpAlert} onCheckedChange={setSilverJumpAlert} />
+                  {silverJumpAlert && (
+                    <div className="flex items-center gap-2">
+                      <Input 
+                        type="number" 
+                        placeholder={silverJumpUnit === "amount" ? "50" : "5"}
+                        value={silverJumpValue}
+                        onChange={(e) => setSilverJumpValue(e.target.value)}
+                        className="w-20 h-8 text-center"
+                      />
+                      <div className="flex rounded-md border overflow-hidden">
+                        <button 
+                          onClick={() => setSilverJumpUnit("amount")}
+                          className={`px-2 py-1 text-xs ${silverJumpUnit === "amount" ? "bg-slate-500 text-white" : "bg-muted"}`}
+                        >₹</button>
+                        <button 
+                          onClick={() => setSilverJumpUnit("gm")}
+                          className={`px-2 py-1 text-xs ${silverJumpUnit === "gm" ? "bg-slate-500 text-white" : "bg-muted"}`}
+                        >gm</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* X% High Alert */}
