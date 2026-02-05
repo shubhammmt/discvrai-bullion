@@ -1,4 +1,5 @@
 import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star, BookOpen, BadgeIndianRupee, Coins, Clock, ChevronRight } from "lucide-react";
+import { DiscvrHeroCarousel } from "@/components/discvr/DiscvrHeroCarousel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -235,6 +236,11 @@ export default function BullionPremium() {
 
       {/* Desktop Navigation Tabs */}
       <BullionNavTabs />
+
+      {/* Hero Carousel */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <DiscvrHeroCarousel />
+      </div>
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-amber-500/10 via-yellow-500/5 to-orange-500/10 py-8 px-4">

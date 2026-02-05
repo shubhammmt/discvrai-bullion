@@ -163,10 +163,10 @@
        <BullionNavTabs />
  
        <main className="max-w-7xl mx-auto px-4 py-6">
-         {/* Hero Carousel */}
-         <div className="mb-8">
-           <DiscvrHeroCarousel />
-         </div>
+        {/* Hero Carousel */}
+          <div className="mb-6">
+            <DiscvrHeroCarousel />
+          </div>
  
          {/* Category Filters */}
          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide mb-4">
