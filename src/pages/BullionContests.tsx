@@ -135,16 +135,16 @@ export default function BullionContests() {
              />
  
             {/* Engagement Section: Poll & Streak Contest */}
+            {/* Mixed Engagement Section: Polls & Contests interleaved */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <MarketSentimentPoll />
-              <SavingsStreakContest />
+              <GoldPricePrediction />
             </div>
 
-           {/* Price Prediction Polls */}
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-             <GoldPricePrediction />
-             <SilverMovementPoll />
-           </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <SavingsStreakContest />
+              <SilverMovementPoll />
+            </div>
 
              {/* Stats Grid */}
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

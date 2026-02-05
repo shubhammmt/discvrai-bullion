@@ -50,19 +50,19 @@
  
    return (
      <Card className="overflow-hidden">
-       {/* Gradient Header */}
-       <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 p-5 text-black">
-         <div className="flex items-center justify-between mb-2">
+        {/* Softer Gradient Header */}
+        <div className="bg-gradient-to-r from-amber-300/80 via-amber-400/75 to-yellow-400/80 p-5">
+          <div className="flex items-center justify-between mb-2">
            <div className="flex items-center gap-2">
-             <Trophy className="w-6 h-6" />
-             <h3 className="font-bold text-xl">The 7-Day Gold Sprint</h3>
+              <Trophy className="w-6 h-6 text-amber-800" />
+              <h3 className="font-bold text-xl text-amber-900">The 7-Day Gold Sprint</h3>
            </div>
-           <Badge className="bg-black/20 text-black border-0 hover:bg-black/30">
-             <Flame className="w-3 h-3 mr-1" />
+            <Badge className="bg-amber-800/15 text-amber-800 border-0 hover:bg-amber-800/25">
+              <Flame className="w-3 h-3 mr-1" />
              {completedDays} day streak
            </Badge>
          </div>
-         <p className="text-black/80 text-sm">
+          <p className="text-amber-800/90 text-sm">
            Invest just ₹10 for 7 days in a row and win a digital silver bonus!
          </p>
        </div>
@@ -113,7 +113,7 @@
  
          {/* CTA */}
          <Button 
-           className="w-full h-12 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-black font-bold text-base"
+            className="w-full h-12 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-amber-950 font-bold text-base"
            onClick={handleContinueStreak}
          >
            <Flame className="w-5 h-5 mr-2" />
