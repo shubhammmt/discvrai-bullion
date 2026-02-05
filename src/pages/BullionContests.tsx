@@ -14,7 +14,9 @@ import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
    LeaderboardEntry,
    ActionCard,
    MarketSentimentPoll,
-   SavingsStreakContest
+  SavingsStreakContest,
+  GoldPricePrediction,
+  SilverMovementPoll
  } from "@/components/bullion/contests";
 
  // Mock data
@@ -137,6 +139,12 @@ export default function BullionContests() {
               <MarketSentimentPoll />
               <SavingsStreakContest />
             </div>
+
+           {/* Price Prediction Polls */}
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+             <GoldPricePrediction />
+             <SilverMovementPoll />
+           </div>
 
              {/* Stats Grid */}
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
