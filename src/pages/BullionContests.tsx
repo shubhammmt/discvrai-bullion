@@ -12,7 +12,9 @@ import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
    BadgesDisplay,
    FeaturedContestCard,
    LeaderboardEntry,
-   ActionCard
+   ActionCard,
+   MarketSentimentPoll,
+   SavingsStreakContest
  } from "@/components/bullion/contests";
 
  // Mock data
@@ -130,6 +132,12 @@ export default function BullionContests() {
                onClick={() => {}}
              />
  
+            {/* Engagement Section: Poll & Streak Contest */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <MarketSentimentPoll />
+              <SavingsStreakContest />
+            </div>
+
              {/* Stats Grid */}
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                <ContestStatsCard icon={Trophy} value={featuredContests.filter(c => c.status === "active").length} label="Active Contests" />
