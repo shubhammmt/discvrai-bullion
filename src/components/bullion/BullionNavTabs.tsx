@@ -25,7 +25,7 @@ const navTabs: NavTab[] = [
   { id: "bullion", label: "Bullion", route: "/bullion", icon: TrendingUp },
   { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
   { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote },
-  { id: "news", label: "News", route: "/bullion/news", icon: Newspaper },
+  { id: "news", label: "Quick Insights", route: "/bullion/news", icon: Newspaper },
   { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO" },
   { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator },
