@@ -96,7 +96,9 @@ export default function BullionContests() {
       <BullionNavTabs />
 
        {/* Hero Banner */}
-       <DiscvrHeroCarousel />
+       <div className="max-w-7xl mx-auto px-4 py-6">
+         <DiscvrHeroCarousel />
+       </div>
  
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">

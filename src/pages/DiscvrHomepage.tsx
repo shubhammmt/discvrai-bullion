@@ -140,7 +140,7 @@ export default function DiscvrHomepage() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Hero Carousel */}
-        <section className="mb-8">
+        <section className="mb-6">
           <DiscvrHeroCarousel />
         </section>
 
