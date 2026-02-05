@@ -59,7 +59,7 @@ const newsItems = [
   },
 ];
 
-const categories = ["All", "Gold", "Silver", "Policy", "Global", "Tax", "LAMF", "Videos"];
+ const categories = ["All", "Gold", "Silver", "LAMF", "Videos"];
 
 export default function BullionNews() {
   const navigate = useNavigate();
