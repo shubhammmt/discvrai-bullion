@@ -27,8 +27,8 @@ export const MfgSlideLayout: React.FC<MfgSlideLayoutProps> = ({
         </span>
       </div>
       
-      {/* Main content - larger padding, fills available height */}
-      <div className="flex-1 relative z-10 px-10 pt-10 pb-8 flex flex-col min-h-0">
+      {/* Main content - larger padding, fills available height, strictly contained */}
+      <div className="flex-1 relative z-10 px-10 pt-10 pb-20 flex flex-col min-h-0 overflow-hidden">
         {children}
       </div>
       
