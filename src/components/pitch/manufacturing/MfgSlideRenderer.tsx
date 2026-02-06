@@ -6,6 +6,7 @@ import { MfgGapSlide } from './MfgGapSlide';
 import { MfgPlatformSlide } from './MfgPlatformSlide';
 import { MfgCapabilitiesSlide } from './MfgCapabilitiesSlide';
 import { MfgUseCaseSlide } from './MfgUseCaseSlide';
+import { MfgEnterpriseUseCaseSlide } from './MfgEnterpriseUseCaseSlide';
 import { MfgCaseStudySlide } from './MfgCaseStudySlide';
 import { MfgTechnicalSlide } from './MfgTechnicalSlide';
 import { MfgImplementationSlide } from './MfgImplementationSlide';
@@ -40,6 +41,8 @@ export const MfgSlideRenderer: React.FC<MfgSlideRendererProps> = ({
       return <MfgCapabilitiesSlide slide={slide as any} {...baseProps} />;
     case 'mfg-usecase':
       return <MfgUseCaseSlide slide={slide as any} {...baseProps} />;
+    case 'mfg-enterprise-usecase':
+      return <MfgEnterpriseUseCaseSlide slide={slide as any} {...baseProps} />;
     case 'mfg-casestudy':
       return <MfgCaseStudySlide slide={slide as any} {...baseProps} />;
     case 'mfg-technical':

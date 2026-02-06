@@ -1,4 +1,5 @@
 import { LucideIcon, Factory, AlertTriangle, Layers, Zap, Settings, Users, Package, TrendingUp, BarChart3, Brain, Cloud, Truck, DollarSign, Target, Shield, Clock, CheckCircle, Building2, Phone, Mail, ArrowRight, Cpu, Database, Network, FileText, UserCheck, MapPin, QrCode, LineChart, Calendar, Workflow, Award, Handshake } from 'lucide-react';
+import { enterpriseUseCases } from './enterpriseUseCases';
 
 export interface ManufacturingSlide {
   id: number;
@@ -6,7 +7,8 @@ export interface ManufacturingSlide {
   [key: string]: any;
 }
 
-export const manufacturingTransformationSlides: ManufacturingSlide[] = [
+// Base slides (1-5: Title, Challenge, Gap, Platform, Capabilities)
+const baseSlides: ManufacturingSlide[] = [
   // Slide 1: Title
   {
     id: 1,
@@ -18,7 +20,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
     note: "We don't replace your systems. We make them smarter together."
   },
 
-  // Slide 2: The Challenge
+  // Slide 2: The Challenge - Enhanced with Manufacturing Vertical
   {
     id: 2,
     type: 'mfg-challenge',
@@ -28,6 +30,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       title: 'Typical System Architecture',
       systems: [
         { category: 'ERP', examples: 'SAP S/4HANA, Oracle ERP' },
+        { category: 'Manufacturing', examples: 'MES, PLM, Quality Systems, SCADA' },
         { category: 'Planning', examples: 'Anaplan, Kinaxis, Blue Yonder, o9 Solutions' },
         { category: 'Warehouse', examples: 'SAP EWM, Manhattan, Blue Yonder' },
         { category: 'Transport', examples: 'SAP TM, Oracle OTM, FarEye, Shipsy' },
@@ -37,6 +40,7 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       totalSystems: '10-15+ systems operating in silos'
     },
     challenges: [
+      { function: 'Manufacturing', challenge: 'OEE visibility gaps, quality data fragmentation', impact: 'Yield loss, rework, production delays' },
       { function: 'Supply Chain', challenge: 'Dynamic demand variability, siloed systems', impact: 'Stockouts, missed opportunities, excess inventory' },
       { function: 'Finance', challenge: 'Manual reconciliation, payment leakage', impact: 'Revenue leakage, delayed payments, audit risks' },
       { function: 'Sales & Distribution', challenge: 'Field force operations, channel control', impact: 'Delayed fulfillment, revenue leakage' },
@@ -44,17 +48,18 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       { function: 'Customer Engagement', challenge: 'Fragmented customer data', impact: 'Missed cross-sell, poor personalization' },
       { function: 'HR & Talent', challenge: 'Manual hiring, CV screening', impact: 'Slow hiring, missed talent' }
     ],
-    coreIssue: 'Manufacturing enterprises operate complex, multi-function operations across supply chain, finance, sales, HR, and customer engagement. While organizations use SAP S/4HANA, WMS, TMS, Anaplan, CRM, HRIS, and analytics tools, these systems operate largely in silos.'
+    coreIssue: 'Manufacturing enterprises operate complex, multi-function operations across production, supply chain, finance, sales, HR, and customer engagement. While organizations use SAP S/4HANA, MES, PLM, WMS, TMS, Anaplan, CRM, HRIS, and analytics tools, these systems operate largely in silos — especially at the shop floor.'
   },
 
-  // Slide 3: Where Systems Stop
+  // Slide 3: Where Systems Stop - Enhanced with Manufacturing Vertical
   {
     id: 3,
     type: 'mfg-gap',
     headline: 'Bridging the Gap Across Functions',
-    subheadline: 'From Siloed Systems to Unified Operations',
-    positioning: 'You already have systems. We help them work together in real time across all functions.',
+    subheadline: 'From Siloed Systems to Unified Operations — Including the Shop Floor',
+    positioning: 'You already have systems. We help them work together in real time across all functions — from production floor to customer doorstep.',
     comparisons: [
+      { function: 'Manufacturing', current: 'OEE tracked manually, quality data in Excel, no real-time visibility', solution: 'Real-time OEE dashboards, automated quality alerts, predictive maintenance signals' },
       { function: 'Supply Chain', current: 'Demand spikes detected late, manual capacity adjustments', solution: 'Early stress signals, predictive alerts, dynamic capacity allocation' },
       { function: 'Finance', current: 'Manual reconciliation, payment leakage, delayed processing', solution: 'Automated 4-way matching, intelligent exception handling' },
       { function: 'Sales & Distribution', current: 'Manual field force operations, gray market sales', solution: 'Complete digital enablement, product authentication' },
@@ -63,9 +68,9 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       { function: 'HR & Talent', current: 'Manual CV screening, time-consuming hiring', solution: 'Automated CV parsing, intelligent screening' }
     ],
     capabilities: [
-      'Pull data from SAP, WMS, TMS, Anaplan, CRM, HRIS → Unified data layer',
-      'Detect stress early → Capacity, finance, sales, operations alerts',
-      'Generate actionable insights → Recommendations across functions',
+      'Pull data from SAP, MES, PLM, WMS, TMS, Anaplan, CRM, HRIS → Unified data layer',
+      'Detect stress early → Production, capacity, finance, sales, operations alerts',
+      'Generate actionable insights → Recommendations across functions including shop floor',
       'Push actions back → Into systems or to humans via automated workflows'
     ]
   },
@@ -854,6 +859,14 @@ export const manufacturingTransformationSlides: ManufacturingSlide[] = [
       'Technical Discovery'
     ]
   }
+];
+
+// Combine base slides with enterprise use cases inserted after capabilities (slide 5)
+// Structure: 1-5 (base), 6-12 (enterprise use cases), 13+ (existing use cases renumbered)
+export const manufacturingTransformationSlides: ManufacturingSlide[] = [
+  ...baseSlides.slice(0, 5), // Title, Challenge, Gap, Platform, Capabilities
+  ...enterpriseUseCases.map((uc, index) => ({ ...uc, id: 6 + index })), // Enterprise Use Cases (7 slides)
+  ...baseSlides.slice(5).map((slide, index) => ({ ...slide, id: 13 + index })) // Remaining slides renumbered
 ];
 
 export const totalMfgSlides = manufacturingTransformationSlides.length;
