@@ -23,15 +23,15 @@ interface MfgContactSlideProps {
 export const MfgContactSlide: React.FC<MfgContactSlideProps> = ({ slide, slideNumber, totalSlides }) => {
   return (
     <MfgSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center">
         {/* Icon */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mb-6"
+          className="mb-8"
         >
-          <div className="w-20 h-20 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center shadow-xl">
-            <Factory className="w-12 h-12 text-amber-400" />
+          <div className="w-24 h-24 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center shadow-xl">
+            <Factory className="w-14 h-14 text-amber-400" />
           </div>
         </motion.div>
 
@@ -40,12 +40,12 @@ export const MfgContactSlide: React.FC<MfgContactSlideProps> = ({ slide, slideNu
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-4xl font-bold text-slate-800 mb-8 text-center"
+          className="text-4xl font-bold text-gray-900 mb-10 text-center"
         >
           {slide.headline}
         </motion.h2>
 
-        <div className="grid grid-cols-12 gap-6 w-full max-w-4xl">
+        <div className="grid grid-cols-12 gap-6 w-full max-w-5xl">
           {/* Contact Card */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -53,55 +53,55 @@ export const MfgContactSlide: React.FC<MfgContactSlideProps> = ({ slide, slideNu
             transition={{ delay: 0.3 }}
             className="col-span-5 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 text-white"
           >
-            <h3 className="text-lg font-bold mb-4">Primary Contact</h3>
-            <div className="space-y-3">
+            <h3 className="text-xl font-bold mb-5">Primary Contact</h3>
+            <div className="space-y-4">
               <div>
-                <p className="text-xl font-bold text-amber-400">{slide.contact.name}</p>
-                <p className="text-white/60 text-sm">{slide.contact.title}</p>
+                <p className="text-2xl font-bold text-amber-400">{slide.contact.name}</p>
+                <p className="text-white/60 text-base">{slide.contact.title}</p>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
-                  <Mail className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-amber-400" />
                 </div>
-                <a href={`mailto:${slide.contact.email}`} className="text-white hover:text-amber-400 transition-colors">
+                <a href={`mailto:${slide.contact.email}`} className="text-lg text-white hover:text-amber-400 transition-colors">
                   {slide.contact.email}
                 </a>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-amber-400" />
                 </div>
-                <a href={`tel:${slide.contact.phone}`} className="text-white hover:text-amber-400 transition-colors">
+                <a href={`tel:${slide.contact.phone}`} className="text-lg text-white hover:text-amber-400 transition-colors">
                   {slide.contact.phone}
                 </a>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
-                  <Building2 className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                  <Building2 className="w-5 h-5 text-amber-400" />
                 </div>
-                <span className="text-white">{slide.contact.company}</span>
+                <span className="text-lg text-white">{slide.contact.company}</span>
               </div>
             </div>
           </motion.div>
 
           {/* Resources & Actions */}
-          <div className="col-span-7 space-y-4">
+          <div className="col-span-7 flex flex-col gap-5">
             {/* Resources */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-slate-50 border border-slate-200 rounded-xl p-4"
+              className="bg-slate-50 border border-slate-200 rounded-xl p-5 flex-1"
             >
-              <div className="flex items-center gap-2 mb-3">
-                <FileText className="w-5 h-5 text-slate-600" />
-                <h3 className="font-semibold text-slate-700">Resources Provided</h3>
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="w-6 h-6 text-slate-600" />
+                <h3 className="font-bold text-gray-800 text-lg">Resources Provided</h3>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 {slide.resources.map((resource, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-slate-600">{resource}</p>
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-base text-gray-700">{resource}</p>
                   </div>
                 ))}
               </div>
@@ -112,17 +112,17 @@ export const MfgContactSlide: React.FC<MfgContactSlideProps> = ({ slide, slideNu
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4"
+              className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-5 flex-1"
             >
-              <h3 className="font-semibold text-amber-700 mb-3">Requested Actions</h3>
-              <div className="grid grid-cols-2 gap-2">
+              <h3 className="font-bold text-amber-700 text-lg mb-4">Requested Actions</h3>
+              <div className="grid grid-cols-2 gap-3">
                 {slide.actions.map((action, index) => (
                   <div 
                     key={index} 
-                    className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-amber-100 hover:border-amber-300 transition-colors cursor-pointer"
+                    className="flex items-center gap-3 bg-white rounded-lg px-4 py-3 border border-amber-100 hover:border-amber-300 transition-colors cursor-pointer"
                   >
-                    <ArrowRight className="w-4 h-4 text-amber-500" />
-                    <p className="text-sm font-medium text-amber-700">{action}</p>
+                    <ArrowRight className="w-5 h-5 text-amber-500" />
+                    <p className="text-base font-medium text-amber-700">{action}</p>
                   </div>
                 ))}
               </div>
