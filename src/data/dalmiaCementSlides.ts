@@ -36,9 +36,38 @@ export interface DalmiaCementSlide {
   roi?: string;
   kpis?: string[];
   decision?: string;
+  // New merged slide fields
+  benchmarkData?: {
+    dalmia: number;
+    benchmark: number;
+    gapValue: string;
+  };
+  loyaltyFeatures?: {
+    icon: string;
+    label: string;
+    description: string;
+  }[];
+  salesCapabilities?: string[];
+  salesImpact?: string;
+  dealerDataSources?: string[];
+  dealerOutputs?: string[];
+  dealerImpact?: string;
+  marketingCapabilities?: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+  marketingImpact?: string;
+  loyaltyEvolution?: string;
+  loyaltyImpact?: string;
+  demandCapabilities?: string[];
+  demandImpact?: string;
+  o2cComponents?: string[];
+  o2cImpact?: string;
 }
 
 export const dalmiaCementSlides: DalmiaCementSlide[] = [
+  // Slide 1: Cover
   {
     id: 1,
     type: 'dalmia-cover',
@@ -46,6 +75,7 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     subtitle: 'From Transactional Tools to an AI-Powered Commercial Intelligence Platform',
     speakerNotes: 'Cement industry entering AI-led commercial era. Digital intelligence will define margin leadership.'
   },
+  // Slide 2: CEO Imperative (unchanged)
   {
     id: 2,
     type: 'dalmia-imperative',
@@ -58,6 +88,7 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Frame urgency. Industry moving toward AI-native commercial operations.'
   },
+  // Slide 3: Value Pools (unchanged)
   {
     id: 3,
     type: 'dalmia-value-pools',
@@ -78,9 +109,10 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Three distinct value pools representing commercial transformation opportunity.'
   },
+  // Slide 4: Current State & Gap (MERGED from slides 4+5)
   {
     id: 4,
-    type: 'dalmia-today',
+    type: 'dalmia-current-state',
     headline: 'Strong Digital Foundations — But Transactional',
     bullets: [
       '49,300 channel partners.',
@@ -90,22 +122,17 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       'DriverSathi logistics.'
     ],
     gap: 'Tools exist but no integrated AI intelligence layer.',
-    speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap.'
+    benchmarkData: {
+      dalmia: 35,
+      benchmark: 93,
+      gapValue: '₹200–500 Cr annual commercial value'
+    },
+    speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap. Gap represents significant opportunity.'
   },
+  // Slide 5: Vision & Architecture (MERGED from slides 6+7)
   {
     id: 5,
-    type: 'dalmia-benchmark',
-    headline: 'Digital Penetration Opportunity',
-    content: [
-      'Dalmia digital order penetration: ~35%',
-      'Global benchmark (CEMEX GO): ~93%',
-      'Gap represents ₹200–500 Cr annual commercial value.'
-    ],
-    speakerNotes: 'Position gap as opportunity, not weakness.'
-  },
-  {
-    id: 6,
-    type: 'dalmia-northstar',
+    type: 'dalmia-vision-architecture',
     headline: 'AI-Powered Commercial Intelligence Platform',
     content: [
       'Data',
@@ -114,16 +141,11 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       'Digital Platform',
       'Revenue Growth'
     ],
-    speakerNotes: 'Dalmia evolves from manufacturer to commercial platform.'
+    speakerNotes: 'Dalmia evolves from manufacturer to commercial platform. Build from data foundation up to customer-facing ecosystem.'
   },
+  // Slide 6: AI Dynamic Pricing (unchanged)
   {
-    id: 7,
-    type: 'dalmia-capability-stack',
-    headline: 'Four-Layer Capability Stack',
-    speakerNotes: 'Build from data foundation up to customer-facing ecosystem.'
-  },
-  {
-    id: 8,
+    id: 6,
     type: 'dalmia-pricing',
     headline: 'AI Dynamic Pricing',
     problem: 'Pricing decisions manual and inconsistent.',
@@ -136,92 +158,80 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     impact: '1–2% realization uplift = ₹140–280 Cr annually',
     speakerNotes: 'Pricing is the highest-impact lever for margin improvement.'
   },
+  // Slide 7: Sales & Dealer Intelligence (MERGED from slides 9+10)
   {
-    id: 9,
-    type: 'dalmia-sales',
-    headline: 'SM@RT-D Evolves into AI Sales Copilot',
-    capabilities: [
-      'Daily visit prioritization.',
-      'Next best product recommendations.',
-      'Churn alerts.',
-      'Territory optimization.'
+    id: 7,
+    type: 'dalmia-sales-dealer360',
+    headline: 'Sales & Dealer Intelligence',
+    salesCapabilities: [
+      'Daily visit prioritization',
+      'Next best product recommendations',
+      'Churn alerts',
+      'Territory optimization'
     ],
-    impact: '8–15% sales productivity uplift',
-    speakerNotes: 'Transform existing sales app into intelligent copilot.'
-  },
-  {
-    id: 10,
-    type: 'dalmia-dealer360',
-    headline: 'Dealer 360 Platform',
-    dataSources: [
+    salesImpact: '8–15% sales productivity uplift',
+    dealerDataSources: [
       'SAP transactions',
       'SUVIDHA behaviour',
       'Loyalty engagement',
       'Field notes',
       'External market data'
     ],
-    outputs: [
-      'Dealer segmentation.',
-      'Dynamic credit scoring.',
-      'Growth potential scoring.'
+    dealerOutputs: [
+      'Dealer segmentation',
+      'Dynamic credit scoring',
+      'Growth potential scoring'
     ],
-    speakerNotes: 'Unified dealer view enables intelligent decision-making.'
+    dealerImpact: '₹50–100 Cr (Sales) + ₹30–60 Cr (Dealer 360)',
+    speakerNotes: 'Transform existing sales app into intelligent copilot. Unified dealer view enables intelligent decision-making.'
   },
+  // Slide 8: Marketing & Engagement (MERGED from slides 11+12)
   {
-    id: 11,
-    type: 'dalmia-marketing',
-    headline: 'AI Marketing Demand Engine',
-    capabilities: [
-      'Hyperlocal construction hotspot detection.',
-      'Contractor influencer intelligence.',
-      'Regional language content automation.',
-      'WhatsApp campaign automation.'
+    id: 8,
+    type: 'dalmia-marketing-engagement',
+    headline: 'Marketing & Engagement',
+    marketingCapabilities: [
+      { icon: 'MapPin', title: 'Hyperlocal Detection', description: 'Construction hotspot identification' },
+      { icon: 'Users', title: 'Contractor Intelligence', description: 'Influencer network tracking' },
+      { icon: 'Languages', title: 'Regional Content', description: 'Auto-generated local language' },
+      { icon: 'MessageSquare', title: 'WhatsApp Campaigns', description: 'Automated delivery' }
     ],
-    outcome: '20–30% marketing ROI improvement',
-    speakerNotes: 'AI enables hyperlocal, personalized marketing at scale.'
-  },
-  {
-    id: 12,
-    type: 'dalmia-loyalty',
-    headline: 'Loyalty 2.0',
-    evolution: 'Points program → Engagement ecosystem',
-    features: [
-      'AI tier upgrades.',
-      'Personalized rewards.',
-      'Gamification.',
-      'Contractor influence tracking.'
+    marketingImpact: '20–30% marketing ROI improvement',
+    loyaltyEvolution: 'Points Program → Engagement Ecosystem',
+    loyaltyFeatures: [
+      { icon: 'Sparkles', label: 'AI tier upgrades', description: 'Smart promotion based on behavior' },
+      { icon: 'Gift', label: 'Personalized rewards', description: 'Tailored incentives per dealer' },
+      { icon: 'Gamepad2', label: 'Gamification', description: 'Engaging mechanics' },
+      { icon: 'Users', label: 'Contractor tracking', description: 'Influencer impact' }
     ],
-    speakerNotes: 'Transform loyalty from cost center to engagement driver.'
+    loyaltyImpact: '₹80–150 Cr + ₹40–80 Cr',
+    speakerNotes: 'AI enables hyperlocal, personalized marketing at scale. Transform loyalty from cost center to engagement driver.'
   },
+  // Slide 9: Supply Chain AI (MERGED from slides 13+14)
   {
-    id: 13,
-    type: 'dalmia-demand',
-    headline: 'Demand Sensing & S&OP',
+    id: 9,
+    type: 'dalmia-supply-chain',
+    headline: 'Supply Chain AI',
     subtitle: 'Move from monthly Excel planning to AI-driven forecasting.',
-    capabilities: [
-      'Weekly rolling forecasts.',
-      'Weather + infra data integration.',
-      'Scenario simulation.'
+    demandCapabilities: [
+      'Weekly rolling forecasts',
+      'Weather + infra data integration',
+      'Scenario simulation'
     ],
-    impact: 'Forecast accuracy ~65% → ~85%. Working capital improvement ₹100–200 Cr.',
-    speakerNotes: 'AI demand sensing reduces bullwhip effect and improves inventory.'
-  },
-  {
-    id: 14,
-    type: 'dalmia-o2c',
-    headline: 'Order to Cash AI',
-    components: [
-      'Smart order recommendations.',
-      'Real-time ATP availability.',
-      'AI credit scoring.',
-      'Auto invoicing.',
-      'AI cash application.'
+    demandImpact: 'Forecast accuracy 65% → 85%. Working capital improvement ₹100–200 Cr.',
+    o2cComponents: [
+      'Smart order recommendations',
+      'Real-time ATP availability',
+      'AI credit scoring',
+      'Auto invoicing',
+      'AI cash application'
     ],
-    impact: 'DSO reduction frees ₹150–300 Cr',
-    speakerNotes: 'End-to-end O2C automation drives working capital efficiency.'
+    o2cImpact: 'DSO reduction frees ₹150–300 Cr',
+    speakerNotes: 'AI demand sensing reduces bullwhip effect. End-to-end O2C automation drives working capital efficiency.'
   },
+  // Slide 10: SUVIDHA 2.0 (unchanged)
   {
-    id: 15,
+    id: 10,
     type: 'dalmia-suvidha',
     headline: 'SUVIDHA 2.0',
     subtitle: 'Transform SUVIDHA into digital ecosystem.',
@@ -235,8 +245,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     target: '80%+ digital sales in 24 months',
     speakerNotes: 'SUVIDHA becomes the commercial platform, not just ordering tool.'
   },
+  // Slide 11: Value Map (unchanged)
   {
-    id: 16,
+    id: 11,
     type: 'dalmia-valuemap',
     headline: 'Value Map',
     valueTable: [
@@ -253,10 +264,11 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     roi: '8–10×',
     speakerNotes: 'Clear ROI case for board approval.'
   },
+  // Slide 12: Roadmap & Ask (MERGED from slides 17+18)
   {
-    id: 17,
-    type: 'dalmia-roadmap',
-    headline: '24 Month Roadmap',
+    id: 12,
+    type: 'dalmia-roadmap-ask',
+    headline: 'Roadmap & Ask',
     phases: [
       {
         name: 'Phase 1',
@@ -274,21 +286,17 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
         items: ['Scale adoption to 80% digital']
       }
     ],
-    speakerNotes: 'Phased approach balances quick wins with platform build.'
-  },
-  {
-    id: 18,
-    type: 'dalmia-operating-model',
-    headline: 'Operating Model & Ask',
-    subtitle: 'Commercial Digital Hub',
     kpis: [
       'Digital adoption',
       'Margin uplift',
       'DSO reduction',
       'Dealer retention'
     ],
-    decision: 'Approve AI commercial transformation program.',
-    speakerNotes: 'Clear ask for board decision. Define success metrics upfront.'
+    decision: 'Approve AI Commercial Transformation Program.',
+    investment: '₹106–202 Cr',
+    totalValue: '₹870–1,720 Cr',
+    roi: '8–10×',
+    speakerNotes: 'Phased approach balances quick wins with platform build. Clear ask for board decision.'
   }
 ];
 

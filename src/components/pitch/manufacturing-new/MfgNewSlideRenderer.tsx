@@ -3,21 +3,15 @@ import { ManufacturingNewSlide } from '@/data/manufacturingNewSlides';
 import { DalmiaCoverSlide } from './DalmiaCoverSlide';
 import { DalmiaCEOImperativeSlide } from './DalmiaCEOImperativeSlide';
 import { DalmiaValuePoolsSlide } from './DalmiaValuePoolsSlide';
-import { DalmiaTodaySlide } from './DalmiaTodaySlide';
-import { DalmiaBenchmarkSlide } from './DalmiaBenchmarkSlide';
-import { DalmiaNorthStarSlide } from './DalmiaNorthStarSlide';
-import { DalmiaCapabilityStackSlide } from './DalmiaCapabilityStackSlide';
+import { DalmiaCurrentStateSlide } from './DalmiaCurrentStateSlide';
+import { DalmiaVisionArchitectureSlide } from './DalmiaVisionArchitectureSlide';
 import { DalmiaDynamicPricingSlide } from './DalmiaDynamicPricingSlide';
-import { DalmiaSalesIntelligenceSlide } from './DalmiaSalesIntelligenceSlide';
-import { DalmiaDealer360Slide } from './DalmiaDealer360Slide';
-import { DalmiaMarketingEngineSlide } from './DalmiaMarketingEngineSlide';
-import { DalmiaLoyalty2Slide } from './DalmiaLoyalty2Slide';
-import { DalmiaDemandSensingSlide } from './DalmiaDemandSensingSlide';
-import { DalmiaO2CSlide } from './DalmiaO2CSlide';
+import { DalmiaSalesDealer360Slide } from './DalmiaSalesDealer360Slide';
+import { DalmiaMarketingEngagementSlide } from './DalmiaMarketingEngagementSlide';
+import { DalmiaSupplyChainSlide } from './DalmiaSupplyChainSlide';
 import { DalmiaSuvidha2Slide } from './DalmiaSuvidha2Slide';
 import { DalmiaValueMapSlide } from './DalmiaValueMapSlide';
-import { DalmiaRoadmapSlide } from './DalmiaRoadmapSlide';
-import { DalmiaOperatingModelSlide } from './DalmiaOperatingModelSlide';
+import { DalmiaRoadmapAskSlide } from './DalmiaRoadmapAskSlide';
 
 interface MfgNewSlideRendererProps {
   slide: ManufacturingNewSlide;
@@ -39,36 +33,24 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaCEOImperativeSlide slide={slide} {...baseProps} />;
     case 'dalmia-value-pools':
       return <DalmiaValuePoolsSlide slide={slide} {...baseProps} />;
-    case 'dalmia-today':
-      return <DalmiaTodaySlide slide={slide} {...baseProps} />;
-    case 'dalmia-benchmark':
-      return <DalmiaBenchmarkSlide slide={slide} {...baseProps} />;
-    case 'dalmia-northstar':
-      return <DalmiaNorthStarSlide slide={slide} {...baseProps} />;
-    case 'dalmia-capability-stack':
-      return <DalmiaCapabilityStackSlide slide={slide} {...baseProps} />;
+    case 'dalmia-current-state':
+      return <DalmiaCurrentStateSlide slide={slide} {...baseProps} />;
+    case 'dalmia-vision-architecture':
+      return <DalmiaVisionArchitectureSlide slide={slide} {...baseProps} />;
     case 'dalmia-pricing':
       return <DalmiaDynamicPricingSlide slide={slide} {...baseProps} />;
-    case 'dalmia-sales':
-      return <DalmiaSalesIntelligenceSlide slide={slide} {...baseProps} />;
-    case 'dalmia-dealer360':
-      return <DalmiaDealer360Slide slide={slide} {...baseProps} />;
-    case 'dalmia-marketing':
-      return <DalmiaMarketingEngineSlide slide={slide} {...baseProps} />;
-    case 'dalmia-loyalty':
-      return <DalmiaLoyalty2Slide slide={slide} {...baseProps} />;
-    case 'dalmia-demand':
-      return <DalmiaDemandSensingSlide slide={slide} {...baseProps} />;
-    case 'dalmia-o2c':
-      return <DalmiaO2CSlide slide={slide} {...baseProps} />;
+    case 'dalmia-sales-dealer360':
+      return <DalmiaSalesDealer360Slide slide={slide} {...baseProps} />;
+    case 'dalmia-marketing-engagement':
+      return <DalmiaMarketingEngagementSlide slide={slide} {...baseProps} />;
+    case 'dalmia-supply-chain':
+      return <DalmiaSupplyChainSlide slide={slide} {...baseProps} />;
     case 'dalmia-suvidha':
       return <DalmiaSuvidha2Slide slide={slide} {...baseProps} />;
     case 'dalmia-valuemap':
       return <DalmiaValueMapSlide slide={slide} {...baseProps} />;
-    case 'dalmia-roadmap':
-      return <DalmiaRoadmapSlide slide={slide} {...baseProps} />;
-    case 'dalmia-operating-model':
-      return <DalmiaOperatingModelSlide slide={slide} {...baseProps} />;
+    case 'dalmia-roadmap-ask':
+      return <DalmiaRoadmapAskSlide slide={slide} {...baseProps} />;
     default:
       return (
         <div className="h-screen w-full bg-white flex items-center justify-center">
