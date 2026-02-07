@@ -126,6 +126,7 @@ import MasterTrustProposal from './pages/MasterTrustProposal';
 import YatharthPitch from './pages/YatharthPitch';
 import XaltProposal from './pages/XaltProposal';
 import ManufacturingPitch from './pages/ManufacturingPitch';
+import ManufacturingPitchNew from './pages/ManufacturingPitchNew';
 import AptechProposal from './pages/AptechProposal';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -269,6 +270,7 @@ const AppContent = () => {
           <Route path="/proposal/yatharth" element={<YatharthPitch />} />
           <Route path="/proposal/xalt" element={<XaltProposal />} />
           <Route path="/manufacturing-pitch" element={<ManufacturingPitch />} />
+          <Route path="/manufacturing-pitch-new" element={<ManufacturingPitchNew />} />
           <Route path="/proposal/aptech" element={<AptechProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
