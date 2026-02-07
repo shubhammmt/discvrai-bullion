@@ -39,7 +39,7 @@ export function SellSuccessScreen({
 
   const ctaClass = isGold
     ? "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white"
-    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white";
+    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black";
 
   const handleClose = () => {
     onDone?.();
@@ -171,7 +171,7 @@ export function SellSuccessScreen({
 
           {/* Done Button */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
-            <Button onClick={handleClose} className={`w-full h-12 ${ctaClass} font-semibold text-lg`}>
+            <Button onClick={handleClose} className={`w-full h-12 ${ctaClass} font-semibold text-lg border border-border`}>
               Back to Dashboard
             </Button>
           </motion.div>

@@ -168,7 +168,7 @@ export function BullionHero({
                   <Button 
                     onClick={onSellSilver}
                     size="lg"
-                    className="bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white font-semibold"
+                    className="bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black font-semibold"
                   >
                     🥈 Sell Silver
                   </Button>
@@ -463,7 +463,7 @@ export function BullionHero({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden rounded-2xl bg-card border border-border p-5 sm:p-6 lg:p-8"
+      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-bullion-gold/20 via-card to-bullion-gold/5 border border-bullion-gold/25 p-5 sm:p-6 lg:p-8"
     >
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
       
@@ -554,11 +554,11 @@ export function BullionHero({
                       <Plus className="w-5 h-5" />
                     </Button>
                     {silverHoldings > 0 ? (
-                      <Button onClick={onSellSilver} size="icon" className="h-9 w-9 sm:h-10 sm:w-10 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white shadow-md" title="Sell Silver">
-                        <Minus className="w-5 h-5" />
-                      </Button>
-                    ) : (
-                      <Button onClick={onBuySilver} size="icon" className="h-9 w-9 sm:h-10 sm:w-10 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white shadow-md" title="Start Investing">
+                    <Button onClick={onSellSilver} size="icon" className="h-9 w-9 sm:h-10 sm:w-10 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black shadow-md" title="Sell Silver">
+                      <Minus className="w-5 h-5" />
+                    </Button>
+                  ) : (
+                    <Button onClick={onBuySilver} size="icon" className="h-9 w-9 sm:h-10 sm:w-10 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black shadow-md" title="Start Investing">
                         <Sparkles className="w-5 h-5" />
                       </Button>
                     )}
@@ -569,11 +569,11 @@ export function BullionHero({
                       Buy
                     </Button>
                     {silverHoldings > 0 ? (
-                      <Button onClick={onSellSilver} size="sm" className="h-8 sm:h-9 px-3 sm:px-4 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white font-semibold text-xs sm:text-sm shadow-md">
-                        Sell
-                      </Button>
-                    ) : (
-                      <Button onClick={onBuySilver} size="sm" className="h-8 sm:h-9 px-2.5 sm:px-3 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white font-semibold text-xs sm:text-sm shadow-md">
+                    <Button onClick={onSellSilver} size="sm" className="h-8 sm:h-9 px-3 sm:px-4 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black font-semibold text-xs sm:text-sm shadow-md">
+                      Sell
+                    </Button>
+                  ) : (
+                    <Button onClick={onBuySilver} size="sm" className="h-8 sm:h-9 px-2.5 sm:px-3 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black font-semibold text-xs sm:text-sm shadow-md">
                         Invest
                       </Button>
                     )}

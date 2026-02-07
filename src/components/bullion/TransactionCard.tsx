@@ -43,7 +43,11 @@ export function TransactionCard({ transaction, goldPrice, silverPrice }: Transac
   return (
     <div className="relative pt-3 mb-6">
       {/* Floating Date Badge */}
-      <div className="absolute top-0 left-6 z-10 px-4 py-1.5 rounded-full bg-bullion-gold-dark text-white text-sm font-medium">
+      <div className={`absolute top-0 left-6 z-10 px-4 py-1.5 rounded-full text-sm font-medium ${
+        isGold 
+          ? "bg-bullion-gold-dark text-white" 
+          : "bg-bullion-silver-dark text-black"
+      }`}>
         {transaction.date}
       </div>
 

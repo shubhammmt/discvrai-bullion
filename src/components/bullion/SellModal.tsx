@@ -83,7 +83,7 @@ export function SellModal({
 
   const ctaClass = isGold
     ? "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white"
-    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white";
+    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black";
 
   const selectedUpiAccount = upiAccounts.find(a => a.id === selectedUpiId);
 
