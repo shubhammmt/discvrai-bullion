@@ -115,8 +115,7 @@ export function BuyModal({ open, onOpenChange, metal, currentPrice }: BuyModalPr
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-border/50">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl">
-            <span>{config.icon}</span>
+          <DialogTitle className="text-xl">
             Buy {config.name}
           </DialogTitle>
         </DialogHeader>

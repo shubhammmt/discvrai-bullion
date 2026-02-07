@@ -164,8 +164,7 @@ export function SellModal({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md bg-background border-border">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl text-foreground">
-            <span>{config.icon}</span>
+          <DialogTitle className="text-xl text-foreground">
             Sell {config.name}
           </DialogTitle>
         </DialogHeader>
@@ -175,7 +174,6 @@ export function SellModal({
             {/* Holdings Summary */}
             <div className="p-4 rounded-xl bg-muted/50 border border-border/50">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl">{config.icon}</span>
                 <h4 className="font-semibold text-foreground">Your {config.name} Holdings</h4>
               </div>
               <div className="text-2xl font-bold text-foreground mb-3">{holdings.total.toFixed(4)}g</div>

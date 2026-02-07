@@ -463,7 +463,7 @@ export function BullionHero({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-bullion-gold/20 via-card to-bullion-gold/5 border border-bullion-gold/25 p-5 sm:p-6 lg:p-8"
+      className="relative overflow-hidden rounded-2xl bg-card border border-border p-5 sm:p-6 lg:p-8"
     >
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
       
@@ -493,7 +493,7 @@ export function BullionHero({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5">
                   <span className="text-xl sm:text-2xl">🪙</span>
-                  <span className="text-bullion-gold text-sm sm:text-base font-semibold">Gold</span>
+                  <span className="text-bullion-gold-dark dark:text-bullion-gold text-sm sm:text-base font-semibold">Gold</span>
                 </div>
                 <p className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">{goldHoldings.toFixed(2)}g</p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">₹{(goldHoldings * goldPrice).toLocaleString("en-IN")}</p>
@@ -541,7 +541,7 @@ export function BullionHero({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5">
                   <span className="text-xl sm:text-2xl">🥈</span>
-                  <span className="text-bullion-silver text-sm sm:text-base font-semibold">Silver</span>
+                  <span className="text-bullion-silver-dark dark:text-bullion-silver text-sm sm:text-base font-semibold">Silver</span>
                 </div>
                 <p className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">{silverHoldings.toFixed(0)}g</p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">₹{(silverHoldings * silverPrice).toLocaleString("en-IN")}</p>
