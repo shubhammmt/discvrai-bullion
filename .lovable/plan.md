@@ -1,215 +1,182 @@
 
 
-# Dalmia Cement Deck - Visual Upgrade with Execution Stack Pattern
+# Rebuild /bullion/notifications as Watchlist & Notifications Hub
 
-## Analysis of Current State
+## Overview
 
-After reviewing all 11 slides, I've identified the following observations:
+Rebuild the `/bullion/notifications` page to match the layout and structure of `discvr.ai/watchlist?tab=notifications`. The current page is a simple settings-only view. The new page will be a full **Watchlist & Notifications Hub** with tabbed navigation, matching the Organize page pattern already in the codebase.
 
-### Current Storytelling Arc (11 Slides)
-| # | Slide | Purpose | Current Visual |
-|---|-------|---------|----------------|
-| 1 | Cover | Hook | Badge + headline + separator |
-| 2 | CEO Imperative | Why now? | Factory → Brain transformation |
-| 3 | Value Pools | Where value exists | 3-column cards |
-| 4 | Current State & Gap | Pain point | Icon row + bar chart |
-| 5 | Vision & Architecture | The solution framework | Flow + stack (partial) |
-| 6 | AI Dynamic Pricing | Capability deep-dive | Problem → Solution → Impact |
-| 7 | Sales & Dealer Intelligence | Capability | Split view + hub diagram |
-| 8 | Marketing & Engagement | Capability | 2x2 grid + evolution |
-| 9 | Supply Chain AI | Capability | Transformation + flow |
-| 10 | Value Map | ROI summary | Table |
-| 11 | Roadmap & Ask | Call to action | Timeline + decision box |
-
-### Where the Execution Stack Pattern Would Elevate Impact
-
-The uploaded image shows a **vertical layered stack** with:
-- Clear section headers (uppercase, muted)
-- Icon cards in rows within each layer
-- Vertical connectors between layers
-- Gradient shading from bottom to top
-- Outcomes at top, foundations at bottom
-
-This pattern is ideal for slides that convey **hierarchy, dependencies, or transformation flow**.
+Additionally, the "Special Offers" section will be replaced with a card that redirects users to the "Offers for You" section on `/bullion`.
 
 ---
 
-## Proposed Visual Upgrades
+## Current vs New Structure
 
-### Priority 1: Slide 5 - Vision & Architecture (Already Partial)
-**Current**: Has a horizontal flow + layered stack but not using the elegant execution stack pattern
-**Upgrade**: Redesign to match the uploaded pattern exactly:
-
-```text
-                    BUSINESS OUTCOMES
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │Revenue ↑│ │ Cost ↓  │ │Speed ↑  │ │Retention│
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-              PLATFORM ECOSYSTEM
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │SUVIDHA  │ │SM@RT-D  │ │WhatsApp │ │ Portal  │
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-              AGENTIC WORKFLOWS
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │ Pricing │ │  Sales  │ │Marketing│ │   O2C   │
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-               AI INTELLIGENCE
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │ Demand  │ │  Churn  │ │ Credit  │ │Sentiment│
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-              DATA FOUNDATION
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │   SAP   │ │ SUVIDHA │ │ Loyalty │ │ External│
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘
-```
-
-### Priority 2: Slide 3 - Value Pools
-**Current**: 3 horizontal cards
-**Upgrade**: Convert to vertical execution stack showing value flowing up:
-
-```text
-              COMMERCIAL VALUE OUTPUT
-    ┌──────────────────────────────────────────┐
-    │        ₹870-1,720 Cr Annual Value        │
-    └──────────────────────────────────────────┘
-                        │
-    ┌───────────┐ ┌───────────┐ ┌───────────┐
-    │ Revenue   │ │   Cost    │ │ Retention │
-    │  Growth   │ │ Reduction │ │   Value   │
-    └───────────┘ └───────────┘ └───────────┘
-                        │
-              AI CAPABILITIES LAYER
-              (shows what enables each)
-```
-
-### Priority 3: New Slide - DiscvrAI Execution Stack (Capability Overview)
-Create a **new slide after Vision & Architecture** that uses the exact uploaded pattern to show DiscvrAI's platform:
-
-```text
-            DISCVRAI EXECUTION STACK
-                    
-              BUSINESS OUTCOMES
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │Revenue ↑│ │ Cost ↓  │ │Speed ↑  │ │ 24/7 CX │
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-            OMNICHANNEL DEPLOYMENT
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │Web Apps │ │ Mobile  │ │WhatsApp │ │  Voice  │ │  Email  │
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-              AI PLATFORM CORE
-    ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-    │Agent Builder│ │Orchestration│ │ Governance  │ │Integrations │
-    └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘
-                        │
-            VERTICAL SOLUTIONS
-    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-    │ Cement  │ │  BFSI   │ │Healthcare│ │ Retail  │ │Education│
-    └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘
-                        │
-          DISCOVERY & SOLUTION DESIGN
-    ┌───────────────┐ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
-    │  Stakeholder  │ │AI Opportunity │ │Outcome-Driven │ │  Use Case     │
-    │   Alignment   │ │   Mapping     │ │   Roadmap     │ │Prioritization │
-    └───────────────┘ └───────────────┘ └───────────────┘ └───────────────┘
-```
+| Current | New |
+|---------|-----|
+| Single-page settings form | Tabbed hub (Watchlists, Alerts/Notifications, Saved Research, Calendar) |
+| Price alert toggles only | Alert cards with priority badges, dismiss/view actions |
+| Auspicious day toggles | Integrated into Calendar tab |
+| Special Offers toggle | Replaced with redirect card to /bullion#offers |
+| No watchlist management | Watchlist sidebar + item list with bullion context |
 
 ---
 
 ## Implementation Plan
 
-### Step 1: Create Reusable ExecutionStack Component
-Create a new reusable component that can render the layered stack pattern:
+### Step 1: Rebuild BullionNotifications.tsx
 
-**File**: `src/components/pitch/shared/ExecutionStackDiagram.tsx`
+Replace the current page with a tabbed layout modeled on `src/pages/Organize.tsx` but contextualized for Bullion:
 
-Features:
-- Accepts array of layers, each with label + icon cards
-- Renders vertical connectors between layers
-- Subtle background gradient (lighter at top)
-- Animated entry with framer-motion
+**Tab 1 - Watchlists**
+- Gold & Silver watchlist (price tracking)
+- Ability to add custom price targets
+- Current live prices with change indicators
 
-### Step 2: Update Vision & Architecture Slide
-Replace current implementation with the ExecutionStack pattern showing Dalmia-specific layers:
-- L5: Business Outcomes (Revenue, Cost, Speed, Retention)
-- L4: Platform Ecosystem (SUVIDHA, SM@RT-D, WhatsApp, Portal)
-- L3: Agentic Workflows (Pricing, Sales, Marketing, O2C)
-- L2: AI Models (Demand, Churn, Credit, Sentiment)
-- L1: Data Foundation (SAP, SUVIDHA, Loyalty, External)
+**Tab 2 - Alerts (default when navigating with ?tab=notifications)**
+- Active alert cards in a grid layout (matching Organize page style)
+- Priority badges (high/medium/low)
+- Alert types: Price Drop, Price Jump, SIP Due, Festival Reminder
+- Dismiss/View actions on each card
+- Subscription CTA for Telegram/WhatsApp notifications
+- **Price alert settings** (retain existing Gold/Silver alert configuration from current page)
 
-### Step 3: Update Value Pools Slide (Optional)
-Convert from horizontal 3-column to vertical stack showing value flow
+**Tab 3 - Saved Research**
+- Saved bullion articles, analysis, and market reports
+- Tags and category badges
 
-### Step 4: Add DiscvrAI Capability Slide (Optional)
-If desired, add a new slide after Vision that uses the uploaded pattern to position DiscvrAI's platform
+**Tab 4 - Calendar**
+- Auspicious days (Akshaya Tritiya, Dhanteras, Hindu New Year)
+- Personal dates (Birthday, Anniversary) - moved from current Auspicious Day Alerts section
+- SIP due dates
+- Price target reminders
+
+### Step 2: Special Offers Redirect
+
+Replace the "Special Offers" card with an "Offers for You" card that:
+- Shows a preview snippet (e.g., "You have 3 offers waiting")
+- Has a CTA button that navigates to `/bullion` and scrolls to the Offers section
+- Uses `navigate('/bullion')` with a hash or state to target the offers area
+
+### Step 3: Header & Navigation
+
+- Keep the sticky header with back button to `/bullion`
+- Title changes to "Watchlist & Notifications"
+- Support `?tab=notifications` query param to auto-select the Alerts tab
 
 ---
 
 ## Technical Details
 
-### New Component Structure
+### File Changes
+
+```text
+src/pages/BullionNotifications.tsx    # REWRITE - Full tabbed hub
+```
+
+### Key Dependencies (already installed)
+- `@radix-ui/react-tabs` - For tab navigation
+- `lucide-react` - Icons
+- `react-router-dom` - Navigation + query params
+- `@/components/ui/card`, `badge`, `button`, `tabs` - UI components
+
+### Data Structure
 
 ```typescript
-// ExecutionStackDiagram.tsx
-interface StackLayer {
-  label: string;           // e.g., "BUSINESS OUTCOMES"
-  items: {
-    icon: LucideIcon;
-    label: string;
-    description?: string;
-  }[];
-  color?: string;          // Tailwind bg color
+// Bullion-specific alert items
+interface BullionAlert {
+  type: 'price_drop' | 'price_jump' | 'sip_due' | 'festival' | 'target_reached';
+  metal: 'gold' | 'silver';
+  message: string;
+  time: string;
+  priority: 'high' | 'medium' | 'low';
 }
 
-interface ExecutionStackDiagramProps {
-  layers: StackLayer[];
-  connectorColor?: string;
-  animate?: boolean;
+// Bullion watchlist items
+interface BullionWatchItem {
+  metal: 'gold' | 'silver';
+  name: string;
+  currentPrice: string;
+  change: number;
+  targetPrice?: string;
+  alert?: string;
+}
+
+// Calendar events
+interface BullionCalendarEvent {
+  date: string;
+  event: string;
+  type: 'festival' | 'personal' | 'sip' | 'target';
+  metal?: 'gold' | 'silver';
 }
 ```
 
-### Files to Create/Modify
+### Query Parameter Support
+
+```typescript
+const [searchParams] = useSearchParams();
+const defaultTab = searchParams.get('tab') === 'notifications' ? 'alerts' : 'watchlists';
+```
+
+### Offers Redirect Implementation
+
+```typescript
+// Instead of Special Offers toggle, show a redirect card
+<Card className="p-5 cursor-pointer" onClick={() => navigate('/bullion', { state: { scrollTo: 'offers' } })}>
+  <div className="flex items-center justify-between">
+    <div className="flex items-center gap-3">
+      <Gift icon />
+      <div>
+        <h2>Offers for You</h2>
+        <p>View exclusive deals & bonus gold offers</p>
+      </div>
+    </div>
+    <ChevronRight />
+  </div>
+</Card>
+```
+
+---
+
+## Layout Preview
+
 ```text
-src/components/pitch/shared/
-  └── ExecutionStackDiagram.tsx     # NEW - Reusable stack component
-
-src/components/pitch/manufacturing-new/
-  └── DalmiaVisionArchitectureSlide.tsx  # UPDATE - Use stack pattern
++--------------------------------------------------+
+| <- Watchlist & Notifications              [User]  |
++--------------------------------------------------+
+| [Watchlists] [Alerts] [Research] [Calendar]       |
++--------------------------------------------------+
+|                                                    |
+|  Alerts Tab (default with ?tab=notifications):     |
+|                                                    |
+|  +-- Price Alert Settings (Gold/Silver) ---------+ |
+|  | [Retain existing toggle/input UI]             | |
+|  +-----------------------------------------------+ |
+|                                                    |
+|  Active Alerts:                                    |
+|  +----------+ +----------+ +----------+           |
+|  | Gold Drop| | SIP Due  | |Dhanteras |           |
+|  | HIGH     | | MEDIUM   | | LOW      |           |
+|  | -2.3%    | | Tomorrow | | Feb 28   |           |
+|  |[Dismiss] | |[Dismiss] | |[Dismiss] |           |
+|  |  [View]  | |  [View]  | |  [View]  |           |
+|  +----------+ +----------+ +----------+           |
+|                                                    |
+|  +-- Offers for You ---> /bullion ---------------+ |
+|  | View exclusive deals & bonus gold offers  [>] | |
+|  +-----------------------------------------------+ |
+|                                                    |
+|  +-- Stay Updated (Telegram/WhatsApp CTA) ------+ |
+|  +-----------------------------------------------+ |
++--------------------------------------------------+
 ```
 
 ---
 
-## Storytelling Benefits
+## Benefits
 
-| Current Issue | After Upgrade |
-|---------------|---------------|
-| Vision slide has fragmented horizontal + vertical elements | Unified top-to-bottom execution narrative |
-| Value pools feel disconnected from implementation | Clear visual link: foundation → capabilities → outcomes |
-| DiscvrAI platform capabilities not explicit | Dedicated capability slide matches professional consulting decks |
-| Architecture looks "busy" | Clean, layered McKinsey-style visualization |
-
----
-
-## Final Slide Order (After Implementation)
-
-| # | Slide | Visual Pattern |
-|---|-------|----------------|
-| 1 | Cover | Hero |
-| 2 | CEO Imperative | Transformation visual |
-| 3 | Value Pools | Cards (or upgraded stack) |
-| 4 | Current State & Gap | Charts + callouts |
-| 5 | Vision & Architecture | **Execution Stack** |
-| 6 | AI Dynamic Pricing | Problem/Solution/Impact |
-| 7 | Sales & Dealer Intelligence | Split + hub |
-| 8 | Marketing & Engagement | 2x2 + evolution |
-| 9 | Supply Chain AI | Transformation + flow |
-| 10 | Value Map | Table |
-| 11 | Roadmap & Ask | Timeline + decision |
-
-The execution stack pattern on Slide 5 becomes the anchor visual that the rest of the deck references back to.
-
+- Matches discvr.ai/watchlist design language
+- Consolidates all notification/tracking features into one hub
+- Special offers redirects to main bullion page (single source of truth)
+- Supports deep linking via `?tab=notifications` query param
+- Reuses existing UI component patterns from Organize page
