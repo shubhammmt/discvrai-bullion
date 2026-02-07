@@ -9,7 +9,6 @@ import { DalmiaDynamicPricingSlide } from './DalmiaDynamicPricingSlide';
 import { DalmiaSalesDealer360Slide } from './DalmiaSalesDealer360Slide';
 import { DalmiaMarketingEngagementSlide } from './DalmiaMarketingEngagementSlide';
 import { DalmiaSupplyChainSlide } from './DalmiaSupplyChainSlide';
-import { DalmiaSuvidha2Slide } from './DalmiaSuvidha2Slide';
 import { DalmiaValueMapSlide } from './DalmiaValueMapSlide';
 import { DalmiaRoadmapAskSlide } from './DalmiaRoadmapAskSlide';
 
@@ -45,8 +44,6 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaMarketingEngagementSlide slide={slide} {...baseProps} />;
     case 'dalmia-supply-chain':
       return <DalmiaSupplyChainSlide slide={slide} {...baseProps} />;
-    case 'dalmia-suvidha':
-      return <DalmiaSuvidha2Slide slide={slide} {...baseProps} />;
     case 'dalmia-valuemap':
       return <DalmiaValueMapSlide slide={slide} {...baseProps} />;
     case 'dalmia-roadmap-ask':
