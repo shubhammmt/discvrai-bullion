@@ -27,7 +27,6 @@ type OneTimeMode = "amount" | "grams";
 
 const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-// Metal-specific configuration
 const metalConfig = {
   gold: {
     name: "Gold",
@@ -59,6 +58,7 @@ const metalConfig = {
 
 export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPurchaseComplete }: UnifiedBuyModalProps) {
   const config = metalConfig[metal];
+  const isGold = metal === "gold";
   
   const [mode, setMode] = useState<BuyMode>("sip");
   const [frequency, setFrequency] = useState<Frequency>("daily");
@@ -78,7 +78,13 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
   const [purchaseAmount, setPurchaseAmount] = useState(0);
   const [transactionId, setTransactionId] = useState("");
 
-  // Reset values when metal or frequency changes
+  // Metal-specific color classes
+  const accentDark = isGold ? "bg-bullion-gold-dark" : "bg-bullion-silver-dark";
+  const accentDarkText = isGold ? "text-bullion-gold-dark" : "text-bullion-silver-dark";
+  const accentBorder = isGold ? "border-bullion-gold-dark" : "border-bullion-silver-dark";
+  const accentBg10 = isGold ? "bg-bullion-gold/10" : "bg-bullion-silver/10";
+  const accentBorder20 = isGold ? "border-bullion-gold/20" : "border-bullion-silver/20";
+
   useEffect(() => {
     const sipConfig = config.sip[frequency];
     setSipAmount(sipConfig.min);
@@ -89,7 +95,6 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     setGrams(config.oneTime.grams.min);
   }, [metal]);
 
-  // Reset one-time values when switching modes
   useEffect(() => {
     if (oneTimeMode === "amount") {
       setOneTimeAmount(config.oneTime.amount.min);
@@ -102,44 +107,25 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
   const getOneTimeAmountConfig = () => config.oneTime.amount;
   const getOneTimeGramsConfig = () => config.oneTime.grams;
 
-  // Calculate projected returns (simplified 5-year projection with ~10% annual return)
   const calculateProjection = () => {
     if (mode === "sip") {
       const periodsPerYear = frequency === "daily" ? 365 : frequency === "weekly" ? 52 : 12;
       const totalInvestment = sipAmount * periodsPerYear * 5;
       const annualReturn = 0.10;
-      
-      // Simple compound calculation with step-up
       let projectedValue = 0;
       let yearlyAmount = sipAmount * periodsPerYear;
-      
       for (let year = 1; year <= 5; year++) {
         projectedValue = (projectedValue + yearlyAmount) * (1 + annualReturn);
-        if (stepUpEnabled) {
-          yearlyAmount *= (1 + stepUpPercent / 100);
-        }
+        if (stepUpEnabled) yearlyAmount *= (1 + stepUpPercent / 100);
       }
-      
       const totalInvested = stepUpEnabled 
         ? Array.from({ length: 5 }, (_, i) => sipAmount * periodsPerYear * Math.pow(1 + stepUpPercent / 100, i)).reduce((a, b) => a + b, 0)
         : totalInvestment;
-      
-      return {
-        projected: Math.round(projectedValue),
-        invested: Math.round(totalInvested),
-        earnings: Math.round(projectedValue - totalInvested)
-      };
+      return { projected: Math.round(projectedValue), invested: Math.round(totalInvested), earnings: Math.round(projectedValue - totalInvested) };
     } else {
-      // One-time purchase calculation
-      const investment = oneTimeMode === "amount" 
-        ? oneTimeAmount 
-        : grams * currentPrice;
+      const investment = oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice;
       const projected = investment * Math.pow(1.10, 5);
-      return {
-        projected: Math.round(projected),
-        invested: Math.round(investment),
-        earnings: Math.round(projected - investment)
-      };
+      return { projected: Math.round(projected), invested: Math.round(investment), earnings: Math.round(projected - investment) };
     }
   };
 
@@ -172,13 +158,9 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
   };
 
   const handleSliderChange = (value: number[]) => {
-    if (mode === "sip") {
-      setSipAmount(value[0]);
-    } else if (oneTimeMode === "amount") {
-      setOneTimeAmount(value[0]);
-    } else {
-      setGrams(value[0]);
-    }
+    if (mode === "sip") setSipAmount(value[0]);
+    else if (oneTimeMode === "amount") setOneTimeAmount(value[0]);
+    else setGrams(value[0]);
   };
 
   const handleProceed = async () => {
@@ -186,7 +168,6 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessing(false);
     
-    // Simulate random failure for demo (10% chance)
     const shouldFail = Math.random() < 0.1;
     if (shouldFail) {
       setFailureType(Math.random() < 0.5 ? "payment_failed" : "order_failed");
@@ -194,27 +175,15 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
       return;
     }
     
-    // Calculate purchased grams and amount
-    const finalAmount = mode === "sip" 
-      ? sipAmount 
-      : oneTimeMode === "amount" 
-        ? oneTimeAmount 
-        : grams * currentPrice;
-    const finalGrams = mode === "sip"
-      ? sipAmount / currentPrice
-      : oneTimeMode === "grams"
-        ? grams
-        : oneTimeAmount / currentPrice;
+    const finalAmount = mode === "sip" ? sipAmount : oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice;
+    const finalGrams = mode === "sip" ? sipAmount / currentPrice : oneTimeMode === "grams" ? grams : oneTimeAmount / currentPrice;
     
     setPurchaseAmount(finalAmount);
     setPurchaseGrams(finalGrams);
     setTransactionId(`BUL-${Date.now().toString(36).toUpperCase()}`);
     setIsSuccess(true);
     
-    onPurchaseComplete?.({ 
-      gold: metal === "gold" ? finalGrams : 0, 
-      silver: metal === "silver" ? finalGrams : 0 
-    });
+    onPurchaseComplete?.({ gold: metal === "gold" ? finalGrams : 0, silver: metal === "silver" ? finalGrams : 0 });
   };
 
   const handleClose = () => {
@@ -234,9 +203,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     handleProceed();
   };
 
-  const formatIndianNumber = (num: number) => {
-    return num.toLocaleString("en-IN");
-  };
+  const formatIndianNumber = (num: number) => num.toLocaleString("en-IN");
 
   const getSliderConfig = () => {
     if (mode === "sip") {
@@ -251,7 +218,6 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     }
   };
 
-  // Calculate equivalent values for display
   const getEquivalentDisplay = () => {
     if (oneTimeMode === "amount") {
       const equivalentGrams = oneTimeAmount / currentPrice;
@@ -264,7 +230,6 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
 
   const sliderConfig = getSliderConfig();
 
-  // Show Failure Screen
   if (isFailure) {
     return (
       <PaymentFailureScreen
@@ -275,15 +240,11 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
         referenceId={`PAY-${Date.now().toString(36).toUpperCase()}`}
         reason={failureType === "payment_failed" ? "Payment timeout - please try again" : "Unable to process gold order"}
         onRetry={handleRetry}
-        onTryAnotherMethod={() => {
-          setIsFailure(false);
-          toast.info("You can try UPI, Net Banking, or Card");
-        }}
+        onTryAnotherMethod={() => { setIsFailure(false); toast.info("You can try UPI, Net Banking, or Card"); }}
       />
     );
   }
 
-  // Show Success Screen
   if (isSuccess) {
     return (
       <PurchaseSuccessScreen
@@ -294,11 +255,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
         amount={purchaseAmount}
         grams={purchaseGrams}
         transactionId={transactionId}
-        onStartSIP={mode === "onetime" ? () => {
-          setIsSuccess(false);
-          setMode("sip");
-          setSipAmount(Math.max(purchaseAmount, 100));
-        } : undefined}
+        onStartSIP={mode === "onetime" ? () => { setIsSuccess(false); setMode("sip"); setSipAmount(Math.max(purchaseAmount, 100)); } : undefined}
         onViewPortfolio={handleClose}
         onShare={() => toast.success("Share link copied!")}
         bonusAmount={10}
@@ -308,41 +265,43 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md p-0 bg-[#FFF8E7] border-0 overflow-hidden max-h-[90vh] overflow-y-auto">
+      <DialogContent className={cn(
+        "sm:max-w-md p-0 border-0 overflow-hidden max-h-[90vh] overflow-y-auto",
+        isGold ? "bg-bullion-gold-muted dark:bg-card" : "bg-bullion-silver-muted dark:bg-card"
+      )}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200/50">
-          <button onClick={handleClose} className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors">
-            <ArrowLeft className="w-5 h-5 text-gray-700" />
+        <div className="flex items-center justify-between p-4 border-b border-border/50">
+          <button onClick={handleClose} className="p-2 -ml-2 hover:bg-muted rounded-full transition-colors">
+            <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
-          <Button variant="outline" size="sm" className="rounded-full border-gray-300 text-gray-700 font-medium">
+          <Button variant="outline" size="sm" className="rounded-full border-border text-foreground font-medium">
             Need Help?
           </Button>
         </div>
 
         {/* Projected Returns Section */}
         <div className="px-6 pt-4 pb-8 text-center">
-          <p className="text-gray-600 text-sm mb-2">Projected returns in 5 years</p>
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">₹{formatIndianNumber(projection.projected)}</h2>
-          <p className="text-gray-500 text-sm">
+          <p className="text-muted-foreground text-sm mb-2">Projected returns in 5 years</p>
+          <h2 className="text-4xl font-bold text-foreground mb-2">₹{formatIndianNumber(projection.projected)}</h2>
+          <p className="text-muted-foreground text-sm">
             Investment: ₹{formatIndianNumber(projection.invested)} | Earning: ₹{formatIndianNumber(projection.earnings)} 🎉
           </p>
         </div>
 
-        {/* Gold Bars Illustration */}
         <div className="flex justify-center pb-4">
           <div className="text-6xl">{metal === "gold" ? "🪙" : "🥈"}</div>
         </div>
 
         {/* Bottom Panel */}
-        <div className="bg-white rounded-t-3xl p-6 space-y-5 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="bg-background rounded-t-3xl p-6 space-y-5 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
           {/* Mode Toggle */}
           <div className="flex justify-center">
-            <div className="inline-flex bg-gray-100 rounded-full p-1">
+            <div className="inline-flex bg-muted rounded-full p-1">
               <button
                 onClick={() => setMode("sip")}
                 className={cn(
                   "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
-                  mode === "sip" ? "bg-[#1B4B43] text-white" : "text-gray-600"
+                  mode === "sip" ? `${accentDark} text-white` : "text-muted-foreground"
                 )}
               >
                 Setup SIP
@@ -351,7 +310,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
                 onClick={() => setMode("onetime")}
                 className={cn(
                   "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
-                  mode === "onetime" ? "bg-[#1B4B43] text-white" : "text-gray-600"
+                  mode === "onetime" ? `${accentDark} text-white` : "text-muted-foreground"
                 )}
               >
                 One Time
@@ -369,8 +328,8 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
                   className={cn(
                     "px-5 py-2.5 rounded-full border text-sm font-medium transition-all capitalize",
                     frequency === freq 
-                      ? "border-[#1B4B43] bg-[#1B4B43]/5 text-[#1B4B43]" 
-                      : "border-gray-200 text-gray-600 hover:border-gray-300"
+                      ? `${accentBorder} ${accentBg10} ${accentDarkText}` 
+                      : "border-border text-muted-foreground hover:border-border"
                   )}
                 >
                   {freq}
@@ -379,7 +338,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
             </div>
           )}
 
-          {/* One-Time Mode Selection: Amount vs Grams */}
+          {/* One-Time Mode Selection */}
           {mode === "onetime" && (
             <div className="flex justify-center gap-2">
               <button
@@ -387,8 +346,8 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
                 className={cn(
                   "px-5 py-2.5 rounded-full border text-sm font-medium transition-all",
                   oneTimeMode === "amount"
-                    ? "border-[#1B4B43] bg-[#1B4B43]/5 text-[#1B4B43]"
-                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                    ? `${accentBorder} ${accentBg10} ${accentDarkText}`
+                    : "border-border text-muted-foreground hover:border-border"
                 )}
               >
                 By Amount (₹)
@@ -398,8 +357,8 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
                 className={cn(
                   "px-5 py-2.5 rounded-full border text-sm font-medium transition-all",
                   oneTimeMode === "grams"
-                    ? "border-[#1B4B43] bg-[#1B4B43]/5 text-[#1B4B43]"
-                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                    ? `${accentBorder} ${accentBg10} ${accentDarkText}`
+                    : "border-border text-muted-foreground hover:border-border"
                 )}
               >
                 By Grams
@@ -409,10 +368,10 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
 
           {/* Day/Date Selector for SIP */}
           {mode === "sip" && frequency === "weekly" && (
-            <div className="flex justify-center items-center gap-2 text-gray-600">
+            <div className="flex justify-center items-center gap-2 text-muted-foreground">
               <span>On every</span>
               <Select value={selectedDay} onValueChange={setSelectedDay}>
-                <SelectTrigger className="w-auto border-0 p-0 h-auto font-medium text-gray-900 underline underline-offset-2">
+                <SelectTrigger className="w-auto border-0 p-0 h-auto font-medium text-foreground underline underline-offset-2">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -425,23 +384,17 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
           )}
 
           {mode === "sip" && frequency === "monthly" && (
-            <div className="flex justify-center items-center gap-2 text-gray-600">
+            <div className="flex justify-center items-center gap-2 text-muted-foreground">
               <span>On every</span>
               <Popover>
                 <PopoverTrigger asChild>
-                  <button className="font-medium text-gray-900 underline underline-offset-2 inline-flex items-center gap-1">
+                  <button className="font-medium text-foreground underline underline-offset-2 inline-flex items-center gap-1">
                     {selectedDate ? format(selectedDate, "do") : "1st"}
                     <ChevronDown className="w-4 h-4" />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="center">
-                  <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
+                  <Calendar mode="single" selected={selectedDate} onSelect={setSelectedDate} initialFocus className={cn("p-3 pointer-events-auto")} />
                 </PopoverContent>
               </Popover>
             </div>
@@ -451,22 +404,22 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
           <div className="flex items-center justify-center gap-6">
             <button
               onClick={handleDecrement}
-              className="w-12 h-12 rounded-full border-2 border-[#1B4B43] text-[#1B4B43] flex items-center justify-center hover:bg-[#1B4B43]/5 transition-colors"
+              className={`w-12 h-12 rounded-full border-2 ${accentBorder} ${accentDarkText} flex items-center justify-center hover:${accentBg10} transition-colors`}
             >
               <Minus className="w-5 h-5" />
             </button>
             <div className="text-center min-w-[160px]">
               {mode === "sip" ? (
-                <span className="text-4xl font-bold text-gray-900">₹{formatIndianNumber(sipAmount)}</span>
+                <span className="text-4xl font-bold text-foreground">₹{formatIndianNumber(sipAmount)}</span>
               ) : oneTimeMode === "amount" ? (
-                <span className="text-4xl font-bold text-gray-900">₹{formatIndianNumber(oneTimeAmount)}</span>
+                <span className="text-4xl font-bold text-foreground">₹{formatIndianNumber(oneTimeAmount)}</span>
               ) : (
-                <span className="text-4xl font-bold text-gray-900">{grams.toFixed(metal === "gold" ? 1 : 0)}g</span>
+                <span className="text-4xl font-bold text-foreground">{grams.toFixed(metal === "gold" ? 1 : 0)}g</span>
               )}
             </div>
             <button
               onClick={handleIncrement}
-              className="w-12 h-12 rounded-full border-2 border-[#1B4B43] text-[#1B4B43] flex items-center justify-center hover:bg-[#1B4B43]/5 transition-colors"
+              className={`w-12 h-12 rounded-full border-2 ${accentBorder} ${accentDarkText} flex items-center justify-center hover:${accentBg10} transition-colors`}
             >
               <Plus className="w-5 h-5" />
             </button>
@@ -474,20 +427,20 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
 
           {/* Equivalent display for one-time purchases */}
           {mode === "onetime" && (
-            <p className="text-center text-gray-500 text-sm -mt-2">
+            <p className="text-center text-muted-foreground text-sm -mt-2">
               {getEquivalentDisplay()}
             </p>
           )}
 
           {/* Amount Payable for One-Time */}
           {mode === "onetime" && (
-            <p className="text-center text-gray-600">
-              Amount payable: <span className="font-semibold text-gray-900">
+            <p className="text-center text-muted-foreground">
+              Amount payable: <span className="font-semibold text-foreground">
                 ₹{formatIndianNumber(Math.round(
                   (oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice) * 1.03
                 ))}
               </span>
-              <span className="text-gray-400 text-xs ml-1">(incl. 3% GST)</span>
+              <span className="text-muted-foreground text-xs ml-1">(incl. 3% GST)</span>
             </p>
           )}
 
@@ -499,25 +452,34 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
               max={sliderConfig.max}
               step={sliderConfig.step}
               onValueChange={handleSliderChange}
-              className="w-full [&_[role=slider]]:bg-[#1B4B43] [&_[role=slider]]:border-[#1B4B43] [&_[role=slider]]:w-5 [&_[role=slider]]:h-5"
+              className={cn(
+                "w-full",
+                isGold
+                  ? "[&_[role=slider]]:bg-bullion-gold-dark [&_[role=slider]]:border-bullion-gold-dark [&_[role=slider]]:w-5 [&_[role=slider]]:h-5"
+                  : "[&_[role=slider]]:bg-bullion-silver-dark [&_[role=slider]]:border-bullion-silver-dark [&_[role=slider]]:w-5 [&_[role=slider]]:h-5"
+              )}
             />
           </div>
 
           {/* Annual SIP Step-up */}
           {mode === "sip" && (
-            <div className="flex items-center justify-between p-4 bg-amber-50 rounded-xl border border-amber-200">
+            <div className={`flex items-center justify-between p-4 ${accentBg10} rounded-xl border ${accentBorder20}`}>
               <div className="flex items-center gap-3">
                 <Checkbox
                   id="stepup"
                   checked={stepUpEnabled}
                   onCheckedChange={(checked) => setStepUpEnabled(checked as boolean)}
-                  className="border-[#1B4B43] data-[state=checked]:bg-[#1B4B43]"
+                  className={cn(
+                    isGold
+                      ? "border-bullion-gold-dark data-[state=checked]:bg-bullion-gold-dark"
+                      : "border-bullion-silver-dark data-[state=checked]:bg-bullion-silver-dark"
+                  )}
                 />
-                <label htmlFor="stepup" className="text-sm font-medium text-gray-900 cursor-pointer">
+                <label htmlFor="stepup" className="text-sm font-medium text-foreground cursor-pointer">
                   Annual SIP Step-up ({stepUpPercent}%)
                 </label>
               </div>
-              <button className="text-[#1B4B43] text-sm font-medium flex items-center gap-1">
+              <button className={`${accentDarkText} text-sm font-medium flex items-center gap-1`}>
                 <Pencil className="w-3.5 h-3.5" />
                 Edit
               </button>
@@ -528,7 +490,12 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
           <Button
             onClick={handleProceed}
             disabled={isProcessing}
-            className="w-full h-14 bg-[#1B4B43] hover:bg-[#163d37] text-white font-semibold text-lg rounded-xl"
+            className={cn(
+              "w-full h-14 font-semibold text-lg rounded-xl",
+              isGold
+                ? "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white"
+                : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white"
+            )}
           >
             {isProcessing ? "Processing..." : "Proceed"}
           </Button>
