@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar, CheckCircle2, ArrowRight, Repeat } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface SIPModalProps {
   open: boolean;
@@ -20,14 +21,21 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
   const [step, setStep] = useState<"setup" | "confirm" | "success">("setup");
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const isGold = metal === "gold";
   const metalConfig = {
     gold: { name: "Gold", icon: "🪙" },
     silver: { name: "Silver", icon: "🥈" },
   };
-
   const config = metalConfig[metal];
   const numericAmount = parseFloat(amount) || 0;
   const estimatedGrams = numericAmount / currentPrice;
+
+  const ctaClass = isGold
+    ? "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white"
+    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white";
+
+  const accentBorder = isGold ? "border-bullion-gold-dark" : "border-bullion-silver-dark";
+  const accentBg = isGold ? "bg-bullion-gold-dark" : "bg-bullion-silver-dark";
 
   const frequencyConfig: Record<Frequency, { label: string; multiplier: number; period: string }> = {
     daily: { label: "Daily", multiplier: 30, period: "month" },
@@ -65,10 +73,10 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
   if (step === "success") {
     return (
       <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-border/50">
+        <DialogContent className="sm:max-w-md bg-background border-border">
           <div className="flex flex-col items-center py-8 text-center">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
-              <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+            <div className="w-20 h-20 rounded-full bg-bullion-success/20 flex items-center justify-center mb-4">
+              <CheckCircle2 className="w-10 h-10 text-bullion-success" />
             </div>
             <h3 className="text-xl font-bold text-foreground mb-2">SIP Activated! 🎉</h3>
             <p className="text-muted-foreground mb-4">
@@ -80,7 +88,7 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
                 <span>First investment: Tomorrow</span>
               </div>
             </div>
-            <Button onClick={handleClose} className="w-full">Done</Button>
+            <Button onClick={handleClose} className={`w-full ${ctaClass}`}>Done</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -89,9 +97,9 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-border/50">
+      <DialogContent className="sm:max-w-md bg-background border-border">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl">
+          <DialogTitle className="flex items-center gap-2 text-xl text-foreground">
             <Repeat className="w-5 h-5" />
             Setup {config.name} SIP
           </DialogTitle>
@@ -107,11 +115,12 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
                   <button
                     key={freq}
                     onClick={() => setFrequency(freq)}
-                    className={`py-3 px-4 rounded-xl border text-sm font-medium transition-all ${
+                    className={cn(
+                      "py-3 px-4 rounded-xl border text-sm font-medium transition-all",
                       frequency === freq
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-muted/50 border-border/50 hover:border-primary/50"
-                    }`}
+                        ? `${accentBg} text-white ${accentBorder}`
+                        : "bg-muted/50 border-border/50 hover:border-border"
+                    )}
                   >
                     {frequencyConfig[freq].label}
                   </button>
@@ -139,13 +148,7 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
             {/* Quick Amounts */}
             <div className="flex gap-2">
               {quickAmounts.map((amt) => (
-                <Button
-                  key={amt}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setAmount(amt.toString())}
-                  className="flex-1"
-                >
+                <Button key={amt} variant="outline" size="sm" onClick={() => setAmount(amt.toString())} className="flex-1">
                   ₹{amt}
                 </Button>
               ))}
@@ -153,7 +156,7 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
 
             {/* Projection */}
             {numericAmount >= 100 && (
-              <div className="p-4 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20">
+              <div className={`p-4 rounded-xl border ${isGold ? "bg-bullion-gold/10 border-bullion-gold/20" : "bg-bullion-silver/10 border-bullion-silver/20"}`}>
                 <div className="text-center space-y-2">
                   <p className="text-sm text-muted-foreground">Projected investment per {frequencyConfig[frequency].period}</p>
                   <p className="text-2xl font-bold text-foreground">
@@ -166,11 +169,7 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
               </div>
             )}
 
-            <Button
-              onClick={handleConfirm}
-              disabled={numericAmount < 100}
-              className="w-full h-12 text-lg"
-            >
+            <Button onClick={handleConfirm} disabled={numericAmount < 100} className={`w-full h-12 text-lg ${ctaClass}`}>
               Continue
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -182,26 +181,26 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
             <div className="p-4 rounded-xl bg-muted/50 border border-border/50 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Metal</span>
-                <span className="font-semibold flex items-center gap-2">
+                <span className="font-semibold text-foreground flex items-center gap-2">
                   {config.icon} {config.name}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Amount</span>
-                <span className="font-semibold">₹{numericAmount.toLocaleString("en-IN")}</span>
+                <span className="font-semibold text-foreground">₹{numericAmount.toLocaleString("en-IN")}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Frequency</span>
-                <span className="font-semibold">{frequencyConfig[frequency].label}</span>
+                <span className="font-semibold text-foreground">{frequencyConfig[frequency].label}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Start Date</span>
-                <span className="font-semibold">Tomorrow</span>
+                <span className="font-semibold text-foreground">Tomorrow</span>
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-              <p className="text-sm text-amber-400 text-center">
+            <div className={`p-3 rounded-lg border ${isGold ? "bg-bullion-gold/10 border-bullion-gold/30" : "bg-bullion-silver/10 border-bullion-silver/30"}`}>
+              <p className={`text-sm text-center ${isGold ? "text-bullion-gold-dark" : "text-bullion-silver-dark"}`}>
                 Amount will be auto-debited from your linked payment method
               </p>
             </div>
@@ -210,11 +209,7 @@ export function SIPModal({ open, onOpenChange, metal, currentPrice }: SIPModalPr
               <Button variant="outline" onClick={() => setStep("setup")} className="flex-1">
                 Back
               </Button>
-              <Button
-                onClick={handleActivate}
-                disabled={isProcessing}
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
-              >
+              <Button onClick={handleActivate} disabled={isProcessing} className={`flex-1 ${ctaClass}`}>
                 {isProcessing ? "Activating..." : "Activate SIP"}
               </Button>
             </div>

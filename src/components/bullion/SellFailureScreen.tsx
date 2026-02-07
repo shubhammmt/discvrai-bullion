@@ -34,15 +34,14 @@ export function SellFailureScreen({
     gold: { name: "Gold", icon: "🪙" },
     silver: { name: "Silver", icon: "🥈" },
   };
-
   const config = metalConfig[metal];
 
   const failureContent = {
     sell_failed: {
       icon: XCircle,
-      iconColor: "text-red-400",
-      bgColor: "bg-red-500/10",
-      borderColor: "border-red-500/30",
+      iconColor: "text-bullion-error",
+      bgColor: "bg-bullion-error/10",
+      borderColor: "border-bullion-error/30",
       title: "Sale Failed",
       description: "We couldn't process your sale. Your holdings are safe.",
       notice: {
@@ -53,9 +52,9 @@ export function SellFailureScreen({
     },
     payout_failed: {
       icon: AlertTriangle,
-      iconColor: "text-amber-400",
-      bgColor: "bg-amber-500/10",
-      borderColor: "border-amber-500/30",
+      iconColor: "text-bullion-warning",
+      bgColor: "bg-bullion-warning/10",
+      borderColor: "border-bullion-warning/30",
       title: "Payout Failed",
       description: "Sale completed but payout couldn't be processed.",
       notice: {
@@ -76,7 +75,7 @@ export function SellFailureScreen({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-border/50 p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-md bg-background border-border p-0 overflow-hidden">
         {/* Failure Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -91,7 +90,7 @@ export function SellFailureScreen({
           >
             <IconComponent className={`w-10 h-10 ${content.iconColor}`} />
           </motion.div>
-          <h3 className="text-xl font-bold mb-1">{content.title}</h3>
+          <h3 className="text-xl font-bold text-foreground mb-1">{content.title}</h3>
           <p className="text-muted-foreground">{content.description}</p>
         </motion.div>
 
@@ -105,21 +104,21 @@ export function SellFailureScreen({
           >
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Attempted Sale</span>
-              <span className="font-semibold flex items-center gap-2">
+              <span className="font-semibold text-foreground flex items-center gap-2">
                 <span>{config.icon}</span>
                 {grams.toFixed(4)}g {config.name}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Amount</span>
-              <span className="font-bold">
+              <span className="font-bold text-foreground">
                 ₹{amount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
               </span>
             </div>
             {referenceId && (
               <div className="border-t border-border/50 pt-3 flex justify-between items-center text-sm">
                 <span className="text-muted-foreground">Reference ID</span>
-                <span className="font-mono text-xs">{referenceId}</span>
+                <span className="font-mono text-xs text-foreground">{referenceId}</span>
               </div>
             )}
           </motion.div>
@@ -132,7 +131,7 @@ export function SellFailureScreen({
               transition={{ delay: 0.35 }}
               className={`p-4 rounded-xl ${content.bgColor} ${content.borderColor} border`}
             >
-              <p className="text-sm font-medium mb-1">Reason</p>
+              <p className="text-sm font-medium text-foreground mb-1">Reason</p>
               <p className="text-sm text-muted-foreground">{reason}</p>
             </motion.div>
           )}
@@ -147,53 +146,34 @@ export function SellFailureScreen({
             <div className="flex items-start gap-3">
               <content.notice.icon className={`w-5 h-5 ${content.iconColor} flex-shrink-0 mt-0.5`} />
               <div>
-                <p className="font-semibold text-sm mb-1">{content.notice.title}</p>
+                <p className="font-semibold text-sm text-foreground mb-1">{content.notice.title}</p>
                 <p className="text-sm text-muted-foreground">{content.notice.text}</p>
               </div>
             </div>
           </motion.div>
 
           {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="space-y-3 pt-2"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="space-y-3 pt-2">
             {type === "sell_failed" && (
-              <Button
-                onClick={onRetry}
-                className="w-full"
-              >
+              <Button onClick={onRetry} className="w-full">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Try Again
               </Button>
             )}
             
             {type === "payout_failed" && (
-              <Button
-                onClick={onRetry}
-                className="w-full"
-              >
+              <Button onClick={onRetry} className="w-full">
                 <Clock className="w-4 h-4 mr-2" />
                 Track Payout Status
               </Button>
             )}
 
             <div className="flex gap-3">
-              <Button
-                variant="outline"
-                onClick={onContactSupport}
-                className="flex-1"
-              >
+              <Button variant="outline" onClick={onContactSupport} className="flex-1">
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Get Help
               </Button>
-              <Button
-                variant="ghost"
-                onClick={handleClose}
-                className="flex-1"
-              >
+              <Button variant="ghost" onClick={handleClose} className="flex-1">
                 Close
               </Button>
             </div>

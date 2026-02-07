@@ -46,6 +46,9 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
   const [frequency, setFrequency] = useState<"monthly" | "yearly">("monthly");
   const [startDate, setStartDate] = useState<Date>(addDays(new Date(), 1));
 
+  const isGold = goal?.metal === "gold" || goal?.metal === "both";
+  const accentBorder = isGold ? "border-bullion-gold-dark" : "border-bullion-silver-dark";
+
   const handleStartSIP = () => {
     if (!goal) return;
 
@@ -57,7 +60,6 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
       metal: goal.metal,
     };
 
-    // Save SIP to localStorage
     const existingSIPs = JSON.parse(localStorage.getItem("bullion_sips") || "[]");
     existingSIPs.push({
       ...sipDetails,
@@ -78,10 +80,10 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-background border-border">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-amber-500" />
+          <DialogTitle className="flex items-center gap-2 text-foreground">
+            <Sparkles className={`w-5 h-5 ${isGold ? "text-bullion-gold" : "text-bullion-silver"}`} />
             Start SIP for {goal.name}
           </DialogTitle>
           <DialogDescription>
@@ -121,7 +123,10 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
                 <RadioGroupItem value="monthly" id="monthly" className="peer sr-only" />
                 <Label
                   htmlFor="monthly"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                  className={cn(
+                    "flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground cursor-pointer",
+                    `peer-data-[state=checked]:${accentBorder} [&:has([data-state=checked])]:${accentBorder}`
+                  )}
                 >
                   <span className="text-sm font-medium">Monthly</span>
                   <span className="text-xs text-muted-foreground">Every month</span>
@@ -131,7 +136,10 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
                 <RadioGroupItem value="yearly" id="yearly" className="peer sr-only" />
                 <Label
                   htmlFor="yearly"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                  className={cn(
+                    "flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground cursor-pointer",
+                    `peer-data-[state=checked]:${accentBorder} [&:has([data-state=checked])]:${accentBorder}`
+                  )}
                 >
                   <span className="text-sm font-medium">Yearly</span>
                   <span className="text-xs text-muted-foreground">Once a year</span>
@@ -169,9 +177,9 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
           </div>
 
           {/* Summary */}
-          <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-4">
+          <div className={`rounded-lg p-4 border ${isGold ? "bg-bullion-gold/10 border-bullion-gold/20" : "bg-bullion-silver/10 border-bullion-silver/20"}`}>
             <p className="text-sm text-muted-foreground mb-2">SIP Summary</p>
-            <p className="font-semibold">
+            <p className="font-semibold text-foreground">
               ₹{amount.toLocaleString()} {frequency === "monthly" ? "per month" : "per year"}
             </p>
             <p className="text-xs text-muted-foreground mt-1">
@@ -186,7 +194,11 @@ export function StartSIPDialog({ open, onOpenChange, goal, onSIPStarted }: Start
           </Button>
           <Button
             onClick={handleStartSIP}
-            className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white"
+            className={cn(
+              isGold
+                ? "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white"
+                : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white"
+            )}
           >
             Start SIP
           </Button>

@@ -30,18 +30,20 @@ export function BullionPriceCard({
   const isPositive = change >= 0;
   const metalConfig = {
     gold: {
-      gradient: "from-amber-500/20 via-yellow-400/10 to-amber-600/20",
-      border: "border-amber-500/30",
-      accent: "text-amber-400",
-      buttonBg: "bg-amber-500 hover:bg-amber-600 text-black",
+      gradient: "from-bullion-gold/20 via-bullion-gold-light/10 to-bullion-gold/20",
+      border: "border-bullion-gold/30",
+      accent: "text-bullion-gold",
+      buyBg: "bg-bullion-gold hover:bg-bullion-gold-dark text-black",
+      sellBg: "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white",
       icon: "🪙",
       name: "Gold",
     },
     silver: {
-      gradient: "from-slate-400/20 via-gray-300/10 to-slate-500/20",
-      border: "border-slate-400/30",
-      accent: "text-slate-300",
-      buttonBg: "bg-slate-500 hover:bg-slate-600 text-white",
+      gradient: "from-bullion-silver/20 via-bullion-silver-light/10 to-bullion-silver/20",
+      border: "border-bullion-silver/30",
+      accent: "text-bullion-silver",
+      buyBg: "bg-bullion-silver hover:bg-bullion-silver-dark text-black",
+      sellBg: "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white",
       icon: "🥈",
       name: "Silver",
     },
@@ -49,7 +51,6 @@ export function BullionPriceCard({
 
   const config = metalConfig[metal];
 
-  // Generate SVG path for sparkline
   const generateSparkline = () => {
     if (!sparklineData.length) return "";
     const max = Math.max(...sparklineData);
@@ -78,21 +79,17 @@ export function BullionPriceCard({
     >
       {/* Sparkline Background */}
       <div className="absolute inset-0 opacity-30">
-        <svg
-          viewBox="0 0 120 40"
-          className="w-full h-full"
-          preserveAspectRatio="none"
-        >
+        <svg viewBox="0 0 120 40" className="w-full h-full" preserveAspectRatio="none">
           <defs>
             <linearGradient id={`gradient-${metal}`} x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor={isPositive ? "#22c55e" : "#ef4444"} stopOpacity="0.4" />
-              <stop offset="100%" stopColor={isPositive ? "#22c55e" : "#ef4444"} stopOpacity="0" />
+              <stop offset="0%" stopColor={isPositive ? "hsl(var(--bullion-success))" : "hsl(var(--bullion-error))"} stopOpacity="0.4" />
+              <stop offset="100%" stopColor={isPositive ? "hsl(var(--bullion-success))" : "hsl(var(--bullion-error))"} stopOpacity="0" />
             </linearGradient>
           </defs>
           <path
             d={generateSparkline()}
             fill="none"
-            stroke={isPositive ? "#22c55e" : "#ef4444"}
+            stroke={isPositive ? "hsl(var(--bullion-success))" : "hsl(var(--bullion-error))"}
             strokeWidth="2"
             strokeLinecap="round"
           />
@@ -111,8 +108,8 @@ export function BullionPriceCard({
           </div>
           <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
             isPositive 
-              ? "bg-emerald-500/20 text-emerald-400" 
-              : "bg-red-500/20 text-red-400"
+              ? "bg-bullion-success/20 text-bullion-success" 
+              : "bg-bullion-error/20 text-bullion-error"
           }`}>
             {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
             {isPositive ? "+" : ""}{changePercent.toFixed(2)}%
@@ -126,7 +123,7 @@ export function BullionPriceCard({
           <div className="text-sm text-muted-foreground">per gram</div>
         </div>
 
-        <div className={`mt-2 text-sm ${isPositive ? "text-emerald-400" : "text-red-400"}`}>
+        <div className={`mt-2 text-sm ${isPositive ? "text-bullion-success" : "text-bullion-error"}`}>
           {isPositive ? "+" : ""}₹{Math.abs(change).toFixed(2)} today
         </div>
 
@@ -136,7 +133,7 @@ export function BullionPriceCard({
             <Button 
               onClick={(e) => { e.stopPropagation(); onBuy?.(); }} 
               size="sm" 
-              className={`flex-1 ${config.buttonBg} font-medium`}
+              className={`flex-1 ${config.buyBg} font-medium`}
             >
               <ShoppingCart className="w-3 h-3 mr-1" />
               Buy {config.name}
@@ -145,8 +142,7 @@ export function BullionPriceCard({
               <Button 
                 onClick={(e) => { e.stopPropagation(); onSell?.(); }} 
                 size="sm" 
-                variant="outline"
-                className="flex-1"
+                className={`flex-1 ${config.sellBg}`}
               >
                 Sell {config.name}
               </Button>
