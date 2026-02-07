@@ -2,7 +2,29 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MfgNewSlideLayout } from './MfgNewSlideLayout';
 import { DalmiaCementSlide } from '@/data/dalmiaCementSlides';
-import { Database, Brain, Workflow, Monitor, TrendingUp, ArrowRight } from 'lucide-react';
+import { ExecutionStackDiagram, StackLayer } from '../shared/ExecutionStackDiagram';
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  Zap, 
+  Users,
+  Smartphone,
+  Monitor,
+  MessageCircle,
+  Globe,
+  DollarSign,
+  UserCheck,
+  Megaphone,
+  FileCheck,
+  Brain,
+  AlertTriangle,
+  CreditCard,
+  Heart,
+  Database,
+  ShoppingCart,
+  Award,
+  Cloud
+} from 'lucide-react';
 
 interface DalmiaVisionArchitectureSlideProps {
   slide: DalmiaCementSlide;
@@ -15,46 +37,56 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
   slideNumber,
   totalSlides
 }) => {
-  const flowSteps = [
-    { icon: Database, label: 'Data', color: 'bg-slate-100 text-slate-600 border-slate-200' },
-    { icon: Brain, label: 'AI Intelligence', color: 'bg-blue-100 text-blue-600 border-blue-200' },
-    { icon: Workflow, label: 'Agentic Workflows', color: 'bg-purple-100 text-purple-600 border-purple-200' },
-    { icon: Monitor, label: 'Digital Platform', color: 'bg-teal-100 text-teal-600 border-teal-200' },
-    { icon: TrendingUp, label: 'Revenue Growth', color: 'bg-amber-100 text-amber-600 border-amber-200' }
-  ];
-
-  const layers = [
+  const executionLayers: StackLayer[] = [
     {
-      number: 4,
-      title: 'SUVIDHA 2.0 Ecosystem',
-      description: 'Customer-facing digital platform',
-      color: 'from-amber-500 to-amber-600',
-      bgColor: 'bg-amber-50',
-      borderColor: 'border-amber-200'
+      label: 'Business Outcomes',
+      colorScheme: 'amber',
+      items: [
+        { icon: TrendingUp, label: 'Revenue ↑' },
+        { icon: TrendingDown, label: 'Cost ↓' },
+        { icon: Zap, label: 'Speed ↑' },
+        { icon: Users, label: 'Retention ↑' }
+      ]
     },
     {
-      number: 3,
-      title: 'Agentic Workflows',
-      description: 'Sales • Marketing • O2C',
-      color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200'
+      label: 'Platform Ecosystem',
+      colorScheme: 'teal',
+      items: [
+        { icon: Smartphone, label: 'SUVIDHA 2.0' },
+        { icon: Monitor, label: 'SM@RT-D' },
+        { icon: MessageCircle, label: 'WhatsApp' },
+        { icon: Globe, label: 'Dealer Portal' }
+      ]
     },
     {
-      number: 2,
-      title: 'AI Models',
-      description: 'Pricing • Demand • Churn • Credit',
-      color: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200'
+      label: 'Agentic Workflows',
+      colorScheme: 'purple',
+      items: [
+        { icon: DollarSign, label: 'Pricing' },
+        { icon: UserCheck, label: 'Sales' },
+        { icon: Megaphone, label: 'Marketing' },
+        { icon: FileCheck, label: 'O2C' }
+      ]
     },
     {
-      number: 1,
-      title: 'Dealer 360 Data Foundation',
-      description: 'Unified data layer',
-      color: 'from-slate-500 to-slate-600',
-      bgColor: 'bg-slate-50',
-      borderColor: 'border-slate-200'
+      label: 'AI Intelligence',
+      colorScheme: 'blue',
+      items: [
+        { icon: Brain, label: 'Demand' },
+        { icon: AlertTriangle, label: 'Churn' },
+        { icon: CreditCard, label: 'Credit' },
+        { icon: Heart, label: 'Sentiment' }
+      ]
+    },
+    {
+      label: 'Data Foundation',
+      colorScheme: 'slate',
+      items: [
+        { icon: Database, label: 'SAP' },
+        { icon: ShoppingCart, label: 'SUVIDHA' },
+        { icon: Award, label: 'Loyalty' },
+        { icon: Cloud, label: 'External' }
+      ]
     }
   ];
 
@@ -66,7 +98,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-3"
+          className="mb-2"
         >
           <span className="text-xs font-bold text-amber-600 uppercase tracking-widest">
             Vision & Architecture
@@ -77,74 +109,19 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-2xl md:text-3xl font-bold text-slate-900 mb-6"
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="text-2xl md:text-3xl font-bold text-slate-900 mb-4"
         >
           {slide.headline}
         </motion.h2>
 
-        {/* Flow Diagram - Top */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="flex items-center justify-center gap-1 mb-6"
-        >
-          {flowSteps.map((step, index) => {
-            const IconComponent = step.icon;
-            return (
-              <React.Fragment key={index}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
-                  className={`flex flex-col items-center p-3 rounded-lg border ${step.color} min-w-[90px]`}
-                >
-                  <IconComponent className="w-6 h-6 mb-1" />
-                  <span className="text-xs font-semibold text-center">{step.label}</span>
-                </motion.div>
-                
-                {index < flowSteps.length - 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    animate={{ opacity: 1, scaleX: 1 }}
-                    transition={{ delay: 0.35 + index * 0.1, duration: 0.2 }}
-                    className="flex items-center"
-                  >
-                    <div className="w-4 h-0.5 bg-slate-300" />
-                    <ArrowRight className="w-4 h-4 text-slate-400 -ml-0.5" />
-                  </motion.div>
-                )}
-              </React.Fragment>
-            );
-          })}
-        </motion.div>
-
-        {/* Capability Stack - Below */}
-        <div className="flex-1 flex items-center justify-center min-h-0">
-          <div className="w-full max-w-3xl space-y-2">
-            {layers.map((layer, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + index * 0.12, duration: 0.4 }}
-                className={`relative flex items-center gap-3 p-3 rounded-lg ${layer.bgColor} border ${layer.borderColor}`}
-                style={{ marginLeft: `${(3 - index) * 16}px`, marginRight: `${(3 - index) * 16}px` }}
-              >
-                {/* Layer Number Badge */}
-                <div className={`w-8 h-8 rounded-md bg-gradient-to-br ${layer.color} flex items-center justify-center flex-shrink-0`}>
-                  <span className="text-white font-bold text-sm">{layer.number}</span>
-                </div>
-                
-                {/* Content */}
-                <div className="flex-1 flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-slate-800">{layer.title}</h3>
-                  <p className="text-xs text-slate-500">{layer.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        {/* Execution Stack Diagram */}
+        <div className="flex-1 flex items-center justify-center min-h-0 overflow-hidden">
+          <ExecutionStackDiagram 
+            layers={executionLayers} 
+            animate={true}
+            compact={true}
+          />
         </div>
 
         {/* Bottom Message */}
@@ -152,7 +129,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.4 }}
-          className="mt-4 text-center"
+          className="mt-3 text-center"
         >
           <p className="text-sm text-slate-600 italic">
             "Dalmia evolves from <span className="font-semibold text-slate-800">manufacturer</span> to{' '}
