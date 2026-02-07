@@ -84,6 +84,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
   const accentBorder = isGold ? "border-bullion-gold-dark" : "border-bullion-silver-dark";
   const accentBg10 = isGold ? "bg-bullion-gold/10" : "bg-bullion-silver/10";
   const accentBorder20 = isGold ? "border-bullion-gold/20" : "border-bullion-silver/20";
+  const accentDarkButtonText = isGold ? "text-white" : "text-black";
 
   useEffect(() => {
     const sipConfig = config.sip[frequency];
@@ -292,6 +293,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
           <div className="text-6xl">{metal === "gold" ? "🪙" : "🥈"}</div>
         </div>
 
+
         {/* Bottom Panel */}
         <div className="bg-background rounded-t-3xl p-6 space-y-5 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
           {/* Mode Toggle */}
@@ -301,7 +303,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
                 onClick={() => setMode("sip")}
                 className={cn(
                   "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
-                  mode === "sip" ? `${accentDark} text-white` : "text-muted-foreground"
+                  mode === "sip" ? `${accentDark} ${accentDarkButtonText}` : "text-muted-foreground"
                 )}
               >
                 Setup SIP
@@ -310,7 +312,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
                 onClick={() => setMode("onetime")}
                 className={cn(
                   "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
-                  mode === "onetime" ? `${accentDark} text-white` : "text-muted-foreground"
+                  mode === "onetime" ? `${accentDark} ${accentDarkButtonText}` : "text-muted-foreground"
                 )}
               >
                 One Time
