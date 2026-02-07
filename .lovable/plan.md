@@ -1,209 +1,272 @@
 
 
-# Dalmia Cement - AI Commercial Transformation Blueprint
+# Dalmia Cement - Consolidated 12-Slide Deck
 
-## Implementation Plan
+## Overview
 
-This plan creates a new premium CEO-level consulting pitch deck titled "Dalmia Cement - AI Commercial Transformation Blueprint" accessible at `/manufacturing-pitch-new`. The deck will follow McKinsey/BCG strategy presentation standards with 18 slides focused on commercial transformation (Sales, Marketing, Demand Planning, O2C, Digital Platform).
-
----
-
-## Architecture Overview
-
-Since the user specified that all changes should be on `manufacturing-pitch-new`, I will:
-
-1. **Replace** the existing `manufacturingNewSlides.ts` data with the Dalmia Cement content
-2. **Create new slide components** specific to Dalmia Cement (reusing the layout system)
-3. **Update the slide renderer** to handle new slide types
-4. **Save the full prompt/task list** to `src/data/manufacturing.md` for reference
+This plan consolidates the current 18 slides into **12 slides** while preserving all key content and executive impact. The goal is a tighter, more focused presentation for CEO-level audiences.
 
 ---
 
-## File Structure
+## Consolidation Strategy
+
+| New Slide # | Title | Merged From | Rationale |
+|-------------|-------|-------------|-----------|
+| 1 | Cover | Slide 1 | Keep as-is |
+| 2 | CEO Imperative | Slide 2 | Keep as-is |
+| 3 | Value Pools | Slide 3 | Keep as-is |
+| 4 | Current State & Gap | Slides 4 + 5 | Combine "Dalmia Today" with "Benchmark Gap" - both assess current position |
+| 5 | Vision & Architecture | Slides 6 + 7 | Merge "North Star" flow with "Capability Stack" layers |
+| 6 | AI Dynamic Pricing | Slide 8 | Keep as-is (highest impact initiative) |
+| 7 | Sales & Dealer Intelligence | Slides 9 + 10 | Combine Sales Copilot with Dealer 360 platform |
+| 8 | Marketing & Engagement | Slides 11 + 12 | Merge Marketing Engine with Loyalty 2.0 |
+| 9 | Supply Chain AI | Slides 13 + 14 | Combine Demand Sensing with O2C Automation |
+| 10 | SUVIDHA 2.0 | Slide 15 | Keep as-is (platform cornerstone) |
+| 11 | Value Map | Slide 16 | Keep as-is (ROI summary) |
+| 12 | Roadmap & Ask | Slides 17 + 18 | Merge timeline with operating model and board ask |
+
+---
+
+## Implementation Details
+
+### Files to Update
 
 ```text
-src/
-├── data/
-│   ├── manufacturing.md                    # NEW - Full prompt/task list
-│   ├── dalmiaCementSlides.ts               # NEW - Slide data (18 slides)
-│   └── manufacturingNewSlides.ts           # UPDATED - Import from dalmiaCementSlides
-├── components/pitch/manufacturing-new/
-│   ├── MfgNewSlideLayout.tsx               # KEEP - White bg, minimal footer
-│   ├── MfgNewSlideRenderer.tsx             # UPDATED - Handle new Dalmia slide types
-│   ├── DalmiaCoverSlide.tsx                # NEW - Slide 1
-│   ├── DalmiaCEOImperativeSlide.tsx        # NEW - Slide 2
-│   ├── DalmiaValuePoolsSlide.tsx           # NEW - Slide 3
-│   ├── DalmiaTodaySlide.tsx                # NEW - Slide 4
-│   ├── DalmiaBenchmarkSlide.tsx            # NEW - Slide 5
-│   ├── DalmiaNorthStarSlide.tsx            # NEW - Slide 6
-│   ├── DalmiaCapabilityStackSlide.tsx      # NEW - Slide 7
-│   ├── DalmiaDynamicPricingSlide.tsx       # NEW - Slide 8
-│   ├── DalmiaSalesIntelligenceSlide.tsx    # NEW - Slide 9
-│   ├── DalmiaDealer360Slide.tsx            # NEW - Slide 10
-│   ├── DalmiaMarketingEngineSlide.tsx      # NEW - Slide 11
-│   ├── DalmiaLoyalty2Slide.tsx             # NEW - Slide 12
-│   ├── DalmiaDemandSensingSlide.tsx        # NEW - Slide 13
-│   ├── DalmiaO2CSlide.tsx                  # NEW - Slide 14
-│   ├── DalmiaSuvidha2Slide.tsx             # NEW - Slide 15
-│   ├── DalmiaValueMapSlide.tsx             # NEW - Slide 16
-│   ├── DalmiaRoadmapSlide.tsx              # NEW - Slide 17
-│   └── DalmiaOperatingModelSlide.tsx       # NEW - Slide 18
-└── pages/
-    └── ManufacturingPitchNew.tsx           # KEEP - Already handles navigation
+src/data/dalmiaCementSlides.ts        # UPDATE - Reduce to 12 slides
+src/data/manufacturingNewSlides.ts    # No change (re-exports)
+src/components/pitch/manufacturing-new/
+  ├── MfgNewSlideRenderer.tsx         # UPDATE - Handle new merged types
+  ├── DalmiaCurrentStateSlide.tsx     # NEW - Merges Today + Benchmark
+  ├── DalmiaVisionArchitectureSlide.tsx  # NEW - Merges NorthStar + Stack
+  ├── DalmiaSalesDealer360Slide.tsx   # NEW - Merges Sales + Dealer360
+  ├── DalmiaMarketingEngagementSlide.tsx # NEW - Merges Marketing + Loyalty
+  ├── DalmiaSupplyChainSlide.tsx      # NEW - Merges Demand + O2C
+  ├── DalmiaRoadmapAskSlide.tsx       # NEW - Merges Roadmap + Ask
+```
+
+### Components to Keep (6)
+- `DalmiaCoverSlide.tsx`
+- `DalmiaCEOImperativeSlide.tsx`
+- `DalmiaValuePoolsSlide.tsx`
+- `DalmiaDynamicPricingSlide.tsx`
+- `DalmiaSuvidha2Slide.tsx`
+- `DalmiaValueMapSlide.tsx`
+
+### Components to Remove (12)
+After implementation, these can be deleted:
+- `DalmiaTodaySlide.tsx`
+- `DalmiaBenchmarkSlide.tsx`
+- `DalmiaNorthStarSlide.tsx`
+- `DalmiaCapabilityStackSlide.tsx`
+- `DalmiaSalesIntelligenceSlide.tsx`
+- `DalmiaDealer360Slide.tsx`
+- `DalmiaMarketingEngineSlide.tsx`
+- `DalmiaLoyalty2Slide.tsx`
+- `DalmiaDemandSensingSlide.tsx`
+- `DalmiaO2CSlide.tsx`
+- `DalmiaRoadmapSlide.tsx`
+- `DalmiaOperatingModelSlide.tsx`
+
+---
+
+## Merged Slide Designs
+
+### Slide 4: Current State & Gap
+
+Layout: Split screen
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ CURRENT STATE & GAP                                         │
+├───────────────────────────────┬─────────────────────────────┤
+│ Left Panel: Dalmia Today      │ Right Panel: Benchmark      │
+│                               │                             │
+│ • 49,300 channel partners     │    ┌──────┐  ┌──────┐       │
+│ • SUVIDHA ~35% digital        │    │ 35%  │  │ 93%  │       │
+│ • SM@RT-D sales app           │    │Dalmia│  │CEMEX │       │
+│ • Dalmia Delight loyalty      │    └──────┘  └──────┘       │
+│ • DriverSathi logistics       │                             │
+│                               │ Gap = ₹200-500 Cr value     │
+│ ⚠ No integrated AI layer     │                             │
+└───────────────────────────────┴─────────────────────────────┘
+```
+
+### Slide 5: Vision & Architecture
+
+Layout: Flow at top, stack below
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ VISION & ARCHITECTURE                                       │
+├─────────────────────────────────────────────────────────────┤
+│ Flow: Data → AI → Workflows → Platform → Revenue            │
+├─────────────────────────────────────────────────────────────┤
+│ Stack (compact):                                            │
+│ ┌──────────────────────────────────────────────────────┐    │
+│ │ L4: SUVIDHA 2.0 Ecosystem                            │    │
+│ ├──────────────────────────────────────────────────────┤    │
+│ │ L3: Agentic Workflows (Sales, Marketing, O2C)        │    │
+│ ├──────────────────────────────────────────────────────┤    │
+│ │ L2: AI Models (Pricing, Demand, Churn, Credit)       │    │
+│ ├──────────────────────────────────────────────────────┤    │
+│ │ L1: Dealer 360 Data Foundation                       │    │
+│ └──────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Slide 7: Sales & Dealer Intelligence
+
+Layout: Two columns with impacts
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ SALES & DEALER INTELLIGENCE                                 │
+├───────────────────────────────┬─────────────────────────────┤
+│ SM@RT-D → AI Sales Copilot    │ Dealer 360 Platform         │
+│                               │                             │
+│ • Visit prioritization        │ Data Sources → [Hub] → Out  │
+│ • Next best product           │ • SAP                       │
+│ • Churn alerts                │ • SUVIDHA                   │
+│ • Territory optimization      │ • Loyalty                   │
+│                               │ • Field notes               │
+│ Impact: 8-15% productivity    │ • Market data               │
+├───────────────────────────────┴─────────────────────────────┤
+│ Combined: ₹50-100 Cr (Sales) + ₹30-60 Cr (Dealer360)        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Slide 8: Marketing & Engagement
+
+Layout: Capabilities grid + Loyalty evolution
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ MARKETING & ENGAGEMENT                                      │
+├─────────────────────────────────────────────────────────────┤
+│ Marketing Capabilities (2x2 grid):                          │
+│ ┌─────────────┐ ┌─────────────┐                             │
+│ │ Hotspot     │ │ Contractor  │                             │
+│ │ Detection   │ │ Intelligence│                             │
+│ └─────────────┘ └─────────────┘                             │
+│ ┌─────────────┐ ┌─────────────┐                             │
+│ │ Regional    │ │ WhatsApp    │                             │
+│ │ Content     │ │ Campaigns   │                             │
+│ └─────────────┘ └─────────────┘                             │
+├─────────────────────────────────────────────────────────────┤
+│ Loyalty: Points Program → Engagement Ecosystem              │
+│ [Tier upgrades] [Rewards] [Gamification] [Tracking]         │
+├─────────────────────────────────────────────────────────────┤
+│ Combined Impact: ₹80-150 Cr + ₹40-80 Cr                     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Slide 9: Supply Chain AI
+
+Layout: Two sections with flow diagrams
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ SUPPLY CHAIN AI                                             │
+├───────────────────────────────┬─────────────────────────────┤
+│ Demand Sensing                │ Order to Cash               │
+│                               │                             │
+│ Excel → AI Forecasting        │ Order → ATP → Credit →      │
+│                               │ Invoice → Cash              │
+│ • Weekly rolling forecasts    │                             │
+│ • Weather + infra data        │ • Smart recommendations     │
+│ • Scenario simulation         │ • Real-time availability    │
+│                               │ • AI credit scoring         │
+│ 65% → 85% accuracy            │ • Auto invoicing            │
+├───────────────────────────────┴─────────────────────────────┤
+│ Impact: ₹100-200 Cr (WC) + ₹150-300 Cr (DSO)                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Slide 12: Roadmap & Ask
+
+Layout: Timeline at top, Ask at bottom
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ ROADMAP & ASK                                               │
+├─────────────────────────────────────────────────────────────┤
+│ Timeline:                                                   │
+│ ──────────────────────────────────────────────────────────► │
+│ ┌────────────┐  ┌────────────┐  ┌────────────┐             │
+│ │ Phase 1    │  │ Phase 2    │  │ Phase 3    │             │
+│ │ 0-6 months │  │ 6-15 months│  │ 15-24 mo   │             │
+│ │ Foundation │  │ Rollout    │  │ Scale      │             │
+│ └────────────┘  └────────────┘  └────────────┘             │
+├─────────────────────────────────────────────────────────────┤
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │ BOARD DECISION                                          │ │
+│ │ Approve AI Commercial Transformation Program            │ │
+│ │                                                         │ │
+│ │ Investment: ₹106-202 Cr  │  Value: ₹870-1,720 Cr       │ │
+│ │                          │  ROI: 8-10×                 │ │
+│ └─────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Slide Type Mapping
+## Data Structure Updates
 
-| Slide | Type | Visual Element | Component |
-|-------|------|----------------|-----------|
-| 1 | `dalmia-cover` | Title + subtitle | `DalmiaCoverSlide` |
-| 2 | `dalmia-imperative` | Old→New transformation arrow | `DalmiaCEOImperativeSlide` |
-| 3 | `dalmia-value-pools` | Triangle diagram (3 pools) | `DalmiaValuePoolsSlide` |
-| 4 | `dalmia-today` | Fragmented systems diagram | `DalmiaTodaySlide` |
-| 5 | `dalmia-benchmark` | Bar comparison chart | `DalmiaBenchmarkSlide` |
-| 6 | `dalmia-northstar` | Flow diagram (Data→AI→Platform→Revenue) | `DalmiaNorthStarSlide` |
-| 7 | `dalmia-capability-stack` | 4-layer architecture | `DalmiaCapabilityStackSlide` |
-| 8 | `dalmia-pricing` | Problem/Solution/Impact | `DalmiaDynamicPricingSlide` |
-| 9 | `dalmia-sales` | Copilot capabilities | `DalmiaSalesIntelligenceSlide` |
-| 10 | `dalmia-dealer360` | Data hub diagram | `DalmiaDealer360Slide` |
-| 11 | `dalmia-marketing` | Capability cards | `DalmiaMarketingEngineSlide` |
-| 12 | `dalmia-loyalty` | Evolution timeline | `DalmiaLoyalty2Slide` |
-| 13 | `dalmia-demand` | Forecast improvement visual | `DalmiaDemandSensingSlide` |
-| 14 | `dalmia-o2c` | O2C flow diagram | `DalmiaO2CSlide` |
-| 15 | `dalmia-suvidha` | Platform feature grid | `DalmiaSuvidha2Slide` |
-| 16 | `dalmia-valuemap` | Value table with ROI | `DalmiaValueMapSlide` |
-| 17 | `dalmia-roadmap` | 3-phase timeline | `DalmiaRoadmapSlide` |
-| 18 | `dalmia-operating-model` | KPIs + Decision ask | `DalmiaOperatingModelSlide` |
-
----
-
-## Design System
-
-Following McKinsey/BCG minimal consulting style:
-
-- **Background**: White (`#FFFFFF`)
-- **Headlines**: `text-3xl font-bold text-slate-900`
-- **Body text**: `text-base text-slate-700`
-- **Accent color**: Amber/Gold (`#F59E0B`) for highlights
-- **Secondary accent**: Teal (`#14B8A6`) for transformation arrows
-- **Cards**: Light gray bg (`#F8FAFC`) with subtle borders
-- **Charts**: Clean SVG with minimal grid lines
-- **Layout**: Large headlines, minimal text, executive clarity
-
----
-
-## Technical Specifications
-
-### 1. Data File: `dalmiaCementSlides.ts`
+The consolidated slide data will have new types:
 
 ```typescript
-export interface DalmiaCementSlide {
-  id: number;
-  type: string;
-  headline: string;
-  speakerNotes: string;
-  [key: string]: any;
-}
+// New slide types
+| 'dalmia-current-state'      // Merges today + benchmark
+| 'dalmia-vision-architecture' // Merges northstar + stack
+| 'dalmia-sales-dealer360'    // Merges sales + dealer
+| 'dalmia-marketing-engagement' // Merges marketing + loyalty
+| 'dalmia-supply-chain'       // Merges demand + o2c
+| 'dalmia-roadmap-ask'        // Merges roadmap + operating model
 ```
 
-Each slide will include:
-- `speakerNotes` field for presenter guidance
-- Structured content matching the exact requirements
-- Type-safe data for rendering
+---
 
-### 2. Visual Components
+## Execution Order
 
-Each slide component will:
-- Use `MfgNewSlideLayout` for consistent framing
-- Include Framer Motion animations (subtle, purposeful)
-- Be optimized for 16:9 aspect ratio
-- Support PDF screenshot export
+### Step 1: Data Layer
+1. Update `dalmiaCementSlides.ts` with 12 consolidated slides
 
-### 3. Diagrams (Built with React/SVG)
+### Step 2: New Merged Components
+2. Create `DalmiaCurrentStateSlide.tsx`
+3. Create `DalmiaVisionArchitectureSlide.tsx`
+4. Create `DalmiaSalesDealer360Slide.tsx`
+5. Create `DalmiaMarketingEngagementSlide.tsx`
+6. Create `DalmiaSupplyChainSlide.tsx`
+7. Create `DalmiaRoadmapAskSlide.tsx`
 
-| Slide | Diagram Type | Implementation |
-|-------|--------------|----------------|
-| 2 | Transformation Arrow | Flex row with arrow icon |
-| 3 | Triangle | CSS borders or SVG path |
-| 4 | Fragmented Systems | Grid with dotted connections |
-| 5 | Bar Chart | Recharts BarChart component |
-| 6 | Flow Diagram | Flex row with arrow connectors |
-| 7 | Layered Stack | Stacked cards with gradient |
-| 16 | Value Table | Table with totals row |
-| 17 | Timeline | Horizontal phases with milestones |
+### Step 3: Integration
+8. Update `MfgNewSlideRenderer.tsx` to use new components
 
 ---
 
-## Implementation Order
+## Final Slide Order
 
-### Phase 1: Data Layer
-1. Create `src/data/manufacturing.md` with full prompt/task list
-2. Create `src/data/dalmiaCementSlides.ts` with all 18 slides data
-3. Update `manufacturingNewSlides.ts` to export Dalmia slides
-
-### Phase 2: Core Slides (1-6)
-4. Create `DalmiaCoverSlide.tsx`
-5. Create `DalmiaCEOImperativeSlide.tsx` with transformation arrow
-6. Create `DalmiaValuePoolsSlide.tsx` with triangle diagram
-7. Create `DalmiaTodaySlide.tsx` with systems diagram
-8. Create `DalmiaBenchmarkSlide.tsx` with bar chart
-9. Create `DalmiaNorthStarSlide.tsx` with flow diagram
-
-### Phase 3: Capability Slides (7-12)
-10. Create `DalmiaCapabilityStackSlide.tsx` with 4-layer architecture
-11. Create `DalmiaDynamicPricingSlide.tsx`
-12. Create `DalmiaSalesIntelligenceSlide.tsx`
-13. Create `DalmiaDealer360Slide.tsx`
-14. Create `DalmiaMarketingEngineSlide.tsx`
-15. Create `DalmiaLoyalty2Slide.tsx`
-
-### Phase 4: Impact & Close Slides (13-18)
-16. Create `DalmiaDemandSensingSlide.tsx`
-17. Create `DalmiaO2CSlide.tsx`
-18. Create `DalmiaSuvidha2Slide.tsx`
-19. Create `DalmiaValueMapSlide.tsx` with value table
-20. Create `DalmiaRoadmapSlide.tsx` with timeline
-21. Create `DalmiaOperatingModelSlide.tsx` with KPIs
-
-### Phase 5: Integration
-22. Update `MfgNewSlideRenderer.tsx` to handle all `dalmia-*` slide types
-23. Verify navigation and presentation mode
+| # | Type | Title |
+|---|------|-------|
+| 1 | `dalmia-cover` | Dalmia Cement - AI Commercial Transformation Blueprint |
+| 2 | `dalmia-imperative` | The CEO Imperative |
+| 3 | `dalmia-value-pools` | Three Value Pools |
+| 4 | `dalmia-current-state` | Current State & Gap |
+| 5 | `dalmia-vision-architecture` | Vision & Architecture |
+| 6 | `dalmia-pricing` | AI Dynamic Pricing |
+| 7 | `dalmia-sales-dealer360` | Sales & Dealer Intelligence |
+| 8 | `dalmia-marketing-engagement` | Marketing & Engagement |
+| 9 | `dalmia-supply-chain` | Supply Chain AI |
+| 10 | `dalmia-suvidha` | SUVIDHA 2.0 |
+| 11 | `dalmia-valuemap` | Value Map |
+| 12 | `dalmia-roadmap-ask` | Roadmap & Ask |
 
 ---
 
-## Slide Content Summary
+## Benefits
 
-| # | Title | Key Visual | Impact Metric |
-|---|-------|------------|---------------|
-| 1 | Cover | Title card | - |
-| 2 | CEO Imperative | Old→New arrow | Industry shift |
-| 3 | Value Pools | Triangle | 3 value pools |
-| 4 | Dalmia Today | System fragments | 35% digital |
-| 5 | Benchmark Gap | Bar chart | 93% vs 35% |
-| 6 | North Star | Flow diagram | Platform vision |
-| 7 | Capability Stack | 4 layers | Full architecture |
-| 8 | Dynamic Pricing | Impact card | ₹140-280 Cr |
-| 9 | Sales Intelligence | Copilot features | 8-15% uplift |
-| 10 | Dealer 360 | Data hub | Unified view |
-| 11 | Marketing Engine | 4 capabilities | 20-30% ROI |
-| 12 | Loyalty 2.0 | Evolution | Engagement |
-| 13 | Demand Sensing | Accuracy chart | 65%→85% |
-| 14 | O2C AI | Flow diagram | ₹150-300 Cr |
-| 15 | SUVIDHA 2.0 | Feature grid | 80% digital |
-| 16 | Value Map | Table | ₹870-1,720 Cr |
-| 17 | Roadmap | Timeline | 24 months |
-| 18 | Operating Model | KPIs + Ask | Board decision |
-
----
-
-## Key Deliverables
-
-1. **18 fully-designed slides** with speaker notes
-2. **Clean consulting visuals** (diagrams, charts, tables)
-3. **Executive storytelling** flow from problem to ask
-4. **PDF-ready layout** (screenshot-friendly)
-5. **Keyboard navigation** (existing system preserved)
-6. **Full prompt saved** to `manufacturing.md`
+- **Tighter narrative**: 12 slides vs 18 = 33% reduction
+- **Better pacing**: Each slide now has more visual density
+- **Executive focus**: Consolidation highlights key decisions
+- **All content preserved**: No data or metrics lost
 
