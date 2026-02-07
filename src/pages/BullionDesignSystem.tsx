@@ -1,38 +1,69 @@
-import { useState } from "react";
-import { ArrowLeft, Copy, Check, Sun, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeft, Copy, Check, Sun, Moon, Coins, Medal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-// Color definitions matching index.css
-const colorPalette = {
+// Centralized color definitions - LIGHT mode
+const lightColors = {
   gold: [
-    { name: "bullion-gold", hsl: "43 96% 56%", usage: "Primary gold accent, CTAs, highlights", preview: "hsl(43, 96%, 56%)" },
-    { name: "bullion-gold-dark", hsl: "43 96% 46%", usage: "Hover states, emphasis", preview: "hsl(43, 96%, 46%)" },
-    { name: "bullion-gold-light", hsl: "43 96% 70%", usage: "Backgrounds, subtle accents", preview: "hsl(43, 96%, 70%)" },
-    { name: "bullion-gold-muted", hsl: "43 40% 85%", usage: "Disabled states, borders", preview: "hsl(43, 40%, 85%)" },
+    { name: "bullion-gold", hsl: "43 96% 56%", hex: "#F2B705", usage: "Primary gold accent, Buy CTAs" },
+    { name: "bullion-gold-dark", hsl: "43 96% 46%", hex: "#C89604", usage: "Sell CTAs, hover states" },
+    { name: "bullion-gold-light", hsl: "43 96% 70%", hex: "#F7D166", usage: "Backgrounds, subtle accents" },
+    { name: "bullion-gold-muted", hsl: "43 40% 85%", hex: "#E3DBCA", usage: "Disabled states, card tints" },
   ],
   silver: [
-    { name: "bullion-silver", hsl: "220 14% 70%", usage: "Primary silver accent", preview: "hsl(220, 14%, 70%)" },
-    { name: "bullion-silver-dark", hsl: "220 14% 50%", usage: "Hover states, emphasis", preview: "hsl(220, 14%, 50%)" },
-    { name: "bullion-silver-light", hsl: "220 14% 85%", usage: "Backgrounds, subtle accents", preview: "hsl(220, 14%, 85%)" },
-    { name: "bullion-silver-muted", hsl: "220 10% 92%", usage: "Disabled states, borders", preview: "hsl(220, 10%, 92%)" },
+    { name: "bullion-silver", hsl: "215 25% 75%", hex: "#A9B4C4", usage: "Primary silver accent, Buy CTAs" },
+    { name: "bullion-silver-dark", hsl: "215 20% 52%", hex: "#6B7D94", usage: "Sell CTAs, hover states" },
+    { name: "bullion-silver-light", hsl: "215 22% 88%", hex: "#D6DBE3", usage: "Backgrounds, subtle accents" },
+    { name: "bullion-silver-muted", hsl: "215 15% 93%", hex: "#ECEEF1", usage: "Disabled states, card tints" },
   ],
   semantic: [
-    { name: "bullion-success", hsl: "152 76% 40%", usage: "Positive changes, confirmations", preview: "hsl(152, 76%, 40%)" },
-    { name: "bullion-success-light", hsl: "152 76% 90%", usage: "Success backgrounds", preview: "hsl(152, 76%, 90%)" },
-    { name: "bullion-warning", hsl: "38 92% 50%", usage: "Warnings, pending states", preview: "hsl(38, 92%, 50%)" },
-    { name: "bullion-warning-light", hsl: "38 92% 90%", usage: "Warning backgrounds", preview: "hsl(38, 92%, 90%)" },
-    { name: "bullion-error", hsl: "0 84% 60%", usage: "Errors, negative changes", preview: "hsl(0, 84%, 60%)" },
-    { name: "bullion-error-light", hsl: "0 84% 95%", usage: "Error backgrounds", preview: "hsl(0, 84%, 95%)" },
+    { name: "bullion-success", hsl: "152 76% 40%", hex: "#18B868", usage: "Positive changes, confirmations" },
+    { name: "bullion-success-light", hsl: "152 76% 90%", hex: "#D4F5E5", usage: "Success backgrounds" },
+    { name: "bullion-warning", hsl: "38 92% 50%", hex: "#F5A508", usage: "Warnings, pending states" },
+    { name: "bullion-warning-light", hsl: "38 92% 90%", hex: "#FEF0D4", usage: "Warning backgrounds" },
+    { name: "bullion-error", hsl: "0 84% 60%", hex: "#EF4444", usage: "Errors, negative changes" },
+    { name: "bullion-error-light", hsl: "0 84% 95%", hex: "#FEE2E2", usage: "Error backgrounds" },
   ],
   surface: [
-    { name: "bullion-surface", hsl: "220 20% 97%", usage: "Page backgrounds", preview: "hsl(220, 20%, 97%)" },
-    { name: "bullion-surface-elevated", hsl: "0 0% 100%", usage: "Cards, modals", preview: "hsl(0, 0%, 100%)" },
-    { name: "bullion-text-primary", hsl: "220 20% 10%", usage: "Primary text, headings", preview: "hsl(220, 20%, 10%)" },
-    { name: "bullion-text-secondary", hsl: "220 10% 45%", usage: "Secondary text, descriptions", preview: "hsl(220, 10%, 45%)" },
-    { name: "bullion-border", hsl: "220 15% 90%", usage: "Borders, dividers", preview: "hsl(220, 15%, 90%)" },
+    { name: "bullion-surface", hsl: "220 20% 97%", hex: "#F5F6F8", usage: "Page backgrounds" },
+    { name: "bullion-surface-elevated", hsl: "0 0% 100%", hex: "#FFFFFF", usage: "Cards, modals" },
+    { name: "bullion-text-primary", hsl: "220 20% 10%", hex: "#151821", usage: "Primary text, headings" },
+    { name: "bullion-text-secondary", hsl: "220 10% 45%", hex: "#686E7D", usage: "Secondary text" },
+    { name: "bullion-border", hsl: "220 15% 90%", hex: "#E2E4E9", usage: "Borders, dividers" },
+  ],
+};
+
+// DARK mode colors
+const darkColors = {
+  gold: [
+    { name: "bullion-gold", hsl: "43 96% 56%", hex: "#F2B705", usage: "Primary gold accent (same)" },
+    { name: "bullion-gold-dark", hsl: "43 96% 66%", hex: "#F5C842", usage: "Lighter for dark bg contrast" },
+    { name: "bullion-gold-light", hsl: "43 96% 40%", hex: "#B38504", usage: "Muted gold for dark mode" },
+    { name: "bullion-gold-muted", hsl: "43 30% 20%", hex: "#3D3522", usage: "Subtle tinted backgrounds" },
+  ],
+  silver: [
+    { name: "bullion-silver", hsl: "215 30% 80%", hex: "#B8C4D4", usage: "Brighter silver for dark bg" },
+    { name: "bullion-silver-dark", hsl: "215 25% 85%", hex: "#CBD3DE", usage: "Lighter variant (text: black)" },
+    { name: "bullion-silver-light", hsl: "215 20% 35%", hex: "#47556A", usage: "Muted silver for dark mode" },
+    { name: "bullion-silver-muted", hsl: "215 15% 18%", hex: "#282D35", usage: "Subtle tinted backgrounds" },
+  ],
+  semantic: [
+    { name: "bullion-success", hsl: "152 76% 45%", hex: "#1CC872", usage: "Positive (brighter)" },
+    { name: "bullion-success-light", hsl: "152 50% 15%", hex: "#132B1E", usage: "Success tinted bg" },
+    { name: "bullion-warning", hsl: "38 92% 55%", hex: "#F7B21A", usage: "Warning (brighter)" },
+    { name: "bullion-warning-light", hsl: "38 50% 15%", hex: "#362D13", usage: "Warning tinted bg" },
+    { name: "bullion-error", hsl: "0 84% 60%", hex: "#EF4444", usage: "Error (same)" },
+    { name: "bullion-error-light", hsl: "0 50% 15%", hex: "#391313", usage: "Error tinted bg" },
+  ],
+  surface: [
+    { name: "bullion-surface", hsl: "220 15% 8%", hex: "#121418", usage: "Dark page background" },
+    { name: "bullion-surface-elevated", hsl: "220 15% 12%", hex: "#1A1D24", usage: "Dark cards, modals" },
+    { name: "bullion-text-primary", hsl: "0 0% 98%", hex: "#FAFAFA", usage: "Light text on dark" },
+    { name: "bullion-text-secondary", hsl: "220 10% 65%", hex: "#9AA0AD", usage: "Muted text on dark" },
+    { name: "bullion-border", hsl: "220 15% 20%", hex: "#2D3240", usage: "Dark mode borders" },
   ],
 };
 
@@ -42,19 +73,19 @@ const typographyScale = [
   { name: "Heading 2", class: "text-xl font-semibold", example: "Gold Holdings", usage: "Card titles, subsections" },
   { name: "Heading 3", class: "text-lg font-semibold", example: "Live Prices", usage: "Widget titles" },
   { name: "Body Large", class: "text-base", example: "Start investing in digital gold today.", usage: "Primary content" },
-  { name: "Body", class: "text-sm", example: "Gold has preserved wealth for 5000+ years.", usage: "Descriptions, paragraphs" },
+  { name: "Body", class: "text-sm", example: "Gold has preserved wealth for 5000+ years.", usage: "Descriptions" },
   { name: "Caption", class: "text-xs", example: "Last updated 2 min ago", usage: "Meta info, timestamps" },
   { name: "Overline", class: "text-xs font-semibold uppercase tracking-wide", example: "LEARN & GROW", usage: "Section labels" },
 ];
 
 const buttonExamples = [
-  { label: "Primary Gold", class: "bg-amber-500 hover:bg-amber-600 text-black", usage: "Buy gold actions" },
-  { label: "Primary Silver", class: "bg-slate-400 hover:bg-slate-500 text-black", usage: "Buy silver actions" },
-  { label: "Secondary Gold", class: "bg-amber-700 hover:bg-amber-800 text-white", usage: "Sell gold actions" },
-  { label: "Secondary Silver", class: "bg-slate-600 hover:bg-slate-700 text-white", usage: "Sell silver actions" },
-  { label: "Success", class: "bg-emerald-600 hover:bg-emerald-700 text-white", usage: "Confirm, proceed" },
-  { label: "Outline", class: "border border-border bg-transparent hover:bg-muted", usage: "Secondary actions" },
-  { label: "Ghost", class: "bg-transparent hover:bg-muted", usage: "Tertiary actions" },
+  { label: "Buy Gold", class: "bg-bullion-gold hover:bg-bullion-gold-dark text-black", usage: "Primary gold Buy CTA" },
+  { label: "Buy Silver", class: "bg-bullion-silver hover:bg-bullion-silver-dark text-black", usage: "Primary silver Buy CTA" },
+  { label: "Sell Gold", class: "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white border border-border", usage: "Gold Sell CTA" },
+  { label: "Sell Silver", class: "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black border border-border", usage: "Silver Sell CTA (text: black)" },
+  { label: "Success", class: "bg-bullion-success hover:bg-bullion-success/90 text-white", usage: "Confirm, proceed" },
+  { label: "Done", class: "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white border border-border", usage: "Done/Close actions (with border)" },
+  { label: "Outline", class: "border border-border bg-transparent hover:bg-muted text-foreground", usage: "Secondary actions" },
 ];
 
 const spacingScale = [
@@ -66,7 +97,7 @@ const spacingScale = [
   { name: "2xl", value: "32px", class: "gap-8 p-8", usage: "Major sections" },
 ];
 
-function ColorSwatch({ color, isDark }: { color: typeof colorPalette.gold[0]; isDark: boolean }) {
+function ColorSwatch({ color }: { color: { name: string; hsl: string; hex: string; usage: string } }) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = (text: string) => {
@@ -80,7 +111,7 @@ function ColorSwatch({ color, isDark }: { color: typeof colorPalette.gold[0]; is
     <div className="group">
       <div
         className="h-16 rounded-lg mb-2 border border-border flex items-center justify-center cursor-pointer transition-transform hover:scale-105"
-        style={{ backgroundColor: color.preview }}
+        style={{ backgroundColor: `hsl(${color.hsl})` }}
         onClick={() => copyToClipboard(`var(--${color.name})`)}
       >
         {copied ? (
@@ -89,69 +120,80 @@ function ColorSwatch({ color, isDark }: { color: typeof colorPalette.gold[0]; is
           <Copy className="w-4 h-4 text-white/0 group-hover:text-white/80 drop-shadow-md transition-colors" />
         )}
       </div>
-      <p className={`text-xs font-mono font-medium ${isDark ? 'text-foreground' : 'text-bullion-text-primary'}`}>
-        --{color.name}
-      </p>
-      <p className={`text-xs font-mono ${isDark ? 'text-muted-foreground' : 'text-bullion-text-secondary'}`}>
-        {color.hsl}
-      </p>
-      <p className={`text-xs mt-1 ${isDark ? 'text-muted-foreground' : 'text-bullion-text-secondary'}`}>
-        {color.usage}
-      </p>
+      <p className="text-xs font-mono font-medium text-foreground">--{color.name}</p>
+      <p className="text-xs font-mono text-muted-foreground">{color.hsl}</p>
+      <p className="text-xs font-mono text-muted-foreground">{color.hex}</p>
+      <p className="text-xs mt-1 text-muted-foreground">{color.usage}</p>
     </div>
   );
 }
 
 export default function BullionDesignSystem() {
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle("dark");
+    setIsDark(!isDark);
+  };
+
+  const activeColors = isDark ? darkColors : lightColors;
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-900 text-white' : 'bg-bullion-surface text-bullion-text-primary'}`}>
-      {/* Header */}
-      <header className={`sticky top-0 z-50 ${isDark ? 'bg-slate-900/95' : 'bg-white/95'} backdrop-blur-md border-b border-border`}>
+    <div className="min-h-screen bg-background text-foreground transition-colors">
+      {/* Header with Theme Toggle */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion")}>
+            <Button variant="ghost" size="icon" className="hover:bg-muted" onClick={() => navigate("/bullion")}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
               <h1 className="text-xl font-bold">Bullion Design System</h1>
-              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-                Color palette, typography, and component guidelines
+              <p className="text-sm text-muted-foreground">
+                Centralized color palette, icons, typography & components
               </p>
             </div>
           </div>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setIsDark(!isDark)}
-            className="gap-2"
+            onClick={toggleTheme}
+            className="gap-2 border-border hover:bg-muted"
           >
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            {isDark ? "Light" : "Dark"}
+            {isDark ? "Light Mode" : "Dark Mode"}
           </Button>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8 space-y-12">
+        {/* Theme Indicator */}
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border">
+          <div className={`w-3 h-3 rounded-full ${isDark ? "bg-bullion-gold" : "bg-bullion-gold-dark"}`} />
+          <p className="text-sm font-medium">
+            Currently viewing: <span className="text-bullion-gold font-bold">{isDark ? "Dark" : "Light"} Mode</span> palette
+          </p>
+          <p className="text-xs text-muted-foreground ml-auto">File: src/index.css</p>
+        </div>
+
         {/* Color Palette */}
         <section>
-          <h2 className="text-2xl font-bold mb-2">Color Palette</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            All colors are defined as CSS custom properties in <code className="px-1.5 py-0.5 bg-muted rounded text-xs">index.css</code>. 
-            Click any swatch to copy the variable name.
+          <h2 className="text-2xl font-bold mb-2">Color Palette ({isDark ? "Dark" : "Light"} Mode)</h2>
+          <p className="mb-6 text-muted-foreground">
+            All colors are CSS custom properties in <code className="px-1.5 py-0.5 bg-muted rounded text-xs font-mono">src/index.css</code>. 
+            Toggle theme above to see {isDark ? "light" : "dark"} mode values. Click any swatch to copy.
           </p>
 
           {/* Gold */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <span className="w-4 h-4 rounded-full bg-amber-500"></span>
+              <Coins className="w-5 h-5 text-bullion-gold" />
               Gold Palette
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {colorPalette.gold.map((color) => (
-                <ColorSwatch key={color.name} color={color} isDark={isDark} />
+              {activeColors.gold.map((color) => (
+                <ColorSwatch key={color.name} color={color} />
               ))}
             </div>
           </div>
@@ -159,12 +201,12 @@ export default function BullionDesignSystem() {
           {/* Silver */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <span className="w-4 h-4 rounded-full bg-slate-400"></span>
+              <Medal className="w-5 h-5 text-bullion-silver" />
               Silver Palette
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {colorPalette.silver.map((color) => (
-                <ColorSwatch key={color.name} color={color} isDark={isDark} />
+              {activeColors.silver.map((color) => (
+                <ColorSwatch key={color.name} color={color} />
               ))}
             </div>
           </div>
@@ -173,8 +215,8 @@ export default function BullionDesignSystem() {
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-4">Semantic Colors</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              {colorPalette.semantic.map((color) => (
-                <ColorSwatch key={color.name} color={color} isDark={isDark} />
+              {activeColors.semantic.map((color) => (
+                <ColorSwatch key={color.name} color={color} />
               ))}
             </div>
           </div>
@@ -183,37 +225,73 @@ export default function BullionDesignSystem() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Surface & Text</h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {colorPalette.surface.map((color) => (
-                <ColorSwatch key={color.name} color={color} isDark={isDark} />
+              {activeColors.surface.map((color) => (
+                <ColorSwatch key={color.name} color={color} />
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Icon Standards */}
+        <section>
+          <h2 className="text-2xl font-bold mb-2">Icon Standards</h2>
+          <p className="mb-6 text-muted-foreground">
+            Use consistent Lucide icons across all bullion pages. Never use emoji for metal representation.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="p-6 bg-card border-border">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-xl bg-bullion-gold/15 border border-bullion-gold/30 flex items-center justify-center">
+                  <Coins className="w-7 h-7 text-bullion-gold" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Gold Icon</h3>
+                  <code className="text-xs text-muted-foreground font-mono">{'<Coins className="text-bullion-gold" />'}</code>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Use the <code className="px-1 bg-muted rounded text-xs">Coins</code> icon from lucide-react for all Gold references. 
+                Color with <code className="px-1 bg-muted rounded text-xs">text-bullion-gold</code>.
+              </p>
+            </Card>
+
+            <Card className="p-6 bg-card border-border">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-xl bg-bullion-silver/15 border border-bullion-silver/30 flex items-center justify-center">
+                  <Medal className="w-7 h-7 text-bullion-silver" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Silver Icon</h3>
+                  <code className="text-xs text-muted-foreground font-mono">{'<Medal className="text-bullion-silver" />'}</code>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Use the <code className="px-1 bg-muted rounded text-xs">Medal</code> icon from lucide-react for all Silver references. 
+                Color with <code className="px-1 bg-muted rounded text-xs">text-bullion-silver</code>.
+              </p>
+            </Card>
           </div>
         </section>
 
         {/* Typography */}
         <section>
           <h2 className="text-2xl font-bold mb-2">Typography</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            Font family: Inter. Use Tailwind classes for consistent sizing.
-          </p>
+          <p className="mb-6 text-muted-foreground">Font family: Inter. Use Tailwind classes for consistent sizing.</p>
 
-          <Card className={`overflow-hidden ${isDark ? 'bg-slate-800 border-slate-700' : ''}`}>
+          <Card className="overflow-hidden bg-card border-border">
             <div className="divide-y divide-border">
               {typographyScale.map((type) => (
                 <div key={type.name} className="p-4 flex flex-col md:flex-row md:items-center gap-4">
                   <div className="w-32 flex-shrink-0">
                     <p className="font-medium text-sm">{type.name}</p>
-                    <code className={`text-xs ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-                      {type.class}
-                    </code>
+                    <code className="text-xs text-muted-foreground">{type.class}</code>
                   </div>
                   <div className="flex-1">
                     <p className={type.class}>{type.example}</p>
                   </div>
                   <div className="w-48 flex-shrink-0">
-                    <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-                      {type.usage}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{type.usage}</p>
                   </div>
                 </div>
               ))}
@@ -224,22 +302,26 @@ export default function BullionDesignSystem() {
         {/* Buttons */}
         <section>
           <h2 className="text-2xl font-bold mb-2">Buttons</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            Button variants for different actions. Gold/Silver variants for metal-specific CTAs.
+          <p className="mb-4 text-muted-foreground">
+            Button variants for metal-specific CTAs. Key rules:
           </p>
+          <ul className="mb-6 space-y-1 text-sm text-muted-foreground list-disc list-inside">
+            <li>Gold Buy: <code className="px-1 bg-muted rounded text-xs">bg-bullion-gold text-black</code></li>
+            <li>Silver Buy: <code className="px-1 bg-muted rounded text-xs">bg-bullion-silver text-black</code></li>
+            <li>Gold Sell/Secondary: <code className="px-1 bg-muted rounded text-xs">bg-bullion-gold-dark text-white</code></li>
+            <li>Silver Sell/Secondary: <code className="px-1 bg-muted rounded text-xs">bg-bullion-silver-dark text-black</code> (always black text)</li>
+            <li>Done buttons: Always include <code className="px-1 bg-muted rounded text-xs">border border-border</code></li>
+            <li>Hover on ghost buttons: Use <code className="px-1 bg-muted rounded text-xs">hover:bg-muted</code> (never purple accent)</li>
+          </ul>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {buttonExamples.map((btn) => (
-              <Card key={btn.label} className={`p-4 ${isDark ? 'bg-slate-800 border-slate-700' : ''}`}>
+              <Card key={btn.label} className="p-4 bg-card border-border">
                 <Button className={`w-full mb-3 ${btn.class}`}>
                   {btn.label}
                 </Button>
-                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-                  {btn.usage}
-                </p>
-                <code className={`text-xs block mt-1 ${isDark ? 'text-slate-500' : 'text-muted-foreground'}`}>
-                  {btn.class}
-                </code>
+                <p className="text-xs text-muted-foreground">{btn.usage}</p>
+                <code className="text-xs block mt-1 text-muted-foreground font-mono">{btn.class}</code>
               </Card>
             ))}
           </div>
@@ -248,24 +330,18 @@ export default function BullionDesignSystem() {
         {/* Spacing */}
         <section>
           <h2 className="text-2xl font-bold mb-2">Spacing</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            Consistent spacing using Tailwind's scale.
-          </p>
+          <p className="mb-6 text-muted-foreground">Consistent spacing using Tailwind's scale.</p>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {spacingScale.map((space) => (
-              <Card key={space.name} className={`p-4 ${isDark ? 'bg-slate-800 border-slate-700' : ''}`}>
+              <Card key={space.name} className="p-4 bg-card border-border">
                 <div
-                  className="bg-amber-500/20 border border-amber-500/40 rounded mb-2"
+                  className="bg-bullion-gold/20 border border-bullion-gold/40 rounded mb-2"
                   style={{ height: space.value, width: "100%" }}
                 />
                 <p className="font-semibold text-sm">{space.name}</p>
-                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-                  {space.value}
-                </p>
-                <code className={`text-xs ${isDark ? 'text-slate-500' : 'text-muted-foreground'}`}>
-                  {space.class}
-                </code>
+                <p className="text-xs text-muted-foreground">{space.value}</p>
+                <code className="text-xs text-muted-foreground font-mono">{space.class}</code>
               </Card>
             ))}
           </div>
@@ -274,27 +350,25 @@ export default function BullionDesignSystem() {
         {/* Card Examples */}
         <section>
           <h2 className="text-2xl font-bold mb-2">Card Patterns</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            Standard card patterns for the bullion platform.
-          </p>
+          <p className="mb-6 text-muted-foreground">Standard card patterns with correct icon and color usage.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Gold Card */}
-            <Card className="p-4 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800">
+            <Card className="p-4 bg-bullion-gold-muted border-bullion-gold/30">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg">🪙</span>
-                    <span className="text-amber-700 dark:text-amber-400 text-sm font-medium">Gold</span>
+                    <Coins className="w-5 h-5 text-bullion-gold" />
+                    <span className="text-bullion-gold text-sm font-medium">Gold</span>
                   </div>
-                  <p className="text-xl font-bold text-amber-900 dark:text-white">2.50g</p>
-                  <p className="text-xs text-amber-600 dark:text-amber-400">₹15,626.25</p>
+                  <p className="text-xl font-bold text-foreground">2.50g</p>
+                  <p className="text-xs text-muted-foreground">₹15,626.25</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <Button size="sm" className="h-7 px-3 bg-amber-500 hover:bg-amber-600 text-black font-semibold text-xs">
+                  <Button size="sm" className="h-7 px-3 bg-bullion-gold hover:bg-bullion-gold-dark text-black font-semibold text-xs">
                     Buy
                   </Button>
-                  <Button size="sm" className="h-7 px-3 bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs">
+                  <Button size="sm" className="h-7 px-3 bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white font-medium text-xs border border-border">
                     Sell
                   </Button>
                 </div>
@@ -302,21 +376,21 @@ export default function BullionDesignSystem() {
             </Card>
 
             {/* Silver Card */}
-            <Card className="p-4 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700">
+            <Card className="p-4 bg-bullion-silver-muted border-bullion-silver/30">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg">🥈</span>
-                    <span className="text-slate-700 dark:text-slate-300 text-sm font-medium">Silver</span>
+                    <Medal className="w-5 h-5 text-bullion-silver" />
+                    <span className="text-bullion-silver text-sm font-medium">Silver</span>
                   </div>
-                  <p className="text-xl font-bold text-slate-900 dark:text-white">15g</p>
-                  <p className="text-xs text-slate-600 dark:text-slate-400">₹1,152</p>
+                  <p className="text-xl font-bold text-foreground">15g</p>
+                  <p className="text-xs text-muted-foreground">₹1,152</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <Button size="sm" className="h-7 px-3 bg-slate-400 hover:bg-slate-500 text-black font-semibold text-xs">
+                  <Button size="sm" className="h-7 px-3 bg-bullion-silver hover:bg-bullion-silver-dark text-black font-semibold text-xs">
                     Buy
                   </Button>
-                  <Button size="sm" className="h-7 px-3 bg-slate-600 hover:bg-slate-700 text-white font-medium text-xs">
+                  <Button size="sm" className="h-7 px-3 bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black font-medium text-xs border border-border">
                     Sell
                   </Button>
                 </div>
@@ -328,38 +402,32 @@ export default function BullionDesignSystem() {
         {/* Do's and Don'ts */}
         <section>
           <h2 className="text-2xl font-bold mb-2">Guidelines</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            Best practices for consistent design.
-          </p>
+          <p className="mb-6 text-muted-foreground">Best practices for consistent design.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Do's */}
-            <Card className={`p-6 border-emerald-200 dark:border-emerald-800 ${isDark ? 'bg-emerald-950/20' : 'bg-emerald-50'}`}>
-              <h3 className="font-semibold text-emerald-700 dark:text-emerald-400 mb-4 flex items-center gap-2">
-                ✓ Do
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                <li>• Use <code className="px-1 bg-muted rounded">--bullion-*</code> tokens for colors</li>
+            <Card className="p-6 border-bullion-success/30 bg-bullion-success/5">
+              <h3 className="font-semibold text-bullion-success mb-4 flex items-center gap-2">✓ Do</h3>
+              <ul className="space-y-2 text-sm text-foreground">
+                <li>• Use <code className="px-1 bg-muted rounded text-xs">--bullion-*</code> CSS tokens for all colors</li>
+                <li>• Use <code className="px-1 bg-muted rounded text-xs">Coins</code> icon for Gold, <code className="px-1 bg-muted rounded text-xs">Medal</code> for Silver</li>
                 <li>• Ensure 4.5:1 contrast ratio for text</li>
-                <li>• Use amber shades for gold, slate for silver</li>
-                <li>• Dark text on light backgrounds (light mode)</li>
-                <li>• Light text on dark backgrounds (dark mode)</li>
-                <li>• Solid backgrounds for CTAs, not transparent</li>
+                <li>• Silver secondary buttons always use <strong>black text</strong></li>
+                <li>• Add <code className="px-1 bg-muted rounded text-xs">border border-border</code> on Done buttons</li>
+                <li>• Use <code className="px-1 bg-muted rounded text-xs">hover:bg-muted</code> for ghost button hover</li>
+                <li>• Test both light and dark themes</li>
               </ul>
             </Card>
 
-            {/* Don'ts */}
-            <Card className={`p-6 border-red-200 dark:border-red-800 ${isDark ? 'bg-red-950/20' : 'bg-red-50'}`}>
-              <h3 className="font-semibold text-red-700 dark:text-red-400 mb-4 flex items-center gap-2">
-                ✗ Don't
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                <li>• Use <code className="px-1 bg-muted rounded">text-amber-400</code> on light backgrounds</li>
-                <li>• Mix random Tailwind colors inconsistently</li>
-                <li>• Use transparent buttons for primary CTAs</li>
-                <li>• Forget dark mode variants</li>
+            <Card className="p-6 border-bullion-error/30 bg-bullion-error/5">
+              <h3 className="font-semibold text-bullion-error mb-4 flex items-center gap-2">✗ Don't</h3>
+              <ul className="space-y-2 text-sm text-foreground">
+                <li>• Use emojis (🪙 🥈) instead of Lucide icons</li>
                 <li>• Hard-code hex/rgb values in components</li>
-                <li>• Skip hover/focus states</li>
+                <li>• Use <code className="px-1 bg-muted rounded text-xs">hover:bg-accent</code> (purple) in bullion pages</li>
+                <li>• Use white text on silver secondary buttons</li>
+                <li>• Use <code className="px-1 bg-muted rounded text-xs">bg-white</code> or <code className="px-1 bg-muted rounded text-xs">text-black</code> directly (use tokens)</li>
+                <li>• Skip dark mode variants</li>
+                <li>• Forget border on Done/close buttons</li>
               </ul>
             </Card>
           </div>
@@ -368,32 +436,55 @@ export default function BullionDesignSystem() {
         {/* CSS Variables Reference */}
         <section>
           <h2 className="text-2xl font-bold mb-2">CSS Variables Reference</h2>
-          <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-bullion-text-secondary'}`}>
-            Copy these for use in custom styles.
+          <p className="mb-6 text-muted-foreground">
+            Complete reference for both themes. Defined in <code className="px-1.5 py-0.5 bg-muted rounded text-xs font-mono">src/index.css</code>.
           </p>
 
-          <Card className={`p-4 font-mono text-xs overflow-x-auto ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-slate-50'}`}>
-            <pre className={isDark ? 'text-slate-300' : 'text-slate-700'}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="p-4 font-mono text-xs overflow-x-auto bg-card border-border">
+              <p className="text-sm font-sans font-semibold mb-3 text-foreground">:root (Light Mode)</p>
+              <pre className="text-muted-foreground whitespace-pre-wrap">
 {`/* Gold */
 --bullion-gold: 43 96% 56%;
 --bullion-gold-dark: 43 96% 46%;
 --bullion-gold-light: 43 96% 70%;
+--bullion-gold-muted: 43 40% 85%;
 
-/* Silver */
---bullion-silver: 220 14% 70%;
---bullion-silver-dark: 220 14% 50%;
---bullion-silver-light: 220 14% 85%;
+/* Silver (brighter) */
+--bullion-silver: 215 25% 75%;
+--bullion-silver-dark: 215 20% 52%;
+--bullion-silver-light: 215 22% 88%;
+--bullion-silver-muted: 215 15% 93%;
 
 /* Semantic */
 --bullion-success: 152 76% 40%;
 --bullion-warning: 38 92% 50%;
---bullion-error: 0 84% 60%;
+--bullion-error: 0 84% 60%;`}
+              </pre>
+            </Card>
 
-/* Usage in Tailwind */
-bg-[hsl(var(--bullion-gold))]
-text-[hsl(var(--bullion-text-primary))]`}
-            </pre>
-          </Card>
+            <Card className="p-4 font-mono text-xs overflow-x-auto bg-card border-border">
+              <p className="text-sm font-sans font-semibold mb-3 text-foreground">.dark (Dark Mode)</p>
+              <pre className="text-muted-foreground whitespace-pre-wrap">
+{`/* Gold */
+--bullion-gold: 43 96% 56%;
+--bullion-gold-dark: 43 96% 66%;
+--bullion-gold-light: 43 96% 40%;
+--bullion-gold-muted: 43 30% 20%;
+
+/* Silver (brighter for dark bg) */
+--bullion-silver: 215 30% 80%;
+--bullion-silver-dark: 215 25% 85%;
+--bullion-silver-light: 215 20% 35%;
+--bullion-silver-muted: 215 15% 18%;
+
+/* Semantic */
+--bullion-success: 152 76% 45%;
+--bullion-warning: 38 92% 55%;
+--bullion-error: 0 84% 60%;`}
+              </pre>
+            </Card>
+          </div>
         </section>
       </main>
     </div>

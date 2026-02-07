@@ -49,7 +49,7 @@ export function PurchaseSuccessScreen({
 
   const ctaClass = isGold
     ? "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white"
-    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white";
+    : "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black";
 
   // SIP Activated view
   if (type === "sip") {
@@ -94,7 +94,7 @@ export function PurchaseSuccessScreen({
               )}
             </motion.div>
 
-            <Button variant="ghost" className="w-full text-muted-foreground" onClick={() => onOpenChange(false)}>
+            <Button variant="outline" className="w-full border-border text-muted-foreground hover:bg-muted" onClick={() => onOpenChange(false)}>
               Done
             </Button>
           </div>
@@ -212,7 +212,7 @@ export function PurchaseSuccessScreen({
 
           {/* Done Button */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-            <Button onClick={() => onOpenChange(false)} className={`w-full h-12 ${ctaClass} font-semibold text-lg`}>
+            <Button onClick={() => onOpenChange(false)} className={`w-full h-12 ${ctaClass} font-semibold text-lg border border-border`}>
               Done
             </Button>
           </motion.div>

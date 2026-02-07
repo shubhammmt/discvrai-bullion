@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, ShoppingCart } from "lucide-react";
+import { TrendingUp, TrendingDown, ShoppingCart, Coins, Medal } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -35,7 +35,7 @@ export function BullionPriceCard({
       accent: "text-bullion-gold",
       buyBg: "bg-bullion-gold hover:bg-bullion-gold-dark text-black",
       sellBg: "bg-bullion-gold-dark hover:bg-bullion-gold-dark/90 text-white",
-      icon: "🪙",
+      IconComponent: Coins,
       name: "Gold",
     },
     silver: {
@@ -43,8 +43,8 @@ export function BullionPriceCard({
       border: "border-bullion-silver/30",
       accent: "text-bullion-silver",
       buyBg: "bg-bullion-silver hover:bg-bullion-silver-dark text-black",
-      sellBg: "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-white",
-      icon: "🥈",
+      sellBg: "bg-bullion-silver-dark hover:bg-bullion-silver-dark/90 text-black",
+      IconComponent: Medal,
       name: "Silver",
     },
   };
@@ -103,7 +103,7 @@ export function BullionPriceCard({
       <div className="relative p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">{config.icon}</span>
+            <config.IconComponent className={`w-6 h-6 ${config.accent}`} />
             <span className={`font-semibold text-lg ${config.accent}`}>{config.name}</span>
           </div>
           <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${

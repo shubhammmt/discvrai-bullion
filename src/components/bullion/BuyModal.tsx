@@ -102,7 +102,7 @@ export function BuyModal({ open, onOpenChange, metal, currentPrice }: BuyModalPr
             <p className="text-muted-foreground mb-6">
               {grams.toFixed(4)}g of {config.name} has been credited
             </p>
-            <Button onClick={handleClose} className="w-full">
+            <Button onClick={handleClose} className="w-full border border-border">
               Done
             </Button>
           </div>

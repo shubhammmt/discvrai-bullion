@@ -117,7 +117,7 @@ export default function BullionInvestment() {
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <BullionMobileMenu />
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="lg:flex hidden">
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="lg:flex hidden hover:bg-muted">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="cursor-pointer" onClick={() => navigate('/discvr')}>
@@ -127,13 +127,14 @@ export default function BullionInvestment() {
           </div>
           <div className="flex items-center gap-2">
             {/* Search */}
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
+            <Button variant="ghost" size="icon" className="hidden sm:flex hover:bg-muted">
               <Search className="w-5 h-5" />
             </Button>
             {/* Day/Night Mode */}
             <Button 
               variant="ghost" 
               size="icon"
+              className="hover:bg-muted"
               onClick={() => {
                 const html = document.documentElement;
                 html.classList.toggle('dark');
@@ -143,20 +144,20 @@ export default function BullionInvestment() {
               <Moon className="absolute w-5 h-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
             {/* Profile */}
-            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/profile")}>
+            <Button variant="ghost" size="icon" className="hover:bg-muted" onClick={() => navigate("/bullion/profile")}>
               <User className="w-5 h-5" />
             </Button>
             {/* Notifications */}
-            <Button variant="ghost" size="icon" onClick={() => navigate("/bullion/notifications")}>
+            <Button variant="ghost" size="icon" className="hover:bg-muted" onClick={() => navigate("/bullion/notifications")}>
               <Bell className="w-5 h-5" />
             </Button>
             {/* Login/Logout */}
             {userState !== "new" ? (
-              <Button variant="ghost" size="icon" onClick={() => setUserState("new")}>
+              <Button variant="ghost" size="icon" className="hover:bg-muted" onClick={() => setUserState("new")}>
                 <LogOut className="w-5 h-5" />
               </Button>
             ) : (
-              <Button variant="ghost" size="icon" onClick={() => setUserState("logged_in_no_holdings")}>
+              <Button variant="ghost" size="icon" className="hover:bg-muted" onClick={() => setUserState("logged_in_no_holdings")}>
                 <LogIn className="w-5 h-5" />
               </Button>
             )}

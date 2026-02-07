@@ -267,7 +267,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className={cn(
         "sm:max-w-md p-0 border-0 overflow-hidden max-h-[90vh] overflow-y-auto",
-        isGold ? "bg-bullion-gold-muted dark:bg-card" : "bg-bullion-silver-muted dark:bg-card"
+        isGold ? "bg-bullion-gold-muted" : "bg-bullion-silver-muted"
       )}>
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border/50">
