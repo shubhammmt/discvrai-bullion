@@ -15,7 +15,7 @@ const baseSlides: ManufacturingNewSlide[] = [
     type: 'mfg-title',
     headline: 'Transforming Business @Manufacturing Enterprises',
     subheadline: 'From Reactive Firefighting to Proactive Intelligence',
-    tagline: 'Enabling Your Existing Systems (SAP S/4HANA, Anaplan, WMS, TMS, CRM, HRIS) to Work Together in Real-Time',
+    tagline: '',
     keyMessage: 'Systems Integration. Real-Time Intelligence. Proactive Operations.',
     note: "We don't replace your systems. We make them smarter together."
   },
