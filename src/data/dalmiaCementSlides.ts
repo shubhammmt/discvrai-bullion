@@ -229,25 +229,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     o2cImpact: 'DSO reduction frees ₹150–300 Cr',
     speakerNotes: 'AI demand sensing reduces bullwhip effect. End-to-end O2C automation drives working capital efficiency.'
   },
-  // Slide 10: SUVIDHA 2.0 (unchanged)
+  // Slide 10: Value Map
   {
     id: 10,
-    type: 'dalmia-suvidha',
-    headline: 'SUVIDHA 2.0',
-    subtitle: 'Transform SUVIDHA into digital ecosystem.',
-    features: [
-      'Smart ordering.',
-      'Live delivery tracking.',
-      'Digital payments.',
-      'Loyalty integration.',
-      'Market intelligence dashboard.'
-    ],
-    target: '80%+ digital sales in 24 months',
-    speakerNotes: 'SUVIDHA becomes the commercial platform, not just ordering tool.'
-  },
-  // Slide 11: Value Map (unchanged)
-  {
-    id: 11,
     type: 'dalmia-valuemap',
     headline: 'Value Map',
     valueTable: [
@@ -264,9 +248,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     roi: '8–10×',
     speakerNotes: 'Clear ROI case for board approval.'
   },
-  // Slide 12: Roadmap & Ask (MERGED from slides 17+18)
+  // Slide 11: Roadmap & Ask
   {
-    id: 12,
+    id: 11,
     type: 'dalmia-roadmap-ask',
     headline: 'Roadmap & Ask',
     phases: [
