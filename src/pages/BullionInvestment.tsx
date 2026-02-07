@@ -245,11 +245,6 @@ export default function BullionInvestment() {
               </>
             )}
 
-            {/* Physical vs Digital for Investors */}
-            {userState === "investor" && (
-              <PhysicalVsDigital variant="table" />
-            )}
-
             {/* Live Prices Section */}
             <section>
               <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Live Prices</h2>
@@ -282,6 +277,11 @@ export default function BullionInvestment() {
             {/* Trust Signals */}
             {showEducationalContent && (
               <TrustSignals variant="full" />
+            )}
+
+            {/* Physical vs Digital for Investors - above Offers */}
+            {userState === "investor" && (
+              <PhysicalVsDigital variant="table" />
             )}
 
             {/* Offer Cards - For all users */}
@@ -363,11 +363,6 @@ export default function BullionInvestment() {
               </>
             )}
 
-            {/* Physical vs Digital for Investors */}
-            {userState === "investor" && (
-              <PhysicalVsDigital variant="cards" />
-            )}
-
             {/* Price Cards with inline actions */}
             <BullionPriceCard
               metal="gold"
@@ -401,6 +396,11 @@ export default function BullionInvestment() {
               transactions={transactions}
               onViewVault={() => setView("vault")}
             />
+
+            {/* Physical vs Digital for Investors - above Offers */}
+            {userState === "investor" && (
+              <PhysicalVsDigital variant="cards" />
+            )}
 
             {/* Offer Cards - Mobile Carousel */}
             <OfferCards 
