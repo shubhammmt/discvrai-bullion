@@ -71,8 +71,6 @@ export const DalmiaCoverSlide: React.FC<DalmiaCoverSlideProps> = ({
             transition={{ delay: 0.9, duration: 0.5 }}
             className="mt-8 flex items-center justify-center gap-6 text-sm text-slate-500"
           >
-            <span>CEO + Board + CXO</span>
-            <span className="w-1 h-1 bg-slate-300 rounded-full" />
             <span>Commercial Transformation</span>
             <span className="w-1 h-1 bg-slate-300 rounded-full" />
             <span>AI-Powered Intelligence</span>
