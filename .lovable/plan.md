@@ -1,272 +1,215 @@
 
 
-# Dalmia Cement - Consolidated 12-Slide Deck
+# Dalmia Cement Deck - Visual Upgrade with Execution Stack Pattern
 
-## Overview
+## Analysis of Current State
 
-This plan consolidates the current 18 slides into **12 slides** while preserving all key content and executive impact. The goal is a tighter, more focused presentation for CEO-level audiences.
+After reviewing all 11 slides, I've identified the following observations:
 
----
+### Current Storytelling Arc (11 Slides)
+| # | Slide | Purpose | Current Visual |
+|---|-------|---------|----------------|
+| 1 | Cover | Hook | Badge + headline + separator |
+| 2 | CEO Imperative | Why now? | Factory → Brain transformation |
+| 3 | Value Pools | Where value exists | 3-column cards |
+| 4 | Current State & Gap | Pain point | Icon row + bar chart |
+| 5 | Vision & Architecture | The solution framework | Flow + stack (partial) |
+| 6 | AI Dynamic Pricing | Capability deep-dive | Problem → Solution → Impact |
+| 7 | Sales & Dealer Intelligence | Capability | Split view + hub diagram |
+| 8 | Marketing & Engagement | Capability | 2x2 grid + evolution |
+| 9 | Supply Chain AI | Capability | Transformation + flow |
+| 10 | Value Map | ROI summary | Table |
+| 11 | Roadmap & Ask | Call to action | Timeline + decision box |
 
-## Consolidation Strategy
+### Where the Execution Stack Pattern Would Elevate Impact
 
-| New Slide # | Title | Merged From | Rationale |
-|-------------|-------|-------------|-----------|
-| 1 | Cover | Slide 1 | Keep as-is |
-| 2 | CEO Imperative | Slide 2 | Keep as-is |
-| 3 | Value Pools | Slide 3 | Keep as-is |
-| 4 | Current State & Gap | Slides 4 + 5 | Combine "Dalmia Today" with "Benchmark Gap" - both assess current position |
-| 5 | Vision & Architecture | Slides 6 + 7 | Merge "North Star" flow with "Capability Stack" layers |
-| 6 | AI Dynamic Pricing | Slide 8 | Keep as-is (highest impact initiative) |
-| 7 | Sales & Dealer Intelligence | Slides 9 + 10 | Combine Sales Copilot with Dealer 360 platform |
-| 8 | Marketing & Engagement | Slides 11 + 12 | Merge Marketing Engine with Loyalty 2.0 |
-| 9 | Supply Chain AI | Slides 13 + 14 | Combine Demand Sensing with O2C Automation |
-| 10 | SUVIDHA 2.0 | Slide 15 | Keep as-is (platform cornerstone) |
-| 11 | Value Map | Slide 16 | Keep as-is (ROI summary) |
-| 12 | Roadmap & Ask | Slides 17 + 18 | Merge timeline with operating model and board ask |
+The uploaded image shows a **vertical layered stack** with:
+- Clear section headers (uppercase, muted)
+- Icon cards in rows within each layer
+- Vertical connectors between layers
+- Gradient shading from bottom to top
+- Outcomes at top, foundations at bottom
 
----
-
-## Implementation Details
-
-### Files to Update
-
-```text
-src/data/dalmiaCementSlides.ts        # UPDATE - Reduce to 12 slides
-src/data/manufacturingNewSlides.ts    # No change (re-exports)
-src/components/pitch/manufacturing-new/
-  ├── MfgNewSlideRenderer.tsx         # UPDATE - Handle new merged types
-  ├── DalmiaCurrentStateSlide.tsx     # NEW - Merges Today + Benchmark
-  ├── DalmiaVisionArchitectureSlide.tsx  # NEW - Merges NorthStar + Stack
-  ├── DalmiaSalesDealer360Slide.tsx   # NEW - Merges Sales + Dealer360
-  ├── DalmiaMarketingEngagementSlide.tsx # NEW - Merges Marketing + Loyalty
-  ├── DalmiaSupplyChainSlide.tsx      # NEW - Merges Demand + O2C
-  ├── DalmiaRoadmapAskSlide.tsx       # NEW - Merges Roadmap + Ask
-```
-
-### Components to Keep (6)
-- `DalmiaCoverSlide.tsx`
-- `DalmiaCEOImperativeSlide.tsx`
-- `DalmiaValuePoolsSlide.tsx`
-- `DalmiaDynamicPricingSlide.tsx`
-- `DalmiaSuvidha2Slide.tsx`
-- `DalmiaValueMapSlide.tsx`
-
-### Components to Remove (12)
-After implementation, these can be deleted:
-- `DalmiaTodaySlide.tsx`
-- `DalmiaBenchmarkSlide.tsx`
-- `DalmiaNorthStarSlide.tsx`
-- `DalmiaCapabilityStackSlide.tsx`
-- `DalmiaSalesIntelligenceSlide.tsx`
-- `DalmiaDealer360Slide.tsx`
-- `DalmiaMarketingEngineSlide.tsx`
-- `DalmiaLoyalty2Slide.tsx`
-- `DalmiaDemandSensingSlide.tsx`
-- `DalmiaO2CSlide.tsx`
-- `DalmiaRoadmapSlide.tsx`
-- `DalmiaOperatingModelSlide.tsx`
+This pattern is ideal for slides that convey **hierarchy, dependencies, or transformation flow**.
 
 ---
 
-## Merged Slide Designs
+## Proposed Visual Upgrades
 
-### Slide 4: Current State & Gap
-
-Layout: Split screen
+### Priority 1: Slide 5 - Vision & Architecture (Already Partial)
+**Current**: Has a horizontal flow + layered stack but not using the elegant execution stack pattern
+**Upgrade**: Redesign to match the uploaded pattern exactly:
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│ CURRENT STATE & GAP                                         │
-├───────────────────────────────┬─────────────────────────────┤
-│ Left Panel: Dalmia Today      │ Right Panel: Benchmark      │
-│                               │                             │
-│ • 49,300 channel partners     │    ┌──────┐  ┌──────┐       │
-│ • SUVIDHA ~35% digital        │    │ 35%  │  │ 93%  │       │
-│ • SM@RT-D sales app           │    │Dalmia│  │CEMEX │       │
-│ • Dalmia Delight loyalty      │    └──────┘  └──────┘       │
-│ • DriverSathi logistics       │                             │
-│                               │ Gap = ₹200-500 Cr value     │
-│ ⚠ No integrated AI layer     │                             │
-└───────────────────────────────┴─────────────────────────────┘
+                    BUSINESS OUTCOMES
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │Revenue ↑│ │ Cost ↓  │ │Speed ↑  │ │Retention│
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+              PLATFORM ECOSYSTEM
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │SUVIDHA  │ │SM@RT-D  │ │WhatsApp │ │ Portal  │
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+              AGENTIC WORKFLOWS
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │ Pricing │ │  Sales  │ │Marketing│ │   O2C   │
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+               AI INTELLIGENCE
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │ Demand  │ │  Churn  │ │ Credit  │ │Sentiment│
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+              DATA FOUNDATION
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │   SAP   │ │ SUVIDHA │ │ Loyalty │ │ External│
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
 ```
 
-### Slide 5: Vision & Architecture
-
-Layout: Flow at top, stack below
+### Priority 2: Slide 3 - Value Pools
+**Current**: 3 horizontal cards
+**Upgrade**: Convert to vertical execution stack showing value flowing up:
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│ VISION & ARCHITECTURE                                       │
-├─────────────────────────────────────────────────────────────┤
-│ Flow: Data → AI → Workflows → Platform → Revenue            │
-├─────────────────────────────────────────────────────────────┤
-│ Stack (compact):                                            │
-│ ┌──────────────────────────────────────────────────────┐    │
-│ │ L4: SUVIDHA 2.0 Ecosystem                            │    │
-│ ├──────────────────────────────────────────────────────┤    │
-│ │ L3: Agentic Workflows (Sales, Marketing, O2C)        │    │
-│ ├──────────────────────────────────────────────────────┤    │
-│ │ L2: AI Models (Pricing, Demand, Churn, Credit)       │    │
-│ ├──────────────────────────────────────────────────────┤    │
-│ │ L1: Dealer 360 Data Foundation                       │    │
-│ └──────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────┘
+              COMMERCIAL VALUE OUTPUT
+    ┌──────────────────────────────────────────┐
+    │        ₹870-1,720 Cr Annual Value        │
+    └──────────────────────────────────────────┘
+                        │
+    ┌───────────┐ ┌───────────┐ ┌───────────┐
+    │ Revenue   │ │   Cost    │ │ Retention │
+    │  Growth   │ │ Reduction │ │   Value   │
+    └───────────┘ └───────────┘ └───────────┘
+                        │
+              AI CAPABILITIES LAYER
+              (shows what enables each)
 ```
 
-### Slide 7: Sales & Dealer Intelligence
-
-Layout: Two columns with impacts
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ SALES & DEALER INTELLIGENCE                                 │
-├───────────────────────────────┬─────────────────────────────┤
-│ SM@RT-D → AI Sales Copilot    │ Dealer 360 Platform         │
-│                               │                             │
-│ • Visit prioritization        │ Data Sources → [Hub] → Out  │
-│ • Next best product           │ • SAP                       │
-│ • Churn alerts                │ • SUVIDHA                   │
-│ • Territory optimization      │ • Loyalty                   │
-│                               │ • Field notes               │
-│ Impact: 8-15% productivity    │ • Market data               │
-├───────────────────────────────┴─────────────────────────────┤
-│ Combined: ₹50-100 Cr (Sales) + ₹30-60 Cr (Dealer360)        │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Slide 8: Marketing & Engagement
-
-Layout: Capabilities grid + Loyalty evolution
+### Priority 3: New Slide - DiscvrAI Execution Stack (Capability Overview)
+Create a **new slide after Vision & Architecture** that uses the exact uploaded pattern to show DiscvrAI's platform:
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│ MARKETING & ENGAGEMENT                                      │
-├─────────────────────────────────────────────────────────────┤
-│ Marketing Capabilities (2x2 grid):                          │
-│ ┌─────────────┐ ┌─────────────┐                             │
-│ │ Hotspot     │ │ Contractor  │                             │
-│ │ Detection   │ │ Intelligence│                             │
-│ └─────────────┘ └─────────────┘                             │
-│ ┌─────────────┐ ┌─────────────┐                             │
-│ │ Regional    │ │ WhatsApp    │                             │
-│ │ Content     │ │ Campaigns   │                             │
-│ └─────────────┘ └─────────────┘                             │
-├─────────────────────────────────────────────────────────────┤
-│ Loyalty: Points Program → Engagement Ecosystem              │
-│ [Tier upgrades] [Rewards] [Gamification] [Tracking]         │
-├─────────────────────────────────────────────────────────────┤
-│ Combined Impact: ₹80-150 Cr + ₹40-80 Cr                     │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Slide 9: Supply Chain AI
-
-Layout: Two sections with flow diagrams
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ SUPPLY CHAIN AI                                             │
-├───────────────────────────────┬─────────────────────────────┤
-│ Demand Sensing                │ Order to Cash               │
-│                               │                             │
-│ Excel → AI Forecasting        │ Order → ATP → Credit →      │
-│                               │ Invoice → Cash              │
-│ • Weekly rolling forecasts    │                             │
-│ • Weather + infra data        │ • Smart recommendations     │
-│ • Scenario simulation         │ • Real-time availability    │
-│                               │ • AI credit scoring         │
-│ 65% → 85% accuracy            │ • Auto invoicing            │
-├───────────────────────────────┴─────────────────────────────┤
-│ Impact: ₹100-200 Cr (WC) + ₹150-300 Cr (DSO)                │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Slide 12: Roadmap & Ask
-
-Layout: Timeline at top, Ask at bottom
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ ROADMAP & ASK                                               │
-├─────────────────────────────────────────────────────────────┤
-│ Timeline:                                                   │
-│ ──────────────────────────────────────────────────────────► │
-│ ┌────────────┐  ┌────────────┐  ┌────────────┐             │
-│ │ Phase 1    │  │ Phase 2    │  │ Phase 3    │             │
-│ │ 0-6 months │  │ 6-15 months│  │ 15-24 mo   │             │
-│ │ Foundation │  │ Rollout    │  │ Scale      │             │
-│ └────────────┘  └────────────┘  └────────────┘             │
-├─────────────────────────────────────────────────────────────┤
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ BOARD DECISION                                          │ │
-│ │ Approve AI Commercial Transformation Program            │ │
-│ │                                                         │ │
-│ │ Investment: ₹106-202 Cr  │  Value: ₹870-1,720 Cr       │ │
-│ │                          │  ROI: 8-10×                 │ │
-│ └─────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+            DISCVRAI EXECUTION STACK
+                    
+              BUSINESS OUTCOMES
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │Revenue ↑│ │ Cost ↓  │ │Speed ↑  │ │ 24/7 CX │
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+            OMNICHANNEL DEPLOYMENT
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │Web Apps │ │ Mobile  │ │WhatsApp │ │  Voice  │ │  Email  │
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+              AI PLATFORM CORE
+    ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+    │Agent Builder│ │Orchestration│ │ Governance  │ │Integrations │
+    └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘
+                        │
+            VERTICAL SOLUTIONS
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │ Cement  │ │  BFSI   │ │Healthcare│ │ Retail  │ │Education│
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘
+                        │
+          DISCOVERY & SOLUTION DESIGN
+    ┌───────────────┐ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+    │  Stakeholder  │ │AI Opportunity │ │Outcome-Driven │ │  Use Case     │
+    │   Alignment   │ │   Mapping     │ │   Roadmap     │ │Prioritization │
+    └───────────────┘ └───────────────┘ └───────────────┘ └───────────────┘
 ```
 
 ---
 
-## Data Structure Updates
+## Implementation Plan
 
-The consolidated slide data will have new types:
+### Step 1: Create Reusable ExecutionStack Component
+Create a new reusable component that can render the layered stack pattern:
+
+**File**: `src/components/pitch/shared/ExecutionStackDiagram.tsx`
+
+Features:
+- Accepts array of layers, each with label + icon cards
+- Renders vertical connectors between layers
+- Subtle background gradient (lighter at top)
+- Animated entry with framer-motion
+
+### Step 2: Update Vision & Architecture Slide
+Replace current implementation with the ExecutionStack pattern showing Dalmia-specific layers:
+- L5: Business Outcomes (Revenue, Cost, Speed, Retention)
+- L4: Platform Ecosystem (SUVIDHA, SM@RT-D, WhatsApp, Portal)
+- L3: Agentic Workflows (Pricing, Sales, Marketing, O2C)
+- L2: AI Models (Demand, Churn, Credit, Sentiment)
+- L1: Data Foundation (SAP, SUVIDHA, Loyalty, External)
+
+### Step 3: Update Value Pools Slide (Optional)
+Convert from horizontal 3-column to vertical stack showing value flow
+
+### Step 4: Add DiscvrAI Capability Slide (Optional)
+If desired, add a new slide after Vision that uses the uploaded pattern to position DiscvrAI's platform
+
+---
+
+## Technical Details
+
+### New Component Structure
 
 ```typescript
-// New slide types
-| 'dalmia-current-state'      // Merges today + benchmark
-| 'dalmia-vision-architecture' // Merges northstar + stack
-| 'dalmia-sales-dealer360'    // Merges sales + dealer
-| 'dalmia-marketing-engagement' // Merges marketing + loyalty
-| 'dalmia-supply-chain'       // Merges demand + o2c
-| 'dalmia-roadmap-ask'        // Merges roadmap + operating model
+// ExecutionStackDiagram.tsx
+interface StackLayer {
+  label: string;           // e.g., "BUSINESS OUTCOMES"
+  items: {
+    icon: LucideIcon;
+    label: string;
+    description?: string;
+  }[];
+  color?: string;          // Tailwind bg color
+}
+
+interface ExecutionStackDiagramProps {
+  layers: StackLayer[];
+  connectorColor?: string;
+  animate?: boolean;
+}
+```
+
+### Files to Create/Modify
+```text
+src/components/pitch/shared/
+  └── ExecutionStackDiagram.tsx     # NEW - Reusable stack component
+
+src/components/pitch/manufacturing-new/
+  └── DalmiaVisionArchitectureSlide.tsx  # UPDATE - Use stack pattern
 ```
 
 ---
 
-## Execution Order
+## Storytelling Benefits
 
-### Step 1: Data Layer
-1. Update `dalmiaCementSlides.ts` with 12 consolidated slides
-
-### Step 2: New Merged Components
-2. Create `DalmiaCurrentStateSlide.tsx`
-3. Create `DalmiaVisionArchitectureSlide.tsx`
-4. Create `DalmiaSalesDealer360Slide.tsx`
-5. Create `DalmiaMarketingEngagementSlide.tsx`
-6. Create `DalmiaSupplyChainSlide.tsx`
-7. Create `DalmiaRoadmapAskSlide.tsx`
-
-### Step 3: Integration
-8. Update `MfgNewSlideRenderer.tsx` to use new components
+| Current Issue | After Upgrade |
+|---------------|---------------|
+| Vision slide has fragmented horizontal + vertical elements | Unified top-to-bottom execution narrative |
+| Value pools feel disconnected from implementation | Clear visual link: foundation → capabilities → outcomes |
+| DiscvrAI platform capabilities not explicit | Dedicated capability slide matches professional consulting decks |
+| Architecture looks "busy" | Clean, layered McKinsey-style visualization |
 
 ---
 
-## Final Slide Order
+## Final Slide Order (After Implementation)
 
-| # | Type | Title |
-|---|------|-------|
-| 1 | `dalmia-cover` | Dalmia Cement - AI Commercial Transformation Blueprint |
-| 2 | `dalmia-imperative` | The CEO Imperative |
-| 3 | `dalmia-value-pools` | Three Value Pools |
-| 4 | `dalmia-current-state` | Current State & Gap |
-| 5 | `dalmia-vision-architecture` | Vision & Architecture |
-| 6 | `dalmia-pricing` | AI Dynamic Pricing |
-| 7 | `dalmia-sales-dealer360` | Sales & Dealer Intelligence |
-| 8 | `dalmia-marketing-engagement` | Marketing & Engagement |
-| 9 | `dalmia-supply-chain` | Supply Chain AI |
-| 10 | `dalmia-suvidha` | SUVIDHA 2.0 |
-| 11 | `dalmia-valuemap` | Value Map |
-| 12 | `dalmia-roadmap-ask` | Roadmap & Ask |
+| # | Slide | Visual Pattern |
+|---|-------|----------------|
+| 1 | Cover | Hero |
+| 2 | CEO Imperative | Transformation visual |
+| 3 | Value Pools | Cards (or upgraded stack) |
+| 4 | Current State & Gap | Charts + callouts |
+| 5 | Vision & Architecture | **Execution Stack** |
+| 6 | AI Dynamic Pricing | Problem/Solution/Impact |
+| 7 | Sales & Dealer Intelligence | Split + hub |
+| 8 | Marketing & Engagement | 2x2 + evolution |
+| 9 | Supply Chain AI | Transformation + flow |
+| 10 | Value Map | Table |
+| 11 | Roadmap & Ask | Timeline + decision |
 
----
-
-## Benefits
-
-- **Tighter narrative**: 12 slides vs 18 = 33% reduction
-- **Better pacing**: Each slide now has more visual density
-- **Executive focus**: Consolidation highlights key decisions
-- **All content preserved**: No data or metrics lost
+The execution stack pattern on Slide 5 becomes the anchor visual that the rest of the deck references back to.
 
