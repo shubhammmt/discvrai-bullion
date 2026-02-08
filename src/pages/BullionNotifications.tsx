@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, BookOpen, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X } from "lucide-react";
+import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, BookOpen, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { CreatePriceAlertDialog } from "@/components/bullion/CreatePriceAlertDialog";
+import { toast } from "sonner";
 
 // Types
 interface BullionAlert {
@@ -16,6 +17,14 @@ interface BullionAlert {
   message: string;
   time: string;
   priority: 'high' | 'medium' | 'low';
+}
+
+interface PriceAlert {
+  id: string;
+  metal: "gold" | "silver";
+  condition: "above" | "below";
+  targetPrice: number;
+  channels: { push: boolean; telegram: boolean; whatsapp: boolean };
 }
 
 interface BullionWatchItem {
@@ -44,6 +53,8 @@ interface SavedResearch {
   metal?: 'gold' | 'silver';
 }
 
+const CURRENT_PRICES = { gold: 7245, silver: 89 };
+
 const BullionNotifications = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -52,28 +63,16 @@ const BullionNotifications = () => {
   // Watchlist state
   const [activeWatchlist, setActiveWatchlist] = useState<'all' | 'gold' | 'silver'>('all');
   
-  // Price Alert Settings (retained from original)
-  const [priceAlertEnabled, setPriceAlertEnabled] = useState(true);
+  // New alert dialog state
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [editingAlert, setEditingAlert] = useState<PriceAlert | null>(null);
   
-  // Gold Alerts
-  const [goldDropAlert, setGoldDropAlert] = useState(true);
-  const [goldDropPrice, setGoldDropPrice] = useState("");
-  const [goldJumpAlert, setGoldJumpAlert] = useState(true);
-  const [goldJumpPrice, setGoldJumpPrice] = useState("");
-  const [goldPercentHighAlert, setGoldPercentHighAlert] = useState(false);
-  const [goldPercentHighValue, setGoldPercentHighValue] = useState("5");
-  const [goldPercentDropAlert, setGoldPercentDropAlert] = useState(false);
-  const [goldPercentDropValue, setGoldPercentDropValue] = useState("5");
-  
-  // Silver Alerts
-  const [silverDropAlert, setSilverDropAlert] = useState(true);
-  const [silverDropPrice, setSilverDropPrice] = useState("");
-  const [silverJumpAlert, setSilverJumpAlert] = useState(true);
-  const [silverJumpPrice, setSilverJumpPrice] = useState("");
-  const [silverPercentHighAlert, setSilverPercentHighAlert] = useState(false);
-  const [silverPercentHighValue, setSilverPercentHighValue] = useState("5");
-  const [silverPercentDropAlert, setSilverPercentDropAlert] = useState(false);
-  const [silverPercentDropValue, setSilverPercentDropValue] = useState("5");
+  // Active price alerts (replaces 16 individual state variables)
+  const [priceAlerts, setPriceAlerts] = useState<PriceAlert[]>([
+    { id: "pa1", metal: "gold", condition: "below", targetPrice: 7000, channels: { push: true, telegram: false, whatsapp: false } },
+    { id: "pa2", metal: "gold", condition: "above", targetPrice: 7500, channels: { push: true, telegram: true, whatsapp: false } },
+    { id: "pa3", metal: "silver", condition: "below", targetPrice: 85, channels: { push: true, telegram: false, whatsapp: true } },
+  ]);
 
   // Mock data
   const watchlists = [
@@ -320,234 +319,131 @@ const BullionNotifications = () => {
 
           {/* Alerts Tab */}
           <TabsContent value="alerts" className="space-y-6">
-            {/* Price Alert Settings */}
-            <Card className="p-5">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-                    <TrendingDown className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-lg">Price Alert Settings</h2>
-                    <p className="text-sm text-muted-foreground">Configure automatic price notifications</p>
-                  </div>
-                </div>
-                <Switch checked={priceAlertEnabled} onCheckedChange={setPriceAlertEnabled} />
-              </div>
-              
-              {priceAlertEnabled && (
-                <div className="space-y-4 pt-4 border-t">
-                  {/* Gold Alerts */}
-                  <div className="space-y-3">
-                    <h3 className="font-medium text-amber-600 flex items-center gap-2">
-                      <Coins className="w-4 h-4" />
-                      Gold Alerts
-                    </h3>
-                    
-                    <div className="grid sm:grid-cols-2 gap-3 pl-6">
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">Price Drop</p>
-                          <p className="text-xs text-muted-foreground">Notify below</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="7000"
-                            value={goldDropPrice}
-                            onChange={(e) => setGoldDropPrice(e.target.value)}
-                            className="w-20 h-8 text-center"
-                            disabled={!goldDropAlert}
-                          />
-                          <span className="text-xs text-muted-foreground">₹/gm</span>
-                          <Switch checked={goldDropAlert} onCheckedChange={setGoldDropAlert} />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">Price Jump</p>
-                          <p className="text-xs text-muted-foreground">Notify above</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="7500"
-                            value={goldJumpPrice}
-                            onChange={(e) => setGoldJumpPrice(e.target.value)}
-                            className="w-20 h-8 text-center"
-                            disabled={!goldJumpAlert}
-                          />
-                          <span className="text-xs text-muted-foreground">₹/gm</span>
-                          <Switch checked={goldJumpAlert} onCheckedChange={setGoldJumpAlert} />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">% High Alert</p>
-                          <p className="text-xs text-muted-foreground">Rises by X%</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="5" 
-                            value={goldPercentHighValue}
-                            onChange={(e) => setGoldPercentHighValue(e.target.value)}
-                            className="w-16 h-8 text-center"
-                            disabled={!goldPercentHighAlert}
-                          />
-                          <span className="text-sm text-muted-foreground">%</span>
-                          <Switch checked={goldPercentHighAlert} onCheckedChange={setGoldPercentHighAlert} />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">% Drop Alert</p>
-                          <p className="text-xs text-muted-foreground">Drops by X%</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="5" 
-                            value={goldPercentDropValue}
-                            onChange={(e) => setGoldPercentDropValue(e.target.value)}
-                            className="w-16 h-8 text-center"
-                            disabled={!goldPercentDropAlert}
-                          />
-                          <span className="text-sm text-muted-foreground">%</span>
-                          <Switch checked={goldPercentDropAlert} onCheckedChange={setGoldPercentDropAlert} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Silver Alerts */}
-                  <div className="space-y-3 pt-3">
-                    <h3 className="font-medium text-slate-500 flex items-center gap-2">
-                      <Medal className="w-4 h-4" />
-                      Silver Alerts
-                    </h3>
-                    
-                    <div className="grid sm:grid-cols-2 gap-3 pl-6">
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">Price Drop</p>
-                          <p className="text-xs text-muted-foreground">Notify below</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="85"
-                            value={silverDropPrice}
-                            onChange={(e) => setSilverDropPrice(e.target.value)}
-                            className="w-20 h-8 text-center"
-                            disabled={!silverDropAlert}
-                          />
-                          <span className="text-xs text-muted-foreground">₹/gm</span>
-                          <Switch checked={silverDropAlert} onCheckedChange={setSilverDropAlert} />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">Price Jump</p>
-                          <p className="text-xs text-muted-foreground">Notify above</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="95"
-                            value={silverJumpPrice}
-                            onChange={(e) => setSilverJumpPrice(e.target.value)}
-                            className="w-20 h-8 text-center"
-                            disabled={!silverJumpAlert}
-                          />
-                          <span className="text-xs text-muted-foreground">₹/gm</span>
-                          <Switch checked={silverJumpAlert} onCheckedChange={setSilverJumpAlert} />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">% High Alert</p>
-                          <p className="text-xs text-muted-foreground">Rises by X%</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="5" 
-                            value={silverPercentHighValue}
-                            onChange={(e) => setSilverPercentHighValue(e.target.value)}
-                            className="w-16 h-8 text-center"
-                            disabled={!silverPercentHighAlert}
-                          />
-                          <span className="text-sm text-muted-foreground">%</span>
-                          <Switch checked={silverPercentHighAlert} onCheckedChange={setSilverPercentHighAlert} />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div>
-                          <p className="font-medium text-sm">% Drop Alert</p>
-                          <p className="text-xs text-muted-foreground">Drops by X%</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            type="number" 
-                            placeholder="5" 
-                            value={silverPercentDropValue}
-                            onChange={(e) => setSilverPercentDropValue(e.target.value)}
-                            className="w-16 h-8 text-center"
-                            disabled={!silverPercentDropAlert}
-                          />
-                          <span className="text-sm text-muted-foreground">%</span>
-                          <Switch checked={silverPercentDropAlert} onCheckedChange={setSilverPercentDropAlert} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </Card>
-
-            {/* Active Alerts */}
+            {/* Create New Alert Button */}
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Active Alerts</h2>
-              <Button variant="outline" size="sm">
+              <h2 className="text-xl font-semibold">Price Alerts</h2>
+              <Button 
+                size="sm"
+                onClick={() => { setEditingAlert(null); setShowAlertDialog(true); }}
+                className="bg-amber-500 hover:bg-amber-600 text-black"
+              >
                 <Plus className="w-4 h-4 mr-2" />
-                New Alert
+                Create Alert
               </Button>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {alerts.map((alert) => (
-                <Card key={alert.id} className={getMetalColor(alert.metal)}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        {getMetalIcon(alert.metal)}
-                        <Badge variant={alert.priority === 'high' ? 'destructive' : alert.priority === 'medium' ? 'default' : 'secondary'}>
-                          {alert.priority}
-                        </Badge>
+            {/* Active Price Alerts List */}
+            {priceAlerts.length === 0 ? (
+              <Card className="p-8 text-center">
+                <Bell className="w-12 h-12 mx-auto text-muted-foreground/40 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">No Price Alerts Yet</h3>
+                <p className="text-sm text-muted-foreground mb-4">Create your first alert to get notified when prices hit your target</p>
+                <Button onClick={() => { setEditingAlert(null); setShowAlertDialog(true); }} className="bg-amber-500 hover:bg-amber-600 text-black">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Your First Alert
+                </Button>
+              </Card>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {priceAlerts.map((alert) => {
+                  const currentPrice = CURRENT_PRICES[alert.metal];
+                  const isGold = alert.metal === "gold";
+                  const diff = alert.condition === "above" 
+                    ? ((currentPrice / alert.targetPrice) * 100)
+                    : ((alert.targetPrice > 0 ? (1 - (currentPrice - alert.targetPrice) / currentPrice) * 100 : 0));
+                  const progress = Math.min(Math.max(diff, 0), 100);
+                  
+                  return (
+                    <Card key={alert.id} className={getMetalColor(alert.metal)}>
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            {getMetalIcon(alert.metal)}
+                            <span className="font-semibold text-sm">{isGold ? "Gold" : "Silver"}</span>
+                            <Badge variant="secondary" className="text-xs">
+                              {alert.condition === "above" ? "↑ Above" : "↓ Below"}
+                            </Badge>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2 mb-3">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-muted-foreground">Current</span>
+                            <span className="font-medium">₹{currentPrice.toLocaleString("en-IN")}/gm</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-muted-foreground">Target</span>
+                            <span className="font-bold">₹{alert.targetPrice.toLocaleString("en-IN")}/gm</span>
+                          </div>
+                          <Progress value={progress} className="h-2" />
+                        </div>
+
+                        <div className="flex items-center gap-1 mb-3">
+                          {alert.channels.push && <Badge variant="outline" className="text-xs px-1.5">Push</Badge>}
+                          {alert.channels.telegram && <Badge variant="outline" className="text-xs px-1.5">TG</Badge>}
+                          {alert.channels.whatsapp && <Badge variant="outline" className="text-xs px-1.5">WA</Badge>}
+                        </div>
+
+                        <div className="flex gap-2">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => { setEditingAlert(alert); setShowAlertDialog(true); }}
+                          >
+                            <Pencil className="w-3 h-3 mr-1" />
+                            Edit
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => {
+                              setPriceAlerts(prev => prev.filter(a => a.id !== alert.id));
+                              toast.success("Alert deleted");
+                            }}
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Recent Notifications */}
+            <div>
+              <h3 className="text-lg font-semibold mb-3">Recent Notifications</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {alerts.map((alert) => (
+                  <Card key={alert.id} className={getMetalColor(alert.metal)}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          {getMetalIcon(alert.metal)}
+                          <Badge variant={alert.priority === 'high' ? 'destructive' : alert.priority === 'medium' ? 'default' : 'secondary'}>
+                            {alert.priority}
+                          </Badge>
+                        </div>
+                        <span className="text-xs text-muted-foreground">{alert.time}</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">{alert.time}</span>
-                    </div>
-                    <p className="text-sm text-foreground mb-3">{alert.message}</p>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="flex-1">
-                        <X className="w-3 h-3 mr-1" />
-                        Dismiss
-                      </Button>
-                      <Button size="sm" className="flex-1">
-                        <Eye className="w-3 h-3 mr-1" />
-                        View
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      <p className="text-sm text-foreground mb-3">{alert.message}</p>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" className="flex-1">
+                          <X className="w-3 h-3 mr-1" />
+                          Dismiss
+                        </Button>
+                        <Button size="sm" className="flex-1">
+                          <Eye className="w-3 h-3 mr-1" />
+                          View
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
 
             {/* Offers for You - Redirect Card */}
@@ -568,6 +464,15 @@ const BullionNotifications = () => {
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
               </div>
             </Card>
+
+            {/* Create Price Alert Dialog */}
+            <CreatePriceAlertDialog
+              open={showAlertDialog}
+              onOpenChange={setShowAlertDialog}
+              editAlert={editingAlert}
+              onAlertCreated={(alert) => setPriceAlerts(prev => [...prev, alert])}
+              onAlertUpdated={(updated) => setPriceAlerts(prev => prev.map(a => a.id === updated.id ? updated : a))}
+            />
           </TabsContent>
 
           {/* Research Tab */}
