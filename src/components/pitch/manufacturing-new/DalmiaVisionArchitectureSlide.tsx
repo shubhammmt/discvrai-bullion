@@ -62,7 +62,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       ]
     },
     {
-      label: 'Platforms',
+      label: 'Channels',
       colorClass: 'teal',
       items: [
         { icon: Smartphone, label: 'SUVIDHA 2.0' },
@@ -155,7 +155,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
         >
           <div className="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5">
             <span className="text-[10px] font-medium text-slate-500">TODAY:</span>
-            <span className="text-xs text-slate-700">4 Disconnected Tools</span>
+            <span className="text-xs text-slate-700">Disconnected Tools, Data and Insights</span>
           </div>
           <ArrowRight className="w-5 h-5 text-teal-500" />
           <div className="flex items-center gap-2 bg-teal-50 border border-teal-300 rounded-lg px-3 py-1.5">
