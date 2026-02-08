@@ -16,14 +16,15 @@ import {
   Megaphone,
   FileCheck,
   Brain,
-  AlertTriangle,
-  CreditCard,
-  Heart,
   Database,
   ShoppingCart,
   Award,
   Cloud,
   ArrowRight,
+  Truck,
+  MapPin,
+  BarChart3,
+  Wallet,
   LucideIcon
 } from 'lucide-react';
 
@@ -44,6 +45,7 @@ interface StackLayer {
   items: LayerItem[];
   colorClass: string;
   isDiscvrLayer?: boolean;
+  isTwoRow?: boolean;
 }
 
 export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSlideProps> = ({
@@ -96,11 +98,16 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
     {
       label: 'Data',
       colorClass: 'slate',
+      isTwoRow: true,
       items: [
-        { icon: Database, label: 'SAP' },
+        { icon: Database, label: 'SAP ERP' },
         { icon: ShoppingCart, label: 'Order Data' },
-        { icon: Award, label: 'Loyalty' },
-        { icon: Cloud, label: 'External' }
+        { icon: Award, label: 'Loyalty Program' },
+        { icon: Users, label: 'CRM' },
+        { icon: Truck, label: 'Logistics' },
+        { icon: MapPin, label: 'Geo Data' },
+        { icon: BarChart3, label: 'Market Intel' },
+        { icon: Cloud, label: 'External APIs' }
       ]
     }
   ];
@@ -173,11 +180,11 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
                   {layer.label}
                 </div>
                 
-                {/* Items Row - Full Width, Two rows for Intelligence layer */}
-                {layer.isDiscvrLayer ? (
+                {/* Items Row - Full Width, Two rows for Intelligence and Data layers */}
+                {(layer.isDiscvrLayer || layer.isTwoRow) ? (
                   <div className="flex-1 flex flex-col gap-2">
                     <div className="flex items-center gap-3">
-                      {layer.items.slice(0, 4).map((item, itemIndex) => {
+                      {layer.items.slice(0, Math.ceil(layer.items.length / 2)).map((item, itemIndex) => {
                         const IconComponent = item.icon;
                         return (
                           <motion.div
@@ -185,34 +192,34 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.45 + layerIndex * 0.08 + itemIndex * 0.03, duration: 0.2 }}
-                            className={`flex-1 flex items-center gap-2 px-4 py-2 rounded-lg ${colors.bg} border ${colors.border}`}
+                            className={`flex-1 flex items-center gap-2 px-3 py-1.5 rounded-lg ${colors.bg} border ${colors.border}`}
                           >
-                            <div className={`${colors.iconBg} rounded p-1.5`}>
-                              <IconComponent className={`w-4 h-4 ${colors.text}`} />
+                            <div className={`${colors.iconBg} rounded p-1`}>
+                              <IconComponent className={`w-3.5 h-3.5 ${colors.text}`} />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="text-xs font-medium text-slate-800 truncate">{item.label}</div>
+                              <div className="text-[11px] font-medium text-slate-800 truncate">{item.label}</div>
                             </div>
                           </motion.div>
                         );
                       })}
                     </div>
                     <div className="flex items-center gap-3">
-                      {layer.items.slice(4).map((item, itemIndex) => {
+                      {layer.items.slice(Math.ceil(layer.items.length / 2)).map((item, itemIndex) => {
                         const IconComponent = item.icon;
                         return (
                           <motion.div
                             key={itemIndex}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.45 + layerIndex * 0.08 + (itemIndex + 4) * 0.03, duration: 0.2 }}
-                            className={`flex-1 flex items-center gap-2 px-4 py-2 rounded-lg ${colors.bg} border ${colors.border}`}
+                            transition={{ delay: 0.45 + layerIndex * 0.08 + (itemIndex + Math.ceil(layer.items.length / 2)) * 0.03, duration: 0.2 }}
+                            className={`flex-1 flex items-center gap-2 px-3 py-1.5 rounded-lg ${colors.bg} border ${colors.border}`}
                           >
-                            <div className={`${colors.iconBg} rounded p-1.5`}>
-                              <IconComponent className={`w-4 h-4 ${colors.text}`} />
+                            <div className={`${colors.iconBg} rounded p-1`}>
+                              <IconComponent className={`w-3.5 h-3.5 ${colors.text}`} />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="text-xs font-medium text-slate-800 truncate">{item.label}</div>
+                              <div className="text-[11px] font-medium text-slate-800 truncate">{item.label}</div>
                             </div>
                           </motion.div>
                         );
