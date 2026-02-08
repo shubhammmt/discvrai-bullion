@@ -142,7 +142,7 @@ export const DalmiaCaseCustomerMDPSlide: React.FC<DalmiaCaseCustomerMDPSlideProp
               <div className="flex flex-col items-center gap-2">
                 <span className="text-xs font-medium text-slate-500 mb-1">Source Systems</span>
                 <div className="flex flex-col gap-2">
-                  {['SAP', 'CRM', 'SUVIDHA', 'Loyalty'].map((sys, i) => (
+                  {['SAP', 'CRM', 'Orders', 'Loyalty'].map((sys, i) => (
                     <div key={i} className="w-20 h-8 rounded bg-white border border-slate-300 flex items-center justify-center">
                       <span className="text-xs text-slate-600">{sys}</span>
                     </div>

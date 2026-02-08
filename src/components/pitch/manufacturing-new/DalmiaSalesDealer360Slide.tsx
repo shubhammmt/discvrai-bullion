@@ -24,7 +24,7 @@ export const DalmiaSalesDealer360Slide: React.FC<DalmiaSalesDealer360SlideProps>
 
   const dataSources = [
     { icon: FileText, label: 'SAP' },
-    { icon: ShoppingCart, label: 'SUVIDHA' },
+    { icon: ShoppingCart, label: 'Orders' },
     { icon: Gift, label: 'Loyalty' },
     { icon: ClipboardList, label: 'Field notes' },
     { icon: Globe, label: 'Market data' }

@@ -16,7 +16,7 @@ export const DalmiaTodaySlide: React.FC<DalmiaTodaySlideProps> = ({
   totalSlides
 }) => {
   const systems = [
-    { name: 'SUVIDHA', metric: '~35% digital', icon: Smartphone },
+    { name: 'Dealer Ordering', metric: '~35% digital', icon: Smartphone },
     { name: 'SM@RT-D', metric: 'Sales App', icon: Users },
     { name: 'Dalmia Delight', metric: 'Loyalty', icon: Gift },
     { name: 'DriverSathi', metric: 'Logistics', icon: Truck }

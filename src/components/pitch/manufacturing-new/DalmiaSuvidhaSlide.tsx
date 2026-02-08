@@ -38,7 +38,7 @@ export const DalmiaSuvidhaSlide: React.FC<DalmiaSuvidhaSlideProps> = ({
             <div className="w-16 h-16 rounded-2xl bg-slate-200 flex items-center justify-center mx-auto mb-4">
               <Smartphone className="w-8 h-8 text-slate-500" />
             </div>
-            <h3 className="font-bold text-slate-600 mb-2">SUVIDHA Today</h3>
+            <h3 className="font-bold text-slate-600 mb-2">Dealer App Today</h3>
             <p className="text-3xl font-bold text-slate-700">~35%</p>
             <p className="text-sm text-slate-500">digital orders</p>
           </motion.div>
@@ -65,7 +65,7 @@ export const DalmiaSuvidhaSlide: React.FC<DalmiaSuvidhaSlideProps> = ({
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center mx-auto mb-4">
               <Rocket className="w-8 h-8 text-white" />
             </div>
-            <h3 className="font-bold text-amber-700 mb-2">SUVIDHA 2.0</h3>
+            <h3 className="font-bold text-amber-700 mb-2">Dealer App 2.0</h3>
             <p className="text-3xl font-bold text-amber-600">80%+</p>
             <p className="text-sm text-amber-600">digital adoption</p>
           </motion.div>

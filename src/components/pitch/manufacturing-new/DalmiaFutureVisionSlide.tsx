@@ -26,7 +26,7 @@ export const DalmiaFutureVisionSlide: React.FC<DalmiaFutureVisionSlideProps> = (
     {
       label: 'Digital Platform',
       icon: Smartphone,
-      items: ['SUVIDHA 2.0', 'SM@RT-D', 'WhatsApp', 'Portal'],
+      items: ['Dealer App', 'SM@RT-D', 'WhatsApp', 'Portal'],
       color: 'from-slate-700 to-slate-800',
       textColor: 'text-white'
     },
@@ -47,7 +47,7 @@ export const DalmiaFutureVisionSlide: React.FC<DalmiaFutureVisionSlideProps> = (
     {
       label: 'Data Foundation',
       icon: Database,
-      items: ['SAP', 'SUVIDHA', 'Loyalty', 'External'],
+      items: ['SAP', 'Order Data', 'Loyalty', 'External'],
       color: 'from-slate-200 to-slate-300',
       textColor: 'text-slate-700'
     }
