@@ -94,15 +94,6 @@ export const DalmiaDealer360Slide: React.FC<DalmiaDealer360SlideProps> = ({
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="flex items-center gap-3 bg-emerald-50 px-6 py-3 rounded-xl border border-emerald-200"
-        >
-          <Users className="w-5 h-5 text-emerald-600" />
-          <span className="text-emerald-700 font-medium">49,300 channel partners unified</span>
-        </motion.div>
       </div>
     </MfgNewSlideLayout>
   );
