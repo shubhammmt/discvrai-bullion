@@ -18,17 +18,6 @@ export const DalmiaCEOImperativeSlide: React.FC<DalmiaCEOImperativeSlideProps> =
   return (
     <MfgNewSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
       <div className="flex-1 flex flex-col items-center text-center">
-        {/* Section Label */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mb-4"
-        >
-          <span className="text-xs font-bold text-amber-600 uppercase tracking-widest">
-            The CEO Imperative
-          </span>
-        </motion.div>
 
         {/* Headline */}
         <motion.h2
