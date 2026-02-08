@@ -26,7 +26,7 @@ export const DalmiaFutureVisionSlide: React.FC<DalmiaFutureVisionSlideProps> = (
     {
       label: 'Digital Platform',
       icon: Smartphone,
-      items: ['Dealer App', 'SM@RT-D', 'WhatsApp', 'Portal'],
+      items: ['Dealer App', 'Mobile App', 'WhatsApp', 'Portal'],
       color: 'from-slate-700 to-slate-800',
       textColor: 'text-white'
     },

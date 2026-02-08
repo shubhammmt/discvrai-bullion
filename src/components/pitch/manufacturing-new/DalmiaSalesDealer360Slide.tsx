@@ -65,7 +65,7 @@ export const DalmiaSalesDealer360Slide: React.FC<DalmiaSalesDealer360SlideProps>
         <div className="flex-1 flex gap-8 min-h-0">
           {/* Left: Sales Copilot */}
           <div className="flex-1 flex flex-col">
-            <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">SM@RT-D → AI Sales Copilot</h3>
+            <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">Mobile App → AI Sales Copilot</h3>
             
             {/* Copilot Visual */}
             <motion.div

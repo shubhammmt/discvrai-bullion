@@ -74,7 +74,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       colorClass: 'teal',
       items: [
         { icon: Smartphone, label: 'Dealer Ordering App' },
-        { icon: Monitor, label: 'SM@RT-D' },
+        { icon: Monitor, label: 'Mobile App' },
         { icon: MessageCircle, label: 'WhatsApp' },
         { icon: Globe, label: 'Dealer Portal' }
       ]
