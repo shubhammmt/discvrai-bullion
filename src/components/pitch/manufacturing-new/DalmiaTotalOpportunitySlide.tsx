@@ -16,13 +16,13 @@ export const DalmiaTotalOpportunitySlide: React.FC<DalmiaTotalOpportunitySlidePr
   totalSlides
 }) => {
   const opportunities = [
-    { name: 'AI Pricing Engine', metric: '1-2% margin uplift', range: '₹140–280 Cr', icon: DollarSign, type: 'revenue' },
-    { name: 'Sales Copilot', metric: '8-15% productivity', range: '₹80–150 Cr', icon: Users, type: 'revenue' },
-    { name: 'Dealer 360', metric: 'Retention improvement', range: '₹60–120 Cr', icon: PieChart, type: 'revenue' },
-    { name: 'AI Marketing Radar', metric: '20-30% ROI', range: '₹40–80 Cr', icon: Megaphone, type: 'revenue' },
-    { name: 'Demand Planning', metric: 'Forecast accuracy', range: '₹100–200 Cr', icon: BarChart3, type: 'savings' },
-    { name: 'Touchless O2C', metric: 'DSO reduction', range: '₹150–300 Cr', icon: FileCheck, type: 'savings' },
-    { name: 'Dashboarding', metric: 'Decision velocity', range: '₹50–90 Cr', icon: LayoutDashboard, type: 'savings' }
+    { name: 'AI Pricing Engine', metric: '1-2% margin uplift', range: '₹180–350 Cr', icon: DollarSign, type: 'revenue' },
+    { name: 'Sales Copilot', metric: '8-15% productivity', range: '₹100–200 Cr', icon: Users, type: 'revenue' },
+    { name: 'Dealer 360', metric: 'Retention improvement', range: '₹80–160 Cr', icon: PieChart, type: 'revenue' },
+    { name: 'AI Marketing Radar', metric: '20-30% ROI', range: '₹60–120 Cr', icon: Megaphone, type: 'revenue' },
+    { name: 'Demand Planning', metric: 'Forecast accuracy', range: '₹150–300 Cr', icon: BarChart3, type: 'savings' },
+    { name: 'Touchless O2C', metric: 'DSO reduction', range: '₹200–400 Cr', icon: FileCheck, type: 'savings' },
+    { name: 'Dashboarding', metric: 'Decision velocity', range: '₹100–190 Cr', icon: LayoutDashboard, type: 'savings' }
   ];
 
   return (
@@ -94,7 +94,7 @@ export const DalmiaTotalOpportunitySlide: React.FC<DalmiaTotalOpportunitySlidePr
               <TrendingUp className="w-5 h-5 text-amber-600" />
               <span className="text-sm font-medium text-amber-800 uppercase tracking-wide">Revenue Uplift</span>
             </div>
-            <p className="text-2xl font-bold text-amber-900">₹320–530 Cr</p>
+            <p className="text-2xl font-bold text-amber-900">₹420–830 Cr</p>
           </motion.div>
 
           <motion.div
@@ -107,7 +107,7 @@ export const DalmiaTotalOpportunitySlide: React.FC<DalmiaTotalOpportunitySlidePr
               <Wallet className="w-5 h-5 text-teal-600" />
               <span className="text-sm font-medium text-teal-800 uppercase tracking-wide">Savings & Efficiency</span>
             </div>
-            <p className="text-2xl font-bold text-teal-900">₹340–650 Cr</p>
+            <p className="text-2xl font-bold text-teal-900">₹450–890 Cr</p>
           </motion.div>
         </div>
 
