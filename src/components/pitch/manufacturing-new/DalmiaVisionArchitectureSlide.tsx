@@ -53,6 +53,14 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
 }) => {
   const layers: StackLayer[] = [
     {
+      label: 'Value',
+      colorClass: 'orange',
+      items: [
+        { icon: TrendingUp, label: 'Total Opportunity', value: '₹870–1,720 Cr' },
+        { icon: Zap, label: 'ROI', value: '8–10×' }
+      ]
+    },
+    {
       label: 'Outcomes',
       colorClass: 'amber',
       items: [
@@ -106,6 +114,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
   ];
 
   const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string }> = {
+    orange: { bg: 'bg-orange-50', border: 'border-orange-300', text: 'text-orange-700', iconBg: 'bg-orange-100' },
     amber: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', iconBg: 'bg-amber-100' },
     teal: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', iconBg: 'bg-teal-100' },
     purple: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700', iconBg: 'bg-purple-100' },
@@ -126,26 +135,6 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
               {slide.headline}
             </h2>
           </div>
-          
-          {/* Value Callout - Compact */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-            className="bg-amber-50 border border-amber-300 rounded-lg px-4 py-2"
-          >
-            <div className="flex items-center gap-4">
-              <div>
-                <div className="text-xs text-amber-600">Total Opportunity</div>
-                <div className="text-lg font-bold text-amber-700">₹870–1,720 Cr</div>
-              </div>
-              <div className="h-8 w-px bg-amber-200" />
-              <div className="text-center">
-                <div className="text-xs text-slate-600">ROI</div>
-                <div className="text-sm font-bold text-amber-600">8–10×</div>
-              </div>
-            </div>
-          </motion.div>
         </div>
 
         {/* From → To Bridge - Horizontal Compact */}
