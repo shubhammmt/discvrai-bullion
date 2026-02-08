@@ -38,6 +38,15 @@ import { DalmiaCaseDynamicCapacitySlide } from './DalmiaCaseDynamicCapacitySlide
 import { DalmiaCaseQRAuthSlide } from './DalmiaCaseQRAuthSlide';
 import { DalmiaCaseCommodityCostingSlide } from './DalmiaCaseCommodityCostingSlide';
 import { DalmiaCaseFinancialReconSlide } from './DalmiaCaseFinancialReconSlide';
+// New section slides (17-24)
+import { DalmiaIndustryShiftSlide } from './DalmiaIndustryShiftSlide';
+import { DalmiaTodayFutureSlide } from './DalmiaTodayFutureSlide';
+import { DalmiaCaseThemeDataSlide } from './DalmiaCaseThemeDataSlide';
+import { DalmiaCaseThemeSalesSlide } from './DalmiaCaseThemeSalesSlide';
+import { DalmiaCaseThemeSupplySlide } from './DalmiaCaseThemeSupplySlide';
+import { DalmiaCaseThemeTrustSlide } from './DalmiaCaseThemeTrustSlide';
+import { DalmiaCaseThemeMarginSlide } from './DalmiaCaseThemeMarginSlide';
+import { DalmiaTransformationRoadmapSlide } from './DalmiaTransformationRoadmapSlide';
 
 interface MfgNewSlideRendererProps {
   slide: ManufacturingNewSlide;
@@ -125,6 +134,23 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaCaseCommodityCostingSlide slide={slide} {...baseProps} />;
     case 'dalmia-case-financial-recon':
       return <DalmiaCaseFinancialReconSlide slide={slide} {...baseProps} />;
+    // New section slides (17-24)
+    case 'dalmia-industry-shift':
+      return <DalmiaIndustryShiftSlide slide={slide} {...baseProps} />;
+    case 'dalmia-today-future':
+      return <DalmiaTodayFutureSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-theme-data':
+      return <DalmiaCaseThemeDataSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-theme-sales':
+      return <DalmiaCaseThemeSalesSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-theme-supply':
+      return <DalmiaCaseThemeSupplySlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-theme-trust':
+      return <DalmiaCaseThemeTrustSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-theme-margin':
+      return <DalmiaCaseThemeMarginSlide slide={slide} {...baseProps} />;
+    case 'dalmia-transformation-roadmap':
+      return <DalmiaTransformationRoadmapSlide slide={slide} {...baseProps} />;
     default:
       return (
         <div className="h-screen w-full bg-white flex items-center justify-center">
