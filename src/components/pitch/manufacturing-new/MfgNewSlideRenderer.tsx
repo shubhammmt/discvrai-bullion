@@ -22,7 +22,6 @@ import { DalmiaDemandSensingSlide } from './DalmiaDemandSensingSlide';
 import { DalmiaO2CSlide } from './DalmiaO2CSlide';
 import { DalmiaSuvidhaSlide } from './DalmiaSuvidhaSlide';
 import { DalmiaCaseStudiesSlide } from './DalmiaCaseStudiesSlide';
-import { DalmiaFinalMessageSlide } from './DalmiaFinalMessageSlide';
 // Theme slides
 import { DalmiaThemeDataPlatformSlide } from './DalmiaThemeDataPlatformSlide';
 import { DalmiaThemeSalesChannelSlide } from './DalmiaThemeSalesChannelSlide';
@@ -84,8 +83,6 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaSuvidhaSlide slide={slide} {...baseProps} />;
     case 'dalmia-case-studies':
       return <DalmiaCaseStudiesSlide slide={slide} {...baseProps} />;
-    case 'dalmia-final-message':
-      return <DalmiaFinalMessageSlide slide={slide} {...baseProps} />;
     case 'dalmia-vision-architecture':
       return <DalmiaVisionArchitectureSlide slide={slide} {...baseProps} />;
     case 'dalmia-sales-dealer360':
