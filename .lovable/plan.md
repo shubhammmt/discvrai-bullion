@@ -1,102 +1,82 @@
 
-# Mark Discvr AI Value Layers in Slide 6
+# Remove Redundant Slides 2 and 3
 
-## Overview
-Add a visual indicator to highlight which layers in the execution stack represent Discvr AI's core value contribution. Based on DiscvrAI's B2B transformation philosophy, the value is concentrated in the **Workflows** (agentic automation) and **Intelligence** (AI models) layers.
+## Analysis
+
+After comparing the slide content, there is clear redundancy:
+
+| Early Slides | Later Slides | Overlap |
+|--------------|--------------|---------|
+| Slide 2: "Industry Inflection Point" | Slide 17: "Heavy Industry Digital Transformation" | Both cover the shift from operational to AI-driven commercial intelligence |
+| Slide 3: "Commercial Model Transformation" | Slide 18: "Dalmia Today vs AI-Centric Future" | Both show before/after comparisons of old vs new operating models |
+
+Slides 17 and 18 are the better versions - they have:
+- More detailed consulting-grade layouts
+- BCG/McKinsey insights with citations
+- Richer visual architecture diagrams
+- Better structured content cards
+
+## Implementation Plan
+
+### Step 1: Update Slide Data
+**File:** `src/data/dalmiaCementSlides.ts`
+
+- Remove slide entries with IDs 2 and 3 (`dalmia-why-now` and `dalmia-transformation`)
+- Re-number all subsequent slide IDs to maintain sequential order (4 becomes 2, 5 becomes 3, etc.)
+- Total slides will go from 24 to 22
+
+### Step 2: Verify Renderer
+**File:** `src/components/pitch/manufacturing-new/MfgNewSlideRenderer.tsx`
+
+- The renderer already has switch cases for all slide types
+- No changes needed - it will continue to work since it matches on `slide.type`, not `slide.id`
+
+### New Slide Order (22 slides total)
+
+| New # | Type | Headline |
+|-------|------|----------|
+| 1 | Cover | "Commercial Intelligence Transformation" |
+| 2 | Global Examples | "What Global Leaders Are Doing" |
+| 3 | Today | "Strong Foundations - Missing Intelligence Layer" |
+| 4 | Vision Architecture | "AI-Powered Commercial Intelligence Platform" |
+| 5 | Value Streams | "Value Delivery Streams" |
+| 6 | Pricing Engine | "AI Pricing Engine" |
+| 7 | Sales Copilot | "Sales Copilot" |
+| 8 | Dealer 360 | "Dealer 360 Platform" |
+| 9 | Marketing Engine | "AI Marketing Engine" |
+| 10 | Demand Sensing | "Demand Sensing" |
+| 11 | O2C | "Order to Cash Transformation" |
+| 12 | SUVIDHA | "SUVIDHA 2.0 Platform" |
+| 13 | Value Map | "Value Map" |
+| 14 | Roadmap Ask | "Roadmap & Ask" |
+| 15 | Industry Shift | "Heavy Industry Digital Transformation" |
+| 16 | Today Future | "Dalmia Today vs AI-Centric Future" |
+| 17 | Theme Data | "Unified Commercial Data Platform" |
+| 18 | Theme Sales | "AI Sales Execution & Field Intelligence" |
+| 19 | Theme Supply | "Predictive Supply Chain Intelligence" |
+| 20 | Theme Trust | "Digital Trust & Channel Governance" |
+| 21 | Theme Margin | "AI Margin Intelligence & Finance Automation" |
+| 22 | Roadmap | "Transformation Roadmap" |
 
 ---
 
-## Design Approach
-
-Add a "Discvr AI" badge/marker on the left side of the Workflows and Intelligence layers to clearly communicate where the AI platform delivers value.
-
-### Visual Treatment Options
-
-**Option A: Left-aligned Badge (Recommended)**
-- Add a small pill badge with "Discvr AI" text positioned to the left of the layer label
-- Use a distinctive color (gradient or accent) to stand out
-- Apply a subtle glow or border effect for emphasis
+## Technical Details
 
 ```text
-                    WORKFLOWS  ┃ Pricing │ Sales │ Marketing │ O2C ┃
-  ┌─────────┐                  │                                   │
-  │Discvr AI│ ─────────────────┤                                   │
-  └─────────┘                  │                                   │
-                 INTELLIGENCE  ┃ Demand │ Churn │ Credit │ Sentiment┃
+// dalmiaCementSlides.ts changes
+
+REMOVE:
+- Slide ID 2 (type: 'dalmia-why-now')
+- Slide ID 3 (type: 'dalmia-transformation')
+
+RENUMBER:
+- ID 4 → 2
+- ID 5 → 3
+- ...continue sequentially...
+- ID 24 → 22
+
+RESULT:
+totalDalmiaCementSlides = 22 (down from 24)
 ```
 
----
-
-## Implementation Details
-
-### 1. Add `isDiscvrLayer` flag to StackLayer interface
-
-```typescript
-interface StackLayer {
-  label: string;
-  items: LayerItem[];
-  colorClass: string;
-  isDiscvrLayer?: boolean;  // NEW: marks Discvr AI value layers
-}
-```
-
-### 2. Update layers array to flag Workflows and Intelligence
-
-```typescript
-{
-  label: 'Workflows',
-  colorClass: 'purple',
-  isDiscvrLayer: true,  // NEW
-  items: [...]
-},
-{
-  label: 'Intelligence',
-  colorClass: 'blue',
-  isDiscvrLayer: true,  // NEW
-  items: [...]
-}
-```
-
-### 3. Add Discvr AI badge rendering in the layer row
-
-For layers with `isDiscvrLayer: true`, render a badge to the left of the label:
-
-```typescript
-{layer.isDiscvrLayer && (
-  <div className="absolute -left-2 top-1/2 -translate-y-1/2 flex items-center">
-    <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
-      Discvr AI
-    </div>
-    <div className="w-2 h-px bg-gradient-to-r from-purple-400 to-blue-400" />
-  </div>
-)}
-```
-
-### 4. Wrap both Workflows and Intelligence in a grouped container
-
-Add a subtle left border or bracket connecting the two Discvr AI layers:
-
-```typescript
-// Add a vertical connector line on the left spanning both layers
-<div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-400 to-blue-400 rounded-full" />
-```
-
----
-
-## File Changes
-
-| File | Changes |
-|------|---------|
-| `DalmiaVisionArchitectureSlide.tsx` | Add `isDiscvrLayer` flag, render badge and visual connector |
-
----
-
-## Result
-
-The slide will clearly communicate:
-- **Data** layer = existing foundation (SAP, SUVIDHA, etc.)
-- **Workflows + Intelligence** layers = **Discvr AI value zone** (highlighted with badge and visual grouping)
-- **Channels** layer = touchpoints enhanced by AI
-- **Outcomes** layer = business results delivered
-
-This aligns with the "Day-0 Digitalization First, AI Enablement Second" philosophy - the Data layer is the digital bedrock, and Discvr AI adds the intelligence layer on top.
+No component file changes required - the slide type renderers will continue to work correctly.
