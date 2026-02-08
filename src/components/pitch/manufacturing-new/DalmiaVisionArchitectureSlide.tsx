@@ -80,16 +80,6 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       ]
     },
     {
-      label: 'Workflows',
-      colorClass: 'purple',
-      items: [
-        { icon: DollarSign, label: 'Pricing' },
-        { icon: UserCheck, label: 'Sales' },
-        { icon: Megaphone, label: 'Marketing' },
-        { icon: FileCheck, label: 'O2C' }
-      ]
-    },
-    {
       label: 'Intelligence',
       colorClass: 'blue',
       isDiscvrLayer: true,
