@@ -192,9 +192,17 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     headline: 'Total Opportunity Breakdown',
     speakerNotes: 'Value breakdown across all seven streams. Revenue uplift plus operational savings equals total opportunity of ₹870–1,720 Cr with 50× ROI.'
   },
-  // Slide 15: Case Study 1 - Commercial Data Platform (was 16)
+  // Slide 15: Section Break - Case Studies
   {
     id: 15,
+    type: 'dalmia-section-break',
+    headline: 'Case Studies',
+    subtitle: 'Real-world transformations delivering measurable impact',
+    speakerNotes: 'Transition to case studies showcasing proven enterprise implementations.'
+  },
+  // Slide 16: Case Study 1 - Commercial Data Platform
+  {
+    id: 16,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Enterprise commercial data platform delivering unified customer intelligence.',
@@ -226,9 +234,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 16: Case Study 2 - Field Force Platform
+  // Slide 17: Case Study 2 - Field Force Platform
   {
-    id: 16,
+    id: 17,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered field force and sales execution transformation.',
@@ -260,9 +268,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 17: Case Study 3 - Supply Chain Intelligence
+  // Slide 18: Case Study 3 - Supply Chain Intelligence
   {
-    id: 17,
+    id: 18,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'End-to-end supply chain visibility and intelligence.',
@@ -294,9 +302,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 18: Case Study 4 - Product Authentication
+  // Slide 19: Case Study 4 - Product Authentication
   {
-    id: 18,
+    id: 19,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Digital product authentication and channel governance.',
@@ -328,9 +336,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 19: Case Study 5 - Demand Intelligence
+  // Slide 20: Case Study 5 - Demand Intelligence
   {
-    id: 19,
+    id: 20,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Predictive demand sensing and dynamic capacity planning.',
@@ -362,9 +370,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 20: Case Study 6 - Margin Intelligence
+  // Slide 21: Case Study 6 - Margin Intelligence
   {
-    id: 20,
+    id: 21,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered margin intelligence and financial automation.',
@@ -396,9 +404,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 21: Roadmap (moved from 14)
+  // Slide 22: Roadmap
   {
-    id: 21,
+    id: 22,
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
