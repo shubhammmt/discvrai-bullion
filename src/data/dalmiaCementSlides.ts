@@ -174,6 +174,13 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
+  },
+  // Slide 15: Total Opportunity
+  {
+    id: 15,
+    type: 'dalmia-total-opportunity',
+    headline: 'Total Opportunity Breakdown',
+    speakerNotes: 'Value breakdown across all seven streams. Revenue uplift plus operational savings equals total opportunity of ₹870–1,720 Cr with 50× ROI.'
   }
 ];
 
