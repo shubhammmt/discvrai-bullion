@@ -81,6 +81,7 @@ export interface DalmiaCementSlide {
   o2cComponents?: string[];
   o2cImpact?: string;
   caseStudy?: CaseStudyData;
+  screenshotPath?: string;
 }
 
 export const dalmiaCementSlides: DalmiaCementSlide[] = [
@@ -232,13 +233,21 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       ],
       wireframe: {
         nodes: ['ERP + CRM + Apps', 'Data Lake', 'AI Intelligence', 'Dashboards']
-      },
-      screenshotPath: 'case-study-data-platform'
+      }
     }
   },
-  // Slide 17: Case Study 2 - Field Force Platform
+  // Slide 17: Screenshot - Data Platform
   {
     id: 17,
+    type: 'dalmia-screenshot',
+    headline: 'Customer 360 Dashboard',
+    subtitle: 'Unified commercial intelligence platform with real-time analytics',
+    speakerNotes: 'Live demonstration of the Customer 360 dashboard.',
+    screenshotPath: 'case-study-data-platform'
+  },
+  // Slide 18: Case Study 2 - Field Force Platform
+  {
+    id: 18,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered field force and sales execution transformation.',
@@ -270,9 +279,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 18: Case Study 3 - Supply Chain Intelligence
+  // Slide 19: Case Study 3 - Supply Chain Intelligence
   {
-    id: 18,
+    id: 19,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'End-to-end supply chain visibility and intelligence.',
@@ -304,9 +313,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 19: Case Study 4 - Product Authentication
+  // Slide 20: Case Study 4 - Product Authentication
   {
-    id: 19,
+    id: 20,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Digital product authentication and channel governance.',
@@ -338,9 +347,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 20: Case Study 5 - Demand Intelligence
+  // Slide 21: Case Study 5 - Demand Intelligence
   {
-    id: 20,
+    id: 21,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Predictive demand sensing and dynamic capacity planning.',
@@ -372,9 +381,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 21: Case Study 6 - Margin Intelligence
+  // Slide 22: Case Study 6 - Margin Intelligence
   {
-    id: 21,
+    id: 22,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered margin intelligence and financial automation.',
@@ -406,9 +415,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 22: Roadmap
+  // Slide 23: Roadmap
   {
-    id: 22,
+    id: 23,
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
