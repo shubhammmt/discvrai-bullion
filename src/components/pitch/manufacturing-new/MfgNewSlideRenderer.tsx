@@ -1,6 +1,7 @@
 import React from 'react';
 import { ManufacturingNewSlide } from '@/data/manufacturingNewSlides';
 import { DalmiaCoverSlide } from './DalmiaCoverSlide';
+import { DalmiaOverviewSlide } from './DalmiaOverviewSlide';
 import { DalmiaGlobalExamplesSlide } from './DalmiaGlobalExamplesSlide';
 import { DalmiaTodaySlide } from './DalmiaTodaySlide';
 import { DalmiaVisionArchitectureSlide } from './DalmiaVisionArchitectureSlide';
@@ -30,6 +31,8 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
   switch (slide.type) {
     case 'dalmia-cover':
       return <DalmiaCoverSlide slide={slide} {...baseProps} />;
+    case 'dalmia-overview':
+      return <DalmiaOverviewSlide slide={slide} {...baseProps} />;
     case 'dalmia-global-examples':
       return <DalmiaGlobalExamplesSlide slide={slide} {...baseProps} />;
     case 'dalmia-today':

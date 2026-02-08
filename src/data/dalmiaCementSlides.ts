@@ -74,23 +74,30 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     subtitle: 'From Transactional Tools to AI-Powered Revenue Engine',
     speakerNotes: 'Cement industry entering AI-led commercial era. Digital intelligence will define margin leadership.'
   },
-  // Slide 2: Global Examples
+  // Slide 2: Overview
   {
     id: 2,
+    type: 'dalmia-overview',
+    headline: 'Agenda Overview',
+    speakerNotes: 'Four key sections: Context, Architecture, Value Streams, and Roadmap.'
+  },
+  // Slide 3: Global Examples
+  {
+    id: 3,
     type: 'dalmia-global-examples',
     headline: 'What Global Leaders Are Doing',
     speakerNotes: 'Shift from product companies to intelligence platforms.'
   },
-  // Slide 3: Today
+  // Slide 4: Today
   {
-    id: 3,
+    id: 4,
     type: 'dalmia-today',
     headline: 'Strong Foundations — Missing Intelligence Layer',
     speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap.'
   },
-  // Slide 4: Vision & Architecture
+  // Slide 5: Vision & Architecture
   {
-    id: 4,
+    id: 5,
     type: 'dalmia-vision-architecture',
     headline: 'AI-Powered Commercial Intelligence Platform',
     totalValue: '₹870–1,720 Cr',
@@ -105,65 +112,65 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Dalmia evolves from manufacturer to commercial platform. Build from data foundation up to customer-facing ecosystem. Total opportunity: ₹870–1,720 Cr with 8–10× ROI.'
   },
-  // Slide 5: Value Streams
+  // Slide 6: Value Streams
   {
-    id: 5,
+    id: 6,
     type: 'dalmia-value-streams',
     headline: 'Value Delivery Streams',
     speakerNotes: 'Seven pillars of commercial transformation.'
   },
-  // Slide 6: AI Pricing Engine
+  // Slide 7: AI Pricing Engine
   {
-    id: 6,
+    id: 7,
     type: 'dalmia-pricing-engine',
     headline: 'AI Pricing Engine',
     speakerNotes: 'Pricing is the highest-impact lever for margin improvement.'
   },
-  // Slide 7: Sales Copilot
+  // Slide 8: Sales Copilot
   {
-    id: 7,
+    id: 8,
     type: 'dalmia-sales-copilot',
     headline: 'Sales Copilot',
     speakerNotes: 'Transform existing sales app into intelligent copilot.'
   },
-  // Slide 8: Dealer 360
+  // Slide 9: Dealer 360
   {
-    id: 8,
+    id: 9,
     type: 'dalmia-dealer360',
     headline: 'Dealer 360 Platform',
     speakerNotes: 'Unified dealer view enables intelligent decision-making.'
   },
-  // Slide 9: Marketing Engine
+  // Slide 10: Marketing Engine
   {
-    id: 9,
+    id: 10,
     type: 'dalmia-marketing-engine',
     headline: 'AI Marketing Engine',
     speakerNotes: 'AI enables hyperlocal, personalized marketing at scale.'
   },
-  // Slide 10: Demand Sensing
+  // Slide 11: Demand Sensing
   {
-    id: 10,
+    id: 11,
     type: 'dalmia-demand-sensing',
     headline: 'Demand Sensing',
     speakerNotes: 'AI demand sensing reduces bullwhip effect.'
   },
-  // Slide 11: O2C
+  // Slide 12: O2C
   {
-    id: 11,
+    id: 12,
     type: 'dalmia-o2c',
     headline: 'Order to Cash Transformation',
     speakerNotes: 'End-to-end O2C automation drives working capital efficiency.'
   },
-  // Slide 12: Dashboarding & Insights
+  // Slide 13: Dashboarding & Insights
   {
-    id: 12,
+    id: 13,
     type: 'dalmia-dashboarding',
     headline: 'Dashboarding & Insights',
     speakerNotes: 'End-to-end analytics and business intelligence for data-driven decisions.'
   },
-  // Slide 13: Roadmap
+  // Slide 14: Roadmap
   {
-    id: 13,
+    id: 14,
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
