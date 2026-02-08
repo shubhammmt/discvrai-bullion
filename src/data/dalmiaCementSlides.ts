@@ -102,7 +102,7 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     headline: 'AI-Powered Commercial Intelligence Platform',
     totalValue: '₹870–1,720 Cr',
     investment: '₹106–202 Cr',
-    roi: '8–10×',
+    roi: '50×',
     content: [
       'Data',
       'AI Intelligence',
