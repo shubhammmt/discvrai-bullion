@@ -168,7 +168,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
         </motion.div>
 
         {/* Horizontal Stack - Wide Layout */}
-        <div className="flex-1 flex flex-col justify-center gap-2 min-h-0 relative">
+        <div className="flex-1 flex flex-col justify-center gap-2 min-h-0 relative pl-20">
           {/* Discvr AI vertical connector and badge */}
           <motion.div
             initial={{ opacity: 0, x: -10 }}
@@ -177,13 +177,25 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
             className="absolute left-0 flex items-center"
             style={{ top: 'calc(40% + 0.25rem)', height: 'calc(40% - 0.5rem)' }}
           >
-            {/* Vertical connector line */}
-            <div className="h-full w-0.5 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full" />
+            {/* Dotted vertical connector line */}
+            <div 
+              className="h-full w-0.5 rounded-full"
+              style={{ 
+                background: 'repeating-linear-gradient(to bottom, transparent, transparent 3px, #8b5cf6 3px, #8b5cf6 6px, transparent 6px, transparent 9px, #3b82f6 9px, #3b82f6 12px)'
+              }}
+            />
             {/* Badge positioned in the middle */}
-            <div className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
               <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
                 Discvr AI
               </div>
+              {/* Dotted horizontal connector */}
+              <div 
+                className="w-4 h-px"
+                style={{ 
+                  background: 'repeating-linear-gradient(to right, transparent, transparent 2px, #8b5cf6 2px, #8b5cf6 4px)'
+                }}
+              />
             </div>
           </motion.div>
           
@@ -195,7 +207,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + layerIndex * 0.08, duration: 0.3 }}
-                className={`flex items-center gap-3 ${layer.isDiscvrLayer ? 'ml-16' : ''}`}
+                className="flex items-center gap-3"
               >
                 {/* Layer Label */}
                 <div className={`w-20 text-right text-[10px] font-bold uppercase tracking-wide ${colors.text}`}>
