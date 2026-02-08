@@ -153,7 +153,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className="flex items-center justify-center gap-4 mb-4"
+          className="flex items-center justify-center gap-4 mb-2"
         >
           <div className="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5">
             <span className="text-[10px] font-medium text-slate-500">TODAY:</span>
@@ -167,7 +167,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
         </motion.div>
 
         {/* Horizontal Stack - Wide Layout */}
-        <div className="flex-1 flex flex-col justify-center gap-2 min-h-0 relative pl-20">
+        <div className="flex-1 flex flex-col justify-start gap-1.5 min-h-0 relative pl-20">
           {layers.map((layer, layerIndex) => {
             const colors = colorMap[layer.colorClass];
             return (
