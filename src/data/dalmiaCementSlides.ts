@@ -227,6 +227,58 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     totalValue: '₹870–1,720 Cr',
     roi: '8–10×',
     speakerNotes: 'Phased approach balances quick wins with platform build. Clear ask for board decision.'
+  },
+  // Section 1 - Industry Shift
+  {
+    id: 17,
+    type: 'dalmia-industry-shift',
+    headline: 'Heavy Industry Digital Transformation',
+    speakerNotes: 'Industry shifting from operational digitization to AI-driven commercial intelligence.'
+  },
+  // Section 2 - Dalmia Opportunity
+  {
+    id: 18,
+    type: 'dalmia-today-future',
+    headline: 'Dalmia Today vs AI-Centric Future',
+    speakerNotes: 'Show current fragmented state vs unified AI commercial platform vision.'
+  },
+  // Section 3 - Transformation Themes
+  {
+    id: 19,
+    type: 'dalmia-case-theme-data',
+    headline: 'Unified Commercial Data Platform',
+    speakerNotes: 'Enterprise data lake as foundation for all AI capabilities.'
+  },
+  {
+    id: 20,
+    type: 'dalmia-case-theme-sales',
+    headline: 'AI Sales Execution & Field Intelligence',
+    speakerNotes: 'Transform field force from order-takers to strategic advisors.'
+  },
+  {
+    id: 21,
+    type: 'dalmia-case-theme-supply',
+    headline: 'Predictive Supply Chain Intelligence',
+    speakerNotes: 'Real-time visibility and demand prediction across network.'
+  },
+  {
+    id: 22,
+    type: 'dalmia-case-theme-trust',
+    headline: 'Digital Trust & Channel Governance',
+    speakerNotes: 'Protect brand and ensure channel integrity with QR authentication.'
+  },
+  {
+    id: 23,
+    type: 'dalmia-case-theme-margin',
+    headline: 'AI Margin Intelligence & Finance Automation',
+    speakerNotes: 'Real-time margin visibility and automated reconciliation.'
+  },
+  // Section 4 - Roadmap
+  {
+    id: 24,
+    type: 'dalmia-transformation-roadmap',
+    headline: 'Transformation Roadmap',
+    speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
   }
 ];
 
