@@ -43,6 +43,7 @@ interface StackLayer {
   label: string;
   items: LayerItem[];
   colorClass: string;
+  isDiscvrLayer?: boolean;
 }
 
 export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSlideProps> = ({
@@ -74,6 +75,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
     {
       label: 'Workflows',
       colorClass: 'purple',
+      isDiscvrLayer: true,
       items: [
         { icon: DollarSign, label: 'Pricing' },
         { icon: UserCheck, label: 'Sales' },
@@ -84,6 +86,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
     {
       label: 'Intelligence',
       colorClass: 'blue',
+      isDiscvrLayer: true,
       items: [
         { icon: Brain, label: 'Demand' },
         { icon: AlertTriangle, label: 'Churn' },
@@ -165,7 +168,25 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
         </motion.div>
 
         {/* Horizontal Stack - Wide Layout */}
-        <div className="flex-1 flex flex-col justify-center gap-2 min-h-0">
+        <div className="flex-1 flex flex-col justify-center gap-2 min-h-0 relative">
+          {/* Discvr AI vertical connector and badge */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6, duration: 0.4 }}
+            className="absolute left-0 flex items-center"
+            style={{ top: 'calc(40% + 0.25rem)', height: 'calc(40% - 0.5rem)' }}
+          >
+            {/* Vertical connector line */}
+            <div className="h-full w-0.5 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full" />
+            {/* Badge positioned in the middle */}
+            <div className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
+                Discvr AI
+              </div>
+            </div>
+          </motion.div>
+          
           {layers.map((layer, layerIndex) => {
             const colors = colorMap[layer.colorClass];
             return (
@@ -174,7 +195,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + layerIndex * 0.08, duration: 0.3 }}
-                className="flex items-center gap-3"
+                className={`flex items-center gap-3 ${layer.isDiscvrLayer ? 'ml-16' : ''}`}
               >
                 {/* Layer Label */}
                 <div className={`w-20 text-right text-[10px] font-bold uppercase tracking-wide ${colors.text}`}>
