@@ -221,47 +221,40 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     headline: 'Heavy Industry Digital Transformation',
     speakerNotes: 'Industry shifting from operational digitization to AI-driven commercial intelligence.'
   },
-  // Section 2 - Dalmia Opportunity
+  // Section 2 - Transformation Themes
   {
     id: 16,
-    type: 'dalmia-today-future',
-    headline: 'Dalmia Today vs AI-Centric Future',
-    speakerNotes: 'Show current fragmented state vs unified AI commercial platform vision.'
-  },
-  // Section 3 - Transformation Themes
-  {
-    id: 17,
     type: 'dalmia-case-theme-data',
     headline: 'Unified Commercial Data Platform',
     speakerNotes: 'Enterprise data lake as foundation for all AI capabilities.'
   },
   {
-    id: 18,
+    id: 17,
     type: 'dalmia-case-theme-sales',
     headline: 'AI Sales Execution & Field Intelligence',
     speakerNotes: 'Transform field force from order-takers to strategic advisors.'
   },
   {
-    id: 19,
+    id: 18,
     type: 'dalmia-case-theme-supply',
     headline: 'Predictive Supply Chain Intelligence',
     speakerNotes: 'Real-time visibility and demand prediction across network.'
   },
   {
-    id: 20,
+    id: 19,
     type: 'dalmia-case-theme-trust',
     headline: 'Digital Trust & Channel Governance',
     speakerNotes: 'Protect brand and ensure channel integrity with QR authentication.'
   },
   {
-    id: 21,
+    id: 20,
     type: 'dalmia-case-theme-margin',
     headline: 'AI Margin Intelligence & Finance Automation',
     speakerNotes: 'Real-time margin visibility and automated reconciliation.'
   },
-  // Section 4 - Roadmap
+  // Section 3 - Roadmap
   {
-    id: 22,
+    id: 21,
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
