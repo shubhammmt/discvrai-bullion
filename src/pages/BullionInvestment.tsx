@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, ArrowLeft, User, Search, Moon, Sun, LogOut, LogIn } from "lucide-react";
+import { Bell, ArrowLeft, User, Plus, Moon, Sun, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { BullionPriceCard } from "@/components/bullion/BullionPriceCard";
@@ -28,6 +28,7 @@ import {
   ThemeSwitcher,
   BullionNavTabs,
   BullionMobileMenu,
+  CreatePriceAlertDialog,
 } from "@/components/bullion";
 
 // User state type for personalized experience
@@ -39,6 +40,7 @@ export default function BullionInvestment() {
   const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
   const [view, setView] = useState<"market" | "vault" | "cards">("market");
   const [showEmptyHoldingsPrompt, setShowEmptyHoldingsPrompt] = useState(false);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
 
   // User state simulation - controllable via dev switcher
   const [userState, setUserState] = useState<UserState>("new");
@@ -126,9 +128,9 @@ export default function BullionInvestment() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {/* Search */}
-            <Button variant="ghost" size="icon" className="hidden sm:flex hover:bg-muted">
-              <Search className="w-5 h-5" />
+            {/* Create Alert */}
+            <Button variant="ghost" size="icon" className="hidden sm:flex hover:bg-muted" onClick={() => setShowAlertDialog(true)}>
+              <Plus className="w-5 h-5" />
             </Button>
             {/* Day/Night Mode */}
             <Button 
@@ -546,6 +548,12 @@ export default function BullionInvestment() {
 
       {/* AI Agent */}
       <AIAgentChat goldPrice={goldPrice} silverPrice={silverPrice} />
+
+      {/* Create Price Alert Dialog */}
+      <CreatePriceAlertDialog
+        open={showAlertDialog}
+        onOpenChange={setShowAlertDialog}
+      />
 
       {/* Dev Mode: User State Switcher */}
       <UserStateSwitcher

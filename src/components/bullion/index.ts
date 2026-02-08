@@ -57,3 +57,6 @@ export { BullionMobileMenu } from './BullionMobileMenu';
 export { generateInvoicePDF } from './InvoiceGenerator';
 export { StartSIPDialog } from './StartSIPDialog';
 export { TransactionCard } from './TransactionCard';
+
+// Phase 7 - Price Alert Dialog
+export { CreatePriceAlertDialog } from './CreatePriceAlertDialog';
