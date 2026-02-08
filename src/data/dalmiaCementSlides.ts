@@ -175,80 +175,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     headline: 'SUVIDHA 2.0 Platform',
     speakerNotes: 'Transform into industry equivalent of CEMEX GO.'
   },
-  // Slide 15: Sales & Dealer Intelligence
+  // Slide 15: Value Map
   {
     id: 15,
-    type: 'dalmia-sales-dealer360',
-    headline: 'Sales & Dealer Intelligence',
-    salesCapabilities: [
-      'Daily visit prioritization',
-      'Next best product recommendations',
-      'Churn alerts',
-      'Territory optimization'
-    ],
-    salesImpact: '8–15% sales productivity uplift',
-    dealerDataSources: [
-      'SAP transactions',
-      'SUVIDHA behaviour',
-      'Loyalty engagement',
-      'Field notes',
-      'External market data'
-    ],
-    dealerOutputs: [
-      'Dealer segmentation',
-      'Dynamic credit scoring',
-      'Growth potential scoring'
-    ],
-    dealerImpact: '₹50–100 Cr (Sales) + ₹30–60 Cr (Dealer 360)',
-    speakerNotes: 'Transform existing sales app into intelligent copilot. Unified dealer view enables intelligent decision-making.'
-  },
-  // Slide 16: Marketing & Engagement
-  {
-    id: 16,
-    type: 'dalmia-marketing-engagement',
-    headline: 'Marketing & Engagement',
-    marketingCapabilities: [
-      { icon: 'MapPin', title: 'Hyperlocal Detection', description: 'Construction hotspot identification' },
-      { icon: 'Users', title: 'Contractor Intelligence', description: 'Influencer network tracking' },
-      { icon: 'Languages', title: 'Regional Content', description: 'Auto-generated local language' },
-      { icon: 'MessageSquare', title: 'WhatsApp Campaigns', description: 'Automated delivery' }
-    ],
-    marketingImpact: '20–30% marketing ROI improvement',
-    loyaltyEvolution: 'Points Program → Engagement Ecosystem',
-    loyaltyFeatures: [
-      { icon: 'Sparkles', label: 'AI tier upgrades', description: 'Smart promotion based on behavior' },
-      { icon: 'Gift', label: 'Personalized rewards', description: 'Tailored incentives per dealer' },
-      { icon: 'Gamepad2', label: 'Gamification', description: 'Engaging mechanics' },
-      { icon: 'Users', label: 'Contractor tracking', description: 'Influencer impact' }
-    ],
-    loyaltyImpact: '₹80–150 Cr + ₹40–80 Cr',
-    speakerNotes: 'AI enables hyperlocal, personalized marketing at scale. Transform loyalty from cost center to engagement driver.'
-  },
-  // Slide 17: Supply Chain AI
-  {
-    id: 17,
-    type: 'dalmia-supply-chain',
-    headline: 'Supply Chain AI',
-    subtitle: 'Move from monthly Excel planning to AI-driven forecasting.',
-    demandCapabilities: [
-      'Weekly rolling forecasts',
-      'Weather + infra data integration',
-      'Scenario simulation'
-    ],
-    demandImpact: 'Forecast accuracy 65% → 85%. Working capital improvement ₹100–200 Cr.',
-    o2cComponents: [
-      'Smart order recommendations',
-      'Real-time ATP availability',
-      'AI credit scoring',
-      'Auto invoicing',
-      'AI cash application'
-    ],
-    o2cImpact: 'DSO reduction frees ₹150–300 Cr',
-    speakerNotes: 'AI demand sensing reduces bullwhip effect. End-to-end O2C automation drives working capital efficiency.'
-  },
-  // Slide 18: Value Map
-  {
-    id: 18,
     type: 'dalmia-valuemap',
     headline: 'Value Map',
     valueTable: [
@@ -265,9 +194,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     roi: '8–10×',
     speakerNotes: 'Clear ROI case for board approval.'
   },
-  // Slide 19: Roadmap & Ask
+  // Slide 16: Roadmap & Ask
   {
-    id: 19,
+    id: 16,
     type: 'dalmia-roadmap-ask',
     headline: 'Roadmap & Ask',
     phases: [
@@ -299,88 +228,88 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     roi: '8–10×',
     speakerNotes: 'Phased approach balances quick wins with platform build. Clear ask for board decision.'
   },
-  // Strategic Theme Slides (20-24)
+  // Strategic Theme Slides (17-21)
   {
-    id: 20,
+    id: 17,
     type: 'dalmia-theme-data-platform',
     headline: 'Unified Commercial Intelligence Platform',
     speakerNotes: 'Data foundation is the prerequisite for all AI capabilities.'
   },
   {
-    id: 21,
+    id: 18,
     type: 'dalmia-theme-sales-channel',
     headline: 'AI Sales & Channel Execution',
     speakerNotes: 'Transform field force from order-takers to strategic advisors.'
   },
   {
-    id: 22,
+    id: 19,
     type: 'dalmia-theme-supply-chain',
     headline: 'Predictive Supply Chain & Demand Network',
     speakerNotes: 'Move from monthly planning to continuous sensing.'
   },
   {
-    id: 23,
+    id: 20,
     type: 'dalmia-theme-digital-trust',
     headline: 'Digital Trust & Channel Governance',
     speakerNotes: 'Protect brand and ensure channel integrity.'
   },
   {
-    id: 24,
+    id: 21,
     type: 'dalmia-theme-margin-intel',
     headline: 'AI Margin Intelligence & Financial Automation',
     speakerNotes: 'Real-time margin visibility and automated reconciliation.'
   },
-  // Case Study Slides (25-33)
+  // Case Study Slides (22-30)
   {
-    id: 25,
+    id: 22,
     type: 'dalmia-case-data-lake',
     headline: 'Enterprise Data Lake',
     speakerNotes: 'Centralized data lake as foundation for all analytics.'
   },
   {
-    id: 26,
+    id: 23,
     type: 'dalmia-case-customer-mdp',
     headline: 'Customer Master Data Platform',
     speakerNotes: 'Single customer identity across all systems.'
   },
   {
-    id: 27,
+    id: 24,
     type: 'dalmia-case-field-force',
     headline: 'Field Force Enablement',
     speakerNotes: 'AI-powered sales copilot for daily execution.'
   },
   {
-    id: 28,
+    id: 25,
     type: 'dalmia-case-customer-lifecycle',
     headline: 'Customer Lifecycle Intelligence',
     speakerNotes: 'Predictive churn and retention automation.'
   },
   {
-    id: 29,
+    id: 26,
     type: 'dalmia-case-supply-visibility',
     headline: 'Supply Chain Visibility',
     speakerNotes: 'Real-time visibility from plant to dealer.'
   },
   {
-    id: 30,
+    id: 27,
     type: 'dalmia-case-dynamic-capacity',
     headline: 'Dynamic Capacity & Demand Sensing',
     speakerNotes: 'AI-powered demand forecasting with external signals.'
   },
   {
-    id: 31,
+    id: 28,
     type: 'dalmia-case-qr-auth',
     headline: 'QR Product Authentication',
     speakerNotes: 'Blockchain-backed product traceability.'
   },
   {
-    id: 32,
+    id: 29,
     type: 'dalmia-case-commodity-costing',
     headline: 'Commodity Costing AI',
     speakerNotes: 'Real-time margin simulation with commodity prices.'
   },
   {
-    id: 33,
+    id: 30,
     type: 'dalmia-case-financial-recon',
     headline: 'Financial Reconciliation Automation',
     speakerNotes: 'AI-powered 4-way reconciliation.'
