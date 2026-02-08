@@ -94,10 +94,13 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       colorClass: 'blue',
       isDiscvrLayer: true,
       items: [
+        { icon: DollarSign, label: 'Pricing' },
+        { icon: UserCheck, label: 'Sales Copilot' },
+        { icon: Users, label: 'Dealer 360' },
+        { icon: Megaphone, label: 'Marketing' },
         { icon: Brain, label: 'Demand' },
-        { icon: AlertTriangle, label: 'Churn' },
-        { icon: CreditCard, label: 'Credit' },
-        { icon: Heart, label: 'Sentiment' }
+        { icon: FileCheck, label: 'O2C' },
+        { icon: Monitor, label: 'Insights' }
       ]
     },
     {
