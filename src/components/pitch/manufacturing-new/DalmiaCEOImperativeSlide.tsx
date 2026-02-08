@@ -17,11 +17,11 @@ export const DalmiaCEOImperativeSlide: React.FC<DalmiaCEOImperativeSlideProps> =
 }) => {
   return (
     <MfgNewSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col items-center text-center">
         {/* Section Label */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="mb-4"
         >
@@ -78,15 +78,15 @@ export const DalmiaCEOImperativeSlide: React.FC<DalmiaCEOImperativeSlideProps> =
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="grid grid-cols-2 gap-4 max-w-4xl"
+          className="grid grid-cols-2 gap-4 max-w-4xl mx-auto"
         >
           {slide.bullets?.map((bullet, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 + index * 0.1, duration: 0.4 }}
-              className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border border-slate-100"
+              className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border border-slate-100 text-left"
             >
               <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0" />
               <span className="text-base text-slate-700">{bullet}</span>
