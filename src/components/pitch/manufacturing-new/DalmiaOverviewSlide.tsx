@@ -74,11 +74,6 @@ export const DalmiaOverviewSlide: React.FC<DalmiaOverviewSlideProps> = ({
           </div>
           <div className="w-px h-12 bg-slate-600" />
           <div className="text-center">
-            <p className="text-slate-400 text-sm mb-1">Investment</p>
-            <p className="text-white font-bold text-2xl">₹106–202 Cr</p>
-          </div>
-          <div className="w-px h-12 bg-slate-600" />
-          <div className="text-center">
             <p className="text-slate-400 text-sm mb-1">ROI</p>
             <p className="text-amber-400 font-bold text-2xl">8–10×</p>
           </div>
