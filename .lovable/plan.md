@@ -1,73 +1,67 @@
 
-# Plan: Fix Math Across All Slides
+# Plan: Add Mobile Screenshot Slide for AI Field Force & Sales Execution Platform
 
-## Current Problem
-The individual initiative values do not add up to the displayed totals:
+## Overview
+Add a dedicated mobile app screenshot slide after the "AI Field Force & Sales Execution Platform" case study (currently Slide 18) to showcase the mobile-first sales platform solution.
 
-| Category | Displayed | Calculated from Items |
-|----------|-----------|----------------------|
-| Revenue Uplift | ₹320–530 Cr | ₹320–630 Cr |
-| Savings & Efficiency | ₹340–650 Cr | ₹300–590 Cr |
-| **Total** | **₹870–1,720 Cr** | **₹620–1,220 Cr** |
+## Implementation Steps
 
-## Solution Approach
-Adjust individual initiative values so they correctly add up to the target total of **₹870–1,720 Cr**.
+### Step 1: Generate Mobile Screenshot Asset
+Create a new image asset `src/assets/case-study-field-force.jpg` using image generation:
+- **Style**: Mobile app mockup with light background
+- **Content**: Sales field force mobile application showing:
+  - Daily visit planning interface
+  - Territory heatmap or map view
+  - Order capture screen
+  - AI-powered recommendations panel
+- **Format**: Portrait-oriented mobile device frame with clean UI
 
-### Corrected Value Breakdown
+### Step 2: Update DalmiaScreenshotSlide Component
+Modify `src/components/pitch/manufacturing-new/DalmiaScreenshotSlide.tsx`:
+- Import the new field force screenshot asset
+- Add entry to `screenshotMap`: `'case-study-field-force': caseStudyFieldForce`
+- Optionally add a mobile-specific layout variant (portrait aspect ratio container)
 
-**Revenue Uplift (Target: ₹420–830 Cr)**
-| Initiative | Current | New Value |
-|------------|---------|-----------|
-| AI Pricing Engine | ₹140–280 Cr | ₹180–350 Cr |
-| Sales Copilot | ₹80–150 Cr | ₹100–200 Cr |
-| Dealer 360 | ₹60–120 Cr | ₹80–160 Cr |
-| AI Marketing Radar | ₹40–80 Cr | ₹60–120 Cr |
-| **Subtotal** | ₹320–630 Cr | **₹420–830 Cr** |
-
-**Savings & Efficiency (Target: ₹450–890 Cr)**
-| Initiative | Current | New Value |
-|------------|---------|-----------|
-| Demand Planning | ₹100–200 Cr | ₹150–300 Cr |
-| Touchless O2C | ₹150–300 Cr | ₹200–400 Cr |
-| Dashboarding | ₹50–90 Cr | ₹100–190 Cr |
-| **Subtotal** | ₹300–590 Cr | **₹450–890 Cr** |
-
-**Grand Total: ₹420 + ₹450 = ₹870 Cr (low) | ₹830 + ₹890 = ₹1,720 Cr (high)**
-
-## Files to Modify
-
-### 1. DalmiaTotalOpportunitySlide.tsx
-Update the `opportunities` array with corrected values:
+### Step 3: Add New Screenshot Slide to Data
+Update `src/data/dalmiaCementSlides.ts`:
+- Insert new slide after current Slide 18 (Field Force case study)
+- New slide configuration:
 ```text
-AI Pricing Engine:    ₹180–350 Cr  (revenue)
-Sales Copilot:        ₹100–200 Cr  (revenue)
-Dealer 360:           ₹80–160 Cr   (revenue)
-AI Marketing Radar:   ₹60–120 Cr   (revenue)
-Demand Planning:      ₹150–300 Cr  (savings)
-Touchless O2C:        ₹200–400 Cr  (savings)
-Dashboarding:         ₹100–190 Cr  (savings)
+{
+  id: 19,
+  type: 'dalmia-screenshot',
+  headline: 'Field Force Mobile App',
+  subtitle: 'AI-powered sales execution platform for 10,000+ field agents',
+  speakerNotes: 'Mobile-first interface for daily visit planning and order capture.',
+  screenshotPath: 'case-study-field-force'
+}
 ```
 
-Update subtotals:
-- Revenue Uplift: ₹420–830 Cr
-- Savings & Efficiency: ₹450–890 Cr
+### Step 4: Re-index Remaining Slides
+Update slide IDs for all subsequent slides:
+- Supply Chain Intelligence: 19 becomes 20
+- Product Authentication: 20 becomes 21
+- Demand Intelligence: 21 becomes 22
+- Margin Intelligence: 22 becomes 23
+- Transformation Roadmap: 23 becomes 24
 
-### 2. DalmiaVisionArchitectureSlide.tsx
-Update the Outcomes layer values to match:
-- Revenue: ₹420–830 Cr (line 66)
-- Savings: ₹450–890 Cr (line 67)
+## Updated Slide Sequence (Case Studies Section)
+| Slide | Type | Title |
+|-------|------|-------|
+| 16 | Case Study | Enterprise Commercial Data Platform |
+| 17 | Screenshot | Customer 360 Dashboard |
+| 18 | Case Study | AI Field Force & Sales Execution |
+| **19** | **Screenshot** | **Field Force Mobile App** (NEW) |
+| 20 | Case Study | Supply Chain Intelligence |
+| 21 | Case Study | Product Authentication |
+| 22 | Case Study | Demand Intelligence |
+| 23 | Case Study | Margin Intelligence |
+| 24 | Roadmap | Transformation Roadmap |
 
-## Verification Checklist
-After implementation, confirm:
-- Slide 2 (Overview): Total shows ₹870–1,720 Cr
-- Slide 5 (Vision Architecture): Revenue ₹420–830 Cr, Savings ₹450–890 Cr
-- Slide 15 (Total Opportunity): All 7 items sum correctly to subtotals and grand total
+## Files to Modify
+1. `src/assets/case-study-field-force.jpg` - Create new mobile screenshot asset
+2. `src/components/pitch/manufacturing-new/DalmiaScreenshotSlide.tsx` - Add import and map entry
+3. `src/data/dalmiaCementSlides.ts` - Insert new slide, re-index subsequent slides
 
-## Technical Details
-
-### DalmiaTotalOpportunitySlide.tsx Changes
-Lines 18-26: Update `opportunities` array values
-Lines 97, 110: Update subtotal display values
-
-### DalmiaVisionArchitectureSlide.tsx Changes
-Lines 66-67: Update Revenue and Savings values in the Outcomes layer
+## Total Slides After Change
+**24 slides** (up from 23)
