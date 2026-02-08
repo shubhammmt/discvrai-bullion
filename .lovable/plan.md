@@ -1,67 +1,45 @@
 
-# Plan: Add Mobile Screenshot Slide for AI Field Force & Sales Execution Platform
+# Plan: Regenerate Slide 17 Screenshot with Indian Context
 
 ## Overview
-Add a dedicated mobile app screenshot slide after the "AI Field Force & Sales Execution Platform" case study (currently Slide 18) to showcase the mobile-first sales platform solution.
+Regenerate the Customer 360 Dashboard screenshot (Slide 17) to reflect an Indian consumer durables/home solutions company context (like Eureka Forbes, but anonymized as "Leading Consumer Durables Company" per client anonymity policy).
 
-## Implementation Steps
+## Current State
+- Slide 17 displays a generic Customer 360 Dashboard screenshot
+- The screenshot asset is at `src/assets/case-study-data-platform.jpg`
+- This corresponds to Case Study 1: "Enterprise Commercial Data Platform & Customer Intelligence"
 
-### Step 1: Generate Mobile Screenshot Asset
-Create a new image asset `src/assets/case-study-field-force.jpg` using image generation:
-- **Style**: Mobile app mockup with light background
-- **Content**: Sales field force mobile application showing:
-  - Daily visit planning interface
-  - Territory heatmap or map view
-  - Order capture screen
-  - AI-powered recommendations panel
-- **Format**: Portrait-oriented mobile device frame with clean UI
+## Implementation
 
-### Step 2: Update DalmiaScreenshotSlide Component
-Modify `src/components/pitch/manufacturing-new/DalmiaScreenshotSlide.tsx`:
-- Import the new field force screenshot asset
-- Add entry to `screenshotMap`: `'case-study-field-force': caseStudyFieldForce`
-- Optionally add a mobile-specific layout variant (portrait aspect ratio container)
+### Step 1: Regenerate Screenshot Asset
+Replace `src/assets/case-study-data-platform.jpg` with a new AI-generated image featuring:
+- **Indian Context Elements**:
+  - Currency in INR (₹)
+  - Indian city names (Delhi, Mumbai, Bangalore, Chennai)
+  - Indian phone number formats
+  - Regional zone labels (North, South, East, West)
+- **Industry Context** (Consumer Durables/Home Solutions):
+  - Customer segments: Residential, Commercial, Institutional
+  - Product categories: Water Purifiers, Air Purifiers, Vacuum Cleaners, Home Security
+  - Service types: Installation, AMC, Repairs, Consumables
+  - Technician/Field Force metrics
+- **Dashboard Elements**:
+  - Customer 360 View header
+  - Customer profile card with purchase history
+  - Service lifecycle timeline
+  - Regional performance heatmap
+  - Revenue metrics (₹ Cr format)
+  - NPS/CSAT scores
+- **Visual Style**:
+  - Light white background
+  - Clean corporate UI (blues, grays)
+  - No company name visible (anonymized)
 
-### Step 3: Add New Screenshot Slide to Data
-Update `src/data/dalmiaCementSlides.ts`:
-- Insert new slide after current Slide 18 (Field Force case study)
-- New slide configuration:
-```text
-{
-  id: 19,
-  type: 'dalmia-screenshot',
-  headline: 'Field Force Mobile App',
-  subtitle: 'AI-powered sales execution platform for 10,000+ field agents',
-  speakerNotes: 'Mobile-first interface for daily visit planning and order capture.',
-  screenshotPath: 'case-study-field-force'
-}
-```
-
-### Step 4: Re-index Remaining Slides
-Update slide IDs for all subsequent slides:
-- Supply Chain Intelligence: 19 becomes 20
-- Product Authentication: 20 becomes 21
-- Demand Intelligence: 21 becomes 22
-- Margin Intelligence: 22 becomes 23
-- Transformation Roadmap: 23 becomes 24
-
-## Updated Slide Sequence (Case Studies Section)
-| Slide | Type | Title |
-|-------|------|-------|
-| 16 | Case Study | Enterprise Commercial Data Platform |
-| 17 | Screenshot | Customer 360 Dashboard |
-| 18 | Case Study | AI Field Force & Sales Execution |
-| **19** | **Screenshot** | **Field Force Mobile App** (NEW) |
-| 20 | Case Study | Supply Chain Intelligence |
-| 21 | Case Study | Product Authentication |
-| 22 | Case Study | Demand Intelligence |
-| 23 | Case Study | Margin Intelligence |
-| 24 | Roadmap | Transformation Roadmap |
+### Step 2: No Code Changes Required
+The existing component and data configuration will automatically use the updated image asset.
 
 ## Files to Modify
-1. `src/assets/case-study-field-force.jpg` - Create new mobile screenshot asset
-2. `src/components/pitch/manufacturing-new/DalmiaScreenshotSlide.tsx` - Add import and map entry
-3. `src/data/dalmiaCementSlides.ts` - Insert new slide, re-index subsequent slides
+1. `src/assets/case-study-data-platform.jpg` - Regenerate with Indian consumer durables context
 
-## Total Slides After Change
-**24 slides** (up from 23)
+## Expected Result
+Slide 17 will display a Customer 360 Dashboard that clearly represents an Indian consumer durables enterprise (similar to Eureka Forbes profile) with relevant Indian market indicators, INR currency, and regional distribution data.
