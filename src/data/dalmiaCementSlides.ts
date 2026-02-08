@@ -12,6 +12,7 @@ export interface CaseStudyData {
   wireframe: {
     nodes: string[];
   };
+  screenshotPath?: string;
 }
 
 export interface DalmiaCementSlide {
@@ -231,7 +232,8 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       ],
       wireframe: {
         nodes: ['ERP + CRM + Apps', 'Data Lake', 'AI Intelligence', 'Dashboards']
-      }
+      },
+      screenshotPath: 'case-study-data-platform'
     }
   },
   // Slide 17: Case Study 2 - Field Force Platform
