@@ -25,12 +25,12 @@ export const REAVerticalsSlide: React.FC<Props> = ({ slide, slideNumber, totalSl
   return (
     <REASlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
       <div className="flex-1 flex flex-col min-h-0">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-3 flex-shrink-0">
-          <h2 className="text-2xl font-bold text-gray-900">{slide.title}</h2>
-          <p className="text-base text-blue-600 font-medium">{slide.subtitle}</p>
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4 flex-shrink-0">
+          <h2 className="text-3xl font-bold text-gray-900">{slide.title}</h2>
+          <p className="text-lg text-blue-600 font-medium mt-1">{slide.subtitle}</p>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-5 gap-3 min-h-0">
+        <div className="flex-1 grid grid-cols-5 gap-4 min-h-0">
           {content.verticals.map((v: any, idx: number) => {
             const Icon = verticalIcons[idx];
             const c = verticalColors[idx];
@@ -40,20 +40,22 @@ export const REAVerticalsSlide: React.FC<Props> = ({ slide, slideNumber, totalSl
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + idx * 0.06 }}
-                className={`${c.bg} ${c.border} border rounded-xl p-3.5 flex flex-col`}
+                className={`${c.bg} ${c.border} border rounded-xl p-4 flex flex-col`}
               >
-                <Icon className={`w-5 h-5 ${c.icon} mb-2`} />
-                <h3 className="font-bold text-gray-900 text-xs mb-2 leading-tight">{v.title}</h3>
-                <div className="space-y-1.5 flex-1">
+                <div className={`w-9 h-9 rounded-lg ${c.bg} border ${c.border} flex items-center justify-center mb-3`}>
+                  <Icon className={`w-5 h-5 ${c.icon}`} />
+                </div>
+                <h3 className="font-bold text-gray-900 text-sm mb-3 leading-snug">{v.title}</h3>
+                <div className="space-y-2.5 flex-1">
                   {v.items.map((item: string, iIdx: number) => (
-                    <div key={iIdx} className="flex items-start gap-1.5">
-                      <CheckCircle className={`w-3 h-3 ${c.icon} flex-shrink-0 mt-0.5`} />
-                      <span className="text-xs text-gray-700 leading-tight">{item}</span>
+                    <div key={iIdx} className="flex items-start gap-2">
+                      <CheckCircle className={`w-4 h-4 ${c.icon} flex-shrink-0 mt-0.5`} />
+                      <span className="text-sm text-gray-700 leading-snug">{item}</span>
                     </div>
                   ))}
                 </div>
-                <div className={`mt-2 pt-2 border-t ${c.border}`}>
-                  <p className={`text-xs font-bold ${c.impact}`}>{v.impact}</p>
+                <div className={`mt-3 pt-3 border-t ${c.border}`}>
+                  <p className={`text-sm font-bold ${c.impact} leading-snug`}>{v.impact}</p>
                 </div>
               </motion.div>
             );
@@ -64,9 +66,9 @@ export const REAVerticalsSlide: React.FC<Props> = ({ slide, slideNumber, totalSl
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-3 bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-center flex-shrink-0"
+          className="mt-4 bg-gray-50 border border-gray-200 rounded-lg px-5 py-3 text-center flex-shrink-0"
         >
-          <p className="text-sm text-gray-700 font-medium">{content.focus}</p>
+          <p className="text-base text-gray-700 font-medium">{content.focus}</p>
         </motion.div>
       </div>
     </REASlideLayout>
