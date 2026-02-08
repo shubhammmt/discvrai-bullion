@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MfgNewSlideLayout } from './MfgNewSlideLayout';
 import { ManufacturingNewSlide } from '@/data/manufacturingNewSlides';
-import { DollarSign, Users, PieChart, Megaphone, BarChart3, FileCheck } from 'lucide-react';
+import { DollarSign, Users, PieChart, Megaphone, BarChart3, FileCheck, LayoutDashboard } from 'lucide-react';
 
 interface DalmiaValueStreamsSlideProps {
   slide: ManufacturingNewSlide;
@@ -21,7 +21,8 @@ export const DalmiaValueStreamsSlide: React.FC<DalmiaValueStreamsSlideProps> = (
     { name: 'Dealer 360', description: 'Unified dealer intelligence', icon: PieChart, color: 'from-emerald-500 to-teal-500' },
     { name: 'AI Marketing Radar', description: 'Hyperlocal demand sensing', icon: Megaphone, color: 'from-purple-500 to-pink-500' },
     { name: 'Demand Planning', description: 'Predictive forecasting', icon: BarChart3, color: 'from-cyan-500 to-blue-500' },
-    { name: 'Touchless O2C', description: 'End-to-end automation', icon: FileCheck, color: 'from-rose-500 to-red-500' }
+    { name: 'Touchless O2C', description: 'End-to-end automation', icon: FileCheck, color: 'from-rose-500 to-red-500' },
+    { name: 'Dashboarding & Insights', description: 'End-to-end analytics', icon: LayoutDashboard, color: 'from-indigo-500 to-violet-500' }
   ];
 
   return (
@@ -35,7 +36,7 @@ export const DalmiaValueStreamsSlide: React.FC<DalmiaValueStreamsSlideProps> = (
           {slide.headline}
         </motion.h1>
 
-        <div className="grid grid-cols-3 gap-6 max-w-5xl">
+        <div className="grid grid-cols-4 gap-5 max-w-6xl">
           {streams.map((stream, index) => (
             <motion.div
               key={index}
