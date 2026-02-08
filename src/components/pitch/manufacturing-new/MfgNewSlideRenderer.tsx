@@ -23,6 +23,22 @@ import { DalmiaO2CSlide } from './DalmiaO2CSlide';
 import { DalmiaSuvidhaSlide } from './DalmiaSuvidhaSlide';
 import { DalmiaCaseStudiesSlide } from './DalmiaCaseStudiesSlide';
 import { DalmiaFinalMessageSlide } from './DalmiaFinalMessageSlide';
+// Theme slides
+import { DalmiaThemeDataPlatformSlide } from './DalmiaThemeDataPlatformSlide';
+import { DalmiaThemeSalesChannelSlide } from './DalmiaThemeSalesChannelSlide';
+import { DalmiaThemeSupplyChainSlide } from './DalmiaThemeSupplyChainSlide';
+import { DalmiaThemeDigitalTrustSlide } from './DalmiaThemeDigitalTrustSlide';
+import { DalmiaThemeMarginIntelSlide } from './DalmiaThemeMarginIntelSlide';
+// Case study slides
+import { DalmiaCaseDataLakeSlide } from './DalmiaCaseDataLakeSlide';
+import { DalmiaCaseCustomerMDPSlide } from './DalmiaCaseCustomerMDPSlide';
+import { DalmiaCaseFieldForceSlide } from './DalmiaCaseFieldForceSlide';
+import { DalmiaCaseCustomerLifecycleSlide } from './DalmiaCaseCustomerLifecycleSlide';
+import { DalmiaCaseSupplyVisibilitySlide } from './DalmiaCaseSupplyVisibilitySlide';
+import { DalmiaCaseDynamicCapacitySlide } from './DalmiaCaseDynamicCapacitySlide';
+import { DalmiaCaseQRAuthSlide } from './DalmiaCaseQRAuthSlide';
+import { DalmiaCaseCommodityCostingSlide } from './DalmiaCaseCommodityCostingSlide';
+import { DalmiaCaseFinancialReconSlide } from './DalmiaCaseFinancialReconSlide';
 
 interface MfgNewSlideRendererProps {
   slide: ManufacturingNewSlide;
@@ -82,6 +98,36 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaValueMapSlide slide={slide} {...baseProps} />;
     case 'dalmia-roadmap-ask':
       return <DalmiaRoadmapAskSlide slide={slide} {...baseProps} />;
+    // Theme slides
+    case 'dalmia-theme-data-platform':
+      return <DalmiaThemeDataPlatformSlide slide={slide} {...baseProps} />;
+    case 'dalmia-theme-sales-channel':
+      return <DalmiaThemeSalesChannelSlide slide={slide} {...baseProps} />;
+    case 'dalmia-theme-supply-chain':
+      return <DalmiaThemeSupplyChainSlide slide={slide} {...baseProps} />;
+    case 'dalmia-theme-digital-trust':
+      return <DalmiaThemeDigitalTrustSlide slide={slide} {...baseProps} />;
+    case 'dalmia-theme-margin-intel':
+      return <DalmiaThemeMarginIntelSlide slide={slide} {...baseProps} />;
+    // Case study slides
+    case 'dalmia-case-data-lake':
+      return <DalmiaCaseDataLakeSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-customer-mdp':
+      return <DalmiaCaseCustomerMDPSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-field-force':
+      return <DalmiaCaseFieldForceSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-customer-lifecycle':
+      return <DalmiaCaseCustomerLifecycleSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-supply-visibility':
+      return <DalmiaCaseSupplyVisibilitySlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-dynamic-capacity':
+      return <DalmiaCaseDynamicCapacitySlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-qr-auth':
+      return <DalmiaCaseQRAuthSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-commodity-costing':
+      return <DalmiaCaseCommodityCostingSlide slide={slide} {...baseProps} />;
+    case 'dalmia-case-financial-recon':
+      return <DalmiaCaseFinancialReconSlide slide={slide} {...baseProps} />;
     default:
       return (
         <div className="h-screen w-full bg-white flex items-center justify-center">
