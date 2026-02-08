@@ -73,7 +73,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       label: 'Channels',
       colorClass: 'teal',
       items: [
-        { icon: Smartphone, label: 'SUVIDHA 2.0' },
+        { icon: Smartphone, label: 'Dealer Ordering App' },
         { icon: Monitor, label: 'SM@RT-D' },
         { icon: MessageCircle, label: 'WhatsApp' },
         { icon: Globe, label: 'Dealer Portal' }
@@ -98,7 +98,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       colorClass: 'slate',
       items: [
         { icon: Database, label: 'SAP' },
-        { icon: ShoppingCart, label: 'SUVIDHA' },
+        { icon: ShoppingCart, label: 'Order Data' },
         { icon: Award, label: 'Loyalty' },
         { icon: Cloud, label: 'External' }
       ]

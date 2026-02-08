@@ -35,7 +35,7 @@ export const DalmiaThemeDataPlatformSlide: React.FC<DalmiaThemeDataPlatformSlide
   const sources = [
     { label: 'SAP', icon: Server },
     { label: 'Salesforce', icon: Database },
-    { label: 'SUVIDHA', icon: Database },
+    { label: 'Order Data', icon: Database },
     { label: 'Loyalty', icon: Database }
   ];
 

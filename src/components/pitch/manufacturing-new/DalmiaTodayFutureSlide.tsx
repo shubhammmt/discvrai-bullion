@@ -26,7 +26,7 @@ export const DalmiaTodayFutureSlide: React.FC<DalmiaTodayFutureSlideProps> = ({
 }) => {
   const todayItems = [
     { icon: Database, label: 'SAP Backbone', desc: 'Core ERP system' },
-    { icon: Smartphone, label: 'SUVIDHA App', desc: 'Dealer ordering' },
+    { icon: Smartphone, label: 'Dealer Ordering App', desc: 'Dealer ordering' },
     { icon: Users, label: 'Sales Teams', desc: 'Field force' },
     { icon: Truck, label: 'Logistics', desc: 'Transport systems' },
     { icon: AlertTriangle, label: 'Fragmented Intelligence', desc: 'Siloed insights' }
