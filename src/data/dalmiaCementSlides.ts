@@ -36,7 +36,6 @@ export interface DalmiaCementSlide {
   roi?: string;
   kpis?: string[];
   decision?: string;
-  // New merged slide fields
   benchmarkData?: {
     dalmia: number;
     benchmark: number;
@@ -71,13 +70,133 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
   {
     id: 1,
     type: 'dalmia-cover',
-    headline: 'Dalmia Cement — AI Commercial Transformation Blueprint',
-    subtitle: 'From Transactional Tools to an AI-Powered Commercial Intelligence Platform',
+    headline: 'Dalmia Cement — Commercial Intelligence Transformation',
+    subtitle: 'From Transactional Tools to AI-Powered Revenue Engine',
     speakerNotes: 'Cement industry entering AI-led commercial era. Digital intelligence will define margin leadership.'
   },
-  // Slide 2: CEO Imperative (unchanged)
+  // Slide 2: Why Now
   {
     id: 2,
+    type: 'dalmia-why-now',
+    headline: 'Industry Inflection Point',
+    speakerNotes: 'Create urgency. CEO must feel timing is critical.'
+  },
+  // Slide 3: Transformation
+  {
+    id: 3,
+    type: 'dalmia-transformation',
+    headline: 'Commercial Model Transformation',
+    speakerNotes: 'Show clear before/after contrast in commercial operations.'
+  },
+  // Slide 4: Global Examples
+  {
+    id: 4,
+    type: 'dalmia-global-examples',
+    headline: 'What Global Leaders Are Doing',
+    speakerNotes: 'Shift from product companies to intelligence platforms.'
+  },
+  // Slide 5: Today
+  {
+    id: 5,
+    type: 'dalmia-today',
+    headline: 'Strong Foundations — Missing Intelligence Layer',
+    speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap.'
+  },
+  // Slide 6: Value Opportunity
+  {
+    id: 6,
+    type: 'dalmia-value-opportunity',
+    headline: 'Untapped Commercial Value',
+    speakerNotes: 'Quantify the opportunity to drive urgency.'
+  },
+  // Slide 7: Future Vision
+  {
+    id: 7,
+    type: 'dalmia-future-vision',
+    headline: 'AI-Powered Commercial Intelligence Platform',
+    speakerNotes: 'Dalmia evolves from manufacturer to commercial platform.'
+  },
+  // Slide 8: Value Streams
+  {
+    id: 8,
+    type: 'dalmia-value-streams',
+    headline: 'Value Delivery Streams',
+    speakerNotes: 'Six pillars of commercial transformation.'
+  },
+  // Slide 9: AI Pricing Engine
+  {
+    id: 9,
+    type: 'dalmia-pricing-engine',
+    headline: 'AI Pricing Engine',
+    speakerNotes: 'Pricing is the highest-impact lever for margin improvement.'
+  },
+  // Slide 10: Sales Copilot
+  {
+    id: 10,
+    type: 'dalmia-sales-copilot',
+    headline: 'Sales Copilot',
+    speakerNotes: 'Transform existing sales app into intelligent copilot.'
+  },
+  // Slide 11: Dealer 360
+  {
+    id: 11,
+    type: 'dalmia-dealer360',
+    headline: 'Dealer 360 Platform',
+    speakerNotes: 'Unified dealer view enables intelligent decision-making.'
+  },
+  // Slide 12: Marketing Engine
+  {
+    id: 12,
+    type: 'dalmia-marketing-engine',
+    headline: 'AI Marketing Engine',
+    speakerNotes: 'AI enables hyperlocal, personalized marketing at scale.'
+  },
+  // Slide 13: Demand Sensing
+  {
+    id: 13,
+    type: 'dalmia-demand-sensing',
+    headline: 'Demand Sensing',
+    speakerNotes: 'AI demand sensing reduces bullwhip effect.'
+  },
+  // Slide 14: O2C
+  {
+    id: 14,
+    type: 'dalmia-o2c',
+    headline: 'Order to Cash Transformation',
+    speakerNotes: 'End-to-end O2C automation drives working capital efficiency.'
+  },
+  // Slide 15: SUVIDHA 2.0
+  {
+    id: 15,
+    type: 'dalmia-suvidha',
+    headline: 'SUVIDHA 2.0 Platform',
+    speakerNotes: 'Transform into industry equivalent of CEMEX GO.'
+  },
+  // Slide 16: Case Studies
+  {
+    id: 16,
+    type: 'dalmia-case-studies',
+    headline: 'Global Case Studies',
+    speakerNotes: 'Prove the approach with real examples.'
+  },
+  // Slide 17: Implementation
+  {
+    id: 17,
+    type: 'dalmia-implementation',
+    headline: 'Implementation Roadmap',
+    speakerNotes: 'Phased approach balances quick wins with platform build.'
+  },
+  // Slide 18: Final Message
+  {
+    id: 18,
+    type: 'dalmia-final-message',
+    headline: 'Final Message',
+    speakerNotes: 'Clear ask for board decision.'
+  },
+  // --- EXISTING SLIDES SHIFTED ---
+  // Slide 19: CEO Imperative (was 2)
+  {
+    id: 19,
     type: 'dalmia-imperative',
     headline: 'Cement industry shifting from production advantage to commercial intelligence advantage.',
     bullets: [
@@ -88,9 +207,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Frame urgency. Industry moving toward AI-native commercial operations.'
   },
-  // Slide 3: Value Pools (unchanged)
+  // Slide 20: Value Pools (was 3)
   {
-    id: 3,
+    id: 20,
     type: 'dalmia-value-pools',
     headline: 'Three Value Pools',
     valuePools: [
@@ -109,9 +228,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Three distinct value pools representing commercial transformation opportunity.'
   },
-  // Slide 4: Current State & Gap (MERGED from slides 4+5)
+  // Slide 21: Current State & Gap (was 4)
   {
-    id: 4,
+    id: 21,
     type: 'dalmia-current-state',
     headline: 'Strong Digital Foundations — But Transactional',
     bullets: [
@@ -129,9 +248,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     },
     speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap. Gap represents significant opportunity.'
   },
-  // Slide 5: Vision & Architecture (MERGED from slides 6+7)
+  // Slide 22: Vision & Architecture (was 5)
   {
-    id: 5,
+    id: 22,
     type: 'dalmia-vision-architecture',
     headline: 'AI-Powered Commercial Intelligence Platform',
     content: [
@@ -143,9 +262,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Dalmia evolves from manufacturer to commercial platform. Build from data foundation up to customer-facing ecosystem.'
   },
-  // Slide 6: AI Dynamic Pricing (unchanged)
+  // Slide 23: AI Dynamic Pricing (was 6)
   {
-    id: 6,
+    id: 23,
     type: 'dalmia-pricing',
     headline: 'AI Dynamic Pricing',
     problem: 'Pricing decisions manual and inconsistent.',
@@ -158,9 +277,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     impact: '1–2% realization uplift = ₹140–280 Cr annually',
     speakerNotes: 'Pricing is the highest-impact lever for margin improvement.'
   },
-  // Slide 7: Sales & Dealer Intelligence (MERGED from slides 9+10)
+  // Slide 24: Sales & Dealer Intelligence (was 7)
   {
-    id: 7,
+    id: 24,
     type: 'dalmia-sales-dealer360',
     headline: 'Sales & Dealer Intelligence',
     salesCapabilities: [
@@ -185,9 +304,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     dealerImpact: '₹50–100 Cr (Sales) + ₹30–60 Cr (Dealer 360)',
     speakerNotes: 'Transform existing sales app into intelligent copilot. Unified dealer view enables intelligent decision-making.'
   },
-  // Slide 8: Marketing & Engagement (MERGED from slides 11+12)
+  // Slide 25: Marketing & Engagement (was 8)
   {
-    id: 8,
+    id: 25,
     type: 'dalmia-marketing-engagement',
     headline: 'Marketing & Engagement',
     marketingCapabilities: [
@@ -207,9 +326,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     loyaltyImpact: '₹80–150 Cr + ₹40–80 Cr',
     speakerNotes: 'AI enables hyperlocal, personalized marketing at scale. Transform loyalty from cost center to engagement driver.'
   },
-  // Slide 9: Supply Chain AI (MERGED from slides 13+14)
+  // Slide 26: Supply Chain AI (was 9)
   {
-    id: 9,
+    id: 26,
     type: 'dalmia-supply-chain',
     headline: 'Supply Chain AI',
     subtitle: 'Move from monthly Excel planning to AI-driven forecasting.',
@@ -229,9 +348,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     o2cImpact: 'DSO reduction frees ₹150–300 Cr',
     speakerNotes: 'AI demand sensing reduces bullwhip effect. End-to-end O2C automation drives working capital efficiency.'
   },
-  // Slide 10: Value Map
+  // Slide 27: Value Map (was 10)
   {
-    id: 10,
+    id: 27,
     type: 'dalmia-valuemap',
     headline: 'Value Map',
     valueTable: [
@@ -248,9 +367,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     roi: '8–10×',
     speakerNotes: 'Clear ROI case for board approval.'
   },
-  // Slide 11: Roadmap & Ask
+  // Slide 28: Roadmap & Ask (was 11)
   {
-    id: 11,
+    id: 28,
     type: 'dalmia-roadmap-ask',
     headline: 'Roadmap & Ask',
     phases: [
