@@ -14,6 +14,7 @@ import { DalmiaDemandSensingSlide } from './DalmiaDemandSensingSlide';
 import { DalmiaO2CSlide } from './DalmiaO2CSlide';
 import { DalmiaDashboardingSlide } from './DalmiaDashboardingSlide';
 import { DalmiaTransformationRoadmapSlide } from './DalmiaTransformationRoadmapSlide';
+import { DalmiaTotalOpportunitySlide } from './DalmiaTotalOpportunitySlide';
 
 interface MfgNewSlideRendererProps {
   slide: ManufacturingNewSlide;
@@ -57,6 +58,8 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaDashboardingSlide slide={slide} {...baseProps} />;
     case 'dalmia-transformation-roadmap':
       return <DalmiaTransformationRoadmapSlide slide={slide} {...baseProps} />;
+    case 'dalmia-total-opportunity':
+      return <DalmiaTotalOpportunitySlide slide={slide} {...baseProps} />;
     default:
       return (
         <div className="h-screen w-full bg-white flex items-center justify-center">
