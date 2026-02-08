@@ -25,7 +25,7 @@ export const DalmiaTransformationRoadmapSlide: React.FC<Props> = ({
     {
       name: 'Phase 1',
       title: 'Foundation',
-      timeline: '0–6 months',
+      timeline: '0–3 months',
       icon: Database,
       color: 'blue',
       items: [
@@ -38,7 +38,7 @@ export const DalmiaTransformationRoadmapSlide: React.FC<Props> = ({
     {
       name: 'Phase 2',
       title: 'AI Intelligence Layer',
-      timeline: '6–15 months',
+      timeline: '3–6 months',
       icon: Brain,
       color: 'purple',
       items: [
@@ -51,7 +51,7 @@ export const DalmiaTransformationRoadmapSlide: React.FC<Props> = ({
     {
       name: 'Phase 3',
       title: 'Autonomous Enterprise',
-      timeline: '15–24 months',
+      timeline: '6–9 months',
       icon: Zap,
       color: 'teal',
       items: [
@@ -146,8 +146,8 @@ export const DalmiaTransformationRoadmapSlide: React.FC<Props> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <div>
-                <div className="text-xs text-slate-500">Total Timeline</div>
-                <div className="text-lg font-bold text-slate-800">24 Months</div>
+              <div className="text-xs text-slate-500">Total Timeline</div>
+                <div className="text-lg font-bold text-slate-800">9 Months</div>
               </div>
               <div className="h-8 w-px bg-slate-200" />
               <div>
