@@ -75,7 +75,6 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
     {
       label: 'Workflows',
       colorClass: 'purple',
-      isDiscvrLayer: true,
       items: [
         { icon: DollarSign, label: 'Pricing' },
         { icon: UserCheck, label: 'Sales' },
@@ -169,31 +168,24 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
 
         {/* Horizontal Stack - Wide Layout */}
         <div className="flex-1 flex flex-col justify-center gap-2 min-h-0 relative pl-20">
-          {/* Discvr AI vertical connector and badge */}
+          {/* Discvr AI badge for Intelligence layer only */}
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.4 }}
             className="absolute left-0 flex items-center"
-            style={{ top: 'calc(40% + 0.25rem)', height: 'calc(40% - 0.5rem)' }}
+            style={{ top: 'calc(60%)', transform: 'translateY(-50%)' }}
           >
-            {/* Dotted vertical connector line */}
-            <div 
-              className="h-full w-0.5 rounded-full"
-              style={{ 
-                background: 'repeating-linear-gradient(to bottom, transparent, transparent 3px, #8b5cf6 3px, #8b5cf6 6px, transparent 6px, transparent 9px, #3b82f6 9px, #3b82f6 12px)'
-              }}
-            />
-            {/* Badge positioned in the middle */}
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
+            {/* Badge with dotted horizontal connector */}
+            <div className="flex items-center gap-1">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
                 Discvr AI
               </div>
               {/* Dotted horizontal connector */}
               <div 
-                className="w-4 h-px"
+                className="w-6 h-px"
                 style={{ 
-                  background: 'repeating-linear-gradient(to right, transparent, transparent 2px, #8b5cf6 2px, #8b5cf6 4px)'
+                  background: 'repeating-linear-gradient(to right, transparent, transparent 2px, #3b82f6 2px, #3b82f6 4px)'
                 }}
               />
             </div>
