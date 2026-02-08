@@ -1,11 +1,7 @@
 import React from 'react';
 import { ManufacturingNewSlide } from '@/data/manufacturingNewSlides';
 import { DalmiaCoverSlide } from './DalmiaCoverSlide';
-import { DalmiaCEOImperativeSlide } from './DalmiaCEOImperativeSlide';
-import { DalmiaValuePoolsSlide } from './DalmiaValuePoolsSlide';
-import { DalmiaCurrentStateSlide } from './DalmiaCurrentStateSlide';
 import { DalmiaVisionArchitectureSlide } from './DalmiaVisionArchitectureSlide';
-import { DalmiaDynamicPricingSlide } from './DalmiaDynamicPricingSlide';
 import { DalmiaSalesDealer360Slide } from './DalmiaSalesDealer360Slide';
 import { DalmiaMarketingEngagementSlide } from './DalmiaMarketingEngagementSlide';
 import { DalmiaSupplyChainSlide } from './DalmiaSupplyChainSlide';
@@ -16,7 +12,6 @@ import { DalmiaWhyNowSlide } from './DalmiaWhyNowSlide';
 import { DalmiaTransformationSlide } from './DalmiaTransformationSlide';
 import { DalmiaGlobalExamplesSlide } from './DalmiaGlobalExamplesSlide';
 import { DalmiaTodaySlide } from './DalmiaTodaySlide';
-import { DalmiaValueOpportunitySlide } from './DalmiaValueOpportunitySlide';
 import { DalmiaFutureVisionSlide } from './DalmiaFutureVisionSlide';
 import { DalmiaValueStreamsSlide } from './DalmiaValueStreamsSlide';
 import { DalmiaPricingEngineSlide } from './DalmiaPricingEngineSlide';
@@ -27,7 +22,6 @@ import { DalmiaDemandSensingSlide } from './DalmiaDemandSensingSlide';
 import { DalmiaO2CSlide } from './DalmiaO2CSlide';
 import { DalmiaSuvidhaSlide } from './DalmiaSuvidhaSlide';
 import { DalmiaCaseStudiesSlide } from './DalmiaCaseStudiesSlide';
-import { DalmiaImplementationSlide } from './DalmiaImplementationSlide';
 import { DalmiaFinalMessageSlide } from './DalmiaFinalMessageSlide';
 
 interface MfgNewSlideRendererProps {
@@ -44,7 +38,6 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
   const baseProps = { slideNumber, totalSlides };
 
   switch (slide.type) {
-    // New strategy slides (2-18)
     case 'dalmia-cover':
       return <DalmiaCoverSlide slide={slide} {...baseProps} />;
     case 'dalmia-why-now':
@@ -55,8 +48,6 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaGlobalExamplesSlide slide={slide} {...baseProps} />;
     case 'dalmia-today':
       return <DalmiaTodaySlide slide={slide} {...baseProps} />;
-    case 'dalmia-value-opportunity':
-      return <DalmiaValueOpportunitySlide slide={slide} {...baseProps} />;
     case 'dalmia-future-vision':
       return <DalmiaFutureVisionSlide slide={slide} {...baseProps} />;
     case 'dalmia-value-streams':
@@ -77,21 +68,10 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
       return <DalmiaSuvidhaSlide slide={slide} {...baseProps} />;
     case 'dalmia-case-studies':
       return <DalmiaCaseStudiesSlide slide={slide} {...baseProps} />;
-    case 'dalmia-implementation':
-      return <DalmiaImplementationSlide slide={slide} {...baseProps} />;
     case 'dalmia-final-message':
       return <DalmiaFinalMessageSlide slide={slide} {...baseProps} />;
-    // Existing slides (shifted to 19-28)
-    case 'dalmia-imperative':
-      return <DalmiaCEOImperativeSlide slide={slide} {...baseProps} />;
-    case 'dalmia-value-pools':
-      return <DalmiaValuePoolsSlide slide={slide} {...baseProps} />;
-    case 'dalmia-current-state':
-      return <DalmiaCurrentStateSlide slide={slide} {...baseProps} />;
     case 'dalmia-vision-architecture':
       return <DalmiaVisionArchitectureSlide slide={slide} {...baseProps} />;
-    case 'dalmia-pricing':
-      return <DalmiaDynamicPricingSlide slide={slide} {...baseProps} />;
     case 'dalmia-sales-dealer360':
       return <DalmiaSalesDealer360Slide slide={slide} {...baseProps} />;
     case 'dalmia-marketing-engagement':
