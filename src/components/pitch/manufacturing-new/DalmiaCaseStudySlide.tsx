@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MfgNewSlideLayout } from './MfgNewSlideLayout';
 import { ManufacturingNewSlide } from '@/data/manufacturingNewSlides';
 import { Building2, AlertTriangle, Sparkles, TrendingUp, ArrowRight } from 'lucide-react';
+import caseStudyDataPlatform from '@/assets/case-study-data-platform.jpg';
 
 interface CaseStudyData {
   title: string;
@@ -18,7 +19,12 @@ interface CaseStudyData {
   wireframe: {
     nodes: string[];
   };
+  screenshotPath?: string;
 }
+
+const screenshotMap: Record<string, string> = {
+  'case-study-data-platform': caseStudyDataPlatform
+};
 
 interface DalmiaCaseStudySlideProps {
   slide: ManufacturingNewSlide & { caseStudy?: CaseStudyData };
@@ -167,26 +173,41 @@ export const DalmiaCaseStudySlide: React.FC<DalmiaCaseStudySlideProps> = ({
           </motion.div>
         </div>
 
-        {/* BOTTOM: Architecture Wireframe */}
+        {/* BOTTOM: Architecture Wireframe OR Screenshot */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className="bg-slate-900 rounded-lg p-4"
         >
-          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-3">Architecture Flow</p>
-          <div className="flex items-center justify-center gap-2">
-            {caseStudy.wireframe.nodes.map((node, i) => (
-              <React.Fragment key={i}>
-                <div className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-center">
-                  <span className="text-xs font-medium text-white">{node}</span>
-                </div>
-                {i < caseStudy.wireframe.nodes.length - 1 && (
-                  <ArrowRight className="w-4 h-4 text-amber-500 flex-shrink-0" />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+          {caseStudy.screenshotPath && screenshotMap[caseStudy.screenshotPath] ? (
+            <>
+              <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Solution Screenshot</p>
+              <div className="rounded-lg overflow-hidden">
+                <img 
+                  src={screenshotMap[caseStudy.screenshotPath]} 
+                  alt="Solution screenshot" 
+                  className="w-full h-auto max-h-40 object-cover rounded"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-3">Architecture Flow</p>
+              <div className="flex items-center justify-center gap-2">
+                {caseStudy.wireframe.nodes.map((node, i) => (
+                  <React.Fragment key={i}>
+                    <div className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-center">
+                      <span className="text-xs font-medium text-white">{node}</span>
+                    </div>
+                    {i < caseStudy.wireframe.nodes.length - 1 && (
+                      <ArrowRight className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
         </motion.div>
       </div>
     </MfgNewSlideLayout>
