@@ -168,29 +168,6 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
 
         {/* Horizontal Stack - Wide Layout */}
         <div className="flex-1 flex flex-col justify-center gap-2 min-h-0 relative pl-20">
-          {/* Discvr AI badge for Intelligence layer only */}
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6, duration: 0.4 }}
-            className="absolute left-0 flex items-center"
-            style={{ top: 'calc(60%)', transform: 'translateY(-50%)' }}
-          >
-            {/* Badge with dotted horizontal connector */}
-            <div className="flex items-center gap-1">
-              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
-                Discvr AI
-              </div>
-              {/* Dotted horizontal connector */}
-              <div 
-                className="w-6 h-px"
-                style={{ 
-                  background: 'repeating-linear-gradient(to right, transparent, transparent 2px, #3b82f6 2px, #3b82f6 4px)'
-                }}
-              />
-            </div>
-          </motion.div>
-          
           {layers.map((layer, layerIndex) => {
             const colors = colorMap[layer.colorClass];
             return (
@@ -199,8 +176,17 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + layerIndex * 0.08, duration: 0.3 }}
-                className="flex items-center gap-3"
+                className={`flex items-center gap-3 relative ${layer.isDiscvrLayer ? 'border-2 border-dashed border-blue-400 rounded-xl p-2 -ml-2' : ''}`}
               >
+                {/* Discvr AI badge for Intelligence layer */}
+                {layer.isDiscvrLayer && (
+                  <div className="absolute -left-16 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
+                      Discvr AI
+                    </div>
+                  </div>
+                )}
+                
                 {/* Layer Label */}
                 <div className={`w-20 text-right text-[10px] font-bold uppercase tracking-wide ${colors.text}`}>
                   {layer.label}
