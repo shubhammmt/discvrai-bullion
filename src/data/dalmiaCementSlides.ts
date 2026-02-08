@@ -1,3 +1,19 @@
+export interface CaseStudyData {
+  title: string;
+  customerProfile: {
+    industry: string;
+    scale: string;
+    complexity: string[];
+    systems: string[];
+  };
+  problem: string[];
+  transformation: string[];
+  impact: string[];
+  wireframe: {
+    nodes: string[];
+  };
+}
+
 export interface DalmiaCementSlide {
   id: number;
   type: string;
@@ -63,6 +79,7 @@ export interface DalmiaCementSlide {
   demandImpact?: string;
   o2cComponents?: string[];
   o2cImpact?: string;
+  caseStudy?: CaseStudyData;
 }
 
 export const dalmiaCementSlides: DalmiaCementSlide[] = [
@@ -181,6 +198,210 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     type: 'dalmia-total-opportunity',
     headline: 'Total Opportunity Breakdown',
     speakerNotes: 'Value breakdown across all seven streams. Revenue uplift plus operational savings equals total opportunity of ₹870–1,720 Cr with 50× ROI.'
+  },
+  // Slide 16: Case Study 1 - Commercial Data Platform
+  {
+    id: 16,
+    type: 'dalmia-case-study',
+    headline: 'Case Study',
+    speakerNotes: 'Enterprise commercial data platform delivering unified customer intelligence.',
+    caseStudy: {
+      title: 'Enterprise Commercial Data Platform & Customer Intelligence',
+      customerProfile: {
+        industry: 'Consumer Durables Manufacturing',
+        scale: '₹2,000+ Cr Enterprise',
+        complexity: ['10,000+ Technicians', 'Millions of Transactions', 'Multi-channel Sales'],
+        systems: ['SAP S/4HANA', 'Dynamics 365', 'CRM', 'Service Platforms']
+      },
+      problem: [
+        'Fragmented customer lifecycle visibility',
+        'No unified commercial data foundation',
+        'Siloed decision-making across functions'
+      ],
+      transformation: [
+        'Enterprise-grade data lake implementation',
+        'Customer master identity resolution',
+        'Decision intelligence dashboards'
+      ],
+      impact: [
+        'Single source of truth for all commercial data',
+        'Faster operational decisions',
+        'AI-ready commercial platform'
+      ],
+      wireframe: {
+        nodes: ['ERP + CRM + Apps', 'Data Lake', 'AI Intelligence', 'Dashboards']
+      }
+    }
+  },
+  // Slide 17: Case Study 2 - Field Force Platform
+  {
+    id: 17,
+    type: 'dalmia-case-study',
+    headline: 'Case Study',
+    speakerNotes: 'AI-powered field force and sales execution transformation.',
+    caseStudy: {
+      title: 'AI Field Force & Sales Execution Platform',
+      customerProfile: {
+        industry: 'Large Enterprise',
+        scale: '10,000+ Field Agents',
+        complexity: ['Nationwide Operations', 'High Transaction Volume'],
+        systems: ['SAP ERP', 'CRM', 'Mobile Apps']
+      },
+      problem: [
+        'Manual order workflows causing delays',
+        'No real-time sales visibility',
+        'Disconnected field operations'
+      ],
+      transformation: [
+        'Mobile-first sales platform',
+        'AI performance insights engine',
+        'Real-time order capture & sync'
+      ],
+      impact: [
+        'Order processing: days → minutes',
+        'Real-time execution visibility',
+        'Improved field productivity'
+      ],
+      wireframe: {
+        nodes: ['Field App', 'AI Engine', 'CRM / SAP', 'Analytics Dashboard']
+      }
+    }
+  },
+  // Slide 18: Case Study 3 - Supply Chain Intelligence
+  {
+    id: 18,
+    type: 'dalmia-case-study',
+    headline: 'Case Study',
+    speakerNotes: 'End-to-end supply chain visibility and intelligence.',
+    caseStudy: {
+      title: 'End-to-End Supply Chain Intelligence',
+      customerProfile: {
+        industry: 'Multi-Factory Manufacturing',
+        scale: 'Nationwide Distribution',
+        complexity: ['High SKU Volume', 'Complex Logistics'],
+        systems: ['WMS', 'TMS', 'ERP']
+      },
+      problem: [
+        'No real-time inventory visibility',
+        'Unknown transit status',
+        'Manual reconciliation processes'
+      ],
+      transformation: [
+        'Integrated supply chain data layer',
+        'Real-time visibility dashboards',
+        'Automated exception alerts'
+      ],
+      impact: [
+        'Eliminated visibility blind spots',
+        'Faster issue detection & resolution',
+        'Reduced manual reconciliation'
+      ],
+      wireframe: {
+        nodes: ['Factory', 'Warehouse', 'Transport', 'Distributor', 'Customer']
+      }
+    }
+  },
+  // Slide 19: Case Study 4 - Product Authentication
+  {
+    id: 19,
+    type: 'dalmia-case-study',
+    headline: 'Case Study',
+    speakerNotes: 'Digital product authentication and channel governance.',
+    caseStudy: {
+      title: 'Digital Product Authentication & Channel Governance',
+      customerProfile: {
+        industry: 'High-Volume Distribution',
+        scale: 'Nationwide Dealer Network',
+        complexity: ['Multi-tier Distribution', 'Brand Protection'],
+        systems: ['Channel Management', 'Dealer Portal']
+      },
+      problem: [
+        'Counterfeit product risk',
+        'Proxy sales and revenue leakage',
+        'No channel visibility or control'
+      ],
+      transformation: [
+        'QR-based product identity system',
+        'Real-time verification platform',
+        'Channel monitoring analytics'
+      ],
+      impact: [
+        '100% product authentication',
+        'Revenue protection achieved',
+        'Full channel transparency'
+      ],
+      wireframe: {
+        nodes: ['QR Generation', 'Scan Events', 'Tracking Platform', 'Risk Alerts']
+      }
+    }
+  },
+  // Slide 20: Case Study 5 - Demand Intelligence
+  {
+    id: 20,
+    type: 'dalmia-case-study',
+    headline: 'Case Study',
+    speakerNotes: 'Predictive demand sensing and dynamic capacity planning.',
+    caseStudy: {
+      title: 'Predictive Demand & Dynamic Capacity Intelligence',
+      customerProfile: {
+        industry: 'Large Manufacturing',
+        scale: 'Seasonal Demand Patterns',
+        complexity: ['Multi-region Planning', 'Weather Sensitivity'],
+        systems: ['SAP S/4HANA', 'Planning Tools', 'WMS/TMS']
+      },
+      problem: [
+        'Late demand signal detection',
+        'Stockouts or excess inventory',
+        'Reactive planning cycles'
+      ],
+      transformation: [
+        'Real-time demand monitoring',
+        'Weather-driven AI forecasting',
+        'Automated inventory rebalancing'
+      ],
+      impact: [
+        'Improved forecast accuracy',
+        'Balanced inventory levels',
+        'Proactive planning capability'
+      ],
+      wireframe: {
+        nodes: ['External Data + ERP', 'AI Forecast Engine', 'Planning Recommendations']
+      }
+    }
+  },
+  // Slide 21: Case Study 6 - Margin Intelligence
+  {
+    id: 21,
+    type: 'dalmia-case-study',
+    headline: 'Case Study',
+    speakerNotes: 'AI-powered margin intelligence and financial automation.',
+    caseStudy: {
+      title: 'AI Margin Intelligence & Financial Automation',
+      customerProfile: {
+        industry: '₹2,000+ Cr Enterprise',
+        scale: 'Large Vendor Ecosystem',
+        complexity: ['High Transaction Volume', 'Commodity Exposure'],
+        systems: ['ERP Finance', 'Procurement', 'Treasury']
+      },
+      problem: [
+        'Manual reconciliation burden',
+        'Commodity price impact unclear',
+        'Margin leakage across transactions'
+      ],
+      transformation: [
+        'Automated 4-way reconciliation',
+        'Real-time commodity tracking',
+        'AI margin analytics engine'
+      ],
+      impact: [
+        'Faster financial decisions',
+        'Leakage reduction achieved',
+        'Margin visibility at transaction level'
+      ],
+      wireframe: {
+        nodes: ['Commodity APIs + ERP', 'AI Model', 'Margin Dashboard']
+      }
+    }
   }
 ];
 
