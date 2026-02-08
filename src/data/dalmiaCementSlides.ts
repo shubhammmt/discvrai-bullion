@@ -107,6 +107,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     id: 6,
     type: 'dalmia-vision-architecture',
     headline: 'AI-Powered Commercial Intelligence Platform',
+    totalValue: '₹870–1,720 Cr',
+    investment: '₹106–202 Cr',
+    roi: '8–10×',
     content: [
       'Data',
       'AI Intelligence',
@@ -114,7 +117,7 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       'Digital Platform',
       'Revenue Growth'
     ],
-    speakerNotes: 'Dalmia evolves from manufacturer to commercial platform. Build from data foundation up to customer-facing ecosystem.'
+    speakerNotes: 'Dalmia evolves from manufacturer to commercial platform. Build from data foundation up to customer-facing ecosystem. Total opportunity: ₹870–1,720 Cr with 8–10× ROI.'
   },
   // Slide 7: Value Streams
   {
