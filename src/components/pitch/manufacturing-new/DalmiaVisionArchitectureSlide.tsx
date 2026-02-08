@@ -56,8 +56,7 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       label: 'Value',
       colorClass: 'orange',
       items: [
-        { icon: TrendingUp, label: 'Total Opportunity', value: '₹870–1,720 Cr' },
-        { icon: Zap, label: 'ROI', value: '8–10×' }
+        { icon: TrendingUp, label: 'Total Opportunity', value: '₹870–1,720 Cr' }
       ]
     },
     {
