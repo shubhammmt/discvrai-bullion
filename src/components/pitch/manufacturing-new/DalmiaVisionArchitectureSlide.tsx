@@ -63,8 +63,8 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
       label: 'Outcomes',
       colorClass: 'amber',
       items: [
-        { icon: TrendingUp, label: 'Revenue', value: '₹320–530 Cr' },
-        { icon: TrendingDown, label: 'Savings', value: '₹340–650 Cr' },
+        { icon: TrendingUp, label: 'Revenue', value: '₹420–830 Cr' },
+        { icon: TrendingDown, label: 'Savings', value: '₹450–890 Cr' },
         { icon: Zap, label: 'Speed', value: '80% ↑' },
         { icon: Users, label: 'Retention', value: '25% ↑' }
       ]
