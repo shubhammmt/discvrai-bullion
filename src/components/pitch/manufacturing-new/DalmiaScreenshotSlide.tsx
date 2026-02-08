@@ -4,6 +4,7 @@ import { MfgNewSlideLayout } from './MfgNewSlideLayout';
 import { DalmiaCementSlide } from '@/data/dalmiaCementSlides';
 import { Monitor } from 'lucide-react';
 import caseStudyDataPlatform from '@/assets/case-study-data-platform.jpg';
+import caseStudyFieldForce from '@/assets/case-study-field-force.jpg';
 
 interface DalmiaScreenshotSlideProps {
   slide: DalmiaCementSlide;
@@ -12,7 +13,8 @@ interface DalmiaScreenshotSlideProps {
 }
 
 const screenshotMap: Record<string, string> = {
-  'case-study-data-platform': caseStudyDataPlatform
+  'case-study-data-platform': caseStudyDataPlatform,
+  'case-study-field-force': caseStudyFieldForce
 };
 
 export const DalmiaScreenshotSlide: React.FC<DalmiaScreenshotSlideProps> = ({

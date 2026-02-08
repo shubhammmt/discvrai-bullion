@@ -279,9 +279,18 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 19: Case Study 3 - Supply Chain Intelligence
+  // Slide 19: Screenshot - Field Force Mobile App
   {
     id: 19,
+    type: 'dalmia-screenshot',
+    headline: 'Field Force Mobile App',
+    subtitle: 'AI-powered sales execution platform for 10,000+ field agents',
+    speakerNotes: 'Mobile-first interface for daily visit planning and order capture.',
+    screenshotPath: 'case-study-field-force'
+  },
+  // Slide 20: Case Study 3 - Supply Chain Intelligence
+  {
+    id: 20,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'End-to-end supply chain visibility and intelligence.',
@@ -313,9 +322,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 20: Case Study 4 - Product Authentication
+  // Slide 21: Case Study 4 - Product Authentication
   {
-    id: 20,
+    id: 21,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Digital product authentication and channel governance.',
@@ -347,9 +356,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 21: Case Study 5 - Demand Intelligence
+  // Slide 22: Case Study 5 - Demand Intelligence
   {
-    id: 21,
+    id: 22,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Predictive demand sensing and dynamic capacity planning.',
@@ -381,9 +390,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 22: Case Study 6 - Margin Intelligence
+  // Slide 23: Case Study 6 - Margin Intelligence
   {
-    id: 22,
+    id: 23,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered margin intelligence and financial automation.',
@@ -415,9 +424,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 23: Roadmap
+  // Slide 24: Roadmap
   {
-    id: 23,
+    id: 24,
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
