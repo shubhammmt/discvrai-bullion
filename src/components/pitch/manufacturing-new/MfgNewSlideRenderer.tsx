@@ -18,6 +18,8 @@ import { DalmiaTotalOpportunitySlide } from './DalmiaTotalOpportunitySlide';
 import { DalmiaCaseStudySlide } from './DalmiaCaseStudySlide';
 import { DalmiaSectionBreakSlide } from './DalmiaSectionBreakSlide';
 import { DalmiaScreenshotSlide } from './DalmiaScreenshotSlide';
+import { DalmiaIndustryShiftSlideV2 } from './DalmiaIndustryShiftSlideV2';
+import { DalmiaTodayFutureSlideV2 } from './DalmiaTodayFutureSlideV2';
 
 interface MfgNewSlideRendererProps {
   slide: ManufacturingNewSlide;
@@ -35,6 +37,10 @@ export const MfgNewSlideRenderer: React.FC<MfgNewSlideRendererProps> = ({
   switch (slide.type) {
     case 'dalmia-cover':
       return <DalmiaCoverSlide slide={slide} {...baseProps} />;
+    case 'dalmia-industry-shift-v2':
+      return <DalmiaIndustryShiftSlideV2 slide={slide} {...baseProps} />;
+    case 'dalmia-today-future-v2':
+      return <DalmiaTodayFutureSlideV2 slide={slide} {...baseProps} />;
     case 'dalmia-overview':
       return <DalmiaOverviewSlide slide={slide} {...baseProps} />;
     case 'dalmia-global-examples':
