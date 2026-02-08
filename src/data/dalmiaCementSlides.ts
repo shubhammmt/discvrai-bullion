@@ -93,30 +93,44 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     subtitle: 'From Transactional Tools to AI-Powered Revenue Engine',
     speakerNotes: 'Cement industry entering AI-led commercial era. Digital intelligence will define margin leadership.'
   },
-  // Slide 2: Overview
+  // Slide 2: Industry Shift
   {
     id: 2,
+    type: 'dalmia-industry-shift-v2',
+    headline: 'Heavy Industry Digital Transformation',
+    speakerNotes: 'The industry is moving from operational digitization to AI-driven commercial intelligence. Companies that treat AI as commercial decision infrastructure outperform those using AI only for productivity.'
+  },
+  // Slide 3: Dalmia Today vs Future
+  {
+    id: 3,
+    type: 'dalmia-today-future-v2',
+    headline: 'Dalmia Today vs AI-Centric Future',
+    speakerNotes: 'Dalmia has already digitized operations. The next leap is AI-driven commercial intelligence with unified data layer and commercial decision engine.'
+  },
+  // Slide 4: Overview
+  {
+    id: 4,
     type: 'dalmia-overview',
     headline: 'Agenda Overview',
     speakerNotes: 'Four key sections: Context, Architecture, Value Streams, and Roadmap.'
   },
-  // Slide 3: Global Examples
+  // Slide 5: Global Examples
   {
-    id: 3,
+    id: 5,
     type: 'dalmia-global-examples',
     headline: 'What Global Leaders Are Doing',
     speakerNotes: 'Shift from product companies to intelligence platforms.'
   },
-  // Slide 4: Today
+  // Slide 6: Today
   {
-    id: 4,
+    id: 6,
     type: 'dalmia-today',
     headline: 'Strong Foundations — Missing Intelligence Layer',
     speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap.'
   },
-  // Slide 5: Vision & Architecture
+  // Slide 7: Vision & Architecture
   {
-    id: 5,
+    id: 7,
     type: 'dalmia-vision-architecture',
     headline: 'AI-Powered Commercial Intelligence Platform',
     totalValue: '₹870–1,720 Cr',
@@ -131,80 +145,80 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     ],
     speakerNotes: 'Dalmia evolves from manufacturer to commercial platform. Build from data foundation up to customer-facing ecosystem. Total opportunity: ₹870–1,720 Cr with 8–10× ROI.'
   },
-  // Slide 6: Value Streams
+  // Slide 8: Value Streams
   {
-    id: 6,
+    id: 8,
     type: 'dalmia-value-streams',
     headline: 'Value Delivery Streams',
     speakerNotes: 'Seven pillars of commercial transformation.'
   },
-  // Slide 7: AI Pricing Engine
+  // Slide 9: AI Pricing Engine
   {
-    id: 7,
+    id: 9,
     type: 'dalmia-pricing-engine',
     headline: 'AI Pricing Engine',
     speakerNotes: 'Pricing is the highest-impact lever for margin improvement.'
   },
-  // Slide 8: Sales Copilot
+  // Slide 10: Sales Copilot
   {
-    id: 8,
+    id: 10,
     type: 'dalmia-sales-copilot',
     headline: 'Sales Copilot',
     speakerNotes: 'Transform existing sales app into intelligent copilot.'
   },
-  // Slide 9: Dealer 360
+  // Slide 11: Dealer 360
   {
-    id: 9,
+    id: 11,
     type: 'dalmia-dealer360',
     headline: 'Dealer 360 Platform',
     speakerNotes: 'Unified dealer view enables intelligent decision-making.'
   },
-  // Slide 10: Marketing Engine
+  // Slide 12: Marketing Engine
   {
-    id: 10,
+    id: 12,
     type: 'dalmia-marketing-engine',
     headline: 'AI Marketing Engine',
     speakerNotes: 'AI enables hyperlocal, personalized marketing at scale.'
   },
-  // Slide 11: Demand Sensing
+  // Slide 13: Demand Sensing
   {
-    id: 11,
+    id: 13,
     type: 'dalmia-demand-sensing',
     headline: 'Demand Sensing',
     speakerNotes: 'AI demand sensing reduces bullwhip effect.'
   },
-  // Slide 12: O2C
+  // Slide 14: O2C
   {
-    id: 12,
+    id: 14,
     type: 'dalmia-o2c',
     headline: 'Order to Cash Transformation',
     speakerNotes: 'End-to-end O2C automation drives working capital efficiency.'
   },
-  // Slide 13: Dashboarding & Insights
+  // Slide 15: Dashboarding & Insights
   {
-    id: 13,
+    id: 15,
     type: 'dalmia-dashboarding',
     headline: 'Dashboarding & Insights',
     speakerNotes: 'End-to-end analytics and business intelligence for data-driven decisions.'
   },
-  // Slide 14: Total Opportunity (was 15)
+  // Slide 16: Total Opportunity
   {
-    id: 14,
+    id: 16,
     type: 'dalmia-total-opportunity',
     headline: 'Total Opportunity Breakdown',
     speakerNotes: 'Value breakdown across all seven streams. Revenue uplift plus operational savings equals total opportunity of ₹870–1,720 Cr with 50× ROI.'
   },
-  // Slide 15: Section Break - Case Studies
+  // Slide 17: Section Break - Case Studies
   {
-    id: 15,
+    id: 17,
     type: 'dalmia-section-break',
     headline: 'Case Studies',
     subtitle: 'Real-world transformations delivering measurable impact',
     speakerNotes: 'Transition to case studies showcasing proven enterprise implementations.'
   },
-  // Slide 16: Case Study 1 - Commercial Data Platform
+  // Slide 18: Case Study 1 - Commercial Data Platform
   {
-    id: 16,
+    id: 18,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Enterprise commercial data platform delivering unified customer intelligence.',
@@ -236,18 +250,18 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 17: Screenshot - Data Platform
+  // Slide 19: Screenshot - Data Platform
   {
-    id: 17,
+    id: 19,
     type: 'dalmia-screenshot',
     headline: 'Customer 360 Dashboard',
     subtitle: 'Unified commercial intelligence platform with real-time analytics',
     speakerNotes: 'Live demonstration of the Customer 360 dashboard.',
     screenshotPath: 'case-study-data-platform'
   },
-  // Slide 18: Case Study 2 - Field Force Platform
+  // Slide 20: Case Study 2 - Field Force Platform
   {
-    id: 18,
+    id: 20,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered field force and sales execution transformation.',
@@ -279,18 +293,18 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 19: Screenshot - Field Force Mobile App
+  // Slide 21: Screenshot - Field Force Mobile App
   {
-    id: 19,
+    id: 21,
     type: 'dalmia-screenshot',
     headline: 'Field Force Mobile App',
     subtitle: 'AI-powered sales execution platform for 10,000+ field agents',
     speakerNotes: 'Mobile-first interface for daily visit planning and order capture.',
     screenshotPath: 'case-study-field-force'
   },
-  // Slide 20: Case Study 3 - Supply Chain Intelligence
+  // Slide 22: Case Study 3 - Supply Chain Intelligence
   {
-    id: 20,
+    id: 22,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'End-to-end supply chain visibility and intelligence.',
@@ -322,9 +336,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 21: Case Study 4 - Product Authentication
+  // Slide 23: Case Study 4 - Product Authentication
   {
-    id: 21,
+    id: 23,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Digital product authentication and channel governance.',
@@ -356,9 +370,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 22: Case Study 5 - Demand Intelligence
+  // Slide 24: Case Study 5 - Demand Intelligence
   {
-    id: 22,
+    id: 24,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'Predictive demand sensing and dynamic capacity planning.',
@@ -390,9 +404,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 23: Case Study 6 - Margin Intelligence
+  // Slide 25: Case Study 6 - Margin Intelligence
   {
-    id: 23,
+    id: 25,
     type: 'dalmia-case-study',
     headline: 'Case Study',
     speakerNotes: 'AI-powered margin intelligence and financial automation.',
@@ -424,9 +438,9 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
       }
     }
   },
-  // Slide 24: Roadmap
+  // Slide 26: Roadmap
   {
-    id: 24,
+    id: 26,
     type: 'dalmia-transformation-roadmap',
     headline: 'Transformation Roadmap',
     speakerNotes: 'Three phases: Foundation, AI Intelligence Layer, Autonomous Enterprise.'
