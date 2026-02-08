@@ -46,18 +46,18 @@ export const DalmiaScreenshotSlide: React.FC<DalmiaScreenshotSlideProps> = ({
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className="flex-1 bg-slate-900 rounded-xl p-4 flex flex-col min-h-0"
+          className="flex-1 bg-slate-100 rounded-xl p-4 flex flex-col min-h-0"
         >
-          <div className="flex-1 rounded-lg overflow-hidden border border-slate-700">
+          <div className="flex-1 rounded-lg overflow-hidden border border-slate-200 shadow-sm">
             {screenshotSrc ? (
               <img 
                 src={screenshotSrc} 
                 alt={slide.headline} 
-                className="w-full h-full object-contain bg-slate-950"
+                className="w-full h-full object-contain bg-white"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                <p className="text-slate-500">Screenshot not available</p>
+              <div className="w-full h-full flex items-center justify-center bg-slate-50">
+                <p className="text-slate-400">Screenshot not available</p>
               </div>
             )}
           </div>
