@@ -30,12 +30,12 @@ export const PlatformCapabilitiesSlide: React.FC<Props> = ({ slide, slideNumber,
   return (
     <REASlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
       <div className="flex-1 flex flex-col min-h-0">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-4 flex-shrink-0">
-          <h2 className="text-2xl font-bold text-gray-900">{slide.title}</h2>
-          <p className="text-base text-blue-600 font-medium">{slide.subtitle}</p>
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-5 flex-shrink-0">
+          <h2 className="text-3xl font-bold text-gray-900">{slide.title}</h2>
+          <p className="text-lg text-blue-600 font-medium mt-1">{slide.subtitle}</p>
         </motion.div>
 
-        <div className="flex-1 grid grid-cols-2 gap-4 min-h-0">
+        <div className="flex-1 grid grid-cols-2 gap-5 min-h-0">
           {content.capabilities.map((cap: any, idx: number) => {
             const Icon = iconMap[cap.icon] || Target;
             const c = colorMap[cap.color] || colorMap.blue;
@@ -46,18 +46,20 @@ export const PlatformCapabilitiesSlide: React.FC<Props> = ({ slide, slideNumber,
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + idx * 0.08 }}
-                className={`${c.bg} ${c.border} border rounded-xl p-4 flex flex-col`}
+                className={`${c.bg} ${c.border} border rounded-xl p-5 flex flex-col`}
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <Icon className={`w-5 h-5 ${c.icon}`} />
-                  <h3 className="font-bold text-gray-900 text-sm">{cap.title}</h3>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-9 h-9 rounded-lg ${c.bg} border ${c.border} flex items-center justify-center`}>
+                    <Icon className={`w-5 h-5 ${c.icon}`} />
+                  </div>
+                  <h3 className="font-bold text-gray-900 text-base">{cap.title}</h3>
                 </div>
-                <p className="text-xs text-gray-600 mb-3 leading-relaxed">{cap.description}</p>
-                <div className="mt-auto space-y-1.5">
+                <p className="text-sm text-gray-600 mb-4 leading-relaxed">{cap.description}</p>
+                <div className="mt-auto space-y-2">
                   {cap.metrics.map((m: string, mIdx: number) => (
-                    <div key={mIdx} className="flex items-center gap-2">
-                      <CheckCircle className={`w-3.5 h-3.5 ${c.icon} flex-shrink-0`} />
-                      <span className={`text-xs font-semibold ${c.badge} px-2 py-0.5 rounded`}>{m}</span>
+                    <div key={mIdx} className="flex items-center gap-2.5">
+                      <CheckCircle className={`w-4 h-4 ${c.icon} flex-shrink-0`} />
+                      <span className={`text-sm font-semibold ${c.badge} px-2.5 py-1 rounded`}>{m}</span>
                     </div>
                   ))}
                 </div>
