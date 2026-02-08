@@ -1,89 +1,165 @@
 
+# Enhance "Commercial Model Transformation" Slide
 
-# Execute Deck Cleanup (Retain Slides 22, 24, 25, 26)
+## Current State Analysis
 
-## Summary
+**Previous Slide (Why Now)**:
+- Has a section label badge ("INDUSTRY SHIFT")
+- 4 bullets with icons in a 2x2 grid
+- Bottom callout box with urgency message
+- Rich visual hierarchy
 
-Executing the cleanup while **keeping** the following legacy slides as requested:
-- **#22** Vision Architecture (`dalmia-vision-architecture`)
-- **#24** Sales & Dealer 360 (`dalmia-sales-dealer360`)
-- **#25** Marketing & Engagement (`dalmia-marketing-engagement`)
-- **#26** Supply Chain AI (`dalmia-supply-chain`)
+**Current Slide (Transformation)**:
+- Simple two-column layout
+- No section label
+- No icons on transformation items
+- No bottom callout
+- No metrics or context
+
+**Next Slide (Global Examples)**:
+- Company cards with gradient headers
+- Icons for each company
+- Results metrics highlighted
+- Bottom quote/callout
 
 ---
 
-## Slides to REMOVE (6 slides)
+## Enhancement Plan
 
-| Current # | Type | Reason |
-|-----------|------|--------|
-| 6 | `dalmia-value-opportunity` | Replaced by #27 Value Map |
-| 17 | `dalmia-implementation` | Replaced by #28 Roadmap & Ask |
-| 19 | `dalmia-imperative` | Duplicate of #2 Why Now |
-| 20 | `dalmia-value-pools` | Covered by Value Map |
-| 21 | `dalmia-current-state` | Duplicate of #5 Today |
-| 23 | `dalmia-pricing` | Duplicate of #9 Pricing Engine |
+### 1. Add Section Label
+Add "TRANSFORMATION" badge at top to match the deck's visual language
+
+### 2. Add Icons to Each Transformation Pair
+Each Old → New transformation gets a meaningful icon pair:
+
+| Old | New | Icon |
+|-----|-----|------|
+| Manual pricing | Dynamic pricing | Calculator/TrendingUp |
+| Relationship sales | Predictive intelligence | Users/Brain |
+| Mass marketing | AI marketing | Megaphone/Target |
+| Reactive planning | Digital ecosystems | Clock/Network |
+
+### 3. Enhanced Visual Design
+- Horizontal transformation rows with connecting arrow
+- Each row shows Old item → Arrow → New item
+- Icon on the left of each row
+- Subtle animation on the connecting arrows
+
+### 4. Add Industry Metrics
+Below the transformation table, add supporting metrics that CEOs care about:
+- "2-3% margin uplift from dynamic pricing"
+- "40% improvement in sales productivity"
+- "80%+ digital adoption target"
+
+### 5. Add Bottom Callout
+Match the pattern from Why Now slide with a key message:
+> "The leaders are already operating in the new model."
 
 ---
 
-## Slides to KEEP (22 slides)
+## Visual Mockup
 
-| New # | Type | Headline |
-|-------|------|----------|
-| 1 | `dalmia-cover` | Cover |
-| 2 | `dalmia-why-now` | Industry Inflection Point |
-| 3 | `dalmia-transformation` | Commercial Model Transformation |
-| 4 | `dalmia-global-examples` | What Global Leaders Are Doing |
-| 5 | `dalmia-today` | Strong Foundations |
-| 6 | `dalmia-future-vision` | AI-Powered Platform (was 7) |
-| 7 | `dalmia-value-streams` | Value Delivery Streams (was 8) |
-| 8 | `dalmia-pricing-engine` | AI Pricing Engine (was 9) |
-| 9 | `dalmia-sales-copilot` | Sales Copilot (was 10) |
-| 10 | `dalmia-dealer360` | Dealer 360 Platform (was 11) |
-| 11 | `dalmia-marketing-engine` | AI Marketing Engine (was 12) |
-| 12 | `dalmia-demand-sensing` | Demand Sensing (was 13) |
-| 13 | `dalmia-o2c` | Order to Cash (was 14) |
-| 14 | `dalmia-suvidha` | SUVIDHA 2.0 (was 15) |
-| 15 | `dalmia-case-studies` | Global Case Studies (was 16) |
-| 16 | `dalmia-final-message` | Final Message (was 18) |
-| 17 | `dalmia-vision-architecture` | Vision & Architecture (was 22) |
-| 18 | `dalmia-sales-dealer360` | Sales & Dealer Intelligence (was 24) |
-| 19 | `dalmia-marketing-engagement` | Marketing & Engagement (was 25) |
-| 20 | `dalmia-supply-chain` | Supply Chain AI (was 26) |
-| 21 | `dalmia-valuemap` | Value Map (was 27) |
-| 22 | `dalmia-roadmap-ask` | Roadmap & Ask (was 28) |
+```text
++----------------------------------------------------------+
+|                     TRANSFORMATION                        |
+|                                                           |
+|         Commercial Model Transformation                   |
+|                                                           |
+|  +------------------------+     +------------------------+|
+|  |      OLD MODEL         | --> |      NEW MODEL         ||
+|  +------------------------+     +------------------------+|
+|  |                        |     |                        ||
+|  | [Calc] Manual pricing  | --> | Dynamic pricing [📈]   ||
+|  |                        |     |                        ||
+|  | [Users] Relationship   | --> | Predictive intel [🧠]  ||
+|  |         sales          |     |                        ||
+|  |                        |     |                        ||
+|  | [📢] Mass marketing    | --> | AI marketing [🎯]      ||
+|  |                        |     |                        ||
+|  | [⏰] Reactive planning | --> | Digital ecosys [🌐]    ||
+|  +------------------------+     +------------------------+|
+|                                                           |
+|     ┌─────────┐  ┌─────────┐  ┌─────────┐                |
+|     │ 2-3%   │  │ 40%     │  │ 80%+    │                |
+|     │ margin │  │ sales   │  │ digital │                |
+|     │ uplift │  │ uplift  │  │ adoption│                |
+|     └─────────┘  └─────────┘  └─────────┘                |
+|                                                           |
+|   [The leaders are already operating in the new model.]   |
++----------------------------------------------------------+
+```
 
 ---
 
 ## Technical Changes
 
-### 1. Update Data File
-**File**: `src/data/dalmiaCementSlides.ts`
-- Remove 6 slide entries (IDs 6, 17, 19, 20, 21, 23)
-- Renumber remaining slides 1-22
+### File: `src/components/pitch/manufacturing-new/DalmiaTransformationSlide.tsx`
 
-### 2. Update Renderer
-**File**: `src/components/pitch/manufacturing-new/MfgNewSlideRenderer.tsx`
-- Remove imports for 6 deleted components
-- Remove case statements for deleted types
+**Updates:**
 
-### 3. Delete Unused Component Files (6 files)
-```text
-DalmiaValueOpportunitySlide.tsx  (replaced by ValueMap)
-DalmiaImplementationSlide.tsx    (replaced by RoadmapAsk)
-DalmiaCEOImperativeSlide.tsx     (duplicate of WhyNow)
-DalmiaValuePoolsSlide.tsx        (covered by ValueMap)
-DalmiaCurrentStateSlide.tsx      (duplicate of Today)
-DalmiaDynamicPricingSlide.tsx    (duplicate of PricingEngine)
+1. **Import additional icons**: `Calculator`, `TrendingUp`, `Users`, `Brain`, `Megaphone`, `Target`, `Clock`, `Network`
+
+2. **Update transformation data structure**:
+```typescript
+const transformations = [
+  {
+    old: 'Manual pricing',
+    new: 'Dynamic pricing',
+    oldIcon: Calculator,
+    newIcon: TrendingUp
+  },
+  {
+    old: 'Relationship-driven sales',
+    new: 'Predictive sales intelligence',
+    oldIcon: Users,
+    newIcon: Brain
+  },
+  {
+    old: 'Mass marketing',
+    new: 'AI marketing',
+    oldIcon: Megaphone,
+    newIcon: Target
+  },
+  {
+    old: 'Reactive demand planning',
+    new: 'Digital ecosystems',
+    oldIcon: Clock,
+    newIcon: Network
+  }
+];
 ```
+
+3. **Add metrics data**:
+```typescript
+const metrics = [
+  { value: '2-3%', label: 'Margin uplift' },
+  { value: '40%', label: 'Sales productivity' },
+  { value: '80%+', label: 'Digital adoption' }
+];
+```
+
+4. **Update layout**:
+- Add section label badge at top
+- Create row-based transformation layout with icons and arrows
+- Add metrics row below transformations
+- Add bottom callout box
+
+5. **Enhanced animations**:
+- Staggered row animations (0.1s delay between rows)
+- Arrow pulse animation to draw attention to transformation
+- Metrics cards fade in after rows complete
 
 ---
 
-## Result
+## Summary
 
-| Metric | Before | After |
-|--------|--------|-------|
-| Total Slides | 28 | 22 |
-| Slides Removed | - | 6 |
-| Files Deleted | - | 6 |
-| Estimated Duration | ~56 min | ~44 min |
+| Element | Before | After |
+|---------|--------|-------|
+| Section badge | None | "TRANSFORMATION" |
+| Icons | None | 8 icons (4 pairs) |
+| Metrics | None | 3 CEO metrics |
+| Bottom callout | None | "Leaders already operating..." |
+| Layout | 2 columns | Row-based with connecting arrows |
+| Animation | Basic fade | Staggered rows + pulse |
 
+This enhancement brings the Transformation slide to the same visual richness as the Why Now and Global Examples slides, creating a cohesive consulting deck experience.
