@@ -183,31 +183,78 @@ export const DalmiaVisionArchitectureSlide: React.FC<DalmiaVisionArchitectureSli
                   {layer.label}
                 </div>
                 
-                {/* Items Row - Full Width */}
-                <div className="flex-1 flex items-center gap-2">
-                  {layer.items.map((item, itemIndex) => {
-                    const IconComponent = item.icon;
-                    return (
-                      <motion.div
-                        key={itemIndex}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.45 + layerIndex * 0.08 + itemIndex * 0.03, duration: 0.2 }}
-                        className={`flex-1 flex items-center gap-2 px-3 py-2 rounded-lg ${colors.bg} border ${colors.border}`}
-                      >
-                        <div className={`${colors.iconBg} rounded p-1`}>
-                          <IconComponent className={`w-3.5 h-3.5 ${colors.text}`} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-[11px] font-medium text-slate-800 truncate">{item.label}</div>
-                          {item.value && (
-                            <div className={`text-[10px] font-semibold ${colors.text}`}>{item.value}</div>
-                          )}
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                {/* Items Row - Full Width, Two rows for Intelligence layer */}
+                {layer.isDiscvrLayer ? (
+                  <div className="flex-1 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-2">
+                      {layer.items.slice(0, 4).map((item, itemIndex) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <motion.div
+                            key={itemIndex}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.45 + layerIndex * 0.08 + itemIndex * 0.03, duration: 0.2 }}
+                            className={`flex-1 flex items-center gap-2 px-3 py-1.5 rounded-lg ${colors.bg} border ${colors.border}`}
+                          >
+                            <div className={`${colors.iconBg} rounded p-1`}>
+                              <IconComponent className={`w-3.5 h-3.5 ${colors.text}`} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[11px] font-medium text-slate-800 truncate">{item.label}</div>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {layer.items.slice(4).map((item, itemIndex) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <motion.div
+                            key={itemIndex}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.45 + layerIndex * 0.08 + (itemIndex + 4) * 0.03, duration: 0.2 }}
+                            className={`flex-1 flex items-center gap-2 px-3 py-1.5 rounded-lg ${colors.bg} border ${colors.border}`}
+                          >
+                            <div className={`${colors.iconBg} rounded p-1`}>
+                              <IconComponent className={`w-3.5 h-3.5 ${colors.text}`} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[11px] font-medium text-slate-800 truncate">{item.label}</div>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex-1 flex items-center gap-2">
+                    {layer.items.map((item, itemIndex) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <motion.div
+                          key={itemIndex}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.45 + layerIndex * 0.08 + itemIndex * 0.03, duration: 0.2 }}
+                          className={`flex-1 flex items-center gap-2 px-3 py-2 rounded-lg ${colors.bg} border ${colors.border}`}
+                        >
+                          <div className={`${colors.iconBg} rounded p-1`}>
+                            <IconComponent className={`w-3.5 h-3.5 ${colors.text}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-[11px] font-medium text-slate-800 truncate">{item.label}</div>
+                            {item.value && (
+                              <div className={`text-[10px] font-semibold ${colors.text}`}>{item.value}</div>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
               </motion.div>
             );
           })}
