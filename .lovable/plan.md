@@ -1,94 +1,73 @@
 
-# Plan: Add Total Opportunity Calculation Slide
+# Plan: Fix Math Across All Slides
 
-## Overview
-Create a new slide that breaks down and sums up the total value opportunity (₹870–1,720 Cr) across all seven value streams. This slide will provide executive transparency into how the total is calculated, showing each initiative's contribution.
+## Current Problem
+The individual initiative values do not add up to the displayed totals:
 
-## Design Approach
-A table/grid layout showing each value stream with its impact metric and calculated value range. The slide will visually roll up to the total opportunity figure, reinforcing credibility and allowing CXOs to see the build-up.
+| Category | Displayed | Calculated from Items |
+|----------|-----------|----------------------|
+| Revenue Uplift | ₹320–530 Cr | ₹320–630 Cr |
+| Savings & Efficiency | ₹340–650 Cr | ₹300–590 Cr |
+| **Total** | **₹870–1,720 Cr** | **₹620–1,220 Cr** |
 
-## Visual Layout
+## Solution Approach
+Adjust individual initiative values so they correctly add up to the target total of **₹870–1,720 Cr**.
+
+### Corrected Value Breakdown
+
+**Revenue Uplift (Target: ₹420–830 Cr)**
+| Initiative | Current | New Value |
+|------------|---------|-----------|
+| AI Pricing Engine | ₹140–280 Cr | ₹180–350 Cr |
+| Sales Copilot | ₹80–150 Cr | ₹100–200 Cr |
+| Dealer 360 | ₹60–120 Cr | ₹80–160 Cr |
+| AI Marketing Radar | ₹40–80 Cr | ₹60–120 Cr |
+| **Subtotal** | ₹320–630 Cr | **₹420–830 Cr** |
+
+**Savings & Efficiency (Target: ₹450–890 Cr)**
+| Initiative | Current | New Value |
+|------------|---------|-----------|
+| Demand Planning | ₹100–200 Cr | ₹150–300 Cr |
+| Touchless O2C | ₹150–300 Cr | ₹200–400 Cr |
+| Dashboarding | ₹50–90 Cr | ₹100–190 Cr |
+| **Subtotal** | ₹300–590 Cr | **₹450–890 Cr** |
+
+**Grand Total: ₹420 + ₹450 = ₹870 Cr (low) | ₹830 + ₹890 = ₹1,720 Cr (high)**
+
+## Files to Modify
+
+### 1. DalmiaTotalOpportunitySlide.tsx
+Update the `opportunities` array with corrected values:
 ```text
-+------------------------------------------------------------------+
-|  TOTAL OPPORTUNITY BREAKDOWN                                      |
-|  "Value Calculation by Initiative"                                |
-+------------------------------------------------------------------+
-|                                                                    |
-|  +------------------------------------------------------------+   |
-|  | Initiative          | Impact Metric      | Value Range     |   |
-|  |------------------------------------------------------------|   |
-|  | AI Pricing Engine   | 1-2% margin uplift | ₹140–280 Cr    |   |
-|  | Sales Copilot       | 8-15% productivity | ₹80–150 Cr     |   |
-|  | Dealer 360          | 10% retention      | ₹60–120 Cr     |   |
-|  | AI Marketing Radar  | 20-30% ROI         | ₹40–80 Cr      |   |
-|  | Demand Planning     | 20% accuracy       | ₹100–200 Cr    |   |
-|  | Touchless O2C       | DSO reduction      | ₹150–300 Cr    |   |
-|  | Dashboarding        | Decision speed     | ₹50–90 Cr      |   |
-|  +------------------------------------------------------------+   |
-|                                                                    |
-|  +----------------------------+  +----------------------------+   |
-|  | REVENUE UPLIFT             |  | SAVINGS & EFFICIENCY       |   |
-|  | ₹320–530 Cr                |  | ₹340–650 Cr                |   |
-|  +----------------------------+  +----------------------------+   |
-|                                                                    |
-|  +------------------------------------------------------------+   |
-|  |              TOTAL OPPORTUNITY: ₹870–1,720 Cr              |   |
-|  |                        ROI: 50×                             |   |
-|  +------------------------------------------------------------+   |
-|                                                                    |
-+------------------------------------------------------------------+
+AI Pricing Engine:    ₹180–350 Cr  (revenue)
+Sales Copilot:        ₹100–200 Cr  (revenue)
+Dealer 360:           ₹80–160 Cr   (revenue)
+AI Marketing Radar:   ₹60–120 Cr   (revenue)
+Demand Planning:      ₹150–300 Cr  (savings)
+Touchless O2C:        ₹200–400 Cr  (savings)
+Dashboarding:         ₹100–190 Cr  (savings)
 ```
 
-## Implementation Steps
+Update subtotals:
+- Revenue Uplift: ₹420–830 Cr
+- Savings & Efficiency: ₹450–890 Cr
 
-### 1. Create the Slide Component
-Create `src/components/pitch/manufacturing-new/DalmiaTotalOpportunitySlide.tsx`:
-- Use `MfgNewSlideLayout` for consistent styling
-- Display a table with 7 value streams, their metrics, and value ranges
-- Show grouped subtotals (Revenue Uplift vs Savings)
-- Display prominent total opportunity and ROI at the bottom
-- Use framer-motion animations consistent with other slides
-- Apply color coding: amber/orange gradient for revenue, teal/green for savings
+### 2. DalmiaVisionArchitectureSlide.tsx
+Update the Outcomes layer values to match:
+- Revenue: ₹420–830 Cr (line 66)
+- Savings: ₹450–890 Cr (line 67)
 
-### 2. Add Slide Data
-Update `src/data/dalmiaCementSlides.ts`:
-- Add new slide entry with type `dalmia-total-opportunity`
-- Position after Roadmap (as slide 15) or before Roadmap (as slide 14)
-- Include headline, speaker notes, and value table data
-
-### 3. Register in Slide Renderer
-Update `src/components/pitch/manufacturing-new/MfgNewSlideRenderer.tsx`:
-- Import the new `DalmiaTotalOpportunitySlide` component
-- Add case for `dalmia-total-opportunity` in the switch statement
-
-## Value Data to Display
-
-| Initiative | Metric | Low | High |
-|------------|--------|-----|------|
-| AI Pricing Engine | 1-2% margin uplift | ₹140 Cr | ₹280 Cr |
-| Sales Copilot | 8-15% productivity | ₹80 Cr | ₹150 Cr |
-| Dealer 360 | Retention improvement | ₹60 Cr | ₹120 Cr |
-| AI Marketing Radar | 20-30% ROI | ₹40 Cr | ₹80 Cr |
-| Demand Planning | Forecast accuracy | ₹100 Cr | ₹200 Cr |
-| Touchless O2C | DSO reduction | ₹150 Cr | ₹300 Cr |
-| Dashboarding | Decision velocity | ₹50 Cr | ₹90 Cr |
-
-**Subtotals:**
-- Revenue Uplift: ₹320–530 Cr
-- Savings/Efficiency: ₹340–650 Cr
-- **Total**: ₹870–1,720 Cr
-- **ROI**: 50×
-
----
+## Verification Checklist
+After implementation, confirm:
+- Slide 2 (Overview): Total shows ₹870–1,720 Cr
+- Slide 5 (Vision Architecture): Revenue ₹420–830 Cr, Savings ₹450–890 Cr
+- Slide 15 (Total Opportunity): All 7 items sum correctly to subtotals and grand total
 
 ## Technical Details
 
-### Files to Create
-1. `src/components/pitch/manufacturing-new/DalmiaTotalOpportunitySlide.tsx`
+### DalmiaTotalOpportunitySlide.tsx Changes
+Lines 18-26: Update `opportunities` array values
+Lines 97, 110: Update subtotal display values
 
-### Files to Modify
-1. `src/data/dalmiaCementSlides.ts` - Add slide 15 data
-2. `src/components/pitch/manufacturing-new/MfgNewSlideRenderer.tsx` - Add import and switch case
-
-### Slide Position
-Insert as the final slide (after Transformation Roadmap) to serve as a "summary/ask" slide that reinforces the total value proposition.
+### DalmiaVisionArchitectureSlide.tsx Changes
+Lines 66-67: Update Revenue and Savings values in the Outcomes layer
