@@ -1,4 +1,5 @@
-import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star, BookOpen, BadgeIndianRupee, Coins, Clock, ChevronRight } from "lucide-react";
+import { ArrowLeft, Bell, User, Crown, Check, Zap, TrendingUp, Shield, FileText, Sparkles, Star, BookOpen, BadgeIndianRupee, Coins, Clock, ChevronRight, Bookmark } from "lucide-react";
+import { toast } from "sonner";
 import { DiscvrHeroCarousel } from "@/components/discvr/DiscvrHeroCarousel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -303,6 +304,23 @@ export default function BullionPremium() {
                             Featured
                           </Badge>
                         )}
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="absolute top-3 right-3 bg-background/80 backdrop-blur hover:bg-amber-500 hover:text-white h-8 w-8"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toast.success("Article bookmarked!", {
+                              description: "View in Alerts & Bookmarks",
+                              action: {
+                                label: "View",
+                                onClick: () => navigate("/bullion/notifications?tab=bookmarks"),
+                              },
+                            });
+                          }}
+                        >
+                          <Bookmark className="w-4 h-4" />
+                        </Button>
                       </div>
                       <div className="p-5">
                         <div className="flex items-center gap-2 mb-3">

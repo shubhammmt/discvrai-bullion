@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, BookOpen, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, Bookmark, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -27,16 +27,6 @@ interface PriceAlert {
   channels: { push: boolean; telegram: boolean; whatsapp: boolean };
 }
 
-interface BullionWatchItem {
-  id: string;
-  metal: 'gold' | 'silver';
-  name: string;
-  currentPrice: string;
-  change: number;
-  targetPrice?: string;
-  alert?: string;
-}
-
 interface BullionCalendarEvent {
   date: string;
   event: string;
@@ -44,13 +34,15 @@ interface BullionCalendarEvent {
   metal?: 'gold' | 'silver';
 }
 
-interface SavedResearch {
+interface BookmarkedArticle {
   id: string;
   title: string;
-  type: string;
+  image: string;
+  category: string;
+  readTime: number;
+  source: string;
   date: string;
   tags: string[];
-  metal?: 'gold' | 'silver';
 }
 
 const CURRENT_PRICES = { gold: 7245, silver: 89 };
@@ -58,62 +50,33 @@ const CURRENT_PRICES = { gold: 7245, silver: 89 };
 const BullionNotifications = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const defaultTab = searchParams.get('tab') === 'notifications' ? 'alerts' : 'watchlists';
-  
-  // Watchlist state
-  const [activeWatchlist, setActiveWatchlist] = useState<'all' | 'gold' | 'silver'>('all');
+  const defaultTab = searchParams.get('tab') === 'notifications' ? 'alerts' : 'alerts';
   
   // New alert dialog state
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [editingAlert, setEditingAlert] = useState<PriceAlert | null>(null);
   
-  // Active price alerts (replaces 16 individual state variables)
+  // Active price alerts
   const [priceAlerts, setPriceAlerts] = useState<PriceAlert[]>([
     { id: "pa1", metal: "gold", condition: "below", targetPrice: 7000, channels: { push: true, telegram: false, whatsapp: false } },
     { id: "pa2", metal: "gold", condition: "above", targetPrice: 7500, channels: { push: true, telegram: true, whatsapp: false } },
     { id: "pa3", metal: "silver", condition: "below", targetPrice: 85, channels: { push: true, telegram: false, whatsapp: true } },
   ]);
 
+  // Bookmarked articles state
+  const [bookmarkedArticles, setBookmarkedArticles] = useState<BookmarkedArticle[]>([
+    { id: '1', title: "Understanding Digital Gold: A Complete Beginner's Guide", image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=400", category: "gold", readTime: 8, source: "Discvr Premium", date: '2 days ago', tags: ['Gold', 'Beginner'] },
+    { id: '2', title: "Silver Investment: Why It's Called 'Poor Man's Gold'", image: "https://images.unsplash.com/photo-1589787168422-b48f4f40dd5c?w=400", category: "silver", readTime: 6, source: "Discvr Premium", date: '1 week ago', tags: ['Silver', 'Investment'] },
+    { id: '3', title: "Gold SIP vs Lump Sum: Which Strategy Works Best?", image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400", category: "gold", readTime: 9, source: "Discvr Premium", date: '3 days ago', tags: ['SIP', 'Strategy'] },
+    { id: '4', title: "Tax Planning with Gold Investments: A Complete Guide", image: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=400", category: "personal", readTime: 12, source: "Discvr Premium", date: '1 week ago', tags: ['Tax', 'Planning'] },
+  ]);
+
   // Mock data
-  const watchlists = [
-    { id: 'all', name: 'All Metals', count: 2, color: 'bg-gradient-to-r from-amber-500 to-slate-400' },
-    { id: 'gold', name: 'Gold', count: 1, color: 'bg-amber-500' },
-    { id: 'silver', name: 'Silver', count: 1, color: 'bg-slate-400' }
-  ];
-
-  const watchlistItems: BullionWatchItem[] = [
-    { 
-      id: '1',
-      metal: 'gold', 
-      name: '24K Digital Gold', 
-      currentPrice: '₹7,245/gm', 
-      change: 1.2, 
-      targetPrice: '₹7,500',
-      alert: 'Near target' 
-    },
-    { 
-      id: '2',
-      metal: 'silver', 
-      name: 'Digital Silver', 
-      currentPrice: '₹89/gm', 
-      change: -0.8, 
-      targetPrice: '₹85',
-      alert: undefined 
-    }
-  ];
-
   const alerts: BullionAlert[] = [
     { id: '1', type: 'price_drop', metal: 'gold', message: 'Gold dropped 2.3% today - Good buying opportunity', time: '2 hours ago', priority: 'high' },
     { id: '2', type: 'sip_due', metal: 'gold', message: 'Your monthly Gold SIP is due tomorrow', time: '1 day ago', priority: 'medium' },
     { id: '3', type: 'festival', metal: 'gold', message: 'Dhanteras is in 15 days - Plan your purchase', time: '2 days ago', priority: 'low' },
     { id: '4', type: 'target_reached', metal: 'silver', message: 'Silver reached your target price of ₹85/gm', time: '3 hours ago', priority: 'high' }
-  ];
-
-  const savedResearch: SavedResearch[] = [
-    { id: '1', title: 'Gold Price Outlook Q1 2026', type: 'Market Analysis', date: '2 days ago', tags: ['Gold', 'Forecast'], metal: 'gold' },
-    { id: '2', title: 'Silver Industrial Demand Report', type: 'Research Report', date: '1 week ago', tags: ['Silver', 'Industrial'], metal: 'silver' },
-    { id: '3', title: 'Digital vs Physical Gold Comparison', type: 'Guide', date: '3 days ago', tags: ['Investment', 'Comparison'] },
-    { id: '4', title: 'Auspicious Days for Gold Buying 2026', type: 'Calendar Guide', date: '1 week ago', tags: ['Festival', 'Muhurat'] }
   ];
 
   const upcomingEvents: BullionCalendarEvent[] = [
@@ -157,6 +120,16 @@ const BullionNotifications = () => {
     }
   };
 
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case "gold": return "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400";
+      case "silver": return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+      case "lamf": return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
+      case "personal": return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
+      default: return "bg-muted text-muted-foreground";
+    }
+  };
+
   const handleTelegramSubscribe = () => {
     window.open('https://t.me/discvrai_bullion', '_blank');
   };
@@ -165,9 +138,10 @@ const BullionNotifications = () => {
     window.open('https://wa.me/919999999999?text=Subscribe%20to%20Bullion%20Alerts', '_blank');
   };
 
-  const filteredWatchlistItems = activeWatchlist === 'all' 
-    ? watchlistItems 
-    : watchlistItems.filter(item => item.metal === activeWatchlist);
+  const handleRemoveBookmark = (id: string) => {
+    setBookmarkedArticles(prev => prev.filter(a => a.id !== id));
+    toast.success("Bookmark removed");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -182,7 +156,7 @@ const BullionNotifications = () => {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
                 <Bell className="w-4 h-4 text-white" />
               </div>
-              <span className="font-semibold text-lg">Watchlist & Notifications</span>
+              <span className="font-semibold text-lg">Alerts & Bookmarks</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -226,96 +200,11 @@ const BullionNotifications = () => {
         </Card>
 
         <Tabs defaultValue={defaultTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="watchlists">Watchlists</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="alerts">Alerts</TabsTrigger>
-            <TabsTrigger value="research">Research</TabsTrigger>
+            <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>
             <TabsTrigger value="calendar">Calendar</TabsTrigger>
           </TabsList>
-
-          {/* Watchlists Tab */}
-          <TabsContent value="watchlists" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">My Watchlists</h2>
-              <Button variant="outline" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Target
-              </Button>
-            </div>
-
-            <div className="grid lg:grid-cols-4 gap-6">
-              {/* Watchlist Sidebar */}
-              <div className="space-y-3">
-                {watchlists.map((list) => (
-                  <Card 
-                    key={list.id} 
-                    className={`cursor-pointer transition-colors ${activeWatchlist === list.id ? 'border-amber-500 bg-amber-50 dark:bg-amber-950/30' : ''}`}
-                    onClick={() => setActiveWatchlist(list.id as 'all' | 'gold' | 'silver')}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-3 h-3 rounded-full ${list.color}`}></div>
-                        <div className="flex-1">
-                          <p className="font-medium">{list.name}</p>
-                          <p className="text-sm text-muted-foreground">{list.count} items</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {/* Watchlist Content */}
-              <div className="lg:col-span-3">
-                <Card>
-                  <CardHeader>
-                    <div className="flex justify-between items-center">
-                      <CardTitle>
-                        {watchlists.find(w => w.id === activeWatchlist)?.name || 'All Metals'}
-                      </CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {filteredWatchlistItems.map((item) => (
-                        <div key={item.id} className={`flex items-center justify-between p-4 border rounded-lg ${getMetalColor(item.metal)}`}>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3">
-                              {getMetalIcon(item.metal)}
-                              <h3 className="font-semibold">{item.name}</h3>
-                              {item.alert && (
-                                <Badge variant="secondary" className="text-xs">
-                                  <Target className="w-3 h-3 mr-1" />
-                                  {item.alert}
-                                </Badge>
-                              )}
-                            </div>
-                            {item.targetPrice && (
-                              <p className="text-xs text-muted-foreground mt-1 ml-7">
-                                Target: {item.targetPrice}
-                              </p>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <div className="text-right">
-                              <p className="font-bold">{item.currentPrice}</p>
-                              <p className={`text-sm ${item.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {item.change > 0 ? '+' : ''}{item.change}%
-                              </p>
-                            </div>
-                            <Button size="sm" variant="outline">
-                              <Eye size={14} className="mr-1" />
-                              View
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </TabsContent>
 
           {/* Alerts Tab */}
           <TabsContent value="alerts" className="space-y-6">
@@ -475,47 +364,74 @@ const BullionNotifications = () => {
             />
           </TabsContent>
 
-          {/* Research Tab */}
-          <TabsContent value="research" className="space-y-6">
+          {/* Bookmarks Tab */}
+          <TabsContent value="bookmarks" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Saved Research</h2>
-              <Button variant="outline" size="sm">
+              <h2 className="text-xl font-semibold">Bookmarked Articles</h2>
+              <Button variant="outline" size="sm" onClick={() => navigate('/bullion/premium')}>
                 <BookOpen className="w-4 h-4 mr-2" />
-                Browse All
+                Browse Premium
               </Button>
             </div>
 
-            <div className="space-y-4">
-              {savedResearch.map((item) => (
-                <Card key={item.id} className={getMetalColor(item.metal)}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          {getMetalIcon(item.metal)}
-                          <h3 className="font-semibold">{item.title}</h3>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-2">{item.type}</p>
-                        <div className="flex gap-2 mb-2 flex-wrap">
-                          {item.tags.map((tag, tagIndex) => (
-                            <Badge key={tagIndex} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <p className="text-xs text-muted-foreground">{item.date}</p>
+            {bookmarkedArticles.length === 0 ? (
+              <Card className="p-8 text-center">
+                <Bookmark className="w-12 h-12 mx-auto text-muted-foreground/40 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">No Bookmarks Yet</h3>
+                <p className="text-sm text-muted-foreground mb-4">Save articles from Premium to read them later</p>
+                <Button onClick={() => navigate('/bullion/premium')} className="bg-amber-500 hover:bg-amber-600 text-black">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Browse Premium Articles
+                </Button>
+              </Card>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {bookmarkedArticles.map((article) => (
+                  <Card key={article.id} className="overflow-hidden hover:shadow-lg transition-all group">
+                    <div className="relative h-40 overflow-hidden">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="absolute top-2 right-2 bg-background/80 backdrop-blur hover:bg-destructive hover:text-white h-8 w-8"
+                        onClick={() => handleRemoveBookmark(article.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="secondary" className={getCategoryColor(article.category)}>
+                          {article.category.toUpperCase()}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {article.readTime} min
+                        </span>
                       </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
-                          <Star className="w-4 h-4" />
+                      <h3 className="font-semibold text-sm mb-2 line-clamp-2 group-hover:text-amber-500 transition-colors">
+                        {article.title}
+                      </h3>
+                      <div className="flex gap-1 mb-3 flex-wrap">
+                        {article.tags.map((tag, i) => (
+                          <Badge key={i} variant="outline" className="text-xs">{tag}</Badge>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">{article.date}</span>
+                        <Button size="sm" onClick={() => navigate('/bullion/premium')} className="bg-amber-500 hover:bg-amber-600 text-black text-xs">
+                          Read Now <ChevronRight className="w-3 h-3 ml-1" />
                         </Button>
-                        <Button size="sm">Open</Button>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                  </Card>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           {/* Calendar Tab */}
