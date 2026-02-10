@@ -314,9 +314,6 @@ export default function DiscvrHomepage() {
           <DiscvrHeroCarousel />
         </section>
 
-        {/* Premium Content Carousel */}
-        <PremiumCarousel navigate={navigate} />
-
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">Live Prices</h2>
@@ -384,6 +381,9 @@ export default function DiscvrHomepage() {
             ))}
           </div>
         </section>
+
+        {/* Premium Content Carousel */}
+        <PremiumCarousel navigate={navigate} />
 
         {/* Quick Insight Section */}
         <section className="mb-8">
