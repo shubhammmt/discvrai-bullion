@@ -146,7 +146,8 @@ const AppContent = () => {
                       location.pathname === '/investor-deck' ||
                       location.pathname === '/investor-deck-full' ||
                       location.pathname === '/partner-distribution' ||
-                      location.pathname === '/b2b-capabilities';
+                      location.pathname === '/b2b-capabilities' ||
+                      location.pathname === '/aptech-counsellor';
 
   return (
     <>
