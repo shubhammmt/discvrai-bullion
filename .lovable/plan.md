@@ -1,89 +1,66 @@
 
 
-# Rebuild Price Alert Feature for /bullion/notifications + Add "+" Icon to /bullion Toolbar
+# Rebuild `/bullion/notifications` Page
 
 ## Overview
-Two changes:
-1. **Redesign the Alerts tab** on `/bullion/notifications` to use a dialog-based "Create Alert" flow (matching the discvr.ai/mutual-fund style) instead of the current inline switch/input settings panel.
-2. **Replace the Search icon** with a **Plus (+) icon** in the `/bullion` page header toolbar that opens the same Create Alert dialog. Apply this across all three user modes (new, logged_in_no_holdings, investor).
+Two changes to the notifications page:
+1. **Remove the Watchlists tab entirely** -- no more metal watchlist sidebar/cards
+2. **Rename "Research" tab to "Bookmarks"** -- repurpose it as a saved/bookmarked articles section where users can save premium articles from `/bullion/premium` to read later
 
 ---
 
-## Part 1: New "Create Price Alert" Dialog Component
+## Changes to `src/pages/BullionNotifications.tsx`
 
-Create `src/components/bullion/CreatePriceAlertDialog.tsx`:
+### 1. Remove Watchlists Tab
+- Remove the "Watchlists" tab trigger from the `TabsList` (change from 4-column grid to 3-column)
+- Remove the entire `<TabsContent value="watchlists">` block (lines 237-318) including the sidebar, watchlist items, and filter logic
+- Remove related state: `activeWatchlist` and `filteredWatchlistItems`
+- Remove related interfaces: `BullionWatchItem`
+- Remove related mock data: `watchlists`, `watchlistItems`
+- Update default tab logic: change fallback from `'watchlists'` to `'alerts'`
+- Update header title from "Watchlist & Notifications" to "Alerts & Bookmarks"
 
-- **Trigger**: Opens via a `Dialog` (Radix) controlled by `open`/`onOpenChange` props
-- **Content**:
-  - Metal selection: Gold / Silver toggle (styled with metal tokens -- amber for Gold, slate for Silver)
-  - Condition: "Above" / "Below" segmented buttons
-  - Target price input: Large INR input field with current price displayed as reference
-  - **Percentage shortcuts**: Buttons for +/-5%, +/-10% that auto-calculate from current price
-  - Notification channels: Checkboxes for Push, Telegram, WhatsApp
-  - "Create Alert" CTA button (gold/silver themed)
-- **Mock current prices**: Gold: 7,245/gm, Silver: 89/gm (same as existing watchlist data)
-- **On submit**: Shows toast via `sonner` confirming alert creation
+### 2. Rename "Research" to "Bookmarks"
+- Change tab trigger label from "Research" to "Bookmarks"
+- Change tab value from `"research"` to `"bookmarks"` (both trigger and content)
+- Rename interface `SavedResearch` to `BookmarkedArticle` and update its fields:
+  - Add `image`, `category`, `readTime`, `source` fields (matching premium article structure)
+  - Keep `id`, `title`, `date`, `tags`
+- Replace the "Saved Research" heading with "Bookmarked Articles"
+- Replace "Browse All" button with a link to `/bullion/premium` ("Browse Premium")
+- Update mock data to reference actual premium articles (e.g., "Understanding Digital Gold", "Silver Investment Guide", etc.)
+- Redesign each bookmark card to show:
+  - Article thumbnail image
+  - Title, category badge, read time
+  - "Read Now" button that navigates to `/bullion/premium`
+  - "Remove Bookmark" icon button
+- Replace the `BookOpen` icon references with `Bookmark` from lucide-react
+- Update `savedResearch` array variable name to `bookmarkedArticles`
 
----
-
-## Part 2: Redesign Alerts Tab in BullionNotifications.tsx
-
-**Remove**: The entire inline "Price Alert Settings" card (lines 323-513) with all the individual switch/input rows for gold/silver drop/jump/percent alerts and their 16+ state variables.
-
-**Replace with**:
-1. A "Create New Alert" button at the top that opens the `CreatePriceAlertDialog`
-2. **Active Alerts list** displayed as cards (keep existing alert cards but enhance with progress indicators):
-   - Each card shows: Metal icon, condition (above/below), target price, current price, progress bar showing how close current price is to target
-   - Edit button (opens dialog pre-filled) and Delete button
-3. Keep the "Offers for You" redirect card at the bottom
-
-**State cleanup**: Remove the 16 individual state variables (`goldDropAlert`, `goldDropPrice`, `goldJumpAlert`, etc.) and replace with a single `alerts` array state.
-
----
-
-## Part 3: Replace Search Icon with "+" on /bullion Page
-
-In `src/pages/BullionInvestment.tsx` (line 130-132):
-
-**Current**:
-```text
-<Button variant="ghost" size="icon" className="hidden sm:flex hover:bg-muted">
-  <Search className="w-5 h-5" />
-</Button>
-```
-
-**Change to**:
-```text
-<Button variant="ghost" size="icon" className="hidden sm:flex hover:bg-muted" onClick={() => setShowAlertDialog(true)}>
-  <Plus className="w-5 h-5" />
-</Button>
-```
-
-- Add `CreatePriceAlertDialog` import and render it in the component
-- Add `showAlertDialog` state
-- This applies universally -- visible in all three modes (new, logged_in_no_holdings, investor)
-- Remove `Search` from lucide imports, add `Plus` if not already imported
+### 3. Icon and Import Cleanup
+- Remove unused imports: `Eye` (if only used in watchlists)
+- Add `Bookmark` import from lucide-react
+- Keep all alert-related imports and logic unchanged
 
 ---
 
-## Part 4: Export from Bullion Index
+## Changes to `src/pages/BullionPremium.tsx`
 
-Add `CreatePriceAlertDialog` to `src/components/bullion/index.ts`.
+### Add Bookmark Button to Article Cards
+- Add a bookmark icon button (heart/bookmark) on each article card in the Learn & Grow section
+- On click: show a toast "Article bookmarked! View in Alerts & Bookmarks" with a link
+- This is UI-only (no persistent state) -- just the visual affordance and toast feedback
 
 ---
-
-## Files to Create
-1. `src/components/bullion/CreatePriceAlertDialog.tsx` -- New dialog component
 
 ## Files to Modify
-1. `src/pages/BullionNotifications.tsx` -- Redesign Alerts tab, remove inline settings
-2. `src/pages/BullionInvestment.tsx` -- Replace Search icon with Plus icon, add dialog
-3. `src/components/bullion/index.ts` -- Export new component
+1. `src/pages/BullionNotifications.tsx` -- Remove watchlists tab, rename Research to Bookmarks, update mock data and UI
+2. `src/pages/BullionPremium.tsx` -- Add bookmark icon to article cards
 
 ## Technical Notes
-- Uses existing `Dialog` from `@/components/ui/dialog`
-- Uses existing `Checkbox` from `@/components/ui/checkbox`
-- Metal color tokens: Gold primary #F2B705, Silver primary #A9AEB8
-- Icons: Lucide `Coins` (Gold), `Medal` (Silver) per design system
-- Toast notifications via `sonner`
+- No new files needed
+- No new dependencies
+- Tab count reduces from 4 to 3 (Alerts, Bookmarks, Calendar)
+- Bookmark state is mock/local only (no backend persistence)
+- Toast via `sonner` for bookmark feedback on premium page
 
