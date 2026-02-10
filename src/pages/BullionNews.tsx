@@ -114,9 +114,15 @@
    },
  ];
  
- export default function BullionNews() {
-   const navigate = useNavigate();
-   const [activeCategory, setActiveCategory] = useState(0);
+export default function BullionNews() {
+  const navigate = useNavigate();
+  const [activeCategory, setActiveCategory] = useState("All News");
+
+  const filteredNews = activeCategory === "All News"
+    ? newsItems
+    : activeCategory === "Videos"
+      ? [] // No video items yet
+      : newsItems.filter(n => n.category === activeCategory);
  
    const getImpactBadge = (impact: string) => {
      const colors = {
@@ -169,19 +175,19 @@
           </div>
  
          {/* Category Filters */}
-         <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide mb-4">
-           {categories.map((category, index) => (
-             <Button
-               key={category}
-               variant={activeCategory === index ? "default" : "outline"}
-               size="sm"
-               className="whitespace-nowrap"
-               onClick={() => setActiveCategory(index)}
-             >
-               {category}
-             </Button>
-           ))}
-         </div>
+          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide mb-4">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={activeCategory === category ? "default" : "outline"}
+                size="sm"
+                className="whitespace-nowrap"
+                onClick={() => setActiveCategory(category)}
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
  
          {/* News Feed Header */}
          <div className="flex items-center justify-between mb-6">
@@ -199,8 +205,15 @@
          </div>
  
          {/* News Feed */}
-         <div className="space-y-4 mb-10">
-           {newsItems.map((news) => (
+          <div className="space-y-4 mb-10">
+            {filteredNews.length === 0 ? (
+              <Card className="p-12 text-center">
+                <p className="text-muted-foreground text-lg mb-2">
+                  {activeCategory === "Videos" ? "🎬 Video content coming soon!" : "No news in this category yet"}
+                </p>
+                <p className="text-sm text-muted-foreground">Check back later for updates</p>
+              </Card>
+            ) : filteredNews.map((news) => (
              <Card 
                key={news.id} 
                className="overflow-hidden hover:shadow-lg transition-all cursor-pointer group border-l-4"
@@ -269,9 +282,10 @@
                    </div>
                  </div>
                </div>
-             </Card>
-           ))}
-         </div>
+              </Card>
+            ))
+            }
+          </div>
  
          {/* Explore Options */}
          <div className="mb-10">
