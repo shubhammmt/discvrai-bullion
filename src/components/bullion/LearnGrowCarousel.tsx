@@ -9,30 +9,35 @@ import { useNavigate } from "react-router-dom";
 const articles = [
   {
     id: "1",
+    slug: "understanding-digital-gold",
     title: "Understanding Digital Gold: A Complete Beginner's Guide",
     category: "gold",
     readTime: 8,
   },
   {
     id: "2",
+    slug: "silver-investment-poor-mans-gold",
     title: "Silver Investment: Why It's Called 'Poor Man's Gold'",
     category: "silver",
     readTime: 6,
   },
   {
     id: "3",
+    slug: "loan-against-mutual-funds",
     title: "Loan Against Mutual Funds: Unlock Your Investment's Potential",
     category: "lamf",
     readTime: 10,
   },
   {
     id: "6",
+    slug: "gold-sip-vs-lump-sum",
     title: "Gold SIP vs Lump Sum: Which Strategy Works Best?",
     category: "gold",
     readTime: 9,
   },
   {
     id: "10",
+    slug: "tax-planning-gold-investments",
     title: "Tax Planning with Gold Investments: A Complete Guide",
     category: "personal",
     readTime: 12,
@@ -132,7 +137,7 @@ export function LearnGrowCarousel() {
           <Card
             key={article.id}
             className="flex-shrink-0 w-[240px] p-3 bg-white/70 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 cursor-pointer transition-all border-violet-100 dark:border-violet-800/30 shadow-sm hover:shadow-md"
-            onClick={() => navigate("/bullion/premium")}
+            onClick={() => navigate(`/bullion/premium/article/${article.slug}`)}
           >
             <div className="flex items-center gap-2 mb-2">
               <Badge variant="secondary" className={`text-[10px] px-1.5 py-0.5 ${getCategoryColor(article.category)}`}>

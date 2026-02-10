@@ -109,6 +109,7 @@ import BullionContests from './pages/BullionContests';
 import BullionGoals from './pages/BullionGoals';
 import BullionGoalNew from './pages/BullionGoalNew';
 import BullionPremium from './pages/BullionPremium';
+import BullionArticlePage from './pages/BullionArticlePage';
 import BullionLearn from './pages/BullionLearn';
 import BullionTax from './pages/BullionTax';
 import BullionTrends from './pages/BullionTrends';
@@ -244,6 +245,7 @@ const AppContent = () => {
         <Route path="/bullion/goals/new" element={<BullionGoalNew />} />
         <Route path="/bullion/loans" element={<BullionLoans />} />
         <Route path="/bullion/premium" element={<BullionPremium />} />
+        <Route path="/bullion/premium/article/:slug" element={<BullionArticlePage />} />
         <Route path="/bullion/learn" element={<BullionPremium />} />
         <Route path="/bullion/tax" element={<BullionTax />} />
         <Route path="/bullion/kyc-failure" element={<KYCFailurePage />} />

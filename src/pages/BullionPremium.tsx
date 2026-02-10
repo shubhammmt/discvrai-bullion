@@ -25,6 +25,7 @@ const learnCategories = [
 const articles = [
   {
     id: "1",
+    slug: "understanding-digital-gold",
     title: "Understanding Digital Gold: A Complete Beginner's Guide",
     summary: "Learn everything about digital gold investment, from basics to advanced strategies. Discover how digital gold works, its benefits, and how to start investing.",
     category: "gold",
@@ -35,6 +36,7 @@ const articles = [
   },
   {
     id: "2",
+    slug: "silver-investment-poor-mans-gold",
     title: "Silver Investment: Why It's Called 'Poor Man's Gold'",
     summary: "Explore the unique characteristics of silver as an investment. Understand the gold-silver ratio and when to invest in silver for maximum returns.",
     category: "silver",
@@ -45,6 +47,7 @@ const articles = [
   },
   {
     id: "3",
+    slug: "loan-against-mutual-funds",
     title: "Loan Against Mutual Funds: Unlock Your Investment's Potential",
     summary: "Discover how LAMF works, eligibility criteria, interest rates, and why it's a smarter alternative to selling your investments during emergencies.",
     category: "lamf",
@@ -55,6 +58,7 @@ const articles = [
   },
   {
     id: "5",
+    slug: "building-emergency-fund",
     title: "Building an Emergency Fund: Step-by-Step Guide",
     summary: "Learn how to build and maintain an emergency fund that protects your financial future. Includes practical tips and goal-setting strategies.",
     category: "personal",
@@ -65,6 +69,7 @@ const articles = [
   },
   {
     id: "6",
+    slug: "gold-sip-vs-lump-sum",
     title: "Gold SIP vs Lump Sum: Which Strategy Works Best?",
     summary: "A detailed comparison of systematic investment plans versus lump sum investments in gold. Find out which approach suits your financial goals.",
     category: "gold",
@@ -75,6 +80,7 @@ const articles = [
   },
   {
     id: "7",
+    slug: "silver-etfs-vs-physical",
     title: "Silver ETFs vs Physical Silver: Pros and Cons",
     summary: "Compare different ways to invest in silver - from physical coins to ETFs and digital silver. Make an informed decision for your portfolio.",
     category: "silver",
@@ -85,6 +91,7 @@ const articles = [
   },
   {
     id: "8",
+    slug: "lamf-vs-personal-loan",
     title: "LAMF vs Personal Loan: Interest Rate Comparison 2024",
     summary: "A comprehensive comparison of loan against mutual funds versus personal loans. See how much you can save with LAMF's lower interest rates.",
     category: "lamf",
@@ -95,6 +102,7 @@ const articles = [
   },
   {
     id: "10",
+    slug: "tax-planning-gold-investments",
     title: "Tax Planning with Gold Investments: A Complete Guide",
     summary: "Understand the tax implications of gold investments in India. Learn about LTCG, STCG, and strategies to minimize your tax burden.",
     category: "personal",
@@ -292,6 +300,7 @@ export default function BullionPremium() {
                     <Card
                       key={article.id}
                       className="overflow-hidden hover:shadow-lg transition-all cursor-pointer group"
+                      onClick={() => navigate(`/bullion/premium/article/${article.slug}`)}
                     >
                       <div className="relative h-48 overflow-hidden">
                         <img
