@@ -194,14 +194,7 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     headline: 'Dashboarding & Insights',
     speakerNotes: 'End-to-end analytics and business intelligence for data-driven decisions.'
   },
-  // Slide 15: Total Opportunity
-  {
-    id: 15,
-    type: 'dalmia-total-opportunity',
-    headline: 'Total Opportunity Breakdown',
-    speakerNotes: 'Value breakdown across all seven streams. Revenue uplift plus operational savings equals total opportunity of ₹870–1,720 Cr with 50× ROI.'
-  },
-  // Slide 16: Section Break - Case Studies
+  // Slide 15: Section Break - Case Studies
   {
     id: 16,
     type: 'dalmia-section-break',
