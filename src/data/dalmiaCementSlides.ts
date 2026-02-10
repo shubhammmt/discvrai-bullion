@@ -114,14 +114,7 @@ export const dalmiaCementSlides: DalmiaCementSlide[] = [
     headline: 'What Global Leaders Are Doing',
     speakerNotes: 'Shift from product companies to intelligence platforms.'
   },
-  // Slide 5: Today
-  {
-    id: 5,
-    type: 'dalmia-today',
-    headline: 'Strong Foundations — Missing Intelligence Layer',
-    speakerNotes: 'Acknowledge strong foundation while highlighting the intelligence gap.'
-  },
-  // Slide 6: Vision & Architecture
+  // Slide 5: Vision & Architecture
   {
     id: 6,
     type: 'dalmia-vision-architecture',
