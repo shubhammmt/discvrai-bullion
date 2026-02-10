@@ -130,6 +130,7 @@ import ManufacturingPitch from './pages/ManufacturingPitch';
 import ManufacturingPitchNew from './pages/ManufacturingPitchNew';
 import AptechProposal from './pages/AptechProposal';
 import REAProposal from './pages/REAProposal';
+import AptechCounsellor from './pages/AptechCounsellor';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -276,6 +277,7 @@ const AppContent = () => {
           <Route path="/manufacturing-pitch-new" element={<ManufacturingPitchNew />} />
           <Route path="/proposal/aptech" element={<AptechProposal />} />
           <Route path="/proposal/rea" element={<REAProposal />} />
+          <Route path="/aptech-counsellor" element={<AptechCounsellor />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
