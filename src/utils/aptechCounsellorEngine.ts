@@ -198,6 +198,8 @@ function computeIntentScore(state: ConversationState): IntentScore {
 function nextPhase(state: ConversationState): ConversationPhase {
   if (state.formCompleted) return 'close';
   if (state.formRequested) return 'data_collection';
+  // Prioritize qualification when we have city/center/budget data to collect
+  if (state.leadData.city && (!state.leadData.preferredCenter || !state.leadData.budgetRange || !state.leadData.startDate)) return 'qualification';
   if (state.detectedObjections.length > 0 && state.phase !== 'objection_handling') return 'objection_handling';
   if (state.userMessageCount >= 6 && !state.formRequested) return 'data_collection';
   if (state.matchedCourses.length > 0 && state.userMessageCount >= 3) return 'qualification';
