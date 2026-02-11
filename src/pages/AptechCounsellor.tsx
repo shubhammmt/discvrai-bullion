@@ -9,6 +9,7 @@ import AptechChatMessage from '@/components/aptech/AptechChatMessage';
 import AptechLeadForm from '@/components/aptech/AptechLeadForm';
 import AptechCourseCard from '@/components/aptech/AptechCourseCard';
 import AptechIntentScore from '@/components/aptech/AptechIntentScore';
+import AptechOptionChips from '@/components/aptech/AptechOptionChips';
 import { quickPrompts } from '@/data/aptechCourseData';
 import {
   createInitialState,
@@ -26,6 +27,7 @@ interface Message {
   showLeadForm?: boolean;
   showIntentScore?: boolean;
   showSummary?: boolean;
+  options?: string[];
 }
 
 const WELCOME_MESSAGE = `Hi! 👋 Welcome to Aptech. I'm your AI career counsellor, and I'm here to help you find the perfect program for your career goals.
@@ -50,6 +52,11 @@ const AptechCounsellor = () => {
     if (!text.trim()) return;
     setShowWelcome(false);
 
+    // Disable options on all previous bot messages
+    setMessages(prev =>
+      prev.map(msg => (msg.type === 'bot' && msg.options ? { ...msg, options: undefined } : msg))
+    );
+
     const userMsg: Message = { id: Date.now(), type: 'user', content: text };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
@@ -67,6 +74,7 @@ const AptechCounsellor = () => {
         showLeadForm: response.showLeadForm,
         showIntentScore: response.showIntentScore,
         showSummary: response.showSummary,
+        options: response.options,
       };
       setMessages(prev => [...prev, botMsg]);
       setIsTyping(false);
@@ -79,7 +87,6 @@ const AptechCounsellor = () => {
     const updatedState = { ...state, leadData: updatedLead, formCompleted: true };
     setState(updatedState);
 
-    // Process close
     const response = processUserMessage('submitted details', updatedState);
     setState(response.updatedState);
 
@@ -151,6 +158,14 @@ const AptechCounsellor = () => {
               {msg.showLeadForm && !state.formCompleted && (
                 <AptechLeadForm onSubmit={handleLeadSubmit} />
               )}
+              {/* Option Chips */}
+              {msg.options && msg.options.length > 0 && (
+                <AptechOptionChips
+                  options={msg.options}
+                  onSelect={sendMessage}
+                  disabled={isTyping}
+                />
+              )}
               {/* Intent Score */}
               {msg.showIntentScore && state.intentScore.total > 0 && (
                 <AptechIntentScore score={state.intentScore} />
@@ -163,8 +178,10 @@ const AptechCounsellor = () => {
                     <p><span className="text-muted-foreground">Name:</span> {state.leadData.name}</p>
                     <p><span className="text-muted-foreground">Contact:</span> {state.leadData.mobile} | {state.leadData.email}</p>
                     {state.leadData.city && <p><span className="text-muted-foreground">City:</span> {state.leadData.city}</p>}
+                    {state.leadData.preferredCenter && <p><span className="text-muted-foreground">Center:</span> {state.leadData.preferredCenter}</p>}
                     {state.leadData.courseInterest && <p><span className="text-muted-foreground">Interest:</span> {state.leadData.courseInterest}</p>}
                     {state.leadData.budgetRange && <p><span className="text-muted-foreground">Budget:</span> {state.leadData.budgetRange}</p>}
+                    {state.leadData.startDate && <p><span className="text-muted-foreground">Timeline:</span> {state.leadData.startDate}</p>}
                     <p><span className="text-muted-foreground">Lead ID:</span> <code className="text-xs bg-green-100 px-1 rounded">{state.leadData.leadId}</code></p>
                   </CardContent>
                 </Card>
