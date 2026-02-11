@@ -24,35 +24,35 @@ export const ArchitectureFlowSlide: React.FC<Props> = ({ slide, slideNumber, tot
 
   return (
     <DeepDiveSlideLayout slideNumber={slideNumber} totalSlides={totalSlides} sectionLabel={sectionLabel} sectionColor={sectionColor}>
-      <div className="mb-3">
-        <div className="w-10 h-0.5 bg-slate-800 mb-2" />
+      <div className="mb-2">
+        <div className="w-10 h-0.5 bg-slate-800 mb-1" />
         <h1 className="text-2xl font-semibold text-slate-800">{slide.title}</h1>
-        <p className="text-sm text-slate-500">{slide.subtitle}</p>
+        <p className="text-base text-slate-500">{slide.subtitle}</p>
       </div>
 
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1 flex-1">
         {layers.map((layer: any, i: number) => {
           const colors = layerColors[layer.color] || layerColors.blue;
           return (
             <React.Fragment key={i}>
-              <div className={`rounded-lg border ${colors.border} overflow-hidden`}>
-                <div className={`${colors.header} px-3 py-1 text-[11px] font-bold uppercase tracking-wider`}>
+              <div className={`rounded-lg border ${colors.border} overflow-hidden flex-1`}>
+                <div className={`${colors.header} px-4 py-1 text-xs font-bold uppercase tracking-wider`}>
                   {layer.name}
                 </div>
-                <div className={`${colors.bg} px-3 py-2 grid gap-2`} style={{ gridTemplateColumns: `repeat(${layer.columns.length}, 1fr)` }}>
+                <div className={`${colors.bg} px-4 py-2 grid gap-3 h-full`} style={{ gridTemplateColumns: `repeat(${layer.columns.length}, 1fr)` }}>
                   {layer.columns.map((col: any, j: number) => (
                     <div key={j}>
-                      <p className={`text-[10px] font-bold ${colors.text} mb-0.5`}>{col.label}</p>
+                      <p className={`text-xs font-bold ${colors.text} mb-0.5`}>{col.label}</p>
                       {col.items.map((item: string, k: number) => (
-                        <p key={k} className="text-[9px] text-slate-600 leading-tight">{item}</p>
+                        <p key={k} className="text-[11px] text-slate-600 leading-snug">{item}</p>
                       ))}
                     </div>
                   ))}
                 </div>
               </div>
               {i < layers.length - 1 && (
-                <div className="flex justify-center">
-                  <ArrowDown className="w-3.5 h-3.5 text-slate-400" />
+                <div className="flex justify-center -my-0.5">
+                  <ArrowDown className="w-4 h-4 text-slate-400" />
                 </div>
               )}
             </React.Fragment>

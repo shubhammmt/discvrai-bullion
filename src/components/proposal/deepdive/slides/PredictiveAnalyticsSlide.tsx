@@ -21,9 +21,9 @@ export const PredictiveAnalyticsSlide: React.FC<Props> = ({ slide, slideNumber, 
   return (
     <DeepDiveSlideLayout slideNumber={slideNumber} totalSlides={totalSlides} sectionLabel="Distributor" sectionColor="bg-teal-600">
       <div className="mb-2">
-        <div className="w-10 h-0.5 bg-slate-800 mb-2" />
+        <div className="w-10 h-0.5 bg-slate-800 mb-1" />
         <h1 className="text-2xl font-semibold text-slate-800">{slide.title}</h1>
-        <p className="text-sm text-slate-500">{slide.subtitle} — <span className="font-semibold">{distributor}</span></p>
+        <p className="text-base text-slate-500">{slide.subtitle} — <span className="font-semibold">{distributor}</span></p>
       </div>
 
       {/* Client cards */}
@@ -33,24 +33,24 @@ export const PredictiveAnalyticsSlide: React.FC<Props> = ({ slide, slideNumber, 
           return (
             <div key={i} className={`${colors.bg} border ${colors.border} rounded-lg p-3`}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-slate-800">{client.name}</span>
-                <span className={`text-[8px] font-bold text-white px-2 py-0.5 rounded-full ${colors.badge}`}>
+                <span className="text-sm font-bold text-slate-800">{client.name}</span>
+                <span className={`text-[10px] font-bold text-white px-2 py-0.5 rounded-full ${colors.badge}`}>
                   {client.risk} Risk — {client.probability}
                 </span>
               </div>
-              <div className="space-y-0.5 text-[9px] text-slate-600">
+              <div className="space-y-0.5 text-[11px] text-slate-600">
                 <p>AUM: <span className="font-bold">{client.aum}</span></p>
                 <p>Last login: {client.lastLogin}</p>
                 <p>Portfolio: {client.portfolio}</p>
                 <p>Email opens: {client.emailOpens}</p>
               </div>
-              <div className="mt-2 bg-white rounded p-1.5 border border-slate-200">
-                <p className="text-[8px] text-slate-500">Recommended Action:</p>
-                <p className="text-[9px] font-semibold text-slate-700">{client.action}</p>
+              <div className="mt-2 bg-white rounded p-2 border border-slate-200">
+                <p className="text-[10px] text-slate-500">Recommended Action:</p>
+                <p className="text-[11px] font-semibold text-slate-700">{client.action}</p>
               </div>
-              <div className="mt-1.5 flex items-center gap-1">
-                <CheckCircle className="w-3 h-3 text-emerald-500" />
-                <span className="text-[9px] font-semibold text-emerald-600">{client.outcome}</span>
+              <div className="mt-2 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                <span className="text-[11px] font-semibold text-emerald-600">{client.outcome}</span>
               </div>
             </div>
           );
@@ -58,13 +58,13 @@ export const PredictiveAnalyticsSlide: React.FC<Props> = ({ slide, slideNumber, 
       </div>
 
       {/* Total Impact */}
-      <div className="bg-slate-800 rounded-lg p-3">
-        <p className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-2">Total Impact After 30 Days</p>
+      <div className="bg-slate-800 rounded-lg p-4">
+        <p className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">Total Impact After 30 Days</p>
         <div className="grid grid-cols-5 gap-4 text-center">
           {Object.entries(totalImpact).map(([key, value], i) => (
             <div key={i}>
-              <p className="text-[9px] text-slate-400">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
-              <p className="text-sm font-bold text-white">{value as string}</p>
+              <p className="text-[11px] text-slate-400">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
+              <p className="text-base font-bold text-white">{value as string}</p>
             </div>
           ))}
         </div>
