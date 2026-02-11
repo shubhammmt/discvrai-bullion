@@ -22,28 +22,28 @@ export const CoverSlide: React.FC<CoverSlideProps> = ({ slide }) => {
 
       {/* Logo */}
       <div className="absolute top-6 right-8 flex items-center gap-2 z-10">
-        <Bot className="w-6 h-6 text-amber-400" />
-        <span className="text-lg font-bold text-white tracking-tight">{slide.content.brand}</span>
+        <Bot className="w-7 h-7 text-amber-400" />
+        <span className="text-xl font-bold text-white tracking-tight">{slide.content.brand}</span>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col justify-center px-14 relative z-10">
+      <div className="flex-1 flex flex-col justify-center px-12 relative z-10">
         <div className="w-16 h-1 bg-amber-400 mb-6" />
         <h1 className="text-5xl font-light text-white mb-3 tracking-tight">{slide.title}</h1>
         <p className="text-xl text-amber-300 font-medium mb-10">{slide.subtitle}</p>
 
         {/* Sections */}
-        <div className="grid grid-cols-4 gap-4 max-w-3xl">
+        <div className="grid grid-cols-4 gap-4 max-w-4xl">
           {slide.content.sections.map((section: any, i: number) => {
             const Icon = icons[i] || Sparkles;
             return (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm">
+              <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-5 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-2">
-                  <Icon className="w-4 h-4 text-amber-400" />
-                  <span className="text-[11px] font-mono text-amber-400">{section.number}</span>
+                  <Icon className="w-5 h-5 text-amber-400" />
+                  <span className="text-xs font-mono text-amber-400">{section.number}</span>
                 </div>
-                <p className="text-sm font-semibold text-white leading-tight">{section.title}</p>
-                <p className="text-[10px] text-slate-400 mt-1">{section.slides}</p>
+                <p className="text-base font-semibold text-white leading-tight">{section.title}</p>
+                <p className="text-xs text-slate-400 mt-1">{section.slides}</p>
               </div>
             );
           })}
@@ -51,12 +51,12 @@ export const CoverSlide: React.FC<CoverSlideProps> = ({ slide }) => {
       </div>
 
       {/* Footer */}
-      <div className="px-14 pb-6 flex justify-between items-center relative z-10">
+      <div className="px-12 pb-6 flex justify-between items-center relative z-10">
         <div>
-          <p className="text-sm font-semibold text-white">{slide.content.founder}</p>
-          <p className="text-xs text-slate-400">{slide.content.founderTitle}</p>
+          <p className="text-base font-semibold text-white">{slide.content.founder}</p>
+          <p className="text-sm text-slate-400">{slide.content.founderTitle}</p>
         </div>
-        <p className="text-[10px] text-slate-500">© 2025 DiscvrAI. Confidential.</p>
+        <p className="text-xs text-slate-500">© 2026 DiscvrAI. Confidential.</p>
       </div>
     </div>
   );
