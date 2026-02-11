@@ -23,6 +23,7 @@ const DeepDiveProposal = () => {
 
   const sectionColors: Record<string, string> = {
     cover: 'bg-slate-800',
+    context: 'bg-amber-600',
     nudges: 'bg-blue-600',
     personalization: 'bg-purple-600',
     distributor: 'bg-teal-600',
