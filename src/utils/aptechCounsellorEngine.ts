@@ -46,6 +46,9 @@ export interface ConversationState {
   courseCardShown: boolean;
   detectedInterests: string[];
   detectedObjections: string[];
+  awaitingCenterSelection: boolean;
+  awaitingBudget: boolean;
+  awaitingTimeline: boolean;
 }
 
 export function createInitialState(): ConversationState {
@@ -61,6 +64,9 @@ export function createInitialState(): ConversationState {
     courseCardShown: false,
     detectedInterests: [],
     detectedObjections: [],
+    awaitingCenterSelection: false,
+    awaitingBudget: false,
+    awaitingTimeline: false,
   };
 }
 
@@ -114,28 +120,76 @@ function matchCourses(interests: string[]): CourseProgram[] {
   return coursePrograms.filter(c => interests.includes(c.category));
 }
 
+// Extract budget info from free-text
+function extractBudget(text: string): string | null {
+  const lower = text.toLowerCase();
+  // Check for exact budget range mentions
+  if (lower.includes('50k') || lower.includes('50,000') || lower.includes('50000')) {
+    if (lower.includes('1l') || lower.includes('1 l') || lower.includes('100000') || lower.includes('1,00,000')) {
+      return '₹50k - ₹1L';
+    }
+    return '₹50k - ₹1L';
+  }
+  if (lower.includes('1l') || lower.includes('1 lakh') || lower.includes('100000') || lower.includes('1,00,000')) {
+    if (lower.includes('2l') || lower.includes('2 l')) return '₹1L - ₹2L';
+    return '₹1L - ₹2L';
+  }
+  if (lower.includes('2l') || lower.includes('2 lakh') || lower.includes('200000') || lower.includes('2,00,000')) return '₹2L - ₹3L';
+  if (lower.includes('flexible') || lower.includes('emi')) return 'Flexible / EMI';
+  // Detect amounts like "10k", "15k" etc. as monthly EMI range
+  const monthlyMatch = lower.match(/(\d+)\s*k/);
+  if (monthlyMatch) {
+    const amount = parseInt(monthlyMatch[1]) * 1000;
+    if (amount <= 15000) return 'Flexible / EMI';
+    if (amount <= 100000) return '₹50k - ₹1L';
+    if (amount <= 200000) return '₹1L - ₹2L';
+  }
+  return null;
+}
+
+// Extract center selection from text
+function extractCenter(text: string, city: string): string | null {
+  const loc = centerLocations.find(c => c.city.toLowerCase() === city.toLowerCase());
+  if (!loc) return null;
+  const lower = text.toLowerCase();
+  for (const center of loc.centers) {
+    if (lower.includes(center.toLowerCase()) || lower.replace(/[.\s]/g, '').includes(center.toLowerCase().replace(/[.\s]/g, ''))) {
+      return center;
+    }
+  }
+  return null;
+}
+
+// Extract timeline from text
+function extractTimeline(text: string): string | null {
+  const lower = text.toLowerCase();
+  if (['immediately', 'asap', 'right away', 'now', 'today'].some(k => lower.includes(k))) return 'Immediately';
+  if (['this month', 'this week'].some(k => lower.includes(k))) return 'This month';
+  if (['next month'].some(k => lower.includes(k))) return 'Next month';
+  if (['3 month', '3months', 'three month'].some(k => lower.includes(k))) return 'In 3 months';
+  if (['6 month', '6months', 'six month'].some(k => lower.includes(k))) return 'In 6 months';
+  return null;
+}
+
 function computeIntentScore(state: ConversationState): IntentScore {
   let budgetMatch = 0;
   let urgency = 0;
   let engagement = 0;
   let courseFit = 0;
 
-  // Budget
   if (state.leadData.budgetRange) budgetMatch = 20;
   if (state.leadData.budgetRange?.includes('Flexible')) budgetMatch = 25;
 
-  // Urgency
   if (state.leadData.startDate) {
-    if (['immediately', 'asap', 'this month', 'next month'].some(k => (state.leadData.startDate || '').toLowerCase().includes(k))) urgency = 25;
+    if (['Immediately', 'This month', 'Next month'].includes(state.leadData.startDate)) urgency = 25;
     else urgency = 15;
   }
 
-  // Engagement
   engagement = Math.min(25, state.userMessageCount * 4);
 
-  // Course fit
   if (state.matchedCourses.length > 0) courseFit = 15;
   if (state.leadData.specificProgram) courseFit = 25;
+  if (state.leadData.preferredCenter) courseFit = Math.min(25, courseFit + 5);
 
   const total = budgetMatch + urgency + engagement + courseFit;
   return { total, budgetMatch, urgency, engagement, courseFit };
@@ -160,12 +214,15 @@ export interface EngineResponse {
   showSummary: boolean;
   matchedCourses: CourseProgram[];
   updatedState: ConversationState;
+  options?: string[]; // Inline selectable option chips
 }
 
 export function processUserMessage(userText: string, state: ConversationState): EngineResponse {
   const newState = { ...state };
   newState.userMessageCount += 1;
   newState.messageCount += 1;
+
+  const lower = userText.toLowerCase();
 
   // Detect interests and objections
   const newInterests = detectInterests(userText);
@@ -176,6 +233,35 @@ export function processUserMessage(userText: string, state: ConversationState): 
   // Match courses
   if (newState.detectedInterests.length > 0) {
     newState.matchedCourses = matchCourses(newState.detectedInterests);
+  }
+
+  // Extract city from text
+  const cityMatch = centerLocations.find(c => lower.includes(c.city.toLowerCase()));
+  if (cityMatch && !newState.leadData.city) {
+    newState.leadData.city = cityMatch.city;
+  }
+
+  // Extract center if we have a city and are awaiting center selection
+  if (newState.leadData.city) {
+    const center = extractCenter(userText, newState.leadData.city);
+    if (center) {
+      newState.leadData.preferredCenter = center;
+      newState.awaitingCenterSelection = false;
+    }
+  }
+
+  // Extract budget from free text
+  const budgetFromText = extractBudget(userText);
+  if (budgetFromText) {
+    newState.leadData.budgetRange = budgetFromText;
+    newState.awaitingBudget = false;
+  }
+
+  // Extract timeline
+  const timelineFromText = extractTimeline(userText);
+  if (timelineFromText) {
+    newState.leadData.startDate = timelineFromText;
+    newState.awaitingTimeline = false;
   }
 
   // Determine phase
@@ -189,20 +275,23 @@ export function processUserMessage(userText: string, state: ConversationState): 
   let showLeadForm = false;
   let showIntentScore = false;
   let showSummary = false;
+  let options: string[] | undefined;
 
   switch (newState.phase) {
     case 'discovery': {
       if (newInterests.length > 0) {
         text = `Great choice! ${newInterests.join(' and ')} is a fantastic field with amazing career opportunities. 🎯\n\nTell me a bit about yourself — are you a student, working professional, or looking to switch careers? And what's your educational background?`;
+        options = ['Student', 'Working Professional', 'Career Switcher'];
       } else {
         const discoveryQuestions = [
-          "That's interesting! Tell me more about yourself — are you a student, working professional, or looking to switch careers?",
-          "What's your current educational background? (12th, graduation, etc.)",
-          "What challenges are you facing right now that made you explore new learning options?",
-          "Where do you see yourself in 2-3 years? What's your dream role?",
+          { text: "That's interesting! Tell me more about yourself — are you a student, working professional, or looking to switch careers?", options: ['Student', 'Working Professional', 'Career Switcher'] },
+          { text: "What's your current educational background? (12th, graduation, etc.)", options: ['12th Pass', 'Undergraduate', 'Graduate', 'Post Graduate'] },
+          { text: "What challenges are you facing right now that made you explore new learning options?", options: ['Job Search', 'Skill Gap', 'Career Change', 'Better Salary'] },
+          { text: "Where do you see yourself in 2-3 years? What's your dream role?", options: ['Animator', 'Game Designer', 'VFX Artist', 'Web Designer', 'IT Professional'] },
         ];
         const idx = Math.min(newState.userMessageCount - 1, discoveryQuestions.length - 1);
-        text = discoveryQuestions[idx];
+        text = discoveryQuestions[idx].text;
+        options = discoveryQuestions[idx].options;
       }
       break;
     }
@@ -213,32 +302,97 @@ export function processUserMessage(userText: string, state: ConversationState): 
         newState.courseCardShown = true;
         showCourseCards = true;
         text = `Based on what you've shared, I think you'd be a great fit for these programs! Here are my top recommendations:\n\nTake a look and let me know which one excites you the most. I can also help with budget, EMI options, and center locations. 😊`;
+        options = ['Tell me about placements', 'What are the fees?', 'Flexible timing options?', 'Which city centers?'];
       } else {
-        text = `These programs are designed to take you from fundamentals to industry-ready. Our alumni are working at studios like Red Chillies, Prime Focus, and top gaming companies.\n\nWhat matters most to you — placement support, flexible timing, or budget-friendly options?`;
+        text = `These programs are designed to take you from fundamentals to industry-ready. Our alumni are working at studios like Red Chillies, Prime Focus, and top gaming companies.\n\nWhat matters most to you?`;
+        options = ['Placement support', 'Flexible timing', 'Budget-friendly options', 'Online learning'];
       }
       break;
     }
 
     case 'qualification': {
-      const lower = userText.toLowerCase();
-      // Try to extract city
-      const cityMatch = centerLocations.find(c => lower.includes(c.city.toLowerCase()));
-      if (cityMatch) {
-        newState.leadData.city = cityMatch.city;
-        text = `Great, we have centers in ${cityMatch.city}: ${cityMatch.centers.join(', ')}. Which area would be most convenient for you?\n\nAlso, what's your budget range? We have flexible EMI options starting from ₹8-10k/month.`;
-      } else if (!newState.leadData.city) {
-        text = `Which city are you based in? We have centers across India — Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune, Kolkata, and more.\n\nAnd when are you looking to start? We have new batches coming up soon! 📅`;
-      } else {
-        text = `Perfect! And what's your budget range for the program? We offer:\n• ₹50k - ₹1L (short-term certifications)\n• ₹1L - ₹2L (comprehensive programs)\n• ₹2L+ (advanced/premium tracks)\n• Flexible EMI options available\n\nDon't worry about the exact amount — we can always work something out! 😊`;
+      // Handle center selection response
+      if (newState.awaitingCenterSelection && newState.leadData.preferredCenter) {
+        // Center was just selected in this turn
+        newState.awaitingCenterSelection = false;
+        if (!newState.leadData.budgetRange) {
+          newState.awaitingBudget = true;
+          text = `Great choice! ${newState.leadData.preferredCenter} is one of our popular centers. 🏢\n\nNow, what's your budget range? We have flexible EMI options starting from ₹8-10k/month.`;
+          options = ['₹50k - ₹1L', '₹1L - ₹2L', '₹2L - ₹3L', 'Flexible / EMI'];
+          break;
+        }
       }
+
+      // If city just detected, show centers
+      if (newState.leadData.city && !newState.leadData.preferredCenter) {
+        const loc = centerLocations.find(c => c.city === newState.leadData.city);
+        if (loc) {
+          newState.awaitingCenterSelection = true;
+          const needsBudget = !newState.leadData.budgetRange;
+          const needsTimeline = !newState.leadData.startDate;
+          text = `Great, we have centers in ${loc.city}: ${loc.centers.join(', ')}. Which area would be most convenient for you?`;
+          if (needsBudget) {
+            text += `\n\nAlso, what's your budget range? We have flexible EMI options starting from ₹8-10k/month.`;
+          }
+          options = [...loc.centers];
+          break;
+        }
+      }
+
+      // Ask for city if not set
+      if (!newState.leadData.city) {
+        const cities = centerLocations.map(c => c.city);
+        text = `Which city are you based in? We have centers across India.`;
+        options = cities.slice(0, 6);
+        
+        if (!newState.leadData.startDate) {
+          newState.awaitingTimeline = true;
+          text += `\n\nAnd when are you looking to start? We have new batches coming up soon! 📅`;
+        }
+        break;
+      }
+
+      // Ask for budget if not set
+      if (!newState.leadData.budgetRange) {
+        newState.awaitingBudget = true;
+        text = `What's your budget range for the program? We offer flexible EMI options too.`;
+        options = ['₹50k - ₹1L', '₹1L - ₹2L', '₹2L - ₹3L', 'Flexible / EMI'];
+        break;
+      }
+
+      // Ask for timeline if not set
+      if (!newState.leadData.startDate) {
+        newState.awaitingTimeline = true;
+        text = `When are you looking to start? We have new batches coming up! 📅`;
+        options = ['Immediately', 'This month', 'Next month', 'In 3 months'];
+        break;
+      }
+
+      // Everything collected, move to data collection
+      newState.phase = 'data_collection';
+      newState.formRequested = true;
+      showLeadForm = true;
+      text = `Excellent! Based on what you've told me:\n• City: ${newState.leadData.city}${newState.leadData.preferredCenter ? ` (${newState.leadData.preferredCenter})` : ''}\n• Budget: ${newState.leadData.budgetRange}\n• Timeline: ${newState.leadData.startDate}\n\nLet me get your contact details so our counseling team can set everything up! 🚀`;
       break;
     }
 
     case 'objection_handling': {
       const lastObjection = newObjections[0] || newState.detectedObjections[newState.detectedObjections.length - 1];
       text = objectionResponses[lastObjection] || objectionResponses['think_about_it'];
-      // Clear handled objections for phase transition
       newState.detectedObjections = newState.detectedObjections.filter(o => o !== lastObjection);
+      
+      // Add contextual options based on objection type
+      if (lastObjection === 'expensive') {
+        options = ['Show EMI options', 'Explore shorter courses', 'Check scholarships'];
+      } else if (lastObjection === 'placement') {
+        options = ['View placement stats', 'See alumni stories', 'Talk to a counselor'];
+      } else if (lastObjection === 'not_good_enough') {
+        options = ['Tell me more about the curriculum', 'Can beginners join?', 'What support do you offer?'];
+      } else if (lastObjection === 'online_vs_offline') {
+        options = ['In-Center learning', 'Online learning', 'Hybrid mode'];
+      } else {
+        options = ['Send me a brochure', 'Check next batch dates', 'Talk to an advisor'];
+      }
       break;
     }
 
@@ -262,6 +416,7 @@ export function processUserMessage(userText: string, state: ConversationState): 
 
     default: {
       text = `Hi! 👋 Welcome to Aptech. I'm your AI career counsellor, and I'm here to help you find the perfect program for your career goals.\n\nWhat brings you here today?`;
+      options = ['Explore Animation & VFX', 'Career in Gaming', 'Upgrade My Skills', 'Check Course Fees'];
     }
   }
 
@@ -273,5 +428,6 @@ export function processUserMessage(userText: string, state: ConversationState): 
     showSummary,
     matchedCourses: newState.matchedCourses,
     updatedState: newState,
+    options,
   };
 }
