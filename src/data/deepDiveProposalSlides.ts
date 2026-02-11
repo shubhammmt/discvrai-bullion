@@ -1,5 +1,7 @@
 export type DeepDiveSlideType = 
   | 'cover'
+  | 'strategic-thesis'
+  | 'benchmarks-evidence'
   | 'architecture-flow'
   | 'context-intelligence'
   | 'timing-prediction'
@@ -20,7 +22,7 @@ export type DeepDiveSlideType =
 export interface DeepDiveSlide {
   id: number;
   type: DeepDiveSlideType;
-  section: 'cover' | 'nudges' | 'personalization' | 'distributor' | 'summary';
+  section: 'cover' | 'context' | 'nudges' | 'personalization' | 'distributor' | 'summary';
   title: string;
   subtitle?: string;
   content?: any;
@@ -36,10 +38,11 @@ export const deepDiveSlides: DeepDiveSlide[] = [
     subtitle: 'Technical Architecture & Examples',
     content: {
       sections: [
-        { number: '01', title: 'AI Nudges System', slides: 'Slides 2-6' },
-        { number: '02', title: 'Personalization Engine', slides: 'Slides 7-11' },
-        { number: '03', title: 'Distributor Tech Enablement', slides: 'Slides 12-16' },
-        { number: '04', title: 'Integration & Compound Effects', slides: 'Slide 17' },
+        { number: '00', title: 'Business Context', slides: 'Slides 2-3' },
+        { number: '01', title: 'AI Nudges System', slides: 'Slides 4-8' },
+        { number: '02', title: 'Personalization Engine', slides: 'Slides 9-13' },
+        { number: '03', title: 'Distributor Tech Enablement', slides: 'Slides 14-18' },
+        { number: '04', title: 'Integration & Compound Effects', slides: 'Slide 19' },
       ],
       founder: 'Shubham Srivastava',
       founderTitle: 'Founder & CEO',
@@ -47,9 +50,96 @@ export const deepDiveSlides: DeepDiveSlide[] = [
     }
   },
 
-  // DEEP DIVE 1: AI NUDGES
+  // BUSINESS CONTEXT
   {
     id: 2,
+    type: 'strategic-thesis',
+    section: 'context',
+    title: 'The Strategic Thesis',
+    subtitle: 'Three Business Levers That Drive Measurable Outcomes',
+    content: {
+      assertion: 'Three strategic capabilities—AI Nudges, Personalization Engine, and Distributor Tech Enablement—convert existing customer data and distribution reach into measurable business outcomes: improved decision quality, higher conversion efficiency, and increased channel productivity.',
+      levers: [
+        {
+          title: 'AI Nudges',
+          outcome: 'Decision Quality & Engagement',
+          businessLogic: 'Context-aware, intelligently timed notifications improve customer decision confidence and behavioral outcomes when designed transparently.',
+          keyPoints: [
+            'RCTs demonstrate AI nudges materially affect user decision quality and choice behavior',
+            'Transparency and ethical design are critical—opaque nudges erode trust',
+            'Governance requirement: A/B testing and human oversight to avoid bias',
+          ],
+        },
+        {
+          title: 'Personalization Engine',
+          outcome: 'Conversion & Retention',
+          businessLogic: 'One-to-one personalization improves relevance, conversion rates, and customer lifetime value by tailoring offers, timing, and channels to individual preferences.',
+          keyPoints: [
+            'Well-executed personalization programs drive measurable revenue uplifts',
+            'AI decisioning automates optimal message/offer/channel combinations',
+            'Reduces manual campaign overhead while increasing engagement rates',
+          ],
+        },
+        {
+          title: 'Distributor Enablement',
+          outcome: 'Channel Productivity',
+          businessLogic: 'Digitizing distributor workflows and embedding intelligent decisioning improves sell-through rates, reduces training friction, and makes incentives measurable.',
+          keyPoints: [
+            'AI-assisted tools improve distributor productivity and sell-through rates',
+            'Reduces administrative time, enabling focus on client engagement',
+            'Makes incentive programs measurable and optimizable',
+          ],
+        },
+      ],
+      compoundEffect: 'When implemented together, these three levers create synergies: nudge engagement generates behavioral data that improves personalization, which informs distributor strategies, creating a learning loop that compounds over time.',
+    },
+  },
+  {
+    id: 3,
+    type: 'benchmarks-evidence',
+    section: 'context',
+    title: 'Benchmarks & Evidence',
+    subtitle: 'What to Expect — Industry Evidence You Can Reference',
+    content: {
+      benchmarks: [
+        {
+          title: 'AI Nudges — Decision Quality',
+          evidence: [
+            { label: 'Academic Evidence', detail: 'Randomized experiments show AI recommendation badges and automated nudges affect user decision confidence and choice quality' },
+            { label: 'Key Finding', detail: 'Impact depends on transparency and alignment with user goals—well-designed nudges improve outcomes' },
+            { label: 'Governance', detail: 'Requires careful design, A/B testing, and human oversight to avoid adverse bias and maintain trust' },
+          ],
+          keyMetric: { label: 'Decision Quality Impact', value: 'Statistically Significant' },
+          references: ['papers.ssrn.com — AI Nudging Study', 'aisel.aisnet.org — Platform Trust Study'],
+        },
+        {
+          title: 'Personalization — Revenue Uplift',
+          evidence: [
+            { label: 'Industry Benchmarks', detail: 'Market studies report measurable revenue uplifts from personalization, with consistent improvements in conversion and retention' },
+            { label: 'Consumer Expectation', detail: 'A significant majority of consumers now expect tailored experiences—personalization is table stakes' },
+            { label: 'At Scale', detail: 'Agentic personalization across 100M+ users demonstrates measurable goal-event lifts when properly implemented' },
+          ],
+          keyMetric: { label: 'Revenue Impact', value: '3-4x Conversion Uplift' },
+          references: ['braze.com — Personalization Playbook', 'arxiv.org — Agentic Personalization'],
+        },
+        {
+          title: 'Distributor Tech — Productivity',
+          evidence: [
+            { label: 'Channel Enablement', detail: 'Digitizing workflows and providing AI-assisted tools improve distributor productivity and sell-through rates' },
+            { label: 'Operational Metrics', detail: 'Time savings from automation allow distributors to serve more clients with the same resources' },
+            { label: 'Implementation', detail: 'Successful deployments prioritize high-impact use cases, measure clear KPIs, and scale when ROI is demonstrated' },
+          ],
+          keyMetric: { label: 'Productivity Gain', value: '60-85% Time Saved' },
+          references: ['braze.com — AI Decisioning Guide'],
+        },
+      ],
+      implementationNote: 'Successful deployments prioritize high-impact use cases first, measure clear KPIs (conversion, sell-through, retention), and scale when ROI is demonstrated. The evidence base supports a phased, measurable approach.',
+    },
+  },
+
+  // DEEP DIVE 1: AI NUDGES
+  {
+    id: 4,
     type: 'architecture-flow',
     section: 'nudges',
     title: 'AI Nudges System Architecture',

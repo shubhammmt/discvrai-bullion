@@ -1,6 +1,8 @@
 import React from 'react';
 import { DeepDiveSlide } from '@/data/deepDiveProposalSlides';
 import { CoverSlide } from './slides/CoverSlide';
+import { StrategicThesisSlide } from './slides/StrategicThesisSlide';
+import { BenchmarksEvidenceSlide } from './slides/BenchmarksEvidenceSlide';
 import { ArchitectureFlowSlide } from './slides/ArchitectureFlowSlide';
 import { ContextIntelligenceSlide } from './slides/ContextIntelligenceSlide';
 import { TimingPredictionSlide } from './slides/TimingPredictionSlide';
@@ -24,6 +26,7 @@ interface DeepDiveSlideRendererProps {
 }
 
 const sectionConfig: Record<string, { label: string; color: string }> = {
+  context: { label: 'Business Context', color: 'bg-amber-600' },
   nudges: { label: 'AI Nudges', color: 'bg-blue-600' },
   personalization: { label: 'Personalization', color: 'bg-purple-600' },
   distributor: { label: 'Distributor', color: 'bg-teal-600' },
@@ -37,6 +40,10 @@ export const DeepDiveSlideRenderer: React.FC<DeepDiveSlideRendererProps> = ({ sl
   switch (slide.type) {
     case 'cover':
       return <CoverSlide slide={slide} />;
+    case 'strategic-thesis':
+      return <StrategicThesisSlide {...commonProps} />;
+    case 'benchmarks-evidence':
+      return <BenchmarksEvidenceSlide {...commonProps} />;
     case 'architecture-flow':
     case 'distributor-architecture':
       return <ArchitectureFlowSlide {...commonProps} sectionLabel={section?.label || ''} sectionColor={section?.color || ''} />;
