@@ -26,36 +26,36 @@ export const StrategicThesisSlide: React.FC<StrategicThesisSlideProps> = ({ slid
   return (
     <DeepDiveSlideLayout slideNumber={slideNumber} totalSlides={totalSlides} sectionLabel="Business Context" sectionColor="bg-amber-600">
       <div className="h-full flex flex-col">
-        <div className="mb-3">
-          <h2 className="text-xl font-bold text-slate-800">{slide.title}</h2>
-          <p className="text-xs text-slate-500 mt-0.5">{slide.subtitle}</p>
+        <div className="mb-2">
+          <h2 className="text-2xl font-bold text-slate-800">{slide.title}</h2>
+          <p className="text-sm text-slate-500 mt-0.5">{slide.subtitle}</p>
         </div>
 
-        <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 mb-3">
-          <p className="text-[11px] leading-relaxed text-slate-700">{slide.content.assertion}</p>
+        <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 mb-2">
+          <p className="text-xs leading-relaxed text-slate-700">{slide.content.assertion}</p>
         </div>
 
         <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
           {levers.map((lever: any, i: number) => (
-            <div key={i} className={`${leverColors[i].bg} ${leverColors[i].border} border rounded-lg p-3 flex flex-col`}>
+            <div key={i} className={`${leverColors[i].bg} ${leverColors[i].border} border rounded-lg p-3.5 flex flex-col`}>
               <div className="flex items-center gap-2 mb-2">
                 <div className={`${leverColors[i].accent} text-white p-1.5 rounded-md`}>
                   {leverIcons[i]}
                 </div>
                 <div>
-                  <h3 className={`text-[11px] font-bold ${leverColors[i].text}`}>{lever.title}</h3>
-                  <p className="text-[9px] text-slate-500 font-medium">{lever.outcome}</p>
+                  <h3 className={`text-xs font-bold ${leverColors[i].text}`}>{lever.title}</h3>
+                  <p className="text-[10px] text-slate-500 font-medium">{lever.outcome}</p>
                 </div>
               </div>
 
-              <p className="text-[10px] text-slate-600 leading-relaxed mb-2">{lever.businessLogic}</p>
+              <p className="text-[11px] text-slate-600 leading-relaxed mb-2">{lever.businessLogic}</p>
 
-              <div className="mt-auto space-y-1">
-                <p className="text-[9px] font-semibold text-slate-500 uppercase tracking-wide">Key Points</p>
+              <div className="mt-auto space-y-1.5">
+                <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Key Points</p>
                 {lever.keyPoints.map((point: string, j: number) => (
                   <div key={j} className="flex items-start gap-1.5">
-                    <ArrowRight className={`w-2.5 h-2.5 mt-0.5 ${leverColors[i].light} shrink-0`} />
-                    <p className="text-[9px] text-slate-600 leading-snug">{point}</p>
+                    <ArrowRight className={`w-3 h-3 mt-0.5 ${leverColors[i].light} shrink-0`} />
+                    <p className="text-[10px] text-slate-600 leading-snug">{point}</p>
                   </div>
                 ))}
               </div>
@@ -63,9 +63,9 @@ export const StrategicThesisSlide: React.FC<StrategicThesisSlideProps> = ({ slid
           ))}
         </div>
 
-        <div className="mt-2.5 bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg px-4 py-2 flex items-center gap-3">
+        <div className="mt-2 bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg px-4 py-2.5 flex items-center gap-3">
           <RefreshCw className="w-4 h-4 text-amber-400 shrink-0" />
-          <p className="text-[10px] text-slate-200 leading-relaxed">
+          <p className="text-[11px] text-slate-200 leading-relaxed">
             <span className="font-bold text-white">The Compound Effect: </span>
             {slide.content.compoundEffect}
           </p>
