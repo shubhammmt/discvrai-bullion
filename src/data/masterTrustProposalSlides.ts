@@ -1,21 +1,51 @@
 export interface MasterTrustSlide {
   id: number;
-  type: 'cover' | 'executive' | 'opportunity' | 'horizons-overview' | 'horizon-1' | 'horizon-2' | 'horizon-3' | 'horizon-4' | 'parallel-execution' | 'pillars' | 'impact' | 'aum-trajectory' | 'competitive' | 'next-steps';
+  type: 'context' | 'cover' | 'executive' | 'opportunity' | 'horizons-overview' | 'horizon-1' | 'horizon-2' | 'horizon-3' | 'horizon-4' | 'parallel-execution' | 'pillars' | 'impact' | 'aum-trajectory' | 'competitive' | 'next-steps';
   title: string;
   subtitle?: string;
   content?: any;
 }
 
 export const masterTrustProposalSlides: MasterTrustSlide[] = [
-  // Slide 1: Cover
+  // Slide 1: Context Setting
   {
     id: 1,
+    type: 'context',
+    title: 'Context Setting & Alignment',
+    subtitle: 'Master Trust × DiscvrAI — February 2026',
+    content: {
+      discussions: [
+        { count: '2', names: 'Raajiv Bhalla & Samir Shah', detail: '2 meetings — strategic alignment & product vision' },
+        { count: '1', names: 'Vikas Ranjan', detail: '1 meeting — execution & technical deep-dive' },
+        { count: '•', names: 'Puneet Singhania', detail: 'Contextual discussions on phone' }
+      ],
+      understanding: [
+        'Digital enablement for increasing new client acquisition and engagement across mobile & web platforms',
+        'Spread across current products for Stock Transactions and enable Mutual Fund build-up through digital D2C model and distributors',
+        'Large focus on driving digital penetration — both length and breadth of product offerings'
+      ],
+      agenda: [
+        'Scale the business with digital penetration across all product verticals',
+        'Provide a broader strategic point of view on key enablers for growth',
+        'Ensure structured execution against identified enablers',
+        'Bring in both strategic consulting and execution capabilities as a unified engagement'
+      ],
+      team: [
+        { name: 'Shubham Srivastava', role: 'Founder', background: '20+ year exp — CIO for Eureka Forbes, Hindustan Times, MakeMyTrip' },
+        { name: 'Ramji Tripathi', role: 'CPTO', background: 'Leadership roles at Reliance Jio, Airtel, Microsoft, Times of India, Hindustan Times' }
+      ]
+    }
+  },
+
+  // Slide 2: Cover
+  {
+    id: 2,
     type: 'cover',
     title: 'AI-Powered Digital Transformation for Master Trust',
     subtitle: 'Driving Acquisition, Engagement & ARPU Growth Across Trading & Mutual Funds',
     content: {
       tagline: 'Transform from Transaction-Led Broker to AI-First Vertically Integrated AMC',
-      date: 'January 2025',
+      date: 'February 2026',
       preparedFor: 'Puneet Singhania, CFA, Whole-time Director - Master Capital Services Limited',
       preparedBy: 'Shubham Srivastava, Discvr AI',
       metrics: [
