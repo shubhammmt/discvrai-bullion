@@ -106,7 +106,13 @@ export const MTContextSlide: React.FC<MTContextSlideProps> = ({ slide }) => {
       {/* Footer */}
       <div className="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center text-[11px] text-slate-400">
         <span>DiscvrAI — B2B Arm for Large Scale Business Transformation through AI Stack</span>
-        <span>February 2026</span>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1">
+            <Phone className="w-3 h-3" /> 9873961591
+          </span>
+          <span>shubham@discvr.ai</span>
+          <span>February 2026</span>
+        </div>
       </div>
     </div>
   );
