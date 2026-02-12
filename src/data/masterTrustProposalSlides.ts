@@ -90,34 +90,35 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
           priority: 'LEVER 1',
           name: 'Brokerage Velocity',
           description: 'Maximize ARPU from Existing 4.26L+ Users',
-          points: [
-            'AI nudges (earnings alerts, sector risks) → 15-20% higher trading frequency',
-            'Zero incremental CAC - leveraging existing relationships',
-            'Fastest ROI - immediate brokerage revenue impact'
+          subItems: [
+            { title: 'AI Agent for Stock Research', detail: 'Works across screening and individual stock research' },
+            { title: 'AI Nudges', detail: 'Daily News to Portfolio Updates' },
+            { title: 'Personalization', detail: 'Personalized interventions on web, app and notifications' }
           ],
           timeline: 'Months 1-12',
           color: 'blue'
         },
         {
           priority: 'LEVER 2',
-          name: 'MF Lead Distribution',
+          name: 'Mutual Fund Distribution',
           description: 'Dual Strategy: All MFs + Own Schemes',
-          points: [
-            'Strategy A: Commission (0.5-0.75% AUM) from third-party MF distribution',
-            'Strategy B: Migrate 15% of base into own schemes → ₹950+ Cr AUM',
-            '2x margin expansion: AMC fees (1-1.5%) vs distribution (0.5-0.75%)'
+          subItems: [
+            { title: 'Agentic Commerce for MF', detail: 'Let consumers purchase funds through a CoAssistant' },
+            { title: 'AI Agent for MF Research', detail: 'Works across screening and individual mutual fund research' },
+            { title: 'Enterprise AMC Platform', detail: 'Enterprise-grade AMC distribution platform: AI enabled' }
           ],
           timeline: 'Months 1-12',
           color: 'emerald'
         },
         {
           priority: 'LEVER 3',
-          name: 'Organic Traffic Engine',
+          name: 'Organic Acquisition',
           description: 'Content-Driven Acquisition at Scale',
-          points: [
-            'AI chatbot + discvr.ai news + YouTube academy + blog content',
-            '40-50% higher organic traffic, 50-70% CAC reduction',
-            '20-30% of new users from organic discovery'
+          subItems: [
+            { title: 'Daily News Updates', detail: 'Byte-size and long form content' },
+            { title: 'Contests', detail: 'Personalized engagements and market-led news engagers' },
+            { title: 'Social Media Content', detail: 'Reels enabling market update and educational hub' },
+            { title: 'AI Chatbot', detail: 'Enabling content flywheel' }
           ],
           timeline: 'Months 1-12',
           color: 'amber'
@@ -126,10 +127,11 @@ export const masterTrustProposalSlides: MasterTrustSlide[] = [
           priority: 'LEVER 4',
           name: 'Ecosystem Expansion',
           description: 'Adjacency Products & Wallet Share',
-          points: [
-            'LAMF/LAS: ₹25+ Cr lending book → ₹25-75L annual revenue',
-            'Family Wealth Platform: 2-3x AUM per household',
-            'Enable after core levers (1,2,3) are firing'
+          subItems: [
+            { title: 'Credit Monetization (LAMF/LAS)', detail: '₹25+ Cr lending book · 1-3% NBFC margin' },
+            { title: 'Family Wealth Platform', detail: 'Household dashboard · 2-3x AUM per customer' },
+            { title: 'CIBIL-Powered Personalization', detail: 'Right product at right time · Credit score matching' },
+            { title: 'Premium Research', detail: 'HNI-level AI insights · +10% ARPU · Subscription revenue' }
           ],
           timeline: 'Months 12-18',
           color: 'purple'
