@@ -37,25 +37,27 @@ export const StrategicThesisSlide: React.FC<StrategicThesisSlideProps> = ({ slid
 
         <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
           {levers.map((lever: any, i: number) => (
-            <div key={i} className={`${leverColors[i].bg} ${leverColors[i].border} border rounded-lg p-3.5 flex flex-col`}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className={`${leverColors[i].accent} text-white p-1.5 rounded-md`}>
-                  {leverIcons[i]}
+            <div key={i} className={`${leverColors[i].bg} ${leverColors[i].border} border rounded-lg p-4 flex flex-col justify-between`}>
+              <div>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className={`${leverColors[i].accent} text-white p-2 rounded-md`}>
+                    {leverIcons[i]}
+                  </div>
+                  <div>
+                    <h3 className={`text-sm font-bold ${leverColors[i].text}`}>{lever.title}</h3>
+                    <p className="text-xs text-slate-500 font-medium">{lever.outcome}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className={`text-xs font-bold ${leverColors[i].text}`}>{lever.title}</h3>
-                  <p className="text-[10px] text-slate-500 font-medium">{lever.outcome}</p>
-                </div>
+
+                <p className="text-[13px] text-slate-600 leading-relaxed">{lever.businessLogic}</p>
               </div>
 
-              <p className="text-[11px] text-slate-600 leading-relaxed mb-2">{lever.businessLogic}</p>
-
-              <div className="mt-auto space-y-1.5">
-                <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Key Points</p>
+              <div className="space-y-2 pt-3 border-t border-slate-200/60 mt-3">
+                <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Key Points</p>
                 {lever.keyPoints.map((point: string, j: number) => (
-                  <div key={j} className="flex items-start gap-1.5">
-                    <ArrowRight className={`w-3 h-3 mt-0.5 ${leverColors[i].light} shrink-0`} />
-                    <p className="text-[10px] text-slate-600 leading-snug">{point}</p>
+                  <div key={j} className="flex items-start gap-2">
+                    <ArrowRight className={`w-3.5 h-3.5 mt-0.5 ${leverColors[i].light} shrink-0`} />
+                    <p className="text-[12px] text-slate-600 leading-snug">{point}</p>
                   </div>
                 ))}
               </div>
