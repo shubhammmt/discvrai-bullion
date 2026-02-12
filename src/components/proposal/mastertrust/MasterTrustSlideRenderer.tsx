@@ -1,5 +1,6 @@
 import React from 'react';
 import { MasterTrustSlide } from '@/data/masterTrustProposalSlides';
+import { MTContextSlide } from './slides/MTContextSlide';
 import { MTCoverSlide } from './slides/MTCoverSlide';
 import { MTExecutiveSlide } from './slides/MTExecutiveSlide';
 import { MTOpportunitySlide } from './slides/MTOpportunitySlide';
@@ -20,6 +21,8 @@ interface MasterTrustSlideRendererProps {
 
 export const MasterTrustSlideRenderer: React.FC<MasterTrustSlideRendererProps> = ({ slide }) => {
   switch (slide.type) {
+    case 'context':
+      return <MTContextSlide slide={slide} />;
     case 'cover':
       return <MTCoverSlide slide={slide} />;
     case 'executive':
