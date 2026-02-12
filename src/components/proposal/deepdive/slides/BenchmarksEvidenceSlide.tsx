@@ -33,41 +33,45 @@ export const BenchmarksEvidenceSlide: React.FC<BenchmarksEvidenceSlideProps> = (
 
         <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
           {benchmarks.map((b: any, i: number) => (
-            <div key={i} className={`${colors[i].bg} ${colors[i].border} border rounded-lg p-3.5 flex flex-col`}>
-              <div className="flex items-center gap-2 mb-2.5">
-                <div className={`${colors[i].accent} text-white p-1.5 rounded-md`}>
-                  {icons[i]}
-                </div>
-                <h3 className={`text-xs font-bold ${colors[i].text}`}>{b.title}</h3>
-              </div>
-
-              <div className="space-y-2.5 flex-1">
-                {b.evidence.map((ev: any, j: number) => (
-                  <div key={j}>
-                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-0.5">{ev.label}</p>
-                    <p className="text-[11px] text-slate-700 leading-snug">{ev.detail}</p>
+            <div key={i} className={`${colors[i].bg} ${colors[i].border} border rounded-lg p-4 flex flex-col justify-between`}>
+              <div>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className={`${colors[i].accent} text-white p-2 rounded-md`}>
+                    {icons[i]}
                   </div>
-                ))}
-              </div>
-
-              {b.keyMetric && (
-                <div className={`mt-2.5 ${colors[i].accent} rounded-md px-3 py-2`}>
-                  <p className="text-[10px] text-white/80 font-medium">{b.keyMetric.label}</p>
-                  <p className="text-base font-bold text-white">{b.keyMetric.value}</p>
+                  <h3 className={`text-sm font-bold ${colors[i].text}`}>{b.title}</h3>
                 </div>
-              )}
 
-              {b.references && b.references.length > 0 && (
-                <div className="mt-2 pt-1.5 border-t border-slate-200/60">
-                  <p className="text-[9px] text-slate-400 font-medium mb-0.5">References</p>
-                  {b.references.map((ref: string, k: number) => (
-                    <div key={k} className="flex items-center gap-1">
-                      <ExternalLink className="w-2.5 h-2.5 text-slate-400 shrink-0" />
-                      <p className="text-[9px] text-slate-400 truncate">{ref}</p>
+                <div className="space-y-3">
+                  {b.evidence.map((ev: any, j: number) => (
+                    <div key={j}>
+                      <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-0.5">{ev.label}</p>
+                      <p className="text-[13px] text-slate-700 leading-snug">{ev.detail}</p>
                     </div>
                   ))}
                 </div>
-              )}
+              </div>
+
+              <div>
+                {b.keyMetric && (
+                  <div className={`mt-3 ${colors[i].accent} rounded-md px-3 py-2.5`}>
+                    <p className="text-[11px] text-white/80 font-medium">{b.keyMetric.label}</p>
+                    <p className="text-lg font-bold text-white">{b.keyMetric.value}</p>
+                  </div>
+                )}
+
+                {b.references && b.references.length > 0 && (
+                  <div className="mt-2 pt-1.5 border-t border-slate-200/60">
+                    <p className="text-[9px] text-slate-400 font-medium mb-0.5">References</p>
+                    {b.references.map((ref: string, k: number) => (
+                      <div key={k} className="flex items-center gap-1">
+                        <ExternalLink className="w-2.5 h-2.5 text-slate-400 shrink-0" />
+                        <p className="text-[9px] text-slate-400 truncate">{ref}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
