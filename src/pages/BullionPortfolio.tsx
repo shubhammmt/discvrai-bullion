@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LoginPromptModal } from "@/components/bullion/LoginPromptModal";
 import { GrowthCalculator } from "@/components/bullion/GrowthCalculator";
 import { GoalBasedPlanner } from "@/components/bullion/GoalBasedPlanner";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 import { UnifiedBuyModal } from "@/components/bullion/UnifiedBuyModal";
 import { UserStateSwitcher, ThemeSwitcher, generateInvoicePDF } from "@/components/bullion";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
@@ -63,9 +64,8 @@ export default function BullionPortfolio() {
 
   const userName = userState !== "new" ? "Shubham" : undefined;
 
-  // Mock prices
-  const goldPrice = 6250.50;
-  const silverPrice = 76.80;
+  // Live prices
+  const { goldPrice, silverPrice } = useBullionPrices();
 
   // Holdings
   const holdings = userState === "investor" 

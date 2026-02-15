@@ -24,6 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 
 export default function BullionCalculators() {
   const navigate = useNavigate();
@@ -31,12 +32,13 @@ export default function BullionCalculators() {
   // Making Charge Calculator State - Gold
   const [calcGoldWeight, setCalcGoldWeight] = useState([10]);
   const [calcGoldMakingCharge, setCalcGoldMakingCharge] = useState([15]);
-  const calcGoldRate = 6250;
+  const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
+  const calcGoldRate = liveGoldPrice;
   
   // Making Charge Calculator State - Silver
   const [calcSilverWeight, setCalcSilverWeight] = useState([100]);
   const [calcSilverMakingCharge, setCalcSilverMakingCharge] = useState([12]);
-  const calcSilverRate = 75;
+  const calcSilverRate = liveSilverPrice;
   
   // Gold calculations
   const calcGoldValue = calcGoldWeight[0] * calcGoldRate;
@@ -68,8 +70,8 @@ export default function BullionCalculators() {
   const [goalMonths, setGoalMonths] = useState(0);
   const [goalDays, setGoalDays] = useState(0);
   
-  const goldPrice = 6250;
-  const silverPrice = 75;
+  const goldPrice = liveGoldPrice;
+  const silverPrice = liveSilverPrice;
   
   // Calculate values based on selected mode
   const goalGoldValue = goalMode === "grams" ? targetGoldGrams * goldPrice : 0;

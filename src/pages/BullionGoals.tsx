@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { BullionNavTabs, BullionMobileMenu, StartSIPDialog } from "@/components/bullion";
 import { toast } from "sonner";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 
 interface SavedGoal {
   id: string;
@@ -186,7 +187,7 @@ export default function BullionGoals() {
     return "from-amber-500 to-amber-600";
   };
 
-  const goldPrice = 6250;
+  const { goldPrice } = useBullionPrices();
 
   return (
     <div className="min-h-screen bg-background">
