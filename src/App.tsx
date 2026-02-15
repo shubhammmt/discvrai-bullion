@@ -117,6 +117,7 @@ import BullionCalculators from './pages/BullionCalculators';
 import BullionLoans from './pages/BullionLoans';
 import BullionNotifications from './pages/BullionNotifications';
 import BullionNotificationsPRD from './pages/BullionNotificationsPRD';
+import BullionCalculatorsPRD from './pages/BullionCalculatorsPRD';
 import BullionLaunchOffers from './pages/BullionLaunchOffers';
 import BullionDesignSystem from './pages/BullionDesignSystem';
 import KYCFailurePage from './pages/bullion/KYCFailurePage';
@@ -256,6 +257,7 @@ const AppContent = () => {
         <Route path="/bullion/order-failure" element={<OrderFailurePage />} />
         <Route path="/bullion/trends" element={<BullionTrends />} />
         <Route path="/bullion/calculators" element={<BullionCalculators />} />
+        <Route path="/bullion/calculators/prd" element={<BullionCalculatorsPRD />} />
         <Route path="/bullion/notifications" element={<BullionNotifications />} />
         <Route path="/bullion/notifications/prd" element={<BullionNotificationsPRD />} />
         <Route path="/bullion/launch-offers" element={<BullionLaunchOffers />} />
