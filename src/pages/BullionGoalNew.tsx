@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const goalTemplates: Record<string, { icon: typeof Heart; suggestedAmount: number; suggestedYears: number }> = {
@@ -31,8 +32,7 @@ export default function BullionGoalNew() {
   const [months, setMonths] = useState(0);
   const [preferredMetal, setPreferredMetal] = useState<"gold" | "silver" | "both">("gold");
 
-  const goldPrice = 6250; // Current price per gram
-  const silverPrice = 75; // Current price per gram
+  const { goldPrice, silverPrice } = useBullionPrices();
   
   const totalMonths = (years * 12) + months;
   const monthlyRequired = totalMonths > 0 ? Math.ceil(targetAmount / totalMonths) : 0;

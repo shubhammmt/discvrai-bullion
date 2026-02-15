@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 import { BullionNavTabs, BullionMobileMenu } from "@/components/bullion";
 
 // Mock jewellery designs data
@@ -81,7 +82,7 @@ export default function BullionTrends() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   
-  const [calcGoldRate] = useState(6250); // Current gold rate per gram
+  const { goldPrice: calcGoldRate } = useBullionPrices();
   
   // Filter designs
   const filteredDesigns = jewelleryDesigns.filter(design => {

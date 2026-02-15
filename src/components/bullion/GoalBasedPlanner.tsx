@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Target, Sparkles } from "lucide-react";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 
 interface GoalBasedPlannerProps {
   variant?: "default" | "compact";
@@ -23,8 +24,7 @@ export function GoalBasedPlanner({ variant = "default" }: GoalBasedPlannerProps)
   const [silverEnabled, setSilverEnabled] = useState(false);
   const [amountEnabled, setAmountEnabled] = useState(false);
 
-  const goldPrice = 6250; // Current price per gram
-  const silverPrice = 75; // Current price per gram
+  const { goldPrice, silverPrice } = useBullionPrices();
   
   const goldValue = goldEnabled ? targetGoldGrams * goldPrice : 0;
   const silverValue = silverEnabled ? targetSilverGrams * silverPrice : 0;

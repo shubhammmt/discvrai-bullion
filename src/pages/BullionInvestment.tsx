@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useBullionPrices } from "@/hooks/useBullionPrices";
 import { Bell, ArrowLeft, User, Plus, Moon, Sun, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -49,11 +50,8 @@ export default function BullionInvestment() {
   const [useIconButtons, setUseIconButtons] = useState(false);
   const userName = userState !== "new" ? "Shubham" : undefined;
 
-  // Mock data
-  const goldPrice = 6250.50;
-  const silverPrice = 76.80;
-  const goldChange = 45.20;
-  const silverChange = -1.25;
+  // Live prices
+  const { goldPrice, silverPrice, goldChange, silverChange } = useBullionPrices();
 
   const goldSparkline = [6180, 6200, 6190, 6220, 6240, 6210, 6250];
   const silverSparkline = [78, 77.5, 78.2, 77, 76.5, 77.2, 76.8];
