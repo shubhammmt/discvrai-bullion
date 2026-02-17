@@ -133,6 +133,7 @@ import ManufacturingPitchNew from './pages/ManufacturingPitchNew';
 import AptechProposal from './pages/AptechProposal';
 import REAProposal from './pages/REAProposal';
 import AptechCounsellor from './pages/AptechCounsellor';
+import AptechNurtureDemo from './pages/AptechNurtureDemo';
 import DeepDiveProposal from './pages/DeepDiveProposal';
 import ParisRegionPitch from './pages/ParisRegionPitch';
 import { HelmetProvider } from 'react-helmet-async';
@@ -152,6 +153,7 @@ const AppContent = () => {
                       location.pathname === '/partner-distribution' ||
                       location.pathname === '/b2b-capabilities' ||
                        location.pathname === '/aptech-counsellor' ||
+                       location.pathname === '/aptech-nurture-demo' ||
                        location.pathname === '/pitch/paris-region';
   return (
     <>
@@ -286,6 +288,7 @@ const AppContent = () => {
           <Route path="/proposal/rea" element={<REAProposal />} />
           <Route path="/proposal/deep-dive" element={<DeepDiveProposal />} />
           <Route path="/aptech-counsellor" element={<AptechCounsellor />} />
+          <Route path="/aptech-nurture-demo" element={<AptechNurtureDemo />} />
           <Route path="/pitch/paris-region" element={<ParisRegionPitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
