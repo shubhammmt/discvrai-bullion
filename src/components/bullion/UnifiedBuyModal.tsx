@@ -12,6 +12,8 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { PurchaseSuccessScreen } from "./PurchaseSuccessScreen";
 import { PaymentFailureScreen } from "./PaymentFailureScreen";
+import { KycModal } from "@/components/kyc/KycModal";
+import { useKyc } from "@/hooks/useKyc";
 
 interface UnifiedBuyModalProps {
   open: boolean;
@@ -59,6 +61,8 @@ const metalConfig = {
 export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPurchaseComplete }: UnifiedBuyModalProps) {
   const config = metalConfig[metal];
   const isGold = metal === "gold";
+  const { needsKycForBuy } = useKyc();
+  const [showKycModal, setShowKycModal] = useState(false);
   
   const [mode, setMode] = useState<BuyMode>("sip");
   const [frequency, setFrequency] = useState<Frequency>("daily");
@@ -164,7 +168,12 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     else setGrams(value[0]);
   };
 
-  const handleProceed = async () => {
+  const getCurrentBuyAmount = (): number => {
+    if (mode === "sip") return sipAmount;
+    return oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice;
+  };
+
+  const executePurchase = async () => {
     setIsProcessing(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessing(false);
@@ -176,7 +185,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
       return;
     }
     
-    const finalAmount = mode === "sip" ? sipAmount : oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice;
+    const finalAmount = getCurrentBuyAmount();
     const finalGrams = mode === "sip" ? sipAmount / currentPrice : oneTimeMode === "grams" ? grams : oneTimeAmount / currentPrice;
     
     setPurchaseAmount(finalAmount);
@@ -185,6 +194,20 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
     setIsSuccess(true);
     
     onPurchaseComplete?.({ gold: metal === "gold" ? finalGrams : 0, silver: metal === "silver" ? finalGrams : 0 });
+  };
+
+  const handleProceed = () => {
+    const buyAmount = getCurrentBuyAmount();
+    if (needsKycForBuy(buyAmount)) {
+      setShowKycModal(true);
+    } else {
+      executePurchase();
+    }
+  };
+
+  const handleKycSuccess = () => {
+    setShowKycModal(false);
+    executePurchase();
   };
 
   const handleClose = () => {
@@ -231,40 +254,56 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
 
   const sliderConfig = getSliderConfig();
 
+  const kycModalElement = (
+    <KycModal
+      open={showKycModal}
+      onOpenChange={setShowKycModal}
+      onSuccess={handleKycSuccess}
+      onCancel={() => setShowKycModal(false)}
+    />
+  );
+
   if (isFailure) {
     return (
-      <PaymentFailureScreen
-        open={open}
-        onOpenChange={handleClose}
-        type={failureType}
-        amount={mode === "sip" ? sipAmount : oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice}
-        referenceId={`PAY-${Date.now().toString(36).toUpperCase()}`}
-        reason={failureType === "payment_failed" ? "Payment timeout - please try again" : "Unable to process gold order"}
-        onRetry={handleRetry}
-        onTryAnotherMethod={() => { setIsFailure(false); toast.info("You can try UPI, Net Banking, or Card"); }}
-      />
+      <>
+        <PaymentFailureScreen
+          open={open}
+          onOpenChange={handleClose}
+          type={failureType}
+          amount={mode === "sip" ? sipAmount : oneTimeMode === "amount" ? oneTimeAmount : grams * currentPrice}
+          referenceId={`PAY-${Date.now().toString(36).toUpperCase()}`}
+          reason={failureType === "payment_failed" ? "Payment timeout - please try again" : "Unable to process gold order"}
+          onRetry={handleRetry}
+          onTryAnotherMethod={() => { setIsFailure(false); toast.info("You can try UPI, Net Banking, or Card"); }}
+        />
+        {kycModalElement}
+      </>
     );
   }
 
   if (isSuccess) {
     return (
-      <PurchaseSuccessScreen
-        open={open}
-        onOpenChange={handleClose}
-        type={mode === "sip" ? "sip" : "one_time"}
-        metal={metal}
-        amount={purchaseAmount}
-        grams={purchaseGrams}
-        transactionId={transactionId}
-        onStartSIP={mode === "onetime" ? () => { setIsSuccess(false); setMode("sip"); setSipAmount(Math.max(purchaseAmount, 100)); } : undefined}
-        onViewPortfolio={handleClose}
-        onShare={() => toast.success("Share link copied!")}
-        bonusAmount={10}
-      />
+      <>
+        <PurchaseSuccessScreen
+          open={open}
+          onOpenChange={handleClose}
+          type={mode === "sip" ? "sip" : "one_time"}
+          metal={metal}
+          amount={purchaseAmount}
+          grams={purchaseGrams}
+          transactionId={transactionId}
+          onStartSIP={mode === "onetime" ? () => { setIsSuccess(false); setMode("sip"); setSipAmount(Math.max(purchaseAmount, 100)); } : undefined}
+          onViewPortfolio={handleClose}
+          onShare={() => toast.success("Share link copied!")}
+          bonusAmount={10}
+        />
+        {kycModalElement}
+      </>
     );
   }
 
   return (
+    <>
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className={cn(
         "sm:max-w-md p-0 border-0 overflow-hidden max-h-[90vh] overflow-y-auto",
@@ -504,5 +543,7 @@ export function UnifiedBuyModal({ open, onOpenChange, metal, currentPrice, onPur
         </div>
       </DialogContent>
     </Dialog>
+    {kycModalElement}
+    </>
   );
 }

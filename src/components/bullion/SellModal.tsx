@@ -10,6 +10,8 @@ import { UPISelector } from "./UPISelector";
 import { SellSuccessScreen } from "./SellSuccessScreen";
 import { SellFailureScreen } from "./SellFailureScreen";
 import { cn } from "@/lib/utils";
+import { KycModal } from "@/components/kyc/KycModal";
+import { useKyc } from "@/hooks/useKyc";
 
 interface LockedPurchase {
   id: string;
@@ -72,6 +74,9 @@ export function SellModal({
   const [failureType, setFailureType] = useState<"sell_failed" | "payout_failed">("sell_failed");
   const [transactionId, setTransactionId] = useState("");
 
+  const { needsKycForSell } = useKyc();
+  const [showKycModal, setShowKycModal] = useState(false);
+
   const isGold = metal === "gold";
   const metalConfig = {
     gold: { name: "Gold", icon: "🪙" },
@@ -96,9 +101,24 @@ export function SellModal({
     return `${Math.ceil(hours / 24)}d`;
   };
 
+  const proceedToUpiDirect = () => {
+    if (numericAmount <= 0) { toast.error("Please enter a valid amount"); return; }
+    if (numericAmount > holdings.sellable) { toast.error(`Maximum sellable: ${holdings.sellable.toFixed(4)}g`); return; }
+    setStep("upi");
+  };
+
   const handleProceedToUPI = () => {
     if (numericAmount <= 0) { toast.error("Please enter a valid amount"); return; }
     if (numericAmount > holdings.sellable) { toast.error(`Maximum sellable: ${holdings.sellable.toFixed(4)}g`); return; }
+    if (needsKycForSell()) {
+      setShowKycModal(true);
+    } else {
+      setStep("upi");
+    }
+  };
+
+  const handleKycSuccess = () => {
+    setShowKycModal(false);
     setStep("upi");
   };
 
@@ -136,31 +156,46 @@ export function SellModal({
   };
 
   const handleRetry = () => { setShowFailure(false); setStep("review"); };
+  const kycModalElement = (
+    <KycModal
+      open={showKycModal}
+      onOpenChange={setShowKycModal}
+      onSuccess={handleKycSuccess}
+      onCancel={() => setShowKycModal(false)}
+    />
+  );
 
   if (showSuccess) {
     return (
-      <SellSuccessScreen
-        open={open} onOpenChange={handleClose} metal={metal} grams={numericAmount} amount={payoutAmount}
-        transactionId={transactionId} upiId={selectedUpiAccount?.upiId || ""}
-        settlementDate={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)}
-        onBuyMore={() => { handleClose(); onBuyMore?.(); }}
-        onShare={() => toast.success("Share link copied!")} onDone={handleClose}
-      />
+      <>
+        <SellSuccessScreen
+          open={open} onOpenChange={handleClose} metal={metal} grams={numericAmount} amount={payoutAmount}
+          transactionId={transactionId} upiId={selectedUpiAccount?.upiId || ""}
+          settlementDate={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)}
+          onBuyMore={() => { handleClose(); onBuyMore?.(); }}
+          onShare={() => toast.success("Share link copied!")} onDone={handleClose}
+        />
+        {kycModalElement}
+      </>
     );
   }
 
   if (showFailure) {
     return (
-      <SellFailureScreen
-        open={open} onOpenChange={handleClose} type={failureType} metal={metal} grams={numericAmount} amount={payoutAmount}
-        reason={failureType === "sell_failed" ? "Unable to process sale at this time. Please try again." : "Bank server not responding. We'll retry automatically."}
-        referenceId={transactionId} onRetry={handleRetry}
-        onContactSupport={() => toast.info("Opening support chat...")} onClose={handleClose}
-      />
+      <>
+        <SellFailureScreen
+          open={open} onOpenChange={handleClose} type={failureType} metal={metal} grams={numericAmount} amount={payoutAmount}
+          reason={failureType === "sell_failed" ? "Unable to process sale at this time. Please try again." : "Bank server not responding. We'll retry automatically."}
+          referenceId={transactionId} onRetry={handleRetry}
+          onContactSupport={() => toast.info("Opening support chat...")} onClose={handleClose}
+        />
+        {kycModalElement}
+      </>
     );
   }
 
   return (
+    <>
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md bg-background border-border">
         <DialogHeader>
@@ -391,5 +426,7 @@ export function SellModal({
         )}
       </DialogContent>
     </Dialog>
+    {kycModalElement}
+    </>
   );
 }

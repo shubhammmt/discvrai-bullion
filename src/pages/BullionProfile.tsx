@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, User, Mail, Phone, MapPin, CreditCard, Shield, Users, ChevronRight, Check, AlertCircle, CalendarIcon, Copy, Gift, Share2 } from "lucide-react";
+import { KycProfileSection } from "@/components/kyc/KycProfileSection";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -395,97 +396,58 @@ export default function BullionProfile() {
                 <div className="text-left flex-1">
                   <div className="flex items-center gap-2">
                     <p className="font-semibold">KYC Verification</p>
-                    {profile.kyc.verified ? (
-                      <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-                        Verified
-                      </Badge>
-                    ) : (
-                      <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
-                        Pending
-                      </Badge>
-                    )}
                   </div>
-                  <p className="text-xs text-muted-foreground">Name, DOB & PAN</p>
+                  <p className="text-xs text-muted-foreground">PAN & DOB</p>
                 </div>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-4">
-              <div className="space-y-4 pt-2">
-                <div className="space-y-2">
-                  <Label>Full Name (as per PAN)</Label>
-                  <Input value={profile.kyc.name} readOnly className="bg-muted/50" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label>Date of Birth</Label>
-                    <Input 
-                      value={new Date(profile.kyc.dob).toLocaleDateString("en-IN")} 
-                      readOnly 
-                      className="bg-muted/50" 
+              <KycProfileSection />
+
+              {/* Anniversary Date - Optional */}
+              <div className="space-y-2 mt-4 pt-4 border-t border-border/50">
+                <Label className="flex items-center gap-2">
+                  Anniversary Date
+                  <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
+                </Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !profile.kyc.anniversary && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {profile.kyc.anniversary ? (
+                        format(new Date(profile.kyc.anniversary), "PPP")
+                      ) : (
+                        <span>Select your anniversary date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={profile.kyc.anniversary ? new Date(profile.kyc.anniversary) : undefined}
+                      onSelect={(date) => {
+                        setProfile(prev => ({
+                          ...prev,
+                          kyc: {
+                            ...prev.kyc,
+                            anniversary: date ? date.toISOString() : ""
+                          }
+                        }));
+                      }}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
                     />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>PAN Number</Label>
-                    <Input 
-                      value={profile.kyc.pan.replace(/(.{5})(.{4})(.)/g, "$1****$3")} 
-                      readOnly 
-                      className="bg-muted/50" 
-                    />
-                  </div>
-                </div>
-                
-                {/* Anniversary Date - Optional */}
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-2">
-                    Anniversary Date
-                    <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
-                  </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !profile.kyc.anniversary && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {profile.kyc.anniversary ? (
-                          format(new Date(profile.kyc.anniversary), "PPP")
-                        ) : (
-                          <span>Select your anniversary date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={profile.kyc.anniversary ? new Date(profile.kyc.anniversary) : undefined}
-                        onSelect={(date) => {
-                          setProfile(prev => ({
-                            ...prev,
-                            kyc: {
-                              ...prev.kyc,
-                              anniversary: date ? date.toISOString() : ""
-                            }
-                          }));
-                        }}
-                        initialFocus
-                        className={cn("p-3 pointer-events-auto")}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <p className="text-xs text-muted-foreground">
-                    Get special offers & reminders on your anniversary
-                  </p>
-                </div>
-                
-                {profile.kyc.verified && (
-                  <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                    <Check className="w-4 h-4 text-emerald-500" />
-                    <span className="text-sm text-emerald-400">Your KYC has been verified</span>
-                  </div>
-                )}
+                  </PopoverContent>
+                </Popover>
+                <p className="text-xs text-muted-foreground">
+                  Get special offers & reminders on your anniversary
+                </p>
               </div>
             </AccordionContent>
           </AccordionItem>
