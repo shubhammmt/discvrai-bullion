@@ -160,6 +160,8 @@ export const aptechCBOSlides: AptechCBOSlide[] = [
       label: 'Phase 1A — Non-Payment Enabled',
       timeline: '0–90 days',
       investment: '₹45L',
+      ongoingCost: '₹2L/month',
+      ongoingCostNote: 'Cloud infrastructure + LLM API costs',
       deliverables: [
         'AI Career Counsellor (Web + WhatsApp + Voice)',
         'Automated voice enrichment calls (15–30 min response)',
@@ -177,6 +179,8 @@ export const aptechCBOSlides: AptechCBOSlide[] = [
       label: 'Phase 1B — Payment-Enabled',
       timeline: '90–180 days',
       investment: '₹8–12L (additional)',
+      ongoingCost: '₹2L/month',
+      ongoingCostNote: 'Cloud infrastructure + LLM API costs (combined with 1A)',
       deliverables: [
         'Payment gateway integration',
         'Online enrollment workflow',
@@ -398,9 +402,9 @@ export const aptechCBOSlides: AptechCBOSlide[] = [
     id: 14,
     type: 'cbo-ask',
     title: 'The Ask: Investment Decision',
-    headline: '₹15–20L Investment to Unlock ₹1.2–2.7 Cr Annual Revenue',
+    headline: '₹45L Investment to Unlock ₹1.2–2.7 Cr Annual Revenue',
     ask: {
-      investment: '₹15–20L',
+      investment: '₹45L',
       timeline: '60–90 days',
       scope: '10–15 pilot centers',
     },

@@ -12,7 +12,7 @@ export const CBOPhase1Slide: React.FC<Props> = ({ slide, slideNumber, totalSlide
     <div className="grid grid-cols-2 gap-6">
       {/* Phase 1A */}
       <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3">
           <div>
             <span className="text-xs font-bold bg-blue-600 text-white px-2.5 py-0.5 rounded-full">Phase 1A</span>
             <p className="text-sm font-semibold text-blue-800 mt-1">{slide.phase1a?.label?.replace('Phase 1A — ', '')}</p>
@@ -23,8 +23,15 @@ export const CBOPhase1Slide: React.FC<Props> = ({ slide, slideNumber, totalSlide
           </div>
         </div>
 
+        {/* Ongoing cost badge */}
+        <div className="flex items-center gap-1.5 mb-4 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
+          <span className="text-amber-600 text-xs">⚡</span>
+          <span className="text-xs font-semibold text-amber-700">{slide.phase1a?.ongoingCost}/month ongoing</span>
+          <span className="text-xs text-amber-600">— {slide.phase1a?.ongoingCostNote}</span>
+        </div>
+
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Deliverables</p>
-        <ul className="space-y-1.5 mb-5">
+        <ul className="space-y-1.5 mb-4">
           {slide.phase1a?.deliverables?.map((d: string, i: number) => (
             <li key={i} className="flex items-start gap-2">
               <span className="text-blue-500 font-bold text-xs flex-shrink-0 mt-0.5">✓</span>
@@ -47,7 +54,7 @@ export const CBOPhase1Slide: React.FC<Props> = ({ slide, slideNumber, totalSlide
 
       {/* Phase 1B */}
       <div className="bg-indigo-50 border-2 border-indigo-200 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3">
           <div>
             <span className="text-xs font-bold bg-indigo-600 text-white px-2.5 py-0.5 rounded-full">Phase 1B</span>
             <p className="text-sm font-semibold text-indigo-800 mt-1">{slide.phase1b?.label?.replace('Phase 1B — ', '')}</p>
@@ -58,8 +65,15 @@ export const CBOPhase1Slide: React.FC<Props> = ({ slide, slideNumber, totalSlide
           </div>
         </div>
 
+        {/* Ongoing cost badge */}
+        <div className="flex items-center gap-1.5 mb-4 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
+          <span className="text-amber-600 text-xs">⚡</span>
+          <span className="text-xs font-semibold text-amber-700">{slide.phase1b?.ongoingCost}/month ongoing</span>
+          <span className="text-xs text-amber-600">— {slide.phase1b?.ongoingCostNote}</span>
+        </div>
+
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Deliverables</p>
-        <ul className="space-y-1.5 mb-5">
+        <ul className="space-y-1.5 mb-4">
           {slide.phase1b?.deliverables?.map((d: string, i: number) => (
             <li key={i} className="flex items-start gap-2">
               <span className="text-indigo-500 font-bold text-xs flex-shrink-0 mt-0.5">✓</span>
@@ -68,13 +82,13 @@ export const CBOPhase1Slide: React.FC<Props> = ({ slide, slideNumber, totalSlide
           ))}
         </ul>
 
-        <div className="bg-indigo-100 rounded-lg p-3 border border-indigo-200 mt-4">
+        <div className="bg-indigo-100 rounded-lg p-3 border border-indigo-200">
           <p className="text-xs font-semibold text-indigo-700">Expected Impact</p>
           <p className="text-sm text-indigo-800 mt-1">{slide.phase1b?.impact}</p>
         </div>
 
         {/* Sequence note */}
-        <div className="mt-4 bg-white border border-indigo-100 rounded-lg p-3">
+        <div className="mt-3 bg-white border border-indigo-100 rounded-lg p-3">
           <p className="text-xs text-slate-500">Phase 1B activates after Phase 1A proves ROI. Modular and non-disruptive to existing flows.</p>
         </div>
       </div>

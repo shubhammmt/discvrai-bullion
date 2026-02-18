@@ -8,7 +8,12 @@ interface Props { slide: AptechCBOSlide; slideNumber: number; totalSlides: numbe
 export const CBOAskSlide: React.FC<Props> = ({ slide, slideNumber, totalSlides }) => (
   <CBOSlideLayout slideNumber={slideNumber} totalSlides={totalSlides}>
     <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-2">The Ask</p>
-    <h2 className="text-3xl font-bold text-slate-900 leading-tight mb-5">{slide.headline}</h2>
+    <h2 className="text-3xl font-bold text-slate-900 leading-tight mb-3">{slide.headline}</h2>
+    <div className="flex items-center gap-2 mb-5">
+      <span className="inline-flex items-center gap-1.5 text-xs bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1 rounded-full font-medium">
+        <span>⚡</span> + ₹2L/month cloud &amp; LLM infrastructure costs
+      </span>
+    </div>
 
     <div className="grid grid-cols-3 gap-6">
       {/* Investment ask */}
