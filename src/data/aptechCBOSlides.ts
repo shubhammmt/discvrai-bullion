@@ -78,7 +78,7 @@ export const aptechCBOSlides: AptechCBOSlide[] = [
     id: 4,
     type: 'cbo-cost-of-inaction',
     title: 'Quantified Impact: Cost of Inaction',
-    headline: 'Current System Costs ₹1.5–2.5 Cr Annually in Lost Revenue',
+    headline: 'Current System Costs ₹10.84–15.23 Cr Annually in Lost Revenue',
     financialRows: [
       { area: 'Conversion Gap', monthly: '₹40–60L', annual: '₹4.8–7.2 Cr', severity: 'critical' },
       { area: 'Attribution Blindness', monthly: '₹40–50L', annual: '₹4.8–6 Cr', severity: 'critical' },
