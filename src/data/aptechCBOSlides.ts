@@ -488,4 +488,53 @@ export const aptechCBOSlides: AptechCBOSlide[] = [
       { label: 'CPC Reduction', value: 'Significant (Phase 3)' },
     ],
   },
+  {
+    id: 17,
+    type: 'cbo-revenue-calc',
+    title: 'Appendix: Revenue Calculation Breakdown',
+    headline: '₹3.84–9.43 Cr Annual Impact: Full Calculation',
+    baseAssumptions: [
+      '4,000–5,000 leads/month at 1–1.5% conversion = 40–75 enrollments/month',
+      'Full Platform (Phase 3): 2.5–3%+ conversion = 100–150 enrollments/month',
+      'Average enrollment value: ₹50k–75k per enrollment',
+    ],
+    scenarios: [
+      {
+        label: 'Low End',
+        color: 'blue',
+        steps: [
+          { description: 'Current enrollments/month', value: '40', note: '1% × 4,000 leads' },
+          { description: 'With full platform', value: '100', note: '2.5% conversion' },
+          { description: 'Incremental enrollments', value: '+60/month', note: '' },
+          { description: 'Monthly revenue gain', value: '₹30L', note: '60 × ₹50k' },
+          { description: 'Annual revenue gain', value: '₹3.6 Cr', note: '₹30L × 12', highlight: true },
+        ],
+      },
+      {
+        label: 'High End',
+        color: 'emerald',
+        steps: [
+          { description: 'Current enrollments/month', value: '75', note: '1.5% × 5,000 leads' },
+          { description: 'With full platform', value: '150', note: '3% conversion' },
+          { description: 'Incremental enrollments', value: '+75–100/month', note: '' },
+          { description: 'Monthly revenue gain', value: '₹75L', note: '100 × ₹75k' },
+          { description: 'Annual revenue gain', value: '₹9 Cr', note: '₹75L × 12', highlight: true },
+        ],
+      },
+    ],
+    costSavings: [
+      { label: 'SEO Spend Reduction', monthly: '₹2–3.6L/month', annual: '₹24–43L', note: '40–60% reduction on ₹5–6L/month spend' },
+      { label: 'CPC Optimization', monthly: 'Significant', annual: 'TBD', note: 'Phase 3 demand orchestration; ₹80–100 → ₹40–50 CPC' },
+    ],
+    totals: [
+      { label: 'Revenue Impact', low: '₹3.6 Cr', high: '₹9.0 Cr' },
+      { label: 'Cost Savings', low: '₹0.24 Cr', high: '₹0.43 Cr' },
+      { label: 'Total Annual Impact', low: '₹3.84 Cr', high: '₹9.43 Cr', bold: true },
+    ],
+    phaseValidation: [
+      { phase: 'Phase 1', incremental: '+20 enrollments/month', monthly: '₹10–15L', annual: '₹1.2–1.8 Cr' },
+      { phase: 'Phase 2', incremental: '+40–50 enrollments/month', monthly: '₹20–37.5L', annual: '₹2.4–4.5 Cr' },
+      { phase: 'Phase 3', incremental: '+60–75 enrollments/month', monthly: '₹30–56L', annual: '₹3.6–6.72 Cr' },
+    ],
+  },
 ];

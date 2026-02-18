@@ -16,6 +16,7 @@ import { CBOBenchmarksSlide } from './CBOBenchmarksSlide';
 import { CBOAskSlide } from './CBOAskSlide';
 import { CBOArchitectureSlide } from './CBOArchitectureSlide';
 import { CBOFinancialModelSlide } from './CBOFinancialModelSlide';
+import { CBORevenueCalcSlide } from './CBORevenueCalcSlide';
 
 interface Props {
   slide: AptechCBOSlide;
@@ -42,7 +43,9 @@ export const CBOSlideRenderer: React.FC<Props> = ({ slide, slideNumber, totalSli
     case 'cbo-ask':              return <CBOAskSlide {...props} />;
     case 'cbo-architecture':     return <CBOArchitectureSlide {...props} />;
     case 'cbo-financial-model':  return <CBOFinancialModelSlide {...props} />;
+    case 'cbo-revenue-calc':     return <CBORevenueCalcSlide {...props} />;
     default:
       return <div className="p-8 text-slate-400">Slide type not found: {slide.type}</div>;
   }
 };
+
