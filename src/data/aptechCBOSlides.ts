@@ -210,7 +210,7 @@ export const aptechCBOSlides: AptechCBOSlide[] = [
     id: 9,
     type: 'cbo-investment',
     title: 'Investment & ROI Summary',
-    headline: '₹43–57L Investment Delivers ₹3.84–9.43 Cr Annual Impact',
+    headline: '₹45–57L Investment Delivers ₹3.84–9.43 Cr Annual Impact',
     investmentRows: [
       { phase: 'Phase 1A', timeline: '0–90 days', investment: '₹45L', deliverables: 'Agentic Platform (Non-Payment) + Lead ID' },
       { phase: 'Phase 1B', timeline: '90–180 days', investment: '₹8–12L', deliverables: 'Payment Integration' },
