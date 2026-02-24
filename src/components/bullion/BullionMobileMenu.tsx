@@ -55,9 +55,9 @@ const navItems: NavItem[] = [
       { id: "loans-faqs", label: "FAQs", route: "/bullion/loans", icon: HelpCircle },
     ],
   },
-  { id: "news", label: "News", route: "/bullion/news", icon: Newspaper, section: "main" },
-  { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy, section: "main" },
+  { id: "news", label: "Quick Insights", route: "/bullion/news", icon: Newspaper, section: "main" },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO", section: "main" },
+  { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy, section: "main" },
   { id: "calculators", label: "Calculators", route: "/bullion/calculators", icon: Calculator, section: "main" },
   { id: "goals", label: "Goals", route: "/bullion/goals", icon: Target, section: "main" },
   { id: "trends", label: "Jewellery Trends", route: "/bullion/trends", icon: Gem, section: "main" },
@@ -162,17 +162,6 @@ export function BullionMobileMenu() {
                     {/* Sub-items */}
                     {hasSubItems && isExpanded && (
                       <div className="ml-6 mt-1 space-y-1 border-l-2 border-border/50 pl-3">
-                        {/* Parent route link */}
-                        <button
-                          onClick={() => handleNavigate(item.route)}
-                          className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
-                            isActive(item.route) ? "text-primary font-medium bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                          )}
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span>{item.label} Home</span>
-                        </button>
                         {item.subItems!.map((sub) => {
                           const SubIcon = sub.icon;
                           return (
