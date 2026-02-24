@@ -11,15 +11,24 @@ import {
   Crown,
   Settings,
   ChevronRight,
+  ChevronDown,
   Gem,
   Banknote,
   Calculator,
   User,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
+
+interface SubItem {
+  id: string;
+  label: string;
+  route: string;
+  icon: React.ElementType;
+}
 
 interface NavItem {
   id: string;
@@ -28,12 +37,24 @@ interface NavItem {
   icon: React.ElementType;
   badge?: string;
   section?: "main" | "more";
+  subItems?: SubItem[];
 }
 
 const navItems: NavItem[] = [
-  { id: "bullion", label: "Bullion", route: "/bullion", icon: TrendingUp, section: "main" },
-  { id: "portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet, section: "main" },
-  { id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote, section: "main" },
+  { 
+    id: "bullion", label: "Bullion", route: "/bullion", icon: TrendingUp, section: "main",
+    subItems: [
+      { id: "bullion-portfolio", label: "Portfolio", route: "/bullion/portfolio", icon: Wallet },
+      { id: "bullion-faqs", label: "FAQs", route: "/bullion/calculators", icon: HelpCircle },
+    ],
+  },
+  { 
+    id: "loans", label: "Loans", route: "/bullion/loans", icon: Banknote, section: "main",
+    subItems: [
+      { id: "loans-lamf", label: "LAMF", route: "/bullion/loans", icon: Banknote },
+      { id: "loans-faqs", label: "FAQs", route: "/bullion/loans", icon: HelpCircle },
+    ],
+  },
   { id: "news", label: "News", route: "/bullion/news", icon: Newspaper, section: "main" },
   { id: "contests", label: "Contests", route: "/bullion/contests", icon: Trophy, section: "main" },
   { id: "premium", label: "Premium", route: "/bullion/premium", icon: Crown, badge: "PRO", section: "main" },
@@ -44,6 +65,7 @@ const navItems: NavItem[] = [
 
 export function BullionMobileMenu() {
   const [open, setOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -54,6 +76,12 @@ export function BullionMobileMenu() {
   const handleNavigate = (route: string) => {
     navigate(route);
     setOpen(false);
+  };
+
+  const toggleExpand = (id: string) => {
+    setExpandedItems(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
   };
 
   const mainItems = navItems;
@@ -90,35 +118,80 @@ export function BullionMobileMenu() {
               {mainItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.route);
+                const hasSubItems = item.subItems && item.subItems.length > 0;
+                const isExpanded = expandedItems.includes(item.id);
                 
                 return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavigate(item.route)}
-                    className={cn(
-                      "w-full flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-all",
-                      active 
-                        ? "bg-primary text-primary-foreground shadow-sm" 
-                        : "text-foreground hover:bg-muted/50"
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                      {item.badge && (
-                        <Badge 
-                          variant="secondary" 
+                  <div key={item.id}>
+                    <button
+                      onClick={() => {
+                        if (hasSubItems) {
+                          toggleExpand(item.id);
+                        } else {
+                          handleNavigate(item.route);
+                        }
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-all",
+                        active 
+                          ? "bg-primary text-primary-foreground shadow-sm" 
+                          : "text-foreground hover:bg-muted/50"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon className="w-5 h-5" />
+                        <span>{item.label}</span>
+                        {item.badge && (
+                          <Badge 
+                            variant="secondary" 
+                            className={cn(
+                              "text-[10px] px-1.5 py-0 h-4",
+                              active ? "bg-primary-foreground/20 text-primary-foreground" : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                            )}
+                          >
+                            {item.badge}
+                          </Badge>
+                        )}
+                      </div>
+                      {hasSubItems ? (
+                        <ChevronDown className={cn("w-4 h-4 transition-transform", isExpanded && "rotate-180", active ? "text-primary-foreground/70" : "text-muted-foreground")} />
+                      ) : (
+                        <ChevronRight className={cn("w-4 h-4", active ? "text-primary-foreground/70" : "text-muted-foreground")} />
+                      )}
+                    </button>
+                    {/* Sub-items */}
+                    {hasSubItems && isExpanded && (
+                      <div className="ml-6 mt-1 space-y-1 border-l-2 border-border/50 pl-3">
+                        {/* Parent route link */}
+                        <button
+                          onClick={() => handleNavigate(item.route)}
                           className={cn(
-                            "text-[10px] px-1.5 py-0 h-4",
-                            active ? "bg-primary-foreground/20 text-primary-foreground" : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
+                            isActive(item.route) ? "text-primary font-medium bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                           )}
                         >
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </div>
-                    <ChevronRight className={cn("w-4 h-4", active ? "text-primary-foreground/70" : "text-muted-foreground")} />
-                  </button>
+                          <Icon className="w-4 h-4" />
+                          <span>{item.label} Home</span>
+                        </button>
+                        {item.subItems!.map((sub) => {
+                          const SubIcon = sub.icon;
+                          return (
+                            <button
+                              key={sub.id}
+                              onClick={() => handleNavigate(sub.route)}
+                              className={cn(
+                                "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
+                                isActive(sub.route) ? "text-primary font-medium bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                              )}
+                            >
+                              <SubIcon className="w-4 h-4" />
+                              <span>{sub.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </nav>
