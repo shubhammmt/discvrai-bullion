@@ -13,7 +13,7 @@ export const aptechPostSalesSlides: AptechPostSalesSlide[] = [
     headline: 'Aptech Post-Sales Enablement',
     subheadline: 'From Enrollment to Completion — One Platform, One Interface',
     tagline: '',
-    presenter: 'Shubham Srivastava',
+    presenter: 'Shubham Srivastava & Ramji Tripathi',
     audience: 'Sandip Weling, Chief Business Officer',
     date: 'February 2026',
     confidential: 'Confidential — For Internal Discussion Only',
