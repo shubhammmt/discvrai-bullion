@@ -135,6 +135,7 @@ import AptechPostSales from './pages/AptechPostSales';
 import REAProposal from './pages/REAProposal';
 import AptechCounsellor from './pages/AptechCounsellor';
 import AptechNurtureDemo from './pages/AptechNurtureDemo';
+import AptechPostSalesDemo from './pages/AptechPostSalesDemo';
 import DeepDiveProposal from './pages/DeepDiveProposal';
 import ParisRegionPitch from './pages/ParisRegionPitch';
 import { HelmetProvider } from 'react-helmet-async';
@@ -155,6 +156,7 @@ const AppContent = () => {
                       location.pathname === '/b2b-capabilities' ||
                        location.pathname === '/aptech-counsellor' ||
                        location.pathname === '/aptech-nurture-demo' ||
+                       location.pathname === '/aptech-postsales-demo' ||
                        location.pathname === '/pitch/paris-region';
   return (
     <>
@@ -291,6 +293,7 @@ const AppContent = () => {
           <Route path="/proposal/deep-dive" element={<DeepDiveProposal />} />
           <Route path="/aptech-counsellor" element={<AptechCounsellor />} />
           <Route path="/aptech-nurture-demo" element={<AptechNurtureDemo />} />
+          <Route path="/aptech-postsales-demo" element={<AptechPostSalesDemo />} />
           <Route path="/pitch/paris-region" element={<ParisRegionPitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
