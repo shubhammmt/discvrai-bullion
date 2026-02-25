@@ -1,7 +1,9 @@
 // Dedicated service for MutualFundsHome page
+// SECURITY: API credentials must be provided via environment/secrets, not hardcoded.
+// Configure these via Lovable Cloud secrets and an edge function proxy.
 const API_CONFIG = {
-  BASE_URL: 'https://p646lccs-8008.inc1.devtunnels.ms',
-  BEARER_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfdW85dnUwOTZ1MXNiaWk1biIsImNsaWVudF9pZCI6ImNsaWVudF91bzl2dTA5NnUxc2JpaTVuIiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDciLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgxMjMxMzIzNiwiaWF0IjoxNzUyMzEzMjk2LCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.nmSVBYbAv_2xy4kQ6sSLE07xPiygI2oeSWrOELJVPTU'
+  BASE_URL: import.meta.env.VITE_DISCVR_API_BASE_URL || '',
+  BEARER_TOKEN: import.meta.env.VITE_DISCVR_API_TOKEN || ''
 };
 
 // Types specific to MutualFundsHome

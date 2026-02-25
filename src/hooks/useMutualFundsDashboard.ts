@@ -112,11 +112,13 @@ export const useMutualFundsDashboard = (profileId: string) => {
       setIsLoading(true);
       setError(null);
 
+      const apiBaseUrl = import.meta.env.VITE_DISCVR_API_BASE_URL || '';
+      const apiToken = import.meta.env.VITE_DISCVR_API_TOKEN || '';
       const response = await fetch(
-        `https://p646lccs-8008.inc1.devtunnels.ms/api/v1/analysis/portfolio/${profileId}?include_historical=false&include_peer_comparison=true`,
+        `${apiBaseUrl}/api/v1/analysis/portfolio/${profileId}?include_historical=false&include_peer_comparison=true`,
         {
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbGllbnRfdW85dnUwOTZ1MXNiaWk1biIsImNsaWVudF9pZCI6ImNsaWVudF91bzl2dTA5NnUxc2JpaTVuIiwiY2xpZW50X25hbWUiOiJUZXN0IEJvdCBBUEkgQ2xpZW50IDciLCJzY29wZXMiOlsicmVhZDpjb21wYW5pZXMiLCJyZWFkOnByaWNlcyIsInJlYWQ6ZmluYW5jaWFscyIsInJlYWQ6bWFya2V0IiwicmVhZDpjcnlwdG8iLCJyZWFkOm5ld3MiLCJyZWFkOmVhcm5pbmdzIiwicmVhZDphbmFseXRpY3MiLCJyZWFkOnRlY2huaWNhbCIsInJlYWQ6ZnVuZGFtZW50YWxzIiwicmVhZDphaV9pbnNpZ2h0cyIsInJlYWQ6cmF0aW5ncyIsInJlYWQ6c2VnbWVudHMiXSwidG9rZW5fdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsImV4cCI6MTgxMjMxMzIzNiwiaWF0IjoxNzUyMzEzMjk2LCJpc3MiOiJkaXNjdnItZmluYW5jZS1hcGkifQ.nmSVBYbAv_2xy4kQ6sSLE07xPiygI2oeSWrOELJVPTU',
+            'Authorization': `Bearer ${apiToken}`,
             'Content-Type': 'application/json'
           }
         }
