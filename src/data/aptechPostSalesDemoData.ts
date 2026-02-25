@@ -25,13 +25,17 @@ export interface StudentProfile {
   engagementScore: number;
 }
 
+export type WidgetType = 'survey' | 'payment' | 'schedule-change' | 'catchup-material' | null;
+
 export interface DemoMessage {
   id: number;
   type: 'user' | 'bot';
   content: string;
   timestamp: string;
   dayLabel?: string;
-  messageType: string; // for identification: welcome, access, session1, survey-ask, survey-reply, etc.
+  messageType: string;
+  widget?: WidgetType;
+  widgetData?: Record<string, any>;
 }
 
 export interface Notification {
@@ -114,60 +118,123 @@ export const mockConversationThread: DemoMessage[] = [
     dayLabel: 'Day 1 — After Session 1',
     messageType: 'session1-complete',
   },
+  // ── Survey (interactive) ──
   {
     id: 4,
     type: 'bot',
-    content: "Quick check-in 📊 How's the course going so far?\n\nReply with a number **1–5** (5 = great). If anything's blocking you, just type it out.",
+    content: "Quick check-in 📊 How's the course going so far? Please fill this quick survey:",
     timestamp: '1:30 PM',
     dayLabel: 'After Session 4 — Satisfaction Survey',
     messageType: 'survey-ask',
+    widget: 'survey',
+    widgetData: { question: "How would you rate your experience so far?" },
   },
+  // ── Schedule Change: Holiday Announcement ──
   {
     id: 5,
-    type: 'user',
-    content: '4',
-    timestamp: '2:15 PM',
-    messageType: 'survey-reply',
+    type: 'bot',
+    content: "📢 Important update about your upcoming schedule:",
+    timestamp: '10:00 AM',
+    dayLabel: 'Schedule Update — Holiday',
+    messageType: 'holiday-announcement',
+    widget: 'schedule-change',
+    widgetData: {
+      changeType: 'holiday',
+      title: '🎉 Holiday — Holi Celebrations',
+      details: ['No classes on March 14 (Friday)', 'Center closed for Holi celebrations', 'Regular classes resume March 17 (Monday)'],
+      effectiveDate: 'March 14, 2026',
+      note: 'Happy Holi! Enjoy the festival and see you on Monday!',
+    },
   },
+  // ── Faculty Change ──
   {
     id: 6,
     type: 'bot',
-    content: "Thanks, Rahul! 🙏 We've recorded your feedback (**4/5**). Glad things are going well!\n\nWe're here if you need anything — keep up the momentum! 💪",
-    timestamp: '2:15 PM',
-    messageType: 'survey-recorded',
+    content: "📢 Update about your upcoming classes:",
+    timestamp: '5:00 PM',
+    dayLabel: 'Faculty & Timing Change',
+    messageType: 'faculty-change',
+    widget: 'schedule-change',
+    widgetData: {
+      changeType: 'faculty-change',
+      title: 'Faculty Update — Session 6 onwards',
+      details: [
+        'New faculty: **Priya Deshmukh** (10 yrs, ex-Pixar India)',
+        'Priya specializes in Digital Sculpting & ZBrush',
+        'Rajesh Menon continues for Maya & Rigging modules',
+      ],
+      effectiveDate: 'March 17, 2026',
+      note: 'Priya is an award-winning sculptor — you\'re in great hands!',
+    },
   },
+  // ── Class Timing Change ──
   {
     id: 7,
     type: 'bot',
-    content: "Hi Rahul 👋 We noticed you've missed the **last 2 sessions** (Session 7 & 8).\n\nEverything okay? Reply here or we'll give you a call to check in. Your learning path matters to us! 🎯",
+    content: "⏰ Your class timings are being adjusted next week:",
+    timestamp: '6:00 PM',
+    messageType: 'timing-change',
+    widget: 'schedule-change',
+    widgetData: {
+      changeType: 'timing-change',
+      title: 'Batch Timing Change',
+      details: [
+        'Old timing: 10:00 AM – 1:00 PM',
+        'New timing: **11:00 AM – 2:00 PM**',
+        'Applicable: March 17–21 only (temporary)',
+      ],
+      effectiveDate: 'March 17–21, 2026',
+      note: 'This is a one-week adjustment. Regular timing resumes March 24.',
+    },
+  },
+  // ── Absence trigger + catch-up materials ──
+  {
+    id: 8,
+    type: 'bot',
+    content: "Hi Rahul 👋 We noticed you've missed the **last 2 sessions** (Session 7 & 8).\n\nEverything okay? Here's the catch-up material so you don't fall behind:",
     timestamp: '10:00 AM',
     dayLabel: 'Trigger — 2 Consecutive Absences',
     messageType: 'absence-trigger',
+    widget: 'catchup-material',
+    widgetData: {
+      sessionTitle: 'Character Modeling Basics & Polygon Topology',
+      sessionNumber: 7,
+      materials: [
+        { title: 'Session 7 Recording: Character Modeling', type: 'video', duration: '1h 45m', url: '#' },
+        { title: 'Session 8 Recording: Polygon Topology', type: 'video', duration: '1h 30m', url: '#' },
+        { title: 'Character Modeling Reference Sheet', type: 'pdf', duration: '12 pages', url: '#' },
+        { title: 'Practice Exercise: Low-Poly Character', type: 'exercise', duration: '~2 hrs', url: '#' },
+      ],
+    },
   },
   {
-    id: 8,
+    id: 9,
     type: 'user',
     content: 'Was unwell, will join from next week.',
     timestamp: '11:30 AM',
     messageType: 'absence-reply',
   },
   {
-    id: 9,
+    id: 10,
     type: 'bot',
-    content: "Got it, Rahul — we've noted that. Hope you feel better! 🙏\n\nYour next session is **March 28 (Monday) — Digital Sculpting (ZBrush)**. See you then!\n\nIf you need any catch-up material, just ask here.",
+    content: "Got it, Rahul — we've noted that. Hope you feel better! 🙏\n\nYour next session is **March 28 (Monday) — Digital Sculpting (ZBrush)**. See you then!\n\nMake sure to go through the catch-up materials above before rejoining.",
     timestamp: '11:31 AM',
     messageType: 'absence-acknowledged',
   },
+  // ── Fee reminder with payment widget ──
   {
-    id: 10,
+    id: 11,
     type: 'bot',
-    content: "📋 **Fee Reminder**: Your next installment of **₹14,167** is due on **April 3, 2026**.\n\n💳 Pay here: [Payment Link](https://pay.aptech.edu/s/rahul-verma)\n\nReply **PAYMENT** if you need help with payment options or have questions.",
+    content: "📋 **Fee Reminder**: Your next installment is due. You can pay directly here:",
     timestamp: '10:00 AM',
     dayLabel: 'Fee Reminder',
     messageType: 'fee-reminder',
+    widget: 'payment',
+    widgetData: { amount: '14,167', dueDate: 'April 3, 2026', installmentNumber: 5 },
   },
+  // ── Student Query ──
   {
-    id: 11,
+    id: 12,
     type: 'user',
     content: 'Where do I get my certificate?',
     timestamp: '3:00 PM',
@@ -175,14 +242,15 @@ export const mockConversationThread: DemoMessage[] = [
     messageType: 'query',
   },
   {
-    id: 12,
+    id: 13,
     type: 'bot',
     content: "Great question! 📜 Certificates are available under **Profile → Certificates** in ProConnect after course completion.\n\nIf you don't see it after your course ends, reply **SUPPORT** and we'll escalate it to the admin team right away.",
     timestamp: '3:01 PM',
     messageType: 'query-answer',
   },
+  // ── Post-course Recommendation ──
   {
-    id: 13,
+    id: 14,
     type: 'bot',
     content: "🚀 **Recommended for you!**\n\nBased on your progress in **Animation & VFX Pro**, you might be interested in:\n\n🎬 **VFX Advanced** — Starting June 2026\n• Compositing, motion tracking, Houdini FX\n• 90% placement rate for advanced graduates\n\nReply **YES** for details or **LATER** to skip.",
     timestamp: '10:00 AM',
