@@ -2,6 +2,10 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowLeft, Phone, Video, MoreVertical, Play, Pause, SkipForward, RotateCcw, Send, Mic, Paperclip } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AptechWhatsAppMessage from '@/components/aptech/AptechWhatsAppMessage';
+import SurveyCard from './cards/SurveyCard';
+import PaymentCard from './cards/PaymentCard';
+import ScheduleChangeCard from './cards/ScheduleChangeCard';
+import CatchUpMaterialCard from './cards/CatchUpMaterialCard';
 import { mockConversationThread, type DemoMessage } from '@/data/aptechPostSalesDemoData';
 
 const PostSalesWhatsAppView: React.FC = () => {
@@ -39,6 +43,22 @@ const PostSalesWhatsAppView: React.FC = () => {
 
   const startDemo = () => { setMessages([]); setCurrentStep(0); setIsPlaying(true); setShowStartCard(false); };
   const resetDemo = () => { if (timerRef.current) clearTimeout(timerRef.current); setMessages([]); setCurrentStep(0); setIsPlaying(false); setIsTyping(false); setShowStartCard(true); };
+
+  const renderWhatsAppWidget = (msg: DemoMessage) => {
+    if (!msg.widget || !msg.widgetData) return null;
+    switch (msg.widget) {
+      case 'survey':
+        return <SurveyCard question={msg.widgetData.question} />;
+      case 'payment':
+        return <PaymentCard amount={msg.widgetData.amount} dueDate={msg.widgetData.dueDate} installmentNumber={msg.widgetData.installmentNumber} />;
+      case 'schedule-change':
+        return <ScheduleChangeCard changeType={msg.widgetData.changeType} title={msg.widgetData.title} details={msg.widgetData.details} effectiveDate={msg.widgetData.effectiveDate} note={msg.widgetData.note} />;
+      case 'catchup-material':
+        return <CatchUpMaterialCard sessionTitle={msg.widgetData.sessionTitle} sessionNumber={msg.widgetData.sessionNumber} materials={msg.widgetData.materials} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="h-full flex flex-col" style={{ backgroundColor: '#efeae2' }}>
@@ -92,21 +112,25 @@ const PostSalesWhatsAppView: React.FC = () => {
             </div>
           )}
 
-          {messages.map(msg => (
-            <React.Fragment key={msg.id}>
-              {msg.dayLabel && (
-                <div className="flex justify-center py-3">
-                  <span className="bg-[#e2dfd7] text-[#54656f] text-[11px] px-3 py-1 rounded-md shadow-sm font-medium">{msg.dayLabel}</span>
-                </div>
-              )}
-              <AptechWhatsAppMessage
-                type={msg.type}
-                content={msg.content}
-                timestamp={msg.timestamp}
-                senderName={msg.type === 'bot' ? 'Aptech Post-Sales Agent' : undefined}
-              />
-            </React.Fragment>
-          ))}
+          {messages.map(msg => {
+            const widgetEl = msg.widget && msg.widgetData ? renderWhatsAppWidget(msg) : null;
+            return (
+              <React.Fragment key={msg.id}>
+                {msg.dayLabel && (
+                  <div className="flex justify-center py-3">
+                    <span className="bg-[#e2dfd7] text-[#54656f] text-[11px] px-3 py-1 rounded-md shadow-sm font-medium">{msg.dayLabel}</span>
+                  </div>
+                )}
+                <AptechWhatsAppMessage
+                  type={msg.type}
+                  content={msg.content}
+                  timestamp={msg.timestamp}
+                  senderName={msg.type === 'bot' ? 'Aptech Post-Sales Agent' : undefined}
+                />
+                {widgetEl && <div className="ml-0 mr-auto max-w-[85%] mt-1">{widgetEl}</div>}
+              </React.Fragment>
+            );
+          })}
 
           {isTyping && (
             <div className="flex justify-start">

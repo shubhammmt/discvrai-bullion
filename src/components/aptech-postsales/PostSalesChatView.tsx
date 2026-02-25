@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Send, User, Bell, Menu, Play, Pause, SkipForward, RotateCcw, Bot, GraduationCap, Sparkles } from 'lucide-react';
+import { Send, User, Bell, Play, Pause, SkipForward, RotateCcw, Bot, GraduationCap, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import AptechChatMessage from '@/components/aptech/AptechChatMessage';
 import StudentProfilePanel from './StudentProfilePanel';
 import NotificationsPanel from './NotificationsPanel';
+import SurveyCard from './cards/SurveyCard';
+import PaymentCard from './cards/PaymentCard';
+import ScheduleChangeCard from './cards/ScheduleChangeCard';
+import CatchUpMaterialCard from './cards/CatchUpMaterialCard';
 import { mockConversationThread, mockNotifications, type DemoMessage } from '@/data/aptechPostSalesDemoData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -33,10 +37,8 @@ const PostSalesChatView: React.FC = () => {
       setIsPlaying(false);
       return;
     }
-
     const step = mockConversationThread[currentStep];
     setIsTyping(true);
-
     const delay = step.type === 'user' ? 1200 : 1800;
     timerRef.current = setTimeout(() => {
       setMessages(prev => [...prev, step]);
@@ -68,29 +70,47 @@ const PostSalesChatView: React.FC = () => {
     setShowStartCard(true);
   };
 
-  // Handle free-text input for demo (pattern-match known queries)
   const handleSend = () => {
     if (!input.trim()) return;
-    const userMsg: DemoMessage = { id: Date.now(), type: 'user', content: input, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), messageType: 'user-query' };
+    const userMsg: DemoMessage = {
+      id: Date.now(),
+      type: 'user',
+      content: input,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      messageType: 'user-query',
+    };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
 
-    // Simple pattern matching for demo
     setTimeout(() => {
-      let reply = "I'm here to help! Could you tell me more about what you need?";
-      const lower = input.toLowerCase();
-      if (lower.includes('certificate')) {
-        reply = "📜 Certificates are available under **Profile → Certificates** in ProConnect after course completion. If you don't see it after your course ends, reply **SUPPORT** and we'll escalate.";
-      } else if (lower.includes('next session') || lower.includes('next class')) {
-        reply = "Your next session is **March 28 (Monday) — Digital Sculpting (ZBrush)** at 10:00 AM. See you there! 🎬";
-      } else if (lower.includes('fee') || lower.includes('payment')) {
-        reply = "Your next installment of **₹14,167** is due on **April 3, 2026**. Pay here: [Payment Link](https://pay.aptech.edu/s/rahul-verma)";
-      } else if (lower.includes('attendance') || lower.includes('absent')) {
-        reply = "You've attended **6 out of 8 sessions** so far. You missed Session 7 & 8. Your next session is March 28.";
-      }
-      const botMsg: DemoMessage = { id: Date.now() + 1, type: 'bot', content: reply, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), messageType: 'bot-reply' };
+      const { reply, widget, widgetData } = getSmartReply(input);
+      const botMsg: DemoMessage = {
+        id: Date.now() + 1,
+        type: 'bot',
+        content: reply,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        messageType: 'bot-reply',
+        widget: widget || undefined,
+        widgetData: widgetData || undefined,
+      };
       setMessages(prev => [...prev, botMsg]);
     }, 800);
+  };
+
+  const renderWidget = (msg: DemoMessage) => {
+    if (!msg.widget || !msg.widgetData) return null;
+    switch (msg.widget) {
+      case 'survey':
+        return <SurveyCard question={msg.widgetData.question} />;
+      case 'payment':
+        return <PaymentCard amount={msg.widgetData.amount} dueDate={msg.widgetData.dueDate} installmentNumber={msg.widgetData.installmentNumber} />;
+      case 'schedule-change':
+        return <ScheduleChangeCard changeType={msg.widgetData.changeType} title={msg.widgetData.title} details={msg.widgetData.details} effectiveDate={msg.widgetData.effectiveDate} note={msg.widgetData.note} />;
+      case 'catchup-material':
+        return <CatchUpMaterialCard sessionTitle={msg.widgetData.sessionTitle} sessionNumber={msg.widgetData.sessionNumber} materials={msg.widgetData.materials} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -98,15 +118,15 @@ const PostSalesChatView: React.FC = () => {
       {/* Header */}
       <header className="bg-gradient-to-r from-orange-500 via-orange-600 to-blue-600 px-4 py-3 shadow-lg">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
-          {/* Profile button (left) */}
+          {/* Profile button — always visible */}
           <button onClick={() => setProfileOpen(true)} className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors" title="Student Profile">
-            {isMobile ? <Menu className="h-5 w-5 text-white" /> : <User className="h-5 w-5 text-white" />}
+            <User className="h-5 w-5 text-white" />
           </button>
           <div className="flex-1 min-w-0">
             <h1 className="text-white font-bold text-lg leading-tight">Aptech Post-Sales Agent</h1>
             <p className="text-white/70 text-xs">One agent • Enrollment → Completion</p>
           </div>
-          {/* Notifications (right) */}
+          {/* Notifications — always visible */}
           <button onClick={() => setNotificationsOpen(true)} className="relative w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors" title="Notifications">
             <Bell className="h-5 w-5 text-white" />
             {unread > 0 && (
@@ -157,7 +177,7 @@ const PostSalesChatView: React.FC = () => {
                 <GraduationCap className="h-8 w-8 text-white" />
               </div>
               <h3 className="font-semibold text-lg text-foreground mb-1">Post-Sales Demo</h3>
-              <p className="text-sm text-muted-foreground mb-4">Watch the full student journey: Day 1 welcome → surveys → triggers → fees → query → recommendation — in one thread.</p>
+              <p className="text-sm text-muted-foreground mb-4">Watch the full student journey with interactive surveys, payments, schedule updates, catch-up materials — or type your own queries below.</p>
               <div className="flex gap-2 justify-center mb-4">
                 <button onClick={() => setProfileOpen(true)} className="text-xs px-3 py-1.5 rounded-lg border hover:bg-muted transition-colors">👤 View Profile</button>
                 <button onClick={() => setNotificationsOpen(true)} className="text-xs px-3 py-1.5 rounded-lg border hover:bg-muted transition-colors">🔔 Notifications</button>
@@ -178,7 +198,9 @@ const PostSalesChatView: React.FC = () => {
                   </span>
                 </div>
               )}
-              <AptechChatMessage type={msg.type} content={msg.content} />
+              <AptechChatMessage type={msg.type} content={msg.content}>
+                {renderWidget(msg)}
+              </AptechChatMessage>
             </React.Fragment>
           ))}
 
@@ -208,7 +230,7 @@ const PostSalesChatView: React.FC = () => {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSend()}
-            placeholder="Ask anything... (e.g. Where's my certificate?)"
+            placeholder="Ask anything... (fees, schedule, materials, certificate...)"
             className="flex-1 h-10 rounded-full border px-4 text-sm bg-muted/50 focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           <Button size="icon" onClick={handleSend} className="h-10 w-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">
@@ -223,5 +245,110 @@ const PostSalesChatView: React.FC = () => {
     </div>
   );
 };
+
+// ─── Smart free-text reply engine ────────────────────────────────────────
+function getSmartReply(input: string): { reply: string; widget?: DemoMessage['widget']; widgetData?: Record<string, any> } {
+  const lower = input.toLowerCase();
+
+  if (lower.includes('certificate') || lower.includes('cert')) {
+    return { reply: "📜 Certificates are available under **Profile → Certificates** in ProConnect after course completion. If you don't see it after your course ends, reply **SUPPORT** and we'll escalate." };
+  }
+  if (lower.includes('next session') || lower.includes('next class') || lower.includes('upcoming class')) {
+    return { reply: "Your next session is **March 28 (Monday) — Digital Sculpting (ZBrush)** at 11:00 AM. See you there! 🎬" };
+  }
+  if (lower.includes('fee') || lower.includes('payment') || lower.includes('pay') || lower.includes('installment') || lower.includes('emi')) {
+    return {
+      reply: "Your next installment is due soon. You can pay directly here:",
+      widget: 'payment',
+      widgetData: { amount: '14,167', dueDate: 'April 3, 2026', installmentNumber: 5 },
+    };
+  }
+  if (lower.includes('attendance') || lower.includes('absent') || lower.includes('missed')) {
+    return { reply: "You've attended **6 out of 8 sessions** so far. You missed Session 7 & 8. Your next session is March 28.\n\nWould you like the catch-up materials for the missed sessions?" };
+  }
+  if (lower.includes('catch up') || lower.includes('catch-up') || lower.includes('material') || lower.includes('recording') || lower.includes('notes') || lower.includes('study')) {
+    return {
+      reply: "Here are the catch-up materials for your missed sessions:",
+      widget: 'catchup-material',
+      widgetData: {
+        sessionTitle: 'Character Modeling Basics & Polygon Topology',
+        sessionNumber: 7,
+        materials: [
+          { title: 'Session 7 Recording: Character Modeling', type: 'video', duration: '1h 45m', url: '#' },
+          { title: 'Session 8 Recording: Polygon Topology', type: 'video', duration: '1h 30m', url: '#' },
+          { title: 'Character Modeling Reference Sheet', type: 'pdf', duration: '12 pages', url: '#' },
+          { title: 'Practice Exercise: Low-Poly Character', type: 'exercise', duration: '~2 hrs', url: '#' },
+        ],
+      },
+    };
+  }
+  if (lower.includes('schedule') || lower.includes('timing') || lower.includes('time change') || lower.includes('batch time')) {
+    return {
+      reply: "Here's the latest schedule update for your batch:",
+      widget: 'schedule-change',
+      widgetData: {
+        changeType: 'timing-change',
+        title: 'Batch Timing Change',
+        details: ['Old timing: 10:00 AM – 1:00 PM', 'New timing: **11:00 AM – 2:00 PM**', 'Applicable: March 17–21 only (temporary)'],
+        effectiveDate: 'March 17–21, 2026',
+        note: 'This is a one-week adjustment. Regular timing resumes March 24.',
+      },
+    };
+  }
+  if (lower.includes('holiday') || lower.includes('leave') || lower.includes('off day')) {
+    return {
+      reply: "Here's the upcoming holiday information:",
+      widget: 'schedule-change',
+      widgetData: {
+        changeType: 'holiday',
+        title: '🎉 Holiday — Holi Celebrations',
+        details: ['No classes on March 14 (Friday)', 'Center closed for Holi celebrations', 'Regular classes resume March 17 (Monday)'],
+        effectiveDate: 'March 14, 2026',
+        note: 'Happy Holi! Enjoy the festival and see you on Monday!',
+      },
+    };
+  }
+  if (lower.includes('faculty') || lower.includes('teacher') || lower.includes('instructor') || lower.includes('professor')) {
+    return {
+      reply: "Here's an update about your faculty:",
+      widget: 'schedule-change',
+      widgetData: {
+        changeType: 'faculty-change',
+        title: 'Faculty Update — Session 6 onwards',
+        details: [
+          'New faculty: **Priya Deshmukh** (10 yrs, ex-Pixar India)',
+          'Priya specializes in Digital Sculpting & ZBrush',
+          'Rajesh Menon continues for Maya & Rigging modules',
+        ],
+        effectiveDate: 'March 17, 2026',
+        note: "Priya is an award-winning sculptor — you're in great hands!",
+      },
+    };
+  }
+  if (lower.includes('survey') || lower.includes('feedback') || lower.includes('rate') || lower.includes('review')) {
+    return {
+      reply: "We'd love your feedback! Please fill this quick survey:",
+      widget: 'survey',
+      widgetData: { question: "How would you rate your overall experience?" },
+    };
+  }
+  if (lower.includes('placement') || lower.includes('job') || lower.includes('career') || lower.includes('intern')) {
+    return { reply: "🎯 **Placement Support**: Our placement cell starts working with you from Month 6.\n\n• Resume building & portfolio review\n• Mock interviews with industry mentors\n• Direct hiring partnerships with 200+ studios\n• **90% placement rate** for VFX graduates\n\nYour placement coordinator: **Meera Joshi** — reach her via ProConnect or reply **PLACEMENT** for more." };
+  }
+  if (lower.includes('support') || lower.includes('help') || lower.includes('issue') || lower.includes('problem')) {
+    return { reply: "🛟 I'm here to help! Here's what I can assist with:\n\n• **Attendance & sessions** — type 'attendance'\n• **Fee payments** — type 'fees'\n• **Schedule & timings** — type 'schedule'\n• **Study materials** — type 'materials'\n• **Certificates** — type 'certificate'\n• **Placements** — type 'placement'\n\nOr just describe your issue and I'll help!" };
+  }
+  if (lower.includes('hi') || lower.includes('hello') || lower.includes('hey')) {
+    return { reply: "Hey Rahul! 👋 How can I help you today? You can ask about your sessions, fees, schedule, materials, or anything else!" };
+  }
+  if (lower.includes('thank') || lower.includes('thanks')) {
+    return { reply: "You're welcome! 😊 Happy to help anytime. Keep up the great work in your Animation & VFX Pro course! 🎬" };
+  }
+  if (lower.includes('yes') || lower.includes('interested') || lower.includes('tell me more')) {
+    return { reply: "Great! 🎉 Let me get you more details. I'll connect you with a counsellor who can walk you through the options. Expect a call within 24 hours, or visit your center's front desk.\n\nAnything else I can help with?" };
+  }
+
+  return { reply: "I'm here to help! 🤖 You can ask me about:\n\n• **Fees & payments** — \"What's my next EMI?\"\n• **Schedule changes** — \"Any holidays coming up?\"\n• **Study materials** — \"Send me catch-up notes\"\n• **Attendance** — \"How many classes did I miss?\"\n• **Faculty** — \"Who's my new teacher?\"\n• **Certificates** — \"Where do I get my certificate?\"\n\nJust type your question!" };
+}
 
 export default PostSalesChatView;
