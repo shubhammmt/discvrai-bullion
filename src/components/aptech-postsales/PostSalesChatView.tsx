@@ -40,7 +40,8 @@ const PostSalesChatView: React.FC = () => {
     }
     const step = mockConversationThread[currentStep];
     setIsTyping(true);
-    const delay = step.type === 'user' ? 1200 : 1800;
+    const hasWidget = !!step.widget;
+    const delay = step.type === 'user' ? 2000 : hasWidget ? 3000 : 2500;
     timerRef.current = setTimeout(() => {
       setMessages(prev => [...prev, step]);
       setIsTyping(false);
@@ -343,7 +344,7 @@ function getSmartReply(input: string): { reply: string; widget?: DemoMessage['wi
     return {
       reply: "We'd love your feedback! Please fill this quick survey:",
       widget: 'survey',
-      widgetData: { question: "How would you rate your overall experience?" },
+      widgetData: {},
     };
   }
   if (lower.includes('placement') || lower.includes('job') || lower.includes('career') || lower.includes('intern')) {
