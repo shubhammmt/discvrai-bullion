@@ -105,13 +105,10 @@ export const aptechPostSalesSlides: AptechPostSalesSlide[] = [
       { milestone: 'Stage 3 (predictive, Lost Customer, recommendation)', timeline: 'Later; after ~9 months data' },
     ],
     investmentRows: [
-      { stage: '2A — Onboarding & Day 0–90', oneTime: '₹12–19L' },
-      { stage: '2B — Retention, fees, query', oneTime: '₹6–10L' },
-      { stage: '3 — Predictive, Lost Customer, recommendation', oneTime: '₹9–15L' },
-      { stage: 'Total Post-Sales', oneTime: '₹27–44L', isTotal: true },
+      { stage: 'Post-Sales Platform (One-Time)', oneTime: '₹65L', isTotal: true },
     ],
-    recurring: 'Hosting + WhatsApp/voice usage + AMC (~₹4–8L/year base + usage).',
-    note: 'Final numbers after scope sign-off.',
+    recurring: '₹2L/month + cloud infrastructure charges.',
+    note: 'Final numbers after scope sign-off. Cloud charges based on usage (WhatsApp, voice, hosting).',
   },
   {
     id: 9,
