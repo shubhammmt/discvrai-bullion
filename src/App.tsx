@@ -138,6 +138,7 @@ import AptechNurtureDemo from './pages/AptechNurtureDemo';
 import AptechPostSalesDemo from './pages/AptechPostSalesDemo';
 import DeepDiveProposal from './pages/DeepDiveProposal';
 import ParisRegionPitch from './pages/ParisRegionPitch';
+import CMSDemo from './pages/CMSDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -157,7 +158,8 @@ const AppContent = () => {
                        location.pathname === '/aptech-counsellor' ||
                        location.pathname === '/aptech-nurture-demo' ||
                        location.pathname === '/aptech-postsales-demo' ||
-                       location.pathname === '/pitch/paris-region';
+                       location.pathname === '/pitch/paris-region' ||
+                       location.pathname === '/demo/cms';
   return (
     <>
       <Routes>
@@ -295,6 +297,7 @@ const AppContent = () => {
           <Route path="/aptech-nurture-demo" element={<AptechNurtureDemo />} />
           <Route path="/aptech-postsales-demo" element={<AptechPostSalesDemo />} />
           <Route path="/pitch/paris-region" element={<ParisRegionPitch />} />
+          <Route path="/demo/cms" element={<CMSDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
