@@ -25,7 +25,7 @@ export interface StudentProfile {
   engagementScore: number;
 }
 
-export type WidgetType = 'survey' | 'payment' | 'schedule-change' | 'catchup-material' | null;
+export type WidgetType = 'survey' | 'payment' | 'schedule-change' | 'catchup-material' | 'certificate' | null;
 
 export interface DemoMessage {
   id: number;
@@ -244,18 +244,36 @@ export const mockConversationThread: DemoMessage[] = [
   {
     id: 13,
     type: 'bot',
-    content: "Great question! 📜 Certificates are available under **Profile → Certificates** in ProConnect after course completion.\n\nIf you don't see it after your course ends, reply **SUPPORT** and we'll escalate it to the admin team right away.",
+    content: "Here's your certificate for the completed module! 📜 You can view and download it right here:",
     timestamp: '3:01 PM',
     messageType: 'query-answer',
+    widget: 'certificate',
+    widgetData: {
+      studentName: 'Rahul Verma',
+      courseName: 'Animation & VFX Pro — Module 1: 3D Modeling Foundations',
+      completionDate: 'March 25, 2026',
+      certificateId: 'APT-CERT-2026-08471',
+      brand: 'Arena',
+      isPreview: false,
+    },
   },
   // ── Post-course Recommendation ──
   {
     id: 14,
     type: 'bot',
-    content: "🚀 **Recommended for you!**\n\nBased on your progress in **Animation & VFX Pro**, you might be interested in:\n\n🎬 **VFX Advanced** — Starting June 2026\n• Compositing, motion tracking, Houdini FX\n• 90% placement rate for advanced graduates\n\nReply **YES** for details or **LATER** to skip.",
+    content: "🚀 **Recommended for you!**\n\nBased on your progress in **Animation & VFX Pro**, you might be interested in:\n\n🎬 **VFX Advanced** — Starting June 2026\n• Compositing, motion tracking, Houdini FX\n• 90% placement rate for advanced graduates\n\nHere's what the certificate looks like on completion:",
     timestamp: '10:00 AM',
     dayLabel: 'Post-Course Recommendation',
     messageType: 'recommendation',
+    widget: 'certificate',
+    widgetData: {
+      studentName: 'Rahul Verma',
+      courseName: 'VFX Advanced — Compositing & Houdini FX',
+      completionDate: 'December 2026 (Expected)',
+      certificateId: 'APT-CERT-XXXX-XXXXX',
+      brand: 'Arena',
+      isPreview: true,
+    },
   },
 ];
 
