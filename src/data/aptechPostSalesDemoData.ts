@@ -127,7 +127,7 @@ export const mockConversationThread: DemoMessage[] = [
     dayLabel: 'After Session 4 — Satisfaction Survey',
     messageType: 'survey-ask',
     widget: 'survey',
-    widgetData: { question: "How would you rate your experience so far?" },
+    widgetData: {},
   },
   // ── Schedule Change: Holiday Announcement ──
   {

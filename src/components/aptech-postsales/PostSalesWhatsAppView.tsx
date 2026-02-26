@@ -29,7 +29,8 @@ const PostSalesWhatsAppView: React.FC = () => {
     }
     const step = mockConversationThread[currentStep];
     setIsTyping(true);
-    const delay = step.type === 'user' ? 1000 : 1500;
+    const hasWidget = !!step.widget;
+    const delay = step.type === 'user' ? 2000 : hasWidget ? 3000 : 2500;
     timerRef.current = setTimeout(() => {
       setMessages(prev => [...prev, step]);
       setIsTyping(false);
