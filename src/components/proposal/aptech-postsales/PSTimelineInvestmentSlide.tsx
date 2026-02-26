@@ -37,21 +37,18 @@ export const PSTimelineInvestmentSlide: React.FC<Props> = ({ slide, slideNumber,
 
       {/* Investment */}
       <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Investment (Indicative)</p>
-        <div className="space-y-1.5 mb-4">
-          {slide.investmentRows?.map((row: any, i: number) => (
-            <div key={i} className={`grid grid-cols-2 gap-2 rounded-lg px-4 py-3 items-center border ${
-              row.isTotal ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-100'
-            }`}>
-              <p className={`font-bold text-sm ${row.isTotal ? 'text-white' : 'text-slate-800'}`}>{row.stage}</p>
-              <p className={`font-bold text-lg text-right ${row.isTotal ? 'text-blue-300' : 'text-slate-900'}`}>{row.oneTime}</p>
-            </div>
-          ))}
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Investment</p>
+        
+        <div className="bg-slate-900 rounded-xl p-5 mb-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">One-Time</p>
+          <p className="text-3xl font-bold text-white">₹65L</p>
+          <p className="text-sm text-slate-400 mt-1">Post-Sales Platform — end to end</p>
         </div>
 
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-amber-600 mb-1">Recurring (Annual)</p>
-          <p className="text-sm text-slate-700">{slide.recurring}</p>
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Recurring</p>
+          <p className="text-2xl font-bold text-slate-900">₹2L/month</p>
+          <p className="text-sm text-slate-500 mt-1">+ cloud infrastructure charges</p>
         </div>
 
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
