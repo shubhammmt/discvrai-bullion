@@ -6,6 +6,7 @@ import SurveyCard from './cards/SurveyCard';
 import PaymentCard from './cards/PaymentCard';
 import ScheduleChangeCard from './cards/ScheduleChangeCard';
 import CatchUpMaterialCard from './cards/CatchUpMaterialCard';
+import CertificateCard from './cards/CertificateCard';
 import { mockConversationThread, type DemoMessage } from '@/data/aptechPostSalesDemoData';
 
 const PostSalesWhatsAppView: React.FC = () => {
@@ -48,13 +49,15 @@ const PostSalesWhatsAppView: React.FC = () => {
     if (!msg.widget || !msg.widgetData) return null;
     switch (msg.widget) {
       case 'survey':
-        return <SurveyCard question={msg.widgetData.question} />;
+        return <SurveyCard question={msg.widgetData.question} questions={msg.widgetData.questions} />;
       case 'payment':
         return <PaymentCard amount={msg.widgetData.amount} dueDate={msg.widgetData.dueDate} installmentNumber={msg.widgetData.installmentNumber} />;
       case 'schedule-change':
         return <ScheduleChangeCard changeType={msg.widgetData.changeType} title={msg.widgetData.title} details={msg.widgetData.details} effectiveDate={msg.widgetData.effectiveDate} note={msg.widgetData.note} />;
       case 'catchup-material':
         return <CatchUpMaterialCard sessionTitle={msg.widgetData.sessionTitle} sessionNumber={msg.widgetData.sessionNumber} materials={msg.widgetData.materials} />;
+      case 'certificate':
+        return <CertificateCard studentName={msg.widgetData.studentName} courseName={msg.widgetData.courseName} completionDate={msg.widgetData.completionDate} certificateId={msg.widgetData.certificateId} brand={msg.widgetData.brand} isPreview={msg.widgetData.isPreview} />;
       default:
         return null;
     }

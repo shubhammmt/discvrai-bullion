@@ -10,6 +10,7 @@ import SurveyCard from './cards/SurveyCard';
 import PaymentCard from './cards/PaymentCard';
 import ScheduleChangeCard from './cards/ScheduleChangeCard';
 import CatchUpMaterialCard from './cards/CatchUpMaterialCard';
+import CertificateCard from './cards/CertificateCard';
 import { mockConversationThread, mockNotifications, type DemoMessage } from '@/data/aptechPostSalesDemoData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -101,13 +102,15 @@ const PostSalesChatView: React.FC = () => {
     if (!msg.widget || !msg.widgetData) return null;
     switch (msg.widget) {
       case 'survey':
-        return <SurveyCard question={msg.widgetData.question} />;
+        return <SurveyCard question={msg.widgetData.question} questions={msg.widgetData.questions} />;
       case 'payment':
         return <PaymentCard amount={msg.widgetData.amount} dueDate={msg.widgetData.dueDate} installmentNumber={msg.widgetData.installmentNumber} />;
       case 'schedule-change':
         return <ScheduleChangeCard changeType={msg.widgetData.changeType} title={msg.widgetData.title} details={msg.widgetData.details} effectiveDate={msg.widgetData.effectiveDate} note={msg.widgetData.note} />;
       case 'catchup-material':
         return <CatchUpMaterialCard sessionTitle={msg.widgetData.sessionTitle} sessionNumber={msg.widgetData.sessionNumber} materials={msg.widgetData.materials} />;
+      case 'certificate':
+        return <CertificateCard studentName={msg.widgetData.studentName} courseName={msg.widgetData.courseName} completionDate={msg.widgetData.completionDate} certificateId={msg.widgetData.certificateId} brand={msg.widgetData.brand} isPreview={msg.widgetData.isPreview} />;
       default:
         return null;
     }
@@ -251,7 +254,18 @@ function getSmartReply(input: string): { reply: string; widget?: DemoMessage['wi
   const lower = input.toLowerCase();
 
   if (lower.includes('certificate') || lower.includes('cert')) {
-    return { reply: "📜 Certificates are available under **Profile → Certificates** in ProConnect after course completion. If you don't see it after your course ends, reply **SUPPORT** and we'll escalate." };
+    return {
+      reply: "Here's your certificate for the completed module! 📜 You can view and download it right here:",
+      widget: 'certificate',
+      widgetData: {
+        studentName: 'Rahul Verma',
+        courseName: 'Animation & VFX Pro — Module 1: 3D Modeling Foundations',
+        completionDate: 'March 25, 2026',
+        certificateId: 'APT-CERT-2026-08471',
+        brand: 'Arena',
+        isPreview: false,
+      },
+    };
   }
   if (lower.includes('next session') || lower.includes('next class') || lower.includes('upcoming class')) {
     return { reply: "Your next session is **March 28 (Monday) — Digital Sculpting (ZBrush)** at 11:00 AM. See you there! 🎬" };
