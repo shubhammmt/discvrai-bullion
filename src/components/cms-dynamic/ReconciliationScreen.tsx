@@ -4,12 +4,19 @@ import { toast } from 'sonner';
 import { bankStatement, erpLedger, cashPhysical, matchGroups, auditTrailInitial, MatchGroup } from '@/data/reconciliation';
 import CountUp from './CountUp';
 
+const formatINRTable = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+
 const ReconciliationScreen: React.FC = () => {
   const [hasRun, setHasRun] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [exceptionResolved, setExceptionResolved] = useState(false);
   const [auditTrail, setAuditTrail] = useState<{ time: string; actor: 'Agent' | 'User'; action: string }[]>(auditTrailInitial);
   const [showAudit, setShowAudit] = useState(false);
+  const [expandedSource, setExpandedSource] = useState<string | null>(null);
+
+  const toggleSource = (name: string) => {
+    setExpandedSource(prev => prev === name ? null : name);
+  };
 
   const runAgent = useCallback(() => {
     setIsRunning(true);
@@ -28,7 +35,7 @@ const ReconciliationScreen: React.FC = () => {
     toast.success("Exception resolved · Audit logged");
   }, []);
 
-  const formatINR = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+  
 
   return (
     <motion.div
@@ -115,22 +122,136 @@ const ReconciliationScreen: React.FC = () => {
           </span>
         </div>
 
-        {/* Data Sources */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {[
-            { icon: '🏦', name: 'Bank Statement', detail: `${bankStatement.length} entries imported`, ready: true },
-            { icon: '📒', name: 'ERP Ledger', detail: `${erpLedger.length} entries · invoices + fees`, ready: true },
-            { icon: '💵', name: 'Cash / Vault', detail: `${cashPhysical.length} entries · site records`, ready: true },
-          ].map(s => (
-            <div key={s.name} className="rounded-xl p-4 flex items-center gap-3 border" style={{ background: '#111827', borderColor: '#1F2937' }}>
-              <span className="text-2xl">{s.icon}</span>
-              <div className="flex-1">
-                <p className="text-white text-sm font-semibold">{s.name}</p>
-                <p className="text-gray-500 text-xs">{s.detail}</p>
+        {/* Data Sources — Expandable */}
+        <div className="space-y-3 mb-6">
+          {/* Bank Statement */}
+          <div className="rounded-xl border overflow-hidden" style={{ background: '#111827', borderColor: expandedSource === 'bank' ? '#6366F140' : '#1F2937' }}>
+            <button onClick={() => toggleSource('bank')} className="w-full p-4 flex items-center gap-3 hover:bg-white/[0.02] transition-colors">
+              <span className="text-2xl">🏦</span>
+              <div className="flex-1 text-left">
+                <p className="text-white text-sm font-semibold">Bank Statement</p>
+                <p className="text-gray-500 text-xs">{bankStatement.length} entries imported</p>
               </div>
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            </div>
-          ))}
+              <span className="text-gray-500 text-xs ml-2">{expandedSource === 'bank' ? '▲' : '▼'}</span>
+            </button>
+            <AnimatePresence>
+              {expandedSource === 'bank' && (
+                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                  <div className="px-4 pb-4">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b" style={{ borderColor: '#1F2937' }}>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Date</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Reference</th>
+                          <th className="text-right text-gray-500 pb-2 font-medium">Amount</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium pl-4">Narration</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bankStatement.map(row => (
+                          <tr key={row.id} className="border-b border-white/5">
+                            <td className="py-2 text-gray-400 font-mono">{row.date}</td>
+                            <td className="py-2 text-blue-300 font-mono">{row.reference}</td>
+                            <td className="py-2 text-white font-semibold text-right">{formatINRTable(row.amount)}</td>
+                            <td className="py-2 text-gray-500 pl-4">{row.narration}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* ERP Ledger */}
+          <div className="rounded-xl border overflow-hidden" style={{ background: '#111827', borderColor: expandedSource === 'erp' ? '#6366F140' : '#1F2937' }}>
+            <button onClick={() => toggleSource('erp')} className="w-full p-4 flex items-center gap-3 hover:bg-white/[0.02] transition-colors">
+              <span className="text-2xl">📒</span>
+              <div className="flex-1 text-left">
+                <p className="text-white text-sm font-semibold">ERP Ledger</p>
+                <p className="text-gray-500 text-xs">{erpLedger.length} entries · invoices + fees</p>
+              </div>
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="text-gray-500 text-xs ml-2">{expandedSource === 'erp' ? '▲' : '▼'}</span>
+            </button>
+            <AnimatePresence>
+              {expandedSource === 'erp' && (
+                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                  <div className="px-4 pb-4">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b" style={{ borderColor: '#1F2937' }}>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Invoice ID</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Client</th>
+                          <th className="text-right text-gray-500 pb-2 font-medium">Amount</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium pl-4">Date</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Type</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {erpLedger.map(row => (
+                          <tr key={row.id} className="border-b border-white/5">
+                            <td className="py-2 text-violet-300 font-mono">{row.id}</td>
+                            <td className="py-2 text-gray-400">{row.client}</td>
+                            <td className="py-2 text-white font-semibold text-right">{formatINRTable(row.amount)}</td>
+                            <td className="py-2 text-gray-500 font-mono pl-4">{row.date}</td>
+                            <td className="py-2 text-gray-500">{row.type}</td>
+                            <td className="py-2"><span className="bg-amber-500/15 text-amber-400 px-1.5 py-0.5 rounded text-[10px] font-semibold">{row.status}</span></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Cash / Vault */}
+          <div className="rounded-xl border overflow-hidden" style={{ background: '#111827', borderColor: expandedSource === 'cash' ? '#6366F140' : '#1F2937' }}>
+            <button onClick={() => toggleSource('cash')} className="w-full p-4 flex items-center gap-3 hover:bg-white/[0.02] transition-colors">
+              <span className="text-2xl">💵</span>
+              <div className="flex-1 text-left">
+                <p className="text-white text-sm font-semibold">Cash / Vault</p>
+                <p className="text-gray-500 text-xs">{cashPhysical.length} entries · site records</p>
+              </div>
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="text-gray-500 text-xs ml-2">{expandedSource === 'cash' ? '▲' : '▼'}</span>
+            </button>
+            <AnimatePresence>
+              {expandedSource === 'cash' && (
+                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                  <div className="px-4 pb-4">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b" style={{ borderColor: '#1F2937' }}>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Site ID</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Location</th>
+                          <th className="text-left text-gray-500 pb-2 font-medium">Date</th>
+                          <th className="text-right text-gray-500 pb-2 font-medium">Dispensed</th>
+                          <th className="text-right text-gray-500 pb-2 font-medium">Deposited</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {cashPhysical.map(row => (
+                          <tr key={row.siteId} className="border-b border-white/5">
+                            <td className="py-2 text-amber-300 font-mono">{row.siteId}</td>
+                            <td className="py-2 text-gray-400">{row.location}</td>
+                            <td className="py-2 text-gray-500 font-mono">{row.date}</td>
+                            <td className="py-2 text-red-400 font-semibold text-right">{formatINRTable(row.dispensed)}</td>
+                            <td className="py-2 text-emerald-400 font-semibold text-right">{formatINRTable(row.deposited)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Run Trigger */}
