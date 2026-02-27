@@ -1,13 +1,138 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
-import { integrationJobs, IntegrationJob } from '@/data/orderBook';
+import { integrationJobs, IntegrationJob, TestReport } from '@/data/orderBook';
+
+const ReportModal: React.FC<{ job: IntegrationJob; onClose: () => void }> = ({ job, onClose }) => {
+  const report = job.report;
+  if (!report) return null;
+
+  const totalPassed = report.categories.reduce((s, c) => s + c.passed, 0);
+  const totalFailed = report.categories.reduce((s, c) => s + c.failed, 0);
+  const totalTests = totalPassed + totalFailed;
+  const passRate = Math.round((totalPassed / totalTests) * 100);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-6"
+      style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl border p-6"
+        style={{ background: '#111827', borderColor: '#1F2937' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <p className="text-gray-500 text-xs mb-1">Agent Test Report</p>
+            <h3 className="text-white text-xl font-bold">{job.client}</h3>
+            <p className="text-gray-500 text-sm">{job.project}</p>
+          </div>
+          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl transition-colors">✕</button>
+        </div>
+
+        {/* Meta row */}
+        <div className="grid grid-cols-4 gap-3 mb-6">
+          {[
+            { label: 'Run Date', value: report.runDate },
+            { label: 'Duration', value: report.duration },
+            { label: 'Agent', value: report.agent },
+            { label: 'Environment', value: report.environment },
+          ].map(m => (
+            <div key={m.label} className="rounded-xl p-3 border" style={{ background: '#0A0F1E', borderColor: '#1F2937' }}>
+              <p className="text-gray-600 text-[10px] uppercase tracking-wider">{m.label}</p>
+              <p className="text-white text-sm font-semibold mt-0.5">{m.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Pass rate ring + summary */}
+        <div className="flex items-center gap-6 mb-6 rounded-xl p-5 border" style={{ background: '#0A0F1E', borderColor: '#1F2937' }}>
+          <div className="relative w-20 h-20 flex-shrink-0">
+            <svg viewBox="0 0 36 36" className="w-20 h-20 -rotate-90">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#1F2937" strokeWidth="3" />
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke={totalFailed > 0 ? '#F59E0B' : '#10B981'} strokeWidth="3" strokeDasharray={`${passRate}, 100`} strokeLinecap="round" />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className={`text-lg font-bold ${totalFailed > 0 ? 'text-amber-400' : 'text-emerald-400'}`}>{passRate}%</span>
+            </div>
+          </div>
+          <div className="flex-1 grid grid-cols-3 gap-4">
+            <div><p className="text-gray-600 text-xs">Total Tests</p><p className="text-white text-2xl font-bold">{totalTests}</p></div>
+            <div><p className="text-gray-600 text-xs">Passed</p><p className="text-emerald-400 text-2xl font-bold">{totalPassed}</p></div>
+            <div><p className="text-gray-600 text-xs">Failed</p><p className={`text-2xl font-bold ${totalFailed > 0 ? 'text-red-400' : 'text-gray-600'}`}>{totalFailed}</p></div>
+          </div>
+        </div>
+
+        {/* Category breakdown */}
+        <p className="text-white text-sm font-semibold mb-3">Test Categories</p>
+        <div className="space-y-2 mb-6">
+          {report.categories.map(cat => {
+            const pct = Math.round((cat.passed / cat.total) * 100);
+            return (
+              <div key={cat.name} className="rounded-xl p-3 border" style={{ background: '#0A0F1E', borderColor: '#1F2937' }}>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-gray-300 text-xs font-medium">{cat.name}</span>
+                  <span className="text-xs">
+                    <span className="text-emerald-400 font-semibold">{cat.passed}</span>
+                    <span className="text-gray-600"> / {cat.total}</span>
+                    {cat.failed > 0 && <span className="text-red-400 font-semibold ml-2">✗ {cat.failed}</span>}
+                  </span>
+                </div>
+                <div className="w-full h-1.5 rounded-full" style={{ background: '#1F2937' }}>
+                  <div
+                    className="h-1.5 rounded-full transition-all duration-700"
+                    style={{
+                      width: `${pct}%`,
+                      background: cat.failed > 0 ? '#F59E0B' : '#10B981',
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Execution Timeline */}
+        <p className="text-white text-sm font-semibold mb-3">Execution Timeline</p>
+        <div className="rounded-xl border overflow-hidden" style={{ background: '#0A0F1E', borderColor: '#1F2937' }}>
+          {report.timeline.map((t, i) => (
+            <div key={i} className="flex items-start gap-3 px-4 py-2.5 border-b" style={{ borderColor: '#1F293720' }}>
+              <span className="text-gray-600 text-[10px] font-mono w-16 flex-shrink-0 pt-0.5">{t.time}</span>
+              <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                t.status === 'pass' ? 'bg-emerald-400' : t.status === 'fail' ? 'bg-red-400' : 'bg-indigo-400'
+              }`} />
+              <span className={`text-xs ${
+                t.status === 'fail' ? 'text-red-400 font-semibold' : 'text-gray-400'
+              }`}>{t.event}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end mt-6">
+          <button onClick={onClose} className="px-5 py-2 rounded-xl text-sm font-semibold border transition-all hover:border-indigo-500/50 hover:text-white text-gray-300" style={{ borderColor: '#1F2937' }}>Close Report</button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const IntegrationScreen: React.FC = () => {
   const [jobs, setJobs] = useState<IntegrationJob[]>(integrationJobs);
   const [runningJobId, setRunningJobId] = useState<string | null>(null);
   const [testCounter, setTestCounter] = useState(0);
   const [expandedJobId, setExpandedJobId] = useState<string | null>(null);
+  const [reportJobId, setReportJobId] = useState<string | null>(null);
 
   const runTests = useCallback((jobId: string) => {
     const job = jobs.find(j => j.id === jobId);
@@ -16,7 +141,6 @@ const IntegrationScreen: React.FC = () => {
     setRunningJobId(jobId);
     setTestCounter(0);
 
-    // Animate counter
     const total = job.totalTests;
     const interval = 3000 / total;
     let count = 0;
@@ -32,7 +156,32 @@ const IntegrationScreen: React.FC = () => {
               ? { ...j, status: 'failures' as const, failures: 2, lastActivity: `Agent ran ${total} tests — 2 failures detected. Surfaced for review.`, failureDetails: [
                   { testId: "TC-041", description: "API endpoint /txn/reconcile returned HTTP 503 under high-volume payload (>500 transactions/batch).", agentSuggestion: "Increase request timeout on the client adapter from 15s to 30s in config/adapters.json." },
                   { testId: "TC-089", description: "Card scheme code 'PREPAID_VARIANT' not found in mapping table.", agentSuggestion: "Add mapping entry for PREPAID_VARIANT → STANDARD_PREPAID in config/schemes.json at line 44." },
-                ] }
+                ],
+                report: {
+                  runDate: "27-Feb-26 · " + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + " IST",
+                  duration: "1m 38s",
+                  agent: "Integration Agent v2.1",
+                  environment: j.environment,
+                  categories: [
+                    { name: "API Connectivity", total: 8, passed: 7, failed: 1 },
+                    { name: "Data Mapping", total: 14, passed: 13, failed: 1 },
+                    { name: "Transaction Processing", total: 12, passed: 12, failed: 0 },
+                    { name: "Error Handling", total: 6, passed: 6, failed: 0 },
+                    { name: "Performance / Load", total: 5, passed: 5, failed: 0 },
+                    { name: "Security & Auth", total: 2, passed: 2, failed: 0 },
+                  ],
+                  timeline: [
+                    { time: "now", event: `Test suite initialised — ${total} tests queued`, status: 'info' as const },
+                    { time: "+6s", event: "API Connectivity — 7/8 passed · TC-041 FAILED", status: 'fail' as const },
+                    { time: "+22s", event: "Data Mapping — 13/14 passed · TC-089 FAILED", status: 'fail' as const },
+                    { time: "+45s", event: "Transaction Processing — 12/12 passed", status: 'pass' as const },
+                    { time: "+58s", event: "Error Handling — 6/6 passed", status: 'pass' as const },
+                    { time: "+78s", event: "Performance / Load — 5/5 passed", status: 'pass' as const },
+                    { time: "+98s", event: "Security & Auth — 2/2 passed", status: 'pass' as const },
+                    { time: "+98s", event: "2 failures detected. Surfaced for review.", status: 'info' as const },
+                  ],
+                },
+              }
               : j
           ));
           toast.success(`Tests complete · 2 failures surfaced`);
@@ -56,6 +205,8 @@ const IntegrationScreen: React.FC = () => {
   const pendingCount = jobs.filter(j => j.status === 'pending').length;
   const failedCount = jobs.filter(j => j.status === 'failed').length;
 
+  const reportJob = reportJobId ? jobs.find(j => j.id === reportJobId) : null;
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 40 }}
@@ -64,6 +215,13 @@ const IntegrationScreen: React.FC = () => {
       transition={{ duration: 0.35, ease: 'easeOut' }}
       className="flex h-[calc(100vh-7.5rem)]"
     >
+      {/* Report Modal */}
+      <AnimatePresence>
+        {reportJob && reportJob.report && (
+          <ReportModal job={reportJob} onClose={() => setReportJobId(null)} />
+        )}
+      </AnimatePresence>
+
       {/* Left Panel */}
       <div className="w-[38%] flex-shrink-0 border-r overflow-y-auto p-8 flex flex-col" style={{ background: 'linear-gradient(to bottom, #111827, #0A0F1E)', borderColor: '#1F2937' }}>
         <span className="text-gray-500 text-xs">Demo 2 of 3</span>
@@ -174,8 +332,8 @@ const IntegrationScreen: React.FC = () => {
                           {job.status === 'failures' && job.failureDetails && (
                             <button onClick={() => setExpandedJobId(expandedJobId === job.id ? null : job.id)} className="px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all hover:bg-red-500/10" style={{ color: '#EF4444', borderColor: '#EF444440' }}>View Failures</button>
                           )}
-                          {(job.status === 'completed' || job.status === 'failures' || job.status === 'failed') && (
-                            <button className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 border transition-all hover:border-indigo-500/50 hover:text-white" style={{ borderColor: '#1F2937' }}>View Report</button>
+                          {(job.status === 'completed' || job.status === 'failures' || job.status === 'failed') && job.report && (
+                            <button onClick={() => setReportJobId(job.id)} className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 border transition-all hover:border-indigo-500/50 hover:text-white" style={{ borderColor: '#1F2937' }}>View Report</button>
                           )}
                           {job.status === 'failed' && (
                             <button className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 border transition-all hover:border-indigo-500/50" style={{ borderColor: '#1F2937' }}>Retry</button>
