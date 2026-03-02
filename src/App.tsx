@@ -140,6 +140,7 @@ import DeepDiveProposal from './pages/DeepDiveProposal';
 import ParisRegionPitch from './pages/ParisRegionPitch';
 import CMSDemo from './pages/CMSDemo';
 import CMSDynamicDemo from './pages/CMSDynamicDemo';
+import AptechExecutionPlan from './pages/AptechExecutionPlan';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -161,7 +162,8 @@ const AppContent = () => {
                        location.pathname === '/aptech-postsales-demo' ||
                        location.pathname === '/pitch/paris-region' ||
                        location.pathname === '/demo/cms' ||
-                       location.pathname === '/demo/cms-dynamic';
+                       location.pathname === '/demo/cms-dynamic' ||
+                       location.pathname === '/proposal/aptech-execution';
   return (
     <>
       <Routes>
@@ -301,6 +303,7 @@ const AppContent = () => {
           <Route path="/pitch/paris-region" element={<ParisRegionPitch />} />
           <Route path="/demo/cms" element={<CMSDemo />} />
           <Route path="/demo/cms-dynamic" element={<CMSDynamicDemo />} />
+          <Route path="/proposal/aptech-execution" element={<AptechExecutionPlan />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
