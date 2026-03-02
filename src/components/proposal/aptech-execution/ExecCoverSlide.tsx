@@ -14,18 +14,17 @@ export const ExecCoverSlide: React.FC = () => (
     <div className="flex-1 flex flex-col justify-center px-16 relative z-10">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-widest text-blue-400 border border-blue-800 rounded-full px-3 py-1">
-          Consolidated Execution Plan · March 2026
+          Proposal · March 2026
         </span>
       </div>
 
       <h1 className="text-5xl font-bold text-white leading-tight mb-3 max-w-4xl">
-        Aptech Consolidated Execution Plan
+        Aptech Digital Transformation
       </h1>
       <div className="w-20 h-1 bg-blue-500 mb-5" />
-      <p className="text-2xl text-blue-300 font-medium mb-2">Pre-Sales + Post-Sales — One Unified Program</p>
+      <p className="text-2xl text-blue-300 font-medium mb-2">Agentic AI Proposal</p>
       <p className="text-lg text-slate-400 max-w-3xl">
-        All modules, features, interfaces, manpower, parallel vs sequential dependencies,
-        and the impact of running pre-sales and post-sales in parallel on timeline and cost.
+        Pre-Sales &amp; Post-Sales Tracks · Scope, Cost &amp; Commercials
       </p>
 
       <div className="mt-12 flex items-start gap-16">
