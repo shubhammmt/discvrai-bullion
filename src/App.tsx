@@ -141,6 +141,7 @@ import ParisRegionPitch from './pages/ParisRegionPitch';
 import CMSDemo from './pages/CMSDemo';
 import CMSDynamicDemo from './pages/CMSDynamicDemo';
 import AptechExecutionPlan from './pages/AptechExecutionPlan';
+import AdfMisDashboard from './pages/AdfMisDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -163,7 +164,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/paris-region' ||
                        location.pathname === '/demo/cms' ||
                        location.pathname === '/demo/cms-dynamic' ||
-                       location.pathname === '/proposal/aptech-execution';
+                       location.pathname === '/proposal/aptech-execution' ||
+                       location.pathname === '/dashboard/adf-mis';
   return (
     <>
       <Routes>
@@ -304,6 +306,7 @@ const AppContent = () => {
           <Route path="/demo/cms" element={<CMSDemo />} />
           <Route path="/demo/cms-dynamic" element={<CMSDynamicDemo />} />
           <Route path="/proposal/aptech-execution" element={<AptechExecutionPlan />} />
+          <Route path="/dashboard/adf-mis" element={<AdfMisDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
