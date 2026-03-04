@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ExecutiveSummary } from '@/components/adf-mis/ExecutiveSummary';
 import { AtRiskCustomers } from '@/components/adf-mis/AtRiskCustomers';
@@ -6,6 +6,7 @@ import { CategoryPerformance } from '@/components/adf-mis/CategoryPerformance';
 import { SalesView } from '@/components/adf-mis/SalesView';
 import { FinanceView } from '@/components/adf-mis/FinanceView';
 import { BarChart3, Users, PieChart, UserCheck, Database } from 'lucide-react';
+import { lastUpdated } from '@/data/adfMisData';
 
 const AdfMisDashboard: React.FC = () => {
   return (
@@ -20,11 +21,11 @@ const AdfMisDashboard: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-sm font-bold text-gray-900 leading-tight">ADF Sales MIS</h1>
-                <p className="text-[10px] text-gray-500 leading-tight">Export Analytics Dashboard</p>
+                <p className="text-[10px] text-gray-500 leading-tight">Export Analytics Dashboard — 112 Customers</p>
               </div>
             </div>
             <div className="text-xs text-gray-400">
-              Last updated: 03 Mar 2026
+              Last updated: {new Date(lastUpdated).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
             </div>
           </div>
         </div>
@@ -56,21 +57,11 @@ const AdfMisDashboard: React.FC = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="executive">
-            <ExecutiveSummary />
-          </TabsContent>
-          <TabsContent value="atrisk">
-            <AtRiskCustomers />
-          </TabsContent>
-          <TabsContent value="category">
-            <CategoryPerformance />
-          </TabsContent>
-          <TabsContent value="sales">
-            <SalesView />
-          </TabsContent>
-          <TabsContent value="finance">
-            <FinanceView />
-          </TabsContent>
+          <TabsContent value="executive"><ExecutiveSummary /></TabsContent>
+          <TabsContent value="atrisk"><AtRiskCustomers /></TabsContent>
+          <TabsContent value="category"><CategoryPerformance /></TabsContent>
+          <TabsContent value="sales"><SalesView /></TabsContent>
+          <TabsContent value="finance"><FinanceView /></TabsContent>
         </Tabs>
       </main>
     </div>
