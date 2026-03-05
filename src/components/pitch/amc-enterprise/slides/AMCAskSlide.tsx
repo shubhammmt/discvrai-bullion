@@ -10,7 +10,10 @@ interface AMCAskSlideProps {
       raise: string;
       raiseUSD: string;
       valuation: string;
+      valuationRange?: string;
       runway: string;
+      valuationRationale?: string;
+      priorCCD?: string;
       useOfFunds: Array<{
         category: string;
         percentage: number;
@@ -65,12 +68,28 @@ export const AMCAskSlide: React.FC<AMCAskSlideProps> = ({ slide }) => {
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center">
               <p className="text-sm text-gray-500 mb-1">Pre-money Valuation</p>
               <p className="text-xl font-bold text-gray-900">{slide.content.valuation}</p>
+              {slide.content.valuationRange && (
+                <p className="text-xs text-gray-400 mt-1">Range: {slide.content.valuationRange}</p>
+              )}
             </div>
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center">
               <p className="text-sm text-gray-500 mb-1">Runway</p>
               <p className="text-xl font-bold text-gray-900">{slide.content.runway}</p>
             </div>
           </motion.div>
+
+          {/* Valuation rationale & CCD */}
+          {slide.content.valuationRationale && (
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-800 space-y-1"
+            >
+              <p className="font-medium">{slide.content.valuationRationale}</p>
+              {slide.content.priorCCD && <p className="text-blue-600">{slide.content.priorCCD}</p>}
+            </motion.div>
+          )}
         </div>
 
         {/* Use of Funds & Milestones */}
