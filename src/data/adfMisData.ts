@@ -127,6 +127,43 @@ export interface SalespersonData {
   myCategories: SalespersonCategory[];
 }
 
+export interface AtRiskSku {
+  itemCode: string;
+  itemName: string;
+  category: string;
+  balance: number;
+  balanceQty: number;
+  ytdPct: number;
+  growthVsFy25Pct: number;
+}
+
+export interface Q4SkuBalance {
+  itemCode: string;
+  itemName: string;
+  category: string;
+  q4Balance: number;
+  q4BalanceQty: number;
+  q4OpenOrder: number;
+}
+
+export interface Q4CategoryBalance {
+  category: string;
+  q4Balance: number;
+  q4BalanceQty: number;
+}
+
+export interface Q4PullHeadsUp {
+  note: string;
+  topSkusByQ4Balance: Q4SkuBalance[];
+  topCategoriesByQ4Balance: Q4CategoryBalance[];
+}
+
+export interface ZeroQ4DispatchSku {
+  itemCode: string;
+  itemName: string;
+  balance: number;
+}
+
 export interface FinanceData {
   dataQuality: { totalCustomers: number; totalRowsProcessed: number };
   growthDistribution: { mean: number; min: number; max: number };
@@ -711,6 +748,70 @@ export const financeData: FinanceData = {
     { category: "INDIAN VEGETABLE (FROZEN)", growthVsFy25Pct: 41.3 },
   ],
 };
+
+export const atRiskSkus: AtRiskSku[] = [
+  { itemCode: "FGISAS0077", itemName: "JUMBO PUNJABI SAMOSA 6 X 1875 GMS (25 PCS X 75 GMS) BOXES", category: "SAMOSA (FROZEN)", balance: 7336463.86, balanceQty: 200457, ytdPct: 22.5, growthVsFy25Pct: 6.5 },
+  { itemCode: "FGISAS0013", itemName: "PUNJABI SAMOSA (WITHOUT GARLIC & ONION) 6 X 45 PCS X 40 GMS BOX - FROZEN", category: "SAMOSA (FROZEN)", balance: 1607270.16, balanceQty: 44790, ytdPct: -10.4, growthVsFy25Pct: 32.1 },
+  { itemCode: "FGIPAS0046", itemName: "TANDOORI NAAN - PLAIN (FROZEN) 8 X 1275 GMS (15PCS) BAGS", category: "NAAN (FROZEN)", balance: 1518880.65, balanceQty: 56705, ytdPct: 27.0, growthVsFy25Pct: -16.9 },
+  { itemCode: "FGISLX0002", itemName: "LFPS1 - JUMBO PUNJABI SAMOSA (VALUE PACK) 6 X 20 PCS X 75 GMS BOX - FROZEN", category: "SAMOSA (FROZEN)", balance: 1135572.39, balanceQty: 38211, ytdPct: -4.8, growthVsFy25Pct: -47.2 },
+  { itemCode: "FGCHUB0009", itemName: "5933 MANGO CHUTNEY BASE 290 KGS", category: "CHUTNEY BULK PACK", balance: 1125328.27, balanceQty: 4064, ytdPct: 34.4, growthVsFy25Pct: -34.4 },
+  { itemCode: "FGPKCM0029", itemName: "MANGO SLICE PICKLE IN MUSTARD & VINEGAR 12 X 400 GMS GLASS BOTTLES CAMEL AMBA", category: "PICKLES", balance: 954211.9, balanceQty: 115645, ytdPct: 15.6, growthVsFy25Pct: -6.8 },
+  { itemCode: "FGCHST0001", itemName: "3406 - MANGO CHUTNEY ORIGINAL 6 X 350 GMS GLASS BOTTLES", category: "CHUTNEY CONSUMER PACK", balance: 893222.4, balanceQty: 186088, ytdPct: 7.2, growthVsFy25Pct: -7.2 },
+  { itemCode: "FGIPAS0001", itemName: "ALOO PARATHA - (FROZEN) 24 X 400 GMS (4PCS) BAGS - CARTONS", category: "PARATHA (FROZEN)", balance: 866932.31, balanceQty: 36927, ytdPct: -20.5, growthVsFy25Pct: -2.7 },
+  { itemCode: "FGEPER0002", itemName: "292641- ALDI EARTH GROWN VEG MEAL KIT 18 POUCHES X 285 (KORMA 285 GM X 6 POUCHES)", category: "EASI POUCH CURRIES", balance: 811200.0, balanceQty: 53400, ytdPct: 42.3, growthVsFy25Pct: -42.3 },
+  { itemCode: "FGIPAS0053", itemName: "TANDOORI NAAN - GARLIC (FROZEN) 8 X 1020 GMS (12PCS) BAGS", category: "NAAN (FROZEN)", balance: 658314.86, balanceQty: 25659, ytdPct: 27.3, growthVsFy25Pct: -6.5 },
+  { itemCode: "FGSPKI0001", itemName: "401442 - CURRY POWDER 2 X 10 KGS TIN", category: "SPICES", balance: 578407.5, balanceQty: 13530, ytdPct: -16.8, growthVsFy25Pct: 3.0 },
+  { itemCode: "FGISAS0067", itemName: "MEGA PUNJABI SAMOSA (RESTAURANT STYLE) (NO CHUTNEY) 6 X 2 KGS (20 PCS X 100 GMS)", category: "SAMOSA (FROZEN)", balance: 521810.98, balanceQty: 13178, ytdPct: -4.9, growthVsFy25Pct: 2.8 },
+  { itemCode: "FGIPAS0015", itemName: "TANDOORI NAAN - PLAIN (FROZEN) 24 X 426 GMS (5PCS) BAGS", category: "NAAN (FROZEN)", balance: 521789.39, balanceQty: 17360, ytdPct: 32.8, growthVsFy25Pct: -22.5 },
+  { itemCode: "FGIVAS0022", itemName: "COCONUT SHREDS 24 X 310 GMS BAGS (FROZEN)", category: "INDIAN VEGETABLE (FROZEN)", balance: 517787.97, balanceQty: 18576, ytdPct: -55.2, growthVsFy25Pct: 46.0 },
+  { itemCode: "FGIPAS0021", itemName: "TANDOORI NAAN - PLAIN (FROZEN) 12 X 426 GMS (5PCS) BAGS", category: "NAAN (FROZEN)", balance: 445262.81, balanceQty: 32963, ytdPct: 61.9, growthVsFy25Pct: -10.9 },
+];
+
+export const q4PullHeadsUp: Q4PullHeadsUp = {
+  note: "Heads-up for production: these SKUs/categories have highest Q4 balance. Not pre-orders — indicative of what may come for delivery in remaining Q4 days.",
+  topSkusByQ4Balance: [
+    { itemCode: "FGEPKJ0001", itemName: "JASMINE RICE (READY TO EAT COOKED RICE) 8 x 250 GM (8.8 OZ)", category: "EASI POUCH CURRIES", q4Balance: 486739.89, q4BalanceQty: 112445, q4OpenOrder: 6780.6 },
+    { itemCode: "FGIPAS0021", itemName: "TANDOORI NAAN - PLAIN (FROZEN) 12 X 426 GMS (5PCS) BAGS", category: "NAAN (FROZEN)", q4Balance: 185289.05, q4BalanceQty: 12397, q4OpenOrder: 20287.2 },
+    { itemCode: "FGCHUB0009", itemName: "5933 MANGO CHUTNEY BASE 290 KGS", category: "CHUTNEY BULK PACK", q4Balance: 171301.46, q4BalanceQty: 544, q4OpenOrder: 0 },
+    { itemCode: "FGEPSM0003", itemName: "ORGANIC WHITE RICE BASMATI (READY TO EAT COOKED RICE) 8 x 250", category: "EASI POUCH CURRIES", q4Balance: 144948.54, q4BalanceQty: 27661, q4OpenOrder: 52747.2 },
+    { itemCode: "FGEPBN0001", itemName: "JASMINE RICE (READY TO EAT COOKED RICE) 8 x 250 GM (8.8 OZ)", category: "EASI POUCH CURRIES", q4Balance: 105529.11, q4BalanceQty: 23175, q4OpenOrder: 26388 },
+    { itemCode: "FGEPFL0001", itemName: "JASMINE RICE (READY TO EAT COOKED RICE) 8 x 250 GM (8.8 OZ)", category: "EASI POUCH CURRIES", q4Balance: 102179.82, q4BalanceQty: 23413, q4OpenOrder: 6597 },
+    { itemCode: "FGIPAS0022", itemName: "TANDOORI NAAN - GARLIC (FROZEN) 12 X 340 GMS (4PCS) BAG", category: "NAAN (FROZEN)", q4Balance: 94897.27, q4BalanceQty: 6525, q4OpenOrder: 26438.25 },
+    { itemCode: "FGEPNP0002", itemName: "JASMINE RICE (READY TO EAT COOKED RICE) 8 x 250 GM (8.8 OZ)", category: "EASI POUCH CURRIES", q4Balance: 67149.71, q4BalanceQty: 15684, q4OpenOrder: 0 },
+    { itemCode: "FGEPER0002", itemName: "292641- ALDI EARTH GROWN VEG MEAL KIT 18 POUCHES X 285 (KORMA)", category: "EASI POUCH CURRIES", q4Balance: 62745.0, q4BalanceQty: 5640, q4OpenOrder: 93000 },
+    { itemCode: "FGEPKJ0002", itemName: "JASMINE RICE (READY TO EAT COOKED RICE) 6 x 510 GM (18 OZ)", category: "EASI POUCH CURRIES", q4Balance: 58781.94, q4BalanceQty: 9512, q4OpenOrder: 0 },
+    { itemCode: "FGEPBN0003", itemName: "LONG GRAIN WHITE RICE (READY TO EAT COOKED RICE) 8 x 250 GM", category: "EASI POUCH CURRIES", q4Balance: 57366.31, q4BalanceQty: 16676, q4OpenOrder: 0 },
+    { itemCode: "FGEPNP0001", itemName: "WHOLE GRAIN BROWN RICE 8 X 250 GMS (8.8 OZ) (READY TO EAT)", category: "EASI POUCH CURRIES", q4Balance: 47425.15, q4BalanceQty: 12613, q4OpenOrder: 0 },
+    { itemCode: "FGSAVT0005", itemName: "BUTTER CHICKEN SAUCE 6 X 285 GMS GLASS BOTTLES", category: "SAUCE", q4Balance: 46825.99, q4BalanceQty: 10048, q4OpenOrder: 0 },
+    { itemCode: "FGEPFL0002", itemName: "WHOLE GRAIN BROWN RICE (READY TO EAT COOKED RICE) 8 x 250 GM", category: "EASI POUCH CURRIES", q4Balance: 44787.65, q4BalanceQty: 11912, q4OpenOrder: 0 },
+    { itemCode: "FGEPFL0003", itemName: "LONG GRAIN WHITE RICE (READY TO EAT COOKED RICE) 8 x 250 GM", category: "EASI POUCH CURRIES", q4Balance: 43707.67, q4BalanceQty: 12706, q4OpenOrder: 0 },
+  ],
+  topCategoriesByQ4Balance: [
+    { category: "EASI POUCH CURRIES", q4Balance: 1396730.97, q4BalanceQty: 274346 },
+    { category: "CHUTNEY BULK PACK", q4Balance: 250621.25, q4BalanceQty: 3239 },
+    { category: "INDIAN SWEET (FROZEN)", q4Balance: 34274.54, q4BalanceQty: 725 },
+    { category: "PASTES", q4Balance: 24631.55, q4BalanceQty: 3464 },
+    { category: "INDIAN READY TO EAT (FROZEN)", q4Balance: 13684.69, q4BalanceQty: 532 },
+    { category: "CAN READY TO EAT", q4Balance: 8647.37, q4BalanceQty: 1035 },
+    { category: "KATHI ROLL (FROZEN)", q4Balance: 7899.61, q4BalanceQty: -567 },
+    { category: "CHUTNEY (FROZEN)", q4Balance: 7128.41, q4BalanceQty: 475 },
+    { category: "CAN VEGETABLE", q4Balance: 3635.14, q4BalanceQty: 327 },
+    { category: "SAUCE", q4Balance: 1985.0, q4BalanceQty: -5026 },
+  ],
+};
+
+export const zeroQ4DispatchSkus: ZeroQ4DispatchSku[] = [
+  { itemCode: "FGISTN0016", itemName: "POTATO PEA SAMOSA PUNJABI STYLE WITH CHUTNEY 6 X 24 PCS X 40", balance: 190567.14 },
+  { itemCode: "FGIPTN0007", itemName: "TANDOORI NAAN GARLIC 6 X 16 PCS X 85 GM POUCHES", balance: 163361.26 },
+  { itemCode: "FGIVCA0001", itemName: "BHINDI CUT OKRA 12 X 908 GM POUCH", balance: 116045.76 },
+  { itemCode: "FGEPSS0001", itemName: "JASMINE RICE (READY TO EAT COOKED RICE) 8 x 250 GM (8.8 OZ)", balance: 106830.72 },
+  { itemCode: "FGIPCA0002", itemName: "TANDOORI NAAN PAIN NAAN ORIGINAL 8 X 1.36 KG (16 PCS X 85 GM)", balance: 105764.4 },
+  { itemCode: "FGSPAS0003", itemName: "MADRAS CURRY POWDER MILD 12.5 KGS BAG", balance: 85369.51 },
+  { itemCode: "FGCHUB0012", itemName: "KASHMIR HOT MANGO CHUTNEY SAUCE 1300 KGS", balance: 83691.73 },
+  { itemCode: "FGIPCA0001", itemName: "NAAN PAIN NAAN GARLIC 8 X 1.02 KG (12 PCS X 85 GM) POUCH", balance: 77342.4 },
+  { itemCode: "FGCHUB0011", itemName: "PREMIUM MANGO CHUTNEY 290 KGS", balance: 73720.0 },
+  { itemCode: "FGCHUB0016", itemName: "MANGO CHUTNEY SAUCE KASHMIR HOT 1000 KGS.", balance: 67173.13 },
+];
 
 export const salesmenNames = Object.keys(salespersonData);
 
