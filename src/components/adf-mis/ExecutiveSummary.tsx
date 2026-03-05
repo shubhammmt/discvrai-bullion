@@ -1,7 +1,7 @@
 import React from 'react';
 import { KpiCard } from './KpiCard';
-import { executiveSummary, quarterTrajectory, q4Gap, salesmanVariance, formatCurrency, lastUpdated } from '@/data/adfMisData';
-import { Target, TrendingUp, AlertTriangle, DollarSign, BarChart3, Activity } from 'lucide-react';
+import { executiveSummary, fullYearGap, quarterTrajectory, q4Gap, salesmanVariance, formatCurrency, formatQty, lastUpdated } from '@/data/adfMisData';
+import { Target, TrendingUp, AlertTriangle, DollarSign, BarChart3, Activity, Info } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from 'recharts';
 import { Progress } from '@/components/ui/progress';
 
@@ -47,6 +47,35 @@ export const ExecutiveSummary: React.FC = () => {
         />
       </div>
 
+      {/* Full Year Gap — PRIMARY */}
+      <div className="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-1">
+          <AlertTriangle className="w-5 h-5 text-red-500" />
+          <h3 className="text-sm font-bold text-gray-900">Full Year Gap — Primary Deficit</h3>
+        </div>
+        <p className="text-xs text-gray-500 mb-4 flex items-center gap-1">
+          <Info className="w-3 h-3" />
+          {fullYearGap.note}
+        </p>
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+          <div>
+            <div className="text-xs text-gray-500 mb-1">Projected (Amt)</div>
+            <div className="text-lg font-bold text-gray-900">{formatCurrency(fullYearGap.projectedAmt, true)}</div>
+            <div className="text-xs text-gray-400 mt-0.5">Qty: {formatQty(fullYearGap.projectedQty)}</div>
+          </div>
+          <div>
+            <div className="text-xs text-gray-500 mb-1">Dispatch + Open (Amt)</div>
+            <div className="text-lg font-bold text-gray-900">{formatCurrency(fullYearGap.dispatchPlusOpenAmt, true)}</div>
+            <div className="text-xs text-gray-400 mt-0.5">Qty: {formatQty(fullYearGap.dispatchPlusOpenQty)}</div>
+          </div>
+          <div>
+            <div className="text-xs text-gray-500 mb-1">Balance (Deficit)</div>
+            <div className="text-xl font-bold text-red-600">{formatCurrency(fullYearGap.balanceAmt, true)}</div>
+            <div className="text-xs text-red-500 mt-0.5">Qty: {formatQty(fullYearGap.balanceQty)} cases</div>
+          </div>
+        </div>
+      </div>
+
       {/* Company Progress */}
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-3">
@@ -69,18 +98,21 @@ export const ExecutiveSummary: React.FC = () => {
       {/* Q4 Gap + Salesman Variance */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-1">
             <BarChart3 className="w-4 h-4 text-gray-500" />
             <h3 className="text-sm font-semibold text-gray-900">Q4 Gap Analysis</h3>
           </div>
+          <p className="text-[10px] text-gray-400 mb-3">{q4Gap.note}</p>
           <div className="grid grid-cols-3 gap-4">
             <div>
               <div className="text-xs text-gray-500 mb-1">Q4 Projected</div>
               <div className="text-lg font-bold text-gray-900">{formatCurrency(q4Gap.q4Projected, true)}</div>
+              <div className="text-xs text-gray-400">Qty: {formatQty(q4Gap.q4ProjectedQty)}</div>
             </div>
             <div>
               <div className="text-xs text-gray-500 mb-1">Q4 Dispatch+Open</div>
               <div className="text-lg font-bold text-gray-900">{formatCurrency(q4Gap.q4DispatchPlusOpen, true)}</div>
+              <div className="text-xs text-gray-400">Qty: {formatQty(q4Gap.q4DispatchPlusOpenQty)}</div>
             </div>
             <div>
               <div className="text-xs text-gray-500 mb-1">Gap</div>
@@ -88,6 +120,7 @@ export const ExecutiveSummary: React.FC = () => {
                 {q4Gap.gap <= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(q4Gap.gap), true)}
               </div>
               <div className="text-xs text-gray-500">{q4Gap.gap <= 0 ? 'Ahead of plan' : 'Behind plan'}</div>
+              <div className="text-xs text-gray-400">Qty gap: {formatQty(q4Gap.gapQty)}</div>
             </div>
           </div>
         </div>
@@ -139,6 +172,18 @@ export const ExecutiveSummary: React.FC = () => {
               <Bar dataKey="Open Order" fill="#3b82f6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
+        </div>
+        {/* Quarter balance table */}
+        <div className="mt-4 grid grid-cols-4 gap-3">
+          {quarterTrajectory.map(q => (
+            <div key={q.quarter} className="text-center p-2 rounded-lg bg-gray-50">
+              <div className="text-xs font-semibold text-gray-700">{q.quarter}</div>
+              <div className={`text-sm font-bold ${q.balance <= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                {q.balance <= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(q.balance), true)}
+              </div>
+              <div className="text-[10px] text-gray-400">Dispatch: {formatQty(q.dispatchQty)} qty</div>
+            </div>
+          ))}
         </div>
       </div>
 
