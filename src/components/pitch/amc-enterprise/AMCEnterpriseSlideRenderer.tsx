@@ -8,9 +8,11 @@ import { AMCFailedSolutionsSlide } from './slides/AMCFailedSolutionsSlide';
 import { AMCSolutionSlide } from './slides/AMCSolutionSlide';
 import { AMCCapabilitiesSlide } from './slides/AMCCapabilitiesSlide';
 import { AMCConversionSlide } from './slides/AMCConversionSlide';
+import { AMCCustomerROISlide } from './slides/AMCCustomerROISlide';
 import { AMCDifferentiatorsSlide } from './slides/AMCDifferentiatorsSlide';
 import { AMCMarketSlide } from './slides/AMCMarketSlide';
 import { AMCBusinessModelSlide } from './slides/AMCBusinessModelSlide';
+import { AMCValuationSlide } from './slides/AMCValuationSlide';
 import { AMCAskSlide } from './slides/AMCAskSlide';
 import { AMCCTASlide } from './slides/AMCCTASlide';
 
@@ -41,12 +43,16 @@ export const AMCEnterpriseSlideRenderer: React.FC<AMCEnterpriseSlideRendererProp
         return <AMCCapabilitiesSlide slide={slide as any} />;
       case 'amc-conversion':
         return <AMCConversionSlide slide={slide as any} />;
+      case 'amc-customer-roi':
+        return <AMCCustomerROISlide slide={slide as any} />;
       case 'amc-differentiators':
         return <AMCDifferentiatorsSlide slide={slide as any} />;
       case 'amc-market':
         return <AMCMarketSlide slide={slide as any} />;
       case 'amc-business-model':
         return <AMCBusinessModelSlide slide={slide as any} />;
+      case 'amc-valuation':
+        return <AMCValuationSlide slide={slide as any} />;
       case 'amc-ask':
         return <AMCAskSlide slide={slide as any} />;
       case 'amc-cta':
@@ -56,7 +62,6 @@ export const AMCEnterpriseSlideRenderer: React.FC<AMCEnterpriseSlideRendererProp
     }
   };
 
-  // Cover and CTA slides have their own layout
   if (slide.type === 'amc-cover' || slide.type === 'amc-cta') {
     return (
       <div className="min-h-screen flex flex-col">

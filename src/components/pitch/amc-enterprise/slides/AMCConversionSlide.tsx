@@ -19,6 +19,7 @@ interface AMCConversionSlideProps {
         target: string;
       }>;
       whyItWorks: string[];
+      conservativeNote?: string;
     };
   };
 }
@@ -112,9 +113,9 @@ export const AMCConversionSlide: React.FC<AMCConversionSlideProps> = ({ slide })
             ))}
           </div>
 
-          <div className="mt-6 bg-orange-50 border border-orange-200 rounded-xl p-6">
-            <p className="text-orange-900 font-medium text-center">
-              Conservative Estimate: Even at <span className="font-bold">10% conversion (2× baseline)</span>, the platform delivers significant ROI
+          <div className="mt-4 bg-orange-50 border border-orange-200 rounded-xl p-4">
+            <p className="text-orange-900 font-medium text-center text-sm">
+              {slide.content.conservativeNote || 'Conservative Estimate: Even at 10% conversion (2× baseline), the platform delivers significant ROI'}
             </p>
           </div>
         </motion.div>
