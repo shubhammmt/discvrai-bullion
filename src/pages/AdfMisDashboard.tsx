@@ -5,7 +5,8 @@ import { AtRiskCustomers } from '@/components/adf-mis/AtRiskCustomers';
 import { CategoryPerformance } from '@/components/adf-mis/CategoryPerformance';
 import { SalesView } from '@/components/adf-mis/SalesView';
 import { FinanceView } from '@/components/adf-mis/FinanceView';
-import { BarChart3, Users, PieChart, UserCheck, Database } from 'lucide-react';
+import { SkuProductionView } from '@/components/adf-mis/SkuProductionView';
+import { BarChart3, Users, PieChart, UserCheck, Database, Package } from 'lucide-react';
 import { lastUpdated } from '@/data/adfMisData';
 
 const AdfMisDashboard: React.FC = () => {
@@ -47,6 +48,10 @@ const AdfMisDashboard: React.FC = () => {
               <PieChart className="w-3.5 h-3.5" />
               Category Performance
             </TabsTrigger>
+            <TabsTrigger value="sku" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
+              <Package className="w-3.5 h-3.5" />
+              SKU & Production
+            </TabsTrigger>
             <TabsTrigger value="sales" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
               <UserCheck className="w-3.5 h-3.5" />
               Sales — My Performance
@@ -60,6 +65,7 @@ const AdfMisDashboard: React.FC = () => {
           <TabsContent value="executive"><ExecutiveSummary /></TabsContent>
           <TabsContent value="atrisk"><AtRiskCustomers /></TabsContent>
           <TabsContent value="category"><CategoryPerformance /></TabsContent>
+          <TabsContent value="sku"><SkuProductionView /></TabsContent>
           <TabsContent value="sales"><SalesView /></TabsContent>
           <TabsContent value="finance"><FinanceView /></TabsContent>
         </Tabs>

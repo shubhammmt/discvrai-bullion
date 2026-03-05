@@ -76,7 +76,7 @@ export const CategoryPerformance: React.FC = () => {
                 <YAxis tick={{ fontSize: 11, fill: '#6b7280' }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`} />
                 <Tooltip formatter={(value: number) => formatCurrency(value)} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
-                <Bar dataKey="Projected" fill="#e5e7eb" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Projected" fill="#93c5fd" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="Dispatch+Open" fill="#2563eb" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
