@@ -1,0 +1,144 @@
+{
+    "UPINDER SINGH": {
+      "ytdPct": 85.5,
+      "balanceToAchieve": 159920.91,
+      "growthVsFy25Pct": 50.3,
+      "top5ToChase": [
+        { "customer": "AEKSHEA FOODS WHOLESALE GmbH", "balance": 79497.97, "ytdPct": 52.3 },
+        { "customer": "LAZZAT FOODS AB", "balance": 74995.99, "ytdPct": 40.9 },
+        { "customer": "GOLDEN FOODS APS", "balance": 66271.29, "ytdPct": 22.6 },
+        { "customer": "M.A. ORIENTAL FOODS LTD.", "balance": 62071.71, "ytdPct": 37.0 },
+        { "customer": "ALL 4 TRADE B.V.", "balance": 54501.0, "ytdPct": 50.3 }
+      ],
+      "atRiskCustomers": [
+        { "customer": "AEKSHEA FOODS WHOLESALE GmbH", "ytdPct": 52.3 },
+        { "customer": "LAZZAT FOODS AB", "ytdPct": 40.9 },
+        { "customer": "GOLDEN FOODS APS", "ytdPct": 22.6 },
+        { "customer": "M.A. ORIENTAL FOODS LTD.", "ytdPct": 37.0 },
+        { "customer": "ALL 4 TRADE B.V.", "ytdPct": 50.3 }
+      ],
+      "overachievers": [],
+      "zeroQ4Dispatch": [
+        { "customer": "AEKSHEA FOODS WHOLESALE GmbH" },
+        { "customer": "LAZZAT FOODS AB" },
+        { "customer": "ALL 4 TRADE B.V." },
+        { "customer": "ATIAZA AB" },
+        { "customer": "WB. IMPORT & EXPORT S.R.O." }
+      ],
+      "q4PipelineCoverage": 13.12,
+      "customerCount": 12,
+      "myCategories": [
+        { "category": "NAAN (FROZEN)", "fy26Projected": 186336.58, "dispatchPlusOpen": 104211.84, "balance": 82124.74, "ytdPct": 55.9, "growthVsFy25Pct": 38.8 },
+        { "category": "PICKLES", "fy26Projected": 228799.85, "dispatchPlusOpen": 196418.31, "balance": 32381.54, "ytdPct": 85.8, "growthVsFy25Pct": -11.7 },
+        { "category": "CHUTNEY CONSUMER PACK", "fy26Projected": 30482.88, "dispatchPlusOpen": 9497.52, "balance": 20985.36, "ytdPct": 31.2, "growthVsFy25Pct": -61.8 },
+        { "category": "INDIAN SNACKS (FROZEN)", "fy26Projected": 37269.78, "dispatchPlusOpen": 18172.98, "balance": 19096.8, "ytdPct": 48.8, "growthVsFy25Pct": 94.3 },
+        { "category": "PARATHA (FROZEN)", "fy26Projected": 160384.7, "dispatchPlusOpen": 143887.5, "balance": 16497.2, "ytdPct": 89.7, "growthVsFy25Pct": 180.3 },
+        { "category": "EASI POUCH CURRIES", "fy26Projected": 173382.05, "dispatchPlusOpen": 157201.22, "balance": 16180.83, "ytdPct": 90.7, "growthVsFy25Pct": 12.6 },
+        { "category": "CHUTNEY (FROZEN)", "fy26Projected": 11160.0, "dispatchPlusOpen": 3100.0, "balance": 8060.0, "ytdPct": 27.8, "growthVsFy25Pct": 11.1 },
+        { "category": "CHUTNEY BULK PACK", "fy26Projected": 32918.66, "dispatchPlusOpen": 28600.0, "balance": 4318.66, "ytdPct": 86.9, "growthVsFy25Pct": 17.0 },
+        { "category": "INDIAN READY TO EAT (FROZEN)", "fy26Projected": 4160.0, "dispatchPlusOpen": 1480.0, "balance": 2680.0, "ytdPct": 35.6, "growthVsFy25Pct": 0.0 },
+        { "category": "SAUCE", "fy26Projected": 2958.4, "dispatchPlusOpen": 364.44, "balance": 2593.96, "ytdPct": 12.3, "growthVsFy25Pct": -89.1 }
+      ]
+    },
+    "RASA KUMAR": {
+      "ytdPct": 132.3,
+      "balanceToAchieve": -362010.56,
+      "growthVsFy25Pct": 134.8,
+      "top5ToChase": [
+        { "customer": "LUMEN FOODS LABS LLC", "balance": 41966.53, "ytdPct": 100.0 }
+      ],
+      "atRiskCustomers": [],
+      "overachievers": [],
+      "zeroQ4Dispatch": [ { "customer": "LUMEN FOODS LABS LLC" } ],
+      "q4PipelineCoverage": 1.96,
+      "customerCount": 2,
+      "myCategories": [
+        { "category": "SAUCE", "fy26Projected": 124678.17, "dispatchPlusOpen": 21957.05, "balance": 102721.12, "ytdPct": 17.6, "growthVsFy25Pct": -68.7 },
+        { "category": "PULP", "fy26Projected": 136941.66, "dispatchPlusOpen": 44766.9, "balance": 92174.76, "ytdPct": 32.7, "growthVsFy25Pct": -42.0 },
+        { "category": "EASI POUCH CURRIES", "fy26Projected": 220442.63, "dispatchPlusOpen": 144249.92, "balance": 76192.71, "ytdPct": 65.4, "growthVsFy25Pct": 16.2 },
+        { "category": "TAMARIND", "fy26Projected": 40467.85, "dispatchPlusOpen": 7593.13, "balance": 32874.72, "ytdPct": 18.8, "growthVsFy25Pct": -66.7 },
+        { "category": "SPICES", "fy26Projected": 13613.66, "dispatchPlusOpen": 0.0, "balance": 13613.66, "ytdPct": 0.0, "growthVsFy25Pct": -100.0 },
+        { "category": "CAN VEGETABLE", "fy26Projected": 6511.67, "dispatchPlusOpen": 0.0, "balance": 6511.67, "ytdPct": 0.0, "growthVsFy25Pct": -100.0 },
+        { "category": "CHUTNEY BULK PACK", "fy26Projected": 3653.03, "dispatchPlusOpen": 0.0, "balance": 3653.03, "ytdPct": 0.0, "growthVsFy25Pct": -100.0 },
+        { "category": "PICKLES", "fy26Projected": 11452.04, "dispatchPlusOpen": 23685.11, "balance": -12233.07, "ytdPct": 206.8, "growthVsFy25Pct": 267.2 },
+        { "category": "PASTES", "fy26Projected": 8144.73, "dispatchPlusOpen": 33729.53, "balance": -25584.8, "ytdPct": 414.1, "growthVsFy25Pct": 635.2 },
+        { "category": "CHUTNEY CONSUMER PACK", "fy26Projected": 1333.97, "dispatchPlusOpen": 95120.12, "balance": -93786.15, "ytdPct": 7130.6, "growthVsFy25Pct": 12558.7 }
+      ]
+    },
+    "SHIVAAN THAKKAR": {
+      "ytdPct": 141.8,
+      "balanceToAchieve": -1429398.63,
+      "growthVsFy25Pct": 84.4,
+      "top5ToChase": [],
+      "atRiskCustomers": [],
+      "overachievers": [],
+      "zeroQ4Dispatch": [],
+      "q4PipelineCoverage": 0,
+      "customerCount": 3,
+      "myCategories": [
+        { "category": "SAMOSA (FROZEN)", "fy26Projected": 2541053.87, "dispatchPlusOpen": 2213485.49, "balance": 327568.38, "ytdPct": 87.1, "growthVsFy25Pct": 13.2 },
+        { "category": "NAAN (FROZEN)", "fy26Projected": 215783.93, "dispatchPlusOpen": 162344.49, "balance": 53439.44, "ytdPct": 75.2, "growthVsFy25Pct": -2.2 },
+        { "category": "CHUTNEY BULK PACK", "fy26Projected": 58119.43, "dispatchPlusOpen": 21414.73, "balance": 36704.7, "ytdPct": 36.8, "growthVsFy25Pct": -52.1 },
+        { "category": "KATHI ROLL (FROZEN)", "fy26Projected": 45538.94, "dispatchPlusOpen": 24345.81, "balance": 21193.13, "ytdPct": 53.5, "growthVsFy25Pct": -30.5 },
+        { "category": "CAN READY TO EAT", "fy26Projected": 11409.84, "dispatchPlusOpen": 6524.99, "balance": 4884.85, "ytdPct": 57.2, "growthVsFy25Pct": -25.7 },
+        { "category": "SAUCE", "fy26Projected": 4986.37, "dispatchPlusOpen": 1759.17, "balance": 3227.2, "ytdPct": 35.3, "growthVsFy25Pct": -54.1 },
+        { "category": "PASTES (FROZEN)", "fy26Projected": 1040.91, "dispatchPlusOpen": 0.0, "balance": 1040.91, "ytdPct": 0.0, "growthVsFy25Pct": -100.0 },
+        { "category": "CHUTNEY (FROZEN)", "fy26Projected": 4346.28, "dispatchPlusOpen": 3898.31, "balance": 447.97, "ytdPct": 89.7, "growthVsFy25Pct": 16.6 },
+        { "category": "SPICES", "fy26Projected": 2349.1, "dispatchPlusOpen": 2437.52, "balance": -88.42, "ytdPct": 103.8, "growthVsFy25Pct": 34.9 },
+        { "category": "INDIAN READY TO EAT (FROZEN)", "fy26Projected": 12167.02, "dispatchPlusOpen": 13336.37, "balance": -1169.35, "ytdPct": 109.6, "growthVsFy25Pct": 42.5 }
+      ]
+    },
+    "VISHAL SACHDEV": {
+      "ytdPct": 0,
+      "balanceToAchieve": -261400.0,
+      "growthVsFy25Pct": 0,
+      "top5ToChase": [],
+      "atRiskCustomers": [],
+      "overachievers": [],
+      "zeroQ4Dispatch": [],
+      "q4PipelineCoverage": 0,
+      "customerCount": 1,
+      "myCategories": []
+    }
+  },
+  "finance": {
+    "dataQuality": {
+      "totalCustomers": 112,
+      "totalRowsProcessed": 116
+    },
+    "growthDistribution": {
+      "mean": 1.6,
+      "min": -1.0,
+      "max": 5.5
+    },
+    "categoryMixShift": [
+      { "category": "EASI POUCH CURRIES", "growthVsFy25Pct": 81.8 },
+      { "category": "NAAN (FROZEN)", "growthVsFy25Pct": 32.0 },
+      { "category": "SAMOSA (FROZEN)", "growthVsFy25Pct": 19.7 },
+      { "category": "PICKLES", "growthVsFy25Pct": 14.7 },
+      { "category": "CHUTNEY BULK PACK", "growthVsFy25Pct": 6.6 },
+      { "category": "PARATHA (FROZEN)", "growthVsFy25Pct": 30.0 },
+      { "category": "SAUCE", "growthVsFy25Pct": 27.3 },
+      { "category": "INDIAN SWEET (FROZEN)", "growthVsFy25Pct": 33.2 },
+      { "category": "PASTES", "growthVsFy25Pct": 28.1 },
+      { "category": "CHUTNEY CONSUMER PACK", "growthVsFy25Pct": 10.5 },
+      { "category": "PAPAD", "growthVsFy25Pct": 32.9 },
+      { "category": "SPICES", "growthVsFy25Pct": 27.2 },
+      { "category": "INDIAN READY TO EAT (FROZEN)", "growthVsFy25Pct": 35.1 },
+      { "category": "KATHI ROLL (FROZEN)", "growthVsFy25Pct": 9.9 },
+      { "category": "CAN READY TO EAT", "growthVsFy25Pct": 57.1 },
+      { "category": "CHUTNEY (FROZEN)", "growthVsFy25Pct": 41.4 },
+      { "category": "CAN VEGETABLE", "growthVsFy25Pct": 57.6 },
+      { "category": "PASTES (FROZEN)", "growthVsFy25Pct": 15.6 },
+      { "category": "MURABBA", "growthVsFy25Pct": 25.8 },
+      { "category": "MILK PRODUCTS (FROZEN)", "growthVsFy25Pct": 23.3 },
+      { "category": "INDIAN SWEET", "growthVsFy25Pct": 18.3 },
+      { "category": "PULP", "growthVsFy25Pct": 41.6 },
+      { "category": "SNACKS", "growthVsFy25Pct": 52.4 },
+      { "category": "MISCELLENEOUS PRODUCTS", "growthVsFy25Pct": 7.8 },
+      { "category": "INDIAN SNACKS (FROZEN)", "growthVsFy25Pct": 21.8 },
+      { "category": "TAMARIND", "growthVsFy25Pct": 26.8 },
+      { "category": "INDIAN VEGETABLE (FROZEN)", "growthVsFy25Pct": 41.3 }
+    ]
+  }
+}
