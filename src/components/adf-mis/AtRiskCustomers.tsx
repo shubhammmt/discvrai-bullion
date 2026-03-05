@@ -1,15 +1,21 @@
-import React from 'react';
-import { atRiskCustomers, behindTarget, concentration, formatCurrency, getStatusBg, getStatusLabel } from '@/data/adfMisData';
+import React, { useState } from 'react';
+import { atRiskCustomers, behindTarget, concentration, atRiskCustomerCategories, formatCurrency, formatQty, getStatusBg, getStatusLabel } from '@/data/adfMisData';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { AlertTriangle, Users } from 'lucide-react';
+import { AlertTriangle, Users, ChevronDown, ChevronRight } from 'lucide-react';
 
 export const AtRiskCustomers: React.FC = () => {
+  const [expandedCustomer, setExpandedCustomer] = useState<string | null>(null);
+
   const chartData = atRiskCustomers.map(c => ({
     name: c.customer.length > 20 ? c.customer.slice(0, 20) + '…' : c.customer,
     balance: c.balance,
     ytd: c.ytdPct,
   }));
+
+  const getCategoryDrilldown = (customerName: string) => {
+    return atRiskCustomerCategories.find(c => c.customer === customerName);
+  };
 
   return (
     <div className="space-y-6">
@@ -54,41 +60,80 @@ export const AtRiskCustomers: React.FC = () => {
         </div>
       </div>
 
-      {/* At-Risk Table */}
+      {/* At-Risk Table with Category Drill-down */}
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100">
           <h3 className="text-sm font-semibold text-gray-900">At-Risk Customers — Top 10 by Balance</h3>
-          <p className="text-xs text-gray-500">Pre-sorted by balance descending</p>
+          <p className="text-xs text-gray-500">Click a row to see category breakdown. Shows both Amt (FC) and QTY.</p>
         </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50">
+                <TableHead className="w-6"></TableHead>
                 <TableHead>Customer</TableHead>
                 <TableHead>Salesman</TableHead>
-                <TableHead className="text-right">Balance</TableHead>
+                <TableHead className="text-right">Balance (Amt)</TableHead>
+                <TableHead className="text-right">Balance (Qty)</TableHead>
                 <TableHead className="text-right">YTD %</TableHead>
                 <TableHead className="text-right">Growth vs FY25</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {atRiskCustomers.map((c) => (
-                <TableRow key={c.customer} className="hover:bg-gray-50/50">
-                  <TableCell className="font-medium text-gray-900 whitespace-nowrap text-xs">{c.customer}</TableCell>
-                  <TableCell className="text-gray-600 whitespace-nowrap text-xs">{c.salesman}</TableCell>
-                  <TableCell className="text-right tabular-nums font-semibold text-gray-900">{formatCurrency(c.balance, true)}</TableCell>
-                  <TableCell className={`text-right tabular-nums font-semibold ${c.ytdPct >= 90 ? 'text-emerald-600' : c.ytdPct >= 70 ? 'text-amber-600' : 'text-red-600'}`}>{c.ytdPct}%</TableCell>
-                  <TableCell className={`text-right tabular-nums font-medium ${c.growthVsFy25 >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
-                    {c.growthVsFy25 > 0 ? '+' : ''}{c.growthVsFy25}%
-                  </TableCell>
-                  <TableCell>
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusBg(c.ytdPct)}`}>
-                      {getStatusLabel(c.ytdPct)}
-                    </span>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {atRiskCustomers.map((c) => {
+                const drilldown = getCategoryDrilldown(c.customer);
+                const isExpanded = expandedCustomer === c.customer;
+                return (
+                  <React.Fragment key={c.customer}>
+                    <TableRow
+                      className="hover:bg-gray-50/50 cursor-pointer"
+                      onClick={() => setExpandedCustomer(isExpanded ? null : c.customer)}
+                    >
+                      <TableCell className="w-6 px-2">
+                        {drilldown ? (
+                          isExpanded ? <ChevronDown className="w-3.5 h-3.5 text-gray-400" /> : <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="font-medium text-gray-900 whitespace-nowrap text-xs">{c.customer}</TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap text-xs">{c.salesman}</TableCell>
+                      <TableCell className="text-right tabular-nums font-semibold text-gray-900">{formatCurrency(c.balance, true)}</TableCell>
+                      <TableCell className="text-right tabular-nums text-gray-600 text-xs">{formatQty(c.balanceQty)}</TableCell>
+                      <TableCell className={`text-right tabular-nums font-semibold ${c.ytdPct >= 90 ? 'text-emerald-600' : c.ytdPct >= 70 ? 'text-amber-600' : 'text-red-600'}`}>{c.ytdPct}%</TableCell>
+                      <TableCell className={`text-right tabular-nums font-medium ${c.growthVsFy25 >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                        {c.growthVsFy25 > 0 ? '+' : ''}{c.growthVsFy25}%
+                      </TableCell>
+                      <TableCell>
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusBg(c.ytdPct)}`}>
+                          {getStatusLabel(c.ytdPct)}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                    {isExpanded && drilldown && (
+                      <TableRow className="bg-blue-50/50">
+                        <TableCell colSpan={8} className="p-0">
+                          <div className="px-8 py-3">
+                            <div className="text-xs font-semibold text-gray-700 mb-2">Category Breakdown — {c.customer}</div>
+                            <div className="grid gap-1">
+                              {drilldown.categories.map(cat => (
+                                <div key={cat.category} className="flex items-center justify-between py-1 px-3 rounded bg-white border border-gray-100">
+                                  <span className="text-xs text-gray-700 font-medium">{cat.category}</span>
+                                  <div className="flex items-center gap-4">
+                                    <span className="text-xs tabular-nums text-gray-900 font-semibold">{formatCurrency(cat.balance, true)}</span>
+                                    <span className={`text-xs tabular-nums font-semibold ${cat.ytdPct >= 90 ? 'text-emerald-600' : cat.ytdPct >= 70 ? 'text-amber-600' : 'text-red-600'}`}>
+                                      {cat.ytdPct}%
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </React.Fragment>
+                );
+              })}
             </TableBody>
           </Table>
         </div>

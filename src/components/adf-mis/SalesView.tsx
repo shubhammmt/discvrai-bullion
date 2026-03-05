@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { salespersonData, salesmenNames, formatCurrency, getStatusBg, getStatusLabel } from '@/data/adfMisData';
 import { KpiCard } from './KpiCard';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { User, Target, DollarSign, TrendingUp, AlertTriangle, AlertCircle, Activity } from 'lucide-react';
+import { User, Target, DollarSign, TrendingUp, AlertTriangle, AlertCircle, Activity, BarChart3 } from 'lucide-react';
 
 export const SalesView: React.FC = () => {
   const [selected, setSelected] = useState<string>(salesmenNames[0]);
@@ -76,6 +76,57 @@ export const SalesView: React.FC = () => {
               ))}
             </TableBody>
           </Table>
+        </div>
+      )}
+
+      {/* My Categories */}
+      {data.myCategories && data.myCategories.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-blue-500" />
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">My Categories — {selected}</h3>
+              <p className="text-xs text-gray-500">Performance by product category (sorted by balance)</p>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50">
+                  <TableHead>Category</TableHead>
+                  <TableHead className="text-right">FY26 Projected</TableHead>
+                  <TableHead className="text-right">Dispatch+Open</TableHead>
+                  <TableHead className="text-right">Balance</TableHead>
+                  <TableHead className="text-right">YTD %</TableHead>
+                  <TableHead className="text-right">Growth vs FY25</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data.myCategories.map(cat => (
+                  <TableRow key={cat.category}>
+                    <TableCell className="font-medium text-gray-900 text-xs">{cat.category}</TableCell>
+                    <TableCell className="text-right tabular-nums text-gray-600 text-xs">{formatCurrency(cat.fy26Projected, true)}</TableCell>
+                    <TableCell className="text-right tabular-nums text-gray-600 text-xs">{formatCurrency(cat.dispatchPlusOpen, true)}</TableCell>
+                    <TableCell className={`text-right tabular-nums font-semibold ${cat.balance > 0 ? 'text-red-600' : 'text-emerald-600'}`}>
+                      {formatCurrency(cat.balance, true)}
+                    </TableCell>
+                    <TableCell className={`text-right tabular-nums font-semibold ${cat.ytdPct >= 90 ? 'text-emerald-600' : cat.ytdPct >= 70 ? 'text-amber-600' : 'text-red-600'}`}>
+                      {cat.ytdPct}%
+                    </TableCell>
+                    <TableCell className={`text-right tabular-nums font-medium ${cat.growthVsFy25Pct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                      {cat.growthVsFy25Pct > 0 ? '+' : ''}{cat.growthVsFy25Pct}%
+                    </TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusBg(cat.ytdPct)}`}>
+                        {getStatusLabel(cat.ytdPct)}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       )}
 
