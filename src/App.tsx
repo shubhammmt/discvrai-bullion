@@ -310,7 +310,8 @@ const AppContent = () => {
           <Route path="/demo/cms-dynamic" element={<CMSDynamicDemo />} />
           <Route path="/proposal/aptech-execution" element={<AptechExecutionPlan />} />
           <Route path="/dashboard/adf-mis" element={<AdfMisDashboard />} />
-          <Route path="/brochure/enterprise" element={<EnterpriseBrochure />} />
+           <Route path="/brochure/enterprise" element={<EnterpriseBrochure />} />
+           <Route path="/proposal/deep-industries" element={<DeepIndustriesProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
