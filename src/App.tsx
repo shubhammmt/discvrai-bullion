@@ -143,6 +143,7 @@ import CMSDynamicDemo from './pages/CMSDynamicDemo';
 import AptechExecutionPlan from './pages/AptechExecutionPlan';
 import AdfMisDashboard from './pages/AdfMisDashboard';
 import EnterpriseBrochure from './pages/EnterpriseBrochure';
+import DeepIndustriesProposal from './pages/DeepIndustriesProposal';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
