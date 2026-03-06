@@ -169,7 +169,8 @@ const AppContent = () => {
                        location.pathname === '/proposal/aptech-execution' ||
                        location.pathname === '/dashboard/adf-mis' ||
                        location.pathname === '/brochure/enterprise' ||
-                       location.pathname === '/proposal/deep-industries';
+                       location.pathname === '/proposal/deep-industries' ||
+                       location.pathname === '/proposal/nbfc';
   return (
     <>
       <Routes>
