@@ -144,6 +144,7 @@ import AptechExecutionPlan from './pages/AptechExecutionPlan';
 import AdfMisDashboard from './pages/AdfMisDashboard';
 import EnterpriseBrochure from './pages/EnterpriseBrochure';
 import DeepIndustriesProposal from './pages/DeepIndustriesProposal';
+import NbfcProposal from './pages/NbfcProposal';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -169,7 +170,8 @@ const AppContent = () => {
                        location.pathname === '/proposal/aptech-execution' ||
                        location.pathname === '/dashboard/adf-mis' ||
                        location.pathname === '/brochure/enterprise' ||
-                       location.pathname === '/proposal/deep-industries';
+                       location.pathname === '/proposal/deep-industries' ||
+                       location.pathname === '/proposal/nbfc';
   return (
     <>
       <Routes>
@@ -313,6 +315,7 @@ const AppContent = () => {
           <Route path="/dashboard/adf-mis" element={<AdfMisDashboard />} />
            <Route path="/brochure/enterprise" element={<EnterpriseBrochure />} />
            <Route path="/proposal/deep-industries" element={<DeepIndustriesProposal />} />
+           <Route path="/proposal/nbfc" element={<NbfcProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
