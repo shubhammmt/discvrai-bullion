@@ -168,7 +168,8 @@ const AppContent = () => {
                        location.pathname === '/demo/cms-dynamic' ||
                        location.pathname === '/proposal/aptech-execution' ||
                        location.pathname === '/dashboard/adf-mis' ||
-                       location.pathname === '/brochure/enterprise';
+                       location.pathname === '/brochure/enterprise' ||
+                       location.pathname === '/proposal/deep-industries';
   return (
     <>
       <Routes>
