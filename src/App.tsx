@@ -314,6 +314,7 @@ const AppContent = () => {
           <Route path="/dashboard/adf-mis" element={<AdfMisDashboard />} />
            <Route path="/brochure/enterprise" element={<EnterpriseBrochure />} />
            <Route path="/proposal/deep-industries" element={<DeepIndustriesProposal />} />
+           <Route path="/proposal/nbfc" element={<NbfcProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
