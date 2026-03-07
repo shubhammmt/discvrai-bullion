@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-05T13:17:19",
+  "lastUpdated": "2026-03-07T13:50:40",
   "management": {
     "executiveSummary": {
       "ytdAchievementPct": 85.1,
@@ -211,6 +211,412 @@
       "top5BalancePct": 74.0,
       "totalCustomers": 112
     },
+    "byRegion": [
+      {
+        "region": "NORTH AMERICA",
+        "projected": 32107162.95,
+        "dispatchPlusOpen": 29421356.2,
+        "balance": 2685806.75,
+        "ytdPct": 91.6,
+        "growthVsFy25Pct": 16.0,
+        "customerCount": 34
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "projected": 10647618.17,
+        "dispatchPlusOpen": 7966893.98,
+        "balance": 2680724.19,
+        "ytdPct": 74.8,
+        "growthVsFy25Pct": 6.7,
+        "customerCount": 18
+      },
+      {
+        "region": "UNITED KINGDOM",
+        "projected": 8664265.02,
+        "dispatchPlusOpen": 6751001.43,
+        "balance": 1913263.59,
+        "ytdPct": 77.9,
+        "growthVsFy25Pct": -18.5,
+        "customerCount": 13
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "projected": 4638992.37,
+        "dispatchPlusOpen": 3368345.11,
+        "balance": 1270647.26,
+        "ytdPct": 72.6,
+        "growthVsFy25Pct": -7.3,
+        "customerCount": 22
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "projected": 6922410.56,
+        "dispatchPlusOpen": 6105629.73,
+        "balance": 816780.83,
+        "ytdPct": 88.2,
+        "growthVsFy25Pct": 2.1,
+        "customerCount": 20
+      }
+    ],
+    "byCountry": [
+      {
+        "country": "GREAT BRITAIN",
+        "region": "UNITED KINGDOM",
+        "projected": 8664265.02,
+        "dispatchPlusOpen": 6751001.43,
+        "balance": 1913263.59,
+        "ytdPct": 77.9,
+        "growthVsFy25Pct": -18.5,
+        "customerCount": 13
+      },
+      {
+        "country": "NETHERLAND",
+        "region": "WESTERN EUROPE",
+        "projected": 4870813.27,
+        "dispatchPlusOpen": 3088607.74,
+        "balance": 1782205.53,
+        "ytdPct": 63.4,
+        "growthVsFy25Pct": 10.0,
+        "customerCount": 2
+      },
+      {
+        "country": "UNITED STATES OF AMERICA",
+        "region": "NORTH AMERICA",
+        "projected": 25625481.36,
+        "dispatchPlusOpen": 24046674.53,
+        "balance": 1578806.83,
+        "ytdPct": 93.8,
+        "growthVsFy25Pct": 25.3,
+        "customerCount": 29
+      },
+      {
+        "country": "CANADA",
+        "region": "NORTH AMERICA",
+        "projected": 6481681.59,
+        "dispatchPlusOpen": 5374681.67,
+        "balance": 1106999.92,
+        "ytdPct": 82.9,
+        "growthVsFy25Pct": -12.9,
+        "customerCount": 5
+      },
+      {
+        "country": "AUSTRALIA",
+        "region": "ASIA PACIFIC",
+        "projected": 2653775.64,
+        "dispatchPlusOpen": 1626042.34,
+        "balance": 1027733.3,
+        "ytdPct": 61.3,
+        "growthVsFy25Pct": -15.2,
+        "customerCount": 10
+      },
+      {
+        "country": "GERMANY",
+        "region": "WESTERN EUROPE",
+        "projected": 3464389.53,
+        "dispatchPlusOpen": 2668510.53,
+        "balance": 795879.0,
+        "ytdPct": 77.0,
+        "growthVsFy25Pct": -1.7,
+        "customerCount": 4
+      },
+      {
+        "country": "KUWAIT",
+        "region": "GULF COUNTRIES",
+        "projected": 971068.68,
+        "dispatchPlusOpen": 623404.84,
+        "balance": 347663.84,
+        "ytdPct": 64.2,
+        "growthVsFy25Pct": -27.0,
+        "customerCount": 3
+      },
+      {
+        "country": "SAUDI ARABIA",
+        "region": "GULF COUNTRIES",
+        "projected": 896535.41,
+        "dispatchPlusOpen": 549730.83,
+        "balance": 346804.58,
+        "ytdPct": 61.3,
+        "growthVsFy25Pct": -32.9,
+        "customerCount": 4
+      },
+      {
+        "country": "SWEDEN",
+        "region": "WESTERN EUROPE",
+        "projected": 1789096.67,
+        "dispatchPlusOpen": 1491680.48,
+        "balance": 297416.19,
+        "ytdPct": 83.4,
+        "growthVsFy25Pct": -7.7,
+        "customerCount": 4
+      },
+      {
+        "country": "OMAN",
+        "region": "GULF COUNTRIES",
+        "projected": 925143.4,
+        "dispatchPlusOpen": 732279.3,
+        "balance": 192864.1,
+        "ytdPct": 79.2,
+        "growthVsFy25Pct": 1.8,
+        "customerCount": 3
+      },
+      {
+        "country": "QATAR",
+        "region": "GULF COUNTRIES",
+        "projected": 538736.38,
+        "dispatchPlusOpen": 365085.65,
+        "balance": 173650.73,
+        "ytdPct": 67.8,
+        "growthVsFy25Pct": -23.5,
+        "customerCount": 2
+      },
+      {
+        "country": "NEW ZEALAND",
+        "region": "ASIA PACIFIC",
+        "projected": 1446641.37,
+        "dispatchPlusOpen": 1316481.59,
+        "balance": 130159.78,
+        "ytdPct": 91.0,
+        "growthVsFy25Pct": 5.8,
+        "customerCount": 5
+      },
+      {
+        "country": "BAHRAIN",
+        "region": "GULF COUNTRIES",
+        "projected": 254731.09,
+        "dispatchPlusOpen": 134902.55,
+        "balance": 119828.54,
+        "ytdPct": 53.0,
+        "growthVsFy25Pct": -40.8,
+        "customerCount": 2
+      },
+      {
+        "country": "SINGAPORE",
+        "region": "ASIA PACIFIC",
+        "projected": 218623.64,
+        "dispatchPlusOpen": 129890.65,
+        "balance": 88732.99,
+        "ytdPct": 59.4,
+        "growthVsFy25Pct": -34.6,
+        "customerCount": 1
+      },
+      {
+        "country": "FIJI ISLANDS",
+        "region": "ASIA PACIFIC",
+        "projected": 150739.18,
+        "dispatchPlusOpen": 76309.57,
+        "balance": 74429.61,
+        "ytdPct": 50.6,
+        "growthVsFy25Pct": -39.0,
+        "customerCount": 1
+      },
+      {
+        "country": "DENMARK",
+        "region": "WESTERN EUROPE",
+        "projected": 365969.45,
+        "dispatchPlusOpen": 323285.67,
+        "balance": 42683.78,
+        "ytdPct": 88.3,
+        "growthVsFy25Pct": 47.6,
+        "customerCount": 2
+      },
+      {
+        "country": "HONG KONG S.A.R.",
+        "region": "ASIA PACIFIC",
+        "projected": 94860.18,
+        "dispatchPlusOpen": 82416.94,
+        "balance": 12443.24,
+        "ytdPct": 86.9,
+        "growthVsFy25Pct": 4.7,
+        "customerCount": 1
+      },
+      {
+        "country": "FRANCE",
+        "region": "WESTERN EUROPE",
+        "projected": 76067.0,
+        "dispatchPlusOpen": 68256.76,
+        "balance": 7810.24,
+        "ytdPct": 89.7,
+        "growthVsFy25Pct": 79.5,
+        "customerCount": 1
+      },
+      {
+        "country": "REUNION",
+        "region": "ASIA PACIFIC",
+        "projected": 26461.65,
+        "dispatchPlusOpen": 23185.02,
+        "balance": 3276.63,
+        "ytdPct": 87.6,
+        "growthVsFy25Pct": -3.2,
+        "customerCount": 1
+      },
+      {
+        "country": "SOUTH AFRICA",
+        "region": "ASIA PACIFIC",
+        "projected": 27890.71,
+        "dispatchPlusOpen": 24691.0,
+        "balance": 3199.71,
+        "ytdPct": 88.5,
+        "growthVsFy25Pct": -3.2,
+        "customerCount": 1
+      },
+      {
+        "country": "IRAQ",
+        "region": "GULF COUNTRIES",
+        "projected": 1103982.0,
+        "dispatchPlusOpen": 1132660.0,
+        "balance": -28678.0,
+        "ytdPct": 102.6,
+        "growthVsFy25Pct": 12.9,
+        "customerCount": 1
+      },
+      {
+        "country": "FINLAND",
+        "region": "WESTERN EUROPE",
+        "projected": 35843.99,
+        "dispatchPlusOpen": 72840.0,
+        "balance": -36996.01,
+        "ytdPct": 203.2,
+        "growthVsFy25Pct": 103.2,
+        "customerCount": 1
+      },
+      {
+        "country": "JAPAN",
+        "region": "ASIA PACIFIC",
+        "projected": 20000.0,
+        "dispatchPlusOpen": 89328.0,
+        "balance": -69328.0,
+        "ytdPct": 446.6,
+        "growthVsFy25Pct": 346.6,
+        "customerCount": 2
+      },
+      {
+        "country": "CZECH REPUBLIC",
+        "region": "WESTERN EUROPE",
+        "projected": 45438.25,
+        "dispatchPlusOpen": 189978.26,
+        "balance": -144540.01,
+        "ytdPct": 418.1,
+        "growthVsFy25Pct": 443.5,
+        "customerCount": 2
+      },
+      {
+        "country": "UNITED ARAB EMIRATES",
+        "region": "GULF COUNTRIES",
+        "projected": 2232213.6,
+        "dispatchPlusOpen": 2567566.56,
+        "balance": -335352.96,
+        "ytdPct": 115.0,
+        "growthVsFy25Pct": 36.8,
+        "customerCount": 5
+      }
+    ],
+    "atRiskByRegion": [
+      {
+        "region": "NORTH AMERICA",
+        "customer": "RITIKA\u2019S GLOBAL GRAINS LLC",
+        "salesman": "SUMER THAKKAR",
+        "balance": 2797864.97,
+        "ytdPct": 71.4
+      },
+      {
+        "region": "NORTH AMERICA",
+        "customer": "ITN FOOD CORPORATION",
+        "salesman": "MASUD SETHI",
+        "balance": 699653.77,
+        "ytdPct": 12.6
+      },
+      {
+        "region": "NORTH AMERICA",
+        "customer": "DILIP CERAMICS INC.",
+        "salesman": "SAVITA PATEL",
+        "balance": 653558.76,
+        "ytdPct": 87.7
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "customer": "ASIA EXPRESS FOOD",
+        "salesman": "SUMER THAKKAR",
+        "balance": 1727704.53,
+        "ytdPct": 36.3
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "customer": "KK FOOD TRADING COMPANY LTD.",
+        "salesman": "BIMAL THAKKAR",
+        "balance": 1054871.53,
+        "ytdPct": 33.2
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "customer": "WERNERS GOURMET SERVICE AB",
+        "salesman": "BIMAL THAKKAR",
+        "balance": 142713.5,
+        "ytdPct": 38.4
+      },
+      {
+        "region": "UNITED KINGDOM",
+        "customer": "PANESAR FOODS LIMITED",
+        "salesman": "BIMAL THAKKAR",
+        "balance": 553744.66,
+        "ytdPct": 27.3
+      },
+      {
+        "region": "UNITED KINGDOM",
+        "customer": "ADF FOODS UK LTD",
+        "salesman": "BHARAT SAREEN",
+        "balance": 350091.94,
+        "ytdPct": 57.6
+      },
+      {
+        "region": "UNITED KINGDOM",
+        "customer": "GLOBE FOODS UK LIMITED",
+        "salesman": "BHARAT SAREEN",
+        "balance": 330386.56,
+        "ytdPct": 47.4
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "customer": "MALA IMPEX T/A ROSHAN NAIDU ENTERPRISES",
+        "salesman": "PRAVIN NANKANI",
+        "balance": 513325.7,
+        "ytdPct": 59.0
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "customer": "MALABAR FOODS PTY LTD",
+        "salesman": "PRAVIN NANKANI",
+        "balance": 401337.09,
+        "ytdPct": 51.7
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "customer": "KAMALA OVERSEAS LIMITED",
+        "salesman": "PRAVIN NANKANI",
+        "balance": 382588.77,
+        "ytdPct": 100.0
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "customer": "PRIME TRADING CO. LLC",
+        "salesman": "PRAVIN NANKANI",
+        "balance": 220155.4,
+        "ytdPct": 61.5
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "customer": "AL-THAQEB TRADING COMPANY",
+        "salesman": "PRAVIN NANKANI",
+        "balance": 202946.86,
+        "ytdPct": 39.2
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "customer": "MAKKAH COLD STORE CO.LTD",
+        "salesman": "PRAVIN NANKANI",
+        "balance": 147859.8,
+        "ytdPct": 76.1
+      }
+    ],
     "atRiskCategories": [
       {
         "category": "EASI POUCH CURRIES",
@@ -466,64 +872,64 @@
     },
     "atRiskCustomerCategories": [
       {
-        "customer": "KK FOOD TRADING COMPANY LTD.",
-        "salesman": "BIMAL THAKKAR",
+        "customer": "ZYKA FOODS SOUTHWEST INC.",
+        "salesman": "CHHAYESH PATEL",
         "categories": [
           {
+            "category": "SAMOSA (FROZEN)",
+            "balance": 193094.2,
+            "ytdPct": 33.5
+          },
+          {
             "category": "NAAN (FROZEN)",
-            "balance": 433415.89,
-            "ytdPct": 49.3
+            "balance": 134551.31,
+            "ytdPct": 72.5
           },
           {
-            "category": "SAUCE",
-            "balance": 375405.03,
-            "ytdPct": 29.8
+            "category": "PARATHA (FROZEN)",
+            "balance": 83518.29,
+            "ytdPct": 86.7
           },
           {
-            "category": "CHUTNEY CONSUMER PACK",
-            "balance": 99835.62,
-            "ytdPct": 20.5
+            "category": "INDIAN VEGETABLE (FROZEN)",
+            "balance": 20441.78,
+            "ytdPct": 79.1
           },
           {
-            "category": "PASTES",
-            "balance": 50557.78,
-            "ytdPct": 24.7
-          },
-          {
-            "category": "PAPAD",
-            "balance": 40152.85,
-            "ytdPct": 31.9
+            "category": "INDIAN SWEET (FROZEN)",
+            "balance": 16311.28,
+            "ytdPct": 72.7
           }
         ]
       },
       {
-        "customer": "SANTOS AGENCY INC.",
-        "salesman": "NITESH BHAMBRI",
+        "customer": "DILIP CERAMICS INC.",
+        "salesman": "SAVITA PATEL",
         "categories": [
           {
             "category": "SAMOSA (FROZEN)",
-            "balance": 203267.19,
-            "ytdPct": 21.4
+            "balance": 432419.93,
+            "ytdPct": 89.8
           },
           {
             "category": "NAAN (FROZEN)",
-            "balance": 188460.84,
-            "ytdPct": 59.6
-          },
-          {
-            "category": "INDIAN SWEET (FROZEN)",
-            "balance": 77093.93,
-            "ytdPct": 97.9
-          },
-          {
-            "category": "PULP",
-            "balance": 28801.54,
-            "ytdPct": 95.4
+            "balance": 109716.29,
+            "ytdPct": 87.9
           },
           {
             "category": "PARATHA (FROZEN)",
-            "balance": 24443.21,
-            "ytdPct": 22.2
+            "balance": 47026.17,
+            "ytdPct": 85.3
+          },
+          {
+            "category": "EASI POUCH CURRIES",
+            "balance": 36985.63,
+            "ytdPct": 100.0
+          },
+          {
+            "category": "INDIAN SNACKS (FROZEN)",
+            "balance": 21895.37,
+            "ytdPct": 96.4
           }
         ]
       },
@@ -559,95 +965,33 @@
         ]
       },
       {
-        "customer": "ITN FOOD CORPORATION",
-        "salesman": "MASUD SETHI",
+        "customer": "KK FOOD TRADING COMPANY LTD.",
+        "salesman": "BIMAL THAKKAR",
         "categories": [
           {
-            "category": "EASI POUCH CURRIES",
-            "balance": 609925.23,
-            "ytdPct": 78.6
-          },
-          {
             "category": "NAAN (FROZEN)",
-            "balance": 404167.08,
-            "ytdPct": 23.6
+            "balance": 433415.89,
+            "ytdPct": 49.3
           },
           {
-            "category": "PARATHA (FROZEN)",
-            "balance": 190532.71,
-            "ytdPct": 13.1
+            "category": "SAUCE",
+            "balance": 375405.03,
+            "ytdPct": 29.8
           },
           {
-            "category": "PICKLES",
-            "balance": 97388.97,
-            "ytdPct": 69.6
+            "category": "CHUTNEY CONSUMER PACK",
+            "balance": 99835.62,
+            "ytdPct": 20.5
           },
           {
-            "category": "PULP",
-            "balance": 16292.0,
-            "ytdPct": 100.0
-          }
-        ]
-      },
-      {
-        "customer": "ZYKA FOODS SOUTHWEST INC.",
-        "salesman": "CHHAYESH PATEL",
-        "categories": [
-          {
-            "category": "SAMOSA (FROZEN)",
-            "balance": 193094.2,
-            "ytdPct": 33.5
+            "category": "PASTES",
+            "balance": 50557.78,
+            "ytdPct": 24.7
           },
           {
-            "category": "NAAN (FROZEN)",
-            "balance": 134551.31,
-            "ytdPct": 72.5
-          },
-          {
-            "category": "PARATHA (FROZEN)",
-            "balance": 83518.29,
-            "ytdPct": 86.7
-          },
-          {
-            "category": "INDIAN VEGETABLE (FROZEN)",
-            "balance": 20441.78,
-            "ytdPct": 79.1
-          },
-          {
-            "category": "INDIAN SWEET (FROZEN)",
-            "balance": 16311.28,
-            "ytdPct": 72.7
-          }
-        ]
-      },
-      {
-        "customer": "ASIA EXPRESS FOOD",
-        "salesman": "SUMER THAKKAR",
-        "categories": [
-          {
-            "category": "EASI POUCH CURRIES",
-            "balance": 418165.99,
-            "ytdPct": 48.0
-          },
-          {
-            "category": "PARATHA (FROZEN)",
-            "balance": 394037.24,
-            "ytdPct": 38.9
-          },
-          {
-            "category": "NAAN (FROZEN)",
-            "balance": 348997.06,
-            "ytdPct": 31.7
-          },
-          {
-            "category": "SAMOSA (FROZEN)",
-            "balance": 149601.14,
-            "ytdPct": 29.2
-          },
-          {
-            "category": "INDIAN VEGETABLE (FROZEN)",
-            "balance": 118537.32,
-            "ytdPct": 25.0
+            "category": "PAPAD",
+            "balance": 40152.85,
+            "ytdPct": 31.9
           }
         ]
       },
@@ -714,6 +1058,95 @@
         ]
       },
       {
+        "customer": "ASIA EXPRESS FOOD",
+        "salesman": "SUMER THAKKAR",
+        "categories": [
+          {
+            "category": "EASI POUCH CURRIES",
+            "balance": 418165.99,
+            "ytdPct": 48.0
+          },
+          {
+            "category": "PARATHA (FROZEN)",
+            "balance": 394037.24,
+            "ytdPct": 38.9
+          },
+          {
+            "category": "NAAN (FROZEN)",
+            "balance": 348997.06,
+            "ytdPct": 31.7
+          },
+          {
+            "category": "SAMOSA (FROZEN)",
+            "balance": 149601.14,
+            "ytdPct": 29.2
+          },
+          {
+            "category": "INDIAN VEGETABLE (FROZEN)",
+            "balance": 118537.32,
+            "ytdPct": 25.0
+          }
+        ]
+      },
+      {
+        "customer": "ITN FOOD CORPORATION",
+        "salesman": "MASUD SETHI",
+        "categories": [
+          {
+            "category": "EASI POUCH CURRIES",
+            "balance": 609925.23,
+            "ytdPct": 78.6
+          },
+          {
+            "category": "NAAN (FROZEN)",
+            "balance": 404167.08,
+            "ytdPct": 23.6
+          },
+          {
+            "category": "PARATHA (FROZEN)",
+            "balance": 190532.71,
+            "ytdPct": 13.1
+          },
+          {
+            "category": "PICKLES",
+            "balance": 97388.97,
+            "ytdPct": 69.6
+          },
+          {
+            "category": "PULP",
+            "balance": 16292.0,
+            "ytdPct": 100.0
+          }
+        ]
+      },
+      {
+        "customer": "PANESAR FOODS LIMITED",
+        "salesman": "BIMAL THAKKAR",
+        "categories": [
+          {
+            "category": "CHUTNEY BULK PACK",
+            "balance": 585275.26,
+            "ytdPct": 30.8
+          },
+          {
+            "category": "PICKLES",
+            "balance": -10215.0,
+            "ytdPct": -0.1
+          }
+        ]
+      },
+      {
+        "customer": "RITIKA\u2019S GLOBAL GRAINS LLC",
+        "salesman": "SUMER THAKKAR",
+        "categories": [
+          {
+            "category": "EASI POUCH CURRIES",
+            "balance": 2797864.97,
+            "ytdPct": 71.4
+          }
+        ]
+      },
+      {
         "customer": "JJR GLOBAL INC",
         "salesman": "CHHAYESH PATEL",
         "categories": [
@@ -745,60 +1178,33 @@
         ]
       },
       {
-        "customer": "PANESAR FOODS LIMITED",
-        "salesman": "BIMAL THAKKAR",
-        "categories": [
-          {
-            "category": "CHUTNEY BULK PACK",
-            "balance": 585275.26,
-            "ytdPct": 30.8
-          },
-          {
-            "category": "PICKLES",
-            "balance": -10215.0,
-            "ytdPct": -0.1
-          }
-        ]
-      },
-      {
-        "customer": "DILIP CERAMICS INC.",
-        "salesman": "SAVITA PATEL",
+        "customer": "SANTOS AGENCY INC.",
+        "salesman": "NITESH BHAMBRI",
         "categories": [
           {
             "category": "SAMOSA (FROZEN)",
-            "balance": 432419.93,
-            "ytdPct": 89.8
+            "balance": 203267.19,
+            "ytdPct": 21.4
           },
           {
             "category": "NAAN (FROZEN)",
-            "balance": 109716.29,
-            "ytdPct": 87.9
+            "balance": 188460.84,
+            "ytdPct": 59.6
+          },
+          {
+            "category": "INDIAN SWEET (FROZEN)",
+            "balance": 77093.93,
+            "ytdPct": 97.9
+          },
+          {
+            "category": "PULP",
+            "balance": 28801.54,
+            "ytdPct": 95.4
           },
           {
             "category": "PARATHA (FROZEN)",
-            "balance": 47026.17,
-            "ytdPct": 85.3
-          },
-          {
-            "category": "EASI POUCH CURRIES",
-            "balance": 36985.63,
-            "ytdPct": 100.0
-          },
-          {
-            "category": "INDIAN SNACKS (FROZEN)",
-            "balance": 21895.37,
-            "ytdPct": 96.4
-          }
-        ]
-      },
-      {
-        "customer": "RITIKA\u2019S GLOBAL GRAINS LLC",
-        "salesman": "SUMER THAKKAR",
-        "categories": [
-          {
-            "category": "EASI POUCH CURRIES",
-            "balance": 2797864.97,
-            "ytdPct": 71.4
+            "balance": 24443.21,
+            "ytdPct": 22.2
           }
         ]
       }
@@ -1115,6 +1521,58 @@
           "q4Balance": 1985.0,
           "q4BalanceQty": -5026.0
         }
+      ],
+      "topPFsByQ4Balance": [
+        {
+          "productFamily": "Basmati Rice Ready To Eat Cooked Rice",
+          "q4Balance": 924243.8,
+          "q4OpenOrder": 46362.6
+        },
+        {
+          "productFamily": "Organic White Rice Basmati Ready To Ea",
+          "q4Balance": 144948.54,
+          "q4OpenOrder": 52747.2
+        },
+        {
+          "productFamily": "Mango Chutney",
+          "q4Balance": 139459.28,
+          "q4OpenOrder": 80360.0
+        },
+        {
+          "productFamily": "Long Grain White Rice Ready To Eat Coo",
+          "q4Balance": 118342.11,
+          "q4OpenOrder": 0.0
+        },
+        {
+          "productFamily": "Whole Grain Brown Rice Ready To Eat Co",
+          "q4Balance": 114982.56,
+          "q4OpenOrder": 15542.1
+        },
+        {
+          "productFamily": "Veg Meal Kit Korma X 6 Tikka Masala X",
+          "q4Balance": 68505.0,
+          "q4OpenOrder": 93000.0
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "q4Balance": 68243.61,
+          "q4OpenOrder": 360693.88
+        },
+        {
+          "productFamily": "Kashmir Hot Mango Chutney",
+          "q4Balance": 59871.74,
+          "q4OpenOrder": 18385.0
+        },
+        {
+          "productFamily": "Madras Curry Powder",
+          "q4Balance": 45452.79,
+          "q4OpenOrder": 104827.94
+        },
+        {
+          "productFamily": "Mango Chutney Original",
+          "q4Balance": 44598.72,
+          "q4OpenOrder": 89856.0
+        }
       ]
     },
     "zeroQ4DispatchSkus": [
@@ -1168,6 +1626,200 @@
         "itemName": "MANGO CHUTNEY SAUCE KASHMIR HOT 1000 KGS.",
         "balance": 67173.13
       }
+    ],
+    "atRiskProductFamilies": [
+      {
+        "productFamily": "Jumbo Punjabi Samosa",
+        "projected": 10606742.0,
+        "balance": 8543698.85,
+        "ytdPct": 19.5
+      },
+      {
+        "productFamily": "Tandoori Naan Plain",
+        "projected": 4371862.44,
+        "balance": 2810164.21,
+        "ytdPct": 35.7
+      },
+      {
+        "productFamily": "Tandoori Naan Garlic",
+        "projected": 2475642.61,
+        "balance": 1878940.57,
+        "ytdPct": 24.1
+      },
+      {
+        "productFamily": "Punjabi Samosa Without Garlic & Onion",
+        "projected": 1516671.92,
+        "balance": 1612351.72,
+        "ytdPct": -6.3
+      },
+      {
+        "productFamily": "Mango Chutney",
+        "projected": 2439527.5,
+        "balance": 1549270.55,
+        "ytdPct": 36.5
+      },
+      {
+        "productFamily": "Aloo Paratha",
+        "projected": 1241725.12,
+        "balance": 1250949.24,
+        "ytdPct": -0.7
+      },
+      {
+        "productFamily": "Tamarind",
+        "projected": 514969.16,
+        "balance": 1129777.9,
+        "ytdPct": -119.4
+      },
+      {
+        "productFamily": "Mango Chutney Original",
+        "projected": 1112397.6,
+        "balance": 1067005.52,
+        "ytdPct": 4.1
+      },
+      {
+        "productFamily": "Mango Slice Pickle In Mustard & Vinega",
+        "projected": 1130548.21,
+        "balance": 954211.9,
+        "ytdPct": 15.6
+      },
+      {
+        "productFamily": "Veg Meal Kit Korma X 6 Tikka Masala X",
+        "projected": 1435275.0,
+        "balance": 811200.0,
+        "ytdPct": 43.5
+      },
+      {
+        "productFamily": "Butter Chicken Sauce",
+        "projected": 985807.68,
+        "balance": 643178.78,
+        "ytdPct": 34.8
+      },
+      {
+        "productFamily": "Okra Cut Bhindi Cut",
+        "projected": 574407.83,
+        "balance": 585687.98,
+        "ytdPct": -2.0
+      },
+      {
+        "productFamily": "Curry Powder",
+        "projected": 495075.0,
+        "balance": 578407.5,
+        "ytdPct": -16.8
+      },
+      {
+        "productFamily": "Madras Curry Powder",
+        "projected": 869745.98,
+        "balance": 544040.8,
+        "ytdPct": 37.4
+      },
+      {
+        "productFamily": "Mixed Pickle In Oil",
+        "projected": 734370.91,
+        "balance": 541832.88,
+        "ytdPct": 26.2
+      }
+    ],
+    "pfMix": [
+      {
+        "productFamily": "Jumbo Punjabi Samosa",
+        "projected": 10606742.0,
+        "pctOfTotal": 16.8
+      },
+      {
+        "productFamily": "Tandoori Naan Plain",
+        "projected": 4371862.44,
+        "pctOfTotal": 6.9
+      },
+      {
+        "productFamily": "Basmati Rice Ready To Eat Cooked Rice",
+        "projected": 2694286.31,
+        "pctOfTotal": 4.3
+      },
+      {
+        "productFamily": "Tandoori Naan Garlic",
+        "projected": 2475642.61,
+        "pctOfTotal": 3.9
+      },
+      {
+        "productFamily": "Mango Chutney",
+        "projected": 2439527.5,
+        "pctOfTotal": 3.9
+      },
+      {
+        "productFamily": "Punjabi Samosa Without Garlic & Onion",
+        "projected": 1516671.92,
+        "pctOfTotal": 2.4
+      },
+      {
+        "productFamily": "Veg Meal Kit Korma X 6 Tikka Masala X",
+        "projected": 1435275.0,
+        "pctOfTotal": 2.3
+      },
+      {
+        "productFamily": "Aloo Paratha",
+        "projected": 1241725.12,
+        "pctOfTotal": 2.0
+      },
+      {
+        "productFamily": "Mango Slice Pickle In Mustard & Vinega",
+        "projected": 1130548.21,
+        "pctOfTotal": 1.8
+      },
+      {
+        "productFamily": "Mango Chutney Original",
+        "projected": 1112397.6,
+        "pctOfTotal": 1.8
+      },
+      {
+        "productFamily": "Butter Chicken Sauce",
+        "projected": 985807.68,
+        "pctOfTotal": 1.6
+      },
+      {
+        "productFamily": "Asli Paratha Triangular",
+        "projected": 913855.97,
+        "pctOfTotal": 1.5
+      },
+      {
+        "productFamily": "Madras Curry Powder",
+        "projected": 869745.98,
+        "pctOfTotal": 1.4
+      },
+      {
+        "productFamily": "Mango Slice Pickle In Oil",
+        "projected": 737706.17,
+        "pctOfTotal": 1.2
+      },
+      {
+        "productFamily": "Mixed Pickle In Oil",
+        "projected": 734370.91,
+        "pctOfTotal": 1.2
+      },
+      {
+        "productFamily": "Mango Pickle In Oil",
+        "projected": 658651.78,
+        "pctOfTotal": 1.0
+      },
+      {
+        "productFamily": "Punjabi Samosa With Green And Khatti M",
+        "projected": 604792.34,
+        "pctOfTotal": 1.0
+      },
+      {
+        "productFamily": "Okra Cut Bhindi Cut",
+        "projected": 574407.83,
+        "pctOfTotal": 0.9
+      },
+      {
+        "productFamily": "Organic White Rice Basmati Ready To Ea",
+        "projected": 547934.05,
+        "pctOfTotal": 0.9
+      },
+      {
+        "productFamily": "Tamarind",
+        "projected": 514969.16,
+        "pctOfTotal": 0.8
+      }
     ]
   },
   "salesperson": {
@@ -1220,6 +1872,91 @@
       "zeroQ4Dispatch": [],
       "q4PipelineCoverage": 1.36,
       "customerCount": 9,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 4771372.35,
+          "balance": 2445362.96,
+          "ytdPct": 48.7,
+          "customerCount": 5
+        },
+        {
+          "region": "WESTERN EUROPE",
+          "projected": 4762562.27,
+          "balance": 1451643.03,
+          "ytdPct": 69.5,
+          "customerCount": 2
+        },
+        {
+          "region": "UNITED KINGDOM",
+          "projected": 1217654.16,
+          "balance": 539553.65,
+          "ytdPct": 55.7,
+          "customerCount": 2
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Basmati Rice Ready To Eat Cooked Rice",
+          "projected": 2694286.31,
+          "balance": 451971.72,
+          "ytdPct": 83.2
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 562993.64,
+          "balance": 391773.91,
+          "ytdPct": 30.4
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 512790.31,
+          "balance": 345031.32,
+          "ytdPct": 32.7
+        },
+        {
+          "productFamily": "Punjabi Samosa With Green And Khatti M",
+          "projected": 252526.85,
+          "balance": 208766.86,
+          "ytdPct": 17.3
+        },
+        {
+          "productFamily": "Toovar Lilva",
+          "projected": 82600.0,
+          "balance": 197796.0,
+          "ytdPct": -139.5
+        },
+        {
+          "productFamily": "Tamarind Kurripulli Tamarind",
+          "projected": 169998.38,
+          "balance": 189600.0,
+          "ytdPct": -11.5
+        },
+        {
+          "productFamily": "Okra Cut Bhindi Popular Vegetable",
+          "projected": 247392.99,
+          "balance": 180308.52,
+          "ytdPct": 27.1
+        },
+        {
+          "productFamily": "Tamarind",
+          "projected": 197651.6,
+          "balance": 178200.0,
+          "ytdPct": 9.8
+        },
+        {
+          "productFamily": "Mixed Pickle In Oil",
+          "projected": 174249.6,
+          "balance": 120731.07,
+          "ytdPct": 30.7
+        },
+        {
+          "productFamily": "Shredded Coconut",
+          "projected": 44800.0,
+          "balance": 117206.97,
+          "ytdPct": -161.6
+        }
+      ],
       "myCategories": [
         {
           "category": "EASI POUCH CURRIES",
@@ -1713,6 +2450,105 @@
       ],
       "q4PipelineCoverage": 0.77,
       "customerCount": 19,
+      "myRegions": [
+        {
+          "region": "WESTERN EUROPE",
+          "projected": 4955064.84,
+          "balance": 1118799.71,
+          "ytdPct": 77.4,
+          "customerCount": 6
+        },
+        {
+          "region": "UNITED KINGDOM",
+          "projected": 5892508.22,
+          "balance": 732105.88,
+          "ytdPct": 87.6,
+          "customerCount": 6
+        },
+        {
+          "region": "ASIA PACIFIC",
+          "projected": 20000.0,
+          "balance": 20000.0,
+          "ytdPct": 0.0,
+          "customerCount": 1
+        },
+        {
+          "region": "GULF COUNTRIES",
+          "projected": 1103982.0,
+          "balance": -57028.0,
+          "ytdPct": 105.2,
+          "customerCount": 2
+        },
+        {
+          "region": "NORTH AMERICA",
+          "projected": 3059102.88,
+          "balance": -119777.16,
+          "ytdPct": 103.9,
+          "customerCount": 4
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Mango Chutney",
+          "projected": 2439527.5,
+          "balance": 1549270.55,
+          "ytdPct": 36.5
+        },
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 1133170.5,
+          "balance": 1191849.05,
+          "ytdPct": -5.2
+        },
+        {
+          "productFamily": "Mango Chutney Original",
+          "projected": 1112397.6,
+          "balance": 1067005.52,
+          "ytdPct": 4.1
+        },
+        {
+          "productFamily": "Mango Slice Pickle In Mustard & Vinega",
+          "projected": 983400.0,
+          "balance": 848880.0,
+          "ytdPct": 13.7
+        },
+        {
+          "productFamily": "Veg Meal Kit Korma X 6 Tikka Masala X",
+          "projected": 1435275.0,
+          "balance": 811200.0,
+          "ytdPct": 43.5
+        },
+        {
+          "productFamily": "Butter Chicken Sauce",
+          "projected": 938841.14,
+          "balance": 633141.87,
+          "ytdPct": 32.6
+        },
+        {
+          "productFamily": "Curry Powder",
+          "projected": 495075.0,
+          "balance": 578407.5,
+          "ytdPct": -16.8
+        },
+        {
+          "productFamily": "Tandoori Plain Naan",
+          "projected": 492288.15,
+          "balance": 439871.19,
+          "ytdPct": 10.6
+        },
+        {
+          "productFamily": "Garlic Butter Naan",
+          "projected": 490041.94,
+          "balance": 418982.78,
+          "ytdPct": 14.5
+        },
+        {
+          "productFamily": "Butter Chickpeas & Veggies",
+          "projected": 129250.0,
+          "balance": 233439.0,
+          "ytdPct": -80.6
+        }
+      ],
       "myCategories": [
         {
           "category": "CHUTNEY BULK PACK",
@@ -2205,6 +3041,77 @@
       ],
       "q4PipelineCoverage": 1.58,
       "customerCount": 5,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 6437248.19,
+          "balance": 546147.48,
+          "ytdPct": 91.5,
+          "customerCount": 5
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 1288717.94,
+          "balance": 1020990.89,
+          "ytdPct": 20.8
+        },
+        {
+          "productFamily": "Aloo Paratha",
+          "projected": 405388.09,
+          "balance": 354339.22,
+          "ytdPct": 12.6
+        },
+        {
+          "productFamily": "Okra Cut Bhindi Cut",
+          "projected": 265952.29,
+          "balance": 327698.33,
+          "ytdPct": -23.2
+        },
+        {
+          "productFamily": "Coconut Shreds",
+          "projected": 257679.84,
+          "balance": 287030.54,
+          "ytdPct": -11.4
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 472933.04,
+          "balance": 285653.29,
+          "ytdPct": 39.6
+        },
+        {
+          "productFamily": "Paneer Paratha",
+          "projected": 228022.05,
+          "balance": 255939.99,
+          "ytdPct": -12.2
+        },
+        {
+          "productFamily": "Asli Paratha Triangular",
+          "projected": 473095.54,
+          "balance": 229804.91,
+          "ytdPct": 51.4
+        },
+        {
+          "productFamily": "Punjabi Samosa Without Garlic & Onion",
+          "projected": 27718.74,
+          "balance": 137906.25,
+          "ytdPct": -397.5
+        },
+        {
+          "productFamily": "Veg Hakka Noodles",
+          "projected": 9222.5,
+          "balance": 128181.02,
+          "ytdPct": -1289.9
+        },
+        {
+          "productFamily": "Matar Paneer Kathi Roll",
+          "projected": 87288.34,
+          "balance": 111191.03,
+          "ytdPct": -27.4
+        }
+      ],
       "myCategories": [
         {
           "category": "EASI POUCH CURRIES",
@@ -2688,6 +3595,77 @@
       ],
       "q4PipelineCoverage": 0.96,
       "customerCount": 7,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 5100308.96,
+          "balance": 713363.14,
+          "ytdPct": 86.0,
+          "customerCount": 7
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 2992640.48,
+          "balance": 2257684.01,
+          "ytdPct": 24.6
+        },
+        {
+          "productFamily": "Punjabi Samosa Without Garlic & Onion",
+          "projected": 592239.11,
+          "balance": 430694.12,
+          "ytdPct": 27.3
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 466658.42,
+          "balance": 310700.7,
+          "ytdPct": 33.4
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 217741.81,
+          "balance": 147274.24,
+          "ytdPct": 32.4
+        },
+        {
+          "productFamily": "Mega Punjabi Samosa Restaurant Style",
+          "projected": 58814.9,
+          "balance": 64668.6,
+          "ytdPct": -10.0
+        },
+        {
+          "productFamily": "Coconut Shreds",
+          "projected": 696.67,
+          "balance": 57169.02,
+          "ytdPct": -8106.0
+        },
+        {
+          "productFamily": "Kesar Mango Pulp",
+          "projected": 4924.65,
+          "balance": 44983.23,
+          "ytdPct": -813.4
+        },
+        {
+          "productFamily": "Toovar Lilva",
+          "projected": 7881.99,
+          "balance": 41031.37,
+          "ytdPct": -420.6
+        },
+        {
+          "productFamily": "Punjabi Samosa With Green And Khatti M",
+          "projected": 44029.85,
+          "balance": 36293.54,
+          "ytdPct": 17.6
+        },
+        {
+          "productFamily": "Jalapeno Cheese Samosa With Green Chut",
+          "projected": 8334.5,
+          "balance": 36179.86,
+          "ytdPct": -334.1
+        }
+      ],
       "myCategories": [
         {
           "category": "SAMOSA (FROZEN)",
@@ -3162,6 +4140,77 @@
       "zeroQ4Dispatch": [],
       "q4PipelineCoverage": 0.86,
       "customerCount": 4,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 3240607.1,
+          "balance": 492717.66,
+          "ytdPct": 84.8,
+          "customerCount": 4
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 1338724.78,
+          "balance": 1144273.74,
+          "ytdPct": 14.5
+        },
+        {
+          "productFamily": "Punjabi Samosa Without Garlic & Onion",
+          "projected": 219572.98,
+          "balance": 161450.87,
+          "ytdPct": 26.5
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 515215.45,
+          "balance": 154539.56,
+          "ytdPct": 70.0
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 145108.91,
+          "balance": 95244.83,
+          "ytdPct": 34.4
+        },
+        {
+          "productFamily": "Toovar Lilva",
+          "projected": 9420.26,
+          "balance": 78221.34,
+          "ytdPct": -730.4
+        },
+        {
+          "productFamily": "Malai Paneer Cubes",
+          "projected": 10633.4,
+          "balance": 48211.03,
+          "ytdPct": -353.4
+        },
+        {
+          "productFamily": "Pastry Puff Sheet X 10 Sheets",
+          "projected": 51395.79,
+          "balance": 37003.76,
+          "ytdPct": 28.0
+        },
+        {
+          "productFamily": "Indian Green Peas",
+          "projected": 16394.01,
+          "balance": 32937.13,
+          "ytdPct": -100.9
+        },
+        {
+          "productFamily": "Asli Paratha Triangular",
+          "projected": 74227.46,
+          "balance": 31825.45,
+          "ytdPct": 57.1
+        },
+        {
+          "productFamily": "Punjabi Samosa With Green And Khatti M",
+          "projected": 56618.77,
+          "balance": 30862.98,
+          "ytdPct": 45.5
+        }
+      ],
       "myCategories": [
         {
           "category": "NAAN (FROZEN)",
@@ -3644,6 +4693,91 @@
       ],
       "q4PipelineCoverage": 0.67,
       "customerCount": 39,
+      "myRegions": [
+        {
+          "region": "ASIA PACIFIC",
+          "projected": 4618992.37,
+          "balance": 1512047.26,
+          "ytdPct": 67.3,
+          "customerCount": 20
+        },
+        {
+          "region": "GULF COUNTRIES",
+          "projected": 5818428.56,
+          "balance": 873808.83,
+          "ytdPct": 85.0,
+          "customerCount": 18
+        },
+        {
+          "region": "NORTH AMERICA",
+          "projected": 26836.89,
+          "balance": 26836.89,
+          "ytdPct": 0.0,
+          "customerCount": 1
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Aloo Paratha",
+          "projected": 566880.02,
+          "balance": 691735.45,
+          "ytdPct": -22.0
+        },
+        {
+          "productFamily": "Mango Slice Pickle In Oil",
+          "projected": 737706.17,
+          "balance": 498318.49,
+          "ytdPct": 32.5
+        },
+        {
+          "productFamily": "Madras Curry Powder",
+          "projected": 847483.81,
+          "balance": 455971.55,
+          "ytdPct": 46.2
+        },
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 705127.52,
+          "balance": 302672.25,
+          "ytdPct": 57.1
+        },
+        {
+          "productFamily": "Mixed Pickle In Oil",
+          "projected": 371509.64,
+          "balance": 279944.9,
+          "ytdPct": 24.6
+        },
+        {
+          "productFamily": "Mango Pickle In Oil",
+          "projected": 364831.2,
+          "balance": 267539.01,
+          "ytdPct": 26.7
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 244355.84,
+          "balance": 263229.52,
+          "ytdPct": -7.7
+        },
+        {
+          "productFamily": "Ginger Garlic Paste",
+          "projected": 220598.55,
+          "balance": 233633.63,
+          "ytdPct": -5.9
+        },
+        {
+          "productFamily": "Plain Paratha",
+          "projected": 234372.64,
+          "balance": 217493.63,
+          "ytdPct": 7.2
+        },
+        {
+          "productFamily": "Malai Paneer Cubes",
+          "projected": 230740.78,
+          "balance": 198831.7,
+          "ytdPct": 13.8
+        }
+      ],
       "myCategories": [
         {
           "category": "PICKLES",
@@ -4123,6 +5257,77 @@
       "zeroQ4Dispatch": [],
       "q4PipelineCoverage": 1.1,
       "customerCount": 7,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 4931292.04,
+          "balance": 372564.98,
+          "ytdPct": 92.4,
+          "customerCount": 7
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 2341955.02,
+          "balance": 1975403.28,
+          "ytdPct": 15.7
+        },
+        {
+          "productFamily": "Punjabi Samosa Without Garlic & Onion",
+          "projected": 262997.42,
+          "balance": 356881.42,
+          "ytdPct": -35.7
+        },
+        {
+          "productFamily": "Mega Punjabi Samosa Restaurant Style",
+          "projected": 322513.01,
+          "balance": 338484.58,
+          "ytdPct": -5.0
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 316148.01,
+          "balance": 219873.82,
+          "ytdPct": 30.5
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 332415.65,
+          "balance": 213177.69,
+          "ytdPct": 35.9
+        },
+        {
+          "productFamily": "Paneer Pakora",
+          "projected": 51518.35,
+          "balance": 112051.27,
+          "ytdPct": -117.5
+        },
+        {
+          "productFamily": "Jumbo Aloo Tikki With Chutney",
+          "projected": 59282.6,
+          "balance": 63723.61,
+          "ytdPct": -7.5
+        },
+        {
+          "productFamily": "Asli Paratha Triangular",
+          "projected": 105053.64,
+          "balance": 54471.05,
+          "ytdPct": 48.1
+        },
+        {
+          "productFamily": "Kesar Mango Pulp",
+          "projected": 84391.69,
+          "balance": 48007.99,
+          "ytdPct": 43.1
+        },
+        {
+          "productFamily": "Malabari Paratha 10 + Free",
+          "projected": 37186.13,
+          "balance": 40585.61,
+          "ytdPct": -9.1
+        }
+      ],
       "myCategories": [
         {
           "category": "SAMOSA (FROZEN)",
@@ -4606,6 +5811,84 @@
       "zeroQ4Dispatch": [],
       "q4PipelineCoverage": 4.3,
       "customerCount": 4,
+      "myRegions": [
+        {
+          "region": "UNITED KINGDOM",
+          "projected": 1304161.92,
+          "balance": 584154.35,
+          "ytdPct": 55.2,
+          "customerCount": 3
+        },
+        {
+          "region": "WESTERN EUROPE",
+          "projected": 76067.0,
+          "balance": 7810.24,
+          "ytdPct": 89.7,
+          "customerCount": 1
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Mixed Pickle In Oil",
+          "projected": 63461.27,
+          "balance": 56189.12,
+          "ytdPct": 11.5
+        },
+        {
+          "productFamily": "Mango Pickle In Oil",
+          "projected": 52510.45,
+          "balance": 41082.29,
+          "ytdPct": 21.8
+        },
+        {
+          "productFamily": "Soya Chaap In Brine",
+          "projected": 42041.77,
+          "balance": 23546.38,
+          "ytdPct": 44.0
+        },
+        {
+          "productFamily": "Dal Tadka",
+          "projected": 24621.08,
+          "balance": 15620.33,
+          "ytdPct": 36.6
+        },
+        {
+          "productFamily": "Veg Hakka Noodles",
+          "projected": 4307.24,
+          "balance": 15142.33,
+          "ytdPct": -251.6
+        },
+        {
+          "productFamily": "Delhi Dal Makhani",
+          "projected": 45691.26,
+          "balance": 14452.8,
+          "ytdPct": 68.4
+        },
+        {
+          "productFamily": "Lime Pickle In Oil",
+          "projected": 23771.85,
+          "balance": 14089.05,
+          "ytdPct": 40.7
+        },
+        {
+          "productFamily": "Chilli Pickle In Oil",
+          "projected": 16701.85,
+          "balance": 13770.89,
+          "ytdPct": 17.5
+        },
+        {
+          "productFamily": "Bombay Pav Bhaji",
+          "projected": 21123.14,
+          "balance": 13383.19,
+          "ytdPct": 36.6
+        },
+        {
+          "productFamily": "Mango Slice Pickle In Mustard & Vinega",
+          "projected": 23140.06,
+          "balance": 12918.32,
+          "ytdPct": 44.2
+        }
+      ],
       "myCategories": [
         {
           "category": "EASI POUCH CURRIES",
@@ -5088,6 +6371,84 @@
       ],
       "q4PipelineCoverage": 13.12,
       "customerCount": 12,
+      "myRegions": [
+        {
+          "region": "WESTERN EUROPE",
+          "projected": 853924.05,
+          "balance": 102471.2,
+          "ytdPct": 88.0,
+          "customerCount": 9
+        },
+        {
+          "region": "UNITED KINGDOM",
+          "projected": 249940.72,
+          "balance": 57449.71,
+          "ytdPct": 77.0,
+          "customerCount": 3
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Mango Slice Pickle In Mustard & Vinega",
+          "projected": 109868.4,
+          "balance": 84319.39,
+          "ytdPct": 23.3
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 91134.64,
+          "balance": 60739.1,
+          "ytdPct": 33.4
+        },
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 45775.42,
+          "balance": 50756.27,
+          "ytdPct": -10.9
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 87611.2,
+          "balance": 41770.24,
+          "ytdPct": 52.3
+        },
+        {
+          "productFamily": "Punjabi Samosa With Green And Khatti M",
+          "projected": 47496.52,
+          "balance": 37945.3,
+          "ytdPct": 20.1
+        },
+        {
+          "productFamily": "Coconut Shreds Super",
+          "projected": 26585.82,
+          "balance": 30620.55,
+          "ytdPct": -15.2
+        },
+        {
+          "productFamily": "Mango Sweet Chutney",
+          "projected": 34004.66,
+          "balance": 28600.0,
+          "ytdPct": 15.9
+        },
+        {
+          "productFamily": "Okra Cut Bhindi Popular Vegetable",
+          "projected": 19945.0,
+          "balance": 28465.12,
+          "ytdPct": -42.7
+        },
+        {
+          "productFamily": "Malabari Paratha",
+          "projected": 32445.9,
+          "balance": 24340.65,
+          "ytdPct": 25.0
+        },
+        {
+          "productFamily": "Mango Pickle In Oil",
+          "projected": 24064.01,
+          "balance": 21591.54,
+          "ytdPct": 10.3
+        }
+      ],
       "myCategories": [
         {
           "category": "NAAN (FROZEN)",
@@ -5528,6 +6889,77 @@
       ],
       "q4PipelineCoverage": 1.96,
       "customerCount": 2,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 1122170.55,
+          "balance": -362010.56,
+          "ytdPct": 132.3,
+          "customerCount": 2
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 197873.81,
+          "balance": 377878.66,
+          "ytdPct": -91.0
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 210703.12,
+          "balance": 122928.31,
+          "ytdPct": 41.7
+        },
+        {
+          "productFamily": "Kesar Mango Pulp",
+          "projected": 110693.37,
+          "balance": 35556.5,
+          "ytdPct": 67.9
+        },
+        {
+          "productFamily": "Ginger Garlic Paste",
+          "projected": 2545.01,
+          "balance": 33729.53,
+          "ytdPct": -1225.3
+        },
+        {
+          "productFamily": "Spiced Lentil & Bean Chili Dal Makhani",
+          "projected": 38470.76,
+          "balance": 28070.2,
+          "ytdPct": 27.0
+        },
+        {
+          "productFamily": "Coriander Chutney",
+          "projected": 122.71,
+          "balance": 24902.98,
+          "ytdPct": -20194.7
+        },
+        {
+          "productFamily": "Sweet Mango Chutney",
+          "projected": 612.68,
+          "balance": 21422.95,
+          "ytdPct": -3396.6
+        },
+        {
+          "productFamily": "Date & Tamrind Chutney",
+          "projected": 122.71,
+          "balance": 20711.63,
+          "ytdPct": -16779.0
+        },
+        {
+          "productFamily": "Punjabi Chole",
+          "projected": 2993.99,
+          "balance": 19612.03,
+          "ytdPct": -555.0
+        },
+        {
+          "productFamily": "Curried Chickpeas Chana Masala",
+          "projected": 39765.73,
+          "balance": 19578.54,
+          "ytdPct": 50.8
+        }
+      ],
       "myCategories": [
         {
           "category": "SAUCE",
@@ -5842,6 +7274,77 @@
       "zeroQ4Dispatch": [],
       "q4PipelineCoverage": 0,
       "customerCount": 3,
+      "myRegions": [
+        {
+          "region": "NORTH AMERICA",
+          "projected": 3418224.0,
+          "balance": -1429398.63,
+          "ytdPct": 141.8,
+          "customerCount": 3
+        }
+      ],
+      "myProductFamilies": [
+        {
+          "productFamily": "Jumbo Punjabi Samosa",
+          "projected": 2020710.84,
+          "balance": 1549878.19,
+          "ytdPct": 23.3
+        },
+        {
+          "productFamily": "Tamarind",
+          "projected": 121532.27,
+          "balance": 666684.83,
+          "ytdPct": -448.6
+        },
+        {
+          "productFamily": "Punjabi Samosa Without Garlic & Onion",
+          "projected": 397606.08,
+          "balance": 477574.7,
+          "ytdPct": -20.1
+        },
+        {
+          "productFamily": "Kesar Mango Pulp",
+          "projected": 15739.88,
+          "balance": 167421.18,
+          "ytdPct": -963.7
+        },
+        {
+          "productFamily": "Grated Coconut",
+          "projected": 11310.05,
+          "balance": 116961.14,
+          "ytdPct": -934.1
+        },
+        {
+          "productFamily": "Tamarind Concentrate",
+          "projected": 3983.85,
+          "balance": 111263.2,
+          "ytdPct": -2692.9
+        },
+        {
+          "productFamily": "Tandoori Naan Plain",
+          "projected": 104177.75,
+          "balance": 106693.94,
+          "ytdPct": -2.4
+        },
+        {
+          "productFamily": "Coconut Shreds",
+          "projected": 8920.33,
+          "balance": 99466.06,
+          "ytdPct": -1015.0
+        },
+        {
+          "productFamily": "Mega Punjabi Samosa Restaurant Style",
+          "projected": 20171.15,
+          "balance": 56802.49,
+          "ytdPct": -181.6
+        },
+        {
+          "productFamily": "Tandoori Naan Garlic",
+          "projected": 110567.13,
+          "balance": 51907.78,
+          "ytdPct": 53.1
+        }
+      ],
       "myCategories": [
         {
           "category": "SAMOSA (FROZEN)",
@@ -6226,6 +7729,8 @@
       "zeroQ4Dispatch": [],
       "q4PipelineCoverage": 0,
       "customerCount": 1,
+      "myRegions": [],
+      "myProductFamilies": [],
       "myCategories": [],
       "mySkus": [],
       "myTopSkusToChase": [
