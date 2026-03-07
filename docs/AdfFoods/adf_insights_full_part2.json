@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-07T16:25:48",
+  "lastUpdated": "2026-03-07T22:21:37",
   "source": "ADF_Foods_Strategic_Sales_Analysis_V2_ProductFamily_USD.xlsx",
   "ceo": {
     "revenuePerformance": [
@@ -3703,5 +3703,1979 @@
         "rating": "🟢 EXCEEDING"
       }
     ]
-  }
+  },
+  "strategicActionPlan": [
+    {
+      "role": "CEO AGENDA",
+      "action": ""
+    },
+    {
+      "role": "Initiative",
+      "action": "Timeline"
+    },
+    {
+      "role": "SKU Rationalization",
+      "action": "0-3 Mo"
+    },
+    {
+      "role": "NPD Gate",
+      "action": "0-2 Mo"
+    },
+    {
+      "role": "PF Planning",
+      "action": "1-3 Mo"
+    },
+    {
+      "role": "CFO AGENDA",
+      "action": ""
+    },
+    {
+      "role": "Initiative",
+      "action": "Timeline"
+    },
+    {
+      "role": "Price Recovery",
+      "action": "0-6 Mo"
+    },
+    {
+      "role": "Chutney Investigation",
+      "action": "0-2 Mo"
+    },
+    {
+      "role": "GBP Hedging",
+      "action": "0-3 Mo"
+    },
+    {
+      "role": "COO AGENDA",
+      "action": ""
+    },
+    {
+      "role": "Initiative",
+      "action": "Timeline"
+    },
+    {
+      "role": "Frozen Optimization",
+      "action": "0-3 Mo"
+    },
+    {
+      "role": "Naan Consolidation",
+      "action": "0-1 Mo"
+    },
+    {
+      "role": "Growth Lines",
+      "action": "1-6 Mo"
+    },
+    {
+      "role": "🔍 IMPLEMENTATION FRAMEWORK — FOR CEO OFFICE",
+      "action": ""
+    },
+    {
+      "role": "📊",
+      "action": "PRIORITIZATION: IMPACT × URGENCY: P1 initiatives (red) affect >$500K revenue or risk. Must start within 2 weeks. P2 (yellow) = structural improvements with 60-day runway. P3 (green) = strategic investments with 6-month payback."
+    },
+    {
+      "role": "💡",
+      "action": "GOVERNANCE: WEEKLY TRACKING: Each P1 action needs a named owner, weekly status update, and 30-day outcome milestone. Without this, action plans become PowerPoint artifacts. Use this sheet as a live tracker."
+    },
+    {
+      "role": "📊",
+      "action": "ESTIMATED TOTAL IMPACT: $3-5M in combined revenue protection + recovery: Chutney win-back ($1.38M), pricing recovery ($500K), SKU savings ($800K-1.2M), customer retention ($1-2M). Payback: within FY27."
+    }
+  ],
+  "brandCategoryMatrix": [
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col1",
+      "cyRevenue": 213247.82
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col2",
+      "cyRevenue": 384126.55
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col3",
+      "cyRevenue": 137055.27
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col6",
+      "cyRevenue": 12393.74
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col7",
+      "cyRevenue": 19227.6
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col8",
+      "cyRevenue": 158933.0
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col9",
+      "cyRevenue": 33410.66
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col12",
+      "cyRevenue": 143723.17
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col13",
+      "cyRevenue": 427269.56
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col14",
+      "cyRevenue": 18871.64
+    },
+    {
+      "brand": "TRULY INDIAN",
+      "category": "Col16",
+      "cyRevenue": 1548259.01
+    },
+    {
+      "brand": "SANTA MARIA",
+      "category": "Col8",
+      "cyRevenue": 998594.4
+    },
+    {
+      "brand": "SANTA MARIA",
+      "category": "Col16",
+      "cyRevenue": 998594.4
+    },
+    {
+      "brand": "EARTH GROWN’s",
+      "category": "Col3",
+      "cyRevenue": 676350.0
+    },
+    {
+      "brand": "EARTH GROWN’s",
+      "category": "Col16",
+      "cyRevenue": 676350.0
+    },
+    {
+      "brand": "KROGER JASMINE",
+      "category": "Col3",
+      "cyRevenue": 210240.0
+    },
+    {
+      "brand": "KROGER JASMINE",
+      "category": "Col16",
+      "cyRevenue": 210240.0
+    }
+  ],
+  "skuGrowthTracker": {
+    "items": [
+      {
+        "itemCode": "Rank",
+        "itemName": "Item Code",
+        "category": "Item Name",
+        "productFamily": "Product Family",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "1",
+        "itemName": "FGISAS0077",
+        "category": "JUMBO PUNJABI SAMOSA 6 X 1875 GMS (25",
+        "productFamily": "Jumbo Punjabi Samosa",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "2",
+        "itemName": "FGCHUB0009",
+        "category": "5933 MANGO CHUTNEY BASE 290 KGS",
+        "productFamily": "Mango Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "3",
+        "itemName": "FGISAS0013",
+        "category": "PUNJABI SAMOSA (WITHOUT GARLIC & ONION",
+        "productFamily": "Punjabi Samosa Without Garlic &",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "4",
+        "itemName": "FGIPAS0046",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 8 X 127",
+        "productFamily": "Tandoori Naan Plain",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "5",
+        "itemName": "FGISLX0002",
+        "category": "LFPS1 - JUMBO PUNJABI SAMOSA (VALUE PA",
+        "productFamily": "Jumbo Punjabi Samosa",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "6",
+        "itemName": "FGCHST0001",
+        "category": "3406 - MANGO CHUTNEY ORIGINAL 6 X 350",
+        "productFamily": "Mango Chutney Original",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "7",
+        "itemName": "FGPKCM0029",
+        "category": "MANGO SLICE PICKLE IN MUSTARD & VINEGA",
+        "productFamily": "Mango Slice Pickle In Mustard &",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "8",
+        "itemName": "FGEPER0002",
+        "category": "292641- ALDI EARTH GROWN VEG MEAL KIT",
+        "productFamily": "Veg Meal Kit Korma X 6 Tikka Ma",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "9",
+        "itemName": "FGIPAS0001",
+        "category": "ALOO PARATHA - (FROZEN) 24 X 400 GMS (",
+        "productFamily": "Aloo Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "10",
+        "itemName": "FGSPKI0001",
+        "category": "401442 - CURRY POWDER 2 X 10 KGS TIN",
+        "productFamily": "Curry Powder",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "11",
+        "itemName": "FGIPAS0053",
+        "category": "TANDOORI NAAN - GARLIC (FROZEN) 8 X 10",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "12",
+        "itemName": "FGISAS0067",
+        "category": "MEGA PUNJABI SAMOSA (RESTAURANT STYLE)",
+        "productFamily": "Mega Punjabi Samosa Restaurant",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "13",
+        "itemName": "FGIPAS0015",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 24 X 42",
+        "productFamily": "Tandoori Naan Plain",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "14",
+        "itemName": "FGIPAS0021",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 12 X 42",
+        "productFamily": "Tandoori Naan Plain",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "15",
+        "itemName": "FGIVAS0022",
+        "category": "COCONUT SHREDS 24 X 310 GMS BAGS (FROZ",
+        "productFamily": "Coconut Shreds",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "16",
+        "itemName": "FGPLAS0003",
+        "category": "KESAR MANGO PULP 6 X 850 GMS OTS CANS",
+        "productFamily": "Kesar Mango Pulp",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "17",
+        "itemName": "FGIPLX0009",
+        "category": "LFNT1 - TANDOORI PLAIN NAAN 8 X 1.36 K",
+        "productFamily": "Tandoori Plain Naan",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "18",
+        "itemName": "FGIPLX0004",
+        "category": "LFNG10 - BULK GARLIC BUTTER NAAN  8 X",
+        "productFamily": "Garlic Butter Naan",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "19",
+        "itemName": "FGIPAS0022",
+        "category": "TANDOORI NAAN - GARLIC (FROZEN) 12 X 3",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "20",
+        "itemName": "FGIVAS0010",
+        "category": "OKRA-CUT (BHINDI-CUT) 24 X 310 GMS BAG",
+        "productFamily": "Okra Cut Bhindi Cut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "21",
+        "itemName": "FGISAS0167",
+        "category": "3 x 1.33KG ROYAL INDIAN THALI – MEAL C",
+        "productFamily": "Royal Indian Thali Meal Combo O",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "22",
+        "itemName": "FGCHUB0004",
+        "category": "MANGO CHUTNEY BASE 290 KGS CARBOYS",
+        "productFamily": "Mango Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "23",
+        "itemName": "FGIPAS0018",
+        "category": "PANEER PARATHA 24 X 300 GMS (3PCS) PAC",
+        "productFamily": "Paneer Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "24",
+        "itemName": "FGTMAR0006",
+        "category": "TAMARIND 10 X 1 KGS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "25",
+        "itemName": "FGISAS0129",
+        "category": "PUNJABI SAMOSA WITH GREEN AND KHATTI M",
+        "productFamily": "Punjabi Samosa With Green And K",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "26",
+        "itemName": "FGIVAS0020",
+        "category": "INDIAN GREEN PEAS 24 X 310 GMS (FROZEN",
+        "productFamily": "Indian Green Peas",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "27",
+        "itemName": "FGEPKJ0001",
+        "category": "JASMINE RICE (READY TO EAT COOKED RICE",
+        "productFamily": "Basmati Rice Ready To Eat Cooke",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "28",
+        "itemName": "FGIPAS0049",
+        "category": "ASLI PARATHA (TRIANGULAR) -(FROZEN) 8",
+        "productFamily": "Asli Paratha Triangular",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "29",
+        "itemName": "FGISLX0003",
+        "category": "LFPS2 - PUNJABI SAMOSA (VALUE PACK) 6",
+        "productFamily": "Punjabi Samosa",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "30",
+        "itemName": "FGSATN0004",
+        "category": "BUTTER CHICKEN SAUCE (MILD) 6 X 285 GM",
+        "productFamily": "Butter Chicken Sauce",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "31",
+        "itemName": "FGISTN0016",
+        "category": "POTATO PEA SAMOSA PUNJABI STYLE WITH C",
+        "productFamily": "Potato Pea Samosa Punjabi Style",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "32",
+        "itemName": "FGEPPT0015",
+        "category": "XAF006-TARKA DAAL 6 X 270 GMS POUCHES",
+        "productFamily": "Tarka Daal",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "33",
+        "itemName": "FGIPAS0020",
+        "category": "ASLI PLAIN PARATHA (TRIANGULAR) -(FROZ",
+        "productFamily": "Asli Paratha Triangular",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "34",
+        "itemName": "FGSPCM0002",
+        "category": "MADRAS CURRY POWDER 24 X 500 GMS TINS",
+        "productFamily": "Madras Curry Powder",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "35",
+        "itemName": "FGIPAS0016",
+        "category": "TANDOORI NAAN - GARLIC (FROZEN) 24 X 3",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "36",
+        "itemName": "FGPKUB0005",
+        "category": "LIME PICKLE IN SUNFLOWER OIL (HOT) 35",
+        "productFamily": "Lime Pickle In Sunflower Oil Ho",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "37",
+        "itemName": "FGSAVT0010",
+        "category": "11622 BUTTER CHICKEN SAUCE 6 X 285 GMS",
+        "productFamily": "Butter Chicken Sauce",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "38",
+        "itemName": "FGEPPT0014",
+        "category": "XAF004-POTATO & CAULIFLOWER CURRY 6 X",
+        "productFamily": "Potato & Cauliflower Curry",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "39",
+        "itemName": "FGCHST0003",
+        "category": "4650 - MANGO CHUTNEY ORIGINAL 6 X 1.20",
+        "productFamily": "Mango Chutney Original",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "40",
+        "itemName": "FGEPPT0005",
+        "category": "030627-PATAKS BUTTER CHICKPEAS & VEGGI",
+        "productFamily": "Butter Chickpeas & Veggies",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "41",
+        "itemName": "FGEPPT0013",
+        "category": "XAF005-VEGETABLE BIRYANI 6 X 270 GMS P",
+        "productFamily": "Vegetable Biryani",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "42",
+        "itemName": "FGIPAS0002",
+        "category": "GOBI PARATHA - (FROZEN) 24 X 400 GMS (",
+        "productFamily": "Gobi Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "43",
+        "itemName": "FGTMSW0001",
+        "category": "12070 - FARMER'S TAMARIND (KURRIPULLI",
+        "productFamily": "Tamarind Kurripulli Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "44",
+        "itemName": "FGIPTN0007",
+        "category": "TANDOORI NAAN GARLIC 6 X 16 PCS X 85 G",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "45",
+        "itemName": "FGSNAS0007",
+        "category": "VEG. HAKKA NOODLES 15 X 560 GMS",
+        "productFamily": "Veg Hakka Noodles",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "46",
+        "itemName": "FGEPPT0003",
+        "category": "030626-PATAKS LENTIL & VEGGIE TIKKA MA",
+        "productFamily": "Lentil & Veggie Tikka Masala",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "47",
+        "itemName": "FGIVAS0028",
+        "category": "OKRA-CUT (BHINDI-CUT)12 X 908 GMS PACK",
+        "productFamily": "Okra Cut Bhindi Cut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "48",
+        "itemName": "FGIVAS0099",
+        "category": "GRATED COCONUT 24 X 310 GM POUCHES (FR",
+        "productFamily": "Grated Coconut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "49",
+        "itemName": "FGIVAS0047",
+        "category": "OKRA-CUT(BHINDI) 12 X 310 GMS BAGS (FR",
+        "productFamily": "Okra Cut Bhindi Popular Vegetab",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "50",
+        "itemName": "FGIPAS0062",
+        "category": "ALOO PARATHA - (FROZEN) 8 X 1200 GMS (",
+        "productFamily": "Aloo Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "51",
+        "itemName": "FGIPAS0007",
+        "category": "PLAIN PARATHA -(FROZEN) 24 X 400 GMS (",
+        "productFamily": "Plain Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "52",
+        "itemName": "FGTMAR0003",
+        "category": "TAMARIND 20 X 500 GMS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "53",
+        "itemName": "FGTMUB0003",
+        "category": "TAMARIND 2 X 10 KGS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "54",
+        "itemName": "FGEPPT0001",
+        "category": "030625-PATAKS CHICKPEA & VEGGIE KORMA",
+        "productFamily": "Chickpea & Veggie Korma",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "55",
+        "itemName": "FGSPCM0009",
+        "category": "MADRAS CURRY POWDER 24 X 500G + 100G F",
+        "productFamily": "Madras Curry Powder G + 100G Fr",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "56",
+        "itemName": "FGTMAS0004",
+        "category": "TAMARIND CONCENTRATE 12 X 475 GMS GLAS",
+        "productFamily": "Tamarind Concentrate",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "57",
+        "itemName": "FGPKCM0040",
+        "category": "MANGO SLICE PICKLE IN OIL 24 X 400 GMS",
+        "productFamily": "Mango Slice Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "58",
+        "itemName": "FGPLAS0001",
+        "category": "ALPHONSO MANGO PULP 6 X 850 GMS OTS CA",
+        "productFamily": "Alphonso Mango Pulp",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "59",
+        "itemName": "FGPKAS0024",
+        "category": "MIXED PICKLE IN OIL 6 X 500 GMS GLASS",
+        "productFamily": "Mixed Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "60",
+        "itemName": "FGIPAS0008",
+        "category": "ALOO PARATHA - (FROZEN) 12 X 400 GMS (",
+        "productFamily": "Aloo Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "61",
+        "itemName": "FGIPTN0006",
+        "category": "3076753203008 0 - TANDOORI NAAN GARLIC",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "62",
+        "itemName": "FGPKAR0021",
+        "category": "MANGO PICKLE IN OIL 12 X 400 GMS GLASS",
+        "productFamily": "Mango Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "63",
+        "itemName": "FGISAS0166",
+        "category": "6 x 1.51KG DESI DELIGHTS - SNACKS COMB",
+        "productFamily": "X Desi Delights Snacks Combo On",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "64",
+        "itemName": "FGCVAS0009",
+        "category": "SOYA CHAAP IN BRINE 12 X 850 GM CANS/C",
+        "productFamily": "Soya Chaap In Brine",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "65",
+        "itemName": "FGIVCA0001",
+        "category": "BHINDI CUT OKRA 12 X 908 GM POUCH",
+        "productFamily": "Bhindi Cut Okra",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "66",
+        "itemName": "FGEPAS0001",
+        "category": "PUNJABI CHOLE -(RETORT) 2 X 10 X 280 G",
+        "productFamily": "Punjabi Chole",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "67",
+        "itemName": "FGPKAR0020",
+        "category": "MIXED PICKLE IN OIL 12 X 400GMS GLASS",
+        "productFamily": "Mixed Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "68",
+        "itemName": "FGISLX0010",
+        "category": "LFPSM - SUPER JUMBO PUNJABI SAMOSA 6 X",
+        "productFamily": "Super Jumbo Punjabi Samosa",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "69",
+        "itemName": "FGSATN0007",
+        "category": "TIKKA MASALA SAUCE 6 X 285 GMS GLASS B",
+        "productFamily": "Tikka Masala Sauce",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "70",
+        "itemName": "FGIVAS0095",
+        "category": "MALAI PANEER CUBES 12 X 1 KGS BAGS (FR",
+        "productFamily": "Malai Paneer Cubes",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "71",
+        "itemName": "FGISAS0021",
+        "category": "MASALA PANEER KATHI ROLL 2 X 12 X 200",
+        "productFamily": "Matar Paneer Kathi Roll",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "72",
+        "itemName": "FGEPAS0013",
+        "category": "BOMBAY BIRYANI -(RETORT) 2 X 10 X 280",
+        "productFamily": "Bombay Biryani",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "73",
+        "itemName": "FGISAS0147",
+        "category": "PANEER CUBES 12 X 500 GMS",
+        "productFamily": "Paneer Cubes",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "74",
+        "itemName": "FGISAS0009",
+        "category": "PUNJABI SAMOSA WITH GREEN AND KHATTI M",
+        "productFamily": "Punjabi Samosa With Green And K",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "75",
+        "itemName": "FGEPSS0001",
+        "category": "JASMINE RICE (READY TO EAT COOKED RICE",
+        "productFamily": "Basmati Rice Ready To Eat Cooke",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "76",
+        "itemName": "FGIVAS0007",
+        "category": "DRUMSTICKS-CUT 24 X 310 GMS BAGS (FROZ",
+        "productFamily": "Drumstick Cut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "77",
+        "itemName": "FGCHAS0056",
+        "category": "DATE & TAMARIND CHUTNEY 3 X 5 KGS JAR",
+        "productFamily": "Date & Tamarind Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "78",
+        "itemName": "FGIPCA0002",
+        "category": "TANDOORI NAAN PAIN NAAN ORIGINAL  8 X",
+        "productFamily": "Tandoori Naan Pain Naan Origina",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "79",
+        "itemName": "FGIVSW0012",
+        "category": "98200 - SHREDDED COCONUT 24 X 340 GMS",
+        "productFamily": "Shredded Coconut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "80",
+        "itemName": "FGIVSW0008",
+        "category": "98320 - GRATED COCONUT  24 X 340 GMS",
+        "productFamily": "Grated Coconut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "81",
+        "itemName": "FGPAAS0031",
+        "category": "GINGER GARLIC PASTE 12 X 300 GMS GLASS",
+        "productFamily": "Ginger Garlic Paste",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "82",
+        "itemName": "FGISAS0161",
+        "category": "PANEER PAKORA 6 x 35 PCS x 40 GM (1.40",
+        "productFamily": "Paneer Pakora",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "83",
+        "itemName": "FGIPLX0010",
+        "category": "LFNB1 BULLET NAAN 8 X 1.2 KG (12 PCS X",
+        "productFamily": "Bullet Naan",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "84",
+        "itemName": "FGISAS0028",
+        "category": "JUMBO ALOO TIKKI WITH CHUTNEY 10 X 920",
+        "productFamily": "Jumbo Aloo Tikki With Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "85",
+        "itemName": "FGTMSW0002",
+        "category": "12030 - TAMARIND 50 X 200 GMS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "86",
+        "itemName": "FGCHUB0011",
+        "category": "PREMIUM MANGO CHUTNEY 290 KGS",
+        "productFamily": "Premium Mango Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "87",
+        "itemName": "FGISLX0007",
+        "category": "LFJS0 - COCKTAIL JALAPENO & CHEESE SAM",
+        "productFamily": "Jalapeno Cheese Samosa With Gre",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "88",
+        "itemName": "FGIPAS0045",
+        "category": "MALABARI PARATHA - (FROZEN) 12 X 350 G",
+        "productFamily": "Malabari Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "89",
+        "itemName": "FGSAVT0003",
+        "category": "BUTTER CHICKEN SAUCE 6 X 285 GMS GLASS",
+        "productFamily": "Butter Chicken Sauce",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "90",
+        "itemName": "FGCHTN0006",
+        "category": "ORIGINAL MANGO CHUTNEY 6 X 230 GMS GLA",
+        "productFamily": "Original Mango Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "91",
+        "itemName": "FGIPAS0004",
+        "category": "MIXED VEGETABLE PARATHA - (FROZEN) 24",
+        "productFamily": "Mixed Vegetable Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "92",
+        "itemName": "FGIVAS0102",
+        "category": "GRATED COCONUT 12 X 930 GM (3 X 310GM",
+        "productFamily": "Grated Coconut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "93",
+        "itemName": "FGIPAS0038",
+        "category": "PLAIN PARATHA -(FROZEN) 24 X 350 GMS (",
+        "productFamily": "Plain Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "94",
+        "itemName": "FGSPAS0003",
+        "category": "MADRAS CURRY POWDER MILD 12.5 KGS BAG",
+        "productFamily": "Madras Curry Powder",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "95",
+        "itemName": "FGEPAS0023",
+        "category": "DELHI DAL MAKHANI -(RETORT) - (VEGAN)",
+        "productFamily": "Delhi Dal Makhani",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "96",
+        "itemName": "FGCHUB0012",
+        "category": "KASHMIR HOT MANGO CHUTNEY SAUCE 1300 K",
+        "productFamily": "Kashmir Hot Mango Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "97",
+        "itemName": "FGIVSW0009",
+        "category": "98246 - TOOVAR LILVA  9 X 908 GMS  CAR",
+        "productFamily": "Toovar Lilva",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "98",
+        "itemName": "FGIVAS0027",
+        "category": "GREEN CHILLI WITHOUT STEM 24 X 310 GMS",
+        "productFamily": "Green Chilli Without Stem",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "99",
+        "itemName": "FGIPAS0059",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 4 X 127",
+        "productFamily": "Tandoori Naan Plain",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "100",
+        "itemName": "FGIPAS0044",
+        "category": "MALABARI PARATHA - (FROZEN) 24 X 350 G",
+        "productFamily": "Malabari Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "101",
+        "itemName": "FGIPAS0060",
+        "category": "TANDOORI NAAN - GARLIC (FROZEN) 4 X 10",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "102",
+        "itemName": "FGIPAS0063",
+        "category": "MALABARI PARATHA - (FROZEN) 8 X 1.080",
+        "productFamily": "Malabari Paratha 10 + Free",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "103",
+        "itemName": "FGPKCM0031",
+        "category": "ASSORTED PICKLE (8 BOTTLES MANGO PICKL",
+        "productFamily": "Assorted Pickle 8 Mango Pickle",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "104",
+        "itemName": "FGIPAS0003",
+        "category": "LACHCHA PARATHA - (FROZEN) 24 X 400 GM",
+        "productFamily": "Lachcha Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "105",
+        "itemName": "FGIPAS0034",
+        "category": "PHULKA ROTI 12 X 624 GMS (24 PCS) BAGS",
+        "productFamily": "Phulka Roti",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "106",
+        "itemName": "FGISAS0071",
+        "category": "JALAPENO CHEESE SAMOSA WITH GREEN CHUT",
+        "productFamily": "Jalapeno Cheese Samosa With Gre",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "107",
+        "itemName": "FGISAS0064",
+        "category": "COCKTAIL POTATO PEAS SAMOSA 12 X 400 G",
+        "productFamily": "Cocktail Potato Peas Samosa Pou",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "108",
+        "itemName": "FGIPCA0001",
+        "category": "NAAN PAIN NAAN GARLIC  8 X 1.02 KG (12",
+        "productFamily": "Naan Pain Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "109",
+        "itemName": "FGISKS0001",
+        "category": "PASTRY PUFF SHEET 24 X 450 GM (45 GM X",
+        "productFamily": "Pastry Puff Sheet X 10 Sheets",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "110",
+        "itemName": "FGCHAS0068",
+        "category": "CORIANDER CHUTNEY 6 X 250GM GLASS BOTT",
+        "productFamily": "Coriander Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "111",
+        "itemName": "FGPAET0003",
+        "category": "EATISTAAN GINGER GARLIC PASTE 12 X 300",
+        "productFamily": "Ginger Garlic Paste",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "112",
+        "itemName": "FGIVAS0014",
+        "category": "TINDORA (CUT) 24 X 310 GMS BAGS (FROZE",
+        "productFamily": "Tindora Cut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "113",
+        "itemName": "FGCHRI0003",
+        "category": "KASHMIR HOT MANGO CHUTNEY 20 KGS CARBO",
+        "productFamily": "Kashmir Hot Mango Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "114",
+        "itemName": "FGISLX0004",
+        "category": "LFPS30 - JUMBO PUNJABI SAMOSA WITH GRE",
+        "productFamily": "Punjabi Samosa With Green Chutn",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "115",
+        "itemName": "FGIPLX0011",
+        "category": "LFPH11 – BULK HOMESTYLE PARATHA 8 X 20",
+        "productFamily": "Homestyle Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "116",
+        "itemName": "FGISAS0052",
+        "category": "MINI ASSORTED SAMOSA 6 X 60 PCS X 20 G",
+        "productFamily": "Mini Assorted Samosa X Potato P",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "117",
+        "itemName": "FGPKAS0018",
+        "category": "MANGO PICKLE IN  OIL (MILD) 6 X 500 GM",
+        "productFamily": "Mango Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "118",
+        "itemName": "FGEPAS0020",
+        "category": "MATAR PANEER (TOFU) - (RETORT) -  (VEG",
+        "productFamily": "Matar Paneer Tofu",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "119",
+        "itemName": "FGPKAR0038",
+        "category": "MANGO SLICE PICKLE IN MUSTARD & VINEGA",
+        "productFamily": "Mango Slcie Pickle In Mustard &",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "120",
+        "itemName": "FGISAS0087",
+        "category": "PUNJABI SAMOSA WITH GREEN CHUTNEY 12 X",
+        "productFamily": "Punjabi Samosa With Green Chutn",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "121",
+        "itemName": "FGPKAR0012",
+        "category": "LEMON PICKLE IN OIL 12 X 400 GMS GLASS",
+        "productFamily": "Lemon Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "122",
+        "itemName": "FGIPTN0005",
+        "category": "3076753203007 3 - TANDOORI NAAN PLAIN",
+        "productFamily": "Tandoori Naan Plain",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "123",
+        "itemName": "FGISKS0002",
+        "category": "PASTRY PUFF SHEET 24 X 600 GM (60 GM X",
+        "productFamily": "Pastry Puff Sheet X 10 Sheets",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "124",
+        "itemName": "FGCHUB0016",
+        "category": "MANGO CHUTNEY SAUCE KASHMIR HOT 1000 K",
+        "productFamily": "Mango Chutney Sauce Kashmir Hot",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "125",
+        "itemName": "FGIVAS0070",
+        "category": "MALAI PANEER CUBES 24 X 500 GMS BAGS (",
+        "productFamily": "Malai Paneer Cubes",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "126",
+        "itemName": "FGIPAS0011",
+        "category": "MIXED VEGETABLE PARATHA - (FROZEN) 12",
+        "productFamily": "Mixed Vegetable Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "127",
+        "itemName": "FGEPAS0015",
+        "category": "BHINDI MASALA -(RETORT) 2 X 10 X 280 G",
+        "productFamily": "Bhindi Masala",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "128",
+        "itemName": "FGIPAS0100",
+        "category": "TANDOORI NAAN – GARLIC (FROZEN) 10 X 3",
+        "productFamily": "Tandoori Naan Garlic",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "129",
+        "itemName": "FGEPAS0027",
+        "category": "DAL TADKA - (RETORT) - (VEGAN) 2 X 10",
+        "productFamily": "Dal Tadka",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "130",
+        "itemName": "FGIVCA0002",
+        "category": "BHINDI WHOLE OKRA 12 X 908 GM POUCH",
+        "productFamily": "Bhindi Whole Okra",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "131",
+        "itemName": "FGPKCM0008",
+        "category": "MIXED PICKLE IN OIL 12 X 400 GMS GLASS",
+        "productFamily": "Mixed Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "132",
+        "itemName": "FGEPWF0002",
+        "category": "ORGANIC WHOLE GRAIN BROWN RICE (READY",
+        "productFamily": "Whole Grain Brown Rice Ready To",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "133",
+        "itemName": "FGIVSW0011",
+        "category": "GREEN PEAS  9 X 908 GMS  CARTONS",
+        "productFamily": "Green Peas",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "134",
+        "itemName": "FGCHAS0069",
+        "category": "DATE & TAMARIND CHUTNEY 6 X 300GM GLAS",
+        "productFamily": "Date & Tamrind Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "135",
+        "itemName": "FGIPAS0099",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 10 X 42",
+        "productFamily": "Tandoori Naan Plain",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "136",
+        "itemName": "FGEPSM0001",
+        "category": "ORGANIC 100% WHOLE GRAIN - BROWN RICE",
+        "productFamily": "Organic 100% Whole Grain Brown",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "137",
+        "itemName": "FGIVAS0015",
+        "category": "TOOVAR LILVA 24 X 310 GMS BAGS (FROZEN",
+        "productFamily": "Toovar Lilva",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "138",
+        "itemName": "FGEPWF0003",
+        "category": "ORGANIC WHITE AND RED QUINOA BLEND (RE",
+        "productFamily": "Organic White And Red Quinoa Bl",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "139",
+        "itemName": "FGISCA0001",
+        "category": "PUNJABI STYLE SAMOSAS POTATO PEAS 6 X",
+        "productFamily": "Punjabi Style Samosas Potato Pe",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "140",
+        "itemName": "FGEPAS0041",
+        "category": "DELHI DAL MAKHANI -(RETORT) - (VEGAN)",
+        "productFamily": "Delhi Dal Makhani",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "141",
+        "itemName": "FGIVSW0007",
+        "category": "98260 - COCONUT CHIPS  24 X 340 GMS  C",
+        "productFamily": "Coconut Chips",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "142",
+        "itemName": "FGEPAS0022",
+        "category": "PANEER (TOFU) MAKHANI -(RETORT) -  (VE",
+        "productFamily": "Paneer Tofu Makhani",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "143",
+        "itemName": "FGSWAS0004",
+        "category": "GULAB JAMUN 12 X 1 KG TINS/CTNS",
+        "productFamily": "Gulab Jamun",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "144",
+        "itemName": "FGCHRI0001",
+        "category": "MANGO SWEET CHUTNEY 4 X 3 KGS PAILS",
+        "productFamily": "Mango Sweet Chutney Pails",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "145",
+        "itemName": "FGEPPT0017",
+        "category": "XAF008-SAAG ALOO WITH CHOPPED SPINACH",
+        "productFamily": "Saag Aloo With Chopped Spinach",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "146",
+        "itemName": "FGSNAS0005",
+        "category": "PANI PURI PELLETS -24 X 200 GMS POUCHE",
+        "productFamily": "Pani Puri Pellets",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "147",
+        "itemName": "FGPKAS0016",
+        "category": "MANGO PICKLE IN OIL (HOT) 6 X 500 GMS",
+        "productFamily": "Mango Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "148",
+        "itemName": "FGIVAS0006",
+        "category": "GREEN CHANA 24 X 310 GMS BAGS (FROZEN)",
+        "productFamily": "Green Chana",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "149",
+        "itemName": "FGEPSM0004",
+        "category": "ORGANIC BROWN RICE (READY TO EAT COOKE",
+        "productFamily": "Organic Brown Rice Ready To Eat",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "150",
+        "itemName": "FGEPPT0002",
+        "category": "111625-PATAKS CHICKPEA KORMA (RETORT)",
+        "productFamily": "Chickpea Korma",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "151",
+        "itemName": "FGIVAS0008",
+        "category": "GOOVAR 24 X 310 GMS BAGS (FROZEN)",
+        "productFamily": "Goovar",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "152",
+        "itemName": "FGISAS0029",
+        "category": "POTATO PEAS SAMOSAS WITH GREEN CHUTNEY",
+        "productFamily": "Potato Peas Samosas With Green",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "153",
+        "itemName": "FGSWAS0003",
+        "category": "GULAB JAMUN IN SYRUP 200 PCS. x 40 GM.",
+        "productFamily": "Gulab Jamun In Syrup X + Syrup",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "154",
+        "itemName": "FGTMSW0003",
+        "category": "12080 - TAMARIND 10 X 1 KGS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "155",
+        "itemName": "FGTMAR0001",
+        "category": "TAMARIND 50 X 200 GMS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "156",
+        "itemName": "FGISAS0005",
+        "category": "MASALA VEGETABLE BURGER PATTICE 12 X 3",
+        "productFamily": "Masala Vegetable Burger Pattice",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "157",
+        "itemName": "FGPKCM0034",
+        "category": "MANGO SLICE PICKLE IN OIL 12 X 880 GMS",
+        "productFamily": "Mango Slice Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "158",
+        "itemName": "FGCHST0002",
+        "category": "3407 - MANGO CHUTNEY HOT 6 X 350 GMS G",
+        "productFamily": "Mango Chutney Hot",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "159",
+        "itemName": "FGIVAS0059",
+        "category": "INDIAN GREEN PEAS 12 X 908 GMS PACKETS",
+        "productFamily": "Indian Green Peas",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "160",
+        "itemName": "FGSWAS0005",
+        "category": "ROSSOGULLA 12 X 1 KG TINS/CTNS",
+        "productFamily": "Rossogulla",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "161",
+        "itemName": "FGSPCM0001",
+        "category": "MADRAS CURRY POWDER 48 X 250 GMS TINS",
+        "productFamily": "Madras Curry Powder",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "162",
+        "itemName": "FGCHAR0006",
+        "category": "MANGO SWEET CHUTNEY 40 KGS CARBOYS",
+        "productFamily": "Mango Sweet Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "163",
+        "itemName": "FGEPAS0011",
+        "category": "DAL MAKHANI -(RETORT) 2 X 10 X 280 GMS",
+        "productFamily": "Dal Makhani",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "164",
+        "itemName": "FGEPAS0021",
+        "category": "PALAK PANEER (TOFU) - (RETORT) -  (VEG",
+        "productFamily": "Palak Paneer Tofu",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "165",
+        "itemName": "FGISLX0006",
+        "category": "LFPS50 - COCKTAIL POTATO & PEAS SAMOSA",
+        "productFamily": "Cocktail Potato & Peas Samosa W",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "166",
+        "itemName": "FGIVLX0001",
+        "category": "LFVD1 – DRUMSTICK –CUT 24 X 300 GM BAG",
+        "productFamily": "Drumstick Cut",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "167",
+        "itemName": "FGIPBW0001",
+        "category": "NAAN BREAD GARLIC (TANDOORI NAAN – GAR",
+        "productFamily": "Naan Bread Garlic Tandoori Naan",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "168",
+        "itemName": "FGTMKT0001",
+        "category": "4936 TAMARIND 20 X 200 GMS SLAB",
+        "productFamily": "Tamarind",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "169",
+        "itemName": "FGISAS0022",
+        "category": "CHATPATA ALOO KATHI ROLL 2 X 12 X 200",
+        "productFamily": "Chatpata Aloo Kathi Roll",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "170",
+        "itemName": "FGTMUB0002",
+        "category": "TAMARIND PASTE 25 KGS",
+        "productFamily": "Tamarind Paste",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "171",
+        "itemName": "FGSATN0005",
+        "category": "KORMA SAUCE  6 X 285 GMS GLASS BOTTLES",
+        "productFamily": "Korma Sauce",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "172",
+        "itemName": "FGIPCA0004",
+        "category": "PARATHA PANEER 8 X 1.2 KG (12 PCS X 10",
+        "productFamily": "Paratha Paneer",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "173",
+        "itemName": "FGISLX0009",
+        "category": "LFPSM1 - MEGA JUMBO PUNJABI SAMOSA 6 X",
+        "productFamily": "Jumbo Punjabi Samosa",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "174",
+        "itemName": "FGIVAS0004",
+        "category": "METHI LEAVES 24 X 310 GMS BAGS (FROZEN",
+        "productFamily": "Methi Leaves",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "175",
+        "itemName": "FGIPAS0039",
+        "category": "PLAIN PARATHA -(FROZEN) 12 X 350 GMS (",
+        "productFamily": "Plain Paratha",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "176",
+        "itemName": "FGEPPT0006",
+        "category": "111627-PATAKS BUTTER CHICKPEAS 6 X 285",
+        "productFamily": "Butter Chickpeas",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "177",
+        "itemName": "FGISAS0116",
+        "category": "MANCHURIAN BALL 6 X 750GMS (60 PCS) FR",
+        "productFamily": "Manchurian Ball",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "178",
+        "itemName": "FGIVAS0050",
+        "category": "OKRA-WHOLE (BHINDI) 12 X 310 GMS BAGS",
+        "productFamily": "Okra Cut Bhindi Popular Vegetab",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "179",
+        "itemName": "FGCHAR0004",
+        "category": "MANGO SWEET CHUTNEY 20 KGS CARBOYS",
+        "productFamily": "Mango Sweet Chutney",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "180",
+        "itemName": "FGEPPT0018",
+        "category": "XAF009-BLACK DHAL 6 X 270 GMS POUCHES",
+        "productFamily": "Black Dhal",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "181",
+        "itemName": "FGEPAS0004",
+        "category": "PALAK PANEER -(RETORT) 2 X 10 X 280 GM",
+        "productFamily": "Palak Paneer",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "182",
+        "itemName": "FGIPAS0091",
+        "category": "RUMALI ROTI 24 X 240 GM (6 PCS X 40 GM",
+        "productFamily": "Rumali Roti",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "183",
+        "itemName": "FGISAS0030",
+        "category": "POTATO SCHEZWAN SAMOSA WITH GREEN CHUT",
+        "productFamily": "Potato Peas Samosas With Green",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "184",
+        "itemName": "FGEPCM0001",
+        "category": "LIGHT MEAT TUNA  IN VEG. OIL 48 X NW14",
+        "productFamily": "Light Meat Tuna In Veg Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "185",
+        "itemName": "FGIPLX0005",
+        "category": "LFNB0 - BULLET NAAN  24 X 400 GMS (4 P",
+        "productFamily": "Bullet Naan",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "186",
+        "itemName": "FGEPSL0001",
+        "category": "TADKA DAL 8 X 300 GMS RETORT",
+        "productFamily": "Tadka Dal",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "187",
+        "itemName": "FGIVAS0078",
+        "category": "MALAI PANEER CUBES 60 X 200 GMS BAGS (",
+        "productFamily": "Malai Paneer Cubes",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "188",
+        "itemName": "FGIVAS0067",
+        "category": "AMLA WHOLE (GOOSEBERRY) 24 X 310 GMS (",
+        "productFamily": "Amla Whole Gooseberry",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "189",
+        "itemName": "FGEPAS0009",
+        "category": "SHAHI RAJMA -(RETORT) 2 X 10 X 280 GMS",
+        "productFamily": "Shahi Rajma",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "190",
+        "itemName": "FGIVAS0013",
+        "category": "OKRA-WHOLE (BHINDI-WHOLE) 24 X 310 GMS",
+        "productFamily": "Okra Whole Bhindi Whole",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "191",
+        "itemName": "FGSPTI0001",
+        "category": "MALAYSIAN CURRY POWDER 2 X 10 KGS BUCK",
+        "productFamily": "Malaysian Curry Powder Bucket",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "192",
+        "itemName": "FGPAAS0028",
+        "category": "GINGER GARLIC PASTE 6 X 700 GMS GLASS",
+        "productFamily": "Ginger Garlic Paste",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "193",
+        "itemName": "FGPKAR0029",
+        "category": "CHILLI PICKLE IN OIL 12 X 380 GMS GLAS",
+        "productFamily": "Chilli Pickle In Oil",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "194",
+        "itemName": "FGIVAS0002",
+        "category": "CHICKOO SLICES 24 X 310 GMS BAGS (FROZ",
+        "productFamily": "Chickoo Slices",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "195",
+        "itemName": "FGISLX0005",
+        "category": "LFPS40 - PUNJABI SAMOSA WITH GREEN CHU",
+        "productFamily": "Punjabi Samosa With Green Chutn",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "196",
+        "itemName": "FGEPPT0016",
+        "category": "XAF007-CHICKPEA MASALA 6 X 270 GMS POU",
+        "productFamily": "Chickpea Masala",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "197",
+        "itemName": "FGIVAS0065",
+        "category": "LILA LASAN 24 X 250 BAGS (FROZEN)",
+        "productFamily": "Lila Lasan",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "198",
+        "itemName": "FGEPAS0014",
+        "category": "BAIGAN BHARTA -(RETORT) 2 X 10 X 280 G",
+        "productFamily": "Baigan Bharta",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      },
+      {
+        "itemCode": "199",
+        "itemName": "FGISAS0046",
+        "category": "HARA BHARA KEBAB 12 X 360 GMS TRAYS -",
+        "productFamily": "Hara Bhara Kebab",
+        "pyRev": 0,
+        "cyRev": 0,
+        "growthPct": 0
+      }
+    ],
+    "topGrowingSkus": [],
+    "topDecliningSkus": [],
+    "skusFor80PctRevenue": 0
+  },
+  "pfBySalesman": [],
+  "pfByRegion": []
 }
