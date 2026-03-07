@@ -41,4 +41,7 @@ export const TOOLTIPS = {
   categoryMixShift: 'YoY growth % per category. Shows which categories are growing or declining vs last year.',
   growthDistribution: 'Mean, min, max of Growth vs FY25 across customers. Shows spread of performance.',
   dispatchPlusOpen: 'Dispatched (invoiced) + Open Orders (confirmed but not yet shipped). Represents committed/achieved revenue.',
+  region: 'Geographic grouping (e.g. NORTH AMERICA, WESTERN EUROPE). From zone master + customer overrides.',
+  country: 'Customer country (e.g. UNITED STATES, GREAT BRITAIN). From zone master + customer overrides.',
+  productFamily: 'Product grouping (e.g. Jumbo Punjabi Samosa, Mango Chutney). From PF Master + item overrides.',
 } as const;

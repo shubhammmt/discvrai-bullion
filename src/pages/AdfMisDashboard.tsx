@@ -1,12 +1,15 @@
 import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ExecutiveSummary } from '@/components/adf-mis/ExecutiveSummary';
+import { RegionPerformance } from '@/components/adf-mis/RegionPerformance';
+import { CountryPerformance } from '@/components/adf-mis/CountryPerformance';
 import { AtRiskCustomers } from '@/components/adf-mis/AtRiskCustomers';
 import { CategoryPerformance } from '@/components/adf-mis/CategoryPerformance';
+import { ProductFamilyPerformance } from '@/components/adf-mis/ProductFamilyPerformance';
+import { SkuProductionView } from '@/components/adf-mis/SkuProductionView';
 import { SalesView } from '@/components/adf-mis/SalesView';
 import { FinanceView } from '@/components/adf-mis/FinanceView';
-import { SkuProductionView } from '@/components/adf-mis/SkuProductionView';
-import { BarChart3, Users, PieChart, UserCheck, Database, Package } from 'lucide-react';
+import { BarChart3, Users, PieChart, UserCheck, Database, Package, Globe, Flag, Boxes } from 'lucide-react';
 import { lastUpdated } from '@/data/adfMisData';
 
 const AdfMisDashboard: React.FC = () => {
@@ -40,13 +43,25 @@ const AdfMisDashboard: React.FC = () => {
               <BarChart3 className="w-3.5 h-3.5" />
               Executive Summary
             </TabsTrigger>
+            <TabsTrigger value="region" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
+              <Globe className="w-3.5 h-3.5" />
+              Region
+            </TabsTrigger>
+            <TabsTrigger value="country" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
+              <Flag className="w-3.5 h-3.5" />
+              Country
+            </TabsTrigger>
             <TabsTrigger value="atrisk" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
               <Users className="w-3.5 h-3.5" />
               At-Risk Customers
             </TabsTrigger>
             <TabsTrigger value="category" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
               <PieChart className="w-3.5 h-3.5" />
-              Category Performance
+              Category
+            </TabsTrigger>
+            <TabsTrigger value="productfamily" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
+              <Boxes className="w-3.5 h-3.5" />
+              Product Family
             </TabsTrigger>
             <TabsTrigger value="sku" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-xs px-3 py-2">
               <Package className="w-3.5 h-3.5" />
@@ -63,8 +78,11 @@ const AdfMisDashboard: React.FC = () => {
           </TabsList>
 
           <TabsContent value="executive"><ExecutiveSummary /></TabsContent>
+          <TabsContent value="region"><RegionPerformance /></TabsContent>
+          <TabsContent value="country"><CountryPerformance /></TabsContent>
           <TabsContent value="atrisk"><AtRiskCustomers /></TabsContent>
           <TabsContent value="category"><CategoryPerformance /></TabsContent>
+          <TabsContent value="productfamily"><ProductFamilyPerformance /></TabsContent>
           <TabsContent value="sku"><SkuProductionView /></TabsContent>
           <TabsContent value="sales"><SalesView /></TabsContent>
           <TabsContent value="finance"><FinanceView /></TabsContent>

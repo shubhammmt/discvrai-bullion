@@ -12,7 +12,7 @@ export const SkuProductionView: React.FC = () => {
         <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 text-red-500" />
           <div>
-            <h3 className="text-sm font-semibold text-gray-900">At-Risk SKUs — Top {atRiskSkus.length} by Balance</h3>
+            <h3 className="text-sm font-semibold text-gray-900">At-Risk SKUs — Top {atRiskSkus.length} by Balance<InfoTooltip text={TOOLTIPS.balance} /></h3>
             <p className="text-xs text-gray-500">SKUs with highest remaining balance to achieve</p>
           </div>
         </div>
@@ -67,6 +67,20 @@ export const SkuProductionView: React.FC = () => {
                 <div className="text-[10px] text-amber-700 font-medium">{c.category}</div>
                 <div className="text-sm font-bold text-gray-900 mt-1">{formatCurrency(c.q4Balance, true)}</div>
                 <div className="text-[10px] text-gray-500">{formatQty(c.q4BalanceQty)} cases</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Top Product Families by Q4 Balance */}
+        <div className="px-6 py-4 border-b border-gray-100">
+          <h4 className="text-xs font-semibold text-gray-700 mb-3">Top Product Families by Q4 Balance</h4>
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+            {q4PullHeadsUp.topPFsByQ4Balance.slice(0, 5).map(pf => (
+              <div key={pf.productFamily} className="bg-blue-50 rounded-lg p-3 border border-blue-100">
+                <div className="text-[10px] text-blue-700 font-medium truncate" title={pf.productFamily}>{pf.productFamily}</div>
+                <div className="text-sm font-bold text-gray-900 mt-1">{formatCurrency(pf.q4Balance, true)}</div>
+                <div className="text-[10px] text-gray-500">Open: {formatCurrency(pf.q4OpenOrder, true)}</div>
               </div>
             ))}
           </div>
