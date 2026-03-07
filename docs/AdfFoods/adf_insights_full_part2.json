@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-07T22:21:37",
+  "lastUpdated": "2026-03-07T22:34:48",
   "source": "ADF_Foods_Strategic_Sales_Analysis_V2_ProductFamily_USD.xlsx",
   "ceo": {
     "revenuePerformance": [
@@ -5677,5 +5677,270 @@
     "skusFor80PctRevenue": 0
   },
   "pfBySalesman": [],
-  "pfByRegion": []
+  "pfByRegion": [],
+  "sharperMetrics": {
+    "diversificationScore": 54.7,
+    "maxRegionShare": 45.3,
+    "maxRegionName": "NORTH AMERICA",
+    "diversificationTarget": 65,
+    "diversificationStatus": "⚠️",
+    "growthQuality": {
+      "revenueFromImprovingPricePct": 25.4,
+      "revenueFromDecliningPricePct": 74.6,
+      "totalRevenueGrowth": 2409849.78,
+      "priceLedCategories": [
+        "INDIAN VEGETABLE (FROZEN)",
+        "PICKLES",
+        "CHUTNEY CONSUMER PACK",
+        "TAMARIND",
+        "PASTES",
+        "PAPAD"
+      ],
+      "volumeLedCategories": [
+        "SAMOSA (FROZEN)",
+        "NAAN (FROZEN)",
+        "EASI POUCH CURRIES",
+        "PARATHA (FROZEN)",
+        "CHUTNEY BULK PACK",
+        "INDIAN SNACKS (FROZEN)",
+        "SPICES",
+        "SAUCE",
+        "PULP",
+        "MILK PRODUCTS (FROZEN)",
+        "KATHI ROLL (FROZEN)",
+        "SNACKS",
+        "INDIAN SWEET",
+        "CAN VEGETABLE",
+        "INDIAN SWEET (FROZEN)",
+        "MISCELLENEOUS PRODUCTS",
+        "INDIAN READY TO EAT (FROZEN)",
+        "MURABBA",
+        "CAN READY TO EAT",
+        "CHUTNEY (FROZEN)"
+      ]
+    },
+    "decliningCustomers": [
+      {
+        "customer": "ITN FOOD CORPORATION",
+        "zone": "CANADA",
+        "cyRev": 3793401.84,
+        "growthPct": -16.8,
+        "cyShare": 8.6
+      },
+      {
+        "customer": "PANESAR FOODS LIMITED",
+        "zone": "UNITED KINGDOM",
+        "cyRev": 1814242.3,
+        "growthPct": -7.6,
+        "cyShare": 4.1
+      },
+      {
+        "customer": "KK FOOD TRADING COMPANY LTD.",
+        "zone": "WESTERN EUROPE",
+        "cyRev": 1682173.94,
+        "growthPct": -16.0,
+        "cyShare": 3.8
+      },
+      {
+        "customer": "ADF FOODS UK LTD",
+        "zone": "UNITED KINGDOM",
+        "cyRev": 841776.77,
+        "growthPct": -16.1,
+        "cyShare": 1.9
+      },
+      {
+        "customer": "RITIKA’S GLOBAL GRAINS LLC",
+        "zone": "NORTH AMERICA",
+        "cyRev": 839056.8,
+        "growthPct": -33.3,
+        "cyShare": 1.9
+      }
+    ],
+    "decliningCustomerCount": 5,
+    "zeroRevenueSkus": [
+      {
+        "itemCode": "Rank",
+        "itemName": "Item Code",
+        "category": "Item Name",
+        "productFamily": "Product Family"
+      },
+      {
+        "itemCode": "1",
+        "itemName": "FGISAS0077",
+        "category": "JUMBO PUNJABI SAMOSA 6 X 1875 GMS (25",
+        "productFamily": "Jumbo Punjabi Samosa"
+      },
+      {
+        "itemCode": "2",
+        "itemName": "FGCHUB0009",
+        "category": "5933 MANGO CHUTNEY BASE 290 KGS",
+        "productFamily": "Mango Chutney"
+      },
+      {
+        "itemCode": "3",
+        "itemName": "FGISAS0013",
+        "category": "PUNJABI SAMOSA (WITHOUT GARLIC & ONION",
+        "productFamily": "Punjabi Samosa Without Garlic &"
+      },
+      {
+        "itemCode": "4",
+        "itemName": "FGIPAS0046",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 8 X 127",
+        "productFamily": "Tandoori Naan Plain"
+      },
+      {
+        "itemCode": "5",
+        "itemName": "FGISLX0002",
+        "category": "LFPS1 - JUMBO PUNJABI SAMOSA (VALUE PA",
+        "productFamily": "Jumbo Punjabi Samosa"
+      },
+      {
+        "itemCode": "6",
+        "itemName": "FGCHST0001",
+        "category": "3406 - MANGO CHUTNEY ORIGINAL 6 X 350",
+        "productFamily": "Mango Chutney Original"
+      },
+      {
+        "itemCode": "7",
+        "itemName": "FGPKCM0029",
+        "category": "MANGO SLICE PICKLE IN MUSTARD & VINEGA",
+        "productFamily": "Mango Slice Pickle In Mustard &"
+      },
+      {
+        "itemCode": "8",
+        "itemName": "FGEPER0002",
+        "category": "292641- ALDI EARTH GROWN VEG MEAL KIT",
+        "productFamily": "Veg Meal Kit Korma X 6 Tikka Ma"
+      },
+      {
+        "itemCode": "9",
+        "itemName": "FGIPAS0001",
+        "category": "ALOO PARATHA - (FROZEN) 24 X 400 GMS (",
+        "productFamily": "Aloo Paratha"
+      },
+      {
+        "itemCode": "10",
+        "itemName": "FGSPKI0001",
+        "category": "401442 - CURRY POWDER 2 X 10 KGS TIN",
+        "productFamily": "Curry Powder"
+      },
+      {
+        "itemCode": "11",
+        "itemName": "FGIPAS0053",
+        "category": "TANDOORI NAAN - GARLIC (FROZEN) 8 X 10",
+        "productFamily": "Tandoori Naan Garlic"
+      },
+      {
+        "itemCode": "12",
+        "itemName": "FGISAS0067",
+        "category": "MEGA PUNJABI SAMOSA (RESTAURANT STYLE)",
+        "productFamily": "Mega Punjabi Samosa Restaurant"
+      },
+      {
+        "itemCode": "13",
+        "itemName": "FGIPAS0015",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 24 X 42",
+        "productFamily": "Tandoori Naan Plain"
+      },
+      {
+        "itemCode": "14",
+        "itemName": "FGIPAS0021",
+        "category": "TANDOORI NAAN - PLAIN (FROZEN) 12 X 42",
+        "productFamily": "Tandoori Naan Plain"
+      },
+      {
+        "itemCode": "15",
+        "itemName": "FGIVAS0022",
+        "category": "COCONUT SHREDS 24 X 310 GMS BAGS (FROZ",
+        "productFamily": "Coconut Shreds"
+      },
+      {
+        "itemCode": "16",
+        "itemName": "FGPLAS0003",
+        "category": "KESAR MANGO PULP 6 X 850 GMS OTS CANS",
+        "productFamily": "Kesar Mango Pulp"
+      },
+      {
+        "itemCode": "17",
+        "itemName": "FGIPLX0009",
+        "category": "LFNT1 - TANDOORI PLAIN NAAN 8 X 1.36 K",
+        "productFamily": "Tandoori Plain Naan"
+      },
+      {
+        "itemCode": "18",
+        "itemName": "FGIPLX0004",
+        "category": "LFNG10 - BULK GARLIC BUTTER NAAN  8 X",
+        "productFamily": "Garlic Butter Naan"
+      },
+      {
+        "itemCode": "19",
+        "itemName": "FGIPAS0022",
+        "category": "TANDOORI NAAN - GARLIC (FROZEN) 12 X 3",
+        "productFamily": "Tandoori Naan Garlic"
+      },
+      {
+        "itemCode": "20",
+        "itemName": "FGIVAS0010",
+        "category": "OKRA-CUT (BHINDI-CUT) 24 X 310 GMS BAG",
+        "productFamily": "Okra Cut Bhindi Cut"
+      },
+      {
+        "itemCode": "21",
+        "itemName": "FGISAS0167",
+        "category": "3 x 1.33KG ROYAL INDIAN THALI – MEAL C",
+        "productFamily": "Royal Indian Thali Meal Combo O"
+      },
+      {
+        "itemCode": "22",
+        "itemName": "FGCHUB0004",
+        "category": "MANGO CHUTNEY BASE 290 KGS CARBOYS",
+        "productFamily": "Mango Chutney"
+      },
+      {
+        "itemCode": "23",
+        "itemName": "FGIPAS0018",
+        "category": "PANEER PARATHA 24 X 300 GMS (3PCS) PAC",
+        "productFamily": "Paneer Paratha"
+      },
+      {
+        "itemCode": "24",
+        "itemName": "FGTMAR0006",
+        "category": "TAMARIND 10 X 1 KGS SLAB",
+        "productFamily": "Tamarind"
+      },
+      {
+        "itemCode": "25",
+        "itemName": "FGISAS0129",
+        "category": "PUNJABI SAMOSA WITH GREEN AND KHATTI M",
+        "productFamily": "Punjabi Samosa With Green And K"
+      },
+      {
+        "itemCode": "26",
+        "itemName": "FGIVAS0020",
+        "category": "INDIAN GREEN PEAS 24 X 310 GMS (FROZEN",
+        "productFamily": "Indian Green Peas"
+      },
+      {
+        "itemCode": "27",
+        "itemName": "FGEPKJ0001",
+        "category": "JASMINE RICE (READY TO EAT COOKED RICE",
+        "productFamily": "Basmati Rice Ready To Eat Cooke"
+      },
+      {
+        "itemCode": "28",
+        "itemName": "FGIPAS0049",
+        "category": "ASLI PARATHA (TRIANGULAR) -(FROZEN) 8",
+        "productFamily": "Asli Paratha Triangular"
+      },
+      {
+        "itemCode": "29",
+        "itemName": "FGISLX0003",
+        "category": "LFPS2 - PUNJABI SAMOSA (VALUE PACK) 6",
+        "productFamily": "Punjabi Samosa"
+      }
+    ],
+    "zeroRevenueSkuCount": 200,
+    "pfLevelPareto": [],
+    "rationalizationCandidates": []
+  }
 }
