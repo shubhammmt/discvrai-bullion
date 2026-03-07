@@ -145,6 +145,7 @@ import AdfMisDashboard from './pages/AdfMisDashboard';
 import EnterpriseBrochure from './pages/EnterpriseBrochure';
 import DeepIndustriesProposal from './pages/DeepIndustriesProposal';
 import NbfcProposal from './pages/NbfcProposal';
+import AdfStrategicDashboard from './pages/AdfStrategicDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
