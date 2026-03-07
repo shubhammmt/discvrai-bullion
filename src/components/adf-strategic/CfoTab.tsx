@@ -1,17 +1,12 @@
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, TrendingDown } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { priceRealization, totalValueLeakage, customerConcentration, fmtUsd, fmtPct, fmtNum } from '@/data/adfStrategicData';
+import { priceRealization, totalValueLeakage, customerConcentration, sharperMetrics, fmtUsd, fmtPct, fmtNum } from '@/data/adfStrategicData';
 import { InfoTooltip } from '@/components/adf-mis/InfoTooltip';
-
-const STRATEGIC_TOOLTIPS = {
-  valueLeak: 'Margin erosion when CY $/KG < PY $/KG. (PY $/KG − CY $/KG) × CY KGs.',
-  pyCy: 'Prior Year (FY25) vs Current Year (FY26). All in USD (GBP converted at market rates).',
-  revPerSku: 'Revenue per SKU. Higher = more efficient portfolio; lower = SKU proliferation.',
-};
 
 export const CfoTab: React.FC = () => {
   const sorted = [...priceRealization].sort((a, b) => b.valueLeak - a.valueLeak);
+  const dc = sharperMetrics.decliningCustomers;
 
   return (
     <div className="space-y-6">
@@ -20,7 +15,7 @@ export const CfoTab: React.FC = () => {
         <div className="flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-red-600" />
           <span className="text-sm font-semibold text-red-800">Total Value Leakage</span>
-          <InfoTooltip text={STRATEGIC_TOOLTIPS.valueLeak} />
+          <InfoTooltip text="Margin erosion when CY $/KG < PY $/KG. (PY $/KG − CY $/KG) × CY KGs." />
         </div>
         <div className="text-3xl font-bold text-red-700 mt-2">{fmtUsd(totalValueLeakage)}</div>
         <div className="text-xs text-red-500 mt-1">Sum of margin erosion across all categories where CY $/KG &lt; PY $/KG</div>
@@ -45,7 +40,7 @@ export const CfoTab: React.FC = () => {
               <TableHead className="text-[10px] text-right">PY $/KG</TableHead>
               <TableHead className="text-[10px] text-right">CY $/KG</TableHead>
               <TableHead className="text-[10px] text-right">Price Δ%</TableHead>
-              <TableHead className="text-[10px] text-right">Value Leak</TableHead>
+              <TableHead className="text-[10px] text-right">Value Leak <InfoTooltip text="Margin erosion when CY $/KG < PY $/KG. (PY $/KG − CY $/KG) × CY KGs." /></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -104,6 +99,45 @@ export const CfoTab: React.FC = () => {
           </TableBody>
         </Table>
       </div>
+
+      {/* Declining Customers */}
+      {dc.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-auto">
+          <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                <TrendingDown className="w-4 h-4 text-red-500" />
+                Declining Customers
+                <InfoTooltip text="Churn risk; cross-reference with receivables aging" />
+              </h3>
+              <p className="text-[10px] text-gray-400 mt-0.5">Customers with negative YoY growth</p>
+            </div>
+            <span className="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full">{sharperMetrics.decliningCustomerCount}</span>
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-[10px]">Customer</TableHead>
+                <TableHead className="text-[10px]">Zone</TableHead>
+                <TableHead className="text-[10px] text-right">CY Rev</TableHead>
+                <TableHead className="text-[10px] text-right">Growth %</TableHead>
+                <TableHead className="text-[10px] text-right">CY Share</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {dc.map((c, i) => (
+                <TableRow key={i}>
+                  <TableCell className="text-[10px] font-medium">{c.customer}</TableCell>
+                  <TableCell className="text-[10px]">{c.zone}</TableCell>
+                  <TableCell className="text-[10px] text-right">{fmtUsd(c.cyRev)}</TableCell>
+                  <TableCell className="text-[10px] text-right font-semibold text-red-600">{fmtPct(c.growthPct)}</TableCell>
+                  <TableCell className="text-[10px] text-right">{c.cyShare}%</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 };

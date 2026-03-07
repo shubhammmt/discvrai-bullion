@@ -1,14 +1,57 @@
 import React from 'react';
-import { TrendingUp, TrendingDown, AlertTriangle, Lightbulb } from 'lucide-react';
+import { TrendingUp, TrendingDown, AlertTriangle, Lightbulb, Shield, Activity } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { revenuePerformance, portfolioHealth, regionalPerformance, strategicBrief, fmtUsd, fmtPct } from '@/data/adfStrategicData';
+import { revenuePerformance, portfolioHealth, regionalPerformance, strategicBrief, sharperMetrics, fmtUsd, fmtPct } from '@/data/adfStrategicData';
+import { InfoTooltip } from '@/components/adf-mis/InfoTooltip';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
 export const CeoTab: React.FC = () => {
+  const gq = sharperMetrics.growthQuality;
+
   return (
     <div className="space-y-6">
+      {/* Diversification Score + Growth Quality */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className={`border rounded-xl p-5 shadow-sm ${sharperMetrics.diversificationScore >= 65 ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}`}>
+          <div className="flex items-center gap-2">
+            <Shield className="w-4 h-4 text-gray-600" />
+            <span className="text-xs font-semibold text-gray-700">Geographic Diversification</span>
+            <InfoTooltip text={`Diversification Score: 100 − max(region share). Target ≥65 = no region >35%. Higher = better diversified.`} />
+          </div>
+          <div className="text-3xl font-bold text-gray-900 mt-2">{sharperMetrics.diversificationScore.toFixed(1)}</div>
+          <div className="flex items-center gap-2 mt-1">
+            <span className={`text-xs font-semibold ${sharperMetrics.diversificationScore >= 65 ? 'text-emerald-600' : 'text-amber-600'}`}>
+              {sharperMetrics.diversificationStatus} Target: ≥{sharperMetrics.diversificationTarget}
+            </span>
+          </div>
+          <div className="text-[10px] text-gray-500 mt-1">
+            Max region: {sharperMetrics.maxRegionName} at {sharperMetrics.maxRegionShare}%
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-gray-600" />
+            <span className="text-xs font-semibold text-gray-700">Growth Quality</span>
+            <InfoTooltip text="% of revenue from categories with improving $/KG. Price-led = healthy; volume-led = margin dilution." />
+          </div>
+          <div className="grid grid-cols-2 gap-4 mt-3">
+            <div>
+              <div className="text-lg font-bold text-emerald-700">{gq.revenueFromImprovingPricePct}%</div>
+              <div className="text-[10px] text-gray-500">Price-led (improving $/KG)</div>
+              <div className="text-[9px] text-gray-400 mt-1">{gq.priceLedCategories.slice(0, 3).join(', ')}{gq.priceLedCategories.length > 3 ? ` +${gq.priceLedCategories.length - 3}` : ''}</div>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-red-600">{gq.revenueFromDecliningPricePct}%</div>
+              <div className="text-[10px] text-gray-500">Volume-led (declining $/KG)</div>
+              <div className="text-[9px] text-gray-400 mt-1">{gq.volumeLedCategories.slice(0, 3).join(', ')}{gq.volumeLedCategories.length > 3 ? ` +${gq.volumeLedCategories.length - 3}` : ''}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Revenue Performance KPIs */}
       <div>
         <h2 className="text-sm font-semibold text-gray-700 mb-3">Revenue Performance</h2>
