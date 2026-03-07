@@ -131,6 +131,85 @@ export interface SalesmanPerformance {
   rating: string;
 }
 
+export interface StrategicActionItem {
+  role: string;
+  action: string;
+}
+
+export interface BrandCategoryItem {
+  brand: string;
+  category: string;
+  cyRevenue: number;
+}
+
+export interface SkuGrowthItem {
+  itemCode: string;
+  itemName: string;
+  category: string;
+  productFamily: string;
+  pyRev: number;
+  cyRev: number;
+  growthPct: number;
+}
+
+export interface PfBySalesmanItem {
+  productFamily: string;
+  salesman: string;
+  cyRevenue: number;
+}
+
+export interface PfByRegionItem {
+  productFamily: string;
+  region: string;
+  cyRevenue: number;
+}
+
+export interface DecliningCustomer {
+  customer: string;
+  zone: string;
+  cyRev: number;
+  growthPct: number;
+  cyShare: number;
+}
+
+export interface ZeroRevenueSku {
+  itemCode: string;
+  itemName: string;
+  category: string;
+  productFamily: string;
+}
+
+export interface PfLevelParetoItem {
+  productFamily: string;
+  skusFor80Pct: number;
+  totalSkus: number;
+  pfRevenue: number;
+  rationalizationFlag: boolean | string;
+}
+
+export interface GrowthQuality {
+  revenueFromImprovingPricePct: number;
+  revenueFromDecliningPricePct: number;
+  totalRevenueGrowth: number;
+  priceLedCategories: string[];
+  volumeLedCategories: string[];
+}
+
+export interface SharperMetrics {
+  diversificationScore: number;
+  maxRegionShare: number;
+  maxRegionName: string;
+  diversificationTarget: number;
+  diversificationStatus: string;
+  growthQuality: GrowthQuality;
+  decliningCustomers: DecliningCustomer[];
+  decliningCustomerCount: number;
+  zeroRevenueSkus: ZeroRevenueSku[];
+  zeroRevenueSkuCount: number;
+  pfLevelPareto: PfLevelParetoItem[];
+  rationalizationCandidates: PfLevelParetoItem[];
+}
+
 const data = strategicJson as any;
 
 export const lastUpdated: string = data.lastUpdated;
@@ -166,6 +245,41 @@ export const topPfs: TopPf[] = data.productFamilyAnalysis?.topPfs || [];
 
 // Salesman
 export const salesmanPerformance: SalesmanPerformance[] = data.salesman?.performance || [];
+
+// NEW: Strategic Action Plan
+export const strategicActionPlan: StrategicActionItem[] = data.strategicActionPlan || [];
+
+// NEW: Brand Category Matrix
+export const brandCategoryMatrix: BrandCategoryItem[] = data.brandCategoryMatrix || [];
+
+// NEW: SKU Growth Tracker
+const rawSkuTracker = data.skuGrowthTracker || {};
+// Filter out header row (itemCode === 'Rank')
+export const skuGrowthItems: SkuGrowthItem[] = (rawSkuTracker.items || []).filter((s: any) => s.itemCode !== 'Rank');
+export const topGrowingSkus: SkuGrowthItem[] = rawSkuTracker.topGrowingSkus || [];
+export const topDecliningSkus: SkuGrowthItem[] = rawSkuTracker.topDecliningSkus || [];
+export const skusFor80PctRevenue: number = rawSkuTracker.skusFor80PctRevenue || 0;
+
+// NEW: PF by Salesman / Region
+export const pfBySalesman: PfBySalesmanItem[] = data.pfBySalesman || [];
+export const pfByRegion: PfByRegionItem[] = data.pfByRegion || [];
+
+// NEW: Sharper Metrics
+const rawSharper = data.sharperMetrics || {};
+export const sharperMetrics: SharperMetrics = {
+  diversificationScore: rawSharper.diversificationScore ?? 0,
+  maxRegionShare: rawSharper.maxRegionShare ?? 0,
+  maxRegionName: rawSharper.maxRegionName ?? '',
+  diversificationTarget: rawSharper.diversificationTarget ?? 65,
+  diversificationStatus: rawSharper.diversificationStatus ?? '',
+  growthQuality: rawSharper.growthQuality ?? { revenueFromImprovingPricePct: 0, revenueFromDecliningPricePct: 0, totalRevenueGrowth: 0, priceLedCategories: [], volumeLedCategories: [] },
+  decliningCustomers: rawSharper.decliningCustomers || [],
+  decliningCustomerCount: rawSharper.decliningCustomerCount ?? 0,
+  zeroRevenueSkus: (rawSharper.zeroRevenueSkus || []).filter((s: any) => s.itemCode !== 'Rank'),
+  zeroRevenueSkuCount: rawSharper.zeroRevenueSkuCount ?? 0,
+  pfLevelPareto: rawSharper.pfLevelPareto || [],
+  rationalizationCandidates: rawSharper.rationalizationCandidates || [],
+};
 
 // Helpers
 export const fmtUsd = (v: number) => '$' + v.toLocaleString('en-US', { maximumFractionDigits: 0 });
