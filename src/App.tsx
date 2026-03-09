@@ -179,7 +179,9 @@ const AppContent = () => {
                        location.pathname === '/proposal/nbfc' ||
                        location.pathname === '/dashboard/adf-strategic' ||
                        location.pathname === '/demo/nbfc-nba' ||
-                       location.pathname === '/demo/nbfc-collections';
+                       location.pathname === '/demo/nbfc-collections' ||
+                       location.pathname === '/demo/nbfc-kyc' ||
+                       location.pathname === '/demo/nbfc-alt-credit';
   return (
     <>
       <Routes>
