@@ -56,6 +56,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
+import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
 import SRCCPitch from './pages/SRCCPitch';
@@ -330,7 +331,8 @@ const AppContent = () => {
            <Route path="/demo/nbfc-nba" element={<NbfcNbaDemo />} />
            <Route path="/demo/nbfc-collections" element={<NbfcCollectionsDemo />} />
            <Route path="/demo/nbfc-kyc" element={<NbfcKycDemo />} />
-           <Route path="/demo/nbfc-alt-credit" element={<NbfcAltCreditDemo />} />
+            <Route path="/demo/nbfc-alt-credit" element={<NbfcAltCreditDemo />} />
+            <Route path="/dashboard/adf-ceo-sales" element={<AdfCeoSalesDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
