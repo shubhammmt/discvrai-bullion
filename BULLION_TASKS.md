@@ -105,3 +105,60 @@
 ### Color Coding:
 - KYC Error: Red/destructive (blocking issue)
 - Order Failed: Amber/warning (payment safe, order issue)
+
+---
+
+## Task 7: Offers for You — /bullion/notifications ✅
+**Status:** Completed  
+**Page:** `/bullion/notifications` → Alerts tab (bottom)
+
+### Overview:
+Replaced the simple redirect "Offers for You" card with two fully-specified offer cards rendered inline.
+
+---
+
+### A. Welcome Offer (First Purchase)
+
+**Trigger:** First-time gold purchase on the platform  
+**Condition:** Minimum transaction value of ₹500  
+**Reward:** ₹10 worth of Free Gold credited to user's Bullion wallet  
+**UX:** "Welcome Reward Applied" banner shown on checkout page when condition met  
+
+**Card Spec:**
+- Icon: Gift (amber)
+- Theme: Amber border + amber-50 background
+- Badge: "First Purchase"
+- Checklist: Min ₹500 · Auto-credited ₹10 gold · Checkout banner confirmation
+- CTA: "Claim Now" → navigates to `/bullion` + toast confirming offer activation
+
+---
+
+### B. Refer & Earn (Milestone Program)
+
+**Target:** Existing users (Referrer)  
+**Milestone:** 10 Successful Referrals  
+**"Successful Referral" Definition:** Referee must complete first transaction of ₹500+  
+**Reward:** ₹100 Bonus Gold credited after 10th successful referral  
+
+**Referral Progress Bar:**
+- Displayed inline in the offer card
+- Label: "Referral Progress" with "X / 10 Completed" counter
+- Progress component fills proportionally (mock: 4/10 = 40%)
+- Milestone strip: 10 individual pill segments, filled for completed referrals
+- Sub-label: "X more referrals to unlock reward"
+- Also visible on `/bullion/profile` via "View in Profile" CTA
+
+**Card Spec:**
+- Icon: Users (blue)
+- Theme: Blue border + blue-50 background
+- Badge: "Milestone Program"
+- Checklist: ₹500+ referee condition · Reward after 10th referral
+- CTAs: "Copy Referral Link" (copies to clipboard + toast) · "View in Profile" (→ `/bullion/profile`)
+
+---
+
+### Implementation Notes:
+- `CheckCircle2`, `Users`, `ArrowRight` icons added to import
+- Both cards use semantic Tailwind tokens (amber/blue design variants)
+- Referral count is mock state (4/10); real count to be wired to user profile API
+- Welcome Offer eligibility check to be wired to transaction history API
