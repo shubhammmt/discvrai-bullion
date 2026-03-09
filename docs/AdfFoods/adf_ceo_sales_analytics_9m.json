@@ -1,0 +1,242 @@
+{
+  "lastUpdated": "2026-03-09T10:56:17.795867",
+  "source": "CEO_Sales_Analytics_9M FY26.xlsx",
+  "currency": "INR",
+  "unit": "Lakhs",
+  "ceoExecutiveSummary": {
+    "revenue9M": {
+      "fy26": 34928.68,
+      "fy25": 32032.29,
+      "growthPct": 9.0,
+      "label": "vs ₹32,032L PY"
+    },
+    "volumeGrowth": {
+      "value": 0.008134124307209561,
+      "label": "15,513 MT vs 15,189 MT PY"
+    },
+    "realizationGrowth": {
+      "value": 0.08162297201498125,
+      "label": "₹228/kg vs ₹211/kg PY"
+    },
+    "grossMargin9M": {
+      "fy26": 61.2,
+      "fy25": 60.2,
+      "deltaPp": -3.2,
+      "label": "PY: 60.2%  Δ-3.2pp"
+    },
+    "q3Growth": {
+      "fy26": 13006.54,
+      "fy25": 11000.17,
+      "growthPct": 18.2,
+      "label": "₹13,007L vs ₹11,000L PY"
+    },
+    "topCategory": {
+      "name": "FROZEN FOODS",
+      "share": 59.1,
+      "label": "59.1% share"
+    },
+    "topZone": {
+      "name": "NORTH AMERICA",
+      "share": 54.1,
+      "label": "54.1% share"
+    },
+    "categorySignals": [
+      { "name": "FROZEN FOODS", "value9M": 20632.41, "growth9MPct": 13.2, "growthQ3Pct": 30.7, "signal": "🚀 Strong Grow" },
+      { "name": "READY TO EAT", "value9M": 3985.16, "growth9MPct": 7.8, "growthQ3Pct": -19.2, "signal": "✅ Growing" },
+      { "name": "CHUTNEY", "value9M": 3446.21, "growth9MPct": -15.7, "growthQ3Pct": -3.5, "signal": "🔻 Degrow" },
+      { "name": "PICKLES", "value9M": 2517.3, "growth9MPct": -13.6, "growthQ3Pct": -0.1, "signal": "🔻 Degrow" },
+      { "name": "PASTE & SAUCES", "value9M": 1352.35, "growth9MPct": -4.8, "growthQ3Pct": 10.1, "signal": "⚠️ Slow" },
+      { "name": "SPICES", "value9M": 1010.69, "growth9MPct": 38.8, "growthQ3Pct": 65.8, "signal": "🚀 Strong Grow" },
+      { "name": "OTHERS", "value9M": 993.42, "growth9MPct": 77.0, "growthQ3Pct": 19.1, "signal": "🚀 Strong Grow" },
+      { "name": "TAMARIND", "value9M": 991.15, "growth9MPct": 152.2, "growthQ3Pct": 3.4, "signal": "🚀 Strong Grow" }
+    ],
+    "brandSignals": [
+      { "name": "ASHOKA BRAND", "value9M": 21045.54, "growth9MPct": 8.7, "growthQ3Pct": 14.0, "signal": "✅ Growing" },
+      { "name": "OTHERS BRAND", "value9M": 7734.0, "growth9MPct": 27.1, "growthQ3Pct": 38.3, "signal": "🚀 Strong Grow" },
+      { "name": "UNBRANDED", "value9M": 1961.55, "growth9MPct": -26.0, "growthQ3Pct": -23.4, "signal": "🔻 Degrow" },
+      { "name": "CAMEL BRAND", "value9M": 1381.79, "growth9MPct": -5.2, "growthQ3Pct": -7.2, "signal": "🔻 Degrow" },
+      { "name": "TRULY INDIAN", "value9M": 1296.15, "growth9MPct": 23.5, "growthQ3Pct": 104.7, "signal": "🚀 Strong Grow" },
+      { "name": "AEROPLANE BRAND", "value9M": 1192.11, "growth9MPct": 12.5, "growthQ3Pct": 57.0, "signal": "🚀 Strong Grow" },
+      { "name": "KHANSAAMA BRAND", "value9M": 164.99, "growth9MPct": 79.0, "growthQ3Pct": 4.4, "signal": "🚀 Strong Grow" },
+      { "name": "SOUL BRAND", "value9M": 152.55, "growth9MPct": -45.3, "growthQ3Pct": 5.4, "signal": "🔻 Degrow" }
+    ]
+  },
+  "profitability": {
+    "entities": [
+      { "entity": "ADFL", "q3Revenue": 13723.63, "q3Ebitda": 2791.34, "q3EbitdaPct": 20.3, "q3Pbt": 2742.52, "q3Pat": 2061.88, "ytdRevenue": 37764.81, "ytdEbitda": 8806.9, "ytdPbt": 9060.73, "health": "🟢 Healthy" },
+      { "entity": "ELEMINATION", "q3Revenue": -2210.12, "q3Ebitda": 9.45, "q3EbitdaPct": -0.4, "q3Pbt": -11.29, "q3Pat": -6.68, "ytdRevenue": -6469.44, "ytdEbitda": -354.18, "ytdPbt": -382.49, "health": "🟡 Moderate" },
+      { "entity": "ADFIL", "q3Revenue": 0.0, "q3Ebitda": -0.55, "q3EbitdaPct": 0.0, "q3Pbt": 0.52, "q3Pat": 0.49, "ytdRevenue": 0.0, "ytdEbitda": -1.17, "ytdPbt": -0.11, "health": "🟡 Moderate" },
+      { "entity": "TFL", "q3Revenue": 90.78, "q3Ebitda": -167.11, "q3EbitdaPct": -184.1, "q3Pbt": -165.67, "q3Pat": -124.56, "ytdRevenue": 291.64, "ytdEbitda": -537.69, "ytdPbt": -533.3, "health": "🟡 Moderate" },
+      { "entity": "AUSTRALIA", "q3Revenue": 86.94, "q3Ebitda": -54.68, "q3EbitdaPct": -62.9, "q3Pbt": -53.59, "q3Pat": -53.59, "ytdRevenue": 179.42, "ytdEbitda": -53.85, "ytdPbt": -52.76, "health": "🟢 Healthy" },
+      { "entity": "ADFUKL", "q3Revenue": 855.78, "q3Ebitda": 155.7, "q3EbitdaPct": 18.2, "q3Pbt": 156.3, "q3Pat": 110.57, "ytdRevenue": 2385.2, "ytdEbitda": 415.63, "ytdPbt": 415.63, "health": "🟡 Moderate" },
+      { "entity": "ADFUSAHLD", "q3Revenue": 6909.17, "q3Ebitda": 781.49, "q3EbitdaPct": 11.3, "q3Pbt": 513.2, "q3Pat": 518.53, "ytdRevenue": 14075.38, "ytdEbitda": 1942.45, "ytdPbt": 1163.46, "health": "" },
+      { "entity": "ADFUSA", "q3Revenue": 1435.33, "q3Ebitda": -244.62, "q3EbitdaPct": -17.0, "q3Pbt": -252.86, "q3Pat": -252.86, "ytdRevenue": 2323.73, "ytdEbitda": -627.94, "ytdPbt": -653.24, "health": "" },
+      { "entity": "VIBRANT", "q3Revenue": 2633.86, "q3Ebitda": -180.02, "q3EbitdaPct": -6.8, "q3Pbt": -175.46, "q3Pat": -175.46, "ytdRevenue": 5790.39, "ytdEbitda": -544.87, "ytdPbt": -565.68, "health": "" },
+      { "entity": "US CONSO_ELIM.", "q3Revenue": -4424.55, "q3Ebitda": -33.96, "q3EbitdaPct": 0.8, "q3Pbt": -34.82, "q3Pat": -33.02, "ytdRevenue": -7691.06, "ytdEbitda": -59.0, "ytdPbt": -58.82, "health": "" },
+      { "entity": "SUBSIDIARY TOTAL", "q3Revenue": 19100.83, "q3Ebitda": 3057.06, "q3EbitdaPct": 16.0, "q3Pbt": 2718.85, "q3Pat": 2045.29, "ytdRevenue": 48650.06, "ytdEbitda": 8986.28, "ytdPbt": 8393.44, "health": "🟡 Moderate" }
+    ],
+    "categoryMargin": [
+      { "category": "FROZEN FOODS", "kgs9MFy26": 7731.25, "cif9MFy26": 20632.41, "pricePerKg": 266.87, "marginPct": 68.9, "marginPctPy": 69.3 },
+      { "category": "CHUTNEY", "kgs9MFy26": 2371.57, "cif9MFy26": 3446.21, "pricePerKg": 145.31, "marginPct": 56.7, "marginPctPy": 53.0 },
+      { "category": "READY TO EAT", "kgs9MFy26": 1657.72, "cif9MFy26": 3985.16, "pricePerKg": 240.4, "marginPct": 57.8, "marginPctPy": 52.6 },
+      { "category": "PICKLES", "kgs9MFy26": 1554.31, "cif9MFy26": 2517.3, "pricePerKg": 161.96, "marginPct": 47.8, "marginPctPy": 41.9 },
+      { "category": "OTHERS", "kgs9MFy26": 600.14, "cif9MFy26": 993.42, "pricePerKg": 165.53, "marginPct": 23.4, "marginPctPy": 29.5 },
+      { "category": "PASTE & SAUCES", "kgs9MFy26": 535.67, "cif9MFy26": 1352.35, "pricePerKg": 252.46, "marginPct": 55.9, "marginPctPy": 48.8 },
+      { "category": "TAMARIND", "kgs9MFy26": 481.89, "cif9MFy26": 991.15, "pricePerKg": 205.68, "marginPct": 34.9, "marginPctPy": 44.8 },
+      { "category": "SPICES", "kgs9MFy26": 380.35, "cif9MFy26": 1010.69, "pricePerKg": 265.73, "marginPct": 34.9, "marginPctPy": 37.2 }
+    ]
+  },
+  "volValuePrice": {
+    "volGrowth": 0.0081341243072095,
+    "valGrowth": 0.09042102772288452,
+    "priceRealization": 17.21,
+    "valueFromVolume": 1164.55,
+    "categories": [
+      { "category": "FROZEN FOODS", "volCy": 7731.25, "volPy": 7157.06, "volGrPct": 8.0, "valCy": 20632.41, "valPy": 18228.98, "valGrPct": 13.2, "pricePerKgCy": 266.87, "pricePerKgPy": 254.7, "priceDelta": 12.17, "valFromVol": 1532.36, "valFromPrice": 940.96 },
+      { "category": "CHUTNEY", "volCy": 2371.57, "volPy": 3152.88, "volGrPct": -24.8, "valCy": 3446.21, "valPy": 4089.74, "valGrPct": -15.7, "pricePerKgCy": 145.31, "pricePerKgPy": 129.71, "priceDelta": 15.6, "valFromVol": -1135.36, "valFromPrice": 369.96 },
+      { "category": "READY TO EAT", "volCy": 1657.72, "volPy": 1606.75, "volGrPct": 3.2, "valCy": 3985.16, "valPy": 3698.21, "valGrPct": 7.8, "pricePerKgCy": 240.4, "pricePerKgPy": 230.17, "priceDelta": 10.23, "valFromVol": 122.54, "valFromPrice": 169.62 },
+      { "category": "PICKLES", "volCy": 1554.31, "volPy": 1916.87, "volGrPct": -18.9, "valCy": 2517.3, "valPy": 2912.63, "valGrPct": -13.6, "pricePerKgCy": 161.96, "pricePerKgPy": 151.95, "priceDelta": 10.01, "valFromVol": -587.2, "valFromPrice": 155.58 },
+      { "category": "OTHERS", "volCy": 600.14, "volPy": 256.95, "volGrPct": 133.6, "valCy": 993.42, "valPy": 561.2, "valGrPct": 77.0, "pricePerKgCy": 165.53, "pricePerKgPy": 218.41, "priceDelta": -52.88, "valFromVol": 568.09, "valFromPrice": -317.37 },
+      { "category": "PASTE & SAUCES", "volCy": 535.67, "volPy": 581.48, "volGrPct": -7.9, "valCy": 1352.35, "valPy": 1420.38, "valGrPct": -4.8, "pricePerKgCy": 252.46, "pricePerKgPy": 244.27, "priceDelta": 8.19, "valFromVol": -115.67, "valFromPrice": 43.88 },
+      { "category": "TAMARIND", "volCy": 481.89, "volPy": 254.28, "volGrPct": 89.5, "valCy": 991.15, "valPy": 393.02, "valGrPct": 152.2, "pricePerKgCy": 205.68, "pricePerKgPy": 154.57, "priceDelta": 51.11, "valFromVol": 468.15, "valFromPrice": 246.31 },
+      { "category": "SPICES", "volCy": 380.35, "volPy": 263.07, "volGrPct": 44.6, "valCy": 1010.69, "valPy": 728.12, "valGrPct": 38.8, "pricePerKgCy": 265.73, "pricePerKgPy": 276.78, "priceDelta": -11.05, "valFromVol": 311.64, "valFromPrice": -42.04 },
+      { "category": "TOTAL", "volCy": 15312.88, "volPy": 15189.33, "volGrPct": 0.8, "valCy": 34928.68, "valPy": 32032.29, "valGrPct": 9.0, "pricePerKgCy": 228.1, "pricePerKgPy": 210.89, "priceDelta": 17.21, "valFromVol": 1164.55, "valFromPrice": 1566.91 }
+    ]
+  },
+  "salesDashboard": {
+    "byCategory": [
+      { "category": "FROZEN FOODS", "q1Fy26": 4835.06, "q2Fy26": 8055.37, "q3Fy26": 7741.99, "9mFy26": 20632.41, "q1Fy25": 5481.79, "q2Fy25": 6823.34, "q3Fy25": 5923.85, "9mFy25": 18228.98, "q3GrPct": 30.7, "9mGrPct": 13.2, "mixPct": 59.1 },
+      { "category": "READY TO EAT", "q1Fy26": 1292.85, "q2Fy26": 1377.81, "q3Fy26": 1314.5, "9mFy26": 3985.16, "q1Fy25": 923.31, "q2Fy25": 1148.13, "q3Fy25": 1626.77, "9mFy25": 3698.21, "q3GrPct": -19.2, "9mGrPct": 7.8, "mixPct": 11.4 },
+      { "category": "CHUTNEY", "q1Fy26": 1032.42, "q2Fy26": 1021.48, "q3Fy26": 1392.31, "9mFy26": 3446.21, "q1Fy25": 1111.36, "q2Fy25": 1535.95, "q3Fy25": 1442.43, "9mFy25": 4089.74, "q3GrPct": -3.5, "9mGrPct": -15.7, "mixPct": 9.9 },
+      { "category": "PICKLES", "q1Fy26": 622.25, "q2Fy26": 988.73, "q3Fy26": 906.32, "9mFy26": 2517.3, "q1Fy25": 877.28, "q2Fy25": 1128.16, "q3Fy25": 907.19, "9mFy25": 2912.63, "q3GrPct": -0.1, "9mGrPct": -13.6, "mixPct": 7.2 },
+      { "category": "PASTE & SAUCES", "q1Fy26": 384.87, "q2Fy26": 411.56, "q3Fy26": 555.92, "9mFy26": 1352.35, "q1Fy25": 390.64, "q2Fy25": 525.02, "q3Fy25": 504.72, "9mFy25": 1420.38, "q3GrPct": 10.1, "9mGrPct": -4.8, "mixPct": 3.9 },
+      { "category": "SPICES", "q1Fy26": 222.05, "q2Fy26": 374.67, "q3Fy26": 413.96, "9mFy26": 1010.69, "q1Fy25": 172.03, "q2Fy25": 306.4, "q3Fy25": 249.69, "9mFy25": 728.12, "q3GrPct": 65.8, "9mGrPct": 38.8, "mixPct": 2.9 },
+      { "category": "OTHERS", "q1Fy26": 183.35, "q2Fy26": 500.26, "q3Fy26": 309.8, "9mFy26": 993.42, "q1Fy25": 112.94, "q2Fy25": 188.07, "q3Fy25": 260.2, "9mFy25": 561.2, "q3GrPct": 19.1, "9mGrPct": 77.0, "mixPct": 2.8 },
+      { "category": "TAMARIND", "q1Fy26": 215.61, "q2Fy26": 403.8, "q3Fy26": 371.74, "9mFy26": 991.15, "q1Fy25": 73.95, "q2Fy25": 233.76, "q3Fy25": 85.32, "9mFy25": 393.02, "q3GrPct": 3.4, "9mGrPct": 152.2, "mixPct": 2.8 },
+      { "category": "TOTAL", "q1Fy26": 8788.46, "q2Fy26": 13133.68, "q3Fy26": 13006.54, "9mFy26": 34928.68, "q1Fy25": 9143.29, "q2Fy25": 11888.83, "q3Fy25": 11000.17, "9mFy25": 32032.29, "q3GrPct": 18.2, "9mGrPct": 9.0, "mixPct": 100.0 }
+    ],
+    "byBrand": [
+      { "brand": "ASHOKA BRAND", "q1Fy26": 4982.48, "q2Fy26": 8385.47, "q3Fy26": 7677.59, "9mFy26": 21045.54, "q1Fy25": 5481.79, "q2Fy25": 6823.34, "q3Fy25": 5923.85, "9mFy25": 18228.98, "q3GrPct": 29.6, "9mGrPct": 15.5, "mixPct": 60.3 },
+      { "brand": "OTHERS BRAND", "q1Fy26": 2161.87, "q2Fy26": 2646.32, "q3Fy26": 2925.8, "9mFy26": 7734.0, "q1Fy25": 923.31, "q2Fy25": 1148.13, "q3Fy25": 1626.77, "9mFy25": 3698.21, "q3GrPct": 79.9, "9mGrPct": 109.1, "mixPct": 22.1 },
+      { "brand": "UNBRANDED", "q1Fy26": 575.64, "q2Fy26": 656.05, "q3Fy26": 729.87, "9mFy26": 1961.55, "q1Fy25": 1111.36, "q2Fy25": 1535.95, "q3Fy25": 1442.43, "9mFy25": 4089.74, "q3GrPct": -49.4, "9mGrPct": -52.0, "mixPct": 5.6 },
+      { "brand": "CAMEL BRAND", "q1Fy26": 423.46, "q2Fy26": 470.94, "q3Fy26": 487.39, "9mFy26": 1381.79, "q1Fy25": 877.28, "q2Fy25": 1128.16, "q3Fy25": 907.19, "9mFy25": 2912.63, "q3GrPct": -46.3, "9mGrPct": -52.6, "mixPct": 4.0 },
+      { "brand": "TRULY INDIAN", "q1Fy26": 364.62, "q2Fy26": 429.21, "q3Fy26": 502.32, "9mFy26": 1296.15, "q1Fy25": 390.64, "q2Fy25": 525.02, "q3Fy25": 504.72, "9mFy25": 1420.38, "q3GrPct": -0.5, "9mGrPct": -8.7, "mixPct": 3.7 },
+      { "brand": "AEROPLANE BRAND", "q1Fy26": 201.83, "q2Fy26": 447.11, "q3Fy26": 543.17, "9mFy26": 1192.11, "q1Fy25": 172.03, "q2Fy25": 306.4, "q3Fy25": 249.69, "9mFy25": 728.12, "q3GrPct": 117.5, "9mGrPct": 63.7, "mixPct": 3.4 },
+      { "brand": "KHANSAAMA BRAND", "q1Fy26": 34.89, "q2Fy26": 62.43, "q3Fy26": 67.67, "9mFy26": 164.99, "q1Fy25": 112.94, "q2Fy25": 188.07, "q3Fy25": 260.2, "9mFy25": 561.2, "q3GrPct": -74.0, "9mGrPct": -70.6, "mixPct": 0.5 },
+      { "brand": "SOUL BRAND", "q1Fy26": 43.66, "q2Fy26": 36.14, "q3Fy26": 72.75, "9mFy26": 152.55, "q1Fy25": 73.95, "q2Fy25": 233.76, "q3Fy25": 85.32, "9mFy25": 393.02, "q3GrPct": -14.7, "9mGrPct": -61.2, "mixPct": 0.4 },
+      { "brand": "TOTAL", "q1Fy26": 8788.46, "q2Fy26": 13133.68, "q3Fy26": 13006.54, "9mFy26": 34928.68, "q1Fy25": 9143.29, "q2Fy25": 11888.83, "q3Fy25": 11000.17, "9mFy25": 32032.29, "q3GrPct": 18.2, "9mGrPct": 9.0, "mixPct": 100.0 },
+      { "brand": "🌍 ZONE-WISE PERFORMANCE", "q1Fy26": 0, "q2Fy26": 0, "q3Fy26": 0, "9mFy26": 0, "q1Fy25": 0, "q2Fy25": 0, "q3Fy25": 0, "9mFy25": 0, "q3GrPct": 0, "9mGrPct": 0, "mixPct": 0 }
+    ]
+  },
+  "top10Tail": {
+    "categories": [
+      { "category": "FROZEN FOODS", "9mFy26": 20632.41, "9mFy25": 18228.98, "absDelta": 2403.44, "9mGrPct": 13.2, "q3GrPct": 30.7, "sharePct": 59.1, "cumPct": 59.1, "status": "🚀 Strong" },
+      { "category": "READY TO EAT", "9mFy26": 3985.16, "9mFy25": 3698.21, "absDelta": 286.95, "9mGrPct": 7.8, "q3GrPct": -19.2, "sharePct": 11.4, "cumPct": 70.5, "status": "✅ Growing" },
+      { "category": "CHUTNEY", "9mFy26": 3446.21, "9mFy25": 4089.74, "absDelta": -643.53, "9mGrPct": -15.7, "q3GrPct": -3.5, "sharePct": 9.9, "cumPct": 80.3, "status": "🔻 Degrow" },
+      { "category": "PICKLES", "9mFy26": 2517.3, "9mFy25": 2912.63, "absDelta": -395.33, "9mGrPct": -13.6, "q3GrPct": -0.1, "sharePct": 7.2, "cumPct": 87.6, "status": "🔻 Degrow" },
+      { "category": "PASTE & SAUCES", "9mFy26": 1352.35, "9mFy25": 1420.38, "absDelta": -68.04, "9mGrPct": -4.8, "q3GrPct": 10.1, "sharePct": 3.9, "cumPct": 91.4, "status": "🔻 Degrow" },
+      { "category": "SPICES", "9mFy26": 1010.69, "9mFy25": 728.12, "absDelta": 282.56, "9mGrPct": 38.8, "q3GrPct": 65.8, "sharePct": 2.9, "cumPct": 94.3, "status": "🚀 Strong" },
+      { "category": "OTHERS", "9mFy26": 993.42, "9mFy25": 561.2, "absDelta": 432.21, "9mGrPct": 77.0, "q3GrPct": 19.1, "sharePct": 2.8, "cumPct": 97.2, "status": "🚀 Strong" },
+      { "category": "TAMARIND", "9mFy26": 991.15, "9mFy25": 393.02, "absDelta": 598.12, "9mGrPct": 152.2, "q3GrPct": 3.4, "sharePct": 2.8, "cumPct": 100.0, "status": "🚀 Strong" }
+    ],
+    "brands": [
+      { "brand": "ASHOKA BRAND", "9mFy26": 21045.54, "9mFy25": 19357.67, "absDelta": 1687.87, "9mGrPct": 8.7, "q3GrPct": 14.0, "sharePct": 60.3, "cumPct": 60.3, "status": "✅ Growing" },
+      { "brand": "OTHERS BRAND", "9mFy26": 7734.0, "9mFy25": 6086.82, "absDelta": 1647.18, "9mGrPct": 27.1, "q3GrPct": 38.3, "sharePct": 22.1, "cumPct": 82.4, "status": "🚀 Strong" },
+      { "brand": "UNBRANDED", "9mFy26": 1961.55, "9mFy25": 2649.92, "absDelta": -688.37, "9mGrPct": -26.0, "q3GrPct": -23.4, "sharePct": 5.6, "cumPct": 88.0, "status": "🔻 Degrow" },
+      { "brand": "CAMEL BRAND", "9mFy26": 1381.79, "9mFy25": 1457.91, "absDelta": -76.12, "9mGrPct": -5.2, "q3GrPct": -7.2, "sharePct": 4.0, "cumPct": 92.0, "status": "🔻 Degrow" },
+      { "brand": "TRULY INDIAN", "9mFy26": 1296.15, "9mFy25": 1049.61, "absDelta": 246.54, "9mGrPct": 23.5, "q3GrPct": 104.7, "sharePct": 3.7, "cumPct": 95.7, "status": "🚀 Strong" },
+      { "brand": "AEROPLANE BRAND", "9mFy26": 1192.11, "9mFy25": 1059.35, "absDelta": 132.76, "9mGrPct": 12.5, "q3GrPct": 57.0, "sharePct": 3.4, "cumPct": 99.1, "status": "🚀 Strong" },
+      { "brand": "KHANSAAMA BRAND", "9mFy26": 164.99, "9mFy25": 92.15, "absDelta": 72.84, "9mGrPct": 79.0, "q3GrPct": 4.4, "sharePct": 0.5, "cumPct": 99.6, "status": "🚀 Strong" },
+      { "brand": "SOUL BRAND", "9mFy26": 152.55, "9mFy25": 278.85, "absDelta": -126.3, "9mGrPct": -45.3, "q3GrPct": 5.4, "sharePct": 0.4, "cumPct": 100.0, "status": "🔻 Degrow" },
+      { "brand": "🌍 TOP ZONES", "9mFy26": 0, "9mFy25": 0, "absDelta": 0, "9mGrPct": 0, "q3GrPct": 0, "sharePct": 0, "cumPct": 0, "status": "" }
+    ]
+  },
+  "growthAnalysis": {
+    "categories": [
+      { "category": "FROZEN FOODS", "9mFy26": 20632.41, "9mFy25": 18228.98, "absDelta": 2403.44, "9mGrPct": 13.2, "q1GrPct": -11.8, "q2GrPct": 18.1, "q3GrPct": 30.7, "trend": "🚀" },
+      { "category": "READY TO EAT", "9mFy26": 3985.16, "9mFy25": 3698.21, "absDelta": 286.95, "9mGrPct": 7.8, "q1GrPct": 40.0, "q2GrPct": 20.0, "q3GrPct": -19.2, "trend": "📈" },
+      { "category": "CHUTNEY", "9mFy26": 3446.21, "9mFy25": 4089.74, "absDelta": -643.53, "9mGrPct": -15.7, "q1GrPct": -7.1, "q2GrPct": -33.5, "q3GrPct": -3.5, "trend": "🚀" },
+      { "category": "PICKLES", "9mFy26": 2517.3, "9mFy25": 2912.63, "absDelta": -395.33, "9mGrPct": -13.6, "q1GrPct": -29.1, "q2GrPct": -12.4, "q3GrPct": -0.1, "trend": "🚀" },
+      { "category": "PASTE & SAUCES", "9mFy26": 1352.35, "9mFy25": 1420.38, "absDelta": -68.04, "9mGrPct": -4.8, "q1GrPct": -1.5, "q2GrPct": -21.6, "q3GrPct": 10.1, "trend": "🔻" },
+      { "category": "SPICES", "9mFy26": 1010.69, "9mFy25": 728.12, "absDelta": 282.56, "9mGrPct": 38.8, "q1GrPct": 29.1, "q2GrPct": 22.3, "q3GrPct": 65.8, "trend": "🚀" },
+      { "category": "OTHERS", "9mFy26": 993.42, "9mFy25": 561.2, "absDelta": 432.21, "9mGrPct": 77.0, "q1GrPct": 62.3, "q2GrPct": 166.0, "q3GrPct": 19.1, "trend": "📉" },
+      { "category": "TAMARIND", "9mFy26": 991.15, "9mFy25": 393.02, "absDelta": 598.12, "9mGrPct": 152.2, "q1GrPct": 191.6, "q2GrPct": 72.7, "q3GrPct": 3.4, "trend": "📉" }
+    ],
+    "brands": [
+      { "brand": "ASHOKA BRAND", "9mFy26": 21045.54, "9mFy25": 19357.67, "absDelta": 1687.87, "9mGrPct": 8.7, "q1GrPct": -4.4, "q2GrPct": 13.1, "q3GrPct": 14.0, "trend": "🚀" },
+      { "brand": "OTHERS BRAND", "9mFy26": 7734.0, "9mFy25": 6086.82, "absDelta": 1647.18, "9mGrPct": 27.1, "q1GrPct": 5.7, "q2GrPct": 37.4, "q3GrPct": 38.3, "trend": "🚀" },
+      { "brand": "UNBRANDED", "9mFy26": 1961.55, "9mFy25": 2649.92, "absDelta": -688.37, "9mGrPct": -26.0, "q1GrPct": -17.1, "q2GrPct": -34.5, "q3GrPct": -23.4, "trend": "🚀" },
+      { "brand": "CAMEL BRAND", "9mFy26": 1381.79, "9mFy25": 1457.91, "absDelta": -76.12, "9mGrPct": -5.2, "q1GrPct": 7.2, "q2GrPct": -12.4, "q3GrPct": -7.2, "trend": "🚀" },
+      { "brand": "TRULY INDIAN", "9mFy26": 1296.15, "9mFy25": 1049.61, "absDelta": 246.54, "9mGrPct": 23.5, "q1GrPct": 7.9, "q2GrPct": -8.0, "q3GrPct": 104.7, "trend": "🚀" },
+      { "brand": "AEROPLANE BRAND", "9mFy26": 1192.11, "9mFy25": 1059.35, "absDelta": 132.76, "9mGrPct": 12.5, "q1GrPct": -35.2, "q2GrPct": 11.2, "q3GrPct": 57.0, "trend": "🔻" },
+      { "brand": "KHANSAAMA BRAND", "9mFy26": 164.99, "9mFy25": 92.15, "absDelta": 72.84, "9mGrPct": 79.0, "q1GrPct": -13.4, "q2GrPct": 59.0, "q3GrPct": 4.4, "trend": "🔻" },
+      { "brand": "SOUL BRAND", "9mFy26": 152.55, "9mFy25": 278.85, "absDelta": -126.3, "9mGrPct": -45.3, "q1GrPct": -58.8, "q2GrPct": -65.2, "q3GrPct": 5.4, "trend": "🚀" },
+      { "brand": "🌍 ZONE GROWTH", "9mFy26": 0, "9mFy25": 0, "absDelta": 0, "9mGrPct": 0, "q1GrPct": 0, "q2GrPct": 0, "q3GrPct": 0, "trend": "" }
+    ]
+  },
+  "profitability9M": {
+    "products": [
+      { "productName": "Frozen Foods", "kgsFy26": 7731.25, "cifFy26": 20632.41, "perKgFy26": 266.87, "costFy26": 6406.73, "marginFy26": 14225.68, "marginPctFy26": 68.9, "kgsFy25": 7157.06, "cifFy25": 18228.98, "perKgFy25": 254.7, "marginPctFy25": 69.3 },
+      { "productName": "Chutney", "kgsFy26": 2371.57, "cifFy26": 3446.21, "perKgFy26": 145.31, "costFy26": 1492.41, "marginFy26": 1953.8, "marginPctFy26": 56.7, "kgsFy25": 3152.88, "cifFy25": 4089.74, "perKgFy25": 129.71, "marginPctFy25": 53.0 },
+      { "productName": "Pickles", "kgsFy26": 1554.31, "cifFy26": 2517.3, "perKgFy26": 161.96, "costFy26": 1313.2, "marginFy26": 1204.1, "marginPctFy26": 47.8, "kgsFy25": 1916.87, "cifFy25": 2912.63, "perKgFy25": 151.95, "marginPctFy25": 41.9 },
+      { "productName": "Others", "kgsFy26": 600.14, "cifFy26": 993.42, "perKgFy26": 165.53, "costFy26": 761.33, "marginFy26": 232.09, "marginPctFy26": 23.4, "kgsFy25": 256.95, "cifFy25": 561.2, "perKgFy25": 218.41, "marginPctFy25": 29.5 },
+      { "productName": "Ready to eat", "kgsFy26": 1657.72, "cifFy26": 3985.16, "perKgFy26": 240.4, "costFy26": 1680.27, "marginFy26": 2304.89, "marginPctFy26": 57.8, "kgsFy25": 1606.75, "cifFy25": 3698.21, "perKgFy25": 230.17, "marginPctFy25": 52.6 },
+      { "productName": "Spices", "kgsFy26": 380.35, "cifFy26": 1010.69, "perKgFy26": 265.73, "costFy26": 657.8, "marginFy26": 352.89, "marginPctFy26": 34.9, "kgsFy25": 263.07, "cifFy25": 728.12, "perKgFy25": 276.78, "marginPctFy25": 37.2 },
+      { "productName": "Tamarind", "kgsFy26": 481.89, "cifFy26": 991.15, "perKgFy26": 205.68, "costFy26": 645.04, "marginFy26": 346.11, "marginPctFy26": 34.9, "kgsFy25": 254.28, "cifFy25": 393.02, "perKgFy25": 154.57, "marginPctFy25": 44.8 },
+      { "productName": "Paste & Sauces", "kgsFy26": 535.67, "cifFy26": 1352.35, "perKgFy26": 252.46, "costFy26": 596.89, "marginFy26": 755.46, "marginPctFy26": 55.9, "kgsFy25": 581.48, "cifFy25": 1420.38, "perKgFy25": 244.27, "marginPctFy25": 48.8 },
+      { "productName": "Total", "kgsFy26": 15312.88, "cifFy26": 34928.68, "perKgFy26": 228.1, "costFy26": 13553.67, "marginFy26": 21375.01, "marginPctFy26": 61.2, "kgsFy25": 15189.33, "cifFy25": 32032.29, "perKgFy25": 210.89, "marginPctFy25": 60.2 }
+    ]
+  },
+  "entityPnl": {
+    "entities": [
+      { "entity": "ADFL", "q3Fy26Revenue": 13723.63, "q3Fy26Ebitda": 2791.34, "q3Fy26Pbt": 2742.52, "q3Fy26Pat": 2061.88, "q3Fy25Revenue": 12110.73, "q3Fy25Ebitda": 2547.73, "q3Fy25Pbt": 2654.16, "q3Fy25Pat": 2018.98 },
+      { "entity": "ELEMINATION", "q3Fy26Revenue": -2210.12, "q3Fy26Ebitda": 9.45, "q3Fy26Pbt": -11.29, "q3Fy26Pat": -6.68, "q3Fy25Revenue": -1226.87, "q3Fy25Ebitda": 78.54, "q3Fy25Pbt": -24.1, "q3Fy25Pat": -27.53 },
+      { "entity": "ADFIL", "q3Fy26Revenue": 0.0, "q3Fy26Ebitda": -0.55, "q3Fy26Pbt": 0.52, "q3Fy26Pat": 0.49, "q3Fy25Revenue": 14.81, "q3Fy25Ebitda": -3.87, "q3Fy25Pbt": -3.87, "q3Fy25Pat": -3.91 },
+      { "entity": "TFL", "q3Fy26Revenue": 90.78, "q3Fy26Ebitda": -167.11, "q3Fy26Pbt": -165.67, "q3Fy26Pat": -124.56, "q3Fy25Revenue": 159.54, "q3Fy25Ebitda": -272.96, "q3Fy25Pbt": -264.5, "q3Fy25Pat": -198.37 },
+      { "entity": "AUSTRALIA", "q3Fy26Revenue": 86.94, "q3Fy26Ebitda": -54.68, "q3Fy26Pbt": -53.59, "q3Fy26Pat": -53.59, "q3Fy25Revenue": 0.0, "q3Fy25Ebitda": 0.0, "q3Fy25Pbt": 0.0, "q3Fy25Pat": 0.0 },
+      { "entity": "ADFUKL", "q3Fy26Revenue": 855.78, "q3Fy26Ebitda": 155.7, "q3Fy26Pbt": 156.3, "q3Fy26Pat": 110.57, "q3Fy25Revenue": 291.59, "q3Fy25Ebitda": -7.93, "q3Fy25Pbt": -8.26, "q3Fy25Pat": -23.58 },
+      { "entity": "ADFUSAHLD", "q3Fy26Revenue": 6909.17, "q3Fy26Ebitda": 781.49, "q3Fy26Pbt": 513.2, "q3Fy26Pat": 518.53, "q3Fy25Revenue": 3825.75, "q3Fy25Ebitda": 795.98, "q3Fy25Pbt": 572.78, "q3Fy25Pat": 572.78 },
+      { "entity": "ADFUSA", "q3Fy26Revenue": 1435.33, "q3Fy26Ebitda": -244.62, "q3Fy26Pbt": -252.86, "q3Fy26Pat": -252.86, "q3Fy25Revenue": 183.1, "q3Fy25Ebitda": -164.85, "q3Fy25Pbt": -173.68, "q3Fy25Pat": -173.68 },
+      { "entity": "VIBRANT", "q3Fy26Revenue": 2633.86, "q3Fy26Ebitda": -180.02, "q3Fy26Pbt": -175.46, "q3Fy26Pat": -175.46, "q3Fy25Revenue": 1313.37, "q3Fy25Ebitda": -305.71, "q3Fy25Pbt": -150.96, "q3Fy25Pat": -151.34 },
+      { "entity": "US CONSO_ELIM.", "q3Fy26Revenue": -4424.55, "q3Fy26Ebitda": -33.96, "q3Fy26Pbt": -34.82, "q3Fy26Pat": -33.02, "q3Fy25Revenue": -1922.92, "q3Fy25Ebitda": -32.51, "q3Fy25Pbt": -105.09, "q3Fy25Pat": -139.96 },
+      { "entity": "SUBSIDIARY TOTAL", "q3Fy26Revenue": 6553.81, "q3Fy26Ebitda": 322.9, "q3Fy26Pbt": 50.06, "q3Fy26Pat": 57.18, "q3Fy25Revenue": 3865.23, "q3Fy25Ebitda": 8.14, "q3Fy25Pbt": -133.57, "q3Fy25Pat": -118.06 }
+    ]
+  },
+  "productWise": {
+    "products": [
+      { "productName": "FROZEN FOODS", "q1Fy26": 4835.06, "q2Fy26": 8055.37, "q3Fy26": 7741.99, "9mFy26": 20632.41, "q1Fy25": 5481.79, "q2Fy25": 6823.34, "q3Fy25": 5923.85, "9mFy25": 18228.98 },
+      { "productName": "READY TO EAT", "q1Fy26": 1292.85, "q2Fy26": 1377.81, "q3Fy26": 1314.5, "9mFy26": 3985.16, "q1Fy25": 923.31, "q2Fy25": 1148.13, "q3Fy25": 1626.77, "9mFy25": 3698.21 },
+      { "productName": "CHUTNEY", "q1Fy26": 1032.42, "q2Fy26": 1021.48, "q3Fy26": 1392.31, "9mFy26": 3446.21, "q1Fy25": 1111.36, "q2Fy25": 1535.95, "q3Fy25": 1442.43, "9mFy25": 4089.74 },
+      { "productName": "PICKLES", "q1Fy26": 622.25, "q2Fy26": 988.73, "q3Fy26": 906.32, "9mFy26": 2517.3, "q1Fy25": 877.28, "q2Fy25": 1128.16, "q3Fy25": 907.19, "9mFy25": 2912.63 },
+      { "productName": "PASTE & SAUCES", "q1Fy26": 384.87, "q2Fy26": 411.56, "q3Fy26": 555.92, "9mFy26": 1352.35, "q1Fy25": 390.64, "q2Fy25": 525.02, "q3Fy25": 504.72, "9mFy25": 1420.38 },
+      { "productName": "SPICES", "q1Fy26": 222.05, "q2Fy26": 374.67, "q3Fy26": 413.96, "9mFy26": 1010.69, "q1Fy25": 172.03, "q2Fy25": 306.4, "q3Fy25": 249.69, "9mFy25": 728.12 },
+      { "productName": "OTHERS", "q1Fy26": 183.35, "q2Fy26": 500.26, "q3Fy26": 309.8, "9mFy26": 993.42, "q1Fy25": 112.94, "q2Fy25": 188.07, "q3Fy25": 260.2, "9mFy25": 561.2 },
+      { "productName": "TAMARIND", "q1Fy26": 215.61, "q2Fy26": 403.8, "q3Fy26": 371.74, "9mFy26": 991.15, "q1Fy25": 73.95, "q2Fy25": 233.76, "q3Fy25": 85.32, "9mFy25": 393.02 },
+      { "productName": "Total", "q1Fy26": 8788.46, "q2Fy26": 13133.68, "q3Fy26": 13006.54, "9mFy26": 34928.68, "q1Fy25": 9143.29, "q2Fy25": 11888.83, "q3Fy25": 11000.17, "9mFy25": 32032.29 }
+    ]
+  },
+  "zoneWise": {
+    "regions": [
+      { "region": "NORTH AMERICA", "q1Fy26": 3860.71, "q2Fy26": 7831.31, "q3Fy26": 7195.85, "9mFy26": 18887.87, "q1Fy25": 4432.81, "q2Fy25": 5641.06, "q3Fy25": 5400.76, "9mFy25": 15474.62 },
+      { "region": "UNITED KINGDOM", "q1Fy26": 1635.73, "q2Fy26": 1897.99, "q3Fy26": 1779.85, "9mFy26": 5313.57, "q1Fy25": 1507.74, "q2Fy25": 2183.66, "q3Fy25": 1964.04, "9mFy25": 5655.45 },
+      { "region": "WESTERN EUROPE", "q1Fy26": 1799.11, "q2Fy26": 1379.06, "q3Fy26": 1970.34, "9mFy26": 5148.5, "q1Fy25": 1433.07, "q2Fy25": 1900.31, "q3Fy25": 1488.94, "9mFy25": 4822.32 },
+      { "region": "GULF COUNTRIES", "q1Fy26": 878.22, "q2Fy26": 991.07, "q3Fy26": 1414.69, "9mFy26": 3283.98, "q1Fy25": 1038.2, "q2Fy25": 1142.79, "q3Fy25": 1200.28, "9mFy25": 3381.27 },
+      { "region": "ASIA PACIFIC", "q1Fy26": 554.71, "q2Fy26": 1004.69, "q3Fy26": 592.9, "9mFy26": 2152.3, "q1Fy25": 611.25, "q2Fy25": 937.27, "q3Fy25": 767.71, "9mFy25": 2316.23 },
+      { "region": "INDIA", "q1Fy26": 59.99, "q2Fy26": 29.56, "q3Fy26": 52.9, "9mFy26": 142.45, "q1Fy25": 120.21, "q2Fy25": 83.74, "q3Fy25": 178.44, "9mFy25": 382.39 },
+      { "region": "Total", "q1Fy26": 8788.46, "q2Fy26": 13133.68, "q3Fy26": 13006.54, "9mFy26": 34928.68, "q1Fy25": 9143.29, "q2Fy25": 11888.83, "q3Fy25": 11000.17, "9mFy25": 32032.29 }
+    ]
+  },
+  "brandWise": {
+    "brands": [
+      { "brand": "ASHOKA BRAND", "q1Fy26": 4982.48, "q2Fy26": 8385.47, "q3Fy26": 7677.59, "9mFy26": 21045.54, "q1Fy25": 5212.96, "q2Fy25": 7411.65, "q3Fy25": 6733.06, "9mFy25": 19357.67 },
+      { "brand": "OTHERS BRAND", "q1Fy26": 2161.87, "q2Fy26": 2646.32, "q3Fy26": 2925.8, "9mFy26": 7734.0, "q1Fy25": 2045.16, "q2Fy25": 1925.4, "q3Fy25": 2116.27, "9mFy25": 6086.82 },
+      { "brand": "UNBRANDED", "q1Fy26": 575.64, "q2Fy26": 656.05, "q3Fy26": 729.87, "9mFy26": 1961.55, "q1Fy25": 694.71, "q2Fy25": 1002.23, "q3Fy25": 952.98, "9mFy25": 2649.92 },
+      { "brand": "CAMEL BRAND", "q1Fy26": 423.46, "q2Fy26": 470.94, "q3Fy26": 487.39, "9mFy26": 1381.79, "q1Fy25": 395.04, "q2Fy25": 537.89, "q3Fy25": 524.98, "9mFy25": 1457.91 },
+      { "brand": "TRULY INDIAN", "q1Fy26": 364.62, "q2Fy26": 429.21, "q3Fy26": 502.32, "9mFy26": 1296.15, "q1Fy25": 337.96, "q2Fy25": 466.31, "q3Fy25": 245.34, "9mFy25": 1049.61 },
+      { "brand": "AEROPLANE BRAND", "q1Fy26": 201.83, "q2Fy26": 447.11, "q3Fy26": 543.17, "9mFy26": 1192.11, "q1Fy25": 311.29, "q2Fy25": 402.12, "q3Fy25": 345.95, "9mFy25": 1059.35 },
+      { "brand": "KHANSAAMA BRAND", "q1Fy26": 34.89, "q2Fy26": 62.43, "q3Fy26": 67.67, "9mFy26": 164.99, "q1Fy25": 40.3, "q2Fy25": 39.25, "q3Fy25": 12.6, "9mFy25": 92.15 },
+      { "brand": "SOUL BRAND", "q1Fy26": 43.66, "q2Fy26": 36.14, "q3Fy26": 72.75, "9mFy26": 152.55, "q1Fy25": 105.87, "q2Fy25": 103.98, "q3Fy25": 69.0, "9mFy25": 278.85 },
+      { "brand": "Total", "q1Fy26": 8788.46, "q2Fy26": 13133.68, "q3Fy26": 13006.54, "9mFy26": 34928.68, "q1Fy25": 9143.29, "q2Fy25": 11888.83, "q3Fy25": 11000.17, "9mFy25": 32032.29 }
+    ]
+  }
+}
