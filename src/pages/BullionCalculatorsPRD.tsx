@@ -86,25 +86,37 @@ const BullionCalculatorsPRD = () => {
         {/* Section 3 */}
         <Section title="3. TAB 1: Making Charge Calculator">
           <SubSection title="3.1 Overview & UX Design">
-            <p className="mb-2">Single-card layout designed to fit entirely on mobile without scrolling. Two top-level selectors control the entire calculator state:</p>
-            <Table headers={["Selector", "Type", "Options", "Default"]} rows={[
-              ["Metal", "Dropdown (Select)", "🥇 Gold, 🥈 Silver", "Gold"],
-              ["City", "Dropdown (Select)", "12 major Indian cities", "Mumbai"],
+            <p className="mb-2">Single-card layout designed to fit entirely on mobile without scrolling. Three top-level selectors control the entire calculator state:</p>
+            <Table headers={["Selector", "Type", "Options", "Default", "Visibility"]} rows={[
+              ["Metal", "Dropdown (Select)", "🥇 Gold, 🥈 Silver", "Gold", "Always"],
+              ["Gold Purity", "Dropdown (Select)", "✨ 24K (999), 🥇 22K (916), 💛 18K (750), 🔶 14K (585)", "22K", "Gold only"],
+              ["City", "Dropdown (Select)", "12 major Indian cities", "Mumbai", "Always"],
             ]} />
-            <p className="mt-2">Changing metal resets weight and making charge % to metal-appropriate defaults. Changing city updates only the physical rate.</p>
+            <p className="mt-2">Changing metal resets weight and making charge % to defaults and hides/shows the purity selector. Changing purity or city updates only the physical rate.</p>
           </SubSection>
 
           <SubSection title="3.2 India-Accurate Rate Logic">
             <p className="mb-2 font-semibold text-amber-700">Physical and digital bullion use different base rates — a key India market distinction:</p>
             <Table headers={["Side", "Metal", "Rate Used", "Reason"]} rows={[
-              ["Physical Jewellery", "Gold", "22K rate = Live 24K × 0.916 × city premium", "Indian jewellery is 22K (91.6% purity)"],
-              ["Digital Bullion", "Gold", "Live 24K / 999.9 spot rate", "Digital gold is 24K fine, no purity loss"],
+              ["Physical Jewellery", "Gold", "Live 24K × purityFactor × city premium", "Jewellery sold in selected karat; purity varies by piece"],
+              ["Digital Bullion", "Gold", "Live 24K / 999.9 spot rate (national)", "Digital gold is always 24K fine — no purity loss"],
               ["Physical Jewellery", "Silver", "Spot × 1.02 × city premium", "~2% dealer premium on physical silver"],
-              ["Digital Bullion", "Silver", "Live 999 spot rate", "Spot rate, no dealer markup"],
+              ["Digital Bullion", "Silver", "Live 999 spot rate (national)", "Spot rate, no dealer markup"],
             ]} />
           </SubSection>
 
-          <SubSection title="3.3 City Premium Table">
+          <SubSection title="3.3 Gold Purity Factor Table">
+            <p className="mb-2">The purity factor converts the live 24K spot rate to the actual karat being purchased. Only applied to physical gold.</p>
+            <Table headers={["Purity", "Karat Code", "Fineness", "Factor", "Common Use"]} rows={[
+              ["24K", "999.9", "100% pure", "1.000", "Coins, bars, digital gold"],
+              ["22K", "916", "91.6% pure", "0.916", "Most Indian jewellery (default)"],
+              ["18K", "750", "75.0% pure", "0.750", "Fashion jewellery, diamond settings"],
+              ["14K", "585", "58.5% pure", "0.585", "Western-style / mixed metal jewellery"],
+            ]} />
+            <p className="mt-1 text-xs text-gray-600">Physical Rate Formula: <code className="bg-gray-100 px-1 rounded">round(live24K × purityFactor × cityPremium)</code></p>
+          </SubSection>
+
+          <SubSection title="3.4 City Premium Table">
             <p className="mb-2">Physical rates vary by city due to local market demand, transportation, and trade patterns. Digital rates are nationally uniform.</p>
             <Table headers={["City", "Gold Premium", "Silver Premium", "Notes"]} rows={[
               ["Mumbai", "0.0% (base)", "0.0% (base)", "IBJA reference rate origin"],
@@ -122,7 +134,7 @@ const BullionCalculatorsPRD = () => {
             ]} />
           </SubSection>
 
-          <SubSection title="3.4 Slider Inputs">
+          <SubSection title="3.5 Slider Inputs">
             <Table headers={["Metal", "Input", "Range", "Step", "Default"]} rows={[
               ["Gold", "Weight (grams)", "0–100g", "1g", "10g"],
               ["Gold", "Making Charge %", "5–35%", "1%", "15%"],
@@ -131,21 +143,23 @@ const BullionCalculatorsPRD = () => {
             ]} />
           </SubSection>
 
-          <SubSection title="3.5 Dual Rate Display Strip">
+          <SubSection title="3.6 Dual Rate Display Strip">
             <p className="mb-2">Two side-by-side pills shown above sliders, always visible:</p>
-            <Table headers={["Pill", "Label", "Value shown", "City premium tag"]} rows={[
-              ["Physical (amber/slate)", "{City} Physical (22K / 999)", "₹X/g", "Shown when city ≠ Mumbai: +X% city premium"],
-              ["Digital (emerald)", "Digital (24K/999.9 / 999 spot)", "₹Y/g", "\"National rate · no city var.\""],
+            <Table headers={["Pill", "Label", "Value shown", "Tag"]} rows={[
+              ["Physical (amber/slate)", "{City} Physical ({Purity} · {fineness})", "₹X/g", "'+X% city premium' when city ≠ Mumbai"],
+              ["Digital (emerald)", "Digital (24K/999.9 or 999 spot)", "₹Y/g", "\"National rate · no city var.\""],
             ]} />
           </SubSection>
 
-          <SubSection title="3.6 Calculation Logic">
+          <SubSection title="3.7 Calculation Logic">
             <Table headers={["Metric", "Formula"]} rows={[
-              ["Physical Metal Value", "Weight × physicalRate (22K × city premium)"],
+              ["Physical Rate (Gold)", "round(live24K × purityFactor × cityGold)"],
+              ["Physical Rate (Silver)", "round(liveSpot × 1.02 × citySilver)"],
+              ["Physical Metal Value", "Weight × physicalRate"],
               ["Making Charges", "Physical Metal Value × Making Charge %"],
               ["Physical GST", "(Physical Metal Value + Making Charges) × 3%"],
               ["Total Physical", "Physical Metal Value + Making Charges + Physical GST"],
-              ["Digital Metal Value", "Weight × digitalRate (24K spot)"],
+              ["Digital Metal Value", "Weight × digitalRate (24K / 999 spot)"],
               ["Digital GST", "Digital Metal Value × 3%"],
               ["Total Digital", "Digital Metal Value + Digital GST"],
               ["You Save", "Total Physical − Total Digital"],
@@ -153,15 +167,15 @@ const BullionCalculatorsPRD = () => {
             ]} />
           </SubSection>
 
-          <SubSection title="3.7 Price Comparison Grid (Side-by-Side)">
+          <SubSection title="3.8 Price Comparison Grid (Side-by-Side)">
             <Table headers={["Column", "Label", "Purity shown"]} rows={[
-              ["Left", "Physical Jewellery", "22K (gold) / 999 (silver)"],
+              ["Left", "Physical Jewellery", "Selected purity + fineness e.g. '22K · 91.6% pure' (gold) / 999 (silver)"],
               ["Right", "Digital Gold / Digital Silver", "24K (gold) / 999 spot (silver)"],
             ]} />
             <p className="mt-2">Each column shows: Metal Value → Making Charges → GST (3%) → Total. Savings highlighted at bottom with amount + percentage.</p>
           </SubSection>
 
-          <SubSection title="3.8 Making Charges Reference Table">
+          <SubSection title="3.9 Making Charges Reference Table">
             <Table headers={["Category", "Typical Range", "Color"]} rows={[
               ["Plain Gold", "8–12%", "Emerald"],
               ["Temple Jewellery", "12–16%", "Blue"],
@@ -170,9 +184,9 @@ const BullionCalculatorsPRD = () => {
             ]} />
           </SubSection>
 
-          <SubSection title="3.9 Disclaimer Note">
-            <p>Gold: <em>"Physical jewellery rate uses 22K (91.6% purity) of the live 24K spot price. Digital gold is 24K / 999.9 fine."</em></p>
-            <p>Silver: <em>"Physical silver includes ~2% dealer premium over spot. Digital silver is priced at 999 purity spot rate."</em></p>
+          <SubSection title="3.10 Disclaimer Note">
+            <p>Gold: <em>"Physical rate uses {"{selectedPurity}"} ({"{fineness}"}) of the live 24K spot price + city premium. Digital gold is 24K / 999.9 fine (national rate)."</em></p>
+            <p>Silver: <em>"Physical silver includes ~2% dealer premium over spot + city premium. Digital silver is 999 purity spot rate (national)."</em></p>
           </SubSection>
         </Section>
 
@@ -299,14 +313,16 @@ const BullionCalculatorsPRD = () => {
             ["State Management", "Local useState for all calculator inputs"],
             ["Prices", "Live via useBullionPrices hook (API: api.discvr.ai/v1/bullion/prices, 60s refresh)"],
             ["Fallback Prices", "Gold: ₹6,250/g, Silver: ₹75/g"],
-            ["22K Factor", "GOLD_22K_FACTOR = 0.916 (constant — 22K purity = 91.6% of 24K)"],
+            ["Gold Purity Selector", "State: goldPurity ∈ {\"24K\",\"22K\",\"18K\",\"14K\"} — default 22K — visible only when Gold is selected"],
+            ["Purity Factors", "GOLD_PURITY_FACTORS map: 24K=1.000, 22K=0.916, 18K=0.750, 14K=0.585"],
             ["Silver Dealer Premium", "SILVER_DEALER_BASE = 1.02 (2% above spot for physical dealer rate)"],
             ["City Premium", "CITY_PREMIUMS map: 12 cities, gold & silver multipliers vs Mumbai base"],
-            ["Physical Rate Formula", "isGold ? round(live24K × 0.916 × cityGold) : round(liveSpot × 1.02 × citySilver)"],
-            ["Digital Rate", "Live spot rate, no city variance — nationally uniform"],
+            ["Physical Rate Formula (Gold)", "round(live24K × purityFactor × cityGold)"],
+            ["Physical Rate Formula (Silver)", "round(liveSpot × 1.02 × citySilver)"],
+            ["Digital Rate", "Live 24K/999 spot rate, no city variance — nationally uniform"],
             ["Animations", "Framer Motion fade+slide on tab change"],
             ["Responsive", "Single card, full-width on mobile — all controls + comparison on one screen"],
-            ["Mobile Strategy", "Compact layout: selectors inline in header, dual rate strip, sliders, comparison grid all in one card"],
+            ["Mobile Strategy", "Purity selector inline in header row (gold only), dual rate strip reflects selected purity"],
           ]} />
         </Section>
 
@@ -332,6 +348,9 @@ const BullionCalculatorsPRD = () => {
             ["v1.1", "Mar 2026", "Dual rate strip shows both physical (city) and digital (national) rates side-by-side"],
             ["v1.1", "Mar 2026", "City premium badge shown when non-Mumbai city selected"],
             ["v1.1", "Mar 2026", "Full comparison + savings now visible on single mobile screen without scrolling"],
+            ["v1.2", "Mar 2026", "Gold purity selector added: 24K / 22K / 18K / 14K with correct fineness factors"],
+            ["v1.2", "Mar 2026", "Physical rate, dual strip label, comparison grid, and footnote all reflect selected purity"],
+            ["v1.2", "Mar 2026", "Purity selector hidden when Silver is selected (silver has no karat system)"],
           ]} />
         </Section>
 
