@@ -36,6 +36,7 @@ export default function BullionCalculators() {
   const [calcWeight, setCalcWeight] = useState([10]);
   const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
   const [selectedCity, setSelectedCity] = useState("mumbai");
+  const [goldPurity, setGoldPurity] = useState<"22K" | "18K" | "14K" | "24K">("22K");
   const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
 
   const isGold = selectedMetal === "gold";
@@ -57,19 +58,27 @@ export default function BullionCalculators() {
     lucknow:   { gold: 1.003, silver: 1.014, label: "Lucknow" },
   };
 
+  // Gold purity factors (karats → fineness fraction)
+  const GOLD_PURITY_FACTORS: Record<string, { factor: number; label: string; fineness: string }> = {
+    "24K": { factor: 1.000, label: "24K", fineness: "999.9 pure" },
+    "22K": { factor: 0.916, label: "22K", fineness: "91.6% pure" },
+    "18K": { factor: 0.750, label: "18K", fineness: "75.0% pure" },
+    "14K": { factor: 0.585, label: "14K", fineness: "58.5% pure" },
+  };
+
   const cityData = CITY_PREMIUMS[selectedCity] ?? CITY_PREMIUMS.mumbai;
+  const purityData = GOLD_PURITY_FACTORS[goldPurity] ?? GOLD_PURITY_FACTORS["22K"];
 
   // India-accurate rate logic:
-  // Physical gold jewellery → 22K (91.6% purity) × city premium
+  // Physical gold jewellery → selected purity factor × city premium
   // Digital gold → 24K (999.9) at live spot — city-agnostic
   // Physical silver → spot × dealer premium × city premium
   // Digital silver → 999 spot rate — city-agnostic
-  const GOLD_22K_FACTOR = 0.916;
   const SILVER_DEALER_BASE = 1.02;
 
   const digitalRate = isGold ? liveGoldPrice : liveSilverPrice;
   const physicalRate = isGold
-    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR * cityData.gold)
+    ? Math.round(liveGoldPrice * purityData.factor * cityData.gold)
     : Math.round(liveSilverPrice * SILVER_DEALER_BASE * cityData.silver);
 
   // Physical jewellery calculation (22K / city rate)
