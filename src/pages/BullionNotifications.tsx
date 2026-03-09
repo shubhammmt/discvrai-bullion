@@ -410,15 +410,6 @@ const BullionNotifications = () => {
                         <p className="text-xs text-muted-foreground mt-1">Each referral = ₹5 gold, no cap</p>
                       </div>
 
-                      {/* Milestones */}
-                      <div className="grid grid-cols-5 gap-1 mb-4">
-                        {Array.from({ length: 10 }, (_, i) => (
-                          <div
-                            key={i}
-                            className={`h-1.5 rounded-full ${i < 4 ? 'bg-blue-500' : 'bg-blue-200 dark:bg-blue-900'}`}
-                          />
-                        ))}
-                      </div>
 
                       {/* Conditions */}
                       <div className="space-y-1.5 mb-4">
