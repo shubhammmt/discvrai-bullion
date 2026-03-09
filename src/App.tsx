@@ -329,6 +329,8 @@ const AppContent = () => {
            <Route path="/dashboard/adf-strategic" element={<AdfStrategicDashboard />} />
            <Route path="/demo/nbfc-nba" element={<NbfcNbaDemo />} />
            <Route path="/demo/nbfc-collections" element={<NbfcCollectionsDemo />} />
+           <Route path="/demo/nbfc-kyc" element={<NbfcKycDemo />} />
+           <Route path="/demo/nbfc-alt-credit" element={<NbfcAltCreditDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
