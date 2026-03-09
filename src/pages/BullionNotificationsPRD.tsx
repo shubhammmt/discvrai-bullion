@@ -272,6 +272,7 @@ const BullionNotificationsPRD = () => {
             ["v1.0", "February 2026", "Initial PRD — Alerts, Bookmarks, Calendar tabs"],
             ["v1.1", "March 2026", "Section 4.4 updated: Offers redirect card replaced with two inline offer cards (Welcome Offer + Refer & Earn)"],
             ["v1.1", "March 2026", "Section 7 added: Full business logic for Welcome Offer (₹10 free gold, ₹500+ first purchase) and Refer & Earn (₹100 bonus gold after 10 successful referrals with inline progress bar)"],
+            ["v1.2", "March 2026", "Refer & Earn updated: Reward changed to ₹5 gold per referral (no milestone, no cap). Progress bar and milestone strip removed from card."],
           ]} />
         </Section>
 
