@@ -96,11 +96,11 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs">Category</TableHead>
-              <TableHead className="text-xs text-right">9M FY26 (₹L)</TableHead>
-              <TableHead className="text-xs text-right">9M Gr%</TableHead>
-              <TableHead className="text-xs text-right">Q3 Gr%</TableHead>
-              <TableHead className="text-xs">Signal</TableHead>
+              <TableHead className="text-xs w-[200px]">Category</TableHead>
+              <TableHead className="text-xs text-right w-[140px]">9M FY26 (₹L)</TableHead>
+              <TableHead className="text-xs text-right w-[120px]">9M Gr%</TableHead>
+              <TableHead className="text-xs text-right w-[120px]">Q3 Gr%</TableHead>
+              <TableHead className="text-xs w-[140px]">Signal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -123,11 +123,11 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs">Brand</TableHead>
-              <TableHead className="text-xs text-right">9M FY26 (₹L)</TableHead>
-              <TableHead className="text-xs text-right">9M Gr%</TableHead>
-              <TableHead className="text-xs text-right">Q3 Gr%</TableHead>
-              <TableHead className="text-xs">Signal</TableHead>
+              <TableHead className="text-xs w-[200px]">Brand</TableHead>
+              <TableHead className="text-xs text-right w-[140px]">9M FY26 (₹L)</TableHead>
+              <TableHead className="text-xs text-right w-[120px]">9M Gr%</TableHead>
+              <TableHead className="text-xs text-right w-[120px]">Q3 Gr%</TableHead>
+              <TableHead className="text-xs w-[140px]">Signal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
