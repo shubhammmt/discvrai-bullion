@@ -266,16 +266,27 @@ const BullionNotificationsPRD = () => {
           <Table headers={["From", "To", "Trigger"]} rows={[
             ["/bullion/premium", "?tab=bookmarks", "Bookmark article toast action"],
             ["/bullion/premium/article/:slug", "?tab=bookmarks", "Bookmark article toast action"],
-            ["Alerts tab", "/bullion", "\"Offers for You\" card click"],
+            ["Welcome Offer CTA", "/bullion", "\"Claim Now\" click + offer activation toast"],
+            ["Refer & Earn CTA", "Clipboard", "\"Copy Referral Link\" click + success toast"],
+            ["Refer & Earn CTA", "/bullion/profile", "\"View in Profile\" click"],
             ["Bookmarks tab", "/bullion/premium", "Browse Premium / Read Now"],
             ["Calendar tab", "/bullion/profile", "Edit Date / Add Date"],
             ["Toolbar (+)", "Alert dialog", "Create price alert shortcut"],
           ]} />
         </Section>
 
+        {/* Section 9 Changelog */}
+        <Section title="9. Changelog">
+          <Table headers={["Version", "Date", "Change"]} rows={[
+            ["v1.0", "February 2026", "Initial PRD — Alerts, Bookmarks, Calendar tabs"],
+            ["v1.1", "March 2026", "Section 4.4 updated: Offers redirect card replaced with two inline offer cards (Welcome Offer + Refer & Earn)"],
+            ["v1.1", "March 2026", "Section 7 added: Full business logic for Welcome Offer (₹10 free gold, ₹500+ first purchase) and Refer & Earn (₹100 bonus gold after 10 successful referrals with inline progress bar)"],
+          ]} />
+        </Section>
+
         {/* Footer */}
         <div className="mt-10 pt-4 border-t border-gray-300 text-xs text-gray-400 text-center">
-          DiscvrAI — Bullion Notifications PRD — February 2026 — Confidential
+          DiscvrAI — Bullion Notifications PRD — v1.1 March 2026 — Confidential
         </div>
       </div>
     </div>
