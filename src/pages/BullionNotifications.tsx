@@ -405,15 +405,9 @@ const BullionNotifications = () => {
 
                       {/* Referral Progress Bar */}
                       <div className="mb-4">
-                        <div className="flex justify-between items-center mb-1.5">
-                          <span className="text-xs font-medium text-foreground">Referral Progress</span>
-                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400">4 Completed · ₹20 Earned</span>
-                        </div>
-                        <Progress value={40} className="h-2.5" />
-                        <div className="flex justify-between mt-1">
-                          <span className="text-xs text-muted-foreground">Each referral = ₹5 gold, no cap</span>
-                          <span className="text-xs text-muted-foreground">4 referrals</span>
-                        </div>
+                        <span className="text-xs font-medium text-foreground">Referral Progress</span>
+                        <Progress value={40} className="h-2.5 mt-1.5" />
+                        <p className="text-xs text-muted-foreground mt-1">Each referral = ₹5 gold, no cap</p>
                       </div>
 
                       {/* Milestones */}
