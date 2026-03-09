@@ -247,49 +247,26 @@ export default function BullionProfile() {
               Copy Invite Link
             </Button>
 
-            {/* Reward Progress */}
+            {/* Earnings Summary */}
             <div className="pt-2 border-t border-border/50">
               <div className="flex items-center justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Progress to ₹50 reward</span>
-                <span className="font-semibold">{Math.min(referralCount, 10)}/10</span>
+                <span className="text-muted-foreground">Total Referrals</span>
+                <span className="font-semibold">{referralCount} completed</span>
+              </div>
+              <div className="flex items-center justify-between text-sm mb-3">
+                <span className="text-muted-foreground">Gold Earned</span>
+                <span className="font-bold text-amber-500">₹{referralCount * 5} Gold</span>
               </div>
               <div className="h-2 bg-muted rounded-full overflow-hidden">
                 <motion.div 
                   className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
                   initial={{ width: 0 }}
-                  animate={{ width: `${Math.min((referralCount / 10) * 100, 100)}%` }}
+                  animate={{ width: `${Math.min(referralCount * 10, 100)}%` }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                 />
               </div>
+              <p className="text-xs text-muted-foreground mt-1.5">Earn ₹5 gold for every successful referral — no limit!</p>
             </div>
-
-            {/* Reward Claim - Only show if 10+ referrals */}
-            {referralCount >= 10 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="p-4 rounded-xl bg-gradient-to-br from-amber-500/20 via-amber-500/10 to-transparent border border-amber-500/30"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
-                    <Gift className="w-5 h-5 text-amber-500" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-amber-400">🎉 Congratulations!</p>
-                    <p className="text-xs text-muted-foreground">You've unlocked a special reward</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Get <span className="font-bold text-amber-400">₹50 worth of Gold or Silver</span> as a thank you for your referrals!
-                </p>
-                <Button 
-                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold"
-                  onClick={() => navigate("/bullion?reward=referral50")}
-                >
-                  Claim ₹50 Reward
-                </Button>
-              </motion.div>
-            )}
           </Card>
         </motion.div>
 
