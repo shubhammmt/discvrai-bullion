@@ -313,14 +313,16 @@ const BullionCalculatorsPRD = () => {
             ["State Management", "Local useState for all calculator inputs"],
             ["Prices", "Live via useBullionPrices hook (API: api.discvr.ai/v1/bullion/prices, 60s refresh)"],
             ["Fallback Prices", "Gold: ₹6,250/g, Silver: ₹75/g"],
-            ["22K Factor", "GOLD_22K_FACTOR = 0.916 (constant — 22K purity = 91.6% of 24K)"],
+            ["Gold Purity Selector", "State: goldPurity ∈ {\"24K\",\"22K\",\"18K\",\"14K\"} — default 22K — visible only when Gold is selected"],
+            ["Purity Factors", "GOLD_PURITY_FACTORS map: 24K=1.000, 22K=0.916, 18K=0.750, 14K=0.585"],
             ["Silver Dealer Premium", "SILVER_DEALER_BASE = 1.02 (2% above spot for physical dealer rate)"],
             ["City Premium", "CITY_PREMIUMS map: 12 cities, gold & silver multipliers vs Mumbai base"],
-            ["Physical Rate Formula", "isGold ? round(live24K × 0.916 × cityGold) : round(liveSpot × 1.02 × citySilver)"],
-            ["Digital Rate", "Live spot rate, no city variance — nationally uniform"],
+            ["Physical Rate Formula (Gold)", "round(live24K × purityFactor × cityGold)"],
+            ["Physical Rate Formula (Silver)", "round(liveSpot × 1.02 × citySilver)"],
+            ["Digital Rate", "Live 24K/999 spot rate, no city variance — nationally uniform"],
             ["Animations", "Framer Motion fade+slide on tab change"],
             ["Responsive", "Single card, full-width on mobile — all controls + comparison on one screen"],
-            ["Mobile Strategy", "Compact layout: selectors inline in header, dual rate strip, sliders, comparison grid all in one card"],
+            ["Mobile Strategy", "Purity selector inline in header row (gold only), dual rate strip reflects selected purity"],
           ]} />
         </Section>
 
@@ -346,6 +348,9 @@ const BullionCalculatorsPRD = () => {
             ["v1.1", "Mar 2026", "Dual rate strip shows both physical (city) and digital (national) rates side-by-side"],
             ["v1.1", "Mar 2026", "City premium badge shown when non-Mumbai city selected"],
             ["v1.1", "Mar 2026", "Full comparison + savings now visible on single mobile screen without scrolling"],
+            ["v1.2", "Mar 2026", "Gold purity selector added: 24K / 22K / 18K / 14K with correct fineness factors"],
+            ["v1.2", "Mar 2026", "Physical rate, dual strip label, comparison grid, and footnote all reflect selected purity"],
+            ["v1.2", "Mar 2026", "Purity selector hidden when Silver is selected (silver has no karat system)"],
           ]} />
         </Section>
 
