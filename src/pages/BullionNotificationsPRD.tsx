@@ -140,7 +140,7 @@ const BullionNotificationsPRD = () => {
           <SubSection title="4.4 Offers For You (Inline Cards)">
             <p className="mb-2">Two fully-specified offer cards rendered inline at the bottom of the Alerts tab. Replaces the simple redirect card.</p>
             <p><strong>Card A:</strong> Welcome Offer — amber theme, ₹10 free gold on first ₹500+ purchase. See Section 7.1.</p>
-            <p><strong>Card B:</strong> Refer &amp; Earn — blue theme, ₹100 bonus gold after 10 successful referrals. Includes inline progress bar. See Section 7.2.</p>
+            <p><strong>Card B:</strong> Refer &amp; Earn — blue theme, ₹5 gold credited per successful referral, no cap. See Section 7.2.</p>
           </SubSection>
         </Section>
 
@@ -215,27 +215,18 @@ const BullionNotificationsPRD = () => {
             ]} />
           </SubSection>
 
-          <SubSection title="7.2 Refer & Earn — Milestone Program">
+          <SubSection title="7.2 Refer & Earn — Per-Referral Reward">
             <Table headers={["Attribute", "Detail"]} rows={[
               ["Target Users", "Existing users (Referrer)"],
-              ["Milestone", "10 Successful Referrals"],
+              ["Reward Model", "₹5 gold credited per successful referral — no cap, no milestone required"],
               ["Definition of Successful Referral", "Referee must complete first transaction of ₹500+"],
-              ["Reward", "₹100 Bonus Gold credited after 10th successful referral"],
+              ["Reward", "₹5 Bonus Gold credited instantly per referral"],
               ["Card Theme", "Blue border + blue-50 background"],
               ["Icon", "Users (blue)"],
               ["Badge", "\"Milestone Program\""],
-              ["Checklist Items", "₹500+ referee condition · Reward after 10th referral"],
+              ["Checklist Items", "₹500+ referee condition · ₹5 gold credited per successful referral, instantly"],
               ["CTA 1", "\"Copy Referral Link\" → copies link to clipboard + success toast"],
               ["CTA 2", "\"View in Profile\" → navigates to /bullion/profile"],
-            ]} />
-            <p className="font-semibold mt-3 mb-1">7.2.1 Referral Progress Bar (inline on card):</p>
-            <Table headers={["Element", "Detail"]} rows={[
-              ["Label", "\"Referral Progress\" + \"X / 10 Completed\" counter"],
-              ["Progress Fill", "Proportional to completed referrals (e.g., 4/10 = 40%)"],
-              ["Milestone Strip", "10 individual pill segments, filled for completed referrals"],
-              ["Sub-label", "\"X more referrals to unlock reward\""],
-              ["Current Mock State", "4 / 10 referrals completed (to be wired to user profile API)"],
-              ["Also visible at", "/bullion/profile via \"View in Profile\" CTA"],
             ]} />
           </SubSection>
 
@@ -281,6 +272,7 @@ const BullionNotificationsPRD = () => {
             ["v1.0", "February 2026", "Initial PRD — Alerts, Bookmarks, Calendar tabs"],
             ["v1.1", "March 2026", "Section 4.4 updated: Offers redirect card replaced with two inline offer cards (Welcome Offer + Refer & Earn)"],
             ["v1.1", "March 2026", "Section 7 added: Full business logic for Welcome Offer (₹10 free gold, ₹500+ first purchase) and Refer & Earn (₹100 bonus gold after 10 successful referrals with inline progress bar)"],
+            ["v1.2", "March 2026", "Refer & Earn updated: Reward changed to ₹5 gold per referral (no milestone, no cap). Progress bar and milestone strip removed from card."],
           ]} />
         </Section>
 
