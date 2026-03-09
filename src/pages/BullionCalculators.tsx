@@ -260,7 +260,7 @@ export default function BullionCalculators() {
                 <div className="grid grid-cols-2 gap-2 mb-5">
                   <div className={`flex flex-col px-3 py-2.5 rounded-lg ${isGold ? "bg-amber-500/10 border border-amber-500/30" : "bg-slate-500/10 border border-slate-500/20"}`}>
                     <span className="text-[10px] text-muted-foreground font-medium leading-tight">
-                      {cityData.label} Physical {isGold ? "(22K)" : "(999)"}
+                      {cityData.label} Physical {isGold ? `(${goldPurity} · ${purityData.fineness})` : "(999)"}
                     </span>
                     <span className={`text-sm font-bold mt-0.5 ${isGold ? "text-amber-500" : "text-slate-400"}`}>
                       ₹{physicalRate.toLocaleString("en-IN")}/g
