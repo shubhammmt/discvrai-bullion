@@ -247,26 +247,6 @@ export default function BullionProfile() {
               Copy Invite Link
             </Button>
 
-            {/* Earnings Summary */}
-            <div className="pt-2 border-t border-border/50">
-              <div className="flex items-center justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Total Referrals</span>
-                <span className="font-semibold">{referralCount} completed</span>
-              </div>
-              <div className="flex items-center justify-between text-sm mb-3">
-                <span className="text-muted-foreground">Gold Earned</span>
-                <span className="font-bold text-amber-500">₹{referralCount * 5} Gold</span>
-              </div>
-              <div className="h-2 bg-muted rounded-full overflow-hidden">
-                <motion.div 
-                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${Math.min(referralCount * 10, 100)}%` }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                />
-              </div>
-              <p className="text-xs text-muted-foreground mt-1.5">Earn ₹5 gold for every successful referral — no limit!</p>
-            </div>
           </Card>
         </motion.div>
 
