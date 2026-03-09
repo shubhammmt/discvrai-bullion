@@ -400,19 +400,19 @@ const BullionNotifications = () => {
                         <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Refer &amp; Earn</span>
                         <Badge variant="secondary" className="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">Milestone Program</Badge>
                       </div>
-                      <p className="font-bold text-xl text-foreground">₹100 Bonus Gold</p>
-                      <p className="text-sm text-muted-foreground mt-0.5 mb-3">Refer 10 friends who complete their first ₹500 purchase</p>
+                      <p className="font-bold text-xl text-foreground">₹5 Gold per Referral</p>
+                      <p className="text-sm text-muted-foreground mt-0.5 mb-3">Earn ₹5 in free gold for every friend who completes their first ₹500 purchase</p>
 
                       {/* Referral Progress Bar */}
                       <div className="mb-4">
                         <div className="flex justify-between items-center mb-1.5">
                           <span className="text-xs font-medium text-foreground">Referral Progress</span>
-                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400">4 / 10 Completed</span>
+                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400">4 Completed · ₹20 Earned</span>
                         </div>
                         <Progress value={40} className="h-2.5" />
                         <div className="flex justify-between mt-1">
-                          <span className="text-xs text-muted-foreground">6 more referrals to unlock reward</span>
-                          <span className="text-xs text-muted-foreground">40%</span>
+                          <span className="text-xs text-muted-foreground">Each referral = ₹5 gold, no cap</span>
+                          <span className="text-xs text-muted-foreground">4 referrals</span>
                         </div>
                       </div>
 
@@ -434,7 +434,7 @@ const BullionNotifications = () => {
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
-                          <span>Reward credited after 10th successful referral</span>
+                          <span>₹5 gold credited per successful referral, instantly</span>
                         </div>
                       </div>
 
