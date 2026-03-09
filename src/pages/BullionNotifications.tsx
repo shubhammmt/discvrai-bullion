@@ -403,12 +403,6 @@ const BullionNotifications = () => {
                       <p className="font-bold text-xl text-foreground">₹5 Gold per Referral</p>
                       <p className="text-sm text-muted-foreground mt-0.5 mb-3">Earn ₹5 in free gold for every friend who completes their first ₹500 purchase</p>
 
-                      {/* Referral Progress Bar */}
-                      <div className="mb-4">
-                        <span className="text-xs font-medium text-foreground">Referral Progress</span>
-                        <Progress value={40} className="h-2.5 mt-1.5" />
-                        <p className="text-xs text-muted-foreground mt-1">Each referral = ₹5 gold, no cap</p>
-                      </div>
 
 
                       {/* Conditions */}
