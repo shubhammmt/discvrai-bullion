@@ -337,7 +337,7 @@ export default function BullionCalculators() {
                       {/* Physical */}
                       <div className="space-y-1.5 text-sm">
                         <p className="text-xs font-semibold text-muted-foreground mb-2">
-                          Physical Jewellery {isGold ? "(22K)" : "(999)"}
+                          Physical Jewellery {isGold ? `(${goldPurity} · ${purityData.fineness})` : "(999)"}
                         </p>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">Metal Value</span>
