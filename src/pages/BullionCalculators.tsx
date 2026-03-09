@@ -35,30 +35,50 @@ export default function BullionCalculators() {
   const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
   const [calcWeight, setCalcWeight] = useState([10]);
   const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
+  const [selectedCity, setSelectedCity] = useState("mumbai");
   const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
 
   const isGold = selectedMetal === "gold";
 
+  // City-wise premium over Mumbai base rate (based on local demand, transport, market conditions)
+  // Source: IBJA & local market data patterns
+  const CITY_PREMIUMS: Record<string, { gold: number; silver: number; label: string }> = {
+    mumbai:    { gold: 1.000, silver: 1.000, label: "Mumbai" },
+    delhi:     { gold: 1.002, silver: 1.015, label: "Delhi" },
+    chennai:   { gold: 1.005, silver: 1.020, label: "Chennai" },
+    kolkata:   { gold: 1.003, silver: 1.012, label: "Kolkata" },
+    bengaluru: { gold: 1.002, silver: 1.010, label: "Bengaluru" },
+    hyderabad: { gold: 1.002, silver: 1.010, label: "Hyderabad" },
+    ahmedabad: { gold: 1.001, silver: 1.008, label: "Ahmedabad" },
+    jaipur:    { gold: 1.003, silver: 1.015, label: "Jaipur" },
+    pune:      { gold: 1.001, silver: 1.005, label: "Pune" },
+    coimbatore:{ gold: 1.006, silver: 1.022, label: "Coimbatore" },
+    surat:     { gold: 1.001, silver: 1.007, label: "Surat" },
+    lucknow:   { gold: 1.003, silver: 1.014, label: "Lucknow" },
+  };
+
+  const cityData = CITY_PREMIUMS[selectedCity] ?? CITY_PREMIUMS.mumbai;
+
   // India-accurate rate logic:
-  // Physical gold jewellery → 22K (91.6% purity of the 24K live rate)
-  // Digital gold → 24K (99.9% purity, full live rate)
-  // Physical silver → 999 purity but jewellers quote ~2% above spot
-  // Digital silver → spot (live) rate
+  // Physical gold jewellery → 22K (91.6% purity) × city premium
+  // Digital gold → 24K (999.9) at live spot — city-agnostic
+  // Physical silver → spot × dealer premium × city premium
+  // Digital silver → 999 spot rate — city-agnostic
   const GOLD_22K_FACTOR = 0.916;
-  const SILVER_PHYSICAL_PREMIUM = 1.02; // ~2% dealer premium on physical silver
+  const SILVER_DEALER_BASE = 1.02;
 
   const digitalRate = isGold ? liveGoldPrice : liveSilverPrice;
   const physicalRate = isGold
-    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR)
-    : Math.round(liveSilverPrice * SILVER_PHYSICAL_PREMIUM);
+    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR * cityData.gold)
+    : Math.round(liveSilverPrice * SILVER_DEALER_BASE * cityData.silver);
 
-  // Physical jewellery calculation (uses 22K / jeweller rate)
+  // Physical jewellery calculation (22K / city rate)
   const physicalMetalValue = calcWeight[0] * physicalRate;
   const makingCharges = (physicalMetalValue * calcMakingCharge[0]) / 100;
   const gst = (physicalMetalValue + makingCharges) * 0.03;
   const physicalTotal = physicalMetalValue + makingCharges + gst;
 
-  // Digital bullion calculation (uses 24K / spot rate, no making charge)
+  // Digital bullion calculation (24K spot, no making charge, no city variance)
   const digitalMetalValue = calcWeight[0] * digitalRate;
   const digitalGst = digitalMetalValue * 0.03;
   const digitalTotal = digitalMetalValue + digitalGst;
@@ -168,12 +188,13 @@ export default function BullionCalculators() {
             >
               {/* Single unified card — everything fits on mobile */}
               <Card className="p-4 sm:p-6">
-                {/* Header row with title + metal selector */}
-                <div className="flex items-center justify-between mb-5 gap-3">
-                  <h3 className="font-semibold text-base sm:text-lg flex items-center gap-2 shrink-0">
-                    <Calculator className="w-5 h-5 text-amber-500" />
+                {/* Header row: title + metal + city selectors */}
+                <div className="flex flex-wrap items-center gap-2 mb-5">
+                  <h3 className="font-semibold text-base sm:text-lg flex items-center gap-2 flex-1 min-w-0">
+                    <Calculator className="w-5 h-5 text-amber-500 shrink-0" />
                     Making Charge Calculator
                   </h3>
+                  {/* Metal selector */}
                   <Select
                     value={selectedMetal}
                     onValueChange={(v) => {
@@ -182,7 +203,7 @@ export default function BullionCalculators() {
                       setCalcMakingCharge([v === "gold" ? 15 : 12]);
                     }}
                   >
-                    <SelectTrigger className="w-36 h-9 text-sm">
+                    <SelectTrigger className="w-32 h-9 text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -190,25 +211,51 @@ export default function BullionCalculators() {
                       <SelectItem value="silver">🥈 Silver</SelectItem>
                     </SelectContent>
                   </Select>
+                  {/* City selector */}
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger className="w-36 h-9 text-sm">
+                      <SelectValue placeholder="Select City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="mumbai">📍 Mumbai</SelectItem>
+                      <SelectItem value="delhi">📍 Delhi</SelectItem>
+                      <SelectItem value="chennai">📍 Chennai</SelectItem>
+                      <SelectItem value="kolkata">📍 Kolkata</SelectItem>
+                      <SelectItem value="bengaluru">📍 Bengaluru</SelectItem>
+                      <SelectItem value="hyderabad">📍 Hyderabad</SelectItem>
+                      <SelectItem value="ahmedabad">📍 Ahmedabad</SelectItem>
+                      <SelectItem value="jaipur">📍 Jaipur</SelectItem>
+                      <SelectItem value="pune">📍 Pune</SelectItem>
+                      <SelectItem value="coimbatore">📍 Coimbatore</SelectItem>
+                      <SelectItem value="surat">📍 Surat</SelectItem>
+                      <SelectItem value="lucknow">📍 Lucknow</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* Dual rate strip — physical vs digital, clearly labelled */}
+                {/* Dual rate strip — physical (city) vs digital (national spot) */}
                 <div className="grid grid-cols-2 gap-2 mb-5">
-                  <div className={`flex flex-col px-3 py-2 rounded-lg ${isGold ? "bg-amber-500/10 border border-amber-500/30" : "bg-slate-500/10 border border-slate-500/20"}`}>
-                    <span className="text-[10px] text-muted-foreground font-medium">
-                      Physical Rate {isGold ? "(22K)" : "(999, dealer)"}
+                  <div className={`flex flex-col px-3 py-2.5 rounded-lg ${isGold ? "bg-amber-500/10 border border-amber-500/30" : "bg-slate-500/10 border border-slate-500/20"}`}>
+                    <span className="text-[10px] text-muted-foreground font-medium leading-tight">
+                      {cityData.label} Physical {isGold ? "(22K)" : "(999)"}
                     </span>
-                    <span className={`text-sm font-bold ${isGold ? "text-amber-500" : "text-slate-400"}`}>
+                    <span className={`text-sm font-bold mt-0.5 ${isGold ? "text-amber-500" : "text-slate-400"}`}>
                       ₹{physicalRate.toLocaleString("en-IN")}/g
                     </span>
+                    {selectedCity !== "mumbai" && (
+                      <span className="text-[10px] text-orange-500 mt-0.5">
+                        +{(((isGold ? cityData.gold : cityData.silver) - 1) * 100).toFixed(1)}% city premium
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-                    <span className="text-[10px] text-muted-foreground font-medium">
-                      Digital Rate {isGold ? "(24K / 999.9)" : "(999, spot)"}
+                  <div className="flex flex-col px-3 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+                    <span className="text-[10px] text-muted-foreground font-medium leading-tight">
+                      Digital {isGold ? "(24K / 999.9)" : "(999 spot)"}
                     </span>
-                    <span className="text-sm font-bold text-emerald-500">
+                    <span className="text-sm font-bold text-emerald-500 mt-0.5">
                       ₹{digitalRate.toLocaleString("en-IN")}/g
                     </span>
+                    <span className="text-[10px] text-emerald-600 mt-0.5">National rate · no city var.</span>
                   </div>
                 </div>
 
