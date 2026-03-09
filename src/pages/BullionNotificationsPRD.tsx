@@ -140,7 +140,7 @@ const BullionNotificationsPRD = () => {
           <SubSection title="4.4 Offers For You (Inline Cards)">
             <p className="mb-2">Two fully-specified offer cards rendered inline at the bottom of the Alerts tab. Replaces the simple redirect card.</p>
             <p><strong>Card A:</strong> Welcome Offer — amber theme, ₹10 free gold on first ₹500+ purchase. See Section 7.1.</p>
-            <p><strong>Card B:</strong> Refer &amp; Earn — blue theme, ₹100 bonus gold after 10 successful referrals. Includes inline progress bar. See Section 7.2.</p>
+            <p><strong>Card B:</strong> Refer &amp; Earn — blue theme, ₹5 gold credited per successful referral, no cap. See Section 7.2.</p>
           </SubSection>
         </Section>
 
