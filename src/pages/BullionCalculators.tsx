@@ -36,6 +36,7 @@ export default function BullionCalculators() {
   const [calcWeight, setCalcWeight] = useState([10]);
   const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
   const [selectedCity, setSelectedCity] = useState("mumbai");
+  const [goldPurity, setGoldPurity] = useState<"22K" | "18K" | "14K" | "24K">("22K");
   const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
 
   const isGold = selectedMetal === "gold";
@@ -57,19 +58,27 @@ export default function BullionCalculators() {
     lucknow:   { gold: 1.003, silver: 1.014, label: "Lucknow" },
   };
 
+  // Gold purity factors (karats → fineness fraction)
+  const GOLD_PURITY_FACTORS: Record<string, { factor: number; label: string; fineness: string }> = {
+    "24K": { factor: 1.000, label: "24K", fineness: "999.9 pure" },
+    "22K": { factor: 0.916, label: "22K", fineness: "91.6% pure" },
+    "18K": { factor: 0.750, label: "18K", fineness: "75.0% pure" },
+    "14K": { factor: 0.585, label: "14K", fineness: "58.5% pure" },
+  };
+
   const cityData = CITY_PREMIUMS[selectedCity] ?? CITY_PREMIUMS.mumbai;
+  const purityData = GOLD_PURITY_FACTORS[goldPurity] ?? GOLD_PURITY_FACTORS["22K"];
 
   // India-accurate rate logic:
-  // Physical gold jewellery → 22K (91.6% purity) × city premium
+  // Physical gold jewellery → selected purity factor × city premium
   // Digital gold → 24K (999.9) at live spot — city-agnostic
   // Physical silver → spot × dealer premium × city premium
   // Digital silver → 999 spot rate — city-agnostic
-  const GOLD_22K_FACTOR = 0.916;
   const SILVER_DEALER_BASE = 1.02;
 
   const digitalRate = isGold ? liveGoldPrice : liveSilverPrice;
   const physicalRate = isGold
-    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR * cityData.gold)
+    ? Math.round(liveGoldPrice * purityData.factor * cityData.gold)
     : Math.round(liveSilverPrice * SILVER_DEALER_BASE * cityData.silver);
 
   // Physical jewellery calculation (22K / city rate)
@@ -211,6 +220,20 @@ export default function BullionCalculators() {
                       <SelectItem value="silver">🥈 Silver</SelectItem>
                     </SelectContent>
                   </Select>
+                  {/* Gold purity selector — only shown when gold is selected */}
+                  {isGold && (
+                    <Select value={goldPurity} onValueChange={(v) => setGoldPurity(v as "22K" | "18K" | "14K" | "24K")}>
+                      <SelectTrigger className="w-28 h-9 text-sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="24K">✨ 24K (999)</SelectItem>
+                        <SelectItem value="22K">🥇 22K (916)</SelectItem>
+                        <SelectItem value="18K">💛 18K (750)</SelectItem>
+                        <SelectItem value="14K">🔶 14K (585)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
                   {/* City selector */}
                   <Select value={selectedCity} onValueChange={setSelectedCity}>
                     <SelectTrigger className="w-36 h-9 text-sm">
@@ -237,7 +260,7 @@ export default function BullionCalculators() {
                 <div className="grid grid-cols-2 gap-2 mb-5">
                   <div className={`flex flex-col px-3 py-2.5 rounded-lg ${isGold ? "bg-amber-500/10 border border-amber-500/30" : "bg-slate-500/10 border border-slate-500/20"}`}>
                     <span className="text-[10px] text-muted-foreground font-medium leading-tight">
-                      {cityData.label} Physical {isGold ? "(22K)" : "(999)"}
+                      {cityData.label} Physical {isGold ? `(${goldPurity} · ${purityData.fineness})` : "(999)"}
                     </span>
                     <span className={`text-sm font-bold mt-0.5 ${isGold ? "text-amber-500" : "text-slate-400"}`}>
                       ₹{physicalRate.toLocaleString("en-IN")}/g
@@ -314,7 +337,7 @@ export default function BullionCalculators() {
                       {/* Physical */}
                       <div className="space-y-1.5 text-sm">
                         <p className="text-xs font-semibold text-muted-foreground mb-2">
-                          Physical Jewellery {isGold ? "(22K)" : "(999)"}
+                          Physical Jewellery {isGold ? `(${goldPurity} · ${purityData.fineness})` : "(999)"}
                         </p>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">Metal Value</span>
@@ -380,8 +403,8 @@ export default function BullionCalculators() {
                 {/* Purity note */}
                 <p className="text-[10px] text-muted-foreground mt-3 leading-relaxed">
                   {isGold
-                    ? "* Physical jewellery rate uses 22K (91.6% purity) of the live 24K spot price. Digital gold is 24K / 999.9 fine."
-                    : "* Physical silver includes ~2% dealer premium over spot. Digital silver is priced at 999 purity spot rate."}
+                    ? `* Physical rate uses ${goldPurity} (${purityData.fineness}) of the live 24K spot price + city premium. Digital gold is 24K / 999.9 fine (national rate).`
+                    : "* Physical silver includes ~2% dealer premium over spot + city premium. Digital silver is 999 purity spot rate (national)."}
                 </p>
               </Card>
 
