@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Slider } from '@/components/ui/slider';
 
 interface ThinFileApplicant {
   id: string;
@@ -18,7 +17,7 @@ interface ThinFileApplicant {
   city: string;
   occupation: string;
   monthlyIncome: number;
-  bureauScore: number | null; // null = no bureau history
+  bureauScore: number | null;
   upiData: {
     monthlyTransactions: number;
     avgAmount: number;
@@ -108,7 +107,7 @@ const mockApplicants: ThinFileApplicant[] = [
     city: 'Hyderabad',
     occupation: 'Auto Driver',
     monthlyIncome: 32000,
-    bureauScore: 580, // Low bureau score
+    bureauScore: 580,
     upiData: {
       monthlyTransactions: 186,
       avgAmount: 1200,
@@ -141,7 +140,6 @@ const NbfcAltCreditDemo: React.FC = () => {
     setScoreResults(null);
 
     setTimeout(() => {
-      // Simulate AI scoring
       const upiScore = applicant.upiData.consistencyScore * 0.3 + 
                        (applicant.upiData.monthlyTransactions / 2) * 0.2 +
                        (applicant.upiData.merchantCategories * 2) * 0.15;
@@ -196,28 +194,28 @@ const NbfcAltCreditDemo: React.FC = () => {
 
   const getRiskBandColor = (band: string) => {
     switch (band) {
-      case 'LOW': return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
-      case 'MEDIUM': return 'bg-amber-500/20 text-amber-400 border-amber-500/30';
-      case 'HIGH': return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'LOW': return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+      case 'MEDIUM': return 'bg-amber-100 text-amber-800 border-amber-300';
+      case 'HIGH': return 'bg-red-100 text-red-800 border-red-300';
       default: return '';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-[#f0f4f8] text-[#1e293b]">
       {/* Header */}
-      <header className="border-b border-white/10 px-8 py-4">
+      <header className="bg-white border-b border-slate-200 px-8 py-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-500 flex items-center justify-center shadow-md">
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">Alternative Credit Scoring Demo</h1>
-              <p className="text-sm text-white/50">AI-Powered Scoring for 190M+ New-to-Credit Indians</p>
+              <h1 className="text-xl font-bold text-slate-900">Alternative Credit Scoring Demo</h1>
+              <p className="text-sm text-slate-500">AI-Powered Scoring for 190M+ New-to-Credit Indians</p>
             </div>
           </div>
-          <Badge variant="outline" className="border-purple-500/50 text-purple-400">
+          <Badge className="bg-indigo-50 text-indigo-700 border border-indigo-200 font-medium">
             Live Demo
           </Badge>
         </div>
@@ -226,48 +224,58 @@ const NbfcAltCreditDemo: React.FC = () => {
       <div className="p-8">
         {/* Data Sources */}
         <div className="grid grid-cols-5 gap-4 mb-8">
-          <Card className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-blue-500/20">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-4 flex items-center gap-3">
-              <Smartphone className="w-8 h-8 text-blue-400" />
+              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                <Smartphone className="w-5 h-5 text-blue-600" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-white">UPI Velocity</p>
-                <p className="text-xs text-white/50">Transaction patterns</p>
+                <p className="text-sm font-semibold text-slate-800">UPI Velocity</p>
+                <p className="text-xs text-slate-500">Transaction patterns</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-4 flex items-center gap-3">
-              <Brain className="w-8 h-8 text-purple-400" />
+              <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                <Brain className="w-5 h-5 text-purple-600" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-white">Psychometrics</p>
-                <p className="text-xs text-white/50">Behavioral signals</p>
+                <p className="text-sm font-semibold text-slate-800">Psychometrics</p>
+                <p className="text-xs text-slate-500">Behavioral signals</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-4 flex items-center gap-3">
-              <Building2 className="w-8 h-8 text-emerald-400" />
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <Building2 className="w-5 h-5 text-emerald-600" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-white">GST Data</p>
-                <p className="text-xs text-white/50">Business health</p>
+                <p className="text-sm font-semibold text-slate-800">GST Data</p>
+                <p className="text-xs text-slate-500">Business health</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-4 flex items-center gap-3">
-              <Activity className="w-8 h-8 text-amber-400" />
+              <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                <Activity className="w-5 h-5 text-amber-600" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-white">Device Data</p>
-                <p className="text-xs text-white/50">Digital footprint</p>
+                <p className="text-sm font-semibold text-slate-800">Device Data</p>
+                <p className="text-xs text-slate-500">Digital footprint</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-red-500/10 to-red-500/5 border-red-500/20">
+          <Card className="bg-white border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-4 flex items-center gap-3">
-              <ShoppingCart className="w-8 h-8 text-red-400" />
+              <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 text-rose-600" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-white">E-Commerce</p>
-                <p className="text-xs text-white/50">Purchase history</p>
+                <p className="text-sm font-semibold text-slate-800">E-Commerce</p>
+                <p className="text-xs text-slate-500">Purchase history</p>
               </div>
             </CardContent>
           </Card>
@@ -276,10 +284,10 @@ const NbfcAltCreditDemo: React.FC = () => {
         <div className="grid grid-cols-12 gap-6">
           {/* Applicant Selection */}
           <div className="col-span-4">
-            <Card className="bg-white/5 border-white/10 h-full">
-              <CardHeader className="border-b border-white/10">
-                <CardTitle className="text-white flex items-center gap-2">
-                  <User className="w-5 h-5 text-purple-400" />
+            <Card className="bg-white border-slate-200 shadow-sm h-full">
+              <CardHeader className="border-b border-slate-100">
+                <CardTitle className="text-slate-800 flex items-center gap-2 text-base">
+                  <User className="w-5 h-5 text-indigo-600" />
                   Thin-File Applicants
                 </CardTitle>
               </CardHeader>
@@ -287,51 +295,51 @@ const NbfcAltCreditDemo: React.FC = () => {
                 {mockApplicants.map((applicant) => (
                   <motion.div
                     key={applicant.id}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                     className={`p-4 rounded-xl cursor-pointer transition-all ${
                       selectedApplicant?.id === applicant.id
-                        ? 'bg-purple-500/20 border border-purple-500/50'
-                        : 'bg-white/5 border border-white/10 hover:bg-white/10'
+                        ? 'bg-indigo-50 border-2 border-indigo-400 shadow-md'
+                        : 'bg-slate-50 border border-slate-200 hover:bg-slate-100 hover:border-slate-300'
                     }`}
                     onClick={() => !isScoring && setSelectedApplicant(applicant)}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <p className="font-semibold text-white">{applicant.name}</p>
+                      <p className="font-bold text-slate-900">{applicant.name}</p>
                       {applicant.bureauScore ? (
-                        <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
+                        <Badge className="bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold">
                           Bureau: {applicant.bureauScore}
                         </Badge>
                       ) : (
-                        <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
+                        <Badge className="bg-red-100 text-red-700 border border-red-300 text-xs font-semibold">
                           No Bureau History
                         </Badge>
                       )}
                     </div>
-                    <div className="grid grid-cols-2 gap-2 text-xs text-white/50 mb-3">
+                    <div className="grid grid-cols-2 gap-1 text-xs text-slate-600 mb-3">
                       <span>{applicant.occupation}</span>
-                      <span>{applicant.city}</span>
+                      <span className="text-right">{applicant.city}</span>
                       <span>Age: {applicant.age}</span>
-                      <span>Income: ₹{applicant.monthlyIncome.toLocaleString()}</span>
+                      <span className="text-right">Income: ₹{applicant.monthlyIncome.toLocaleString()}</span>
                     </div>
                     <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="outline" className="text-[10px] border-blue-400/30 text-blue-400">
+                      <Badge className="text-[10px] bg-blue-100 text-blue-700 border border-blue-200 font-medium">
                         {applicant.upiData.monthlyTransactions} UPI/mo
                       </Badge>
                       {applicant.gstData && (
-                        <Badge variant="outline" className="text-[10px] border-emerald-400/30 text-emerald-400">
+                        <Badge className="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 font-medium">
                           GST Registered
                         </Badge>
                       )}
                       {applicant.psychometric && (
-                        <Badge variant="outline" className="text-[10px] border-purple-400/30 text-purple-400">
+                        <Badge className="text-[10px] bg-purple-100 text-purple-700 border border-purple-200 font-medium">
                           Psychometric ✓
                         </Badge>
                       )}
                     </div>
                     <Button 
                       size="sm" 
-                      className="w-full bg-purple-500 hover:bg-purple-600"
+                      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
                       onClick={(e) => { e.stopPropagation(); runScoring(applicant); }}
                       disabled={isScoring}
                     >
@@ -354,8 +362,8 @@ const NbfcAltCreditDemo: React.FC = () => {
                   className="h-96 flex items-center justify-center"
                 >
                   <div className="text-center">
-                    <Target className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                    <p className="text-white/40">Select an applicant to generate alternative credit score</p>
+                    <Target className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                    <p className="text-slate-500 font-medium">Select an applicant to generate alternative credit score</p>
                   </div>
                 </motion.div>
               )}
@@ -367,57 +375,57 @@ const NbfcAltCreditDemo: React.FC = () => {
                   className="space-y-4"
                 >
                   {/* Input Data */}
-                  <Card className="bg-white/5 border-white/10">
-                    <CardHeader className="border-b border-white/10 pb-3">
-                      <CardTitle className="text-white">Input Signals — {selectedApplicant.name}</CardTitle>
+                  <Card className="bg-white border-slate-200 shadow-sm">
+                    <CardHeader className="border-b border-slate-100 pb-3">
+                      <CardTitle className="text-slate-800 text-base">Input Signals — {selectedApplicant.name}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-4">
                       <div className="grid grid-cols-3 gap-4">
                         {/* UPI Data */}
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+                        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
                           <div className="flex items-center gap-2 mb-3">
-                            <Smartphone className="w-5 h-5 text-blue-400" />
-                            <span className="font-semibold text-white">UPI Data</span>
+                            <Smartphone className="w-5 h-5 text-blue-600" />
+                            <span className="font-semibold text-slate-800">UPI Data</span>
                           </div>
                           <div className="space-y-2 text-sm">
                             <div className="flex justify-between">
-                              <span className="text-white/50">Transactions/mo</span>
-                              <span className="text-white">{selectedApplicant.upiData.monthlyTransactions}</span>
+                              <span className="text-slate-600">Transactions/mo</span>
+                              <span className="font-semibold text-slate-900">{selectedApplicant.upiData.monthlyTransactions}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-white/50">Avg Amount</span>
-                              <span className="text-white">₹{selectedApplicant.upiData.avgAmount}</span>
+                              <span className="text-slate-600">Avg Amount</span>
+                              <span className="font-semibold text-slate-900">₹{selectedApplicant.upiData.avgAmount}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-white/50">Merchant Types</span>
-                              <span className="text-white">{selectedApplicant.upiData.merchantCategories}</span>
+                              <span className="text-slate-600">Merchant Types</span>
+                              <span className="font-semibold text-slate-900">{selectedApplicant.upiData.merchantCategories}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-white/50">Consistency</span>
-                              <span className="text-blue-400">{selectedApplicant.upiData.consistencyScore}%</span>
+                              <span className="text-slate-600">Consistency</span>
+                              <span className="font-bold text-blue-700">{selectedApplicant.upiData.consistencyScore}%</span>
                             </div>
                           </div>
                         </div>
 
                         {/* Psychometric */}
                         {selectedApplicant.psychometric && (
-                          <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+                          <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
                             <div className="flex items-center gap-2 mb-3">
-                              <Brain className="w-5 h-5 text-purple-400" />
-                              <span className="font-semibold text-white">Psychometric</span>
+                              <Brain className="w-5 h-5 text-purple-600" />
+                              <span className="font-semibold text-slate-800">Psychometric</span>
                             </div>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span className="text-white/50">Risk Tolerance</span>
-                                <span className="text-white">{selectedApplicant.psychometric.riskTolerance}%</span>
+                                <span className="text-slate-600">Risk Tolerance</span>
+                                <span className="font-semibold text-slate-900">{selectedApplicant.psychometric.riskTolerance}%</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-white/50">Fin. Discipline</span>
-                                <span className="text-purple-400">{selectedApplicant.psychometric.financialDiscipline}%</span>
+                                <span className="text-slate-600">Fin. Discipline</span>
+                                <span className="font-bold text-purple-700">{selectedApplicant.psychometric.financialDiscipline}%</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-white/50">Future Orient.</span>
-                                <span className="text-white">{selectedApplicant.psychometric.futureOrientation}%</span>
+                                <span className="text-slate-600">Future Orient.</span>
+                                <span className="font-semibold text-slate-900">{selectedApplicant.psychometric.futureOrientation}%</span>
                               </div>
                             </div>
                           </div>
@@ -425,44 +433,44 @@ const NbfcAltCreditDemo: React.FC = () => {
 
                         {/* GST or Device Data */}
                         {selectedApplicant.gstData ? (
-                          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4">
+                          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
                             <div className="flex items-center gap-2 mb-3">
-                              <Building2 className="w-5 h-5 text-emerald-400" />
-                              <span className="font-semibold text-white">GST Data</span>
+                              <Building2 className="w-5 h-5 text-emerald-600" />
+                              <span className="font-semibold text-slate-800">GST Data</span>
                             </div>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span className="text-white/50">Monthly Turnover</span>
-                                <span className="text-white">₹{selectedApplicant.gstData.monthlyTurnover.toLocaleString()}</span>
+                                <span className="text-slate-600">Monthly Turnover</span>
+                                <span className="font-semibold text-slate-900">₹{selectedApplicant.gstData.monthlyTurnover.toLocaleString()}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-white/50">Filing Consistency</span>
-                                <span className="text-emerald-400">{selectedApplicant.gstData.filingConsistency}%</span>
+                                <span className="text-slate-600">Filing Consistency</span>
+                                <span className="font-bold text-emerald-700">{selectedApplicant.gstData.filingConsistency}%</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-white/50">Years in Business</span>
-                                <span className="text-white">{selectedApplicant.gstData.yearsInBusiness}</span>
+                                <span className="text-slate-600">Years in Business</span>
+                                <span className="font-semibold text-slate-900">{selectedApplicant.gstData.yearsInBusiness}</span>
                               </div>
                             </div>
                           </div>
                         ) : (
-                          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+                          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                             <div className="flex items-center gap-2 mb-3">
-                              <Activity className="w-5 h-5 text-amber-400" />
-                              <span className="font-semibold text-white">Device Data</span>
+                              <Activity className="w-5 h-5 text-amber-600" />
+                              <span className="font-semibold text-slate-800">Device Data</span>
                             </div>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span className="text-white/50">Device Age</span>
-                                <span className="text-white">{selectedApplicant.deviceData.deviceAge} months</span>
+                                <span className="text-slate-600">Device Age</span>
+                                <span className="font-semibold text-slate-900">{selectedApplicant.deviceData.deviceAge} months</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-white/50">App Installs</span>
-                                <span className="text-white">{selectedApplicant.deviceData.appInstalls}</span>
+                                <span className="text-slate-600">App Installs</span>
+                                <span className="font-semibold text-slate-900">{selectedApplicant.deviceData.appInstalls}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-white/50">Financial Apps</span>
-                                <span className="text-amber-400">{selectedApplicant.deviceData.financialApps}</span>
+                                <span className="text-slate-600">Financial Apps</span>
+                                <span className="font-bold text-amber-700">{selectedApplicant.deviceData.financialApps}</span>
                               </div>
                             </div>
                           </div>
@@ -473,20 +481,20 @@ const NbfcAltCreditDemo: React.FC = () => {
 
                   {/* Scoring Animation */}
                   {isScoring && (
-                    <Card className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border-purple-500/30">
+                    <Card className="bg-indigo-50 border-indigo-200 shadow-sm">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-4">
                           <div className="relative">
-                            <Brain className="w-10 h-10 text-purple-400" />
+                            <Brain className="w-10 h-10 text-indigo-600" />
                             <motion.div
                               animate={{ rotate: 360 }}
                               transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                              className="absolute inset-0 border-2 border-purple-400/30 border-t-purple-400 rounded-full"
+                              className="absolute inset-0 border-2 border-indigo-300 border-t-indigo-600 rounded-full"
                             />
                           </div>
                           <div className="flex-1">
-                            <p className="text-white font-semibold mb-2">AI Scoring Engine Processing...</p>
-                            <div className="space-y-1 text-sm text-white/60">
+                            <p className="text-slate-900 font-bold mb-2">AI Scoring Engine Processing...</p>
+                            <div className="space-y-1 text-sm text-slate-600">
                               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
                                 ✓ Analyzing UPI transaction velocity...
                               </motion.p>
@@ -517,26 +525,26 @@ const NbfcAltCreditDemo: React.FC = () => {
                       className="space-y-4"
                     >
                       {/* Main Score Card */}
-                      <Card className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-purple-500/30">
+                      <Card className="bg-white border-slate-200 shadow-md">
                         <CardContent className="p-6">
                           <div className="grid grid-cols-3 gap-6">
-                            <div className="text-center">
-                              <p className="text-sm text-white/50 mb-2">Alternative Credit Score</p>
-                              <p className="text-6xl font-bold text-white">{scoreResults.altCreditScore}</p>
-                              <Badge className={`mt-2 ${getRiskBandColor(scoreResults.riskBand)}`}>
+                            <div className="text-center py-4 bg-gradient-to-b from-indigo-50 to-white rounded-xl border border-indigo-100">
+                              <p className="text-sm text-slate-500 mb-2 font-medium">Alternative Credit Score</p>
+                              <p className="text-6xl font-black text-indigo-700">{scoreResults.altCreditScore}</p>
+                              <Badge className={`mt-3 text-sm px-3 py-1 font-bold ${getRiskBandColor(scoreResults.riskBand)}`}>
                                 {scoreResults.riskBand} RISK
                               </Badge>
                             </div>
                             <div className="col-span-2">
-                              <p className="text-sm text-white/50 mb-3">Score Breakdown</p>
+                              <p className="text-sm text-slate-500 mb-3 font-medium">Score Breakdown</p>
                               <div className="space-y-3">
                                 {Object.entries(scoreResults.scoreBreakdown).map(([key, value]: [string, any]) => (
                                   <div key={key}>
                                     <div className="flex justify-between text-sm mb-1">
-                                      <span className="text-white/70 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-                                      <span className="text-white">{value}/100</span>
+                                      <span className="text-slate-700 capitalize font-medium">{key.replace(/([A-Z])/g, ' $1')}</span>
+                                      <span className="font-bold text-slate-900">{value}/100</span>
                                     </div>
-                                    <Progress value={value} className="h-2" />
+                                    <Progress value={value} className="h-2.5" />
                                   </div>
                                 ))}
                               </div>
@@ -547,56 +555,56 @@ const NbfcAltCreditDemo: React.FC = () => {
 
                       {/* Recommendation */}
                       <div className="grid grid-cols-2 gap-4">
-                        <Card className={`border ${
-                          scoreResults.recommendation === 'APPROVE' ? 'bg-emerald-500/10 border-emerald-500/30' :
-                          scoreResults.recommendation === 'APPROVE_WITH_CONDITIONS' ? 'bg-amber-500/10 border-amber-500/30' :
-                          'bg-red-500/10 border-red-500/30'
+                        <Card className={`shadow-sm ${
+                          scoreResults.recommendation === 'APPROVE' ? 'bg-emerald-50 border-emerald-300' :
+                          scoreResults.recommendation === 'APPROVE_WITH_CONDITIONS' ? 'bg-amber-50 border-amber-300' :
+                          'bg-red-50 border-red-300'
                         }`}>
                           <CardContent className="p-4">
                             <div className="flex items-center gap-3 mb-3">
                               {scoreResults.recommendation === 'APPROVE' ? (
-                                <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+                                <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                               ) : scoreResults.recommendation === 'APPROVE_WITH_CONDITIONS' ? (
-                                <AlertTriangle className="w-8 h-8 text-amber-400" />
+                                <AlertTriangle className="w-8 h-8 text-amber-600" />
                               ) : (
-                                <AlertTriangle className="w-8 h-8 text-red-400" />
+                                <AlertTriangle className="w-8 h-8 text-red-600" />
                               )}
                               <div>
-                                <p className="font-semibold text-white">Recommendation</p>
-                                <p className={`text-sm ${
-                                  scoreResults.recommendation === 'APPROVE' ? 'text-emerald-400' :
-                                  scoreResults.recommendation === 'APPROVE_WITH_CONDITIONS' ? 'text-amber-400' :
-                                  'text-red-400'
+                                <p className="font-bold text-slate-900">Recommendation</p>
+                                <p className={`text-sm font-semibold ${
+                                  scoreResults.recommendation === 'APPROVE' ? 'text-emerald-700' :
+                                  scoreResults.recommendation === 'APPROVE_WITH_CONDITIONS' ? 'text-amber-700' :
+                                  'text-red-700'
                                 }`}>
                                   {scoreResults.recommendation.replace(/_/g, ' ')}
                                 </p>
                               </div>
                             </div>
                             <div className="grid grid-cols-2 gap-3">
-                              <div className="bg-white/5 rounded-lg p-2">
-                                <p className="text-xs text-white/40">Max Loan</p>
-                                <p className="text-lg font-bold text-white">₹{scoreResults.maxLoanAmount.toLocaleString()}</p>
+                              <div className="bg-white/80 rounded-lg p-3 border border-slate-200">
+                                <p className="text-xs text-slate-500 font-medium">Max Loan</p>
+                                <p className="text-lg font-black text-slate-900">₹{scoreResults.maxLoanAmount.toLocaleString()}</p>
                               </div>
-                              <div className="bg-white/5 rounded-lg p-2">
-                                <p className="text-xs text-white/40">Interest Rate</p>
-                                <p className="text-lg font-bold text-white">{scoreResults.interestRate}% p.a.</p>
+                              <div className="bg-white/80 rounded-lg p-3 border border-slate-200">
+                                <p className="text-xs text-slate-500 font-medium">Interest Rate</p>
+                                <p className="text-lg font-black text-slate-900">{scoreResults.interestRate}% p.a.</p>
                               </div>
                             </div>
                           </CardContent>
                         </Card>
 
-                        <Card className="bg-white/5 border-white/10">
+                        <Card className="bg-white border-slate-200 shadow-sm">
                           <CardContent className="p-4">
-                            <p className="text-sm text-white/50 mb-3">AI Signals</p>
+                            <p className="text-sm text-slate-500 mb-3 font-medium">AI Signals</p>
                             <div className="space-y-2 max-h-40 overflow-y-auto">
                               {scoreResults.signals.map((signal: any, i: number) => (
                                 <div key={i} className="flex items-start gap-2 text-xs">
                                   {signal.type === 'positive' ? (
-                                    <CheckCircle2 className="w-3 h-3 text-emerald-400 mt-0.5 shrink-0" />
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
                                   ) : (
-                                    <AlertTriangle className="w-3 h-3 text-amber-400 mt-0.5 shrink-0" />
+                                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />
                                   )}
-                                  <span className="text-white/70">{signal.text}</span>
+                                  <span className="text-slate-700 leading-relaxed">{signal.text}</span>
                                 </div>
                               ))}
                             </div>
@@ -613,8 +621,8 @@ const NbfcAltCreditDemo: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 px-8 py-3 mt-8">
-        <div className="flex justify-between items-center text-xs text-white/30">
+      <footer className="border-t border-slate-200 bg-white px-8 py-3 mt-8">
+        <div className="flex justify-between items-center text-xs text-slate-500">
           <span>DiscvrAI — Alternative Credit Scoring Platform</span>
           <span>Demo Data — Serving 190M+ New-to-Credit Indians</span>
         </div>
