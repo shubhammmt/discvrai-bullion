@@ -175,7 +175,9 @@ const AppContent = () => {
                        location.pathname === '/brochure/enterprise' ||
                        location.pathname === '/proposal/deep-industries' ||
                        location.pathname === '/proposal/nbfc' ||
-                       location.pathname === '/dashboard/adf-strategic';
+                       location.pathname === '/dashboard/adf-strategic' ||
+                       location.pathname === '/demo/nbfc-nba' ||
+                       location.pathname === '/demo/nbfc-collections';
   return (
     <>
       <Routes>
