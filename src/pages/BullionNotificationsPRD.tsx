@@ -137,8 +137,10 @@ const BullionNotificationsPRD = () => {
             <p className="mt-2">Each notification card has: Metal icon, Priority badge (High/Medium/Low), Timestamp, Message, Dismiss button, View button.</p>
           </SubSection>
 
-          <SubSection title="4.4 Offers Redirect Card">
-            <p>Clickable card with gradient icon. Navigates to <code className="bg-gray-100 px-1 rounded text-xs">/bullion</code> with scrollTo: 'offers' state.</p>
+          <SubSection title="4.4 Offers For You (Inline Cards)">
+            <p className="mb-2">Two fully-specified offer cards rendered inline at the bottom of the Alerts tab. Replaces the simple redirect card.</p>
+            <p><strong>Card A:</strong> Welcome Offer — amber theme, ₹10 free gold on first ₹500+ purchase. See Section 7.1.</p>
+            <p><strong>Card B:</strong> Refer &amp; Earn — blue theme, ₹100 bonus gold after 10 successful referrals. Includes inline progress bar. See Section 7.2.</p>
           </SubSection>
         </Section>
 
@@ -195,8 +197,60 @@ const BullionNotificationsPRD = () => {
           </SubSection>
         </Section>
 
-        {/* Section 7 */}
-        <Section title="7. Technical Notes">
+        {/* Section 7: Offers For You */}
+        <Section title="7. Offers For You (Alerts Tab — Bottom)">
+          <p className="mb-3 text-gray-600">Replaces the simple redirect card. Two inline offer cards are rendered with full business logic specs.</p>
+
+          <SubSection title="7.1 Welcome Offer — First Purchase">
+            <Table headers={["Attribute", "Detail"]} rows={[
+              ["Trigger", "First-time gold purchase on the platform"],
+              ["Condition", "Minimum transaction value of ₹500"],
+              ["Reward", "₹10 worth of Free Gold credited to the user's Bullion wallet"],
+              ["UX", "\"Welcome Reward Applied\" banner shown on checkout page when condition is met"],
+              ["Card Theme", "Amber border + amber-50 background"],
+              ["Icon", "Gift (amber)"],
+              ["Badge", "\"First Purchase\""],
+              ["Checklist Items", "Min ₹500 · Auto-credited ₹10 gold · Checkout banner confirmation"],
+              ["CTA", "\"Claim Now\" → navigates to /bullion + toast confirming offer activation"],
+            ]} />
+          </SubSection>
+
+          <SubSection title="7.2 Refer & Earn — Milestone Program">
+            <Table headers={["Attribute", "Detail"]} rows={[
+              ["Target Users", "Existing users (Referrer)"],
+              ["Milestone", "10 Successful Referrals"],
+              ["Definition of Successful Referral", "Referee must complete first transaction of ₹500+"],
+              ["Reward", "₹100 Bonus Gold credited after 10th successful referral"],
+              ["Card Theme", "Blue border + blue-50 background"],
+              ["Icon", "Users (blue)"],
+              ["Badge", "\"Milestone Program\""],
+              ["Checklist Items", "₹500+ referee condition · Reward after 10th referral"],
+              ["CTA 1", "\"Copy Referral Link\" → copies link to clipboard + success toast"],
+              ["CTA 2", "\"View in Profile\" → navigates to /bullion/profile"],
+            ]} />
+            <p className="font-semibold mt-3 mb-1">7.2.1 Referral Progress Bar (inline on card):</p>
+            <Table headers={["Element", "Detail"]} rows={[
+              ["Label", "\"Referral Progress\" + \"X / 10 Completed\" counter"],
+              ["Progress Fill", "Proportional to completed referrals (e.g., 4/10 = 40%)"],
+              ["Milestone Strip", "10 individual pill segments, filled for completed referrals"],
+              ["Sub-label", "\"X more referrals to unlock reward\""],
+              ["Current Mock State", "4 / 10 referrals completed (to be wired to user profile API)"],
+              ["Also visible at", "/bullion/profile via \"View in Profile\" CTA"],
+            ]} />
+          </SubSection>
+
+          <SubSection title="7.3 Implementation Notes">
+            <Table headers={["Aspect", "Detail"]} rows={[
+              ["Icons used", "Gift, Users, CheckCircle2, ArrowRight (lucide-react)"],
+              ["Styling", "Semantic Tailwind tokens (amber/blue variants)"],
+              ["Referral count", "Mock state (4/10) — to be wired to user profile API"],
+              ["Welcome Offer eligibility", "To be wired to transaction history API"],
+            ]} />
+          </SubSection>
+        </Section>
+
+        {/* Section 8 */}
+        <Section title="8. Technical Notes">
           <Table headers={["Aspect", "Detail"]} rows={[
             ["State Management", "Local useState (no persistence)"],
             ["Prices", "Hardcoded CURRENT_PRICES — not yet using useBullionPrices hook"],
@@ -212,16 +266,27 @@ const BullionNotificationsPRD = () => {
           <Table headers={["From", "To", "Trigger"]} rows={[
             ["/bullion/premium", "?tab=bookmarks", "Bookmark article toast action"],
             ["/bullion/premium/article/:slug", "?tab=bookmarks", "Bookmark article toast action"],
-            ["Alerts tab", "/bullion", "\"Offers for You\" card click"],
+            ["Welcome Offer CTA", "/bullion", "\"Claim Now\" click + offer activation toast"],
+            ["Refer & Earn CTA", "Clipboard", "\"Copy Referral Link\" click + success toast"],
+            ["Refer & Earn CTA", "/bullion/profile", "\"View in Profile\" click"],
             ["Bookmarks tab", "/bullion/premium", "Browse Premium / Read Now"],
             ["Calendar tab", "/bullion/profile", "Edit Date / Add Date"],
             ["Toolbar (+)", "Alert dialog", "Create price alert shortcut"],
           ]} />
         </Section>
 
+        {/* Section 9 Changelog */}
+        <Section title="9. Changelog">
+          <Table headers={["Version", "Date", "Change"]} rows={[
+            ["v1.0", "February 2026", "Initial PRD — Alerts, Bookmarks, Calendar tabs"],
+            ["v1.1", "March 2026", "Section 4.4 updated: Offers redirect card replaced with two inline offer cards (Welcome Offer + Refer & Earn)"],
+            ["v1.1", "March 2026", "Section 7 added: Full business logic for Welcome Offer (₹10 free gold, ₹500+ first purchase) and Refer & Earn (₹100 bonus gold after 10 successful referrals with inline progress bar)"],
+          ]} />
+        </Section>
+
         {/* Footer */}
         <div className="mt-10 pt-4 border-t border-gray-300 text-xs text-gray-400 text-center">
-          DiscvrAI — Bullion Notifications PRD — February 2026 — Confidential
+          DiscvrAI — Bullion Notifications PRD — v1.1 March 2026 — Confidential
         </div>
       </div>
     </div>
