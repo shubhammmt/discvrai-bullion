@@ -146,6 +146,10 @@ import EnterpriseBrochure from './pages/EnterpriseBrochure';
 import DeepIndustriesProposal from './pages/DeepIndustriesProposal';
 import NbfcProposal from './pages/NbfcProposal';
 import AdfStrategicDashboard from './pages/AdfStrategicDashboard';
+import NbfcNbaDemo from './pages/NbfcNbaDemo';
+import NbfcCollectionsDemo from './pages/NbfcCollectionsDemo';
+import NbfcKycDemo from './pages/NbfcKycDemo';
+import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -173,7 +177,11 @@ const AppContent = () => {
                        location.pathname === '/brochure/enterprise' ||
                        location.pathname === '/proposal/deep-industries' ||
                        location.pathname === '/proposal/nbfc' ||
-                       location.pathname === '/dashboard/adf-strategic';
+                       location.pathname === '/dashboard/adf-strategic' ||
+                       location.pathname === '/demo/nbfc-nba' ||
+                       location.pathname === '/demo/nbfc-collections' ||
+                       location.pathname === '/demo/nbfc-kyc' ||
+                       location.pathname === '/demo/nbfc-alt-credit';
   return (
     <>
       <Routes>
@@ -319,6 +327,10 @@ const AppContent = () => {
            <Route path="/proposal/deep-industries" element={<DeepIndustriesProposal />} />
            <Route path="/proposal/nbfc" element={<NbfcProposal />} />
            <Route path="/dashboard/adf-strategic" element={<AdfStrategicDashboard />} />
+           <Route path="/demo/nbfc-nba" element={<NbfcNbaDemo />} />
+           <Route path="/demo/nbfc-collections" element={<NbfcCollectionsDemo />} />
+           <Route path="/demo/nbfc-kyc" element={<NbfcKycDemo />} />
+           <Route path="/demo/nbfc-alt-credit" element={<NbfcAltCreditDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
