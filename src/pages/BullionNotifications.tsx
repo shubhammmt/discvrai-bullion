@@ -335,24 +335,136 @@ const BullionNotifications = () => {
               </div>
             </div>
 
-            {/* Offers for You - Redirect Card */}
-            <Card 
-              className="p-5 cursor-pointer hover:border-amber-400 transition-colors" 
-              onClick={() => navigate('/bullion', { state: { scrollTo: 'offers' } })}
-            >
+            {/* Offers for You */}
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
-                    <Gift className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-lg">Offers for You</h2>
-                    <p className="text-sm text-muted-foreground">View exclusive deals & bonus gold offers</p>
-                  </div>
-                </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-lg font-semibold flex items-center gap-2">
+                  <Gift className="w-5 h-5 text-amber-500" />
+                  Offers for You
+                </h2>
               </div>
-            </Card>
+
+              {/* Welcome Offer Card */}
+              <Card className="border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 overflow-hidden">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Gift className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Welcome Offer</span>
+                        <Badge variant="secondary" className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800">First Purchase</Badge>
+                      </div>
+                      <p className="font-bold text-xl text-foreground">₹10 Free Gold</p>
+                      <p className="text-sm text-muted-foreground mt-0.5 mb-3">On your first gold purchase of ₹500 or more</p>
+
+                      {/* How it works */}
+                      <div className="space-y-1.5 mb-4">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                          <span>Minimum transaction value: ₹500</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                          <span>₹10 gold auto-credited to your Bullion wallet</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                          <span>"Welcome Reward Applied" banner shown at checkout</span>
+                        </div>
+                      </div>
+
+                      <Button
+                        size="sm"
+                        className="bg-amber-500 hover:bg-amber-600 text-white"
+                        onClick={() => { navigate('/bullion'); toast.success("Welcome offer applied! Buy gold worth ₹500+ to claim."); }}
+                      >
+                        Claim Now
+                        <ArrowRight className="w-3 h-3 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Refer & Earn Card */}
+              <Card className="border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/40 overflow-hidden">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Refer &amp; Earn</span>
+                        <Badge variant="secondary" className="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">Milestone Program</Badge>
+                      </div>
+                      <p className="font-bold text-xl text-foreground">₹100 Bonus Gold</p>
+                      <p className="text-sm text-muted-foreground mt-0.5 mb-3">Refer 10 friends who complete their first ₹500 purchase</p>
+
+                      {/* Referral Progress Bar */}
+                      <div className="mb-4">
+                        <div className="flex justify-between items-center mb-1.5">
+                          <span className="text-xs font-medium text-foreground">Referral Progress</span>
+                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400">4 / 10 Completed</span>
+                        </div>
+                        <Progress value={40} className="h-2.5" />
+                        <div className="flex justify-between mt-1">
+                          <span className="text-xs text-muted-foreground">6 more referrals to unlock reward</span>
+                          <span className="text-xs text-muted-foreground">40%</span>
+                        </div>
+                      </div>
+
+                      {/* Milestones */}
+                      <div className="grid grid-cols-5 gap-1 mb-4">
+                        {Array.from({ length: 10 }, (_, i) => (
+                          <div
+                            key={i}
+                            className={`h-1.5 rounded-full ${i < 4 ? 'bg-blue-500' : 'bg-blue-200 dark:bg-blue-900'}`}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Conditions */}
+                      <div className="space-y-1.5 mb-4">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                          <span>Referee must complete first transaction of ₹500+</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                          <span>Reward credited after 10th successful referral</span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+                          onClick={() => {
+                            const referralLink = `https://discvrai-bullion.lovable.app/bullion?ref=USER123`;
+                            navigator.clipboard.writeText(referralLink);
+                            toast.success("Referral link copied!", { description: "Share with friends to earn ₹100 bonus gold" });
+                          }}
+                        >
+                          Copy Referral Link
+                          <ArrowRight className="w-3 h-3 ml-1" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400"
+                          onClick={() => navigate('/bullion/profile')}
+                        >
+                          View in Profile
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Create Price Alert Dialog */}
             <CreatePriceAlertDialog
