@@ -137,8 +137,10 @@ const BullionNotificationsPRD = () => {
             <p className="mt-2">Each notification card has: Metal icon, Priority badge (High/Medium/Low), Timestamp, Message, Dismiss button, View button.</p>
           </SubSection>
 
-          <SubSection title="4.4 Offers Redirect Card">
-            <p>Clickable card with gradient icon. Navigates to <code className="bg-gray-100 px-1 rounded text-xs">/bullion</code> with scrollTo: 'offers' state.</p>
+          <SubSection title="4.4 Offers For You (Inline Cards)">
+            <p className="mb-2">Two fully-specified offer cards rendered inline at the bottom of the Alerts tab. Replaces the simple redirect card.</p>
+            <p><strong>Card A:</strong> Welcome Offer — amber theme, ₹10 free gold on first ₹500+ purchase. See Section 7.1.</p>
+            <p><strong>Card B:</strong> Refer &amp; Earn — blue theme, ₹100 bonus gold after 10 successful referrals. Includes inline progress bar. See Section 7.2.</p>
           </SubSection>
         </Section>
 
