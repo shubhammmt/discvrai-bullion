@@ -403,8 +403,8 @@ export default function BullionCalculators() {
                 {/* Purity note */}
                 <p className="text-[10px] text-muted-foreground mt-3 leading-relaxed">
                   {isGold
-                    ? "* Physical jewellery rate uses 22K (91.6% purity) of the live 24K spot price. Digital gold is 24K / 999.9 fine."
-                    : "* Physical silver includes ~2% dealer premium over spot. Digital silver is priced at 999 purity spot rate."}
+                    ? `* Physical rate uses ${goldPurity} (${purityData.fineness}) of the live 24K spot price + city premium. Digital gold is 24K / 999.9 fine (national rate).`
+                    : "* Physical silver includes ~2% dealer premium over spot + city premium. Digital silver is 999 purity spot rate (national)."}
                 </p>
               </Card>
 
