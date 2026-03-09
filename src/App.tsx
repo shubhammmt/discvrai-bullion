@@ -148,6 +148,8 @@ import NbfcProposal from './pages/NbfcProposal';
 import AdfStrategicDashboard from './pages/AdfStrategicDashboard';
 import NbfcNbaDemo from './pages/NbfcNbaDemo';
 import NbfcCollectionsDemo from './pages/NbfcCollectionsDemo';
+import NbfcKycDemo from './pages/NbfcKycDemo';
+import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
