@@ -323,6 +323,8 @@ const AppContent = () => {
            <Route path="/proposal/deep-industries" element={<DeepIndustriesProposal />} />
            <Route path="/proposal/nbfc" element={<NbfcProposal />} />
            <Route path="/dashboard/adf-strategic" element={<AdfStrategicDashboard />} />
+           <Route path="/demo/nbfc-nba" element={<NbfcNbaDemo />} />
+           <Route path="/demo/nbfc-collections" element={<NbfcCollectionsDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
