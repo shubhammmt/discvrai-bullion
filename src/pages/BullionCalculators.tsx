@@ -35,30 +35,50 @@ export default function BullionCalculators() {
   const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
   const [calcWeight, setCalcWeight] = useState([10]);
   const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
+  const [selectedCity, setSelectedCity] = useState("mumbai");
   const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
 
   const isGold = selectedMetal === "gold";
 
+  // City-wise premium over Mumbai base rate (based on local demand, transport, market conditions)
+  // Source: IBJA & local market data patterns
+  const CITY_PREMIUMS: Record<string, { gold: number; silver: number; label: string }> = {
+    mumbai:    { gold: 1.000, silver: 1.000, label: "Mumbai" },
+    delhi:     { gold: 1.002, silver: 1.015, label: "Delhi" },
+    chennai:   { gold: 1.005, silver: 1.020, label: "Chennai" },
+    kolkata:   { gold: 1.003, silver: 1.012, label: "Kolkata" },
+    bengaluru: { gold: 1.002, silver: 1.010, label: "Bengaluru" },
+    hyderabad: { gold: 1.002, silver: 1.010, label: "Hyderabad" },
+    ahmedabad: { gold: 1.001, silver: 1.008, label: "Ahmedabad" },
+    jaipur:    { gold: 1.003, silver: 1.015, label: "Jaipur" },
+    pune:      { gold: 1.001, silver: 1.005, label: "Pune" },
+    coimbatore:{ gold: 1.006, silver: 1.022, label: "Coimbatore" },
+    surat:     { gold: 1.001, silver: 1.007, label: "Surat" },
+    lucknow:   { gold: 1.003, silver: 1.014, label: "Lucknow" },
+  };
+
+  const cityData = CITY_PREMIUMS[selectedCity] ?? CITY_PREMIUMS.mumbai;
+
   // India-accurate rate logic:
-  // Physical gold jewellery → 22K (91.6% purity of the 24K live rate)
-  // Digital gold → 24K (99.9% purity, full live rate)
-  // Physical silver → 999 purity but jewellers quote ~2% above spot
-  // Digital silver → spot (live) rate
+  // Physical gold jewellery → 22K (91.6% purity) × city premium
+  // Digital gold → 24K (999.9) at live spot — city-agnostic
+  // Physical silver → spot × dealer premium × city premium
+  // Digital silver → 999 spot rate — city-agnostic
   const GOLD_22K_FACTOR = 0.916;
-  const SILVER_PHYSICAL_PREMIUM = 1.02; // ~2% dealer premium on physical silver
+  const SILVER_DEALER_BASE = 1.02;
 
   const digitalRate = isGold ? liveGoldPrice : liveSilverPrice;
   const physicalRate = isGold
-    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR)
-    : Math.round(liveSilverPrice * SILVER_PHYSICAL_PREMIUM);
+    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR * cityData.gold)
+    : Math.round(liveSilverPrice * SILVER_DEALER_BASE * cityData.silver);
 
-  // Physical jewellery calculation (uses 22K / jeweller rate)
+  // Physical jewellery calculation (22K / city rate)
   const physicalMetalValue = calcWeight[0] * physicalRate;
   const makingCharges = (physicalMetalValue * calcMakingCharge[0]) / 100;
   const gst = (physicalMetalValue + makingCharges) * 0.03;
   const physicalTotal = physicalMetalValue + makingCharges + gst;
 
-  // Digital bullion calculation (uses 24K / spot rate, no making charge)
+  // Digital bullion calculation (24K spot, no making charge, no city variance)
   const digitalMetalValue = calcWeight[0] * digitalRate;
   const digitalGst = digitalMetalValue * 0.03;
   const digitalTotal = digitalMetalValue + digitalGst;
