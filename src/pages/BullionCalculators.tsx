@@ -192,12 +192,24 @@ export default function BullionCalculators() {
                   </Select>
                 </div>
 
-                {/* Live rate pill */}
-                <div className={`flex items-center justify-between px-3 py-2 rounded-lg mb-5 ${isGold ? "bg-amber-500/10 border border-amber-500/30" : "bg-slate-500/10 border border-slate-500/20"}`}>
-                  <span className="text-xs text-muted-foreground font-medium">Live {isGold ? "Gold" : "Silver"} Rate</span>
-                  <span className={`text-sm font-bold ${isGold ? "text-amber-500" : "text-slate-400"}`}>
-                    ₹{liveRate.toLocaleString("en-IN")}/g
-                  </span>
+                {/* Dual rate strip — physical vs digital, clearly labelled */}
+                <div className="grid grid-cols-2 gap-2 mb-5">
+                  <div className={`flex flex-col px-3 py-2 rounded-lg ${isGold ? "bg-amber-500/10 border border-amber-500/30" : "bg-slate-500/10 border border-slate-500/20"}`}>
+                    <span className="text-[10px] text-muted-foreground font-medium">
+                      Physical Rate {isGold ? "(22K)" : "(999, dealer)"}
+                    </span>
+                    <span className={`text-sm font-bold ${isGold ? "text-amber-500" : "text-slate-400"}`}>
+                      ₹{physicalRate.toLocaleString("en-IN")}/g
+                    </span>
+                  </div>
+                  <div className="flex flex-col px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+                    <span className="text-[10px] text-muted-foreground font-medium">
+                      Digital Rate {isGold ? "(24K / 999.9)" : "(999, spot)"}
+                    </span>
+                    <span className="text-sm font-bold text-emerald-500">
+                      ₹{digitalRate.toLocaleString("en-IN")}/g
+                    </span>
+                  </div>
                 </div>
 
                 {/* Sliders */}
@@ -254,10 +266,12 @@ export default function BullionCalculators() {
                     <div className="grid grid-cols-2 gap-3">
                       {/* Physical */}
                       <div className="space-y-1.5 text-sm">
-                        <p className="text-xs font-semibold text-muted-foreground mb-2">Physical Jewellery</p>
+                        <p className="text-xs font-semibold text-muted-foreground mb-2">
+                          Physical Jewellery {isGold ? "(22K)" : "(999)"}
+                        </p>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">Metal Value</span>
-                          <span className="text-xs font-medium">₹{metalValue.toLocaleString("en-IN", { maximumFractionDigits: 0 })}</span>
+                          <span className="text-xs font-medium">₹{physicalMetalValue.toLocaleString("en-IN", { maximumFractionDigits: 0 })}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">Making ({calcMakingCharge[0]}%)</span>
@@ -277,10 +291,12 @@ export default function BullionCalculators() {
 
                       {/* Digital */}
                       <div className="space-y-1.5 text-sm">
-                        <p className="text-xs font-semibold text-emerald-600 mb-2">Digital {isGold ? "Gold" : "Silver"}</p>
+                        <p className="text-xs font-semibold text-emerald-600 mb-2">
+                          Digital {isGold ? "Gold (24K)" : "Silver (999)"}
+                        </p>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">Metal Value</span>
-                          <span className="text-xs font-medium">₹{metalValue.toLocaleString("en-IN", { maximumFractionDigits: 0 })}</span>
+                          <span className="text-xs font-medium">₹{digitalMetalValue.toLocaleString("en-IN", { maximumFractionDigits: 0 })}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">Making</span>
@@ -288,7 +304,7 @@ export default function BullionCalculators() {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground text-xs">GST (3%)</span>
-                          <span className="text-xs font-medium">₹{(metalValue * 0.03).toLocaleString("en-IN", { maximumFractionDigits: 0 })}</span>
+                          <span className="text-xs font-medium">₹{digitalGst.toLocaleString("en-IN", { maximumFractionDigits: 0 })}</span>
                         </div>
                         <div className="flex justify-between font-semibold pt-1.5 border-t border-emerald-500/20">
                           <span className="text-xs">Total</span>
@@ -313,6 +329,13 @@ export default function BullionCalculators() {
                     </div>
                   </div>
                 )}
+
+                {/* Purity note */}
+                <p className="text-[10px] text-muted-foreground mt-3 leading-relaxed">
+                  {isGold
+                    ? "* Physical jewellery rate uses 22K (91.6% purity) of the live 24K spot price. Digital gold is 24K / 999.9 fine."
+                    : "* Physical silver includes ~2% dealer premium over spot. Digital silver is priced at 999 purity spot rate."}
+                </p>
               </Card>
 
               {/* Making Charges by Category */}
