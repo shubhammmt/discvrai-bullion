@@ -445,7 +445,7 @@ const BullionNotifications = () => {
                           onClick={() => {
                             const referralLink = `https://discvrai-bullion.lovable.app/bullion?ref=USER123`;
                             navigator.clipboard.writeText(referralLink);
-                            toast.success("Referral link copied!", { description: "Share with friends to earn ₹100 bonus gold" });
+                            toast.success("Referral link copied!", { description: "Share with friends and earn ₹5 gold per referral!" });
                           }}
                         >
                           Copy Referral Link
