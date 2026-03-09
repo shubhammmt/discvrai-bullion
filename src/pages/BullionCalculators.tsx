@@ -38,15 +38,31 @@ export default function BullionCalculators() {
   const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
 
   const isGold = selectedMetal === "gold";
-  const liveRate = isGold ? liveGoldPrice : liveSilverPrice;
-  const accentColor = isGold ? "amber" : "slate";
 
-  // Derived calculations
-  const metalValue = calcWeight[0] * liveRate;
-  const makingCharges = (metalValue * calcMakingCharge[0]) / 100;
-  const gst = (metalValue + makingCharges) * 0.03;
-  const physicalTotal = metalValue + makingCharges + gst;
-  const digitalTotal = metalValue * 1.03;
+  // India-accurate rate logic:
+  // Physical gold jewellery → 22K (91.6% purity of the 24K live rate)
+  // Digital gold → 24K (99.9% purity, full live rate)
+  // Physical silver → 999 purity but jewellers quote ~2% above spot
+  // Digital silver → spot (live) rate
+  const GOLD_22K_FACTOR = 0.916;
+  const SILVER_PHYSICAL_PREMIUM = 1.02; // ~2% dealer premium on physical silver
+
+  const digitalRate = isGold ? liveGoldPrice : liveSilverPrice;
+  const physicalRate = isGold
+    ? Math.round(liveGoldPrice * GOLD_22K_FACTOR)
+    : Math.round(liveSilverPrice * SILVER_PHYSICAL_PREMIUM);
+
+  // Physical jewellery calculation (uses 22K / jeweller rate)
+  const physicalMetalValue = calcWeight[0] * physicalRate;
+  const makingCharges = (physicalMetalValue * calcMakingCharge[0]) / 100;
+  const gst = (physicalMetalValue + makingCharges) * 0.03;
+  const physicalTotal = physicalMetalValue + makingCharges + gst;
+
+  // Digital bullion calculation (uses 24K / spot rate, no making charge)
+  const digitalMetalValue = calcWeight[0] * digitalRate;
+  const digitalGst = digitalMetalValue * 0.03;
+  const digitalTotal = digitalMetalValue + digitalGst;
+
   const savings = physicalTotal - digitalTotal;
 
   // Goal Calculator State
