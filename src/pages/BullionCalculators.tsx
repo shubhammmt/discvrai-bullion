@@ -11,7 +11,8 @@ import {
   Building,
   ArrowRight,
   CheckCircle,
-  Info
+  Info,
+  ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -19,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
@@ -29,37 +31,23 @@ import { useBullionPrices } from "@/hooks/useBullionPrices";
 export default function BullionCalculators() {
   const navigate = useNavigate();
   
-  // Making Charge Calculator State - Gold
-  const [calcGoldWeight, setCalcGoldWeight] = useState([10]);
-  const [calcGoldMakingCharge, setCalcGoldMakingCharge] = useState([15]);
+  // Making Charge Calculator — unified single-metal selector
+  const [selectedMetal, setSelectedMetal] = useState<"gold" | "silver">("gold");
+  const [calcWeight, setCalcWeight] = useState([10]);
+  const [calcMakingCharge, setCalcMakingCharge] = useState([15]);
   const { goldPrice: liveGoldPrice, silverPrice: liveSilverPrice } = useBullionPrices();
-  const calcGoldRate = liveGoldPrice;
-  
-  // Making Charge Calculator State - Silver
-  const [calcSilverWeight, setCalcSilverWeight] = useState([100]);
-  const [calcSilverMakingCharge, setCalcSilverMakingCharge] = useState([12]);
-  const calcSilverRate = liveSilverPrice;
-  
-  // Gold calculations
-  const calcGoldValue = calcGoldWeight[0] * calcGoldRate;
-  const goldMakingCharges = (calcGoldValue * calcGoldMakingCharge[0]) / 100;
-  const goldGst = (calcGoldValue + goldMakingCharges) * 0.03;
-  const goldTotalPrice = calcGoldValue + goldMakingCharges + goldGst;
-  const digitalGoldPrice = calcGoldValue * 1.03;
-  const goldSavings = goldTotalPrice - digitalGoldPrice;
-  
-  // Silver calculations
-  const calcSilverValue = calcSilverWeight[0] * calcSilverRate;
-  const silverMakingCharges = (calcSilverValue * calcSilverMakingCharge[0]) / 100;
-  const silverGst = (calcSilverValue + silverMakingCharges) * 0.03;
-  const silverTotalPrice = calcSilverValue + silverMakingCharges + silverGst;
-  const digitalSilverPrice = calcSilverValue * 1.03;
-  const silverSavings = silverTotalPrice - digitalSilverPrice;
-  
-  // Combined totals
-  const totalPhysicalPrice = goldTotalPrice + silverTotalPrice;
-  const totalDigitalPrice = digitalGoldPrice + digitalSilverPrice;
-  const totalSavings = goldSavings + silverSavings;
+
+  const isGold = selectedMetal === "gold";
+  const liveRate = isGold ? liveGoldPrice : liveSilverPrice;
+  const accentColor = isGold ? "amber" : "slate";
+
+  // Derived calculations
+  const metalValue = calcWeight[0] * liveRate;
+  const makingCharges = (metalValue * calcMakingCharge[0]) / 100;
+  const gst = (metalValue + makingCharges) * 0.03;
+  const physicalTotal = metalValue + makingCharges + gst;
+  const digitalTotal = metalValue * 1.03;
+  const savings = physicalTotal - digitalTotal;
 
   // Goal Calculator State
   const [goalMode, setGoalMode] = useState<"amount" | "grams">("amount"); // Toggle between amount and grams
