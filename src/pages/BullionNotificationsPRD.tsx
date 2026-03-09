@@ -195,8 +195,60 @@ const BullionNotificationsPRD = () => {
           </SubSection>
         </Section>
 
-        {/* Section 7 */}
-        <Section title="7. Technical Notes">
+        {/* Section 7: Offers For You */}
+        <Section title="7. Offers For You (Alerts Tab — Bottom)">
+          <p className="mb-3 text-gray-600">Replaces the simple redirect card. Two inline offer cards are rendered with full business logic specs.</p>
+
+          <SubSection title="7.1 Welcome Offer — First Purchase">
+            <Table headers={["Attribute", "Detail"]} rows={[
+              ["Trigger", "First-time gold purchase on the platform"],
+              ["Condition", "Minimum transaction value of ₹500"],
+              ["Reward", "₹10 worth of Free Gold credited to the user's Bullion wallet"],
+              ["UX", "\"Welcome Reward Applied\" banner shown on checkout page when condition is met"],
+              ["Card Theme", "Amber border + amber-50 background"],
+              ["Icon", "Gift (amber)"],
+              ["Badge", "\"First Purchase\""],
+              ["Checklist Items", "Min ₹500 · Auto-credited ₹10 gold · Checkout banner confirmation"],
+              ["CTA", "\"Claim Now\" → navigates to /bullion + toast confirming offer activation"],
+            ]} />
+          </SubSection>
+
+          <SubSection title="7.2 Refer & Earn — Milestone Program">
+            <Table headers={["Attribute", "Detail"]} rows={[
+              ["Target Users", "Existing users (Referrer)"],
+              ["Milestone", "10 Successful Referrals"],
+              ["Definition of Successful Referral", "Referee must complete first transaction of ₹500+"],
+              ["Reward", "₹100 Bonus Gold credited after 10th successful referral"],
+              ["Card Theme", "Blue border + blue-50 background"],
+              ["Icon", "Users (blue)"],
+              ["Badge", "\"Milestone Program\""],
+              ["Checklist Items", "₹500+ referee condition · Reward after 10th referral"],
+              ["CTA 1", "\"Copy Referral Link\" → copies link to clipboard + success toast"],
+              ["CTA 2", "\"View in Profile\" → navigates to /bullion/profile"],
+            ]} />
+            <p className="font-semibold mt-3 mb-1">7.2.1 Referral Progress Bar (inline on card):</p>
+            <Table headers={["Element", "Detail"]} rows={[
+              ["Label", "\"Referral Progress\" + \"X / 10 Completed\" counter"],
+              ["Progress Fill", "Proportional to completed referrals (e.g., 4/10 = 40%)"],
+              ["Milestone Strip", "10 individual pill segments, filled for completed referrals"],
+              ["Sub-label", "\"X more referrals to unlock reward\""],
+              ["Current Mock State", "4 / 10 referrals completed (to be wired to user profile API)"],
+              ["Also visible at", "/bullion/profile via \"View in Profile\" CTA"],
+            ]} />
+          </SubSection>
+
+          <SubSection title="7.3 Implementation Notes">
+            <Table headers={["Aspect", "Detail"]} rows={[
+              ["Icons used", "Gift, Users, CheckCircle2, ArrowRight (lucide-react)"],
+              ["Styling", "Semantic Tailwind tokens (amber/blue variants)"],
+              ["Referral count", "Mock state (4/10) — to be wired to user profile API"],
+              ["Welcome Offer eligibility", "To be wired to transaction history API"],
+            ]} />
+          </SubSection>
+        </Section>
+
+        {/* Section 8 */}
+        <Section title="8. Technical Notes">
           <Table headers={["Aspect", "Detail"]} rows={[
             ["State Management", "Local useState (no persistence)"],
             ["Prices", "Hardcoded CURRENT_PRICES — not yet using useBullionPrices hook"],
