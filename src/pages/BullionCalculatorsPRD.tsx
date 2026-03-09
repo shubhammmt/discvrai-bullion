@@ -56,7 +56,7 @@ const BullionCalculatorsPRD = () => {
           <h2 className="text-lg font-semibold text-amber-600 mt-1">Bullion Financial Calculators</h2>
           <div className="flex gap-6 mt-2 text-xs text-gray-500">
             <span><strong>Route:</strong> /bullion/calculators</span>
-            <span><strong>Date:</strong> February 2026</span>
+            <span><strong>Date:</strong> March 2026</span>
             <span><strong>Author:</strong> DiscvrAI</span>
           </div>
         </div>
@@ -85,43 +85,94 @@ const BullionCalculatorsPRD = () => {
 
         {/* Section 3 */}
         <Section title="3. TAB 1: Making Charge Calculator">
-          <SubSection title="3.1 Input Controls">
+          <SubSection title="3.1 Overview & UX Design">
+            <p className="mb-2">Single-card layout designed to fit entirely on mobile without scrolling. Two top-level selectors control the entire calculator state:</p>
+            <Table headers={["Selector", "Type", "Options", "Default"]} rows={[
+              ["Metal", "Dropdown (Select)", "🥇 Gold, 🥈 Silver", "Gold"],
+              ["City", "Dropdown (Select)", "12 major Indian cities", "Mumbai"],
+            ]} />
+            <p className="mt-2">Changing metal resets weight and making charge % to metal-appropriate defaults. Changing city updates only the physical rate.</p>
+          </SubSection>
+
+          <SubSection title="3.2 India-Accurate Rate Logic">
+            <p className="mb-2 font-semibold text-amber-700">Physical and digital bullion use different base rates — a key India market distinction:</p>
+            <Table headers={["Side", "Metal", "Rate Used", "Reason"]} rows={[
+              ["Physical Jewellery", "Gold", "22K rate = Live 24K × 0.916 × city premium", "Indian jewellery is 22K (91.6% purity)"],
+              ["Digital Bullion", "Gold", "Live 24K / 999.9 spot rate", "Digital gold is 24K fine, no purity loss"],
+              ["Physical Jewellery", "Silver", "Spot × 1.02 × city premium", "~2% dealer premium on physical silver"],
+              ["Digital Bullion", "Silver", "Live 999 spot rate", "Spot rate, no dealer markup"],
+            ]} />
+          </SubSection>
+
+          <SubSection title="3.3 City Premium Table">
+            <p className="mb-2">Physical rates vary by city due to local market demand, transportation, and trade patterns. Digital rates are nationally uniform.</p>
+            <Table headers={["City", "Gold Premium", "Silver Premium", "Notes"]} rows={[
+              ["Mumbai", "0.0% (base)", "0.0% (base)", "IBJA reference rate origin"],
+              ["Delhi", "+0.2%", "+1.5%", "High demand, active bullion market"],
+              ["Chennai", "+0.5%", "+2.0%", "Traditionally higher gold demand"],
+              ["Kolkata", "+0.3%", "+1.2%", "Active jewellery trade"],
+              ["Bengaluru", "+0.2%", "+1.0%", "Tech city, moderate premium"],
+              ["Hyderabad", "+0.2%", "+1.0%", "—"],
+              ["Ahmedabad", "+0.1%", "+0.8%", "Diamond/bullion hub, competitive"],
+              ["Jaipur", "+0.3%", "+1.5%", "Gem/jewellery city"],
+              ["Pune", "+0.1%", "+0.5%", "Close to Mumbai"],
+              ["Coimbatore", "+0.6%", "+2.2%", "High local gold demand"],
+              ["Surat", "+0.1%", "+0.7%", "Diamond city, low margin"],
+              ["Lucknow", "+0.3%", "+1.4%", "—"],
+            ]} />
+          </SubSection>
+
+          <SubSection title="3.4 Slider Inputs">
             <Table headers={["Metal", "Input", "Range", "Step", "Default"]} rows={[
-              ["Gold", "Weight (grams)", "0–100", "1", "10"],
-              ["Gold", "Making Charge %", "5–35%", "1", "15%"],
-              ["Silver", "Weight (grams)", "0–1000", "10", "100"],
-              ["Silver", "Making Charge %", "5–25%", "1", "12%"],
+              ["Gold", "Weight (grams)", "0–100g", "1g", "10g"],
+              ["Gold", "Making Charge %", "5–35%", "1%", "15%"],
+              ["Silver", "Weight (grams)", "0–1000g", "10g", "100g"],
+              ["Silver", "Making Charge %", "5–25%", "1%", "12%"],
             ]} />
-            <p className="mt-2">Current rates displayed from <code className="bg-gray-100 px-1 rounded text-xs">useBullionPrices()</code> hook (live API with 60s refresh, fallback: Gold ₹6,250/g, Silver ₹75/g).</p>
           </SubSection>
 
-          <SubSection title="3.2 Calculation Logic">
+          <SubSection title="3.5 Dual Rate Display Strip">
+            <p className="mb-2">Two side-by-side pills shown above sliders, always visible:</p>
+            <Table headers={["Pill", "Label", "Value shown", "City premium tag"]} rows={[
+              ["Physical (amber/slate)", "{City} Physical (22K / 999)", "₹X/g", "Shown when city ≠ Mumbai: +X% city premium"],
+              ["Digital (emerald)", "Digital (24K/999.9 / 999 spot)", "₹Y/g", "\"National rate · no city var.\""],
+            ]} />
+          </SubSection>
+
+          <SubSection title="3.6 Calculation Logic">
             <Table headers={["Metric", "Formula"]} rows={[
-              ["Metal Value", "Weight × Rate per gram"],
-              ["Making Charges", "Metal Value × Making Charge %"],
-              ["GST (Physical)", "(Metal Value + Making Charges) × 3%"],
-              ["Total Physical", "Metal Value + Making Charges + GST"],
-              ["Total Digital", "Metal Value × 1.03 (GST only, no making charge)"],
-              ["Savings", "Total Physical − Total Digital"],
+              ["Physical Metal Value", "Weight × physicalRate (22K × city premium)"],
+              ["Making Charges", "Physical Metal Value × Making Charge %"],
+              ["Physical GST", "(Physical Metal Value + Making Charges) × 3%"],
+              ["Total Physical", "Physical Metal Value + Making Charges + Physical GST"],
+              ["Digital Metal Value", "Weight × digitalRate (24K spot)"],
+              ["Digital GST", "Digital Metal Value × 3%"],
+              ["Total Digital", "Digital Metal Value + Digital GST"],
+              ["You Save", "Total Physical − Total Digital"],
+              ["Save %", "(You Save / Total Physical) × 100"],
             ]} />
           </SubSection>
 
-          <SubSection title="3.3 Price Breakdown Display">
-            <Table headers={["Feature", "Details"]} rows={[
-              ["Gold Breakdown", "Side-by-side: Physical Jewellery vs Digital Gold (shown when gold weight > 0)"],
-              ["Silver Breakdown", "Side-by-side: Physical Jewellery vs Digital Silver (shown when silver weight > 0)"],
-              ["Total Summary", "Grid showing Total Physical vs Total Digital price"],
-              ["Savings Card", "Highlighted card showing total savings amount and percentage"],
+          <SubSection title="3.7 Price Comparison Grid (Side-by-Side)">
+            <Table headers={["Column", "Label", "Purity shown"]} rows={[
+              ["Left", "Physical Jewellery", "22K (gold) / 999 (silver)"],
+              ["Right", "Digital Gold / Digital Silver", "24K (gold) / 999 spot (silver)"],
             ]} />
+            <p className="mt-2">Each column shows: Metal Value → Making Charges → GST (3%) → Total. Savings highlighted at bottom with amount + percentage.</p>
           </SubSection>
 
-          <SubSection title="3.4 Making Charges Reference Table">
+          <SubSection title="3.8 Making Charges Reference Table">
             <Table headers={["Category", "Typical Range", "Color"]} rows={[
               ["Plain Gold", "8–12%", "Emerald"],
               ["Temple Jewellery", "12–16%", "Blue"],
               ["Kundan/Polki", "18–25%", "Amber"],
               ["Diamond Jewellery", "20–30%", "Purple"],
             ]} />
+          </SubSection>
+
+          <SubSection title="3.9 Disclaimer Note">
+            <p>Gold: <em>"Physical jewellery rate uses 22K (91.6% purity) of the live 24K spot price. Digital gold is 24K / 999.9 fine."</em></p>
+            <p>Silver: <em>"Physical silver includes ~2% dealer premium over spot. Digital silver is priced at 999 purity spot rate."</em></p>
           </SubSection>
         </Section>
 
@@ -225,10 +276,6 @@ const BullionCalculatorsPRD = () => {
               ["Tax Benefit", "None (fully taxable)", "LTCG 20% after 3yr", "LTCG 10% after 1yr"],
             ]} />
           </SubSection>
-
-          <SubSection title="5.6 Gold Advantage Highlight">
-            <p>A highlighted amber card explaining why Digital Gold offers a balanced approach: inflation protection, lower volatility than stocks, better returns than FDs, starting from ₹10.</p>
-          </SubSection>
         </Section>
 
         {/* Section 6 */}
@@ -252,9 +299,14 @@ const BullionCalculatorsPRD = () => {
             ["State Management", "Local useState for all calculator inputs"],
             ["Prices", "Live via useBullionPrices hook (API: api.discvr.ai/v1/bullion/prices, 60s refresh)"],
             ["Fallback Prices", "Gold: ₹6,250/g, Silver: ₹75/g"],
+            ["22K Factor", "GOLD_22K_FACTOR = 0.916 (constant — 22K purity = 91.6% of 24K)"],
+            ["Silver Dealer Premium", "SILVER_DEALER_BASE = 1.02 (2% above spot for physical dealer rate)"],
+            ["City Premium", "CITY_PREMIUMS map: 12 cities, gold & silver multipliers vs Mumbai base"],
+            ["Physical Rate Formula", "isGold ? round(live24K × 0.916 × cityGold) : round(liveSpot × 1.02 × citySilver)"],
+            ["Digital Rate", "Live spot rate, no city variance — nationally uniform"],
             ["Animations", "Framer Motion fade+slide on tab change"],
-            ["Responsive", "2-column grid on lg breakpoint, full-width on mobile"],
-            ["File Size", "~1032 lines (single file, candidate for refactoring)"],
+            ["Responsive", "Single card, full-width on mobile — all controls + comparison on one screen"],
+            ["Mobile Strategy", "Compact layout: selectors inline in header, dual rate strip, sliders, comparison grid all in one card"],
           ]} />
         </Section>
 
@@ -269,9 +321,23 @@ const BullionCalculatorsPRD = () => {
           ]} />
         </Section>
 
+        {/* Section 9 — Changelog */}
+        <Section title="9. Changelog">
+          <Table headers={["Version", "Date", "Change"]} rows={[
+            ["v1.0", "Feb 2026", "Initial release — Gold & Silver sections, comparison grid, goal planner, SIP vs FD"],
+            ["v1.1", "Mar 2026", "Unified single-metal selector (dropdown) replaces dual Gold+Silver sections"],
+            ["v1.1", "Mar 2026", "City selector added (12 cities) — physical rate now city-aware"],
+            ["v1.1", "Mar 2026", "India-accurate rate split: Physical Gold uses 22K (×0.916), Digital Gold uses 24K spot"],
+            ["v1.1", "Mar 2026", "Physical Silver uses dealer premium (×1.02 × city factor), Digital Silver uses spot"],
+            ["v1.1", "Mar 2026", "Dual rate strip shows both physical (city) and digital (national) rates side-by-side"],
+            ["v1.1", "Mar 2026", "City premium badge shown when non-Mumbai city selected"],
+            ["v1.1", "Mar 2026", "Full comparison + savings now visible on single mobile screen without scrolling"],
+          ]} />
+        </Section>
+
         {/* Footer */}
         <div className="mt-10 pt-4 border-t border-gray-300 text-xs text-gray-400 text-center">
-          DiscvrAI — Bullion Financial Calculators PRD — February 2026 — Confidential
+          DiscvrAI — Bullion Financial Calculators PRD — March 2026 — Confidential
         </div>
       </div>
     </div>
