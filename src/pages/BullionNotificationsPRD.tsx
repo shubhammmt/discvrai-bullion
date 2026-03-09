@@ -215,27 +215,18 @@ const BullionNotificationsPRD = () => {
             ]} />
           </SubSection>
 
-          <SubSection title="7.2 Refer & Earn — Milestone Program">
+          <SubSection title="7.2 Refer & Earn — Per-Referral Reward">
             <Table headers={["Attribute", "Detail"]} rows={[
               ["Target Users", "Existing users (Referrer)"],
-              ["Milestone", "10 Successful Referrals"],
+              ["Reward Model", "₹5 gold credited per successful referral — no cap, no milestone required"],
               ["Definition of Successful Referral", "Referee must complete first transaction of ₹500+"],
-              ["Reward", "₹100 Bonus Gold credited after 10th successful referral"],
+              ["Reward", "₹5 Bonus Gold credited instantly per referral"],
               ["Card Theme", "Blue border + blue-50 background"],
               ["Icon", "Users (blue)"],
               ["Badge", "\"Milestone Program\""],
-              ["Checklist Items", "₹500+ referee condition · Reward after 10th referral"],
+              ["Checklist Items", "₹500+ referee condition · ₹5 gold credited per successful referral, instantly"],
               ["CTA 1", "\"Copy Referral Link\" → copies link to clipboard + success toast"],
               ["CTA 2", "\"View in Profile\" → navigates to /bullion/profile"],
-            ]} />
-            <p className="font-semibold mt-3 mb-1">7.2.1 Referral Progress Bar (inline on card):</p>
-            <Table headers={["Element", "Detail"]} rows={[
-              ["Label", "\"Referral Progress\" + \"X / 10 Completed\" counter"],
-              ["Progress Fill", "Proportional to completed referrals (e.g., 4/10 = 40%)"],
-              ["Milestone Strip", "10 individual pill segments, filled for completed referrals"],
-              ["Sub-label", "\"X more referrals to unlock reward\""],
-              ["Current Mock State", "4 / 10 referrals completed (to be wired to user profile API)"],
-              ["Also visible at", "/bullion/profile via \"View in Profile\" CTA"],
             ]} />
           </SubSection>
 
