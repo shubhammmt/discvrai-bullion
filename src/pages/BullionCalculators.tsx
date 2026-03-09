@@ -220,6 +220,20 @@ export default function BullionCalculators() {
                       <SelectItem value="silver">🥈 Silver</SelectItem>
                     </SelectContent>
                   </Select>
+                  {/* Gold purity selector — only shown when gold is selected */}
+                  {isGold && (
+                    <Select value={goldPurity} onValueChange={(v) => setGoldPurity(v as "22K" | "18K" | "14K" | "24K")}>
+                      <SelectTrigger className="w-28 h-9 text-sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="24K">✨ 24K (999)</SelectItem>
+                        <SelectItem value="22K">🥇 22K (916)</SelectItem>
+                        <SelectItem value="18K">💛 18K (750)</SelectItem>
+                        <SelectItem value="14K">🔶 14K (585)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
                   {/* City selector */}
                   <Select value={selectedCity} onValueChange={setSelectedCity}>
                     <SelectTrigger className="w-36 h-9 text-sm">
