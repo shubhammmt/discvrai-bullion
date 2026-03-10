@@ -12,8 +12,8 @@ const signalColor = (signal: string) => {
   return 'bg-gray-100 text-gray-700';
 };
 
-const GrowthBadge = ({ v }: { v: number }) => (
-  <span className={`flex items-center gap-0.5 text-xs font-semibold ${v >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+const GrowthBadge = ({ v, align }: { v: number; align?: 'right' | 'left' }) => (
+  <span className={`flex items-center gap-0.5 text-xs font-semibold ${align === 'right' ? 'justify-end' : ''} ${v >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
     {v >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
     {fmtPct(v)}
   </span>
@@ -108,8 +108,8 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
               <TableRow key={c.name}>
                 <TableCell className="text-xs font-medium">{c.name}</TableCell>
                 <TableCell className="text-xs text-right">{fmtNum(c.value9M)}</TableCell>
-                <TableCell className="text-xs text-right"><GrowthBadge v={c.growth9MPct} /></TableCell>
-                <TableCell className="text-xs text-right"><GrowthBadge v={c.growthQ3Pct} /></TableCell>
+                <TableCell className="text-xs text-right"><GrowthBadge v={c.growth9MPct} align="right" /></TableCell>
+                <TableCell className="text-xs text-right"><GrowthBadge v={c.growthQ3Pct} align="right" /></TableCell>
                 <TableCell><span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${signalColor(c.signal)}`}>{c.signal}</span></TableCell>
               </TableRow>
             ))}
@@ -135,8 +135,8 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
               <TableRow key={b.name}>
                 <TableCell className="text-xs font-medium">{b.name}</TableCell>
                 <TableCell className="text-xs text-right">{fmtNum(b.value9M)}</TableCell>
-                <TableCell className="text-xs text-right"><GrowthBadge v={b.growth9MPct} /></TableCell>
-                <TableCell className="text-xs text-right"><GrowthBadge v={b.growthQ3Pct} /></TableCell>
+                <TableCell className="text-xs text-right"><GrowthBadge v={b.growth9MPct} align="right" /></TableCell>
+                <TableCell className="text-xs text-right"><GrowthBadge v={b.growthQ3Pct} align="right" /></TableCell>
                 <TableCell><span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${signalColor(b.signal)}`}>{b.signal}</span></TableCell>
               </TableRow>
             ))}
