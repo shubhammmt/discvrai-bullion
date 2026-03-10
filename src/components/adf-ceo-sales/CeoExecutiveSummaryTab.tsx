@@ -12,8 +12,8 @@ const signalColor = (signal: string) => {
   return 'bg-gray-100 text-gray-700';
 };
 
-const GrowthBadge = ({ v }: { v: number }) => (
-  <span className={`flex items-center gap-0.5 text-xs font-semibold ${v >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+const GrowthBadge = ({ v, align }: { v: number; align?: 'right' | 'left' }) => (
+  <span className={`flex items-center gap-0.5 text-xs font-semibold ${align === 'right' ? 'justify-end' : ''} ${v >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
     {v >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
     {fmtPct(v)}
   </span>
