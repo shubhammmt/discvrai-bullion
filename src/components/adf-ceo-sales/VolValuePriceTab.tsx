@@ -2,6 +2,10 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { InfoTooltip } from '@/components/adf-mis/InfoTooltip';
 import { volValuePrice, fmtNum, fmtPct } from '@/data/adfCeoSalesData';
+import { Scale, TrendingUp, TrendingDown, ArrowUpDown, BarChart3 } from 'lucide-react';
+
+const th = "text-[11px] font-bold text-gray-500 uppercase tracking-wider bg-gray-50/80 border-b-2 border-gray-200";
+const td = "text-[13px] py-3 px-4";
 
 export const VolValuePriceTab: React.FC = () => {
   const v = volValuePrice;
@@ -9,59 +13,68 @@ export const VolValuePriceTab: React.FC = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Volume Growth', value: `${(v.volGrowth * 100).toFixed(1)}%` },
-          { label: 'Value Growth', value: `${(v.valGrowth * 100).toFixed(1)}%` },
-          { label: 'Price Realization Δ', value: `₹${v.priceRealization}/kg` },
-          { label: 'Value from Volume', value: `₹${fmtNum(v.valueFromVolume)} L`, tooltip: 'Revenue increase attributable to volume growth (vs price change).' },
+          { label: 'Volume Growth', value: `${(v.volGrowth * 100).toFixed(1)}%`, icon: Scale, gradient: 'from-emerald-500 to-teal-600', textColor: 'text-emerald-100' },
+          { label: 'Value Growth', value: `${(v.valGrowth * 100).toFixed(1)}%`, icon: TrendingUp, gradient: 'from-indigo-500 to-violet-600', textColor: 'text-indigo-100' },
+          { label: 'Price Realization Δ', value: `₹${v.priceRealization}/kg`, icon: ArrowUpDown, gradient: 'from-amber-500 to-orange-600', textColor: 'text-amber-100' },
+          { label: 'Value from Volume', value: `₹${fmtNum(v.valueFromVolume)} L`, icon: BarChart3, gradient: 'from-sky-500 to-cyan-600', textColor: 'text-sky-100', tooltip: 'Revenue increase attributable to volume growth (vs price change).' },
         ].map((k) => (
-          <div key={k.label} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-            <div className="flex items-center gap-1 text-xs font-medium text-gray-500 uppercase">
+          <div key={k.label} className={`relative overflow-hidden rounded-2xl p-5 bg-gradient-to-br ${k.gradient} text-white shadow-lg`}>
+            <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -translate-y-5 translate-x-5" />
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider">
+              <k.icon className="w-3.5 h-3.5" />
               {k.label}
               {k.tooltip && <InfoTooltip text={k.tooltip} />}
             </div>
-            <div className="text-xl font-bold text-gray-900 mt-1">{k.value}</div>
+            <div className="text-2xl font-extrabold mt-2">{k.value}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm overflow-auto">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Volume vs Value Decomposition</h3>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-xs">Category</TableHead>
-              <TableHead className="text-xs text-right">Vol CY (MT)</TableHead>
-              <TableHead className="text-xs text-right">Vol PY</TableHead>
-              <TableHead className="text-xs text-right">Vol Gr%</TableHead>
-              <TableHead className="text-xs text-right">Val CY (₹L)</TableHead>
-              <TableHead className="text-xs text-right">Val PY</TableHead>
-              <TableHead className="text-xs text-right">Val Gr%</TableHead>
-              <TableHead className="text-xs text-right">₹/kg CY</TableHead>
-              <TableHead className="text-xs text-right">₹/kg PY</TableHead>
-              <TableHead className="text-xs text-right">Price Δ</TableHead>
-              <TableHead className="text-xs text-right">Val from Vol</TableHead>
-              <TableHead className="text-xs text-right">Val from Price</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {v.categories.map((c: any) => (
-              <TableRow key={c.category} className={c.category === 'TOTAL' ? 'font-bold bg-gray-50' : ''}>
-                <TableCell className="text-xs font-medium">{c.category}</TableCell>
-                <TableCell className="text-xs text-right">{fmtNum(c.volCy)}</TableCell>
-                <TableCell className="text-xs text-right">{fmtNum(c.volPy)}</TableCell>
-                <TableCell className={`text-xs text-right font-semibold ${c.volGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.volGrPct)}</TableCell>
-                <TableCell className="text-xs text-right">{fmtNum(c.valCy)}</TableCell>
-                <TableCell className="text-xs text-right">{fmtNum(c.valPy)}</TableCell>
-                <TableCell className={`text-xs text-right font-semibold ${c.valGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.valGrPct)}</TableCell>
-                <TableCell className="text-xs text-right">{fmtNum(c.pricePerKgCy)}</TableCell>
-                <TableCell className="text-xs text-right">{fmtNum(c.pricePerKgPy)}</TableCell>
-                <TableCell className={`text-xs text-right ${c.priceDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{c.priceDelta >= 0 ? '+' : ''}{fmtNum(c.priceDelta)}</TableCell>
-                <TableCell className={`text-xs text-right ${c.valFromVol >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromVol)}</TableCell>
-                <TableCell className={`text-xs text-right ${c.valFromPrice >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromPrice)}</TableCell>
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+          <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+            <Scale className="w-4 h-4 text-emerald-500" />
+            Volume vs Value Decomposition
+          </h3>
+        </div>
+        <div className="overflow-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-gray-200">
+                <TableHead className={`${th} min-w-[150px]`}>Category</TableHead>
+                <TableHead className={`${th} text-right min-w-[90px]`}>Vol CY</TableHead>
+                <TableHead className={`${th} text-right min-w-[90px]`}>Vol PY</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Vol Gr%</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Val CY (₹L)</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Val PY</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Val Gr%</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>₹/kg CY</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>₹/kg PY</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Price Δ</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Val from Vol</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Val from Price</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {v.categories.map((c: any, i: number) => (
+                <TableRow key={c.category} className={`border-gray-100 transition-colors hover:bg-emerald-50/40 ${c.category === 'TOTAL' ? 'font-bold bg-indigo-50/60' : i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                  <TableCell className={`${td} font-semibold text-gray-800`}>{c.category}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.volCy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.volPy)}</TableCell>
+                  <TableCell className={`${td} text-right font-semibold tabular-nums ${c.volGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.volGrPct)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.valCy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.valPy)}</TableCell>
+                  <TableCell className={`${td} text-right font-semibold tabular-nums ${c.valGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.valGrPct)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.pricePerKgCy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.pricePerKgPy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums ${c.priceDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{c.priceDelta >= 0 ? '+' : ''}{fmtNum(c.priceDelta)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums ${c.valFromVol >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromVol)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums ${c.valFromPrice >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromPrice)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );
