@@ -108,8 +108,8 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
               <TableRow key={c.name}>
                 <TableCell className="text-xs font-medium">{c.name}</TableCell>
                 <TableCell className="text-xs text-right">{fmtNum(c.value9M)}</TableCell>
-                <TableCell className="text-xs text-right"><GrowthBadge v={c.growth9MPct} /></TableCell>
-                <TableCell className="text-xs text-right"><GrowthBadge v={c.growthQ3Pct} /></TableCell>
+                <TableCell className="text-xs text-right"><GrowthBadge v={c.growth9MPct} align="right" /></TableCell>
+                <TableCell className="text-xs text-right"><GrowthBadge v={c.growthQ3Pct} align="right" /></TableCell>
                 <TableCell><span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${signalColor(c.signal)}`}>{c.signal}</span></TableCell>
               </TableRow>
             ))}
