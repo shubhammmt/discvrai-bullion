@@ -286,7 +286,7 @@ export const amcEnterprisePitchSlides: AMCEnterpriseSlide[] = [
         { category: 'Operations', percentage: 5 }
       ],
       milestones: [
-        '5 AMC customers (Year 1)',
+        '2 AMC customers (Year 1)',
         '15 AMC customers (Year 2)',
         'Category expansion to Insurance'
       ]
