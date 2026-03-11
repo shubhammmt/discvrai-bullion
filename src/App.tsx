@@ -151,6 +151,7 @@ import NbfcNbaDemo from './pages/NbfcNbaDemo';
 import NbfcCollectionsDemo from './pages/NbfcCollectionsDemo';
 import NbfcKycDemo from './pages/NbfcKycDemo';
 import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
+import SIPManagement from './pages/SIPManagement';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
