@@ -14,26 +14,44 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { MOCK_FUNDS, BANK_MANDATES, GOAL_TAGS, SIPFrequency } from '@/data/sipMockData';
 
+export interface SIPPrefillData {
+  fundCode?: string;
+  amount?: number;
+  frequency?: SIPFrequency;
+  startDate?: string;
+  stepUpPercent?: number;
+  bankMandate?: string;
+  goalTag?: string;
+}
+
 interface CreateSIPWidgetProps {
   preSelectedFund?: string;
+  prefill?: SIPPrefillData;
   onSIPCreated?: (details: any) => void;
   compact?: boolean;
 }
 
 type Step = 'fund' | 'details' | 'review';
 
-export function CreateSIPWidget({ preSelectedFund, onSIPCreated, compact = false }: CreateSIPWidgetProps) {
-  const [step, setStep] = useState<Step>(preSelectedFund ? 'details' : 'fund');
+function resolveInitialStep(prefill?: SIPPrefillData, preSelectedFund?: string): Step {
+  if (prefill?.fundCode && prefill?.amount && prefill?.bankMandate) return 'review';
+  if (prefill?.fundCode || preSelectedFund) return 'details';
+  return 'fund';
+}
+
+export function CreateSIPWidget({ preSelectedFund, prefill, onSIPCreated, compact = false }: CreateSIPWidgetProps) {
+  const fundCode = prefill?.fundCode || preSelectedFund;
+  const resolvedFund = fundCode ? MOCK_FUNDS.find(f => f.code === fundCode) || null : null;
+
+  const [step, setStep] = useState<Step>(resolveInitialStep(prefill, preSelectedFund));
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFund, setSelectedFund] = useState(
-    preSelectedFund ? MOCK_FUNDS.find(f => f.code === preSelectedFund) || null : null
-  );
-  const [amount, setAmount] = useState(5000);
-  const [frequency, setFrequency] = useState<SIPFrequency>('monthly');
-  const [startDate, setStartDate] = useState<Date>(addDays(new Date(), 1));
-  const [stepUpPercent, setStepUpPercent] = useState(10);
-  const [bankMandate, setBankMandate] = useState('');
-  const [goalTag, setGoalTag] = useState('');
+  const [selectedFund, setSelectedFund] = useState(resolvedFund);
+  const [amount, setAmount] = useState(prefill?.amount || 5000);
+  const [frequency, setFrequency] = useState<SIPFrequency>(prefill?.frequency || 'monthly');
+  const [startDate, setStartDate] = useState<Date>(prefill?.startDate ? new Date(prefill.startDate) : addDays(new Date(), 1));
+  const [stepUpPercent, setStepUpPercent] = useState(prefill?.stepUpPercent ?? 10);
+  const [bankMandate, setBankMandate] = useState(prefill?.bankMandate || '');
+  const [goalTag, setGoalTag] = useState(prefill?.goalTag || '');
   const [isCreated, setIsCreated] = useState(false);
 
   const filteredFunds = MOCK_FUNDS.filter(f =>
