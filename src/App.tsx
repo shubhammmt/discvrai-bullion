@@ -151,6 +151,7 @@ import NbfcNbaDemo from './pages/NbfcNbaDemo';
 import NbfcCollectionsDemo from './pages/NbfcCollectionsDemo';
 import NbfcKycDemo from './pages/NbfcKycDemo';
 import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
+import SIPManagement from './pages/SIPManagement';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -334,6 +335,7 @@ const AppContent = () => {
            <Route path="/demo/nbfc-kyc" element={<NbfcKycDemo />} />
             <Route path="/demo/nbfc-alt-credit" element={<NbfcAltCreditDemo />} />
             <Route path="/dashboard/adf-ceo-sales" element={<AdfCeoSalesDashboard />} />
+            <Route path="/sip-management" element={<SIPManagement />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
