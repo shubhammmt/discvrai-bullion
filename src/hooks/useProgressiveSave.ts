@@ -9,7 +9,7 @@ interface UseProgressiveSaveProps {
 }
 
 export const useProgressiveSave = ({ profileData, currentStep, enabled = true }: UseProgressiveSaveProps) => {
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const lastSavedRef = useRef<string>('');
 
   const getSessionId = useCallback(() => {
