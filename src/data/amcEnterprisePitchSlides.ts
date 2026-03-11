@@ -204,7 +204,7 @@ export const amcEnterprisePitchSlides: AMCEnterpriseSlide[] = [
     subtitle: 'The D2C shift in asset management',
     icon: Globe,
     content: {
-      headline: '₹50+ Lakh Crore AUM',
+      headline: '₹80+ Lakh Crore AUM',
       subheadline: '10-25% shifting to D2C-led journeys',
       stats: [
         { value: '45+', label: 'AMCs in India' },
@@ -275,7 +275,7 @@ export const amcEnterprisePitchSlides: AMCEnterpriseSlide[] = [
       raise: '₹12-14 Cr',
       raiseUSD: '~$1.5M USD',
       valuation: '₹65–70 Cr pre-money',
-      valuationRange: '₹60–75 Cr range',
+      valuationRange: undefined,
       runway: '1.5 years with buffer',
       valuationRationale: 'Customer ROI 10–37× (50 bps impact); LTV/CAC 14.5×; first revenue in 1–2 quarters.',
       priorCCD: 'Prior CCD (F&F) at ₹50 Cr ceiling; 20% discount if valuation < ₹50 Cr.',
@@ -286,8 +286,8 @@ export const amcEnterprisePitchSlides: AMCEnterpriseSlide[] = [
         { category: 'Operations', percentage: 5 }
       ],
       milestones: [
-        '5 AMC customers (Year 1)',
-        '15 AMC customers (Year 2)',
+        '2 AMC customers (Year 1)',
+        '5 AMC customers (Year 5)',
         'Category expansion to Insurance'
       ]
     }
