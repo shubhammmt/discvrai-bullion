@@ -26,7 +26,7 @@ const AutocompleteSearchBar = ({
   
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   const getAssetIcon = (assetType: AssetType) => {
     switch (assetType) {
