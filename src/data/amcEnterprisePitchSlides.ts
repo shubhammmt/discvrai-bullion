@@ -275,7 +275,7 @@ export const amcEnterprisePitchSlides: AMCEnterpriseSlide[] = [
       raise: '₹12-14 Cr',
       raiseUSD: '~$1.5M USD',
       valuation: '₹65–70 Cr pre-money',
-      valuationRange: '₹60–75 Cr range',
+      valuationRange: undefined,
       runway: '1.5 years with buffer',
       valuationRationale: 'Customer ROI 10–37× (50 bps impact); LTV/CAC 14.5×; first revenue in 1–2 quarters.',
       priorCCD: 'Prior CCD (F&F) at ₹50 Cr ceiling; 20% discount if valuation < ₹50 Cr.',
