@@ -204,7 +204,7 @@ export const amcEnterprisePitchSlides: AMCEnterpriseSlide[] = [
     subtitle: 'The D2C shift in asset management',
     icon: Globe,
     content: {
-      headline: '₹50+ Lakh Crore AUM',
+      headline: '₹80+ Lakh Crore AUM',
       subheadline: '10-25% shifting to D2C-led journeys',
       stats: [
         { value: '45+', label: 'AMCs in India' },
