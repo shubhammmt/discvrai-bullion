@@ -2,7 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CreateSIPWidget } from '@/components/sip/CreateSIPWidget';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
-import { Plus, Settings, Bot, ShoppingCart } from 'lucide-react';
+import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
+import { Plus, Settings, Bot, ShoppingCart, ArrowDownLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const SIPManagement = () => {
@@ -11,13 +12,16 @@ const SIPManagement = () => {
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
         <div>
           <h1 className="text-xl font-bold text-foreground">Fund Purchase & SIP Management</h1>
-          <p className="text-sm text-muted-foreground mt-1">Buy mutual funds or manage your Systematic Investment Plans</p>
+          <p className="text-sm text-muted-foreground mt-1">Buy, sell mutual funds or manage your Systematic Investment Plans</p>
         </div>
 
         <Tabs defaultValue="buy" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="buy" className="flex items-center gap-1.5 text-xs">
-              <ShoppingCart className="w-3.5 h-3.5" /> Buy Fund
+              <ShoppingCart className="w-3.5 h-3.5" /> Buy
+            </TabsTrigger>
+            <TabsTrigger value="sell" className="flex items-center gap-1.5 text-xs">
+              <ArrowDownLeft className="w-3.5 h-3.5" /> Sell
             </TabsTrigger>
             <TabsTrigger value="create" className="flex items-center gap-1.5 text-xs">
               <Plus className="w-3.5 h-3.5" /> Create SIP
@@ -26,12 +30,15 @@ const SIPManagement = () => {
               <Settings className="w-3.5 h-3.5" /> Manage
             </TabsTrigger>
             <TabsTrigger value="demo" className="flex items-center gap-1.5 text-xs">
-              <Bot className="w-3.5 h-3.5" /> Agent Demo
+              <Bot className="w-3.5 h-3.5" /> Demos
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="buy" className="mt-4">
             <FundPurchaseWidget />
+          </TabsContent>
+          <TabsContent value="sell" className="mt-4">
+            <FundRedemptionWidget />
           </TabsContent>
           <TabsContent value="create" className="mt-4">
             <CreateSIPWidget />
@@ -43,12 +50,17 @@ const SIPManagement = () => {
           <TabsContent value="demo" className="mt-4 space-y-6">
             <div className="p-3 rounded-lg bg-muted/50 border border-border">
               <p className="text-xs text-muted-foreground">
-                These demos show how the AI agent pre-fills the widget based on user intent. 
+                These demos show how the AI agent pre-fills widgets based on user intent. 
                 The widget auto-advances to the appropriate step — the user just reviews and confirms.
               </p>
             </div>
 
-            {/* Demo 1: One-time purchase, full prefill → Review */}
+            {/* ===== BUY DEMOS ===== */}
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <ShoppingCart className="w-4 h-4 text-primary" /> Buy / Invest Demos
+            </h3>
+
+            {/* Demo: One-time full prefill → Review */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">⚡ One-Time</Badge>
@@ -67,7 +79,7 @@ const SIPManagement = () => {
               />
             </div>
 
-            {/* Demo 2: SIP, full prefill → Review */}
+            {/* Demo: SIP full prefill → Review */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">🔄 SIP</Badge>
@@ -88,7 +100,7 @@ const SIPManagement = () => {
               />
             </div>
 
-            {/* Demo 3: Partial prefill — fund + mode only → Details */}
+            {/* Demo: Fund-only partial prefill */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <Badge variant="outline" className="text-[10px]">Partial Prefill</Badge>
@@ -96,28 +108,69 @@ const SIPManagement = () => {
                   User: <em>"I want to buy SBI Small Cap"</em> — agent knows the fund, user picks mode & details
                 </p>
               </div>
-              <FundPurchaseWidget
+              <FundPurchaseWidget prefill={{ fundCode: 'SBI-SC-G' }} />
+            </div>
+
+            {/* ===== SELL / REDEEM DEMOS ===== */}
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 pt-4 border-t border-border">
+              <ArrowDownLeft className="w-4 h-4 text-destructive" /> Sell / Redeem Demos
+            </h3>
+
+            {/* Demo: Full redemption, all prefilled → Review */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className="text-[10px] bg-destructive/10 text-destructive border-destructive/20">🔴 Full Redeem</Badge>
+                <p className="text-xs text-muted-foreground">
+                  User: <em>"Sell all my HDFC Large Cap holdings"</em>
+                </p>
+              </div>
+              <FundRedemptionWidget
                 prefill={{
-                  fundCode: 'SBI-SC-G',
+                  fundCode: 'HDFC-LCF-G',
+                  redeemMode: 'full',
+                  bankAccount: 'HDFC Bank ****4521',
                 }}
               />
             </div>
 
-            {/* Demo 4: One-time with partial → Details */}
+            {/* Demo: Partial amount redemption → Review */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className="text-[10px] bg-destructive/10 text-destructive border-destructive/20">🟡 Partial</Badge>
+                <p className="text-xs text-muted-foreground">
+                  User: <em>"Redeem ₹30,000 from my SBI Small Cap to ICICI Bank"</em>
+                </p>
+              </div>
+              <FundRedemptionWidget
+                prefill={{
+                  fundCode: 'SBI-SC-G',
+                  redeemMode: 'partial-amount',
+                  amount: 30000,
+                  bankAccount: 'ICICI Bank ****8832',
+                }}
+              />
+            </div>
+
+            {/* Demo: Fund-only prefill → Details */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <Badge variant="outline" className="text-[10px]">Partial Prefill</Badge>
                 <p className="text-xs text-muted-foreground">
-                  User: <em>"Put ₹25,000 one-time in HDFC Large Cap"</em> — needs bank selection
+                  User: <em>"I want to sell some Axis Bluechip"</em> — agent knows the fund, user picks how much
                 </p>
               </div>
-              <FundPurchaseWidget
-                prefill={{
-                  fundCode: 'HDFC-LCF-G',
-                  amount: 25000,
-                  mode: 'onetime',
-                }}
-              />
+              <FundRedemptionWidget prefill={{ fundCode: 'AXIS-BLU-G' }} />
+            </div>
+
+            {/* Demo: No prefill → full browse */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge variant="outline" className="text-[10px]">No Prefill</Badge>
+                <p className="text-xs text-muted-foreground">
+                  User: <em>"I want to redeem a fund"</em> — shows all holdings for selection
+                </p>
+              </div>
+              <FundRedemptionWidget />
             </div>
           </TabsContent>
         </Tabs>
