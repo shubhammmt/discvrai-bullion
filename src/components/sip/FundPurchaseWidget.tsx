@@ -61,10 +61,6 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
   const [goalTag, setGoalTag] = useState(prefill?.goalTag || '');
   const [isComplete, setIsComplete] = useState(false);
 
-  const filteredFunds = MOCK_FUNDS.filter(f =>
-    f.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    f.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   const stepLabels: Record<Step, string> = {
     fund: 'Select Fund',
