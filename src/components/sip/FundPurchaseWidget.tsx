@@ -28,6 +28,8 @@ export interface FundPurchasePrefill {
   bankMandate?: string;
   goalTag?: string;
   startDate?: string;
+  // Screener filters (agent can pre-apply filters instead of a specific fund)
+  screenerFilters?: MFScreenerFilters;
 }
 
 interface FundPurchaseWidgetProps {
