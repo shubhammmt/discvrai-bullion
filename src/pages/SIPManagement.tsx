@@ -3,8 +3,10 @@ import { CreateSIPWidget } from '@/components/sip/CreateSIPWidget';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
 import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
-import { Plus, Settings, Bot, ShoppingCart, ArrowDownLeft } from 'lucide-react';
+import { MFScreenerWidget } from '@/components/sip/MFScreenerWidget';
+import { Plus, Settings, Bot, ShoppingCart, ArrowDownLeft, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const SIPManagement = () => {
   return (
@@ -16,15 +18,18 @@ const SIPManagement = () => {
         </div>
 
         <Tabs defaultValue="buy" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="buy" className="flex items-center gap-1.5 text-xs">
               <ShoppingCart className="w-3.5 h-3.5" /> Buy
             </TabsTrigger>
             <TabsTrigger value="sell" className="flex items-center gap-1.5 text-xs">
               <ArrowDownLeft className="w-3.5 h-3.5" /> Sell
             </TabsTrigger>
+            <TabsTrigger value="screener" className="flex items-center gap-1.5 text-xs">
+              <Search className="w-3.5 h-3.5" /> Screener
+            </TabsTrigger>
             <TabsTrigger value="create" className="flex items-center gap-1.5 text-xs">
-              <Plus className="w-3.5 h-3.5" /> Create SIP
+              <Plus className="w-3.5 h-3.5" /> SIP
             </TabsTrigger>
             <TabsTrigger value="manage" className="flex items-center gap-1.5 text-xs">
               <Settings className="w-3.5 h-3.5" /> Manage
@@ -39,6 +44,20 @@ const SIPManagement = () => {
           </TabsContent>
           <TabsContent value="sell" className="mt-4">
             <FundRedemptionWidget />
+          </TabsContent>
+          <TabsContent value="screener" className="mt-4">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Search className="w-4 h-4 text-primary" />
+                  Mutual Fund Screener
+                </CardTitle>
+                <p className="text-xs text-muted-foreground">Search and filter across all mutual funds</p>
+              </CardHeader>
+              <CardContent>
+                <MFScreenerWidget standalone />
+              </CardContent>
+            </Card>
           </TabsContent>
           <TabsContent value="create" className="mt-4">
             <CreateSIPWidget />
@@ -55,8 +74,44 @@ const SIPManagement = () => {
               </p>
             </div>
 
-            {/* ===== BUY DEMOS ===== */}
+            {/* ===== SCREENER DEMOS ===== */}
             <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Search className="w-4 h-4 text-primary" /> Screener Prefill Demos
+            </h3>
+
+            {/* Demo: Agent pre-applies screener filters */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">🔍 Screener</Badge>
+                <p className="text-xs text-muted-foreground">
+                  User: <em>"Show me mid cap equity funds with expense ratio under 1%"</em>
+                </p>
+              </div>
+              <Card>
+                <CardContent className="pt-4">
+                  <MFScreenerWidget
+                    initialFilters={{ assetClass: 'Equity', marketCap: 'Mid Cap', maxExpenseRatio: 1.0 }}
+                    standalone
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Demo: Buy with screener filters prefilled */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">🛒 Buy + Screener</Badge>
+                <p className="text-xs text-muted-foreground">
+                  User: <em>"I want to invest in a debt liquid fund with low expense"</em> — agent opens buy widget with screener pre-filtered
+                </p>
+              </div>
+              <FundPurchaseWidget
+                prefill={{ screenerFilters: { assetClass: 'Debt', category: 'Liquid', maxExpenseRatio: 0.5 } }}
+              />
+            </div>
+
+            {/* ===== BUY DEMOS ===== */}
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 pt-4 border-t border-border">
               <ShoppingCart className="w-4 h-4 text-primary" /> Buy / Invest Demos
             </h3>
 
