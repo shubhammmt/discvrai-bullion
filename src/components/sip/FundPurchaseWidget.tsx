@@ -153,33 +153,13 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
       <CardContent className="pt-4 space-y-4">
         {/* Step 1: Fund Selection */}
         {step === 'fund' && (
-          <div className="space-y-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input placeholder="Search mutual funds..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-9" />
-            </div>
-            <div className="space-y-2 max-h-[280px] overflow-y-auto pr-1">
-              {filteredFunds.map(fund => (
-                <button key={fund.code} onClick={() => { setSelectedFund(fund); setStep('mode'); }}
-                  className={cn(
-                    'w-full text-left p-3 rounded-lg border transition-all hover:border-primary/40 hover:bg-primary/5',
-                    selectedFund?.code === fund.code ? 'border-primary bg-primary/5' : 'border-border'
-                  )}>
-                  <div className="flex items-center justify-between">
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{fund.name}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{fund.category}</Badge>
-                        <span className="text-xs text-muted-foreground">NAV ₹{fund.nav}</span>
-                        <span className="text-xs text-yellow-600">{'★'.repeat(fund.rating)}</span>
-                      </div>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
+          <MFScreenerWidget
+            initialFilters={prefill?.screenerFilters}
+            onSelectFund={(fund: MutualFund) => {
+              setSelectedFund(fund);
+              setStep('mode');
+            }}
+          />
         )}
 
         {/* Step 2: Mode Selection */}
