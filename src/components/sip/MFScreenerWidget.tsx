@@ -178,12 +178,12 @@ export function MFScreenerWidget({
                 <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                   {assetClass} Categories
                 </Label>
-                <Select value={category || ''} onValueChange={v => setCategory(v || undefined)}>
+                <Select value={category || '__all__'} onValueChange={v => setCategory(v === '__all__' ? undefined : v)}>
                   <SelectTrigger className="text-sm h-9">
                     <SelectValue placeholder={`All ${assetClass} Categories`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="__all__">All Categories</SelectItem>
                     {availableCategories.map(c => (
                       <SelectItem key={c} value={c}>{c}</SelectItem>
                     ))}
@@ -227,12 +227,12 @@ export function MFScreenerWidget({
               </div>
               <div className="space-y-1.5">
                 <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Fund House</Label>
-                <Select value={amc || ''} onValueChange={v => setAmc(v || undefined)}>
+                <Select value={amc || '__all__'} onValueChange={v => setAmc(v === '__all__' ? undefined : v)}>
                   <SelectTrigger className="text-xs h-9">
                     <SelectValue placeholder="All AMCs" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All AMCs</SelectItem>
+                    <SelectItem value="__all__">All AMCs</SelectItem>
                     {AMC_LIST.map(a => (
                       <SelectItem key={a} value={a}>{a}</SelectItem>
                     ))}
