@@ -51,8 +51,7 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
   const resolvedFund = prefill?.fundCode ? MOCK_FUNDS.find(f => f.code === prefill.fundCode) || null : null;
 
   const [step, setStep] = useState<Step>(resolveInitialStep(prefill));
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFund, setSelectedFund] = useState(resolvedFund);
+  const [selectedFund, setSelectedFund] = useState<MutualFund | null>(resolvedFund);
   const [mode, setMode] = useState<PurchaseMode>(prefill?.mode || 'sip');
   const [amount, setAmount] = useState(prefill?.amount || 5000);
   const [frequency, setFrequency] = useState<SIPFrequency>(prefill?.frequency || 'monthly');
