@@ -227,12 +227,12 @@ export function MFScreenerWidget({
               </div>
               <div className="space-y-1.5">
                 <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Fund House</Label>
-                <Select value={amc || ''} onValueChange={v => setAmc(v || undefined)}>
+                <Select value={amc || '__all__'} onValueChange={v => setAmc(v === '__all__' ? undefined : v)}>
                   <SelectTrigger className="text-xs h-9">
                     <SelectValue placeholder="All AMCs" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All AMCs</SelectItem>
+                    <SelectItem value="__all__">All AMCs</SelectItem>
                     {AMC_LIST.map(a => (
                       <SelectItem key={a} value={a}>{a}</SelectItem>
                     ))}
