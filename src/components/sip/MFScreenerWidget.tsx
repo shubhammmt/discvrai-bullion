@@ -178,12 +178,12 @@ export function MFScreenerWidget({
                 <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                   {assetClass} Categories
                 </Label>
-                <Select value={category || ''} onValueChange={v => setCategory(v || undefined)}>
+                <Select value={category || '__all__'} onValueChange={v => setCategory(v === '__all__' ? undefined : v)}>
                   <SelectTrigger className="text-sm h-9">
                     <SelectValue placeholder={`All ${assetClass} Categories`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="__all__">All Categories</SelectItem>
                     {availableCategories.map(c => (
                       <SelectItem key={c} value={c}>{c}</SelectItem>
                     ))}
