@@ -8,11 +8,12 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
-import { CalendarIcon, CheckCircle2, ChevronRight, Sparkles, TrendingUp, Search, Repeat, Zap } from 'lucide-react';
+import { CalendarIcon, CheckCircle2, ChevronRight, Sparkles, TrendingUp, Repeat, Zap } from 'lucide-react';
 import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { MOCK_FUNDS, BANK_MANDATES, GOAL_TAGS, SIPFrequency } from '@/data/sipMockData';
+import { MOCK_FUNDS, BANK_MANDATES, GOAL_TAGS, SIPFrequency, MutualFund } from '@/data/sipMockData';
+import { MFScreenerWidget, MFScreenerFilters } from './MFScreenerWidget';
 
 export type PurchaseMode = 'onetime' | 'sip';
 
