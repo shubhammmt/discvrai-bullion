@@ -4,6 +4,7 @@ import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
 import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
 import { MFScreenerWidget } from '@/components/sip/MFScreenerWidget';
+import { SmartFundSearch } from '@/components/sip/SmartFundSearch';
 import { Plus, Settings, Bot, ShoppingCart, ArrowDownLeft, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
