@@ -13,7 +13,8 @@ import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { MOCK_FUNDS, BANK_MANDATES, GOAL_TAGS, SIPFrequency, MutualFund } from '@/data/sipMockData';
-import { MFScreenerWidget, MFScreenerFilters } from './MFScreenerWidget';
+import { MFScreenerFilters } from './MFScreenerWidget';
+import { SmartFundSearch } from './SmartFundSearch';
 
 export type PurchaseMode = 'onetime' | 'sip';
 
@@ -148,7 +149,7 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
       <CardContent className="pt-4 space-y-4">
         {/* Step 1: Fund Selection */}
         {step === 'fund' && (
-          <MFScreenerWidget
+          <SmartFundSearch
             initialFilters={prefill?.screenerFilters}
             onSelectFund={(fund: MutualFund) => {
               setSelectedFund(fund);

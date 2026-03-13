@@ -4,6 +4,7 @@ import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
 import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
 import { MFScreenerWidget } from '@/components/sip/MFScreenerWidget';
+import { SmartFundSearch } from '@/components/sip/SmartFundSearch';
 import { Plus, Settings, Bot, ShoppingCart, ArrowDownLeft, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,10 +53,10 @@ const SIPManagement = () => {
                   <Search className="w-4 h-4 text-primary" />
                   Mutual Fund Screener
                 </CardTitle>
-                <p className="text-xs text-muted-foreground">Search and filter across all mutual funds</p>
+                <p className="text-xs text-muted-foreground">Search, filter, or use AI to discover mutual funds</p>
               </CardHeader>
               <CardContent>
-                <MFScreenerWidget standalone />
+                <SmartFundSearch standalone />
               </CardContent>
             </Card>
           </TabsContent>
@@ -74,23 +75,43 @@ const SIPManagement = () => {
               </p>
             </div>
 
-            {/* ===== SCREENER DEMOS ===== */}
+            {/* ===== SMART SEARCH DEMOS ===== */}
             <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Search className="w-4 h-4 text-primary" /> Screener Prefill Demos
+              <Search className="w-4 h-4 text-primary" /> Smart Search Demos
             </h3>
 
-            {/* Demo: Agent pre-applies screener filters */}
+            {/* Demo: Conventional with pre-applied filters */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">🔍 Screener</Badge>
+                <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">🔍 Conventional</Badge>
                 <p className="text-xs text-muted-foreground">
-                  User: <em>"Show me mid cap equity funds with expense ratio under 1%"</em>
+                  Agent pre-applies: <em>Mid cap equity, expense under 1%</em> — results show automatically
                 </p>
               </div>
               <Card>
                 <CardContent className="pt-4">
-                  <MFScreenerWidget
+                  <SmartFundSearch
+                    initialMode="conventional"
                     initialFilters={{ assetClass: 'Equity', marketCap: 'Mid Cap', maxExpenseRatio: 1.0 }}
+                    standalone
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Demo: AI mode with pre-filled query */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className="text-[10px] bg-accent/20 text-accent-foreground border-accent/30">✨ AI Screener</Badge>
+                <p className="text-xs text-muted-foreground">
+                  Agent pre-fills AI query: <em>"Best debt funds for short-term parking"</em> — user presses Search
+                </p>
+              </div>
+              <Card>
+                <CardContent className="pt-4">
+                  <SmartFundSearch
+                    initialMode="ai"
+                    initialAIQuery="Best debt funds for short-term parking"
                     standalone
                   />
                 </CardContent>
