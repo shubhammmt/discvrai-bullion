@@ -53,10 +53,10 @@ const SIPManagement = () => {
                   <Search className="w-4 h-4 text-primary" />
                   Mutual Fund Screener
                 </CardTitle>
-                <p className="text-xs text-muted-foreground">Search and filter across all mutual funds</p>
+                <p className="text-xs text-muted-foreground">Search, filter, or use AI to discover mutual funds</p>
               </CardHeader>
               <CardContent>
-                <MFScreenerWidget standalone />
+                <SmartFundSearch standalone />
               </CardContent>
             </Card>
           </TabsContent>
