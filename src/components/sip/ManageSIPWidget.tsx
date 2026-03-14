@@ -134,18 +134,18 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                       {/* Action buttons */}
                       <div className="flex gap-2 pt-1">
                         {sip.status === 'active' && (
-                          <Button variant="outline" size="sm" className="flex-1 text-xs text-amber-600 border-amber-200 hover:bg-amber-50 dark:hover:bg-amber-950/30"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:text-amber-800 dark:bg-amber-950/30 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-950/50 dark:hover:text-amber-300"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip.id, 'pause'); }}>
                             <Pause className="w-3.5 h-3.5 mr-1" /> Pause
                           </Button>
                         )}
                         {sip.status === 'paused' && (
-                          <Button variant="outline" size="sm" className="flex-1 text-xs text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-green-300 bg-green-50 text-green-700 hover:bg-green-100 hover:text-green-800 dark:bg-green-950/30 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-950/50 dark:hover:text-green-300"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip.id, 'activate'); }}>
                             <Play className="w-3.5 h-3.5 mr-1" /> Activate
                           </Button>
                         )}
-                        <Button variant="outline" size="sm" className="flex-1 text-xs text-destructive border-destructive/20 hover:bg-destructive/5"
+                        <Button variant="outline" size="sm" className="flex-1 text-xs border-red-300 bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-800 dark:bg-red-950/30 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950/50 dark:hover:text-red-300"
                           onClick={(e) => { e.stopPropagation(); handleAction(sip.id, 'delete'); }}>
                           <Trash2 className="w-3.5 h-3.5 mr-1" /> Cancel SIP
                         </Button>
