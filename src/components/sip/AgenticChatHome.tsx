@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   Send, Sparkles, TrendingUp, Calculator, Target, Search,
-  ShoppingCart, ArrowDownLeft, Bot, User, Mic
+  ShoppingCart, ArrowDownLeft, Bot, User, BarChart3, FileText,
+  MessageSquarePlus, Wallet, CheckSquare, Compass
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -19,33 +18,32 @@ interface ChatMessage {
 interface AgenticChatHomeProps {
   userState: 'anonymous' | 'logged_in_no_holdings' | 'investor';
   onNavigateTab: (tab: string) => void;
+  userName?: string;
 }
 
-const SUGGESTED_PROMPTS: Record<string, { text: string; icon: typeof TrendingUp }[]> = {
-  anonymous: [
-    { text: 'What are mutual funds and how do they work?', icon: Sparkles },
-    { text: 'Show me top performing funds this year', icon: TrendingUp },
-    { text: 'How much should I invest monthly to save ₹1 crore?', icon: Calculator },
-    { text: 'Which funds save tax under 80C?', icon: Target },
+// Action chips matching the reference screenshot layout
+const ACTION_CHIPS: { label: string; emoji: string; tab?: string; prompt?: string }[][] = [
+  [
+    { label: 'Ask me anything', emoji: '✨', prompt: 'What can you help me with?' },
+    { label: 'Plan for Goals', emoji: '🎯', tab: 'goals' },
+    { label: 'Advise on my Portfolio', emoji: '📊', tab: 'portfolio' },
   ],
-  logged_in_no_holdings: [
-    { text: 'Recommend me funds based on my risk profile', icon: Sparkles },
-    { text: 'Help me start my first SIP with ₹1,000', icon: ShoppingCart },
-    { text: 'Plan for my retirement in 25 years', icon: Target },
-    { text: 'Compare top 3 large cap funds', icon: Search },
+  [
+    { label: 'Explore Funds', emoji: '🔍', tab: 'screener' },
+    { label: 'MF Screener', emoji: '⚙️', tab: 'screener' },
+    { label: 'Calculate my Returns', emoji: '🧮', tab: 'calculator' },
   ],
-  investor: [
-    { text: 'How is my portfolio performing this quarter?', icon: TrendingUp },
-    { text: 'Are any of my SIPs underperforming?', icon: Sparkles },
-    { text: 'Should I increase my SIP in small caps?', icon: Calculator },
-    { text: 'Redeem my worst performing fund', icon: ArrowDownLeft },
+  [
+    { label: 'Statements', emoji: '📄', tab: 'statements' },
+    { label: 'I want to Invest', emoji: '💰', tab: 'buy' },
+    { label: 'KYC Complete', emoji: '✅' },
   ],
-};
+];
 
 const WELCOME_MESSAGES: Record<string, string> = {
-  anonymous: "Hi there! 👋 I'm your AI investment assistant. I can help you discover mutual funds, plan your financial goals, and make smarter investment decisions. What would you like to explore?",
-  logged_in_no_holdings: "Welcome back! 🎉 I see you haven't started investing yet. Let me help you pick the right funds and set up your first SIP. What's on your mind?",
-  investor: "Good to see you! 📊 Your portfolio is looking healthy. I can help you optimize your investments, track goals, or manage your SIPs. What would you like to do?",
+  anonymous: "Hi there! 👋 I am your MF buddy. I can help you in following:",
+  logged_in_no_holdings: "Welcome! 👋 I am your MF buddy. I can help you in following:",
+  investor: "Hi INVESTOR! 👋 I am your MF buddy. I can help you in following:",
 };
 
 const MOCK_RESPONSES: Record<string, ChatMessage> = {
@@ -57,7 +55,7 @@ const MOCK_RESPONSES: Record<string, ChatMessage> = {
       { label: 'Compare Funds', tab: 'screener', icon: Search },
     ],
   },
-  'first sip': {
+  'invest': {
     id: 'r2', role: 'assistant', timestamp: new Date(),
     content: "Great choice! 🚀 Starting a SIP is the best way to begin.\n\nBased on a ₹1,000/month budget, I'd recommend:\n\n• **Nifty 50 Index Fund** — Low cost, diversified (ER: 0.1%)\n• **Parag Parikh Flexi Cap** — Top-rated multi-cap (★★★★★)\n\nShall I set one up for you?",
     actions: [
@@ -73,78 +71,114 @@ const MOCK_RESPONSES: Record<string, ChatMessage> = {
       { label: 'Manage SIPs', tab: 'manage' },
     ],
   },
-};
-
-function getAIResponse(input: string): ChatMessage {
-  const lower = input.toLowerCase();
-  if (lower.includes('top') || lower.includes('performing') || lower.includes('best')) {
-    return { ...MOCK_RESPONSES['top performing'], id: `r-${Date.now()}`, timestamp: new Date() };
-  }
-  if (lower.includes('sip') || lower.includes('start') || lower.includes('first') || lower.includes('invest')) {
-    return { ...MOCK_RESPONSES['first sip'], id: `r-${Date.now()}`, timestamp: new Date() };
-  }
-  if (lower.includes('portfolio') || lower.includes('holding') || lower.includes('performing')) {
-    return { ...MOCK_RESPONSES['portfolio'], id: `r-${Date.now()}`, timestamp: new Date() };
-  }
-  return {
-    id: `r-${Date.now()}`, role: 'assistant', timestamp: new Date(),
-    content: `Great question! Let me look into that for you.\n\nBased on current market conditions and your profile, I'd recommend exploring our **fund screener** for personalized results, or I can help you with **goal planning** to find the right investment strategy.`,
+  'default': {
+    id: 'rd', role: 'assistant', timestamp: new Date(),
+    content: "Great question! Let me look into that.\n\nBased on current market conditions, I'd recommend exploring our **fund screener** for personalized results, or I can help with **goal planning** to find the right strategy.",
     actions: [
       { label: 'Explore Funds', tab: 'screener', icon: Search },
       { label: 'Plan Goals', tab: 'goals', icon: Target },
     ],
-  };
+  },
+};
+
+function getAIResponse(input: string): ChatMessage {
+  const lower = input.toLowerCase();
+  if (lower.includes('top') || lower.includes('performing') || lower.includes('best'))
+    return { ...MOCK_RESPONSES['top performing'], id: `r-${Date.now()}`, timestamp: new Date() };
+  if (lower.includes('sip') || lower.includes('start') || lower.includes('invest'))
+    return { ...MOCK_RESPONSES['invest'], id: `r-${Date.now()}`, timestamp: new Date() };
+  if (lower.includes('portfolio') || lower.includes('holding') || lower.includes('advise'))
+    return { ...MOCK_RESPONSES['portfolio'], id: `r-${Date.now()}`, timestamp: new Date() };
+  return { ...MOCK_RESPONSES['default'], id: `r-${Date.now()}`, timestamp: new Date() };
 }
 
-export function AgenticChatHome({ userState, onNavigateTab }: AgenticChatHomeProps) {
+export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticChatHomeProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showChips, setShowChips] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const prompts = SUGGESTED_PROMPTS[userState];
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Reset when user state changes
+  useEffect(() => {
+    setMessages([{ id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() }]);
+    setShowChips(true);
+  }, [userState]);
+
   const handleSend = (text?: string) => {
     const msg = text || input.trim();
     if (!msg) return;
 
+    setShowChips(false);
     const userMsg: ChatMessage = { id: `u-${Date.now()}`, role: 'user', content: msg, timestamp: new Date() };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
 
     setTimeout(() => {
-      const response = getAIResponse(msg);
-      setMessages(prev => [...prev, response]);
+      setMessages(prev => [...prev, getAIResponse(msg)]);
       setIsTyping(false);
-    }, 800 + Math.random() * 700);
+    }, 600 + Math.random() * 600);
+  };
+
+  const handleChipClick = (chip: typeof ACTION_CHIPS[0][0]) => {
+    if (chip.tab) {
+      onNavigateTab(chip.tab);
+    } else if (chip.prompt) {
+      handleSend(chip.prompt);
+    }
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] min-h-[400px] max-h-[600px]">
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto space-y-4 pb-3 px-1">
+    <div className="flex flex-col" style={{ minHeight: showChips ? '420px' : '350px' }}>
+      {/* Header Bar */}
+      <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-md">
+            <Bot className="w-5 h-5 text-primary-foreground" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-foreground">DiscvrAI</h3>
+            <p className="text-[10px] text-muted-foreground">Your MF Investment Buddy</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[9px] text-muted-foreground font-mono">THREAD: {Math.random().toString(16).slice(2, 10).toUpperCase()}</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 text-[10px] gap-1 text-primary"
+            onClick={() => {
+              setMessages([{ id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() }]);
+              setShowChips(true);
+            }}
+          >
+            <MessageSquarePlus className="w-3 h-3" /> NEW CHAT
+          </Button>
+        </div>
+      </div>
+
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto space-y-3 pb-2 px-0.5">
         {messages.map(msg => (
           <div key={msg.id} className={cn('flex gap-2.5', msg.role === 'user' ? 'flex-row-reverse' : 'flex-row')}>
-            <div className={cn(
-              'shrink-0 w-8 h-8 rounded-full flex items-center justify-center',
-              msg.role === 'assistant'
-                ? 'bg-gradient-to-br from-primary to-primary/70 text-primary-foreground'
-                : 'bg-muted text-muted-foreground'
-            )}>
-              {msg.role === 'assistant' ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
-            </div>
-            <div className={cn('max-w-[85%] space-y-2', msg.role === 'user' ? 'items-end' : 'items-start')}>
+            {msg.role === 'assistant' && (
+              <div className="shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mt-0.5">
+                <Bot className="w-3.5 h-3.5 text-primary-foreground" />
+              </div>
+            )}
+            <div className={cn('max-w-[85%]', msg.role === 'user' ? 'items-end' : 'items-start')}>
               <div className={cn(
                 'rounded-2xl px-4 py-3 text-sm leading-relaxed',
                 msg.role === 'user'
                   ? 'bg-primary text-primary-foreground rounded-tr-sm'
-                  : 'bg-card border border-border text-foreground rounded-tl-sm'
+                  : 'bg-muted/60 border border-border text-foreground rounded-tl-sm'
               )}>
                 {msg.content.split('\n').map((line, i) => (
                   <p key={i} className={i > 0 ? 'mt-1.5' : ''}>
@@ -154,8 +188,8 @@ export function AgenticChatHome({ userState, onNavigateTab }: AgenticChatHomePro
                   </p>
                 ))}
               </div>
-              {msg.actions && msg.actions.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-1">
+              {msg.actions && (
+                <div className="flex flex-wrap gap-1.5 mt-2">
                   {msg.actions.map(action => (
                     <Button
                       key={action.label}
@@ -176,14 +210,14 @@ export function AgenticChatHome({ userState, onNavigateTab }: AgenticChatHomePro
 
         {isTyping && (
           <div className="flex gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground">
-              <Bot className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+              <Bot className="w-3.5 h-3.5 text-primary-foreground" />
             </div>
-            <div className="bg-card border border-border rounded-2xl rounded-tl-sm px-4 py-3">
+            <div className="bg-muted/60 border border-border rounded-2xl rounded-tl-sm px-4 py-3">
               <div className="flex gap-1">
-                <span className="w-2 h-2 bg-muted-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-2 h-2 bg-muted-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-2 h-2 bg-muted-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span className="w-1.5 h-1.5 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-1.5 h-1.5 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-1.5 h-1.5 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           </div>
@@ -192,46 +226,53 @@ export function AgenticChatHome({ userState, onNavigateTab }: AgenticChatHomePro
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Suggested Prompts — only show when few messages */}
-      {messages.length <= 2 && (
-        <div className="grid grid-cols-1 gap-1.5 py-2">
-          {prompts.map(prompt => (
-            <button
-              key={prompt.text}
-              onClick={() => handleSend(prompt.text)}
-              className="flex items-center gap-2 text-left p-2.5 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all text-xs text-foreground group"
-            >
-              <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                <prompt.icon className="w-3 h-3 text-primary" />
-              </div>
-              <span className="line-clamp-1">{prompt.text}</span>
-            </button>
+      {/* Action Chips — Grid layout like the reference */}
+      {showChips && (
+        <div className="space-y-2 py-3">
+          {ACTION_CHIPS.map((row, ri) => (
+            <div key={ri} className="flex flex-wrap justify-center gap-2">
+              {row.map(chip => (
+                <button
+                  key={chip.label}
+                  onClick={() => handleChipClick(chip)}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-border bg-background hover:border-primary/40 hover:bg-primary/5 transition-all text-sm text-foreground group shadow-sm"
+                >
+                  <span>{chip.emoji}</span>
+                  <span className="font-medium">{chip.label}</span>
+                </button>
+              ))}
+            </div>
           ))}
         </div>
       )}
 
       {/* Input Area */}
-      <div className="pt-2 border-t border-border">
-        <div className="flex items-center gap-2 bg-muted/50 rounded-xl px-3 py-2 border border-border focus-within:border-primary/50 transition-colors">
-          <Sparkles className="w-4 h-4 text-primary shrink-0" />
+      <div className="pt-3 border-t border-border">
+        <div className="flex items-center gap-2 bg-muted/40 rounded-2xl px-4 py-2.5 border border-border focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
+          <Sparkles className="w-4 h-4 text-primary/60 shrink-0" />
           <input
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSend()}
-            placeholder={userState === 'anonymous' ? 'Ask anything about investing...' : 'Ask me to invest, compare, or plan...'}
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
+            placeholder="Ask about funds, SIPs, goals, or anything..."
+            className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
           />
           <Button
             size="sm"
             variant="ghost"
-            className="h-7 w-7 p-0 text-primary hover:bg-primary/10"
+            className={cn(
+              'h-8 w-8 p-0 rounded-full transition-all',
+              input.trim()
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                : 'text-muted-foreground hover:bg-muted'
+            )}
             onClick={() => handleSend()}
             disabled={!input.trim()}
           >
             <Send className="w-4 h-4" />
           </Button>
         </div>
-        <p className="text-[9px] text-muted-foreground/60 text-center mt-1.5">
+        <p className="text-[9px] text-muted-foreground/50 text-center mt-1.5">
           AI-powered • Your data is secure • Not financial advice
         </p>
       </div>
