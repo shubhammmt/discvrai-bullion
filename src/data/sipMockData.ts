@@ -60,6 +60,12 @@ export const DEBT_CATEGORIES = [
 ];
 export const HYBRID_CATEGORIES = ['Aggressive Hybrid', 'Conservative Hybrid', 'Balanced Advantage', 'Arbitrage'];
 
+export const SECTORS = [
+  'Technology', 'Banking & Financial', 'Healthcare & Pharma', 'Infrastructure',
+  'FMCG & Consumer', 'Energy & Power', 'Auto & Ancillaries', 'Real Estate',
+  'Manufacturing', 'Metals & Mining', 'Diversified',
+];
+
 export const AMC_LIST = [
   'SBI Mutual Fund', 'HDFC Mutual Fund', 'ICICI Prudential', 'Axis Mutual Fund',
   'Kotak Mutual Fund', 'Mirae Asset', 'Nippon India', 'Parag Parikh', 'DSP Mutual Fund',
