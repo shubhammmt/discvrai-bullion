@@ -30,7 +30,7 @@ const ACTION_CHIPS: { label: string; emoji: string; tab?: string; prompt?: strin
   ],
   [
     { label: 'Explore Funds', emoji: '🔍', tab: 'screener' },
-    { label: 'MF Screener', emoji: '⚙️', tab: 'screener' },
+    { label: 'Fund Screener', emoji: '⚙️', tab: 'screener' },
     { label: 'Calculate my Returns', emoji: '🧮', tab: 'calculator' },
   ],
   [
