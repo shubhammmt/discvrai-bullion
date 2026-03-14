@@ -10,9 +10,14 @@ import { PortfolioTab } from '@/components/sip/PortfolioTab';
 import { TransactionsTab } from '@/components/sip/TransactionsTab';
 import { StatementsTab } from '@/components/sip/StatementsTab';
 import { DiscoverySection } from '@/components/sip/DiscoverySection';
+import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
+import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
+import { FlowDemos } from '@/components/sip/FlowDemos';
+import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Repeat, Zap, Bell, ArrowRight, BarChart3, FileText, Receipt,
+  MessageSquare, History, Sparkles, Bot, LogIn,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,7 +27,10 @@ import { cn } from '@/lib/utils';
 
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
-  const [isLoggedIn] = useState(true); // Toggle for demo
+  const [userState, setUserState] = useState<SIPUserState>('investor');
+
+  const isLoggedIn = userState !== 'anonymous';
+  const hasHoldings = userState === 'investor';
 
   const activeSIPs = MOCK_SIPS.filter(s => s.status === 'active');
   const totalMonthly = activeSIPs.reduce((sum, s) => sum + s.amount, 0);
@@ -38,18 +46,28 @@ const SIPManagement = () => {
     setActiveTab('buy');
   };
 
-  const tabs = [
-    { value: 'home', icon: Home, label: 'Home' },
-    { value: 'portfolio', icon: BarChart3, label: 'Portfolio' },
-    { value: 'buy', icon: ShoppingCart, label: 'Invest' },
-    { value: 'screener', icon: Search, label: 'Screener' },
-    { value: 'transactions', icon: Receipt, label: 'Txns' },
-    { value: 'manage', icon: Settings, label: 'SIPs' },
-    { value: 'statements', icon: FileText, label: 'Stmts' },
-    { value: 'calculator', icon: Calculator, label: 'Calc' },
-    { value: 'goals', icon: Target, label: 'Goals' },
-    { value: 'sell', icon: ArrowDownLeft, label: 'Sell' },
+  // Tabs vary by user state
+  const allTabs = [
+    { value: 'home', icon: Sparkles, label: 'Home', always: true },
+    { value: 'chat', icon: MessageSquare, label: 'Chat', always: true },
+    { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
+    { value: 'buy', icon: ShoppingCart, label: 'Invest', always: true },
+    { value: 'screener', icon: Search, label: 'Screener', always: true },
+    { value: 'transactions', icon: Receipt, label: 'Txns', requiresLogin: true },
+    { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
+    { value: 'statements', icon: FileText, label: 'Stmts', requiresLogin: true },
+    { value: 'calculator', icon: Calculator, label: 'Calc', always: true },
+    { value: 'goals', icon: Target, label: 'Goals', requiresLogin: true },
+    { value: 'sell', icon: ArrowDownLeft, label: 'Sell', requiresHoldings: true },
+    { value: 'demos', icon: History, label: 'Demos', always: true },
   ];
+
+  const visibleTabs = allTabs.filter(t => {
+    if (t.always) return true;
+    if (t.requiresHoldings && !hasHoldings) return false;
+    if (t.requiresLogin && !isLoggedIn) return false;
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,22 +75,39 @@ const SIPManagement = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" className="w-9 h-9 p-0 relative">
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
-            </Button>
+            {isLoggedIn && (
+              <Button variant="ghost" size="sm" className="w-9 h-9 p-0 relative">
+                <Bell className="w-4 h-4" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
+              </Button>
+            )}
             <div>
-              <h1 className="text-xl font-bold text-foreground">Mutual Funds</h1>
-              <p className="text-sm text-muted-foreground mt-0.5">Invest, track & manage your portfolio</p>
+              <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <Bot className="w-5 h-5 text-primary" />
+                {userState === 'anonymous' ? 'Discover Mutual Funds' : 'Mutual Funds'}
+              </h1>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {userState === 'anonymous'
+                  ? 'AI-powered investment discovery & research'
+                  : hasHoldings
+                    ? 'Invest, track & manage your portfolio'
+                    : 'Start your investment journey with AI'
+                }
+              </p>
             </div>
           </div>
+          {!isLoggedIn && (
+            <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+              <LogIn className="w-3.5 h-3.5" /> Sign In
+            </Button>
+          )}
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Scrollable Tab Navigation */}
           <div className="overflow-x-auto -mx-4 px-4 pb-1">
             <TabsList className="inline-flex w-auto h-auto p-1 gap-0.5">
-              {tabs.map(tab => (
+              {visibleTabs.map(tab => (
                 <TabsTrigger key={tab.value} value={tab.value} className="flex flex-col items-center gap-0.5 text-[10px] py-1.5 px-2.5 min-w-[52px]">
                   <tab.icon className="w-3.5 h-3.5" /> {tab.label}
                 </TabsTrigger>
@@ -80,123 +115,88 @@ const SIPManagement = () => {
             </TabsList>
           </div>
 
-          {/* HOME TAB */}
+          {/* HOME TAB — Chat-centered agentic hero */}
           <TabsContent value="home" className="mt-4 space-y-4">
-            {isLoggedIn ? (
-              <>
-                {/* Portfolio Summary */}
-                <div className="grid grid-cols-2 gap-3">
-                  <Card className="bg-primary text-primary-foreground cursor-pointer" onClick={() => setActiveTab('portfolio')}>
-                    <CardContent className="p-4">
-                      <p className="text-[10px] uppercase tracking-wider opacity-80">Portfolio Value</p>
-                      <p className="text-2xl font-bold mt-1">₹{totalValue.toLocaleString()}</p>
-                      <p className="text-xs opacity-70 mt-0.5 flex items-center gap-1">
-                        <TrendingUp className="w-3 h-3" />
-                        {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}% returns
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <Card className="cursor-pointer" onClick={() => setActiveTab('manage')}>
-                    <CardContent className="p-4">
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Monthly SIPs</p>
-                      <p className="text-2xl font-bold text-foreground mt-1">₹{totalMonthly.toLocaleString()}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{activeSIPs.length} active SIPs</p>
-                    </CardContent>
-                  </Card>
-                </div>
+            {/* Agentic AI Chat — The Hero */}
+            <Card className="overflow-hidden border-primary/20">
+              <CardContent className="p-4">
+                <AgenticChatHome userState={userState} onNavigateTab={setActiveTab} />
+              </CardContent>
+            </Card>
 
-                {/* Quick Actions */}
-                <div className="grid grid-cols-4 gap-2">
-                  {[
-                    { icon: Repeat, label: 'Start SIP', tab: 'buy', color: 'text-primary bg-primary/10' },
-                    { icon: Zap, label: 'One-Time', tab: 'buy', color: 'text-amber-600 bg-amber-100 dark:bg-amber-900/30' },
-                    { icon: Search, label: 'Discover', tab: 'screener', color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30' },
-                    { icon: Calculator, label: 'Calculator', tab: 'calculator', color: 'text-green-600 bg-green-100 dark:bg-green-900/30' },
-                  ].map(action => (
-                    <button key={action.label} onClick={() => setActiveTab(action.tab)}
-                      className="flex flex-col items-center gap-1.5 p-3 rounded-xl border border-border hover:border-primary/30 transition-colors">
-                      <div className={cn('w-8 h-8 rounded-full flex items-center justify-center', action.color)}>
-                        <action.icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-medium text-foreground">{action.label}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Active SIPs Preview */}
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm flex items-center justify-between">
-                      <span className="flex items-center gap-2">
-                        <Repeat className="w-4 h-4 text-primary" /> Your SIPs
-                      </span>
-                      <Button variant="ghost" size="sm" className="text-xs text-primary h-7" onClick={() => setActiveTab('manage')}>
-                        View All <ArrowRight className="w-3 h-3 ml-1" />
-                      </Button>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0 space-y-2">
-                    {activeSIPs.slice(0, 3).map(sip => {
-                      const ret = (((sip.currentValue - sip.totalInvested) / sip.totalInvested) * 100).toFixed(1);
-                      return (
-                        <div key={sip.id} className="flex items-center justify-between p-2 rounded-lg border border-border">
-                          <div className="min-w-0 flex-1">
-                            <p className="text-xs font-medium text-foreground truncate">{sip.fundName}</p>
-                            <p className="text-[10px] text-muted-foreground">₹{sip.amount.toLocaleString()}/mo</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-xs font-semibold text-foreground">₹{sip.currentValue.toLocaleString()}</p>
-                            <p className={cn('text-[10px] font-medium', Number(ret) >= 0 ? 'text-green-600' : 'text-red-500')}>
-                              {Number(ret) >= 0 ? '+' : ''}{ret}%
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </CardContent>
-                </Card>
-
-                {/* Goals Widget */}
-                <GoalsWidget compact onViewGoals={() => setActiveTab('goals')} />
-              </>
-            ) : (
-              <>
-                {/* Anonymous/New user welcome */}
-                <Card className="bg-gradient-to-br from-primary/10 to-accent/10 border-primary/20">
-                  <CardContent className="p-6 text-center space-y-3">
-                    <div className="w-14 h-14 rounded-full bg-primary/10 mx-auto flex items-center justify-center">
-                      <TrendingUp className="w-7 h-7 text-primary" />
-                    </div>
-                    <h2 className="text-lg font-bold text-foreground">Start Your Investment Journey</h2>
-                    <p className="text-sm text-muted-foreground">
-                      Build long-term wealth with mutual funds. Start a SIP with as low as ₹500/month.
+            {/* Quick context cards for logged-in users with holdings */}
+            {hasHoldings && (
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="bg-primary text-primary-foreground cursor-pointer" onClick={() => setActiveTab('portfolio')}>
+                  <CardContent className="p-4">
+                    <p className="text-[10px] uppercase tracking-wider opacity-80">Portfolio Value</p>
+                    <p className="text-2xl font-bold mt-1">₹{totalValue.toLocaleString()}</p>
+                    <p className="text-xs opacity-70 mt-0.5 flex items-center gap-1">
+                      <TrendingUp className="w-3 h-3" />
+                      {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}% returns
                     </p>
-                    <div className="flex gap-2 justify-center pt-2">
-                      <Button onClick={() => setActiveTab('screener')}>Explore Funds</Button>
-                      <Button variant="outline" onClick={() => setActiveTab('calculator')}>Try Calculator</Button>
-                    </div>
                   </CardContent>
                 </Card>
-              </>
+                <Card className="cursor-pointer" onClick={() => setActiveTab('manage')}>
+                  <CardContent className="p-4">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Monthly SIPs</p>
+                    <p className="text-2xl font-bold text-foreground mt-1">₹{totalMonthly.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{activeSIPs.length} active SIPs</p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {/* For logged-in no holdings — nudge */}
+            {isLoggedIn && !hasHoldings && (
+              <Card className="border-primary/20 bg-primary/5">
+                <CardContent className="p-4 text-center space-y-2">
+                  <p className="text-sm font-semibold text-foreground">🎯 You're all set up!</p>
+                  <p className="text-xs text-muted-foreground">Ask the AI above to recommend your first fund, or explore below.</p>
+                  <div className="flex gap-2 justify-center">
+                    <Button size="sm" onClick={() => setActiveTab('buy')}>
+                      <ShoppingCart className="w-3 h-3 mr-1" /> Start SIP
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => setActiveTab('calculator')}>
+                      <Calculator className="w-3 h-3 mr-1" /> Calculator
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* For anonymous — value props */}
+            {!isLoggedIn && (
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { icon: Sparkles, label: 'AI Research', desc: 'Get personalized picks' },
+                  { icon: Calculator, label: 'Plan Goals', desc: 'Retirement, education...' },
+                  { icon: TrendingUp, label: '500+ Funds', desc: 'All AMCs, direct plans' },
+                ].map(item => (
+                  <Card key={item.label} className="text-center">
+                    <CardContent className="p-3">
+                      <item.icon className="w-5 h-5 text-primary mx-auto mb-1" />
+                      <p className="text-[10px] font-semibold text-foreground">{item.label}</p>
+                      <p className="text-[9px] text-muted-foreground">{item.desc}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             )}
 
             {/* Top Funds Discovery — always visible */}
             <DiscoverySection onSelectFund={handleFundSelect} onViewAll={() => setActiveTab('screener')} />
+          </TabsContent>
 
-            {/* SIP Promotion Banner */}
-            <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-              <CardContent className="p-4 flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">💡 Start a SIP today</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Invest as low as ₹500/month and build long-term wealth
-                  </p>
-                </div>
-                <Button size="sm" className="shrink-0 ml-3" onClick={() => setActiveTab('buy')}>
-                  Start Now
-                </Button>
-              </CardContent>
-            </Card>
+          {/* CHAT TAB — New + Old Conversations */}
+          <TabsContent value="chat" className="mt-4 space-y-4">
+            <ChatHistoryPanel
+              onNewChat={() => setActiveTab('home')}
+              onSelectConversation={(id) => {
+                // In a real app, load conversation and switch to home
+                setActiveTab('home');
+              }}
+            />
           </TabsContent>
 
           {/* PORTFOLIO TAB */}
@@ -254,8 +254,16 @@ const SIPManagement = () => {
           <TabsContent value="sell" className="mt-4">
             <FundRedemptionWidget />
           </TabsContent>
+
+          {/* DEMOS TAB */}
+          <TabsContent value="demos" className="mt-4">
+            <FlowDemos />
+          </TabsContent>
         </Tabs>
       </div>
+
+      {/* User State Switcher */}
+      <SIPUserStateSwitcher userState={userState} onUserStateChange={setUserState} />
     </div>
   );
 };
