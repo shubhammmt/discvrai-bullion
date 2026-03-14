@@ -30,13 +30,21 @@ export interface MutualFund {
   category: string;          // sub-category e.g. "Large Cap", "Overnight Fund"
   assetClass: AssetClass;
   marketCap?: MarketCap;     // only for Equity
+  sector?: string;           // e.g. "Technology", "Banking" — mainly for Sectoral/Thematic
   nav: number;
   rating: number;
   expenseRatio: number;      // percentage
   returns1Y: number;         // percentage
   returns3Y: number;         // percentage
+  returns5Y: number;         // percentage
+  aum: number;               // AUM in crores
   amc: string;               // fund house
   planType: 'Direct' | 'Regular';
+  riskLevel: 'Low' | 'Moderate' | 'High' | 'Very High';
+  minSIPAmount: number;
+  minLumpsumAmount: number;
+  exitLoad: string;
+  benchmark: string;
 }
 
 export const ASSET_CLASSES: AssetClass[] = ['Equity', 'Debt', 'Hybrid', 'Other', 'Solution Oriented'];
