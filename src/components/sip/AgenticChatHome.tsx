@@ -145,7 +145,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
           </div>
           <div>
             <h3 className="text-sm font-bold text-foreground">DiscvrAI</h3>
-            <p className="text-[10px] text-muted-foreground">Your MF Investment Buddy</p>
+            <p className="text-[10px] text-muted-foreground">Your Wealth Copilot</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
