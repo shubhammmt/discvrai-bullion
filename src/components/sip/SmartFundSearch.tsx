@@ -7,8 +7,8 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
-  Search, SlidersHorizontal, ChevronRight, X,
-  Sparkles, Send, Loader2, ToggleLeft, Eye,
+  Search, SlidersHorizontal, ChevronRight, ChevronDown, X,
+  Sparkles, Send, Loader2, ToggleLeft, Eye, ArrowUpDown,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -18,8 +18,23 @@ import {
 } from '@/data/sipMockData';
 import { MFScreenerFilters } from './MFScreenerWidget';
 import { FundDetailSheet } from './FundDetailSheet';
+import { SearchableSelect } from './SearchableSelect';
 
 type SearchMode = 'conventional' | 'ai';
+
+type SortOption = '1y' | '3y' | '5y' | 'expense_asc' | 'expense_desc' | 'risk_asc' | 'risk_desc';
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: '1y', label: '1Y Returns ↓' },
+  { value: '3y', label: '3Y Returns ↓' },
+  { value: '5y', label: '5Y Returns ↓' },
+  { value: 'expense_asc', label: 'Expense Ratio ↑' },
+  { value: 'expense_desc', label: 'Expense Ratio ↓' },
+  { value: 'risk_asc', label: 'Risk: Low → High' },
+  { value: 'risk_desc', label: 'Risk: High → Low' },
+];
+
+const RISK_ORDER: Record<string, number> = { 'Low': 1, 'Moderate': 2, 'High': 3, 'Very High': 4 };
 
 export interface SmartFundSearchProps {
   initialFilters?: MFScreenerFilters;
@@ -68,6 +83,12 @@ export function SmartFundSearch({
   const [minReturns5Y, setMinReturns5Y] = useState(0);
   const [amc, setAmc] = useState<string | undefined>(initialFilters?.amc);
 
+  // Returns sliders open state
+  const [openReturn, setOpenReturn] = useState<string | null>(null);
+
+  // Sorting
+  const [sortBy, setSortBy] = useState<SortOption>('1y');
+
   // AI state
   const [aiQuery, setAiQuery] = useState(initialAIQuery);
 
@@ -75,14 +96,16 @@ export function SmartFundSearch({
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
-  const availableCategories = getCategoriesForAssetClass(assetClass);
+  const allCategories = assetClass
+    ? getCategoriesForAssetClass(assetClass)
+    : [...EQUITY_CATEGORIES, ...DEBT_CATEGORIES, ...HYBRID_CATEGORIES];
 
   const baseFunds = restrictToCodes
     ? MOCK_FUNDS.filter(f => restrictToCodes.includes(f.code))
     : MOCK_FUNDS;
 
   const conventionalResults = useMemo(() => {
-    return baseFunds.filter(f => {
+    let results = baseFunds.filter(f => {
       if (query) {
         const q = query.toLowerCase();
         const matchesText = f.name.toLowerCase().includes(q) ||
@@ -102,7 +125,23 @@ export function SmartFundSearch({
       if (amc && f.amc !== amc) return false;
       return true;
     });
-  }, [baseFunds, query, assetClass, category, marketCap, sector, maxExpenseRatio, minReturns1Y, minReturns3Y, minReturns5Y, amc]);
+
+    // Sort
+    results = [...results].sort((a, b) => {
+      switch (sortBy) {
+        case '1y': return b.returns1Y - a.returns1Y;
+        case '3y': return b.returns3Y - a.returns3Y;
+        case '5y': return b.returns5Y - a.returns5Y;
+        case 'expense_asc': return a.expenseRatio - b.expenseRatio;
+        case 'expense_desc': return b.expenseRatio - a.expenseRatio;
+        case 'risk_asc': return (RISK_ORDER[a.riskLevel] || 0) - (RISK_ORDER[b.riskLevel] || 0);
+        case 'risk_desc': return (RISK_ORDER[b.riskLevel] || 0) - (RISK_ORDER[a.riskLevel] || 0);
+        default: return 0;
+      }
+    });
+
+    return results;
+  }, [baseFunds, query, assetClass, category, marketCap, sector, maxExpenseRatio, minReturns1Y, minReturns3Y, minReturns5Y, amc, sortBy]);
 
   const activeFilterCount = [
     assetClass, category, marketCap, sector,
@@ -133,15 +172,8 @@ export function SmartFundSearch({
   const displayedFunds = mode === 'conventional' ? conventionalResults : (aiResults || []);
 
   const handleFundAction = (fund: MutualFund) => {
-    if (onSelectFund) {
-      // In buy flow — show detail sheet where user can choose invest
-      setDetailFund(fund);
-      setDetailOpen(true);
-    } else {
-      // Standalone — show detail sheet
-      setDetailFund(fund);
-      setDetailOpen(true);
-    }
+    setDetailFund(fund);
+    setDetailOpen(true);
   };
 
   const handleInvestFromDetail = (fund: MutualFund, _mode: 'sip' | 'onetime') => {
@@ -149,7 +181,43 @@ export function SmartFundSearch({
     onSelectFund?.(fund);
   };
 
-  // Shared fund card renderer
+  // Returns filter item renderer
+  const renderReturnFilter = (key: string, label: string, value: number, setValue: (v: number) => void) => {
+    const isOpen = openReturn === key;
+    return (
+      <div className="border border-border rounded-lg overflow-hidden">
+        <button
+          onClick={() => setOpenReturn(isOpen ? null : key)}
+          className="w-full flex items-center justify-between px-3 py-2 text-xs hover:bg-muted/50 transition-colors"
+        >
+          <span className="text-muted-foreground font-medium">{label}</span>
+          <div className="flex items-center gap-1.5">
+            {value > 0 && (
+              <Badge variant="default" className="text-[9px] px-1.5 py-0 h-4">
+                ≥{value}%
+              </Badge>
+            )}
+            <ChevronDown className={cn('w-3 h-3 text-muted-foreground transition-transform', isOpen && 'rotate-180')} />
+          </div>
+        </button>
+        {isOpen && (
+          <div className="px-3 pb-3 pt-1 border-t border-border bg-muted/20">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-muted-foreground">Min Return</span>
+              <span className="text-xs font-bold text-primary">{value}%</span>
+            </div>
+            <Slider value={[value]} onValueChange={v => setValue(v[0])} min={0} max={50} step={1} />
+            <div className="flex justify-between mt-1">
+              <span className="text-[9px] text-muted-foreground">0%</span>
+              <span className="text-[9px] text-muted-foreground">50%</span>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Fund card renderer
   const renderFundCard = (fund: MutualFund) => (
     <div
       key={fund.code}
@@ -167,9 +235,15 @@ export function SmartFundSearch({
           </div>
           <div className="flex items-center gap-3 mt-1 flex-wrap">
             <span className="text-[10px] text-muted-foreground">NAV ₹{fund.nav}</span>
-            <span className="text-[10px] text-green-600">1Y: {fund.returns1Y}%</span>
-            <span className="text-[10px] text-green-700">3Y: {fund.returns3Y}%</span>
-            <span className="text-[10px] text-green-800">5Y: {fund.returns5Y}%</span>
+            <span className={cn('text-[10px] font-semibold', sortBy === '1y' ? 'text-primary' : 'text-green-600')}>
+              1Y: {fund.returns1Y}%
+            </span>
+            <span className={cn('text-[10px] font-semibold', sortBy === '3y' ? 'text-primary' : 'text-green-700')}>
+              3Y: {fund.returns3Y}%
+            </span>
+            <span className={cn('text-[10px] font-semibold', sortBy === '5y' ? 'text-primary' : 'text-green-800')}>
+              5Y: {fund.returns5Y}%
+            </span>
           </div>
         </div>
         <div className="flex flex-col items-center gap-1 shrink-0">
@@ -218,7 +292,13 @@ export function SmartFundSearch({
             <Input
               placeholder="Search funds, AMC, category..."
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={e => {
+                setQuery(e.target.value);
+                // Auto-close advanced filters when searching
+                if (e.target.value && showAdvanced) {
+                  setShowAdvanced(false);
+                }
+              }}
               className="pl-9 pr-10"
             />
             {query && (
@@ -244,8 +324,8 @@ export function SmartFundSearch({
             </CollapsibleTrigger>
 
             <CollapsibleContent className="pt-3">
-              <div className="p-3 sm:p-4 rounded-lg border border-border bg-muted/30 space-y-3">
-                {/* Row 1: Asset Class chips */}
+              <div className="p-3 rounded-lg border border-border bg-muted/30 space-y-4">
+                {/* Asset Class chips */}
                 <div className="space-y-1.5">
                   <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Asset Class</Label>
                   <div className="flex gap-1.5 flex-wrap">
@@ -265,109 +345,68 @@ export function SmartFundSearch({
                   </div>
                 </div>
 
-                {/* Row 2: Category + Market Cap + Sector dropdowns */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  {/* Sub-category */}
+                {/* Searchable dropdowns row */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Category</Label>
-                    <Select
-                      value={category || '__all__'}
-                      onValueChange={v => setCategory(v === '__all__' ? undefined : v)}
-                    >
-                      <SelectTrigger className="text-xs h-8">
-                        <SelectValue placeholder="All" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__all__">All Categories</SelectItem>
-                        {(assetClass ? getCategoriesForAssetClass(assetClass) : [...EQUITY_CATEGORIES, ...DEBT_CATEGORIES, ...HYBRID_CATEGORIES]).map(c => (
-                          <SelectItem key={c} value={c}>{c}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <SearchableSelect
+                      options={allCategories}
+                      value={category}
+                      onChange={v => setCategory(v)}
+                      placeholder="Category"
+                      allLabel="All Categories"
+                    />
                   </div>
-
-                  {/* Market Cap */}
                   <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Market Cap</Label>
-                    <Select
-                      value={marketCap || '__all__'}
-                      onValueChange={v => setMarketCap(v === '__all__' ? undefined : v as MarketCap)}
-                    >
-                      <SelectTrigger className="text-xs h-8">
-                        <SelectValue placeholder="All" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__all__">All Caps</SelectItem>
-                        {MARKET_CAPS.map(mc => (
-                          <SelectItem key={mc} value={mc}>{mc}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <SearchableSelect
+                      options={MARKET_CAPS}
+                      value={marketCap}
+                      onChange={v => setMarketCap(v as MarketCap | undefined)}
+                      placeholder="Market Cap"
+                      allLabel="All Caps"
+                    />
                   </div>
-
-                  {/* Sector */}
                   <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Sector</Label>
-                    <Select
-                      value={sector || '__all__'}
-                      onValueChange={v => setSector(v === '__all__' ? undefined : v)}
-                    >
-                      <SelectTrigger className="text-xs h-8">
-                        <SelectValue placeholder="All" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__all__">All Sectors</SelectItem>
-                        {SECTORS.map(s => (
-                          <SelectItem key={s} value={s}>{s}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <SearchableSelect
+                      options={SECTORS}
+                      value={sector}
+                      onChange={v => setSector(v)}
+                      placeholder="Sector"
+                      allLabel="All Sectors"
+                    />
                   </div>
-                </div>
-
-                {/* Row 3: Fund House + Expense Ratio */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Fund House</Label>
-                    <Select value={amc || '__all__'} onValueChange={v => setAmc(v === '__all__' ? undefined : v)}>
-                      <SelectTrigger className="text-xs h-8">
-                        <SelectValue placeholder="All AMCs" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__all__">All AMCs</SelectItem>
-                        {AMC_LIST.map(a => (
-                          <SelectItem key={a} value={a}>{a}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Max Expense <span className="text-primary font-bold">{maxExpenseRatio.toFixed(1)}%</span>
-                    </Label>
-                    <Slider value={[maxExpenseRatio]} onValueChange={v => setMaxExpenseRatio(v[0])} min={0} max={5} step={0.1} />
+                    <SearchableSelect
+                      options={AMC_LIST}
+                      value={amc}
+                      onChange={v => setAmc(v)}
+                      placeholder="Fund House"
+                      allLabel="All AMCs"
+                    />
                   </div>
                 </div>
 
-                {/* Row 4: Returns sliders — 1Y, 3Y, 5Y */}
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Min 1Y <span className="text-primary font-bold">{minReturns1Y}%</span>
-                    </Label>
-                    <Slider value={[minReturns1Y]} onValueChange={v => setMinReturns1Y(v[0])} min={0} max={50} step={1} />
+                {/* Expense Ratio */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Expense Ratio</Label>
+                    <span className="text-xs font-bold text-primary">
+                      {maxExpenseRatio >= 5 ? 'Any' : `≤ ${maxExpenseRatio.toFixed(1)}%`}
+                    </span>
                   </div>
+                  <Slider value={[maxExpenseRatio]} onValueChange={v => setMaxExpenseRatio(v[0])} min={0} max={5} step={0.1} />
+                </div>
+
+                {/* Returns — collapsible list items */}
+                <div className="space-y-1.5">
+                  <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Minimum Returns</Label>
                   <div className="space-y-1">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Min 3Y <span className="text-primary font-bold">{minReturns3Y}%</span>
-                    </Label>
-                    <Slider value={[minReturns3Y]} onValueChange={v => setMinReturns3Y(v[0])} min={0} max={50} step={1} />
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Min 5Y <span className="text-primary font-bold">{minReturns5Y}%</span>
-                    </Label>
-                    <Slider value={[minReturns5Y]} onValueChange={v => setMinReturns5Y(v[0])} min={0} max={50} step={1} />
+                    {renderReturnFilter('1y', '1 Year Returns', minReturns1Y, setMinReturns1Y)}
+                    {renderReturnFilter('3y', '3 Year Returns', minReturns3Y, setMinReturns3Y)}
+                    {renderReturnFilter('5y', '5 Year Returns', minReturns5Y, setMinReturns5Y)}
                   </div>
                 </div>
 
@@ -447,19 +486,34 @@ export function SmartFundSearch({
         </div>
       )}
 
-      {/* Results */}
-      <div className="flex items-center justify-between">
-        <p className="text-[10px] text-muted-foreground">
+      {/* Results header with count + sorting */}
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-[10px] text-muted-foreground shrink-0">
           {mode === 'ai' && !aiResults
             ? 'Submit a query to see results'
             : `${displayedFunds.length} fund${displayedFunds.length !== 1 ? 's' : ''} found`}
         </p>
-        {mode === 'conventional' && activeFilterCount > 0 && (
-          <button onClick={clearFilters} className="text-[10px] text-primary hover:underline">Reset filters</button>
-        )}
+        <div className="flex items-center gap-2">
+          {mode === 'conventional' && activeFilterCount > 0 && (
+            <button onClick={clearFilters} className="text-[10px] text-primary hover:underline shrink-0">Reset</button>
+          )}
+          <Select value={sortBy} onValueChange={v => setSortBy(v as SortOption)}>
+            <SelectTrigger className="h-7 text-[10px] w-[140px] gap-1">
+              <ArrowUpDown className="w-3 h-3 shrink-0" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {SORT_OPTIONS.map(opt => (
+                <SelectItem key={opt.value} value={opt.value} className="text-xs">
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      {/* Fund list — unified for both modes */}
+      {/* Fund list */}
       {(mode === 'conventional' || (mode === 'ai' && aiResults)) && (
         <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
           {displayedFunds.length === 0 ? (
