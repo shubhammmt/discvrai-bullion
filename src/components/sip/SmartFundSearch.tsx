@@ -7,8 +7,8 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
-  Search, SlidersHorizontal, ChevronRight, ChevronDown, X,
-  Sparkles, Send, Loader2, ToggleLeft, Eye, ArrowUpDown,
+  Search, SlidersHorizontal, ChevronRight, ChevronDown, ChevronLeft, X,
+  Sparkles, Send, Loader2, ToggleLeft, Eye, ArrowUpDown, Pencil,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -36,12 +36,14 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 const RISK_ORDER: Record<string, number> = { 'Low': 1, 'Moderate': 2, 'High': 3, 'Very High': 4 };
 
+const ITEMS_PER_PAGE = 10;
+
 export interface SmartFundSearchProps {
   initialFilters?: MFScreenerFilters;
   initialMode?: SearchMode;
   initialAIQuery?: string;
   restrictToCodes?: string[];
-  onSelectFund?: (fund: MutualFund) => void;
+  onSelectFund?: (fund: MutualFund, investMode?: 'sip' | 'onetime') => void;
   standalone?: boolean;
   onAISearch?: (query: string) => void;
   aiResults?: MutualFund[];
@@ -89,6 +91,9 @@ export function SmartFundSearch({
   // Sorting
   const [sortBy, setSortBy] = useState<SortOption>('1y');
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
   // AI state
   const [aiQuery, setAiQuery] = useState(initialAIQuery);
 
@@ -126,7 +131,6 @@ export function SmartFundSearch({
       return true;
     });
 
-    // Sort
     results = [...results].sort((a, b) => {
       switch (sortBy) {
         case '1y': return b.returns1Y - a.returns1Y;
@@ -143,14 +147,24 @@ export function SmartFundSearch({
     return results;
   }, [baseFunds, query, assetClass, category, marketCap, sector, maxExpenseRatio, minReturns1Y, minReturns3Y, minReturns5Y, amc, sortBy]);
 
-  const activeFilterCount = [
-    assetClass, category, marketCap, sector,
-    maxExpenseRatio < 5 ? true : undefined,
-    minReturns1Y > 0 ? true : undefined,
-    minReturns3Y > 0 ? true : undefined,
-    minReturns5Y > 0 ? true : undefined,
-    amc,
-  ].filter(Boolean).length;
+  // Reset page when filters change
+  const displayedFunds = mode === 'conventional' ? conventionalResults : (aiResults || []);
+  const totalPages = Math.max(1, Math.ceil(displayedFunds.length / ITEMS_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedFunds = displayedFunds.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
+
+  const activeFilters: { key: string; label: string; value: string; clear: () => void }[] = [];
+  if (assetClass) activeFilters.push({ key: 'ac', label: 'Asset', value: assetClass, clear: () => { setAssetClass(undefined); setCategory(undefined); } });
+  if (category) activeFilters.push({ key: 'cat', label: 'Category', value: category, clear: () => setCategory(undefined) });
+  if (marketCap) activeFilters.push({ key: 'mc', label: 'Cap', value: marketCap, clear: () => setMarketCap(undefined) });
+  if (sector) activeFilters.push({ key: 'sec', label: 'Sector', value: sector, clear: () => setSector(undefined) });
+  if (amc) activeFilters.push({ key: 'amc', label: 'AMC', value: amc, clear: () => setAmc(undefined) });
+  if (maxExpenseRatio < 5) activeFilters.push({ key: 'er', label: 'Exp Ratio', value: `≤${maxExpenseRatio.toFixed(1)}%`, clear: () => setMaxExpenseRatio(5) });
+  if (minReturns1Y > 0) activeFilters.push({ key: '1y', label: '1Y', value: `≥${minReturns1Y}%`, clear: () => setMinReturns1Y(0) });
+  if (minReturns3Y > 0) activeFilters.push({ key: '3y', label: '3Y', value: `≥${minReturns3Y}%`, clear: () => setMinReturns3Y(0) });
+  if (minReturns5Y > 0) activeFilters.push({ key: '5y', label: '5Y', value: `≥${minReturns5Y}%`, clear: () => setMinReturns5Y(0) });
+
+  const activeFilterCount = activeFilters.length;
 
   const clearFilters = () => {
     setAssetClass(undefined);
@@ -162,23 +176,23 @@ export function SmartFundSearch({
     setMinReturns3Y(0);
     setMinReturns5Y(0);
     setAmc(undefined);
+    setCurrentPage(1);
   };
 
   const handleAISubmit = () => {
     if (!aiQuery.trim() || aiLoading) return;
+    setCurrentPage(1);
     onAISearch?.(aiQuery.trim());
   };
-
-  const displayedFunds = mode === 'conventional' ? conventionalResults : (aiResults || []);
 
   const handleFundAction = (fund: MutualFund) => {
     setDetailFund(fund);
     setDetailOpen(true);
   };
 
-  const handleInvestFromDetail = (fund: MutualFund, _mode: 'sip' | 'onetime') => {
+  const handleInvestFromDetail = (fund: MutualFund, investMode: 'sip' | 'onetime') => {
     setDetailOpen(false);
-    onSelectFund?.(fund);
+    onSelectFund?.(fund, investMode);
   };
 
   // Returns filter item renderer
@@ -254,6 +268,57 @@ export function SmartFundSearch({
     </div>
   );
 
+  // Pagination controls
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+    const pages: (number | 'ellipsis')[] = [];
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= safePage - 1 && i <= safePage + 1)) {
+        pages.push(i);
+      } else if (pages[pages.length - 1] !== 'ellipsis') {
+        pages.push('ellipsis');
+      }
+    }
+
+    return (
+      <div className="flex items-center justify-center gap-1 pt-2">
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-7 w-7 p-0"
+          disabled={safePage <= 1}
+          onClick={() => setCurrentPage(safePage - 1)}
+        >
+          <ChevronLeft className="w-3.5 h-3.5" />
+        </Button>
+        {pages.map((p, idx) =>
+          p === 'ellipsis' ? (
+            <span key={`e${idx}`} className="text-xs text-muted-foreground px-1">…</span>
+          ) : (
+            <Button
+              key={p}
+              variant={safePage === p ? 'default' : 'outline'}
+              size="sm"
+              className="h-7 w-7 p-0 text-xs"
+              onClick={() => setCurrentPage(p)}
+            >
+              {p}
+            </Button>
+          )
+        )}
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-7 w-7 p-0"
+          disabled={safePage >= totalPages}
+          onClick={() => setCurrentPage(safePage + 1)}
+        >
+          <ChevronRight className="w-3.5 h-3.5" />
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-3">
       {/* Mode Toggle */}
@@ -294,7 +359,7 @@ export function SmartFundSearch({
               value={query}
               onChange={e => {
                 setQuery(e.target.value);
-                // Auto-close advanced filters when searching
+                setCurrentPage(1);
                 if (e.target.value && showAdvanced) {
                   setShowAdvanced(false);
                 }
@@ -302,11 +367,41 @@ export function SmartFundSearch({
               className="pl-9 pr-10"
             />
             {query && (
-              <button onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2">
+              <button onClick={() => { setQuery(''); setCurrentPage(1); }} className="absolute right-3 top-1/2 -translate-y-1/2">
                 <X className="w-3.5 h-3.5 text-muted-foreground hover:text-foreground" />
               </button>
             )}
           </div>
+
+          {/* Active filter chips (shown when advanced is collapsed and filters are active) */}
+          {!showAdvanced && activeFilterCount > 0 && (
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {activeFilters.map(f => (
+                <Badge
+                  key={f.key}
+                  variant="secondary"
+                  className="text-[10px] px-2 py-0.5 gap-1 cursor-default"
+                >
+                  <span className="text-muted-foreground">{f.label}:</span> {f.value}
+                  <button onClick={(e) => { e.stopPropagation(); f.clear(); setCurrentPage(1); }} className="ml-0.5 hover:text-destructive">
+                    <X className="w-2.5 h-2.5" />
+                  </button>
+                </Badge>
+              ))}
+              <button
+                onClick={() => setShowAdvanced(true)}
+                className="text-[10px] text-primary hover:underline flex items-center gap-0.5"
+              >
+                <Pencil className="w-2.5 h-2.5" /> Edit
+              </button>
+              <button
+                onClick={() => { clearFilters(); }}
+                className="text-[10px] text-muted-foreground hover:text-destructive"
+              >
+                Clear all
+              </button>
+            </div>
+          )}
 
           {/* Advanced Filters */}
           <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
@@ -337,6 +432,7 @@ export function SmartFundSearch({
                         onClick={() => {
                           setAssetClass(assetClass === ac ? undefined : ac);
                           setCategory(undefined);
+                          setCurrentPage(1);
                         }}
                       >
                         {ac}
@@ -352,7 +448,7 @@ export function SmartFundSearch({
                     <SearchableSelect
                       options={allCategories}
                       value={category}
-                      onChange={v => setCategory(v)}
+                      onChange={v => { setCategory(v); setCurrentPage(1); }}
                       placeholder="Category"
                       allLabel="All Categories"
                     />
@@ -362,7 +458,7 @@ export function SmartFundSearch({
                     <SearchableSelect
                       options={MARKET_CAPS}
                       value={marketCap}
-                      onChange={v => setMarketCap(v as MarketCap | undefined)}
+                      onChange={v => { setMarketCap(v as MarketCap | undefined); setCurrentPage(1); }}
                       placeholder="Market Cap"
                       allLabel="All Caps"
                     />
@@ -372,7 +468,7 @@ export function SmartFundSearch({
                     <SearchableSelect
                       options={SECTORS}
                       value={sector}
-                      onChange={v => setSector(v)}
+                      onChange={v => { setSector(v); setCurrentPage(1); }}
                       placeholder="Sector"
                       allLabel="All Sectors"
                     />
@@ -382,7 +478,7 @@ export function SmartFundSearch({
                     <SearchableSelect
                       options={AMC_LIST}
                       value={amc}
-                      onChange={v => setAmc(v)}
+                      onChange={v => { setAmc(v); setCurrentPage(1); }}
                       placeholder="Fund House"
                       allLabel="All AMCs"
                     />
@@ -397,25 +493,34 @@ export function SmartFundSearch({
                       {maxExpenseRatio >= 5 ? 'Any' : `≤ ${maxExpenseRatio.toFixed(1)}%`}
                     </span>
                   </div>
-                  <Slider value={[maxExpenseRatio]} onValueChange={v => setMaxExpenseRatio(v[0])} min={0} max={5} step={0.1} />
+                  <Slider value={[maxExpenseRatio]} onValueChange={v => { setMaxExpenseRatio(v[0]); setCurrentPage(1); }} min={0} max={5} step={0.1} />
                 </div>
 
                 {/* Returns — collapsible list items */}
                 <div className="space-y-1.5">
                   <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Minimum Returns</Label>
                   <div className="space-y-1">
-                    {renderReturnFilter('1y', '1 Year Returns', minReturns1Y, setMinReturns1Y)}
-                    {renderReturnFilter('3y', '3 Year Returns', minReturns3Y, setMinReturns3Y)}
-                    {renderReturnFilter('5y', '5 Year Returns', minReturns5Y, setMinReturns5Y)}
+                    {renderReturnFilter('1y', '1 Year Returns', minReturns1Y, (v) => { setMinReturns1Y(v); setCurrentPage(1); })}
+                    {renderReturnFilter('3y', '3 Year Returns', minReturns3Y, (v) => { setMinReturns3Y(v); setCurrentPage(1); })}
+                    {renderReturnFilter('5y', '5 Year Returns', minReturns5Y, (v) => { setMinReturns5Y(v); setCurrentPage(1); })}
                   </div>
                 </div>
 
-                {/* Clear all */}
-                {activeFilterCount > 0 && (
-                  <Button variant="ghost" size="sm" className="text-xs w-full" onClick={clearFilters}>
-                    <X className="w-3 h-3 mr-1" /> Clear All Filters ({activeFilterCount})
+                {/* Apply & Clear */}
+                <div className="flex gap-2">
+                  {activeFilterCount > 0 && (
+                    <Button variant="ghost" size="sm" className="text-xs flex-1" onClick={clearFilters}>
+                      <X className="w-3 h-3 mr-1" /> Clear All
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    className="text-xs flex-1"
+                    onClick={() => setShowAdvanced(false)}
+                  >
+                    Apply Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
                   </Button>
-                )}
+                </div>
               </div>
             </CollapsibleContent>
           </Collapsible>
@@ -492,12 +597,13 @@ export function SmartFundSearch({
           {mode === 'ai' && !aiResults
             ? 'Submit a query to see results'
             : `${displayedFunds.length} fund${displayedFunds.length !== 1 ? 's' : ''} found`}
+          {totalPages > 1 && ` • Page ${safePage}/${totalPages}`}
         </p>
         <div className="flex items-center gap-2">
-          {mode === 'conventional' && activeFilterCount > 0 && (
+          {mode === 'conventional' && activeFilterCount > 0 && !showAdvanced && (
             <button onClick={clearFilters} className="text-[10px] text-primary hover:underline shrink-0">Reset</button>
           )}
-          <Select value={sortBy} onValueChange={v => setSortBy(v as SortOption)}>
+          <Select value={sortBy} onValueChange={v => { setSortBy(v as SortOption); setCurrentPage(1); }}>
             <SelectTrigger className="h-7 text-[10px] w-[140px] gap-1">
               <ArrowUpDown className="w-3 h-3 shrink-0" />
               <SelectValue />
@@ -515,18 +621,21 @@ export function SmartFundSearch({
 
       {/* Fund list */}
       {(mode === 'conventional' || (mode === 'ai' && aiResults)) && (
-        <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
-          {displayedFunds.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              <SlidersHorizontal className="w-8 h-8 mx-auto mb-2 opacity-40" />
-              <p className="text-sm">No funds match your criteria</p>
-              <p className="text-xs mt-1">
-                {mode === 'ai' ? 'Try a different query' : 'Try adjusting filters or search terms'}
-              </p>
-            </div>
-          ) : (
-            displayedFunds.map(fund => renderFundCard(fund))
-          )}
+        <div className="space-y-2">
+          <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+            {paginatedFunds.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <SlidersHorizontal className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                <p className="text-sm">No funds match your criteria</p>
+                <p className="text-xs mt-1">
+                  {mode === 'ai' ? 'Try a different query' : 'Try adjusting filters or search terms'}
+                </p>
+              </div>
+            ) : (
+              paginatedFunds.map(fund => renderFundCard(fund))
+            )}
+          </div>
+          {renderPagination()}
         </div>
       )}
 
