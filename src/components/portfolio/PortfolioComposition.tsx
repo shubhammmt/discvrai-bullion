@@ -125,7 +125,7 @@ const PortfolioComposition: React.FC<PortfolioCompositionProps> = ({
                         <Cell key={index} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip content={({ active, payload }) => renderCustomTooltip(active, payload)} />
+<Tooltip content={({ active, payload }: any) => renderCustomTooltip(active, payload)} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
