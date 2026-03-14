@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,37 +7,29 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
-  Search, SlidersHorizontal, ChevronRight, X, Filter,
-  Sparkles, Send, Loader2, ToggleLeft,
+  Search, SlidersHorizontal, ChevronRight, X,
+  Sparkles, Send, Loader2, ToggleLeft, Eye,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   MOCK_FUNDS, MutualFund, AssetClass, MarketCap,
-  ASSET_CLASSES, MARKET_CAPS, AMC_LIST,
+  ASSET_CLASSES, MARKET_CAPS, AMC_LIST, SECTORS,
   EQUITY_CATEGORIES, DEBT_CATEGORIES, HYBRID_CATEGORIES,
 } from '@/data/sipMockData';
 import { MFScreenerFilters } from './MFScreenerWidget';
+import { FundDetailSheet } from './FundDetailSheet';
 
 type SearchMode = 'conventional' | 'ai';
 
 export interface SmartFundSearchProps {
-  /** Pre-applied filters (from agent) */
   initialFilters?: MFScreenerFilters;
-  /** Agent can force a mode */
   initialMode?: SearchMode;
-  /** Agent can pre-fill an AI query */
   initialAIQuery?: string;
-  /** Only show these fund codes */
   restrictToCodes?: string[];
-  /** Called when user selects a fund */
   onSelectFund?: (fund: MutualFund) => void;
-  /** Show as standalone screener (no selection action) */
   standalone?: boolean;
-  /** Called when AI query is submitted (parent handles the AI call) */
   onAISearch?: (query: string) => void;
-  /** AI search results (returned from parent after AI call) */
   aiResults?: MutualFund[];
-  /** AI search loading state */
   aiLoading?: boolean;
 }
 
@@ -61,7 +53,7 @@ export function SmartFundSearch({
 }: SmartFundSearchProps) {
   const [mode, setMode] = useState<SearchMode>(initialMode);
 
-  // ── Conventional state ──
+  // Conventional state
   const [query, setQuery] = useState(initialFilters?.query || '');
   const [showAdvanced, setShowAdvanced] = useState(
     !!initialFilters?.assetClass || !!initialFilters?.marketCap || !!initialFilters?.amc
@@ -69,13 +61,19 @@ export function SmartFundSearch({
   const [assetClass, setAssetClass] = useState<AssetClass | undefined>(initialFilters?.assetClass);
   const [category, setCategory] = useState<string | undefined>(initialFilters?.category);
   const [marketCap, setMarketCap] = useState<MarketCap | undefined>(initialFilters?.marketCap);
+  const [sector, setSector] = useState<string | undefined>(undefined);
   const [maxExpenseRatio, setMaxExpenseRatio] = useState(initialFilters?.maxExpenseRatio ?? 5);
   const [minReturns1Y, setMinReturns1Y] = useState(initialFilters?.minReturns1Y ?? 0);
   const [minReturns3Y, setMinReturns3Y] = useState(initialFilters?.minReturns3Y ?? 0);
+  const [minReturns5Y, setMinReturns5Y] = useState(0);
   const [amc, setAmc] = useState<string | undefined>(initialFilters?.amc);
 
-  // ── AI state ──
+  // AI state
   const [aiQuery, setAiQuery] = useState(initialAIQuery);
+
+  // Fund detail sheet state
+  const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   const availableCategories = getCategoriesForAssetClass(assetClass);
 
@@ -83,7 +81,6 @@ export function SmartFundSearch({
     ? MOCK_FUNDS.filter(f => restrictToCodes.includes(f.code))
     : MOCK_FUNDS;
 
-  // Conventional: auto-filter as user types / changes filters
   const conventionalResults = useMemo(() => {
     return baseFunds.filter(f => {
       if (query) {
@@ -97,19 +94,22 @@ export function SmartFundSearch({
       if (assetClass && f.assetClass !== assetClass) return false;
       if (category && f.category !== category) return false;
       if (marketCap && f.marketCap !== marketCap) return false;
+      if (sector && f.sector !== sector) return false;
       if (maxExpenseRatio < 5 && f.expenseRatio > maxExpenseRatio) return false;
       if (minReturns1Y > 0 && f.returns1Y < minReturns1Y) return false;
       if (minReturns3Y > 0 && f.returns3Y < minReturns3Y) return false;
+      if (minReturns5Y > 0 && f.returns5Y < minReturns5Y) return false;
       if (amc && f.amc !== amc) return false;
       return true;
     });
-  }, [baseFunds, query, assetClass, category, marketCap, maxExpenseRatio, minReturns1Y, minReturns3Y, amc]);
+  }, [baseFunds, query, assetClass, category, marketCap, sector, maxExpenseRatio, minReturns1Y, minReturns3Y, minReturns5Y, amc]);
 
   const activeFilterCount = [
-    assetClass, category, marketCap,
+    assetClass, category, marketCap, sector,
     maxExpenseRatio < 5 ? true : undefined,
     minReturns1Y > 0 ? true : undefined,
     minReturns3Y > 0 ? true : undefined,
+    minReturns5Y > 0 ? true : undefined,
     amc,
   ].filter(Boolean).length;
 
@@ -117,9 +117,11 @@ export function SmartFundSearch({
     setAssetClass(undefined);
     setCategory(undefined);
     setMarketCap(undefined);
+    setSector(undefined);
     setMaxExpenseRatio(5);
     setMinReturns1Y(0);
     setMinReturns3Y(0);
+    setMinReturns5Y(0);
     setAmc(undefined);
   };
 
@@ -130,9 +132,57 @@ export function SmartFundSearch({
 
   const displayedFunds = mode === 'conventional' ? conventionalResults : (aiResults || []);
 
+  const handleFundAction = (fund: MutualFund) => {
+    if (onSelectFund) {
+      // In buy flow — show detail sheet where user can choose invest
+      setDetailFund(fund);
+      setDetailOpen(true);
+    } else {
+      // Standalone — show detail sheet
+      setDetailFund(fund);
+      setDetailOpen(true);
+    }
+  };
+
+  const handleInvestFromDetail = (fund: MutualFund, _mode: 'sip' | 'onetime') => {
+    setDetailOpen(false);
+    onSelectFund?.(fund);
+  };
+
+  // Shared fund card renderer
+  const renderFundCard = (fund: MutualFund) => (
+    <div
+      key={fund.code}
+      className="w-full text-left p-3 rounded-lg border border-border transition-all hover:border-primary/40 hover:bg-primary/5 cursor-pointer"
+      onClick={() => handleFundAction(fund)}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-medium text-foreground truncate">{fund.name}</p>
+          <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+            <Badge variant="secondary" className="text-[9px] px-1.5 py-0">{fund.assetClass}</Badge>
+            <Badge variant="outline" className="text-[9px] px-1.5 py-0">{fund.category}</Badge>
+            <span className="text-[10px] text-muted-foreground">Exp {fund.expenseRatio}%</span>
+            <span className="text-[10px] text-yellow-600">{'★'.repeat(fund.rating)}</span>
+          </div>
+          <div className="flex items-center gap-3 mt-1 flex-wrap">
+            <span className="text-[10px] text-muted-foreground">NAV ₹{fund.nav}</span>
+            <span className="text-[10px] text-green-600">1Y: {fund.returns1Y}%</span>
+            <span className="text-[10px] text-green-700">3Y: {fund.returns3Y}%</span>
+            <span className="text-[10px] text-green-800">5Y: {fund.returns5Y}%</span>
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-1 shrink-0">
+          <Eye className="w-4 h-4 text-muted-foreground" />
+          <span className="text-[9px] text-muted-foreground">Details</span>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-3">
-      {/* ── Mode Toggle ── */}
+      {/* Mode Toggle */}
       <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60 border border-border">
         <button
           onClick={() => setMode('conventional')}
@@ -160,10 +210,9 @@ export function SmartFundSearch({
         </button>
       </div>
 
-      {/* ── Conventional Mode ── */}
+      {/* Conventional Mode */}
       {mode === 'conventional' && (
         <>
-          {/* Text search — auto-filters */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -195,14 +244,8 @@ export function SmartFundSearch({
             </CollapsibleTrigger>
 
             <CollapsibleContent className="pt-3">
-              <div className="p-4 rounded-lg border border-border bg-muted/30 space-y-4">
-                <div className="flex items-center gap-2">
-                  <Filter className="w-4 h-4 text-primary" />
-                  <span className="text-xs font-semibold text-foreground">MF Screener</span>
-                  <Badge variant="secondary" className="text-[9px]">DIRECT ONLY</Badge>
-                </div>
-
-                {/* Asset Class */}
+              <div className="p-3 sm:p-4 rounded-lg border border-border bg-muted/30 space-y-3">
+                {/* Row 1: Asset Class chips */}
                 <div className="space-y-1.5">
                   <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Asset Class</Label>
                   <div className="flex gap-1.5 flex-wrap">
@@ -210,7 +253,7 @@ export function SmartFundSearch({
                       <Badge
                         key={ac}
                         variant={assetClass === ac ? 'default' : 'outline'}
-                        className="cursor-pointer text-[11px] px-2.5 py-1"
+                        className="cursor-pointer text-[10px] sm:text-[11px] px-2 py-0.5 sm:px-2.5 sm:py-1"
                         onClick={() => {
                           setAssetClass(assetClass === ac ? undefined : ac);
                           setCategory(undefined);
@@ -222,57 +265,72 @@ export function SmartFundSearch({
                   </div>
                 </div>
 
-                {/* Sub-categories */}
-                {assetClass && availableCategories.length > 0 && (
-                  <div className="space-y-1.5">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      {assetClass} Categories
-                    </Label>
-                    <Select value={category || '__all__'} onValueChange={v => setCategory(v === '__all__' ? undefined : v)}>
-                      <SelectTrigger className="text-sm h-9">
-                        <SelectValue placeholder={`All ${assetClass} Categories`} />
+                {/* Row 2: Category + Market Cap + Sector dropdowns */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {/* Sub-category */}
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Category</Label>
+                    <Select
+                      value={category || '__all__'}
+                      onValueChange={v => setCategory(v === '__all__' ? undefined : v)}
+                    >
+                      <SelectTrigger className="text-xs h-8">
+                        <SelectValue placeholder="All" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="__all__">All Categories</SelectItem>
-                        {availableCategories.map(c => (
+                        {(assetClass ? getCategoriesForAssetClass(assetClass) : [...EQUITY_CATEGORIES, ...DEBT_CATEGORIES, ...HYBRID_CATEGORIES]).map(c => (
                           <SelectItem key={c} value={c}>{c}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
-                )}
 
-                {/* Market Cap */}
-                {(!assetClass || assetClass === 'Equity') && (
-                  <div className="space-y-1.5">
+                  {/* Market Cap */}
+                  <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Market Cap</Label>
-                    <div className="flex gap-1.5 flex-wrap">
-                      {MARKET_CAPS.map(mc => (
-                        <Badge
-                          key={mc}
-                          variant={marketCap === mc ? 'default' : 'outline'}
-                          className="cursor-pointer text-[11px] px-2.5 py-1"
-                          onClick={() => setMarketCap(marketCap === mc ? undefined : mc)}
-                        >
-                          {mc}
-                        </Badge>
-                      ))}
-                    </div>
+                    <Select
+                      value={marketCap || '__all__'}
+                      onValueChange={v => setMarketCap(v === '__all__' ? undefined : v as MarketCap)}
+                    >
+                      <SelectTrigger className="text-xs h-8">
+                        <SelectValue placeholder="All" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__all__">All Caps</SelectItem>
+                        {MARKET_CAPS.map(mc => (
+                          <SelectItem key={mc} value={mc}>{mc}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                )}
 
-                {/* Expense Ratio & Fund House */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Max Exp % <span className="text-primary font-bold">{maxExpenseRatio.toFixed(1)}%</span>
-                    </Label>
-                    <Slider value={[maxExpenseRatio]} onValueChange={v => setMaxExpenseRatio(v[0])} min={0} max={5} step={0.1} />
+                  {/* Sector */}
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Sector</Label>
+                    <Select
+                      value={sector || '__all__'}
+                      onValueChange={v => setSector(v === '__all__' ? undefined : v)}
+                    >
+                      <SelectTrigger className="text-xs h-8">
+                        <SelectValue placeholder="All" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__all__">All Sectors</SelectItem>
+                        {SECTORS.map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div className="space-y-1.5">
+                </div>
+
+                {/* Row 3: Fund House + Expense Ratio */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Fund House</Label>
                     <Select value={amc || '__all__'} onValueChange={v => setAmc(v === '__all__' ? undefined : v)}>
-                      <SelectTrigger className="text-xs h-9">
+                      <SelectTrigger className="text-xs h-8">
                         <SelectValue placeholder="All AMCs" />
                       </SelectTrigger>
                       <SelectContent>
@@ -283,28 +341,40 @@ export function SmartFundSearch({
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Max Expense <span className="text-primary font-bold">{maxExpenseRatio.toFixed(1)}%</span>
+                    </Label>
+                    <Slider value={[maxExpenseRatio]} onValueChange={v => setMaxExpenseRatio(v[0])} min={0} max={5} step={0.1} />
+                  </div>
                 </div>
 
-                {/* Returns sliders */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
+                {/* Row 4: Returns sliders — 1Y, 3Y, 5Y */}
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Min 1Y Ret % <span className="text-primary font-bold">{minReturns1Y}%</span>
+                      Min 1Y <span className="text-primary font-bold">{minReturns1Y}%</span>
                     </Label>
                     <Slider value={[minReturns1Y]} onValueChange={v => setMinReturns1Y(v[0])} min={0} max={50} step={1} />
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Min 3Y Ret % <span className="text-primary font-bold">{minReturns3Y}%</span>
+                      Min 3Y <span className="text-primary font-bold">{minReturns3Y}%</span>
                     </Label>
                     <Slider value={[minReturns3Y]} onValueChange={v => setMinReturns3Y(v[0])} min={0} max={50} step={1} />
                   </div>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Min 5Y <span className="text-primary font-bold">{minReturns5Y}%</span>
+                    </Label>
+                    <Slider value={[minReturns5Y]} onValueChange={v => setMinReturns5Y(v[0])} min={0} max={50} step={1} />
+                  </div>
                 </div>
 
-                {/* Clear */}
+                {/* Clear all */}
                 {activeFilterCount > 0 && (
-                  <Button variant="ghost" size="sm" className="text-xs" onClick={clearFilters}>
-                    <X className="w-3 h-3 mr-1" /> Clear All Filters
+                  <Button variant="ghost" size="sm" className="text-xs w-full" onClick={clearFilters}>
+                    <X className="w-3 h-3 mr-1" /> Clear All Filters ({activeFilterCount})
                   </Button>
                 )}
               </div>
@@ -313,21 +383,19 @@ export function SmartFundSearch({
         </>
       )}
 
-      {/* ── AI Screener Mode ── */}
+      {/* AI Screener Mode */}
       {mode === 'ai' && (
         <div className="space-y-3">
-          <div className="p-3 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 space-y-2">
+          <div className="p-3 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 space-y-1">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-xs font-semibold text-foreground">AI-Powered Fund Discovery</span>
-              <Badge variant="secondary" className="text-[9px]">BETA</Badge>
             </div>
             <p className="text-[11px] text-muted-foreground leading-relaxed">
-              Describe what you're looking for in plain language. The AI will find matching funds for you.
+              Describe what you're looking for in plain language.
             </p>
           </div>
 
-          {/* AI Query input + submit button */}
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Sparkles className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/50" />
@@ -345,15 +413,10 @@ export function SmartFundSearch({
               size="default"
               className="bg-gradient-to-r from-primary to-primary/80 shrink-0"
             >
-              {aiLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Send className="w-4 h-4" />
-              )}
+              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
 
-          {/* Quick suggestions */}
           {!aiQuery && !aiResults?.length && (
             <div className="space-y-1.5">
               <p className="text-[10px] text-muted-foreground">Try these:</p>
@@ -363,7 +426,7 @@ export function SmartFundSearch({
                   'Safe debt funds for emergency corpus',
                   'Best SIP options for retirement planning',
                   'High return small cap with 5-star rating',
-                ].map((suggestion) => (
+                ].map(suggestion => (
                   <Badge
                     key={suggestion}
                     variant="outline"
@@ -377,7 +440,6 @@ export function SmartFundSearch({
             </div>
           )}
 
-          {/* AI cost notice */}
           <p className="text-[10px] text-muted-foreground flex items-center gap-1">
             <ToggleLeft className="w-3 h-3" />
             Each AI query uses 1 credit. Switch to Search & Filter for unlimited free searches.
@@ -385,20 +447,19 @@ export function SmartFundSearch({
         </div>
       )}
 
-      {/* ── Results ── */}
+      {/* Results */}
       <div className="flex items-center justify-between">
         <p className="text-[10px] text-muted-foreground">
           {mode === 'ai' && !aiResults
             ? 'Submit a query to see results'
-            : `${displayedFunds.length} fund${displayedFunds.length !== 1 ? 's' : ''} found`
-          }
+            : `${displayedFunds.length} fund${displayedFunds.length !== 1 ? 's' : ''} found`}
         </p>
         {mode === 'conventional' && activeFilterCount > 0 && (
           <button onClick={clearFilters} className="text-[10px] text-primary hover:underline">Reset filters</button>
         )}
       </div>
 
-      {/* Fund list — only show for conventional (always) or AI (after results) */}
+      {/* Fund list — unified for both modes */}
       {(mode === 'conventional' || (mode === 'ai' && aiResults)) && (
         <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
           {displayedFunds.length === 0 ? (
@@ -410,37 +471,18 @@ export function SmartFundSearch({
               </p>
             </div>
           ) : (
-            displayedFunds.map(fund => (
-              <button
-                key={fund.code}
-                onClick={() => onSelectFund?.(fund)}
-                className={cn(
-                  'w-full text-left p-3 rounded-lg border border-border transition-all hover:border-primary/40 hover:bg-primary/5',
-                  !onSelectFund && 'cursor-default'
-                )}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-foreground truncate">{fund.name}</p>
-                    <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                      <Badge variant="secondary" className="text-[9px] px-1.5 py-0">{fund.assetClass}</Badge>
-                      <Badge variant="outline" className="text-[9px] px-1.5 py-0">{fund.category}</Badge>
-                      <span className="text-[10px] text-muted-foreground">Exp {fund.expenseRatio}%</span>
-                      <span className="text-[10px] text-yellow-600">{'★'.repeat(fund.rating)}</span>
-                    </div>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[10px] text-muted-foreground">NAV ₹{fund.nav}</span>
-                      <span className="text-[10px] text-green-600">1Y: {fund.returns1Y}%</span>
-                      <span className="text-[10px] text-green-700">3Y: {fund.returns3Y}%</span>
-                    </div>
-                  </div>
-                  {onSelectFund && <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />}
-                </div>
-              </button>
-            ))
+            displayedFunds.map(fund => renderFundCard(fund))
           )}
         </div>
       )}
+
+      {/* Fund Detail Sheet */}
+      <FundDetailSheet
+        fund={detailFund}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        onInvest={onSelectFund ? handleInvestFromDetail : undefined}
+      />
     </div>
   );
 }

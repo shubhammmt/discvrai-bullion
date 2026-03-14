@@ -22,6 +22,8 @@ export interface MFScreenerFilters {
   maxExpenseRatio?: number;
   minReturns1Y?: number;
   minReturns3Y?: number;
+  minReturns5Y?: number;
+  sector?: string;
   amc?: string;
 }
 
