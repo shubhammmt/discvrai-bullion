@@ -41,9 +41,9 @@ const ACTION_CHIPS: { label: string; emoji: string; tab?: string; prompt?: strin
 ];
 
 const WELCOME_MESSAGES: Record<string, string> = {
-  anonymous: "Hi there! 👋 I am your MF buddy. I can help you in following:",
-  logged_in_no_holdings: "Welcome! 👋 I am your MF buddy. I can help you in following:",
-  investor: "Hi INVESTOR! 👋 I am your MF buddy. I can help you in following:",
+  anonymous: "Hi there! 👋 I am your Wealth Copilot. I can help you in following:",
+  logged_in_no_holdings: "Welcome! 👋 I am your Wealth Copilot. I can help you in following:",
+  investor: "Hi Shubham! 👋 I am your Wealth Copilot. I can help you in following:",
 };
 
 const MOCK_RESPONSES: Record<string, ChatMessage> = {
