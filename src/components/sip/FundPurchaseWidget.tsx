@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { TransactionSuccess } from './TransactionSuccess';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
@@ -94,26 +95,26 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
 
   if (isComplete) {
     return (
-      <Card className="border-green-200 bg-green-50/50 dark:bg-green-950/20 dark:border-green-800">
-        <CardContent className="py-8 text-center space-y-3">
-          <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
-          <h3 className="text-lg font-semibold text-foreground">
-            {mode === 'sip' ? 'SIP Created' : 'Purchase Order Placed'}
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            ₹{amount.toLocaleString()} {mode === 'sip' ? `${frequency} SIP` : 'one-time'} in {selectedFund?.name}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Est. {estimatedUnits} units @ NAV ₹{selectedFund?.nav}
-          </p>
-          <Button variant="outline" size="sm" className="mt-4" onClick={() => {
-            setIsComplete(false);
-            setStep('fund');
-            setSelectedFund(null);
-            setMode('sip');
-          }}>
-            New Purchase
-          </Button>
+      <Card className="overflow-hidden">
+        <CardContent className="pt-4">
+          <TransactionSuccess
+            type={mode}
+            fundName={selectedFund?.name || ''}
+            amount={amount}
+            units={estimatedUnits}
+            nav={selectedFund?.nav}
+            frequency={frequency}
+            startDate={startDate}
+            stepUpPercent={stepUpPercent}
+            bankMandate={bankMandate}
+            goalTag={goalTag}
+            onNewPurchase={() => {
+              setIsComplete(false);
+              setStep('fund');
+              setSelectedFund(null);
+              setMode('sip');
+            }}
+          />
         </CardContent>
       </Card>
     );
