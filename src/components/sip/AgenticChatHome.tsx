@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Send, Sparkles, TrendingUp, Calculator, Target, Search,
@@ -6,27 +6,31 @@ import {
   MessageSquarePlus, Wallet, CheckSquare, Compass
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
+import { AuthUser } from '@/components/sip/OTPLoginDialog';
 
 interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
-  actions?: { label: string; tab?: string; icon?: typeof TrendingUp }[];
+  agentsUsed?: string[];
 }
 
 interface AgenticChatHomeProps {
   userState: 'anonymous' | 'logged_in_no_holdings' | 'investor';
   onNavigateTab: (tab: string) => void;
   userName?: string;
+  authUser?: AuthUser | null;
 }
 
-// Action chips matching the reference screenshot layout
+const CHAT_API_URL = 'https://agentapi.discvr.ai/webhook/bd9626e9-20de-49dd-a4da-0d9c6c5555d6';
+
 const ACTION_CHIPS: { label: string; emoji: string; tab?: string; prompt?: string }[][] = [
   [
     { label: 'Ask me anything', emoji: '✨', prompt: 'What can you help me with?' },
     { label: 'Plan for Goals', emoji: '🎯', tab: 'goals' },
-    { label: 'Advise on my Portfolio', emoji: '📊', tab: 'portfolio' },
+    { label: 'Advise on my Portfolio', emoji: '📊', prompt: 'Advise on my portfolio' },
   ],
   [
     { label: 'Explore Funds', emoji: '🔍', tab: 'screener' },
@@ -35,8 +39,8 @@ const ACTION_CHIPS: { label: string; emoji: string; tab?: string; prompt?: strin
   ],
   [
     { label: 'Statements', emoji: '📄', tab: 'statements' },
-    { label: 'I want to Invest', emoji: '💰', tab: 'buy' },
-    { label: 'KYC Complete', emoji: '✅' },
+    { label: 'I want to Invest', emoji: '💰', prompt: 'I want to invest' },
+    { label: 'KYC Complete', emoji: '✅', prompt: 'Is my KYC complete?' },
   ],
 ];
 
@@ -46,74 +50,78 @@ const WELCOME_MESSAGES: Record<string, string> = {
   investor: "Hi Shubham! 👋 I am your Wealth Copilot. I can help you in following:",
 };
 
-const MOCK_RESPONSES: Record<string, ChatMessage> = {
-  'top performing': {
-    id: 'r1', role: 'assistant', timestamp: new Date(),
-    content: "Here are the **top performing equity funds** this year:\n\n1. 🏆 **Quant Small Cap Fund** — +42.3% (1Y)\n2. **Nippon India Small Cap** — +38.1% (1Y)\n3. **HDFC Mid-Cap Opportunities** — +31.5% (1Y)\n\nWould you like me to compare any of these, or start a SIP?",
-    actions: [
-      { label: 'Start SIP', tab: 'buy', icon: ShoppingCart },
-      { label: 'Compare Funds', tab: 'screener', icon: Search },
-    ],
-  },
-  'invest': {
-    id: 'r2', role: 'assistant', timestamp: new Date(),
-    content: "Great choice! 🚀 Starting a SIP is the best way to begin.\n\nBased on a ₹1,000/month budget, I'd recommend:\n\n• **Nifty 50 Index Fund** — Low cost, diversified (ER: 0.1%)\n• **Parag Parikh Flexi Cap** — Top-rated multi-cap (★★★★★)\n\nShall I set one up for you?",
-    actions: [
-      { label: 'Invest Now', tab: 'buy', icon: ShoppingCart },
-      { label: 'Use Calculator', tab: 'calculator', icon: Calculator },
-    ],
-  },
-  'portfolio': {
-    id: 'r3', role: 'assistant', timestamp: new Date(),
-    content: "📊 **Portfolio Summary**\n\n• Total Value: **₹4,85,200** (+12.4% overall)\n• Monthly SIPs: **₹15,000** across 4 funds\n• Best performer: **Quant Small Cap** (+28.3%)\n• Needs attention: **Aditya Birla Tax Relief** (underperforming benchmark)\n\nI can help you rebalance or switch underperformers.",
-    actions: [
-      { label: 'View Portfolio', tab: 'portfolio', icon: TrendingUp },
-      { label: 'Manage SIPs', tab: 'manage' },
-    ],
-  },
-  'default': {
-    id: 'rd', role: 'assistant', timestamp: new Date(),
-    content: "Great question! Let me look into that.\n\nBased on current market conditions, I'd recommend exploring our **fund screener** for personalized results, or I can help with **goal planning** to find the right strategy.",
-    actions: [
-      { label: 'Explore Funds', tab: 'screener', icon: Search },
-      { label: 'Plan Goals', tab: 'goals', icon: Target },
-    ],
-  },
-};
-
-function getAIResponse(input: string): ChatMessage {
-  const lower = input.toLowerCase();
-  if (lower.includes('top') || lower.includes('performing') || lower.includes('best'))
-    return { ...MOCK_RESPONSES['top performing'], id: `r-${Date.now()}`, timestamp: new Date() };
-  if (lower.includes('sip') || lower.includes('start') || lower.includes('invest'))
-    return { ...MOCK_RESPONSES['invest'], id: `r-${Date.now()}`, timestamp: new Date() };
-  if (lower.includes('portfolio') || lower.includes('holding') || lower.includes('advise'))
-    return { ...MOCK_RESPONSES['portfolio'], id: `r-${Date.now()}`, timestamp: new Date() };
-  return { ...MOCK_RESPONSES['default'], id: `r-${Date.now()}`, timestamp: new Date() };
+function generateThreadId() {
+  return crypto.randomUUID();
 }
 
-export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticChatHomeProps) {
+export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }: AgenticChatHomeProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showChips, setShowChips] = useState(true);
+  const [threadId, setThreadId] = useState(generateThreadId);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Reset when user state changes
   useEffect(() => {
-    setMessages([{ id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() }]);
+    const welcome = authUser?.name
+      ? `Hi ${authUser.name.split(' ')[0]}! 👋 I am your Wealth Copilot. I can help you in following:`
+      : WELCOME_MESSAGES[userState];
+    setMessages([{ id: 'welcome', role: 'assistant', content: welcome, timestamp: new Date() }]);
     setShowChips(true);
-  }, [userState]);
+    setThreadId(generateThreadId());
+  }, [userState, authUser?.id]);
 
-  const handleSend = (text?: string) => {
+  const getSessionContext = useCallback(() => {
+    try {
+      const session = localStorage.getItem('discvr_session');
+      const parsed = session ? JSON.parse(session) : null;
+      return {
+        user_id: authUser?.id || 'anonymous',
+        session_id: parsed?.session_id || 'demo',
+        thread_id: threadId,
+      };
+    } catch {
+      return { user_id: 'anonymous', session_id: 'demo', thread_id: threadId };
+    }
+  }, [authUser, threadId]);
+
+  const sendToAPI = useCallback(async (message: string): Promise<ChatMessage> => {
+    const context = getSessionContext();
+    try {
+      const res = await fetch(CHAT_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, thread_id: threadId, context }),
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const data = await res.json();
+      return {
+        id: `r-${Date.now()}`,
+        role: 'assistant',
+        content: data.message || 'Sorry, I could not process that. Please try again.',
+        timestamp: new Date(),
+        agentsUsed: data.agents_used,
+      };
+    } catch (err) {
+      console.error('Chat API error:', err);
+      return {
+        id: `r-${Date.now()}`,
+        role: 'assistant',
+        content: 'Sorry, I\'m having trouble connecting right now. Please try again in a moment.',
+        timestamp: new Date(),
+      };
+    }
+  }, [getSessionContext, threadId]);
+
+  const handleSend = async (text?: string) => {
     const msg = text || input.trim();
-    if (!msg) return;
+    if (!msg || isTyping) return;
 
     setShowChips(false);
     const userMsg: ChatMessage = { id: `u-${Date.now()}`, role: 'user', content: msg, timestamp: new Date() };
@@ -121,10 +129,9 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
     setInput('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, getAIResponse(msg)]);
-      setIsTyping(false);
-    }, 600 + Math.random() * 600);
+    const response = await sendToAPI(msg);
+    setMessages(prev => [...prev, response]);
+    setIsTyping(false);
   };
 
   const handleChipClick = (chip: typeof ACTION_CHIPS[0][0]) => {
@@ -133,6 +140,15 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
     } else if (chip.prompt) {
       handleSend(chip.prompt);
     }
+  };
+
+  const handleNewChat = () => {
+    const welcome = authUser?.name
+      ? `Hi ${authUser.name.split(' ')[0]}! 👋 I am your Wealth Copilot. I can help you in following:`
+      : WELCOME_MESSAGES[userState];
+    setMessages([{ id: 'welcome', role: 'assistant', content: welcome, timestamp: new Date() }]);
+    setShowChips(true);
+    setThreadId(generateThreadId());
   };
 
   return (
@@ -149,15 +165,14 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[9px] text-muted-foreground font-mono">THREAD: {Math.random().toString(16).slice(2, 10).toUpperCase()}</span>
+          <span className="text-[9px] text-muted-foreground font-mono">
+            {threadId.slice(0, 8).toUpperCase()}
+          </span>
           <Button
             variant="ghost"
             size="sm"
             className="h-7 text-[10px] gap-1 text-primary"
-            onClick={() => {
-              setMessages([{ id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() }]);
-              setShowChips(true);
-            }}
+            onClick={handleNewChat}
           >
             <MessageSquarePlus className="w-3 h-3" /> NEW CHAT
           </Button>
@@ -180,27 +195,20 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
                   ? 'bg-primary text-primary-foreground rounded-tr-sm'
                   : 'bg-muted/60 border border-border text-foreground rounded-tl-sm'
               )}>
-                {msg.content.split('\n').map((line, i) => (
-                  <p key={i} className={i > 0 ? 'mt-1.5' : ''}>
-                    {line.split(/\*\*(.*?)\*\*/g).map((part, j) =>
-                      j % 2 === 1 ? <strong key={j}>{part}</strong> : part
-                    )}
-                  </p>
-                ))}
+                {msg.role === 'assistant' ? (
+                  <div className="prose prose-sm dark:prose-invert max-w-none [&>p]:mb-1.5 [&>p:last-child]:mb-0 [&>ul]:mt-1 [&>ol]:mt-1">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                ) : (
+                  <span>{msg.content}</span>
+                )}
               </div>
-              {msg.actions && (
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {msg.actions.map(action => (
-                    <Button
-                      key={action.label}
-                      variant="outline"
-                      size="sm"
-                      className="h-7 text-xs gap-1 border-primary/30 text-primary hover:bg-primary/10"
-                      onClick={() => action.tab && onNavigateTab(action.tab)}
-                    >
-                      {action.icon && <action.icon className="w-3 h-3" />}
-                      {action.label}
-                    </Button>
+              {msg.agentsUsed && msg.agentsUsed.length > 0 && (
+                <div className="flex gap-1 mt-1">
+                  {msg.agentsUsed.map(a => (
+                    <span key={a} className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary font-mono">
+                      {a}
+                    </span>
                   ))}
                 </div>
               )}
@@ -226,7 +234,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Action Chips — Grid layout like the reference */}
+      {/* Action Chips */}
       {showChips && (
         <div className="space-y-2 py-3">
           {ACTION_CHIPS.map((row, ri) => (
@@ -267,7 +275,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName }: AgenticC
                 : 'text-muted-foreground hover:bg-muted'
             )}
             onClick={() => handleSend()}
-            disabled={!input.trim()}
+            disabled={!input.trim() || isTyping}
           >
             <Send className="w-4 h-4" />
           </Button>

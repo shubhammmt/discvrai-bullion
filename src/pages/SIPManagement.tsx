@@ -157,7 +157,7 @@ const SIPManagement = () => {
             {/* Agentic AI Chat — The Hero */}
             <Card className="overflow-hidden border-primary/20">
               <CardContent className="p-4">
-                <AgenticChatHome userState={userState} onNavigateTab={setActiveTab} />
+                <AgenticChatHome userState={userState} onNavigateTab={setActiveTab} authUser={authUser} />
               </CardContent>
             </Card>
 
