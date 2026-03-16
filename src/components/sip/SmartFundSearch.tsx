@@ -37,6 +37,23 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 const RISK_ORDER: Record<string, number> = { 'Low': 1, 'Moderate': 2, 'High': 3, 'Very High': 4 };
 
+function mapCategoryToAssetClass(cat?: string): AssetClass {
+  if (!cat) return 'Equity';
+  const lower = cat.toLowerCase();
+  if (lower.includes('debt') || lower.includes('liquid') || lower.includes('gilt') || lower.includes('bond')) return 'Debt';
+  if (lower.includes('hybrid') || lower.includes('balanced') || lower.includes('arbitrage')) return 'Hybrid';
+  return 'Equity';
+}
+
+function mapRiskLevel(risk?: string): 'Low' | 'Moderate' | 'High' | 'Very High' {
+  if (!risk) return 'Moderate';
+  const lower = risk.toLowerCase();
+  if (lower.includes('very high')) return 'Very High';
+  if (lower.includes('high')) return 'High';
+  if (lower.includes('low')) return 'Low';
+  return 'Moderate';
+}
+
 const ITEMS_PER_PAGE = 10;
 
 export interface SmartFundSearchProps {
