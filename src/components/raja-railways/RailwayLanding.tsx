@@ -11,7 +11,7 @@ export const RailwayLanding: React.FC<RailwayLandingProps> = ({ onStart }) => {
   return (
     <div className="h-screen bg-[#0c1a3a] flex items-center justify-center relative overflow-hidden">
       {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.04]" style={{
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{
         backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
         backgroundSize: '80px 80px'
       }} />
