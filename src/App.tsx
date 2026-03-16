@@ -187,7 +187,8 @@ const AppContent = () => {
                        location.pathname === '/demo/nbfc-collections' ||
                        location.pathname === '/demo/nbfc-kyc' ||
                        location.pathname === '/demo/nbfc-alt-credit' ||
-                       location.pathname === '/dashboard/adf-ceo-sales';
+                       location.pathname === '/dashboard/adf-ceo-sales' ||
+                       location.pathname.startsWith('/embed/');
   return (
     <>
       <Routes>
