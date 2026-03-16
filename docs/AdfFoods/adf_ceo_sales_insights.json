@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-09T17:02:26.646744",
+  "lastUpdated": "2026-03-16T13:13:41.849792",
   "source": "CEO_Sales_Analytics_9M FY26.xlsx",
   "currency": "INR",
   "unit": "Lakhs",
@@ -94,7 +94,7 @@
         "name": "TAMARIND",
         "value9M": 991.15,
         "growth9MPct": 152.2,
-        "growthQ3Pct": 3.4,
+        "growthQ3Pct": 335.7,
         "signal": "🚀 Strong Grow"
       }
     ],
@@ -145,7 +145,7 @@
         "name": "KHANSAAMA BRAND",
         "value9M": 164.99,
         "growth9MPct": 79.0,
-        "growthQ3Pct": 4.4,
+        "growthQ3Pct": 437.0,
         "signal": "🚀 Strong Grow"
       },
       {
@@ -154,6 +154,44 @@
         "growth9MPct": -45.3,
         "growthQ3Pct": 5.4,
         "signal": "🔻 Degrow"
+      }
+    ],
+    "regionSignals": [
+      {
+        "region": "NORTH AMERICA",
+        "value9M": 18887.87,
+        "growth9MPct": 22.1,
+        "growthQ3Pct": 33.2
+      },
+      {
+        "region": "UNITED KINGDOM",
+        "value9M": 5313.57,
+        "growth9MPct": -6.0,
+        "growthQ3Pct": -9.4
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "value9M": 5148.5,
+        "growth9MPct": 6.8,
+        "growthQ3Pct": 32.3
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "value9M": 3283.98,
+        "growth9MPct": -2.9,
+        "growthQ3Pct": 17.9
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "value9M": 2152.3,
+        "growth9MPct": -7.1,
+        "growthQ3Pct": -22.8
+      },
+      {
+        "region": "INDIA",
+        "value9M": 142.45,
+        "growth9MPct": -62.7,
+        "growthQ3Pct": -70.4
       }
     ]
   },
@@ -165,6 +203,7 @@
         "q3Ebitda": 2791.34,
         "q3EbitdaPct": 20.3,
         "q3Pbt": 2742.52,
+        "q3PbtPct": 20.0,
         "q3Pat": 2061.88,
         "ytdRevenue": 37764.81,
         "ytdEbitda": 8806.9,
@@ -177,6 +216,7 @@
         "q3Ebitda": 9.45,
         "q3EbitdaPct": -0.4,
         "q3Pbt": -11.29,
+        "q3PbtPct": 0.5,
         "q3Pat": -6.68,
         "ytdRevenue": -6469.44,
         "ytdEbitda": -354.18,
@@ -189,6 +229,7 @@
         "q3Ebitda": -0.55,
         "q3EbitdaPct": 0.0,
         "q3Pbt": 0.52,
+        "q3PbtPct": 0,
         "q3Pat": 0.49,
         "ytdRevenue": 0.0,
         "ytdEbitda": -1.17,
@@ -201,6 +242,7 @@
         "q3Ebitda": -167.11,
         "q3EbitdaPct": -184.1,
         "q3Pbt": -165.67,
+        "q3PbtPct": -182.5,
         "q3Pat": -124.56,
         "ytdRevenue": 291.64,
         "ytdEbitda": -537.69,
@@ -213,6 +255,7 @@
         "q3Ebitda": -54.68,
         "q3EbitdaPct": -62.9,
         "q3Pbt": -53.59,
+        "q3PbtPct": -61.6,
         "q3Pat": -53.59,
         "ytdRevenue": 179.42,
         "ytdEbitda": -53.85,
@@ -225,6 +268,7 @@
         "q3Ebitda": 155.7,
         "q3EbitdaPct": 18.2,
         "q3Pbt": 156.3,
+        "q3PbtPct": 18.3,
         "q3Pat": 110.57,
         "ytdRevenue": 2385.2,
         "ytdEbitda": 415.63,
@@ -237,6 +281,7 @@
         "q3Ebitda": 781.49,
         "q3EbitdaPct": 11.3,
         "q3Pbt": 513.2,
+        "q3PbtPct": 7.4,
         "q3Pat": 518.53,
         "ytdRevenue": 14075.38,
         "ytdEbitda": 1942.45,
@@ -249,6 +294,7 @@
         "q3Ebitda": -244.62,
         "q3EbitdaPct": -17.0,
         "q3Pbt": -252.86,
+        "q3PbtPct": -17.6,
         "q3Pat": -252.86,
         "ytdRevenue": 2323.73,
         "ytdEbitda": -627.94,
@@ -261,6 +307,7 @@
         "q3Ebitda": -180.02,
         "q3EbitdaPct": -6.8,
         "q3Pbt": -175.46,
+        "q3PbtPct": -6.7,
         "q3Pat": -175.46,
         "ytdRevenue": 5790.39,
         "ytdEbitda": -544.87,
@@ -273,6 +320,7 @@
         "q3Ebitda": -33.96,
         "q3EbitdaPct": 0.8,
         "q3Pbt": -34.82,
+        "q3PbtPct": 0.8,
         "q3Pat": -33.02,
         "ytdRevenue": -7691.06,
         "ytdEbitda": -59.0,
@@ -285,6 +333,7 @@
         "q3Ebitda": 3057.06,
         "q3EbitdaPct": 16.0,
         "q3Pbt": 2718.85,
+        "q3PbtPct": 14.2,
         "q3Pat": 2045.29,
         "ytdRevenue": 48650.06,
         "ytdEbitda": 8986.28,
@@ -299,7 +348,12 @@
         "cif9MFy26": 20632.41,
         "pricePerKg": 266.87,
         "marginPct": 68.9,
-        "marginPctPy": 69.3
+        "marginPctPy": 69.3,
+        "cogsPerKg": 0.83,
+        "marginRs": 14225.68,
+        "kgs9MFy25": 7157.06,
+        "cif9MFy25": 18228.98,
+        "pricePerKgPy": 254.7
       },
       {
         "category": "CHUTNEY",
@@ -307,7 +361,12 @@
         "cif9MFy26": 3446.21,
         "pricePerKg": 145.31,
         "marginPct": 56.7,
-        "marginPctPy": 53.0
+        "marginPctPy": 53.0,
+        "cogsPerKg": 0.63,
+        "marginRs": 1953.8,
+        "kgs9MFy25": 3152.88,
+        "cif9MFy25": 4089.74,
+        "pricePerKgPy": 129.71
       },
       {
         "category": "READY TO EAT",
@@ -315,7 +374,12 @@
         "cif9MFy26": 3985.16,
         "pricePerKg": 240.4,
         "marginPct": 57.8,
-        "marginPctPy": 52.6
+        "marginPctPy": 52.6,
+        "cogsPerKg": 1.01,
+        "marginRs": 2304.89,
+        "kgs9MFy25": 1606.75,
+        "cif9MFy25": 3698.21,
+        "pricePerKgPy": 230.17
       },
       {
         "category": "PICKLES",
@@ -323,7 +387,12 @@
         "cif9MFy26": 2517.3,
         "pricePerKg": 161.96,
         "marginPct": 47.8,
-        "marginPctPy": 41.9
+        "marginPctPy": 41.9,
+        "cogsPerKg": 0.84,
+        "marginRs": 1204.1,
+        "kgs9MFy25": 1916.87,
+        "cif9MFy25": 2912.63,
+        "pricePerKgPy": 151.95
       },
       {
         "category": "OTHERS",
@@ -331,7 +400,12 @@
         "cif9MFy26": 993.42,
         "pricePerKg": 165.53,
         "marginPct": 23.4,
-        "marginPctPy": 29.5
+        "marginPctPy": 29.5,
+        "cogsPerKg": 1.27,
+        "marginRs": 232.09,
+        "kgs9MFy25": 256.95,
+        "cif9MFy25": 561.2,
+        "pricePerKgPy": 218.41
       },
       {
         "category": "PASTE & SAUCES",
@@ -339,7 +413,12 @@
         "cif9MFy26": 1352.35,
         "pricePerKg": 252.46,
         "marginPct": 55.9,
-        "marginPctPy": 48.8
+        "marginPctPy": 48.8,
+        "cogsPerKg": 1.11,
+        "marginRs": 755.46,
+        "kgs9MFy25": 581.48,
+        "cif9MFy25": 1420.38,
+        "pricePerKgPy": 244.27
       },
       {
         "category": "TAMARIND",
@@ -347,7 +426,12 @@
         "cif9MFy26": 991.15,
         "pricePerKg": 205.68,
         "marginPct": 34.9,
-        "marginPctPy": 44.8
+        "marginPctPy": 44.8,
+        "cogsPerKg": 1.34,
+        "marginRs": 346.11,
+        "kgs9MFy25": 254.28,
+        "cif9MFy25": 393.02,
+        "pricePerKgPy": 154.57
       },
       {
         "category": "SPICES",
@@ -355,7 +439,25 @@
         "cif9MFy26": 1010.69,
         "pricePerKg": 265.73,
         "marginPct": 34.9,
-        "marginPctPy": 37.2
+        "marginPctPy": 37.2,
+        "cogsPerKg": 1.73,
+        "marginRs": 352.89,
+        "kgs9MFy25": 263.07,
+        "cif9MFy25": 728.12,
+        "pricePerKgPy": 276.78
+      },
+      {
+        "category": "Grand Total",
+        "kgs9MFy26": 15312.88,
+        "cif9MFy26": 34928.68,
+        "cogsPerKg": 0.89,
+        "marginRs": 21375.01,
+        "pricePerKg": 228.1,
+        "marginPct": 61.2,
+        "kgs9MFy25": 15189.33,
+        "cif9MFy25": 32032.29,
+        "pricePerKgPy": 210.89,
+        "marginPctPy": 60.2
       }
     ]
   },
@@ -372,6 +474,7 @@
         "volGrPct": 8.0,
         "valCy": 20632.41,
         "valPy": 18228.98,
+        "netValue": 20632.41,
         "valGrPct": 13.2,
         "pricePerKgCy": 266.87,
         "pricePerKgPy": 254.7,
@@ -386,6 +489,7 @@
         "volGrPct": -24.8,
         "valCy": 3446.21,
         "valPy": 4089.74,
+        "netValue": 3446.21,
         "valGrPct": -15.7,
         "pricePerKgCy": 145.31,
         "pricePerKgPy": 129.71,
@@ -400,6 +504,7 @@
         "volGrPct": 3.2,
         "valCy": 3985.16,
         "valPy": 3698.21,
+        "netValue": 3985.16,
         "valGrPct": 7.8,
         "pricePerKgCy": 240.4,
         "pricePerKgPy": 230.17,
@@ -414,6 +519,7 @@
         "volGrPct": -18.9,
         "valCy": 2517.3,
         "valPy": 2912.63,
+        "netValue": 2517.3,
         "valGrPct": -13.6,
         "pricePerKgCy": 161.96,
         "pricePerKgPy": 151.95,
@@ -428,6 +534,7 @@
         "volGrPct": 133.6,
         "valCy": 993.42,
         "valPy": 561.2,
+        "netValue": 993.42,
         "valGrPct": 77.0,
         "pricePerKgCy": 165.53,
         "pricePerKgPy": 218.41,
@@ -442,6 +549,7 @@
         "volGrPct": -7.9,
         "valCy": 1352.35,
         "valPy": 1420.38,
+        "netValue": 1352.35,
         "valGrPct": -4.8,
         "pricePerKgCy": 252.46,
         "pricePerKgPy": 244.27,
@@ -456,6 +564,7 @@
         "volGrPct": 89.5,
         "valCy": 991.15,
         "valPy": 393.02,
+        "netValue": 991.15,
         "valGrPct": 152.2,
         "pricePerKgCy": 205.68,
         "pricePerKgPy": 154.57,
@@ -470,6 +579,7 @@
         "volGrPct": 44.6,
         "valCy": 1010.69,
         "valPy": 728.12,
+        "netValue": 1010.69,
         "valGrPct": 38.8,
         "pricePerKgCy": 265.73,
         "pricePerKgPy": 276.78,
@@ -484,12 +594,69 @@
         "volGrPct": 0.8,
         "valCy": 34928.68,
         "valPy": 32032.29,
+        "netValue": 34928.68,
         "valGrPct": 9.0,
         "pricePerKgCy": 228.1,
         "pricePerKgPy": 210.89,
         "priceDelta": 17.21,
         "valFromVol": 1164.55,
         "valFromPrice": 1566.91
+      }
+    ],
+    "priceRealizationTable": [
+      {
+        "category": "FROZEN FOODS",
+        "pricePerKgCy": 266.87,
+        "pricePerKgPy": 254.7,
+        "priceDelta": 12.17
+      },
+      {
+        "category": "CHUTNEY",
+        "pricePerKgCy": 145.31,
+        "pricePerKgPy": 129.71,
+        "priceDelta": 15.6
+      },
+      {
+        "category": "READY TO EAT",
+        "pricePerKgCy": 240.4,
+        "pricePerKgPy": 230.17,
+        "priceDelta": 10.23
+      },
+      {
+        "category": "PICKLES",
+        "pricePerKgCy": 161.96,
+        "pricePerKgPy": 151.95,
+        "priceDelta": 10.01
+      },
+      {
+        "category": "OTHERS",
+        "pricePerKgCy": 165.53,
+        "pricePerKgPy": 218.41,
+        "priceDelta": -52.88
+      },
+      {
+        "category": "PASTE & SAUCES",
+        "pricePerKgCy": 252.46,
+        "pricePerKgPy": 244.27,
+        "priceDelta": 8.19
+      },
+      {
+        "category": "TAMARIND",
+        "pricePerKgCy": 205.68,
+        "pricePerKgPy": 154.57,
+        "priceDelta": 51.11
+      },
+      {
+        "category": "SPICES",
+        "pricePerKgCy": 265.73,
+        "pricePerKgPy": 276.78,
+        "priceDelta": -11.05
+      },
+      {
+        "category": "TOTAL",
+        "pricePerKgCy": 228.1,
+        "pricePerKgPy": 210.89,
+        "priceDelta": 17.21
       }
     ]
   },
@@ -603,7 +770,7 @@
         "q2Fy25": 233.76,
         "q3Fy25": 85.32,
         "9mFy25": 393.02,
-        "q3GrPct": 3.4,
+        "q3GrPct": 335.7,
         "9mGrPct": 152.2,
         "mixPct": 2.8
       },
@@ -748,20 +915,92 @@
         "q3GrPct": 18.2,
         "9mGrPct": 9.0,
         "mixPct": 100.0
+      }
+    ],
+    "byZone": [
+      {
+        "region": "NORTH AMERICA",
+        "q1Fy26": 3860.71,
+        "q2Fy26": 7831.31,
+        "q3Fy26": 7195.85,
+        "9mFy26": 18887.87,
+        "q1Fy25": 4432.81,
+        "q2Fy25": 5641.06,
+        "q3Fy25": 5400.76,
+        "9mFy25": 15474.62,
+        "q3GrPct": 33.2,
+        "9mGrPct": 22.1,
+        "mixPct": 54.1
       },
       {
-        "brand": "🌍 ZONE-WISE PERFORMANCE",
-        "q1Fy26": 0,
-        "q2Fy26": 0,
-        "q3Fy26": 0,
-        "9mFy26": 0,
-        "q1Fy25": 0,
-        "q2Fy25": 0,
-        "q3Fy25": 0,
-        "9mFy25": 0,
-        "q3GrPct": 0,
-        "9mGrPct": 0,
-        "mixPct": 0
+        "region": "UNITED KINGDOM",
+        "q1Fy26": 1635.73,
+        "q2Fy26": 1897.99,
+        "q3Fy26": 1779.85,
+        "9mFy26": 5313.57,
+        "q1Fy25": 1507.74,
+        "q2Fy25": 2183.66,
+        "q3Fy25": 1964.04,
+        "9mFy25": 5655.45,
+        "q3GrPct": -9.4,
+        "9mGrPct": -6.0,
+        "mixPct": 15.2
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "q1Fy26": 1799.11,
+        "q2Fy26": 1379.06,
+        "q3Fy26": 1970.34,
+        "9mFy26": 5148.5,
+        "q1Fy25": 1433.07,
+        "q2Fy25": 1900.31,
+        "q3Fy25": 1488.94,
+        "9mFy25": 4822.32,
+        "q3GrPct": 32.3,
+        "9mGrPct": 6.8,
+        "mixPct": 14.7
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "q1Fy26": 878.22,
+        "q2Fy26": 991.07,
+        "q3Fy26": 1414.69,
+        "9mFy26": 3283.98,
+        "q1Fy25": 1038.2,
+        "q2Fy25": 1142.79,
+        "q3Fy25": 1200.28,
+        "9mFy25": 3381.27,
+        "q3GrPct": 17.9,
+        "9mGrPct": -2.9,
+        "mixPct": 9.4
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "q1Fy26": 554.71,
+        "q2Fy26": 1004.69,
+        "q3Fy26": 592.9,
+        "9mFy26": 2152.3,
+        "q1Fy25": 611.25,
+        "q2Fy25": 937.27,
+        "q3Fy25": 767.71,
+        "9mFy25": 2316.23,
+        "q3GrPct": -22.8,
+        "9mGrPct": -7.1,
+        "mixPct": 6.2
+      },
+      {
+        "region": "INDIA",
+        "q1Fy26": 59.99,
+        "q2Fy26": 29.56,
+        "q3Fy26": 52.9,
+        "9mFy26": 142.45,
+        "q1Fy25": 120.21,
+        "q2Fy25": 83.74,
+        "q3Fy25": 178.44,
+        "9mFy25": 382.39,
+        "q3GrPct": -70.4,
+        "9mGrPct": -62.7,
+        "mixPct": 0.4
       }
     ]
   },
@@ -850,7 +1089,7 @@
         "9mFy25": 393.02,
         "absDelta": 598.12,
         "9mGrPct": 152.2,
-        "q3GrPct": 3.4,
+        "q3GrPct": 335.7,
         "sharePct": 2.8,
         "cumPct": 100.0,
         "status": "🚀 Strong"
@@ -929,7 +1168,7 @@
         "9mFy25": 92.15,
         "absDelta": 72.84,
         "9mGrPct": 79.0,
-        "q3GrPct": 4.4,
+        "q3GrPct": 437.0,
         "sharePct": 0.5,
         "cumPct": 99.6,
         "status": "🚀 Strong"
@@ -944,16 +1183,67 @@
         "sharePct": 0.4,
         "cumPct": 100.0,
         "status": "🔻 Degrow"
+      }
+    ],
+    "regions": [
+      {
+        "region": "NORTH AMERICA",
+        "9mFy26": 18887.87,
+        "9mFy25": 15474.62,
+        "absDelta": 3413.25,
+        "9mGrPct": 22.1,
+        "q3GrPct": 33.2,
+        "sharePct": 54.1,
+        "status": ""
       },
       {
-        "brand": "🌍 TOP ZONES",
-        "9mFy26": 0,
-        "9mFy25": 0,
-        "absDelta": 0,
-        "9mGrPct": 0,
-        "q3GrPct": 0,
-        "sharePct": 0,
-        "cumPct": 0,
+        "region": "UNITED KINGDOM",
+        "9mFy26": 5313.57,
+        "9mFy25": 5655.45,
+        "absDelta": -341.88,
+        "9mGrPct": -6.0,
+        "q3GrPct": -9.4,
+        "sharePct": 15.2,
+        "status": ""
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "9mFy26": 5148.5,
+        "9mFy25": 4822.32,
+        "absDelta": 326.18,
+        "9mGrPct": 6.8,
+        "q3GrPct": 32.3,
+        "sharePct": 14.7,
+        "status": ""
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "9mFy26": 3283.98,
+        "9mFy25": 3381.27,
+        "absDelta": -97.29,
+        "9mGrPct": -2.9,
+        "q3GrPct": 17.9,
+        "sharePct": 9.4,
+        "status": ""
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "9mFy26": 2152.3,
+        "9mFy25": 2316.23,
+        "absDelta": -163.93,
+        "9mGrPct": -7.1,
+        "q3GrPct": -22.8,
+        "sharePct": 6.2,
+        "status": ""
+      },
+      {
+        "region": "INDIA",
+        "9mFy26": 142.45,
+        "9mFy25": 382.39,
+        "absDelta": -239.94,
+        "9mGrPct": -62.7,
+        "q3GrPct": -70.4,
+        "sharePct": 0.4,
         "status": ""
       }
     ]
@@ -1045,7 +1335,7 @@
         "9mGrPct": 152.2,
         "q1GrPct": 191.6,
         "q2GrPct": 72.7,
-        "q3GrPct": 3.4,
+        "q3GrPct": 335.7,
         "trend": "📉"
       }
     ],
@@ -1124,7 +1414,7 @@
         "9mGrPct": 79.0,
         "q1GrPct": -13.4,
         "q2GrPct": 59.0,
-        "q3GrPct": 4.4,
+        "q3GrPct": 437.0,
         "trend": "🔻"
       },
       {
@@ -1137,16 +1427,73 @@
         "q2GrPct": -65.2,
         "q3GrPct": 5.4,
         "trend": "🚀"
+      }
+    ],
+    "regions": [
+      {
+        "region": "NORTH AMERICA",
+        "9mFy26": 18887.87,
+        "9mFy25": 15474.62,
+        "absDelta": 3413.25,
+        "9mGrPct": 22.1,
+        "q1GrPct": -12.9,
+        "q2GrPct": 38.8,
+        "q3GrPct": 33.2,
+        "trend": ""
       },
       {
-        "brand": "🌍 ZONE GROWTH",
-        "9mFy26": 0,
-        "9mFy25": 0,
-        "absDelta": 0,
-        "9mGrPct": 0,
-        "q1GrPct": 0,
-        "q2GrPct": 0,
-        "q3GrPct": 0,
+        "region": "UNITED KINGDOM",
+        "9mFy26": 5313.57,
+        "9mFy25": 5655.45,
+        "absDelta": -341.88,
+        "9mGrPct": -6.0,
+        "q1GrPct": 8.5,
+        "q2GrPct": -13.1,
+        "q3GrPct": -9.4,
+        "trend": ""
+      },
+      {
+        "region": "WESTERN EUROPE",
+        "9mFy26": 5148.5,
+        "9mFy25": 4822.32,
+        "absDelta": 326.18,
+        "9mGrPct": 6.8,
+        "q1GrPct": 25.5,
+        "q2GrPct": -27.4,
+        "q3GrPct": 32.3,
+        "trend": ""
+      },
+      {
+        "region": "GULF COUNTRIES",
+        "9mFy26": 3283.98,
+        "9mFy25": 3381.27,
+        "absDelta": -97.29,
+        "9mGrPct": -2.9,
+        "q1GrPct": -15.4,
+        "q2GrPct": -13.3,
+        "q3GrPct": 17.9,
+        "trend": ""
+      },
+      {
+        "region": "ASIA PACIFIC",
+        "9mFy26": 2152.3,
+        "9mFy25": 2316.23,
+        "absDelta": -163.93,
+        "9mGrPct": -7.1,
+        "q1GrPct": -9.2,
+        "q2GrPct": 7.2,
+        "q3GrPct": -22.8,
+        "trend": ""
+      },
+      {
+        "region": "INDIA",
+        "9mFy26": 142.45,
+        "9mFy25": 382.39,
+        "absDelta": -239.94,
+        "9mGrPct": -62.7,
+        "q1GrPct": -50.1,
+        "q2GrPct": -64.7,
+        "q3GrPct": -70.4,
         "trend": ""
       }
     ]
