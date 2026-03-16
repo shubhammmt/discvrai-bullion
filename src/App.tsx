@@ -88,6 +88,7 @@ import PlatinumPrices from './pages/PlatinumPrices';
 import WeatherHub from './pages/WeatherHub';
 import AIStockScreener from './pages/AIStockScreener';
 import EmbedScreener from './pages/EmbedScreener';
+import EmbedDocs from './pages/EmbedDocs';
 import AIScreenerLanding from './pages/AIScreenerLanding';
 import AIQueryLibrary from './pages/AIQueryLibrary';
 import AIQueryResult from './pages/AIQueryResult';
@@ -342,7 +343,8 @@ const AppContent = () => {
              <Route path="/sip-management" element={<SIPManagement />} />
              <Route path="/dashboard/mf-analytics" element={<MFAnalyticsDashboard />} />
              <Route path="/proposal/aiaic" element={<AIAICProposal />} />
-          <Route path="/embed/screener" element={<EmbedScreener />} />
+           <Route path="/embed/screener" element={<EmbedScreener />} />
+           <Route path="/embed/docs" element={<EmbedDocs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
