@@ -176,7 +176,9 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
       : WELCOME_MESSAGES[userState];
     setMessages([{ id: 'welcome', role: 'assistant', content: welcome, timestamp: new Date() }]);
     setShowChips(true);
-    setThreadId(generateThreadId());
+    const newThread = crypto.randomUUID();
+    localStorage.setItem('discvr_thread_id', newThread);
+    setThreadId(newThread);
   };
 
   return (
