@@ -87,6 +87,7 @@ import SilverPrices from './pages/SilverPrices';
 import PlatinumPrices from './pages/PlatinumPrices';
 import WeatherHub from './pages/WeatherHub';
 import AIStockScreener from './pages/AIStockScreener';
+import EmbedScreener from './pages/EmbedScreener';
 import AIScreenerLanding from './pages/AIScreenerLanding';
 import AIQueryLibrary from './pages/AIQueryLibrary';
 import AIQueryResult from './pages/AIQueryResult';
@@ -186,7 +187,8 @@ const AppContent = () => {
                        location.pathname === '/demo/nbfc-collections' ||
                        location.pathname === '/demo/nbfc-kyc' ||
                        location.pathname === '/demo/nbfc-alt-credit' ||
-                       location.pathname === '/dashboard/adf-ceo-sales';
+                       location.pathname === '/dashboard/adf-ceo-sales' ||
+                       location.pathname.startsWith('/embed/');
   return (
     <>
       <Routes>
@@ -340,6 +342,7 @@ const AppContent = () => {
              <Route path="/sip-management" element={<SIPManagement />} />
              <Route path="/dashboard/mf-analytics" element={<MFAnalyticsDashboard />} />
              <Route path="/proposal/aiaic" element={<AIAICProposal />} />
+          <Route path="/embed/screener" element={<EmbedScreener />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
