@@ -95,29 +95,12 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
   }, [userState, authUser?.id]);
 
   const getSessionContext = useCallback(() => {
-    if (authUser?.id) {
-      // Logged-in user — use real IDs
-      try {
-        const session = localStorage.getItem('discvr_session');
-        const parsed = session ? JSON.parse(session) : null;
-        return {
-          user_id: authUser.id,
-          session_id: parsed?.session_id || `sess_${crypto.randomUUID()}`,
-          thread_id: threadId,
-        };
-      } catch {
-        return { user_id: authUser.id, session_id: `sess_${crypto.randomUUID()}`, thread_id: threadId };
-      }
-    }
-    // Guest user — persistent guest IDs
-    const guestUserId = getOrCreateStored('discvr_guest_user_id', 'guest_');
-    const guestSessionId = getOrCreateStored('discvr_guest_session_id', 'sess_');
     return {
-      user_id: guestUserId,
-      session_id: guestSessionId,
+      user_id: 'a7ca0dcf-3c88-45c6-b4ac-e40fde319956',
+      session_id: '382a222a-e064-4fce-9f3c-2195c58655ee',
       thread_id: threadId,
     };
-  }, [authUser, threadId]);
+  }, [threadId]);
 
   const sendToAPI = useCallback(async (message: string): Promise<ChatMessage> => {
     const context = getSessionContext();
