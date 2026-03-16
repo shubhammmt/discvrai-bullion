@@ -156,6 +156,7 @@ import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import SIPManagement from './pages/SIPManagement';
 import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
+import TredsFinopsDemo from './pages/TredsFinopsDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -189,7 +190,8 @@ const AppContent = () => {
                        location.pathname === '/demo/nbfc-kyc' ||
                        location.pathname === '/demo/nbfc-alt-credit' ||
                        location.pathname === '/dashboard/adf-ceo-sales' ||
-                       location.pathname.startsWith('/embed/');
+                       location.pathname.startsWith('/embed/') ||
+                       location.pathname === '/demo/treds-finops';
   return (
     <>
       <Routes>
@@ -344,7 +346,8 @@ const AppContent = () => {
              <Route path="/dashboard/mf-analytics" element={<MFAnalyticsDashboard />} />
              <Route path="/proposal/aiaic" element={<AIAICProposal />} />
            <Route path="/embed/screener" element={<EmbedScreener />} />
-           <Route path="/embed/docs" element={<EmbedDocs />} />
+            <Route path="/embed/docs" element={<EmbedDocs />} />
+            <Route path="/demo/treds-finops" element={<TredsFinopsDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
