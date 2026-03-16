@@ -97,6 +97,11 @@ export function SmartFundSearch({
 
   // AI state
   const [aiQuery, setAiQuery] = useState(initialAIQuery);
+  const [internalAiResults, setInternalAiResults] = useState<MutualFund[] | undefined>(aiResults);
+  const [internalAiLoading, setInternalAiLoading] = useState(false);
+  const [aiTotalRecords, setAiTotalRecords] = useState(0);
+  const [aiTotalPages, setAiTotalPages] = useState(1);
+  const [aiCommunicationMessage, setAiCommunicationMessage] = useState<string | null>(null);
 
   // Fund detail sheet state
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
