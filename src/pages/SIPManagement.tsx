@@ -30,9 +30,28 @@ import { cn } from '@/lib/utils';
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [userState, setUserState] = useState<SIPUserState>('investor');
+  const [showLogin, setShowLogin] = useState(false);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
+    try {
+      const stored = localStorage.getItem('discvr_user');
+      return stored ? JSON.parse(stored) : null;
+    } catch { return null; }
+  });
 
   const isLoggedIn = userState !== 'anonymous';
   const hasHoldings = userState === 'investor';
+
+  const handleLoginSuccess = (user: AuthUser) => {
+    setAuthUser(user);
+    setUserState('investor');
+  };
+
+  const handleLogout = () => {
+    setAuthUser(null);
+    localStorage.removeItem('discvr_session');
+    localStorage.removeItem('discvr_user');
+    setUserState('anonymous');
+  };
 
   const activeSIPs = MOCK_SIPS.filter(s => s.status === 'active');
   const totalMonthly = activeSIPs.reduce((sum, s) => sum + s.amount, 0);
