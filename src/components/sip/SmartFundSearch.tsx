@@ -678,10 +678,20 @@ export function SmartFundSearch({
         </div>
       )}
 
+      {/* AI Communication Message */}
+      {mode === 'ai' && aiCommunicationMessage && (
+        <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/20">
+          <p className="text-xs text-foreground">{aiCommunicationMessage}</p>
+          {aiTotalRecords > 0 && (
+            <p className="text-[10px] text-muted-foreground mt-1">{aiTotalRecords} funds found</p>
+          )}
+        </div>
+      )}
+
       {/* Results header with count + sorting */}
       <div className="flex items-center justify-between gap-2">
         <p className="text-[10px] text-muted-foreground shrink-0">
-          {mode === 'ai' && !aiResults
+          {mode === 'ai' && !effectiveAiResults
             ? 'Submit a query to see results'
             : `${displayedFunds.length} fund${displayedFunds.length !== 1 ? 's' : ''} found`}
           {totalPages > 1 && ` • Page ${safePage}/${totalPages}`}
