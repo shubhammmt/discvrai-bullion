@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
@@ -35,6 +36,23 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 ];
 
 const RISK_ORDER: Record<string, number> = { 'Low': 1, 'Moderate': 2, 'High': 3, 'Very High': 4 };
+
+function mapCategoryToAssetClass(cat?: string): AssetClass {
+  if (!cat) return 'Equity';
+  const lower = cat.toLowerCase();
+  if (lower.includes('debt') || lower.includes('liquid') || lower.includes('gilt') || lower.includes('bond')) return 'Debt';
+  if (lower.includes('hybrid') || lower.includes('balanced') || lower.includes('arbitrage')) return 'Hybrid';
+  return 'Equity';
+}
+
+function mapRiskLevel(risk?: string): 'Low' | 'Moderate' | 'High' | 'Very High' {
+  if (!risk) return 'Moderate';
+  const lower = risk.toLowerCase();
+  if (lower.includes('very high')) return 'Very High';
+  if (lower.includes('high')) return 'High';
+  if (lower.includes('low')) return 'Low';
+  return 'Moderate';
+}
 
 const ITEMS_PER_PAGE = 10;
 
@@ -96,6 +114,11 @@ export function SmartFundSearch({
 
   // AI state
   const [aiQuery, setAiQuery] = useState(initialAIQuery);
+  const [internalAiResults, setInternalAiResults] = useState<MutualFund[] | undefined>(aiResults);
+  const [internalAiLoading, setInternalAiLoading] = useState(false);
+  const [aiTotalRecords, setAiTotalRecords] = useState(0);
+  const [aiTotalPages, setAiTotalPages] = useState(1);
+  const [aiCommunicationMessage, setAiCommunicationMessage] = useState<string | null>(null);
 
   // Fund detail sheet state
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
@@ -148,10 +171,12 @@ export function SmartFundSearch({
   }, [baseFunds, query, assetClass, category, marketCap, sector, maxExpenseRatio, minReturns1Y, minReturns3Y, minReturns5Y, amc, sortBy]);
 
   // Reset page when filters change
-  const displayedFunds = mode === 'conventional' ? conventionalResults : (aiResults || []);
-  const totalPages = Math.max(1, Math.ceil(displayedFunds.length / ITEMS_PER_PAGE));
+  const effectiveAiResults = internalAiResults ?? aiResults;
+  const displayedFunds = mode === 'conventional' ? conventionalResults : (effectiveAiResults || []);
+  const effectiveAiLoading = internalAiLoading || aiLoading;
+  const totalPages = mode === 'ai' && aiTotalPages > 1 ? aiTotalPages : Math.max(1, Math.ceil(displayedFunds.length / ITEMS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
-  const paginatedFunds = displayedFunds.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
+  const paginatedFunds = mode === 'ai' ? displayedFunds : displayedFunds.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
 
   const activeFilters: { key: string; label: string; value: string; clear: () => void }[] = [];
   if (assetClass) activeFilters.push({ key: 'ac', label: 'Asset', value: assetClass, clear: () => { setAssetClass(undefined); setCategory(undefined); } });
@@ -179,11 +204,73 @@ export function SmartFundSearch({
     setCurrentPage(1);
   };
 
-  const handleAISubmit = () => {
-    if (!aiQuery.trim() || aiLoading) return;
-    setCurrentPage(1);
+  const handleAISubmit = useCallback(async (page = 1) => {
+    if (!aiQuery.trim() || internalAiLoading) return;
+    setCurrentPage(page);
+    setInternalAiLoading(true);
+    setAiCommunicationMessage(null);
+
+    // Also call parent handler if provided
     onAISearch?.(aiQuery.trim());
-  };
+
+    try {
+      const sessionId = '382a222a-e064-4fce-9f3c-2195c58655ee';
+      const response = await fetch('https://agentapi.discvr.ai/webhook/simple-fund-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: aiQuery.trim(),
+          session_id: sessionId,
+          page,
+          page_size: 20,
+          include_charts: true,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+
+      if (data.success && Array.isArray(data.data)) {
+        const mapped: MutualFund[] = data.data.map((item: any) => ({
+          code: String(item.mf_schcode || ''),
+          name: item.scheme_name || '',
+          category: item.main_category || '',
+          assetClass: mapCategoryToAssetClass(item.main_category),
+          nav: item.nav_price ?? 0,
+          rating: 0,
+          expenseRatio: item.total_expense_ratio ?? 0,
+          returns1Y: item.ret_1year != null ? parseFloat(item.ret_1year.toFixed(2)) : 0,
+          returns3Y: item.ret_3year != null ? parseFloat(item.ret_3year.toFixed(2)) : 0,
+          returns5Y: item.ret_5year != null ? parseFloat(item.ret_5year.toFixed(2)) : 0,
+          aum: item.current_aum ?? 0,
+          amc: item.amc_name || '',
+          planType: item.plan_type === 'Regular' ? 'Regular' : 'Direct',
+          riskLevel: mapRiskLevel(item.risk_level),
+          minSIPAmount: 500,
+          minLumpsumAmount: 5000,
+          exitLoad: 'N/A',
+          benchmark: '',
+          marketCap: undefined,
+          sector: undefined,
+        }));
+        setInternalAiResults(mapped);
+        setAiTotalRecords(data.total_records || mapped.length);
+        setAiTotalPages(data.total_pages || 1);
+        if (data.intent_analysis?.communication_message) {
+          setAiCommunicationMessage(data.intent_analysis.communication_message);
+        }
+      } else {
+        setInternalAiResults([]);
+        toast.error(data.error || 'No results found');
+      }
+    } catch (err) {
+      console.error('AI Screener API error:', err);
+      toast.error('Failed to fetch results. Please try again.');
+      setInternalAiResults([]);
+    } finally {
+      setInternalAiLoading(false);
+    }
+  }, [aiQuery, internalAiLoading, onAISearch]);
 
   const handleFundAction = (fund: MutualFund) => {
     setDetailFund(fund);
@@ -552,16 +639,16 @@ export function SmartFundSearch({
               />
             </div>
             <Button
-              onClick={handleAISubmit}
-              disabled={!aiQuery.trim() || aiLoading}
+              onClick={() => handleAISubmit()}
+              disabled={!aiQuery.trim() || effectiveAiLoading}
               size="default"
               className="bg-gradient-to-r from-primary to-primary/80 shrink-0"
             >
-              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              {effectiveAiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
 
-          {!aiQuery && !aiResults?.length && (
+          {!aiQuery && !effectiveAiResults?.length && (
             <div className="space-y-1.5">
               <p className="text-[10px] text-muted-foreground">Try these:</p>
               <div className="flex flex-wrap gap-1.5">
@@ -591,10 +678,20 @@ export function SmartFundSearch({
         </div>
       )}
 
+      {/* AI Communication Message */}
+      {mode === 'ai' && aiCommunicationMessage && (
+        <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/20">
+          <p className="text-xs text-foreground">{aiCommunicationMessage}</p>
+          {aiTotalRecords > 0 && (
+            <p className="text-[10px] text-muted-foreground mt-1">{aiTotalRecords} funds found</p>
+          )}
+        </div>
+      )}
+
       {/* Results header with count + sorting */}
       <div className="flex items-center justify-between gap-2">
         <p className="text-[10px] text-muted-foreground shrink-0">
-          {mode === 'ai' && !aiResults
+          {mode === 'ai' && !effectiveAiResults
             ? 'Submit a query to see results'
             : `${displayedFunds.length} fund${displayedFunds.length !== 1 ? 's' : ''} found`}
           {totalPages > 1 && ` • Page ${safePage}/${totalPages}`}
@@ -620,7 +717,7 @@ export function SmartFundSearch({
       </div>
 
       {/* Fund list */}
-      {(mode === 'conventional' || (mode === 'ai' && aiResults)) && (
+      {(mode === 'conventional' || (mode === 'ai' && effectiveAiResults)) && (
         <div className="space-y-2">
           <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
             {paginatedFunds.length === 0 ? (
