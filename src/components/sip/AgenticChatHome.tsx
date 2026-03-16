@@ -8,6 +8,20 @@ import {
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { AuthUser } from '@/components/sip/OTPLoginDialog';
+import { FundPurchaseWidget, FundPurchasePrefill } from '@/components/sip/FundPurchaseWidget';
+
+interface ActionPayload {
+  action: string;
+  transaction_type?: string;
+  search_keyword?: string | null;
+  widget_params?: {
+    workflow_action?: string;
+    original_query?: string;
+    message?: string;
+    llm_reasoning?: string;
+  } | null;
+  message?: string;
+}
 
 interface ChatMessage {
   id: string;
@@ -15,6 +29,7 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   agentsUsed?: string[];
+  actionPayload?: ActionPayload;
 }
 
 interface AgenticChatHomeProps {
