@@ -101,6 +101,7 @@ export const ProfitabilityTab: React.FC = () => (
                 <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{c.cif9MFy25 != null ? fmtNum(c.cif9MFy25) : '—'}</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{c.pricePerKgPy != null ? `₹${fmtNum(c.pricePerKgPy)}` : '—'}</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{c.marginPctPy}%</TableCell>
+                <TableCell className={`${td} text-right tabular-nums font-semibold ${c.marginDeltaPp >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{c.marginDeltaPp >= 0 ? '+' : ''}{c.marginDeltaPp} pp</TableCell>
               </TableRow>
             ))}
           </TableBody>

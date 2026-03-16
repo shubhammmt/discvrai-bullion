@@ -13,10 +13,10 @@ export const VolValuePriceTab: React.FC = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Volume Growth', value: `${(v.volGrowth * 100).toFixed(1)}%`, icon: Scale, gradient: 'from-emerald-500 to-teal-600', textColor: 'text-emerald-100' },
-          { label: 'Value Growth', value: `${(v.valGrowth * 100).toFixed(1)}%`, icon: TrendingUp, gradient: 'from-indigo-500 to-violet-600', textColor: 'text-indigo-100' },
-          { label: 'Price Realization Δ', value: `₹${v.priceRealization}/kg`, icon: ArrowUpDown, gradient: 'from-amber-500 to-orange-600', textColor: 'text-amber-100' },
-          { label: 'Value from Volume', value: `₹${fmtNum(v.valueFromVolume)} L`, icon: BarChart3, gradient: 'from-sky-500 to-cyan-600', textColor: 'text-sky-100', tooltip: 'Revenue increase attributable to volume growth (vs price change).' },
+          { label: '📦 Volume Growth', value: v.volGrowthLabel || `${(v.volGrowth * 100).toFixed(1)}%`, icon: Scale, gradient: 'from-emerald-500 to-teal-600', textColor: 'text-emerald-100' },
+          { label: '💰 Value Growth', value: v.valGrowthLabel || `${(v.valGrowth * 100).toFixed(1)}%`, icon: TrendingUp, gradient: 'from-indigo-500 to-violet-600', textColor: 'text-indigo-100' },
+          { label: '💲 Price Realization Δ', value: v.priceRealizationLabel || `₹${v.priceRealization}/kg`, icon: ArrowUpDown, gradient: 'from-amber-500 to-orange-600', textColor: 'text-amber-100' },
+          { label: '📊 Value from Volume', value: v.valueFromVolumeLabel || `₹${fmtNum(v.valueFromVolume)} L`, icon: BarChart3, gradient: 'from-sky-500 to-cyan-600', textColor: 'text-sky-100', tooltip: 'Revenue increase attributable to volume growth (vs price change).' },
         ].map((k) => (
           <div key={k.label} className={`relative overflow-hidden rounded-2xl p-5 bg-gradient-to-br ${k.gradient} text-white shadow-lg`}>
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -translate-y-5 translate-x-5" />
