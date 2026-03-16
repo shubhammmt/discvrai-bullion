@@ -30,6 +30,7 @@ export const VolValuePriceTab: React.FC = () => {
         ))}
       </div>
 
+      {/* Main Vol vs Value table */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
           <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
@@ -47,6 +48,7 @@ export const VolValuePriceTab: React.FC = () => {
                 <TableHead className={`${th} text-right min-w-[80px]`}>Vol Gr%</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val CY (₹L)</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val PY</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Net Value</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>Val Gr%</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>₹/kg CY</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>₹/kg PY</TableHead>
@@ -64,12 +66,45 @@ export const VolValuePriceTab: React.FC = () => {
                   <TableCell className={`${td} text-right font-semibold tabular-nums ${c.volGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.volGrPct)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.valCy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.valPy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums font-medium text-gray-700`}>{fmtNum(c.netValue)}</TableCell>
                   <TableCell className={`${td} text-right font-semibold tabular-nums ${c.valGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.valGrPct)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.pricePerKgCy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.pricePerKgPy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums ${c.priceDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{c.priceDelta >= 0 ? '+' : ''}{fmtNum(c.priceDelta)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums ${c.valFromVol >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromVol)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums ${c.valFromPrice >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromPrice)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Price Realization per kg table */}
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+          <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+            <ArrowUpDown className="w-4 h-4 text-amber-500" />
+            Price Realization per kg
+          </h3>
+        </div>
+        <div className="overflow-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-gray-200">
+                <TableHead className={`${th} min-w-[200px]`}>Category</TableHead>
+                <TableHead className={`${th} text-right min-w-[120px]`}>Price/kg CY (₹)</TableHead>
+                <TableHead className={`${th} text-right min-w-[120px]`}>Price/kg PY (₹)</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Price Δ</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {v.priceRealizationTable.map((p: any, i: number) => (
+                <TableRow key={p.category} className={`border-gray-100 transition-colors hover:bg-amber-50/40 ${p.category === 'TOTAL' ? 'font-bold bg-indigo-50/60' : i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                  <TableCell className={`${td} font-semibold text-gray-800`}>{p.category}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-700`}>₹{fmtNum(p.pricePerKgCy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-500`}>₹{fmtNum(p.pricePerKgPy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums font-semibold ${p.priceDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{p.priceDelta >= 0 ? '+' : ''}₹{fmtNum(p.priceDelta)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
