@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-16T15:58:13.417702",
+  "lastUpdated": "2026-03-16T23:55:09.495036",
   "source": "CEO_Sales_Analytics_9M FY26.xlsx",
   "currency": "INR",
   "unit": "Lakhs",
@@ -161,37 +161,43 @@
         "region": "NORTH AMERICA",
         "value9M": 18887.87,
         "growth9MPct": 22.1,
-        "growthQ3Pct": 33.2
+        "growthQ3Pct": 33.2,
+        "status": "🚀"
       },
       {
         "region": "UNITED KINGDOM",
         "value9M": 5313.57,
         "growth9MPct": -6.0,
-        "growthQ3Pct": -9.4
+        "growthQ3Pct": -9.4,
+        "status": "🚀"
       },
       {
         "region": "WESTERN EUROPE",
         "value9M": 5148.5,
         "growth9MPct": 6.8,
-        "growthQ3Pct": 32.3
+        "growthQ3Pct": 32.3,
+        "status": "🚀"
       },
       {
         "region": "GULF COUNTRIES",
         "value9M": 3283.98,
         "growth9MPct": -2.9,
-        "growthQ3Pct": 17.9
+        "growthQ3Pct": 17.9,
+        "status": "🔻"
       },
       {
         "region": "ASIA PACIFIC",
         "value9M": 2152.3,
         "growth9MPct": -7.1,
-        "growthQ3Pct": -22.8
+        "growthQ3Pct": -22.8,
+        "status": "🔻"
       },
       {
         "region": "INDIA",
         "value9M": 142.45,
         "growth9MPct": -62.7,
-        "growthQ3Pct": -70.4
+        "growthQ3Pct": -70.4,
+        "status": "🔻"
       }
     ]
   },
@@ -353,7 +359,8 @@
         "marginRs": 14225.68,
         "kgs9MFy25": 7157.06,
         "cif9MFy25": 18228.98,
-        "pricePerKgPy": 254.7
+        "pricePerKgPy": 254.7,
+        "marginDeltaPp": -0.4
       },
       {
         "category": "CHUTNEY",
@@ -366,7 +373,8 @@
         "marginRs": 1953.8,
         "kgs9MFy25": 3152.88,
         "cif9MFy25": 4089.74,
-        "pricePerKgPy": 129.71
+        "pricePerKgPy": 129.71,
+        "marginDeltaPp": 3.7
       },
       {
         "category": "READY TO EAT",
@@ -379,7 +387,8 @@
         "marginRs": 2304.89,
         "kgs9MFy25": 1606.75,
         "cif9MFy25": 3698.21,
-        "pricePerKgPy": 230.17
+        "pricePerKgPy": 230.17,
+        "marginDeltaPp": 5.2
       },
       {
         "category": "PICKLES",
@@ -392,7 +401,8 @@
         "marginRs": 1204.1,
         "kgs9MFy25": 1916.87,
         "cif9MFy25": 2912.63,
-        "pricePerKgPy": 151.95
+        "pricePerKgPy": 151.95,
+        "marginDeltaPp": 5.9
       },
       {
         "category": "OTHERS",
@@ -405,7 +415,8 @@
         "marginRs": 232.09,
         "kgs9MFy25": 256.95,
         "cif9MFy25": 561.2,
-        "pricePerKgPy": 218.41
+        "pricePerKgPy": 218.41,
+        "marginDeltaPp": -6.1
       },
       {
         "category": "PASTE & SAUCES",
@@ -418,7 +429,8 @@
         "marginRs": 755.46,
         "kgs9MFy25": 581.48,
         "cif9MFy25": 1420.38,
-        "pricePerKgPy": 244.27
+        "pricePerKgPy": 244.27,
+        "marginDeltaPp": 7.1
       },
       {
         "category": "TAMARIND",
@@ -431,7 +443,8 @@
         "marginRs": 346.11,
         "kgs9MFy25": 254.28,
         "cif9MFy25": 393.02,
-        "pricePerKgPy": 154.57
+        "pricePerKgPy": 154.57,
+        "marginDeltaPp": -9.9
       },
       {
         "category": "SPICES",
@@ -444,7 +457,8 @@
         "marginRs": 352.89,
         "kgs9MFy25": 263.07,
         "cif9MFy25": 728.12,
-        "pricePerKgPy": 276.78
+        "pricePerKgPy": 276.78,
+        "marginDeltaPp": -2.3
       },
       {
         "category": "Grand Total",
@@ -457,7 +471,8 @@
         "kgs9MFy25": 15189.33,
         "cif9MFy25": 32032.29,
         "pricePerKgPy": 210.89,
-        "marginPctPy": 60.2
+        "marginPctPy": 60.2,
+        "marginDeltaPp": 1.0
       }
     ]
   },
@@ -466,6 +481,10 @@
     "valGrowth": 0.09042102772288452,
     "priceRealization": 17.21,
     "valueFromVolume": 1164.55,
+    "volGrowthLabel": "0.8%",
+    "valGrowthLabel": "9.0%",
+    "priceRealizationLabel": "₹17.21/kg",
+    "valueFromVolumeLabel": "₹1,164.5 L",
     "categories": [
       {
         "category": "FROZEN FOODS",
@@ -864,10 +883,10 @@
         "q2Fy26": 8385.47,
         "q3Fy26": 7677.59,
         "9mFy26": 21045.54,
-        "q1Fy25": 5481.79,
-        "q2Fy25": 6823.34,
-        "q3Fy25": 5923.85,
-        "9mFy25": 18228.98,
+        "q1Fy25": 5212.96,
+        "q2Fy25": 7411.65,
+        "q3Fy25": 6733.06,
+        "9mFy25": 19357.67,
         "q3GrPct": 14.0,
         "9mGrPct": 8.7,
         "mixPct": 60.3
@@ -878,10 +897,10 @@
         "q2Fy26": 2646.32,
         "q3Fy26": 2925.8,
         "9mFy26": 7734.0,
-        "q1Fy25": 923.31,
-        "q2Fy25": 1148.13,
-        "q3Fy25": 1626.77,
-        "9mFy25": 3698.21,
+        "q1Fy25": 2045.16,
+        "q2Fy25": 1925.4,
+        "q3Fy25": 2116.27,
+        "9mFy25": 6086.82,
         "q3GrPct": 38.3,
         "9mGrPct": 27.1,
         "mixPct": 22.1
@@ -892,10 +911,10 @@
         "q2Fy26": 656.05,
         "q3Fy26": 729.87,
         "9mFy26": 1961.55,
-        "q1Fy25": 1111.36,
-        "q2Fy25": 1535.95,
-        "q3Fy25": 1442.43,
-        "9mFy25": 4089.74,
+        "q1Fy25": 694.71,
+        "q2Fy25": 1002.23,
+        "q3Fy25": 952.98,
+        "9mFy25": 2649.92,
         "q3GrPct": -23.4,
         "9mGrPct": -26.0,
         "mixPct": 5.6
@@ -906,10 +925,10 @@
         "q2Fy26": 470.94,
         "q3Fy26": 487.39,
         "9mFy26": 1381.79,
-        "q1Fy25": 877.28,
-        "q2Fy25": 1128.16,
-        "q3Fy25": 907.19,
-        "9mFy25": 2912.63,
+        "q1Fy25": 395.04,
+        "q2Fy25": 537.89,
+        "q3Fy25": 524.98,
+        "9mFy25": 1457.91,
         "q3GrPct": -7.2,
         "9mGrPct": -5.2,
         "mixPct": 4.0
@@ -920,10 +939,10 @@
         "q2Fy26": 429.21,
         "q3Fy26": 502.32,
         "9mFy26": 1296.15,
-        "q1Fy25": 390.64,
-        "q2Fy25": 525.02,
-        "q3Fy25": 504.72,
-        "9mFy25": 1420.38,
+        "q1Fy25": 337.96,
+        "q2Fy25": 466.31,
+        "q3Fy25": 245.34,
+        "9mFy25": 1049.61,
         "q3GrPct": 104.7,
         "9mGrPct": 23.5,
         "mixPct": 3.7
@@ -934,10 +953,10 @@
         "q2Fy26": 447.11,
         "q3Fy26": 543.17,
         "9mFy26": 1192.11,
-        "q1Fy25": 172.03,
-        "q2Fy25": 306.4,
-        "q3Fy25": 249.69,
-        "9mFy25": 728.12,
+        "q1Fy25": 311.29,
+        "q2Fy25": 402.12,
+        "q3Fy25": 345.95,
+        "9mFy25": 1059.35,
         "q3GrPct": 57.0,
         "9mGrPct": 12.5,
         "mixPct": 3.4
@@ -948,10 +967,10 @@
         "q2Fy26": 62.43,
         "q3Fy26": 67.67,
         "9mFy26": 164.99,
-        "q1Fy25": 112.94,
-        "q2Fy25": 188.07,
-        "q3Fy25": 260.2,
-        "9mFy25": 561.2,
+        "q1Fy25": 40.3,
+        "q2Fy25": 39.25,
+        "q3Fy25": 12.6,
+        "9mFy25": 92.15,
         "q3GrPct": 437.0,
         "9mGrPct": 79.0,
         "mixPct": 0.5
@@ -962,10 +981,10 @@
         "q2Fy26": 36.14,
         "q3Fy26": 72.75,
         "9mFy26": 152.55,
-        "q1Fy25": 73.95,
-        "q2Fy25": 233.76,
-        "q3Fy25": 85.32,
-        "9mFy25": 393.02,
+        "q1Fy25": 105.87,
+        "q2Fy25": 103.98,
+        "q3Fy25": 69.0,
+        "9mFy25": 278.85,
         "q3GrPct": 5.4,
         "9mGrPct": -45.3,
         "mixPct": 0.4
@@ -998,7 +1017,8 @@
         "9mFy25": 15474.62,
         "q3GrPct": 33.2,
         "9mGrPct": 22.1,
-        "mixPct": 54.1
+        "mixPct": 54.1,
+        "status": "🚀"
       },
       {
         "region": "UNITED KINGDOM",
@@ -1012,7 +1032,8 @@
         "9mFy25": 5655.45,
         "q3GrPct": -9.4,
         "9mGrPct": -6.0,
-        "mixPct": 15.2
+        "mixPct": 15.2,
+        "status": "🚀"
       },
       {
         "region": "WESTERN EUROPE",
@@ -1026,7 +1047,8 @@
         "9mFy25": 4822.32,
         "q3GrPct": 32.3,
         "9mGrPct": 6.8,
-        "mixPct": 14.7
+        "mixPct": 14.7,
+        "status": "🚀"
       },
       {
         "region": "GULF COUNTRIES",
@@ -1040,7 +1062,8 @@
         "9mFy25": 3381.27,
         "q3GrPct": 17.9,
         "9mGrPct": -2.9,
-        "mixPct": 9.4
+        "mixPct": 9.4,
+        "status": "🔻"
       },
       {
         "region": "ASIA PACIFIC",
@@ -1054,7 +1077,8 @@
         "9mFy25": 2316.23,
         "q3GrPct": -22.8,
         "9mGrPct": -7.1,
-        "mixPct": 6.2
+        "mixPct": 6.2,
+        "status": "🔻"
       },
       {
         "region": "INDIA",
@@ -1068,7 +1092,8 @@
         "9mFy25": 382.39,
         "q3GrPct": -70.4,
         "9mGrPct": -62.7,
-        "mixPct": 0.4
+        "mixPct": 0.4,
+        "status": "🔻"
       }
     ]
   },
@@ -1262,7 +1287,7 @@
         "9mGrPct": 22.1,
         "q3GrPct": 33.2,
         "sharePct": 54.1,
-        "status": ""
+        "status": "🚀"
       },
       {
         "region": "UNITED KINGDOM",
@@ -1272,7 +1297,7 @@
         "9mGrPct": -6.0,
         "q3GrPct": -9.4,
         "sharePct": 15.2,
-        "status": ""
+        "status": "🚀"
       },
       {
         "region": "WESTERN EUROPE",
@@ -1282,7 +1307,7 @@
         "9mGrPct": 6.8,
         "q3GrPct": 32.3,
         "sharePct": 14.7,
-        "status": ""
+        "status": "🚀"
       },
       {
         "region": "GULF COUNTRIES",
@@ -1292,7 +1317,7 @@
         "9mGrPct": -2.9,
         "q3GrPct": 17.9,
         "sharePct": 9.4,
-        "status": ""
+        "status": "🔻"
       },
       {
         "region": "ASIA PACIFIC",
@@ -1302,7 +1327,7 @@
         "9mGrPct": -7.1,
         "q3GrPct": -22.8,
         "sharePct": 6.2,
-        "status": ""
+        "status": "🔻"
       },
       {
         "region": "INDIA",
@@ -1312,7 +1337,7 @@
         "9mGrPct": -62.7,
         "q3GrPct": -70.4,
         "sharePct": 0.4,
-        "status": ""
+        "status": "🔻"
       }
     ]
   },
@@ -1507,7 +1532,7 @@
         "q1GrPct": -12.9,
         "q2GrPct": 38.8,
         "q3GrPct": 33.2,
-        "trend": ""
+        "trend": "🚀"
       },
       {
         "region": "UNITED KINGDOM",
@@ -1518,7 +1543,7 @@
         "q1GrPct": 8.5,
         "q2GrPct": -13.1,
         "q3GrPct": -9.4,
-        "trend": ""
+        "trend": "🚀"
       },
       {
         "region": "WESTERN EUROPE",
@@ -1529,7 +1554,7 @@
         "q1GrPct": 25.5,
         "q2GrPct": -27.4,
         "q3GrPct": 32.3,
-        "trend": ""
+        "trend": "🚀"
       },
       {
         "region": "GULF COUNTRIES",
@@ -1540,7 +1565,7 @@
         "q1GrPct": -15.4,
         "q2GrPct": -13.3,
         "q3GrPct": 17.9,
-        "trend": ""
+        "trend": "🔻"
       },
       {
         "region": "ASIA PACIFIC",
@@ -1551,7 +1576,7 @@
         "q1GrPct": -9.2,
         "q2GrPct": 7.2,
         "q3GrPct": -22.8,
-        "trend": ""
+        "trend": "🔻"
       },
       {
         "region": "INDIA",
@@ -1562,7 +1587,7 @@
         "q1GrPct": -50.1,
         "q2GrPct": -64.7,
         "q3GrPct": -70.4,
-        "trend": ""
+        "trend": "🔻"
       }
     ]
   },
