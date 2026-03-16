@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
@@ -14,11 +14,13 @@ import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
+import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Repeat, Zap, Bell, ArrowRight, BarChart3, FileText, Receipt,
-  MessageSquare, History, Sparkles, Bot, LogIn,
+  MessageSquare, History, Sparkles, Bot, LogIn, LogOut, User,
 } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -28,9 +30,28 @@ import { cn } from '@/lib/utils';
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [userState, setUserState] = useState<SIPUserState>('investor');
+  const [showLogin, setShowLogin] = useState(false);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
+    try {
+      const stored = localStorage.getItem('discvr_user');
+      return stored ? JSON.parse(stored) : null;
+    } catch { return null; }
+  });
 
   const isLoggedIn = userState !== 'anonymous';
   const hasHoldings = userState === 'investor';
+
+  const handleLoginSuccess = (user: AuthUser) => {
+    setAuthUser(user);
+    setUserState('investor');
+  };
+
+  const handleLogout = () => {
+    setAuthUser(null);
+    localStorage.removeItem('discvr_session');
+    localStorage.removeItem('discvr_user');
+    setUserState('anonymous');
+  };
 
   const activeSIPs = MOCK_SIPS.filter(s => s.status === 'active');
   const totalMonthly = activeSIPs.reduce((sum, s) => sum + s.amount, 0);
@@ -96,11 +117,27 @@ const SIPManagement = () => {
               </p>
             </div>
           </div>
-          {!isLoggedIn && (
-            <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-              <LogIn className="w-3.5 h-3.5" /> Sign In
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {authUser ? (
+              <>
+                <Avatar className="w-8 h-8">
+                  {authUser.picture && <AvatarImage src={authUser.picture} alt={authUser.name} />}
+                  <AvatarFallback className="text-xs">{authUser.name?.[0] || 'U'}</AvatarFallback>
+                </Avatar>
+                <Button size="sm" variant="ghost" className="text-xs gap-1" onClick={handleLogout}>
+                  <LogOut className="w-3.5 h-3.5" /> Logout
+                </Button>
+              </>
+            ) : !isLoggedIn ? (
+              <Button size="sm" variant="outline" className="gap-1.5 text-xs" onClick={() => setShowLogin(true)}>
+                <LogIn className="w-3.5 h-3.5" /> Sign In
+              </Button>
+            ) : (
+              <Button size="sm" variant="ghost" className="text-xs gap-1" onClick={handleLogout}>
+                <LogOut className="w-3.5 h-3.5" /> Logout
+              </Button>
+            )}
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -264,6 +301,9 @@ const SIPManagement = () => {
 
       {/* User State Switcher */}
       <SIPUserStateSwitcher userState={userState} onUserStateChange={setUserState} />
+
+      {/* OTP Login Dialog */}
+      <OTPLoginDialog open={showLogin} onOpenChange={setShowLogin} onLoginSuccess={handleLoginSuccess} />
     </div>
   );
 };
