@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
@@ -14,11 +14,13 @@ import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
+import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Repeat, Zap, Bell, ArrowRight, BarChart3, FileText, Receipt,
-  MessageSquare, History, Sparkles, Bot, LogIn,
+  MessageSquare, History, Sparkles, Bot, LogIn, LogOut, User,
 } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
