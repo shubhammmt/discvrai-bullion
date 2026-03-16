@@ -193,7 +193,9 @@ const AppContent = () => {
                        location.pathname === '/demo/nbfc-alt-credit' ||
                        location.pathname === '/dashboard/adf-ceo-sales' ||
                        location.pathname.startsWith('/embed/') ||
-                       location.pathname === '/demo/treds-finops';
+                       location.pathname === '/demo/treds-finops' ||
+                       location.pathname === '/pitch/raja-railways' ||
+                       location.pathname === '/demo/raja-railways';
   return (
     <>
       <Routes>
