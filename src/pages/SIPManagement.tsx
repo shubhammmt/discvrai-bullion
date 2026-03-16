@@ -138,6 +138,7 @@ const SIPManagement = () => {
               </Button>
             )}
           </div>
+        </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Scrollable Tab Navigation */}
