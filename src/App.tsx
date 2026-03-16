@@ -87,6 +87,7 @@ import SilverPrices from './pages/SilverPrices';
 import PlatinumPrices from './pages/PlatinumPrices';
 import WeatherHub from './pages/WeatherHub';
 import AIStockScreener from './pages/AIStockScreener';
+import EmbedScreener from './pages/EmbedScreener';
 import AIScreenerLanding from './pages/AIScreenerLanding';
 import AIQueryLibrary from './pages/AIQueryLibrary';
 import AIQueryResult from './pages/AIQueryResult';
