@@ -156,6 +156,8 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
         {step === 'fund' && (
           <SmartFundSearch
             initialFilters={prefill?.screenerFilters}
+            initialMode={prefill?.initialSearchMode}
+            initialAIQuery={prefill?.initialAIQuery || ''}
             onSelectFund={(fund: MutualFund, investMode?: 'sip' | 'onetime') => {
               setSelectedFund(fund);
               if (investMode) {
