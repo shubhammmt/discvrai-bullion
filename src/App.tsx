@@ -156,6 +156,7 @@ import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import SIPManagement from './pages/SIPManagement';
 import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
+import TredsFinopsDemo from './pages/TredsFinopsDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
