@@ -8,6 +8,20 @@ import {
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { AuthUser } from '@/components/sip/OTPLoginDialog';
+import { FundPurchaseWidget, FundPurchasePrefill } from '@/components/sip/FundPurchaseWidget';
+
+interface ActionPayload {
+  action: string;
+  transaction_type?: string;
+  search_keyword?: string | null;
+  widget_params?: {
+    workflow_action?: string;
+    original_query?: string;
+    message?: string;
+    llm_reasoning?: string;
+  } | null;
+  message?: string;
+}
 
 interface ChatMessage {
   id: string;
@@ -15,6 +29,7 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   agentsUsed?: string[];
+  actionPayload?: ActionPayload;
 }
 
 interface AgenticChatHomeProps {
@@ -57,7 +72,29 @@ function getOrCreateStored(key: string, prefix: string): string {
   localStorage.setItem(key, val);
   return val;
 }
+function buildPrefillFromAction(payload: ActionPayload): FundPurchasePrefill | undefined {
+  const wp = payload.widget_params;
 
+  // Case 1: fallback_query → open AI screener with original_query
+  if (wp?.workflow_action === 'fallback_query') {
+    return {
+      initialSearchMode: 'ai',
+      initialAIQuery: wp.original_query || '',
+    };
+  }
+
+  // Case 2: widget_params is null but search_keyword exists → open search with keyword
+  if (!wp && payload.search_keyword) {
+    return {
+      initialSearchMode: 'conventional',
+      initialSearchKeyword: payload.search_keyword,
+      screenerFilters: { query: payload.search_keyword } as any,
+    };
+  }
+
+  // Case 3: both null → just open the widget
+  return undefined;
+}
 export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }: AgenticChatHomeProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'assistant', content: WELCOME_MESSAGES[userState], timestamp: new Date() },
@@ -112,6 +149,20 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
       });
       if (!res.ok) throw new Error(`API error ${res.status}`);
       const data = await res.json();
+
+      // Handle action-type responses
+      if (data.type === 'action' && data.payload?.action === 'trigger_transaction_flow') {
+        const payload = data.payload as ActionPayload;
+        return {
+          id: `r-${Date.now()}`,
+          role: 'assistant',
+          content: payload.message || 'Let me help you with that.',
+          timestamp: new Date(),
+          agentsUsed: data.agents_used,
+          actionPayload: payload,
+        };
+      }
+
       return {
         id: `r-${Date.now()}`,
         role: 'assistant',
@@ -201,7 +252,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
                 <Bot className="w-3.5 h-3.5 text-primary-foreground" />
               </div>
             )}
-            <div className={cn('max-w-[85%]', msg.role === 'user' ? 'items-end' : 'items-start')}>
+            <div className={cn(msg.role === 'user' ? 'max-w-[85%] items-end' : 'max-w-[95%] items-start')}>
               <div className={cn(
                 'rounded-2xl px-4 py-3 text-sm leading-relaxed',
                 msg.role === 'user'
@@ -216,6 +267,17 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
                   <span>{msg.content}</span>
                 )}
               </div>
+
+              {/* Inline Invest Widget for action responses */}
+              {msg.actionPayload?.action === 'trigger_transaction_flow' && (
+                <div className="mt-2 rounded-xl border border-border bg-background shadow-sm overflow-hidden">
+                  <FundPurchaseWidget
+                    compact
+                    prefill={buildPrefillFromAction(msg.actionPayload)}
+                  />
+                </div>
+              )}
+
               {msg.agentsUsed && msg.agentsUsed.length > 0 && (
                 <div className="flex gap-1 mt-1">
                   {msg.agentsUsed.map(a => (

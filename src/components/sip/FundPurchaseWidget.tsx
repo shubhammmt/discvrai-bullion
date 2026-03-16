@@ -32,6 +32,10 @@ export interface FundPurchasePrefill {
   startDate?: string;
   // Screener filters (agent can pre-apply filters instead of a specific fund)
   screenerFilters?: MFScreenerFilters;
+  // AI screener prefill
+  initialSearchMode?: 'conventional' | 'ai';
+  initialAIQuery?: string;
+  initialSearchKeyword?: string;
 }
 
 interface FundPurchaseWidgetProps {
@@ -152,6 +156,8 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
         {step === 'fund' && (
           <SmartFundSearch
             initialFilters={prefill?.screenerFilters}
+            initialMode={prefill?.initialSearchMode}
+            initialAIQuery={prefill?.initialAIQuery || ''}
             onSelectFund={(fund: MutualFund, investMode?: 'sip' | 'onetime') => {
               setSelectedFund(fund);
               if (investMode) {
