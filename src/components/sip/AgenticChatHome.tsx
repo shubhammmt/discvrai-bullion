@@ -50,8 +50,12 @@ const WELCOME_MESSAGES: Record<string, string> = {
   investor: "Hi Shubham! 👋 I am your Wealth Copilot. I can help you in following:",
 };
 
-function generateThreadId() {
-  return crypto.randomUUID();
+function getOrCreateStored(key: string, prefix: string): string {
+  const existing = localStorage.getItem(key);
+  if (existing) return existing;
+  const val = `${prefix}${crypto.randomUUID()}`;
+  localStorage.setItem(key, val);
+  return val;
 }
 
 export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }: AgenticChatHomeProps) {
@@ -61,8 +65,18 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showChips, setShowChips] = useState(true);
-  const [threadId, setThreadId] = useState(generateThreadId);
+  const [threadId, setThreadId] = useState(() => getOrCreateStored('discvr_thread_id', ''));
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Ensure thread_id is a proper UUID (no prefix)
+  useEffect(() => {
+    const stored = localStorage.getItem('discvr_thread_id');
+    if (!stored || stored.length < 32) {
+      const newId = crypto.randomUUID();
+      localStorage.setItem('discvr_thread_id', newId);
+      setThreadId(newId);
+    }
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -74,21 +88,35 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
       : WELCOME_MESSAGES[userState];
     setMessages([{ id: 'welcome', role: 'assistant', content: welcome, timestamp: new Date() }]);
     setShowChips(true);
-    setThreadId(generateThreadId());
+    // New thread on user change
+    const newThread = crypto.randomUUID();
+    localStorage.setItem('discvr_thread_id', newThread);
+    setThreadId(newThread);
   }, [userState, authUser?.id]);
 
   const getSessionContext = useCallback(() => {
-    try {
-      const session = localStorage.getItem('discvr_session');
-      const parsed = session ? JSON.parse(session) : null;
-      return {
-        user_id: authUser?.id || 'anonymous',
-        session_id: parsed?.session_id || 'demo',
-        thread_id: threadId,
-      };
-    } catch {
-      return { user_id: 'anonymous', session_id: 'demo', thread_id: threadId };
+    if (authUser?.id) {
+      // Logged-in user — use real IDs
+      try {
+        const session = localStorage.getItem('discvr_session');
+        const parsed = session ? JSON.parse(session) : null;
+        return {
+          user_id: authUser.id,
+          session_id: parsed?.session_id || `sess_${crypto.randomUUID()}`,
+          thread_id: threadId,
+        };
+      } catch {
+        return { user_id: authUser.id, session_id: `sess_${crypto.randomUUID()}`, thread_id: threadId };
+      }
     }
+    // Guest user — persistent guest IDs
+    const guestUserId = getOrCreateStored('discvr_guest_user_id', 'guest_');
+    const guestSessionId = getOrCreateStored('discvr_guest_session_id', 'sess_');
+    return {
+      user_id: guestUserId,
+      session_id: guestSessionId,
+      thread_id: threadId,
+    };
   }, [authUser, threadId]);
 
   const sendToAPI = useCallback(async (message: string): Promise<ChatMessage> => {
