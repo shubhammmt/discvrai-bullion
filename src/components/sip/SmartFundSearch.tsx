@@ -648,7 +648,7 @@ export function SmartFundSearch({
             </Button>
           </div>
 
-          {!aiQuery && !aiResults?.length && (
+          {!aiQuery && !effectiveAiResults?.length && (
             <div className="space-y-1.5">
               <p className="text-[10px] text-muted-foreground">Try these:</p>
               <div className="flex flex-wrap gap-1.5">
