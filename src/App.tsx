@@ -157,6 +157,8 @@ import SIPManagement from './pages/SIPManagement';
 import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
 import TredsFinopsDemo from './pages/TredsFinopsDemo';
+import RajaRailwaysDeck from './pages/RajaRailwaysDeck';
+import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
