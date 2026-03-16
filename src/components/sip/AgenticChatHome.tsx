@@ -230,7 +230,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
                 <Bot className="w-3.5 h-3.5 text-primary-foreground" />
               </div>
             )}
-            <div className={cn('max-w-[85%]', msg.role === 'user' ? 'items-end' : 'items-start')}>
+            <div className={cn(msg.role === 'user' ? 'max-w-[85%] items-end' : 'max-w-[95%] items-start')}>
               <div className={cn(
                 'rounded-2xl px-4 py-3 text-sm leading-relaxed',
                 msg.role === 'user'
@@ -245,6 +245,17 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
                   <span>{msg.content}</span>
                 )}
               </div>
+
+              {/* Inline Invest Widget for action responses */}
+              {msg.actionPayload?.action === 'trigger_transaction_flow' && (
+                <div className="mt-2 rounded-xl border border-border bg-background shadow-sm overflow-hidden">
+                  <FundPurchaseWidget
+                    compact
+                    prefill={buildPrefillFromAction(msg.actionPayload)}
+                  />
+                </div>
+              )}
+
               {msg.agentsUsed && msg.agentsUsed.length > 0 && (
                 <div className="flex gap-1 mt-1">
                   {msg.agentsUsed.map(a => (
