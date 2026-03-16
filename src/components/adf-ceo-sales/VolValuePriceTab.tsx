@@ -43,8 +43,8 @@ export const VolValuePriceTab: React.FC = () => {
             <TableHeader>
               <TableRow className="border-gray-200">
                 <TableHead className={`${th} min-w-[150px]`}>Category</TableHead>
-                <TableHead className={`${th} text-right min-w-[90px]`}>Vol CY</TableHead>
-                <TableHead className={`${th} text-right min-w-[90px]`}>Vol PY</TableHead>
+                <TableHead className={`${th} text-right min-w-[90px]`}>Vol CY (MT)</TableHead>
+                <TableHead className={`${th} text-right min-w-[90px]`}>Vol PY (MT)</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>Vol Gr%</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val CY (₹L)</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val PY</TableHead>
@@ -55,6 +55,8 @@ export const VolValuePriceTab: React.FC = () => {
                 <TableHead className={`${th} text-right min-w-[80px]`}>Price Δ</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val from Vol</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val from Price</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Net Val Δ</TableHead>
+                <TableHead className={`${th} min-w-[120px]`}>Growth Driver</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -73,6 +75,8 @@ export const VolValuePriceTab: React.FC = () => {
                   <TableCell className={`${td} text-right tabular-nums ${c.priceDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{c.priceDelta >= 0 ? '+' : ''}{fmtNum(c.priceDelta)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums ${c.valFromVol >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromVol)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums ${c.valFromPrice >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.valFromPrice)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums font-semibold ${c.netValDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(c.netValDelta)}</TableCell>
+                  <TableCell className={`${td} text-[12px] whitespace-nowrap`}>{c.growthDriver || '—'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,22 +84,29 @@ export const VolValuePriceTab: React.FC = () => {
         </div>
       </div>
 
-      {/* Price Realization per kg table */}
+      {/* Price Realization per kg (Movement Analysis) */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
           <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
             <ArrowUpDown className="w-4 h-4 text-amber-500" />
-            Price Realization per kg
+            Price Realization per kg (Movement Analysis)
           </h3>
         </div>
         <div className="overflow-auto">
           <Table>
             <TableHeader>
               <TableRow className="border-gray-200">
-                <TableHead className={`${th} min-w-[200px]`}>Category</TableHead>
-                <TableHead className={`${th} text-right min-w-[120px]`}>Price/kg CY (₹)</TableHead>
-                <TableHead className={`${th} text-right min-w-[120px]`}>Price/kg PY (₹)</TableHead>
-                <TableHead className={`${th} text-right min-w-[100px]`}>Price Δ</TableHead>
+                <TableHead className={`${th} min-w-[150px]`}>Category</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Price/kg CY (₹)</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Price/kg PY (₹)</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Price Δ</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Price Gr%</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>COGS/kg FY26</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>COGS/kg FY25</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>COGS Δ</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Spread (Price−COGS)</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Spread PY</TableHead>
+                <TableHead className={`${th} text-right min-w-[80px]`}>Spread Δ</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -105,6 +116,13 @@ export const VolValuePriceTab: React.FC = () => {
                   <TableCell className={`${td} text-right tabular-nums text-gray-700`}>₹{fmtNum(p.pricePerKgCy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-500`}>₹{fmtNum(p.pricePerKgPy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums font-semibold ${p.priceDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{p.priceDelta >= 0 ? '+' : ''}₹{fmtNum(p.priceDelta)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums font-semibold ${p.priceGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(p.priceGrPct)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-700`}>₹{fmtNum(p.cogsPerKgFy26)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-500`}>₹{fmtNum(p.cogsPerKgFy25)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums ${p.cogsDelta >= 0 ? 'text-red-600' : 'text-emerald-600'}`}>{p.cogsDelta >= 0 ? '+' : ''}₹{fmtNum(p.cogsDelta)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums font-semibold text-gray-700`}>₹{fmtNum(p.spreadPriceCogs)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums text-gray-500`}>₹{fmtNum(p.spreadPy)}</TableCell>
+                  <TableCell className={`${td} text-right tabular-nums font-semibold ${p.spreadDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{p.spreadDelta >= 0 ? '+' : ''}₹{fmtNum(p.spreadDelta)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
