@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { salesDashboard, fmtNum, fmtPct } from '@/data/adfCeoSalesData';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Globe } from 'lucide-react';
 
 const th = "text-[11px] font-bold text-gray-500 uppercase tracking-wider bg-gray-50/80 border-b-2 border-gray-200";
 const td = "text-[13px] py-3 px-4";
@@ -18,7 +18,7 @@ const QtrTable = ({ title, data, nameKey, icon }: { title: string; data: any[]; 
       <Table>
         <TableHeader>
           <TableRow className="border-gray-200">
-            <TableHead className={`${th} min-w-[150px]`}>{nameKey === 'category' ? 'Category' : 'Brand'}</TableHead>
+            <TableHead className={`${th} min-w-[150px]`}>{nameKey === 'category' ? 'Category' : nameKey === 'brand' ? 'Brand' : 'Region'}</TableHead>
             <TableHead className={`${th} text-right min-w-[90px]`}>Q1 FY26</TableHead>
             <TableHead className={`${th} text-right min-w-[90px]`}>Q2 FY26</TableHead>
             <TableHead className={`${th} text-right min-w-[90px]`}>Q3 FY26</TableHead>
@@ -33,7 +33,7 @@ const QtrTable = ({ title, data, nameKey, icon }: { title: string; data: any[]; 
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.filter((r: any) => r[nameKey] !== '🌍 ZONE-WISE PERFORMANCE').map((r: any, i: number) => (
+          {data.map((r: any, i: number) => (
             <TableRow key={r[nameKey]} className={`border-gray-100 transition-colors hover:bg-indigo-50/40 ${r[nameKey] === 'TOTAL' ? 'font-bold bg-indigo-50/60' : i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
               <TableCell className={`${td} font-semibold text-gray-800`}>{r[nameKey]}</TableCell>
               <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(r.q1Fy26)}</TableCell>
@@ -59,5 +59,6 @@ export const SalesDashboardTab: React.FC = () => (
   <div className="space-y-6">
     <QtrTable title="Category-wise Performance | Q1–Q3, 9M FY26 vs FY25" data={salesDashboard.byCategory} nameKey="category" icon={<ShoppingCart className="w-4 h-4 text-indigo-500" />} />
     <QtrTable title="Brand-wise Performance | Q1–Q3, 9M FY26 vs FY25" data={salesDashboard.byBrand} nameKey="brand" icon={<ShoppingCart className="w-4 h-4 text-purple-500" />} />
+    <QtrTable title="Zone-wise Performance | Q1–Q3, 9M FY26 vs FY25" data={salesDashboard.byZone} nameKey="region" icon={<Globe className="w-4 h-4 text-sky-500" />} />
   </div>
 );

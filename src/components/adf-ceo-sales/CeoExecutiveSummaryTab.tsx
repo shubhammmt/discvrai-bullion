@@ -28,7 +28,6 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
     <div className="space-y-6">
       {/* KPI Row 1 — Hero metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Revenue */}
         <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-700 text-white shadow-lg shadow-indigo-200/50">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-8 translate-x-8" />
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-indigo-100">
@@ -45,7 +44,6 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Volume Growth */}
         <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-200/50">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-8 translate-x-8" />
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-100">
@@ -55,7 +53,6 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
           <div className="text-xs text-emerald-100 mt-3">{s.volumeGrowth.label}</div>
         </div>
 
-        {/* Realization Growth */}
         <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-sky-500 to-cyan-600 text-white shadow-lg shadow-sky-200/50">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-8 translate-x-8" />
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-100">
@@ -66,7 +63,7 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
         </div>
       </div>
 
-      {/* KPI Row 2 — Supporting metrics with gradients */}
+      {/* KPI Row 2 */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="relative overflow-hidden rounded-2xl p-5 bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-200/50">
           <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -translate-y-6 translate-x-6" />
@@ -175,6 +172,38 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
                   <TableCell className={`${tableCellClass} text-right`}><GrowthBadge v={b.growth9MPct} align="right" /></TableCell>
                   <TableCell className={`${tableCellClass} text-right`}><GrowthBadge v={b.growthQ3Pct} align="right" /></TableCell>
                   <TableCell className={tableCellClass}><span className={`text-[11px] px-2.5 py-1 rounded-full font-semibold whitespace-nowrap ${signalColor(b.signal)}`}>{b.signal}</span></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Region-wise Growth */}
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+          <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+            <Globe className="w-4 h-4 text-sky-500" />
+            Region-wise Growth
+          </h3>
+        </div>
+        <div className="overflow-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-gray-200">
+                <TableHead className={`${tableHeadClass} min-w-[200px]`}>Region</TableHead>
+                <TableHead className={`${tableHeadClass} text-right min-w-[140px]`}>9M FY26 (₹L)</TableHead>
+                <TableHead className={`${tableHeadClass} text-right min-w-[110px]`}>9M Gr%</TableHead>
+                <TableHead className={`${tableHeadClass} text-right min-w-[110px]`}>Q3 Gr%</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {s.regionSignals.map((r: any, i: number) => (
+                <TableRow key={r.region} className={`border-gray-100 transition-colors hover:bg-sky-50/40 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                  <TableCell className={`${tableCellClass} font-semibold text-gray-800`}>{r.region}</TableCell>
+                  <TableCell className={`${tableCellClass} text-right font-medium text-gray-700 tabular-nums`}>{fmtNum(r.value9M)}</TableCell>
+                  <TableCell className={`${tableCellClass} text-right`}><GrowthBadge v={r.growth9MPct} align="right" /></TableCell>
+                  <TableCell className={`${tableCellClass} text-right`}><GrowthBadge v={r.growthQ3Pct} align="right" /></TableCell>
                 </TableRow>
               ))}
             </TableBody>
