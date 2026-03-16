@@ -301,6 +301,9 @@ const SIPManagement = () => {
 
       {/* User State Switcher */}
       <SIPUserStateSwitcher userState={userState} onUserStateChange={setUserState} />
+
+      {/* OTP Login Dialog */}
+      <OTPLoginDialog open={showLogin} onOpenChange={setShowLogin} onLoginSuccess={handleLoginSuccess} />
     </div>
   );
 };
