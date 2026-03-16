@@ -195,6 +195,7 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
                 <TableHead className={`${tableHeadClass} text-right min-w-[140px]`}>9M FY26 (₹L)</TableHead>
                 <TableHead className={`${tableHeadClass} text-right min-w-[110px]`}>9M Gr%</TableHead>
                 <TableHead className={`${tableHeadClass} text-right min-w-[110px]`}>Q3 Gr%</TableHead>
+                <TableHead className={`${tableHeadClass} min-w-[100px]`}>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -204,6 +205,7 @@ export const CeoExecutiveSummaryTab: React.FC = () => {
                   <TableCell className={`${tableCellClass} text-right font-medium text-gray-700 tabular-nums`}>{fmtNum(r.value9M)}</TableCell>
                   <TableCell className={`${tableCellClass} text-right`}><GrowthBadge v={r.growth9MPct} align="right" /></TableCell>
                   <TableCell className={`${tableCellClass} text-right`}><GrowthBadge v={r.growthQ3Pct} align="right" /></TableCell>
+                  <TableCell className={tableCellClass}>{r.status ? <span className={`text-[11px] px-2.5 py-1 rounded-full font-semibold whitespace-nowrap ${signalColor(r.status)}`}>{r.status}</span> : '—'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
