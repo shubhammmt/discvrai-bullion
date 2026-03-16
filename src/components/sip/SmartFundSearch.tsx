@@ -717,7 +717,7 @@ export function SmartFundSearch({
       </div>
 
       {/* Fund list */}
-      {(mode === 'conventional' || (mode === 'ai' && aiResults)) && (
+      {(mode === 'conventional' || (mode === 'ai' && effectiveAiResults)) && (
         <div className="space-y-2">
           <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
             {paginatedFunds.length === 0 ? (
