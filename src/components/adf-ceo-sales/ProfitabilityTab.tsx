@@ -84,6 +84,7 @@ export const ProfitabilityTab: React.FC = () => (
               <TableHead className={`${th} text-right min-w-[90px]`}>CIF PY</TableHead>
               <TableHead className={`${th} text-right min-w-[80px]`}>Price/kg PY</TableHead>
               <TableHead className={`${th} text-right min-w-[80px]`}>Margin% PY</TableHead>
+              <TableHead className={`${th} text-right min-w-[80px]`}>Margin Δ pp</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
