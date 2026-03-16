@@ -117,12 +117,27 @@ const SIPManagement = () => {
               </p>
             </div>
           </div>
-          {!isLoggedIn && (
-            <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-              <LogIn className="w-3.5 h-3.5" /> Sign In
-            </Button>
-          )}
-        </div>
+          <div className="flex items-center gap-2">
+            {authUser ? (
+              <>
+                <Avatar className="w-8 h-8">
+                  {authUser.picture && <AvatarImage src={authUser.picture} alt={authUser.name} />}
+                  <AvatarFallback className="text-xs">{authUser.name?.[0] || 'U'}</AvatarFallback>
+                </Avatar>
+                <Button size="sm" variant="ghost" className="text-xs gap-1" onClick={handleLogout}>
+                  <LogOut className="w-3.5 h-3.5" /> Logout
+                </Button>
+              </>
+            ) : !isLoggedIn ? (
+              <Button size="sm" variant="outline" className="gap-1.5 text-xs" onClick={() => setShowLogin(true)}>
+                <LogIn className="w-3.5 h-3.5" /> Sign In
+              </Button>
+            ) : (
+              <Button size="sm" variant="ghost" className="text-xs gap-1" onClick={handleLogout}>
+                <LogOut className="w-3.5 h-3.5" /> Logout
+              </Button>
+            )}
+          </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Scrollable Tab Navigation */}
