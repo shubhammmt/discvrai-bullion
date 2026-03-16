@@ -127,6 +127,20 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
       });
       if (!res.ok) throw new Error(`API error ${res.status}`);
       const data = await res.json();
+
+      // Handle action-type responses
+      if (data.type === 'action' && data.payload?.action === 'trigger_transaction_flow') {
+        const payload = data.payload as ActionPayload;
+        return {
+          id: `r-${Date.now()}`,
+          role: 'assistant',
+          content: payload.message || 'Let me help you with that.',
+          timestamp: new Date(),
+          agentsUsed: data.agents_used,
+          actionPayload: payload,
+        };
+      }
+
       return {
         id: `r-${Date.now()}`,
         role: 'assistant',
