@@ -185,11 +185,73 @@ export function SmartFundSearch({
     setCurrentPage(1);
   };
 
-  const handleAISubmit = () => {
-    if (!aiQuery.trim() || aiLoading) return;
-    setCurrentPage(1);
+  const handleAISubmit = useCallback(async (page = 1) => {
+    if (!aiQuery.trim() || internalAiLoading) return;
+    setCurrentPage(page);
+    setInternalAiLoading(true);
+    setAiCommunicationMessage(null);
+
+    // Also call parent handler if provided
     onAISearch?.(aiQuery.trim());
-  };
+
+    try {
+      const sessionId = '382a222a-e064-4fce-9f3c-2195c58655ee';
+      const response = await fetch('https://agentapi.discvr.ai/webhook/simple-fund-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: aiQuery.trim(),
+          session_id: sessionId,
+          page,
+          page_size: 20,
+          include_charts: true,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+
+      if (data.success && Array.isArray(data.data)) {
+        const mapped: MutualFund[] = data.data.map((item: any) => ({
+          code: String(item.mf_schcode || ''),
+          name: item.scheme_name || '',
+          category: item.main_category || '',
+          assetClass: mapCategoryToAssetClass(item.main_category),
+          nav: item.nav_price ?? 0,
+          rating: 0,
+          expenseRatio: item.total_expense_ratio ?? 0,
+          returns1Y: item.ret_1year != null ? parseFloat(item.ret_1year.toFixed(2)) : 0,
+          returns3Y: item.ret_3year != null ? parseFloat(item.ret_3year.toFixed(2)) : 0,
+          returns5Y: item.ret_5year != null ? parseFloat(item.ret_5year.toFixed(2)) : 0,
+          aum: item.current_aum ?? 0,
+          amc: item.amc_name || '',
+          planType: item.plan_type === 'Regular' ? 'Regular' : 'Direct',
+          riskLevel: mapRiskLevel(item.risk_level),
+          minSIPAmount: 500,
+          minLumpsumAmount: 5000,
+          exitLoad: 'N/A',
+          benchmark: '',
+          marketCap: undefined,
+          sector: undefined,
+        }));
+        setInternalAiResults(mapped);
+        setAiTotalRecords(data.total_records || mapped.length);
+        setAiTotalPages(data.total_pages || 1);
+        if (data.intent_analysis?.communication_message) {
+          setAiCommunicationMessage(data.intent_analysis.communication_message);
+        }
+      } else {
+        setInternalAiResults([]);
+        toast.error(data.error || 'No results found');
+      }
+    } catch (err) {
+      console.error('AI Screener API error:', err);
+      toast.error('Failed to fetch results. Please try again.');
+      setInternalAiResults([]);
+    } finally {
+      setInternalAiLoading(false);
+    }
+  }, [aiQuery, internalAiLoading, onAISearch]);
 
   const handleFundAction = (fund: MutualFund) => {
     setDetailFund(fund);
