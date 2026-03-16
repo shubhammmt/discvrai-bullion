@@ -639,12 +639,12 @@ export function SmartFundSearch({
               />
             </div>
             <Button
-              onClick={handleAISubmit}
-              disabled={!aiQuery.trim() || aiLoading}
+              onClick={() => handleAISubmit()}
+              disabled={!aiQuery.trim() || effectiveAiLoading}
               size="default"
               className="bg-gradient-to-r from-primary to-primary/80 shrink-0"
             >
-              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              {effectiveAiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
 
