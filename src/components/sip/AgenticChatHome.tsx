@@ -78,20 +78,17 @@ function buildPrefillFromAction(payload: ActionPayload): FundPurchasePrefill | u
   // Case 1: fallback_query → open AI screener with original_query
   if (wp?.workflow_action === 'fallback_query') {
     return {
-      screenerFilters: {
-        aiQuery: wp.original_query || '',
-        mode: 'ai',
-      } as any,
+      initialSearchMode: 'ai',
+      initialAIQuery: wp.original_query || '',
     };
   }
 
   // Case 2: widget_params is null but search_keyword exists → open search with keyword
   if (!wp && payload.search_keyword) {
     return {
-      screenerFilters: {
-        searchKeyword: payload.search_keyword,
-        mode: 'conventional',
-      } as any,
+      initialSearchMode: 'conventional',
+      initialSearchKeyword: payload.search_keyword,
+      screenerFilters: { query: payload.search_keyword } as any,
     };
   }
 
