@@ -346,7 +346,8 @@ const AppContent = () => {
              <Route path="/dashboard/mf-analytics" element={<MFAnalyticsDashboard />} />
              <Route path="/proposal/aiaic" element={<AIAICProposal />} />
            <Route path="/embed/screener" element={<EmbedScreener />} />
-           <Route path="/embed/docs" element={<EmbedDocs />} />
+            <Route path="/embed/docs" element={<EmbedDocs />} />
+            <Route path="/demo/treds-finops" element={<TredsFinopsDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
