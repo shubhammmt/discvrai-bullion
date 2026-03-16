@@ -342,6 +342,7 @@ const AppContent = () => {
              <Route path="/sip-management" element={<SIPManagement />} />
              <Route path="/dashboard/mf-analytics" element={<MFAnalyticsDashboard />} />
              <Route path="/proposal/aiaic" element={<AIAICProposal />} />
+          <Route path="/embed/screener" element={<EmbedScreener />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
