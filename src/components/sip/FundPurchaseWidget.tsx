@@ -32,6 +32,10 @@ export interface FundPurchasePrefill {
   startDate?: string;
   // Screener filters (agent can pre-apply filters instead of a specific fund)
   screenerFilters?: MFScreenerFilters;
+  // AI screener prefill
+  initialSearchMode?: 'conventional' | 'ai';
+  initialAIQuery?: string;
+  initialSearchKeyword?: string;
 }
 
 interface FundPurchaseWidgetProps {
