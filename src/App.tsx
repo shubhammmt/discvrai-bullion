@@ -352,6 +352,8 @@ const AppContent = () => {
            <Route path="/embed/screener" element={<EmbedScreener />} />
             <Route path="/embed/docs" element={<EmbedDocs />} />
             <Route path="/demo/treds-finops" element={<TredsFinopsDemo />} />
+            <Route path="/pitch/raja-railways" element={<RajaRailwaysDeck />} />
+            <Route path="/demo/raja-railways" element={<RajaRailwaysDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
