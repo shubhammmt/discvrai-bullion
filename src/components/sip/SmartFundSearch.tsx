@@ -171,10 +171,12 @@ export function SmartFundSearch({
   }, [baseFunds, query, assetClass, category, marketCap, sector, maxExpenseRatio, minReturns1Y, minReturns3Y, minReturns5Y, amc, sortBy]);
 
   // Reset page when filters change
-  const displayedFunds = mode === 'conventional' ? conventionalResults : (aiResults || []);
-  const totalPages = Math.max(1, Math.ceil(displayedFunds.length / ITEMS_PER_PAGE));
+  const effectiveAiResults = internalAiResults ?? aiResults;
+  const displayedFunds = mode === 'conventional' ? conventionalResults : (effectiveAiResults || []);
+  const effectiveAiLoading = internalAiLoading || aiLoading;
+  const totalPages = mode === 'ai' && aiTotalPages > 1 ? aiTotalPages : Math.max(1, Math.ceil(displayedFunds.length / ITEMS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
-  const paginatedFunds = displayedFunds.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
+  const paginatedFunds = mode === 'ai' ? displayedFunds : displayedFunds.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
 
   const activeFilters: { key: string; label: string; value: string; clear: () => void }[] = [];
   if (assetClass) activeFilters.push({ key: 'ac', label: 'Asset', value: assetClass, clear: () => { setAssetClass(undefined); setCategory(undefined); } });
