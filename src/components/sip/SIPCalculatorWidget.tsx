@@ -122,46 +122,46 @@ function SIPCalc({ onStartSIP }: { onStartSIP?: (amount: number) => void }) {
   const result = useMemo(() => calcSIP(monthly, years, rate, stepUp), [monthly, years, rate, stepUp]);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-5">
-        <SliderInput label="Monthly Investment Amount" value={monthly} onChange={setMonthly} min={500} max={200000} step={500} prefix="₹" />
-        <SliderInput label="Select Duration" value={years} onChange={setYears} min={1} max={30} step={1} suffix="Yrs" />
-        <SliderInput label="Expected Rate of Return" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
-        <SliderInput label="Annual Step-Up (optional)" value={stepUp} onChange={setStepUp} min={0} max={25} step={5} suffix="%" />
+    <div className="grid md:grid-cols-2 gap-4">
+      {/* Input — Left */}
+      <div className="space-y-4">
+        <SliderInput label="Monthly Amount" value={monthly} onChange={setMonthly} min={500} max={200000} step={500} prefix="₹" />
+        <SliderInput label="Duration" value={years} onChange={setYears} min={1} max={30} step={1} suffix="Yrs" />
+        <SliderInput label="Return %" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
+        <SliderInput label="Step-Up %" value={stepUp} onChange={setStepUp} min={0} max={25} step={5} suffix="%" />
       </div>
 
-      <div className="rounded-xl border border-border bg-muted/30 p-4">
-        <p className="text-sm text-muted-foreground text-center mb-4">
-          The total value of your investment after <span className="font-bold text-foreground">{years} Years</span> will be
-        </p>
-        <p className="text-2xl font-bold text-center text-foreground mb-4">{formatINR(result.total)}</p>
+      {/* Output — Right */}
+      <div className="rounded-xl border border-border bg-muted/30 p-3 flex flex-col items-center justify-center">
+        <p className="text-2xl font-bold text-foreground mb-2">{formatINR(result.total)}</p>
+        <p className="text-[10px] text-muted-foreground mb-3">after {years} yrs</p>
 
-        <div className="flex items-center justify-center gap-6">
-          <DonutChart invested={result.invested} returns={result.returns} />
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'hsl(var(--primary))' }} />
+        <div className="flex items-center gap-4">
+          <DonutChart invested={result.invested} returns={result.returns} size={100} />
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(var(--primary))' }} />
               <div>
-                <p className="text-[10px] text-muted-foreground">Invested Amount</p>
-                <p className="text-sm font-bold text-foreground">{formatINR(result.invested)}</p>
+                <p className="text-[9px] text-muted-foreground">Invested</p>
+                <p className="text-xs font-bold">{formatINR(result.invested)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
               <div>
-                <p className="text-[10px] text-muted-foreground">Est. Returns</p>
-                <p className="text-sm font-bold text-green-600">{formatINR(result.returns)}</p>
+                <p className="text-[9px] text-muted-foreground">Returns</p>
+                <p className="text-xs font-bold text-sip-success">{formatINR(result.returns)}</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {onStartSIP && (
-        <Button className="w-full" onClick={() => onStartSIP(monthly)}>
-          <Sparkles className="w-4 h-4 mr-1" /> Start SIP of ₹{monthly.toLocaleString()}/mo
-        </Button>
-      )}
+        {onStartSIP && (
+          <Button size="sm" className="w-full mt-3" onClick={() => onStartSIP(monthly)}>
+            <Sparkles className="w-3 h-3 mr-1" /> Start ₹{monthly.toLocaleString()}/mo
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
@@ -174,34 +174,32 @@ function LumpsumCalc() {
   const result = useMemo(() => calcLumpsum(amount, years, rate), [amount, years, rate]);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-5">
-        <SliderInput label="Investment Amount" value={amount} onChange={setAmount} min={5000} max={10000000} step={5000} prefix="₹" />
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="space-y-4">
+        <SliderInput label="Amount" value={amount} onChange={setAmount} min={5000} max={10000000} step={5000} prefix="₹" />
         <SliderInput label="Duration" value={years} onChange={setYears} min={1} max={30} step={1} suffix="Yrs" />
-        <SliderInput label="Expected Return" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
+        <SliderInput label="Return %" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
       </div>
 
-      <div className="rounded-xl border border-border bg-muted/30 p-4">
-        <p className="text-sm text-muted-foreground text-center mb-4">
-          Your investment after <span className="font-bold text-foreground">{years} Years</span> will be
-        </p>
-        <p className="text-2xl font-bold text-center text-foreground mb-4">{formatINR(result.total)}</p>
+      <div className="rounded-xl border border-border bg-muted/30 p-3 flex flex-col items-center justify-center">
+        <p className="text-2xl font-bold text-foreground mb-2">{formatINR(result.total)}</p>
+        <p className="text-[10px] text-muted-foreground mb-3">after {years} yrs</p>
 
-        <div className="flex items-center justify-center gap-6">
-          <DonutChart invested={result.invested} returns={result.returns} />
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'hsl(var(--primary))' }} />
+        <div className="flex items-center gap-4">
+          <DonutChart invested={result.invested} returns={result.returns} size={100} />
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(var(--primary))' }} />
               <div>
-                <p className="text-[10px] text-muted-foreground">Invested</p>
-                <p className="text-sm font-bold text-foreground">{formatINR(result.invested)}</p>
+                <p className="text-[9px] text-muted-foreground">Invested</p>
+                <p className="text-xs font-bold">{formatINR(result.invested)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
               <div>
-                <p className="text-[10px] text-muted-foreground">Est. Returns</p>
-                <p className="text-sm font-bold text-green-600">{formatINR(result.returns)}</p>
+                <p className="text-[9px] text-muted-foreground">Returns</p>
+                <p className="text-xs font-bold text-sip-success">{formatINR(result.returns)}</p>
               </div>
             </div>
           </div>
@@ -220,43 +218,41 @@ function GoalCalc({ onStartSIP }: { onStartSIP?: (amount: number) => void }) {
   const result = useMemo(() => calcSIP(requiredSIP, years, rate), [requiredSIP, years, rate]);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-5">
-        <SliderInput label="I want to save" value={targetAmount} onChange={setTargetAmount} min={100000} max={100000000} step={100000} prefix="₹" />
-        <SliderInput label="In how many years" value={years} onChange={setYears} min={1} max={30} step={1} suffix="Yrs" />
-        <SliderInput label="Expected Return" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="space-y-4">
+        <SliderInput label="Target Amount" value={targetAmount} onChange={setTargetAmount} min={100000} max={100000000} step={100000} prefix="₹" />
+        <SliderInput label="Time Frame" value={years} onChange={setYears} min={1} max={30} step={1} suffix="Yrs" />
+        <SliderInput label="Return %" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
       </div>
 
-      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 space-y-3">
-        <div className="flex items-center gap-2">
-          <Target className="w-5 h-5 text-primary" />
-          <p className="text-sm font-semibold text-foreground">To reach {formatINR(targetAmount)} in {years} years</p>
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-1.5 mb-1">
+          <Target className="w-4 h-4 text-primary" />
+          <p className="text-xs text-muted-foreground">{formatINR(targetAmount)} in {years} yrs</p>
         </div>
-        <div className="text-center py-2">
-          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">You need to invest monthly</p>
-          <p className="text-3xl font-bold text-primary mt-1">{formatINR(requiredSIP)}</p>
-        </div>
+        <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Invest monthly</p>
+        <p className="text-2xl font-bold text-primary">{formatINR(requiredSIP)}</p>
 
-        <div className="flex items-center justify-center gap-6">
-          <DonutChart invested={result.invested} returns={result.returns} size={120} />
-          <div className="space-y-2 text-sm">
+        <div className="flex items-center gap-4 mt-3">
+          <DonutChart invested={result.invested} returns={result.returns} size={90} />
+          <div className="space-y-2 text-xs">
             <div>
-              <p className="text-[10px] text-muted-foreground">You'll invest</p>
-              <p className="font-bold text-foreground">{formatINR(result.invested)}</p>
+              <p className="text-[9px] text-muted-foreground">You invest</p>
+              <p className="font-bold">{formatINR(result.invested)}</p>
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground">Your money earns</p>
-              <p className="font-bold text-green-600">{formatINR(result.returns)}</p>
+              <p className="text-[9px] text-muted-foreground">Earnings</p>
+              <p className="font-bold text-sip-success">{formatINR(result.returns)}</p>
             </div>
           </div>
         </div>
-      </div>
 
-      {onStartSIP && (
-        <Button className="w-full" onClick={() => onStartSIP(requiredSIP)}>
-          <Sparkles className="w-4 h-4 mr-1" /> Start SIP of {formatINR(requiredSIP)}/mo
-        </Button>
-      )}
+        {onStartSIP && (
+          <Button size="sm" className="w-full mt-3" onClick={() => onStartSIP(requiredSIP)}>
+            <Sparkles className="w-3 h-3 mr-1" /> Start {formatINR(requiredSIP)}/mo
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
@@ -266,20 +262,20 @@ function SliderInput({ label, value, onChange, min, max, step, prefix, suffix }:
   min: number; max: number; step: number; prefix?: string; suffix?: string;
 }) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <Label className="text-sm text-foreground">{label}</Label>
-        <div className="flex items-center gap-1 border border-border rounded-md px-2 py-1">
-          {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
+        <Label className="text-xs text-muted-foreground">{label}</Label>
+        <div className="flex items-center gap-0.5 border border-border rounded px-1.5 py-0.5">
+          {prefix && <span className="text-[10px] text-muted-foreground">{prefix}</span>}
           <Input
             type="number" value={value}
             onChange={e => {
               const v = Number(e.target.value);
               if (v >= min && v <= max) onChange(v);
             }}
-            className="w-20 h-6 border-0 p-0 text-right text-sm font-semibold focus-visible:ring-0 bg-transparent"
+            className="w-16 h-5 border-0 p-0 text-right text-xs font-semibold focus-visible:ring-0 bg-transparent"
           />
-          {suffix && <span className="text-xs text-muted-foreground">{suffix}</span>}
+          {suffix && <span className="text-[10px] text-muted-foreground">{suffix}</span>}
         </div>
       </div>
       <Slider value={[value]} onValueChange={v => onChange(v[0])} min={min} max={max} step={step} />
