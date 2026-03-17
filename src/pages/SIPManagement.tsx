@@ -218,50 +218,13 @@ const SIPManagement = () => {
           {/* HOME TAB */}
           {activeTab === 'home' && (
             <div className="space-y-4">
-              {/* Quick Action CTAs */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <Card className="cursor-pointer hover:border-sip-brand transition-colors" onClick={() => setActiveTab('buy')}>
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-sip-brand flex items-center justify-center shrink-0">
-                      <Sparkles className="w-5 h-5 text-sip-brand-foreground" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">AI Research</p>
-                      <p className="text-xs text-muted-foreground">AI-powered fund screening</p>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
-                  </CardContent>
-                </Card>
-                <Card className="cursor-pointer hover:border-sip-brand transition-colors" onClick={() => setActiveTab('goals')}>
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-sip-success flex items-center justify-center shrink-0">
-                      <Target className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">Plan Goals</p>
-                      <p className="text-xs text-muted-foreground">Financial goal planning</p>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
-                  </CardContent>
-                </Card>
-                <Card className="cursor-pointer hover:border-sip-brand transition-colors" onClick={() => setActiveTab('screener')}>
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-sip-brand-accent flex items-center justify-center shrink-0">
-                      <TrendingUp className="w-5 h-5 text-sip-brand-accent-foreground" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">500+ Funds</p>
-                      <p className="text-xs text-muted-foreground">All AMCs, direct plans</p>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Portfolio summary for investors */}
+              {/* Portfolio snapshot for investors — clickable to full portfolio */}
               {hasHoldings && (
-                <div className="grid grid-cols-2 gap-3">
-                  <Card className="bg-primary text-primary-foreground cursor-pointer" onClick={() => setActiveTab('portfolio')}>
+                <div
+                  className="grid grid-cols-2 gap-3 cursor-pointer"
+                  onClick={() => setActiveTab('portfolio')}
+                >
+                  <Card className="bg-sip-brand text-sip-brand-foreground hover:opacity-90 transition-opacity">
                     <CardContent className="p-4">
                       <p className="text-[10px] uppercase tracking-wider opacity-80">Portfolio Value</p>
                       <p className="text-2xl font-bold mt-1">₹{totalValue.toLocaleString()}</p>
@@ -271,7 +234,7 @@ const SIPManagement = () => {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className="cursor-pointer" onClick={() => setActiveTab('manage')}>
+                  <Card className="hover:border-sip-brand/40 transition-colors" onClick={(e) => { e.stopPropagation(); setActiveTab('manage'); }}>
                     <CardContent className="p-4">
                       <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Monthly SIPs</p>
                       <p className="text-2xl font-bold text-foreground mt-1">₹{totalMonthly.toLocaleString()}</p>
@@ -281,8 +244,17 @@ const SIPManagement = () => {
                 </div>
               )}
 
-              {/* Discovery */}
-              <DiscoverySection onSelectFund={handleFundSelect} onViewAll={() => setActiveTab('screener')} />
+              {/* Full Agentic Chat — the primary interface */}
+              <Card>
+                <CardContent className="p-4">
+                  <AgenticChatHome
+                    userState={userState}
+                    onNavigateTab={(tab) => setActiveTab(tab)}
+                    authUser={authUser}
+                    userName={authUser?.name}
+                  />
+                </CardContent>
+              </Card>
             </div>
           )}
 
