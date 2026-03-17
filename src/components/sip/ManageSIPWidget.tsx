@@ -151,20 +151,18 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
     try {
       const actionMap: Record<string, string> = { pause: 'PAUSE', activate: 'ACTIVATE', delete: 'CANCEL' };
       const body: any = {
-        user_id: userId || 'default',
+        user_id: userId || 'a7ca0dcf-3c88-45c6-b4ac-e40fde319956',
         subscription_id: subscriptionId,
         action: actionMap[action],
       };
       if (action === 'activate') {
         body.next_scheduled_time = `${activateDate}T10:00:00+05:30`;
       }
-      const res = await fetch(`${API_BASE_URL}/webhook/api/v1/sips/manage`, {
+      const json = await safeFetch(`${API_BASE_URL}/webhook/api/v1/sips/manage`, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error(`Request failed (${res.status})`);
-      const json = await res.json();
       if (!json.success) throw new Error(json.message || 'Action failed');
 
       const labels: Record<string, string> = { pause: 'paused', activate: 'activated', delete: 'cancelled' };
