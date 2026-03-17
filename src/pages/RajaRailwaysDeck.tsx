@@ -27,19 +27,19 @@ const slides = [
     render: () => (
       <div className="h-full flex flex-col px-14 pt-10">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#F59E0B]" />
-        <Badge className="w-fit bg-[#1E3A8A]/10 text-[#1E3A8A] border-[#1E3A8A]/20 mb-3">Context Setting</Badge>
-        <h2 className="text-3xl font-bold text-[#1E3A8A] mb-1">A Peer-to-Peer Conversation</h2>
-        <p className="text-sm text-gray-500 mb-5">Establishing credibility — not as a vendor, but as a practitioner.</p>
+        <Badge className="w-fit bg-[#1E3A8A]/10 text-[#1E3A8A] border-[#1E3A8A]/20 mb-3">About Us</Badge>
+        <h2 className="text-3xl font-bold text-[#1E3A8A] mb-1">Shubham Srivastava · DiscvrAI</h2>
+        <p className="text-sm text-gray-500 mb-5">Enterprise AI for operations, analytics & commerce — in production across verticals.</p>
 
         {/* Two-column: Credentials + Platform */}
         <div className="grid grid-cols-5 gap-5 mb-4">
           {/* Credentials */}
           <div className="col-span-2 space-y-2.5">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Presenter Credentials</h3>
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Background</h3>
             {[
               { icon: <Building2 className="w-4 h-4 text-[#F59E0B]" />, role: 'CIO, Eureka Forbes', desc: 'Field force, supply chain, logistics at scale' },
-              { icon: <Building2 className="w-4 h-4 text-[#F59E0B]" />, role: 'CIO, Hindustan Times', desc: 'Media, content, distribution at scale' },
-              { icon: <Building2 className="w-4 h-4 text-[#F59E0B]" />, role: 'CIO, MakeMyTrip', desc: 'Travel, personalization, high-volume transactions' },
+              { icon: <Building2 className="w-4 h-4 text-[#F59E0B]" />, role: 'CTO, Hindustan Times', desc: 'Media, content, distribution at scale' },
+              { icon: <Building2 className="w-4 h-4 text-[#F59E0B]" />, role: 'Head of Technology, MakeMyTrip', desc: 'Travel, personalization, high-volume transactions' },
               { icon: <Zap className="w-4 h-4 text-[#F59E0B]" />, role: 'Technical Depth', desc: 'ML, digital transformation — billion queries/sec, terabytes of data' },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-2.5 p-2 rounded-lg bg-gray-50">
@@ -75,12 +75,7 @@ const slides = [
           </div>
         </div>
 
-        {/* Opening Line */}
-        <div className="mt-auto mb-4 p-3 bg-[#F59E0B]/10 rounded-xl border border-[#F59E0B]/20">
-          <p className="text-xs text-[#1E3A8A] leading-relaxed italic">
-            "Mr. Raja, I know you've authored the AI strategy for Indian Railways — most of what I could present you've already thought through. So I'd like to ask: <span className="font-semibold not-italic">where do you see the biggest opportunity for us to add value?</span>"
-          </p>
-        </div>
+        <p className="text-xs text-gray-400 mt-auto mb-4 text-center italic">"We're not theoretical. We're in production with manufacturing, BFSI, and logistics — solving real operational problems."</p>
       </div>
     ),
   },
