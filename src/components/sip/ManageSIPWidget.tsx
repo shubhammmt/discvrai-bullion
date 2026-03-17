@@ -180,9 +180,7 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   const handleVerify = async (sip: SIPRecord) => {
     setVerifyingId(sip.sip_id);
     try {
-      const res = await fetch(`${API_BASE_URL}/webhook/api/v1/sips/status?subscription_id=${sip.subscription_id}`, { headers: getHeaders() });
-      if (!res.ok) throw new Error(`Verify failed (${res.status})`);
-      const json = await res.json();
+      const json = await safeFetch(`${API_BASE_URL}/webhook/api/v1/sips/status?subscription_id=${sip.subscription_id}`, { headers: getHeaders() });
       if (json.status?.toUpperCase() === 'ACTIVE') {
         setBanner({ type: 'success', message: `SIP ${sip.scheme_name} is now Active` });
       } else {
