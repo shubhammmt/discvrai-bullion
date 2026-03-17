@@ -98,6 +98,31 @@
     --enterprise-border: 220 30% 25%;
     --enterprise-success: 152 70% 45%;
     --enterprise-danger: 0 75% 55%;
+
+    /* SIP Module Theme — Configurable */
+    --sip-brand-primary: 220 68% 55%;
+    --sip-brand-primary-foreground: 0 0% 98%;
+    --sip-brand-accent: 270 65% 60%;
+    --sip-brand-accent-foreground: 0 0% 98%;
+    --sip-success: 152 76% 40%;
+    --sip-success-light: 152 60% 92%;
+    --sip-success-foreground: 152 76% 25%;
+    --sip-warning: 38 92% 50%;
+    --sip-warning-light: 38 80% 92%;
+    --sip-warning-foreground: 38 92% 30%;
+    --sip-error: 0 84% 60%;
+    --sip-error-light: 0 70% 95%;
+    --sip-error-foreground: 0 84% 30%;
+    --sip-surface: 220 20% 97%;
+    --sip-surface-elevated: 0 0% 100%;
+    --sip-text-primary: 220 20% 10%;
+    --sip-text-secondary: 220 10% 45%;
+    --sip-text-muted: 220 8% 60%;
+    --sip-border: 220 15% 90%;
+    --sip-border-active: 220 68% 75%;
+    --sip-sidebar-bg: 220 25% 97%;
+    --sip-sidebar-active: 220 68% 55%;
+    --sip-sidebar-hover: 220 20% 94%;
   }
 
   .dark {
@@ -161,6 +186,31 @@
     --bullion-text-primary: 0 0% 98%;
     --bullion-text-secondary: 220 10% 65%;
     --bullion-border: 220 15% 20%;
+
+    /* SIP Module Theme — Dark Mode */
+    --sip-brand-primary: 220 68% 60%;
+    --sip-brand-primary-foreground: 0 0% 98%;
+    --sip-brand-accent: 270 65% 65%;
+    --sip-brand-accent-foreground: 0 0% 98%;
+    --sip-success: 152 76% 50%;
+    --sip-success-light: 152 40% 15%;
+    --sip-success-foreground: 152 76% 70%;
+    --sip-warning: 38 92% 55%;
+    --sip-warning-light: 38 40% 15%;
+    --sip-warning-foreground: 38 92% 70%;
+    --sip-error: 0 84% 60%;
+    --sip-error-light: 0 40% 15%;
+    --sip-error-foreground: 0 84% 70%;
+    --sip-surface: 220 15% 8%;
+    --sip-surface-elevated: 220 15% 12%;
+    --sip-text-primary: 0 0% 98%;
+    --sip-text-secondary: 220 10% 65%;
+    --sip-text-muted: 220 8% 50%;
+    --sip-border: 220 15% 20%;
+    --sip-border-active: 220 68% 50%;
+    --sip-sidebar-bg: 220 15% 10%;
+    --sip-sidebar-active: 220 68% 60%;
+    --sip-sidebar-hover: 220 15% 15%;
   }
 }
 

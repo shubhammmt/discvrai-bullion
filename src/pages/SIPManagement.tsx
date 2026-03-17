@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
 import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
@@ -10,33 +9,41 @@ import { PortfolioTab } from '@/components/sip/PortfolioTab';
 import { TransactionsTab } from '@/components/sip/TransactionsTab';
 import { StatementsTab } from '@/components/sip/StatementsTab';
 import { DiscoverySection } from '@/components/sip/DiscoverySection';
-import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
-  TrendingUp, Repeat, Zap, Bell, ArrowRight, BarChart3, FileText, Receipt,
-  MessageSquare, History, Sparkles, Bot, LogIn, LogOut, User,
+  TrendingUp, Bell, BarChart3, FileText, Receipt,
+  MessageSquare, History, Sparkles, Bot, LogIn, LogOut,
+  PanelLeft, X, ChevronRight,
 } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MOCK_SIPS, MutualFund } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [userState, setUserState] = useState<SIPUserState>('investor');
   const [showLogin, setShowLogin] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const isMobile = useIsMobile();
   const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
     try {
       const stored = localStorage.getItem('discvr_user');
       return stored ? JSON.parse(stored) : null;
     } catch { return null; }
   });
+
+  // Collapse sidebar on mobile by default
+  useEffect(() => {
+    if (isMobile) setSidebarOpen(false);
+  }, [isMobile]);
 
   const isLoggedIn = userState !== 'anonymous';
   const hasHoldings = userState === 'investor';
@@ -67,19 +74,23 @@ const SIPManagement = () => {
     setActiveTab('buy');
   };
 
-  // Tabs vary by user state
+  const handleNavClick = (tab: string) => {
+    setActiveTab(tab);
+    if (isMobile) setSidebarOpen(false);
+  };
+
   const allTabs = [
-    { value: 'home', icon: Sparkles, label: 'Home', always: true },
-    { value: 'chat', icon: MessageSquare, label: 'Chat', always: true },
+    { value: 'home', icon: Home, label: 'Home', always: true },
     { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
     { value: 'buy', icon: ShoppingCart, label: 'Invest', always: true },
     { value: 'screener', icon: Search, label: 'Screener', always: true },
-    { value: 'transactions', icon: Receipt, label: 'Txns', requiresLogin: true },
+    { value: 'transactions', icon: Receipt, label: 'Transactions', requiresLogin: true },
     { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
-    { value: 'statements', icon: FileText, label: 'Stmts', requiresLogin: true },
-    { value: 'calculator', icon: Calculator, label: 'Calc', always: true },
+    { value: 'statements', icon: FileText, label: 'Statements', requiresLogin: true },
+    { value: 'calculator', icon: Calculator, label: 'Calculator', always: true },
     { value: 'goals', icon: Target, label: 'Goals', requiresLogin: true },
     { value: 'sell', icon: ArrowDownLeft, label: 'Sell', requiresHoldings: true },
+    { value: 'chat', icon: MessageSquare, label: 'Chat History', always: true },
     { value: 'demos', icon: History, label: 'Demos', always: true },
   ];
 
@@ -91,213 +102,249 @@ const SIPManagement = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {isLoggedIn && (
-              <Button variant="ghost" size="sm" className="w-9 h-9 p-0 relative">
-                <Bell className="w-4 h-4" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
-              </Button>
-            )}
-            <div>
-              <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-                <Bot className="w-5 h-5 text-primary" />
-                {userState === 'anonymous' ? 'Discover Mutual Funds' : 'Mutual Funds'}
-              </h1>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                {userState === 'anonymous'
-                  ? 'AI-powered investment discovery & research'
-                  : hasHoldings
-                    ? 'Invest, track & manage your portfolio'
-                    : 'Start your investment journey with AI'
-                }
-              </p>
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar Overlay on Mobile */}
+      {isMobile && sidebarOpen && (
+        <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar */}
+      <aside className={cn(
+        'bg-sip-sidebar-bg border-r border-sip-border flex flex-col shrink-0 transition-all duration-200 z-50',
+        isMobile ? 'fixed inset-y-0 left-0 w-64' : sidebarOpen ? 'w-56' : 'w-14',
+        isMobile && !sidebarOpen && '-translate-x-full'
+      )}>
+        {/* Sidebar Header */}
+        <div className="flex items-center gap-2 px-3 py-4 border-b border-sip-border">
+          {(sidebarOpen || isMobile) && (
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
+                <Bot className="w-4 h-4 text-sip-brand-foreground" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-sip-text-primary truncate">DiscvrAI</p>
+                <p className="text-[10px] text-sip-text-muted">Wealth Platform</p>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            {authUser ? (
-              <>
-                <Avatar className="w-8 h-8">
-                  {authUser.picture && <AvatarImage src={authUser.picture} alt={authUser.name} />}
-                  <AvatarFallback className="text-xs">{authUser.name?.[0] || 'U'}</AvatarFallback>
-                </Avatar>
-                <Button size="sm" variant="ghost" className="text-xs gap-1" onClick={handleLogout}>
-                  <LogOut className="w-3.5 h-3.5" /> Logout
-                </Button>
-              </>
-            ) : !isLoggedIn ? (
-              <Button size="sm" variant="outline" className="gap-1.5 text-xs" onClick={() => setShowLogin(true)}>
-                <LogIn className="w-3.5 h-3.5" /> Sign In
-              </Button>
-            ) : (
-              <Button size="sm" variant="ghost" className="text-xs gap-1" onClick={handleLogout}>
-                <LogOut className="w-3.5 h-3.5" /> Logout
-              </Button>
-            )}
-          </div>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 shrink-0"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            {sidebarOpen ? <X className="w-4 h-4" /> : <PanelLeft className="w-4 h-4" />}
+          </Button>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {/* Scrollable Tab Navigation */}
-          <div className="overflow-x-auto -mx-4 px-4 pb-1">
-            <TabsList className="inline-flex w-auto h-auto p-1 gap-0.5">
-              {visibleTabs.map(tab => (
-                <TabsTrigger key={tab.value} value={tab.value} className="flex flex-col items-center gap-0.5 text-[10px] py-1.5 px-2.5 min-w-[52px]">
-                  <tab.icon className="w-3.5 h-3.5" /> {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        {/* Nav Items */}
+        <nav className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
+          {visibleTabs.map(tab => {
+            const isActive = activeTab === tab.value;
+            return (
+              <button
+                key={tab.value}
+                onClick={() => handleNavClick(tab.value)}
+                className={cn(
+                  'w-full flex items-center gap-3 rounded-lg text-sm font-medium transition-colors',
+                  sidebarOpen || isMobile ? 'px-3 py-2' : 'px-0 py-2 justify-center',
+                  isActive
+                    ? 'bg-sip-brand text-sip-brand-foreground'
+                    : 'text-sip-text-secondary hover:bg-sip-sidebar-hover hover:text-sip-text-primary'
+                )}
+                title={!sidebarOpen && !isMobile ? tab.label : undefined}
+              >
+                <tab.icon className="w-4 h-4 shrink-0" />
+                {(sidebarOpen || isMobile) && <span className="truncate">{tab.label}</span>}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Sidebar Footer — User */}
+        {(sidebarOpen || isMobile) && (
+          <div className="border-t border-sip-border p-3">
+            {authUser ? (
+              <div className="flex items-center gap-2">
+                <Avatar className="w-7 h-7">
+                  {authUser.picture && <AvatarImage src={authUser.picture} alt={authUser.name} />}
+                  <AvatarFallback className="text-[10px]">{authUser.name?.[0] || 'U'}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-sip-text-primary truncate">{authUser.name}</p>
+                </div>
+                <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={handleLogout}>
+                  <LogOut className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            ) : (
+              <Button size="sm" variant="outline" className="w-full gap-1.5 text-xs" onClick={() => setShowLogin(true)}>
+                <LogIn className="w-3.5 h-3.5" /> Sign In
+              </Button>
+            )}
           </div>
+        )}
+      </aside>
 
-          {/* HOME TAB — Chat-centered agentic hero */}
-          <TabsContent value="home" className="mt-4 space-y-4">
-            {/* Agentic AI Chat — The Hero */}
-            <Card className="overflow-hidden border-primary/20">
-              <CardContent className="p-4">
-                <AgenticChatHome userState={userState} onNavigateTab={setActiveTab} authUser={authUser} />
-              </CardContent>
-            </Card>
+      {/* Main Content */}
+      <main className="flex-1 min-w-0 overflow-y-auto">
+        {/* Top Bar */}
+        <div className="sticky top-0 z-30 bg-background border-b border-sip-border px-4 py-3 flex items-center gap-3">
+          {!sidebarOpen && !isMobile && (
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setSidebarOpen(true)}>
+              <PanelLeft className="w-4 h-4" />
+            </Button>
+          )}
+          {isMobile && (
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setSidebarOpen(true)}>
+              <PanelLeft className="w-4 h-4" />
+            </Button>
+          )}
+          <div className="flex-1">
+            <h1 className="text-lg font-bold text-foreground">
+              {visibleTabs.find(t => t.value === activeTab)?.label || 'Home'}
+            </h1>
+          </div>
+          {isLoggedIn && (
+            <Button variant="ghost" size="sm" className="w-8 h-8 p-0 relative">
+              <Bell className="w-4 h-4" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
+            </Button>
+          )}
+        </div>
 
-            {/* Quick context cards for logged-in users with holdings */}
-            {hasHoldings && (
-              <div className="grid grid-cols-2 gap-3">
-                <Card className="bg-primary text-primary-foreground cursor-pointer" onClick={() => setActiveTab('portfolio')}>
-                  <CardContent className="p-4">
-                    <p className="text-[10px] uppercase tracking-wider opacity-80">Portfolio Value</p>
-                    <p className="text-2xl font-bold mt-1">₹{totalValue.toLocaleString()}</p>
-                    <p className="text-xs opacity-70 mt-0.5 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}% returns
-                    </p>
+        <div className="max-w-3xl mx-auto px-4 py-6">
+          {/* HOME TAB */}
+          {activeTab === 'home' && (
+            <div className="space-y-4">
+              {/* Quick Action CTAs */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <Card className="cursor-pointer hover:border-sip-brand transition-colors" onClick={() => setActiveTab('buy')}>
+                  <CardContent className="p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-sip-brand flex items-center justify-center shrink-0">
+                      <Sparkles className="w-5 h-5 text-sip-brand-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">AI Research</p>
+                      <p className="text-xs text-muted-foreground">AI-powered fund screening</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
                   </CardContent>
                 </Card>
-                <Card className="cursor-pointer" onClick={() => setActiveTab('manage')}>
-                  <CardContent className="p-4">
-                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Monthly SIPs</p>
-                    <p className="text-2xl font-bold text-foreground mt-1">₹{totalMonthly.toLocaleString()}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{activeSIPs.length} active SIPs</p>
+                <Card className="cursor-pointer hover:border-sip-brand transition-colors" onClick={() => setActiveTab('goals')}>
+                  <CardContent className="p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-sip-success flex items-center justify-center shrink-0">
+                      <Target className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">Plan Goals</p>
+                      <p className="text-xs text-muted-foreground">Financial goal planning</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+                  </CardContent>
+                </Card>
+                <Card className="cursor-pointer hover:border-sip-brand transition-colors" onClick={() => setActiveTab('screener')}>
+                  <CardContent className="p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-sip-brand-accent flex items-center justify-center shrink-0">
+                      <TrendingUp className="w-5 h-5 text-sip-brand-accent-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">500+ Funds</p>
+                      <p className="text-xs text-muted-foreground">All AMCs, direct plans</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
                   </CardContent>
                 </Card>
               </div>
-            )}
 
-            {/* For logged-in no holdings — nudge */}
-            {isLoggedIn && !hasHoldings && (
-              <Card className="border-primary/20 bg-primary/5">
-                <CardContent className="p-4 text-center space-y-2">
-                  <p className="text-sm font-semibold text-foreground">🎯 You're all set up!</p>
-                  <p className="text-xs text-muted-foreground">Ask the AI above to recommend your first fund, or explore below.</p>
-                  <div className="flex gap-2 justify-center">
-                    <Button size="sm" onClick={() => setActiveTab('buy')}>
-                      <ShoppingCart className="w-3 h-3 mr-1" /> Start SIP
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => setActiveTab('calculator')}>
-                      <Calculator className="w-3 h-3 mr-1" /> Calculator
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* For anonymous — value props */}
-            {!isLoggedIn && (
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { icon: Sparkles, label: 'AI Research', desc: 'Get personalized picks' },
-                  { icon: Calculator, label: 'Plan Goals', desc: 'Retirement, education...' },
-                  { icon: TrendingUp, label: '500+ Funds', desc: 'All AMCs, direct plans' },
-                ].map(item => (
-                  <Card key={item.label} className="text-center">
-                    <CardContent className="p-3">
-                      <item.icon className="w-5 h-5 text-primary mx-auto mb-1" />
-                      <p className="text-[10px] font-semibold text-foreground">{item.label}</p>
-                      <p className="text-[9px] text-muted-foreground">{item.desc}</p>
+              {/* Portfolio summary for investors */}
+              {hasHoldings && (
+                <div className="grid grid-cols-2 gap-3">
+                  <Card className="bg-primary text-primary-foreground cursor-pointer" onClick={() => setActiveTab('portfolio')}>
+                    <CardContent className="p-4">
+                      <p className="text-[10px] uppercase tracking-wider opacity-80">Portfolio Value</p>
+                      <p className="text-2xl font-bold mt-1">₹{totalValue.toLocaleString()}</p>
+                      <p className="text-xs opacity-70 mt-0.5 flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3" />
+                        {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}% returns
+                      </p>
                     </CardContent>
                   </Card>
-                ))}
-              </div>
-            )}
+                  <Card className="cursor-pointer" onClick={() => setActiveTab('manage')}>
+                    <CardContent className="p-4">
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Monthly SIPs</p>
+                      <p className="text-2xl font-bold text-foreground mt-1">₹{totalMonthly.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{activeSIPs.length} active SIPs</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
 
-            {/* Top Funds Discovery — always visible */}
-            <DiscoverySection onSelectFund={handleFundSelect} onViewAll={() => setActiveTab('screener')} />
-          </TabsContent>
+              {/* Discovery */}
+              <DiscoverySection onSelectFund={handleFundSelect} onViewAll={() => setActiveTab('screener')} />
+            </div>
+          )}
 
-          {/* CHAT TAB — New + Old Conversations */}
-          <TabsContent value="chat" className="mt-4 space-y-4">
+          {/* CHAT TAB */}
+          {activeTab === 'chat' && (
             <ChatHistoryPanel
               onNewChat={() => setActiveTab('home')}
-              onSelectConversation={(id) => {
-                // In a real app, load conversation and switch to home
-                setActiveTab('home');
-              }}
+              onSelectConversation={() => setActiveTab('home')}
             />
-          </TabsContent>
+          )}
 
           {/* PORTFOLIO TAB */}
-          <TabsContent value="portfolio" className="mt-4">
-            <PortfolioTab onInvest={() => setActiveTab('buy')} />
-          </TabsContent>
+          {activeTab === 'portfolio' && <PortfolioTab onInvest={() => setActiveTab('buy')} />}
 
-          {/* BUY TAB */}
-          <TabsContent value="buy" className="mt-4">
-            <FundPurchaseWidget />
-          </TabsContent>
+          {/* INVEST TAB */}
+          {activeTab === 'buy' && <FundPurchaseWidget />}
 
           {/* SCREENER TAB */}
-          <TabsContent value="screener" className="mt-4">
+          {activeTab === 'screener' && (
             <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Search className="w-4 h-4 text-primary" />
-                  Mutual Fund Screener
-                </CardTitle>
-                <p className="text-xs text-muted-foreground">Search, filter, or use AI to discover mutual funds</p>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="p-4">
                 <SmartFundSearch standalone />
               </CardContent>
             </Card>
-          </TabsContent>
+          )}
 
-          {/* TRANSACTIONS TAB */}
-          <TabsContent value="transactions" className="mt-4">
-            <TransactionsTab />
-          </TabsContent>
+          {/* TRANSACTIONS */}
+          {activeTab === 'transactions' && <TransactionsTab />}
 
-          {/* MANAGE SIPS TAB */}
-          <TabsContent value="manage" className="mt-4">
-            <ManageSIPWidget />
-          </TabsContent>
+          {/* SIPs TAB — with Create New SIP CTA */}
+          {activeTab === 'manage' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-base font-semibold text-foreground">Your SIPs</h2>
+                <Button size="sm" onClick={() => setActiveTab('buy')}>
+                  <ShoppingCart className="w-3.5 h-3.5 mr-1.5" /> Create New SIP
+                </Button>
+              </div>
+              <ManageSIPWidget />
+            </div>
+          )}
 
-          {/* STATEMENTS TAB */}
-          <TabsContent value="statements" className="mt-4">
-            <StatementsTab />
-          </TabsContent>
+          {/* STATEMENTS */}
+          {activeTab === 'statements' && <StatementsTab />}
 
-          {/* CALCULATOR TAB */}
-          <TabsContent value="calculator" className="mt-4">
-            <SIPCalculatorWidget onStartSIP={handleStartSIPFromCalc} />
-          </TabsContent>
+          {/* CALCULATOR */}
+          {activeTab === 'calculator' && <SIPCalculatorWidget onStartSIP={handleStartSIPFromCalc} />}
 
-          {/* GOALS TAB */}
-          <TabsContent value="goals" className="mt-4">
-            <GoalsWidget />
-          </TabsContent>
+          {/* GOALS */}
+          {activeTab === 'goals' && (
+            <GoalsWidget
+              onCreateGoal={() => {/* handled inside widget */}}
+              onViewGoals={() => {}}
+            />
+          )}
 
-          {/* SELL TAB */}
-          <TabsContent value="sell" className="mt-4">
-            <FundRedemptionWidget />
-          </TabsContent>
+          {/* SELL */}
+          {activeTab === 'sell' && <FundRedemptionWidget />}
 
-          {/* DEMOS TAB */}
-          <TabsContent value="demos" className="mt-4">
-            <FlowDemos />
-          </TabsContent>
-        </Tabs>
-      </div>
+          {/* DEMOS */}
+          {activeTab === 'demos' && <FlowDemos />}
+        </div>
+      </main>
 
       {/* User State Switcher */}
       <SIPUserStateSwitcher userState={userState} onUserStateChange={setUserState} />
