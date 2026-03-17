@@ -86,26 +86,14 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
   const [banner, setBanner] = useState<FeedbackBanner | null>(null);
 
-  const safeFetch = async (url: string, options?: RequestInit) => {
-    if (!API_BASE_URL) throw new Error('API not configured — VITE_DISCVR_API_BASE_URL is missing');
-    const res = await fetch(url, options);
-    const text = await res.text();
-    if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-      console.error('API returned HTML instead of JSON:', text.substring(0, 200));
-      throw new Error('API returned an HTML page instead of JSON — check the API base URL');
-    }
-    let json: any;
-    try { json = JSON.parse(text); } catch { throw new Error(`Invalid JSON response (status ${res.status})`); }
-    if (!res.ok) throw new Error(json.message || `Request failed (${res.status})`);
-    return json;
-  };
-
   const fetchSips = useCallback(async (p: number) => {
     setLoading(true);
     setError(null);
     try {
-      const uid = userId || 'a7ca0dcf-3c88-45c6-b4ac-e40fde319956';
-      const json = await safeFetch(`${API_BASE_URL}/webhook/api/v1/sips?user_id=${uid}&page=${p}&limit=10`, { headers: getHeaders() });
+      const uid = userId || 'default';
+      const res = await fetch(`${API_BASE_URL}/webhook/api/v1/sips?user_id=${uid}&page=${p}&limit=10`, { headers: getHeaders() });
+      if (!res.ok) throw new Error(`Failed to fetch SIPs (${res.status})`);
+      const json = await res.json();
       if (!json.success) throw new Error(json.message || 'API returned error');
       setSips(json.data || []);
       setPagination(json.pagination || { current_page: p, total_pages: 1, has_next_page: false, has_previous_page: false });
@@ -151,18 +139,20 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
     try {
       const actionMap: Record<string, string> = { pause: 'PAUSE', activate: 'ACTIVATE', delete: 'CANCEL' };
       const body: any = {
-        user_id: userId || 'a7ca0dcf-3c88-45c6-b4ac-e40fde319956',
+        user_id: userId || 'default',
         subscription_id: subscriptionId,
         action: actionMap[action],
       };
       if (action === 'activate') {
         body.next_scheduled_time = `${activateDate}T10:00:00+05:30`;
       }
-      const json = await safeFetch(`${API_BASE_URL}/webhook/api/v1/sips/manage`, {
+      const res = await fetch(`${API_BASE_URL}/webhook/api/v1/sips/manage`, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify(body),
       });
+      if (!res.ok) throw new Error(`Request failed (${res.status})`);
+      const json = await res.json();
       if (!json.success) throw new Error(json.message || 'Action failed');
 
       const labels: Record<string, string> = { pause: 'paused', activate: 'activated', delete: 'cancelled' };
@@ -180,7 +170,9 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   const handleVerify = async (sip: SIPRecord) => {
     setVerifyingId(sip.sip_id);
     try {
-      const json = await safeFetch(`${API_BASE_URL}/webhook/api/v1/sips/status?subscription_id=${sip.subscription_id}`, { headers: getHeaders() });
+      const res = await fetch(`${API_BASE_URL}/webhook/api/v1/sips/status?subscription_id=${sip.subscription_id}`, { headers: getHeaders() });
+      if (!res.ok) throw new Error(`Verify failed (${res.status})`);
+      const json = await res.json();
       if (json.status?.toUpperCase() === 'ACTIVE') {
         setBanner({ type: 'success', message: `SIP ${sip.scheme_name} is now Active` });
       } else {
