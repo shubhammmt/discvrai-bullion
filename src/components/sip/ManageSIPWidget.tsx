@@ -86,14 +86,26 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
   const [banner, setBanner] = useState<FeedbackBanner | null>(null);
 
+  const safeFetch = async (url: string, options?: RequestInit) => {
+    if (!API_BASE_URL) throw new Error('API not configured — VITE_DISCVR_API_BASE_URL is missing');
+    const res = await fetch(url, options);
+    const text = await res.text();
+    if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+      console.error('API returned HTML instead of JSON:', text.substring(0, 200));
+      throw new Error('API returned an HTML page instead of JSON — check the API base URL');
+    }
+    let json: any;
+    try { json = JSON.parse(text); } catch { throw new Error(`Invalid JSON response (status ${res.status})`); }
+    if (!res.ok) throw new Error(json.message || `Request failed (${res.status})`);
+    return json;
+  };
+
   const fetchSips = useCallback(async (p: number) => {
     setLoading(true);
     setError(null);
     try {
-      const uid = userId || 'default';
-      const res = await fetch(`${API_BASE_URL}/webhook/api/v1/sips?user_id=${uid}&page=${p}&limit=10`, { headers: getHeaders() });
-      if (!res.ok) throw new Error(`Failed to fetch SIPs (${res.status})`);
-      const json = await res.json();
+      const uid = userId || 'a7ca0dcf-3c88-45c6-b4ac-e40fde319956';
+      const json = await safeFetch(`${API_BASE_URL}/webhook/api/v1/sips?user_id=${uid}&page=${p}&limit=10`, { headers: getHeaders() });
       if (!json.success) throw new Error(json.message || 'API returned error');
       setSips(json.data || []);
       setPagination(json.pagination || { current_page: p, total_pages: 1, has_next_page: false, has_previous_page: false });
