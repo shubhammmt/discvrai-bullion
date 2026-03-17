@@ -262,20 +262,20 @@ function SliderInput({ label, value, onChange, min, max, step, prefix, suffix }:
   min: number; max: number; step: number; prefix?: string; suffix?: string;
 }) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <Label className="text-sm text-foreground">{label}</Label>
-        <div className="flex items-center gap-1 border border-border rounded-md px-2 py-1">
-          {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
+        <Label className="text-xs text-muted-foreground">{label}</Label>
+        <div className="flex items-center gap-0.5 border border-border rounded px-1.5 py-0.5">
+          {prefix && <span className="text-[10px] text-muted-foreground">{prefix}</span>}
           <Input
             type="number" value={value}
             onChange={e => {
               const v = Number(e.target.value);
               if (v >= min && v <= max) onChange(v);
             }}
-            className="w-20 h-6 border-0 p-0 text-right text-sm font-semibold focus-visible:ring-0 bg-transparent"
+            className="w-16 h-5 border-0 p-0 text-right text-xs font-semibold focus-visible:ring-0 bg-transparent"
           />
-          {suffix && <span className="text-xs text-muted-foreground">{suffix}</span>}
+          {suffix && <span className="text-[10px] text-muted-foreground">{suffix}</span>}
         </div>
       </div>
       <Slider value={[value]} onValueChange={v => onChange(v[0])} min={min} max={max} step={step} />
