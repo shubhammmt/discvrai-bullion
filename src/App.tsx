@@ -159,6 +159,7 @@ import AIAICProposal from './pages/AIAICProposal';
 import TredsFinopsDemo from './pages/TredsFinopsDemo';
 import RajaRailwaysDeck from './pages/RajaRailwaysDeck';
 import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
+import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
