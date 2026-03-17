@@ -174,34 +174,32 @@ function LumpsumCalc() {
   const result = useMemo(() => calcLumpsum(amount, years, rate), [amount, years, rate]);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-5">
-        <SliderInput label="Investment Amount" value={amount} onChange={setAmount} min={5000} max={10000000} step={5000} prefix="₹" />
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="space-y-4">
+        <SliderInput label="Amount" value={amount} onChange={setAmount} min={5000} max={10000000} step={5000} prefix="₹" />
         <SliderInput label="Duration" value={years} onChange={setYears} min={1} max={30} step={1} suffix="Yrs" />
-        <SliderInput label="Expected Return" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
+        <SliderInput label="Return %" value={rate} onChange={setRate} min={1} max={30} step={0.5} suffix="%" />
       </div>
 
-      <div className="rounded-xl border border-border bg-muted/30 p-4">
-        <p className="text-sm text-muted-foreground text-center mb-4">
-          Your investment after <span className="font-bold text-foreground">{years} Years</span> will be
-        </p>
-        <p className="text-2xl font-bold text-center text-foreground mb-4">{formatINR(result.total)}</p>
+      <div className="rounded-xl border border-border bg-muted/30 p-3 flex flex-col items-center justify-center">
+        <p className="text-2xl font-bold text-foreground mb-2">{formatINR(result.total)}</p>
+        <p className="text-[10px] text-muted-foreground mb-3">after {years} yrs</p>
 
-        <div className="flex items-center justify-center gap-6">
-          <DonutChart invested={result.invested} returns={result.returns} />
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'hsl(var(--primary))' }} />
+        <div className="flex items-center gap-4">
+          <DonutChart invested={result.invested} returns={result.returns} size={100} />
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(var(--primary))' }} />
               <div>
-                <p className="text-[10px] text-muted-foreground">Invested</p>
-                <p className="text-sm font-bold text-foreground">{formatINR(result.invested)}</p>
+                <p className="text-[9px] text-muted-foreground">Invested</p>
+                <p className="text-xs font-bold">{formatINR(result.invested)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(var(--chart-2))' }} />
               <div>
-                <p className="text-[10px] text-muted-foreground">Est. Returns</p>
-                <p className="text-sm font-bold text-green-600">{formatINR(result.returns)}</p>
+                <p className="text-[9px] text-muted-foreground">Returns</p>
+                <p className="text-xs font-bold text-sip-success">{formatINR(result.returns)}</p>
               </div>
             </div>
           </div>
