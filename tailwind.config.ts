@@ -124,6 +124,47 @@ export default {
 				border: 'hsl(var(--enterprise-border))',
 				success: 'hsl(var(--enterprise-success))',
 				danger: 'hsl(var(--enterprise-danger))'
+			},
+			sip: {
+				brand: {
+					DEFAULT: 'hsl(var(--sip-brand-primary))',
+					foreground: 'hsl(var(--sip-brand-primary-foreground))',
+					accent: 'hsl(var(--sip-brand-accent))',
+					'accent-foreground': 'hsl(var(--sip-brand-accent-foreground))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--sip-success))',
+					light: 'hsl(var(--sip-success-light))',
+					foreground: 'hsl(var(--sip-success-foreground))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--sip-warning))',
+					light: 'hsl(var(--sip-warning-light))',
+					foreground: 'hsl(var(--sip-warning-foreground))'
+				},
+				error: {
+					DEFAULT: 'hsl(var(--sip-error))',
+					light: 'hsl(var(--sip-error-light))',
+					foreground: 'hsl(var(--sip-error-foreground))'
+				},
+				surface: {
+					DEFAULT: 'hsl(var(--sip-surface))',
+					elevated: 'hsl(var(--sip-surface-elevated))'
+				},
+				text: {
+					primary: 'hsl(var(--sip-text-primary))',
+					secondary: 'hsl(var(--sip-text-secondary))',
+					muted: 'hsl(var(--sip-text-muted))'
+				},
+				border: {
+					DEFAULT: 'hsl(var(--sip-border))',
+					active: 'hsl(var(--sip-border-active))'
+				},
+				sidebar: {
+					bg: 'hsl(var(--sip-sidebar-bg))',
+					active: 'hsl(var(--sip-sidebar-active))',
+					hover: 'hsl(var(--sip-sidebar-hover))'
+				}
 			}
 			},
 			borderRadius: {
