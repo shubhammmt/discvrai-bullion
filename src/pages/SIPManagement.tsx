@@ -11,6 +11,7 @@ import { StatementsTab } from '@/components/sip/StatementsTab';
 import { DiscoverySection } from '@/components/sip/DiscoverySection';
 import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
+import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
 import {
