@@ -202,7 +202,7 @@ export function FlowDemos() {
                       )}
                       {isComplete && (
                         <>
-                          <Badge className="text-[10px] h-6 gap-1 bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 border-0">
+                          <Badge className="text-[10px] h-6 gap-1 bg-sip-action-success-light text-sip-action-success-foreground border-0">
                             <CheckCircle2 className="w-3 h-3" /> Complete
                           </Badge>
                           <Button

@@ -283,6 +283,10 @@
     --sip-category-4: 38 90% 55%;
     --sip-category-5: 270 65% 60%;
 
+    /* SIP Misc Semantic Colors — Dark Mode */
+    --sip-rating: 45 93% 55%;
+    --sip-returns: 152 76% 55%;
+
     /* SIP Allocation Colors — Dark Mode */
     --sip-alloc-equity: 220 70% 60%;
     --sip-alloc-debt: 160 70% 50%;

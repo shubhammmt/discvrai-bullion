@@ -217,7 +217,7 @@ export function OTPLoginDialog({ open, onOpenChange, onLoginSuccess }: OTPLoginD
 
         {step === 'success' && (
           <div className="flex flex-col items-center py-6 gap-3">
-            <CheckCircle2 className="w-12 h-12 text-green-500" />
+            <CheckCircle2 className="w-12 h-12 text-sip-action-success" />
             <p className="text-sm text-muted-foreground">Signing you in...</p>
           </div>
         )}

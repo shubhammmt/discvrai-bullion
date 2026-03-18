@@ -342,7 +342,7 @@ export function SmartFundSearch({
             <span className={cn('text-[10px] font-semibold', sortBy === '3y' ? 'text-primary' : 'text-sip-returns')}>
               3Y: {fund.returns3Y}%
             </span>
-            <span className={cn('text-[10px] font-semibold', sortBy === '5y' ? 'text-primary' : 'text-green-800')}>
+            <span className={cn('text-[10px] font-semibold', sortBy === '5y' ? 'text-primary' : 'text-sip-returns')}>
               5Y: {fund.returns5Y}%
             </span>
           </div>
