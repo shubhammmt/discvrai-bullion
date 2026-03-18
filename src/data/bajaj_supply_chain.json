@@ -1,0 +1,226 @@
+{
+  "lastUpdated": "2026-03-14T01:44:10",
+  "source": "mock_data",
+  "transportation": {
+    "otifPct": 100.0,
+    "freightCostPerUnit": 95.09,
+    "avgVehicleFillRatePct": 76.2,
+    "totalShipments": 15,
+    "totalFreightCost": 418400,
+    "totalQuantityShipped": 4400,
+    "byLegType": [
+      {
+        "legType": "Pre-primary",
+        "shipmentCount": 2,
+        "totalFreightCost": 35500,
+        "totalDistanceKm": 330,
+        "avgFreightPerShipment": 17750.0
+      },
+      {
+        "legType": "Primary",
+        "shipmentCount": 7,
+        "totalFreightCost": 331500,
+        "totalDistanceKm": 9120,
+        "avgFreightPerShipment": 47357.0
+      },
+      {
+        "legType": "Secondary",
+        "shipmentCount": 6,
+        "totalFreightCost": 51400,
+        "totalDistanceKm": 287,
+        "avgFreightPerShipment": 8567.0
+      }
+    ]
+  },
+  "stoPendency": {
+    "totalPending": 8,
+    "criticalPendingOver48h": 8,
+    "totalQtyPending": 5120,
+    "byPriority": [
+      {
+        "priority": "High",
+        "count": 4,
+        "totalQtyOrdered": 2900
+      },
+      {
+        "priority": "Medium",
+        "count": 4,
+        "totalQtyOrdered": 2220
+      }
+    ],
+    "topPendingStos": [
+      {
+        "stoNumber": "STO-004",
+        "materialId": "MAT-ELEC-001",
+        "quantityOrdered": 600,
+        "targetDc": "DC-CHENNAI",
+        "creationDate": "2026-03-09",
+        "expectedDeliveryDate": "2026-03-13",
+        "priorityScore": "Medium",
+        "agingHours": 122.0
+      },
+      {
+        "stoNumber": "STO-015",
+        "materialId": "MAT-ELEC-003",
+        "quantityOrdered": 420,
+        "targetDc": "DC-DELHI",
+        "creationDate": "2026-03-09",
+        "expectedDeliveryDate": "2026-03-13",
+        "priorityScore": "Medium",
+        "agingHours": 122.0
+      },
+      {
+        "stoNumber": "STO-003",
+        "materialId": "MAT-ELEC-003",
+        "quantityOrdered": 800,
+        "targetDc": "DC-DELHI",
+        "creationDate": "2026-03-10",
+        "expectedDeliveryDate": "2026-03-14",
+        "priorityScore": "High",
+        "agingHours": 98.0
+      },
+      {
+        "stoNumber": "STO-010",
+        "materialId": "MAT-ELEC-004",
+        "quantityOrdered": 700,
+        "targetDc": "DC-CHENNAI",
+        "creationDate": "2026-03-10",
+        "expectedDeliveryDate": "2026-03-14",
+        "priorityScore": "High",
+        "agingHours": 98.0
+      },
+      {
+        "stoNumber": "STO-013",
+        "materialId": "MAT-ELEC-005",
+        "quantityOrdered": 500,
+        "targetDc": "DC-DELHI",
+        "creationDate": "2026-03-10",
+        "expectedDeliveryDate": "2026-03-14",
+        "priorityScore": "High",
+        "agingHours": 98.0
+      },
+      {
+        "stoNumber": "STO-006",
+        "materialId": "MAT-ELEC-002",
+        "quantityOrdered": 900,
+        "targetDc": "DC-DELHI",
+        "creationDate": "2026-03-11",
+        "expectedDeliveryDate": "2026-03-15",
+        "priorityScore": "High",
+        "agingHours": 74.0
+      },
+      {
+        "stoNumber": "STO-012",
+        "materialId": "MAT-ELEC-002",
+        "quantityOrdered": 650,
+        "targetDc": "DC-CHENNAI",
+        "creationDate": "2026-03-11",
+        "expectedDeliveryDate": "2026-03-15",
+        "priorityScore": "Medium",
+        "agingHours": 74.0
+      },
+      {
+        "stoNumber": "STO-008",
+        "materialId": "MAT-ELEC-003",
+        "quantityOrdered": 550,
+        "targetDc": "DC-BANGALORE",
+        "creationDate": "2026-03-12",
+        "expectedDeliveryDate": "2026-03-16",
+        "priorityScore": "Medium",
+        "agingHours": 50.0
+      }
+    ],
+    "shippedCount": 7
+  },
+  "warehouseUtilisation": {
+    "avgUtilisationPct": 62.2,
+    "warehouses": [
+      {
+        "warehouseId": "WH-BANGALORE-01",
+        "utilisationPct": 62.5,
+        "occupiedPallets": 2500,
+        "totalPalletCapacity": 4000,
+        "currentStockLevel": 3300,
+        "inboundExpectedQty": 2800
+      },
+      {
+        "warehouseId": "WH-CHENNAI-01",
+        "utilisationPct": 60.0,
+        "occupiedPallets": 2100,
+        "totalPalletCapacity": 3500,
+        "currentStockLevel": 2880,
+        "inboundExpectedQty": 2780
+      },
+      {
+        "warehouseId": "WH-DELHI-01",
+        "utilisationPct": 64.0,
+        "occupiedPallets": 3200,
+        "totalPalletCapacity": 5000,
+        "currentStockLevel": 4410,
+        "inboundExpectedQty": 3200
+      }
+    ],
+    "totalWarehouses": 3
+  },
+  "inventory": {
+    "totalSkus": 6,
+    "belowSafetyStockCount": 0,
+    "skuSummary": [
+      {
+        "skuId": "SKU-ELEC-001",
+        "materialDescription": "Fans - Ceiling",
+        "currentStockLevel": 2630,
+        "safetyStockLevel": 1500,
+        "inboundExpectedQty": 1850,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "SKU-ELEC-002",
+        "materialDescription": "Lighting - LED",
+        "currentStockLevel": 2010,
+        "safetyStockLevel": 1200,
+        "inboundExpectedQty": 1800,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "SKU-ELEC-003",
+        "materialDescription": "Appliances - Iron",
+        "currentStockLevel": 1210,
+        "safetyStockLevel": 900,
+        "inboundExpectedQty": 1420,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "SKU-ELEC-004",
+        "materialDescription": "Appliances - Mixer",
+        "currentStockLevel": 1670,
+        "safetyStockLevel": 1050,
+        "inboundExpectedQty": 1180,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "SKU-ELEC-005",
+        "materialDescription": "Lighting - CFL",
+        "currentStockLevel": 820,
+        "safetyStockLevel": 600,
+        "inboundExpectedQty": 1000,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "SKU-ELEC-006",
+        "materialDescription": "Fans - Table",
+        "currentStockLevel": 2250,
+        "safetyStockLevel": 1350,
+        "inboundExpectedQty": 1530,
+        "belowSafetyStock": false
+      }
+    ]
+  },
+  "alerts": [
+    {
+      "type": "critical_sto",
+      "message": "8 STOs aging beyond 48 hours",
+      "count": 8
+    }
+  ]
+}
