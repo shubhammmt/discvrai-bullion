@@ -476,7 +476,7 @@ const AdaniGreensLogistics: React.FC = () => {
                 </CardHeader>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <CardContent className="space-y-3 max-h-[420px] overflow-y-auto">
+                <CardContent className="space-y-3 overflow-y-auto">
                   {agentInsights.map((insight) => {
                     const style = severityStyle(insight.severity);
                     return (
