@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AlertTriangle, Package, Truck, Warehouse, BarChart3, Info, Sun, Wind, Battery, ChevronDown, ChevronUp, Clock, Shield, MapPin, Bot, Zap, MessageSquare, Lightbulb, CheckCircle, ArrowRight, Send, Sparkles, Brain, Search, Network } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { AlertTriangle, Package, Truck, Warehouse, BarChart3, Info, Sun, Wind, Battery, ChevronDown, ChevronUp, Clock, Shield, MapPin, Bot, Zap, MessageSquare, Lightbulb, CheckCircle, ArrowRight, Send, Sparkles, Brain, Search, Network, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
