@@ -21,7 +21,7 @@ interface DemoFlow {
 const DEMO_FLOWS: DemoFlow[] = [
   {
     id: 'buy-lumpsum', title: 'Lumpsum Purchase', description: 'One-time investment in a mutual fund',
-    icon: ShoppingCart, color: 'text-green-600 bg-green-100 dark:bg-green-900/30',
+    icon: ShoppingCart, color: 'text-sip-action-success-foreground bg-sip-action-success-light',
     steps: ['Select Fund — HDFC Flexi Cap', 'Enter Amount ₹50,000', 'Confirm & Pay via UPI', 'Order Placed ✓'],
     tags: ['Buy', 'Lumpsum'],
   },
