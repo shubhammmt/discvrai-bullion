@@ -20,10 +20,10 @@ interface FundDetailSheetProps {
 }
 
 const riskColors: Record<string, string> = {
-  'Low': 'text-green-600 bg-green-100 dark:bg-green-900/30',
-  'Moderate': 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/30',
-  'High': 'text-orange-600 bg-orange-100 dark:bg-orange-900/30',
-  'Very High': 'text-red-600 bg-red-100 dark:bg-red-900/30',
+  'Low': 'text-sip-action-success-foreground bg-sip-action-success-light',
+  'Moderate': 'text-sip-action-warning-foreground bg-sip-action-warning-light',
+  'High': 'text-sip-action-danger-foreground bg-sip-action-danger-light',
+  'Very High': 'text-sip-action-danger-foreground bg-sip-action-danger-light',
 };
 
 export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDetailSheetProps) {
