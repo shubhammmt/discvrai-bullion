@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, Package, Truck, Warehouse, BarChart3, Info, Sun, Wind, Battery, ChevronDown, ChevronUp, Clock, Shield, MapPin } from 'lucide-react';
+import { AlertTriangle, Package, Truck, Warehouse, BarChart3, Info, Sun, Wind, Battery, ChevronDown, ChevronUp, Clock, Shield, MapPin, Bot, Zap, MessageSquare, Lightbulb, CheckCircle, ArrowRight, Send, Sparkles, Brain, Search, Network } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -7,7 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell, Legend, Tooltip as RechartsTooltip } from 'recharts';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import data from '@/data/adani_greens_logistics.json';
+import agenticData from '@/data/adani_greens_agentic.json';
 
 // ── Tooltip definitions ──
 const TIPS = {
@@ -42,8 +45,9 @@ const getOtifBg = (v: number) => v >= 85 ? 'bg-adani-green/10' : v >= 70 ? 'bg-a
 const getUtilColor = (v: number) => v >= 65 && v <= 80 ? 'hsl(var(--adani-green))' : v > 80 ? 'hsl(var(--adani-amber))' : 'hsl(var(--adani-red))';
 
 const priorityColor = (p: string) => {
-  if (p === 'High') return 'bg-adani-red/15 text-adani-red border-adani-red/30';
-  if (p === 'Medium') return 'bg-adani-amber/15 text-adani-amber border-adani-amber/30';
+  const pl = p.toLowerCase();
+  if (pl === 'high' || pl === 'critical') return 'bg-adani-red/15 text-adani-red border-adani-red/30';
+  if (pl === 'medium') return 'bg-adani-amber/15 text-adani-amber border-adani-amber/30';
   return 'bg-adani-text-secondary/15 text-adani-text-secondary border-adani-text-secondary/30';
 };
 
@@ -63,6 +67,12 @@ const alertStyle = (type: string) => {
   if (type === 'critical_sto') return 'bg-adani-red/10 border-adani-red/30 text-adani-red';
   if (type === 'customs_clearance') return 'bg-adani-amber/10 border-adani-amber/30 text-adani-amber';
   return 'bg-adani-amber/10 border-adani-amber/30 text-adani-amber';
+};
+
+const severityStyle = (s: string) => {
+  if (s === 'critical') return { bg: 'bg-adani-red/10', border: 'border-adani-red/30', text: 'text-adani-red', dot: 'bg-adani-red' };
+  if (s === 'warning') return { bg: 'bg-adani-amber/10', border: 'border-adani-amber/30', text: 'text-adani-amber', dot: 'bg-adani-amber' };
+  return { bg: 'bg-adani-navy/10', border: 'border-adani-navy/30', text: 'text-adani-navy', dot: 'bg-adani-navy' };
 };
 
 // ── Gauge Component ──
@@ -87,6 +97,10 @@ const AdaniGreensLogistics: React.FC = () => {
   const [chartMetric, setChartMetric] = useState<'shipmentCount' | 'totalFreightCost' | 'avgFreightPerShipment'>('shipmentCount');
   const [pendencyOpen, setPendencyOpen] = useState(true);
   const [inventoryOpen, setInventoryOpen] = useState(true);
+  const [chatQuery, setChatQuery] = useState('');
+  const [chatResponse, setChatResponse] = useState<string | null>(null);
+  const [actionsExpanded, setActionsExpanded] = useState(true);
+  const [insightsExpanded, setInsightsExpanded] = useState(true);
 
   const sortedStos = [...data.stoPendency.topPendingStos].sort((a, b) => b.agingHours - a.agingHours);
 
@@ -100,6 +114,24 @@ const AdaniGreensLogistics: React.FC = () => {
     totalFreightCost: 'Total Freight (₹)',
     avgFreightPerShipment: 'Avg Freight/Shipment (₹)',
   };
+
+  const handleAskAI = (query: string) => {
+    const match = agenticData.conversationalQueries.find(
+      q => q.query.toLowerCase() === query.toLowerCase()
+    );
+    if (match) {
+      setChatResponse(match.response);
+    } else {
+      // Fuzzy match
+      const fuzzy = agenticData.conversationalQueries.find(
+        q => query.toLowerCase().includes(q.category) || q.query.toLowerCase().includes(query.toLowerCase().split(' ').slice(0, 3).join(' '))
+      );
+      setChatResponse(fuzzy ? fuzzy.response : "Try one of the suggested questions, or ask: 'Which import orders need my attention?', 'Why is vehicle fill rate low?', 'What's the customs clearance status?'");
+    }
+    setChatQuery(query);
+  };
+
+  const { agentSummary, recommendedActions, agentInsights, conversationalQueries, agentCapabilities } = agenticData;
 
   return (
     <div className="min-h-screen bg-adani-surface text-adani-text-primary">
@@ -116,6 +148,7 @@ const AdaniGreensLogistics: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-4 text-xs text-white/50">
+            <span className="flex items-center gap-1"><Bot className="w-3.5 h-3.5 text-adani-green" /> Agentic AI Active</span>
             <span className="flex items-center gap-1"><Wind className="w-3.5 h-3.5" /> Khavda Project</span>
             <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> Gujarat, India</span>
           </div>
@@ -136,6 +169,36 @@ const AdaniGreensLogistics: React.FC = () => {
             ))}
           </div>
         )}
+
+        {/* ── Section A: Agent Summary Banner ── */}
+        <Card className="bg-adani-surface-elevated border-l-4 border-l-adani-amber border-adani-border overflow-hidden">
+          <CardContent className="p-5">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-adani-amber/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Bot className="w-5 h-5 text-adani-amber" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] uppercase tracking-widest font-semibold text-adani-amber">AI Agent Summary</span>
+                  <Sparkles className="w-3 h-3 text-adani-amber" />
+                </div>
+                <h2 className="text-base font-bold text-adani-text-primary mb-2">{agentSummary.headline}</h2>
+                <p className="text-sm text-adani-text-secondary leading-relaxed">{agentSummary.summary}</p>
+                <div className="flex gap-3 mt-3">
+                  <Badge className="bg-adani-red/15 text-adani-red border-adani-red/30 text-xs" variant="outline">
+                    Critical: {agentSummary.priorityCount.critical}
+                  </Badge>
+                  <Badge className="bg-adani-amber/15 text-adani-amber border-adani-amber/30 text-xs" variant="outline">
+                    High: {agentSummary.priorityCount.high}
+                  </Badge>
+                  <Badge className="bg-adani-text-secondary/15 text-adani-text-secondary border-adani-text-secondary/30 text-xs" variant="outline">
+                    Medium: {agentSummary.priorityCount.medium}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* ── Section 2: KPI Cards ── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -208,210 +271,342 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
         </div>
 
-        {/* ── Section 3: Transportation by Leg ── */}
-        <Card className="bg-adani-surface-elevated border-adani-border">
-          <CardHeader className="pb-2">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <Truck className="w-4 h-4 text-adani-navy" /> Transportation by Leg Type
-              </CardTitle>
-              <div className="flex gap-1 bg-adani-surface rounded-lg p-0.5">
-                {(['shipmentCount', 'totalFreightCost', 'avgFreightPerShipment'] as const).map(m => (
-                  <button key={m} onClick={() => setChartMetric(m)}
-                    className={`text-[10px] px-3 py-1.5 rounded-md font-medium transition-colors ${chartMetric === m ? 'bg-adani-navy text-white' : 'text-adani-text-secondary hover:text-adani-text-primary'}`}>
-                    {metricLabels[m]}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Chart */}
-              <div className="h-56">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} barSize={40}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--adani-border))" />
-                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'hsl(var(--adani-text-secondary))' }} />
-                    <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--adani-text-secondary))' }} tickFormatter={v => chartMetric !== 'shipmentCount' ? `₹${(v / 1000).toFixed(0)}k` : v} />
-                    <RechartsTooltip
-                      contentStyle={{ background: 'hsl(var(--adani-navy))', border: 'none', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                      formatter={(v: number) => chartMetric !== 'shipmentCount' ? fmtINR(v) : v}
-                    />
-                    <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                      {chartData.map((_, i) => <Cell key={i} fill={LEG_COLORS[i]} />)}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              {/* Table */}
-              <div className="overflow-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-adani-border">
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary">Leg Type</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Shipments</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Total Freight</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Distance</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Avg/Shipment</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data.transportation.byLegType.map((l, i) => (
-                      <TableRow key={i} className="border-adani-border">
-                        <TableCell className="font-medium text-sm">{l.legType}</TableCell>
-                        <TableCell className="text-right text-sm">{l.shipmentCount}</TableCell>
-                        <TableCell className="text-right text-sm">{fmtINR(l.totalFreightCost)}</TableCell>
-                        <TableCell className="text-right text-sm">{fmt(l.totalDistanceKm)} km</TableCell>
-                        <TableCell className="text-right text-sm">{fmtINR(l.avgFreightPerShipment)}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* ── Section 4: Import Order Pendency ── */}
-        <Card className="bg-adani-surface-elevated border-adani-border">
-          <Collapsible open={pendencyOpen} onOpenChange={setPendencyOpen}>
-            <CollapsibleTrigger asChild>
-              <CardHeader className="cursor-pointer pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-adani-amber" /> Import Order Pendency
-                  </CardTitle>
-                  {pendencyOpen ? <ChevronUp className="w-4 h-4 text-adani-text-secondary" /> : <ChevronDown className="w-4 h-4 text-adani-text-secondary" />}
-                </div>
-              </CardHeader>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent className="space-y-4">
-                {/* Summary row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="bg-adani-surface rounded-lg p-3 text-center">
-                    <p className="text-[10px] text-adani-text-secondary uppercase">Total Pending</p>
-                    <p className="text-xl font-bold">{data.stoPendency.totalPending}</p>
-                  </div>
-                  <div className="bg-adani-red/5 rounded-lg p-3 text-center">
-                    <p className="text-[10px] text-adani-red uppercase">Critical (&gt;48h)</p>
-                    <p className="text-xl font-bold text-adani-red">{data.stoPendency.criticalPendingOver48h}</p>
-                  </div>
-                  <div className="bg-adani-surface rounded-lg p-3 text-center">
-                    <p className="text-[10px] text-adani-text-secondary uppercase">Qty Pending</p>
-                    <p className="text-xl font-bold">{fmt(data.stoPendency.totalQtyPending)}</p>
-                  </div>
-                  <div className="bg-adani-green/5 rounded-lg p-3 text-center">
-                    <p className="text-[10px] text-adani-green uppercase">Shipped</p>
-                    <p className="text-xl font-bold text-adani-green">{data.stoPendency.shippedCount}</p>
-                  </div>
-                </div>
-
-                {/* By Priority */}
-                <div className="flex gap-4">
-                  {data.stoPendency.byPriority.map((p, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <Badge variant="outline" className={`text-[10px] ${priorityColor(p.priority)}`}>{p.priority}</Badge>
-                      <span className="text-sm font-medium">{p.count} orders</span>
-                      <span className="text-xs text-adani-text-secondary">({fmt(p.totalQtyOrdered)} units)</span>
-                    </div>
+        {/* ── Section 3 + B: Transportation + Recommended Actions ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Transportation Chart (2/3 width) */}
+          <Card className="lg:col-span-2 bg-adani-surface-elevated border-adani-border">
+            <CardHeader className="pb-2">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <CardTitle className="text-base font-semibold flex items-center gap-2">
+                  <Truck className="w-4 h-4 text-adani-navy" /> Transportation by Leg Type
+                </CardTitle>
+                <div className="flex gap-1 bg-adani-surface rounded-lg p-0.5">
+                  {(['shipmentCount', 'totalFreightCost', 'avgFreightPerShipment'] as const).map(m => (
+                    <button key={m} onClick={() => setChartMetric(m)}
+                      className={`text-[10px] px-3 py-1.5 rounded-md font-medium transition-colors ${chartMetric === m ? 'bg-adani-navy text-white' : 'text-adani-text-secondary hover:text-adani-text-primary'}`}>
+                      {metricLabels[m]}
+                    </button>
                   ))}
                 </div>
-
-                {/* Top Pending Table */}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData} barSize={40}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--adani-border))" />
+                      <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'hsl(var(--adani-text-secondary))' }} />
+                      <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--adani-text-secondary))' }} tickFormatter={v => chartMetric !== 'shipmentCount' ? `₹${(v / 1000).toFixed(0)}k` : v} />
+                      <RechartsTooltip
+                        contentStyle={{ background: 'hsl(var(--adani-navy))', border: 'none', borderRadius: 8, color: '#fff', fontSize: 12 }}
+                        formatter={(v: number) => chartMetric !== 'shipmentCount' ? fmtINR(v) : v}
+                      />
+                      <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                        {chartData.map((_, i) => <Cell key={i} fill={LEG_COLORS[i]} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
                 <div className="overflow-auto">
                   <Table>
                     <TableHeader>
                       <TableRow className="border-adani-border">
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Order #</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Material</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Qty</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Target</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Created</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Expected</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Priority</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Aging (h)</TableHead>
-                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Customs</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Leg Type</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Shipments</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Total Freight</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Distance</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Avg/Shipment</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {sortedStos.map((s, i) => (
-                        <TableRow key={i} className={`border-adani-border ${s.agingHours > 48 ? 'bg-adani-red/5' : ''}`}>
-                          <TableCell className="font-mono text-xs">{s.stoNumber}</TableCell>
-                          <TableCell className="text-xs">{s.materialId}</TableCell>
-                          <TableCell className="text-right text-xs">{fmt(s.quantityOrdered)}</TableCell>
-                          <TableCell className="text-xs">{s.targetDc}</TableCell>
-                          <TableCell className="text-xs">{s.creationDate}</TableCell>
-                          <TableCell className="text-xs">{s.expectedDeliveryDate}</TableCell>
-                          <TableCell><Badge variant="outline" className={`text-[10px] ${priorityColor(s.priorityScore)}`}>{s.priorityScore}</Badge></TableCell>
-                          <TableCell className={`text-right text-xs font-semibold ${s.agingHours > 48 ? 'text-adani-red' : ''}`}>{s.agingHours}</TableCell>
-                          <TableCell><Badge variant="outline" className={`text-[10px] ${customsColor(s.customsStatus)}`}>{s.customsStatus}</Badge></TableCell>
+                      {data.transportation.byLegType.map((l, i) => (
+                        <TableRow key={i} className="border-adani-border">
+                          <TableCell className="font-medium text-sm">{l.legType}</TableCell>
+                          <TableCell className="text-right text-sm">{l.shipmentCount}</TableCell>
+                          <TableCell className="text-right text-sm">{fmtINR(l.totalFreightCost)}</TableCell>
+                          <TableCell className="text-right text-sm">{fmt(l.totalDistanceKm)} km</TableCell>
+                          <TableCell className="text-right text-sm">{fmtINR(l.avgFreightPerShipment)}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </div>
-              </CardContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* ── Section 5: Warehouse Utilisation ── */}
-        <Card className="bg-adani-surface-elevated border-adani-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Warehouse className="w-4 h-4 text-adani-navy" /> Warehouse Utilisation
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Chart */}
-              <div className="h-56">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.warehouseUtilisation.warehouses.map(w => ({ name: w.warehouseId, utilisation: w.utilisationPct, occupied: w.occupiedPallets, capacity: w.totalPalletCapacity }))} barSize={36}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--adani-border))" />
-                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'hsl(var(--adani-text-secondary))' }} />
-                    <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--adani-text-secondary))' }} domain={[0, 100]} tickFormatter={v => `${v}%`} />
-                    <RechartsTooltip contentStyle={{ background: 'hsl(var(--adani-navy))', border: 'none', borderRadius: 8, color: '#fff', fontSize: 12 }} />
-                    <Bar dataKey="utilisation" radius={[6, 6, 0, 0]}>
-                      {data.warehouseUtilisation.warehouses.map((w, i) => (
-                        <Cell key={i} fill={getUtilColor(w.utilisationPct)} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              {/* Table */}
-              <div className="overflow-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-adani-border">
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary">Warehouse</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Util %</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Occupied</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Capacity</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Stock</TableHead>
-                      <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Inbound</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data.warehouseUtilisation.warehouses.map((w, i) => (
-                      <TableRow key={i} className="border-adani-border">
-                        <TableCell className="font-medium text-xs">{w.warehouseId}</TableCell>
-                        <TableCell className="text-right text-xs font-semibold">{w.utilisationPct}%</TableCell>
-                        <TableCell className="text-right text-xs">{fmt(w.occupiedPallets)}</TableCell>
-                        <TableCell className="text-right text-xs">{fmt(w.totalPalletCapacity)}</TableCell>
-                        <TableCell className="text-right text-xs">{fmt(w.currentStockLevel)}</TableCell>
-                        <TableCell className="text-right text-xs">{fmt(w.inboundExpectedQty)}</TableCell>
-                      </TableRow>
+          {/* Section B: Recommended Actions (1/3 width) */}
+          <Card className="bg-adani-surface-elevated border-adani-border">
+            <Collapsible open={actionsExpanded} onOpenChange={setActionsExpanded}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer pb-2">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-adani-amber" /> Recommended Actions
+                    </CardTitle>
+                    {actionsExpanded ? <ChevronUp className="w-4 h-4 text-adani-text-secondary" /> : <ChevronDown className="w-4 h-4 text-adani-text-secondary" />}
+                  </div>
+                  <p className="text-[10px] text-adani-text-secondary mt-0.5">AI agent proposes — you approve</p>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="space-y-3 max-h-[420px] overflow-y-auto">
+                  {recommendedActions.map((action) => {
+                    const style = severityStyle(action.priority);
+                    return (
+                      <div key={action.id} className={`rounded-lg border p-3 ${style.bg} ${style.border} space-y-2`}>
+                        <div className="flex items-start gap-2">
+                          <Badge variant="outline" className={`text-[9px] uppercase flex-shrink-0 ${priorityColor(action.priority)}`}>
+                            {action.priority}
+                          </Badge>
+                          <span className="text-xs font-semibold text-adani-text-primary leading-tight">{action.title}</span>
+                        </div>
+                        <p className="text-[11px] text-adani-text-secondary leading-relaxed">{action.reasoning}</p>
+                        <div className="flex items-center gap-1.5 text-[11px]">
+                          <ArrowRight className="w-3 h-3 text-adani-green flex-shrink-0" />
+                          <span className="text-adani-text-primary font-medium">{action.suggestedAction}</span>
+                        </div>
+                        <div className="text-[10px] text-adani-green font-semibold">
+                          Impact: {action.estimatedImpact}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
+        </div>
+
+        {/* ── Section 4 + C: Import Pendency + Agent Insights ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Import Pendency (2/3) */}
+          <Card className="lg:col-span-2 bg-adani-surface-elevated border-adani-border">
+            <Collapsible open={pendencyOpen} onOpenChange={setPendencyOpen}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer pb-2">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4 text-adani-amber" /> Import Order Pendency
+                    </CardTitle>
+                    {pendencyOpen ? <ChevronUp className="w-4 h-4 text-adani-text-secondary" /> : <ChevronDown className="w-4 h-4 text-adani-text-secondary" />}
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="bg-adani-surface rounded-lg p-3 text-center">
+                      <p className="text-[10px] text-adani-text-secondary uppercase">Total Pending</p>
+                      <p className="text-xl font-bold">{data.stoPendency.totalPending}</p>
+                    </div>
+                    <div className="bg-adani-red/5 rounded-lg p-3 text-center">
+                      <p className="text-[10px] text-adani-red uppercase">Critical (&gt;48h)</p>
+                      <p className="text-xl font-bold text-adani-red">{data.stoPendency.criticalPendingOver48h}</p>
+                    </div>
+                    <div className="bg-adani-surface rounded-lg p-3 text-center">
+                      <p className="text-[10px] text-adani-text-secondary uppercase">Qty Pending</p>
+                      <p className="text-xl font-bold">{fmt(data.stoPendency.totalQtyPending)}</p>
+                    </div>
+                    <div className="bg-adani-green/5 rounded-lg p-3 text-center">
+                      <p className="text-[10px] text-adani-green uppercase">Shipped</p>
+                      <p className="text-xl font-bold text-adani-green">{data.stoPendency.shippedCount}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    {data.stoPendency.byPriority.map((p, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <Badge variant="outline" className={`text-[10px] ${priorityColor(p.priority)}`}>{p.priority}</Badge>
+                        <span className="text-sm font-medium">{p.count} orders</span>
+                        <span className="text-xs text-adani-text-secondary">({fmt(p.totalQtyOrdered)} units)</span>
+                      </div>
                     ))}
-                  </TableBody>
-                </Table>
+                  </div>
+
+                  <div className="overflow-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="border-adani-border">
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Order #</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Material</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Qty</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Target</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Created</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Expected</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Priority</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Aging (h)</TableHead>
+                          <TableHead className="text-[10px] uppercase text-adani-text-secondary">Customs</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {sortedStos.map((s, i) => (
+                          <TableRow key={i} className={`border-adani-border ${s.agingHours > 48 ? 'bg-adani-red/5' : ''}`}>
+                            <TableCell className="font-mono text-xs">{s.stoNumber}</TableCell>
+                            <TableCell className="text-xs">{s.materialId}</TableCell>
+                            <TableCell className="text-right text-xs">{fmt(s.quantityOrdered)}</TableCell>
+                            <TableCell className="text-xs">{s.targetDc}</TableCell>
+                            <TableCell className="text-xs">{s.creationDate}</TableCell>
+                            <TableCell className="text-xs">{s.expectedDeliveryDate}</TableCell>
+                            <TableCell><Badge variant="outline" className={`text-[10px] ${priorityColor(s.priorityScore)}`}>{s.priorityScore}</Badge></TableCell>
+                            <TableCell className={`text-right text-xs font-semibold ${s.agingHours > 48 ? 'text-adani-red' : ''}`}>{s.agingHours}</TableCell>
+                            <TableCell><Badge variant="outline" className={`text-[10px] ${customsColor(s.customsStatus)}`}>{s.customsStatus}</Badge></TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
+
+          {/* Section C: Agent Insights (1/3) */}
+          <Card className="bg-adani-surface-elevated border-adani-border">
+            <Collapsible open={insightsExpanded} onOpenChange={setInsightsExpanded}>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer pb-2">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4 text-adani-amber" /> Agent Insights
+                    </CardTitle>
+                    {insightsExpanded ? <ChevronUp className="w-4 h-4 text-adani-text-secondary" /> : <ChevronDown className="w-4 h-4 text-adani-text-secondary" />}
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="space-y-3 max-h-[420px] overflow-y-auto">
+                  {agentInsights.map((insight) => {
+                    const style = severityStyle(insight.severity);
+                    return (
+                      <div key={insight.id} className={`rounded-lg border p-3 ${style.bg} ${style.border}`}>
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <div className={`w-2 h-2 rounded-full ${style.dot}`} />
+                          <Badge variant="outline" className={`text-[9px] uppercase ${style.text} border-current`}>
+                            {insight.severity}
+                          </Badge>
+                          <span className="text-[10px] text-adani-text-secondary uppercase tracking-wider">{insight.category}</span>
+                        </div>
+                        <p className="text-xs text-adani-text-primary leading-relaxed">{insight.insight}</p>
+                      </div>
+                    );
+                  })}
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
+        </div>
+
+        {/* ── Section 5 + D: Warehouse + Ask the AI ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Warehouse Utilisation (2/3) */}
+          <Card className="lg:col-span-2 bg-adani-surface-elevated border-adani-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-semibold flex items-center gap-2">
+                <Warehouse className="w-4 h-4 text-adani-navy" /> Warehouse Utilisation
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={data.warehouseUtilisation.warehouses.map(w => ({ name: w.warehouseId, utilisation: w.utilisationPct, occupied: w.occupiedPallets, capacity: w.totalPalletCapacity }))} barSize={36}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--adani-border))" />
+                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'hsl(var(--adani-text-secondary))' }} />
+                      <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--adani-text-secondary))' }} domain={[0, 100]} tickFormatter={v => `${v}%`} />
+                      <RechartsTooltip contentStyle={{ background: 'hsl(var(--adani-navy))', border: 'none', borderRadius: 8, color: '#fff', fontSize: 12 }} />
+                      <Bar dataKey="utilisation" radius={[6, 6, 0, 0]}>
+                        {data.warehouseUtilisation.warehouses.map((w, i) => (
+                          <Cell key={i} fill={getUtilColor(w.utilisationPct)} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="overflow-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-adani-border">
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary">Warehouse</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Util %</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Occupied</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Capacity</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Stock</TableHead>
+                        <TableHead className="text-[10px] uppercase text-adani-text-secondary text-right">Inbound</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {data.warehouseUtilisation.warehouses.map((w, i) => (
+                        <TableRow key={i} className="border-adani-border">
+                          <TableCell className="font-medium text-xs">{w.warehouseId}</TableCell>
+                          <TableCell className="text-right text-xs font-semibold">{w.utilisationPct}%</TableCell>
+                          <TableCell className="text-right text-xs">{fmt(w.occupiedPallets)}</TableCell>
+                          <TableCell className="text-right text-xs">{fmt(w.totalPalletCapacity)}</TableCell>
+                          <TableCell className="text-right text-xs">{fmt(w.currentStockLevel)}</TableCell>
+                          <TableCell className="text-right text-xs">{fmt(w.inboundExpectedQty)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          {/* Section D: Ask the AI */}
+          <Card className="bg-adani-surface-elevated border-adani-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-adani-green" /> Ask the AI
+              </CardTitle>
+              <p className="text-[10px] text-adani-text-secondary">Natural language logistics queries</p>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {/* Suggested chips */}
+              <div className="flex flex-wrap gap-1.5">
+                {conversationalQueries.map((q, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleAskAI(q.query)}
+                    className="text-[10px] bg-adani-navy/10 hover:bg-adani-navy/20 text-adani-navy px-2.5 py-1.5 rounded-full transition-colors text-left leading-tight"
+                  >
+                    {q.query}
+                  </button>
+                ))}
+              </div>
+
+              {/* Input */}
+              <div className="flex gap-2">
+                <Input
+                  value={chatQuery}
+                  onChange={(e) => setChatQuery(e.target.value)}
+                  placeholder="Ask about your logistics..."
+                  className="text-xs bg-adani-surface border-adani-border text-adani-text-primary placeholder:text-adani-text-secondary"
+                  onKeyDown={(e) => e.key === 'Enter' && chatQuery && handleAskAI(chatQuery)}
+                />
+                <Button
+                  size="sm"
+                  onClick={() => chatQuery && handleAskAI(chatQuery)}
+                  className="bg-adani-navy hover:bg-adani-navy/90 text-white flex-shrink-0"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+
+              {/* Response */}
+              {chatResponse && (
+                <div className="bg-adani-green/5 border border-adani-green/20 rounded-lg p-3">
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <Bot className="w-3.5 h-3.5 text-adani-green" />
+                    <span className="text-[10px] font-semibold text-adani-green uppercase tracking-wider">AI Response</span>
+                  </div>
+                  <p className="text-xs text-adani-text-primary leading-relaxed">{chatResponse}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
         {/* ── Section 6: Inventory ── */}
         <Card className="bg-adani-surface-elevated border-adani-border">
@@ -468,11 +663,35 @@ const AdaniGreensLogistics: React.FC = () => {
           </Collapsible>
         </Card>
 
+        {/* ── Section E: Agent Capabilities Strip ── */}
+        <div className="flex flex-wrap items-center justify-center gap-3 py-2">
+          {agentCapabilities.map((cap, i) => (
+            <TooltipProvider key={i} delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center gap-2 bg-adani-navy/10 border border-adani-navy/20 rounded-full px-4 py-2 cursor-default">
+                    {i === 0 && <Search className="w-3.5 h-3.5 text-adani-navy" />}
+                    {i === 1 && <Zap className="w-3.5 h-3.5 text-adani-amber" />}
+                    {i === 2 && <MessageSquare className="w-3.5 h-3.5 text-adani-green" />}
+                    {i === 3 && <Network className="w-3.5 h-3.5 text-adani-navy" />}
+                    <span className="text-xs font-medium text-adani-text-primary">{cap.capability}</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-xs text-xs bg-adani-navy text-white border-adani-navy/50">
+                  {cap.description}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ))}
+        </div>
+
         {/* ── Section 7: Last Updated ── */}
         <div className="text-center text-xs text-adani-text-secondary py-4">
           Last updated: {new Date(data.lastUpdated).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
           <span className="mx-2">·</span>
           Source: {data.source}
+          <span className="mx-2">·</span>
+          <span className="text-adani-green">Agentic layer: {agenticData.source}</span>
         </div>
       </main>
     </div>
