@@ -243,7 +243,7 @@ const SIPManagement = () => {
                       </div>
                       <div className="pl-4">
                         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
-                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-green-600' : 'text-red-500')}>
+                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-sip-success' : 'text-sip-error')}>
                           {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}%
                         </p>
                         <p className="text-[10px] text-muted-foreground">
