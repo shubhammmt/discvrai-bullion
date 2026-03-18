@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AlertTriangle, Package, Truck, Warehouse, BarChart3, Info, Sun, Wind, Battery, ChevronDown, ChevronUp, Clock, Shield, MapPin, Bot, Zap, MessageSquare, Lightbulb, CheckCircle, ArrowRight, Send, Sparkles, Brain, Search, Network } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { AlertTriangle, Package, Truck, Warehouse, BarChart3, Info, Sun, Wind, Battery, ChevronDown, ChevronUp, Clock, Shield, MapPin, Bot, Zap, MessageSquare, Lightbulb, CheckCircle, ArrowRight, Send, Sparkles, Brain, Search, Network, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -133,13 +133,16 @@ const AdaniGreensLogistics: React.FC = () => {
 
   const { agentSummary, recommendedActions, agentInsights, conversationalQueries, agentCapabilities } = agenticData;
 
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => { setIsLoaded(true); }, []);
+
   return (
     <div className="min-h-screen bg-adani-surface text-adani-text-primary">
       {/* Header */}
-      <header className="bg-adani-navy text-white px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-gradient-to-r from-adani-navy via-adani-navy to-[hsl(220_50%_25%)] text-white px-4 sm:px-6 lg:px-8 py-4 shadow-lg">
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-adani-green/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-adani-green/20 flex items-center justify-center shadow-inner">
               <Sun className="w-5 h-5 text-adani-green" />
             </div>
             <div>
@@ -148,7 +151,7 @@ const AdaniGreensLogistics: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-4 text-xs text-white/50">
-            <span className="flex items-center gap-1"><Bot className="w-3.5 h-3.5 text-adani-green" /> Agentic AI Active</span>
+            <span className="flex items-center gap-1.5 bg-adani-green/15 px-2.5 py-1 rounded-full text-adani-green"><Activity className="w-3 h-3 animate-pulse" /> Live</span>
             <span className="flex items-center gap-1"><Wind className="w-3.5 h-3.5" /> Khavda Project</span>
             <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> Gujarat, India</span>
           </div>
@@ -159,9 +162,9 @@ const AdaniGreensLogistics: React.FC = () => {
 
         {/* ── Section 1: Alerts ── */}
         {data.alerts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-3 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             {data.alerts.map((a, i) => (
-              <div key={i} className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium ${alertStyle(a.type)}`}>
+              <div key={i} className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium cursor-pointer hover:scale-[1.02] transition-all duration-200 ${alertStyle(a.type)}`}>
                 {alertIcon(a.type)}
                 <span>{a.message}</span>
                 <Badge variant="outline" className="ml-auto border-current text-current text-[10px]">{a.count}</Badge>
@@ -171,7 +174,7 @@ const AdaniGreensLogistics: React.FC = () => {
         )}
 
         {/* ── Section A: Agent Summary Banner ── */}
-        <Card className="bg-adani-surface-elevated border-l-4 border-l-adani-amber border-adani-border overflow-hidden">
+        <Card className={`bg-gradient-to-r from-adani-surface-elevated to-adani-amber/5 border-l-4 border-l-adani-amber border-adani-border overflow-hidden shadow-sm transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <CardContent className="p-5">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-xl bg-adani-amber/15 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -203,7 +206,7 @@ const AdaniGreensLogistics: React.FC = () => {
         {/* ── Section 2: KPI Cards ── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {/* OTIF */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 OTIF %<InfoTip text={TIPS.otif} />
@@ -216,7 +219,7 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
 
           {/* Freight/Unit */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 Freight/Unit<InfoTip text={TIPS.freightCost} />
@@ -227,7 +230,7 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
 
           {/* Vehicle Fill Rate */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 Vehicle Fill<InfoTip text={TIPS.vehicleFill} />
@@ -237,7 +240,7 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
 
           {/* Pending Import */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 Pending Orders<InfoTip text={TIPS.importPendency} />
@@ -248,7 +251,7 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
 
           {/* Warehouse Util */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 Warehouse Util<InfoTip text={TIPS.warehouseUtil} />
@@ -258,7 +261,7 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
 
           {/* Below Safety */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 Below Safety<InfoTip text={TIPS.belowSafety} />
@@ -351,7 +354,7 @@ const AdaniGreensLogistics: React.FC = () => {
                 </CardHeader>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <CardContent className="space-y-3 max-h-[420px] overflow-y-auto">
+                <CardContent className="space-y-3 overflow-y-auto">
                   {recommendedActions.map((action) => {
                     const style = severityStyle(action.priority);
                     return (
