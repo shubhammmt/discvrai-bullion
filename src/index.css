@@ -238,6 +238,9 @@
     --sip-error: 0 84% 60%;
     --sip-error-light: 0 40% 15%;
     --sip-error-foreground: 0 84% 70%;
+    --sip-info: 220 68% 60%;
+    --sip-info-light: 220 30% 15%;
+    --sip-info-foreground: 220 68% 70%;
     --sip-surface: 220 15% 8%;
     --sip-surface-elevated: 220 15% 12%;
     --sip-text-primary: 0 0% 98%;
@@ -248,6 +251,40 @@
     --sip-sidebar-bg: 220 15% 10%;
     --sip-sidebar-active: 220 68% 60%;
     --sip-sidebar-hover: 220 15% 15%;
+
+    /* SIP Action Button Colors — Dark Mode */
+    --sip-action-success: 152 76% 50%;
+    --sip-action-success-light: 152 40% 12%;
+    --sip-action-success-border: 152 40% 30%;
+    --sip-action-success-foreground: 152 76% 70%;
+    --sip-action-warning: 38 92% 55%;
+    --sip-action-warning-light: 38 40% 12%;
+    --sip-action-warning-border: 38 40% 30%;
+    --sip-action-warning-foreground: 38 92% 70%;
+    --sip-action-danger: 0 84% 60%;
+    --sip-action-danger-light: 0 40% 12%;
+    --sip-action-danger-border: 0 40% 30%;
+    --sip-action-danger-foreground: 0 84% 70%;
+    --sip-action-info: 220 68% 60%;
+    --sip-action-info-light: 220 30% 12%;
+    --sip-action-info-border: 220 40% 30%;
+    --sip-action-info-foreground: 220 68% 70%;
+    --sip-action-confirm: 152 76% 50%;
+    --sip-action-confirm-foreground: 0 0% 100%;
+
+    /* SIP Category Colors — Dark Mode */
+    --sip-category-1: 340 75% 60%;
+    --sip-category-2: 220 70% 60%;
+    --sip-category-3: 160 70% 50%;
+    --sip-category-4: 38 90% 55%;
+    --sip-category-5: 270 65% 60%;
+
+    /* SIP Allocation Colors — Dark Mode */
+    --sip-alloc-equity: 220 70% 60%;
+    --sip-alloc-debt: 160 70% 50%;
+    --sip-alloc-hybrid: 38 90% 55%;
+    --sip-alloc-other: 270 65% 60%;
+    --sip-alloc-solution: 340 75% 60%;
   }
 }
 
