@@ -123,7 +123,7 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
     return (
       <Card className="border-sip-action-success-border bg-sip-action-success-light/50">
         <CardContent className="py-8 text-center space-y-3">
-          <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
+          <CheckCircle2 className="w-12 h-12 text-sip-action-success mx-auto" />
           <h3 className="text-lg font-semibold text-foreground">Redemption Submitted</h3>
           <p className="text-sm text-muted-foreground">
             ₹{getRedeemValue().toLocaleString()} ({getRedeemUnits().toFixed(3)} units) from {selectedFund?.name}
