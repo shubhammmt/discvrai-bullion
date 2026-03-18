@@ -121,12 +121,10 @@ const SIPManagement = () => {
         <div className="flex items-center gap-2 px-3 py-4 border-b border-sip-border">
           {(sidebarOpen || isMobile) && (
             <div className="flex items-center gap-2 flex-1 min-w-0">
-              <div className="w-8 h-8 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-sip-brand-foreground" />
-              </div>
+              <SIPBrandLogo size="md" />
               <div className="min-w-0">
-                <p className="text-sm font-bold text-sip-text-primary truncate">DiscvrAI</p>
-                <p className="text-[10px] text-sip-text-muted">Wealth Platform</p>
+                <p className="text-sm font-bold text-sip-text-primary truncate">{SIP_BRAND.name}</p>
+                <p className="text-[10px] text-sip-text-muted">{SIP_BRAND.tagline}</p>
               </div>
             </div>
           )}
