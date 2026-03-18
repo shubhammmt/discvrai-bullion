@@ -45,7 +45,7 @@ const DEMO_FLOWS: DemoFlow[] = [
   },
   {
     id: 'switch-fund', title: 'Fund Switch', description: 'Move from one fund to another',
-    icon: RefreshCw, color: 'text-amber-600 bg-amber-100 dark:bg-amber-900/30',
+    icon: RefreshCw, color: 'text-sip-action-warning-foreground bg-sip-action-warning-light',
     steps: ['AI flags underperformer', 'Suggests better alternative', 'User confirms switch', 'Switch processed — T+1'],
     tags: ['Switch', 'Portfolio'],
   },
