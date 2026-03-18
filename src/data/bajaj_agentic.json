@@ -1,0 +1,118 @@
+{
+  "agentSummary": {
+    "headline": "8 STOs aging beyond 48 hours — all critical",
+    "summary": "The AI agent has analyzed your supply chain data. All 8 pending STOs have exceeded the 48-hour threshold, with the oldest at 122 hours. Vehicle fill rate (76.2%) is within target range. OTIF at 100% is excellent but pending STOs risk degrading it. Warehouse utilisation averaging 62.2% — below the 65–80% optimal band. No SKUs below safety stock currently.",
+    "priorityCount": { "critical": 8, "high": 0, "medium": 0 }
+  },
+  "recommendedActions": [
+    {
+      "id": "ACT-001",
+      "priority": "critical",
+      "title": "Expedite STO-004 and STO-015 — aging 122 hours",
+      "reasoning": "Both STOs created on Mar 9, expected delivery Mar 13 — now 5 days overdue. STO-004 targets DC-Chennai (600 units), STO-015 targets DC-Delhi (420 units).",
+      "suggestedAction": "Contact logistics partner for immediate dispatch; escalate to regional ops.",
+      "estimatedImpact": "Prevent OTIF drop and potential stock-out at target DCs"
+    },
+    {
+      "id": "ACT-002",
+      "priority": "critical",
+      "title": "Prioritize high-priority STOs for DC-Delhi",
+      "reasoning": "3 high-priority STOs (STO-003, STO-013, STO-006) targeting DC-Delhi with combined 2,200 units. Delhi warehouse at 64% utilisation — capacity available.",
+      "suggestedAction": "Consolidate Delhi-bound STOs into 2 shipments; assign dedicated vehicles.",
+      "estimatedImpact": "~20% freight savings on consolidated legs"
+    },
+    {
+      "id": "ACT-003",
+      "priority": "high",
+      "title": "Rebalance warehouse utilisation",
+      "reasoning": "All 3 warehouses below 65% optimal threshold (Bangalore 62.5%, Chennai 60%, Delhi 64%). Significant inbound expected (8,780 units total).",
+      "suggestedAction": "Pre-allocate receiving capacity; prioritize inbound for Chennai (lowest util).",
+      "estimatedImpact": "Smooth receiving; avoid bottlenecks when inbound arrives"
+    },
+    {
+      "id": "ACT-004",
+      "priority": "medium",
+      "title": "Review Primary leg freight costs",
+      "reasoning": "Primary leg avg freight/shipment (₹47,357) is 5.5x higher than Secondary (₹8,567). 7 shipments covering 9,120 km — route optimization opportunity.",
+      "suggestedAction": "Analyze top 3 Primary routes for consolidation or alternative carriers.",
+      "estimatedImpact": "~10-15% freight reduction on Primary leg"
+    }
+  ],
+  "agentInsights": [
+    {
+      "id": "INS-001",
+      "category": "pendency",
+      "severity": "critical",
+      "insight": "All 8 pending STOs exceed 48-hour threshold. Oldest STOs (STO-004, STO-015) aging at 122 hours — 5 days overdue. Immediate dispatch required.",
+      "metric": "criticalPendingOver48h",
+      "value": 8
+    },
+    {
+      "id": "INS-002",
+      "category": "transportation",
+      "severity": "info",
+      "insight": "Vehicle fill rate at 76.2% is within the 75–85% target band. OTIF at 100% — excellent performance on shipped orders.",
+      "metric": "avgVehicleFillRatePct",
+      "value": 76.2,
+      "target": "75-85"
+    },
+    {
+      "id": "INS-003",
+      "category": "warehouse",
+      "severity": "warning",
+      "insight": "Average warehouse utilisation at 62.2% — below the 65% optimal threshold. Chennai warehouse lowest at 60%. Large inbound expected (8,780 units) will improve utilisation.",
+      "metric": "avgUtilisationPct",
+      "value": 62.2,
+      "target": "65-80"
+    },
+    {
+      "id": "INS-004",
+      "category": "freight",
+      "severity": "info",
+      "insight": "Primary leg contributes 79% of total freight cost (₹3.3L of ₹4.2L) but only 47% of shipments. Consider multi-stop routing for Pre-primary + Primary consolidation.",
+      "metric": "primaryLegFreightShare",
+      "value": 79.3
+    },
+    {
+      "id": "INS-005",
+      "category": "inventory",
+      "severity": "info",
+      "insight": "All 6 SKUs above safety stock. Fans - Ceiling has highest buffer (1,130 units above safety). Strong inbound pipeline (8,780 units expected).",
+      "metric": "belowSafetyStockCount",
+      "value": 0
+    }
+  ],
+  "conversationalQueries": [
+    {
+      "query": "Which STOs need immediate attention?",
+      "response": "All 8 pending STOs are critical (>48h). The most urgent are STO-004 (122h, DC-Chennai, 600 units) and STO-015 (122h, DC-Delhi, 420 units) — both 5 days overdue. Next priority: STO-003, STO-010, STO-013 at 98 hours each. I recommend consolidating Delhi-bound STOs for faster dispatch.",
+      "category": "pendency"
+    },
+    {
+      "query": "How is our freight efficiency?",
+      "response": "Overall freight cost per unit is ₹95.09. Primary leg is the most expensive at ₹47,357 avg/shipment (79% of total freight). Pre-primary is ₹17,750 and Secondary is ₹8,567. Vehicle fill rate is healthy at 76.2%. Opportunity: consolidate 3 Primary shipments to save ~10-15% on those legs.",
+      "category": "transportation"
+    },
+    {
+      "query": "What's the warehouse status?",
+      "response": "3 warehouses averaging 62.2% utilisation — slightly below the 65% optimal threshold. Delhi is highest at 64% (3,200/5,000 pallets), Chennai lowest at 60% (2,100/3,500). Inbound of 8,780 units expected across all warehouses will improve utilisation significantly.",
+      "category": "warehouse"
+    },
+    {
+      "query": "Are any SKUs at risk?",
+      "response": "No SKUs are below safety stock currently. All 6 SKUs have healthy buffers. Fans - Ceiling has the highest buffer (2,630 vs 1,500 safety). Inbound pipeline of 8,780 units across all SKUs. Recommend monitoring post-STO dispatch to ensure stock levels remain adequate.",
+      "category": "inventory"
+    },
+    {
+      "query": "Give me a summary of today's operations",
+      "response": "OTIF: 100% (excellent). 8 STOs pending — all critical (>48h), oldest at 122h. Vehicle fill rate: 76.2% (on target). Warehouse util: 62.2% (below optimal). 0 SKUs below safety. Top action: expedite STO-004 and STO-015 immediately, consolidate Delhi-bound shipments.",
+      "category": "summary"
+    }
+  ],
+  "agentCapabilities": [
+    { "capability": "Proactive exception detection", "description": "Agent monitors STO aging and surfaces critical items before they escalate" },
+    { "capability": "Recommended actions", "description": "Prioritized actions with reasoning and estimated impact — human approves, agent proposes" },
+    { "capability": "Conversational queries", "description": "Ask in natural language — 'Which STOs need attention?' — get instant answers" },
+    { "capability": "Cross-system reasoning", "description": "Correlates transportation, warehouse, inventory — not siloed dashboards" }
+  ]
+}
