@@ -199,7 +199,7 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
                       </div>
                       <div className="text-right shrink-0 ml-3">
                         <p className="text-sm font-semibold text-foreground">₹{holding.currentValue.toLocaleString()}</p>
-                        <p className={cn('text-xs', gain >= 0 ? 'text-green-600' : 'text-destructive')}>
+                        <p className={cn('text-xs', gain >= 0 ? 'text-sip-success' : 'text-destructive')}>
                           {gain >= 0 ? '+' : ''}₹{gain.toLocaleString()} ({gainPct}%)
                         </p>
                       </div>
