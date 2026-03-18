@@ -204,7 +204,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/amit-m1xchange' ||
                        location.pathname === '/pitch/emami-realty' ||
                        location.pathname === '/dashboard/adani-greens' ||
-                       location.pathname === '/pitch/adani-greens';
+                       location.pathname === '/pitch/adani-greens' ||
+                       location.pathname === '/dashboard/bajaj-electricals';
   return (
     <>
       <Routes>
