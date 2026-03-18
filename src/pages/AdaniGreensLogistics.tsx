@@ -206,7 +206,7 @@ const AdaniGreensLogistics: React.FC = () => {
         {/* ── Section 2: KPI Cards ── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {/* OTIF */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 OTIF %<InfoTip text={TIPS.otif} />
