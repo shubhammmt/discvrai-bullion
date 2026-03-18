@@ -163,6 +163,7 @@ import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
 import EmamiRealtyDeck from './pages/EmamiRealtyDeck';
 import AdaniGreensLogistics from './pages/AdaniGreensLogistics';
 import AdaniGreensPitch from './pages/AdaniGreensPitch';
+import BajajElectricalsDashboard from './pages/BajajElectricalsDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
