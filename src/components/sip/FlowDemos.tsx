@@ -33,7 +33,7 @@ const DEMO_FLOWS: DemoFlow[] = [
   },
   {
     id: 'sell-partial', title: 'Partial Redemption', description: 'Sell part of your holdings',
-    icon: ArrowDownLeft, color: 'text-red-500 bg-red-100 dark:bg-red-900/30',
+    icon: ArrowDownLeft, color: 'text-sip-action-danger-foreground bg-sip-action-danger-light',
     steps: ['Select Fund from Portfolio', 'Choose Amount ₹25,000', 'Review Exit Load & Tax', 'Redeemed — ₹ credited in 2-3 days'],
     tags: ['Sell', 'Redeem'],
   },
