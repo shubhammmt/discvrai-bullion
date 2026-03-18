@@ -174,7 +174,7 @@ const AdaniGreensLogistics: React.FC = () => {
         )}
 
         {/* ── Section A: Agent Summary Banner ── */}
-        <Card className="bg-adani-surface-elevated border-l-4 border-l-adani-amber border-adani-border overflow-hidden">
+        <Card className={`bg-gradient-to-r from-adani-surface-elevated to-adani-amber/5 border-l-4 border-l-adani-amber border-adani-border overflow-hidden shadow-sm transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <CardContent className="p-5">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-xl bg-adani-amber/15 flex items-center justify-center flex-shrink-0 mt-0.5">
