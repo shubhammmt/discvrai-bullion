@@ -162,6 +162,7 @@ import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
 import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
 import EmamiRealtyDeck from './pages/EmamiRealtyDeck';
 import AdaniGreensLogistics from './pages/AdaniGreensLogistics';
+import AdaniGreensPitch from './pages/AdaniGreensPitch';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -201,7 +202,8 @@ const AppContent = () => {
                        location.pathname === '/demo/raja-railways' ||
                        location.pathname === '/pitch/amit-m1xchange' ||
                        location.pathname === '/pitch/emami-realty' ||
-                       location.pathname === '/dashboard/adani-greens';
+                       location.pathname === '/dashboard/adani-greens' ||
+                       location.pathname === '/pitch/adani-greens';
   return (
     <>
       <Routes>
@@ -362,7 +364,8 @@ const AppContent = () => {
             <Route path="/demo/raja-railways" element={<RajaRailwaysDemo />} />
             <Route path="/pitch/amit-m1xchange" element={<AmitM1xchangeDeck />} />
              <Route path="/pitch/emami-realty" element={<EmamiRealtyDeck />} />
-             <Route path="/dashboard/adani-greens" element={<AdaniGreensLogistics />} />
+              <Route path="/dashboard/adani-greens" element={<AdaniGreensLogistics />} />
+              <Route path="/pitch/adani-greens" element={<AdaniGreensPitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
