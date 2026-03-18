@@ -336,7 +336,7 @@ export function SmartFundSearch({
           </div>
           <div className="flex items-center gap-3 mt-1 flex-wrap">
             <span className="text-[10px] text-muted-foreground">NAV ₹{fund.nav}</span>
-            <span className={cn('text-[10px] font-semibold', sortBy === '1y' ? 'text-primary' : 'text-green-600')}>
+            <span className={cn('text-[10px] font-semibold', sortBy === '1y' ? 'text-primary' : 'text-sip-returns')}>
               1Y: {fund.returns1Y}%
             </span>
             <span className={cn('text-[10px] font-semibold', sortBy === '3y' ? 'text-primary' : 'text-green-700')}>
