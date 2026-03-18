@@ -220,28 +220,41 @@ const SIPManagement = () => {
             <div className="space-y-4">
               {/* Portfolio snapshot for investors — clickable to full portfolio */}
               {hasHoldings && (
-                <div
-                  className="grid grid-cols-2 gap-3 cursor-pointer"
+                <Card
+                  className="cursor-pointer hover:border-sip-brand/40 transition-colors"
                   onClick={() => setActiveTab('portfolio')}
                 >
-                  <Card className="bg-sip-brand text-sip-brand-foreground hover:opacity-90 transition-opacity">
-                    <CardContent className="p-4">
-                      <p className="text-[10px] uppercase tracking-wider opacity-80">Portfolio Value</p>
-                      <p className="text-2xl font-bold mt-1">₹{totalValue.toLocaleString()}</p>
-                      <p className="text-xs opacity-70 mt-0.5 flex items-center gap-1">
-                        <TrendingUp className="w-3 h-3" />
-                        {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}% returns
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <Card className="hover:border-sip-brand/40 transition-colors" onClick={(e) => { e.stopPropagation(); setActiveTab('manage'); }}>
-                    <CardContent className="p-4">
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Monthly SIPs</p>
-                      <p className="text-2xl font-bold text-foreground mt-1">₹{totalMonthly.toLocaleString()}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{activeSIPs.length} active SIPs</p>
-                    </CardContent>
-                  </Card>
-                </div>
+                  <CardContent className="p-4">
+                    {/* Logo row */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
+                        <Bot className="w-3.5 h-3.5 text-sip-brand-foreground" />
+                      </div>
+                      <span className="text-sm font-bold text-sip-text-primary">DiscvrAI</span>
+                      <span className="text-[10px] text-sip-text-muted">/ Portfolio Snapshot</span>
+                    </div>
+                    {/* Three metrics aligned in a row */}
+                    <div className="grid grid-cols-3 gap-0 divide-x divide-sip-border">
+                      <div className="pr-4">
+                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Invested Value</p>
+                        <p className="text-lg font-bold text-foreground mt-1">₹{totalInvested.toLocaleString()}</p>
+                      </div>
+                      <div className="px-4">
+                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Current Value</p>
+                        <p className="text-lg font-bold text-sip-brand mt-1">₹{totalValue.toLocaleString()}</p>
+                      </div>
+                      <div className="pl-4">
+                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
+                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-green-600' : 'text-red-500')}>
+                          {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}%
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">
+                          ₹{Math.abs(totalValue - totalInvested).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               )}
 
               {/* Full Agentic Chat — the primary interface */}
