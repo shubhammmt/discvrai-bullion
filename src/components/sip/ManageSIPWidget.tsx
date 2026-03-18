@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Pause, Play, Trash2, AlertTriangle, IndianRupee, Calendar, ChevronDown, ChevronUp, Plus, Loader2, RefreshCw, ShieldCheck, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SIPStatusBadge, bannerStyles } from './SIPStatusBadge';
 
 const API_BASE_URL = import.meta.env.VITE_DISCVR_API_BASE_URL || '';
 const API_TOKEN = import.meta.env.VITE_DISCVR_API_TOKEN || '';
@@ -45,14 +46,6 @@ interface ManageSIPWidgetProps {
 
 type SIPAction = 'pause' | 'activate' | 'delete' | 'verify';
 
-const statusConfig: Record<string, { label: string; color: string }> = {
-  ACTIVE: { label: 'Active', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  PAUSED: { label: 'Paused', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' },
-  CANCELLED: { label: 'Cancelled', color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
-  CREATED: { label: 'Pending Setup', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
-  PENDING: { label: 'Pending', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
-};
-
 function getHeaders() {
   const h: Record<string, string> = { 'Content-Type': 'application/json' };
   if (API_TOKEN) h['Authorization'] = `Bearer ${API_TOKEN}`;
@@ -61,7 +54,6 @@ function getHeaders() {
 
 function getMinActivateDate(): string {
   const now = new Date();
-  // Convert to IST (UTC+5:30)
   const istOffset = 5.5 * 60 * 60 * 1000;
   const istNow = new Date(now.getTime() + istOffset + now.getTimezoneOffset() * 60 * 1000);
   const istHour = istNow.getHours();
@@ -87,73 +79,17 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   const [banner, setBanner] = useState<FeedbackBanner | null>(null);
 
   const MOCK_SIPS_DATA: SIPRecord[] = [
-    {
-      sip_id: 'sip_001',
-      subscription_id: 'SUB_001_HDFC',
-      scheme_code: 'HDFC_LC_001',
-      scheme_name: 'HDFC Large Cap Fund - Growth',
-      amount: 5000,
-      frequency: 'Monthly',
-      status: 'ACTIVE',
-      start_date: '2023-01-15',
-      next_due_date: '2026-04-15',
-      created_at: '2023-01-10',
-    },
-    {
-      sip_id: 'sip_002',
-      subscription_id: 'SUB_002_SBI',
-      scheme_code: 'SBI_SC_001',
-      scheme_name: 'SBI Small Cap Fund - Growth',
-      amount: 3000,
-      frequency: 'Monthly',
-      status: 'ACTIVE',
-      start_date: '2023-06-01',
-      next_due_date: '2026-04-01',
-      created_at: '2023-05-25',
-    },
-    {
-      sip_id: 'sip_003',
-      subscription_id: 'SUB_003_AXIS',
-      scheme_code: 'AXIS_BC_001',
-      scheme_name: 'Axis Bluechip Fund - Growth',
-      amount: 10000,
-      frequency: 'Monthly',
-      status: 'PAUSED',
-      start_date: '2022-09-10',
-      next_due_date: '',
-      created_at: '2022-09-05',
-    },
-    {
-      sip_id: 'sip_004',
-      subscription_id: 'SUB_004_PPFAS',
-      scheme_code: 'PPFAS_FC_001',
-      scheme_name: 'Parag Parikh Flexi Cap Fund - Growth',
-      amount: 2000,
-      frequency: 'Quarterly',
-      status: 'ACTIVE',
-      start_date: '2024-01-01',
-      next_due_date: '2026-04-01',
-      created_at: '2023-12-20',
-    },
-    {
-      sip_id: 'sip_005',
-      subscription_id: 'SUB_005_MIRAE',
-      scheme_code: 'MIRAE_EL_001',
-      scheme_name: 'Mirae Asset Emerging Bluechip Fund - Growth',
-      amount: 7500,
-      frequency: 'Monthly',
-      status: 'CREATED',
-      start_date: '2026-04-01',
-      next_due_date: '2026-04-01',
-      created_at: '2026-03-18',
-    },
+    { sip_id: 'sip_001', subscription_id: 'SUB_001_HDFC', scheme_code: 'HDFC_LC_001', scheme_name: 'HDFC Large Cap Fund - Growth', amount: 5000, frequency: 'Monthly', status: 'ACTIVE', start_date: '2023-01-15', next_due_date: '2026-04-15', created_at: '2023-01-10' },
+    { sip_id: 'sip_002', subscription_id: 'SUB_002_SBI', scheme_code: 'SBI_SC_001', scheme_name: 'SBI Small Cap Fund - Growth', amount: 3000, frequency: 'Monthly', status: 'ACTIVE', start_date: '2023-06-01', next_due_date: '2026-04-01', created_at: '2023-05-25' },
+    { sip_id: 'sip_003', subscription_id: 'SUB_003_AXIS', scheme_code: 'AXIS_BC_001', scheme_name: 'Axis Bluechip Fund - Growth', amount: 10000, frequency: 'Monthly', status: 'PAUSED', start_date: '2022-09-10', next_due_date: '', created_at: '2022-09-05' },
+    { sip_id: 'sip_004', subscription_id: 'SUB_004_PPFAS', scheme_code: 'PPFAS_FC_001', scheme_name: 'Parag Parikh Flexi Cap Fund - Growth', amount: 2000, frequency: 'Quarterly', status: 'ACTIVE', start_date: '2024-01-01', next_due_date: '2026-04-01', created_at: '2023-12-20' },
+    { sip_id: 'sip_005', subscription_id: 'SUB_005_MIRAE', scheme_code: 'MIRAE_EL_001', scheme_name: 'Mirae Asset Emerging Bluechip Fund - Growth', amount: 7500, frequency: 'Monthly', status: 'CREATED', start_date: '2026-04-01', next_due_date: '2026-04-01', created_at: '2026-03-18' },
   ];
 
   const fetchSips = useCallback(async (p: number) => {
     setLoading(true);
     setError(null);
     try {
-      // Use mock data as fallback when API is not accessible
       if (!API_BASE_URL) {
         setSips(MOCK_SIPS_DATA);
         setPagination({ current_page: 1, total_pages: 1, has_next_page: false, has_previous_page: false });
@@ -167,7 +103,6 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
       setSips(json.data || []);
       setPagination(json.pagination || { current_page: p, total_pages: 1, has_next_page: false, has_previous_page: false });
     } catch (e: any) {
-      // Fallback to mock data on error
       setSips(MOCK_SIPS_DATA);
       setPagination({ current_page: 1, total_pages: 1, has_next_page: false, has_previous_page: false });
     } finally {
@@ -177,7 +112,6 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
 
   useEffect(() => { fetchSips(page); }, [page, fetchSips]);
 
-  // Pre-select action from props
   useEffect(() => {
     if (preSelectedSipId && preSelectedAction && sips.length > 0) {
       const sip = sips.find(s => s.sip_id === preSelectedSipId);
@@ -259,19 +193,13 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   const sipInDialog = confirmDialog ? sips.find(s => s.sip_id === confirmDialog.sipId) : null;
   const activeCount = sips.filter(s => s.status?.toUpperCase() === 'ACTIVE').length;
 
-  const bannerColors: Record<string, string> = {
-    success: 'bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800',
-    info: 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800',
-    error: 'bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800',
-  };
-
   return (
     <>
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center justify-between">
             <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-primary" />
+              <Calendar className="w-4 h-4 text-sip-brand" />
               Your SIPs
             </span>
             <span className="flex items-center gap-2">
@@ -287,20 +215,18 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
         <CardContent className="space-y-2 pt-0">
           {/* Feedback banner */}
           {banner && (
-            <div className={cn('flex items-center justify-between rounded-lg border px-3 py-2 text-xs', bannerColors[banner.type])}>
+            <div className={cn('flex items-center justify-between rounded-lg border px-3 py-2 text-xs', bannerStyles[banner.type])}>
               <span>{banner.message}</span>
               <button onClick={() => setBanner(null)} className="ml-2 shrink-0"><X className="w-3.5 h-3.5" /></button>
             </div>
           )}
 
-          {/* Loading */}
           {loading && (
             <div className="flex items-center justify-center py-10">
               <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
             </div>
           )}
 
-          {/* Error */}
           {!loading && error && (
             <div className="text-center py-6 space-y-2">
               <p className="text-sm text-destructive">{error}</p>
@@ -310,7 +236,6 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             </div>
           )}
 
-          {/* Empty */}
           {!loading && !error && sips.length === 0 && (
             <div className="text-center py-8 space-y-3">
               <p className="text-sm text-muted-foreground">No SIPs found</p>
@@ -322,19 +247,16 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             </div>
           )}
 
-          {/* SIP List */}
           {!loading && !error && sips.map(sip => {
             const isExpanded = expandedSip === sip.sip_id;
             const status = sip.status?.toUpperCase();
-            const cfg = statusConfig[status] || statusConfig.ACTIVE;
 
             return (
               <div key={sip.sip_id} className={cn(
                 'rounded-lg border transition-all',
-                status === 'PAUSED' ? 'border-amber-200 dark:border-amber-800' : 'border-border',
+                status === 'PAUSED' ? 'border-sip-action-warning-border' : 'border-border',
                 isExpanded && 'shadow-sm'
               )}>
-                {/* Summary row */}
                 <button
                   onClick={() => setExpandedSip(isExpanded ? null : sip.sip_id)}
                   className="w-full text-left p-3 flex items-center gap-3"
@@ -342,9 +264,7 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-medium text-foreground truncate">{sip.scheme_name}</p>
-                      <span className={cn('text-[10px] px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap', cfg.color)}>
-                        {cfg.label}
-                      </span>
+                      <SIPStatusBadge status={status} />
                     </div>
                     <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                       <span className="flex items-center gap-0.5"><IndianRupee className="w-3 h-3" />{sip.amount.toLocaleString()}/{sip.frequency?.toLowerCase() === 'monthly' ? 'mo' : sip.frequency?.toLowerCase() === 'quarterly' ? 'qtr' : sip.frequency?.toLowerCase()}</span>
@@ -354,7 +274,6 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                   {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
                 </button>
 
-                {/* Expanded details */}
                 {isExpanded && (
                   <div className="px-3 pb-3 border-t border-border/50 pt-3 space-y-3">
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
@@ -384,15 +303,14 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                       </div>
                     </div>
 
-                    {/* Action buttons */}
                     <div className="flex gap-2 pt-1">
                       {status === 'ACTIVE' && (
                         <>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:text-amber-800 dark:bg-amber-950/30 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-950/50 dark:hover:text-amber-300"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-sip-action-warning-border bg-sip-action-warning-light text-sip-action-warning-foreground hover:bg-sip-action-warning-light/80"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip, 'pause'); }}>
                             <Pause className="w-3.5 h-3.5 mr-1" /> Pause
                           </Button>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs border-red-300 bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-800 dark:bg-red-950/30 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950/50 dark:hover:text-red-300"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-sip-action-danger-border bg-sip-action-danger-light text-sip-action-danger-foreground hover:bg-sip-action-danger-light/80"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip, 'delete'); }}>
                             <Trash2 className="w-3.5 h-3.5 mr-1" /> Cancel
                           </Button>
@@ -400,11 +318,11 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                       )}
                       {status === 'PAUSED' && (
                         <>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs border-green-300 bg-green-50 text-green-700 hover:bg-green-100 hover:text-green-800 dark:bg-green-950/30 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-950/50 dark:hover:text-green-300"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-sip-action-success-border bg-sip-action-success-light text-sip-action-success-foreground hover:bg-sip-action-success-light/80"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip, 'activate'); }}>
                             <Play className="w-3.5 h-3.5 mr-1" /> Activate
                           </Button>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs border-red-300 bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-800 dark:bg-red-950/30 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950/50 dark:hover:text-red-300"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-sip-action-danger-border bg-sip-action-danger-light text-sip-action-danger-foreground hover:bg-sip-action-danger-light/80"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip, 'delete'); }}>
                             <Trash2 className="w-3.5 h-3.5 mr-1" /> Cancel
                           </Button>
@@ -412,18 +330,17 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                       )}
                       {(status === 'CREATED' || status === 'PENDING') && (
                         <>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800 dark:bg-blue-950/30 dark:border-blue-700 dark:text-blue-400 dark:hover:bg-blue-950/50 dark:hover:text-blue-300"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-sip-action-info-border bg-sip-action-info-light text-sip-action-info-foreground hover:bg-sip-action-info-light/80"
                             disabled={verifyingId === sip.sip_id}
                             onClick={(e) => { e.stopPropagation(); handleVerify(sip); }}>
                             {verifyingId === sip.sip_id ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" /> : <ShieldCheck className="w-3.5 h-3.5 mr-1" />} Verify
                           </Button>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs border-red-300 bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-800 dark:bg-red-950/30 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950/50 dark:hover:text-red-300"
+                          <Button variant="outline" size="sm" className="flex-1 text-xs border-sip-action-danger-border bg-sip-action-danger-light text-sip-action-danger-foreground hover:bg-sip-action-danger-light/80"
                             onClick={(e) => { e.stopPropagation(); handleAction(sip, 'delete'); }}>
                             <Trash2 className="w-3.5 h-3.5 mr-1" /> Cancel
                           </Button>
                         </>
                       )}
-                      {/* CANCELLED: no actions */}
                     </div>
                   </div>
                 )}
@@ -431,7 +348,6 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             );
           })}
 
-          {/* Pagination */}
           {!loading && !error && pagination.total_pages > 1 && (
             <div className="flex items-center justify-between pt-3">
               <Button variant="outline" size="sm" className="text-xs" disabled={!pagination.has_previous_page} onClick={() => setPage(p => p - 1)}>
@@ -452,8 +368,8 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {confirmDialog?.action === 'delete' && <AlertTriangle className="w-5 h-5 text-destructive" />}
-              {confirmDialog?.action === 'pause' && <Pause className="w-5 h-5 text-amber-500" />}
-              {confirmDialog?.action === 'activate' && <Play className="w-5 h-5 text-green-500" />}
+              {confirmDialog?.action === 'pause' && <Pause className="w-5 h-5 text-sip-action-warning" />}
+              {confirmDialog?.action === 'activate' && <Play className="w-5 h-5 text-sip-action-success" />}
               {confirmDialog?.action === 'pause' ? 'Pause SIP' : confirmDialog?.action === 'activate' ? 'Activate SIP' : 'Cancel SIP'}
             </DialogTitle>
             <DialogDescription>
@@ -474,7 +390,6 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             </div>
           )}
 
-          {/* Date picker for Activate */}
           {confirmDialog?.action === 'activate' && (
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-foreground">Next Scheduled Date</label>
@@ -490,9 +405,8 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             </div>
           )}
 
-          {/* Dialog error */}
           {dialogError && (
-            <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-3 py-2 text-xs text-red-700 dark:text-red-400">
+            <div className={cn('rounded-lg border px-3 py-2 text-xs', bannerStyles.error)}>
               {dialogError}
             </div>
           )}
@@ -501,7 +415,7 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             <Button variant="outline" onClick={() => setConfirmDialog(null)} disabled={actionLoading}>Go Back</Button>
             <Button
               variant={confirmDialog?.action === 'delete' ? 'destructive' : 'default'}
-              className={cn(confirmDialog?.action === 'activate' && 'bg-green-600 hover:bg-green-700 text-white')}
+              className={cn(confirmDialog?.action === 'activate' && 'bg-sip-action-confirm text-sip-action-confirm-foreground hover:bg-sip-action-confirm/90')}
               onClick={confirmAction}
               disabled={actionLoading}
             >

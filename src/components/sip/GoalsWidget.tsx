@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Target, Plus, TrendingUp, Heart, GraduationCap, Home, Sparkles, ArrowRight, Edit, Trash2, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { SIP_CATEGORY_MAP } from '@/config/sipBrandConfig';
 
 interface GoalData {
   id: string;
@@ -33,14 +34,6 @@ const categoryIcons: Record<string, typeof Target> = {
   Home: Home,
   Emergency: Target,
   Retirement: Sparkles,
-};
-
-const categoryColors: Record<string, string> = {
-  Wedding: 'from-pink-500 to-rose-500',
-  Education: 'from-blue-500 to-indigo-500',
-  Home: 'from-emerald-500 to-teal-500',
-  Emergency: 'from-amber-500 to-orange-500',
-  Retirement: 'from-purple-500 to-violet-500',
 };
 
 const CATEGORIES = ['Wedding', 'Education', 'Home', 'Emergency', 'Retirement'];
@@ -69,54 +62,22 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
   const totalMonthlyGap = goals.reduce((sum, g) => sum + g.monthlySIP, 0);
   const totalTarget = goals.reduce((sum, g) => sum + g.targetAmount, 0);
 
-  const openAdd = () => {
-    setEditingGoal(null);
-    setForm(emptyForm);
-    setDialogOpen(true);
-  };
-
+  const openAdd = () => { setEditingGoal(null); setForm(emptyForm); setDialogOpen(true); };
   const openEdit = (goal: GoalData) => {
     setEditingGoal(goal);
-    setForm({
-      name: goal.name,
-      targetAmount: goal.targetAmount.toString(),
-      currentAmount: goal.currentAmount.toString(),
-      monthlySIP: goal.monthlySIP.toString(),
-      targetDate: goal.targetDate,
-      category: goal.category,
-    });
+    setForm({ name: goal.name, targetAmount: goal.targetAmount.toString(), currentAmount: goal.currentAmount.toString(), monthlySIP: goal.monthlySIP.toString(), targetDate: goal.targetDate, category: goal.category });
     setDialogOpen(true);
   };
 
   const handleSave = () => {
-    if (!form.name || !form.targetAmount || !form.targetDate) {
-      toast.error('Please fill all required fields');
-      return;
-    }
-    const goalData: GoalData = {
-      id: editingGoal?.id || Date.now().toString(),
-      name: form.name,
-      targetAmount: Number(form.targetAmount),
-      currentAmount: Number(form.currentAmount) || 0,
-      monthlySIP: Number(form.monthlySIP) || 0,
-      targetDate: form.targetDate,
-      category: form.category,
-    };
-
-    if (editingGoal) {
-      setGoals(prev => prev.map(g => g.id === editingGoal.id ? goalData : g));
-      toast.success('Goal updated');
-    } else {
-      setGoals(prev => [...prev, goalData]);
-      toast.success('Goal created');
-    }
+    if (!form.name || !form.targetAmount || !form.targetDate) { toast.error('Please fill all required fields'); return; }
+    const goalData: GoalData = { id: editingGoal?.id || Date.now().toString(), name: form.name, targetAmount: Number(form.targetAmount), currentAmount: Number(form.currentAmount) || 0, monthlySIP: Number(form.monthlySIP) || 0, targetDate: form.targetDate, category: form.category };
+    if (editingGoal) { setGoals(prev => prev.map(g => g.id === editingGoal.id ? goalData : g)); toast.success('Goal updated'); }
+    else { setGoals(prev => [...prev, goalData]); toast.success('Goal created'); }
     setDialogOpen(false);
   };
 
-  const handleDelete = (id: string) => {
-    setGoals(prev => prev.filter(g => g.id !== id));
-    toast.success('Goal removed');
-  };
+  const handleDelete = (id: string) => { setGoals(prev => prev.filter(g => g.id !== id)); toast.success('Goal removed'); };
 
   return (
     <>
@@ -124,7 +85,7 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center justify-between">
             <span className="flex items-center gap-2">
-              <Target className="w-4 h-4 text-primary" />
+              <Target className="w-4 h-4 text-sip-brand" />
               Financial Goals
             </span>
             <div className="flex items-center gap-2">
@@ -136,10 +97,9 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 pt-0">
-          {/* Summary Cards */}
           {!compact && (
             <div className="grid grid-cols-2 gap-3 mb-3">
-              <div className="rounded-xl bg-primary p-3 text-primary-foreground">
+              <div className="rounded-xl bg-sip-brand p-3 text-sip-brand-foreground">
                 <p className="text-[10px] uppercase tracking-wider opacity-80">Monthly Investment Gap</p>
                 <p className="text-xl font-bold mt-1">₹{totalMonthlyGap.toLocaleString()}</p>
                 <p className="text-[10px] opacity-70 mt-0.5">Combined SIP required</p>
@@ -152,17 +112,17 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
             </div>
           )}
 
-          {/* Goal cards */}
           {goals.map(goal => {
             const progress = (goal.currentAmount / goal.targetAmount) * 100;
             const Icon = categoryIcons[goal.category] || Target;
-            const gradient = categoryColors[goal.category] || 'from-primary to-primary';
+            const colorToken = SIP_CATEGORY_MAP[goal.category] || 'sip-brand';
 
             return (
               <div key={goal.id} className="rounded-lg border border-border p-3 space-y-2 group">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className={cn('w-7 h-7 rounded-full bg-gradient-to-br flex items-center justify-center', gradient)}>
+                    <div className={cn('w-7 h-7 rounded-full flex items-center justify-center')}
+                      style={{ backgroundColor: `hsl(var(--${colorToken}))` }}>
                       <Icon className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div>
@@ -179,7 +139,7 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
                     </Button>
                     <div className="text-right pl-1">
                       <p className="text-[10px] text-muted-foreground uppercase">Required SIP</p>
-                      <p className="text-sm font-bold text-primary">₹{goal.monthlySIP.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-sip-brand">₹{goal.monthlySIP.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -206,7 +166,6 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
         </CardContent>
       </Card>
 
-      {/* Add/Edit Goal Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>

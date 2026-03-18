@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowUpRight, ArrowDownLeft, Repeat, ArrowLeftRight, Filter, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SIPStatusBadge, txTypeColors } from './SIPStatusBadge';
 
 interface Transaction {
   id: string;
@@ -35,19 +36,6 @@ const typeIcons: Record<string, typeof ArrowUpRight> = {
   SIP: Repeat,
   Sell: ArrowDownLeft,
   Switch: ArrowLeftRight,
-};
-
-const typeColors: Record<string, string> = {
-  Buy: 'text-green-600 bg-green-100 dark:bg-green-900/30',
-  SIP: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30',
-  Sell: 'text-red-500 bg-red-100 dark:bg-red-900/30',
-  Switch: 'text-amber-600 bg-amber-100 dark:bg-amber-900/30',
-};
-
-const statusColors: Record<string, string> = {
-  Completed: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-  Pending: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
-  Failed: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
 };
 
 export function TransactionsTab() {
@@ -92,7 +80,7 @@ export function TransactionsTab() {
         <CardHeader className="pb-3">
           <CardTitle className="text-sm flex items-center justify-between">
             <span className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-primary" />
+              <Filter className="w-4 h-4 text-sip-brand" />
               Transaction History
             </span>
             <Button variant="outline" size="sm" className="h-7 text-xs gap-1">
@@ -132,7 +120,7 @@ export function TransactionsTab() {
               const Icon = typeIcons[tx.type] || ArrowUpRight;
               return (
                 <div key={tx.id} className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-muted/30 transition-colors">
-                  <div className={cn('w-8 h-8 rounded-full flex items-center justify-center shrink-0', typeColors[tx.type])}>
+                  <div className={cn('w-8 h-8 rounded-full flex items-center justify-center shrink-0', txTypeColors[tx.type])}>
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -144,11 +132,11 @@ export function TransactionsTab() {
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className={cn('text-sm font-bold', tx.type === 'Sell' ? 'text-red-500' : 'text-foreground')}>
+                    <p className={cn('text-sm font-bold', tx.type === 'Sell' ? 'text-sip-error' : 'text-foreground')}>
                       {tx.type === 'Sell' ? '-' : '+'}₹{tx.amount.toLocaleString()}
                     </p>
-                    <Badge className={cn('text-[9px] mt-0.5', statusColors[tx.status])} variant="secondary">
-                      {tx.status}
+                    <Badge className={cn('text-[9px] mt-0.5')} variant="secondary">
+                      <SIPStatusBadge status={tx.status} className="px-0 py-0 bg-transparent" />
                     </Badge>
                   </div>
                 </div>
