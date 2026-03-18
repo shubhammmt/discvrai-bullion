@@ -328,7 +328,7 @@ export function MFScreenerWidget({
                   </div>
                   <div className="flex items-center gap-3 mt-1">
                     <span className="text-[10px] text-muted-foreground">NAV ₹{fund.nav}</span>
-                    <span className="text-[10px] text-green-600">1Y: {fund.returns1Y}%</span>
+                    <span className="text-[10px] text-sip-returns">1Y: {fund.returns1Y}%</span>
                     <span className="text-[10px] text-green-700">3Y: {fund.returns3Y}%</span>
                   </div>
                 </div>
