@@ -300,7 +300,7 @@ export function CreateSIPWidget({ preSelectedFund, prefill, onSIPCreated, compac
 
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => setStep('details')}>Edit</Button>
-              <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white" onClick={handleCreate}>
+              <Button className="flex-1 bg-sip-action-confirm hover:bg-sip-action-confirm/90 text-sip-action-confirm-foreground" onClick={handleCreate}>
                 <CheckCircle2 className="w-4 h-4 mr-1" /> Confirm SIP
               </Button>
             </div>
