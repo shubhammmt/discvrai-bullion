@@ -354,7 +354,7 @@ const AdaniGreensLogistics: React.FC = () => {
                 </CardHeader>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <CardContent className="space-y-3 max-h-[420px] overflow-y-auto">
+                <CardContent className="space-y-3 overflow-y-auto">
                   {recommendedActions.map((action) => {
                     const style = severityStyle(action.priority);
                     return (
