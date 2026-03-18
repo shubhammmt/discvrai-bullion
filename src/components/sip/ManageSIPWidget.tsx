@@ -289,6 +289,10 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                   <div className="px-3 pb-3 border-t border-border/50 pt-3 space-y-3">
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                       <div>
+                        <p className="text-muted-foreground">Scheme Name</p>
+                        <p className="font-semibold text-foreground truncate">{sip.scheme_name}</p>
+                      </div>
+                      <div>
                         <p className="text-muted-foreground">Amount</p>
                         <p className="font-semibold text-foreground">₹{sip.amount.toLocaleString()}</p>
                       </div>
@@ -297,16 +301,16 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
                         <p className="font-semibold text-foreground capitalize">{sip.frequency?.toLowerCase()}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Start Date</p>
-                        <p className="font-semibold text-foreground">{sip.start_date}</p>
+                        <p className="text-muted-foreground">Status</p>
+                        <p className="font-semibold text-foreground capitalize">{sip.status?.toLowerCase()}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Next Due Date</p>
-                        <p className="font-semibold text-foreground">{sip.next_due_date || '—'}</p>
+                        <p className="text-muted-foreground">Created At</p>
+                        <p className="font-semibold text-foreground">{sip.created_at || '—'}</p>
                       </div>
-                      <div className="col-span-2">
-                        <p className="text-muted-foreground">Subscription ID</p>
-                        <p className="font-semibold text-foreground font-mono text-[11px] truncate">{sip.subscription_id}</p>
+                      <div>
+                        <p className="text-muted-foreground">Start Date</p>
+                        <p className="font-semibold text-foreground">{sip.start_date || '—'}</p>
                       </div>
                     </div>
 
