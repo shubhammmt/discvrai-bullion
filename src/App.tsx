@@ -198,7 +198,8 @@ const AppContent = () => {
                        location.pathname === '/demo/treds-finops' ||
                        location.pathname === '/pitch/raja-railways' ||
                        location.pathname === '/demo/raja-railways' ||
-                       location.pathname === '/pitch/amit-m1xchange';
+                       location.pathname === '/pitch/amit-m1xchange' ||
+                       location.pathname === '/pitch/emami-realty';
   return (
     <>
       <Routes>
