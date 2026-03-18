@@ -1,0 +1,153 @@
+{
+  "lastUpdated": "2026-03-18T10:35:00",
+  "source": "agentic_layer",
+  "agentSummary": {
+    "headline": "4 critical items need attention before end of day",
+    "summary": "The AI agent has analyzed your logistics data and identified 4 import orders aging beyond 48 hours, 2 orders awaiting customs clearance, and 2 SKUs below safety stock. Vehicle fill rate (71.3%) is below the 75–85% target — consider consolidating Primary (Khavda) shipments. OTIF at 82.5% is acceptable but trending down from last week.",
+    "priorityCount": {
+      "critical": 4,
+      "high": 3,
+      "medium": 2
+    }
+  },
+  "recommendedActions": [
+    {
+      "id": "ACT-001",
+      "priority": "critical",
+      "type": "customs_follow_up",
+      "title": "Expedite customs clearance for IMP-2026-089",
+      "target": "IMP-2026-089",
+      "reasoning": "Solar modules (2,400 units) aging 96 hours. Awaiting clearance at Hazira. Risk of demurrage if not cleared within 24h.",
+      "suggestedAction": "Contact CHA for status; verify HS code submission.",
+      "estimatedImpact": "Avoid ~₹2.4L demurrage"
+    },
+    {
+      "id": "ACT-002",
+      "priority": "critical",
+      "type": "dispatch_priority",
+      "title": "Prioritize IMP-2026-086 for Khavda dispatch",
+      "target": "IMP-2026-086",
+      "reasoning": "3,600 solar modules cleared at port, aging 120 hours. Target Khavda-Staging-A. High priority — project timeline at risk.",
+      "suggestedAction": "Assign vehicle; schedule dispatch within 12h.",
+      "estimatedImpact": "Prevent 2-day project delay"
+    },
+    {
+      "id": "ACT-003",
+      "priority": "high",
+      "type": "consolidation",
+      "title": "Consolidate Primary (Khavda) shipments",
+      "target": "Primary leg",
+      "reasoning": "Vehicle fill rate 71.3% vs 75–85% target. 12 Primary shipments this week — 3 could be consolidated into 2.",
+      "suggestedAction": "Review STO-088, STO-085, STO-087 for same-day consolidation.",
+      "estimatedImpact": "~15% freight savings on affected legs"
+    },
+    {
+      "id": "ACT-004",
+      "priority": "high",
+      "type": "inventory_replenishment",
+      "title": "Expedite TRACKER-HSA inbound",
+      "target": "TRACKER-HSA",
+      "reasoning": "1,200 units on hand vs 1,500 safety stock. 800 inbound expected. Khavda project consuming 200/day.",
+      "suggestedAction": "Verify IMP-2026-085 ETD; consider air freight for partial if critical.",
+      "estimatedImpact": "Avoid stock-out in 4–5 days"
+    },
+    {
+      "id": "ACT-005",
+      "priority": "medium",
+      "type": "warehouse_rebalance",
+      "title": "Rebalance KHAVDA-STAGING-B capacity",
+      "target": "KHAVDA-STAGING-B",
+      "reasoning": "57.5% utilisation vs KHAVDA-STAGING-A at 78%. Wind blade delivery (IMP-2026-087) inbound — consider pre-allocating space.",
+      "suggestedAction": "Reserve 50 pallets for OOG wind components.",
+      "estimatedImpact": "Smooth receiving; avoid yard congestion"
+    }
+  ],
+  "agentInsights": [
+    {
+      "id": "INS-001",
+      "category": "transportation",
+      "severity": "warning",
+      "insight": "Vehicle fill rate at 71.3% is below the 75–85% target. Primary (Khavda) leg has the lowest utilisation — consolidation opportunity.",
+      "metric": "avgVehicleFillRatePct",
+      "value": 71.3,
+      "target": "75-85"
+    },
+    {
+      "id": "INS-002",
+      "category": "customs",
+      "severity": "critical",
+      "insight": "2 import orders (IMP-2026-089, IMP-2026-088) awaiting customs clearance. Combined 2,448 units at risk of demurrage.",
+      "metric": "customsAwaitingCount",
+      "value": 2
+    },
+    {
+      "id": "INS-003",
+      "category": "inventory",
+      "severity": "warning",
+      "insight": "SOLAR-545W-BIFACIAL and TRACKER-HSA below safety stock. Inbound covers 60% of gap — monitor daily.",
+      "metric": "belowSafetyStockCount",
+      "value": 2
+    },
+    {
+      "id": "INS-004",
+      "category": "otif",
+      "severity": "info",
+      "insight": "OTIF at 82.5% — within acceptable range but down 2.1pp from last week. Import leg delays contributing.",
+      "metric": "otifPct",
+      "value": 82.5
+    },
+    {
+      "id": "INS-005",
+      "category": "freight",
+      "severity": "info",
+      "insight": "Import (Port) leg has highest freight cost per shipment (₹2.37L avg). Consider multi-carrier negotiation for next quarter.",
+      "metric": "avgFreightPerShipment",
+      "value": 236667
+    }
+  ],
+  "conversationalQueries": [
+    {
+      "query": "Which import orders need my attention?",
+      "response": "4 import orders need attention: IMP-2026-089 (96h aging, awaiting customs), IMP-2026-086 (120h aging, cleared), IMP-2026-087 (72h, cleared), IMP-2026-088 (72h, awaiting customs). I recommend prioritizing IMP-2026-086 for immediate dispatch and IMP-2026-089 for customs follow-up.",
+      "category": "pendency"
+    },
+    {
+      "query": "Why is vehicle fill rate low?",
+      "response": "Vehicle fill rate is 71.3% (target 75–85%). The Primary (Khavda) leg has 12 shipments with sub-optimal consolidation. I've identified 3 shipments (STO-088, STO-085, STO-087) that could be consolidated into 2 — estimated 15% freight savings.",
+      "category": "transportation"
+    },
+    {
+      "query": "What's the customs clearance status?",
+      "response": "2 orders awaiting clearance: IMP-2026-089 (solar modules, 2,400 units) and IMP-2026-088 (inverters, 48 units). Both at Hazira. IMP-2026-086 and IMP-2026-087 are cleared. IMP-2026-085 is in transit.",
+      "category": "customs"
+    },
+    {
+      "query": "Which SKUs are at risk?",
+      "response": "2 SKUs below safety stock: SOLAR-545W-BIFACIAL (18,500 vs 20,000 target; 12,000 inbound) and TRACKER-HSA (1,200 vs 1,500 target; 800 inbound). At current consumption, TRACKER-HSA may stock out in 4–5 days if inbound delays.",
+      "category": "inventory"
+    },
+    {
+      "query": "Summarize today's logistics status",
+      "response": "4 critical items: 4 import orders aging >48h, 2 awaiting customs, 2 SKUs below safety. OTIF 82.5%, fill rate 71.3% (below target). Top action: expedite IMP-2026-086 dispatch and IMP-2026-089 customs clearance.",
+      "category": "summary"
+    }
+  ],
+  "agentCapabilities": [
+    {
+      "capability": "Proactive exception detection",
+      "description": "Agent continuously monitors data and surfaces critical items before they escalate"
+    },
+    {
+      "capability": "Recommended actions",
+      "description": "Prioritized actions with reasoning and estimated impact — human approves, agent proposes"
+    },
+    {
+      "capability": "Conversational queries",
+      "description": "Ask in natural language — 'Which orders need attention?' — get instant, data-backed answers"
+    },
+    {
+      "capability": "Cross-system reasoning",
+      "description": "Correlates transportation, customs, inventory — not siloed dashboards"
+    }
+  ]
+}
