@@ -1,0 +1,235 @@
+{
+  "lastUpdated": "2026-03-18T10:30:00",
+  "source": "adani_greens_mock",
+  "transportation": {
+    "otifPct": 82.5,
+    "freightCostPerUnit": 124.50,
+    "avgVehicleFillRatePct": 71.3,
+    "totalShipments": 24,
+    "totalFreightCost": 2847000,
+    "totalQuantityShipped": 22860,
+    "byLegType": [
+      {
+        "legType": "Import (Port)",
+        "shipmentCount": 6,
+        "totalFreightCost": 1420000,
+        "totalDistanceKm": 8400,
+        "avgFreightPerShipment": 236667
+      },
+      {
+        "legType": "Primary (Khavda)",
+        "shipmentCount": 12,
+        "totalFreightCost": 1185000,
+        "totalDistanceKm": 15600,
+        "avgFreightPerShipment": 98750
+      },
+      {
+        "legType": "Secondary (Site)",
+        "shipmentCount": 6,
+        "totalFreightCost": 242000,
+        "totalDistanceKm": 420,
+        "avgFreightPerShipment": 40333
+      }
+    ]
+  },
+  "stoPendency": {
+    "totalPending": 9,
+    "criticalPendingOver48h": 4,
+    "totalQtyPending": 18500,
+    "byPriority": [
+      {
+        "priority": "High",
+        "count": 5,
+        "totalQtyOrdered": 12000
+      },
+      {
+        "priority": "Medium",
+        "count": 4,
+        "totalQtyOrdered": 6500
+      }
+    ],
+    "topPendingStos": [
+      {
+        "stoNumber": "IMP-2026-089",
+        "materialId": "SOLAR-545W-BIFACIAL",
+        "quantityOrdered": 2400,
+        "targetDc": "KHAVDA-STAGING-A",
+        "creationDate": "2026-03-14",
+        "expectedDeliveryDate": "2026-03-20",
+        "priorityScore": "High",
+        "agingHours": 96.0,
+        "customsStatus": "Awaiting Clearance"
+      },
+      {
+        "stoNumber": "IMP-2026-087",
+        "materialId": "WIND-BLADE-5.2MW",
+        "quantityOrdered": 12,
+        "targetDc": "KHAVDA-STAGING-B",
+        "creationDate": "2026-03-15",
+        "expectedDeliveryDate": "2026-03-22",
+        "priorityScore": "High",
+        "agingHours": 72.0,
+        "customsStatus": "Cleared"
+      },
+      {
+        "stoNumber": "IMP-2026-088",
+        "materialId": "INVERTER-250KW",
+        "quantityOrdered": 48,
+        "targetDc": "KHAVDA-STAGING-A",
+        "creationDate": "2026-03-15",
+        "expectedDeliveryDate": "2026-03-21",
+        "priorityScore": "Medium",
+        "agingHours": 72.0,
+        "customsStatus": "Awaiting Clearance"
+      },
+      {
+        "stoNumber": "IMP-2026-086",
+        "materialId": "SOLAR-545W-BIFACIAL",
+        "quantityOrdered": 3600,
+        "targetDc": "KHAVDA-STAGING-A",
+        "creationDate": "2026-03-13",
+        "expectedDeliveryDate": "2026-03-19",
+        "priorityScore": "High",
+        "agingHours": 120.0,
+        "customsStatus": "Cleared"
+      },
+      {
+        "stoNumber": "IMP-2026-085",
+        "materialId": "TRACKER-HSA",
+        "quantityOrdered": 800,
+        "targetDc": "KHAVDA-STAGING-B",
+        "creationDate": "2026-03-16",
+        "expectedDeliveryDate": "2026-03-23",
+        "priorityScore": "Medium",
+        "agingHours": 48.0,
+        "customsStatus": "In Transit"
+      }
+    ],
+    "shippedCount": 18
+  },
+  "warehouseUtilisation": {
+    "avgUtilisationPct": 68.2,
+    "totalWarehouses": 4,
+    "warehouses": [
+      {
+        "warehouseId": "HAZIRA-PORT",
+        "utilisationPct": 72.5,
+        "occupiedPallets": 1450,
+        "totalPalletCapacity": 2000,
+        "currentStockLevel": 18500,
+        "inboundExpectedQty": 8400
+      },
+      {
+        "warehouseId": "MUNDRA-PORT",
+        "utilisationPct": 65.0,
+        "occupiedPallets": 1300,
+        "totalPalletCapacity": 2000,
+        "currentStockLevel": 12200,
+        "inboundExpectedQty": 12000
+      },
+      {
+        "warehouseId": "KHAVDA-STAGING-A",
+        "utilisationPct": 78.0,
+        "occupiedPallets": 1560,
+        "totalPalletCapacity": 2000,
+        "currentStockLevel": 24800,
+        "inboundExpectedQty": 6000
+      },
+      {
+        "warehouseId": "KHAVDA-STAGING-B",
+        "utilisationPct": 57.5,
+        "occupiedPallets": 575,
+        "totalPalletCapacity": 1000,
+        "currentStockLevel": 4200,
+        "inboundExpectedQty": 3600
+      }
+    ]
+  },
+  "inventory": {
+    "totalSkus": 8,
+    "belowSafetyStockCount": 2,
+    "skuSummary": [
+      {
+        "skuId": "SOLAR-545W-BIFACIAL",
+        "materialDescription": "Bifacial Solar Module 545W",
+        "currentStockLevel": 18500,
+        "safetyStockLevel": 20000,
+        "inboundExpectedQty": 12000,
+        "belowSafetyStock": true
+      },
+      {
+        "skuId": "WIND-BLADE-5.2MW",
+        "materialDescription": "Wind Turbine Blade 5.2 MW",
+        "currentStockLevel": 24,
+        "safetyStockLevel": 18,
+        "inboundExpectedQty": 12,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "INVERTER-250KW",
+        "materialDescription": "String Inverter 250 kW",
+        "currentStockLevel": 96,
+        "safetyStockLevel": 80,
+        "inboundExpectedQty": 48,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "TRACKER-HSA",
+        "materialDescription": "Horizontal Single-Axis Tracker",
+        "currentStockLevel": 1200,
+        "safetyStockLevel": 1500,
+        "inboundExpectedQty": 800,
+        "belowSafetyStock": true
+      },
+      {
+        "skuId": "WIND-NACELLE-5.2MW",
+        "materialDescription": "Wind Turbine Nacelle 5.2 MW",
+        "currentStockLevel": 8,
+        "safetyStockLevel": 6,
+        "inboundExpectedQty": 4,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "CABLING-MV",
+        "materialDescription": "Medium Voltage Cabling",
+        "currentStockLevel": 4500,
+        "safetyStockLevel": 4000,
+        "inboundExpectedQty": 2000,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "MOUNTING-STRUCTURE",
+        "materialDescription": "Solar Mounting Structure",
+        "currentStockLevel": 8200,
+        "safetyStockLevel": 7500,
+        "inboundExpectedQty": 4000,
+        "belowSafetyStock": false
+      },
+      {
+        "skuId": "BESS-1MWH",
+        "materialDescription": "Battery Energy Storage 1 MWh",
+        "currentStockLevel": 3,
+        "safetyStockLevel": 2,
+        "inboundExpectedQty": 2,
+        "belowSafetyStock": false
+      }
+    ]
+  },
+  "alerts": [
+    {
+      "type": "critical_sto",
+      "message": "4 import orders aging beyond 48 hours",
+      "count": 4
+    },
+    {
+      "type": "customs_clearance",
+      "message": "2 orders awaiting customs clearance",
+      "count": 2
+    },
+    {
+      "type": "low_stock",
+      "message": "2 SKUs below safety stock (Solar Modules, Trackers)",
+      "count": 2
+    }
+  ]
+}

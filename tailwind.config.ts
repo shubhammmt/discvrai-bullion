@@ -125,6 +125,21 @@ export default {
 				success: 'hsl(var(--enterprise-success))',
 				danger: 'hsl(var(--enterprise-danger))'
 			},
+			adani: {
+				green: 'hsl(var(--adani-green))',
+				navy: 'hsl(var(--adani-navy))',
+				amber: 'hsl(var(--adani-amber))',
+				red: 'hsl(var(--adani-red))',
+				surface: {
+					DEFAULT: 'hsl(var(--adani-surface))',
+					elevated: 'hsl(var(--adani-surface-elevated))'
+				},
+				border: 'hsl(var(--adani-border))',
+				text: {
+					primary: 'hsl(var(--adani-text-primary))',
+					secondary: 'hsl(var(--adani-text-secondary))'
+				}
+			},
 			sip: {
 				brand: {
 					DEFAULT: 'hsl(var(--sip-brand-primary))',
