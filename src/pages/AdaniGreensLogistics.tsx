@@ -261,7 +261,7 @@ const AdaniGreensLogistics: React.FC = () => {
           </Card>
 
           {/* Below Safety */}
-          <Card className="bg-adani-surface-elevated border-adani-border">
+          <Card className="bg-adani-surface-elevated border-adani-border hover:shadow-md hover:scale-[1.02] transition-all duration-200">
             <CardContent className="p-4 flex flex-col items-center">
               <div className="flex items-center text-[10px] text-adani-text-secondary uppercase tracking-wider mb-2">
                 Below Safety<InfoTip text={TIPS.belowSafety} />
