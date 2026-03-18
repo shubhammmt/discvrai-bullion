@@ -167,7 +167,7 @@ export function FlowDemos() {
                             {i < totalSteps - 1 && (
                               <div className={cn(
                                 'w-px flex-1 min-h-[16px] transition-colors duration-300',
-                                isDone ? 'bg-green-400 dark:bg-green-600' : 'bg-border'
+                                isDone ? 'bg-sip-action-success' : 'bg-border'
                               )} />
                             )}
                           </div>
