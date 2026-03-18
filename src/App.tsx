@@ -161,6 +161,7 @@ import RajaRailwaysDeck from './pages/RajaRailwaysDeck';
 import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
 import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
 import EmamiRealtyDeck from './pages/EmamiRealtyDeck';
+import AdaniGreensLogistics from './pages/AdaniGreensLogistics';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
