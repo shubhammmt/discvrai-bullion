@@ -53,7 +53,7 @@ export function TransactionSuccess({
       <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Transaction Details</span>
-          <Badge variant="secondary" className="text-[10px] bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+          <Badge variant="secondary" className="text-[10px] bg-sip-action-success-light text-sip-action-success-foreground">
             ✅ Confirmed
           </Badge>
         </div>

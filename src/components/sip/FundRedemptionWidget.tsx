@@ -364,7 +364,7 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
                 </div>
                 <div>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Est. Gains</p>
-                  <p className={cn('font-medium', gains >= 0 ? 'text-green-600' : 'text-destructive')}>
+                  <p className={cn('font-medium', gains >= 0 ? 'text-sip-success' : 'text-destructive')}>
                     {gains >= 0 ? '+' : ''}₹{Math.round(gains).toLocaleString()}
                   </p>
                 </div>

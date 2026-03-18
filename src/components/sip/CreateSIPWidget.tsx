@@ -82,7 +82,7 @@ export function CreateSIPWidget({ preSelectedFund, prefill, onSIPCreated, compac
     return (
       <Card className="border-sip-action-success-border bg-sip-action-success-light/50">
         <CardContent className="py-8 text-center space-y-3">
-          <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
+          <CheckCircle2 className="w-12 h-12 text-sip-action-success mx-auto" />
           <h3 className="text-lg font-semibold text-foreground">SIP Created Successfully</h3>
           <p className="text-sm text-muted-foreground">
             ₹{amount.toLocaleString()} {frequency} SIP in {selectedFund?.name}

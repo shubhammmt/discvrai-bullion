@@ -101,7 +101,7 @@ export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDeta
                     <p className="text-[10px] text-muted-foreground">{r.label}</p>
                     <p className={cn(
                       'text-sm font-bold mt-0.5',
-                      r.value >= 0 ? 'text-green-600' : 'text-red-600'
+                      r.value >= 0 ? 'text-sip-success' : 'text-sip-error'
                     )}>
                       {r.value > 0 ? '+' : ''}{r.value}%
                     </p>
