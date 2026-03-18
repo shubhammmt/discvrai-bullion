@@ -14,10 +14,12 @@ import { FlowDemos } from '@/components/sip/FlowDemos';
 import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
+import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
+import { SIP_BRAND } from '@/config/sipBrandConfig';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Bell, BarChart3, FileText, Receipt,
-  MessageSquare, History, Sparkles, Bot, LogIn, LogOut,
+  MessageSquare, History, Sparkles, LogIn, LogOut,
   PanelLeft, X, ChevronRight,
 } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -119,12 +121,10 @@ const SIPManagement = () => {
         <div className="flex items-center gap-2 px-3 py-4 border-b border-sip-border">
           {(sidebarOpen || isMobile) && (
             <div className="flex items-center gap-2 flex-1 min-w-0">
-              <div className="w-8 h-8 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-sip-brand-foreground" />
-              </div>
+              <SIPBrandLogo size="md" />
               <div className="min-w-0">
-                <p className="text-sm font-bold text-sip-text-primary truncate">DiscvrAI</p>
-                <p className="text-[10px] text-sip-text-muted">Wealth Platform</p>
+                <p className="text-sm font-bold text-sip-text-primary truncate">{SIP_BRAND.name}</p>
+                <p className="text-[10px] text-sip-text-muted">{SIP_BRAND.tagline}</p>
               </div>
             </div>
           )}
@@ -226,11 +226,9 @@ const SIPManagement = () => {
                 >
                   <CardContent className="p-4">
                     {/* Logo row */}
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-7 h-7 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
-                        <Bot className="w-3.5 h-3.5 text-sip-brand-foreground" />
-                      </div>
-                      <span className="text-sm font-bold text-sip-text-primary">DiscvrAI</span>
+                     <div className="flex items-center gap-2 mb-3">
+                      <SIPBrandLogo size="sm" />
+                      <span className="text-sm font-bold text-sip-text-primary">{SIP_BRAND.name}</span>
                       <span className="text-[10px] text-sip-text-muted">/ Portfolio Snapshot</span>
                     </div>
                     {/* Three metrics aligned in a row */}
@@ -245,7 +243,7 @@ const SIPManagement = () => {
                       </div>
                       <div className="pl-4">
                         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
-                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-green-600' : 'text-red-500')}>
+                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-sip-success' : 'text-sip-error')}>
                           {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}%
                         </p>
                         <p className="text-[10px] text-muted-foreground">

@@ -121,9 +121,9 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
 
   if (isComplete) {
     return (
-      <Card className="border-green-200 bg-green-50/50 dark:bg-green-950/20 dark:border-green-800">
+      <Card className="border-sip-action-success-border bg-sip-action-success-light/50">
         <CardContent className="py-8 text-center space-y-3">
-          <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
+          <CheckCircle2 className="w-12 h-12 text-sip-action-success mx-auto" />
           <h3 className="text-lg font-semibold text-foreground">Redemption Submitted</h3>
           <p className="text-sm text-muted-foreground">
             ₹{getRedeemValue().toLocaleString()} ({getRedeemUnits().toFixed(3)} units) from {selectedFund?.name}
@@ -199,7 +199,7 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
                       </div>
                       <div className="text-right shrink-0 ml-3">
                         <p className="text-sm font-semibold text-foreground">₹{holding.currentValue.toLocaleString()}</p>
-                        <p className={cn('text-xs', gain >= 0 ? 'text-green-600' : 'text-destructive')}>
+                        <p className={cn('text-xs', gain >= 0 ? 'text-sip-success' : 'text-destructive')}>
                           {gain >= 0 ? '+' : ''}₹{gain.toLocaleString()} ({gainPct}%)
                         </p>
                       </div>
@@ -317,9 +317,9 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
 
             {/* Tax note */}
             {gains > 0 && (
-              <div className="flex items-start gap-2 p-2.5 rounded-lg bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800">
-                <AlertTriangle className="w-4 h-4 text-yellow-600 shrink-0 mt-0.5" />
-                <p className="text-[11px] text-yellow-800 dark:text-yellow-200">
+              <div className="flex items-start gap-2 p-2.5 rounded-lg bg-sip-action-warning-light border border-sip-action-warning-border">
+                <AlertTriangle className="w-4 h-4 text-sip-action-warning shrink-0 mt-0.5" />
+                <p className="text-[11px] text-sip-action-warning-foreground">
                   Estimated gains of ₹{Math.round(gains).toLocaleString()} may attract capital gains tax. Consult your tax advisor.
                 </p>
               </div>
@@ -364,7 +364,7 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
                 </div>
                 <div>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Est. Gains</p>
-                  <p className={cn('font-medium', gains >= 0 ? 'text-green-600' : 'text-destructive')}>
+                  <p className={cn('font-medium', gains >= 0 ? 'text-sip-success' : 'text-destructive')}>
                     {gains >= 0 ? '+' : ''}₹{Math.round(gains).toLocaleString()}
                   </p>
                 </div>

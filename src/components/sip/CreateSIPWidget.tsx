@@ -80,9 +80,9 @@ export function CreateSIPWidget({ preSelectedFund, prefill, onSIPCreated, compac
 
   if (isCreated) {
     return (
-      <Card className="border-green-200 bg-green-50/50 dark:bg-green-950/20 dark:border-green-800">
+      <Card className="border-sip-action-success-border bg-sip-action-success-light/50">
         <CardContent className="py-8 text-center space-y-3">
-          <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
+          <CheckCircle2 className="w-12 h-12 text-sip-action-success mx-auto" />
           <h3 className="text-lg font-semibold text-foreground">SIP Created Successfully</h3>
           <p className="text-sm text-muted-foreground">
             ₹{amount.toLocaleString()} {frequency} SIP in {selectedFund?.name}
@@ -300,7 +300,7 @@ export function CreateSIPWidget({ preSelectedFund, prefill, onSIPCreated, compac
 
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => setStep('details')}>Edit</Button>
-              <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white" onClick={handleCreate}>
+              <Button className="flex-1 bg-sip-action-confirm hover:bg-sip-action-confirm/90 text-sip-action-confirm-foreground" onClick={handleCreate}>
                 <CheckCircle2 className="w-4 h-4 mr-1" /> Confirm SIP
               </Button>
             </div>

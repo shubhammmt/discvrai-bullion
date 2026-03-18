@@ -36,8 +36,8 @@ export function TransactionSuccess({
     <div className="space-y-6 py-4">
       {/* Success Icon & Header */}
       <div className="text-center space-y-3">
-        <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 mx-auto flex items-center justify-center">
-          <CheckCircle2 className="w-10 h-10 text-green-600" />
+        <div className="w-16 h-16 rounded-full bg-sip-action-success-light mx-auto flex items-center justify-center">
+          <CheckCircle2 className="w-10 h-10 text-sip-action-success" />
         </div>
         <div>
           <h3 className="text-xl font-bold text-foreground">
@@ -53,7 +53,7 @@ export function TransactionSuccess({
       <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Transaction Details</span>
-          <Badge variant="secondary" className="text-[10px] bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+          <Badge variant="secondary" className="text-[10px] bg-sip-action-success-light text-sip-action-success-foreground">
             ✅ Confirmed
           </Badge>
         </div>

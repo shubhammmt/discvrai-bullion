@@ -147,6 +147,11 @@ export default {
 					light: 'hsl(var(--sip-error-light))',
 					foreground: 'hsl(var(--sip-error-foreground))'
 				},
+				info: {
+					DEFAULT: 'hsl(var(--sip-info))',
+					light: 'hsl(var(--sip-info-light))',
+					foreground: 'hsl(var(--sip-info-foreground))'
+				},
 				surface: {
 					DEFAULT: 'hsl(var(--sip-surface))',
 					elevated: 'hsl(var(--sip-surface-elevated))'
@@ -164,6 +169,50 @@ export default {
 					bg: 'hsl(var(--sip-sidebar-bg))',
 					active: 'hsl(var(--sip-sidebar-active))',
 					hover: 'hsl(var(--sip-sidebar-hover))'
+				},
+				action: {
+					success: {
+						DEFAULT: 'hsl(var(--sip-action-success))',
+						light: 'hsl(var(--sip-action-success-light))',
+						border: 'hsl(var(--sip-action-success-border))',
+						foreground: 'hsl(var(--sip-action-success-foreground))'
+					},
+					warning: {
+						DEFAULT: 'hsl(var(--sip-action-warning))',
+						light: 'hsl(var(--sip-action-warning-light))',
+						border: 'hsl(var(--sip-action-warning-border))',
+						foreground: 'hsl(var(--sip-action-warning-foreground))'
+					},
+					danger: {
+						DEFAULT: 'hsl(var(--sip-action-danger))',
+						light: 'hsl(var(--sip-action-danger-light))',
+						border: 'hsl(var(--sip-action-danger-border))',
+						foreground: 'hsl(var(--sip-action-danger-foreground))'
+					},
+					info: {
+						DEFAULT: 'hsl(var(--sip-action-info))',
+						light: 'hsl(var(--sip-action-info-light))',
+						border: 'hsl(var(--sip-action-info-border))',
+						foreground: 'hsl(var(--sip-action-info-foreground))'
+					},
+					confirm: {
+						DEFAULT: 'hsl(var(--sip-action-confirm))',
+						foreground: 'hsl(var(--sip-action-confirm-foreground))'
+					}
+				},
+				category: {
+					1: 'hsl(var(--sip-category-1))',
+					2: 'hsl(var(--sip-category-2))',
+					3: 'hsl(var(--sip-category-3))',
+					4: 'hsl(var(--sip-category-4))',
+					5: 'hsl(var(--sip-category-5))'
+				},
+				alloc: {
+					equity: 'hsl(var(--sip-alloc-equity))',
+					debt: 'hsl(var(--sip-alloc-debt))',
+					hybrid: 'hsl(var(--sip-alloc-hybrid))',
+					other: 'hsl(var(--sip-alloc-other))',
+					solution: 'hsl(var(--sip-alloc-solution))'
 				}
 			}
 			},

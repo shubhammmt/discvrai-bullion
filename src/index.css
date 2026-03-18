@@ -113,6 +113,9 @@
     --sip-error: 0 84% 60%;
     --sip-error-light: 0 70% 95%;
     --sip-error-foreground: 0 84% 30%;
+    --sip-info: 220 68% 55%;
+    --sip-info-light: 220 60% 92%;
+    --sip-info-foreground: 220 68% 30%;
     --sip-surface: 220 20% 97%;
     --sip-surface-elevated: 0 0% 100%;
     --sip-text-primary: 220 20% 10%;
@@ -123,6 +126,40 @@
     --sip-sidebar-bg: 220 25% 97%;
     --sip-sidebar-active: 220 68% 55%;
     --sip-sidebar-hover: 220 20% 94%;
+
+    /* SIP Action Button Colors */
+    --sip-action-success: 152 76% 40%;
+    --sip-action-success-light: 152 60% 95%;
+    --sip-action-success-border: 152 50% 75%;
+    --sip-action-success-foreground: 152 76% 25%;
+    --sip-action-warning: 38 92% 50%;
+    --sip-action-warning-light: 38 80% 95%;
+    --sip-action-warning-border: 38 60% 75%;
+    --sip-action-warning-foreground: 38 92% 30%;
+    --sip-action-danger: 0 84% 60%;
+    --sip-action-danger-light: 0 70% 95%;
+    --sip-action-danger-border: 0 50% 75%;
+    --sip-action-danger-foreground: 0 84% 30%;
+    --sip-action-info: 220 68% 55%;
+    --sip-action-info-light: 220 60% 95%;
+    --sip-action-info-border: 220 50% 75%;
+    --sip-action-info-foreground: 220 68% 30%;
+    --sip-action-confirm: 152 76% 40%;
+    --sip-action-confirm-foreground: 0 0% 100%;
+
+    /* SIP Category Colors (for Goals, Discovery, Statements etc.) */
+    --sip-category-1: 340 75% 55%;
+    --sip-category-2: 220 70% 55%;
+    --sip-category-3: 160 70% 45%;
+    --sip-category-4: 38 90% 50%;
+    --sip-category-5: 270 65% 55%;
+
+    /* SIP Allocation Colors */
+    --sip-alloc-equity: 220 70% 55%;
+    --sip-alloc-debt: 160 70% 45%;
+    --sip-alloc-hybrid: 38 90% 50%;
+    --sip-alloc-other: 270 65% 55%;
+    --sip-alloc-solution: 340 75% 55%;
   }
 
   .dark {
@@ -201,6 +238,9 @@
     --sip-error: 0 84% 60%;
     --sip-error-light: 0 40% 15%;
     --sip-error-foreground: 0 84% 70%;
+    --sip-info: 220 68% 60%;
+    --sip-info-light: 220 30% 15%;
+    --sip-info-foreground: 220 68% 70%;
     --sip-surface: 220 15% 8%;
     --sip-surface-elevated: 220 15% 12%;
     --sip-text-primary: 0 0% 98%;
@@ -211,6 +251,40 @@
     --sip-sidebar-bg: 220 15% 10%;
     --sip-sidebar-active: 220 68% 60%;
     --sip-sidebar-hover: 220 15% 15%;
+
+    /* SIP Action Button Colors — Dark Mode */
+    --sip-action-success: 152 76% 50%;
+    --sip-action-success-light: 152 40% 12%;
+    --sip-action-success-border: 152 40% 30%;
+    --sip-action-success-foreground: 152 76% 70%;
+    --sip-action-warning: 38 92% 55%;
+    --sip-action-warning-light: 38 40% 12%;
+    --sip-action-warning-border: 38 40% 30%;
+    --sip-action-warning-foreground: 38 92% 70%;
+    --sip-action-danger: 0 84% 60%;
+    --sip-action-danger-light: 0 40% 12%;
+    --sip-action-danger-border: 0 40% 30%;
+    --sip-action-danger-foreground: 0 84% 70%;
+    --sip-action-info: 220 68% 60%;
+    --sip-action-info-light: 220 30% 12%;
+    --sip-action-info-border: 220 40% 30%;
+    --sip-action-info-foreground: 220 68% 70%;
+    --sip-action-confirm: 152 76% 50%;
+    --sip-action-confirm-foreground: 0 0% 100%;
+
+    /* SIP Category Colors — Dark Mode */
+    --sip-category-1: 340 75% 60%;
+    --sip-category-2: 220 70% 60%;
+    --sip-category-3: 160 70% 50%;
+    --sip-category-4: 38 90% 55%;
+    --sip-category-5: 270 65% 60%;
+
+    /* SIP Allocation Colors — Dark Mode */
+    --sip-alloc-equity: 220 70% 60%;
+    --sip-alloc-debt: 160 70% 50%;
+    --sip-alloc-hybrid: 38 90% 55%;
+    --sip-alloc-other: 270 65% 60%;
+    --sip-alloc-solution: 340 75% 60%;
   }
 }
 
