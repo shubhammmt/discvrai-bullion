@@ -154,7 +154,7 @@ export function CreateSIPWidget({ preSelectedFund, prefill, onSIPCreated, compac
                       <div className="flex items-center gap-2 mt-1">
                         <Badge variant="secondary" className="text-[10px] px-1.5 py-0">{fund.category}</Badge>
                         <span className="text-xs text-muted-foreground">NAV ₹{fund.nav}</span>
-                        <span className="text-xs text-yellow-600">{'★'.repeat(fund.rating)}</span>
+                        <span className="text-xs text-sip-rating">{'★'.repeat(fund.rating)}</span>
                       </div>
                     </div>
                     <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />

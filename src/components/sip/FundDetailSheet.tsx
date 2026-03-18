@@ -50,7 +50,7 @@ export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDeta
                       key={i}
                       className={cn(
                         'w-3.5 h-3.5',
-                        i < fund.rating ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground/30'
+                        i < fund.rating ? 'text-sip-rating fill-sip-rating' : 'text-muted-foreground/30'
                       )}
                     />
                   ))}

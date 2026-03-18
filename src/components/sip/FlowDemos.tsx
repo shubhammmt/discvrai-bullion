@@ -21,37 +21,37 @@ interface DemoFlow {
 const DEMO_FLOWS: DemoFlow[] = [
   {
     id: 'buy-lumpsum', title: 'Lumpsum Purchase', description: 'One-time investment in a mutual fund',
-    icon: ShoppingCart, color: 'text-green-600 bg-green-100 dark:bg-green-900/30',
+    icon: ShoppingCart, color: 'text-sip-action-success-foreground bg-sip-action-success-light',
     steps: ['Select Fund — HDFC Flexi Cap', 'Enter Amount ₹50,000', 'Confirm & Pay via UPI', 'Order Placed ✓'],
     tags: ['Buy', 'Lumpsum'],
   },
   {
     id: 'start-sip', title: 'Start New SIP', description: 'Monthly systematic investment plan',
-    icon: Repeat, color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30',
+    icon: Repeat, color: 'text-sip-action-info-foreground bg-sip-action-info-light',
     steps: ['AI Recommends Fund', 'Set ₹5,000/mo on 5th', 'Mandate via UPI Autopay', 'SIP Active ✓'],
     tags: ['SIP', 'Buy'],
   },
   {
     id: 'sell-partial', title: 'Partial Redemption', description: 'Sell part of your holdings',
-    icon: ArrowDownLeft, color: 'text-red-500 bg-red-100 dark:bg-red-900/30',
+    icon: ArrowDownLeft, color: 'text-sip-action-danger-foreground bg-sip-action-danger-light',
     steps: ['Select Fund from Portfolio', 'Choose Amount ₹25,000', 'Review Exit Load & Tax', 'Redeemed — ₹ credited in 2-3 days'],
     tags: ['Sell', 'Redeem'],
   },
   {
     id: 'sip-stepup', title: 'SIP Step-Up', description: 'Increase SIP by 10% annually',
-    icon: Repeat, color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/30',
+    icon: Repeat, color: 'text-sip-category-5 bg-sip-category-5/10',
     steps: ['AI detects underinvestment', 'Suggests 10% annual increase', 'User approves ₹5,000 → ₹5,500', 'Updated SIP Active ✓'],
     tags: ['SIP', 'Step-Up'],
   },
   {
     id: 'switch-fund', title: 'Fund Switch', description: 'Move from one fund to another',
-    icon: RefreshCw, color: 'text-amber-600 bg-amber-100 dark:bg-amber-900/30',
+    icon: RefreshCw, color: 'text-sip-action-warning-foreground bg-sip-action-warning-light',
     steps: ['AI flags underperformer', 'Suggests better alternative', 'User confirms switch', 'Switch processed — T+1'],
     tags: ['Switch', 'Portfolio'],
   },
   {
     id: 'goal-invest', title: 'Goal-Based Investment', description: 'AI plans investment for a goal',
-    icon: Target, color: 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30',
+    icon: Target, color: 'text-sip-action-success-foreground bg-sip-action-success-light',
     steps: ['User: "Plan for child education"', 'AI calculates ₹15,000/mo for 10yr', 'Recommends 3-fund portfolio', 'All 3 SIPs started ✓'],
     tags: ['Goal', 'AI Planning'],
   },
@@ -158,7 +158,7 @@ export function FlowDemos() {
                           {/* Vertical line + icon */}
                           <div className="flex flex-col items-center w-5">
                             {isDone ? (
-                              <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 animate-in fade-in zoom-in duration-300" />
+                              <CheckCircle2 className="w-4 h-4 text-sip-action-success shrink-0 animate-in fade-in zoom-in duration-300" />
                             ) : isCurrent ? (
                               <Loader2 className="w-4 h-4 text-primary shrink-0 animate-spin" />
                             ) : (
@@ -167,7 +167,7 @@ export function FlowDemos() {
                             {i < totalSteps - 1 && (
                               <div className={cn(
                                 'w-px flex-1 min-h-[16px] transition-colors duration-300',
-                                isDone ? 'bg-green-400 dark:bg-green-600' : 'bg-border'
+                                isDone ? 'bg-sip-action-success' : 'bg-border'
                               )} />
                             )}
                           </div>
@@ -202,7 +202,7 @@ export function FlowDemos() {
                       )}
                       {isComplete && (
                         <>
-                          <Badge className="text-[10px] h-6 gap-1 bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 border-0">
+                          <Badge className="text-[10px] h-6 gap-1 bg-sip-action-success-light text-sip-action-success-foreground border-0">
                             <CheckCircle2 className="w-3 h-3" /> Complete
                           </Badge>
                           <Button

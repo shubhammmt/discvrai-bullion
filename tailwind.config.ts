@@ -213,7 +213,9 @@ export default {
 					hybrid: 'hsl(var(--sip-alloc-hybrid))',
 					other: 'hsl(var(--sip-alloc-other))',
 					solution: 'hsl(var(--sip-alloc-solution))'
-				}
+				},
+				rating: 'hsl(var(--sip-rating))',
+				returns: 'hsl(var(--sip-returns))'
 			}
 			},
 			borderRadius: {
