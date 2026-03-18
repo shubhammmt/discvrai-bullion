@@ -162,9 +162,9 @@ const AdaniGreensLogistics: React.FC = () => {
 
         {/* ── Section 1: Alerts ── */}
         {data.alerts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-3 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             {data.alerts.map((a, i) => (
-              <div key={i} className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium ${alertStyle(a.type)}`}>
+              <div key={i} className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium cursor-pointer hover:scale-[1.02] transition-all duration-200 ${alertStyle(a.type)}`}>
                 {alertIcon(a.type)}
                 <span>{a.message}</span>
                 <Badge variant="outline" className="ml-auto border-current text-current text-[10px]">{a.count}</Badge>
