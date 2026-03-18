@@ -39,7 +39,7 @@ const DEMO_FLOWS: DemoFlow[] = [
   },
   {
     id: 'sip-stepup', title: 'SIP Step-Up', description: 'Increase SIP by 10% annually',
-    icon: Repeat, color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/30',
+    icon: Repeat, color: 'text-sip-category-5 bg-sip-category-5/10',
     steps: ['AI detects underinvestment', 'Suggests 10% annual increase', 'User approves ₹5,000 → ₹5,500', 'Updated SIP Active ✓'],
     tags: ['SIP', 'Step-Up'],
   },
