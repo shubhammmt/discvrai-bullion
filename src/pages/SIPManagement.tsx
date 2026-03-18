@@ -226,11 +226,9 @@ const SIPManagement = () => {
                 >
                   <CardContent className="p-4">
                     {/* Logo row */}
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-7 h-7 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
-                        <Bot className="w-3.5 h-3.5 text-sip-brand-foreground" />
-                      </div>
-                      <span className="text-sm font-bold text-sip-text-primary">DiscvrAI</span>
+                     <div className="flex items-center gap-2 mb-3">
+                      <SIPBrandLogo size="sm" />
+                      <span className="text-sm font-bold text-sip-text-primary">{SIP_BRAND.name}</span>
                       <span className="text-[10px] text-sip-text-muted">/ Portfolio Snapshot</span>
                     </div>
                     {/* Three metrics aligned in a row */}
