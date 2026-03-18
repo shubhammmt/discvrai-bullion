@@ -140,6 +140,22 @@ export default {
 					secondary: 'hsl(var(--adani-text-secondary))'
 				}
 			},
+			bajaj: {
+				blue: 'hsl(var(--bajaj-blue))',
+				navy: 'hsl(var(--bajaj-navy))',
+				amber: 'hsl(var(--bajaj-amber))',
+				red: 'hsl(var(--bajaj-red))',
+				green: 'hsl(var(--bajaj-green))',
+				surface: {
+					DEFAULT: 'hsl(var(--bajaj-surface))',
+					elevated: 'hsl(var(--bajaj-surface-elevated))'
+				},
+				border: 'hsl(var(--bajaj-border))',
+				text: {
+					primary: 'hsl(var(--bajaj-text-primary))',
+					secondary: 'hsl(var(--bajaj-text-secondary))'
+				}
+			},
 			sip: {
 				brand: {
 					DEFAULT: 'hsl(var(--sip-brand-primary))',

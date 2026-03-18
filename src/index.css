@@ -169,6 +169,18 @@
     --adani-text-primary: 220 25% 12%;
     --adani-text-secondary: 220 10% 50%;
 
+    /* Bajaj Electricals Theme */
+    --bajaj-blue: 210 80% 50%;
+    --bajaj-navy: 220 45% 18%;
+    --bajaj-amber: 38 92% 50%;
+    --bajaj-red: 0 75% 55%;
+    --bajaj-green: 152 70% 35%;
+    --bajaj-surface: 220 20% 96%;
+    --bajaj-surface-elevated: 0 0% 100%;
+    --bajaj-border: 220 15% 88%;
+    --bajaj-text-primary: 220 25% 12%;
+    --bajaj-text-secondary: 220 10% 50%;
+
     /* SIP Allocation Colors */
     --sip-alloc-equity: 220 70% 55%;
     --sip-alloc-debt: 160 70% 45%;
