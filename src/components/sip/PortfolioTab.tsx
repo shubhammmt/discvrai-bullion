@@ -61,60 +61,44 @@ export function PortfolioTab({ onInvest }: { onInvest?: () => void }) {
 
   return (
     <div className="space-y-4">
-      {/* Hero Summary */}
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <h2 className="text-lg font-bold text-foreground">Your Portfolio</h2>
-          <div className="flex items-center gap-2 mt-0.5">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Live Updates</span>
+      {/* Portfolio Header — Logo + Three Metrics in one row */}
+      <Card className="border-border">
+        <CardContent className="p-4">
+          {/* Logo row */}
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 rounded-lg bg-sip-brand flex items-center justify-center shrink-0">
+              <IndianRupee className="w-4 h-4 text-sip-brand-foreground" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-sip-text-primary">Your Portfolio</p>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Live Updates</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="text-right">
-          <p className="text-[10px] text-muted-foreground uppercase">Net Worth</p>
-          <p className="text-lg font-bold text-primary">{formatINR(totalValue)}</p>
-        </div>
-      </div>
-
-      {/* Value Cards */}
-      <div className="grid grid-cols-3 gap-3">
-        <Card className="border-border">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <IndianRupee className="w-4 h-4 text-muted-foreground" />
+          {/* Three metrics aligned in a row */}
+          <div className="grid grid-cols-3 gap-0 divide-x divide-border">
+            <div className="pr-4">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Invested Value</p>
+              <p className="text-xl font-bold text-foreground mt-1">{formatINR(totalInvested)}</p>
             </div>
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Invested Value</p>
-            <p className="text-xl font-bold text-foreground mt-1">{formatINR(totalInvested)}</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-primary text-primary-foreground border-0">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="w-4 h-4 opacity-80" />
+            <div className="px-4">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Current Value</p>
+              <p className="text-xl font-bold text-primary mt-1">{formatINR(totalValue)}</p>
             </div>
-            <p className="text-[10px] uppercase tracking-wider opacity-80">Current Value</p>
-            <p className="text-xl font-bold mt-1">{formatINR(totalValue)}</p>
-          </CardContent>
-        </Card>
-        <Card className="border-border">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              {isPositive ? (
-                <ArrowUpRight className="w-4 h-4 text-green-600" />
-              ) : (
-                <ArrowDownRight className="w-4 h-4 text-red-500" />
-              )}
+            <div className="pl-4">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
+              <p className={cn('text-xl font-bold mt-1', isPositive ? 'text-green-600' : 'text-red-500')}>
+                {formatINR(Math.abs(totalReturns))}
+              </p>
+              <p className={cn('text-xs font-semibold', isPositive ? 'text-green-600' : 'text-red-500')}>
+                {isPositive ? '+' : ''}{returnPct.toFixed(2)}%
+              </p>
             </div>
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
-            <p className="text-xl font-bold text-foreground mt-1">
-              {formatINR(Math.abs(totalReturns))}
-            </p>
-            <p className={cn('text-xs font-semibold', isPositive ? 'text-green-600' : 'text-red-500')}>
-              {isPositive ? '+' : ''}{returnPct.toFixed(2)}%
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Performance Analytics */}
       <Card>
