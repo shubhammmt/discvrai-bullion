@@ -158,7 +158,7 @@ export function FlowDemos() {
                           {/* Vertical line + icon */}
                           <div className="flex flex-col items-center w-5">
                             {isDone ? (
-                              <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 animate-in fade-in zoom-in duration-300" />
+                              <CheckCircle2 className="w-4 h-4 text-sip-action-success shrink-0 animate-in fade-in zoom-in duration-300" />
                             ) : isCurrent ? (
                               <Loader2 className="w-4 h-4 text-primary shrink-0 animate-spin" />
                             ) : (
