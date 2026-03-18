@@ -158,6 +158,17 @@
     --sip-rating: 45 93% 47%;
     --sip-returns: 152 76% 35%;
 
+    /* Adani Greens Logistics Theme */
+    --adani-green: 152 70% 35%;
+    --adani-navy: 220 50% 20%;
+    --adani-amber: 38 92% 50%;
+    --adani-red: 0 75% 55%;
+    --adani-surface: 220 20% 96%;
+    --adani-surface-elevated: 0 0% 100%;
+    --adani-border: 220 15% 88%;
+    --adani-text-primary: 220 25% 12%;
+    --adani-text-secondary: 220 10% 50%;
+
     /* SIP Allocation Colors */
     --sip-alloc-equity: 220 70% 55%;
     --sip-alloc-debt: 160 70% 45%;
