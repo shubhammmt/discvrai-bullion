@@ -51,7 +51,7 @@ const DEMO_FLOWS: DemoFlow[] = [
   },
   {
     id: 'goal-invest', title: 'Goal-Based Investment', description: 'AI plans investment for a goal',
-    icon: Target, color: 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30',
+    icon: Target, color: 'text-sip-action-success-foreground bg-sip-action-success-light',
     steps: ['User: "Plan for child education"', 'AI calculates ₹15,000/mo for 10yr', 'Recommends 3-fund portfolio', 'All 3 SIPs started ✓'],
     tags: ['Goal', 'AI Planning'],
   },
