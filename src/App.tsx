@@ -160,6 +160,7 @@ import TredsFinopsDemo from './pages/TredsFinopsDemo';
 import RajaRailwaysDeck from './pages/RajaRailwaysDeck';
 import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
 import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
+import EmamiRealtyDeck from './pages/EmamiRealtyDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -197,7 +198,8 @@ const AppContent = () => {
                        location.pathname === '/demo/treds-finops' ||
                        location.pathname === '/pitch/raja-railways' ||
                        location.pathname === '/demo/raja-railways' ||
-                       location.pathname === '/pitch/amit-m1xchange';
+                       location.pathname === '/pitch/amit-m1xchange' ||
+                       location.pathname === '/pitch/emami-realty';
   return (
     <>
       <Routes>
@@ -357,6 +359,7 @@ const AppContent = () => {
             <Route path="/pitch/raja-railways" element={<RajaRailwaysDeck />} />
             <Route path="/demo/raja-railways" element={<RajaRailwaysDemo />} />
             <Route path="/pitch/amit-m1xchange" element={<AmitM1xchangeDeck />} />
+            <Route path="/pitch/emami-realty" element={<EmamiRealtyDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
