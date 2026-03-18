@@ -133,13 +133,16 @@ const AdaniGreensLogistics: React.FC = () => {
 
   const { agentSummary, recommendedActions, agentInsights, conversationalQueries, agentCapabilities } = agenticData;
 
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => { setIsLoaded(true); }, []);
+
   return (
     <div className="min-h-screen bg-adani-surface text-adani-text-primary">
       {/* Header */}
-      <header className="bg-adani-navy text-white px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-gradient-to-r from-adani-navy via-adani-navy to-[hsl(220_50%_25%)] text-white px-4 sm:px-6 lg:px-8 py-4 shadow-lg">
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-adani-green/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-adani-green/20 flex items-center justify-center shadow-inner">
               <Sun className="w-5 h-5 text-adani-green" />
             </div>
             <div>
@@ -148,7 +151,7 @@ const AdaniGreensLogistics: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-4 text-xs text-white/50">
-            <span className="flex items-center gap-1"><Bot className="w-3.5 h-3.5 text-adani-green" /> Agentic AI Active</span>
+            <span className="flex items-center gap-1.5 bg-adani-green/15 px-2.5 py-1 rounded-full text-adani-green"><Activity className="w-3 h-3 animate-pulse" /> Live</span>
             <span className="flex items-center gap-1"><Wind className="w-3.5 h-3.5" /> Khavda Project</span>
             <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> Gujarat, India</span>
           </div>
