@@ -27,7 +27,7 @@ const DEMO_FLOWS: DemoFlow[] = [
   },
   {
     id: 'start-sip', title: 'Start New SIP', description: 'Monthly systematic investment plan',
-    icon: Repeat, color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30',
+    icon: Repeat, color: 'text-sip-action-info-foreground bg-sip-action-info-light',
     steps: ['AI Recommends Fund', 'Set ₹5,000/mo on 5th', 'Mandate via UPI Autopay', 'SIP Active ✓'],
     tags: ['SIP', 'Buy'],
   },
