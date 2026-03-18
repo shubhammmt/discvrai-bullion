@@ -317,9 +317,9 @@ export function FundRedemptionWidget({ prefill, onRedeemComplete }: FundRedempti
 
             {/* Tax note */}
             {gains > 0 && (
-              <div className="flex items-start gap-2 p-2.5 rounded-lg bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800">
-                <AlertTriangle className="w-4 h-4 text-yellow-600 shrink-0 mt-0.5" />
-                <p className="text-[11px] text-yellow-800 dark:text-yellow-200">
+              <div className="flex items-start gap-2 p-2.5 rounded-lg bg-sip-action-warning-light border border-sip-action-warning-border">
+                <AlertTriangle className="w-4 h-4 text-sip-action-warning shrink-0 mt-0.5" />
+                <p className="text-[11px] text-sip-action-warning-foreground">
                   Estimated gains of ₹{Math.round(gains).toLocaleString()} may attract capital gains tax. Consult your tax advisor.
                 </p>
               </div>
