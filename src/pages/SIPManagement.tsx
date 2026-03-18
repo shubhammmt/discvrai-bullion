@@ -14,10 +14,12 @@ import { FlowDemos } from '@/components/sip/FlowDemos';
 import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
+import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
+import { SIP_BRAND } from '@/config/sipBrandConfig';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Bell, BarChart3, FileText, Receipt,
-  MessageSquare, History, Sparkles, Bot, LogIn, LogOut,
+  MessageSquare, History, Sparkles, LogIn, LogOut,
   PanelLeft, X, ChevronRight,
 } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
