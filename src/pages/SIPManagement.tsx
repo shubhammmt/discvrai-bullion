@@ -95,6 +95,7 @@ const SIPManagement = () => {
     { value: 'goals', icon: Target, label: 'Goals', requiresLogin: true },
     { value: 'sell', icon: ArrowDownLeft, label: 'Sell', requiresHoldings: true },
     { value: 'chat', icon: MessageSquare, label: 'Chat History', always: true },
+    { value: 'profile', icon: UserCircle, label: 'Profile', requiresLogin: true },
     { value: 'demos', icon: History, label: 'Demos', always: true },
   ];
 
