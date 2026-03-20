@@ -332,6 +332,9 @@ const SIPManagement = () => {
           {/* SELL */}
           {activeTab === 'sell' && <FundRedemptionWidget />}
 
+          {/* PROFILE */}
+          {activeTab === 'profile' && <ProfileTab authUser={authUser} onLogout={handleLogout} />}
+
           {/* DEMOS */}
           {activeTab === 'demos' && <FlowDemos />}
         </div>
