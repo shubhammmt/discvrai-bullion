@@ -1,9 +1,12 @@
-import { CheckCircle2, Download, Share2, ArrowRight, Copy } from 'lucide-react';
+import { useState } from 'react';
+import { CheckCircle2, Download, Share2, ArrowRight, Copy, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { MutualFund } from '@/data/sipMockData';
+import { FundDetailSheet } from './FundDetailSheet';
 
 interface TransactionSuccessProps {
   type: 'sip' | 'onetime';
