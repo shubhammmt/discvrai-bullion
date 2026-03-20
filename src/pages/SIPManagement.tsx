@@ -21,7 +21,7 @@ import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Bell, BarChart3, FileText, Receipt,
   MessageSquare, History, Sparkles, LogIn, LogOut,
-  PanelLeft, X, ChevronRight,
+  PanelLeft, X, ChevronRight, UserCircle,
 } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
