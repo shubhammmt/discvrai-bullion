@@ -171,6 +171,16 @@ export function TransactionSuccess({
           </Button>
         )}
       </div>
+
+      {/* Fund Detail Sheet */}
+      {fund && (
+        <FundDetailSheet
+          fund={fund}
+          open={showFundDetail}
+          onOpenChange={setShowFundDetail}
+          onInvest={onInvestInFund}
+        />
+      )}
     </div>
   );
 }
