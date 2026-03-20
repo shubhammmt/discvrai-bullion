@@ -1,13 +1,17 @@
-import { CheckCircle2, Download, Share2, ArrowRight, Copy } from 'lucide-react';
+import { useState } from 'react';
+import { CheckCircle2, Download, Share2, ArrowRight, Copy, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { MutualFund } from '@/data/sipMockData';
+import { FundDetailSheet } from './FundDetailSheet';
 
 interface TransactionSuccessProps {
   type: 'sip' | 'onetime';
   fundName: string;
+  fund?: MutualFund;
   amount: number;
   units?: string;
   nav?: number;
@@ -19,13 +23,15 @@ interface TransactionSuccessProps {
   transactionId?: string;
   onNewPurchase?: () => void;
   onViewPortfolio?: () => void;
+  onInvestInFund?: (fund: MutualFund, mode: 'sip' | 'onetime') => void;
 }
 
 export function TransactionSuccess({
-  type, fundName, amount, units, nav, frequency, startDate, stepUpPercent,
-  bankMandate, goalTag, transactionId, onNewPurchase, onViewPortfolio,
+  type, fundName, fund, amount, units, nav, frequency, startDate, stepUpPercent,
+  bankMandate, goalTag, transactionId, onNewPurchase, onViewPortfolio, onInvestInFund,
 }: TransactionSuccessProps) {
   const txId = transactionId || `order_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+  const [showFundDetail, setShowFundDetail] = useState(false);
 
   const copyTxId = () => {
     navigator.clipboard.writeText(txId);
@@ -44,7 +50,18 @@ export function TransactionSuccess({
             {type === 'sip' ? 'SIP Created Successfully!' : 'Investment Confirmed!'}
           </h3>
           <p className="text-sm text-muted-foreground mt-1">
-            Your {type === 'sip' ? 'SIP' : 'investment'} in <span className="font-semibold text-foreground">{fundName}</span> has been confirmed.
+            Your {type === 'sip' ? 'SIP' : 'investment'} in{' '}
+            {fund ? (
+              <button
+                onClick={() => setShowFundDetail(true)}
+                className="font-semibold text-primary hover:underline inline-flex items-center gap-0.5"
+              >
+                {fundName} <ExternalLink className="w-3 h-3" />
+              </button>
+            ) : (
+              <span className="font-semibold text-foreground">{fundName}</span>
+            )}{' '}
+            has been confirmed.
           </p>
         </div>
       </div>
@@ -154,6 +171,16 @@ export function TransactionSuccess({
           </Button>
         )}
       </div>
+
+      {/* Fund Detail Sheet */}
+      {fund && (
+        <FundDetailSheet
+          fund={fund}
+          open={showFundDetail}
+          onOpenChange={setShowFundDetail}
+          onInvest={onInvestInFund}
+        />
+      )}
     </div>
   );
 }

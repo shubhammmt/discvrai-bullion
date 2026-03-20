@@ -11,6 +11,7 @@ import { StatementsTab } from '@/components/sip/StatementsTab';
 import { DiscoverySection } from '@/components/sip/DiscoverySection';
 import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
+import { ProfileTab } from '@/components/sip/ProfileTab';
 import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
@@ -20,7 +21,7 @@ import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Bell, BarChart3, FileText, Receipt,
   MessageSquare, History, Sparkles, LogIn, LogOut,
-  PanelLeft, X, ChevronRight,
+  PanelLeft, X, ChevronRight, UserCircle,
 } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -94,6 +95,7 @@ const SIPManagement = () => {
     { value: 'goals', icon: Target, label: 'Goals', requiresLogin: true },
     { value: 'sell', icon: ArrowDownLeft, label: 'Sell', requiresHoldings: true },
     { value: 'chat', icon: MessageSquare, label: 'Chat History', always: true },
+    { value: 'profile', icon: UserCircle, label: 'Profile', requiresLogin: true },
     { value: 'demos', icon: History, label: 'Demos', always: true },
   ];
 
@@ -287,7 +289,12 @@ const SIPManagement = () => {
           {activeTab === 'screener' && (
             <Card>
               <CardContent className="p-4">
-                <SmartFundSearch standalone />
+                <SmartFundSearch
+                  standalone
+                  onSelectFund={(fund, investMode) => {
+                    setActiveTab('buy');
+                  }}
+                />
               </CardContent>
             </Card>
           )}
@@ -324,6 +331,9 @@ const SIPManagement = () => {
 
           {/* SELL */}
           {activeTab === 'sell' && <FundRedemptionWidget />}
+
+          {/* PROFILE */}
+          {activeTab === 'profile' && <ProfileTab authUser={authUser} onLogout={handleLogout} />}
 
           {/* DEMOS */}
           {activeTab === 'demos' && <FlowDemos />}

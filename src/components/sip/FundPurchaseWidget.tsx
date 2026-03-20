@@ -104,6 +104,7 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
           <TransactionSuccess
             type={mode}
             fundName={selectedFund?.name || ''}
+            fund={selectedFund || undefined}
             amount={amount}
             units={estimatedUnits}
             nav={selectedFund?.nav}
