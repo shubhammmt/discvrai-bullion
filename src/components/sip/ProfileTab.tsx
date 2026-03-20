@@ -126,7 +126,7 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
   return (
     <div className="space-y-5 max-w-lg mx-auto">
       {/* Profile Header */}
-      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-sip-brand via-purple-500 to-indigo-600 p-6 text-white">
+      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-sip-brand via-sip-brand/80 to-sip-brand/60 p-6 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
         <div className="relative flex items-center gap-4">
           <div className="w-16 h-16 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl font-bold">
