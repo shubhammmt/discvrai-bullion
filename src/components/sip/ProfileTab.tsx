@@ -203,18 +203,13 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
               className={cn(
                 'text-xs',
                 isKycDone
-                  ? 'text-emerald-500 border-emerald-500/30 bg-emerald-500/10'
-                  : 'text-amber-500 border-amber-500/30 bg-amber-500/10'
+                  ? 'text-sip-action-success-foreground border-sip-action-success-border bg-sip-action-success-light'
+                  : 'text-sip-action-warning-foreground border-sip-action-warning-border bg-sip-action-warning-light'
               )}
             >
               {isKycDone ? '✅ Complete' : '⏳ Incomplete'}
             </Badge>
           </div>
-          {profile.kyc_status && (
-            <p className="text-xs text-muted-foreground mt-2">
-              Status: <span className="font-mono">{profile.kyc_status}</span>
-            </p>
-          )}
         </CardContent>
       </Card>
 
