@@ -27,10 +27,11 @@ interface TransactionSuccessProps {
 }
 
 export function TransactionSuccess({
-  type, fundName, amount, units, nav, frequency, startDate, stepUpPercent,
-  bankMandate, goalTag, transactionId, onNewPurchase, onViewPortfolio,
+  type, fundName, fund, amount, units, nav, frequency, startDate, stepUpPercent,
+  bankMandate, goalTag, transactionId, onNewPurchase, onViewPortfolio, onInvestInFund,
 }: TransactionSuccessProps) {
   const txId = transactionId || `order_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+  const [showFundDetail, setShowFundDetail] = useState(false);
 
   const copyTxId = () => {
     navigator.clipboard.writeText(txId);
