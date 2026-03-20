@@ -50,7 +50,18 @@ export function TransactionSuccess({
             {type === 'sip' ? 'SIP Created Successfully!' : 'Investment Confirmed!'}
           </h3>
           <p className="text-sm text-muted-foreground mt-1">
-            Your {type === 'sip' ? 'SIP' : 'investment'} in <span className="font-semibold text-foreground">{fundName}</span> has been confirmed.
+            Your {type === 'sip' ? 'SIP' : 'investment'} in{' '}
+            {fund ? (
+              <button
+                onClick={() => setShowFundDetail(true)}
+                className="font-semibold text-primary hover:underline inline-flex items-center gap-0.5"
+              >
+                {fundName} <ExternalLink className="w-3 h-3" />
+              </button>
+            ) : (
+              <span className="font-semibold text-foreground">{fundName}</span>
+            )}{' '}
+            has been confirmed.
           </p>
         </div>
       </div>
