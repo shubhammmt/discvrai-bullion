@@ -1,21 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import {
   User, Phone, Mail, Shield, CreditCard, Fingerprint,
-  Eye, EyeOff, CheckCircle2, LogOut, Sun, Moon,
+  Eye, EyeOff, CheckCircle2, LogOut, Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AuthUser } from './OTPLoginDialog';
-import { useKyc } from '@/hooks/useKyc';
-import { maskPAN } from '@/lib/kycStorage';
+import { API_CONFIG } from '@/config/api';
 
 interface ProfileTabProps {
   authUser: AuthUser | null;
   onLogout: () => void;
+}
+
+interface UserProfile {
+  user_id: string;
+  name: string | null;
+  phone: string | null;
+  email: string | null;
+  pan: string | null;
+  aadhaar: string | null;
+  kyc_status: string | null;
+  created_at: string | null;
 }
 
 function maskPhone(phone: string): string {
@@ -30,85 +39,93 @@ function maskEmail(email: string): string {
 }
 
 function maskAadhaar(aadhaar: string): string {
+  if (aadhaar.length < 4) return aadhaar;
   return '•••• •••• ' + aadhaar.slice(-4);
 }
 
-const MOCK_PROFILE = {
-  email: 'shubham.shri@gmail.com',
-  aadhaar: '923456781234',
-  pan: 'ABCPD1234F',
-  joinedDate: 'August 2025',
-  accountStatus: 'Verified' as const,
-};
+function maskPAN(pan: string): string {
+  if (pan.length < 4) return pan;
+  return pan.slice(0, 2) + '••••••' + pan.slice(-2);
+}
+
+const HARDCODED_USER_ID = 'a7ca0dcf-3c88-45c6-b4ac-e40fde319956';
 
 export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
-  const { kyc, isKycDone } = useKyc();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const userId = authUser?.id || HARDCODED_USER_ID;
+    setLoading(true);
+    setError(null);
+    fetch(`https://agentapi.discvr.ai/webhook/get-user-profile?user_id=${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.profile) {
+          setProfile(data.profile);
+        } else {
+          setError('Failed to load profile');
+        }
+      })
+      .catch(() => setError('Network error'))
+      .finally(() => setLoading(false));
+  }, [authUser?.id]);
 
   const toggleReveal = (key: string) => {
     setRevealed(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const userName = authUser?.name || 'Guest User';
-  const userPhone = authUser?.phone || '+91••••••••••';
-  const userEmail = authUser?.email || MOCK_PROFILE.email;
-  const userId = authUser?.id || '455ea473-ae87-4e6e-9b3a-ec52e749082c';
-  const pan = kyc?.pan || MOCK_PROFILE.pan;
-  const aadhaar = MOCK_PROFILE.aadhaar;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-6 h-6 animate-spin text-sip-brand" />
+      </div>
+    );
+  }
+
+  if (error || !profile) {
+    return (
+      <div className="text-center py-20 text-muted-foreground">
+        <p>{error || 'Could not load profile'}</p>
+      </div>
+    );
+  }
+
+  const userName = profile.name || authUser?.name || 'Guest User';
+  const userPhone = profile.phone || '';
+  const userEmail = profile.email || '';
+  const pan = profile.pan || '';
+  const aadhaar = profile.aadhaar || '';
+  const userId = profile.user_id;
+  const isKycDone = profile.kyc_status === 'kycRestrictedComplete';
   const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
   const detailRows = [
-    {
-      key: 'name',
-      icon: User,
-      label: 'FULL NAME',
-      value: userName,
-      maskable: false,
-    },
-    {
-      key: 'phone',
-      icon: Phone,
-      label: 'PHONE',
-      value: userPhone,
-      maskedValue: maskPhone(userPhone),
-      maskable: true,
-    },
-    {
-      key: 'email',
-      icon: Mail,
-      label: 'EMAIL',
-      value: userEmail,
-      maskedValue: maskEmail(userEmail),
-      maskable: true,
-    },
-    {
-      key: 'pan',
-      icon: CreditCard,
-      label: 'PAN NUMBER',
-      value: pan,
-      maskedValue: maskPAN(pan),
-      maskable: true,
-    },
-    {
-      key: 'aadhaar',
-      icon: Fingerprint,
-      label: 'AADHAAR NUMBER',
-      value: aadhaar,
-      maskedValue: maskAadhaar(aadhaar),
-      maskable: true,
-    },
-    {
-      key: 'userId',
-      icon: Shield,
-      label: 'USER ID',
-      value: userId,
-      maskable: false,
-    },
+    { key: 'name', icon: User, label: 'FULL NAME', value: userName, maskable: false },
+    ...(userPhone ? [{
+      key: 'phone', icon: Phone, label: 'PHONE', value: userPhone,
+      maskedValue: maskPhone(userPhone), maskable: true,
+    }] : []),
+    ...(userEmail ? [{
+      key: 'email', icon: Mail, label: 'EMAIL', value: userEmail,
+      maskedValue: maskEmail(userEmail), maskable: true,
+    }] : []),
+    ...(pan ? [{
+      key: 'pan', icon: CreditCard, label: 'PAN NUMBER', value: pan,
+      maskedValue: maskPAN(pan), maskable: true,
+    }] : []),
+    ...(aadhaar ? [{
+      key: 'aadhaar', icon: Fingerprint, label: 'AADHAAR NUMBER', value: aadhaar,
+      maskedValue: maskAadhaar(aadhaar), maskable: true,
+    }] : []),
+    { key: 'userId', icon: Shield, label: 'USER ID', value: userId, maskable: false },
   ];
 
   return (
     <div className="space-y-5 max-w-lg mx-auto">
-      {/* Profile Header Card */}
+      {/* Profile Header */}
       <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-sip-brand via-purple-500 to-indigo-600 p-6 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
         <div className="relative flex items-center gap-4">
@@ -117,10 +134,11 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
           </div>
           <div>
             <h2 className="text-xl font-bold">{userName}</h2>
-            <p className="text-white/80 text-sm">{revealed.phone ? userPhone : maskPhone(userPhone)}</p>
-            <Badge className="mt-1.5 bg-white/20 text-white border-white/30 text-[10px]">
-              {MOCK_PROFILE.joinedDate}
-            </Badge>
+            {userPhone && (
+              <p className="text-white/80 text-sm">
+                {revealed.phone ? userPhone : maskPhone(userPhone)}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -146,14 +164,13 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
                     row.key === 'userId' && 'text-xs font-mono'
                   )}>
                     {row.maskable
-                      ? (revealed[row.key] ? row.value : row.maskedValue)
+                      ? (revealed[row.key] ? row.value : (row as any).maskedValue)
                       : row.value}
                   </span>
                   {row.maskable && (
                     <button
                       onClick={() => toggleReveal(row.key)}
                       className="p-1 rounded-md hover:bg-muted transition-colors"
-                      title={revealed[row.key] ? 'Hide' : 'Show'}
                     >
                       {revealed[row.key]
                         ? <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />
@@ -165,20 +182,6 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
               {i < detailRows.length - 1 && <Separator />}
             </div>
           ))}
-
-          {/* Account Status */}
-          <Separator />
-          <div className="flex items-center justify-between py-3">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 text-muted-foreground" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                ACCOUNT STATUS
-              </span>
-            </div>
-            <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 bg-emerald-500/10 text-xs">
-              {MOCK_PROFILE.accountStatus}
-            </Badge>
-          </div>
         </CardContent>
       </Card>
 
@@ -207,6 +210,11 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
               {isKycDone ? '✅ Complete' : '⏳ Incomplete'}
             </Badge>
           </div>
+          {profile.kyc_status && (
+            <p className="text-xs text-muted-foreground mt-2">
+              Status: <span className="font-mono">{profile.kyc_status}</span>
+            </p>
+          )}
         </CardContent>
       </Card>
 
