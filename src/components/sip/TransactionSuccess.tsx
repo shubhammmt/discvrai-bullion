@@ -11,6 +11,7 @@ import { FundDetailSheet } from './FundDetailSheet';
 interface TransactionSuccessProps {
   type: 'sip' | 'onetime';
   fundName: string;
+  fund?: MutualFund;
   amount: number;
   units?: string;
   nav?: number;
@@ -22,6 +23,7 @@ interface TransactionSuccessProps {
   transactionId?: string;
   onNewPurchase?: () => void;
   onViewPortfolio?: () => void;
+  onInvestInFund?: (fund: MutualFund, mode: 'sip' | 'onetime') => void;
 }
 
 export function TransactionSuccess({
