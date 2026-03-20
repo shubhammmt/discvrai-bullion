@@ -289,7 +289,12 @@ const SIPManagement = () => {
           {activeTab === 'screener' && (
             <Card>
               <CardContent className="p-4">
-                <SmartFundSearch standalone />
+                <SmartFundSearch
+                  standalone
+                  onSelectFund={(fund, investMode) => {
+                    setActiveTab('buy');
+                  }}
+                />
               </CardContent>
             </Card>
           )}
