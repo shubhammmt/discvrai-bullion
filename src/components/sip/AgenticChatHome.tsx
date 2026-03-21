@@ -175,8 +175,10 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
     setThreadId(newThread);
   };
 
+  const { fullscreen } = props;
+
   return (
-    <div className="flex flex-col" style={{ minHeight: showChips ? '420px' : '350px' }}>
+    <div className={cn('flex flex-col', fullscreen ? 'h-full' : '')} style={!fullscreen ? { minHeight: showChips ? '420px' : '350px' } : undefined}>
       {/* Header Bar */}
       <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
         <div className="flex items-center gap-2.5">
