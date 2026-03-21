@@ -39,6 +39,7 @@ interface AgenticChatHomeProps {
   onNavigateTab: (tab: string) => void;
   userName?: string;
   authUser?: AuthUser | null;
+  fullscreen?: boolean;
 }
 
 const CHAT_API_URL = 'https://agentapi.discvr.ai/webhook/bd9626e9-20de-49dd-a4da-0d9c6c5555d6';
@@ -88,7 +89,7 @@ function buildPrefillFromAction(payload: ActionPayload): FundPurchasePrefill | u
   return undefined;
 }
 
-export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }: AgenticChatHomeProps) {
+export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, fullscreen }: AgenticChatHomeProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'assistant', content: getWelcomeMessage(userState, authUser), timestamp: new Date() },
   ]);
@@ -175,9 +176,9 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
   };
 
   return (
-    <div className="flex flex-col" style={{ minHeight: showChips ? '420px' : '350px' }}>
+    <div className={cn('flex flex-col', fullscreen ? 'h-full' : '')} style={!fullscreen ? { minHeight: showChips ? '420px' : '350px' } : undefined}>
       {/* Header Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
+      <div className="flex items-center justify-between pb-3 border-b border-border mb-3 shrink-0">
         <div className="flex items-center gap-2.5">
           <SIPChatAvatar size="lg" />
           <div>
@@ -196,7 +197,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto space-y-3 pb-2 px-0.5">
+      <div className={cn('flex-1 overflow-y-auto space-y-3 pb-2 px-0.5', fullscreen && 'min-h-0')}>
         {messages.map(msg => (
           <div key={msg.id} className={cn('flex gap-2.5', msg.role === 'user' ? 'flex-row-reverse' : 'flex-row')}>
             {msg.role === 'assistant' && <SIPChatAvatar size="sm" className="mt-0.5" />}
@@ -253,7 +254,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
 
       {/* Action Chips */}
       {showChips && (
-        <div className="space-y-2 py-3">
+        <div className="space-y-2 py-3 shrink-0">
           {ACTION_CHIPS.map((row, ri) => (
             <div key={ri} className="flex flex-wrap justify-center gap-2">
               {row.map(chip => (
@@ -272,7 +273,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }
       )}
 
       {/* Input Area */}
-      <div className="pt-3 border-t border-border">
+      <div className="pt-3 border-t border-border shrink-0">
         <div className="flex items-center gap-2 bg-muted/40 rounded-2xl px-4 py-2.5 border border-border focus-within:border-sip-brand/50 focus-within:ring-1 focus-within:ring-sip-brand/20 transition-all">
           <Sparkles className="w-4 h-4 text-sip-brand/60 shrink-0" />
           <input

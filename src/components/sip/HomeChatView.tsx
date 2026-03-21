@@ -101,9 +101,9 @@ export function HomeChatView({
         'transition-all',
         chatFullscreen && 'fixed inset-0 z-50 rounded-none border-none m-0'
       )}>
-        <CardContent className={cn('p-4', chatFullscreen && 'h-full')}>
+        <CardContent className={cn('p-4', chatFullscreen && 'h-full flex flex-col')}>
           {/* Fullscreen toggle */}
-          <div className="flex justify-end mb-1">
+          <div className="flex justify-end mb-1 shrink-0">
             <Button
               variant="ghost"
               size="sm"
@@ -114,12 +114,15 @@ export function HomeChatView({
               {chatFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
             </Button>
           </div>
-          <AgenticChatHome
-            userState={userState}
-            onNavigateTab={onNavigateTab}
-            authUser={authUser}
-            userName={authUser?.name}
-          />
+          <div className={cn(chatFullscreen && 'flex-1 min-h-0 flex flex-col')}>
+            <AgenticChatHome
+              userState={userState}
+              onNavigateTab={onNavigateTab}
+              authUser={authUser}
+              userName={authUser?.name}
+              fullscreen={chatFullscreen}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

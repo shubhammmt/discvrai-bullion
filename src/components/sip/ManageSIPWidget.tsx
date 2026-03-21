@@ -43,6 +43,7 @@ interface ManageSIPWidgetProps {
   onCreateSIP?: () => void;
   userId?: string;
   statusFilter?: string;
+  compact?: boolean;
 }
 
 type SIPAction = 'pause' | 'activate' | 'delete' | 'verify';
@@ -64,7 +65,7 @@ function getMinActivateDate(): string {
   return min.toISOString().split('T')[0];
 }
 
-export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionComplete, onCreateSIP, userId, statusFilter }: ManageSIPWidgetProps) {
+export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionComplete, onCreateSIP, userId, statusFilter, compact }: ManageSIPWidgetProps) {
   const [sips, setSips] = useState<SIPRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -197,24 +198,26 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
 
   return (
     <>
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center justify-between">
-            <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-sip-brand" />
-              Your SIPs
-            </span>
-            <span className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs">{activeCount} Active</Badge>
-              {onCreateSIP && (
-                <Button variant="outline" size="sm" className="text-xs h-7 px-2" onClick={onCreateSIP}>
-                  <Plus className="w-3.5 h-3.5 mr-1" /> New SIP
-                </Button>
-              )}
-            </span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 pt-0">
+      <Card className={cn(compact && 'border-0 shadow-none')}>
+        {!compact && (
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-sip-brand" />
+                Your SIPs
+              </span>
+              <span className="flex items-center gap-2">
+                <Badge variant="secondary" className="text-xs">{activeCount} Active</Badge>
+                {onCreateSIP && (
+                  <Button variant="outline" size="sm" className="text-xs h-7 px-2" onClick={onCreateSIP}>
+                    <Plus className="w-3.5 h-3.5 mr-1" /> New SIP
+                  </Button>
+                )}
+              </span>
+            </CardTitle>
+          </CardHeader>
+        )}
+        <CardContent className={cn('space-y-2', compact ? 'p-0' : 'pt-0')}>
           {/* Feedback banner */}
           {banner && (
             <div className={cn('flex items-center justify-between rounded-lg border px-3 py-2 text-xs', bannerStyles[banner.type])}>
