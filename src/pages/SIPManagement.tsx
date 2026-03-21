@@ -262,17 +262,9 @@ const SIPManagement = () => {
           {/* TRANSACTIONS */}
           {activeTab === 'transactions' && <TransactionsTab />}
 
-          {/* SIPs TAB — with Create New SIP CTA */}
+          {/* SIPs TAB — with Create New SIP CTA + filter + summary */}
           {activeTab === 'manage' && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold text-foreground">Your SIPs</h2>
-                <Button size="sm" onClick={() => setActiveTab('buy')}>
-                  <ShoppingCart className="w-3.5 h-3.5 mr-1.5" /> Create New SIP
-                </Button>
-              </div>
-              <ManageSIPWidget />
-            </div>
+            <SIPManageTab onCreateSIP={() => setActiveTab('buy')} />
           )}
 
           {/* STATEMENTS */}
