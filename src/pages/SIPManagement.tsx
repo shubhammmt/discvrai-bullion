@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
+import { SIPDashboardSummary } from '@/components/sip/SIPDashboardSummary';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
 import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
 import { SmartFundSearch } from '@/components/sip/SmartFundSearch';
@@ -13,6 +14,8 @@ import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
 import { ProfileTab } from '@/components/sip/ProfileTab';
 import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
+import { HomeChatView } from '@/components/sip/HomeChatView';
+import { SIPManageTab } from '@/components/sip/SIPManageTab';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
 import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
@@ -219,56 +222,15 @@ const SIPManagement = () => {
         <div className="max-w-3xl mx-auto px-4 py-6">
           {/* HOME TAB */}
           {activeTab === 'home' && (
-            <div className="space-y-4">
-              {/* Portfolio snapshot for investors — clickable to full portfolio */}
-              {hasHoldings && (
-                <Card
-                  className="cursor-pointer hover:border-sip-brand/40 transition-colors"
-                  onClick={() => setActiveTab('portfolio')}
-                >
-                  <CardContent className="p-4">
-                    {/* Logo row */}
-                     <div className="flex items-center gap-2 mb-3">
-                      <SIPBrandLogo size="sm" />
-                      <span className="text-sm font-bold text-sip-text-primary">{SIP_BRAND.name}</span>
-                      <span className="text-[10px] text-sip-text-muted">/ Portfolio Snapshot</span>
-                    </div>
-                    {/* Three metrics aligned in a row */}
-                    <div className="grid grid-cols-3 gap-0 divide-x divide-sip-border">
-                      <div className="pr-4">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Invested Value</p>
-                        <p className="text-lg font-bold text-foreground mt-1">₹{totalInvested.toLocaleString()}</p>
-                      </div>
-                      <div className="px-4">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Current Value</p>
-                        <p className="text-lg font-bold text-sip-brand mt-1">₹{totalValue.toLocaleString()}</p>
-                      </div>
-                      <div className="pl-4">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
-                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-sip-success' : 'text-sip-error')}>
-                          {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}%
-                        </p>
-                        <p className="text-[10px] text-muted-foreground">
-                          ₹{Math.abs(totalValue - totalInvested).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Full Agentic Chat — the primary interface */}
-              <Card>
-                <CardContent className="p-4">
-                  <AgenticChatHome
-                    userState={userState}
-                    onNavigateTab={(tab) => setActiveTab(tab)}
-                    authUser={authUser}
-                    userName={authUser?.name}
-                  />
-                </CardContent>
-              </Card>
-            </div>
+            <HomeChatView
+              hasHoldings={hasHoldings}
+              totalInvested={totalInvested}
+              totalValue={totalValue}
+              overallReturn={overallReturn}
+              userState={userState}
+              authUser={authUser}
+              onNavigateTab={setActiveTab}
+            />
           )}
 
           {/* CHAT TAB */}
@@ -302,17 +264,9 @@ const SIPManagement = () => {
           {/* TRANSACTIONS */}
           {activeTab === 'transactions' && <TransactionsTab />}
 
-          {/* SIPs TAB — with Create New SIP CTA */}
+          {/* SIPs TAB — with Create New SIP CTA + filter + summary */}
           {activeTab === 'manage' && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold text-foreground">Your SIPs</h2>
-                <Button size="sm" onClick={() => setActiveTab('buy')}>
-                  <ShoppingCart className="w-3.5 h-3.5 mr-1.5" /> Create New SIP
-                </Button>
-              </div>
-              <ManageSIPWidget />
-            </div>
+            <SIPManageTab onCreateSIP={() => setActiveTab('buy')} />
           )}
 
           {/* STATEMENTS */}
@@ -339,6 +293,20 @@ const SIPManagement = () => {
           {activeTab === 'demos' && <FlowDemos />}
         </div>
       </main>
+
+      {/* Floating Chat Agent FAB — shown on all tabs except home and chat */}
+      {activeTab !== 'home' && activeTab !== 'chat' && (
+        <button
+          onClick={() => setActiveTab('home')}
+          className="fixed bottom-20 right-5 z-40 w-12 h-12 rounded-full bg-sip-brand text-sip-brand-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center group"
+          title="Ask AI Copilot"
+        >
+          <Sparkles className="w-5 h-5" />
+          <span className="absolute right-full mr-2 px-2 py-1 bg-foreground text-background text-[10px] rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ask {SIP_BRAND.name}
+          </span>
+        </button>
+      )}
 
       {/* User State Switcher */}
       <SIPUserStateSwitcher userState={userState} onUserStateChange={setUserState} />
