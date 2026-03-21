@@ -178,7 +178,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
   return (
     <div className={cn('flex flex-col', fullscreen ? 'h-full' : '')} style={!fullscreen ? { minHeight: showChips ? '420px' : '350px' } : undefined}>
       {/* Header Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
+      <div className="flex items-center justify-between pb-3 border-b border-border mb-3 shrink-0">
         <div className="flex items-center gap-2.5">
           <SIPChatAvatar size="lg" />
           <div>
