@@ -220,56 +220,15 @@ const SIPManagement = () => {
         <div className="max-w-3xl mx-auto px-4 py-6">
           {/* HOME TAB */}
           {activeTab === 'home' && (
-            <div className="space-y-4">
-              {/* Portfolio snapshot for investors — clickable to full portfolio */}
-              {hasHoldings && (
-                <Card
-                  className="cursor-pointer hover:border-sip-brand/40 transition-colors"
-                  onClick={() => setActiveTab('portfolio')}
-                >
-                  <CardContent className="p-4">
-                    {/* Logo row */}
-                     <div className="flex items-center gap-2 mb-3">
-                      <SIPBrandLogo size="sm" />
-                      <span className="text-sm font-bold text-sip-text-primary">{SIP_BRAND.name}</span>
-                      <span className="text-[10px] text-sip-text-muted">/ Portfolio Snapshot</span>
-                    </div>
-                    {/* Three metrics aligned in a row */}
-                    <div className="grid grid-cols-3 gap-0 divide-x divide-sip-border">
-                      <div className="pr-4">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Invested Value</p>
-                        <p className="text-lg font-bold text-foreground mt-1">₹{totalInvested.toLocaleString()}</p>
-                      </div>
-                      <div className="px-4">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Current Value</p>
-                        <p className="text-lg font-bold text-sip-brand mt-1">₹{totalValue.toLocaleString()}</p>
-                      </div>
-                      <div className="pl-4">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Returns</p>
-                        <p className={cn('text-lg font-bold mt-1', Number(overallReturn) >= 0 ? 'text-sip-success' : 'text-sip-error')}>
-                          {Number(overallReturn) >= 0 ? '+' : ''}{overallReturn}%
-                        </p>
-                        <p className="text-[10px] text-muted-foreground">
-                          ₹{Math.abs(totalValue - totalInvested).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Full Agentic Chat — the primary interface */}
-              <Card>
-                <CardContent className="p-4">
-                  <AgenticChatHome
-                    userState={userState}
-                    onNavigateTab={(tab) => setActiveTab(tab)}
-                    authUser={authUser}
-                    userName={authUser?.name}
-                  />
-                </CardContent>
-              </Card>
-            </div>
+            <HomeChatView
+              hasHoldings={hasHoldings}
+              totalInvested={totalInvested}
+              totalValue={totalValue}
+              overallReturn={overallReturn}
+              userState={userState}
+              authUser={authUser}
+              onNavigateTab={setActiveTab}
+            />
           )}
 
           {/* CHAT TAB */}
