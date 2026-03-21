@@ -165,6 +165,22 @@ const SIPManagement = () => {
               </button>
             );
           })}
+
+          {/* New Chat shortcut */}
+          <div className="pt-2 mt-2 border-t border-sip-border">
+            <button
+              onClick={() => handleNavClick('home')}
+              className={cn(
+                'w-full flex items-center gap-3 rounded-lg text-sm font-medium transition-colors',
+                sidebarOpen || isMobile ? 'px-3 py-2' : 'px-0 py-2 justify-center',
+                'text-sip-brand hover:bg-sip-brand/10'
+              )}
+              title={!sidebarOpen && !isMobile ? 'New Chat' : undefined}
+            >
+              <MessageSquare className="w-4 h-4 shrink-0" />
+              {(sidebarOpen || isMobile) && <span className="truncate">+ New Chat</span>}
+            </button>
+          </div>
         </nav>
 
         {/* Sidebar Footer — User */}

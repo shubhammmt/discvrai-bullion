@@ -197,7 +197,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto space-y-3 pb-2 px-0.5">
+      <div className={cn('flex-1 overflow-y-auto space-y-3 pb-2 px-0.5', fullscreen && 'min-h-0')}>
         {messages.map(msg => (
           <div key={msg.id} className={cn('flex gap-2.5', msg.role === 'user' ? 'flex-row-reverse' : 'flex-row')}>
             {msg.role === 'assistant' && <SIPChatAvatar size="sm" className="mt-0.5" />}
