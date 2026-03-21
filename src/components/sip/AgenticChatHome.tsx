@@ -273,7 +273,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
       )}
 
       {/* Input Area */}
-      <div className="pt-3 border-t border-border">
+      <div className="pt-3 border-t border-border shrink-0">
         <div className="flex items-center gap-2 bg-muted/40 rounded-2xl px-4 py-2.5 border border-border focus-within:border-sip-brand/50 focus-within:ring-1 focus-within:ring-sip-brand/20 transition-all">
           <Sparkles className="w-4 h-4 text-sip-brand/60 shrink-0" />
           <input
