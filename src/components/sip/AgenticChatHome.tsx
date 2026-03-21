@@ -254,7 +254,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
 
       {/* Action Chips */}
       {showChips && (
-        <div className="space-y-2 py-3">
+        <div className="space-y-2 py-3 shrink-0">
           {ACTION_CHIPS.map((row, ri) => (
             <div key={ri} className="flex flex-wrap justify-center gap-2">
               {row.map(chip => (
