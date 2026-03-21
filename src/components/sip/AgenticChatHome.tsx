@@ -89,7 +89,7 @@ function buildPrefillFromAction(payload: ActionPayload): FundPurchasePrefill | u
   return undefined;
 }
 
-export function AgenticChatHome({ userState, onNavigateTab, userName, authUser }: AgenticChatHomeProps) {
+export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, fullscreen }: AgenticChatHomeProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 'welcome', role: 'assistant', content: getWelcomeMessage(userState, authUser), timestamp: new Date() },
   ]);
