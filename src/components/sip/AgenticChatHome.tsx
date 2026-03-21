@@ -39,6 +39,7 @@ interface AgenticChatHomeProps {
   onNavigateTab: (tab: string) => void;
   userName?: string;
   authUser?: AuthUser | null;
+  fullscreen?: boolean;
 }
 
 const CHAT_API_URL = 'https://agentapi.discvr.ai/webhook/bd9626e9-20de-49dd-a4da-0d9c6c5555d6';
