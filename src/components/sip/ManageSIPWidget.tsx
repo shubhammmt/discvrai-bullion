@@ -192,6 +192,7 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
   };
 
   const sipInDialog = confirmDialog ? sips.find(s => s.sip_id === confirmDialog.sipId) : null;
+  const filteredSips = statusFilter ? sips.filter(s => s.status?.toUpperCase() === statusFilter.toUpperCase()) : sips;
   const activeCount = sips.filter(s => s.status?.toUpperCase() === 'ACTIVE').length;
 
   return (
