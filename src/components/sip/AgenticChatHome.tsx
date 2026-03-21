@@ -175,8 +175,6 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
     setThreadId(newThread);
   };
 
-  const { fullscreen } = props;
-
   return (
     <div className={cn('flex flex-col', fullscreen ? 'h-full' : '')} style={!fullscreen ? { minHeight: showChips ? '420px' : '350px' } : undefined}>
       {/* Header Bar */}
