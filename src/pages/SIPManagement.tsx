@@ -14,6 +14,8 @@ import { ChatHistoryPanel } from '@/components/sip/ChatHistoryPanel';
 import { FlowDemos } from '@/components/sip/FlowDemos';
 import { ProfileTab } from '@/components/sip/ProfileTab';
 import { AgenticChatHome } from '@/components/sip/AgenticChatHome';
+import { HomeChatView } from '@/components/sip/HomeChatView';
+import { SIPManageTab } from '@/components/sip/SIPManageTab';
 import { SIPUserStateSwitcher, SIPUserState } from '@/components/sip/SIPUserStateSwitcher';
 import { OTPLoginDialog, AuthUser } from '@/components/sip/OTPLoginDialog';
 import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
