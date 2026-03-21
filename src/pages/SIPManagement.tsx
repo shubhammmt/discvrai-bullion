@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ManageSIPWidget } from '@/components/sip/ManageSIPWidget';
+import { SIPDashboardSummary } from '@/components/sip/SIPDashboardSummary';
 import { FundPurchaseWidget } from '@/components/sip/FundPurchaseWidget';
 import { FundRedemptionWidget } from '@/components/sip/FundRedemptionWidget';
 import { SmartFundSearch } from '@/components/sip/SmartFundSearch';
