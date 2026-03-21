@@ -294,6 +294,20 @@ const SIPManagement = () => {
         </div>
       </main>
 
+      {/* Floating Chat Agent FAB — shown on all tabs except home and chat */}
+      {activeTab !== 'home' && activeTab !== 'chat' && (
+        <button
+          onClick={() => setActiveTab('home')}
+          className="fixed bottom-20 right-5 z-40 w-12 h-12 rounded-full bg-sip-brand text-sip-brand-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center group"
+          title="Ask AI Copilot"
+        >
+          <Sparkles className="w-5 h-5" />
+          <span className="absolute right-full mr-2 px-2 py-1 bg-foreground text-background text-[10px] rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ask {SIP_BRAND.name}
+          </span>
+        </button>
+      )}
+
       {/* User State Switcher */}
       <SIPUserStateSwitcher userState={userState} onUserStateChange={setUserState} />
 
