@@ -65,7 +65,7 @@ function getMinActivateDate(): string {
   return min.toISOString().split('T')[0];
 }
 
-export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionComplete, onCreateSIP, userId, statusFilter }: ManageSIPWidgetProps) {
+export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionComplete, onCreateSIP, userId, statusFilter, compact }: ManageSIPWidgetProps) {
   const [sips, setSips] = useState<SIPRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
