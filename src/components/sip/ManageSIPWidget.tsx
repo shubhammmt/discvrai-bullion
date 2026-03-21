@@ -42,6 +42,7 @@ interface ManageSIPWidgetProps {
   onActionComplete?: (sipId: string, action: string) => void;
   onCreateSIP?: () => void;
   userId?: string;
+  statusFilter?: string;
 }
 
 type SIPAction = 'pause' | 'activate' | 'delete' | 'verify';
