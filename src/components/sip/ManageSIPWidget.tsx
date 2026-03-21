@@ -238,10 +238,12 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             </div>
           )}
 
-          {!loading && !error && sips.length === 0 && (
+          {!loading && !error && filteredSips.length === 0 && (
             <div className="text-center py-8 space-y-3">
-              <p className="text-sm text-muted-foreground">No SIPs found</p>
-              {onCreateSIP && (
+              <p className="text-sm text-muted-foreground">
+                {statusFilter ? `No ${statusFilter.toLowerCase()} SIPs found` : 'No SIPs found'}
+              </p>
+              {onCreateSIP && !statusFilter && (
                 <Button size="sm" onClick={onCreateSIP}>
                   <Plus className="w-3.5 h-3.5 mr-1" /> Create Your First SIP
                 </Button>
@@ -249,7 +251,7 @@ export function ManageSIPWidget({ preSelectedSipId, preSelectedAction, onActionC
             </div>
           )}
 
-          {!loading && !error && sips.map(sip => {
+          {!loading && !error && filteredSips.map(sip => {
             const isExpanded = expandedSip === sip.sip_id;
             const status = sip.status?.toUpperCase();
 
