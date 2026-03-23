@@ -210,6 +210,7 @@ export function SmartFundSearch({
     setCurrentPage(page);
     setInternalAiLoading(true);
     setAiCommunicationMessage(null);
+    setFollowUpQueries([]);
 
     // Also call parent handler if provided
     onAISearch?.(aiQuery.trim());
