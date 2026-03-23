@@ -205,15 +205,17 @@ export function SmartFundSearch({
     setCurrentPage(1);
   };
 
-  const handleAISubmit = useCallback(async (page = 1) => {
-    if (!aiQuery.trim() || internalAiLoading) return;
+  const handleAISubmit = useCallback(async (page = 1, queryOverride?: string) => {
+    const q = (queryOverride ?? aiQuery).trim();
+    if (!q || internalAiLoading) return;
+    if (queryOverride) setAiQuery(queryOverride);
     setCurrentPage(page);
     setInternalAiLoading(true);
     setAiCommunicationMessage(null);
     setFollowUpQueries([]);
 
     // Also call parent handler if provided
-    onAISearch?.(aiQuery.trim());
+    onAISearch?.(q);
 
     try {
       const sessionId = '382a222a-e064-4fce-9f3c-2195c58655ee';
@@ -221,7 +223,7 @@ export function SmartFundSearch({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: aiQuery.trim(),
+          query: q,
           session_id: sessionId,
           page,
           page_size: 20,
