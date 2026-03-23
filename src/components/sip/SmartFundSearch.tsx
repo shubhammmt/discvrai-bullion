@@ -752,8 +752,7 @@ export function SmartFundSearch({
                     variant="outline"
                     className="cursor-pointer text-[10px] px-2.5 py-1 hover:bg-primary/10 hover:border-primary/40 transition-colors"
                     onClick={() => {
-                      setAiQuery(fq.label);
-                      setTimeout(() => handleAISubmit(1), 50);
+                      handleAISubmit(1, fq.label);
                     }}
                   >
                     <Sparkles className="w-2.5 h-2.5 mr-1 text-primary" />
