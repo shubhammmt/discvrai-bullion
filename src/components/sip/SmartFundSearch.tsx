@@ -119,6 +119,7 @@ export function SmartFundSearch({
   const [aiTotalRecords, setAiTotalRecords] = useState(0);
   const [aiTotalPages, setAiTotalPages] = useState(1);
   const [aiCommunicationMessage, setAiCommunicationMessage] = useState<string | null>(null);
+  const [followUpQueries, setFollowUpQueries] = useState<{ id: number; label: string }[]>([]);
 
   // Fund detail sheet state
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
