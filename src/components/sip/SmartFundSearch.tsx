@@ -738,6 +738,29 @@ export function SmartFundSearch({
             )}
           </div>
           {renderPagination()}
+
+          {/* Follow-up query chips */}
+          {mode === 'ai' && followUpQueries.length > 0 && (
+            <div className="pt-2 space-y-1.5">
+              <p className="text-[10px] font-medium text-muted-foreground">Related searches</p>
+              <div className="flex flex-wrap gap-1.5">
+                {followUpQueries.map((fq) => (
+                  <Badge
+                    key={fq.id}
+                    variant="outline"
+                    className="cursor-pointer text-[10px] px-2.5 py-1 hover:bg-primary/10 hover:border-primary/40 transition-colors"
+                    onClick={() => {
+                      setAiQuery(fq.label);
+                      setTimeout(() => handleAISubmit(1), 50);
+                    }}
+                  >
+                    <Sparkles className="w-2.5 h-2.5 mr-1 text-primary" />
+                    {fq.label}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
