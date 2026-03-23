@@ -261,6 +261,9 @@ export function SmartFundSearch({
         if (data.intent_analysis?.communication_message) {
           setAiCommunicationMessage(data.intent_analysis.communication_message);
         }
+        if (Array.isArray(data.follow_up_queries)) {
+          setFollowUpQueries(data.follow_up_queries);
+        }
       } else {
         setInternalAiResults([]);
         toast.error(data.error || 'No results found');
