@@ -119,6 +119,7 @@ export function SmartFundSearch({
   const [aiTotalRecords, setAiTotalRecords] = useState(0);
   const [aiTotalPages, setAiTotalPages] = useState(1);
   const [aiCommunicationMessage, setAiCommunicationMessage] = useState<string | null>(null);
+  const [followUpQueries, setFollowUpQueries] = useState<{ id: number; label: string }[]>([]);
 
   // Fund detail sheet state
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
@@ -204,14 +205,17 @@ export function SmartFundSearch({
     setCurrentPage(1);
   };
 
-  const handleAISubmit = useCallback(async (page = 1) => {
-    if (!aiQuery.trim() || internalAiLoading) return;
+  const handleAISubmit = useCallback(async (page = 1, queryOverride?: string) => {
+    const q = (queryOverride ?? aiQuery).trim();
+    if (!q || internalAiLoading) return;
+    if (queryOverride) setAiQuery(queryOverride);
     setCurrentPage(page);
     setInternalAiLoading(true);
     setAiCommunicationMessage(null);
+    setFollowUpQueries([]);
 
     // Also call parent handler if provided
-    onAISearch?.(aiQuery.trim());
+    onAISearch?.(q);
 
     try {
       const sessionId = '382a222a-e064-4fce-9f3c-2195c58655ee';
@@ -219,7 +223,7 @@ export function SmartFundSearch({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: aiQuery.trim(),
+          query: q,
           session_id: sessionId,
           page,
           page_size: 20,
@@ -258,6 +262,9 @@ export function SmartFundSearch({
         setAiTotalPages(data.total_pages || 1);
         if (data.intent_analysis?.communication_message) {
           setAiCommunicationMessage(data.intent_analysis.communication_message);
+        }
+        if (Array.isArray(data.follow_up_queries)) {
+          setFollowUpQueries(data.follow_up_queries);
         }
       } else {
         setInternalAiResults([]);
@@ -733,6 +740,28 @@ export function SmartFundSearch({
             )}
           </div>
           {renderPagination()}
+
+          {/* Follow-up query chips */}
+          {mode === 'ai' && followUpQueries.length > 0 && (
+            <div className="pt-2 space-y-1.5">
+              <p className="text-[10px] font-medium text-muted-foreground">Related searches</p>
+              <div className="flex flex-wrap gap-1.5">
+                {followUpQueries.map((fq) => (
+                  <Badge
+                    key={fq.id}
+                    variant="outline"
+                    className="cursor-pointer text-[10px] px-2.5 py-1 hover:bg-primary/10 hover:border-primary/40 transition-colors"
+                    onClick={() => {
+                      handleAISubmit(1, fq.label);
+                    }}
+                  >
+                    <Sparkles className="w-2.5 h-2.5 mr-1 text-primary" />
+                    {fq.label}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
