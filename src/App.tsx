@@ -164,6 +164,7 @@ import EmamiRealtyDeck from './pages/EmamiRealtyDeck';
 import AdaniGreensLogistics from './pages/AdaniGreensLogistics';
 import AdaniGreensPitch from './pages/AdaniGreensPitch';
 import BajajElectricalsDashboard from './pages/BajajElectricalsDashboard';
+import WorkspaceDemo from './pages/WorkspaceDemo';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -205,7 +206,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/emami-realty' ||
                        location.pathname === '/dashboard/adani-greens' ||
                        location.pathname === '/pitch/adani-greens' ||
-                       location.pathname === '/dashboard/bajaj-electricals';
+                       location.pathname === '/dashboard/bajaj-electricals' ||
+                       location.pathname === '/workspace-demo';
   return (
     <>
       <Routes>
@@ -368,7 +370,8 @@ const AppContent = () => {
              <Route path="/pitch/emami-realty" element={<EmamiRealtyDeck />} />
               <Route path="/dashboard/adani-greens" element={<AdaniGreensLogistics />} />
               <Route path="/pitch/adani-greens" element={<AdaniGreensPitch />} />
-              <Route path="/dashboard/bajaj-electricals" element={<BajajElectricalsDashboard />} />
+               <Route path="/dashboard/bajaj-electricals" element={<BajajElectricalsDashboard />} />
+               <Route path="/workspace-demo" element={<WorkspaceDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
