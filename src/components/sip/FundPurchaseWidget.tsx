@@ -8,31 +8,27 @@ import { TransactionSuccess } from './TransactionSuccess';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
-import { Slider } from '@/components/ui/slider';
 import { CalendarIcon, CheckCircle2, ChevronRight, Sparkles, TrendingUp, Repeat, Zap } from 'lucide-react';
 import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { MOCK_FUNDS, BANK_MANDATES, GOAL_TAGS, SIPFrequency, MutualFund } from '@/data/sipMockData';
+import { MOCK_FUNDS, SIPFrequency, MutualFund } from '@/data/sipMockData';
 import { MFScreenerFilters } from './MFScreenerWidget';
 import { SmartFundSearch } from './SmartFundSearch';
 
 export type PurchaseMode = 'onetime' | 'sip';
+type OnetimeMode = 'amount' | 'units';
 
 export interface FundPurchasePrefill {
   fundCode?: string;
   amount?: number;
   mode?: PurchaseMode;
-  // SIP-specific
   frequency?: SIPFrequency;
   stepUpPercent?: number;
-  // Common
   bankMandate?: string;
   goalTag?: string;
   startDate?: string;
-  // Screener filters (agent can pre-apply filters instead of a specific fund)
   screenerFilters?: MFScreenerFilters;
-  // AI screener prefill
   initialSearchMode?: 'conventional' | 'ai';
   initialAIQuery?: string;
   initialSearchKeyword?: string;
@@ -47,7 +43,7 @@ interface FundPurchaseWidgetProps {
 type Step = 'fund' | 'mode' | 'details' | 'review';
 
 function resolveInitialStep(prefill?: FundPurchasePrefill): Step {
-  if (prefill?.fundCode && prefill?.amount && prefill?.bankMandate && prefill?.mode) return 'review';
+  if (prefill?.fundCode && prefill?.amount && prefill?.mode) return 'review';
   if (prefill?.fundCode && prefill?.mode) return 'details';
   if (prefill?.fundCode) return 'mode';
   return 'fund';
@@ -62,11 +58,11 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
   const [amount, setAmount] = useState(prefill?.amount || 5000);
   const [frequency, setFrequency] = useState<SIPFrequency>(prefill?.frequency || 'monthly');
   const [startDate, setStartDate] = useState<Date>(prefill?.startDate ? new Date(prefill.startDate) : addDays(new Date(), 1));
-  const [stepUpPercent, setStepUpPercent] = useState(prefill?.stepUpPercent ?? 10);
-  const [bankMandate, setBankMandate] = useState(prefill?.bankMandate || '');
-  const [goalTag, setGoalTag] = useState(prefill?.goalTag || '');
   const [isComplete, setIsComplete] = useState(false);
 
+  // One-time specific
+  const [onetimeMode, setOnetimeMode] = useState<OnetimeMode>('amount');
+  const [units, setUnits] = useState<number>(0);
 
   const stepLabels: Record<Step, string> = {
     fund: 'Select Fund',
@@ -82,20 +78,19 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
       type: mode,
       fundCode: selectedFund?.code,
       fundName: selectedFund?.name,
-      amount,
-      ...(mode === 'sip' && { frequency, stepUpPercent }),
+      amount: onetimeMode === 'units' && mode === 'onetime' ? units * (selectedFund?.nav || 0) : amount,
+      ...(mode === 'sip' && { frequency }),
       startDate: format(startDate, 'yyyy-MM-dd'),
-      bankMandate,
-      goalTag,
     };
     onPurchaseComplete?.(details);
     setIsComplete(true);
     toast.success(mode === 'sip' ? 'SIP created successfully!' : 'Purchase order placed!', {
-      description: `₹${amount.toLocaleString()} in ${selectedFund?.name}`,
+      description: `₹${(onetimeMode === 'units' && mode === 'onetime' ? units * (selectedFund?.nav || 0) : amount).toLocaleString()} in ${selectedFund?.name}`,
     });
   };
 
   const estimatedUnits = selectedFund ? (amount / selectedFund.nav).toFixed(3) : '—';
+  const estimatedAmount = selectedFund && units > 0 ? (units * selectedFund.nav).toFixed(2) : '—';
 
   if (isComplete) {
     return (
@@ -105,14 +100,9 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
             type={mode}
             fundName={selectedFund?.name || ''}
             fund={selectedFund || undefined}
-            amount={amount}
-            units={estimatedUnits}
-            nav={selectedFund?.nav}
+            amount={onetimeMode === 'units' && mode === 'onetime' ? units * (selectedFund?.nav || 0) : amount}
             frequency={frequency}
             startDate={startDate}
-            stepUpPercent={stepUpPercent}
-            bankMandate={bankMandate}
-            goalTag={goalTag}
             onNewPurchase={() => {
               setIsComplete(false);
               setStep('fund');
@@ -132,7 +122,6 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
           <Sparkles className="w-4 h-4 text-primary" />
           {mode === 'sip' ? 'Start SIP' : 'Buy Mutual Fund'}
         </CardTitle>
-        {/* Step indicator */}
         <div className="flex items-center gap-2 mt-2">
           {steps.map((s, i) => (
             <div key={s} className="flex items-center gap-1.5">
@@ -220,30 +209,60 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
               </Badge>
             </div>
 
-            {/* Amount */}
-            <div className="space-y-1.5">
-              <Label className="text-xs font-medium">{mode === 'sip' ? 'SIP Amount' : 'Investment Amount'}</Label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">₹</span>
-                <Input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))} className="pl-7" min={500} step={500} />
+            {/* One-time: Amount vs Units toggle */}
+            {mode === 'onetime' && (
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium">Invest by</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button variant={onetimeMode === 'amount' ? 'default' : 'outline'} size="sm" className="text-xs"
+                    onClick={() => setOnetimeMode('amount')}>💰 Amount</Button>
+                  <Button variant={onetimeMode === 'units' ? 'default' : 'outline'} size="sm" className="text-xs"
+                    onClick={() => setOnetimeMode('units')}>📊 Units</Button>
+                </div>
               </div>
-              <div className="flex gap-1.5 flex-wrap">
-                {(mode === 'onetime' ? [5000, 10000, 25000, 50000, 100000] : [1000, 2500, 5000, 10000, 25000]).map(v => (
-                  <Button key={v} variant={amount === v ? 'default' : 'outline'} size="sm" className="text-xs h-7 px-2.5"
-                    onClick={() => setAmount(v)}>₹{v.toLocaleString()}</Button>
-                ))}
+            )}
+
+            {/* Amount input */}
+            {(mode === 'sip' || onetimeMode === 'amount') && (
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium">{mode === 'sip' ? 'SIP Amount' : 'Investment Amount'}</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">₹</span>
+                  <Input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))} className="pl-7" min={500} step={500} />
+                </div>
+                <div className="flex gap-1.5 flex-wrap">
+                  {(mode === 'onetime' ? [5000, 10000, 25000, 50000, 100000] : [1000, 2500, 5000, 10000, 25000]).map(v => (
+                    <Button key={v} variant={amount === v ? 'default' : 'outline'} size="sm" className="text-xs h-7 px-2.5"
+                      onClick={() => setAmount(v)}>₹{v.toLocaleString()}</Button>
+                  ))}
+                </div>
+                {mode === 'onetime' && (
+                  <p className="text-[10px] text-muted-foreground">
+                    Est. {estimatedUnits} units @ NAV ₹{selectedFund.nav}
+                  </p>
+                )}
               </div>
-              <p className="text-[10px] text-muted-foreground">
-                Est. {estimatedUnits} units @ current NAV
-              </p>
-            </div>
+            )}
+
+            {/* Units input (one-time only) */}
+            {mode === 'onetime' && onetimeMode === 'units' && (
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium">Number of Units</Label>
+                <Input type="number" value={units || ''} onChange={e => setUnits(Number(e.target.value))} min={0.001} step={0.001} placeholder="e.g. 10.5" />
+                {units > 0 && (
+                  <p className="text-[10px] text-muted-foreground">
+                    Est. amount: ₹{estimatedAmount} @ NAV ₹{selectedFund.nav}
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* SIP-only: Frequency */}
             {mode === 'sip' && (
               <div className="space-y-1.5">
                 <Label className="text-xs font-medium">Frequency</Label>
-                <div className="grid grid-cols-3 gap-2">
-                  {(['monthly', 'quarterly', 'yearly'] as SIPFrequency[]).map(f => (
+                <div className="grid grid-cols-2 gap-2">
+                  {(['weekly', 'monthly'] as SIPFrequency[]).map(f => (
                     <Button key={f} variant={frequency === f ? 'default' : 'outline'} size="sm" className="text-xs capitalize"
                       onClick={() => setFrequency(f)}>{f}</Button>
                   ))}
@@ -268,43 +287,10 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
               </Popover>
             </div>
 
-            {/* SIP-only: Step-Up */}
-            {mode === 'sip' && (
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <Label className="text-xs font-medium">Annual Step-Up</Label>
-                  <span className="text-xs font-semibold text-primary">{stepUpPercent}%</span>
-                </div>
-                <Slider value={[stepUpPercent]} onValueChange={v => setStepUpPercent(v[0])} min={0} max={25} step={5} />
-                <p className="text-[10px] text-muted-foreground">Amount increases by {stepUpPercent}% every year</p>
-              </div>
-            )}
-
-            {/* Bank */}
-            <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Bank Account</Label>
-              <Select value={bankMandate} onValueChange={setBankMandate}>
-                <SelectTrigger className="text-sm"><SelectValue placeholder="Select bank account" /></SelectTrigger>
-                <SelectContent>
-                  {BANK_MANDATES.map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Goal */}
-            <div className="space-y-1.5">
-              <Label className="text-xs font-medium">Tag a Goal (optional)</Label>
-              <div className="flex gap-1.5 flex-wrap">
-                {GOAL_TAGS.map(g => (
-                  <Badge key={g} variant={goalTag === g ? 'default' : 'outline'} className="cursor-pointer text-[10px]"
-                    onClick={() => setGoalTag(goalTag === g ? '' : g)}>{g}</Badge>
-                ))}
-              </div>
-            </div>
-
             <div className="flex gap-2 pt-2">
               <Button variant="outline" className="flex-1" onClick={() => setStep('mode')}>Back</Button>
-              <Button className="flex-1" onClick={() => setStep('review')} disabled={!bankMandate}>
+              <Button className="flex-1" onClick={() => setStep('review')}
+                disabled={mode === 'onetime' && onetimeMode === 'units' && units <= 0}>
                 Review <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </div>
@@ -332,7 +318,9 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
                 </div>
                 <div>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Amount</p>
-                  <p className="font-semibold text-foreground">₹{amount.toLocaleString()}</p>
+                  <p className="font-semibold text-foreground">
+                    ₹{(mode === 'onetime' && onetimeMode === 'units' ? units * selectedFund.nav : amount).toLocaleString()}
+                  </p>
                 </div>
                 {mode === 'sip' && (
                   <div>
@@ -340,30 +328,20 @@ export function FundPurchaseWidget({ prefill, onPurchaseComplete, compact = fals
                     <p className="font-medium text-foreground capitalize">{frequency}</p>
                   </div>
                 )}
+                {mode === 'onetime' && onetimeMode === 'units' && (
+                  <div>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Units</p>
+                    <p className="font-medium text-foreground">{units}</p>
+                  </div>
+                )}
                 <div>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-wide">{mode === 'sip' ? 'Start Date' : 'Purchase Date'}</p>
                   <p className="font-medium text-foreground">{format(startDate, 'dd MMM yyyy')}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Est. Units</p>
-                  <p className="font-medium text-foreground">{estimatedUnits}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">NAV</p>
+                  <p className="font-medium text-foreground">₹{selectedFund.nav}</p>
                 </div>
-                {mode === 'sip' && (
-                  <div>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Step-Up</p>
-                    <p className="font-medium text-foreground">{stepUpPercent}% annually</p>
-                  </div>
-                )}
-                <div>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Bank</p>
-                  <p className="font-medium text-foreground text-xs">{bankMandate}</p>
-                </div>
-                {goalTag && (
-                  <div className="col-span-2">
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Goal</p>
-                    <Badge variant="secondary" className="mt-0.5">{goalTag}</Badge>
-                  </div>
-                )}
               </div>
             </div>
 

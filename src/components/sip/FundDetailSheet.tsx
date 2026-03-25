@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import {
-  TrendingUp, Star, Shield, Info, Repeat, Zap,
+  TrendingUp, Shield, Info, Repeat, Zap,
   BarChart3, AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -43,17 +43,6 @@ export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDeta
                   <SheetDescription className="mt-1 text-xs">
                     {fund.amc} • {fund.planType} Plan
                   </SheetDescription>
-                </div>
-                <div className="flex items-center gap-0.5 shrink-0">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={cn(
-                        'w-3.5 h-3.5',
-                        i < fund.rating ? 'text-sip-rating fill-sip-rating' : 'text-muted-foreground/30'
-                      )}
-                    />
-                  ))}
                 </div>
               </div>
 

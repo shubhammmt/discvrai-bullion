@@ -339,7 +339,7 @@ export function SmartFundSearch({
             <Badge variant="secondary" className="text-[9px] px-1.5 py-0">{fund.assetClass}</Badge>
             <Badge variant="outline" className="text-[9px] px-1.5 py-0">{fund.category}</Badge>
             <span className="text-[10px] text-muted-foreground">Exp {fund.expenseRatio}%</span>
-            <span className="text-[10px] text-sip-rating">{'★'.repeat(fund.rating)}</span>
+            
           </div>
           <div className="flex items-center gap-3 mt-1 flex-wrap">
             <span className="text-[10px] text-muted-foreground">NAV ₹{fund.nav}</span>
