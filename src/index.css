@@ -187,6 +187,20 @@
     --sip-alloc-hybrid: 38 90% 50%;
     --sip-alloc-other: 270 65% 55%;
     --sip-alloc-solution: 340 75% 55%;
+
+    /* WorkspaceOne Demo Theme */
+    --ws-navy: 220 50% 15%;
+    --ws-navy-dark: 220 55% 10%;
+    --ws-navy-light: 220 40% 25%;
+    --ws-gold: 38 95% 55%;
+    --ws-gold-dark: 38 90% 45%;
+    --ws-gold-light: 38 100% 70%;
+    --ws-surface: 220 20% 97%;
+    --ws-surface-elevated: 0 0% 100%;
+    --ws-border: 220 15% 90%;
+    --ws-text-primary: 220 25% 12%;
+    --ws-text-secondary: 220 10% 45%;
+    --ws-text-muted: 220 8% 62%;
   }
 
   .dark {

@@ -156,6 +156,28 @@ export default {
 					secondary: 'hsl(var(--bajaj-text-secondary))'
 				}
 			},
+			ws: {
+				navy: {
+					DEFAULT: 'hsl(var(--ws-navy))',
+					dark: 'hsl(var(--ws-navy-dark))',
+					light: 'hsl(var(--ws-navy-light))'
+				},
+				gold: {
+					DEFAULT: 'hsl(var(--ws-gold))',
+					dark: 'hsl(var(--ws-gold-dark))',
+					light: 'hsl(var(--ws-gold-light))'
+				},
+				surface: {
+					DEFAULT: 'hsl(var(--ws-surface))',
+					elevated: 'hsl(var(--ws-surface-elevated))'
+				},
+				border: 'hsl(var(--ws-border))',
+				text: {
+					primary: 'hsl(var(--ws-text-primary))',
+					secondary: 'hsl(var(--ws-text-secondary))',
+					muted: 'hsl(var(--ws-text-muted))'
+				}
+			},
 			sip: {
 				brand: {
 					DEFAULT: 'hsl(var(--sip-brand-primary))',
