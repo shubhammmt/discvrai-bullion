@@ -61,6 +61,7 @@ export const ProfitabilityTab: React.FC = () => (
       </div>
     </div>
 
+    {/* Category-wise Gross Margin — column order: Price/kg → COGS/kg → Margin (Rs.) per Rakesh */}
     <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
         <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
@@ -76,9 +77,9 @@ export const ProfitabilityTab: React.FC = () => (
               <TableHead className={`${th} min-w-[150px]`}>Category</TableHead>
               <TableHead className={`${th} text-right min-w-[100px]`}>KGS 9M FY26</TableHead>
               <TableHead className={`${th} text-right min-w-[90px]`}>CIF (₹L)</TableHead>
+              <TableHead className={`${th} text-right min-w-[80px]`}>Price/kg</TableHead>
               <TableHead className={`${th} text-right min-w-[80px]`}>COGS/kg</TableHead>
               <TableHead className={`${th} text-right min-w-[90px]`}>Margin (Rs.)</TableHead>
-              <TableHead className={`${th} text-right min-w-[80px]`}>Price/kg</TableHead>
               <TableHead className={`${th} text-right min-w-[80px] !bg-indigo-50/80 !text-indigo-700`}>Margin% FY26</TableHead>
               <TableHead className={`${th} text-right min-w-[100px]`}>KGS 9M FY25</TableHead>
               <TableHead className={`${th} text-right min-w-[90px]`}>CIF PY</TableHead>
@@ -93,9 +94,9 @@ export const ProfitabilityTab: React.FC = () => (
                 <TableCell className={`${td} font-semibold text-gray-800`}>{c.category}</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.kgs9MFy26)}</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.cif9MFy26)}</TableCell>
-                <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{c.cogsPerKg != null ? fmtNum(c.cogsPerKg) : '—'}</TableCell>
-                <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{c.marginRs != null ? `₹${fmtNum(c.marginRs)}` : '—'}</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-700`}>₹{fmtNum(c.pricePerKg)}</TableCell>
+                <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{c.cogsPerKg != null ? `₹${fmtNum(c.cogsPerKg)}` : '—'}</TableCell>
+                <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{c.marginRs != null ? `₹${fmtNum(c.marginRs)}` : '—'}</TableCell>
                 <TableCell className={`${td} text-right font-bold tabular-nums bg-indigo-50/30 ${c.marginPct >= 50 ? 'text-emerald-600' : 'text-gray-800'}`}>{c.marginPct}%</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{c.kgs9MFy25 != null ? fmtNum(c.kgs9MFy25) : '—'}</TableCell>
                 <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{c.cif9MFy25 != null ? fmtNum(c.cif9MFy25) : '—'}</TableCell>

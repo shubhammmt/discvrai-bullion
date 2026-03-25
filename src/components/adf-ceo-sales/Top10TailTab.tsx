@@ -10,6 +10,7 @@ const signalColor = (s: string) => {
   if (s.includes('Strong') || s.includes('🚀')) return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
   if (s.includes('Growing') || s.includes('✅')) return 'bg-blue-50 text-blue-700 border border-blue-200';
   if (s.includes('Degrow') || s.includes('🔻')) return 'bg-red-50 text-red-700 border border-red-200';
+  if (s.includes('Slow') || s.includes('⚠️')) return 'bg-amber-50 text-amber-700 border border-amber-200';
   return 'bg-gray-50 text-gray-600 border border-gray-200';
 };
 
@@ -60,6 +61,6 @@ export const Top10TailTab: React.FC = () => (
   <div className="space-y-6">
     <TopTable title="Top Value Contributors — Categories" data={top10Tail.categories} nameKey="category" showCum icon={<Trophy className="w-4 h-4 text-amber-500" />} />
     <TopTable title="Top Value Contributors — Brands" data={top10Tail.brands} nameKey="brand" showCum icon={<Trophy className="w-4 h-4 text-purple-500" />} />
-    <TopTable title="Region-wise Growth" data={top10Tail.regions} nameKey="region" icon={<Globe className="w-4 h-4 text-sky-500" />} />
+    <TopTable title="Top Value Contributors — Regions" data={top10Tail.regions} nameKey="region" showCum icon={<Globe className="w-4 h-4 text-sky-500" />} />
   </div>
 );

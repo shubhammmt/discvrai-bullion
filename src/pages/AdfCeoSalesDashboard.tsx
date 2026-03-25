@@ -6,11 +6,8 @@ import { VolValuePriceTab } from '@/components/adf-ceo-sales/VolValuePriceTab';
 import { SalesDashboardTab } from '@/components/adf-ceo-sales/SalesDashboardTab';
 import { Top10TailTab } from '@/components/adf-ceo-sales/Top10TailTab';
 import { GrowthAnalysisTab } from '@/components/adf-ceo-sales/GrowthAnalysisTab';
-import { Profitability9MTab } from '@/components/adf-ceo-sales/Profitability9MTab';
-import { ProductZoneBrandTab } from '@/components/adf-ceo-sales/ProductZoneBrandTab';
-import { EntityPnlTab } from '@/components/adf-ceo-sales/EntityPnlTab';
 import { lastUpdated } from '@/data/adfCeoSalesData';
-import { BarChart3, DollarSign, Scale, ShoppingCart, Trophy, TrendingUp, PieChart, Building2, Layers } from 'lucide-react';
+import { BarChart3, DollarSign, Scale, ShoppingCart, Trophy, TrendingUp } from 'lucide-react';
 
 const AdfCeoSalesDashboard: React.FC = () => {
   return (
@@ -55,15 +52,6 @@ const AdfCeoSalesDashboard: React.FC = () => {
             <TabsTrigger value="growth" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-[10px] px-2.5 py-1.5">
               <TrendingUp className="w-3 h-3" /> Growth Analysis
             </TabsTrigger>
-            <TabsTrigger value="profit9m" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-[10px] px-2.5 py-1.5">
-              <PieChart className="w-3 h-3" /> 9M Profitability
-            </TabsTrigger>
-            <TabsTrigger value="entitypnl" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-[10px] px-2.5 py-1.5">
-              <Building2 className="w-3 h-3" /> Entity P&L
-            </TabsTrigger>
-            <TabsTrigger value="pzb" className="gap-1.5 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-lg text-[10px] px-2.5 py-1.5">
-              <Layers className="w-3 h-3" /> Product/Zone/Brand
-            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="summary"><CeoExecutiveSummaryTab /></TabsContent>
@@ -72,9 +60,6 @@ const AdfCeoSalesDashboard: React.FC = () => {
           <TabsContent value="sales"><SalesDashboardTab /></TabsContent>
           <TabsContent value="top10"><Top10TailTab /></TabsContent>
           <TabsContent value="growth"><GrowthAnalysisTab /></TabsContent>
-          <TabsContent value="profit9m"><Profitability9MTab /></TabsContent>
-          <TabsContent value="entitypnl"><EntityPnlTab /></TabsContent>
-          <TabsContent value="pzb"><ProductZoneBrandTab /></TabsContent>
         </Tabs>
       </main>
     </div>
