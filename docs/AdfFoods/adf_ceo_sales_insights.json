@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-16T23:55:09.495036",
+  "lastUpdated": "2026-03-25T11:01:44.863834",
   "source": "CEO_Sales_Analytics_9M FY26.xlsx",
   "currency": "INR",
   "unit": "Lakhs",
@@ -353,13 +353,13 @@
         "kgs9MFy26": 7731.25,
         "cif9MFy26": 20632.41,
         "pricePerKg": 266.87,
-        "marginPct": 68.9,
-        "marginPctPy": 69.3,
         "cogsPerKg": 82.87,
         "marginRs": 14225.68,
+        "marginPct": 68.9,
         "kgs9MFy25": 7157.06,
         "cif9MFy25": 18228.98,
         "pricePerKgPy": 254.7,
+        "marginPctPy": 69.3,
         "marginDeltaPp": -0.4
       },
       {
@@ -367,13 +367,13 @@
         "kgs9MFy26": 2371.57,
         "cif9MFy26": 3446.21,
         "pricePerKg": 145.31,
-        "marginPct": 56.7,
-        "marginPctPy": 53.0,
         "cogsPerKg": 62.93,
         "marginRs": 1953.8,
+        "marginPct": 56.7,
         "kgs9MFy25": 3152.88,
         "cif9MFy25": 4089.74,
         "pricePerKgPy": 129.71,
+        "marginPctPy": 53.0,
         "marginDeltaPp": 3.7
       },
       {
@@ -381,13 +381,13 @@
         "kgs9MFy26": 1657.72,
         "cif9MFy26": 3985.16,
         "pricePerKg": 240.4,
-        "marginPct": 57.8,
-        "marginPctPy": 52.6,
         "cogsPerKg": 101.36,
         "marginRs": 2304.89,
+        "marginPct": 57.8,
         "kgs9MFy25": 1606.75,
         "cif9MFy25": 3698.21,
         "pricePerKgPy": 230.17,
+        "marginPctPy": 52.6,
         "marginDeltaPp": 5.2
       },
       {
@@ -395,13 +395,13 @@
         "kgs9MFy26": 1554.31,
         "cif9MFy26": 2517.3,
         "pricePerKg": 161.96,
-        "marginPct": 47.8,
-        "marginPctPy": 41.9,
         "cogsPerKg": 84.49,
         "marginRs": 1204.1,
+        "marginPct": 47.8,
         "kgs9MFy25": 1916.87,
         "cif9MFy25": 2912.63,
         "pricePerKgPy": 151.95,
+        "marginPctPy": 41.9,
         "marginDeltaPp": 5.9
       },
       {
@@ -409,13 +409,13 @@
         "kgs9MFy26": 600.14,
         "cif9MFy26": 993.42,
         "pricePerKg": 165.53,
-        "marginPct": 23.4,
-        "marginPctPy": 29.5,
         "cogsPerKg": 126.86,
         "marginRs": 232.09,
+        "marginPct": 23.4,
         "kgs9MFy25": 256.95,
         "cif9MFy25": 561.2,
         "pricePerKgPy": 218.41,
+        "marginPctPy": 29.5,
         "marginDeltaPp": -6.1
       },
       {
@@ -423,13 +423,13 @@
         "kgs9MFy26": 535.67,
         "cif9MFy26": 1352.35,
         "pricePerKg": 252.46,
-        "marginPct": 55.9,
-        "marginPctPy": 48.8,
         "cogsPerKg": 111.43,
         "marginRs": 755.46,
+        "marginPct": 55.9,
         "kgs9MFy25": 581.48,
         "cif9MFy25": 1420.38,
         "pricePerKgPy": 244.27,
+        "marginPctPy": 48.8,
         "marginDeltaPp": 7.1
       },
       {
@@ -437,13 +437,13 @@
         "kgs9MFy26": 481.89,
         "cif9MFy26": 991.15,
         "pricePerKg": 205.68,
-        "marginPct": 34.9,
-        "marginPctPy": 44.8,
         "cogsPerKg": 133.86,
         "marginRs": 346.11,
+        "marginPct": 34.9,
         "kgs9MFy25": 254.28,
         "cif9MFy25": 393.02,
         "pricePerKgPy": 154.57,
+        "marginPctPy": 44.8,
         "marginDeltaPp": -9.9
       },
       {
@@ -451,22 +451,22 @@
         "kgs9MFy26": 380.35,
         "cif9MFy26": 1010.69,
         "pricePerKg": 265.73,
-        "marginPct": 34.9,
-        "marginPctPy": 37.2,
         "cogsPerKg": 172.95,
         "marginRs": 352.89,
+        "marginPct": 34.9,
         "kgs9MFy25": 263.07,
         "cif9MFy25": 728.12,
         "pricePerKgPy": 276.78,
+        "marginPctPy": 37.2,
         "marginDeltaPp": -2.3
       },
       {
         "category": "Grand Total",
         "kgs9MFy26": 15312.88,
         "cif9MFy26": 34928.68,
+        "pricePerKg": 228.1,
         "cogsPerKg": 88.51,
         "marginRs": 21375.01,
-        "pricePerKg": 228.1,
         "marginPct": 61.2,
         "kgs9MFy25": 15189.33,
         "cif9MFy25": 32032.29,
@@ -481,8 +481,20 @@
     "valGrowth": 0.09042102772288452,
     "priceRealization": 17.21,
     "valueFromVolume": 1164.55,
-    "volGrowthLabel": "0.8%",
-    "valGrowthLabel": "9.0%",
+    "volumeAbs": {
+      "cyMt": 15312.9,
+      "pyMt": 15189.34,
+      "unit": "MT"
+    },
+    "valueAbs": {
+      "cyLakhs": 34928.69,
+      "pyLakhs": 32032.28,
+      "unit": "Lakhs"
+    },
+    "volumeSummarySubtext": "15,313 MT vs 15,189 MT",
+    "valueSummarySubtext": "Revenue from sales growth",
+    "volGrowthLabel": "0.8% · 15,313 MT vs 15,189 MT",
+    "valGrowthLabel": "9.0% · CY ₹34,928.7 L vs PY ₹32,032.3 L",
     "priceRealizationLabel": "₹17.21/kg",
     "valueFromVolumeLabel": "₹1,164.5 L",
     "categories": [
@@ -493,7 +505,6 @@
         "volGrPct": 8.0,
         "valCy": 20632.41,
         "valPy": 18228.98,
-        "netValue": 20632.41,
         "valGrPct": 13.2,
         "pricePerKgCy": 266.87,
         "pricePerKgPy": 254.7,
@@ -510,7 +521,6 @@
         "volGrPct": -24.8,
         "valCy": 3446.21,
         "valPy": 4089.74,
-        "netValue": 3446.21,
         "valGrPct": -15.7,
         "pricePerKgCy": 145.31,
         "pricePerKgPy": 129.71,
@@ -527,7 +537,6 @@
         "volGrPct": 3.2,
         "valCy": 3985.16,
         "valPy": 3698.21,
-        "netValue": 3985.16,
         "valGrPct": 7.8,
         "pricePerKgCy": 240.4,
         "pricePerKgPy": 230.17,
@@ -544,7 +553,6 @@
         "volGrPct": -18.9,
         "valCy": 2517.3,
         "valPy": 2912.63,
-        "netValue": 2517.3,
         "valGrPct": -13.6,
         "pricePerKgCy": 161.96,
         "pricePerKgPy": 151.95,
@@ -561,7 +569,6 @@
         "volGrPct": 133.6,
         "valCy": 993.42,
         "valPy": 561.2,
-        "netValue": 993.42,
         "valGrPct": 77.0,
         "pricePerKgCy": 165.53,
         "pricePerKgPy": 218.41,
@@ -578,7 +585,6 @@
         "volGrPct": -7.9,
         "valCy": 1352.35,
         "valPy": 1420.38,
-        "netValue": 1352.35,
         "valGrPct": -4.8,
         "pricePerKgCy": 252.46,
         "pricePerKgPy": 244.27,
@@ -595,7 +601,6 @@
         "volGrPct": 89.5,
         "valCy": 991.15,
         "valPy": 393.02,
-        "netValue": 991.15,
         "valGrPct": 152.2,
         "pricePerKgCy": 205.68,
         "pricePerKgPy": 154.57,
@@ -612,7 +617,6 @@
         "volGrPct": 44.6,
         "valCy": 1010.69,
         "valPy": 728.12,
-        "netValue": 1010.69,
         "valGrPct": 38.8,
         "pricePerKgCy": 265.73,
         "pricePerKgPy": 276.78,
@@ -620,23 +624,6 @@
         "valFromVol": 311.64,
         "valFromPrice": -42.04,
         "netValDelta": 269.6,
-        "growthDriver": ""
-      },
-      {
-        "category": "TOTAL",
-        "volCy": 15312.88,
-        "volPy": 15189.33,
-        "volGrPct": 0.8,
-        "valCy": 34928.68,
-        "valPy": 32032.29,
-        "netValue": 34928.68,
-        "valGrPct": 9.0,
-        "pricePerKgCy": 228.1,
-        "pricePerKgPy": 210.89,
-        "priceDelta": 17.21,
-        "valFromVol": 1164.55,
-        "valFromPrice": 1566.91,
-        "netValDelta": 2731.46,
         "growthDriver": ""
       }
     ],
@@ -1094,6 +1081,21 @@
         "9mGrPct": -62.7,
         "mixPct": 0.4,
         "status": "🔻"
+      },
+      {
+        "region": "TOTAL",
+        "q1Fy26": 8788.47,
+        "q2Fy26": 13133.68,
+        "q3Fy26": 13006.53,
+        "9mFy26": 34928.67,
+        "q1Fy25": 9143.28,
+        "q2Fy25": 11888.83,
+        "q3Fy25": 11000.17,
+        "9mFy25": 32032.28,
+        "q3GrPct": 18.2,
+        "9mGrPct": 9.0,
+        "mixPct": 100.0,
+        "status": ""
       }
     ]
   },
@@ -1287,6 +1289,7 @@
         "9mGrPct": 22.1,
         "q3GrPct": 33.2,
         "sharePct": 54.1,
+        "cumPct": 54.1,
         "status": "🚀"
       },
       {
@@ -1297,6 +1300,7 @@
         "9mGrPct": -6.0,
         "q3GrPct": -9.4,
         "sharePct": 15.2,
+        "cumPct": 69.3,
         "status": "🚀"
       },
       {
@@ -1307,6 +1311,7 @@
         "9mGrPct": 6.8,
         "q3GrPct": 32.3,
         "sharePct": 14.7,
+        "cumPct": 84.0,
         "status": "🚀"
       },
       {
@@ -1317,6 +1322,7 @@
         "9mGrPct": -2.9,
         "q3GrPct": 17.9,
         "sharePct": 9.4,
+        "cumPct": 93.4,
         "status": "🔻"
       },
       {
@@ -1327,6 +1333,7 @@
         "9mGrPct": -7.1,
         "q3GrPct": -22.8,
         "sharePct": 6.2,
+        "cumPct": 99.6,
         "status": "🔻"
       },
       {
@@ -1337,6 +1344,7 @@
         "9mGrPct": -62.7,
         "q3GrPct": -70.4,
         "sharePct": 0.4,
+        "cumPct": 100.0,
         "status": "🔻"
       }
     ]
