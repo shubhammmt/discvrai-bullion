@@ -24,7 +24,7 @@ import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
   TrendingUp, Bell, BarChart3, FileText, Receipt,
   MessageSquare, History, Sparkles, LogIn, LogOut,
-  PanelLeft, X, ChevronRight, UserCircle,
+  PanelLeft, PanelLeftClose, ChevronRight, UserCircle,
 } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -139,7 +139,7 @@ const SIPManagement = () => {
             className="h-8 w-8 p-0 shrink-0"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
-            {sidebarOpen ? <X className="w-4 h-4" /> : <PanelLeft className="w-4 h-4" />}
+            {sidebarOpen ? <PanelLeftClose className="w-4 h-4" /> : <PanelLeft className="w-4 h-4" />}
           </Button>
         </div>
 

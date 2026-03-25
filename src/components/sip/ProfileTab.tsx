@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import {
   User, Phone, Mail, Shield, CreditCard, Fingerprint,
-  Eye, EyeOff, CheckCircle2, LogOut, Loader2,
+  Eye, EyeOff, CheckCircle2, LogOut, Loader2, Sun, Moon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AuthUser } from './OTPLoginDialog';
@@ -209,6 +209,49 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
             >
               {isKycDone ? '✅ Complete' : '⏳ Incomplete'}
             </Badge>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Theme Toggle */}
+      <Card className="border-border">
+        <CardContent className="p-5">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-sip-brand mb-3">
+            Appearance
+          </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {document.documentElement.classList.contains('dark') ? (
+                <Moon className="w-4 h-4 text-muted-foreground" />
+              ) : (
+                <Sun className="w-4 h-4 text-muted-foreground" />
+              )}
+              <span className="text-sm font-medium text-foreground">Color Theme</span>
+            </div>
+            <div className="flex gap-1 rounded-lg border border-border p-0.5">
+              <button
+                onClick={() => { document.documentElement.classList.remove('dark'); localStorage.setItem('theme', 'light'); }}
+                className={cn(
+                  'px-3 py-1 rounded-md text-xs font-medium transition-colors',
+                  !document.documentElement.classList.contains('dark')
+                    ? 'bg-sip-brand text-sip-brand-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                Light
+              </button>
+              <button
+                onClick={() => { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark'); }}
+                className={cn(
+                  'px-3 py-1 rounded-md text-xs font-medium transition-colors',
+                  document.documentElement.classList.contains('dark')
+                    ? 'bg-sip-brand text-sip-brand-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                Dark
+              </button>
+            </div>
           </div>
         </CardContent>
       </Card>
