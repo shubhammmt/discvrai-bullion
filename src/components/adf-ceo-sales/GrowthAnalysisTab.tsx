@@ -37,8 +37,8 @@ const GrowthTable = ({ title, data, nameKey, showQuarters, icon }: { title: stri
               <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(r['9mFy25'])}</TableCell>
               <TableCell className={`${td} text-right tabular-nums font-semibold ${r.absDelta >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtNum(r.absDelta)}</TableCell>
               <TableCell className={`${td} text-right tabular-nums font-semibold ${r['9mGrPct'] >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(r['9mGrPct'])}</TableCell>
-              {showQuarters && <TableCell className={`${td} text-right tabular-nums ${r.q1GrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(r.q1GrPct)}</TableCell>}
-              {showQuarters && <TableCell className={`${td} text-right tabular-nums ${r.q2GrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(r.q2GrPct)}</TableCell>}
+              {showQuarters && <TableCell className={`${td} text-right tabular-nums ${(r.q1GrPct ?? 0) >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{r.q1GrPct != null ? fmtPct(r.q1GrPct) : '—'}</TableCell>}
+              {showQuarters && <TableCell className={`${td} text-right tabular-nums ${(r.q2GrPct ?? 0) >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{r.q2GrPct != null ? fmtPct(r.q2GrPct) : '—'}</TableCell>}
               <TableCell className={`${td} text-right tabular-nums ${r.q3GrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(r.q3GrPct)}</TableCell>
               <TableCell className={`${td} text-base`}>{r.trend || '—'}</TableCell>
             </TableRow>

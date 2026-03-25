@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { InfoTooltip } from '@/components/adf-mis/InfoTooltip';
 import { volValuePrice, fmtNum, fmtPct } from '@/data/adfCeoSalesData';
-import { Scale, TrendingUp, TrendingDown, ArrowUpDown, BarChart3 } from 'lucide-react';
+import { Scale, TrendingUp, ArrowUpDown, BarChart3 } from 'lucide-react';
 
 const th = "text-[11px] font-bold text-gray-500 uppercase tracking-wider bg-gray-50/80 border-b-2 border-gray-200";
 const td = "text-[13px] py-3 px-4";
@@ -13,10 +13,29 @@ export const VolValuePriceTab: React.FC = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: '📦 Volume Growth', value: v.volGrowthLabel || `${(v.volGrowth * 100).toFixed(1)}%`, icon: Scale, gradient: 'from-emerald-500 to-teal-600', textColor: 'text-emerald-100' },
-          { label: '💰 Value Growth', value: v.valGrowthLabel || `${(v.valGrowth * 100).toFixed(1)}%`, icon: TrendingUp, gradient: 'from-indigo-500 to-violet-600', textColor: 'text-indigo-100' },
-          { label: '💲 Price Realization Δ', value: v.priceRealizationLabel || `₹${v.priceRealization}/kg`, icon: ArrowUpDown, gradient: 'from-amber-500 to-orange-600', textColor: 'text-amber-100' },
-          { label: '📊 Value from Volume', value: v.valueFromVolumeLabel || `₹${fmtNum(v.valueFromVolume)} L`, icon: BarChart3, gradient: 'from-sky-500 to-cyan-600', textColor: 'text-sky-100', tooltip: 'Revenue increase attributable to volume growth (vs price change).' },
+          {
+            label: '📦 Volume Growth', 
+            value: v.volGrowthLabel || `${(v.volGrowth * 100).toFixed(1)}%`,
+            sub: v.volumeAbs ? `${fmtNum(v.volumeAbs.cyMt)} MT vs ${fmtNum(v.volumeAbs.pyMt)} MT` : v.volumeSummarySubtext,
+            icon: Scale, gradient: 'from-emerald-500 to-teal-600', textColor: 'text-emerald-100'
+          },
+          {
+            label: '💰 Value Growth',
+            value: v.valGrowthLabel || `${(v.valGrowth * 100).toFixed(1)}%`,
+            sub: v.valueAbs ? `₹${fmtNum(v.valueAbs.cyLakhs)} L vs ₹${fmtNum(v.valueAbs.pyLakhs)} L` : v.valueSummarySubtext,
+            icon: TrendingUp, gradient: 'from-indigo-500 to-violet-600', textColor: 'text-indigo-100'
+          },
+          {
+            label: '💲 Price Realization Δ',
+            value: v.priceRealizationLabel || `₹${v.priceRealization}/kg`,
+            icon: ArrowUpDown, gradient: 'from-amber-500 to-orange-600', textColor: 'text-amber-100'
+          },
+          {
+            label: '📊 Value from Volume',
+            value: v.valueFromVolumeLabel || `₹${fmtNum(v.valueFromVolume)} L`,
+            icon: BarChart3, gradient: 'from-sky-500 to-cyan-600', textColor: 'text-sky-100',
+            tooltip: 'Revenue increase attributable to volume growth (vs price change).'
+          },
         ].map((k) => (
           <div key={k.label} className={`relative overflow-hidden rounded-2xl p-5 bg-gradient-to-br ${k.gradient} text-white shadow-lg`}>
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -translate-y-5 translate-x-5" />
@@ -26,11 +45,12 @@ export const VolValuePriceTab: React.FC = () => {
               {k.tooltip && <InfoTooltip text={k.tooltip} />}
             </div>
             <div className="text-2xl font-extrabold mt-2">{k.value}</div>
+            {k.sub && <div className="text-xs mt-1.5 opacity-80">{k.sub}</div>}
           </div>
         ))}
       </div>
 
-      {/* Main Vol vs Value table */}
+      {/* Main Vol vs Value table — no "Net Value" column */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
           <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
@@ -47,8 +67,7 @@ export const VolValuePriceTab: React.FC = () => {
                 <TableHead className={`${th} text-right min-w-[90px]`}>Vol PY (MT)</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>Vol Gr%</TableHead>
                 <TableHead className={`${th} text-right min-w-[100px]`}>Val CY (₹L)</TableHead>
-                <TableHead className={`${th} text-right min-w-[100px]`}>Val PY</TableHead>
-                <TableHead className={`${th} text-right min-w-[100px]`}>Net Value</TableHead>
+                <TableHead className={`${th} text-right min-w-[100px]`}>Val PY (₹L)</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>Val Gr%</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>₹/kg CY</TableHead>
                 <TableHead className={`${th} text-right min-w-[80px]`}>₹/kg PY</TableHead>
@@ -68,7 +87,6 @@ export const VolValuePriceTab: React.FC = () => {
                   <TableCell className={`${td} text-right font-semibold tabular-nums ${c.volGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.volGrPct)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.valCy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.valPy)}</TableCell>
-                  <TableCell className={`${td} text-right tabular-nums font-medium text-gray-700`}>{fmtNum(c.netValue)}</TableCell>
                   <TableCell className={`${td} text-right font-semibold tabular-nums ${c.valGrPct >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{fmtPct(c.valGrPct)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-700`}>{fmtNum(c.pricePerKgCy)}</TableCell>
                   <TableCell className={`${td} text-right tabular-nums text-gray-500`}>{fmtNum(c.pricePerKgPy)}</TableCell>
