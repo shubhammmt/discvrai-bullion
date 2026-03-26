@@ -232,15 +232,17 @@ const ProofSlide = () => (
     <p className="text-lg text-white/50 mt-3 max-w-4xl">
       Clickable demos include supply <span className="font-semibold text-white/70">control towers</span> (with optional agentic recommendations), CEO-grade commercial views, <span className="font-semibold text-white/70">governed knowledge workspaces</span>, and <span className="font-semibold text-white/70">agentic commerce</span>-style journeys — scoped to what {CLIENT} cares about.
     </p>
-    <div className="grid grid-cols-2 gap-8 mt-12 flex-1">
+    <div className="grid grid-cols-3 gap-6 mt-12 flex-1">
       {[
-        { label: 'Demo A', caption: 'Control tower + orchestrated exceptions' },
-        { label: 'Demo B', caption: 'Conversational conversion + attribution' },
+        { label: 'ADF Foods', caption: 'CEO Sales Analytics — control tower with category, brand & zone drill-downs', url: 'https://discvrai-bullion.lovable.app/dashboard/adf-ceo-sales' },
+        { label: 'Bajaj Electricals', caption: 'Operational intelligence dashboard — KPIs, alerts & performance tracking', url: 'https://discvrai-bullion.lovable.app/dashboard/bajaj-electricals' },
+        { label: 'Helios MF', caption: 'Agentic commerce — conversational conversion + attribution journey', url: 'https://heliosmf.discvr.ai/' },
       ].map(d => (
-        <div key={d.label} className="bg-white/[0.03] border border-dashed border-white/15 rounded-xl flex flex-col items-center justify-center gap-4 min-h-[280px]">
-          <div className="text-2xl font-bold text-white/15">{d.label}</div>
-          <p className="text-sm text-white/30 max-w-xs text-center">{d.caption}</p>
-        </div>
+        <a key={d.label} href={d.url} target="_blank" rel="noopener noreferrer" className="bg-white/[0.03] border border-white/15 rounded-xl flex flex-col items-center justify-center gap-4 min-h-[280px] hover:bg-amber-500/10 hover:border-amber-500/30 transition-all cursor-pointer group">
+          <div className="text-xl font-bold text-white/60 group-hover:text-amber-400 transition-colors">{d.label}</div>
+          <p className="text-sm text-white/30 max-w-xs text-center group-hover:text-white/50 transition-colors">{d.caption}</p>
+          <span className="text-xs text-amber-500/60 group-hover:text-amber-400 transition-colors mt-2">View live demo →</span>
+        </a>
       ))}
     </div>
   </SlideShell>
