@@ -372,7 +372,8 @@ const AppContent = () => {
               <Route path="/dashboard/adani-greens" element={<AdaniGreensLogistics />} />
               <Route path="/pitch/adani-greens" element={<AdaniGreensPitch />} />
                <Route path="/dashboard/bajaj-electricals" element={<BajajElectricalsDashboard />} />
-               <Route path="/workspace-demo" element={<WorkspaceDemo />} />
+                <Route path="/workspace-demo" element={<WorkspaceDemo />} />
+                <Route path="/pitch/diageo" element={<DiageoPitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
