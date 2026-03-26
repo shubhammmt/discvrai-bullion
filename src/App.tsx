@@ -208,7 +208,8 @@ const AppContent = () => {
                        location.pathname === '/dashboard/adani-greens' ||
                        location.pathname === '/pitch/adani-greens' ||
                        location.pathname === '/dashboard/bajaj-electricals' ||
-                       location.pathname === '/workspace-demo';
+                       location.pathname === '/workspace-demo' ||
+                       location.pathname === '/pitch/diageo';
   return (
     <>
       <Routes>
