@@ -166,6 +166,7 @@ import AdaniGreensPitch from './pages/AdaniGreensPitch';
 import BajajElectricalsDashboard from './pages/BajajElectricalsDashboard';
 import WorkspaceDemo from './pages/WorkspaceDemo';
 import DiageoPitch from './pages/DiageoPitch';
+import EcubePitch from './pages/EcubePitch';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
