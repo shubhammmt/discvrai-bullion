@@ -551,20 +551,6 @@ const EcubePitch: React.FC = () => {
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-30">
-        <button onClick={prev} disabled={idx === 0} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 flex items-center justify-center transition-colors">
-          <ArrowLeft className="w-5 h-5 text-white" />
-        </button>
-        <div className="flex items-center gap-2">
-          {SLIDES.map((_, i) => (
-            <button key={i} onClick={() => setIdx(i)} className={`w-2 h-2 rounded-full transition-all ${i === idx ? 'w-6' : 'bg-white/20 hover:bg-white/40'}`} style={i === idx ? { background: ACCENT } : {}} />
-          ))}
-        </div>
-        <button onClick={next} disabled={idx === TOTAL_SLIDES - 1} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 flex items-center justify-center transition-colors">
-          <ArrowRight className="w-5 h-5 text-white" />
-        </button>
-      </div>
 
       {/* Top right controls */}
       <div className="absolute top-5 right-6 flex items-center gap-3 z-30">
