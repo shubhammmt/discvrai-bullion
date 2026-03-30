@@ -54,17 +54,8 @@ const ContextSlide = () => (
     <p className="text-[15px] text-white/50 mt-2 max-w-4xl">Not a generic vendor pitch — shared history, complementary capabilities.</p>
 
     <div className="grid grid-cols-2 gap-10 mt-10 flex-1">
-      {/* Left — Personal + CIO timeline */}
+      {/* Left — CIO timeline */}
       <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-semibold" style={{ color: ACCENT }}>Personal connection</h3>
-          <p className="text-[14px] text-white/50 mt-2 leading-relaxed">
-            <span className="text-white/70 font-medium">Eureka Forbes</span> — Colleagues: Sreelakshmi in the business; presenter as CIO (field force, supply chain, logistics, data at scale).
-          </p>
-          <p className="text-[14px] text-white/50 mt-2 leading-relaxed">
-            Today: Same execution DNA — building DiscvrAI for workflows and AI analytics that deploy in weeks on existing stacks.
-          </p>
-        </div>
         <div>
           <h3 className="text-lg font-semibold" style={{ color: ACCENT }}>~Two decades CIO / technology leadership</h3>
           <div className="space-y-2 mt-3">
@@ -80,10 +71,6 @@ const ContextSlide = () => (
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Right — Technical depth + callout */}
-      <div className="space-y-6">
         <div>
           <h3 className="text-lg font-semibold" style={{ color: ACCENT }}>Technical depth</h3>
           <div className="space-y-2 mt-3">
@@ -98,7 +85,17 @@ const ContextSlide = () => (
             ))}
           </div>
         </div>
-        <div className="bg-white/[0.04] border border-white/10 rounded-xl p-6 mt-4">
+      </div>
+
+      {/* Right — Callout + DiscvrAI */}
+      <div className="space-y-6">
+        <div className="bg-white/[0.04] border border-white/10 rounded-xl p-6">
+          <h3 className="text-base font-semibold mb-3" style={{ color: ACCENT }}>DiscvrAI today</h3>
+          <p className="text-[14px] text-white/50 leading-relaxed">
+            Workflow automation + AI-enabled analytics that deploy in weeks on existing stacks. Same execution DNA — building for asset-heavy, regulated-adjacent industries.
+          </p>
+        </div>
+        <div className="bg-white/[0.04] border border-white/10 rounded-xl p-6">
           <p className="text-[14px] text-white/60 leading-relaxed italic">
             "ECube's reputation is trust with boards and investors. We only propose human-in-the-loop, evidence-grade paths — <span className="font-semibold text-white/80">agents as associates, partners sign.</span>"
           </p>
