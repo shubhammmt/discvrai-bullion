@@ -166,6 +166,7 @@ import AdaniGreensPitch from './pages/AdaniGreensPitch';
 import BajajElectricalsDashboard from './pages/BajajElectricalsDashboard';
 import WorkspaceDemo from './pages/WorkspaceDemo';
 import DiageoPitch from './pages/DiageoPitch';
+import EcubePitch from './pages/EcubePitch';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -209,7 +210,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/adani-greens' ||
                        location.pathname === '/dashboard/bajaj-electricals' ||
                        location.pathname === '/workspace-demo' ||
-                       location.pathname === '/pitch/diageo';
+                       location.pathname === '/pitch/diageo' ||
+                       location.pathname === '/pitch/ecube';
   return (
     <>
       <Routes>
@@ -375,6 +377,7 @@ const AppContent = () => {
                <Route path="/dashboard/bajaj-electricals" element={<BajajElectricalsDashboard />} />
                 <Route path="/workspace-demo" element={<WorkspaceDemo />} />
                 <Route path="/pitch/diageo" element={<DiageoPitch />} />
+                <Route path="/pitch/ecube" element={<EcubePitch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
