@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, ArrowRight, Maximize, Minimize, ChevronRight, Shield, Users, Leaf, FileCheck, BookOpen, TrendingUp } from 'lucide-react';
+import { Maximize, Minimize, ChevronRight, Shield, Users, Leaf, FileCheck, BookOpen, TrendingUp } from 'lucide-react';
 
 const TOTAL_SLIDES = 11;
 
