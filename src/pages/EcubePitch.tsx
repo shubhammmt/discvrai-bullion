@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowLeft, ArrowRight, Maximize, Minimize, ChevronRight, Shield, Users, Leaf, FileCheck, BookOpen, TrendingUp } from 'lucide-react';
+import { Maximize, Minimize, ChevronRight, Shield, Users, Leaf, FileCheck, BookOpen, TrendingUp } from 'lucide-react';
 
 const TOTAL_SLIDES = 11;
 
@@ -54,17 +54,8 @@ const ContextSlide = () => (
     <p className="text-[15px] text-white/50 mt-2 max-w-4xl">Not a generic vendor pitch — shared history, complementary capabilities.</p>
 
     <div className="grid grid-cols-2 gap-10 mt-10 flex-1">
-      {/* Left — Personal + CIO timeline */}
+      {/* Left — CIO timeline */}
       <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-semibold" style={{ color: ACCENT }}>Personal connection</h3>
-          <p className="text-[14px] text-white/50 mt-2 leading-relaxed">
-            <span className="text-white/70 font-medium">Eureka Forbes</span> — Colleagues: Sreelakshmi in the business; presenter as CIO (field force, supply chain, logistics, data at scale).
-          </p>
-          <p className="text-[14px] text-white/50 mt-2 leading-relaxed">
-            Today: Same execution DNA — building DiscvrAI for workflows and AI analytics that deploy in weeks on existing stacks.
-          </p>
-        </div>
         <div>
           <h3 className="text-lg font-semibold" style={{ color: ACCENT }}>~Two decades CIO / technology leadership</h3>
           <div className="space-y-2 mt-3">
@@ -80,10 +71,6 @@ const ContextSlide = () => (
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Right — Technical depth + callout */}
-      <div className="space-y-6">
         <div>
           <h3 className="text-lg font-semibold" style={{ color: ACCENT }}>Technical depth</h3>
           <div className="space-y-2 mt-3">
@@ -98,7 +85,17 @@ const ContextSlide = () => (
             ))}
           </div>
         </div>
-        <div className="bg-white/[0.04] border border-white/10 rounded-xl p-6 mt-4">
+      </div>
+
+      {/* Right — Callout + DiscvrAI */}
+      <div className="space-y-6">
+        <div className="bg-white/[0.04] border border-white/10 rounded-xl p-6">
+          <h3 className="text-base font-semibold mb-3" style={{ color: ACCENT }}>DiscvrAI today</h3>
+          <p className="text-[14px] text-white/50 leading-relaxed">
+            Workflow automation + AI-enabled analytics that deploy in weeks on existing stacks. Same execution DNA — building for asset-heavy, regulated-adjacent industries.
+          </p>
+        </div>
+        <div className="bg-white/[0.04] border border-white/10 rounded-xl p-6">
           <p className="text-[14px] text-white/60 leading-relaxed italic">
             "ECube's reputation is trust with boards and investors. We only propose human-in-the-loop, evidence-grade paths — <span className="font-semibold text-white/80">agents as associates, partners sign.</span>"
           </p>
@@ -554,20 +551,6 @@ const EcubePitch: React.FC = () => {
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-30">
-        <button onClick={prev} disabled={idx === 0} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 flex items-center justify-center transition-colors">
-          <ArrowLeft className="w-5 h-5 text-white" />
-        </button>
-        <div className="flex items-center gap-2">
-          {SLIDES.map((_, i) => (
-            <button key={i} onClick={() => setIdx(i)} className={`w-2 h-2 rounded-full transition-all ${i === idx ? 'w-6' : 'bg-white/20 hover:bg-white/40'}`} style={i === idx ? { background: ACCENT } : {}} />
-          ))}
-        </div>
-        <button onClick={next} disabled={idx === TOTAL_SLIDES - 1} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 flex items-center justify-center transition-colors">
-          <ArrowRight className="w-5 h-5 text-white" />
-        </button>
-      </div>
 
       {/* Top right controls */}
       <div className="absolute top-5 right-6 flex items-center gap-3 z-30">
