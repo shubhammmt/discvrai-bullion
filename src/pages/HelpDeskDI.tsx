@@ -1,11 +1,20 @@
 import React, { useState, useRef } from 'react';
-import { Activity, ChevronDown, Upload, MapPin, CheckCircle2, AlertTriangle, Clock, Wrench, Zap, Package, ShieldAlert, Users, Fuel, CalendarCheck, FileCheck } from 'lucide-react';
+import { Activity, ChevronDown, Upload, MapPin, CheckCircle2, AlertTriangle, Clock, Wrench, Zap, Package, ShieldAlert, Users, Fuel, CalendarCheck, FileCheck, Pencil, RefreshCw } from 'lucide-react';
+import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
 type Priority = 'critical' | 'high' | 'medium' | 'low';
 type Category = 'mechanical' | 'electrical' | 'supply-chain' | 'safety' | 'crew-hr';
 type TicketStatus = 'open' | 'in-progress' | 'waiting-parts' | 'resolved';
+
+interface RigVitals {
+  fuelLevel: number;
+  lastServiceDate: Date | null;
+  machineHours: string;
+  permitsValid: boolean;
+  missingPermitNote: string;
+}
 
 interface Ticket {
   id: string;
@@ -16,6 +25,7 @@ interface Ticket {
   status: TicketStatus;
   createdAt: Date;
   headOfficeNote?: string;
+  vitals?: RigVitals;
 }
 
 const CATEGORIES: { value: Category; label: string; icon: React.ReactNode }[] = [
@@ -98,6 +108,40 @@ const HelpDeskDI = () => {
   const [lastTicketId, setLastTicketId] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Vitals state
+  const [fuelLevel, setFuelLevel] = useState(65);
+  const [lastServiceDate, setLastServiceDate] = useState<Date | null>(new Date('2026-04-01'));
+  const [machineHours, setMachineHours] = useState('4,280');
+  const [permitsValid, setPermitsValid] = useState(true);
+  const [missingPermitNote, setMissingPermitNote] = useState('');
+  const [vitalsSyncing, setVitalsSyncing] = useState(false);
+  const [vitalsSynced, setVitalsSynced] = useState(false);
+
+  const getCurrentVitals = (): RigVitals => ({
+    fuelLevel,
+    lastServiceDate,
+    machineHours,
+    permitsValid,
+    missingPermitNote,
+  });
+
+  const getFuelColor = (level: number) => {
+    if (level > 50) return '#22C55E';
+    if (level >= 20) return '#F59E0B';
+    return '#EF4444';
+  };
+
+  const handleSyncVitals = () => {
+    setVitalsSyncing(true);
+    setVitalsSynced(false);
+    setTimeout(() => {
+      setVitalsSyncing(false);
+      setVitalsSynced(true);
+      console.log('[Dashboard Sync] Vitals updated:', getCurrentVitals());
+      setTimeout(() => setVitalsSynced(false), 3000);
+    }, 1500);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFileName(e.target.files[0].name);
@@ -123,7 +167,9 @@ const HelpDeskDI = () => {
       description: description || 'No description provided',
       status: 'open',
       createdAt: new Date(),
+      vitals: getCurrentVitals(),
     };
+    console.log('[Ticket Raised] Vitals included:', getCurrentVitals());
 
     setTickets([newTicket, ...tickets]);
     setLastTicketId(id);
@@ -388,50 +434,179 @@ const HelpDeskDI = () => {
           </div>
         </section>
 
-        {/* Rig Vital Signs */}
+        {/* Daily Status Report */}
         <section className="pb-8">
-          <h2 className="text-base font-bold mb-4 flex items-center gap-2">
-            <Activity className="w-5 h-5" style={{ color: '#22C55E' }} />
-            Rig Vital Signs
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {/* Fuel */}
-            <div className="p-4 rounded-2xl border" style={{ background: 'rgba(148,163,184,0.04)', borderColor: 'rgba(148,163,184,0.1)' }}>
-              <div className="flex items-center gap-2 mb-3">
-                <Fuel className="w-4 h-4" style={{ color: '#F59E0B' }} />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#94A3B8' }}>Fuel Stock</span>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-bold flex items-center gap-2">
+              <Activity className="w-5 h-5" style={{ color: '#22C55E' }} />
+              Daily Status Report
+              <Pencil className="w-3.5 h-3.5 ml-1" style={{ color: '#94A3B8' }} />
+            </h2>
+            <AnimatePresence mode="wait">
+              {vitalsSynced ? (
+                <motion.span
+                  key="synced"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                  style={{ background: 'rgba(34,197,94,0.15)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)' }}
+                >
+                  <CheckCircle2 className="w-3 h-3" /> Synced
+                </motion.span>
+              ) : vitalsSyncing ? (
+                <motion.span
+                  key="syncing"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                  style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)' }}
+                >
+                  <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
+                    <RefreshCw className="w-3 h-3" />
+                  </motion.span>
+                  Syncing...
+                </motion.span>
+              ) : null}
+            </AnimatePresence>
+          </div>
+
+          <div
+            className="p-5 rounded-2xl border space-y-5"
+            style={{
+              background: 'rgba(148,163,184,0.04)',
+              borderColor: vitalsSyncing ? 'rgba(59,130,246,0.4)' : 'rgba(148,163,184,0.1)',
+              boxShadow: vitalsSyncing ? '0 0 20px rgba(59,130,246,0.1)' : 'none',
+              transition: 'border-color 0.3s, box-shadow 0.3s',
+            }}
+          >
+            {/* Fuel Slider */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider" style={{ color: '#94A3B8' }}>
+                  <Fuel className="w-4 h-4" style={{ color: getFuelColor(fuelLevel) }} />
+                  Current Fuel Level (%)
+                </label>
+                <span className="text-xl font-bold tabular-nums" style={{ color: getFuelColor(fuelLevel) }}>{fuelLevel}%</span>
               </div>
-              <div className="flex items-end gap-2 mb-2">
-                <span className="text-2xl font-bold">65%</span>
-                <span className="text-xs pb-1" style={{ color: '#94A3B8' }}>Remaining</span>
-              </div>
-              <div className="w-full h-2 rounded-full" style={{ background: 'rgba(148,163,184,0.15)' }}>
-                <div className="h-full rounded-full" style={{ width: '65%', background: 'linear-gradient(90deg, #F59E0B, #EAB308)' }} />
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={fuelLevel}
+                onChange={(e) => setFuelLevel(Number(e.target.value))}
+                className="w-full h-2 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, ${getFuelColor(fuelLevel)} 0%, ${getFuelColor(fuelLevel)} ${fuelLevel}%, rgba(148,163,184,0.15) ${fuelLevel}%, rgba(148,163,184,0.15) 100%)`,
+                  accentColor: getFuelColor(fuelLevel),
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[10px]" style={{ color: '#EF4444' }}>Empty</span>
+                <span className="text-[10px]" style={{ color: '#22C55E' }}>Full</span>
               </div>
             </div>
 
-            {/* Maintenance */}
-            <div className="p-4 rounded-2xl border" style={{ background: 'rgba(148,163,184,0.04)', borderColor: 'rgba(148,163,184,0.1)' }}>
-              <div className="flex items-center gap-2 mb-3">
+            {/* Maintenance - Date + Hours */}
+            <div>
+              <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#94A3B8' }}>
                 <CalendarCheck className="w-4 h-4" style={{ color: '#3B82F6' }} />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#94A3B8' }}>Maintenance</span>
+                Last Service / Hours Run
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ color: '#64748B' }}>Last Service Date</label>
+                  <input
+                    type="date"
+                    value={lastServiceDate ? format(lastServiceDate, 'yyyy-MM-dd') : ''}
+                    onChange={(e) => setLastServiceDate(e.target.value ? new Date(e.target.value) : null)}
+                    className="w-full px-3 py-2.5 rounded-xl border text-sm"
+                    style={{ background: 'rgba(148,163,184,0.08)', borderColor: 'rgba(148,163,184,0.15)', color: '#FFFFFF', colorScheme: 'dark' }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ color: '#64748B' }}>Machine Hours</label>
+                  <input
+                    type="text"
+                    value={machineHours}
+                    onChange={(e) => setMachineHours(e.target.value)}
+                    placeholder="e.g. 4,280 hrs"
+                    className="w-full px-3 py-2.5 rounded-xl border text-sm"
+                    style={{ background: 'rgba(148,163,184,0.08)', borderColor: 'rgba(148,163,184,0.15)', color: '#FFFFFF' }}
+                  />
+                </div>
               </div>
-              <p className="text-sm font-semibold">Next Service Due</p>
-              <p className="text-lg font-bold mt-1" style={{ color: '#3B82F6' }}>15-Apr-2026</p>
             </div>
 
-            {/* Compliance */}
-            <div className="p-4 rounded-2xl border" style={{ background: 'rgba(148,163,184,0.04)', borderColor: 'rgba(148,163,184,0.1)' }}>
-              <div className="flex items-center gap-2 mb-3">
-                <FileCheck className="w-4 h-4" style={{ color: '#22C55E' }} />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#94A3B8' }}>Compliance</span>
+            {/* Compliance Toggle */}
+            <div>
+              <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-3" style={{ color: '#94A3B8' }}>
+                <FileCheck className="w-4 h-4" style={{ color: permitsValid ? '#22C55E' : '#EF4444' }} />
+                All On-Site Permits Valid?
+              </label>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setPermitsValid(!permitsValid)}
+                  className="relative w-14 h-7 rounded-full transition-all"
+                  style={{
+                    background: permitsValid ? '#22C55E' : 'rgba(148,163,184,0.2)',
+                    boxShadow: permitsValid ? '0 0 12px rgba(34,197,94,0.3)' : 'none',
+                  }}
+                >
+                  <motion.span
+                    className="absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md"
+                    animate={{ left: permitsValid ? '30px' : '2px' }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  />
+                </button>
+                <span className="text-sm font-semibold" style={{ color: permitsValid ? '#22C55E' : '#EF4444' }}>
+                  {permitsValid ? 'Yes — All Valid' : 'No — Issue Detected'}
+                </span>
               </div>
-              <p className="text-sm font-semibold">Vehicle Paperwork</p>
-              <div className="flex items-center gap-2 mt-1">
-                <CheckCircle2 className="w-5 h-5" style={{ color: '#22C55E' }} />
-                <span className="text-lg font-bold" style={{ color: '#22C55E' }}>100% Valid</span>
-              </div>
+              <AnimatePresence>
+                {!permitsValid && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <textarea
+                      value={missingPermitNote}
+                      onChange={(e) => setMissingPermitNote(e.target.value)}
+                      placeholder="Specify missing or expired document..."
+                      rows={2}
+                      className="w-full mt-3 px-3 py-2.5 rounded-xl border text-sm resize-none"
+                      style={{ background: 'rgba(239,68,68,0.06)', borderColor: 'rgba(239,68,68,0.2)', color: '#FFFFFF' }}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
+
+            {/* Update Vitals Button */}
+            <button
+              type="button"
+              onClick={handleSyncVitals}
+              disabled={vitalsSyncing}
+              className="w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+              style={{
+                background: vitalsSyncing ? 'rgba(59,130,246,0.15)' : 'rgba(59,130,246,0.1)',
+                color: '#3B82F6',
+                border: '1px solid rgba(59,130,246,0.3)',
+              }}
+            >
+              {vitalsSyncing ? (
+                <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="inline-flex">
+                  <RefreshCw className="w-4 h-4" />
+                </motion.span>
+              ) : (
+                <RefreshCw className="w-4 h-4" />
+              )}
+              {vitalsSyncing ? 'Syncing to Head Office...' : '⚡ Update Vitals Only'}
+            </button>
           </div>
         </section>
       </main>
