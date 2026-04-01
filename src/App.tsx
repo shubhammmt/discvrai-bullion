@@ -170,6 +170,7 @@ import EcubePitch from './pages/EcubePitch';
 import HelpDeskDI from './pages/HelpDeskDI';
 import PitchDeckDI from './pages/PitchDeckDI';
 import DSRPage from './pages/DSRPage';
+import P2PRfqDeck from './pages/P2PRfqDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -217,7 +218,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/ecube' ||
                        location.pathname === '/help-desk-DI' ||
                        location.pathname === '/Pitch-deck' ||
-                       location.pathname === '/DSR';
+                       location.pathname === '/DSR' ||
+                       location.pathname === '/p2p-rfq';
   return (
     <>
       <Routes>
@@ -387,6 +389,7 @@ const AppContent = () => {
                 <Route path="/help-desk-DI" element={<HelpDeskDI />} />
                 <Route path="/Pitch-deck" element={<PitchDeckDI />} />
                 <Route path="/DSR" element={<DSRPage />} />
+                <Route path="/p2p-rfq" element={<P2PRfqDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
