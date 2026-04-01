@@ -168,6 +168,7 @@ import WorkspaceDemo from './pages/WorkspaceDemo';
 import DiageoPitch from './pages/DiageoPitch';
 import EcubePitch from './pages/EcubePitch';
 import HelpDeskDI from './pages/HelpDeskDI';
+import PitchDeckDI from './pages/PitchDeckDI';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
