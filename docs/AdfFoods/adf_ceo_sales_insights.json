@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-25T11:01:44.863834",
+  "lastUpdated": "2026-04-02T01:31:56.774312",
   "source": "CEO_Sales_Analytics_9M FY26.xlsx",
   "currency": "INR",
   "unit": "Lakhs",
@@ -624,6 +624,22 @@
         "valFromVol": 311.64,
         "valFromPrice": -42.04,
         "netValDelta": 269.6,
+        "growthDriver": ""
+      },
+      {
+        "category": "Grand Total",
+        "volCy": 15312.88,
+        "volPy": 15189.33,
+        "volGrPct": 0.8,
+        "valCy": 34928.68,
+        "valPy": 32032.29,
+        "valGrPct": 9.0,
+        "pricePerKgCy": 228.1,
+        "pricePerKgPy": 210.89,
+        "priceDelta": 17.21,
+        "valFromVol": 1164.55,
+        "valFromPrice": 1566.91,
+        "netValDelta": 2731.46,
         "growthDriver": ""
       }
     ],
