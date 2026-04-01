@@ -169,6 +169,7 @@ import DiageoPitch from './pages/DiageoPitch';
 import EcubePitch from './pages/EcubePitch';
 import HelpDeskDI from './pages/HelpDeskDI';
 import PitchDeckDI from './pages/PitchDeckDI';
+import DSRPage from './pages/DSRPage';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -215,7 +216,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/diageo' ||
                        location.pathname === '/pitch/ecube' ||
                        location.pathname === '/help-desk-DI' ||
-                       location.pathname === '/Pitch-deck';
+                       location.pathname === '/Pitch-deck' ||
+                       location.pathname === '/DSR';
   return (
     <>
       <Routes>
@@ -384,6 +386,7 @@ const AppContent = () => {
                 <Route path="/pitch/ecube" element={<EcubePitch />} />
                 <Route path="/help-desk-DI" element={<HelpDeskDI />} />
                 <Route path="/Pitch-deck" element={<PitchDeckDI />} />
+                <Route path="/DSR" element={<DSRPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
