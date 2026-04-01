@@ -8,6 +8,14 @@ type Priority = 'critical' | 'high' | 'medium' | 'low';
 type Category = 'mechanical' | 'electrical' | 'supply-chain' | 'safety' | 'crew-hr';
 type TicketStatus = 'open' | 'in-progress' | 'waiting-parts' | 'resolved';
 
+interface RigVitals {
+  fuelLevel: number;
+  lastServiceDate: Date | null;
+  machineHours: string;
+  permitsValid: boolean;
+  missingPermitNote: string;
+}
+
 interface Ticket {
   id: string;
   category: Category;
@@ -17,6 +25,7 @@ interface Ticket {
   status: TicketStatus;
   createdAt: Date;
   headOfficeNote?: string;
+  vitals?: RigVitals;
 }
 
 const CATEGORIES: { value: Category; label: string; icon: React.ReactNode }[] = [
