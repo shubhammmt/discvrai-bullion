@@ -163,34 +163,23 @@ const DSRPage = () => {
         {/* Section 1: Time Accounting */}
         <div className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">⏱ Time Accounting</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Productive Hours</Label>
-              <Input type="number" min={0} max={24} value={productive} onChange={(e) => setProductive(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={productive} onFocus={handleFocus} onChange={handleNumChange(setProductive)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-amber-400 mb-1 block">Logistics NPT</Label>
-              <Input type="number" min={0} max={24} value={logisticsNPT} onChange={(e) => setLogisticsNPT(Number(e.target.value))} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={logisticsNPT} onFocus={handleFocus} onChange={handleNumChange(setLogisticsNPT)} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-amber-400 mb-1 block">Mechanical NPT</Label>
-              <Input type="number" min={0} max={24} value={mechanicalNPT} onChange={(e) => setMechanicalNPT(Number(e.target.value))} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={mechanicalNPT} onFocus={handleFocus} onChange={handleNumChange(setMechanicalNPT)} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-slate-500 mb-1 block">Waiting / Other</Label>
-              <Input type="number" min={0} max={24} value={waitingOther} onChange={(e) => setWaitingOther(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={waitingOther} onFocus={handleFocus} onChange={handleNumChange(setWaitingOther)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
-          </div>
-          <div className="rounded-xl border border-white/10 p-4 text-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
-            <span className="text-xs text-slate-400 uppercase tracking-wider">Total Hours</span>
-            <div className={cn("text-4xl font-black mt-1", totalHours === 24 ? 'text-emerald-400' : 'text-red-400')}>
-              {totalHours} <span className="text-lg font-normal text-slate-500">/ 24</span>
-            </div>
-            {totalHours !== 24 && (
-              <p className="text-xs text-red-400 mt-1 flex items-center justify-center gap-1">
-                <AlertTriangle className="w-3 h-3" /> Hours must total 24
-              </p>
-            )}
           </div>
         </div>
 
