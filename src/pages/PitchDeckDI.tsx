@@ -143,7 +143,7 @@ const PitchDeckDI = () => {
           </div>
         ))}
       </div>
-      <a href="/proposal/deep-industries" target="_blank" rel="noopener noreferrer"
+      <a href="https://lovable.dev/projects/6df3a50c-a8c2-466b-b8bb-9d4f570e47e4" target="_blank" rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98] self-start"
         style={{ background: 'rgba(34,197,94,0.12)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.3)' }}>
         <BarChart3 className="w-4 h-4" /> View Live Dashboard Mockup <ExternalLink className="w-3.5 h-3.5" />
