@@ -1,6 +1,6 @@
 
-import React, { useState, useMemo } from 'react';
-import { Activity, ChevronDown, Calendar as CalendarIcon, Sun, Moon, Plus, Minus, AlertTriangle, Truck, CheckCircle2, Loader2 } from 'lucide-react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { Activity, Calendar as CalendarIcon, Sun, Moon, Plus, Minus, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
