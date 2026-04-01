@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Activity, ChevronDown, Upload, MapPin, CheckCircle2, AlertTriangle, Clock, Wrench, Zap, Package, ShieldAlert, Users, Fuel, CalendarCheck, FileCheck, Pencil, RefreshCw } from 'lucide-react';
+import { Activity, ChevronDown, Upload, MapPin, CheckCircle2, AlertTriangle, Clock, Wrench, Zap, Package, ShieldAlert, Users } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
