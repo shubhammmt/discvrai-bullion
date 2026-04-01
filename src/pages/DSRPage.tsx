@@ -36,8 +36,12 @@ const DSRPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const totalHours = useMemo(() => productive + logisticsNPT + mechanicalNPT + waitingOther, [productive, logisticsNPT, mechanicalNPT, waitingOther]);
-  const closingStock = useMemo(() => openingStock + received - consumed, [openingStock, received, consumed]);
+  const toNum = (s: string) => Number(s) || 0;
+  const totalHours = useMemo(() => toNum(productive) + toNum(logisticsNPT) + toNum(mechanicalNPT) + toNum(waitingOther), [productive, logisticsNPT, mechanicalNPT, waitingOther]);
+  const closingStock = useMemo(() => toNum(openingStock) + toNum(received) - toNum(consumed), [openingStock, received, consumed]);
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
+  const handleNumChange = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => setter(e.target.value);
 
   const handleSubmit = () => {
     setSubmitting(true);
