@@ -18,7 +18,7 @@ interface Ticket {
   status: TicketStatus;
   createdAt: Date;
   headOfficeNote?: string;
-  vitals?: RigVitals;
+  
 }
 
 const CATEGORIES: { value: Category; label: string; icon: React.ReactNode }[] = [
