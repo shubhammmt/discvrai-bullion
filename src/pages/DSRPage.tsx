@@ -1,11 +1,10 @@
 
 import React, { useState, useMemo } from 'react';
-import { Activity, ChevronDown, Calendar as CalendarIcon, Sun, Moon, Plus, Minus, AlertTriangle, Truck, CheckCircle2, Loader2 } from 'lucide-react';
+import { Activity, Calendar as CalendarIcon, Sun, Moon, Plus, Minus, CheckCircle2, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -17,35 +16,27 @@ const DSRPage = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [shift, setShift] = useState<'day' | 'night'>('day');
 
-  // Section 1: Time Accounting
-  const [productive, setProductive] = useState<number>(0);
-  const [logisticsNPT, setLogisticsNPT] = useState<number>(0);
-  const [mechanicalNPT, setMechanicalNPT] = useState<number>(0);
-  const [waitingOther, setWaitingOther] = useState<number>(0);
+  const [productive, setProductive] = useState<string>('0');
+  const [logisticsNPT, setLogisticsNPT] = useState<string>('0');
+  const [mechanicalNPT, setMechanicalNPT] = useState<string>('0');
+  const [waitingOther, setWaitingOther] = useState<string>('0');
 
-  // Section 2: Fuel
-  const [openingStock, setOpeningStock] = useState<number>(0);
-  const [received, setReceived] = useState<number>(0);
-  const [consumed, setConsumed] = useState<number>(0);
+  const [openingStock, setOpeningStock] = useState<string>('0');
+  const [received, setReceived] = useState<string>('0');
+  const [consumed, setConsumed] = useState<string>('0');
 
-  // Section 3: HSE
-  const [toolBoxTalks, setToolBoxTalks] = useState<number>(0);
-  const [nearMisses, setNearMisses] = useState<number>(0);
-  const [totalPersonnel, setTotalPersonnel] = useState<number>(0);
-  const [stopWork, setStopWork] = useState(false);
-  const [stopWorkReason, setStopWorkReason] = useState('');
-
-  // Section 4: Logistics
   const [incomingTrucks, setIncomingTrucks] = useState<number>(0);
   const [outgoingTrucks, setOutgoingTrucks] = useState<number>(0);
   const [urgentRequirements, setUrgentRequirements] = useState('');
 
-  // Submission
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const totalHours = useMemo(() => productive + logisticsNPT + mechanicalNPT + waitingOther, [productive, logisticsNPT, mechanicalNPT, waitingOther]);
-  const closingStock = useMemo(() => openingStock + received - consumed, [openingStock, received, consumed]);
+  const toNum = (s: string) => Number(s) || 0;
+  const closingStock = useMemo(() => toNum(openingStock) + toNum(received) - toNum(consumed), [openingStock, received, consumed]);
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
+  const handleNumChange = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => setter(e.target.value);
 
   const handleSubmit = () => {
     setSubmitting(true);
@@ -81,7 +72,7 @@ const DSRPage = () => {
           <p className="text-slate-400">
             DSR for <span className="text-emerald-400 font-semibold">{format(date, 'PPP')}</span> submitted. Data digitized for Command Center.
           </p>
-          <Button onClick={() => { setSubmitted(false); }} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={() => setSubmitted(false)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
             Submit Another DSR
           </Button>
         </div>
@@ -104,9 +95,7 @@ const DSRPage = () => {
             </div>
           </div>
 
-          {/* Header Inputs */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Rig Selection */}
             <div className="rounded-xl border border-white/10 p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
               <Label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Rig Selection</Label>
               <Select value={selectedRig} onValueChange={setSelectedRig}>
@@ -123,7 +112,6 @@ const DSRPage = () => {
               </Select>
             </div>
 
-            {/* Date Picker */}
             <div className="rounded-xl border border-white/10 p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
               <Label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Date</Label>
               <Popover>
@@ -139,7 +127,6 @@ const DSRPage = () => {
               </Popover>
             </div>
 
-            {/* Shift Toggle */}
             <div className="rounded-xl border border-white/10 p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
               <Label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Shift</Label>
               <div className="flex rounded-lg overflow-hidden border border-white/10">
@@ -164,55 +151,44 @@ const DSRPage = () => {
       {/* Main Content */}
       <div className="max-w-6xl mx-auto p-4 space-y-4">
 
-        {/* Section 1: Time Accounting */}
+        {/* Time Accounting */}
         <div className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">⏱ Time Accounting</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Productive Hours</Label>
-              <Input type="number" min={0} max={24} value={productive} onChange={(e) => setProductive(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={productive} onFocus={handleFocus} onChange={handleNumChange(setProductive)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-amber-400 mb-1 block">Logistics NPT</Label>
-              <Input type="number" min={0} max={24} value={logisticsNPT} onChange={(e) => setLogisticsNPT(Number(e.target.value))} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={logisticsNPT} onFocus={handleFocus} onChange={handleNumChange(setLogisticsNPT)} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-amber-400 mb-1 block">Mechanical NPT</Label>
-              <Input type="number" min={0} max={24} value={mechanicalNPT} onChange={(e) => setMechanicalNPT(Number(e.target.value))} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={mechanicalNPT} onFocus={handleFocus} onChange={handleNumChange(setMechanicalNPT)} className="bg-white/5 border-amber-500/30 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-slate-500 mb-1 block">Waiting / Other</Label>
-              <Input type="number" min={0} max={24} value={waitingOther} onChange={(e) => setWaitingOther(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={waitingOther} onFocus={handleFocus} onChange={handleNumChange(setWaitingOther)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
-          </div>
-          <div className="rounded-xl border border-white/10 p-4 text-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
-            <span className="text-xs text-slate-400 uppercase tracking-wider">Total Hours</span>
-            <div className={cn("text-4xl font-black mt-1", totalHours === 24 ? 'text-emerald-400' : 'text-red-400')}>
-              {totalHours} <span className="text-lg font-normal text-slate-500">/ 24</span>
-            </div>
-            {totalHours !== 24 && (
-              <p className="text-xs text-red-400 mt-1 flex items-center justify-center gap-1">
-                <AlertTriangle className="w-3 h-3" /> Hours must total 24
-              </p>
-            )}
           </div>
         </div>
 
-        {/* Section 2: Fuel & Consumables */}
+        {/* Fuel & Inventory */}
         <div className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">⛽ Fuel & Inventory</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Opening Stock (Liters)</Label>
-              <Input type="number" min={0} value={openingStock} onChange={(e) => setOpeningStock(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={openingStock} onFocus={handleFocus} onChange={handleNumChange(setOpeningStock)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Received Today (Liters)</Label>
-              <Input type="number" min={0} value={received} onChange={(e) => setReceived(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={received} onFocus={handleFocus} onChange={handleNumChange(setReceived)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Consumed Today (Liters)</Label>
-              <Input type="number" min={0} value={consumed} onChange={(e) => setConsumed(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={consumed} onFocus={handleFocus} onChange={handleNumChange(setConsumed)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
           </div>
           <div className="rounded-xl border border-cyan-500/20 p-4 text-center bg-cyan-500/5">
@@ -221,32 +197,7 @@ const DSRPage = () => {
           </div>
         </div>
 
-        {/* Section 3: HSE & Safety */}
-        <div className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">🛡 Safety & Personnel</h2>
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <Counter value={toolBoxTalks} onChange={setToolBoxTalks} label="Tool-Box Talks" color="text-emerald-400" />
-            <Counter value={nearMisses} onChange={setNearMisses} label="Near Misses" color="text-amber-400" />
-            <Counter value={totalPersonnel} onChange={setTotalPersonnel} label="Total Personnel" />
-          </div>
-          <div className="rounded-xl border border-white/10 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className={cn("w-4 h-4", stopWork ? 'text-red-400' : 'text-slate-500')} />
-                <span className={cn("text-sm font-semibold", stopWork ? 'text-red-400' : 'text-slate-400')}>Stop Work Authority</span>
-              </div>
-              <Switch checked={stopWork} onCheckedChange={setStopWork} />
-            </div>
-            {stopWork && (
-              <div className="mt-3">
-                <Label className="text-xs text-red-400 mb-1 block">Detailed Reason</Label>
-                <Textarea value={stopWorkReason} onChange={(e) => setStopWorkReason(e.target.value)} placeholder="Describe the reason for invoking Stop Work Authority..." className="bg-white/5 border-red-500/30 text-white placeholder:text-slate-600 min-h-[80px]" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Section 4: Logistics */}
+        {/* Logistics & Materials */}
         <div className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">🚛 Logistics & Materials</h2>
           <div className="grid grid-cols-2 gap-6 mb-4">
@@ -259,7 +210,7 @@ const DSRPage = () => {
           </div>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <Button onClick={handleSubmit} disabled={submitting} className="w-full h-14 text-lg font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white rounded-xl">
           {submitting ? (
             <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Generating Report...</span>
