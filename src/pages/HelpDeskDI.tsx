@@ -101,39 +101,6 @@ const HelpDeskDI = () => {
   const [lastTicketId, setLastTicketId] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Vitals state
-  const [fuelLevel, setFuelLevel] = useState(65);
-  const [lastServiceDate, setLastServiceDate] = useState<Date | null>(new Date('2026-04-01'));
-  const [machineHours, setMachineHours] = useState('4,280');
-  const [permitsValid, setPermitsValid] = useState(true);
-  const [missingPermitNote, setMissingPermitNote] = useState('');
-  const [vitalsSyncing, setVitalsSyncing] = useState(false);
-  const [vitalsSynced, setVitalsSynced] = useState(false);
-
-  const getCurrentVitals = (): RigVitals => ({
-    fuelLevel,
-    lastServiceDate,
-    machineHours,
-    permitsValid,
-    missingPermitNote,
-  });
-
-  const getFuelColor = (level: number) => {
-    if (level > 50) return '#22C55E';
-    if (level >= 20) return '#F59E0B';
-    return '#EF4444';
-  };
-
-  const handleSyncVitals = () => {
-    setVitalsSyncing(true);
-    setVitalsSynced(false);
-    setTimeout(() => {
-      setVitalsSyncing(false);
-      setVitalsSynced(true);
-      console.log('[Dashboard Sync] Vitals updated:', getCurrentVitals());
-      setTimeout(() => setVitalsSynced(false), 3000);
-    }, 1500);
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
