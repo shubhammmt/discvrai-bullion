@@ -186,18 +186,18 @@ const DSRPage = () => {
         {/* Section 2: Fuel & Consumables */}
         <div className="rounded-2xl border border-white/10 p-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4">⛽ Fuel & Inventory</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Opening Stock (Liters)</Label>
-              <Input type="number" min={0} value={openingStock} onChange={(e) => setOpeningStock(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={openingStock} onFocus={handleFocus} onChange={handleNumChange(setOpeningStock)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Received Today (Liters)</Label>
-              <Input type="number" min={0} value={received} onChange={(e) => setReceived(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={received} onFocus={handleFocus} onChange={handleNumChange(setReceived)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
             <div>
               <Label className="text-xs text-slate-400 mb-1 block">Consumed Today (Liters)</Label>
-              <Input type="number" min={0} value={consumed} onChange={(e) => setConsumed(Number(e.target.value))} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
+              <Input type="number" min={0} value={consumed} onFocus={handleFocus} onChange={handleNumChange(setConsumed)} className="bg-white/5 border-white/10 text-white text-lg font-bold text-center" />
             </div>
           </div>
           <div className="rounded-xl border border-cyan-500/20 p-4 text-center bg-cyan-500/5">
