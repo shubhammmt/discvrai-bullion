@@ -17,22 +17,15 @@ const DSRPage = () => {
   const [shift, setShift] = useState<'day' | 'night'>('day');
 
   // Section 1: Time Accounting
-  const [productive, setProductive] = useState<number>(0);
-  const [logisticsNPT, setLogisticsNPT] = useState<number>(0);
-  const [mechanicalNPT, setMechanicalNPT] = useState<number>(0);
-  const [waitingOther, setWaitingOther] = useState<number>(0);
+  const [productive, setProductive] = useState<string>('0');
+  const [logisticsNPT, setLogisticsNPT] = useState<string>('0');
+  const [mechanicalNPT, setMechanicalNPT] = useState<string>('0');
+  const [waitingOther, setWaitingOther] = useState<string>('0');
 
   // Section 2: Fuel
-  const [openingStock, setOpeningStock] = useState<number>(0);
-  const [received, setReceived] = useState<number>(0);
-  const [consumed, setConsumed] = useState<number>(0);
-
-  // Section 3: HSE
-  const [toolBoxTalks, setToolBoxTalks] = useState<number>(0);
-  const [nearMisses, setNearMisses] = useState<number>(0);
-  const [totalPersonnel, setTotalPersonnel] = useState<number>(0);
-  const [stopWork, setStopWork] = useState(false);
-  const [stopWorkReason, setStopWorkReason] = useState('');
+  const [openingStock, setOpeningStock] = useState<string>('0');
+  const [received, setReceived] = useState<string>('0');
+  const [consumed, setConsumed] = useState<string>('0');
 
   // Section 4: Logistics
   const [incomingTrucks, setIncomingTrucks] = useState<number>(0);
