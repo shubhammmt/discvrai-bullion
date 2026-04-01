@@ -380,6 +380,7 @@ const AppContent = () => {
                 <Route path="/workspace-demo" element={<WorkspaceDemo />} />
                 <Route path="/pitch/diageo" element={<DiageoPitch />} />
                 <Route path="/pitch/ecube" element={<EcubePitch />} />
+                <Route path="/help-desk-DI" element={<HelpDeskDI />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
