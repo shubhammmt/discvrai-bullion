@@ -127,9 +127,7 @@ const HelpDeskDI = () => {
       description: description || 'No description provided',
       status: 'open',
       createdAt: new Date(),
-      vitals: getCurrentVitals(),
     };
-    console.log('[Ticket Raised] Vitals included:', getCurrentVitals());
 
     setTickets([newTicket, ...tickets]);
     setLastTicketId(id);
