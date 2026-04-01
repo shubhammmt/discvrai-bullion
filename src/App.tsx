@@ -218,7 +218,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/ecube' ||
                        location.pathname === '/help-desk-DI' ||
                        location.pathname === '/Pitch-deck' ||
-                       location.pathname === '/DSR';
+                       location.pathname === '/DSR' ||
+                       location.pathname === '/p2p-rfq';
   return (
     <>
       <Routes>
