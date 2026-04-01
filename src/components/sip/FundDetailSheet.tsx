@@ -72,7 +72,7 @@ export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDeta
     const fetchDetails = async () => {
       setLoading(true);
       try {
-        const fundId = fund.code || '10';
+        const fundId = '10';
         const res = await fetch(`https://agentapi.discvr.ai/webhook/fund-details?fund_id=${fundId}`);
         if (res.ok) {
           const data = await res.json();
