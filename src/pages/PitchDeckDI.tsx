@@ -175,7 +175,7 @@ const PitchDeckDI = () => {
           </motion.div>
         ))}
       </div>
-      <a href="/help-desk-DI" target="_blank" rel="noopener noreferrer"
+      <a href="https://lovable.dev/projects/ac6df0d6-7649-4643-99b0-dd4537d0bdcc" target="_blank" rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98] self-start"
         style={{ background: 'rgba(59,130,246,0.12)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)' }}>
         <Radio className="w-4 h-4" /> View Field Portal Mockup <ExternalLink className="w-3.5 h-3.5" />
