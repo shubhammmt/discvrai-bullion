@@ -215,68 +215,68 @@ const Slide2 = () => (
 const Slide3 = () => (
   <div>
     <p className="text-amber-600 text-xs font-semibold uppercase tracking-widest mb-3">Slide 3 of 4</p>
-    <h1 className="text-3xl md:text-4xl font-light text-slate-900 mb-2">
-      Three Execution Options — <span className="text-amber-600 font-medium">Plans A / B / C</span>
-    </h1>
-    <p className="text-slate-500 text-sm mb-8 max-w-3xl">
-      More parallel tracks → more coordination load and higher commercial exposure. Commercials discussed only after scope lock.
-    </p>
+     <h1 className="text-4xl md:text-5xl font-light text-black mb-3">
+       Three Execution Options — <span className="text-amber-600 font-medium">Plans A / B / C</span>
+     </h1>
+     <p className="text-slate-600 text-base mb-8 max-w-4xl">
+       More parallel tracks → more coordination load and higher commercial exposure. Commercials discussed only after scope lock.
+     </p>
 
-    <div className="space-y-4">
-      {[
-        {
-          plan: 'A',
-          label: 'Recommended',
-          badge: 'bg-emerald-100 text-emerald-700',
-          borderColor: 'border-emerald-200',
-          scope: 'One vertical end-to-end (e.g. MIS): scope lock → build → UAT → adoption support',
-          squad: '1 PM + 1 Engineer; add Engineer + QA when build/UAT load warrants',
-          commercials: '₹4–5 Lakhs / month build cost; LLM & infra costs are lightweight on top',
-          tradeoff: 'Lowest delivery and change-risk; establishes pattern for the rest',
-        },
-        {
-          plan: 'B',
-          label: 'Two Tracks',
-          badge: 'bg-amber-100 text-amber-700',
-          borderColor: 'border-amber-200',
-          scope: 'Two tracks in parallel (e.g. MIS + one other), only if SMEs and data are ready',
-          squad: 'Two squads or a scaled squad — structure agreed in planning',
-          commercials: '~₹7–10 Lakhs / month (1.7–2× of Plan A); infrastructure costs scale modestly',
-          tradeoff: 'Faster wall-clock progress only if both streams are truly unblocked',
-        },
-        {
-          plan: 'C',
-          label: 'All Parallel',
-          badge: 'bg-red-100 text-red-700',
-          borderColor: 'border-red-200',
-          scope: 'All tracks in parallel',
-          squad: 'Multiple squads + programme oversight',
-          commercials: 'Heavy on execution — squad costs, coordination overhead, and infra scale significantly; quoted after detailing',
-          tradeoff: 'Only with explicit acceptance of risk and strong internal PMO',
-        },
-      ].map((p) => (
-        <div key={p.plan} className={`bg-white border ${p.borderColor} rounded-xl p-5 shadow-sm`}>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-2xl font-bold text-slate-200">Plan {p.plan}</span>
-            <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${p.badge}`}>{p.label}</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <p className="text-slate-400 text-xs uppercase mb-1">Scope</p>
-              <p className="text-slate-700">{p.scope}</p>
-            </div>
-            <div>
-              <p className="text-slate-400 text-xs uppercase mb-1">Starting Squad</p>
-              <p className="text-slate-700">{p.squad}</p>
-            </div>
-            <div>
-              <p className="text-slate-400 text-xs uppercase mb-1">Indicative Monthly Build Cost</p>
-              <p className="text-slate-700 font-medium">{p.commercials}</p>
-            </div>
-            <div>
-              <p className="text-slate-400 text-xs uppercase mb-1">Trade-off</p>
-              <p className="text-slate-700">{p.tradeoff}</p>
-            </div>
+     <div className="space-y-4">
+       {[
+         {
+           plan: 'A',
+           label: 'Recommended',
+           badge: 'bg-emerald-100 text-emerald-700',
+           borderColor: 'border-emerald-200',
+           scope: 'One vertical end-to-end (e.g. MIS): scope lock → build → UAT → adoption support',
+           squad: '1 PM + 1 Engineer; add Engineer + QA when build/UAT load warrants',
+           commercials: '₹4–5 Lakhs / month build cost; LLM & infra costs are lightweight on top',
+           tradeoff: 'Lowest delivery and change-risk; establishes pattern for the rest',
+         },
+         {
+           plan: 'B',
+           label: 'Two Tracks',
+           badge: 'bg-amber-100 text-amber-700',
+           borderColor: 'border-amber-200',
+           scope: 'Two tracks in parallel (e.g. MIS + one other), only if SMEs and data are ready',
+           squad: 'Two squads or a scaled squad — structure agreed in planning',
+           commercials: '~₹7–10 Lakhs / month (1.7–2× of Plan A); infrastructure costs scale modestly',
+           tradeoff: 'Faster wall-clock progress only if both streams are truly unblocked',
+         },
+         {
+           plan: 'C',
+           label: 'All Parallel',
+           badge: 'bg-red-100 text-red-700',
+           borderColor: 'border-red-200',
+           scope: 'All tracks in parallel',
+           squad: 'Multiple squads + programme oversight',
+           commercials: 'Heavy on execution — squad costs, coordination overhead, and infra scale significantly; quoted after detailing',
+           tradeoff: 'Only with explicit acceptance of risk and strong internal PMO',
+         },
+       ].map((p) => (
+         <div key={p.plan} className={`bg-white border-2 ${p.borderColor} rounded-xl p-5 shadow-sm`}>
+           <div className="flex items-center gap-3 mb-3">
+             <span className="text-3xl font-black text-black">Plan {p.plan}</span>
+             <span className={`text-sm font-semibold px-3 py-1 rounded-full ${p.badge}`}>{p.label}</span>
+           </div>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
+             <div>
+               <p className="text-slate-500 text-xs uppercase font-semibold mb-1">Scope</p>
+               <p className="text-black">{p.scope}</p>
+             </div>
+             <div>
+               <p className="text-slate-500 text-xs uppercase font-semibold mb-1">Starting Squad</p>
+               <p className="text-black">{p.squad}</p>
+             </div>
+             <div>
+               <p className="text-slate-500 text-xs uppercase font-semibold mb-1">Indicative Monthly Build Cost</p>
+               <p className="text-black font-bold">{p.commercials}</p>
+             </div>
+             <div>
+               <p className="text-slate-500 text-xs uppercase font-semibold mb-1">Trade-off</p>
+               <p className="text-black">{p.tradeoff}</p>
+             </div>
           </div>
         </div>
       ))}
