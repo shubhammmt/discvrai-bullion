@@ -318,7 +318,7 @@ const Slide4 = () => (
 
     {/* After */}
     <div className="mb-8">
-      <h3 className="text-sm font-semibold text-emerald-600 uppercase tracking-wider mb-3">After</h3>
+      <h3 className="text-base font-bold text-emerald-700 uppercase tracking-wider mb-3">After</h3>
       <div className="space-y-3">
         {[
           'One governed data path: refresh rules, dashboards + exports, role-aware views.',
