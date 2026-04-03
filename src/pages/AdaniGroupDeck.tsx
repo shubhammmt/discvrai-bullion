@@ -11,18 +11,18 @@ const slides = [
     type: 'title',
     headline: 'Digital + AI that scales with the Group — cement and green, one platform spine',
     subhead: 'Integration-first workflow automation, governed knowledge (RAG), and agentic orchestration on your existing SAP / data / OT landscape — built to repeat across verticals.',
-    kicker: 'Introduced via your team — conversation aligned to CDO priorities for Adani Cement and Adani Green Energy.',
-    microLine: 'Group digital strategy · Operational excellence · Securable, governable AI at production pace',
+    kicker: 'Group digital strategy · Operational excellence · Securable, governable AI at production pace',
+    microLine: 'Conversation aligned to CDO priorities across Adani Group verticals',
   },
   {
     id: 2,
     type: 'why-now',
     title: 'Global cores are fixed; competitive advantage is speed at the edge',
     bullets: [
-      { label: 'Cement', text: 'Unify plant, energy, dispatch, maintenance, and commercial signals into one decision layer — fewer Excel reconciliations, faster exception response.' },
-      { label: 'Green', text: 'Large-project and remote operations amplify latency between telemetry, logistics, and management action — needs closed-loop workflows, not only dashboards.' },
-      { label: 'Group leverage', text: 'Same integration posture (API/file/events), security model, and orchestration patterns — vertical adapters instead of one-off point solutions.' },
-      { label: 'SAP & estates', text: "You're not buying a replacement core here; you need an API-first layer that enriches decisions and feeds systems of record cleanly." },
+      { label: 'Multi-vertical complexity', text: 'Infrastructure, energy, logistics, FMCG, financial services — each vertical runs different stacks, but the need for unified decision-making and exception-first operations is universal.' },
+      { label: 'Edge speed matters', text: 'Global SAP and data programmes set the core; competitive advantage comes from how fast the edge — plants, sites, field ops, channels — can sense, decide, and act.' },
+      { label: 'Group leverage', text: 'Same integration posture (API/file/events), security model, and orchestration patterns — vertical adapters instead of one-off point solutions across any business unit.' },
+      { label: 'SAP & estates', text: "You're not buying a replacement core; you need an API-first intelligence layer that enriches decisions and feeds systems of record cleanly — across every vertical." },
     ],
   },
   {
@@ -52,7 +52,7 @@ const slides = [
     id: 5,
     type: 'clients',
     title: 'Selected references — complex operations & regulated-adjacent environments',
-    intro: 'Representative enterprises; no implied endorsement; no Adani Group entities named as clients; demos available under NDA.',
+    intro: '',
     rows: [
       { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Supply chain analytics, operations intelligence' },
       { client: 'CAMS', domain: 'BFSI / AMC', useCase: 'Distribution, investor analytics' },
@@ -84,12 +84,14 @@ const slides = [
     type: 'group-extension',
     title: 'One spine — vertical adapters; governed scale',
     bullets: [
-      { label: 'Shared foundation', text: 'Identity, roles, audit logs, data residency and deployment choices agreed before scope expansion.' },
-      { label: 'Cement lane', text: 'Maintenance workflows, energy, dispatch / customer service alignment, safety/compliance tasking — SAP-aligned hooks.' },
-      { label: 'Green lane', text: "Project / logistics coordination, document-heavy trade patterns, remote O&M decision support — integrate to existing telemetry and enterprise data." },
-      { label: '90-day pilot', text: 'One sponsor, one end-to-end workflow, KPIs fixed day one (cycle time, manual hours, exception age, quality of decisions).' },
+      { label: 'Shared foundation', text: 'Identity, roles, audit logs, data residency and deployment choices agreed before scope expansion — one governance spine for all verticals.' },
+      { label: 'Infrastructure & industrial', text: 'Cement, ports, mining — maintenance workflows, energy optimisation, dispatch, safety/compliance tasking with SAP-aligned hooks.' },
+      { label: 'Energy & sustainability', text: 'Green energy, transmission, gas — remote O&M decision support, project logistics, regulatory and ESG compliance workflows.' },
+      { label: 'Financial services & FMCG', text: 'Digital journeys, channel analytics, customer lifecycle — agentic workflows for high-volume, regulation-adjacent operations.' },
+      { label: 'Group-wide patterns', text: 'Leadership MIS, knowledge management (RAG), procurement intelligence, HR/workforce analytics — horizontal use cases that repeat across every BU.' },
+      { label: '90-day pilot', text: 'One sponsor, one end-to-end workflow in any vertical, KPIs fixed day one (cycle time, manual hours, exception age, decision quality).' },
     ],
-    quote: "We're built to be the Group's execution intelligence layer — fast in India, measurable, and architecture-friendly.",
+    quote: "We're built to be the Group's execution intelligence layer — any vertical, fast in India, measurable, and architecture-friendly.",
   },
   {
     id: 8,
@@ -105,7 +107,7 @@ const slides = [
       'Repeatable accelerators: connectors, RAG, model routing, orchestration — production in weeks, not quarters.',
     ],
     cta: {
-      primary: '60-minute working session with CDO office + EA — top two workflow pains + one pilot spec (cement or green first; second wave on same spine).',
+      primary: 'Identify one high-impact business use case across any Group vertical — we build a working pilot in 8–10 weeks to prove the platform on your data, your workflows, your KPIs.',
       secondary: 'Architecture alignment on integration points (SAP, data lake, OT interfaces) before build commitments.',
     },
   },
@@ -248,8 +250,7 @@ const ClientsSlide: React.FC = () => {
   const s = slides[4] as any;
   return (
     <SlideWrapper num={5}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-2">{s.title}</h2>
-      <p className="text-sm text-slate-500 mb-5">{s.intro}</p>
+      <h2 className="text-3xl font-bold text-slate-900 mb-5">{s.title}</h2>
       <div className="overflow-auto rounded-xl border border-slate-200 mb-4">
         <table className="w-full text-left text-sm">
           <thead>
