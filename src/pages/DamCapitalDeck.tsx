@@ -173,31 +173,31 @@ const Slide1 = () => (
 const Slide2 = () => (
   <div>
     <p className="text-amber-600 text-xs font-semibold uppercase tracking-widest mb-3">Slide 2 of 4</p>
-    <h1 className="text-3xl md:text-4xl font-light text-slate-900 mb-2">
-      Open Points, <span className="text-amber-600 font-medium">Dependencies & Why Incremental Works</span>
-    </h1>
-    <p className="text-slate-500 text-sm mb-8 max-w-3xl">
-      Execution needs your team's time and clear data; document-heavy flows need targeted POCs.
-    </p>
+     <h1 className="text-4xl md:text-5xl font-light text-black mb-3">
+       Open Points, <span className="text-amber-600 font-medium">Dependencies & Why Incremental Works</span>
+     </h1>
+     <p className="text-slate-600 text-base mb-8 max-w-4xl">
+       Execution needs your team's time and clear data; document-heavy flows need targeted POCs.
+     </p>
 
-    <div className="space-y-6">
-      {[
-        {
-          title: 'Depth of Detailing',
-          desc: 'End-to-end execution for any vertical (MIS, Compliance, HR, Ops, Research, IB) requires 1–2 weeks of focused product + engineering work with business owners — to lock scope, integrations, acceptance criteria, and reporting cut-outs. What we have now is directional scope from past connects; we have not replaced that detailing sprint.',
-        },
-        {
-          title: 'Organisational Dependency',
-          desc: 'Speed and quality depend on direct availability of functional SMEs, IT/data access (exports, APIs, sandbox agreements), and clarity on golden source files (e.g. MF monthly file, ECM master, HR working templates). Poor access or moving definitions inflate timeline and risk.',
-        },
-        {
-          title: 'Document / AI-Heavy Outcomes',
-          desc: 'Where output is mostly extracted or generated from documents (DRHP checks, policy packs, invoice narration mapping, long research PDFs), we need short POCs on real samples to judge extraction quality, human review load, and recurring inference + storage cost — so ROI is credible before scale-up.',
-        },
-      ].map((item) => (
-        <div key={item.title} className="bg-slate-50 border border-slate-200 rounded-xl p-5">
-          <h3 className="font-semibold text-slate-800 mb-2">{item.title}</h3>
-          <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+     <div className="space-y-6">
+       {[
+         {
+           title: 'Depth of Detailing',
+           desc: 'End-to-end execution for any vertical (MIS, Compliance, HR, Ops, Research, IB) requires 1–2 weeks of focused product + engineering work with business owners — to lock scope, integrations, acceptance criteria, and reporting cut-outs. What we have now is directional scope from past connects; we have not replaced that detailing sprint.',
+         },
+         {
+           title: 'Organisational Dependency',
+           desc: 'Speed and quality depend on direct availability of functional SMEs, IT/data access (exports, APIs, sandbox agreements), and clarity on golden source files (e.g. MF monthly file, ECM master, HR working templates). Poor access or moving definitions inflate timeline and risk.',
+         },
+         {
+           title: 'Document / AI-Heavy Outcomes',
+           desc: 'Where output is mostly extracted or generated from documents (DRHP checks, policy packs, invoice narration mapping, long research PDFs), we need short POCs on real samples to judge extraction quality, human review load, and recurring inference + storage cost — so ROI is credible before scale-up.',
+         },
+       ].map((item) => (
+         <div key={item.title} className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+           <h3 className="text-lg font-bold text-black mb-2">{item.title}</h3>
+           <p className="text-base text-slate-700 leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
