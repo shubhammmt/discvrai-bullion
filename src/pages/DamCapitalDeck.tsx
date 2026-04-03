@@ -65,8 +65,8 @@ const DamCapitalDeck: React.FC = () => {
             transition={{ duration: 0.4, ease: 'easeInOut' }}
             className="absolute inset-0 overflow-y-auto"
           >
-            <div className="min-h-full flex items-start justify-center p-8">
-              <div className="w-full max-w-5xl">
+            <div className="min-h-full flex items-start justify-center px-10 py-6">
+              <div className="w-full max-w-6xl">
                 <SlideComponent />
               </div>
             </div>
