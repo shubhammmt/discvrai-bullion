@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Home, Layers, Mail, BarChart3, BookOpen, FileText, ClipboardList, Menu, X
+  Home, Layers, Mail, BarChart3, BookOpen, FileText, ClipboardList, PieChart, Menu, X
 } from 'lucide-react';
 import WorkspaceHome from '@/components/workspace/WorkspaceHome';
 import PlatformLayers from '@/components/workspace/PlatformLayers';
@@ -9,9 +9,10 @@ import MorningMail from '@/components/workspace/MorningMail';
 import ResultsNight from '@/components/workspace/ResultsNight';
 import AnchorBook from '@/components/workspace/AnchorBook';
 import DRHPInvite from '@/components/workspace/DRHPInvite';
+import MISReporting from '@/components/workspace/MISReporting';
 import LineageAudit from '@/components/workspace/LineageAudit';
 
-type Page = 'home' | 'platform-layers' | 'morning-mail' | 'results-night' | 'anchor-book' | 'drhp-invite' | 'lineage-audit';
+type Page = 'home' | 'platform-layers' | 'morning-mail' | 'results-night' | 'anchor-book' | 'drhp-invite' | 'mis-reporting' | 'lineage-audit';
 
 const navItems: { id: Page; label: string; icon: React.FC<any>; group: string }[] = [
   { id: 'home', label: 'Home / Story', icon: Home, group: 'Overview' },
@@ -20,6 +21,7 @@ const navItems: { id: Page; label: string; icon: React.FC<any>; group: string }[
   { id: 'results-night', label: 'Results Night', icon: BarChart3, group: 'Research' },
   { id: 'anchor-book', label: 'Anchor Book', icon: BookOpen, group: 'Investment Banking' },
   { id: 'drhp-invite', label: 'DRHP → Invite', icon: FileText, group: 'Investment Banking' },
+  { id: 'mis-reporting', label: 'MIS — Unified Reporting', icon: PieChart, group: 'MIS' },
   { id: 'lineage-audit', label: 'Lineage & Audit', icon: ClipboardList, group: 'Cross-cutting' },
 ];
 
@@ -27,7 +29,7 @@ const WorkspaceDemo: React.FC = () => {
   const [activePage, setActivePage] = useState<Page>('home');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const groups = ['Overview', 'Research', 'Investment Banking', 'Cross-cutting'];
+  const groups = ['Overview', 'Research', 'Investment Banking', 'MIS', 'Cross-cutting'];
 
   const renderPage = () => {
     switch (activePage) {
@@ -37,6 +39,7 @@ const WorkspaceDemo: React.FC = () => {
       case 'results-night': return <ResultsNight />;
       case 'anchor-book': return <AnchorBook />;
       case 'drhp-invite': return <DRHPInvite />;
+      case 'mis-reporting': return <MISReporting />;
       case 'lineage-audit': return <LineageAudit />;
       default: return <WorkspaceHome onNavigate={(p) => setActivePage(p as Page)} />;
     }

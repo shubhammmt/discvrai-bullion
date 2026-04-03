@@ -59,7 +59,9 @@ const LineageAudit: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      entry.module === 'Research' ? 'bg-blue-50 text-blue-600' : 'bg-emerald-50 text-emerald-600'
+                      entry.module === 'Research' ? 'bg-blue-50 text-blue-600' : 
+                      entry.module === 'MIS' ? 'bg-purple-50 text-purple-600' :
+                      'bg-emerald-50 text-emerald-600'
                     }`}>{entry.module}</span>
                   </TableCell>
                   <TableCell className="text-sm text-ws-text-primary">{entry.user}</TableCell>

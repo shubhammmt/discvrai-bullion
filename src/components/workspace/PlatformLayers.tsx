@@ -15,7 +15,7 @@ const iconMap: Record<string, React.FC<any>> = {
   'shield-check': ShieldCheck,
 };
 
-type Filter = 'all' | 'research' | 'ib';
+type Filter = 'all' | 'research' | 'ib' | 'mis';
 
 const PlatformLayers: React.FC = () => {
   const [filter, setFilter] = useState<Filter>('all');
@@ -32,14 +32,14 @@ const PlatformLayers: React.FC = () => {
           Platform Architecture — <span className="text-ws-gold font-medium">Shared Layers</span>
         </h1>
         <p className="text-ws-text-secondary mb-6">
-          Both Research and IB are built on the same 8 layers. This is why governance, audit, and templates work identically across both businesses.
+        Both Research, IB, and MIS are built on the same 8 layers. This is why governance, audit, and templates work identically across all businesses.
         </p>
       </motion.div>
 
       {/* Filter Toggle */}
       <div className="flex items-center gap-2 mb-8">
         <span className="text-sm text-ws-text-muted mr-2">Highlight layers used by:</span>
-        {(['all', 'research', 'ib'] as Filter[]).map((f) => (
+        {(['all', 'research', 'ib', 'mis'] as Filter[]).map((f) => (
           <Button
             key={f}
             variant={filter === f ? 'default' : 'outline'}
@@ -49,7 +49,7 @@ const PlatformLayers: React.FC = () => {
               ? 'bg-ws-navy text-white hover:bg-ws-navy/90' 
               : 'border-ws-border text-ws-text-secondary hover:bg-ws-surface'}
           >
-            {f === 'all' ? 'Both' : f === 'research' ? 'Research' : 'Investment Banking'}
+            {f === 'all' ? 'All Modules' : f === 'research' ? 'Research' : f === 'ib' ? 'Investment Banking' : 'MIS'}
           </Button>
         ))}
       </div>
@@ -88,10 +88,12 @@ const PlatformLayers: React.FC = () => {
                     className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
                       u === 'research'
                         ? 'bg-blue-50 text-blue-600'
+                        : u === 'mis'
+                        ? 'bg-purple-50 text-purple-600'
                         : 'bg-emerald-50 text-emerald-600'
                     }`}
                   >
-                    {u === 'research' ? 'Research' : 'IB'}
+                    {u === 'research' ? 'Research' : u === 'mis' ? 'MIS' : 'IB'}
                   </span>
                 ))}
               </div>

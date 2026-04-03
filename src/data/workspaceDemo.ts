@@ -124,6 +124,10 @@ export const auditTrail = [
   { id: 12, timestamp: '16:00:00', event: 'Ingest', detail: 'Anchor book — Exchange notice + Sheet1 CSV uploaded', user: 'Meera Joshi', module: 'IB' },
   { id: 13, timestamp: '16:00:28', event: 'Extract', detail: 'CSV parsed: 10 investors, 6 transform rules applied', user: 'System', module: 'IB' },
   { id: 14, timestamp: '16:01:05', event: 'Draft', detail: 'Sheet2 internal format generated with DII/FII classification', user: 'System', module: 'IB' },
+  { id: 15, timestamp: '17:00:00', event: 'Ingest', detail: 'MF monthly holdings file uploaded — 1,240 rows, 45 funds', user: 'Research Ops', module: 'MIS' },
+  { id: 16, timestamp: '17:01:12', event: 'Extract', detail: 'Validated against schema; 3 rows flagged for review', user: 'System', module: 'MIS' },
+  { id: 17, timestamp: '17:05:30', event: 'Draft', detail: 'Dashboard version v14.2 published — MoM deltas computed', user: 'System', module: 'MIS' },
+  { id: 18, timestamp: '17:10:00', event: 'Approve', detail: 'ECM weekly banker cut approved for distribution', user: 'Sanjay Gupta (MD, IB)', module: 'MIS' },
 ];
 
 export const platformLayers = [
@@ -131,21 +135,21 @@ export const platformLayers = [
     id: 'P1',
     name: 'Secure Store',
     description: 'All documents live in one encrypted, access-controlled vault — no more scattered folders or email attachments.',
-    usedBy: ['research', 'ib'] as const,
+    usedBy: ['research', 'ib', 'mis'] as const,
     icon: 'database' as const,
   },
   {
     id: 'P2',
     name: 'Document Extraction',
     description: 'PDFs, Excel files and notices are automatically read and structured — no more copy-pasting from 500-page documents.',
-    usedBy: ['research', 'ib'] as const,
+    usedBy: ['research', 'ib', 'mis'] as const,
     icon: 'file-scan' as const,
   },
   {
     id: 'P3',
     name: 'Templates & Schemas',
-    description: 'Every output follows your house format — morning mails, investor invites, anchor books all use consistent templates.',
-    usedBy: ['research', 'ib'] as const,
+    description: 'Every output follows your house format — morning mails, investor invites, anchor books, and MIS dashboards all use consistent templates.',
+    usedBy: ['research', 'ib', 'mis'] as const,
     icon: 'layout-template' as const,
   },
   {
@@ -166,21 +170,21 @@ export const platformLayers = [
     id: 'P6',
     name: 'Workflow & Approvals',
     description: 'Nothing goes out without human sign-off. Every draft moves through review → approve → send.',
-    usedBy: ['research', 'ib'] as const,
+    usedBy: ['research', 'ib', 'mis'] as const,
     icon: 'git-branch' as const,
   },
   {
     id: 'P7',
     name: 'Connectors',
     description: 'Upload files today; connect to Bloomberg, Reuters, BSE feeds tomorrow — same platform, more automation over time.',
-    usedBy: ['research', 'ib'] as const,
+    usedBy: ['research', 'ib', 'mis'] as const,
     icon: 'plug' as const,
   },
   {
     id: 'P8',
     name: 'Audit & Access Control',
     description: 'Every action is logged — who accessed what, when, and why. RBI and SEBI audit-ready from day one.',
-    usedBy: ['research', 'ib'] as const,
+    usedBy: ['research', 'ib', 'mis'] as const,
     icon: 'shield-check' as const,
   },
 ];

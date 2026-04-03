@@ -15,6 +15,7 @@ const asIsItems = [
   'Anchor book built by copy-pasting from exchange notices',
   'No audit trail — "who changed what" is unknowable',
   'Files scattered across email, shared drives, WhatsApp',
+  'Excel MIS silos — ECM master manually forked per stakeholder',
 ];
 
 const targetItems = [
@@ -23,7 +24,8 @@ const targetItems = [
   'Human approver always in the loop — nothing auto-sends',
   'Every data point traceable to its source document',
   'Complete audit lineage — every action logged',
-  'One platform for Research AND Investment Banking',
+  'One platform for Research, Investment Banking, AND MIS',
+  'Canonical MIS + role-based dashboards replace manual cuts',
   'From 70 minutes to 15 minutes for morning mail',
 ];
 
@@ -32,7 +34,8 @@ const demoBeats = [
   { id: 'results-night', label: 'Results Night', module: 'Research', desc: 'PDF extraction → structured grid with confidence scores' },
   { id: 'anchor-book', label: 'Anchor Book', module: 'IB', desc: 'Exchange notice → internal format, automatically' },
   { id: 'drhp-invite', label: 'DRHP → Invite', module: 'IB', desc: '500-page doc → 1-page investor invite with citations' },
-  { id: 'platform-layers', label: 'Platform Layers', module: 'Shared', desc: '8 building blocks powering both businesses' },
+  { id: 'mis-reporting', label: 'MIS — Unified Reporting', module: 'MIS', desc: 'Sources → canonical metrics → role dashboards' },
+  { id: 'platform-layers', label: 'Platform Layers', module: 'Shared', desc: '8 building blocks powering all three businesses' },
   { id: 'lineage-audit', label: 'Lineage & Audit', module: 'Cross-cutting', desc: 'Every action logged, every source traced' },
 ];
 
@@ -46,10 +49,10 @@ const WorkspaceHome: React.FC<WorkspaceHomeProps> = ({ onNavigate }) => {
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-light text-ws-text-primary mb-3">
-          One platform. Two businesses. <span className="text-ws-gold font-medium">Same governance.</span>
+          One platform. Research, IB, and MIS. <span className="text-ws-gold font-medium">Same governance.</span>
         </h1>
         <p className="text-lg text-ws-text-secondary max-w-2xl mx-auto">
-          See how Research and Investment Banking teams move from fragmented manual work 
+          See how Research, Investment Banking, and MIS teams move from fragmented manual work 
           to a unified, auditable, AI-assisted workspace.
         </p>
       </motion.div>
