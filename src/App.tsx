@@ -174,6 +174,7 @@ import P2PRfqDeck from './pages/P2PRfqDeck';
 import DamCapitalDeck from './pages/DamCapitalDeck';
 import MISDashboard from './pages/MISDashboard';
 import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
+import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -225,7 +226,8 @@ const AppContent = () => {
                        location.pathname === '/p2p-rfq' ||
                        location.pathname === '/dam-capital-deck' ||
                        location.pathname === '/mis-dashboard' ||
-                       location.pathname === '/pitch/diageo-india';
+                       location.pathname === '/pitch/diageo-india' ||
+                       location.pathname === '/pitch/chitale-bandhu';
   return (
     <>
       <Routes>
@@ -399,6 +401,7 @@ const AppContent = () => {
                  <Route path="/dam-capital-deck" element={<DamCapitalDeck />} />
                  <Route path="/mis-dashboard" element={<MISDashboard />} />
                  <Route path="/pitch/diageo-india" element={<DiageoIndiaDeck />} />
+                 <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
