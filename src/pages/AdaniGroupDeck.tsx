@@ -12,7 +12,7 @@ const slides = [
     headline: 'Digital + AI that scales with the Group — cement and green, one platform spine',
     subhead: 'Integration-first workflow automation, governed knowledge (RAG), and agentic orchestration on your existing SAP / data / OT landscape — built to repeat across verticals.',
     kicker: 'Group digital strategy · Operational excellence · Securable, governable AI at production pace',
-    microLine: 'Group digital strategy · Operational excellence · Securable, governable AI at production pace',
+    microLine: 'Conversation aligned to CDO priorities across Adani Group verticals',
   },
   {
     id: 2,
