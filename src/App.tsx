@@ -171,6 +171,7 @@ import HelpDeskDI from './pages/HelpDeskDI';
 import PitchDeckDI from './pages/PitchDeckDI';
 import DSRPage from './pages/DSRPage';
 import P2PRfqDeck from './pages/P2PRfqDeck';
+import DamCapitalDeck from './pages/DamCapitalDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
