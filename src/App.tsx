@@ -222,7 +222,8 @@ const AppContent = () => {
                        location.pathname === '/Pitch-deck' ||
                        location.pathname === '/DSR' ||
                        location.pathname === '/p2p-rfq' ||
-                       location.pathname === '/dam-capital-deck';
+                       location.pathname === '/dam-capital-deck' ||
+                       location.pathname === '/mis-dashboard';
   return (
     <>
       <Routes>
