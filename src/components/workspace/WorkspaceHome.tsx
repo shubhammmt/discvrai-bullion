@@ -49,7 +49,7 @@ const WorkspaceHome: React.FC<WorkspaceHomeProps> = ({ onNavigate }) => {
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-light text-ws-text-primary mb-3">
-          One platform. Two businesses. <span className="text-ws-gold font-medium">Same governance.</span>
+          One platform. Research, IB, and MIS. <span className="text-ws-gold font-medium">Same governance.</span>
         </h1>
         <p className="text-lg text-ws-text-secondary max-w-2xl mx-auto">
           See how Research and Investment Banking teams move from fragmented manual work 
