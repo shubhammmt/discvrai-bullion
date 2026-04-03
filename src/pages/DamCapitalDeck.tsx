@@ -334,8 +334,8 @@ const Slide4 = () => (
     </div>
 
     {/* The Ask */}
-    <div className="bg-amber-50 border border-amber-300 rounded-xl p-6">
-      <h3 className="text-lg font-semibold text-amber-700 mb-4">The Ask</h3>
+     <div className="bg-amber-50 border border-amber-300 rounded-xl p-6">
+       <h3 className="text-xl font-bold text-amber-800 mb-4">The Ask</h3>
       <div className="space-y-3">
         {[
           'Confirm Plan A with MIS as the first end-to-end vertical — or name an alternative first vertical.',
