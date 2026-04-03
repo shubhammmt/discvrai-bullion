@@ -58,9 +58,13 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const userId = authUser?.id || HARDCODED_USER_ID;
 
   useEffect(() => {
-    const userId = authUser?.id || HARDCODED_USER_ID;
     setLoading(true);
     setError(null);
     fetch(`https://agentapi.discvr.ai/webhook/get-user-profile?user_id=${userId}`)
@@ -74,10 +78,48 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
       })
       .catch(() => setError('Network error'))
       .finally(() => setLoading(false));
-  }, [authUser?.id]);
+  }, [userId]);
 
   const toggleReveal = (key: string) => {
     setRevealed(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const startEdit = (field: string, currentValue: string) => {
+    setEditingField(field);
+    setEditValue(currentValue);
+  };
+
+  const cancelEdit = () => {
+    setEditingField(null);
+    setEditValue('');
+  };
+
+  const saveEdit = async () => {
+    if (!editingField || !editValue.trim()) return;
+    setSaving(true);
+    try {
+      const payload: Record<string, string> = {
+        user_id: userId,
+        [editingField]: editValue.trim(),
+      };
+      const res = await fetch('https://agentapi.discvr.ai/webhook/update-user-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setProfile(prev => prev ? { ...prev, [editingField]: editValue.trim() } : prev);
+        toast.success(`${editingField === 'name' ? 'Name' : 'Email'} updated successfully`);
+        cancelEdit();
+      } else {
+        toast.error(data?.message || 'Failed to update');
+      }
+    } catch {
+      toast.error('Network error while updating');
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
