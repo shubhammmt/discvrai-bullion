@@ -52,7 +52,7 @@ const WorkspaceHome: React.FC<WorkspaceHomeProps> = ({ onNavigate }) => {
           One platform. Research, IB, and MIS. <span className="text-ws-gold font-medium">Same governance.</span>
         </h1>
         <p className="text-lg text-ws-text-secondary max-w-2xl mx-auto">
-          See how Research and Investment Banking teams move from fragmented manual work 
+          See how Research, Investment Banking, and MIS teams move from fragmented manual work 
           to a unified, auditable, AI-assisted workspace.
         </p>
       </motion.div>
