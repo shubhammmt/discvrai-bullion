@@ -175,6 +175,7 @@ import DamCapitalDeck from './pages/DamCapitalDeck';
 import MISDashboard from './pages/MISDashboard';
 import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
 import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
+import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
