@@ -52,7 +52,7 @@ const slides = [
     id: 5,
     type: 'clients',
     title: 'Selected references — complex operations & regulated-adjacent environments',
-    intro: 'Representative enterprises; no implied endorsement; no Adani Group entities named as clients; demos available under NDA.',
+    intro: '',
     rows: [
       { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Supply chain analytics, operations intelligence' },
       { client: 'CAMS', domain: 'BFSI / AMC', useCase: 'Distribution, investor analytics' },
