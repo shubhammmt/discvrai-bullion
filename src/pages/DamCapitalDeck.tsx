@@ -292,25 +292,25 @@ const Slide3 = () => (
 const Slide4 = () => (
   <div>
     <p className="text-amber-600 text-xs font-semibold uppercase tracking-widest mb-3">Slide 4 of 4</p>
-    <h1 className="text-3xl md:text-4xl font-light text-slate-900 mb-2">
-      MIS as the First Vertical — <span className="text-amber-600 font-medium">Before → After</span>
-    </h1>
-    <p className="text-slate-500 text-sm mb-8 max-w-3xl">
-      MIS is a strong first vertical — visible ROI, touches Research + Sales + ECM, and still fits the shared platform layers P1–P8.
-    </p>
+     <h1 className="text-4xl md:text-5xl font-light text-black mb-3">
+       MIS as the First Vertical — <span className="text-amber-600 font-medium">Before → After</span>
+     </h1>
+     <p className="text-slate-600 text-base mb-8 max-w-4xl">
+       MIS is a strong first vertical — visible ROI, touches Research + Sales + ECM, and still fits the shared platform layers P1–P8.
+     </p>
 
-    {/* Before */}
-    <div className="mb-6">
-      <h3 className="text-sm font-semibold text-red-600 uppercase tracking-wider mb-3">Before</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {[
-          { area: 'MF Holdings', pain: 'Excel-centric; hard to slice fund / manager / scheme consistently; MoM positioning and narratives are manual.' },
-          { area: 'Sales & Events', pain: 'Data in portals + CRM + DAM Connect but no unified analysis; post-event insight is thin.' },
-          { area: 'ECM Master', pain: 'Master MIS file feeds everything but custom cuts are manual — slow, inconsistent.' },
-        ].map((b) => (
-          <div key={b.area} className="bg-red-50 border border-red-200 rounded-xl p-4">
-            <p className="text-sm font-semibold text-red-700 mb-1">{b.area}</p>
-            <p className="text-xs text-slate-600">{b.pain}</p>
+     {/* Before */}
+     <div className="mb-6">
+       <h3 className="text-base font-bold text-red-700 uppercase tracking-wider mb-3">Before</h3>
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+         {[
+           { area: 'MF Holdings', pain: 'Excel-centric; hard to slice fund / manager / scheme consistently; MoM positioning and narratives are manual.' },
+           { area: 'Sales & Events', pain: 'Data in portals + CRM + DAM Connect but no unified analysis; post-event insight is thin.' },
+           { area: 'ECM Master', pain: 'Master MIS file feeds everything but custom cuts are manual — slow, inconsistent.' },
+         ].map((b) => (
+           <div key={b.area} className="bg-red-50 border border-red-200 rounded-xl p-4">
+             <p className="text-base font-bold text-red-800 mb-1">{b.area}</p>
+             <p className="text-sm text-slate-700">{b.pain}</p>
           </div>
         ))}
       </div>
