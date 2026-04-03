@@ -327,7 +327,7 @@ const Slide4 = () => (
         ].map((item, i) => (
           <div key={i} className="flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
             <CheckCircle className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-            <p className="text-sm text-slate-700">{item}</p>
+            <p className="text-base text-black">{item}</p>
           </div>
         ))}
       </div>
