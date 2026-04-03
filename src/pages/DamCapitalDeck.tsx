@@ -202,10 +202,10 @@ const Slide2 = () => (
       ))}
     </div>
 
-    <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-5">
-      <p className="text-sm text-amber-700">
-        <strong>Bottom line:</strong> An incremental path (one thing at a time, validated) reduces simultaneous unknowns 
-        and avoids locking large spend before behaviour is proven.
+     <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-5">
+       <p className="text-base text-amber-800 font-medium">
+         <strong>Bottom line:</strong> An incremental path (one thing at a time, validated) reduces simultaneous unknowns 
+         and avoids locking large spend before behaviour is proven.
       </p>
     </div>
   </div>
