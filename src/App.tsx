@@ -174,6 +174,7 @@ import P2PRfqDeck from './pages/P2PRfqDeck';
 import DamCapitalDeck from './pages/DamCapitalDeck';
 import MISDashboard from './pages/MISDashboard';
 import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
+import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
