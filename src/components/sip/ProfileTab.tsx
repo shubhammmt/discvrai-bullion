@@ -143,7 +143,7 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
   const userEmail = profile.email || '';
   const pan = profile.pan || '';
   const aadhaar = profile.aadhaar || '';
-  const userId = profile.user_id;
+  const profileUserId = profile.user_id;
   const isKycDone = profile.kyc_status === 'kycRestrictedComplete';
   const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
