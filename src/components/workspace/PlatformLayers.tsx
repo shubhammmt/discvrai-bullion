@@ -88,10 +88,12 @@ const PlatformLayers: React.FC = () => {
                     className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
                       u === 'research'
                         ? 'bg-blue-50 text-blue-600'
+                        : u === 'mis'
+                        ? 'bg-purple-50 text-purple-600'
                         : 'bg-emerald-50 text-emerald-600'
                     }`}
                   >
-                    {u === 'research' ? 'Research' : 'IB'}
+                    {u === 'research' ? 'Research' : u === 'mis' ? 'MIS' : 'IB'}
                   </span>
                 ))}
               </div>
