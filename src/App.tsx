@@ -228,7 +228,8 @@ const AppContent = () => {
                        location.pathname === '/dam-capital-deck' ||
                        location.pathname === '/mis-dashboard' ||
                        location.pathname === '/pitch/diageo-india' ||
-                       location.pathname === '/pitch/chitale-bandhu';
+                        location.pathname === '/pitch/chitale-bandhu' ||
+                        location.pathname === '/pitch/adani-group';
   return (
     <>
       <Routes>
