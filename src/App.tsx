@@ -401,6 +401,7 @@ const AppContent = () => {
                  <Route path="/dam-capital-deck" element={<DamCapitalDeck />} />
                  <Route path="/mis-dashboard" element={<MISDashboard />} />
                  <Route path="/pitch/diageo-india" element={<DiageoIndiaDeck />} />
+                 <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
