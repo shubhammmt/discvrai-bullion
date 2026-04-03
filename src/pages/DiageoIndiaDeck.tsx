@@ -367,7 +367,6 @@ const DiageoIndiaDeck: React.FC = () => {
             style={{
               background: i === current ? ACCENT : 'rgba(255,255,255,0.2)',
               transform: i === current ? 'scale(1.4)' : 'scale(1)',
-              ringOffsetColor: NAVY,
             }}
             aria-label={`Go to slide ${i + 1}`}
           />
