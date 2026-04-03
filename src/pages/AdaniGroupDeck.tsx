@@ -64,7 +64,7 @@ const slides = [
       { client: 'Deep Industries', domain: 'Oil & Gas (field services)', useCase: 'Operations analytics, asset reliability, ESG / emissions visibility' },
       { client: 'Aptech', domain: 'Education', useCase: 'AI career counsellor, enrollment' },
     ],
-    footnote: 'Cement / industrial and energy / field-ops patterns inform how we'd adapter-map to your estates — without naming any group company as a reference client.',
+    footnote: "Cement / industrial and energy / field-ops patterns inform how we'd adapter-map to your estates — without naming any group company as a reference client.",
   },
   {
     id: 6,
