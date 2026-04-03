@@ -15,7 +15,7 @@ const iconMap: Record<string, React.FC<any>> = {
   'shield-check': ShieldCheck,
 };
 
-type Filter = 'all' | 'research' | 'ib';
+type Filter = 'all' | 'research' | 'ib' | 'mis';
 
 const PlatformLayers: React.FC = () => {
   const [filter, setFilter] = useState<Filter>('all');
