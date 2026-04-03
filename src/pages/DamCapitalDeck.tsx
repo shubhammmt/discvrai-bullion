@@ -152,15 +152,15 @@ const Slide1 = () => (
       ))}
     </div>
 
-    <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
-      <div className="flex items-center gap-2 mb-2">
-        <Users className="w-4 h-4 text-amber-600" />
-        <h4 className="text-sm font-semibold text-slate-700">Change Management</h4>
-      </div>
-      <p className="text-sm text-slate-500">
-        New dashboards and exports change daily habits. Budget training, hypercare, and iteration after go-live; 
-        teams often request UX and logic tweaks once they use the system — that work is normal and should be planned, not treated as scope failure.
-      </p>
+     <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+       <div className="flex items-center gap-2 mb-2">
+         <Users className="w-4 h-4 text-amber-600" />
+         <h4 className="text-base font-bold text-black">Change Management</h4>
+       </div>
+       <p className="text-base text-slate-700">
+         New dashboards and exports change daily habits. Budget training, hypercare, and iteration after go-live; 
+         teams often request UX and logic tweaks once they use the system — that work is normal and should be planned, not treated as scope failure.
+       </p>
     </div>
 
     <p className="text-xs text-slate-400 mt-6 italic">
