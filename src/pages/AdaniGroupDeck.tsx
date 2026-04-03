@@ -19,10 +19,10 @@ const slides = [
     type: 'why-now',
     title: 'Global cores are fixed; competitive advantage is speed at the edge',
     bullets: [
-      { label: 'Cement', text: 'Unify plant, energy, dispatch, maintenance, and commercial signals into one decision layer — fewer Excel reconciliations, faster exception response.' },
-      { label: 'Green', text: 'Large-project and remote operations amplify latency between telemetry, logistics, and management action — needs closed-loop workflows, not only dashboards.' },
-      { label: 'Group leverage', text: 'Same integration posture (API/file/events), security model, and orchestration patterns — vertical adapters instead of one-off point solutions.' },
-      { label: 'SAP & estates', text: "You're not buying a replacement core here; you need an API-first layer that enriches decisions and feeds systems of record cleanly." },
+      { label: 'Multi-vertical complexity', text: 'Infrastructure, energy, logistics, FMCG, financial services — each vertical runs different stacks, but the need for unified decision-making and exception-first operations is universal.' },
+      { label: 'Edge speed matters', text: 'Global SAP and data programmes set the core; competitive advantage comes from how fast the edge — plants, sites, field ops, channels — can sense, decide, and act.' },
+      { label: 'Group leverage', text: 'Same integration posture (API/file/events), security model, and orchestration patterns — vertical adapters instead of one-off point solutions across any business unit.' },
+      { label: 'SAP & estates', text: "You're not buying a replacement core; you need an API-first intelligence layer that enriches decisions and feeds systems of record cleanly — across every vertical." },
     ],
   },
   {
