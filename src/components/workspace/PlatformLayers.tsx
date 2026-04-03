@@ -32,7 +32,7 @@ const PlatformLayers: React.FC = () => {
           Platform Architecture — <span className="text-ws-gold font-medium">Shared Layers</span>
         </h1>
         <p className="text-ws-text-secondary mb-6">
-          Both Research and IB are built on the same 8 layers. This is why governance, audit, and templates work identically across both businesses.
+        Both Research, IB, and MIS are built on the same 8 layers. This is why governance, audit, and templates work identically across all businesses.
         </p>
       </motion.div>
 
