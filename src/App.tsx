@@ -175,6 +175,7 @@ import DamCapitalDeck from './pages/DamCapitalDeck';
 import MISDashboard from './pages/MISDashboard';
 import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
 import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
+import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -227,7 +228,8 @@ const AppContent = () => {
                        location.pathname === '/dam-capital-deck' ||
                        location.pathname === '/mis-dashboard' ||
                        location.pathname === '/pitch/diageo-india' ||
-                       location.pathname === '/pitch/chitale-bandhu';
+                        location.pathname === '/pitch/chitale-bandhu' ||
+                        location.pathname === '/pitch/adani-group';
   return (
     <>
       <Routes>
@@ -401,7 +403,8 @@ const AppContent = () => {
                  <Route path="/dam-capital-deck" element={<DamCapitalDeck />} />
                  <Route path="/mis-dashboard" element={<MISDashboard />} />
                  <Route path="/pitch/diageo-india" element={<DiageoIndiaDeck />} />
-                 <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
+                  <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
+                  <Route path="/pitch/adani-group" element={<AdaniGroupDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
