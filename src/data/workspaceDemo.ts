@@ -124,6 +124,10 @@ export const auditTrail = [
   { id: 12, timestamp: '16:00:00', event: 'Ingest', detail: 'Anchor book — Exchange notice + Sheet1 CSV uploaded', user: 'Meera Joshi', module: 'IB' },
   { id: 13, timestamp: '16:00:28', event: 'Extract', detail: 'CSV parsed: 10 investors, 6 transform rules applied', user: 'System', module: 'IB' },
   { id: 14, timestamp: '16:01:05', event: 'Draft', detail: 'Sheet2 internal format generated with DII/FII classification', user: 'System', module: 'IB' },
+  { id: 15, timestamp: '17:00:00', event: 'Ingest', detail: 'MF monthly holdings file uploaded — 1,240 rows, 45 funds', user: 'Research Ops', module: 'MIS' },
+  { id: 16, timestamp: '17:01:12', event: 'Extract', detail: 'Validated against schema; 3 rows flagged for review', user: 'System', module: 'MIS' },
+  { id: 17, timestamp: '17:05:30', event: 'Draft', detail: 'Dashboard version v14.2 published — MoM deltas computed', user: 'System', module: 'MIS' },
+  { id: 18, timestamp: '17:10:00', event: 'Approve', detail: 'ECM weekly banker cut approved for distribution', user: 'Sanjay Gupta (MD, IB)', module: 'MIS' },
 ];
 
 export const platformLayers = [
