@@ -107,7 +107,7 @@ const slides = [
       'Repeatable accelerators: connectors, RAG, model routing, orchestration — production in weeks, not quarters.',
     ],
     cta: {
-      primary: '60-minute working session with CDO office + EA — top two workflow pains + one pilot spec (cement or green first; second wave on same spine).',
+      primary: 'Identify one high-impact business use case across any Group vertical — we build a working pilot in 8–10 weeks to prove the platform on your data, your workflows, your KPIs.',
       secondary: 'Architecture alignment on integration points (SAP, data lake, OT interfaces) before build commitments.',
     },
   },
