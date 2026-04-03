@@ -391,7 +391,8 @@ const AppContent = () => {
                 <Route path="/help-desk-DI" element={<HelpDeskDI />} />
                 <Route path="/Pitch-deck" element={<PitchDeckDI />} />
                 <Route path="/DSR" element={<DSRPage />} />
-                <Route path="/p2p-rfq" element={<P2PRfqDeck />} />
+                 <Route path="/p2p-rfq" element={<P2PRfqDeck />} />
+                 <Route path="/dam-capital-deck" element={<DamCapitalDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
