@@ -172,6 +172,7 @@ import PitchDeckDI from './pages/PitchDeckDI';
 import DSRPage from './pages/DSRPage';
 import P2PRfqDeck from './pages/P2PRfqDeck';
 import DamCapitalDeck from './pages/DamCapitalDeck';
+import MISDashboard from './pages/MISDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
