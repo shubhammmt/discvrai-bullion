@@ -147,7 +147,7 @@ const Slide1 = () => (
             <item.icon className={`w-5 h-5 ${item.color}`} />
             <h3 className={`font-semibold ${item.color}`}>{item.pillar}</h3>
           </div>
-          <p className="text-sm text-slate-600 leading-relaxed">{item.detail}</p>
+          <p className="text-base text-slate-700 leading-relaxed">{item.detail}</p>
         </div>
       ))}
     </div>
