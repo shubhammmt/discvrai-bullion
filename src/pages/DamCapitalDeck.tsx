@@ -108,12 +108,12 @@ const DamCapitalDeck: React.FC = () => {
 const Slide1 = () => (
   <div>
     <p className="text-amber-600 text-xs font-semibold uppercase tracking-widest mb-3">Slide 1 of 4</p>
-    <h1 className="text-3xl md:text-4xl font-light text-slate-900 mb-2">
-      Decision Frame: <span className="text-amber-600 font-medium">Risk, Timeline & Commercials</span>
-    </h1>
-    <p className="text-slate-500 text-sm mb-8 max-w-3xl">
-      How we proceed is a trade-off across risk, timeline, and commercials — we do not commit a fixed end date until scope is locked with your teams and data paths are clear.
-    </p>
+     <h1 className="text-4xl md:text-5xl font-light text-black mb-3">
+       Decision Frame: <span className="text-amber-600 font-medium">Risk, Timeline & Commercials</span>
+     </h1>
+     <p className="text-slate-600 text-base mb-8 max-w-4xl">
+       How we proceed is a trade-off across risk, timeline, and commercials — we do not commit a fixed end date until scope is locked with your teams and data paths are clear.
+     </p>
 
     <div className="space-y-4 mb-8">
       {[
