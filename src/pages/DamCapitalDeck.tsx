@@ -344,7 +344,7 @@ const Slide4 = () => (
         ].map((ask, i) => (
           <div key={i} className="flex items-start gap-3">
             <ArrowRight className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-            <p className="text-sm text-slate-700">{ask}</p>
+            <p className="text-base text-black font-medium">{ask}</p>
           </div>
         ))}
       </div>
