@@ -39,7 +39,7 @@ const PlatformLayers: React.FC = () => {
       {/* Filter Toggle */}
       <div className="flex items-center gap-2 mb-8">
         <span className="text-sm text-ws-text-muted mr-2">Highlight layers used by:</span>
-        {(['all', 'research', 'ib'] as Filter[]).map((f) => (
+        {(['all', 'research', 'ib', 'mis'] as Filter[]).map((f) => (
           <Button
             key={f}
             variant={filter === f ? 'default' : 'outline'}
@@ -49,7 +49,7 @@ const PlatformLayers: React.FC = () => {
               ? 'bg-ws-navy text-white hover:bg-ws-navy/90' 
               : 'border-ws-border text-ws-text-secondary hover:bg-ws-surface'}
           >
-            {f === 'all' ? 'Both' : f === 'research' ? 'Research' : 'Investment Banking'}
+            {f === 'all' ? 'All Modules' : f === 'research' ? 'Research' : f === 'ib' ? 'Investment Banking' : 'MIS'}
           </Button>
         ))}
       </div>
