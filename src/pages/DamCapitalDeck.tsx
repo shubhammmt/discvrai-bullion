@@ -143,9 +143,9 @@ const Slide1 = () => (
         },
       ].map((item) => (
         <div key={item.pillar} className={`${item.bg} border ${item.border} rounded-xl p-5`}>
-          <div className="flex items-center gap-3 mb-2">
-            <item.icon className={`w-5 h-5 ${item.color}`} />
-            <h3 className={`font-semibold ${item.color}`}>{item.pillar}</h3>
+           <div className="flex items-center gap-3 mb-2">
+             <item.icon className={`w-5 h-5 ${item.color}`} />
+             <h3 className={`text-lg font-bold ${item.color}`}>{item.pillar}</h3>
           </div>
           <p className="text-base text-slate-700 leading-relaxed">{item.detail}</p>
         </div>
