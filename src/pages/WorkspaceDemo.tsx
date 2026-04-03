@@ -39,6 +39,7 @@ const WorkspaceDemo: React.FC = () => {
       case 'results-night': return <ResultsNight />;
       case 'anchor-book': return <AnchorBook />;
       case 'drhp-invite': return <DRHPInvite />;
+      case 'mis-reporting': return <MISReporting />;
       case 'lineage-audit': return <LineageAudit />;
       default: return <WorkspaceHome onNavigate={(p) => setActivePage(p as Page)} />;
     }
