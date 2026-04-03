@@ -3,13 +3,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
 import {
   User, Phone, Mail, Shield, CreditCard, Fingerprint,
   Eye, EyeOff, CheckCircle2, LogOut, Loader2, Sun, Moon,
+  Pencil, Check, X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AuthUser } from './OTPLoginDialog';
 import { API_CONFIG } from '@/config/api';
+import { toast } from 'sonner';
 
 interface ProfileTabProps {
   authUser: AuthUser | null;
