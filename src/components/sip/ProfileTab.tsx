@@ -147,16 +147,18 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
   const isKycDone = profile.kyc_status === 'kycRestrictedComplete';
   const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
+  const editable = new Set(['name', 'email']);
+
   const detailRows = [
     { key: 'name', icon: User, label: 'FULL NAME', value: userName, maskable: false },
     ...(userPhone ? [{
       key: 'phone', icon: Phone, label: 'PHONE', value: userPhone,
       maskedValue: maskPhone(userPhone), maskable: true,
     }] : []),
-    ...(userEmail ? [{
-      key: 'email', icon: Mail, label: 'EMAIL', value: userEmail,
-      maskedValue: maskEmail(userEmail), maskable: true,
-    }] : []),
+    {
+      key: 'email', icon: Mail, label: 'EMAIL', value: userEmail || '',
+      maskedValue: userEmail ? maskEmail(userEmail) : '', maskable: !!userEmail,
+    },
     ...(pan ? [{
       key: 'pan', icon: CreditCard, label: 'PAN NUMBER', value: pan,
       maskedValue: maskPAN(pan), maskable: true,
@@ -165,7 +167,7 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
       key: 'aadhaar', icon: Fingerprint, label: 'AADHAAR NUMBER', value: aadhaar,
       maskedValue: maskAadhaar(aadhaar), maskable: true,
     }] : []),
-    { key: 'userId', icon: Shield, label: 'USER ID', value: userId, maskable: false },
+    { key: 'userId', icon: Shield, label: 'USER ID', value: profileUserId, maskable: false },
   ];
 
   return (
@@ -196,31 +198,70 @@ export function ProfileTab({ authUser, onLogout }: ProfileTabProps) {
           </p>
           {detailRows.map((row, i) => (
             <div key={row.key}>
-              <div className="flex items-center justify-between py-3">
-                <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between py-3 gap-2">
+                <div className="flex items-center gap-3 shrink-0">
                   <row.icon className="w-4 h-4 text-muted-foreground" />
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {row.label}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className={cn(
-                    'text-sm font-medium text-foreground',
-                    row.key === 'userId' && 'text-xs font-mono'
-                  )}>
-                    {row.maskable
-                      ? (revealed[row.key] ? row.value : (row as any).maskedValue)
-                      : row.value}
-                  </span>
-                  {row.maskable && (
-                    <button
-                      onClick={() => toggleReveal(row.key)}
-                      className="p-1 rounded-md hover:bg-muted transition-colors"
-                    >
-                      {revealed[row.key]
-                        ? <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />
-                        : <Eye className="w-3.5 h-3.5 text-muted-foreground" />}
-                    </button>
+                <div className="flex items-center gap-2 min-w-0">
+                  {editingField === row.key ? (
+                    <div className="flex items-center gap-1.5">
+                      <Input
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        className="h-8 text-sm w-40"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') saveEdit();
+                          if (e.key === 'Escape') cancelEdit();
+                        }}
+                      />
+                      <button
+                        onClick={saveEdit}
+                        disabled={saving}
+                        className="p-1 rounded-md hover:bg-muted transition-colors text-sip-brand"
+                      >
+                        {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+                      </button>
+                      <button
+                        onClick={cancelEdit}
+                        className="p-1 rounded-md hover:bg-muted transition-colors text-muted-foreground"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <span className={cn(
+                        'text-sm font-medium text-foreground truncate',
+                        row.key === 'userId' && 'text-xs font-mono'
+                      )}>
+                        {row.maskable
+                          ? (revealed[row.key] ? row.value : (row as any).maskedValue)
+                          : (row.value || '—')}
+                      </span>
+                      {row.maskable && (
+                        <button
+                          onClick={() => toggleReveal(row.key)}
+                          className="p-1 rounded-md hover:bg-muted transition-colors"
+                        >
+                          {revealed[row.key]
+                            ? <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />
+                            : <Eye className="w-3.5 h-3.5 text-muted-foreground" />}
+                        </button>
+                      )}
+                      {editable.has(row.key) && (
+                        <button
+                          onClick={() => startEdit(row.key, row.value)}
+                          className="p-1 rounded-md hover:bg-muted transition-colors"
+                          title={`Edit ${row.label.toLowerCase()}`}
+                        >
+                          <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                        </button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
