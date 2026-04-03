@@ -172,6 +172,7 @@ import PitchDeckDI from './pages/PitchDeckDI';
 import DSRPage from './pages/DSRPage';
 import P2PRfqDeck from './pages/P2PRfqDeck';
 import DamCapitalDeck from './pages/DamCapitalDeck';
+import MISDashboard from './pages/MISDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -221,7 +222,8 @@ const AppContent = () => {
                        location.pathname === '/Pitch-deck' ||
                        location.pathname === '/DSR' ||
                        location.pathname === '/p2p-rfq' ||
-                       location.pathname === '/dam-capital-deck';
+                       location.pathname === '/dam-capital-deck' ||
+                       location.pathname === '/mis-dashboard';
   return (
     <>
       <Routes>
@@ -393,6 +395,7 @@ const AppContent = () => {
                 <Route path="/DSR" element={<DSRPage />} />
                  <Route path="/p2p-rfq" element={<P2PRfqDeck />} />
                  <Route path="/dam-capital-deck" element={<DamCapitalDeck />} />
+                 <Route path="/mis-dashboard" element={<MISDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
