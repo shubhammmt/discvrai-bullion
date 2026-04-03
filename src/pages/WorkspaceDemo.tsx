@@ -29,7 +29,7 @@ const WorkspaceDemo: React.FC = () => {
   const [activePage, setActivePage] = useState<Page>('home');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const groups = ['Overview', 'Research', 'Investment Banking', 'Cross-cutting'];
+  const groups = ['Overview', 'Research', 'Investment Banking', 'MIS', 'Cross-cutting'];
 
   const renderPage = () => {
     switch (activePage) {
