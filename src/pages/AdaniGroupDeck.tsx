@@ -250,8 +250,7 @@ const ClientsSlide: React.FC = () => {
   const s = slides[4] as any;
   return (
     <SlideWrapper num={5}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-2">{s.title}</h2>
-      <p className="text-sm text-slate-500 mb-5">{s.intro}</p>
+      <h2 className="text-3xl font-bold text-slate-900 mb-5">{s.title}</h2>
       <div className="overflow-auto rounded-xl border border-slate-200 mb-4">
         <table className="w-full text-left text-sm">
           <thead>
