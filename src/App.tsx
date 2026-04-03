@@ -398,6 +398,7 @@ const AppContent = () => {
                  <Route path="/p2p-rfq" element={<P2PRfqDeck />} />
                  <Route path="/dam-capital-deck" element={<DamCapitalDeck />} />
                  <Route path="/mis-dashboard" element={<MISDashboard />} />
+                 <Route path="/pitch/diageo-india" element={<DiageoIndiaDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
