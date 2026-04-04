@@ -9,18 +9,18 @@ const slides = [
   {
     id: 1,
     type: 'title',
-    headline: 'Digital + AI that scales with the Group — cement and green, one platform spine',
+    headline: 'Digital + AI that scales with the Group — petrochemicals, energy, and beyond on one platform spine',
     subhead: 'Integration-first workflow automation, governed knowledge (RAG), and agentic orchestration on your existing SAP / data / OT landscape — built to repeat across verticals.',
-    kicker: 'Group digital strategy · Operational excellence · Securable, governable AI at production pace',
-    microLine: 'Conversation aligned to CDO priorities across Adani Group verticals',
+    kicker: 'Introduced via Mayukh Sinha, AVP & Head Strategy & BD — Petrochemicals · Fellow IIT (ISM) Dhanbad alumnus',
+    microLine: 'Group digital strategy · Petrochemicals · Operational excellence · AI at production pace',
   },
   {
     id: 2,
     type: 'why-now',
     title: 'Global cores are fixed; competitive advantage is speed at the edge',
     bullets: [
-      { label: 'Multi-vertical complexity', text: 'Infrastructure, energy, logistics, FMCG, financial services — each vertical runs different stacks, but the need for unified decision-making and exception-first operations is universal.' },
-      { label: 'Edge speed matters', text: 'Global SAP and data programmes set the core; competitive advantage comes from how fast the edge — plants, sites, field ops, channels — can sense, decide, and act.' },
+      { label: 'Petrochemicals complexity', text: 'PVC, caustic soda, ethane value chains, acetic acid — pricing strategy, seed marketing across 26+ export countries and 8+ domestic states demand real-time signals, not monthly Excel reconciliations.' },
+      { label: 'Multi-vertical scale', text: 'Infrastructure, energy, logistics, FMCG, financial services — each vertical runs different stacks, but the need for unified decision-making and exception-first operations is universal.' },
       { label: 'Group leverage', text: 'Same integration posture (API/file/events), security model, and orchestration patterns — vertical adapters instead of one-off point solutions across any business unit.' },
       { label: 'SAP & estates', text: "You're not buying a replacement core; you need an API-first intelligence layer that enriches decisions and feeds systems of record cleanly — across every vertical." },
     ],
@@ -64,7 +64,7 @@ const slides = [
       { client: 'Deep Industries', domain: 'Oil & Gas (field services)', useCase: 'Operations analytics, asset reliability, ESG / emissions visibility' },
       { client: 'Aptech', domain: 'Education', useCase: 'AI career counsellor, enrollment' },
     ],
-    footnote: "Cement / industrial and energy / field-ops patterns inform how we'd adapter-map to your estates — without naming any group company as a reference client.",
+    footnote: "Manufacturing, industrial, and energy / field-ops patterns inform how we'd adapter-map to petrochemicals estates — pricing intelligence, supply chain, and value-chain orchestration.",
   },
   {
     id: 6,
@@ -85,13 +85,13 @@ const slides = [
     title: 'One spine — vertical adapters; governed scale',
     bullets: [
       { label: 'Shared foundation', text: 'Identity, roles, audit logs, data residency and deployment choices agreed before scope expansion — one governance spine for all verticals.' },
+      { label: 'Petrochemicals', text: 'PVC, caustic, acetic acid value chains — pricing strategy automation, market intelligence across 26+ export countries, supply chain orchestration, feedstock evaluation, and seed marketing analytics.' },
       { label: 'Infrastructure & industrial', text: 'Cement, ports, mining — maintenance workflows, energy optimisation, dispatch, safety/compliance tasking with SAP-aligned hooks.' },
       { label: 'Energy & sustainability', text: 'Green energy, transmission, gas — remote O&M decision support, project logistics, regulatory and ESG compliance workflows.' },
-      { label: 'Financial services & FMCG', text: 'Digital journeys, channel analytics, customer lifecycle — agentic workflows for high-volume, regulation-adjacent operations.' },
       { label: 'Group-wide patterns', text: 'Leadership MIS, knowledge management (RAG), procurement intelligence, HR/workforce analytics — horizontal use cases that repeat across every BU.' },
       { label: '90-day pilot', text: 'One sponsor, one end-to-end workflow in any vertical, KPIs fixed day one (cycle time, manual hours, exception age, decision quality).' },
     ],
-    quote: "We're built to be the Group's execution intelligence layer — any vertical, fast in India, measurable, and architecture-friendly.",
+    quote: "We're built to be the Group's execution intelligence layer — petrochemicals to green energy, fast in India, measurable, and architecture-friendly.",
   },
   {
     id: 8,
@@ -107,7 +107,7 @@ const slides = [
       'Repeatable accelerators: connectors, RAG, model routing, orchestration — production in weeks, not quarters.',
     ],
     cta: {
-      primary: 'Identify one high-impact business use case across any Group vertical — we build a working pilot in 8–10 weeks to prove the platform on your data, your workflows, your KPIs.',
+      primary: 'Identify one high-impact use case in petrochemicals — pricing intelligence, supply chain orchestration, or value-chain visibility — we build a working pilot in 8–10 weeks on your data and workflows.',
       secondary: 'Architecture alignment on integration points (SAP, data lake, OT interfaces) before build commitments.',
     },
   },
