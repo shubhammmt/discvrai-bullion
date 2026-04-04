@@ -177,6 +177,7 @@ import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
 import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
 import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import RelianceEPDeck from './pages/RelianceEPDeck';
+import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -231,7 +232,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/diageo-india' ||
                         location.pathname === '/pitch/chitale-bandhu' ||
                         location.pathname === '/pitch/adani-group' ||
-                        location.pathname === '/pitch/reliance-ep';
+                  location.pathname === '/pitch/reliance-ep' ||
+                        location.pathname === '/pitch/asian-energy';
   return (
     <>
       <Routes>
@@ -407,7 +409,8 @@ const AppContent = () => {
                  <Route path="/pitch/diageo-india" element={<DiageoIndiaDeck />} />
                   <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
                   <Route path="/pitch/adani-group" element={<AdaniGroupDeck />} />
-                  <Route path="/pitch/reliance-ep" element={<RelianceEPDeck />} />
+                   <Route path="/pitch/reliance-ep" element={<RelianceEPDeck />} />
+                  <Route path="/pitch/asian-energy" element={<AsianEnergyDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
