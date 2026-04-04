@@ -231,7 +231,8 @@ const AppContent = () => {
                        location.pathname === '/pitch/diageo-india' ||
                         location.pathname === '/pitch/chitale-bandhu' ||
                         location.pathname === '/pitch/adani-group' ||
-                        location.pathname === '/pitch/reliance-ep';
+                  location.pathname === '/pitch/reliance-ep' ||
+                        location.pathname === '/pitch/asian-energy';
   return (
     <>
       <Routes>
