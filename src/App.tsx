@@ -177,6 +177,7 @@ import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
 import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
 import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import RelianceEPDeck from './pages/RelianceEPDeck';
+import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
