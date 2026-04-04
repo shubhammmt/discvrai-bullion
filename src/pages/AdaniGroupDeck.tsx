@@ -11,7 +11,7 @@ const slides = [
     type: 'title',
     headline: 'Digital + AI that scales with the Group — petrochemicals, energy, and beyond on one platform spine',
     subhead: 'Integration-first workflow automation, governed knowledge (RAG), and agentic orchestration on your existing SAP / data / OT landscape — built to repeat across verticals.',
-    kicker: 'Introduced via Mayukh Sinha, AVP & Head Strategy & BD — Petrochemicals · Fellow IIT (ISM) Dhanbad alumnus',
+    kicker: '',
     microLine: 'Group digital strategy · Petrochemicals · Operational excellence · AI at production pace',
   },
   {
