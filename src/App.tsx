@@ -408,7 +408,8 @@ const AppContent = () => {
                  <Route path="/pitch/diageo-india" element={<DiageoIndiaDeck />} />
                   <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
                   <Route path="/pitch/adani-group" element={<AdaniGroupDeck />} />
-                  <Route path="/pitch/reliance-ep" element={<RelianceEPDeck />} />
+                   <Route path="/pitch/reliance-ep" element={<RelianceEPDeck />} />
+                  <Route path="/pitch/asian-energy" element={<AsianEnergyDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
