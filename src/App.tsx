@@ -179,6 +179,7 @@ import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import RelianceEPDeck from './pages/RelianceEPDeck';
 import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import SchlumbergerDeck from './pages/SchlumbergerDeck';
+import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -235,7 +236,8 @@ const AppContent = () => {
                         location.pathname === '/pitch/adani-group' ||
                   location.pathname === '/pitch/reliance-ep' ||
                   location.pathname === '/pitch/asian-energy' ||
-                        location.pathname === '/pitch/schlumberger';
+                        location.pathname === '/pitch/schlumberger' ||
+                        location.pathname === '/pitch/walchandnagar';
   return (
     <>
       <Routes>
@@ -414,6 +416,7 @@ const AppContent = () => {
                    <Route path="/pitch/reliance-ep" element={<RelianceEPDeck />} />
                   <Route path="/pitch/asian-energy" element={<AsianEnergyDeck />} />
                   <Route path="/pitch/schlumberger" element={<SchlumbergerDeck />} />
+                  <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
