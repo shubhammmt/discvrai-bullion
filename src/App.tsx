@@ -233,7 +233,8 @@ const AppContent = () => {
                         location.pathname === '/pitch/chitale-bandhu' ||
                         location.pathname === '/pitch/adani-group' ||
                   location.pathname === '/pitch/reliance-ep' ||
-                        location.pathname === '/pitch/asian-energy';
+                  location.pathname === '/pitch/asian-energy' ||
+                        location.pathname === '/pitch/schlumberger';
   return (
     <>
       <Routes>
