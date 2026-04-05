@@ -1,0 +1,420 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Factory, Landmark, HardHat, ShoppingCart, TrendingUp, Bot, Mail, Phone } from 'lucide-react';
+
+const TOTAL = 8;
+const ACCENT = '#0F766E';
+
+const slides = [
+  {
+    id: 1,
+    type: 'title',
+    headline: 'Enterprise AI that works where your data already lives — workflow automation, governed knowledge, and agentic orchestration across industries',
+    subhead: 'Integration-first platform: connectors to SAP, Salesforce, ERPs, field systems; RAG over internal knowledge; multi-LLM routing; human-in-the-loop orchestration — edge intelligence, not rip-and-replace.',
+    microLine: 'BFSI · Manufacturing · Industrial · EPC & Infrastructure · D2C Commerce · Energy & Utilities',
+  },
+  {
+    id: 2,
+    type: 'why-now',
+    title: 'Every enterprise has the same structural problem — systems of record that can\'t become systems of decision',
+    bullets: [
+      { icon: Landmark, label: 'BFSI', text: 'Core banking, treasury, compliance, and customer platforms generate massive data — but insights are rebuilt manually in spreadsheets every quarter. Regulatory pressure demands audit trails; GenAI without governance is a non-starter.' },
+      { icon: Factory, label: 'Manufacturing & Industrial', text: 'Shop-floor controllers, MES, ERP, and quality systems run in silos. Production visibility is shift-delayed, maintenance is reactive, and institutional knowledge lives in people\'s heads — not searchable systems.' },
+      { icon: HardHat, label: 'EPC & Infrastructure', text: 'Project tracking across BOQ, vendor milestones, cost variance, and site progress relies on fragmented reports. Delays surface at reviews, not in real-time. Safety and compliance documentation is scattered across drives.' },
+      { icon: ShoppingCart, label: 'D2C & Commerce', text: 'Customer data, inventory, marketing, and fulfilment run on disconnected stacks. Personalisation is rule-based, not intelligent. Cart abandonment, retention, and demand forecasting remain Excel exercises.' },
+    ],
+  },
+  {
+    id: 3,
+    type: 'capabilities',
+    title: 'What DiscvrAI ships — capabilities across every vertical',
+    cards: [
+      { icon: Link2, title: 'Connect & integrate', desc: 'Pre-built connectors for SAP, Salesforce, Tally, Oracle, SCADA, MES, Shopify, payment gateways, core banking — meet data where it lives without forced migration.' },
+      { icon: Brain, title: 'Understand (RAG)', desc: 'SOPs, compliance manuals, engineering drawings, product catalogues, policy documents — grounded answers with citations, role-based access, full audit trail.' },
+      { icon: Workflow, title: 'Automate & orchestrate', desc: 'Multi-step agentic workflows: approvals, escalations, exception handling, order routing, compliance checks — humans approve material actions, every time.' },
+      { icon: BarChart3, title: 'Measure & decide', desc: 'Decision-ready dashboards: production KPIs, financial reconciliation, project cost tracking, customer LTV, funnel analytics — signal → decision → action.' },
+      { icon: Bot, title: 'Agentic commerce', desc: 'AI agents for catalogue management, dynamic pricing, personalised recommendations, inventory rebalancing, and automated customer journeys — commerce that acts, not just reports.' },
+      { icon: TrendingUp, title: 'Agentic analytics', desc: 'Self-serve insights: natural language queries over enterprise data, automated anomaly detection, predictive models for demand/churn/maintenance — answers in seconds, not weeks.' },
+    ],
+    closing: 'Enterprise-grade stack — connectors, model routing, workflow engine, agentic capabilities — weeks-to-pilot engineering discipline.',
+  },
+  {
+    id: 4,
+    type: 'gap',
+    title: 'The gap between systems of record and systems of decision — across industries',
+    diagram: ['Enterprise systems (ERP, CRM, MES, Core Banking, Shopify)', 'DiscvrAI (connect · understand · automate · measure · act)', 'Outcomes (faster decisions, lower costs, higher revenue)'],
+    table: [
+      { reality: 'BFSI: Core banking + treasury + compliance engines', breaks: 'Reconciliation is manual; regulatory reporting takes weeks; customer insights lag by quarters', adds: 'Automated reconciliation, real-time compliance dashboards, AI-driven customer intelligence' },
+      { reality: 'Manufacturing: ERP + MES + shop-floor SCADA', breaks: 'Production visibility is shift-delayed; maintenance is reactive; quality data is siloed', adds: 'Real-time production command centre, predictive maintenance, automated quality tracking' },
+      { reality: 'EPC: Project tools + BOQ + vendor systems', breaks: 'Cost overruns surface at reviews; milestone tracking is fragmented across Excel', adds: 'Live project dashboards, automated vendor milestone tracking, early exception alerts' },
+      { reality: 'D2C: Shopify/WooCommerce + CRM + marketing tools', breaks: 'Personalisation is rule-based; inventory and demand planning in spreadsheets', adds: 'Agentic commerce: dynamic pricing, AI recommendations, automated inventory rebalancing' },
+    ],
+  },
+  {
+    id: 5,
+    type: 'clients',
+    title: 'Selected references — across industries and complexity levels',
+    rows: [
+      { client: 'Bajaj Finserv', domain: 'BFSI / NBFC', useCase: 'AI transformation, digital lending journeys, collections intelligence' },
+      { client: 'CAMS', domain: 'BFSI / AMC Services', useCase: 'Distribution analytics, fund operations intelligence' },
+      { client: 'CMS Infosystems', domain: 'BFSI / Cash Logistics', useCase: 'Margin leakage recovery, operations intelligence, route optimisation' },
+      { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Supply chain analytics, operations intelligence, demand planning' },
+      { client: 'ADF Foods', domain: 'Manufacturing / FMCG', useCase: 'CEO sales dashboard, production analytics, MIS automation' },
+      { client: 'Dalmia Tech', domain: 'Industrial / Cement', useCase: 'Digital transformation, manufacturing operations intelligence' },
+      { client: 'Deep Industries', domain: 'Oil & Gas / EPC', useCase: 'Field operations analytics, asset reliability, service orchestration' },
+      { client: 'Drychem', domain: 'Manufacturing', useCase: 'Operations analytics, production optimisation' },
+      { client: 'Aptech', domain: 'Education / D2C', useCase: 'AI career counsellor, enrollment funnel, student engagement' },
+      { client: 'Helios AMC', domain: 'BFSI / Asset Management', useCase: 'Fund analytics, distribution intelligence' },
+    ],
+    footnote: 'Cross-industry experience across BFSI, manufacturing, industrial, EPC, and D2C — patterns and accelerators that transfer across verticals.',
+  },
+  {
+    id: 6,
+    type: 'patterns',
+    title: 'Industry patterns — prototypes and demos available on request',
+    grid: [
+      { pattern: 'Financial reconciliation & compliance', desc: 'Automated multi-way matching, regulatory reporting, audit trail generation — reduce manual reconciliation by 60–80% across banking, NBFC, and AMC operations.' },
+      { pattern: 'Production & shop-floor intelligence', desc: 'Real-time tracking of machining, assembly, quality gates — predictive maintenance, job sequencing, machine utilisation — 15–25% downtime reduction.' },
+      { pattern: 'Project command centre (EPC)', desc: 'Live cost tracking, vendor milestones, safety compliance, site progress — from delayed Excel reports to real-time project dashboards with automated escalations.' },
+      { pattern: 'Agentic commerce & CX', desc: 'AI-driven catalogue management, dynamic pricing, personalised recommendations, automated customer journeys — commerce that acts autonomously within guardrails.' },
+      { pattern: 'Enterprise knowledge (RAG)', desc: 'SOPs, compliance docs, product specs, engineering drawings — searchable, citable, governed access — institutional knowledge that doesn\'t walk out the door.' },
+      { pattern: 'Agentic analytics & decision intelligence', desc: 'Natural language queries, automated anomaly detection, predictive models — demand forecasting, churn prediction, maintenance scheduling — answers in seconds.' },
+    ],
+  },
+  {
+    id: 7,
+    type: 'lifecycle',
+    title: 'One platform spine — across verticals, use cases, and complexity levels',
+    bullets: [
+      { label: 'Shared foundation', text: 'Identity, roles, audit logs, data residency — one governance spine across all business units and compliance requirements. Deploy on-prem, private cloud, or hybrid.' },
+      { label: 'BFSI', text: 'Reconciliation automation, compliance intelligence, customer analytics, lending workflows, collections optimisation — audit-ready from day one.' },
+      { label: 'Manufacturing & Industrial', text: 'Production planning, shop-floor visibility, predictive maintenance, supply chain command, quality analytics — from shift reports to real-time dashboards.' },
+      { label: 'EPC & Infrastructure', text: 'Project cost tracking, vendor milestone automation, safety compliance, BOQ management — exception-first for project leaders and site managers.' },
+      { label: 'D2C & Commerce', text: 'Agentic commerce: dynamic pricing, AI recommendations, inventory rebalancing, customer journey automation — plus agentic analytics for demand and churn prediction.' },
+      { label: '8–10 week pilot', text: 'One business unit, one end-to-end workflow, KPIs fixed day one. Expand on the same spine once pilot delivers measurable outcomes.' },
+    ],
+    quote: "Built to be your enterprise's decision intelligence layer — data to dashboards to actions, fast to production, measurable, and architecture-friendly.",
+  },
+  {
+    id: 8,
+    type: 'team',
+    title: 'Operator-led engineering — pilots with CIO-grade discipline',
+    person: {
+      name: 'Shubham Srivastava',
+      role: 'Founder & CEO, DiscvrAI',
+      cred: 'Two decades leading large-scale digital transformation — CIO (Eureka Forbes), CTO (Hindustan Times), Head of Technology (MakeMyTrip). Built and scaled technology organisations across media, travel, manufacturing, and financial services.',
+      email: 'shubham@discvr.ai',
+      phone: '+91 9873961591',
+    },
+    bullets: [
+      'Built for legacy stacks, fragmented data, and compliance pressure — cross-industry experience across BFSI, manufacturing, industrial, EPC, and D2C.',
+      'Repeatable accelerators: connectors, RAG, model routing, orchestration, agentic commerce & analytics — production in weeks, not quarters.',
+    ],
+    cta: {
+      primary: 'Identify one high-impact use case in your business — we build a working pilot in 8–10 weeks on your data, your workflows, your KPIs.',
+      secondary: 'Architecture alignment on integration points (ERP, CRM, MES, core banking, commerce platforms) before build commitments.',
+    },
+  },
+];
+
+const SlideWrapper: React.FC<{ children: React.ReactNode; num: number }> = ({ children, num }) => (
+  <div className="w-full h-screen flex flex-col relative overflow-hidden bg-white">
+    <div className="absolute top-0 left-0 right-0 h-1" style={{ background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT}88, ${ACCENT})` }} />
+    <div className="absolute top-5 left-8 z-20 flex items-center gap-2">
+      <Zap className="w-5 h-5" style={{ color: ACCENT }} />
+      <span className="text-base font-bold tracking-tight text-slate-800">DiscvrAI</span>
+    </div>
+    <div className="flex-1 relative z-10 px-12 pt-16 pb-16 flex flex-col overflow-hidden" style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+      {children}
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 px-12 pb-3 flex justify-between items-center text-xs text-slate-400">
+      <span>Confidential | DiscvrAI | April 2026</span>
+      <span className="font-mono">{String(num).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}</span>
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
+  </div>
+);
+
+const TitleSlideContent: React.FC = () => {
+  const s = slides[0] as any;
+  return (
+    <SlideWrapper num={1}>
+      <div className="flex-1 flex flex-col justify-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6">{s.headline}</h1>
+        <p className="text-xl text-slate-600 leading-relaxed max-w-4xl mb-8">{s.subhead}</p>
+        <p className="text-sm text-slate-400">{s.microLine}</p>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const WhyNowSlide: React.FC = () => {
+  const s = slides[1] as any;
+  return (
+    <SlideWrapper num={2}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-8">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 flex-1">
+        {s.bullets.map((b: any, i: number) => {
+          const Icon = b.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-6 bg-slate-50/50">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}18` }}>
+                  <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+                </div>
+                <span className="font-bold text-slate-900 text-lg">{b.label}</span>
+              </div>
+              <p className="text-slate-600 text-base leading-relaxed">{b.text}</p>
+            </div>
+          );
+        })}
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const CapabilitiesSlide: React.FC = () => {
+  const s = slides[2] as any;
+  return (
+    <SlideWrapper num={3}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+        {s.cards.map((c: any, i: number) => {
+          const Icon = c.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-white">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}15` }}>
+                <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+              </div>
+              <h3 className="font-bold text-slate-900 text-base mb-2">{c.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">{c.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+      <p className="text-slate-500 text-sm italic border-t border-slate-100 pt-4">{s.closing}</p>
+    </SlideWrapper>
+  );
+};
+
+const GapSlide: React.FC = () => {
+  const s = slides[3] as any;
+  return (
+    <SlideWrapper num={4}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
+        {s.diagram.map((node: string, i: number) => (
+          <React.Fragment key={i}>
+            <div className={`px-5 py-3 rounded-xl text-sm font-semibold text-center max-w-[280px] ${i === 1 ? 'text-white' : 'bg-slate-100 text-slate-800 border border-slate-200'}`}
+              style={i === 1 ? { background: ACCENT } : {}}>
+              {node}
+            </div>
+            {i < 2 && <ArrowRight className="w-5 h-5 text-slate-400 shrink-0" />}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="overflow-auto rounded-xl border border-slate-200 flex-1">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="bg-slate-50">
+              <th className="px-4 py-3 font-bold text-slate-900">Their reality</th>
+              <th className="px-4 py-3 font-bold text-slate-900">What breaks</th>
+              <th className="px-4 py-3 font-bold text-slate-900">What we add</th>
+            </tr>
+          </thead>
+          <tbody>
+            {s.table.map((r: any, i: number) => (
+              <tr key={i} className="border-t border-slate-100">
+                <td className="px-4 py-3 text-slate-700 text-xs">{r.reality}</td>
+                <td className="px-4 py-3 text-slate-500 text-xs">{r.breaks}</td>
+                <td className="px-4 py-3 font-medium text-xs" style={{ color: ACCENT }}>{r.adds}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const ClientsSlide: React.FC = () => {
+  const s = slides[4] as any;
+  return (
+    <SlideWrapper num={5}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-5">{s.title}</h2>
+      <div className="overflow-auto rounded-xl border border-slate-200 mb-4">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="bg-slate-50">
+              <th className="px-5 py-3 font-bold text-slate-900">Client</th>
+              <th className="px-5 py-3 font-bold text-slate-900">Domain</th>
+              <th className="px-5 py-3 font-bold text-slate-900">Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            {s.rows.map((r: any, i: number) => (
+              <tr key={i} className="border-t border-slate-100">
+                <td className="px-5 py-3 font-semibold text-slate-800">{r.client}</td>
+                <td className="px-5 py-3 text-slate-600">{r.domain}</td>
+                <td className="px-5 py-3 text-slate-600">{r.useCase}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs text-slate-400 italic">{s.footnote}</p>
+    </SlideWrapper>
+  );
+};
+
+const PatternsSlide: React.FC = () => {
+  const s = slides[5] as any;
+  return (
+    <SlideWrapper num={6}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
+        {s.grid.map((g: any, i: number) => (
+          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+            <h3 className="font-bold text-slate-900 text-base mb-2">{g.pattern}</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">{g.desc}</p>
+          </div>
+        ))}
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const LifecycleSlide: React.FC = () => {
+  const s = slides[6] as any;
+  return (
+    <SlideWrapper num={7}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="space-y-4 mb-8">
+        {s.bullets.map((b: any, i: number) => (
+          <div key={i} className="flex gap-4">
+            <div className="w-2 h-2 rounded-full mt-2.5 shrink-0" style={{ background: ACCENT }} />
+            <div>
+              <span className="font-bold text-slate-900">{b.label}: </span>
+              <span className="text-slate-600">{b.text}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="border-l-4 rounded-r-xl bg-slate-50 px-6 py-5" style={{ borderColor: ACCENT }}>
+        <p className="text-lg font-medium text-slate-800 italic">"{s.quote}"</p>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const TeamSlideContent: React.FC = () => {
+  const s = slides[7] as any;
+  return (
+    <SlideWrapper num={8}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
+        <div>
+          <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/50 mb-5">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: `${ACCENT}18` }}>
+              <Users className="w-7 h-7" style={{ color: ACCENT }} />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">{s.person.name}</h3>
+            <p className="font-medium mb-3" style={{ color: ACCENT }}>{s.person.role}</p>
+            <p className="text-sm text-slate-600 leading-relaxed mb-4">{s.person.cred}</p>
+            <div className="space-y-2 border-t border-slate-200 pt-3">
+              <div className="flex items-center gap-2 text-sm text-slate-700">
+                <Mail className="w-4 h-4" style={{ color: ACCENT }} />
+                <span>{s.person.email}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-slate-700">
+                <Phone className="w-4 h-4" style={{ color: ACCENT }} />
+                <span>{s.person.phone}</span>
+              </div>
+            </div>
+          </div>
+          <ul className="space-y-2">
+            {s.bullets.map((b: string, i: number) => (
+              <li key={i} className="flex gap-3 text-sm text-slate-700">
+                <div className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: ACCENT }} />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="rounded-xl p-6 text-white flex-1" style={{ background: ACCENT }}>
+            <Target className="w-6 h-6 mb-3 text-white/80" />
+            <h4 className="font-bold text-lg mb-2">Next step</h4>
+            <p className="text-white/90 text-sm leading-relaxed">{s.cta.primary}</p>
+          </div>
+          <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/50">
+            <Shield className="w-5 h-5 mb-2 text-slate-400" />
+            <h4 className="font-bold text-slate-900 mb-2">Architecture alignment</h4>
+            <p className="text-sm text-slate-600 leading-relaxed">{s.cta.secondary}</p>
+          </div>
+        </div>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const slideRenderers = [
+  TitleSlideContent, WhyNowSlide, CapabilitiesSlide, GapSlide,
+  ClientsSlide, PatternsSlide, LifecycleSlide, TeamSlideContent,
+];
+
+const GenericEnterpriseDeck: React.FC = () => {
+  const [current, setCurrent] = useState(0);
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => { setEntered(true); }, []);
+
+  const go = useCallback((dir: number) => {
+    setCurrent(c => Math.max(0, Math.min(TOTAL - 1, c + dir)));
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [go]);
+
+  const Slide = slideRenderers[current];
+
+  return (
+    <div className="w-full h-screen overflow-hidden relative bg-white">
+      <div className="fixed top-0 left-0 right-0 z-50 flex">
+        {Array.from({ length: TOTAL }).map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)} className="flex-1 h-1 transition-colors duration-300"
+            style={{ background: i <= current ? ACCENT : '#e2e8f0' }} />
+        ))}
+      </div>
+      <AnimatePresence mode="wait">
+        <motion.div key={current}
+          initial={entered ? { opacity: 0, x: 30 } : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.3 }}
+          className="w-full h-full"
+        >
+          <Slide />
+        </motion.div>
+      </AnimatePresence>
+      <div className="fixed bottom-6 right-8 z-50 flex gap-2">
+        <button onClick={() => go(-1)} disabled={current === 0}
+          className="w-10 h-10 rounded-full border border-slate-200 bg-white/90 backdrop-blur flex items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-30 transition-all shadow-sm">
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button onClick={() => go(1)} disabled={current === TOTAL - 1}
+          className="w-10 h-10 rounded-full border border-slate-200 bg-white/90 backdrop-blur flex items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-30 transition-all shadow-sm">
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default GenericEnterpriseDeck;
