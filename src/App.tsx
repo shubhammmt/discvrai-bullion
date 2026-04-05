@@ -421,7 +421,8 @@ const AppContent = () => {
                   <Route path="/pitch/asian-energy" element={<AsianEnergyDeck />} />
                   <Route path="/pitch/schlumberger" element={<SchlumbergerDeck />} />
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
-                  <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
+                   <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
+                   <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
