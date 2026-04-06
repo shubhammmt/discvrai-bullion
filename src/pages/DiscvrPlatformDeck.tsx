@@ -239,7 +239,7 @@ function Slide6() {
 /* ─── Slide 7 ─── */
 function Slide7() {
   const rows = [
-    { lens: 'Ops / COO lens', value: 'Fewer exception loops, SLA'd tasks, earlier signals' },
+    { lens: 'Ops / COO lens', value: "Fewer exception loops, SLA'd tasks, earlier signals" },
     { lens: 'CFO / Risk lens', value: 'Maker-checker, evidence bundles, audit exports' },
     { lens: 'CIO lens', value: 'No rip-and-replace; API-first edge that respects the core estate' },
     { lens: 'CEO / Promoter lens', value: 'One transformation radar — strategy, customer, ops, assets, finance, people, tech, compliance — depth over time on one platform' },
