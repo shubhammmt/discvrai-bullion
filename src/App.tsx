@@ -182,6 +182,7 @@ import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
 import BajajFinservDeck from './pages/BajajFinservDeck';
+import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -241,7 +242,8 @@ const AppContent = () => {
                         location.pathname === '/pitch/schlumberger' ||
                         location.pathname === '/pitch/walchandnagar' ||
                          location.pathname === '/pitch/enterprise' ||
-                         location.pathname === '/pitch/bajaj-finserv';
+                         location.pathname === '/pitch/bajaj-finserv' ||
+                         location.pathname === '/pitch/discvrai-platform';
   return (
     <>
       <Routes>
@@ -423,6 +425,7 @@ const AppContent = () => {
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
                    <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
                    <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
+                   <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
