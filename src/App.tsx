@@ -182,6 +182,7 @@ import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
 import BajajFinservDeck from './pages/BajajFinservDeck';
+import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
