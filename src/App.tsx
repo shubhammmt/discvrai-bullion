@@ -183,6 +183,7 @@ import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
 import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
+import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -216,6 +217,7 @@ const AppContent = () => {
                        location.pathname === '/demo/nbfc-kyc' ||
                        location.pathname === '/demo/nbfc-alt-credit' ||
                        location.pathname === '/dashboard/adf-ceo-sales' ||
+                       location.pathname === '/dashboard/adf-ceo-sales-12m' ||
                        location.pathname.startsWith('/embed/') ||
                        location.pathname === '/demo/treds-finops' ||
                        location.pathname === '/pitch/raja-railways' ||
@@ -394,6 +396,7 @@ const AppContent = () => {
            <Route path="/demo/nbfc-kyc" element={<NbfcKycDemo />} />
             <Route path="/demo/nbfc-alt-credit" element={<NbfcAltCreditDemo />} />
             <Route path="/dashboard/adf-ceo-sales" element={<AdfCeoSalesDashboard />} />
+            <Route path="/dashboard/adf-ceo-sales-12m" element={<AdfCeoSales12MDashboard />} />
              <Route path="/sip-management" element={<SIPManagement />} />
              <Route path="/dashboard/mf-analytics" element={<MFAnalyticsDashboard />} />
              <Route path="/proposal/aiaic" element={<AIAICProposal />} />
