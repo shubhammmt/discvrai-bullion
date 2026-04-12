@@ -246,7 +246,8 @@ const AppContent = () => {
                         location.pathname === '/pitch/walchandnagar' ||
                          location.pathname === '/pitch/enterprise' ||
                          location.pathname === '/pitch/bajaj-finserv' ||
-                         location.pathname === '/pitch/discvrai-platform';
+                         location.pathname === '/pitch/discvrai-platform' ||
+                         location.pathname === '/cms-data-lake';
   return (
     <>
       <Routes>
