@@ -157,6 +157,7 @@ import SIPManagement from './pages/SIPManagement';
 import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
 import TredsFinopsDemo from './pages/TredsFinopsDemo';
+import CMSDataLake from './pages/CMSDataLake';
 import RajaRailwaysDeck from './pages/RajaRailwaysDeck';
 import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
 import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
@@ -429,6 +430,7 @@ const AppContent = () => {
                    <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
                    <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
                    <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
+                    <Route path="/cms-data-lake" element={<CMSDataLake />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
