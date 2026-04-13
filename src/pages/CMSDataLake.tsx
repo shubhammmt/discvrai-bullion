@@ -195,7 +195,7 @@ const CMSDataLake = () => {
             {[
               { label: 'Fleet', value: filtered.length.toLocaleString(), sub: 'of 70,000', icon: Database, color: 'text-blue-600 bg-blue-50', tip: 'ATMs matching filters' },
               { label: 'Online', value: `${onlineCount}`, sub: `${filtered.length ? Math.round(onlineCount / filtered.length * 100) : 0}%`, icon: CheckCircle2, color: 'text-emerald-600 bg-emerald-50', tip: 'Connected and transacting' },
-              { label: 'Data Health', value: `${avgComp}%`, sub: 'avg completeness', icon: Activity, color: avgComp >= 90 ? 'text-emerald-600 bg-emerald-50' : 'text-amber-600 bg-amber-50', tip: 'EJ + CLL + EOD + MSP sync rates' },
+              { label: 'Data Health', value: `${avgComp}%`, sub: 'avg completeness', icon: Activity, color: avgComp >= 90 ? 'text-emerald-600 bg-emerald-50' : 'text-amber-600 bg-amber-50', tip: 'EOD + MSP + Identity sync rates' },
               { label: 'Penalty Risk', value: String(penaltyCount), sub: 'ATMs flagged', icon: AlertTriangle, color: penaltyCount > 0 ? 'text-red-600 bg-red-50' : 'text-emerald-600 bg-emerald-50', tip: 'Pending Harmonizing Penalties' },
             ].map(k => (
               <div key={k.label} className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-slate-100 bg-white min-w-0 flex-1">
@@ -323,7 +323,7 @@ const CMSDataLake = () => {
                           <p className="text-lg font-bold text-blue-700 font-mono">{formatINR(atm.systemBalance)}</p>
                         </div>
                         <div className="bg-amber-50 rounded-lg p-2.5">
-                          <p className="text-[9px] text-amber-600 font-medium">Machine Balance (EJ)<Tip text={`Verified via EJ Log sync at ${atm.lastSync}.`} /></p>
+                          <p className="text-[9px] text-amber-600 font-medium">Machine Balance<Tip text={`Calculated via EJ Logs or latest EOD Data. Last sync: ${atm.lastSync}.`} /></p>
                           <p className="text-lg font-bold text-amber-700 font-mono">{formatINR(atm.machineBalance)}</p>
                         </div>
                       </div>
@@ -354,9 +354,8 @@ const CMSDataLake = () => {
                     </div>
                     {/* Connectivity History */}
                     <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Connectivity & Power Timeline<Tip text="Hourly connectivity and power state history." /></p>
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Network Connectivity Timeline<Tip text="Hourly network connectivity state history." /></p>
                       <div className="space-y-1">
-                        <p className="text-[8px] text-slate-400 uppercase font-bold">Network</p>
                         <div className="flex gap-0.5">
                           {atm.connectivityHistory.map((c, i) => (
                             <TooltipProvider key={i}><Tooltip><TooltipTrigger asChild>
@@ -368,22 +367,10 @@ const CMSDataLake = () => {
                             </TooltipContent></Tooltip></TooltipProvider>
                           ))}
                         </div>
-                        <p className="text-[8px] text-slate-400 uppercase font-bold mt-1">Power</p>
-                        <div className="flex gap-0.5">
-                          {atm.powerHistory.map((p, i) => (
-                            <TooltipProvider key={i}><Tooltip><TooltipTrigger asChild>
-                              <div className={`h-4 flex-1 rounded-sm cursor-help ${p.state === 'Mains' ? 'bg-emerald-400' : p.state === 'UPS' ? 'bg-yellow-400' : 'bg-red-400'}`} />
-                            </TooltipTrigger><TooltipContent className="text-[10px]">
-                              <p className="font-bold">{p.timestamp.split(' ')[1]} — {p.state}</p>
-                              <p>{p.duration}</p>
-                            </TooltipContent></Tooltip></TooltipProvider>
-                          ))}
-                        </div>
                         <div className="flex gap-3 mt-1 text-[8px] text-slate-500">
-                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-emerald-400" /> Online/Mains</span>
+                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-emerald-400" /> Online</span>
                           <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-amber-400" /> Degraded</span>
-                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-yellow-400" /> UPS</span>
-                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-red-400" /> Offline/Off</span>
+                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-red-400" /> Offline</span>
                         </div>
                       </div>
                     </div>
@@ -404,7 +391,7 @@ const CMSDataLake = () => {
                     </div>
                     {/* Data Completeness */}
                     <div className="rounded-lg border border-slate-200 p-3">
-                      <div className="flex justify-between mb-1.5"><span className="text-[9px] font-bold text-slate-500 uppercase">Data Completeness<Tip text="Combined score of EJ, CLL, EOD, MSP sync." /></span><span className="text-sm font-bold text-slate-900">{atm.dataCompleteness}%</span></div>
+                      <div className="flex justify-between mb-1.5"><span className="text-[9px] font-bold text-slate-500 uppercase">Data Completeness<Tip text="Combined score of EOD, MSP, and Identity data sync." /></span><span className="text-sm font-bold text-slate-900">{atm.dataCompleteness}%</span></div>
                       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full rounded-full ${atm.dataCompleteness >= 95 ? 'bg-emerald-500' : atm.dataCompleteness >= 85 ? 'bg-blue-500' : atm.dataCompleteness >= 70 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${atm.dataCompleteness}%` }} />
                       </div>

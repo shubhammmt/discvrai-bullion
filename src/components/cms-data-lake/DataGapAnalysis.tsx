@@ -19,7 +19,6 @@ const DataGapAnalysis: React.FC<Props> = ({ terminalId }) => {
   const hasMspLog = evidence.some(d => d.type === 'MSP Log');
   const hasCounterJpeg = evidence.some(d => d.type === 'Counter JPEG');
   const hasEodReport = evidence.some(d => d.type === 'EOD Report');
-  const hasCllUploaded = cash.some(c => c.cllUpload === 'Uploaded');
 
   const checks = [
     { label: 'EJ Logs (Today)', ok: hasEj, critical: true, missing: 'Missing EJ Logs for April 12th — Investigative Window Blinded' },
@@ -28,7 +27,6 @@ const DataGapAnalysis: React.FC<Props> = ({ terminalId }) => {
     { label: 'MSP Log', ok: hasMspLog, critical: false, missing: 'MSP log unavailable — machine state unverified' },
     { label: 'Counter JPEG', ok: hasCounterJpeg, critical: false, missing: 'Counter photo missing — physical verification gap' },
     { label: 'EOD Report', ok: hasEodReport, critical: true, missing: 'EOD report not filed — reconciliation incomplete' },
-    { label: 'CLL Upload Verified', ok: hasCllUploaded, critical: false, missing: 'CLL not uploaded — custodian loading slip pending' },
   ];
 
   const gapCount = checks.filter(c => !c.ok).length;

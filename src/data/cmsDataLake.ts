@@ -376,8 +376,6 @@ export const hardwareErrors: HardwareError[] = [
 
 // ── Data Health ──
 export const dataHealthMetrics: DataHealthMetric[] = [
-  { label: 'EJ Logs Synced', value: 66500, total: 70000, pct: 95.0 },
-  { label: 'CLL Uploaded', value: 64400, total: 70000, pct: 92.0 },
   { label: 'EOD Reports Filed', value: 63000, total: 70000, pct: 90.0 },
   { label: 'MSP Logs Available', value: 61600, total: 70000, pct: 88.0 },
   { label: 'Identity Data Complete', value: 68600, total: 70000, pct: 98.0 },

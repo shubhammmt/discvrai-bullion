@@ -5,8 +5,6 @@ import { Activity, CheckCircle2, AlertTriangle, Database } from 'lucide-react';
 import InfoTooltip from './InfoTooltip';
 
 const tooltips: Record<string, string> = {
-  'EJ Logs Synced': 'Electronic Journal logs successfully pulled from ATM hardware and stored in the Data Lake today.',
-  'CLL Uploaded': 'Verification that the custodian successfully uploaded the digital Cash Loading Slip after replenishment.',
   'EOD Reports Filed': 'End-of-Day physical verification reports filed by field agents for cash reconciliation.',
   'MSP Logs Available': 'Machine State & Performance logs from ATM monitoring software — used for connectivity and health tracking.',
   'Identity Data Complete': 'Terminal ID, Bank, Region, Hub, and ATM Type are fully mapped in the profile database.',
@@ -40,7 +38,7 @@ const DataHealthDashboardV2 = () => {
             <div>
               <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium">
                 Avg Completeness
-                <InfoTooltip text="Average data completeness across all ATMs — combining EJ, CLL, EOD, MSP, and identity data sync rates." />
+                <InfoTooltip text="Average data completeness across all ATMs — combining EOD, MSP, and Identity data sync rates." />
               </p>
               <p className="text-xl font-bold text-emerald-700">{avgHealth}%</p>
             </div>
