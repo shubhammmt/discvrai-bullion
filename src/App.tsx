@@ -187,6 +187,7 @@ import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
 import CMSAuditCommand from './pages/CMSAuditCommand';
+import SchlumbergerOps from './pages/SchlumbergerOps';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -251,7 +252,8 @@ const AppContent = () => {
                          location.pathname === '/pitch/discvrai-platform' ||
                          location.pathname === '/cms-data-lake' ||
                           location.pathname === '/cms-recon-center' ||
-                          location.pathname === '/cms-audit-command';
+                           location.pathname === '/cms-audit-command' ||
+                           location.pathname === '/demo/schlumberger-ops';
   return (
     <>
       <Routes>
@@ -438,6 +440,7 @@ const AppContent = () => {
                     <Route path="/cms-data-lake" element={<CMSDataLake />} />
                     <Route path="/cms-recon-center" element={<CMSReconCenter />} />
                     <Route path="/cms-audit-command" element={<CMSAuditCommand />} />
+                    <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
