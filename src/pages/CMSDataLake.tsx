@@ -14,13 +14,18 @@ import {
   Activity, CheckCircle2, Info, X, PackagePlus, Banknote, FileText, RefreshCw,
   ClipboardCheck, Archive, Eye, Clock, ShieldAlert, Image, FileCode, File,
   Maximize2, MapPin, Building2, Cpu, Signal, EyeOff, Zap, Calendar, Truck,
-  User, Route, Camera, Video, Download, TrendingUp, TrendingDown, Wifi, WifiOff
+  User, Route, Camera, Video, Download, TrendingUp, TrendingDown, Wifi, WifiOff,
+  Battery, BatteryCharging, Box, Lock, Unlock, BarChart3, GitBranch
 } from 'lucide-react';
+import {
+  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
+  Tooltip as RechartsTooltip
+} from 'recharts';
 import {
   atmProfiles, dataHealthMetrics, ejLogs, timelineEvents, overageEvents,
   digitalEvidence, cashOperations, rejectBinStatuses, replenishmentPlans,
   hardwareErrors, getStatusColor, getSeverityColor, getPenaltyColor,
-  formatINR, ATMProfile
+  formatINR, ATMProfile, generateBurnRates, generateErrorPatterns
 } from '@/data/cmsDataLake';
 
 // ── InfoTip ──
@@ -74,8 +79,9 @@ const CMSDataLake = () => {
   const rejectBin = selectedATM ? rejectBinStatuses.find(r => r.terminalId === selectedATM) : null;
   const repPlan = selectedATM ? replenishmentPlans[selectedATM] : null;
   const filteredEj = ejSearch.trim() ? termEj.filter(e => (e.errorCode || '').toLowerCase().includes(ejSearch.toLowerCase()) || (e.errorDesc || '').toLowerCase().includes(ejSearch.toLowerCase()) || e.ticketId.toLowerCase().includes(ejSearch.toLowerCase())) : termEj;
+  const burnRates = useMemo(() => selectedATM ? generateBurnRates(selectedATM) : [], [selectedATM]);
+  const errorPatterns = useMemo(() => selectedATM ? generateErrorPatterns(selectedATM) : [], [selectedATM]);
 
-  // One-Line Verdict
   const getVerdict = (a: ATMProfile) => {
     const parts: string[] = [];
     parts.push(a.status === 'Online' ? 'Healthy machine' : a.status === 'Offline' ? '⚠ Machine OFFLINE' : '🔧 Under Maintenance');
@@ -97,6 +103,8 @@ const CMSDataLake = () => {
     reject_bin: { icon: <Archive className="h-3 w-3" />, color: 'text-slate-600 bg-slate-200' },
     error: { icon: <Zap className="h-3 w-3" />, color: 'text-red-600 bg-red-100' },
     transaction: { icon: <Banknote className="h-3 w-3" />, color: 'text-emerald-600 bg-emerald-50' },
+    connectivity: { icon: <Wifi className="h-3 w-3" />, color: 'text-cyan-600 bg-cyan-100' },
+    power: { icon: <BatteryCharging className="h-3 w-3" />, color: 'text-yellow-600 bg-yellow-100' },
   };
 
   const evidenceIcon = (type: string) => {
@@ -107,6 +115,17 @@ const CMSDataLake = () => {
       case 'Body Cam': return <Video className="h-4 w-4 text-rose-500" />;
       case 'Loading Slip': return <Download className="h-4 w-4 text-amber-500" />;
       default: return <File className="h-4 w-4 text-slate-400" />;
+    }
+  };
+
+  const personaColor = (p: string) => {
+    switch (p) {
+      case 'High-Traffic Salary Site': return 'bg-blue-100 text-blue-700';
+      case 'Commercial Hub': return 'bg-purple-100 text-purple-700';
+      case 'Remote Area': return 'bg-slate-100 text-slate-700';
+      case 'High-Risk Pilferage Zone': return 'bg-red-100 text-red-700';
+      case 'Transit Corridor': return 'bg-cyan-100 text-cyan-700';
+      default: return 'bg-emerald-100 text-emerald-700';
     }
   };
 
@@ -121,7 +140,7 @@ const CMSDataLake = () => {
             </div>
             <div>
               <h1 className="text-xs font-bold text-slate-900 leading-tight">Unified ATM Data Lake</h1>
-              <p className="text-[9px] text-slate-500">70,000 ATMs · 360° View · Single Source of Truth</p>
+              <p className="text-[9px] text-slate-500">70,000 ATMs · Machine DNA · Raw Logs · Burn Patterns</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -211,7 +230,7 @@ const CMSDataLake = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-slate-50 h-7">
-                  {['ATM ID','Bank','Hub','Type','Status','Balance (Proj.)','Next Replenish','Risk','Data %'].map(h => (
+                  {['ATM ID','Bank','Hub','Type','Site Persona','Status','Balance (Proj.)','Next Replenish','Risk','Data %'].map(h => (
                     <TableHead key={h} className={`text-[9px] font-bold uppercase text-slate-500 py-1 ${h.includes('Balance') || h.includes('Data') ? 'text-right' : ''}`}>{h}</TableHead>
                   ))}
                 </TableRow>
@@ -228,6 +247,7 @@ const CMSDataLake = () => {
                     <TableCell className="py-1 text-slate-700">{a.bank}</TableCell>
                     <TableCell className="py-1 text-slate-600 max-w-[90px] truncate">{a.hub}, {a.state}</TableCell>
                     <TableCell className="py-1"><Badge variant="outline" className="text-[8px] px-1 py-0">{a.atmType}</Badge></TableCell>
+                    <TableCell className="py-1"><Badge className={`text-[7px] px-1 py-0 ${personaColor(a.sitePersona)}`}>{a.sitePersona.split(' ').slice(0,2).join(' ')}</Badge></TableCell>
                     <TableCell className="py-1"><Badge className={`text-[8px] px-1 py-0 ${getStatusColor(a.status)}`}>{a.status}</Badge></TableCell>
                     <TableCell className="py-1 text-right font-mono text-[10px]">
                       {formatINR(a.systemBalance)}
@@ -258,7 +278,7 @@ const CMSDataLake = () => {
         </div>
       </div>
 
-      {/* ═══ 5-TAB SIDE PANEL ═══ */}
+      {/* ═══ 7-TAB SIDE PANEL ═══ */}
       <Sheet open={!!selectedATM} onOpenChange={open => { if (!open) setSelectedATM(null); }}>
         <SheetContent side="right" className="w-full sm:max-w-2xl p-0 overflow-y-auto">
           {atm && (
@@ -269,23 +289,22 @@ const CMSDataLake = () => {
                   <SheetTitle className="text-sm font-bold flex items-center gap-2">
                     <span className="font-mono">{atm.terminalId}</span>
                     <Badge className={`text-[8px] ${getStatusColor(atm.status)}`}>{atm.status}</Badge>
-                    {atm.highCashBurn && <Badge className="text-[7px] bg-orange-100 text-orange-600">🔥 High Burn</Badge>}
-                    {atm.frequentJam && <Badge className="text-[7px] bg-red-100 text-red-600">⚡ Freq Jam</Badge>}
+                    <Badge className={`text-[7px] ${personaColor(atm.sitePersona)}`}>{atm.sitePersona}</Badge>
                   </SheetTitle>
                   <SheetDescription className="text-[10px]">{atm.bank} · {atm.hub}, {atm.state} · {atm.atmType} · {atm.region}</SheetDescription>
                 </SheetHeader>
-                {/* One-Line Verdict */}
                 <div className="mt-2 px-2.5 py-1.5 rounded-md bg-slate-50 border border-slate-200">
                   <p className="text-[10px] text-slate-700"><span className="font-bold text-slate-900">Verdict:</span> {getVerdict(atm)}</p>
                 </div>
-                {/* Tabs */}
                 <Tabs value={drawerTab} onValueChange={setDrawerTab} className="mt-2.5">
-                  <TabsList className="h-7 w-full grid grid-cols-5">
-                    <TabsTrigger value="status" className="text-[9px] h-6 gap-0.5"><Wifi className="h-3 w-3" /> Live</TabsTrigger>
-                    <TabsTrigger value="ledger" className="text-[9px] h-6 gap-0.5"><FileText className="h-3 w-3" /> Ledger</TabsTrigger>
-                    <TabsTrigger value="risk" className="text-[9px] h-6 gap-0.5"><AlertTriangle className="h-3 w-3" /> Risk</TabsTrigger>
-                    <TabsTrigger value="planning" className="text-[9px] h-6 gap-0.5"><Calendar className="h-3 w-3" /> Plan</TabsTrigger>
-                    <TabsTrigger value="evidence" className="text-[9px] h-6 gap-0.5"><Archive className="h-3 w-3" /> Evidence</TabsTrigger>
+                  <TabsList className="h-7 w-full grid grid-cols-7">
+                    <TabsTrigger value="status" className="text-[8px] h-6 gap-0.5 px-1"><Wifi className="h-3 w-3" /> Live</TabsTrigger>
+                    <TabsTrigger value="dna" className="text-[8px] h-6 gap-0.5 px-1"><Cpu className="h-3 w-3" /> DNA</TabsTrigger>
+                    <TabsTrigger value="ledger" className="text-[8px] h-6 gap-0.5 px-1"><FileText className="h-3 w-3" /> Ledger</TabsTrigger>
+                    <TabsTrigger value="burns" className="text-[8px] h-6 gap-0.5 px-1"><BarChart3 className="h-3 w-3" /> Burns</TabsTrigger>
+                    <TabsTrigger value="risk" className="text-[8px] h-6 gap-0.5 px-1"><AlertTriangle className="h-3 w-3" /> Risk</TabsTrigger>
+                    <TabsTrigger value="planning" className="text-[8px] h-6 gap-0.5 px-1"><Calendar className="h-3 w-3" /> Plan</TabsTrigger>
+                    <TabsTrigger value="evidence" className="text-[8px] h-6 gap-0.5 px-1"><Archive className="h-3 w-3" /> Logs</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
@@ -304,7 +323,7 @@ const CMSDataLake = () => {
                           <p className="text-lg font-bold text-blue-700 font-mono">{formatINR(atm.systemBalance)}</p>
                         </div>
                         <div className="bg-amber-50 rounded-lg p-2.5">
-                          <p className="text-[9px] text-amber-600 font-medium">Machine Balance (EJ)<Tip text="Verified via EJ Log sync at {atm.lastSync}." /></p>
+                          <p className="text-[9px] text-amber-600 font-medium">Machine Balance (EJ)<Tip text={`Verified via EJ Log sync at ${atm.lastSync}.`} /></p>
                           <p className="text-lg font-bold text-amber-700 font-mono">{formatINR(atm.machineBalance)}</p>
                         </div>
                       </div>
@@ -333,6 +352,41 @@ const CMSDataLake = () => {
                         <div className="flex items-center gap-1.5"><Signal className="h-3.5 w-3.5 text-slate-400" /><span className="text-slate-600">Last Sync: <span className="font-bold text-slate-900">{atm.lastSync.split(' ')[1]}</span></span></div>
                       </div>
                     </div>
+                    {/* Connectivity History */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Connectivity & Power Timeline<Tip text="Hourly connectivity and power state history." /></p>
+                      <div className="space-y-1">
+                        <p className="text-[8px] text-slate-400 uppercase font-bold">Network</p>
+                        <div className="flex gap-0.5">
+                          {atm.connectivityHistory.map((c, i) => (
+                            <TooltipProvider key={i}><Tooltip><TooltipTrigger asChild>
+                              <div className={`h-4 flex-1 rounded-sm cursor-help ${c.state === 'Online' ? 'bg-emerald-400' : c.state === 'Offline' ? 'bg-red-400' : 'bg-amber-400'}`} />
+                            </TooltipTrigger><TooltipContent className="text-[10px]">
+                              <p className="font-bold">{c.timestamp.split(' ')[1]} — {c.state}</p>
+                              <p>{c.duration}</p>
+                              {c.state === 'Offline' && <p className="text-red-500 font-bold">⚠ Blind Window</p>}
+                            </TooltipContent></Tooltip></TooltipProvider>
+                          ))}
+                        </div>
+                        <p className="text-[8px] text-slate-400 uppercase font-bold mt-1">Power</p>
+                        <div className="flex gap-0.5">
+                          {atm.powerHistory.map((p, i) => (
+                            <TooltipProvider key={i}><Tooltip><TooltipTrigger asChild>
+                              <div className={`h-4 flex-1 rounded-sm cursor-help ${p.state === 'Mains' ? 'bg-emerald-400' : p.state === 'UPS' ? 'bg-yellow-400' : 'bg-red-400'}`} />
+                            </TooltipTrigger><TooltipContent className="text-[10px]">
+                              <p className="font-bold">{p.timestamp.split(' ')[1]} — {p.state}</p>
+                              <p>{p.duration}</p>
+                            </TooltipContent></Tooltip></TooltipProvider>
+                          ))}
+                        </div>
+                        <div className="flex gap-3 mt-1 text-[8px] text-slate-500">
+                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-emerald-400" /> Online/Mains</span>
+                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-amber-400" /> Degraded</span>
+                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-yellow-400" /> UPS</span>
+                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-red-400" /> Offline/Off</span>
+                        </div>
+                      </div>
+                    </div>
                     {/* Quick Insights */}
                     <div className="rounded-lg border border-slate-200 p-3">
                       <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Quick Insights</p>
@@ -342,7 +396,7 @@ const CMSDataLake = () => {
                         {atm.pendingClaimCount > 0 && <Badge className="text-[9px] bg-purple-100 text-purple-700 gap-1">📋 {atm.pendingClaimCount} Pending Claims</Badge>}
                         {atm.penaltyRisk !== 'None' && <Badge className={`text-[9px] ${getPenaltyColor(atm.penaltyRisk)}`}>⚠ {atm.penaltyRisk}</Badge>}
                         {atm.dataCompleteness < 80 && <Badge className="text-[9px] bg-amber-100 text-amber-700">📊 Low Data Completeness</Badge>}
-                        {atm.replenishmentPath === 'Cassette Swap' && <Badge className="text-[9px] bg-blue-100 text-blue-700">🔄 Cassette Swap Route</Badge>}
+                        {atm.connectivityHistory.some(c => c.state === 'Offline') && <Badge className="text-[9px] bg-red-100 text-red-700">📡 Has Blind Windows</Badge>}
                         {!atm.highCashBurn && !atm.frequentJam && atm.pendingClaimCount === 0 && atm.penaltyRisk === 'None' && atm.dataCompleteness >= 80 && (
                           <Badge className="text-[9px] bg-emerald-100 text-emerald-700">✅ Clean — No Alerts</Badge>
                         )}
@@ -354,11 +408,97 @@ const CMSDataLake = () => {
                       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full rounded-full ${atm.dataCompleteness >= 95 ? 'bg-emerald-500' : atm.dataCompleteness >= 85 ? 'bg-blue-500' : atm.dataCompleteness >= 70 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${atm.dataCompleteness}%` }} />
                       </div>
+                      {atm.dataCompleteness < 90 && (
+                        <p className="text-[9px] text-amber-600 mt-1.5 font-medium">⚠ Missing EJ Logs for April 12th — Investigative Window Blinded</p>
+                      )}
                     </div>
                   </div>
                 )}
 
-                {/* ═══ TAB 2: MACHINE LEDGER ═══ */}
+                {/* ═══ TAB 2: MACHINE DNA ═══ */}
+                {drawerTab === 'dna' && (
+                  <div className="space-y-3">
+                    {/* Slot Mapping */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><Box className="h-3.5 w-3.5 text-blue-500" /> Slot Mapping (Master Data)<Tip text="Physical cassette configuration. Used to detect Denomination Drift." /></p>
+                      <div className="grid grid-cols-4 gap-2">
+                        {atm.slotMapping.map(s => {
+                          const fillPct = Math.round(s.currentCount / s.capacity * 100);
+                          const denomDrift = s.denom === 500 && s.currentCount > s.capacity * 0.9;
+                          return (
+                            <div key={s.slot} className={`rounded-lg p-2 border text-center ${denomDrift ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}>
+                              <p className="text-[8px] text-slate-400 uppercase font-bold">Slot {s.slot}</p>
+                              <p className="text-sm font-bold text-slate-900">₹{s.denom}</p>
+                              <div className="h-1.5 bg-slate-200 rounded-full mt-1 overflow-hidden">
+                                <div className={`h-full rounded-full ${fillPct > 80 ? 'bg-emerald-500' : fillPct > 40 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${fillPct}%` }} />
+                              </div>
+                              <p className="text-[9px] text-slate-600 mt-0.5">{s.currentCount}/{s.capacity}</p>
+                              <p className="text-[8px] text-slate-400">{fillPct}% full</p>
+                              {denomDrift && <p className="text-[7px] text-red-600 font-bold mt-0.5">⚠ DRIFT</p>}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Cassette Inventory */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><Lock className="h-3.5 w-3.5 text-purple-500" /> Cassette Inventory</p>
+                      <div className="rounded border overflow-hidden">
+                        <Table>
+                          <TableHeader><TableRow className="bg-slate-50 h-6">
+                            <TableHead className="text-[9px] font-bold py-0.5">Cassette ID</TableHead>
+                            <TableHead className="text-[9px] font-bold py-0.5">Slot</TableHead>
+                            <TableHead className="text-[9px] font-bold py-0.5">Type</TableHead>
+                            <TableHead className="text-[9px] font-bold py-0.5">Vault Packed</TableHead>
+                            <TableHead className="text-[9px] font-bold py-0.5">Seal Verified</TableHead>
+                          </TableRow></TableHeader>
+                          <TableBody>
+                            {atm.cassettes.map(c => (
+                              <TableRow key={c.id} className="text-[10px] h-6">
+                                <TableCell className="py-0.5 font-mono font-bold text-slate-800">{c.id}</TableCell>
+                                <TableCell className="py-0.5">Slot {c.slot}</TableCell>
+                                <TableCell className="py-0.5">
+                                  <Badge className={`text-[8px] px-1 py-0 ${c.type === 'Sealed' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+                                    {c.type === 'Sealed' ? <Lock className="h-2.5 w-2.5 mr-0.5" /> : <Unlock className="h-2.5 w-2.5 mr-0.5" />}
+                                    {c.type}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell className="py-0.5">{c.vaultPacked ? <Badge className="text-[8px] px-1 py-0 bg-blue-100 text-blue-700">Yes</Badge> : <span className="text-slate-400">No</span>}</TableCell>
+                                <TableCell className="py-0.5 text-[9px] text-slate-500">{c.lastSealVerified.split(' ')[0].slice(5)} {c.lastSealVerified.split(' ')[1]}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </div>
+
+                    {/* Location Context */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> Location Context & Site Persona</p>
+                      <div className="grid grid-cols-2 gap-2 text-[11px]">
+                        <div><span className="text-slate-500">Site Persona:</span> <Badge className={`text-[9px] ${personaColor(atm.sitePersona)}`}>{atm.sitePersona}</Badge></div>
+                        <div><span className="text-slate-500">Hub:</span> <span className="font-bold text-slate-900">{atm.hub}</span></div>
+                        <div><span className="text-slate-500">State:</span> <span className="font-bold text-slate-900">{atm.state}</span></div>
+                        <div><span className="text-slate-500">Region:</span> <span className="font-bold text-slate-900">{atm.region}</span></div>
+                        <div><span className="text-slate-500">Replenishment Path:</span> <Badge variant="outline" className="text-[9px]">{atm.replenishmentPath}</Badge></div>
+                        <div><span className="text-slate-500">Route:</span> <span className="font-mono text-slate-800">{atm.routeId}</span></div>
+                      </div>
+                      {atm.sitePersona === 'High-Risk Pilferage Zone' && (
+                        <div className="mt-2 px-2 py-1.5 bg-red-50 border border-red-200 rounded">
+                          <p className="text-[10px] font-bold text-red-600">🔴 High-Risk Zone — Enhanced custody protocols active. Dual-key verification required.</p>
+                        </div>
+                      )}
+                      {atm.sitePersona === 'High-Traffic Salary Site' && (
+                        <div className="mt-2 px-2 py-1.5 bg-blue-50 border border-blue-200 rounded">
+                          <p className="text-[10px] font-bold text-blue-600">📊 Salary Site — Expect peak cash burn on 1st, 7th, 15th. Auto-indent threshold: ₹5L.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* ═══ TAB 3: MACHINE LEDGER (with Connectivity/Power) ═══ */}
                 {drawerTab === 'ledger' && (
                   <div>
                     {termTimeline.length === 0 ? (
@@ -371,14 +511,18 @@ const CMSDataLake = () => {
                           return (
                             <div key={ev.id} className="relative pb-2 last:pb-0 group cursor-pointer" onClick={() => setTimelineDetail(ev)}>
                               <div className={`absolute -left-6 top-1 h-5 w-5 rounded-full flex items-center justify-center ${ic.color} border-2 border-white shadow-sm`}>{ic.icon}</div>
-                              <div className={`ml-1.5 rounded border p-2 text-[11px] transition-all group-hover:shadow-md group-hover:border-blue-300 ${getSeverityColor(ev.severity)}`}>
+                              <div className={`ml-1.5 rounded border p-2 text-[11px] transition-all group-hover:shadow-md group-hover:border-blue-300 ${ev.blindWindow ? 'border-red-400 bg-red-50 ring-1 ring-red-200' : getSeverityColor(ev.severity)}`}>
                                 <div className="flex items-center gap-1.5 mb-0.5">
                                   <span className="font-bold text-slate-900">{ev.title}</span>
+                                  {ev.blindWindow && <Badge className="text-[7px] bg-red-200 text-red-800 px-1 py-0 animate-pulse">BLIND WINDOW</Badge>}
                                   {ev.suspectedOverage && <Badge className="text-[7px] bg-red-100 text-red-600 px-1 py-0">₹{ev.suspectedOverage.toLocaleString()} suspected</Badge>}
                                   <Eye className="h-2.5 w-2.5 text-slate-300 opacity-0 group-hover:opacity-100 ml-auto shrink-0" />
                                   <span className="text-[9px] text-slate-400">{ev.timestamp.split(' ')[1]}</span>
                                 </div>
                                 <p className="text-slate-600 leading-relaxed">{ev.detail}</p>
+                                {ev.blindWindow && (
+                                  <p className="text-[9px] text-red-700 font-bold mt-1">⚠ Machine was OFFLINE during this period. Cash movements unverifiable.</p>
+                                )}
                               </div>
                             </div>
                           );
@@ -388,10 +532,71 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ TAB 3: RISK & PROBLEMS ═══ */}
+                {/* ═══ TAB 4: BURN RATES & PATTERNS ═══ */}
+                {drawerTab === 'burns' && (
+                  <div className="space-y-3">
+                    {/* 30-Day Cash Burn */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><BarChart3 className="h-3.5 w-3.5 text-blue-500" /> 30-Day Cash Burn Pattern<Tip text="Daily dispensed vs loaded amounts. Explains why next indent is the forecasted amount." /></p>
+                      <div className="h-[180px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={burnRates} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                            <XAxis dataKey="date" tick={{ fontSize: 8 }} interval={4} />
+                            <YAxis tick={{ fontSize: 8 }} tickFormatter={v => `${(v / 100000).toFixed(0)}L`} />
+                            <RechartsTooltip contentStyle={{ fontSize: 10 }} formatter={(v: number) => formatINR(v)} />
+                            <Area type="monotone" dataKey="balance" fill="#dbeafe" stroke="#3b82f6" strokeWidth={1.5} name="Balance" />
+                            <Bar dataKey="dispensed" fill="#f87171" name="Dispensed" />
+                            <Bar dataKey="loaded" fill="#34d399" name="Loaded" />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div className="flex gap-4 mt-1 text-[8px] text-slate-500 justify-center">
+                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-blue-300" /> Balance</span>
+                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-red-400" /> Dispensed</span>
+                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-emerald-400" /> Loaded</span>
+                      </div>
+                    </div>
+
+                    {/* Error Pattern History */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><TrendingUp className="h-3.5 w-3.5 text-red-500" /> Historical Error Patterns (4 Months)<Tip text="Monthly error occurrences. Rising trends indicate degrading hardware." /></p>
+                      {errorPatterns.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 text-center py-4">No recurring errors detected.</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {errorPatterns.map(ep => (
+                            <div key={ep.errorCode} className="rounded border border-slate-100 p-2">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-mono text-[10px] font-bold text-red-600">{ep.errorCode}</span>
+                                <span className="text-[10px] text-slate-600 flex-1">{ep.errorDesc}</span>
+                                <Badge className={`text-[7px] px-1 py-0 ${ep.trend === 'rising' ? 'bg-red-100 text-red-700' : ep.trend === 'declining' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
+                                  {ep.trend === 'rising' ? <TrendingUp className="h-2.5 w-2.5 mr-0.5" /> : ep.trend === 'declining' ? <TrendingDown className="h-2.5 w-2.5 mr-0.5" /> : null}
+                                  {ep.trend}
+                                </Badge>
+                              </div>
+                              <div className="flex items-end gap-1 h-8">
+                                {ep.monthlyCount.map((c, i) => (
+                                  <TooltipProvider key={i}><Tooltip><TooltipTrigger asChild>
+                                    <div className="flex-1 flex flex-col items-center">
+                                      <div className={`w-full rounded-t ${ep.trend === 'rising' ? 'bg-red-400' : 'bg-slate-300'}`} style={{ height: `${Math.max(4, c * 4)}px` }} />
+                                      <span className="text-[7px] text-slate-400 mt-0.5">{ep.monthLabels[i]}</span>
+                                    </div>
+                                  </TooltipTrigger><TooltipContent className="text-[10px]">{ep.monthLabels[i]}: {c} occurrences</TooltipContent></Tooltip></TooltipProvider>
+                                ))}
+                              </div>
+                              {ep.trend === 'rising' && <p className="text-[8px] text-red-600 font-medium mt-1">⚠ This error is increasing. Machine had {ep.errorDesc} {ep.monthlyCount[3]} times this month.</p>}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* ═══ TAB 5: RISK & PROBLEMS ═══ */}
                 {drawerTab === 'risk' && (
                   <div className="space-y-3">
-                    {/* Penalty Tracker */}
                     {termOverages.length > 0 && (
                       <div className="rounded-lg border border-red-200 bg-red-50/30 p-3">
                         <p className="text-[10px] font-bold text-red-700 mb-2 flex items-center gap-1"><AlertTriangle className="h-3.5 w-3.5" /> Harmonizing Penalty Tracker</p>
@@ -407,7 +612,6 @@ const CMSDataLake = () => {
                         ))}
                       </div>
                     )}
-                    {/* Claim Clock */}
                     {termEj.filter(e => e.status === 'Disputed').map(d => (
                       <div key={d.id} className="rounded-lg border border-amber-200 bg-amber-50/30 p-3">
                         <div className="flex items-center justify-between mb-1.5">
@@ -420,7 +624,6 @@ const CMSDataLake = () => {
                         <div className="mt-2 flex gap-0.5">{[1,2,3,4,5].map(day => <div key={day} className={`h-1.5 flex-1 rounded-full ${day <= 3 ? (day >= 3 ? 'bg-amber-500' : 'bg-emerald-500') : 'bg-slate-200'}`} />)}</div>
                       </div>
                     ))}
-                    {/* Hardware Errors */}
                     {termErrors.length > 0 && (
                       <div className="rounded-lg border border-slate-200 p-3">
                         <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><Zap className="h-3.5 w-3.5 text-red-500" /> Error Analysis</p>
@@ -452,7 +655,7 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ TAB 4: PLANNING ═══ */}
+                {/* ═══ TAB 6: PLANNING ═══ */}
                 {drawerTab === 'planning' && (
                   <div className="space-y-3">
                     <div className="rounded-lg border border-blue-200 bg-blue-50/30 p-3">
@@ -464,7 +667,6 @@ const CMSDataLake = () => {
                         <div><span className="text-slate-500">Path:</span> <Badge variant="outline" className="text-[9px] px-1 py-0">{atm.replenishmentPath}</Badge></div>
                       </div>
                     </div>
-                    {/* Denomination Breakout */}
                     {repPlan && (
                       <div className="rounded-lg border border-slate-200 p-3">
                         <p className="text-[10px] font-bold text-slate-700 mb-2">Denomination Breakout</p>
@@ -479,7 +681,6 @@ const CMSDataLake = () => {
                         </div>
                       </div>
                     )}
-                    {/* Custodian */}
                     <div className="rounded-lg border border-slate-200 p-3">
                       <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><User className="h-3.5 w-3.5" /> Assigned Custodian</p>
                       <div className="text-[11px] space-y-1">
@@ -502,55 +703,83 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ TAB 5: EVIDENCE VAULT ═══ */}
+                {/* ═══ TAB 7: RAW LOG EXPLORER & EVIDENCE ═══ */}
                 {drawerTab === 'evidence' && (
-                  <div>
-                    {termEvidence.length === 0 ? (
-                      <p className="text-xs text-slate-500 text-center py-8">No documents linked.</p>
-                    ) : (
-                      <div className="space-y-2">
-                        {/* Group by type */}
-                        {['EJ File', 'MSP Log', 'Loading Slip', 'EOD Report', 'Counter JPEG', 'Body Cam'].map(type => {
-                          const docs = termEvidence.filter(d => d.type === type);
-                          if (docs.length === 0) return null;
-                          return (
-                            <div key={type}>
-                              <p className="text-[9px] font-bold text-slate-500 uppercase mb-1.5">{type}s</p>
-                              <div className="grid grid-cols-2 gap-2 mb-3">
-                                {docs.map(d => (
-                                  <div key={d.id} onClick={() => setPreviewDoc(d)}
-                                    className="group cursor-pointer rounded-lg border border-slate-200 p-2 hover:border-blue-300 hover:shadow transition-all">
-                                    {/* Thumbnail */}
-                                    {d.type === 'Counter JPEG' || d.type === 'Body Cam' ? (
-                                      <div className="h-14 w-full bg-slate-200 rounded flex items-center justify-center">
-                                        {d.type === 'Counter JPEG' ? <Camera className="h-5 w-5 text-slate-400" /> : <Video className="h-5 w-5 text-slate-400" />}
-                                      </div>
-                                    ) : d.type === 'EJ File' ? (
-                                      <div className="h-14 w-full bg-slate-900 rounded p-1.5 overflow-hidden">
-                                        <p className="text-[7px] font-mono text-green-400 leading-tight whitespace-pre">{d.preview?.split('\n').slice(0, 4).join('\n') || 'EJ data...'}</p>
-                                      </div>
-                                    ) : d.type === 'MSP Log' ? (
-                                      <div className="h-14 w-full bg-slate-800 rounded p-1.5 overflow-hidden">
-                                        <p className="text-[7px] font-mono text-cyan-300 leading-tight whitespace-pre">{d.preview?.split('\n').slice(0, 4).join('\n') || 'MSP data...'}</p>
-                                      </div>
-                                    ) : (
-                                      <div className="h-14 w-full bg-slate-100 rounded flex items-center justify-center">{evidenceIcon(d.type)}</div>
-                                    )}
-                                    <div className="mt-1 flex items-start gap-1">
-                                      <div className="min-w-0 flex-1">
-                                        <p className="text-[9px] font-medium text-slate-800 truncate">{d.filename}</p>
-                                        <p className="text-[8px] text-slate-400">{d.size} · {d.uploadedAt.split(' ')[1]}</p>
-                                      </div>
-                                      <Maximize2 className="h-2.5 w-2.5 text-slate-300 opacity-0 group-hover:opacity-100 shrink-0 mt-0.5" />
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          );
-                        })}
+                  <div className="space-y-3">
+                    {/* Raw Log Explorer */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><FileCode className="h-3.5 w-3.5 text-blue-500" /> Raw Log Explorer<Tip text="Click any log to view raw data with error highlights." /></p>
+                      <div className="relative mb-2">
+                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
+                        <Input placeholder="Search by ticket, error code..." value={ejSearch} onChange={e => setEjSearch(e.target.value)}
+                          className="pl-7 h-6 text-[10px] border-slate-200" />
                       </div>
-                    )}
+                      {filteredEj.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 text-center py-4">No EJ records found.</p>
+                      ) : (
+                        <div className="bg-slate-900 rounded-lg p-3 font-mono text-[10px] max-h-[300px] overflow-auto space-y-0.5">
+                          {filteredEj.map(ej => {
+                            const isError = ej.type === 'Error' || ej.status === 'Failed';
+                            const isDisputed = ej.status === 'Disputed';
+                            return (
+                              <div key={ej.id} className={`flex gap-2 px-1 py-0.5 rounded ${isError ? 'bg-red-900/30' : isDisputed ? 'bg-amber-900/30' : 'hover:bg-slate-800'}`}>
+                                <span className="text-slate-500 shrink-0">{ej.timestamp.split(' ')[1]}</span>
+                                <span className={`shrink-0 ${isError ? 'text-red-400 font-bold' : isDisputed ? 'text-amber-400 font-bold' : 'text-green-400'}`}>
+                                  {ej.type === 'Error' ? 'ERR' : ej.type === 'AutoRecovery' ? 'RCV' : ej.type === 'Maintenance' ? 'MNT' : 'TXN'}
+                                </span>
+                                <span className="text-slate-400">{ej.ticketId}</span>
+                                {ej.errorCode && <span className="text-red-400 font-bold">{ej.errorCode}</span>}
+                                {ej.errorDesc && <span className={isError ? 'text-red-300' : 'text-slate-300'}>{ej.errorDesc}</span>}
+                                {ej.amount && <span className="text-emerald-400">₹{ej.amount.toLocaleString('en-IN')}</span>}
+                                <span className={`ml-auto shrink-0 ${ej.status === 'Success' ? 'text-emerald-500' : ej.status === 'Failed' ? 'text-red-500' : ej.status === 'Disputed' ? 'text-amber-500' : 'text-cyan-500'}`}>{ej.status}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Data Lineage */}
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><GitBranch className="h-3.5 w-3.5 text-purple-500" /> Data Lineage & Sync Status</p>
+                      {termEvidence.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 text-center py-4">No documents linked.</p>
+                      ) : (
+                        <div className="space-y-1.5">
+                          {termEvidence.map(d => (
+                            <div key={d.id} onClick={() => setPreviewDoc(d)}
+                              className="group cursor-pointer flex items-center gap-2 p-2 rounded border border-slate-100 hover:border-blue-300 hover:shadow-sm transition-all">
+                              {/* Thumbnail / preview */}
+                              {d.type === 'Counter JPEG' || d.type === 'Body Cam' ? (
+                                <div className="h-10 w-14 bg-slate-200 rounded flex items-center justify-center shrink-0">
+                                  {d.type === 'Counter JPEG' ? <Camera className="h-4 w-4 text-slate-400" /> : <Video className="h-4 w-4 text-slate-400" />}
+                                </div>
+                              ) : d.type === 'EJ File' ? (
+                                <div className="h-10 w-14 bg-slate-900 rounded p-1 overflow-hidden shrink-0">
+                                  <p className="text-[6px] font-mono text-green-400 leading-tight whitespace-pre">{d.preview?.split('\n').slice(0, 3).join('\n') || '...'}</p>
+                                </div>
+                              ) : d.type === 'MSP Log' ? (
+                                <div className="h-10 w-14 bg-slate-800 rounded p-1 overflow-hidden shrink-0">
+                                  <p className="text-[6px] font-mono text-cyan-300 leading-tight whitespace-pre">{d.preview?.split('\n').slice(0, 3).join('\n') || '...'}</p>
+                                </div>
+                              ) : (
+                                <div className="h-10 w-14 bg-slate-100 rounded flex items-center justify-center shrink-0">{evidenceIcon(d.type)}</div>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-medium text-slate-800 truncate">{d.filename}</p>
+                                <p className="text-[8px] text-slate-400">{d.type} · {d.size}</p>
+                                {d.syncSource && (
+                                  <p className="text-[8px] text-purple-500 mt-0.5">
+                                    Synced via <span className="font-bold">{d.syncSource}</span> at {d.syncTimestamp?.split(' ')[1]}
+                                  </p>
+                                )}
+                              </div>
+                              <Maximize2 className="h-3 w-3 text-slate-300 opacity-0 group-hover:opacity-100 shrink-0" />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -565,9 +794,14 @@ const CMSDataLake = () => {
           <DialogHeader><DialogTitle className="text-sm font-bold">{timelineDetail?.title}</DialogTitle></DialogHeader>
           {timelineDetail && (
             <div className="space-y-3">
-              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200">
+              <div className={`p-3 rounded-lg border ${timelineDetail.blindWindow ? 'bg-red-50 border-red-200' : 'bg-slate-50 border-slate-200'}`}>
                 <p className="text-xs text-slate-600">{timelineDetail.detail}</p>
                 <p className="text-[10px] text-slate-400 mt-1">{timelineDetail.timestamp}</p>
+                {timelineDetail.blindWindow && (
+                  <div className="mt-2 px-2 py-1.5 bg-red-100 border border-red-300 rounded">
+                    <p className="text-[10px] font-bold text-red-700">⚠ BLIND WINDOW — Machine was offline during this period. Any cash movements during this time are unverifiable and should be treated as suspicious.</p>
+                  </div>
+                )}
               </div>
               {timelineDetail.suspectedOverage && (
                 <div className="p-3 rounded-lg bg-red-50 border border-red-200">
@@ -583,7 +817,7 @@ const CMSDataLake = () => {
                       <p>TICKET: {ej.ticketId}</p>
                       <p>TIME: {ej.timestamp}</p>
                       <p>TYPE: {ej.type}</p>
-                      {ej.errorCode && <p>ERROR: {ej.errorCode} — {ej.errorDesc}</p>}
+                      {ej.errorCode && <p className="text-red-400 font-bold">ERROR: {ej.errorCode} — {ej.errorDesc}</p>}
                       {ej.amount && <p>AMOUNT: ₹{ej.amount.toLocaleString('en-IN')}</p>}
                       <p>STATUS: {ej.status}</p>
                     </div>
@@ -598,9 +832,39 @@ const CMSDataLake = () => {
       {/* Evidence Preview */}
       <Dialog open={!!previewDoc} onOpenChange={() => setPreviewDoc(null)}>
         <DialogContent className="max-w-2xl">
-          <DialogHeader><DialogTitle className="text-sm font-bold flex items-center gap-2">{previewDoc && evidenceIcon(previewDoc.type)}{previewDoc?.filename}</DialogTitle></DialogHeader>
-          {previewDoc?.type === 'EJ File' && <div className="bg-slate-900 rounded-lg p-4 font-mono text-[11px] text-green-400 max-h-[400px] overflow-auto whitespace-pre leading-relaxed">{previewDoc.preview || 'EJ data loading...'}</div>}
-          {previewDoc?.type === 'MSP Log' && <div className="bg-slate-800 rounded-lg p-4 font-mono text-[11px] text-cyan-300 max-h-[400px] overflow-auto whitespace-pre leading-relaxed">{previewDoc.preview || 'MSP data loading...'}</div>}
+          <DialogHeader>
+            <DialogTitle className="text-sm font-bold flex items-center gap-2">
+              {previewDoc && evidenceIcon(previewDoc.type)}{previewDoc?.filename}
+              {previewDoc?.syncSource && <span className="text-[9px] font-normal text-purple-500 ml-2">via {previewDoc.syncSource} @ {previewDoc.syncTimestamp?.split(' ')[1]}</span>}
+            </DialogTitle>
+          </DialogHeader>
+          {previewDoc?.type === 'EJ File' && (
+            <div className="bg-slate-900 rounded-lg p-4 font-mono text-[11px] max-h-[400px] overflow-auto whitespace-pre leading-relaxed">
+              {previewDoc.preview?.split('\n').map((line, i) => {
+                const isError = line.includes('ERROR') || line.includes('JAM') || line.includes('FAILURE');
+                const isRecovery = line.includes('RECOVERY');
+                const isDispute = line.includes('DISPUTE');
+                return (
+                  <div key={i} className={`${isError ? 'text-red-400 font-bold bg-red-900/20 px-1 rounded' : isRecovery ? 'text-amber-400' : isDispute ? 'text-amber-300 bg-amber-900/20 px-1 rounded' : 'text-green-400'}`}>
+                    {line}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {previewDoc?.type === 'MSP Log' && (
+            <div className="bg-slate-800 rounded-lg p-4 font-mono text-[11px] max-h-[400px] overflow-auto whitespace-pre leading-relaxed">
+              {previewDoc.preview?.split('\n').map((line, i) => {
+                const isAlert = line.includes('ALERT');
+                const isLost = line.includes('LOST');
+                return (
+                  <div key={i} className={`${isAlert ? 'text-red-400 font-bold' : isLost ? 'text-red-300 bg-red-900/20 px-1 rounded' : 'text-cyan-300'}`}>
+                    {line}
+                  </div>
+                );
+              })}
+            </div>
+          )}
           {previewDoc && ['Counter JPEG', 'Body Cam'].includes(previewDoc.type) && (
             <div className="bg-slate-100 rounded-lg p-8 flex flex-col items-center">
               <div className="w-full max-w-[300px] h-[200px] bg-slate-200 rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300">
