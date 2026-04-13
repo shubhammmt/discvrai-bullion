@@ -158,6 +158,7 @@ import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
 import TredsFinopsDemo from './pages/TredsFinopsDemo';
 import CMSDataLake from './pages/CMSDataLake';
+import CMSReconCenter from './pages/CMSReconCenter';
 import RajaRailwaysDeck from './pages/RajaRailwaysDeck';
 import RajaRailwaysDemo from './pages/RajaRailwaysDemo';
 import AmitM1xchangeDeck from './pages/AmitM1xchangeDeck';
