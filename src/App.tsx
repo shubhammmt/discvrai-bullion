@@ -249,7 +249,8 @@ const AppContent = () => {
                          location.pathname === '/pitch/bajaj-finserv' ||
                          location.pathname === '/pitch/discvrai-platform' ||
                          location.pathname === '/cms-data-lake' ||
-                         location.pathname === '/cms-recon-center';
+                          location.pathname === '/cms-recon-center' ||
+                          location.pathname === '/cms-audit-command';
   return (
     <>
       <Routes>
