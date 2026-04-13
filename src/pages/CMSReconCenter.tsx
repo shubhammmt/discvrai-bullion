@@ -347,7 +347,6 @@ const CMSReconCenter = () => {
                             onClick={() => setAnalyzeItem(v.terminalId)}>
                             <Eye className="h-3 w-3" /> Analyze
                           </Button>
-                          )}
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 text-[10px]">
