@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Globe, Factory, Cpu, Database } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Globe, Factory, Cpu, Database, CheckCircle2, Clock, Layers } from 'lucide-react';
 
-const TOTAL = 8;
+const TOTAL = 9;
 const ACCENT = '#0D9488';
 
 const slides = [
   {
     id: 1,
     type: 'title',
-    headline: 'Complementary AI orchestration for the world\'s most digitally mature oilfield services company',
-    subhead: 'DiscvrAI delivers integration-first workflow automation, governed knowledge (RAG), and multi-LLM routing as a lightweight orchestration layer that amplifies — not replaces — Schlumberger\'s existing digital platforms, AI models, and subsurface software.',
-    kicker: '',
-    microLine: 'Schlumberger · Reservoir Modeling · Drilling · Production Optimization · Digital Platforms',
+    headline: 'Operational Control Tower across Schlumberger\'s digital platforms',
+    subhead: 'DiscvrAI orchestrates decisions across existing platforms — not another AI platform.',
+    kicker: 'Decision orchestration across drilling, reservoir, production, and field operations',
+    microLine: 'Schlumberger · Reduce manual cross-domain decisioning · Complement existing digital investments',
   },
   {
     id: 2,
@@ -27,74 +27,85 @@ const slides = [
   },
   {
     id: 3,
-    type: 'capabilities',
-    title: 'What DiscvrAI adds — a thin orchestration layer, not another platform',
-    cards: [
-      { icon: Link2, title: 'Connect across platforms', desc: 'REST/SOAP/files/OPC-UA/OSDU; bridge data across Delfi, Petrel, SCADA, SAP, and field systems — no forced migration, no rip-and-replace.' },
-      { icon: Brain, title: 'Unified knowledge (RAG)', desc: 'Well files, drilling reports, completion records, HSE manuals, geological studies: one governed, citable knowledge layer across all proprietary systems and document stores.' },
-      { icon: Workflow, title: 'Workflow orchestration', desc: 'Cross-platform approval flows, SLA tracking, exception escalations, human-in-the-loop AI actions — connecting what your platforms decide to what your teams execute.' },
-      { icon: BarChart3, title: 'Decision intelligence', desc: 'Cross-domain KPIs that span reservoir, drilling, production, and commercial — the "last mile" dashboard that no single platform owns today.' },
+    type: 'entry-wedge',
+    title: 'Where DiscvrAI starts delivering value at Schlumberger',
+    items: [
+      { label: 'Field materials availability intelligence', desc: 'Real-time visibility into materials status across field operations — reducing delays caused by information gaps between procurement, logistics, and field teams.' },
+      { label: 'Cross-domain operational decision routing', desc: 'Route operational decisions that span multiple platforms and teams — drilling × production × supply chain — through structured workflows instead of email chains.' },
+      { label: 'Knowledge locked in reports → actionable workflows', desc: 'Transform institutional knowledge trapped in geological studies, well reports, and field SOPs into queryable, citable, workflow-ready intelligence.' },
+      { label: 'Exception-driven operational control tower', desc: 'Surface only what needs attention — exceptions, SLA breaches, cross-domain conflicts — instead of requiring teams to monitor multiple dashboards.' },
     ],
-    closing: 'Designed for digitally mature organisations — we amplify your existing AI and digital investments, not compete with them.',
+    footer: 'Start with one region, one workflow, measurable ROI.',
   },
   {
     id: 4,
-    type: 'gap',
-    title: 'Best-in-class platforms still leave orchestration gaps between them',
-    diagram: ['Schlumberger platforms (Delfi, Petrel, SCADA, field tools)', 'DiscvrAI orchestration layer (connect · unify · automate · measure)', 'Enterprise systems (SAP, ERP, BI, compliance)'],
-    table: [
-      { reality: 'Multiple AI platforms + digital twins per domain', breaks: 'Cross-domain insights require manual synthesis; institutional knowledge fragmented across tools', adds: 'Unified knowledge layer (RAG) — queryable, citable, governed across all platforms' },
-      { reality: 'Advanced drilling & reservoir optimization', breaks: 'Operational lessons, offset data, field SOPs locked in documents; not instantly accessible to field teams', adds: 'Instant field knowledge access — "ask anything" with full audit trail and citations' },
-      { reality: 'Global operations across 100+ countries', breaks: 'Exception workflows, escalations, and cross-functional decisions still travel through email/manual loops', adds: 'Automated workflow orchestration with human-in-the-loop for material decisions' },
+    type: 'capabilities',
+    title: 'What DiscvrAI adds — operational decision orchestration',
+    cards: [
+      { icon: Workflow, title: 'Decision orchestration', desc: 'Route cross-platform operational decisions through structured workflows — connecting what your platforms recommend to what your teams execute, with full audit trails.' },
+      { icon: Layers, title: 'Operational control tower', desc: 'Exception-first visibility across drilling, production, and field ops. Surface what needs attention — escalations, SLA breaches, cross-domain conflicts — not dashboards.' },
+      { icon: Shield, title: 'Human-in-the-loop decisions', desc: 'Material decisions require human judgment. DiscvrAI routes, recommends, and documents — but humans approve. Full governance and compliance audit trails.' },
+      { icon: Link2, title: 'Cross-platform workflow execution', desc: 'REST/SOAP/OPC-UA/OSDU — bridge workflows across Delfi, Petrel, SCADA, SAP, and field systems. No forced migration, no rip-and-replace.' },
     ],
+    closing: 'We orchestrate decisions between platforms — not replace the platforms themselves.',
   },
   {
     id: 5,
-    type: 'clients',
-    title: 'Selected references — complex operations & regulated environments',
-    intro: '',
-    rows: [
-      { client: 'Deep Industries', domain: 'Oil & Gas (field services)', useCase: 'Operations analytics, asset reliability, field service orchestration, ESG visibility' },
-      { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Supply chain analytics, operations intelligence' },
-      { client: 'CAMS', domain: 'BFSI / AMC', useCase: 'Distribution, investor analytics' },
-      { client: 'ADF Foods', domain: 'Manufacturing', useCase: 'CEO sales dashboard, analytics' },
-      { client: 'Bajaj Finserv', domain: 'NBFC', useCase: 'AI transformation, digital journeys' },
-      { client: 'Dalmia Tech', domain: 'Cement / Industrial', useCase: 'Digital transformation, operations intelligence' },
-      { client: 'CMS Infosystems', domain: 'Cash logistics', useCase: 'Operations intelligence, network optimisation' },
-      { client: 'Asian Energy Services', domain: 'Upstream energy', useCase: 'Exploration intelligence, production optimization, field O&M' },
-      { client: 'Aptech', domain: 'Education', useCase: 'AI career counsellor, enrollment' },
+    type: 'architecture',
+    title: 'DiscvrAI sits between platforms and decisions',
+    layers: [
+      { label: 'Schlumberger platforms', items: ['Delfi', 'Petrel', 'SCADA', 'Field tools', 'OSDU'] },
+      { label: 'DiscvrAI orchestration layer', items: ['Decision routing', 'Exception handling', 'Knowledge unification', 'Workflow execution'] },
+      { label: 'Operational workflows & decisions', items: ['Cross-domain decisions', 'Escalations', 'Approvals', 'Field actions'] },
+      { label: 'Enterprise systems', items: ['SAP', 'ERP', 'Compliance', 'BI / Reporting'] },
     ],
-    footnote: 'Oil & gas operations (Deep Industries, Asian Energy), manufacturing, and enterprise patterns directly inform our approach to complementing digitally mature oilfield service organisations.',
+    footnote: 'We orchestrate decisions — not replace platforms.',
   },
   {
     id: 6,
-    type: 'patterns',
-    title: 'Orchestration patterns for digitally mature upstream operations',
-    grid: [
-      { pattern: 'Cross-platform knowledge unification', demo: 'RAG across Petrel outputs, well files, drilling reports, geological studies, HSE manuals — one queryable, citable knowledge layer regardless of source system' },
-      { pattern: 'Operational workflow orchestration', demo: 'Exception-first routing: cross-domain escalations, approval chains, SLA tracking across drilling, production, and field ops — reducing manual coordination overhead' },
-      { pattern: 'Field knowledge assistant', demo: 'Instant access to offset well data, completion records, lessons learned, SOPs — governed, auditable, accessible to field engineers on any device' },
-      { pattern: 'Cross-domain decision layer', demo: 'Reservoir × drilling × production × commercial KPIs in one view — the "last mile" intelligence that spans platform boundaries' },
-      { pattern: 'Compliance & HSE orchestration', demo: 'Automated compliance tracking, permit workflows, incident correlation across global operations — audit-ready, role-based, multi-jurisdiction' },
-      { pattern: 'Global ops command centre', demo: 'One-screen: asset performance, exception age, escalation status, workforce deployment across regions — drill-down from portfolio to individual well' },
+    type: 'outcomes',
+    title: 'Operational outcomes enabled by DiscvrAI',
+    outcomes: [
+      { label: 'Reduce field operation delays', desc: 'Faster cross-domain decision routing eliminates manual coordination overhead between drilling, production, and supply chain teams.' },
+      { label: 'Improve materials availability', desc: 'Real-time visibility into field materials status across regions — reducing emergency procurement and unplanned downtime.' },
+      { label: 'Reduce expedite logistics cost', desc: 'Better demand visibility and exception routing reduces reliance on expensive last-minute logistics and expedited shipping.' },
+      { label: 'Faster cross-domain decisions', desc: 'Structured decision workflows replace email chains — reservoir × drilling × production decisions resolved in hours, not days.' },
+      { label: 'Unlock working capital from excess inventory', desc: 'Cross-regional materials intelligence identifies surplus inventory that can be redeployed instead of reordered.' },
+      { label: 'Improve operational visibility across regions', desc: 'One operational view across global operations — exceptions, escalations, and decision status without switching between multiple platforms.' },
     ],
   },
   {
     id: 7,
-    type: 'lifecycle',
-    title: 'Complementary layer — amplifying digital investments across the value chain',
-    bullets: [
-      { label: 'Not a replacement', text: 'DiscvrAI sits alongside your existing platforms (Delfi, Petrel, OSDU, cloud infrastructure) — we orchestrate across them, not compete with them. Your AI models, your data, your platforms remain the core.' },
-      { label: 'Reservoir & subsurface', text: 'Unified knowledge access across geological studies, well files, and reservoir models — making institutional expertise searchable and citable for faster cross-domain decision-making.' },
-      { label: 'Drilling & field operations', text: 'Workflow orchestration for exception handling, lessons-learned capture, and cross-functional coordination — reducing the manual overhead that persists between automated systems.' },
-      { label: 'Production & asset management', text: 'Cross-platform exception routing, SLA-driven escalations, and decision audit trails — connecting what your optimization tools recommend to what your teams execute.' },
-      { label: 'Global scale', text: 'Multi-tenant, role-based, multi-jurisdiction governance — designed for 100+ country operations with data residency, compliance tracking, and audit requirements.' },
-      { label: '8–10 week pilot', text: 'One operational domain, one cross-platform workflow, KPIs fixed day one — demonstrating orchestration value without disrupting existing platform investments.' },
+    type: 'clients',
+    title: 'Selected references — complex operations & regulated environments',
+    rows: [
+      { client: 'Deep Industries', domain: 'Oil & Gas (field services)', useCase: 'Operations analytics, asset reliability, field service orchestration, ESG visibility' },
+      { client: 'Asian Energy Services', domain: 'Upstream energy', useCase: 'Exploration intelligence, production optimization, field O&M' },
+      { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Supply chain analytics, operations intelligence' },
+      { client: 'CAMS', domain: 'BFSI / AMC', useCase: 'Distribution, investor analytics' },
+      { client: 'ADF Foods', domain: 'Manufacturing', useCase: 'CEO sales dashboard, analytics' },
+      { client: 'CMS Infosystems', domain: 'Cash logistics', useCase: 'Operations intelligence, network optimisation' },
+      { client: 'Bajaj Finserv', domain: 'NBFC', useCase: 'AI transformation, digital journeys' },
+      { client: 'Dalmia Tech', domain: 'Cement / Industrial', useCase: 'Digital transformation, operations intelligence' },
     ],
-    quote: "Built to complement the world's most advanced oilfield digital ecosystem — orchestrating the spaces between platforms where decisions still travel through email.",
+    footnote: 'Oil & gas operations (Deep Industries, Asian Energy), manufacturing, and enterprise patterns directly inform our approach to complementing digitally mature oilfield service organisations.',
   },
   {
     id: 8,
+    type: 'pilot',
+    title: 'Low-risk pilot for digitally mature operations',
+    steps: [
+      { step: '1', label: 'One operational workflow', desc: 'Identify a single cross-platform decision gap — materials availability, exception routing, or cross-domain coordination.' },
+      { step: '2', label: 'One region or business unit', desc: 'Deploy in a contained operational environment — one geography, one team, one measurable workflow.' },
+      { step: '3', label: 'Connect existing platforms', desc: 'Integrate with Delfi, SCADA, SAP, and field systems already in place — no migration, no disruption to current operations.' },
+      { step: '4', label: 'Deploy orchestration layer', desc: 'DiscvrAI sits alongside existing systems — routing decisions, surfacing exceptions, and documenting outcomes.' },
+      { step: '5', label: 'Measure decision cycle time', desc: 'Quantify improvement in decision speed, exception resolution time, and cross-domain coordination overhead.' },
+      { step: '6', label: 'Expand after validation', desc: 'Proven workflow patterns replicate across regions and operational domains with minimal incremental effort.' },
+    ],
+    callout: '8–10 week pilot alongside existing systems.',
+  },
+  {
+    id: 9,
     type: 'team',
     title: 'Operator-led engineering — pilots with CIO-grade discipline',
     person: {
@@ -105,10 +116,15 @@ const slides = [
     bullets: [
       'Built for enterprises with existing digital maturity — we complement, not compete with, your platform investments.',
       'Oil & gas field operations experience via Deep Industries and Asian Energy Services; enterprise patterns across manufacturing, BFSI, and logistics.',
-      'Repeatable accelerators: connectors, RAG, model routing, orchestration — production in weeks, not quarters.',
     ],
     cta: {
-      primary: 'Identify one cross-platform orchestration gap — knowledge unification, workflow coordination, or cross-domain decision intelligence — we build a working pilot in 8–10 weeks alongside your existing systems.',
+      steps: [
+        'Identify one cross-platform operational decision gap',
+        'Deploy DiscvrAI orchestration layer',
+        'Run pilot in 8–10 weeks',
+        'Measure operational impact',
+        'Scale across domains',
+      ],
       secondary: 'Architecture alignment on integration points (Delfi, OSDU, Petrel, SAP, field systems) before build commitments — respecting your existing digital architecture.',
     },
   },
@@ -132,12 +148,13 @@ const SlideWrapper: React.FC<{ children: React.ReactNode; num: number }> = ({ ch
   </div>
 );
 
+/* Slide 1 — Title */
 const TitleSlideContent: React.FC = () => {
   const s = slides[0] as any;
   return (
     <SlideWrapper num={1}>
       <div className="flex-1 flex flex-col justify-center">
-        {s.kicker && <p className="text-sm font-medium mb-4" style={{ color: ACCENT }}>{s.kicker}</p>}
+        <p className="text-sm font-medium mb-4 tracking-wide uppercase" style={{ color: ACCENT }}>{s.kicker}</p>
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6">{s.headline}</h1>
         <p className="text-xl text-slate-600 leading-relaxed max-w-4xl mb-8">{s.subhead}</p>
         <p className="text-sm text-slate-400">{s.microLine}</p>
@@ -146,14 +163,15 @@ const TitleSlideContent: React.FC = () => {
   );
 };
 
+/* Slide 2 — Why Now */
 const WhyNowSlide: React.FC = () => {
   const s = slides[1] as any;
+  const icons = [Globe, Factory, Database, Cpu];
   return (
     <SlideWrapper num={2}>
       <h2 className="text-3xl font-bold text-slate-900 mb-8">{s.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 flex-1">
         {s.bullets.map((b: any, i: number) => {
-          const icons = [Globe, Factory, Database, Cpu];
           const Icon = icons[i];
           return (
             <div key={i} className="border border-slate-200 rounded-xl p-6 bg-slate-50/50">
@@ -172,10 +190,39 @@ const WhyNowSlide: React.FC = () => {
   );
 };
 
-const CapabilitiesSlide: React.FC = () => {
+/* Slide 3 — Entry Wedge (NEW) */
+const EntryWedgeSlide: React.FC = () => {
   const s = slides[2] as any;
   return (
     <SlideWrapper num={3}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 flex-1">
+        {s.items.map((item: any, i: number) => (
+          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-white">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${ACCENT}15` }}>
+                <CheckCircle2 className="w-4 h-4" style={{ color: ACCENT }} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base mb-1">{item.label}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-5 border-t border-slate-100 pt-4">
+        <p className="text-sm font-medium" style={{ color: ACCENT }}>{s.footer}</p>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+/* Slide 4 — Capabilities (refined) */
+const CapabilitiesSlide: React.FC = () => {
+  const s = slides[3] as any;
+  return (
+    <SlideWrapper num={4}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-6">
         {s.cards.map((c: any, i: number) => {
@@ -196,50 +243,62 @@ const CapabilitiesSlide: React.FC = () => {
   );
 };
 
-const GapSlide: React.FC = () => {
-  const s = slides[3] as any;
+/* Slide 5 — Architecture (NEW) */
+const ArchitectureSlide: React.FC = () => {
+  const s = slides[4] as any;
   return (
-    <SlideWrapper num={4}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="flex items-center justify-center gap-3 mb-8 flex-wrap">
-        {s.diagram.map((node: string, i: number) => (
+    <SlideWrapper num={5}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-8">{s.title}</h2>
+      <div className="flex-1 flex flex-col gap-3">
+        {s.layers.map((layer: any, i: number) => (
           <React.Fragment key={i}>
-            <div className={`px-5 py-3 rounded-xl text-sm font-semibold text-center max-w-[280px] ${i === 1 ? 'text-white' : 'bg-slate-100 text-slate-800 border border-slate-200'}`}
+            <div className={`rounded-xl px-6 py-4 ${i === 1 ? 'text-white' : 'bg-slate-50 border border-slate-200'}`}
               style={i === 1 ? { background: ACCENT } : {}}>
-              {node}
+              <p className={`font-bold text-base mb-2 ${i === 1 ? 'text-white' : 'text-slate-900'}`}>{layer.label}</p>
+              <div className="flex flex-wrap gap-2">
+                {layer.items.map((item: string, j: number) => (
+                  <span key={j} className={`px-3 py-1 rounded-lg text-sm font-medium ${
+                    i === 1 ? 'bg-white/20 text-white' : 'bg-white text-slate-700 border border-slate-200'
+                  }`}>{item}</span>
+                ))}
+              </div>
             </div>
-            {i < 2 && <ArrowRight className="w-5 h-5 text-slate-400 shrink-0" />}
+            {i < s.layers.length - 1 && (
+              <div className="flex justify-center">
+                <ArrowRight className="w-5 h-5 text-slate-300 rotate-90" />
+              </div>
+            )}
           </React.Fragment>
         ))}
       </div>
-      <div className="overflow-auto rounded-xl border border-slate-200">
-        <table className="w-full text-left text-sm">
-          <thead>
-            <tr className="bg-slate-50">
-              <th className="px-5 py-3 font-bold text-slate-900">Their reality</th>
-              <th className="px-5 py-3 font-bold text-slate-900">What breaks</th>
-              <th className="px-5 py-3 font-bold text-slate-900">What we add</th>
-            </tr>
-          </thead>
-          <tbody>
-            {s.table.map((r: any, i: number) => (
-              <tr key={i} className="border-t border-slate-100">
-                <td className="px-5 py-3 text-slate-700">{r.reality}</td>
-                <td className="px-5 py-3 text-slate-500">{r.breaks}</td>
-                <td className="px-5 py-3 font-medium" style={{ color: ACCENT }}>{r.adds}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <p className="text-sm font-medium mt-4 border-t border-slate-100 pt-4" style={{ color: ACCENT }}>{s.footnote}</p>
+    </SlideWrapper>
+  );
+};
+
+/* Slide 6 — Outcomes (NEW) */
+const OutcomesSlide: React.FC = () => {
+  const s = slides[5] as any;
+  return (
+    <SlideWrapper num={6}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
+        {s.outcomes.map((o: any, i: number) => (
+          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+            <h3 className="font-bold text-slate-900 text-base mb-2">{o.label}</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">{o.desc}</p>
+          </div>
+        ))}
       </div>
     </SlideWrapper>
   );
 };
 
+/* Slide 7 — Clients */
 const ClientsSlide: React.FC = () => {
-  const s = slides[4] as any;
+  const s = slides[6] as any;
   return (
-    <SlideWrapper num={5}>
+    <SlideWrapper num={7}>
       <h2 className="text-3xl font-bold text-slate-900 mb-5">{s.title}</h2>
       <div className="overflow-auto rounded-xl border border-slate-200 mb-4">
         <table className="w-full text-left text-sm">
@@ -266,50 +325,38 @@ const ClientsSlide: React.FC = () => {
   );
 };
 
-const PatternsSlide: React.FC = () => {
-  const s = slides[5] as any;
-  return (
-    <SlideWrapper num={6}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
-        {s.grid.map((g: any, i: number) => (
-          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-base mb-2">{g.pattern}</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">{g.demo}</p>
-          </div>
-        ))}
-      </div>
-    </SlideWrapper>
-  );
-};
-
-const LifecycleSlide: React.FC = () => {
-  const s = slides[6] as any;
-  return (
-    <SlideWrapper num={7}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="space-y-4 mb-8">
-        {s.bullets.map((b: any, i: number) => (
-          <div key={i} className="flex gap-4">
-            <div className="w-2 h-2 rounded-full mt-2.5 shrink-0" style={{ background: ACCENT }} />
-            <div>
-              <span className="font-bold text-slate-900">{b.label}: </span>
-              <span className="text-slate-600">{b.text}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="border-l-4 rounded-r-xl bg-slate-50 px-6 py-5" style={{ borderColor: ACCENT }}>
-        <p className="text-lg font-medium text-slate-800 italic">"{s.quote}"</p>
-      </div>
-    </SlideWrapper>
-  );
-};
-
-const TeamSlideContent: React.FC = () => {
+/* Slide 8 — Pilot (NEW) */
+const PilotSlide: React.FC = () => {
   const s = slides[7] as any;
   return (
     <SlideWrapper num={8}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+        {s.steps.map((step: any, i: number) => (
+          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-white">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center mb-3 font-bold text-sm text-white" style={{ background: ACCENT }}>
+              {step.step}
+            </div>
+            <h3 className="font-bold text-slate-900 text-base mb-2">{step.label}</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-5 rounded-xl px-6 py-4 border-2" style={{ borderColor: ACCENT, background: `${ACCENT}08` }}>
+        <div className="flex items-center gap-3">
+          <Clock className="w-5 h-5 shrink-0" style={{ color: ACCENT }} />
+          <p className="font-bold text-slate-900 text-lg">{s.callout}</p>
+        </div>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+/* Slide 9 — Team & CTA (updated) */
+const TeamSlideContent: React.FC = () => {
+  const s = slides[8] as any;
+  return (
+    <SlideWrapper num={9}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
         <div>
@@ -333,8 +380,15 @@ const TeamSlideContent: React.FC = () => {
         <div className="flex flex-col gap-4">
           <div className="rounded-xl p-6 text-white flex-1" style={{ background: ACCENT }}>
             <Target className="w-6 h-6 mb-3 text-white/80" />
-            <h4 className="font-bold text-lg mb-2">Next step</h4>
-            <p className="text-white/90 text-sm leading-relaxed">{s.cta.primary}</p>
+            <h4 className="font-bold text-lg mb-3">Next steps</h4>
+            <ol className="space-y-2">
+              {s.cta.steps.map((step: string, i: number) => (
+                <li key={i} className="flex gap-3 text-white/90 text-sm">
+                  <span className="font-bold text-white shrink-0">{i + 1}.</span>
+                  {step}
+                </li>
+              ))}
+            </ol>
           </div>
           <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/50">
             <Shield className="w-5 h-5 mb-2 text-slate-400" />
@@ -348,8 +402,8 @@ const TeamSlideContent: React.FC = () => {
 };
 
 const slideRenderers = [
-  TitleSlideContent, WhyNowSlide, CapabilitiesSlide, GapSlide,
-  ClientsSlide, PatternsSlide, LifecycleSlide, TeamSlideContent,
+  TitleSlideContent, WhyNowSlide, EntryWedgeSlide, CapabilitiesSlide,
+  ArchitectureSlide, OutcomesSlide, ClientsSlide, PilotSlide, TeamSlideContent,
 ];
 
 const SchlumbergerDeck: React.FC = () => {
