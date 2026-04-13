@@ -343,11 +343,10 @@ const CMSReconCenter = () => {
                             onClick={() => handleAction(v.id, 'Flag as Shortage Query', v.terminalId)}>
                             <AlertTriangle className="h-3 w-3" /> Shortage Query
                           </Button>
-                          {v.mappedTerminalId !== undefined && (
-                            <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
-                              onClick={() => setAnalyzeItem(v.terminalId)}>
-                              <Eye className="h-3 w-3" /> Analyze
-                            </Button>
+                          <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
+                            onClick={() => setAnalyzeItem(v.terminalId)}>
+                            <Eye className="h-3 w-3" /> Analyze
+                          </Button>
                           )}
                         </div>
                       ) : (
