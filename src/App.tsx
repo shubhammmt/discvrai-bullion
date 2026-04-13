@@ -186,6 +186,7 @@ import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
 import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
+import CMSAuditCommand from './pages/CMSAuditCommand';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -436,6 +437,7 @@ const AppContent = () => {
                    <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
                     <Route path="/cms-data-lake" element={<CMSDataLake />} />
                     <Route path="/cms-recon-center" element={<CMSReconCenter />} />
+                    <Route path="/cms-audit-command" element={<CMSAuditCommand />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
