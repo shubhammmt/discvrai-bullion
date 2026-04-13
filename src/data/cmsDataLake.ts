@@ -9,7 +9,8 @@ export interface ATMProfile {
   atmType: 'Recycler' | 'Standard';
   status: 'Online' | 'Offline' | 'Maintenance';
   lastSync: string;
-  dataCompleteness: number; // 0-100
+  dataCompleteness: number;
+  penaltyRisk: 'None' | 'Harmonizing Penalty Pending' | 'Under Review' | 'Penalty Active';
 }
 
 export interface EJLogEntry {
@@ -82,42 +83,83 @@ export interface DataHealthMetric {
   pct: number;
 }
 
-// ── Mock ATM Profiles ──
-export const atmProfiles: ATMProfile[] = [
-  { terminalId: 'ATM-MUM-0001', bank: 'HDFC', region: 'West', state: 'Maharashtra', hub: 'Mumbai Central', atmType: 'Recycler', status: 'Online', lastSync: '2026-04-12 09:45', dataCompleteness: 98 },
-  { terminalId: 'ATM-MUM-0002', bank: 'HDFC', region: 'West', state: 'Maharashtra', hub: 'Andheri', atmType: 'Standard', status: 'Online', lastSync: '2026-04-12 09:42', dataCompleteness: 95 },
-  { terminalId: 'ATM-DEL-0101', bank: 'SBI', region: 'North', state: 'Delhi', hub: 'Connaught Place', atmType: 'Recycler', status: 'Online', lastSync: '2026-04-12 09:40', dataCompleteness: 92 },
-  { terminalId: 'ATM-DEL-0102', bank: 'SBI', region: 'North', state: 'Delhi', hub: 'Dwarka', atmType: 'Standard', status: 'Maintenance', lastSync: '2026-04-12 08:15', dataCompleteness: 78 },
-  { terminalId: 'ATM-BLR-0201', bank: 'ICICI', region: 'South', state: 'Karnataka', hub: 'MG Road', atmType: 'Recycler', status: 'Online', lastSync: '2026-04-12 09:44', dataCompleteness: 97 },
-  { terminalId: 'ATM-BLR-0202', bank: 'ICICI', region: 'South', state: 'Karnataka', hub: 'Whitefield', atmType: 'Standard', status: 'Offline', lastSync: '2026-04-11 23:30', dataCompleteness: 64 },
-  { terminalId: 'ATM-CHN-0301', bank: 'Axis', region: 'South', state: 'Tamil Nadu', hub: 'T. Nagar', atmType: 'Standard', status: 'Online', lastSync: '2026-04-12 09:38', dataCompleteness: 91 },
-  { terminalId: 'ATM-KOL-0401', bank: 'PNB', region: 'East', state: 'West Bengal', hub: 'Park Street', atmType: 'Standard', status: 'Online', lastSync: '2026-04-12 09:35', dataCompleteness: 88 },
-  { terminalId: 'ATM-HYD-0501', bank: 'HDFC', region: 'South', state: 'Telangana', hub: 'Banjara Hills', atmType: 'Recycler', status: 'Online', lastSync: '2026-04-12 09:43', dataCompleteness: 96 },
-  { terminalId: 'ATM-JAI-0601', bank: 'SBI', region: 'North', state: 'Rajasthan', hub: 'MI Road', atmType: 'Standard', status: 'Online', lastSync: '2026-04-12 09:30', dataCompleteness: 85 },
-];
+// ── Generate large fleet ──
+const bankList = ['HDFC', 'SBI', 'ICICI', 'Axis', 'PNB', 'BOB', 'Kotak', 'IndusInd', 'Yes Bank', 'Canara'];
+const regionMap: Record<string, { states: string[]; hubs: string[] }> = {
+  West: { states: ['Maharashtra', 'Gujarat', 'Goa'], hubs: ['Mumbai Central', 'Andheri', 'Pune', 'Ahmedabad', 'Surat', 'Panaji'] },
+  North: { states: ['Delhi', 'Rajasthan', 'UP', 'Haryana', 'Punjab'], hubs: ['Connaught Place', 'Dwarka', 'Jaipur', 'Lucknow', 'Chandigarh', 'Gurgaon'] },
+  South: { states: ['Karnataka', 'Tamil Nadu', 'Telangana', 'Kerala'], hubs: ['MG Road', 'Whitefield', 'T. Nagar', 'Banjara Hills', 'Kochi', 'Coimbatore'] },
+  East: { states: ['West Bengal', 'Odisha', 'Bihar', 'Jharkhand'], hubs: ['Park Street', 'Salt Lake', 'Bhubaneswar', 'Patna', 'Ranchi'] },
+};
+const regions = Object.keys(regionMap);
+const statuses: ATMProfile['status'][] = ['Online', 'Offline', 'Maintenance'];
+const penaltyRisks: ATMProfile['penaltyRisk'][] = ['None', 'None', 'None', 'None', 'Harmonizing Penalty Pending', 'Under Review', 'Penalty Active'];
+
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+}
+
+const rand = seededRandom(42);
+const pick = <T,>(arr: T[]): T => arr[Math.floor(rand() * arr.length)];
+
+const cityCodes: Record<string, string> = {
+  Maharashtra: 'MUM', Gujarat: 'AMD', Goa: 'GOA', Delhi: 'DEL', Rajasthan: 'JAI',
+  UP: 'LKO', Haryana: 'GGN', Punjab: 'CHD', Karnataka: 'BLR', 'Tamil Nadu': 'CHN',
+  Telangana: 'HYD', Kerala: 'KCH', 'West Bengal': 'KOL', Odisha: 'BBS', Bihar: 'PAT', Jharkhand: 'RAN',
+};
+
+function generateFleet(count: number): ATMProfile[] {
+  const fleet: ATMProfile[] = [];
+  for (let i = 0; i < count; i++) {
+    const region = pick(regions);
+    const { states, hubs } = regionMap[region];
+    const state = pick(states);
+    const hub = pick(hubs);
+    const bank = pick(bankList);
+    const code = cityCodes[state] || 'ATM';
+    const id = `ATM-${code}-${String(i + 1).padStart(4, '0')}`;
+    const statusW = rand();
+    const status: ATMProfile['status'] = statusW > 0.92 ? 'Offline' : statusW > 0.85 ? 'Maintenance' : 'Online';
+    const completeness = status === 'Offline' ? Math.round(40 + rand() * 30) : status === 'Maintenance' ? Math.round(60 + rand() * 25) : Math.round(80 + rand() * 20);
+
+    fleet.push({
+      terminalId: id,
+      bank, region, state, hub,
+      atmType: rand() > 0.4 ? 'Standard' : 'Recycler',
+      status,
+      lastSync: `2026-04-12 ${String(Math.floor(6 + rand() * 13)).padStart(2, '0')}:${String(Math.floor(rand() * 60)).padStart(2, '0')}`,
+      dataCompleteness: Math.min(100, completeness),
+      penaltyRisk: status === 'Online' && rand() > 0.85 ? pick(penaltyRisks.filter(p => p !== 'None')) : pick(penaltyRisks),
+    });
+  }
+  return fleet;
+}
+
+export const atmProfiles: ATMProfile[] = generateFleet(200); // 200 rows for demo perf; represents 70k
 
 // ── Mock EJ Logs ──
 export const ejLogs: EJLogEntry[] = [
   { id: 'EJ-001', terminalId: 'ATM-MUM-0001', ticketId: 'CMS-02435507', timestamp: '2026-04-12 09:12:34', type: 'Error', errorCode: 'BNA-TJ01', errorDesc: 'BNA ERROR - TRANSPORT JAM', status: 'Failed' },
   { id: 'EJ-002', terminalId: 'ATM-MUM-0001', ticketId: 'CMS-02435508', timestamp: '2026-04-12 09:14:01', type: 'AutoRecovery', errorDesc: 'Auto-recovery after BNA jam — FLM auto-close', status: 'Reversed' },
   { id: 'EJ-003', terminalId: 'ATM-MUM-0001', ticketId: 'CMS-02435510', timestamp: '2026-04-12 09:22:15', type: 'Transaction', amount: 10000, status: 'Success' },
-  { id: 'EJ-004', terminalId: 'ATM-DEL-0101', ticketId: 'CMS-02435520', timestamp: '2026-04-12 08:45:22', type: 'Error', errorCode: 'HTX-TO01', errorDesc: 'HOST TX TIMEOUT', status: 'Failed' },
-  { id: 'EJ-005', terminalId: 'ATM-DEL-0101', ticketId: 'CMS-02435521', timestamp: '2026-04-12 08:50:10', type: 'Transaction', amount: 20000, status: 'Success' },
-  { id: 'EJ-006', terminalId: 'ATM-BLR-0201', ticketId: 'CMS-02435530', timestamp: '2026-04-12 09:05:00', type: 'Transaction', amount: 5000, status: 'Success' },
-  { id: 'EJ-007', terminalId: 'ATM-BLR-0202', ticketId: 'CMS-02435531', timestamp: '2026-04-11 22:30:00', type: 'Error', errorCode: 'CDM-CS01', errorDesc: 'CASSETTE SENSOR FAILURE', status: 'Failed' },
+  { id: 'EJ-004', terminalId: 'ATM-DEL-0001', ticketId: 'CMS-02435520', timestamp: '2026-04-12 08:45:22', type: 'Error', errorCode: 'HTX-TO01', errorDesc: 'HOST TX TIMEOUT', status: 'Failed' },
+  { id: 'EJ-005', terminalId: 'ATM-DEL-0001', ticketId: 'CMS-02435521', timestamp: '2026-04-12 08:50:10', type: 'Transaction', amount: 20000, status: 'Success' },
+  { id: 'EJ-006', terminalId: 'ATM-BLR-0001', ticketId: 'CMS-02435530', timestamp: '2026-04-12 09:05:00', type: 'Transaction', amount: 5000, status: 'Success' },
+  { id: 'EJ-007', terminalId: 'ATM-BLR-0002', ticketId: 'CMS-02435531', timestamp: '2026-04-11 22:30:00', type: 'Error', errorCode: 'CDM-CS01', errorDesc: 'CASSETTE SENSOR FAILURE', status: 'Failed' },
   { id: 'EJ-008', terminalId: 'ATM-MUM-0002', ticketId: 'CMS-02435540', timestamp: '2026-04-12 09:30:45', type: 'Transaction', amount: 15000, status: 'Disputed', errorDesc: 'Customer claims ₹15,000 not dispensed' },
-  { id: 'EJ-009', terminalId: 'ATM-CHN-0301', ticketId: 'CMS-02435550', timestamp: '2026-04-12 08:15:20', type: 'Maintenance', errorDesc: 'Scheduled software update', status: 'Success' },
-  { id: 'EJ-010', terminalId: 'ATM-HYD-0501', ticketId: 'CMS-02435560', timestamp: '2026-04-12 09:00:00', type: 'Transaction', amount: 40000, status: 'Success' },
+  { id: 'EJ-009', terminalId: 'ATM-CHN-0001', ticketId: 'CMS-02435550', timestamp: '2026-04-12 08:15:20', type: 'Maintenance', errorDesc: 'Scheduled software update', status: 'Success' },
+  { id: 'EJ-010', terminalId: 'ATM-HYD-0001', ticketId: 'CMS-02435560', timestamp: '2026-04-12 09:00:00', type: 'Transaction', amount: 40000, status: 'Success' },
 ];
 
 // ── Mock Cash Operations ──
 export const cashOperations: CashOperation[] = [
   { id: 'CO-001', terminalId: 'ATM-MUM-0001', indentNumber: 'IND-2026-04-001', indentAmount: 2500000, revisionType: 'Fresh', citAgent: 'Rajesh Sharma', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 06:30:00' },
-  { id: 'CO-002', terminalId: 'ATM-DEL-0101', indentNumber: 'IND-2026-04-002', indentAmount: 3000000, revisionType: 'Top-Up', citAgent: 'Amit Verma', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 07:00:00' },
-  { id: 'CO-003', terminalId: 'ATM-DEL-0102', indentNumber: 'IND-2026-04-003', indentAmount: 1500000, revisionType: 'Fresh', citAgent: 'Priya Singh', indentStatus: 'LoadingNotDone', cllUpload: 'Pending', timestamp: '2026-04-12 07:30:00' },
-  { id: 'CO-004', terminalId: 'ATM-BLR-0201', indentNumber: 'IND-2026-04-004', indentAmount: 2000000, revisionType: 'Swap', citAgent: 'Karthik Nair', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 06:45:00' },
-  { id: 'CO-005', terminalId: 'ATM-BLR-0202', indentNumber: 'IND-2026-04-005', indentAmount: 1800000, revisionType: 'Fresh', citAgent: 'Deepak Joshi', indentStatus: 'NO ACTIVITY', cllUpload: 'Failed', timestamp: '2026-04-11 14:00:00' },
-  { id: 'CO-006', terminalId: 'ATM-KOL-0401', indentNumber: 'IND-2026-04-006', indentAmount: 2200000, revisionType: 'Top-Up', citAgent: 'Sunil Das', indentStatus: 'Pending', cllUpload: 'Pending', timestamp: '2026-04-12 08:00:00' },
+  { id: 'CO-002', terminalId: 'ATM-DEL-0001', indentNumber: 'IND-2026-04-002', indentAmount: 3000000, revisionType: 'Top-Up', citAgent: 'Amit Verma', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 07:00:00' },
+  { id: 'CO-003', terminalId: 'ATM-DEL-0002', indentNumber: 'IND-2026-04-003', indentAmount: 1500000, revisionType: 'Fresh', citAgent: 'Priya Singh', indentStatus: 'LoadingNotDone', cllUpload: 'Pending', timestamp: '2026-04-12 07:30:00' },
+  { id: 'CO-004', terminalId: 'ATM-BLR-0001', indentNumber: 'IND-2026-04-004', indentAmount: 2000000, revisionType: 'Swap', citAgent: 'Karthik Nair', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 06:45:00' },
+  { id: 'CO-005', terminalId: 'ATM-BLR-0002', indentNumber: 'IND-2026-04-005', indentAmount: 1800000, revisionType: 'Fresh', citAgent: 'Deepak Joshi', indentStatus: 'NO ACTIVITY', cllUpload: 'Failed', timestamp: '2026-04-11 14:00:00' },
+  { id: 'CO-006', terminalId: 'ATM-KOL-0001', indentNumber: 'IND-2026-04-006', indentAmount: 2200000, revisionType: 'Top-Up', citAgent: 'Sunil Das', indentStatus: 'Pending', cllUpload: 'Pending', timestamp: '2026-04-12 08:00:00' },
 ];
 
 // ── Mock Timeline Events ──
@@ -135,16 +177,16 @@ export const timelineEvents: TimelineEvent[] = [
 // ── Mock Overage Events ──
 export const overageEvents: OverageEvent[] = [
   { id: 'OV-001', terminalId: 'ATM-MUM-0001', detectedAt: '2026-04-12 09:14:01', amount: 2000, withinEOD: false, penaltyApplicable: true, status: 'Unreported' },
-  { id: 'OV-002', terminalId: 'ATM-DEL-0101', detectedAt: '2026-04-11 14:22:00', declaredAt: '2026-04-11 16:00:00', amount: 5000, withinEOD: true, penaltyApplicable: false, status: 'Reported' },
-  { id: 'OV-003', terminalId: 'ATM-BLR-0202', detectedAt: '2026-04-10 21:00:00', amount: 3500, withinEOD: false, penaltyApplicable: true, status: 'Under Review' },
+  { id: 'OV-002', terminalId: 'ATM-DEL-0001', detectedAt: '2026-04-11 14:22:00', declaredAt: '2026-04-11 16:00:00', amount: 5000, withinEOD: true, penaltyApplicable: false, status: 'Reported' },
+  { id: 'OV-003', terminalId: 'ATM-BLR-0002', detectedAt: '2026-04-10 21:00:00', amount: 3500, withinEOD: false, penaltyApplicable: true, status: 'Under Review' },
 ];
 
 // ── Mock Reject Bin Statuses ──
 export const rejectBinStatuses: RejectBinStatus[] = [
   { terminalId: 'ATM-MUM-0001', binType: 'Sealed', lastChecked: '2026-04-12 18:10:00', riskLevel: 'Low', cassetteSeal: 'RB-04122026-001' },
-  { terminalId: 'ATM-DEL-0101', binType: 'Open', lastChecked: '2026-04-12 07:00:00', riskLevel: 'Medium' },
-  { terminalId: 'ATM-BLR-0202', binType: 'Open', lastChecked: '2026-04-11 23:30:00', riskLevel: 'High' },
-  { terminalId: 'ATM-CHN-0301', binType: 'Sealed', lastChecked: '2026-04-12 08:00:00', riskLevel: 'Low', cassetteSeal: 'RB-04122026-002' },
+  { terminalId: 'ATM-DEL-0001', binType: 'Open', lastChecked: '2026-04-12 07:00:00', riskLevel: 'Medium' },
+  { terminalId: 'ATM-BLR-0002', binType: 'Open', lastChecked: '2026-04-11 23:30:00', riskLevel: 'High' },
+  { terminalId: 'ATM-CHN-0001', binType: 'Sealed', lastChecked: '2026-04-12 08:00:00', riskLevel: 'Low', cassetteSeal: 'RB-04122026-002' },
 ];
 
 // ── Mock Digital Evidence ──
@@ -153,8 +195,8 @@ export const digitalEvidence: DigitalEvidence[] = [
   { id: 'DE-002', terminalId: 'ATM-MUM-0001', type: 'MSP Log', filename: 'MSP_MUM0001_20260412.html', uploadedAt: '2026-04-12 09:46:00', size: '1.1 MB' },
   { id: 'DE-003', terminalId: 'ATM-MUM-0001', type: 'Counter JPEG', filename: 'COUNTER_MUM0001_20260412.jpg', uploadedAt: '2026-04-12 18:15:00', size: '845 KB' },
   { id: 'DE-004', terminalId: 'ATM-MUM-0001', type: 'EOD Report', filename: 'EOD_MUM0001_20260412.pdf', uploadedAt: '2026-04-12 18:20:00', size: '512 KB' },
-  { id: 'DE-005', terminalId: 'ATM-DEL-0101', type: 'EJ File', filename: 'EJ_DEL0101_20260412.txt', uploadedAt: '2026-04-12 09:40:00', size: '1.8 MB' },
-  { id: 'DE-006', terminalId: 'ATM-BLR-0202', type: 'MSP Log', filename: 'MSP_BLR0202_20260411.html', uploadedAt: '2026-04-11 23:45:00', size: '980 KB' },
+  { id: 'DE-005', terminalId: 'ATM-DEL-0001', type: 'EJ File', filename: 'EJ_DEL0001_20260412.txt', uploadedAt: '2026-04-12 09:40:00', size: '1.8 MB' },
+  { id: 'DE-006', terminalId: 'ATM-BLR-0002', type: 'MSP Log', filename: 'MSP_BLR0002_20260411.html', uploadedAt: '2026-04-11 23:45:00', size: '980 KB' },
 ];
 
 // ── Data Health ──
@@ -167,8 +209,7 @@ export const dataHealthMetrics: DataHealthMetric[] = [
 ];
 
 // ── Helpers ──
-export const formatINR = (n: number) =>
-  '₹' + n.toLocaleString('en-IN');
+export const formatINR = (n: number) => '₹' + n.toLocaleString('en-IN');
 
 export const getStatusColor = (s: string) => {
   switch (s) {
@@ -192,5 +233,14 @@ export const getRiskColor = (r: string) => {
     case 'High': return 'text-red-700 bg-red-100';
     case 'Medium': return 'text-amber-700 bg-amber-100';
     default: return 'text-emerald-700 bg-emerald-100';
+  }
+};
+
+export const getPenaltyColor = (p: string) => {
+  switch (p) {
+    case 'Penalty Active': return 'text-red-700 bg-red-100';
+    case 'Harmonizing Penalty Pending': return 'text-amber-700 bg-amber-100';
+    case 'Under Review': return 'text-blue-700 bg-blue-100';
+    default: return 'text-emerald-700 bg-emerald-50';
   }
 };
