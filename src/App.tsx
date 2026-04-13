@@ -247,7 +247,8 @@ const AppContent = () => {
                          location.pathname === '/pitch/enterprise' ||
                          location.pathname === '/pitch/bajaj-finserv' ||
                          location.pathname === '/pitch/discvrai-platform' ||
-                         location.pathname === '/cms-data-lake';
+                         location.pathname === '/cms-data-lake' ||
+                         location.pathname === '/cms-recon-center';
   return (
     <>
       <Routes>
@@ -432,6 +433,7 @@ const AppContent = () => {
                    <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
                    <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
                     <Route path="/cms-data-lake" element={<CMSDataLake />} />
+                    <Route path="/cms-recon-center" element={<CMSReconCenter />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
