@@ -11,23 +11,26 @@ export interface ATMProfile {
   lastSync: string;
   dataCompleteness: number;
   penaltyRisk: 'None' | 'Harmonizing Penalty Pending' | 'Under Review' | 'Penalty Active';
-  // Live balance
   systemBalance: number;
   machineBalance: number;
   balanceDrift: number;
-  // Replenishment
   nextReplenishmentDate: string;
   nextReplenishmentAmount: number;
   replenishmentPath: 'Cassette Swap' | 'Add Cash';
-  // Custodian
   custodianName: string;
   routeId: string;
   custodianRiskFlag: boolean;
-  // Insights
   highCashBurn: boolean;
   frequentJam: boolean;
   pendingClaimCount: number;
-  claimRiskDay: number; // T+N
+  claimRiskDay: number;
+  // Machine DNA
+  sitePersona: 'High-Traffic Salary Site' | 'Commercial Hub' | 'Remote Area' | 'High-Risk Pilferage Zone' | 'Residential Area' | 'Transit Corridor';
+  slotMapping: { slot: number; denom: number; capacity: number; currentCount: number }[];
+  cassettes: { id: string; slot: number; type: 'Sealed' | 'Open'; lastSealVerified: string; vaultPacked: boolean }[];
+  // Connectivity
+  connectivityHistory: { timestamp: string; state: 'Online' | 'Offline' | 'Degraded'; duration: string }[];
+  powerHistory: { timestamp: string; state: 'Mains' | 'UPS' | 'Power-Off'; duration: string }[];
 }
 
 export interface EJLogEntry {
@@ -58,12 +61,13 @@ export interface TimelineEvent {
   id: string;
   terminalId: string;
   timestamp: string;
-  type: 'indent_created' | 'cash_loaded' | 'ej_log' | 'auto_recovery' | 'physical_eod' | 'overage_flag' | 'reject_bin' | 'error' | 'transaction';
+  type: 'indent_created' | 'cash_loaded' | 'ej_log' | 'auto_recovery' | 'physical_eod' | 'overage_flag' | 'reject_bin' | 'error' | 'transaction' | 'connectivity' | 'power';
   title: string;
   detail: string;
   severity: 'info' | 'warning' | 'critical';
   linkedEntities?: string[];
   suspectedOverage?: number;
+  blindWindow?: boolean;
 }
 
 export interface OverageEvent {
@@ -94,6 +98,8 @@ export interface DigitalEvidence {
   uploadedAt: string;
   size: string;
   preview?: string;
+  syncSource?: string;
+  syncTimestamp?: string;
 }
 
 export interface DataHealthMetric {
@@ -125,6 +131,21 @@ export interface HardwareError {
   occurrences: number;
 }
 
+export interface BurnRateEntry {
+  date: string;
+  dispensed: number;
+  loaded: number;
+  balance: number;
+}
+
+export interface ErrorPatternEntry {
+  errorCode: string;
+  errorDesc: string;
+  monthlyCount: number[];
+  monthLabels: string[];
+  trend: 'rising' | 'stable' | 'declining';
+}
+
 // ── Fleet generator ──
 const bankList = ['HDFC', 'SBI', 'ICICI', 'Axis', 'PNB', 'BOB', 'Kotak', 'IndusInd', 'Yes Bank', 'Canara'];
 const regionMap: Record<string, { states: string[]; hubs: string[] }> = {
@@ -136,11 +157,59 @@ const regionMap: Record<string, { states: string[]; hubs: string[] }> = {
 const regions = Object.keys(regionMap);
 const custodians = ['Rajesh Sharma', 'Amit Verma', 'Priya Singh', 'Karthik Nair', 'Deepak Joshi', 'Sunil Das', 'Vikram Meena', 'Anita Rao', 'Manoj Tiwari', 'Ravi Kumar'];
 const penaltyRisks: ATMProfile['penaltyRisk'][] = ['None', 'None', 'None', 'None', 'Harmonizing Penalty Pending', 'Under Review', 'Penalty Active'];
+const sitePersonas: ATMProfile['sitePersona'][] = ['High-Traffic Salary Site', 'Commercial Hub', 'Remote Area', 'High-Risk Pilferage Zone', 'Residential Area', 'Transit Corridor'];
 const cityCodes: Record<string, string> = { Maharashtra: 'MUM', Gujarat: 'AMD', Goa: 'GOA', Delhi: 'DEL', Rajasthan: 'JAI', UP: 'LKO', Haryana: 'GGN', Punjab: 'CHD', Karnataka: 'BLR', 'Tamil Nadu': 'CHN', Telangana: 'HYD', Kerala: 'KCH', 'West Bengal': 'KOL', Odisha: 'BBS', Bihar: 'PAT', Jharkhand: 'RAN' };
 
 function seededRandom(seed: number) { let s = seed; return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; }; }
 const rand = seededRandom(42);
 const pick = <T,>(arr: T[]): T => arr[Math.floor(rand() * arr.length)];
+
+function generateSlotMapping(atmType: 'Recycler' | 'Standard') {
+  const denoms = [2000, 500, 200, 100];
+  return denoms.map((d, i) => ({
+    slot: i + 1,
+    denom: d,
+    capacity: atmType === 'Recycler' ? 2500 : 2000,
+    currentCount: Math.floor(rand() * (atmType === 'Recycler' ? 2500 : 2000)),
+  }));
+}
+
+function generateCassettes(terminalId: string, slots: { slot: number; denom: number }[]) {
+  return slots.map((s, i) => ({
+    id: `CAS-${terminalId.slice(-4)}-${String(i + 1).padStart(2, '0')}`,
+    slot: s.slot,
+    type: (rand() > 0.5 ? 'Sealed' : 'Open') as 'Sealed' | 'Open',
+    lastSealVerified: `2026-04-${10 + Math.floor(rand() * 3)} ${String(6 + Math.floor(rand() * 12)).padStart(2, '0')}:${String(Math.floor(rand() * 60)).padStart(2, '0')}`,
+    vaultPacked: rand() > 0.4,
+  }));
+}
+
+function generateConnectivity() {
+  const states: ('Online' | 'Offline' | 'Degraded')[] = ['Online', 'Online', 'Online', 'Offline', 'Degraded'];
+  const entries = [];
+  for (let h = 6; h < 19; h++) {
+    const s = pick(states);
+    entries.push({
+      timestamp: `2026-04-12 ${String(h).padStart(2, '0')}:00`,
+      state: s,
+      duration: s === 'Offline' ? `${Math.floor(rand() * 45 + 5)} min` : s === 'Degraded' ? `${Math.floor(rand() * 20 + 2)} min` : '60 min',
+    });
+  }
+  return entries;
+}
+
+function generatePower() {
+  const states: ('Mains' | 'UPS' | 'Power-Off')[] = ['Mains', 'Mains', 'Mains', 'Mains', 'UPS', 'Power-Off'];
+  const entries = [];
+  for (let h = 6; h < 19; h += 2) {
+    entries.push({
+      timestamp: `2026-04-12 ${String(h).padStart(2, '0')}:00`,
+      state: pick(states),
+      duration: '2h',
+    });
+  }
+  return entries;
+}
 
 function generateFleet(count: number): ATMProfile[] {
   const fleet: ATMProfile[] = [];
@@ -160,30 +229,69 @@ function generateFleet(count: number): ATMProfile[] {
     const hcb = rand() > 0.85;
     const fj = rand() > 0.9;
     const pc = rand() > 0.8 ? Math.floor(1 + rand() * 3) : 0;
+    const atmType = rand() > 0.4 ? 'Standard' as const : 'Recycler' as const;
+    const slots = generateSlotMapping(atmType);
 
     fleet.push({
-      terminalId: id, bank, region, state, hub,
-      atmType: rand() > 0.4 ? 'Standard' : 'Recycler',
-      status, lastSync: `2026-04-12 ${String(Math.floor(6 + rand() * 13)).padStart(2, '0')}:${String(Math.floor(rand() * 60)).padStart(2, '0')}`,
+      terminalId: id, bank, region, state, hub, atmType, status,
+      lastSync: `2026-04-12 ${String(Math.floor(6 + rand() * 13)).padStart(2, '0')}:${String(Math.floor(rand() * 60)).padStart(2, '0')}`,
       dataCompleteness: Math.min(100, completeness),
       penaltyRisk: status === 'Online' && rand() > 0.85 ? pick(penaltyRisks.filter(p => p !== 'None')) : pick(penaltyRisks),
-      systemBalance: sysBalance,
-      machineBalance: sysBalance + drift,
-      balanceDrift: drift,
+      systemBalance: sysBalance, machineBalance: sysBalance + drift, balanceDrift: drift,
       nextReplenishmentDate: `2026-04-${12 + Math.floor(rand() * 3)} ${String(6 + Math.floor(rand() * 12)).padStart(2, '0')}:00`,
       nextReplenishmentAmount: Math.round((1000000 + rand() * 2500000) / 100000) * 100000,
       replenishmentPath: rand() > 0.5 ? 'Cassette Swap' : 'Add Cash',
-      custodianName: pick(custodians),
-      routeId: `R-${region.substring(0, 1)}${String(Math.floor(rand() * 50) + 1).padStart(3, '0')}`,
+      custodianName: pick(custodians), routeId: `R-${region.substring(0, 1)}${String(Math.floor(rand() * 50) + 1).padStart(3, '0')}`,
       custodianRiskFlag: rand() > 0.9,
-      highCashBurn: hcb, frequentJam: fj,
-      pendingClaimCount: pc, claimRiskDay: pc > 0 ? Math.floor(1 + rand() * 5) : 0,
+      highCashBurn: hcb, frequentJam: fj, pendingClaimCount: pc, claimRiskDay: pc > 0 ? Math.floor(1 + rand() * 5) : 0,
+      sitePersona: pick(sitePersonas),
+      slotMapping: slots,
+      cassettes: generateCassettes(id, slots),
+      connectivityHistory: generateConnectivity(),
+      powerHistory: generatePower(),
     });
   }
   return fleet;
 }
 
 export const atmProfiles: ATMProfile[] = generateFleet(200);
+
+// ── Burn Rate Data (30-day) ──
+export function generateBurnRates(terminalId: string): BurnRateEntry[] {
+  const r2 = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0));
+  const entries: BurnRateEntry[] = [];
+  let bal = 2000000 + Math.floor(r2() * 1000000);
+  for (let d = 1; d <= 30; d++) {
+    const dispensed = Math.floor(50000 + r2() * 200000);
+    const loaded = d % 7 === 0 ? Math.floor(1500000 + r2() * 1000000) : 0;
+    bal = bal - dispensed + loaded;
+    if (bal < 100000) bal += 2000000;
+    entries.push({
+      date: `Mar ${d}`,
+      dispensed,
+      loaded,
+      balance: bal,
+    });
+  }
+  return entries;
+}
+
+// ── Error Patterns ──
+export function generateErrorPatterns(terminalId: string): ErrorPatternEntry[] {
+  const r2 = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 99);
+  const errors = [
+    { code: 'BNA-TJ01', desc: 'BNA Transport Jam' },
+    { code: 'CDM-NF01', desc: 'Note Feed Failure' },
+    { code: 'HTX-TO01', desc: 'Host TX Timeout' },
+    { code: 'CST-SJ01', desc: 'Cassette Sensor Jam' },
+  ];
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr'];
+  return errors.filter(() => r2() > 0.3).map(e => {
+    const counts = labels.map(() => Math.floor(r2() * 8));
+    const trend = counts[3] > counts[1] ? 'rising' as const : counts[3] < counts[1] ? 'declining' as const : 'stable' as const;
+    return { errorCode: e.code, errorDesc: e.desc, monthlyCount: counts, monthLabels: labels, trend };
+  });
+}
 
 // ── EJ Logs ──
 export const ejLogs: EJLogEntry[] = [
@@ -210,11 +318,14 @@ export const cashOperations: CashOperation[] = [
 export const timelineEvents: TimelineEvent[] = [
   { id: 'TL-001', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 06:30:00', type: 'indent_created', title: 'Indent Created', detail: 'IND-2026-04-001 — ₹25,00,000 Fresh Load', severity: 'info' },
   { id: 'TL-002', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 07:15:00', type: 'cash_loaded', title: 'Cash Loaded', detail: 'CIT Agent Rajesh Sharma loaded 4 cassettes. CLL uploaded.', severity: 'info' },
+  { id: 'TL-C01', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 08:30:00', type: 'connectivity', title: 'Connectivity Degraded', detail: 'Link quality dropped to 42%. Latency spike 800ms. Possible ISP issue.', severity: 'warning' },
   { id: 'TL-003', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 09:12:34', type: 'error', title: 'BNA Transport Jam', detail: 'Ticket CMS-02435507 — BNA ERROR - TRANSPORT JAM. ₹2,000 note stuck.', severity: 'critical', linkedEntities: ['EJ-001'], suspectedOverage: 2000 },
   { id: 'TL-004', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 09:14:01', type: 'auto_recovery', title: 'Auto-Recovery Detected', detail: 'Machine auto-cleared jam. FLM auto-close triggered. Suspected Overage Event.', severity: 'warning', linkedEntities: ['EJ-002'], suspectedOverage: 2000 },
   { id: 'TL-005', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 09:22:15', type: 'transaction', title: '₹10,000 Withdrawal', detail: 'CMS-02435510 — Dispensed successfully.', severity: 'info', linkedEntities: ['EJ-003'] },
   { id: 'TL-006', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 10:05:30', type: 'transaction', title: '₹20,000 Withdrawal', detail: 'CMS-02435511 — Dispensed successfully.', severity: 'info', linkedEntities: ['EJ-004'] },
+  { id: 'TL-P01', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 10:30:00', type: 'power', title: 'UPS Switchover', detail: 'Mains power lost. UPS engaged for 18 minutes. No transaction impact.', severity: 'warning' },
   { id: 'TL-007', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 11:30:00', type: 'ej_log', title: 'Disputed Transaction', detail: 'CMS-02435512 — Customer claims ₹5,000 not dispensed.', severity: 'warning', linkedEntities: ['EJ-005'] },
+  { id: 'TL-C02', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 13:00:00', type: 'connectivity', title: '⚠ Machine Went OFFLINE', detail: 'Connection lost for 22 minutes. During this window, shortage of ₹5,000 is unverifiable.', severity: 'critical', blindWindow: true },
   { id: 'TL-008', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 14:15:20', type: 'error', title: 'Note Feed Failure', detail: 'CDM-NF01 — Cassette 3 feed mechanism failure.', severity: 'critical', linkedEntities: ['EJ-006'] },
   { id: 'TL-009', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 14:16:00', type: 'auto_recovery', title: 'Auto-Recovery — Feed Retry', detail: 'Feed retry succeeded. Machine resumed.', severity: 'warning', linkedEntities: ['EJ-007'] },
   { id: 'TL-010', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 18:00:00', type: 'physical_eod', title: 'Physical EOD Completed', detail: 'EOD visit by Ramesh K. Cash tallied. Reject bin sealed.', severity: 'info' },
@@ -236,13 +347,13 @@ export const rejectBinStatuses: RejectBinStatus[] = [
 
 // ── Digital Evidence ──
 export const digitalEvidence: DigitalEvidence[] = [
-  { id: 'DE-001', terminalId: 'ATM-MUM-0001', type: 'EJ File', filename: 'EJ_MUM0001_20260412.txt', uploadedAt: '2026-04-12 09:45:00', size: '2.3 MB', preview: '09:12:34 TXN_START Card:XXXX-4521\n09:12:40 BNA_ERROR BNA-TJ01\n09:14:01 AUTO_RECOVERY\n09:22:15 TXN_SUCCESS ₹10,000' },
-  { id: 'DE-002', terminalId: 'ATM-MUM-0001', type: 'MSP Log', filename: 'MSP_MUM0001_20260412.html', uploadedAt: '2026-04-12 09:46:00', size: '1.1 MB', preview: '[06:30] BOOT: OK\n[07:15] CASH_LOAD: Rajesh\n[09:12] ALERT: BNA JAM\n[18:00] EOD_VISIT' },
-  { id: 'DE-003', terminalId: 'ATM-MUM-0001', type: 'Counter JPEG', filename: 'COUNTER_MUM0001_20260412.jpg', uploadedAt: '2026-04-12 18:15:00', size: '845 KB' },
-  { id: 'DE-004', terminalId: 'ATM-MUM-0001', type: 'EOD Report', filename: 'EOD_MUM0001_20260412.pdf', uploadedAt: '2026-04-12 18:20:00', size: '512 KB' },
-  { id: 'DE-005', terminalId: 'ATM-MUM-0001', type: 'Loading Slip', filename: 'CLL_MUM0001_20260412.pdf', uploadedAt: '2026-04-12 07:20:00', size: '320 KB' },
-  { id: 'DE-006', terminalId: 'ATM-MUM-0001', type: 'Body Cam', filename: 'BCAM_MUM0001_20260412.mp4', uploadedAt: '2026-04-12 18:25:00', size: '48 MB' },
-  { id: 'DE-007', terminalId: 'ATM-DEL-0001', type: 'EJ File', filename: 'EJ_DEL0001_20260412.txt', uploadedAt: '2026-04-12 09:40:00', size: '1.8 MB' },
+  { id: 'DE-001', terminalId: 'ATM-MUM-0001', type: 'EJ File', filename: 'EJ_MUM0001_20260412.txt', uploadedAt: '2026-04-12 09:45:00', size: '2.3 MB', syncSource: 'FLM App', syncTimestamp: '2026-04-12 10:02:00', preview: '09:12:34 TXN_START Card:XXXX-4521\n09:12:38 DISP_REQ ₹10,000 [500x20]\n09:12:40 BNA_ERROR BNA-TJ01\n09:12:40 *** TRANSPORT JAM DETECTED ***\n09:13:15 RECOVERY_INIT\n09:14:01 AUTO_RECOVERY OK\n09:14:01 FLM_SILENT_CLOSE\n09:22:15 TXN_START Card:XXXX-8834\n09:22:18 DISP_REQ ₹10,000 [500x20]\n09:22:22 DISP_OK\n09:22:25 TXN_SUCCESS ₹10,000\n10:05:28 TXN_START Card:XXXX-1209\n10:05:30 DISP_REQ ₹20,000 [2000x10]\n10:05:35 DISP_OK\n10:05:38 TXN_SUCCESS ₹20,000\n11:29:55 TXN_START Card:XXXX-7742\n11:30:00 DISP_REQ ₹5,000 [500x10]\n11:30:02 DISP_OK\n11:30:05 TXN_SUCCESS ₹5,000\n11:30:10 CUSTOMER_DISPUTE ₹5,000 NOT_RECEIVED\n14:15:18 CDM_ERROR CDM-NF01\n14:15:20 *** NOTE FEED FAILURE - CASSETTE 3 ***\n14:15:45 RECOVERY_INIT\n14:16:00 AUTO_RECOVERY OK' },
+  { id: 'DE-002', terminalId: 'ATM-MUM-0001', type: 'MSP Log', filename: 'MSP_MUM0001_20260412.html', uploadedAt: '2026-04-12 09:46:00', size: '1.1 MB', syncSource: 'MSP Agent v3.2', syncTimestamp: '2026-04-12 09:46:00', preview: '[06:30:00] SYSTEM BOOT: OK — POST checks passed\n[06:30:15] CASSETTE_INIT: Slot1=₹500 OK, Slot2=₹100 OK, Slot3=₹200 OK, Slot4=₹2000 OK\n[07:15:00] CASH_LOAD_EVENT: Agent=Rajesh Sharma, Cassettes=4, CLL=UPLOADED\n[08:30:22] NETWORK: Link quality degraded 42%, latency 800ms\n[09:12:34] ALERT: BNA TRANSPORT JAM — Cassette 1\n[09:14:01] AUTO_RECOVERY: JAM cleared, FLM auto-close\n[13:00:05] NETWORK: CONNECTION LOST — Duration: 22min\n[13:22:10] NETWORK: CONNECTION RESTORED\n[14:15:20] ALERT: NOTE FEED FAILURE — Cassette 3\n[14:16:00] AUTO_RECOVERY: Feed retry success\n[18:00:00] EOD_VISIT: Custodian Ramesh K.' },
+  { id: 'DE-003', terminalId: 'ATM-MUM-0001', type: 'Counter JPEG', filename: 'COUNTER_MUM0001_20260412.jpg', uploadedAt: '2026-04-12 18:15:00', size: '845 KB', syncSource: 'Body Cam Upload', syncTimestamp: '2026-04-12 18:15:00' },
+  { id: 'DE-004', terminalId: 'ATM-MUM-0001', type: 'EOD Report', filename: 'EOD_MUM0001_20260412.pdf', uploadedAt: '2026-04-12 18:20:00', size: '512 KB', syncSource: 'CMS Portal', syncTimestamp: '2026-04-12 18:22:00' },
+  { id: 'DE-005', terminalId: 'ATM-MUM-0001', type: 'Loading Slip', filename: 'CLL_MUM0001_20260412.pdf', uploadedAt: '2026-04-12 07:20:00', size: '320 KB', syncSource: 'FLM App', syncTimestamp: '2026-04-12 07:20:00' },
+  { id: 'DE-006', terminalId: 'ATM-MUM-0001', type: 'Body Cam', filename: 'BCAM_MUM0001_20260412.mp4', uploadedAt: '2026-04-12 18:25:00', size: '48 MB', syncSource: 'Body Cam Upload', syncTimestamp: '2026-04-12 18:25:00' },
+  { id: 'DE-007', terminalId: 'ATM-DEL-0001', type: 'EJ File', filename: 'EJ_DEL0001_20260412.txt', uploadedAt: '2026-04-12 09:40:00', size: '1.8 MB', syncSource: 'FLM App', syncTimestamp: '2026-04-12 09:42:00' },
 ];
 
 // ── Replenishment Plans ──
