@@ -99,7 +99,7 @@ const BullionNotifications = () => {
   const [newEventName, setNewEventName] = useState('');
   const [newEventDate, setNewEventDate] = useState<Date | undefined>(undefined);
   const [newEventType, setNewEventType] = useState<'festival' | 'personal' | 'sip' | 'target'>('personal');
-  const [newEventMetal, setNewEventMetal] = useState<'gold' | 'silver' | ''>('');
+  const [newEventMetal, setNewEventMetal] = useState<'gold' | 'silver' | 'none'>('none');
   const [calendarSearch, setCalendarSearch] = useState('');
 
   const getMetalIcon = (metal?: 'gold' | 'silver') => {
@@ -167,13 +167,13 @@ const BullionNotifications = () => {
       date: dateStr,
       event: newEventName.trim(),
       type: newEventType,
-      metal: newEventMetal === '' ? undefined : newEventMetal,
+      metal: newEventMetal === 'none' ? undefined : newEventMetal,
     };
     setUpcomingEvents(prev => [...prev, newEvent].sort((a, b) => a.date.localeCompare(b.date)));
     setNewEventName('');
     setNewEventDate(undefined);
     setNewEventType('personal');
-    setNewEventMetal('');
+    setNewEventMetal('none');
     setShowAddEvent(false);
     toast.success("Event added to calendar!");
   };
@@ -766,7 +766,7 @@ const BullionNotifications = () => {
                     <SelectValue placeholder="None" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="none">None</SelectItem>
                     <SelectItem value="gold">Gold</SelectItem>
                     <SelectItem value="silver">Silver</SelectItem>
                   </SelectContent>
