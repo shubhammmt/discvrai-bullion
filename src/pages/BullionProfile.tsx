@@ -47,6 +47,7 @@ interface ProfileData {
   nominee: {
     name: string;
     relation: string;
+    birthday?: string;
   } | null;
 }
 
