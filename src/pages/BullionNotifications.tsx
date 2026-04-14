@@ -122,7 +122,7 @@ const BullionNotifications = () => {
       case 'personal': return <Heart size={14} />;
       case 'sip': return <Clock size={14} />;
       case 'target': return <Target size={14} />;
-      default: return <Calendar size={14} />;
+      default: return <CalendarIcon size={14} />;
     }
   };
 
