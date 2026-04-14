@@ -99,7 +99,7 @@ const BullionNotifications = () => {
   const [newEventName, setNewEventName] = useState('');
   const [newEventDate, setNewEventDate] = useState<Date | undefined>(undefined);
   const [newEventType, setNewEventType] = useState<'festival' | 'personal' | 'sip' | 'target'>('personal');
-  const [newEventMetal, setNewEventMetal] = useState<'gold' | 'silver' | ''>('');
+  const [newEventMetal, setNewEventMetal] = useState<'gold' | 'silver' | 'none'>('none');
   const [calendarSearch, setCalendarSearch] = useState('');
 
   const getMetalIcon = (metal?: 'gold' | 'silver') => {
