@@ -56,6 +56,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
+import CMSPitchDeck from './pages/CMSPitchDeck';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
@@ -441,6 +442,7 @@ const AppContent = () => {
                     <Route path="/cms-recon-center" element={<CMSReconCenter />} />
                     <Route path="/cms-audit-command" element={<CMSAuditCommand />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
+                    <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
