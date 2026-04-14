@@ -19,7 +19,7 @@ const SLIDE_TITLES = [
 
 // ─── SLIDE 1: TITLE ───
 const Slide1: React.FC<SlideProps> = ({ isActive }) => (
-  <div className={`transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'}`}>
+  <div className={`h-full transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'}`}>
     <div className="h-full flex flex-col items-center justify-center text-center px-16 relative">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-cyan-500/10 rounded-3xl" />
       <div className="relative z-10 space-y-8">
