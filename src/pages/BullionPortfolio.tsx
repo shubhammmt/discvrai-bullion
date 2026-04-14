@@ -41,11 +41,9 @@ const mockTransactions = [
   { id: "6", type: "sip" as const, metal: "silver" as const, grams: 25, amount: 1920, date: "Dec 1, 2025", status: "success" as const },
 ];
 
-// Mock SIPs
-const mockSIPs = [
-  { id: "1", metal: "gold" as const, amount: 1000, frequency: "monthly", nextDebit: "Jan 15, 2026", totalInvested: 6000, grams: 0.96 },
-  { id: "2", metal: "silver" as const, amount: 500, frequency: "weekly", nextDebit: "Jan 3, 2026", totalInvested: 4000, grams: 52 },
-];
+// SIPs from shared data
+import { activeBullionSIPs } from "@/data/bullionSIPData";
+const mockSIPs = activeBullionSIPs;
 
 export default function BullionPortfolio() {
   const navigate = useNavigate();
