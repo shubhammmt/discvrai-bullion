@@ -640,7 +640,7 @@ const BullionNotifications = () => {
                       <p className="text-sm text-muted-foreground text-center py-4">No events found</p>
                     ) : (
                       filteredEvents.map((event, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                         <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                           <div className="flex items-center gap-3">
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getEventColor(event.type)}`}>
                               {getEventIcon(event.type)}
@@ -653,6 +653,10 @@ const BullionNotifications = () => {
                           <div className="flex items-center gap-2">
                             {event.metal && getMetalIcon(event.metal)}
                             <Badge variant="outline" className="text-xs capitalize">{event.type}</Badge>
+                            <Switch
+                              checked={eventToggles[event.event] ?? true}
+                              onCheckedChange={() => toggleEvent(event.event)}
+                            />
                           </div>
                         </div>
                       ))
