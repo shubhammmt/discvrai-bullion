@@ -4,7 +4,7 @@ import {
   TrendingUp, 
   Wallet, 
   Newspaper, 
-  Trophy, 
+  Gamepad2, 
   Target, 
   Crown,
   Gem,
