@@ -246,8 +246,9 @@ const CMSAuditCommand: React.FC = () => {
     }
   };
 
-  const currentHistKpi = isHistorical ? HISTORICAL_KPI[timeframe === 'live' ? '24h' : timeframe] : null;
-  const currentInsights = isHistorical ? PATTERN_INSIGHTS[timeframe === 'live' ? '24h' : timeframe] : null;
+  const historicalKey = timeframe !== 'live' ? timeframe : '24h';
+  const currentHistKpi = isHistorical ? HISTORICAL_KPI[historicalKey] : null;
+  const currentInsights = isHistorical ? PATTERN_INSIGHTS[historicalKey] : null;
 
   const timeframeLabel = TIMEFRAME_OPTIONS.find(o => o.key === timeframe)?.label || 'Live';
 
