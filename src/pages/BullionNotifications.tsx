@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, Bookmark, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2, BookOpen, Users, CheckCircle2, ArrowRight } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar as CalendarIcon, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, Bookmark, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2, BookOpen, Users, CheckCircle2, ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -8,6 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { CreatePriceAlertDialog } from "@/components/bullion/CreatePriceAlertDialog";
 import { toast } from "sonner";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { format } from "date-fns";
 
 // Types
 interface BullionAlert {
