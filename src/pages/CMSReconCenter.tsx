@@ -7,13 +7,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import { toast } from 'sonner';
+import { format } from 'date-fns';
 import {
   AlertTriangle, DollarSign, RefreshCw, Clock,
   Search, Filter, X, ChevronRight, ChevronDown, Eye, Zap, Info, Download,
   ArrowUpRight, ArrowDownRight, Target, Activity, CheckCircle2,
   XCircle, AlertCircle, ShieldAlert, Banknote, Cpu, ThumbsUp, ThumbsDown,
-  Scale, Gavel, Code, Inbox, FileArchive, MapPin, Shield, Camera, User, Lock
+  Scale, Gavel, Code, Inbox, FileArchive, MapPin, Shield, Camera, User, Lock,
+  CalendarIcon, TrendingUp, BarChart3, History, Award, Flame
 } from 'lucide-react';
 import {
   reconPulse, mismatchedLedgers, pendingClaims, harmonizingPenalties,
@@ -22,6 +26,20 @@ import {
   formatINR, getSeverityBadge, getClaimTimerColor,
   TransactionComparison
 } from '@/data/cmsReconCenter';
+
+// ── Mini Sparkline ──
+const MiniSparkline: React.FC<{ data: number[]; color: string; width?: number; height?: number }> = ({ data, color, width = 80, height = 24 }) => {
+  if (!data.length) return null;
+  const min = Math.min(...data); const max = Math.max(...data);
+  const range = max - min || 1;
+  const pts = data.map((v, i) => `${(i / (data.length - 1)) * width},${height - ((v - min) / range) * height}`).join(' ');
+  return (
+    <svg width={width} height={height} className="inline-block">
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={(data.length - 1) / (data.length - 1) * width} cy={height - ((data[data.length - 1] - min) / range) * height} r="2" fill={color} />
+    </svg>
+  );
+};
 
 const InfoTip: React.FC<{ text: string }> = ({ text }) => (
   <TooltipProvider>
@@ -34,6 +52,56 @@ const InfoTip: React.FC<{ text: string }> = ({ text }) => (
   </TooltipProvider>
 );
 
+// ── Historical mock data generators ──
+const genSparkline = (base: number, variance: number, n = 14) =>
+  Array.from({ length: n }, (_, i) => base + (Math.sin(i * 0.7) * variance) + (Math.random() - 0.5) * variance * 0.5);
+
+const TIMEFRAMES = [
+  { value: 'live', label: 'Live Dashboard' },
+  { value: '7d', label: 'Last 7 Days' },
+  { value: 'mtd', label: 'Month-to-Date' },
+  { value: 'quarterly', label: 'Quarterly Review' },
+];
+
+// Historical resolved entries
+const historicalResolved = [
+  { id: 'HR-001', terminalId: 'ATM-1001', bank: 'HDFC', region: 'North', amount: 15000, resolvedAs: 'Technical Error', resolutionMode: 'Auto-Resolved by Bot', outcome: 'Refund Authorized', savedAmount: 15000, penaltyPaid: 0, timeToResolve: '4.2 hrs', date: '2025-01-08' },
+  { id: 'HR-002', terminalId: 'ATM-2045', bank: 'SBI', region: 'West', amount: 42000, resolvedAs: 'Theft', resolutionMode: 'Manual Escalation', outcome: 'Shortage Recovered from Vendor', savedAmount: 42000, penaltyPaid: 1200, timeToResolve: '3.1 days', date: '2025-01-07' },
+  { id: 'HR-003', terminalId: 'ATM-3012', bank: 'ICICI', region: 'South', amount: 8500, resolvedAs: 'Technical Error', resolutionMode: 'Auto-Resolved by Bot', outcome: 'Refund Authorized; AR Matched', savedAmount: 8500, penaltyPaid: 0, timeToResolve: '1.8 hrs', date: '2025-01-06' },
+  { id: 'HR-004', terminalId: 'ATM-1089', bank: 'HDFC', region: 'North', amount: 65000, resolvedAs: 'Theft', resolutionMode: 'Manual Escalation + Audit', outcome: 'FIR Filed; Vendor Debited', savedAmount: 52000, penaltyPaid: 4800, timeToResolve: '5.4 days', date: '2025-01-05' },
+  { id: 'HR-005', terminalId: 'ATM-4501', bank: 'Axis', region: 'East', amount: 12000, resolvedAs: 'Technical Error', resolutionMode: 'Auto-Resolved by Bot', outcome: 'Refund Authorized', savedAmount: 12000, penaltyPaid: 0, timeToResolve: '2.1 hrs', date: '2025-01-04' },
+  { id: 'HR-006', terminalId: 'ATM-2078', bank: 'SBI', region: 'West', amount: 95000, resolvedAs: 'Theft', resolutionMode: 'Manual Escalation', outcome: 'Insurance Claim Filed', savedAmount: 71000, penaltyPaid: 8500, timeToResolve: '7.2 days', date: '2025-01-03' },
+  { id: 'HR-007', terminalId: 'ATM-3098', bank: 'ICICI', region: 'South', amount: 5500, resolvedAs: 'Technical Error', resolutionMode: 'Auto-Resolved by Bot', outcome: 'Denomination Drift Corrected', savedAmount: 5500, penaltyPaid: 0, timeToResolve: '45 mins', date: '2025-01-02' },
+  { id: 'HR-008', terminalId: 'ATM-1045', bank: 'HDFC', region: 'North', amount: 28000, resolvedAs: 'Theft', resolutionMode: 'Manual Escalation', outcome: 'Custodian Suspended; Recovery Pending', savedAmount: 0, penaltyPaid: 3200, timeToResolve: '4.8 days', date: '2025-01-01' },
+];
+
+// Penalty analysis by bank/region
+const penaltyAnalysis = [
+  { entity: 'HDFC — North', totalPenalty: 184000, incidents: 23, avgDelay: '2.3 EODs', trend: 'rising', severity: 'critical' },
+  { entity: 'SBI — West', totalPenalty: 156000, incidents: 18, avgDelay: '1.8 EODs', trend: 'stable', severity: 'high' },
+  { entity: 'ICICI — South', totalPenalty: 92000, incidents: 12, avgDelay: '1.2 EODs', trend: 'declining', severity: 'medium' },
+  { entity: 'Axis — East', totalPenalty: 78000, incidents: 9, avgDelay: '1.5 EODs', trend: 'stable', severity: 'medium' },
+  { entity: 'PNB — North', totalPenalty: 65000, incidents: 8, avgDelay: '2.1 EODs', trend: 'rising', severity: 'high' },
+  { entity: 'BOB — West', totalPenalty: 43000, incidents: 6, avgDelay: '0.9 EODs', trend: 'declining', severity: 'low' },
+];
+
+// Top leakage contributors
+const topLeakageContributors = [
+  { name: 'Vendor: SecureCash Logistics', region: 'North', amount: 1840000, incidents: 34, type: 'Vendor' },
+  { name: 'Vendor: CashGuard Services', region: 'West', amount: 1520000, incidents: 28, type: 'Vendor' },
+  { name: 'Region: North Zone', region: 'North', amount: 2100000, incidents: 45, type: 'Region' },
+  { name: 'Region: West Zone', region: 'West', amount: 1680000, incidents: 31, type: 'Region' },
+  { name: 'Custodian Pool: Batch 2024-Q3', region: 'Mixed', amount: 920000, incidents: 18, type: 'Custodian' },
+];
+
+// Recovery efficiency data
+const recoveryEfficiency = [
+  { category: 'Auto-Recovery (AR)', potential: 4200000, recovered: 3780000 },
+  { category: 'Vendor Debit', potential: 3100000, recovered: 2170000 },
+  { category: 'Insurance Claims', potential: 1800000, recovered: 900000 },
+  { category: 'Manual Resolution', potential: 2500000, recovered: 2125000 },
+];
+
 const CMSReconCenter = () => {
   const [bankFilter, setBankFilter] = useState('All');
   const [regionFilter, setRegionFilter] = useState('All');
@@ -43,6 +111,16 @@ const CMSReconCenter = () => {
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [expandedAR, setExpandedAR] = useState<string | null>(null);
   const [actionLog, setActionLog] = useState<Record<string, string>>({});
+  const [timeframe, setTimeframe] = useState('live');
+  const [historicalTab, setHistoricalTab] = useState('mismatch-history');
+  const [archiveFilter, setArchiveFilter] = useState('all');
+  const [archivePage, setArchivePage] = useState(1);
+  const [archiveSearch, setArchiveSearch] = useState('');
+  const [postMortemItem, setPostMortemItem] = useState<typeof historicalResolved[0] | null>(null);
+  const [customDateRange, setCustomDateRange] = useState<{ from?: Date; to?: Date }>({});
+  const [showCustomPicker, setShowCustomPicker] = useState(false);
+
+  const isHistorical = timeframe !== 'live';
 
   const toggleRow = (id: string) => {
     setExpandedRows(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
@@ -55,6 +133,18 @@ const CMSReconCenter = () => {
 
   const pulse = reconPulse;
   const reconData = analyzeItem ? threeWayRecons[analyzeItem] : null;
+
+  const timeframeLabel = TIMEFRAMES.find(t => t.value === timeframe)?.label || 'Live Dashboard';
+
+  // Sparkline data for pulse cards
+  const sparklines = useMemo(() => ({
+    leakage: genSparkline(pulse.totalLeakage, pulse.totalLeakage * 0.15),
+    recovery: genSparkline(pulse.recoveryPotential, pulse.recoveryPotential * 0.1),
+    autoRes: genSparkline(pulse.autoResolutionRate, 8),
+    penalty: genSparkline(pulse.penaltyExposure, pulse.penaltyExposure * 0.2),
+    unrecoverable: genSparkline(pulse.unrecoverablePenaltyLoss, pulse.unrecoverablePenaltyLoss * 0.12),
+    mir: genSparkline(pulse.mir, 5),
+  }), []);
 
   // Filtered data
   const fDisputes = useMemo(() => {
@@ -89,29 +179,76 @@ const CMSReconCenter = () => {
   const orphanCount = fDisputes.filter(d => !d.autoMapped).length;
   const readyCount = fDisputes.filter(d => d.verdictReady).length;
 
+  // Filtered historical resolved
+  const filteredArchive = useMemo(() => {
+    let list = historicalResolved;
+    if (archiveFilter === 'theft') list = list.filter(r => r.resolvedAs === 'Theft');
+    if (archiveFilter === 'technical') list = list.filter(r => r.resolvedAs === 'Technical Error');
+    if (archiveSearch.trim()) {
+      const q = archiveSearch.toLowerCase();
+      list = list.filter(r => r.terminalId.toLowerCase().includes(q) || r.bank.toLowerCase().includes(q));
+    }
+    return list;
+  }, [archiveFilter, archiveSearch]);
+
+  const theftCount = historicalResolved.filter(r => r.resolvedAs === 'Theft').length;
+  const techCount = historicalResolved.filter(r => r.resolvedAs === 'Technical Error').length;
+  const totalSaved = historicalResolved.reduce((s, r) => s + r.savedAmount, 0);
+  const totalPenaltyPaid = historicalResolved.reduce((s, r) => s + r.penaltyPaid, 0);
+
+  // Period comparison percentages
+  const periodChanges = useMemo(() => ({
+    leakage: pulse.leakageTrend,
+    recovery: -8.2,
+    autoRes: 3.4,
+    penalty: pulse.penaltyTrend,
+    unrecoverable: 12.5,
+    mir: pulse.mirTrend,
+  }), []);
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
       {/* ═══ HEADER ═══ */}
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 px-4 py-2">
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-red-600 text-white px-2.5 py-1 rounded-md font-bold text-[11px] flex items-center gap-1">
-              <Target className="h-3.5 w-3.5" /> RESOLUTION ENGINE
+            <div className={`${isHistorical ? 'bg-indigo-600' : 'bg-red-600'} text-white px-2.5 py-1 rounded-md font-bold text-[11px] flex items-center gap-1`}>
+              {isHistorical ? <History className="h-3.5 w-3.5" /> : <Target className="h-3.5 w-3.5" />}
+              {isHistorical ? 'ANALYSIS MODE' : 'RESOLUTION ENGINE'}
             </div>
             <div>
-              <h1 className="text-xs font-bold text-white leading-tight">Financial Resolution Engine</h1>
-              <p className="text-[9px] text-slate-400">₹40–43 Cr Leakage Recovery · Physical × Digital × Machine Reconciliation</p>
+              <h1 className="text-xs font-bold text-white leading-tight">
+                {isHistorical ? 'Strategic Financial Analysis' : 'Financial Resolution Engine'}
+              </h1>
+              <p className="text-[9px] text-slate-400">
+                {isHistorical ? `${timeframeLabel} · Pattern Recognition & Leakage Analysis` : '₹40–43 Cr Leakage Recovery · Physical × Digital × Machine Reconciliation'}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="relative w-56">
+          <div className="flex items-center gap-2">
+            {/* ── Timeframe Selector ── */}
+            <div className="flex items-center gap-1 bg-slate-700 rounded-md p-0.5">
+              {TIMEFRAMES.map(tf => (
+                <button key={tf.value}
+                  onClick={() => { setTimeframe(tf.value); if (tf.value !== 'live') setActiveTab('inbox'); }}
+                  className={`px-2 py-1 rounded text-[10px] font-medium transition-colors ${
+                    timeframe === tf.value
+                      ? tf.value === 'live' ? 'bg-emerald-600 text-white' : 'bg-indigo-600 text-white'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-600'
+                  }`}>
+                  {tf.value === 'live' && <span className="inline-block w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1 animate-pulse" />}
+                  {tf.label}
+                </button>
+              ))}
+            </div>
+            <div className="relative w-44">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
-              <Input placeholder="Search ATM, Claim, Customer..." value={search} onChange={e => setSearch(e.target.value)}
+              <Input placeholder="Search ATM, Claim..." value={search} onChange={e => setSearch(e.target.value)}
                 className="pl-7 h-7 text-[11px] bg-slate-700 border-slate-600 text-white placeholder:text-slate-500" />
               {search && <button onClick={() => setSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2"><X className="h-3 w-3 text-slate-400" /></button>}
             </div>
             <Button variant="outline" size="sm" className="h-7 text-[10px] border-slate-600 text-slate-300 gap-1 bg-transparent hover:bg-slate-700">
-              <Download className="h-3 w-3" /> Export for Bank
+              <Download className="h-3 w-3" /> Export
             </Button>
           </div>
         </div>
@@ -130,21 +267,24 @@ const CMSReconCenter = () => {
             <SelectContent>{reconRegions.map(r => <SelectItem key={r} value={r} className="text-[11px]">{r === 'All' ? 'All Regions' : r}</SelectItem>)}</SelectContent>
           </Select>
           <div className="ml-auto text-[10px] text-slate-500">
-            {pulse.totalCases.toLocaleString()} active · {pulse.resolvedToday} resolved today · Avg {pulse.avgResolutionHrs}h resolution
+            {isHistorical
+              ? <span className="text-indigo-400"><History className="h-3 w-3 inline mr-1" />Viewing: {timeframeLabel}</span>
+              : <>{pulse.totalCases.toLocaleString()} active · {pulse.resolvedToday} resolved today · Avg {pulse.avgResolutionHrs}h resolution</>
+            }
           </div>
         </div>
       </div>
 
-      {/* ═══ FINANCIAL INSIGHTS HEADER ═══ */}
+      {/* ═══ PULSE CARDS ═══ */}
       <div className="px-4 py-2.5 bg-slate-800/30">
         <div className="max-w-[1600px] mx-auto grid grid-cols-6 gap-2">
           {[
-            { label: 'Total Leakage', value: formatINR(pulse.totalLeakage), trend: pulse.leakageTrend, icon: DollarSign, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20', tip: 'Physical Shortages + Unresolved Claims.' },
-            { label: 'Recovery Potential', value: formatINR(pulse.recoveryPotential), trend: -8.2, icon: Target, color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20', tip: 'Total shortages recoverable from vendors/insurance.' },
-            { label: 'Auto-Resolution Rate', value: `${pulse.autoResolutionRate}%`, trend: 3.4, icon: Zap, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20', tip: '% disputes resolved by system without human intervention.' },
-            { label: 'Penalty Exposure', value: formatINR(pulse.penaltyExposure), trend: pulse.penaltyTrend, icon: AlertTriangle, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20', tip: 'Pending Harmonizing + T+5 fines.' },
-            { label: 'Unrecoverable Loss', value: formatINR(pulse.unrecoverablePenaltyLoss), trend: 12.5, icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20', tip: 'Total Harmonizing Penalties accrued this month — non-recoverable.' },
-            { label: 'MIR', value: `${pulse.mir}%`, trend: pulse.mirTrend, icon: Activity, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20', tip: 'Manual Intervention Rate.' },
+            { label: 'Total Leakage', value: formatINR(pulse.totalLeakage), trend: periodChanges.leakage, icon: DollarSign, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20', tip: 'Physical Shortages + Unresolved Claims.', spark: sparklines.leakage, sparkColor: '#f87171' },
+            { label: 'Recovery Potential', value: formatINR(pulse.recoveryPotential), trend: periodChanges.recovery, icon: Target, color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20', tip: 'Total shortages recoverable from vendors/insurance.', spark: sparklines.recovery, sparkColor: '#34d399' },
+            { label: 'Auto-Resolution', value: `${pulse.autoResolutionRate}%`, trend: periodChanges.autoRes, icon: Zap, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20', tip: '% disputes resolved without human intervention.', spark: sparklines.autoRes, sparkColor: '#60a5fa' },
+            { label: 'Penalty Exposure', value: formatINR(pulse.penaltyExposure), trend: periodChanges.penalty, icon: AlertTriangle, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20', tip: 'Pending Harmonizing + T+5 fines.', spark: sparklines.penalty, sparkColor: '#fb923c' },
+            { label: 'Unrecoverable', value: formatINR(pulse.unrecoverablePenaltyLoss), trend: periodChanges.unrecoverable, icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20', tip: 'Total Harmonizing Penalties accrued — non-recoverable.', spark: sparklines.unrecoverable, sparkColor: '#f87171' },
+            { label: 'MIR', value: `${pulse.mir}%`, trend: periodChanges.mir, icon: Activity, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20', tip: 'Manual Intervention Rate.', spark: sparklines.mir, sparkColor: '#fbbf24' },
           ].map(tile => (
             <div key={tile.label} className={`rounded-lg border p-2.5 ${tile.bg}`}>
               <div className="flex items-center justify-between mb-0.5">
@@ -153,11 +293,14 @@ const CMSReconCenter = () => {
                 </span>
                 <tile.icon className={`h-3.5 w-3.5 ${tile.color}`} />
               </div>
-              <p className={`text-lg font-bold ${tile.color}`}>{tile.value}</p>
+              <div className="flex items-end justify-between">
+                <p className={`text-lg font-bold ${tile.color}`}>{tile.value}</p>
+                {isHistorical && <MiniSparkline data={tile.spark} color={tile.sparkColor} />}
+              </div>
               <div className="flex items-center gap-1 mt-0.5">
                 {tile.trend < 0 ? <ArrowDownRight className="h-2.5 w-2.5 text-emerald-400" /> : <ArrowUpRight className="h-2.5 w-2.5 text-red-400" />}
                 <span className={`text-[9px] font-medium ${tile.trend < 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {Math.abs(tile.trend)}%
+                  {Math.abs(tile.trend)}% {isHistorical ? `vs prev ${timeframe === '7d' ? 'week' : timeframe === 'mtd' ? 'month' : 'quarter'}` : ''}
                 </span>
               </div>
             </div>
@@ -168,397 +311,670 @@ const CMSReconCenter = () => {
       {/* ═══ MAIN WORKSPACE ═══ */}
       <div className="flex-1 px-4 py-3">
         <div className="max-w-[1600px] mx-auto">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="h-8 bg-slate-800 border border-slate-700 mb-3">
-              <TabsTrigger value="inbox" className="text-[10px] h-7 data-[state=active]:bg-blue-600 data-[state=active]:text-white gap-1">
-                <Inbox className="h-3 w-3" /> Dispute Inbox
-                <Badge className="text-[8px] bg-blue-500/20 text-blue-300 ml-1">{fDisputes.length}</Badge>
-                {orphanCount > 0 && <Badge className="text-[8px] bg-red-500/20 text-red-300">{orphanCount} orphan</Badge>}
-              </TabsTrigger>
-              <TabsTrigger value="vault" className="text-[10px] h-7 data-[state=active]:bg-purple-600 data-[state=active]:text-white gap-1">
-                <Shield className="h-3 w-3" /> A: Vault Audit
-                <Badge className="text-[8px] bg-purple-500/20 text-purple-300 ml-1">{fVault.length}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="txn-validator" className="text-[10px] h-7 data-[state=active]:bg-amber-600 data-[state=active]:text-white gap-1">
-                <Scale className="h-3 w-3" /> B: Txn Validator
-                <Badge className="text-[8px] bg-amber-500/20 text-amber-300 ml-1">{fClaims.length}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="penalties" className="text-[10px] h-7 data-[state=active]:bg-red-600 data-[state=active]:text-white gap-1">
-                <Clock className="h-3 w-3" /> C: Penalty Watch
-                <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{fPenalties.length}</Badge>
-              </TabsTrigger>
-            </TabsList>
 
-            {/* ═══ DISPUTE INBOX ═══ */}
-            <TabsContent value="inbox" className="mt-0">
-              <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500">
-                <Inbox className="h-3.5 w-3.5 text-blue-400" />
-                Bank emails & Zip files ingested. Auto-mapped to ATM IDs and EJ logs.
-                <span className="ml-auto flex items-center gap-3">
-                  <span className="text-emerald-400">✓ {readyCount} Ready for Verdict</span>
-                  <span className="text-red-400">✗ {orphanCount} Orphan — Manual Mapping</span>
-                </span>
-              </div>
-              <div className="rounded-lg border border-slate-700 bg-slate-800 overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-b border-slate-700 h-7">
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Source</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Claim Ref</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Bank</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Customer</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1 text-right">Amount</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Mapping</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">ATM</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">EJ Match</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Confidence</TableHead>
-                      <TableHead className="text-[9px] font-bold text-slate-400 py-1">Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {fDisputes.map(d => (
-                      <TableRow key={d.id} className={`border-b border-slate-700/50 h-7 text-[11px] ${!d.autoMapped ? 'bg-red-500/5' : 'hover:bg-slate-700/30'}`}>
-                        <TableCell className="py-1">
-                          <div className="flex items-center gap-1 text-slate-400">
-                            <FileArchive className="h-3 w-3 text-slate-500" />
-                            <span className="text-[10px] truncate max-w-[140px]">{d.source}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="py-1 font-mono font-bold text-white text-[10px]">{d.claimRef}</TableCell>
-                        <TableCell className="py-1 text-slate-400">{d.bankName}</TableCell>
-                        <TableCell className="py-1 text-slate-300 text-[10px]">{d.customerName} <span className="text-slate-500">****{d.cardLast4}</span></TableCell>
-                        <TableCell className="py-1 text-right font-bold text-white">{formatINR(d.claimedAmount)}</TableCell>
-                        <TableCell className="py-1">
-                          {d.autoMapped ? (
-                            <Badge className="text-[8px] px-1 py-0 bg-emerald-500/20 text-emerald-400">✓ Auto-Mapped</Badge>
-                          ) : (
-                            <Badge className="text-[8px] px-1 py-0 bg-red-500/20 text-red-400 animate-pulse">✗ Orphan</Badge>
-                          )}
-                        </TableCell>
-                        <TableCell className="py-1 font-mono text-[10px] text-slate-300">{d.mappedTerminalId || '—'}</TableCell>
-                        <TableCell className="py-1 font-mono text-[10px] text-slate-400 truncate max-w-[120px]">{d.mappedEjRef || '—'}</TableCell>
-                        <TableCell className="py-1">
-                          {d.mappingConfidence ? (
-                            <span className={`text-[10px] font-bold ${d.mappingConfidence >= 90 ? 'text-emerald-400' : 'text-amber-400'}`}>{d.mappingConfidence}%</span>
-                          ) : <span className="text-slate-600">—</span>}
-                        </TableCell>
-                        <TableCell className="py-1">
-                          {d.verdictReady ? (
-                            <Button size="sm" variant="ghost" className="h-5 text-[9px] text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 px-1.5 gap-0.5"
-                              onClick={() => d.mappedTerminalId && setAnalyzeItem(d.mappedTerminalId)}>
-                              <Eye className="h-3 w-3" /> Verdict
-                            </Button>
-                          ) : (
-                            <Button size="sm" variant="ghost" className="h-5 text-[9px] text-red-400 hover:text-red-300 hover:bg-red-500/10 px-1.5 gap-0.5">
-                              <MapPin className="h-3 w-3" /> Map
-                            </Button>
-                          )}
-                        </TableCell>
+          {/* ══════════ LIVE MODE ══════════ */}
+          {!isHistorical ? (
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="h-8 bg-slate-800 border border-slate-700 mb-3">
+                <TabsTrigger value="inbox" className="text-[10px] h-7 data-[state=active]:bg-blue-600 data-[state=active]:text-white gap-1">
+                  <Inbox className="h-3 w-3" /> Dispute Inbox
+                  <Badge className="text-[8px] bg-blue-500/20 text-blue-300 ml-1">{fDisputes.length}</Badge>
+                  {orphanCount > 0 && <Badge className="text-[8px] bg-red-500/20 text-red-300">{orphanCount} orphan</Badge>}
+                </TabsTrigger>
+                <TabsTrigger value="vault" className="text-[10px] h-7 data-[state=active]:bg-purple-600 data-[state=active]:text-white gap-1">
+                  <Shield className="h-3 w-3" /> A: Vault Audit
+                  <Badge className="text-[8px] bg-purple-500/20 text-purple-300 ml-1">{fVault.length}</Badge>
+                </TabsTrigger>
+                <TabsTrigger value="txn-validator" className="text-[10px] h-7 data-[state=active]:bg-amber-600 data-[state=active]:text-white gap-1">
+                  <Scale className="h-3 w-3" /> B: Txn Validator
+                  <Badge className="text-[8px] bg-amber-500/20 text-amber-300 ml-1">{fClaims.length}</Badge>
+                </TabsTrigger>
+                <TabsTrigger value="penalties" className="text-[10px] h-7 data-[state=active]:bg-red-600 data-[state=active]:text-white gap-1">
+                  <Clock className="h-3 w-3" /> C: Penalty Watch
+                  <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{fPenalties.length}</Badge>
+                </TabsTrigger>
+              </TabsList>
+
+              {/* ═══ DISPUTE INBOX ═══ */}
+              <TabsContent value="inbox" className="mt-0">
+                <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500">
+                  <Inbox className="h-3.5 w-3.5 text-blue-400" />
+                  Bank emails & Zip files ingested. Auto-mapped to ATM IDs and EJ logs.
+                  <span className="ml-auto flex items-center gap-3">
+                    <span className="text-emerald-400">✓ {readyCount} Ready for Verdict</span>
+                    <span className="text-red-400">✗ {orphanCount} Orphan — Manual Mapping</span>
+                  </span>
+                </div>
+                <div className="rounded-lg border border-slate-700 bg-slate-800 overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-b border-slate-700 h-7">
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Source</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Claim Ref</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Bank</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Customer</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1 text-right">Amount</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Mapping</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">ATM</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">EJ Match</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Confidence</TableHead>
+                        <TableHead className="text-[9px] font-bold text-slate-400 py-1">Status</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </TabsContent>
-
-            {/* ═══ QUEUE A: VAULT AUDIT (Physical vs Digital) ═══ */}
-            <TabsContent value="vault" className="mt-0">
-              <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
-                <Shield className="h-3.5 w-3.5 text-purple-400" />
-                Physical Vault Counts vs Digital Deposit Slips vs Custodian Entries. Only variances shown.
-              </div>
-              <div className="space-y-2">
-                {fVault.map(v => {
-                  const acted = actionLog[v.id];
-                  return (
-                    <div key={v.id} className={`rounded-lg border bg-slate-800 p-3 ${
-                      v.pilferageRiskScore >= 70 ? 'border-red-500/40' :
-                      v.pilferageRiskScore >= 40 ? 'border-amber-500/30' :
-                      'border-slate-700'
-                    } ${acted ? 'opacity-50' : ''}`}>
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="font-mono font-bold text-white text-[11px]">{v.terminalId}</span>
-                        <span className="text-[10px] text-slate-500">{v.bank} · {v.region}</span>
-                        <Badge className={`text-[8px] px-1.5 py-0 ${v.varianceType === 'Shortage' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                          {v.varianceType}
-                        </Badge>
-                        <div className="flex items-center gap-1 ml-1">
-                          <Badge className={`text-[7px] px-1 py-0 ${v.sealStatus === 'Sealed' ? 'bg-emerald-500/20 text-emerald-400' : v.sealStatus === 'Broken' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                            <Lock className="h-2.5 w-2.5 mr-0.5" />{v.sealStatus}
-                          </Badge>
-                          {!v.cllScanMatch && <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400">CLL ✗</Badge>}
-                          {!v.loadingSlipUploaded && <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400">No Slip</Badge>}
-                        </div>
-                        <span className="ml-auto text-[10px] text-slate-500">
-                          <User className="h-3 w-3 inline mr-0.5" />{v.custodianName} ({v.custodianId})
-                        </span>
-                      </div>
-
-                      {/* 3-Column Comparison */}
-                      <div className="grid grid-cols-4 gap-2 text-[10px] mb-2">
-                        <div className="bg-emerald-500/5 border border-emerald-500/20 rounded p-2">
-                          <p className="text-[8px] text-emerald-400 font-bold uppercase mb-1">Physical Vault</p>
-                          <p className="text-lg font-bold font-mono text-white">{formatINR(v.physicalVaultCount)}</p>
-                          <p className="text-[8px] text-slate-500">Actual cash counted</p>
-                        </div>
-                        <div className="bg-blue-500/5 border border-blue-500/20 rounded p-2">
-                          <p className="text-[8px] text-blue-400 font-bold uppercase mb-1">Digital Slip</p>
-                          <p className="text-lg font-bold font-mono text-white">{formatINR(v.digitalDepositSlip)}</p>
-                          <p className="text-[8px] text-slate-500">Deposit slip record</p>
-                        </div>
-                        <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
-                          <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Custodian Entry</p>
-                          <p className="text-lg font-bold font-mono text-white">{formatINR(v.custodianEntry)}</p>
-                          <p className="text-[8px] text-slate-500">Reported by CIT agent</p>
-                        </div>
-                        <div className={`rounded p-2 border ${v.variance !== 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
-                          <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">VARIANCE</p>
-                          <p className={`text-lg font-bold font-mono ${v.variance < 0 ? 'text-red-400' : v.variance > 0 ? 'text-amber-400' : 'text-emerald-400'}`}>
-                            {v.variance < 0 ? '-' : v.variance > 0 ? '+' : ''}{formatINR(v.variance)}
-                          </p>
-                          <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[8px] text-slate-500">Pilferage Risk:</span>
-                            <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                              <div className={`h-full rounded-full ${v.pilferageRiskScore >= 70 ? 'bg-red-500' : v.pilferageRiskScore >= 40 ? 'bg-amber-500' : 'bg-emerald-500'}`}
-                                style={{ width: `${v.pilferageRiskScore}%` }} />
+                    </TableHeader>
+                    <TableBody>
+                      {fDisputes.map(d => (
+                        <TableRow key={d.id} className={`border-b border-slate-700/50 h-7 text-[11px] ${!d.autoMapped ? 'bg-red-500/5' : 'hover:bg-slate-700/30'}`}>
+                          <TableCell className="py-1">
+                            <div className="flex items-center gap-1 text-slate-400">
+                              <FileArchive className="h-3 w-3 text-slate-500" />
+                              <span className="text-[10px] truncate max-w-[140px]">{d.source}</span>
                             </div>
-                            <span className={`text-[9px] font-bold ${v.pilferageRiskScore >= 70 ? 'text-red-400' : v.pilferageRiskScore >= 40 ? 'text-amber-400' : 'text-emerald-400'}`}>
-                              {v.pilferageRiskScore}%
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <p className="text-[10px] text-slate-400 mb-2">{v.notes}</p>
-
-                      {!acted ? (
-                        <div className="flex items-center gap-2">
-                          {v.pilferageRiskScore >= 60 && (
-                            <Button size="sm" className="h-6 text-[9px] bg-red-600 hover:bg-red-700 text-white gap-1"
-                              onClick={() => handleAction(v.id, 'Escalate to Audit', v.terminalId)}>
-                              <Gavel className="h-3 w-3" /> Escalate to Audit
-                            </Button>
-                          )}
-                          <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
-                            onClick={() => handleAction(v.id, 'Flag as Shortage Query', v.terminalId)}>
-                            <AlertTriangle className="h-3 w-3" /> Shortage Query
-                          </Button>
-                          <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
-                            onClick={() => setAnalyzeItem(v.terminalId)}>
-                            <Eye className="h-3 w-3" /> Analyze
-                          </Button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2 text-[10px]">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                          <span className="text-emerald-400 font-medium">{acted}</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </TabsContent>
-
-            {/* ═══ QUEUE B: TRANSACTION LOG VALIDATOR ═══ */}
-            <TabsContent value="txn-validator" className="mt-0">
-              <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
-                <Scale className="h-3.5 w-3.5 text-amber-400" />
-                Side-by-side Verdict Comparison: Bank Switch vs Machine EJ. System auto-generates resolution.
-              </div>
-              <div className="space-y-2">
-                {fClaims.map(c => {
-                  const acted = actionLog[c.id];
-                  const isPenalty = c.daysElapsed >= 5;
-                  const isCritical = c.daysElapsed >= 4;
-                  return (
-                    <div key={c.id} className={`rounded-lg border bg-slate-800 overflow-hidden ${
-                      isPenalty ? 'border-red-500/50' : isCritical ? 'border-red-500/30' : 'border-slate-700'
-                    } ${acted ? 'opacity-50' : ''}`}>
-                      {/* Claim Header */}
-                      <div className="px-3 py-2 flex items-center gap-3">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 text-[11px]">
-                            <span className="font-mono font-bold text-white">{c.claimId}</span>
-                            <span className="text-slate-600">·</span>
-                            <span className="font-mono text-slate-400">{c.terminalId}</span>
-                            <span className="text-slate-600">·</span>
-                            <span className="text-slate-500">{c.bank}</span>
-                            <span className="text-slate-600">·</span>
-                            <span className="font-bold text-white">{formatINR(c.claimedAmount)}</span>
-                          </div>
-                          <p className="text-[10px] text-slate-500 mt-0.5">{c.errorDesc}</p>
-                        </div>
-                        {/* T+5 Timer */}
-                        <div className="w-36">
-                          <div className="flex items-center justify-between mb-0.5">
-                            <Badge className={`text-[9px] px-1.5 py-0 font-mono ${getClaimTimerColor(c.daysElapsed)}`}>
-                              {isPenalty ? '⚠ PENALTY' : `Day ${c.daysElapsed}/5`}
-                            </Badge>
-                            {c.accruedPenalty > 0 && <span className="text-[9px] text-red-400 font-bold">{formatINR(c.accruedPenalty)}</span>}
-                          </div>
-                          <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                            <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : isCritical ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
-                              style={{ width: `${Math.min(100, (c.daysElapsed / 5) * 100)}%` }} />
-                          </div>
-                          {isPenalty && <p className="text-[8px] text-red-400 mt-0.5 font-mono">Backdated: {formatINR(c.penaltyPerDay)}/day</p>}
-                        </div>
-                      </div>
-
-                      {/* Verdict Comparison */}
-                      <div className="px-3 pb-2">
-                        <div className="grid grid-cols-3 gap-2 text-[10px] mb-2">
-                          <div className="bg-blue-500/5 border border-blue-500/20 rounded p-2">
-                            <p className="text-[8px] text-blue-400 font-bold uppercase mb-1">Bank Switch Says:</p>
-                            <p className="text-slate-300">{c.bankSwitch.action}</p>
-                            <Badge className={`text-[7px] px-1 py-0 mt-1 ${c.bankSwitch.status === 'Success' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
-                              {c.bankSwitch.status}
-                            </Badge>
-                          </div>
-                          <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
-                            <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Machine EJ Says:</p>
-                            <p className="text-slate-300">{c.machineEJ.action}</p>
-                            <Badge className={`text-[7px] px-1 py-0 mt-1 bg-red-500/20 text-red-400`}>
-                              {c.machineEJ.status}
-                            </Badge>
-                            {c.machineEJ.errorCode && <p className="text-[8px] text-red-400 font-mono mt-0.5">{c.machineEJ.errorCode}</p>}
-                          </div>
-                          <div className={`rounded p-2 border ${c.systemVerdict.includes('Refund') ? 'bg-emerald-500/10 border-emerald-500/30' : c.systemVerdict.includes('Reject') ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/10 border-amber-500/30'}`}>
-                            <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">SYSTEM VERDICT</p>
-                            <p className={`text-sm font-bold ${c.systemVerdict.includes('Refund') ? 'text-emerald-400' : c.systemVerdict.includes('Reject') ? 'text-red-400' : 'text-amber-400'}`}>
-                              {c.systemVerdict}
-                            </p>
-                            <p className="text-[8px] text-slate-400 mt-1 leading-snug">{c.verdictReason}</p>
-                          </div>
-                        </div>
-
-                        {/* Action Buttons */}
-                        {!acted ? (
-                          <div className="flex items-center gap-2 pt-2 border-t border-slate-700/50">
-                            <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
-                              onClick={() => handleAction(c.id, 'Authorize Refund', c.claimId)}>
-                              <ThumbsUp className="h-3 w-3" /> Authorize Refund
-                            </Button>
-                            <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
-                              onClick={() => handleAction(c.id, 'Reject — Successful Transaction', c.claimId)}>
-                              <ThumbsDown className="h-3 w-3" /> Reject
-                            </Button>
-                            {c.claimedAmount > 5000 && (
-                              <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
-                                onClick={() => handleAction(c.id, 'Escalate to Audit', c.claimId)}>
-                                <Gavel className="h-3 w-3" /> Escalate
+                          </TableCell>
+                          <TableCell className="py-1 font-mono font-bold text-white text-[10px]">{d.claimRef}</TableCell>
+                          <TableCell className="py-1 text-slate-400">{d.bankName}</TableCell>
+                          <TableCell className="py-1 text-slate-300 text-[10px]">{d.customerName} <span className="text-slate-500">****{d.cardLast4}</span></TableCell>
+                          <TableCell className="py-1 text-right font-bold text-white">{formatINR(d.claimedAmount)}</TableCell>
+                          <TableCell className="py-1">
+                            {d.autoMapped ? (
+                              <Badge className="text-[8px] px-1 py-0 bg-emerald-500/20 text-emerald-400">✓ Auto-Mapped</Badge>
+                            ) : (
+                              <Badge className="text-[8px] px-1 py-0 bg-red-500/20 text-red-400 animate-pulse">✗ Orphan</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell className="py-1 font-mono text-[10px] text-slate-300">{d.mappedTerminalId || '—'}</TableCell>
+                          <TableCell className="py-1 font-mono text-[10px] text-slate-400 truncate max-w-[120px]">{d.mappedEjRef || '—'}</TableCell>
+                          <TableCell className="py-1">
+                            {d.mappingConfidence ? (
+                              <span className={`text-[10px] font-bold ${d.mappingConfidence >= 90 ? 'text-emerald-400' : 'text-amber-400'}`}>{d.mappingConfidence}%</span>
+                            ) : <span className="text-slate-600">—</span>}
+                          </TableCell>
+                          <TableCell className="py-1">
+                            {d.verdictReady ? (
+                              <Button size="sm" variant="ghost" className="h-5 text-[9px] text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 px-1.5 gap-0.5"
+                                onClick={() => d.mappedTerminalId && setAnalyzeItem(d.mappedTerminalId)}>
+                                <Eye className="h-3 w-3" /> Verdict
+                              </Button>
+                            ) : (
+                              <Button size="sm" variant="ghost" className="h-5 text-[9px] text-red-400 hover:text-red-300 hover:bg-red-500/10 px-1.5 gap-0.5">
+                                <MapPin className="h-3 w-3" /> Map
                               </Button>
                             )}
-                            <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
-                              onClick={() => setAnalyzeItem(c.terminalId)}>
-                              <Eye className="h-3 w-3" /> 3-Pane Detail
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TabsContent>
+
+              {/* ═══ QUEUE A: VAULT AUDIT ═══ */}
+              <TabsContent value="vault" className="mt-0">
+                <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
+                  <Shield className="h-3.5 w-3.5 text-purple-400" />
+                  Physical Vault Counts vs Digital Deposit Slips vs Custodian Entries. Only variances shown.
+                </div>
+                <div className="space-y-2">
+                  {fVault.map(v => {
+                    const acted = actionLog[v.id];
+                    return (
+                      <div key={v.id} className={`rounded-lg border bg-slate-800 p-3 ${
+                        v.pilferageRiskScore >= 70 ? 'border-red-500/40' :
+                        v.pilferageRiskScore >= 40 ? 'border-amber-500/30' :
+                        'border-slate-700'
+                      } ${acted ? 'opacity-50' : ''}`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-bold text-white text-[11px]">{v.terminalId}</span>
+                          <span className="text-[10px] text-slate-500">{v.bank} · {v.region}</span>
+                          <Badge className={`text-[8px] px-1.5 py-0 ${v.varianceType === 'Shortage' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                            {v.varianceType}
+                          </Badge>
+                          <div className="flex items-center gap-1 ml-1">
+                            <Badge className={`text-[7px] px-1 py-0 ${v.sealStatus === 'Sealed' ? 'bg-emerald-500/20 text-emerald-400' : v.sealStatus === 'Broken' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                              <Lock className="h-2.5 w-2.5 mr-0.5" />{v.sealStatus}
+                            </Badge>
+                            {!v.cllScanMatch && <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400">CLL ✗</Badge>}
+                            {!v.loadingSlipUploaded && <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400">No Slip</Badge>}
+                          </div>
+                          <span className="ml-auto text-[10px] text-slate-500">
+                            <User className="h-3 w-3 inline mr-0.5" />{v.custodianName} ({v.custodianId})
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 text-[10px] mb-2">
+                          <div className="bg-emerald-500/5 border border-emerald-500/20 rounded p-2">
+                            <p className="text-[8px] text-emerald-400 font-bold uppercase mb-1">Physical Vault</p>
+                            <p className="text-lg font-bold font-mono text-white">{formatINR(v.physicalVaultCount)}</p>
+                          </div>
+                          <div className="bg-blue-500/5 border border-blue-500/20 rounded p-2">
+                            <p className="text-[8px] text-blue-400 font-bold uppercase mb-1">Digital Slip</p>
+                            <p className="text-lg font-bold font-mono text-white">{formatINR(v.digitalDepositSlip)}</p>
+                          </div>
+                          <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                            <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Custodian Entry</p>
+                            <p className="text-lg font-bold font-mono text-white">{formatINR(v.custodianEntry)}</p>
+                          </div>
+                          <div className={`rounded p-2 border ${v.variance !== 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
+                            <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">VARIANCE</p>
+                            <p className={`text-lg font-bold font-mono ${v.variance < 0 ? 'text-red-400' : v.variance > 0 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                              {v.variance < 0 ? '-' : v.variance > 0 ? '+' : ''}{formatINR(Math.abs(v.variance))}
+                            </p>
+                            <div className="flex items-center gap-1 mt-1">
+                              <span className="text-[8px] text-slate-500">Pilferage Risk:</span>
+                              <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full ${v.pilferageRiskScore >= 70 ? 'bg-red-500' : v.pilferageRiskScore >= 40 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                                  style={{ width: `${v.pilferageRiskScore}%` }} />
+                              </div>
+                              <span className={`text-[9px] font-bold ${v.pilferageRiskScore >= 70 ? 'text-red-400' : v.pilferageRiskScore >= 40 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                                {v.pilferageRiskScore}%
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mb-2">{v.notes}</p>
+                        {!acted ? (
+                          <div className="flex items-center gap-2">
+                            {v.pilferageRiskScore >= 60 && (
+                              <Button size="sm" className="h-6 text-[9px] bg-red-600 hover:bg-red-700 text-white gap-1"
+                                onClick={() => handleAction(v.id, 'Escalate to Audit', v.terminalId)}>
+                                <Gavel className="h-3 w-3" /> Escalate to Audit
+                              </Button>
+                            )}
+                            <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
+                              onClick={() => handleAction(v.id, 'Flag as Shortage Query', v.terminalId)}>
+                              <AlertTriangle className="h-3 w-3" /> Shortage Query
                             </Button>
-                            <span className="ml-auto text-[10px] text-slate-500">
-                              Penalty at risk: <span className="text-red-400 font-bold">{formatINR(c.penaltyPerDay)}/day</span>
-                            </span>
+                            <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
+                              onClick={() => setAnalyzeItem(v.terminalId)}>
+                              <Eye className="h-3 w-3" /> Analyze
+                            </Button>
                           </div>
                         ) : (
-                          <div className="pt-2 border-t border-slate-700/50 flex items-center gap-2 text-[10px]">
+                          <div className="flex items-center gap-2 text-[10px]">
                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                             <span className="text-emerald-400 font-medium">{acted}</span>
                           </div>
                         )}
                       </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
+
+              {/* ═══ QUEUE B: TXN VALIDATOR ═══ */}
+              <TabsContent value="txn-validator" className="mt-0">
+                <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
+                  <Scale className="h-3.5 w-3.5 text-amber-400" />
+                  Side-by-side Verdict Comparison: Bank Switch vs Machine EJ.
+                </div>
+                <div className="space-y-2">
+                  {fClaims.map(c => {
+                    const acted = actionLog[c.id];
+                    const isPenalty = c.daysElapsed >= 5;
+                    const isCritical = c.daysElapsed >= 4;
+                    return (
+                      <div key={c.id} className={`rounded-lg border bg-slate-800 overflow-hidden ${
+                        isPenalty ? 'border-red-500/50' : isCritical ? 'border-red-500/30' : 'border-slate-700'
+                      } ${acted ? 'opacity-50' : ''}`}>
+                        <div className="px-3 py-2 flex items-center gap-3">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 text-[11px]">
+                              <span className="font-mono font-bold text-white">{c.claimId}</span>
+                              <span className="text-slate-600">·</span>
+                              <span className="font-mono text-slate-400">{c.terminalId}</span>
+                              <span className="text-slate-600">·</span>
+                              <span className="text-slate-500">{c.bank}</span>
+                              <span className="text-slate-600">·</span>
+                              <span className="font-bold text-white">{formatINR(c.claimedAmount)}</span>
+                            </div>
+                            <p className="text-[10px] text-slate-500 mt-0.5">{c.errorDesc}</p>
+                          </div>
+                          <div className="w-36">
+                            <div className="flex items-center justify-between mb-0.5">
+                              <Badge className={`text-[9px] px-1.5 py-0 font-mono ${getClaimTimerColor(c.daysElapsed)}`}>
+                                {isPenalty ? '⚠ PENALTY' : `Day ${c.daysElapsed}/5`}
+                              </Badge>
+                              {c.accruedPenalty > 0 && <span className="text-[9px] text-red-400 font-bold">{formatINR(c.accruedPenalty)}</span>}
+                            </div>
+                            <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                              <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : isCritical ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                                style={{ width: `${Math.min(100, (c.daysElapsed / 5) * 100)}%` }} />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="px-3 pb-2">
+                          <div className="grid grid-cols-3 gap-2 text-[10px] mb-2">
+                            <div className="bg-blue-500/5 border border-blue-500/20 rounded p-2">
+                              <p className="text-[8px] text-blue-400 font-bold uppercase mb-1">Bank Switch Says:</p>
+                              <p className="text-slate-300">{c.bankSwitch.action}</p>
+                              <Badge className={`text-[7px] px-1 py-0 mt-1 ${c.bankSwitch.status === 'Success' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                                {c.bankSwitch.status}
+                              </Badge>
+                            </div>
+                            <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                              <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Machine EJ Says:</p>
+                              <p className="text-slate-300">{c.machineEJ.action}</p>
+                              <Badge className="text-[7px] px-1 py-0 mt-1 bg-red-500/20 text-red-400">{c.machineEJ.status}</Badge>
+                            </div>
+                            <div className={`rounded p-2 border ${c.systemVerdict.includes('Refund') ? 'bg-emerald-500/10 border-emerald-500/30' : c.systemVerdict.includes('Reject') ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/10 border-amber-500/30'}`}>
+                              <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">SYSTEM VERDICT</p>
+                              <p className={`text-sm font-bold ${c.systemVerdict.includes('Refund') ? 'text-emerald-400' : c.systemVerdict.includes('Reject') ? 'text-red-400' : 'text-amber-400'}`}>
+                                {c.systemVerdict}
+                              </p>
+                              <p className="text-[8px] text-slate-400 mt-1 leading-snug">{c.verdictReason}</p>
+                            </div>
+                          </div>
+                          {!acted ? (
+                            <div className="flex items-center gap-2 pt-2 border-t border-slate-700/50">
+                              <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                                onClick={() => handleAction(c.id, 'Authorize Refund', c.claimId)}>
+                                <ThumbsUp className="h-3 w-3" /> Authorize Refund
+                              </Button>
+                              <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
+                                onClick={() => handleAction(c.id, 'Reject — Successful Transaction', c.claimId)}>
+                                <ThumbsDown className="h-3 w-3" /> Reject
+                              </Button>
+                              <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
+                                onClick={() => setAnalyzeItem(c.terminalId)}>
+                                <Eye className="h-3 w-3" /> 3-Pane Detail
+                              </Button>
+                            </div>
+                          ) : (
+                            <div className="pt-2 border-t border-slate-700/50 flex items-center gap-2 text-[10px]">
+                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                              <span className="text-emerald-400 font-medium">{acted}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
+
+              {/* ═══ QUEUE C: PENALTIES ═══ */}
+              <TabsContent value="penalties" className="mt-0">
+                <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
+                  <Clock className="h-3.5 w-3.5 text-red-400" />
+                  T+5 Countdown & Harmonizing Penalty tracker.
+                </div>
+                <div className="space-y-2">
+                  {fPenalties.map(p => (
+                    <div key={p.id} className={`rounded-lg border bg-slate-800 p-3 ${
+                      p.status === 'Penalty Applied' ? 'border-red-500/50' :
+                      p.eodsPassed >= 2 ? 'border-red-500/30' : 'border-slate-700'
+                    }`}>
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="font-mono font-bold text-white text-[11px]">{p.terminalId}</span>
+                        <span className="text-[10px] text-slate-500">{p.bank}</span>
+                        <Badge className={`text-[8px] px-1 py-0 ${
+                          p.status === 'Penalty Applied' ? 'bg-red-500/20 text-red-400' :
+                          p.status === 'Declared Late' ? 'bg-amber-500/20 text-amber-400' :
+                          'bg-blue-500/20 text-blue-400'
+                        }`}>{p.status}</Badge>
+                        <div className="ml-auto flex items-center gap-2 text-[9px]">
+                          <span className={p.ejOverageDetected ? 'text-amber-400' : 'text-slate-600'}>
+                            EJ: {p.ejOverageDetected ? '⚠ Overage' : 'Clean'}
+                          </span>
+                          <span className="text-slate-600">vs</span>
+                          <span className={p.physicalVaultReported ? 'text-emerald-400' : 'text-red-400'}>
+                            Vault: {p.physicalVaultReported ? '✓ Reported' : '✗ Missing'}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-5 gap-2 text-[10px] mb-2">
+                        <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                          <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Overage</p>
+                          <p className="text-lg font-bold font-mono text-amber-400">{formatINR(p.overageAmount)}</p>
+                        </div>
+                        <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                          <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Deadline</p>
+                          <p className="font-mono text-white text-sm">{p.eodDeadline.split(' ')[1]}</p>
+                        </div>
+                        <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
+                          <p className="text-[8px] text-red-400 font-bold uppercase mb-1">EODs Passed</p>
+                          <p className="text-lg font-bold font-mono text-red-400">{p.eodsPassed}</p>
+                        </div>
+                        <div className={`rounded p-2 border ${p.penaltyAmount > 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
+                          <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Penalty ₹</p>
+                          <p className={`text-lg font-bold font-mono ${p.penaltyAmount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                            {p.penaltyAmount > 0 ? formatINR(p.penaltyAmount) : '₹0'}
+                          </p>
+                          <p className="text-[8px] text-slate-400">{p.penaltyFormula}</p>
+                        </div>
+                        <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
+                          <p className="text-[8px] text-red-400 font-bold uppercase mb-1">Daily Backdated</p>
+                          <p className="text-lg font-bold font-mono text-red-400">{formatINR(p.dailyBackdatedPenalty)}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button size="sm" className="h-6 text-[9px] bg-amber-600 hover:bg-amber-700 text-white gap-1"
+                          onClick={() => handleAction(p.id, 'Declare Overage', p.terminalId)}>
+                          <Banknote className="h-3 w-3" /> Declare Overage
+                        </Button>
+                        <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
+                          onClick={() => handleAction(p.id, 'Escalate to Audit', p.terminalId)}>
+                          <Gavel className="h-3 w-3" /> Escalate
+                        </Button>
+                        <span className="ml-auto text-[10px] text-slate-500">CIT: {p.citAgent}</span>
+                      </div>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
+          ) : (
+            /* ══════════ HISTORICAL MODE ══════════ */
+            <>
+              {/* Trend Summary Insight */}
+              <div className="mb-3 rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3 flex items-start gap-3">
+                <TrendingUp className="h-4 w-4 text-indigo-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-[11px] font-bold text-indigo-300 mb-1">Pattern Recognition — {timeframeLabel}</p>
+                  <p className="text-[10px] text-slate-300 leading-relaxed">
+                    {timeframe === '7d' && 'Insight: 68% of mismatches this week originated from North Zone ATMs. HDFC Batch processing delays caused 4 out of 6 T+5 breaches. Auto-resolution rate improved by 3.4% — bot is handling more EJ-confirmed jams autonomously.'}
+                    {timeframe === 'mtd' && 'Insight: Vault shortages in North Region spiked 18% month-over-month, concentrated around salary disbursement dates (1st, 15th). SecureCash Logistics accounts for 42% of all pilferage-flagged entries. Penalty exposure declined 12% due to faster EOD compliance.'}
+                    {timeframe === 'quarterly' && 'Insight: Quarterly leakage reduced from ₹12.8 Cr to ₹10.2 Cr (↓20%). Top improvement: Auto-Recovery matching now catches 78% of denomination drifts within 2 hours. Key risk: West Zone custodian pool shows recurring seal-break patterns — recommend vendor audit.'}
+                  </p>
+                </div>
               </div>
-            </TabsContent>
 
-            {/* ═══ QUEUE C: PENALTY & OVERAGE WATCH ═══ */}
-            <TabsContent value="penalties" className="mt-0">
-              <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5 text-red-400" />
-                T+5 Countdown & Harmonizing Penalty tracker. EJ overages not reported in Physical Vault within 1 EOD.
-              </div>
-              <div className="space-y-2">
-                {fPenalties.map(p => (
-                  <div key={p.id} className={`rounded-lg border bg-slate-800 p-3 ${
-                    p.status === 'Penalty Applied' ? 'border-red-500/50' :
-                    p.eodsPassed >= 2 ? 'border-red-500/30' :
-                    'border-slate-700'
-                  }`}>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="font-mono font-bold text-white text-[11px]">{p.terminalId}</span>
-                      <span className="text-[10px] text-slate-500">{p.bank}</span>
-                      <Badge className={`text-[8px] px-1 py-0 ${
-                        p.status === 'Penalty Applied' ? 'bg-red-500/20 text-red-400' :
-                        p.status === 'Declared Late' ? 'bg-amber-500/20 text-amber-400' :
-                        p.status === 'Under Review' ? 'bg-blue-500/20 text-blue-400' :
-                        'bg-slate-500/20 text-slate-400'
-                      }`}>{p.status}</Badge>
-                      <div className="flex gap-0.5 ml-1">
-                        {p.autoRecovery && <Badge className="text-[7px] px-1 py-0 bg-amber-500/20 text-amber-400">AR</Badge>}
-                        {p.flmSilentClose && <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400">SC</Badge>}
-                      </div>
-                      {/* EJ vs Vault indicator */}
-                      <div className="ml-auto flex items-center gap-2 text-[9px]">
-                        <span className={p.ejOverageDetected ? 'text-amber-400' : 'text-slate-600'}>
-                          EJ: {p.ejOverageDetected ? '⚠ Overage Found' : 'Clean'}
-                        </span>
-                        <span className="text-slate-600">vs</span>
-                        <span className={p.physicalVaultReported ? 'text-emerald-400' : 'text-red-400'}>
-                          Vault: {p.physicalVaultReported ? '✓ Reported' : '✗ Not Reported'}
-                        </span>
-                      </div>
+              <Tabs value={historicalTab} onValueChange={setHistoricalTab}>
+                <TabsList className="h-8 bg-slate-800 border border-slate-700 mb-3">
+                  <TabsTrigger value="mismatch-history" className="text-[10px] h-7 data-[state=active]:bg-indigo-600 data-[state=active]:text-white gap-1">
+                    <BarChart3 className="h-3 w-3" /> 3-Way Mismatch History
+                  </TabsTrigger>
+                  <TabsTrigger value="resolved-archive" className="text-[10px] h-7 data-[state=active]:bg-indigo-600 data-[state=active]:text-white gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> Resolved Claims Archive
+                  </TabsTrigger>
+                  <TabsTrigger value="penalty-analysis" className="text-[10px] h-7 data-[state=active]:bg-indigo-600 data-[state=active]:text-white gap-1">
+                    <Flame className="h-3 w-3" /> Penalty Analysis
+                  </TabsTrigger>
+                  <TabsTrigger value="strategic" className="text-[10px] h-7 data-[state=active]:bg-indigo-600 data-[state=active]:text-white gap-1">
+                    <Award className="h-3 w-3" /> Strategic Insights
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* ── Tab 1: 3-Way Mismatch History ── */}
+                <TabsContent value="mismatch-history" className="mt-0">
+                  <div className="mb-3 grid grid-cols-4 gap-2">
+                    <div className="rounded-lg border border-slate-700 bg-slate-800 p-3 text-center">
+                      <p className="text-[9px] text-slate-400 uppercase font-medium mb-1">Total Mismatches</p>
+                      <p className="text-2xl font-bold text-white">{theftCount + techCount}</p>
                     </div>
-
-                    <div className="grid grid-cols-5 gap-2 text-[10px] mb-2">
-                      <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
-                        <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Overage</p>
-                        <p className="text-lg font-bold font-mono text-amber-400">{formatINR(p.overageAmount)}</p>
-                        <p className="text-[8px] text-slate-500">{p.detectedAt.split(' ')[1]}</p>
-                      </div>
-                      <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
-                        <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Deadline</p>
-                        <p className="font-mono text-white text-sm">{p.eodDeadline.split(' ')[1]}</p>
-                      </div>
-                      <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
-                        <p className="text-[8px] text-red-400 font-bold uppercase mb-1">EODs Passed</p>
-                        <p className="text-lg font-bold font-mono text-red-400">{p.eodsPassed}</p>
-                        <p className="text-[8px] text-red-400/70">{p.declarationDelay}</p>
-                      </div>
-                      <div className={`rounded p-2 border ${p.penaltyAmount > 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
-                        <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Penalty ₹</p>
-                        <p className={`text-lg font-bold font-mono ${p.penaltyAmount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-                          {p.penaltyAmount > 0 ? formatINR(p.penaltyAmount) : '₹0'}
-                        </p>
-                        <p className="text-[8px] text-slate-400">{p.penaltyFormula}</p>
-                      </div>
-                      <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
-                        <p className="text-[8px] text-red-400 font-bold uppercase mb-1">Daily Backdated</p>
-                        <p className="text-lg font-bold font-mono text-red-400">{formatINR(p.dailyBackdatedPenalty)}</p>
-                        <p className="text-[8px] text-slate-500">per EOD delay</p>
-                        {p.penaltyAmount > 0 && <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400 mt-1">Non-recoverable</Badge>}
-                      </div>
+                    <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-3 text-center">
+                      <p className="text-[9px] text-red-400 uppercase font-medium mb-1">Resolved as Theft</p>
+                      <p className="text-2xl font-bold text-red-400">{theftCount}</p>
+                      <p className="text-[9px] text-slate-500">{((theftCount / (theftCount + techCount)) * 100).toFixed(0)}%</p>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      <Button size="sm" className="h-6 text-[9px] bg-amber-600 hover:bg-amber-700 text-white gap-1"
-                        onClick={() => handleAction(p.id, 'Declare Overage', p.terminalId)}>
-                        <Banknote className="h-3 w-3" /> Declare Overage
-                      </Button>
-                      <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
-                        onClick={() => handleAction(p.id, 'Escalate to Audit', p.terminalId)}>
-                        <Gavel className="h-3 w-3" /> Escalate
-                      </Button>
-                      <span className="ml-auto text-[10px] text-slate-500">CIT: {p.citAgent}</span>
+                    <div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-3 text-center">
+                      <p className="text-[9px] text-blue-400 uppercase font-medium mb-1">Resolved as Technical</p>
+                      <p className="text-2xl font-bold text-blue-400">{techCount}</p>
+                      <p className="text-[9px] text-slate-500">{((techCount / (theftCount + techCount)) * 100).toFixed(0)}%</p>
+                    </div>
+                    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 text-center">
+                      <p className="text-[9px] text-emerald-400 uppercase font-medium mb-1">Total Recovered</p>
+                      <p className="text-2xl font-bold text-emerald-400">{formatINR(totalSaved)}</p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
+
+                  {/* Visual breakdown bar */}
+                  <div className="rounded-lg border border-slate-700 bg-slate-800 p-3 mb-3">
+                    <p className="text-[10px] text-slate-400 font-medium mb-2">Resolution Breakdown</p>
+                    <div className="h-4 bg-slate-700 rounded-full overflow-hidden flex">
+                      <div className="bg-red-500 h-full transition-all" style={{ width: `${(theftCount / (theftCount + techCount)) * 100}%` }} />
+                      <div className="bg-blue-500 h-full transition-all" style={{ width: `${(techCount / (theftCount + techCount)) * 100}%` }} />
+                    </div>
+                    <div className="flex items-center gap-4 mt-1.5 text-[9px]">
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Theft/Fraud ({theftCount})</span>
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" /> Technical Error ({techCount})</span>
+                    </div>
+                  </div>
+
+                  {/* Archive table */}
+                  <div className="rounded-lg border border-slate-700 bg-slate-800 overflow-hidden">
+                    <div className="px-3 py-2 border-b border-slate-700 flex items-center gap-2">
+                      <Select value={archiveFilter} onValueChange={setArchiveFilter}>
+                        <SelectTrigger className="h-6 w-[140px] text-[10px] bg-slate-700 border-slate-600 text-slate-300"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all" className="text-[11px]">All Resolutions</SelectItem>
+                          <SelectItem value="theft" className="text-[11px]">Theft Only</SelectItem>
+                          <SelectItem value="technical" className="text-[11px]">Technical Only</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <div className="relative flex-1 max-w-[200px]">
+                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-500" />
+                        <Input placeholder="Search archive..." value={archiveSearch} onChange={e => setArchiveSearch(e.target.value)}
+                          className="pl-7 h-6 text-[10px] bg-slate-700 border-slate-600 text-white" />
+                      </div>
+                    </div>
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="border-b border-slate-700 h-7">
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">ATM</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">Bank</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">Region</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1 text-right">Amount</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">Resolved As</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">Mode</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">Time</TableHead>
+                          <TableHead className="text-[9px] font-bold text-slate-400 py-1">Action</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredArchive.map(r => (
+                          <TableRow key={r.id} className="border-b border-slate-700/50 h-7 text-[11px] hover:bg-slate-700/30 cursor-pointer"
+                            onDoubleClick={() => setPostMortemItem(r)}>
+                            <TableCell className="py-1 font-mono font-bold text-white text-[10px]">{r.terminalId}</TableCell>
+                            <TableCell className="py-1 text-slate-400">{r.bank}</TableCell>
+                            <TableCell className="py-1 text-slate-400">{r.region}</TableCell>
+                            <TableCell className="py-1 text-right font-bold text-white">{formatINR(r.amount)}</TableCell>
+                            <TableCell className="py-1">
+                              <Badge className={`text-[8px] px-1 py-0 ${r.resolvedAs === 'Theft' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                {r.resolvedAs}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="py-1 text-[10px] text-slate-400">{r.resolutionMode}</TableCell>
+                            <TableCell className="py-1 text-[10px] text-slate-300 font-mono">{r.timeToResolve}</TableCell>
+                            <TableCell className="py-1">
+                              <Button size="sm" variant="ghost" className="h-5 text-[9px] text-indigo-400 hover:bg-indigo-500/10 px-1.5 gap-0.5"
+                                onClick={() => setPostMortemItem(r)}>
+                                <Eye className="h-3 w-3" /> Post-Mortem
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TabsContent>
+
+                {/* ── Tab 2: Resolved Claims Archive ── */}
+                <TabsContent value="resolved-archive" className="mt-0">
+                  <div className="mb-3 grid grid-cols-3 gap-2">
+                    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 text-center">
+                      <p className="text-[9px] text-emerald-400 uppercase font-medium mb-1">Total Saved</p>
+                      <p className="text-2xl font-bold text-emerald-400">{formatINR(totalSaved)}</p>
+                    </div>
+                    <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-3 text-center">
+                      <p className="text-[9px] text-red-400 uppercase font-medium mb-1">Total Penalties Paid</p>
+                      <p className="text-2xl font-bold text-red-400">{formatINR(totalPenaltyPaid)}</p>
+                    </div>
+                    <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3 text-center">
+                      <p className="text-[9px] text-indigo-400 uppercase font-medium mb-1">Net Recovery Rate</p>
+                      <p className="text-2xl font-bold text-indigo-400">
+                        {((totalSaved / (totalSaved + totalPenaltyPaid)) * 100).toFixed(1)}%
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {historicalResolved.map(r => (
+                      <div key={r.id} className="rounded-lg border border-slate-700 bg-slate-800 p-3 hover:border-indigo-500/30 transition-colors cursor-pointer"
+                        onDoubleClick={() => setPostMortemItem(r)}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-bold text-white text-[11px]">{r.terminalId}</span>
+                          <span className="text-[10px] text-slate-500">{r.bank} · {r.region}</span>
+                          <Badge className={`text-[8px] px-1 py-0 ${r.resolvedAs === 'Theft' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                            {r.resolvedAs}
+                          </Badge>
+                          <span className="ml-auto text-[10px] text-slate-500">{r.date}</span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 text-[10px]">
+                          <div className="bg-slate-700/50 rounded p-2">
+                            <p className="text-[8px] text-slate-400 uppercase mb-1">Claim Amount</p>
+                            <p className="text-sm font-bold font-mono text-white">{formatINR(r.amount)}</p>
+                          </div>
+                          <div className="bg-emerald-500/5 border border-emerald-500/20 rounded p-2">
+                            <p className="text-[8px] text-emerald-400 uppercase mb-1">Saved</p>
+                            <p className="text-sm font-bold font-mono text-emerald-400">{formatINR(r.savedAmount)}</p>
+                          </div>
+                          <div className={`rounded p-2 ${r.penaltyPaid > 0 ? 'bg-red-500/5 border border-red-500/20' : 'bg-emerald-500/5 border border-emerald-500/20'}`}>
+                            <p className="text-[8px] text-slate-400 uppercase mb-1">Penalty Paid</p>
+                            <p className={`text-sm font-bold font-mono ${r.penaltyPaid > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                              {r.penaltyPaid > 0 ? formatINR(r.penaltyPaid) : '₹0'}
+                            </p>
+                          </div>
+                          <div className="bg-indigo-500/5 border border-indigo-500/20 rounded p-2">
+                            <p className="text-[8px] text-indigo-400 uppercase mb-1">Time to Resolve</p>
+                            <p className="text-sm font-bold font-mono text-indigo-400">{r.timeToResolve}</p>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-2">{r.outcome}</p>
+                      </div>
+                    ))}
+                  </div>
+                </TabsContent>
+
+                {/* ── Tab 3: Penalty Analysis ── */}
+                <TabsContent value="penalty-analysis" className="mt-0">
+                  <div className="mb-3 text-[10px] text-slate-500 flex items-center gap-1">
+                    <Flame className="h-3.5 w-3.5 text-red-400" />
+                    Bank × Region penalty heatmap — biggest contributors to Harmonizing Penalties
+                  </div>
+                  <div className="space-y-2">
+                    {penaltyAnalysis.map((pa, i) => {
+                      const maxPenalty = penaltyAnalysis[0].totalPenalty;
+                      const pct = (pa.totalPenalty / maxPenalty) * 100;
+                      return (
+                        <div key={i} className={`rounded-lg border bg-slate-800 p-3 ${
+                          pa.severity === 'critical' ? 'border-red-500/40' :
+                          pa.severity === 'high' ? 'border-orange-500/30' :
+                          'border-slate-700'
+                        }`}>
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="font-bold text-white text-[11px] min-w-[140px]">{pa.entity}</span>
+                            <Badge className={`text-[8px] px-1 py-0 ${
+                              pa.severity === 'critical' ? 'bg-red-500/20 text-red-400' :
+                              pa.severity === 'high' ? 'bg-orange-500/20 text-orange-400' :
+                              pa.severity === 'medium' ? 'bg-amber-500/20 text-amber-400' :
+                              'bg-slate-500/20 text-slate-400'
+                            }`}>{pa.severity}</Badge>
+                            <Badge className={`text-[8px] px-1 py-0 ${
+                              pa.trend === 'rising' ? 'bg-red-500/20 text-red-400' :
+                              pa.trend === 'declining' ? 'bg-emerald-500/20 text-emerald-400' :
+                              'bg-slate-500/20 text-slate-400'
+                            }`}>
+                              {pa.trend === 'rising' ? '↑' : pa.trend === 'declining' ? '↓' : '→'} {pa.trend}
+                            </Badge>
+                            <span className="ml-auto text-[10px] text-slate-500">{pa.incidents} incidents · Avg {pa.avgDelay}</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full transition-all ${
+                                  pa.severity === 'critical' ? 'bg-red-500' :
+                                  pa.severity === 'high' ? 'bg-orange-500' :
+                                  'bg-amber-500'
+                                }`} style={{ width: `${pct}%` }} />
+                              </div>
+                            </div>
+                            <span className="text-sm font-bold font-mono text-red-400 min-w-[80px] text-right">{formatINR(pa.totalPenalty)}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </TabsContent>
+
+                {/* ── Tab 4: Strategic Insights ── */}
+                <TabsContent value="strategic" className="mt-0">
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Top Leakage Contributors */}
+                    <div className="rounded-lg border border-slate-700 bg-slate-800 p-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Flame className="h-4 w-4 text-red-400" />
+                        <span className="text-[11px] font-bold text-white">Top Leakage Contributors</span>
+                      </div>
+                      <div className="space-y-2">
+                        {topLeakageContributors.map((c, i) => (
+                          <div key={i} className="flex items-center gap-3 p-2 bg-slate-700/30 rounded">
+                            <span className="text-[14px] font-bold text-slate-500 w-5">#{i + 1}</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[10px] font-bold text-white truncate">{c.name}</p>
+                              <p className="text-[9px] text-slate-400">{c.region} · {c.incidents} incidents</p>
+                            </div>
+                            <Badge className={`text-[7px] px-1 py-0 ${
+                              c.type === 'Vendor' ? 'bg-red-500/20 text-red-400' :
+                              c.type === 'Region' ? 'bg-amber-500/20 text-amber-400' :
+                              'bg-purple-500/20 text-purple-400'
+                            }`}>{c.type}</Badge>
+                            <span className="text-[11px] font-bold font-mono text-red-400">{formatINR(c.amount)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Recovery Efficiency */}
+                    <div className="rounded-lg border border-slate-700 bg-slate-800 p-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <TrendingUp className="h-4 w-4 text-emerald-400" />
+                        <span className="text-[11px] font-bold text-white">Recovery Efficiency</span>
+                      </div>
+                      <div className="space-y-3">
+                        {recoveryEfficiency.map((re, i) => {
+                          const effPct = ((re.recovered / re.potential) * 100);
+                          return (
+                            <div key={i}>
+                              <div className="flex items-center justify-between text-[10px] mb-1">
+                                <span className="text-slate-300">{re.category}</span>
+                                <span className="text-slate-400">
+                                  <span className="text-emerald-400 font-bold">{formatINR(re.recovered)}</span>
+                                  <span className="text-slate-600"> / {formatINR(re.potential)}</span>
+                                </span>
+                              </div>
+                              <div className="h-3 bg-slate-700 rounded-full overflow-hidden relative">
+                                <div className="h-full bg-emerald-500/30 rounded-full" style={{ width: '100%' }} />
+                                <div className="h-full bg-emerald-500 rounded-full absolute top-0 left-0" style={{ width: `${effPct}%` }} />
+                              </div>
+                              <div className="flex items-center justify-between mt-0.5">
+                                <span className={`text-[9px] font-bold ${effPct >= 80 ? 'text-emerald-400' : effPct >= 60 ? 'text-amber-400' : 'text-red-400'}`}>
+                                  {effPct.toFixed(1)}% recovered
+                                </span>
+                                <span className="text-[9px] text-red-400">
+                                  Gap: {formatINR(re.potential - re.recovered)}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-3 pt-3 border-t border-slate-700">
+                        <div className="flex items-center justify-between text-[10px]">
+                          <span className="text-slate-400 font-medium">Overall Recovery Rate</span>
+                          <span className="text-lg font-bold text-emerald-400">
+                            {((recoveryEfficiency.reduce((s, r) => s + r.recovered, 0) / recoveryEfficiency.reduce((s, r) => s + r.potential, 0)) * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </>
+          )}
         </div>
       </div>
 
-      {/* ═══ 3-PANE RECONCILIATION MODAL ═══ */}
-      <Dialog open={!!analyzeItem} onOpenChange={() => setAnalyzeItem(null)}>
+      {/* ═══ 3-PANE RECONCILIATION MODAL (Live Mode) ═══ */}
+      <Dialog open={!!analyzeItem && !isHistorical} onOpenChange={() => setAnalyzeItem(null)}>
         <DialogContent className="max-w-6xl bg-slate-800 border-slate-700 text-slate-100 p-0 max-h-[90vh] overflow-y-auto">
           <DialogHeader className="px-5 pt-4 pb-3 border-b border-slate-700 sticky top-0 bg-slate-800 z-10">
             <DialogTitle className="text-sm font-bold flex items-center gap-2 text-white">
@@ -570,9 +986,8 @@ const CMSReconCenter = () => {
 
           {reconData ? (
             <div className="px-5 pb-5 pt-3">
-              {/* 3 Panes */}
               <div className="grid grid-cols-3 gap-3 mb-4">
-                {/* Pane 1: Bank's Side */}
+                {/* Pane 1: Bank */}
                 <div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-3">
                   <div className="flex items-center gap-1.5 mb-2">
                     <DollarSign className="h-3.5 w-3.5 text-blue-400" />
@@ -589,8 +1004,7 @@ const CMSReconCenter = () => {
                     <p className="text-[9px] text-slate-500">{reconData.bankSide.bankContactEmail}</p>
                   </div>
                 </div>
-
-                {/* Pane 2: Machine's Side */}
+                {/* Pane 2: Machine */}
                 <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
                   <div className="flex items-center gap-1.5 mb-2">
                     <Cpu className="h-3.5 w-3.5 text-amber-400" />
@@ -625,8 +1039,7 @@ const CMSReconCenter = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Pane 3: Human Side */}
+                {/* Pane 3: Human */}
                 <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
                   <div className="flex items-center gap-1.5 mb-2">
                     <User className="h-3.5 w-3.5 text-emerald-400" />
@@ -637,8 +1050,6 @@ const CMSReconCenter = () => {
                     <div className="flex justify-between"><span className="text-slate-400">Vault Count</span><span className="text-white font-mono font-bold">{formatINR(reconData.humanSide.vaultCount)}</span></div>
                     <div className="flex justify-between"><span className="text-slate-400">Loading Slip</span><span className="text-white font-mono text-[10px]">{reconData.humanSide.loadingSlipRef}</span></div>
                     <div className="flex justify-between"><span className="text-slate-400">EOD Time</span><span className="text-slate-300 text-[10px]">{reconData.humanSide.eodTimestamp}</span></div>
-
-                    {/* Photo Evidence */}
                     <div>
                       <p className="text-[9px] text-emerald-400 font-bold uppercase mb-1">Photo Evidence</p>
                       <div className="flex gap-1 flex-wrap">
@@ -649,8 +1060,6 @@ const CMSReconCenter = () => {
                         ))}
                       </div>
                     </div>
-
-                    {/* Denomination Breakdown */}
                     <div>
                       <p className="text-[9px] text-emerald-400 font-bold uppercase mb-1">Denomination</p>
                       <div className="grid grid-cols-2 gap-1">
@@ -666,12 +1075,11 @@ const CMSReconCenter = () => {
                 </div>
               </div>
 
-              {/* Bottom: Verdict + Action Bar */}
+              {/* Verdict */}
               <div className={`rounded-lg border p-4 ${
                 reconData.verdict.recommendation === 'Authorize Refund' ? 'border-emerald-500/40 bg-emerald-500/10' :
                 reconData.verdict.recommendation === 'Escalate to Audit' ? 'border-red-500/40 bg-red-500/10' :
-                reconData.verdict.recommendation === 'Declare Overage' ? 'border-amber-500/40 bg-amber-500/10' :
-                'border-red-500/40 bg-red-500/10'
+                'border-amber-500/40 bg-amber-500/10'
               }`}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
@@ -682,8 +1090,7 @@ const CMSReconCenter = () => {
                     <Badge className={`text-[9px] px-2 py-0.5 ${
                       reconData.verdict.recommendation === 'Authorize Refund' ? 'bg-emerald-600 text-white' :
                       reconData.verdict.recommendation === 'Escalate to Audit' ? 'bg-red-600 text-white' :
-                      reconData.verdict.recommendation === 'Declare Overage' ? 'bg-amber-600 text-white' :
-                      'bg-red-600 text-white'
+                      'bg-amber-600 text-white'
                     }`}>{reconData.verdict.recommendation}</Badge>
                     <span className="text-[10px] text-slate-400">Confidence: <span className="font-bold text-white">{reconData.verdict.confidence}%</span></span>
                   </div>
@@ -693,8 +1100,6 @@ const CMSReconCenter = () => {
                   <Target className="h-3 w-3 text-emerald-400" />
                   <span className="text-[10px] text-emerald-400 font-medium">Estimated Recovery: {formatINR(reconData.verdict.estimatedRecovery)}</span>
                 </div>
-
-                {/* Action Bar */}
                 <div className="flex items-center gap-2 pt-3 border-t border-slate-600/50">
                   <Button size="sm" className="h-7 text-[10px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
                     onClick={() => { handleAction(analyzeItem!, 'Authorize Refund', analyzeItem!); setAnalyzeItem(null); }}>
@@ -705,7 +1110,7 @@ const CMSReconCenter = () => {
                     <Banknote className="h-3.5 w-3.5" /> Declare Overage
                   </Button>
                   <Button size="sm" variant="outline" className="h-7 text-[10px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
-                    onClick={() => { handleAction(analyzeItem!, 'Reject — Successful Transaction', analyzeItem!); setAnalyzeItem(null); }}>
+                    onClick={() => { handleAction(analyzeItem!, 'Reject', analyzeItem!); setAnalyzeItem(null); }}>
                     <ThumbsDown className="h-3.5 w-3.5" /> Reject
                   </Button>
                   <Button size="sm" variant="outline" className="h-7 text-[10px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
@@ -719,7 +1124,64 @@ const CMSReconCenter = () => {
             <div className="px-5 py-12 text-center">
               <AlertCircle className="h-8 w-8 text-slate-600 mx-auto mb-2" />
               <p className="text-sm text-slate-500">No 3-Pane reconciliation data available for this ATM.</p>
-              <p className="text-[10px] text-slate-600 mt-1">Requires matched data across Bank, Machine, and Physical sources.</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* ═══ POST-MORTEM MODAL (Historical Mode) ═══ */}
+      <Dialog open={!!postMortemItem} onOpenChange={() => setPostMortemItem(null)}>
+        <DialogContent className="max-w-2xl bg-slate-800 border-slate-700 text-slate-100">
+          <DialogHeader>
+            <DialogTitle className="text-sm font-bold flex items-center gap-2 text-white">
+              <History className="h-4 w-4 text-indigo-400" />
+              Post-Mortem Analysis — {postMortemItem?.terminalId}
+            </DialogTitle>
+          </DialogHeader>
+          {postMortemItem && (
+            <div className="space-y-4">
+              {/* Summary Header */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-lg border border-slate-700 bg-slate-700/30 p-3">
+                  <p className="text-[9px] text-slate-400 uppercase mb-1">Claim Amount</p>
+                  <p className="text-xl font-bold font-mono text-white">{formatINR(postMortemItem.amount)}</p>
+                  <p className="text-[10px] text-slate-500 mt-1">{postMortemItem.bank} · {postMortemItem.region} · {postMortemItem.date}</p>
+                </div>
+                <div className={`rounded-lg border p-3 ${postMortemItem.resolvedAs === 'Theft' ? 'border-red-500/30 bg-red-500/5' : 'border-blue-500/30 bg-blue-500/5'}`}>
+                  <p className="text-[9px] text-slate-400 uppercase mb-1">Root Cause</p>
+                  <p className={`text-xl font-bold ${postMortemItem.resolvedAs === 'Theft' ? 'text-red-400' : 'text-blue-400'}`}>
+                    {postMortemItem.resolvedAs}
+                  </p>
+                </div>
+              </div>
+
+              {/* Post-Mortem Details */}
+              <div className="space-y-3">
+                <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
+                  <p className="text-[9px] text-indigo-400 uppercase font-bold mb-2">Resolution Mode</p>
+                  <p className="text-[11px] text-slate-200">{postMortemItem.resolutionMode}</p>
+                </div>
+                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
+                  <p className="text-[9px] text-emerald-400 uppercase font-bold mb-2">Final Outcome</p>
+                  <p className="text-[11px] text-slate-200">{postMortemItem.outcome}</p>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="rounded-lg border border-slate-700 bg-slate-700/30 p-3 text-center">
+                    <p className="text-[9px] text-slate-400 uppercase mb-1">Time-to-Resolve</p>
+                    <p className="text-lg font-bold font-mono text-indigo-400">{postMortemItem.timeToResolve}</p>
+                  </div>
+                  <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 text-center">
+                    <p className="text-[9px] text-emerald-400 uppercase mb-1">Saved</p>
+                    <p className="text-lg font-bold font-mono text-emerald-400">{formatINR(postMortemItem.savedAmount)}</p>
+                  </div>
+                  <div className={`rounded-lg border p-3 text-center ${postMortemItem.penaltyPaid > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-emerald-500/30 bg-emerald-500/5'}`}>
+                    <p className="text-[9px] text-slate-400 uppercase mb-1">Penalty Paid</p>
+                    <p className={`text-lg font-bold font-mono ${postMortemItem.penaltyPaid > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                      {postMortemItem.penaltyPaid > 0 ? formatINR(postMortemItem.penaltyPaid) : '₹0'}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </DialogContent>
