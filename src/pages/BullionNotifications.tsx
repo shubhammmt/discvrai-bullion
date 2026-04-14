@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar as CalendarIcon, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, Bookmark, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2, BookOpen, Users, CheckCircle2, ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
