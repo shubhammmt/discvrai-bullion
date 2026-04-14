@@ -108,7 +108,7 @@ import DiscvrHomepage from './pages/DiscvrHomepage';
 import BullionProfile from './pages/BullionProfile';
 import BullionPortfolio from './pages/BullionPortfolio';
 import BullionNews from './pages/BullionNews';
-import BullionContests from './pages/BullionContests';
+import BullionGames from './pages/BullionGames';
  import BullionContestDetail from './pages/BullionContestDetail';
 import BullionGoals from './pages/BullionGoals';
 import BullionGoalNew from './pages/BullionGoalNew';
@@ -347,7 +347,7 @@ const AppContent = () => {
         <Route path="/bullion/profile" element={<BullionProfile />} />
         <Route path="/bullion/portfolio" element={<BullionPortfolio />} />
         <Route path="/bullion/news" element={<BullionNews />} />
-        <Route path="/bullion/contests" element={<BullionContests />} />
+        <Route path="/bullion/games" element={<BullionGames />} />
          <Route path="/bullion/contests/:id" element={<BullionContestDetail />} />
         <Route path="/bullion/goals" element={<BullionGoals />} />
         <Route path="/bullion/goals/new" element={<BullionGoalNew />} />
