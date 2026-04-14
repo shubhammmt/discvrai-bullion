@@ -167,13 +167,13 @@ const BullionNotifications = () => {
       date: dateStr,
       event: newEventName.trim(),
       type: newEventType,
-      metal: newEventMetal === '' ? undefined : newEventMetal,
+      metal: newEventMetal === 'none' ? undefined : newEventMetal,
     };
     setUpcomingEvents(prev => [...prev, newEvent].sort((a, b) => a.date.localeCompare(b.date)));
     setNewEventName('');
     setNewEventDate(undefined);
     setNewEventType('personal');
-    setNewEventMetal('');
+    setNewEventMetal('none');
     setShowAddEvent(false);
     toast.success("Event added to calendar!");
   };
