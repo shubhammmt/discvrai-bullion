@@ -665,7 +665,6 @@ const BullionNotifications = () => {
                 </CardContent>
               </Card>
 
-              {/* Auspicious Days */}
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -675,62 +674,51 @@ const BullionNotifications = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30">
-                      <div className="flex items-center gap-3">
-                        <Sparkles className="w-5 h-5 text-amber-500" />
-                        <div>
-                          <p className="font-medium text-sm">Akshaya Tritiya</p>
-                          <p className="text-xs text-muted-foreground">April 20, 2026</p>
+                    {auspiciousDays.map((day, index) => {
+                      const bgColors: Record<string, string> = {
+                        amber: 'bg-amber-50 dark:bg-amber-950/30',
+                        yellow: 'bg-yellow-50 dark:bg-yellow-950/30',
+                        orange: 'bg-orange-50 dark:bg-orange-950/30',
+                        green: 'bg-green-50 dark:bg-green-950/30',
+                        red: 'bg-red-50 dark:bg-red-950/30',
+                        blue: 'bg-blue-50 dark:bg-blue-950/30',
+                        purple: 'bg-purple-50 dark:bg-purple-950/30',
+                        pink: 'bg-pink-50 dark:bg-pink-950/30',
+                      };
+                      const iconColors: Record<string, string> = {
+                        amber: 'text-amber-500',
+                        yellow: 'text-yellow-500',
+                        orange: 'text-orange-500',
+                        green: 'text-green-500',
+                        red: 'text-red-500',
+                        blue: 'text-blue-500',
+                        purple: 'text-purple-500',
+                        pink: 'text-pink-500',
+                      };
+                      return (
+                        <div key={index} className={`flex items-center justify-between p-3 rounded-lg ${bgColors[day.color] || 'bg-muted/50'} ${!day.enabled ? 'opacity-50' : ''}`}>
+                          <div className="flex items-center gap-3">
+                            <Sparkles className={`w-5 h-5 ${iconColors[day.color] || 'text-amber-500'}`} />
+                            <div>
+                              <p className="font-medium text-sm">{day.name}</p>
+                              <p className="text-xs text-muted-foreground">{day.date}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge className={day.badge === 'Most Auspicious' ? 'bg-amber-500 text-white' : ''} variant={day.badge === 'Most Auspicious' ? 'default' : 'secondary'}>
+                              {day.badge}
+                            </Badge>
+                            <Switch
+                              checked={day.enabled}
+                              onCheckedChange={() => toggleAuspiciousDay(index)}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <Badge className="bg-amber-500 text-white">Most Auspicious</Badge>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-yellow-50 dark:bg-yellow-950/30">
-                      <div className="flex items-center gap-3">
-                        <Star className="w-5 h-5 text-yellow-500" />
-                        <div>
-                          <p className="font-medium text-sm">Dhanteras</p>
-                          <p className="text-xs text-muted-foreground">October 29, 2026</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">Festival</Badge>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-orange-50 dark:bg-orange-950/30">
-                      <div className="flex items-center gap-3">
-                        <PartyPopper className="w-5 h-5 text-orange-500" />
-                        <div>
-                          <p className="font-medium text-sm">Hindu New Year</p>
-                          <p className="text-xs text-muted-foreground">March 14, 2026</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">Festival</Badge>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-pink-50 dark:bg-pink-950/30">
-                      <div className="flex items-center gap-3">
-                        <Cake className="w-5 h-5 text-pink-500" />
-                        <div>
-                          <p className="font-medium text-sm">Your Birthday</p>
-                          <p className="text-xs text-muted-foreground">March 28, 2026</p>
-                        </div>
-                      </div>
-                      <Button size="sm" variant="outline" onClick={() => navigate('/bullion/profile')}>
-                        Edit Date
-                      </Button>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-red-950/30">
-                      <div className="flex items-center gap-3">
-                        <Heart className="w-5 h-5 text-red-500" />
-                        <div>
-                          <p className="font-medium text-sm">Anniversary</p>
-                          <p className="text-xs text-muted-foreground">Not set</p>
-                        </div>
-                      </div>
-                      <Button size="sm" variant="outline" onClick={() => navigate('/bullion/profile')}>
-                        Add Date
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
                       </Button>
                     </div>
                   </div>
