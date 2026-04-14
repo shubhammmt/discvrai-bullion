@@ -157,6 +157,37 @@ const BullionNotifications = () => {
     toast.success("Bookmark removed");
   };
 
+  const handleAddEvent = () => {
+    if (!newEventName.trim() || !newEventDate) {
+      toast.error("Please enter event name and select a date");
+      return;
+    }
+    const dateStr = format(newEventDate, 'MMM dd');
+    const newEvent: BullionCalendarEvent = {
+      date: dateStr,
+      event: newEventName.trim(),
+      type: newEventType,
+      metal: newEventMetal === '' ? undefined : newEventMetal,
+    };
+    setUpcomingEvents(prev => [...prev, newEvent].sort((a, b) => a.date.localeCompare(b.date)));
+    setNewEventName('');
+    setNewEventDate(undefined);
+    setNewEventType('personal');
+    setNewEventMetal('');
+    setShowAddEvent(false);
+    toast.success("Event added to calendar!");
+  };
+
+  const filteredEvents = useMemo(() => {
+    if (!calendarSearch.trim()) return upcomingEvents;
+    const q = calendarSearch.toLowerCase();
+    return upcomingEvents.filter(e => 
+      e.event.toLowerCase().includes(q) || 
+      e.date.toLowerCase().includes(q) || 
+      e.type.toLowerCase().includes(q)
+    );
+  }, [upcomingEvents, calendarSearch]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
