@@ -88,12 +88,40 @@ const BullionNotifications = () => {
 
   const [upcomingEvents, setUpcomingEvents] = useState<BullionCalendarEvent[]>([
     { date: 'Feb 12', event: 'Monthly Gold SIP', type: 'sip', metal: 'gold' },
-    { date: 'Feb 14', event: "Valentine's Day - Gift Gold", type: 'personal' },
-    { date: 'Mar 14', event: 'Hindu New Year', type: 'festival' },
+    { date: 'Feb 12', event: 'Monthly Silver SIP', type: 'sip', metal: 'silver' },
     { date: 'Mar 28', event: 'Birthday Reminder', type: 'personal' },
-    { date: 'Apr 20', event: 'Akshaya Tritiya', type: 'festival', metal: 'gold' },
-    { date: 'Oct 29', event: 'Dhanteras 2026', type: 'festival', metal: 'gold' }
+    { date: 'Jun 15', event: 'Anniversary Reminder', type: 'personal' },
   ]);
+
+  // Toggle states for upcoming events
+  const [eventToggles, setEventToggles] = useState<Record<string, boolean>>({
+    'Monthly Gold SIP': true,
+    'Monthly Silver SIP': true,
+    'Birthday Reminder': true,
+    'Anniversary Reminder': true,
+  });
+
+  // Auspicious days data with toggles
+  const [auspiciousDays, setAuspiciousDays] = useState([
+    { name: 'Akshaya Tritiya', date: 'April 20, 2026', badge: 'Most Auspicious', color: 'amber', enabled: true },
+    { name: 'Dhanteras', date: 'October 29, 2026', badge: 'Festival', color: 'yellow', enabled: true },
+    { name: 'Hindu New Year', date: 'March 14, 2026', badge: 'Festival', color: 'orange', enabled: true },
+    { name: 'Eid', date: 'March 31, 2026', badge: 'Festival', color: 'green', enabled: true },
+    { name: 'Christmas', date: 'December 25, 2026', badge: 'Festival', color: 'red', enabled: true },
+    { name: 'Gurupurab', date: 'November 8, 2026', badge: 'Festival', color: 'blue', enabled: true },
+    { name: 'Diwali', date: 'October 28, 2026', badge: 'Festival', color: 'purple', enabled: true },
+    { name: 'Holi', date: 'March 17, 2026', badge: 'Festival', color: 'pink', enabled: true },
+  ]);
+
+  const toggleEvent = useCallback((eventName: string) => {
+    setEventToggles(prev => ({ ...prev, [eventName]: !prev[eventName] }));
+    toast.success(`${eventName} ${eventToggles[eventName] ? 'disabled' : 'enabled'}`);
+  }, [eventToggles]);
+
+  const toggleAuspiciousDay = useCallback((index: number) => {
+    setAuspiciousDays(prev => prev.map((d, i) => i === index ? { ...d, enabled: !d.enabled } : d));
+    toast.success(`${auspiciousDays[index].name} reminder ${auspiciousDays[index].enabled ? 'disabled' : 'enabled'}`);
+  }, [auspiciousDays]);
 
   // Add Event dialog state
   const [showAddEvent, setShowAddEvent] = useState(false);
