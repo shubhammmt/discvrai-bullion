@@ -437,6 +437,95 @@ export default function BullionProfile() {
                       <Label>Relationship</Label>
                       <Input value={profile.nominee.relation} readOnly className="bg-muted/50" />
                     </div>
+
+                    {/* Nominee Birthday */}
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        Nominee Birthday
+                        <span className="text-xs text-muted-foreground font-normal">(Must be 18+)</span>
+                      </Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal",
+                              !profile.nominee.birthday && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {profile.nominee.birthday ? format(new Date(profile.nominee.birthday), "PPP") : <span>Select nominee's date of birth</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={profile.nominee.birthday ? new Date(profile.nominee.birthday) : undefined}
+                            onSelect={(date) => {
+                              if (date) {
+                                const today = new Date();
+                                const age = today.getFullYear() - date.getFullYear();
+                                const monthDiff = today.getMonth() - date.getMonth();
+                                const isUnder18 = age < 18 || (age === 18 && (monthDiff < 0 || (monthDiff === 0 && today.getDate() < date.getDate())));
+                                if (isUnder18) {
+                                  toast.error("Nominee must be at least 18 years old");
+                                  return;
+                                }
+                              }
+                              setProfile(prev => ({
+                                ...prev,
+                                nominee: prev.nominee ? { ...prev.nominee, birthday: date ? date.toISOString() : undefined } : prev.nominee
+                              }));
+                              if (date) toast.success("Nominee birthday saved");
+                            }}
+                            disabled={(date) => date > new Date()}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    {/* Anniversary Date */}
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        Anniversary Date
+                        <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
+                      </Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal",
+                              !profile.kyc.anniversary && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {profile.kyc.anniversary ? format(new Date(profile.kyc.anniversary), "PPP") : <span>Select your anniversary date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={profile.kyc.anniversary ? new Date(profile.kyc.anniversary) : undefined}
+                            onSelect={(date) => {
+                              setProfile(prev => ({
+                                ...prev,
+                                kyc: { ...prev.kyc, anniversary: date ? date.toISOString() : "" }
+                              }));
+                              if (date) toast.success("Anniversary date saved");
+                            }}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <p className="text-xs text-muted-foreground">
+                        Get special offers & reminders on your anniversary
+                      </p>
+                    </div>
+
                     <Button variant="outline" className="w-full">
                       Edit Nominee
                     </Button>
