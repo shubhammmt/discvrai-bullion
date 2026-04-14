@@ -435,55 +435,30 @@ const CMSPitchDeck: React.FC = () => {
   }, [current, goTo]);
 
   return (
-    <div className="h-screen w-screen bg-[#0B1120] flex overflow-hidden">
-      {/* Sidebar nav */}
-      <div className="w-56 bg-slate-900/80 border-r border-slate-800/50 flex flex-col py-6 px-3 shrink-0">
-        <div className="flex items-center gap-2 px-3 mb-8">
-          <Shield className="w-6 h-6 text-blue-400" />
-          <span className="text-white font-bold text-sm">CMS Pitch Deck</span>
-        </div>
-        <div className="flex-1 space-y-1 overflow-y-auto">
-          {SLIDE_TITLES.map((title, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors flex items-center gap-2 ${
-                current === i
-                  ? 'bg-blue-500/15 text-blue-300 font-medium border border-blue-500/20'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-              }`}
-            >
-              <span className="text-xs font-mono w-5 text-slate-500">{String(i + 1).padStart(2, '0')}</span>
-              {title}
-            </button>
-          ))}
-        </div>
-        <div className="px-3 pt-4 border-t border-slate-800/50">
-          <p className="text-xs text-slate-500">Powered by DiscvrAI</p>
-        </div>
+    <div className="h-screen w-screen bg-[#0B1120] flex flex-col overflow-hidden">
+      {/* Top timeline bar */}
+      <div className="h-10 bg-slate-900/80 border-b border-slate-800/50 flex items-center px-4 shrink-0 gap-1 overflow-x-auto">
+        <Shield className="w-4 h-4 text-blue-400 shrink-0 mr-2" />
+        {SLIDE_TITLES.map((title, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            className={`shrink-0 px-2.5 py-1 rounded text-xs transition-colors whitespace-nowrap ${
+              current === i
+                ? 'bg-blue-500/20 text-blue-300 font-medium'
+                : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
+            }`}
+          >
+            {String(i + 1).padStart(2, '0')}. {title}
+          </button>
+        ))}
       </div>
 
       {/* Slide area */}
-      <div className="flex-1 flex flex-col">
-        <div className="flex-1 relative">
-          {SLIDES.map((SlideComp, i) => (
-            <SlideComp key={i} isActive={current === i} />
-          ))}
-        </div>
-        {/* Bottom nav */}
-        <div className="h-14 border-t border-slate-800/50 flex items-center justify-between px-8">
-          <button onClick={() => goTo(current - 1)} disabled={current === 0} className="text-slate-400 hover:text-white disabled:opacity-30 transition-colors">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="flex gap-2">
-            {Array.from({ length: TOTAL_SLIDES }, (_, i) => (
-              <button key={i} onClick={() => goTo(i)} className={`w-2 h-2 rounded-full transition-colors ${i === current ? 'bg-blue-400' : 'bg-slate-700 hover:bg-slate-500'}`} />
-            ))}
-          </div>
-          <button onClick={() => goTo(current + 1)} disabled={current === TOTAL_SLIDES - 1} className="text-slate-400 hover:text-white disabled:opacity-30 transition-colors">
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+      <div className="flex-1 relative min-h-0">
+        {SLIDES.map((SlideComp, i) => (
+          <SlideComp key={i} isActive={current === i} />
+        ))}
       </div>
     </div>
   );
