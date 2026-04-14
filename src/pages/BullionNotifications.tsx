@@ -720,7 +720,6 @@ const BullionNotifications = () => {
                 </CardContent>
               </Card>
             </div>
-            </div>
           </TabsContent>
         </Tabs>
 
