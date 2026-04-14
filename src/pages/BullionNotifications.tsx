@@ -572,12 +572,28 @@ const BullionNotifications = () => {
 
           {/* Calendar Tab */}
           <TabsContent value="calendar" className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <h2 className="text-xl font-semibold">Bullion Calendar</h2>
-              <Button variant="outline" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Event
-              </Button>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <div className="relative flex-1 sm:flex-initial">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search festivals, events..."
+                    value={calendarSearch}
+                    onChange={e => setCalendarSearch(e.target.value)}
+                    className="pl-9 h-9 text-sm sm:w-64"
+                  />
+                  {calendarSearch && (
+                    <button onClick={() => setCalendarSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2">
+                      <X className="w-3.5 h-3.5 text-muted-foreground" />
+                    </button>
+                  )}
+                </div>
+                <Button size="sm" onClick={() => setShowAddEvent(true)} className="bg-amber-500 hover:bg-amber-600 text-black">
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add Event
+                </Button>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -585,26 +601,33 @@ const BullionNotifications = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
-                    <Calendar className="w-5 h-5" />
-                    Upcoming Events
+                    <CalendarIcon className="w-5 h-5" />
+                    {calendarSearch ? `Results for "${calendarSearch}"` : 'Upcoming Events'}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {upcomingEvents.map((event, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getEventColor(event.type)}`}>
-                            {getEventIcon(event.type)}
+                    {filteredEvents.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">No events found</p>
+                    ) : (
+                      filteredEvents.map((event, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getEventColor(event.type)}`}>
+                              {getEventIcon(event.type)}
+                            </div>
+                            <div>
+                              <p className="font-medium text-sm">{event.event}</p>
+                              <p className="text-xs text-muted-foreground">{event.date}</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-sm">{event.event}</p>
-                            <p className="text-xs text-muted-foreground">{event.date}</p>
+                          <div className="flex items-center gap-2">
+                            {event.metal && getMetalIcon(event.metal)}
+                            <Badge variant="outline" className="text-xs capitalize">{event.type}</Badge>
                           </div>
                         </div>
-                        {event.metal && getMetalIcon(event.metal)}
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -683,6 +706,82 @@ const BullionNotifications = () => {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Add Event Dialog */}
+        <Dialog open={showAddEvent} onOpenChange={setShowAddEvent}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <CalendarIcon className="w-5 h-5" />
+                Add New Event
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-2">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Event Name</label>
+                <Input
+                  placeholder="e.g. Diwali Gold Purchase, SIP Due..."
+                  value={newEventName}
+                  onChange={e => setNewEventName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Date</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {newEventDate ? format(newEventDate, 'PPP') : <span className="text-muted-foreground">Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={newEventDate}
+                      onSelect={setNewEventDate}
+                      initialFocus
+                      className="p-3 pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Event Type</label>
+                <Select value={newEventType} onValueChange={(v) => setNewEventType(v as any)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="festival">Festival</SelectItem>
+                    <SelectItem value="personal">Personal</SelectItem>
+                    <SelectItem value="sip">SIP Reminder</SelectItem>
+                    <SelectItem value="target">Price Target</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Metal (Optional)</label>
+                <Select value={newEventMetal} onValueChange={(v) => setNewEventMetal(v as any)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="None" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="gold">Gold</SelectItem>
+                    <SelectItem value="silver">Silver</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowAddEvent(false)}>Cancel</Button>
+              <Button onClick={handleAddEvent} className="bg-amber-500 hover:bg-amber-600 text-black">
+                <Plus className="w-4 h-4 mr-1" />
+                Add Event
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </main>
     </div>
   );
