@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
-import { ArrowLeft, Bell, User, Gamepad2, Grid3X3, Type, Puzzle, Trophy, RotateCcw, CheckCircle2, Clock, Sparkles } from "lucide-react";
+import { useState, useCallback } from "react";
+import { ArrowLeft, Bell, User, Gamepad2, Grid3X3, Type, Puzzle, Trophy, RotateCcw, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
