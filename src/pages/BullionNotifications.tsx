@@ -85,14 +85,22 @@ const BullionNotifications = () => {
     { id: '4', type: 'target_reached', metal: 'silver', message: 'Silver reached your target price of ₹85/gm', time: '3 hours ago', priority: 'high' }
   ];
 
-  const upcomingEvents: BullionCalendarEvent[] = [
+  const [upcomingEvents, setUpcomingEvents] = useState<BullionCalendarEvent[]>([
     { date: 'Feb 12', event: 'Monthly Gold SIP', type: 'sip', metal: 'gold' },
     { date: 'Feb 14', event: "Valentine's Day - Gift Gold", type: 'personal' },
     { date: 'Mar 14', event: 'Hindu New Year', type: 'festival' },
     { date: 'Mar 28', event: 'Birthday Reminder', type: 'personal' },
     { date: 'Apr 20', event: 'Akshaya Tritiya', type: 'festival', metal: 'gold' },
     { date: 'Oct 29', event: 'Dhanteras 2026', type: 'festival', metal: 'gold' }
-  ];
+  ]);
+
+  // Add Event dialog state
+  const [showAddEvent, setShowAddEvent] = useState(false);
+  const [newEventName, setNewEventName] = useState('');
+  const [newEventDate, setNewEventDate] = useState<Date | undefined>(undefined);
+  const [newEventType, setNewEventType] = useState<'festival' | 'personal' | 'sip' | 'target'>('personal');
+  const [newEventMetal, setNewEventMetal] = useState<'gold' | 'silver' | ''>('');
+  const [calendarSearch, setCalendarSearch] = useState('');
 
   const getMetalIcon = (metal?: 'gold' | 'silver') => {
     if (metal === 'gold') return <Coins size={16} className="text-amber-500" />;
