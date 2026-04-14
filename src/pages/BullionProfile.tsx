@@ -362,51 +362,6 @@ export default function BullionProfile() {
             <AccordionContent className="pb-4">
               <KycProfileSection />
 
-              {/* Anniversary Date - Optional */}
-              <div className="space-y-2 mt-4 pt-4 border-t border-border/50">
-                <Label className="flex items-center gap-2">
-                  Anniversary Date
-                  <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
-                </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !profile.kyc.anniversary && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {profile.kyc.anniversary ? (
-                        format(new Date(profile.kyc.anniversary), "PPP")
-                      ) : (
-                        <span>Select your anniversary date</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={profile.kyc.anniversary ? new Date(profile.kyc.anniversary) : undefined}
-                      onSelect={(date) => {
-                        setProfile(prev => ({
-                          ...prev,
-                          kyc: {
-                            ...prev.kyc,
-                            anniversary: date ? date.toISOString() : ""
-                          }
-                        }));
-                      }}
-                      initialFocus
-                      className={cn("p-3 pointer-events-auto")}
-                    />
-                  </PopoverContent>
-                </Popover>
-                <p className="text-xs text-muted-foreground">
-                  Get special offers & reminders on your anniversary
-                </p>
-              </div>
             </AccordionContent>
           </AccordionItem>
 
