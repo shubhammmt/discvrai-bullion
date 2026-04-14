@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ArrowLeft, Bell, User, TrendingDown, TrendingUp, Calendar as CalendarIcon, Gift, Cake, Heart, Sparkles, Star, PartyPopper, ChevronRight, Plus, Bookmark, Target, Send, MessageCircle, Coins, Medal, Clock, Eye, X, Pencil, Trash2, BookOpen, Users, CheckCircle2, ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +12,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { format } from "date-fns";
 
@@ -87,12 +88,40 @@ const BullionNotifications = () => {
 
   const [upcomingEvents, setUpcomingEvents] = useState<BullionCalendarEvent[]>([
     { date: 'Feb 12', event: 'Monthly Gold SIP', type: 'sip', metal: 'gold' },
-    { date: 'Feb 14', event: "Valentine's Day - Gift Gold", type: 'personal' },
-    { date: 'Mar 14', event: 'Hindu New Year', type: 'festival' },
+    { date: 'Feb 12', event: 'Monthly Silver SIP', type: 'sip', metal: 'silver' },
     { date: 'Mar 28', event: 'Birthday Reminder', type: 'personal' },
-    { date: 'Apr 20', event: 'Akshaya Tritiya', type: 'festival', metal: 'gold' },
-    { date: 'Oct 29', event: 'Dhanteras 2026', type: 'festival', metal: 'gold' }
+    { date: 'Jun 15', event: 'Anniversary Reminder', type: 'personal' },
   ]);
+
+  // Toggle states for upcoming events
+  const [eventToggles, setEventToggles] = useState<Record<string, boolean>>({
+    'Monthly Gold SIP': true,
+    'Monthly Silver SIP': true,
+    'Birthday Reminder': true,
+    'Anniversary Reminder': true,
+  });
+
+  // Auspicious days data with toggles
+  const [auspiciousDays, setAuspiciousDays] = useState([
+    { name: 'Akshaya Tritiya', date: 'April 20, 2026', badge: 'Most Auspicious', color: 'amber', enabled: true },
+    { name: 'Dhanteras', date: 'October 29, 2026', badge: 'Festival', color: 'yellow', enabled: true },
+    { name: 'Hindu New Year', date: 'March 14, 2026', badge: 'Festival', color: 'orange', enabled: true },
+    { name: 'Eid', date: 'March 31, 2026', badge: 'Festival', color: 'green', enabled: true },
+    { name: 'Christmas', date: 'December 25, 2026', badge: 'Festival', color: 'red', enabled: true },
+    { name: 'Gurupurab', date: 'November 8, 2026', badge: 'Festival', color: 'blue', enabled: true },
+    { name: 'Diwali', date: 'October 28, 2026', badge: 'Festival', color: 'purple', enabled: true },
+    { name: 'Holi', date: 'March 17, 2026', badge: 'Festival', color: 'pink', enabled: true },
+  ]);
+
+  const toggleEvent = useCallback((eventName: string) => {
+    setEventToggles(prev => ({ ...prev, [eventName]: !prev[eventName] }));
+    toast.success(`${eventName} ${eventToggles[eventName] ? 'disabled' : 'enabled'}`);
+  }, [eventToggles]);
+
+  const toggleAuspiciousDay = useCallback((index: number) => {
+    setAuspiciousDays(prev => prev.map((d, i) => i === index ? { ...d, enabled: !d.enabled } : d));
+    toast.success(`${auspiciousDays[index].name} reminder ${auspiciousDays[index].enabled ? 'disabled' : 'enabled'}`);
+  }, [auspiciousDays]);
 
   // Add Event dialog state
   const [showAddEvent, setShowAddEvent] = useState(false);
@@ -611,7 +640,7 @@ const BullionNotifications = () => {
                       <p className="text-sm text-muted-foreground text-center py-4">No events found</p>
                     ) : (
                       filteredEvents.map((event, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                         <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                           <div className="flex items-center gap-3">
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getEventColor(event.type)}`}>
                               {getEventIcon(event.type)}
@@ -624,6 +653,10 @@ const BullionNotifications = () => {
                           <div className="flex items-center gap-2">
                             {event.metal && getMetalIcon(event.metal)}
                             <Badge variant="outline" className="text-xs capitalize">{event.type}</Badge>
+                            <Switch
+                              checked={eventToggles[event.event] ?? true}
+                              onCheckedChange={() => toggleEvent(event.event)}
+                            />
                           </div>
                         </div>
                       ))
@@ -632,7 +665,6 @@ const BullionNotifications = () => {
                 </CardContent>
               </Card>
 
-              {/* Auspicious Days */}
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -642,64 +674,48 @@ const BullionNotifications = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30">
-                      <div className="flex items-center gap-3">
-                        <Sparkles className="w-5 h-5 text-amber-500" />
-                        <div>
-                          <p className="font-medium text-sm">Akshaya Tritiya</p>
-                          <p className="text-xs text-muted-foreground">April 20, 2026</p>
+                    {auspiciousDays.map((day, index) => {
+                      const bgColors: Record<string, string> = {
+                        amber: 'bg-amber-50 dark:bg-amber-950/30',
+                        yellow: 'bg-yellow-50 dark:bg-yellow-950/30',
+                        orange: 'bg-orange-50 dark:bg-orange-950/30',
+                        green: 'bg-green-50 dark:bg-green-950/30',
+                        red: 'bg-red-50 dark:bg-red-950/30',
+                        blue: 'bg-blue-50 dark:bg-blue-950/30',
+                        purple: 'bg-purple-50 dark:bg-purple-950/30',
+                        pink: 'bg-pink-50 dark:bg-pink-950/30',
+                      };
+                      const iconColors: Record<string, string> = {
+                        amber: 'text-amber-500',
+                        yellow: 'text-yellow-500',
+                        orange: 'text-orange-500',
+                        green: 'text-green-500',
+                        red: 'text-red-500',
+                        blue: 'text-blue-500',
+                        purple: 'text-purple-500',
+                        pink: 'text-pink-500',
+                      };
+                      return (
+                        <div key={index} className={`flex items-center justify-between p-3 rounded-lg ${bgColors[day.color] || 'bg-muted/50'} ${!day.enabled ? 'opacity-50' : ''}`}>
+                          <div className="flex items-center gap-3">
+                            <Sparkles className={`w-5 h-5 ${iconColors[day.color] || 'text-amber-500'}`} />
+                            <div>
+                              <p className="font-medium text-sm">{day.name}</p>
+                              <p className="text-xs text-muted-foreground">{day.date}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge className={day.badge === 'Most Auspicious' ? 'bg-amber-500 text-white' : ''} variant={day.badge === 'Most Auspicious' ? 'default' : 'secondary'}>
+                              {day.badge}
+                            </Badge>
+                            <Switch
+                              checked={day.enabled}
+                              onCheckedChange={() => toggleAuspiciousDay(index)}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <Badge className="bg-amber-500 text-white">Most Auspicious</Badge>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-yellow-50 dark:bg-yellow-950/30">
-                      <div className="flex items-center gap-3">
-                        <Star className="w-5 h-5 text-yellow-500" />
-                        <div>
-                          <p className="font-medium text-sm">Dhanteras</p>
-                          <p className="text-xs text-muted-foreground">October 29, 2026</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">Festival</Badge>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-orange-50 dark:bg-orange-950/30">
-                      <div className="flex items-center gap-3">
-                        <PartyPopper className="w-5 h-5 text-orange-500" />
-                        <div>
-                          <p className="font-medium text-sm">Hindu New Year</p>
-                          <p className="text-xs text-muted-foreground">March 14, 2026</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">Festival</Badge>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-pink-50 dark:bg-pink-950/30">
-                      <div className="flex items-center gap-3">
-                        <Cake className="w-5 h-5 text-pink-500" />
-                        <div>
-                          <p className="font-medium text-sm">Your Birthday</p>
-                          <p className="text-xs text-muted-foreground">March 28, 2026</p>
-                        </div>
-                      </div>
-                      <Button size="sm" variant="outline" onClick={() => navigate('/bullion/profile')}>
-                        Edit Date
-                      </Button>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-red-950/30">
-                      <div className="flex items-center gap-3">
-                        <Heart className="w-5 h-5 text-red-500" />
-                        <div>
-                          <p className="font-medium text-sm">Anniversary</p>
-                          <p className="text-xs text-muted-foreground">Not set</p>
-                        </div>
-                      </div>
-                      <Button size="sm" variant="outline" onClick={() => navigate('/bullion/profile')}>
-                        Add Date
-                      </Button>
-                    </div>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
