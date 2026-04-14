@@ -719,11 +719,7 @@ const BullionNotifications = () => {
                   </div>
                 </CardContent>
               </Card>
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            </div>
             </div>
           </TabsContent>
         </Tabs>
