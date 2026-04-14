@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { format } from "date-fns";
+import { getMonthlySIPEvents } from "@/data/bullionSIPData";
 
 // Types
 interface BullionAlert {
@@ -86,19 +87,22 @@ const BullionNotifications = () => {
     { id: '4', type: 'target_reached', metal: 'silver', message: 'Silver reached your target price of ₹85/gm', time: '3 hours ago', priority: 'high' }
   ];
 
+  // Build upcoming events: active monthly SIPs from portfolio + personal reminders
+  const sipEvents = getMonthlySIPEvents();
   const [upcomingEvents, setUpcomingEvents] = useState<BullionCalendarEvent[]>([
-    { date: 'Feb 12', event: 'Monthly Gold SIP', type: 'sip', metal: 'gold' },
-    { date: 'Feb 12', event: 'Monthly Silver SIP', type: 'sip', metal: 'silver' },
+    ...sipEvents,
     { date: 'Mar 28', event: 'Birthday Reminder', type: 'personal' },
     { date: 'Jun 15', event: 'Anniversary Reminder', type: 'personal' },
   ]);
 
-  // Toggle states for upcoming events
-  const [eventToggles, setEventToggles] = useState<Record<string, boolean>>({
-    'Monthly Gold SIP': true,
-    'Monthly Silver SIP': true,
-    'Birthday Reminder': true,
-    'Anniversary Reminder': true,
+  // Toggle states for upcoming events — auto-populate keys from SIP events
+  const [eventToggles, setEventToggles] = useState<Record<string, boolean>>(() => {
+    const toggles: Record<string, boolean> = {
+      'Birthday Reminder': true,
+      'Anniversary Reminder': true,
+    };
+    sipEvents.forEach(e => { toggles[e.event] = true; });
+    return toggles;
   });
 
   // Auspicious days data with toggles
