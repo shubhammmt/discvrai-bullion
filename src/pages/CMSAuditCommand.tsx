@@ -381,7 +381,7 @@ const CMSAuditCommand: React.FC = () => {
           </div>
 
           {/* KPI Cards with Sparklines */}
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             {/* Hit Rate */}
             <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50">
               <div className="flex items-center justify-between mb-1">
@@ -447,27 +447,6 @@ const CMSAuditCommand: React.FC = () => {
                 )}
               </div>
               <p className="text-[10px] text-slate-500 mt-1">Red ATMs audited in {isHistorical ? 'selected period' : 'last 30 days'}</p>
-            </div>
-
-            {/* Compliance Score */}
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-slate-400 uppercase tracking-wider">Auditor Compliance</span>
-                <Users className="w-4 h-4 text-emerald-400" />
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-white">{auditPulse.auditorComplianceScore}%</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <ArrowUpRight className="w-3 h-3 text-emerald-400" />
-                    <span className="text-xs text-emerald-400">{auditPulse.complianceTrend}% vs prev</span>
-                  </div>
-                </div>
-                {isHistorical && currentHistKpi && (
-                  <MiniSparkline data={currentHistKpi.compliance} color="#10b981" />
-                )}
-              </div>
-              <p className="text-[10px] text-slate-500 mt-1">Geo-Tag + OTC + Photo quality avg</p>
             </div>
           </div>
 
