@@ -1295,6 +1295,47 @@ const CMSReconCenter = () => {
                         ))}
                       </div>
                     </div>
+                    {/* Vault Counter Capture */}
+                    <div className="border-t border-slate-600 pt-2 mt-2">
+                      <p className="text-[9px] text-emerald-400 font-bold uppercase mb-1.5 flex items-center gap-1">
+                        <Camera className="h-3 w-3" /> Vault Counter Capture
+                      </p>
+                      {(() => {
+                        const vcc = vaultCounterCaptures.find(v => v.terminalId === analyzeItem?.replace('ATM-MUM-', 'ATM-'));
+                        const capture = vcc || vaultCounterCaptures[0];
+                        return (
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2 text-[10px]">
+                              <span className="text-slate-400">Station:</span>
+                              <span className="text-white font-medium">{capture.verifiedBy}</span>
+                              <span className="text-slate-600">·</span>
+                              <span className="text-slate-400">Time:</span>
+                              <span className="text-white">{capture.captureTime}</span>
+                              <Badge className={`text-[7px] px-1 py-0 ml-auto ${capture.integrityScore >= 95 ? 'bg-emerald-500/20 text-emerald-400' : capture.integrityScore >= 85 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                                Integrity: {capture.integrityScore}%
+                              </Badge>
+                            </div>
+                            <div className="grid grid-cols-2 gap-1">
+                              {capture.thumbnails.map((thumb, i) => (
+                                <div key={i} className="bg-slate-800 border border-slate-600 rounded px-2 py-1.5 flex items-center gap-1.5">
+                                  <div className="h-6 w-8 bg-slate-700 rounded flex items-center justify-center shrink-0">
+                                    <Image className="h-3 w-3 text-slate-500" />
+                                  </div>
+                                  <span className="text-[8px] text-slate-400">{thumb}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="flex items-center gap-2 text-[10px]">
+                              <span className="text-slate-400">Total Loaded:</span>
+                              <span className="text-white font-mono font-bold">{formatINR(capture.totalLoaded)}</span>
+                              {capture.tamperDetected && (
+                                <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400 animate-pulse ml-auto">⚠ Tamper Alert</Badge>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
                   </div>
                 </div>
               </div>
