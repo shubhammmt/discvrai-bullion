@@ -26,10 +26,11 @@ import {
   Tooltip as RechartsTooltip
 } from 'recharts';
 import {
-  atmProfiles, dataHealthMetrics, ejLogs, timelineEvents, overageEvents,
-  digitalEvidence, cashOperations, rejectBinStatuses, replenishmentPlans,
-  hardwareErrors, getStatusColor, getSeverityColor, getPenaltyColor,
-  formatINR, ATMProfile, generateBurnRates, generateErrorPatterns
+  atmProfiles, dataHealthMetrics, getStatusColor, getSeverityColor, getPenaltyColor,
+  formatINR, ATMProfile, generateBurnRates, generateErrorPatterns,
+  generateEjLogs, generateTimelineEvents, generateOverageEvents,
+  generateDigitalEvidence, generateRejectBin, generateReplenishmentPlan,
+  generateHardwareErrors, generateCashOps
 } from '@/data/cmsDataLake';
 
 // ── InfoTip ──
