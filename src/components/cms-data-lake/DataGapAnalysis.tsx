@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ejLogs, cashOperations, digitalEvidence } from '@/data/cmsDataLake';
+import { generateEjLogs, generateCashOps, generateDigitalEvidence } from '@/data/cmsDataLake';
 import { AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 interface Props {
@@ -9,9 +9,9 @@ interface Props {
 }
 
 const DataGapAnalysis: React.FC<Props> = ({ terminalId }) => {
-  const ej = ejLogs.filter(e => e.terminalId === terminalId);
-  const cash = cashOperations.filter(c => c.terminalId === terminalId);
-  const evidence = digitalEvidence.filter(d => d.terminalId === terminalId);
+  const ej = generateEjLogs(terminalId);
+  const cash = generateCashOps(terminalId);
+  const evidence = generateDigitalEvidence(terminalId);
 
   const hasEj = ej.length > 0;
   const hasCash = cash.length > 0;
