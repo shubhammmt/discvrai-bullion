@@ -290,7 +290,7 @@ const CMSDataLake = () => {
 
       {/* ═══ 7-TAB SIDE PANEL ═══ */}
       <Sheet open={!!selectedATM} onOpenChange={open => { if (!open) setSelectedATM(null); }}>
-        <SheetContent side="right" className="w-full sm:max-w-2xl p-0 overflow-y-auto">
+        <SheetContent side="right" className="w-full sm:max-w-3xl p-0 overflow-y-auto">
           {atm && (
             <div className="flex flex-col h-full">
               {/* Panel Header + Verdict */}
