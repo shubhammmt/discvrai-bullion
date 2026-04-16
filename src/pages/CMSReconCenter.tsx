@@ -133,7 +133,7 @@ const CMSReconCenter = () => {
   const [bankFilter, setBankFilter] = useState('All');
   const [regionFilter, setRegionFilter] = useState('All');
   const [search, setSearch] = useState('');
-  const [activeTab, setActiveTab] = useState('inbox');
+  const [activeTab, setActiveTab] = useState('preemptive');
   const [analyzeItem, setAnalyzeItem] = useState<string | null>(null);
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [expandedAR, setExpandedAR] = useState<string | null>(null);
