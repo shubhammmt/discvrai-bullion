@@ -921,7 +921,7 @@ const CMSReconCenter = () => {
                                 <p className="text-[8px] text-slate-500">T-Day</p>
                               </div>
                               <div className={`rounded p-2 border ${isOverdue ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/5 border-amber-500/20'}`}>
-                                <p className="text-[8px] font-bold uppercase mb-1 ${isOverdue ? 'text-red-400' : 'text-amber-400'}">Time Since Complaint</p>
+                                <p className={`text-[8px] font-bold uppercase mb-1 ${isOverdue ? 'text-red-400' : 'text-amber-400'}`}>Time Since Complaint</p>
                                 <div className="h-2.5 bg-slate-700 rounded-full overflow-hidden mt-1">
                                   <div className={`h-full rounded-full transition-all ${
                                     isOverdue ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'
