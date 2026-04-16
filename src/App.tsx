@@ -57,6 +57,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
 import CMSPitchDeck from './pages/CMSPitchDeck';
+import CMSGuardian from './pages/CMSGuardian';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
@@ -254,6 +255,7 @@ const AppContent = () => {
                          location.pathname === '/cms-data-lake' ||
                           location.pathname === '/cms-recon-center' ||
                            location.pathname === '/cms-audit-command' ||
+                           location.pathname === '/cms-audit-2' ||
                            location.pathname === '/demo/schlumberger-ops';
   return (
     <>
@@ -441,6 +443,7 @@ const AppContent = () => {
                     <Route path="/cms-data-lake" element={<CMSDataLake />} />
                     <Route path="/cms-recon-center" element={<CMSReconCenter />} />
                     <Route path="/cms-audit-command" element={<CMSAuditCommand />} />
+                    <Route path="/cms-audit-2" element={<CMSGuardian />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
                     <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
           <Route path="*" element={<NotFound />} />
