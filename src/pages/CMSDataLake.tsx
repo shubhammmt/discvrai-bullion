@@ -648,31 +648,37 @@ const CMSDataLake = () => {
                             <div className="h-5 w-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-[9px] font-bold">2</div>
                             <p className="text-[10px] font-bold text-amber-900">Post-Complaint — Management</p>
                           </div>
-                          {activeTickets.length === 0 ? (
-                            <div className="text-center py-2 bg-white rounded border border-amber-100">
-                              <CheckCircle2 className="h-4 w-4 text-emerald-400 mx-auto mb-0.5" />
-                              <p className="text-[9px] text-slate-500">No active complaints. Prevention working.</p>
+                          <div className="space-y-1.5">
+                            {/* Ticket 1 */}
+                            <div className="p-2.5 rounded-lg border border-amber-200 bg-white">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-mono text-[10px] font-bold text-slate-900">CMS-D-9821</span>
+                                <span className="text-[9px] text-slate-500">HDFC Bank</span>
+                                <Badge className="text-[7px] bg-red-100 text-red-700 border border-red-200 px-1.5 py-0">Action Required</Badge>
+                                <Badge className="text-[7px] bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0 ml-auto cursor-pointer hover:bg-blue-100">📎 Evidence Linked</Badge>
+                              </div>
+                              <p className="text-[9px] text-slate-700 font-medium mb-1">₹5,000 Partial Dispense — Waiting for team to check</p>
+                              <div className="flex items-center gap-2">
+                                <span className="text-[8px] text-slate-500">T+5 Window:</span>
+                                <div className="flex gap-0.5 flex-1">{[1,2,3,4,5].map(d => <div key={d} className={`h-1.5 flex-1 rounded-sm ${d <= 3 ? 'bg-amber-500' : 'bg-slate-200'}`} />)}</div>
+                                <span className="text-[8px] font-bold text-amber-600">2 Days remaining</span>
+                              </div>
                             </div>
-                          ) : (
-                            <div className="space-y-1.5">
-                              {activeTickets.map(t => (
-                                <div key={t.id} className="p-2 rounded border border-amber-200 bg-white">
-                                  <div className="flex items-center gap-2 mb-0.5">
-                                    <span className="font-mono text-[10px] font-bold text-slate-900">{t.ticketId}</span>
-                                    <Badge className="text-[7px] bg-amber-100 text-amber-700">Active</Badge>
-                                    <span className="text-[8px] text-slate-400 ml-auto">{t.timestamp.split(' ')[1]}</span>
-                                  </div>
-                                  <p className="text-[9px] text-slate-600">{t.errorDesc}</p>
-                                  {t.amount && <p className="text-[10px] font-bold text-red-600 mt-0.5">₹{t.amount.toLocaleString('en-IN')}</p>}
-                                  <div className="mt-1 flex items-center gap-2">
-                                    <span className="text-[8px] text-slate-500">T+5:</span>
-                                    <div className="flex gap-0.5 flex-1">{[1,2,3,4,5].map(d => <div key={d} className={`h-1 flex-1 rounded-full ${d <= 3 ? 'bg-amber-500' : 'bg-slate-200'}`} />)}</div>
-                                    <span className="text-[7px] font-bold text-amber-600">Day 3/5</span>
-                                  </div>
-                                </div>
-                              ))}
+                            {/* Ticket 2 */}
+                            <div className="p-2.5 rounded-lg border border-emerald-200 bg-white">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-mono text-[10px] font-bold text-slate-900">CMS-D-4432</span>
+                                <span className="text-[9px] text-slate-500">SBI</span>
+                                <Badge className="text-[7px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-1.5 py-0">Solved</Badge>
+                                <Badge className="text-[7px] bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0 ml-auto cursor-pointer hover:bg-blue-100">📎 Evidence Linked</Badge>
+                              </div>
+                              <p className="text-[9px] text-slate-700 font-medium mb-1">₹2,000 Cash Not Received — Evidence verified, refund approved</p>
+                              <div className="flex items-center gap-2">
+                                <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />
+                                <span className="text-[8px] text-emerald-600 font-medium">Closed in 18 hours</span>
+                              </div>
                             </div>
-                          )}
+                          </div>
                         </div>
 
                         {/* Stage 3 */}
