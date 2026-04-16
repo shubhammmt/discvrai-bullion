@@ -90,12 +90,12 @@ const CMSDataLake = () => {
 
   const getVerdict = (a: ATMProfile) => {
     const parts: string[] = [];
-    parts.push(a.status === 'Online' ? 'Healthy machine' : a.status === 'Offline' ? '⚠ Machine OFFLINE' : '🔧 Under Maintenance');
+    parts.push(a.status === 'Online' ? 'Everything is working correctly' : a.status === 'Offline' ? '⚠ ATM is currently OFF' : '🔧 Team is checking this ATM');
     const hoursToLoad = Math.max(0, Math.round((new Date(a.nextReplenishmentDate).getTime() - new Date('2026-04-12T18:00:00').getTime()) / 3600000));
-    parts.push(`Next load in ${hoursToLoad}h`);
+    parts.push(`Next cash load in ${hoursToLoad}h`);
     if (a.pendingClaimCount > 0) parts.push(`${a.pendingClaimCount} claim(s) at T+${a.claimRiskDay}`);
     if (a.penaltyRisk !== 'None') parts.push(a.penaltyRisk);
-    if (Math.abs(a.balanceDrift) > 3000) parts.push(`Balance drift: ${formatINR(a.balanceDrift)}`);
+    if (Math.abs(a.balanceDrift) > 3000) parts.push(`Cash mismatch: ${formatINR(a.balanceDrift)}`);
     return parts.join(' · ');
   };
 
@@ -241,7 +241,7 @@ const CMSDataLake = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-slate-50 h-7">
-                  {['ATM ID','Bank','Hub','Type','Site Persona','Status','Balance (Proj.)','Next Replenish','Risk','Data %'].map(h => (
+                  {['ATM ID','Bank','Hub','Type','Location Type','Status','Balance (Proj.)','Next Replenish','Risk','Info %'].map(h => (
                     <TableHead key={h} className={`text-[9px] font-bold uppercase text-slate-500 py-1 ${h.includes('Balance') || h.includes('Data') ? 'text-right' : ''}`}>{h}</TableHead>
                   ))}
                 </TableRow>
@@ -308,12 +308,11 @@ const CMSDataLake = () => {
                   <p className="text-[10px] text-slate-700"><span className="font-bold text-slate-900">Verdict:</span> {getVerdict(atm)}</p>
                 </div>
                 <Tabs value={drawerTab} onValueChange={setDrawerTab} className="mt-2.5">
-                  <TabsList className="h-7 w-full grid grid-cols-5">
-                    <TabsTrigger value="pulse" className="text-[8px] h-6 gap-0.5 px-1"><Activity className="h-3 w-3" /> Live Pulse</TabsTrigger>
-                    <TabsTrigger value="history" className="text-[8px] h-6 gap-0.5 px-1"><GitBranch className="h-3 w-3" /> History</TabsTrigger>
-                    <TabsTrigger value="intelligence" className="text-[8px] h-6 gap-0.5 px-1"><Shield className="h-3 w-3" /> Intelligence</TabsTrigger>
-                    <TabsTrigger value="controls" className="text-[8px] h-6 gap-0.5 px-1"><Lock className="h-3 w-3" /> Controls</TabsTrigger>
-                    <TabsTrigger value="techdna" className="text-[8px] h-6 gap-0.5 px-1"><Cpu className="h-3 w-3" /> Tech DNA</TabsTrigger>
+                  <TabsList className="h-7 w-full grid grid-cols-4">
+                    <TabsTrigger value="pulse" className="text-[8px] h-6 gap-0.5 px-1"><Activity className="h-3 w-3" /> Live Status</TabsTrigger>
+                    <TabsTrigger value="history" className="text-[8px] h-6 gap-0.5 px-1"><GitBranch className="h-3 w-3" /> Cash Journey & Proof</TabsTrigger>
+                    <TabsTrigger value="intelligence" className="text-[8px] h-6 gap-0.5 px-1"><Shield className="h-3 w-3" /> Risk Analysis</TabsTrigger>
+                    <TabsTrigger value="controls" className="text-[8px] h-6 gap-0.5 px-1"><Lock className="h-3 w-3" /> Rules & Compliance</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
@@ -340,15 +339,15 @@ const CMSDataLake = () => {
                       {Math.abs(atm.balanceDrift) > 0 && (
                         <div className={`mt-2 px-2.5 py-1.5 rounded ${Math.abs(atm.balanceDrift) > 3000 ? 'bg-red-50 border border-red-200' : 'bg-slate-50 border border-slate-200'}`}>
                           <p className={`text-[10px] font-bold ${Math.abs(atm.balanceDrift) > 3000 ? 'text-red-600' : 'text-slate-600'}`}>
-                            Balance Drift: <span className="font-mono">{atm.balanceDrift > 0 ? '+' : ''}{formatINR(atm.balanceDrift)}</span>
-                            {Math.abs(atm.balanceDrift) > 3000 && ' — Investigate Required'}
+                            Cash Difference (Mismatch): <span className="font-mono">{atm.balanceDrift > 0 ? '+' : ''}{formatINR(atm.balanceDrift)}</span>
+                            {Math.abs(atm.balanceDrift) > 3000 && ' — Needs Investigation'}
                           </p>
                         </div>
                       )}
                     </div>
                     {/* Connectivity History */}
                     <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Network Connectivity Timeline<Tip text="Hourly network connectivity state history." /></p>
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Network Status Timeline<Tip text="Hourly network connectivity state history." /></p>
                       <div className="space-y-1">
                         <div className="flex gap-0.5">
                           {atm.connectivityHistory.map((c, i) => (
@@ -411,10 +410,10 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ HUB 2: HISTORY & LINEAGE ═══ */}
+                {/* ═══ HUB 2: CASH JOURNEY & PROOF ═══ */}
                 {drawerTab === 'history' && (
                   <div className="space-y-3">
-                    {/* Chain of Custody */}
+                    {/* Cash Journey Map */}
                     <LineageMap
                       terminalId={atm.terminalId}
                       custodianName={atm.custodianName}
@@ -513,7 +512,7 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ HUB 3: INTELLIGENCE ═══ */}
+                {/* ═══ HUB 3: RISK ANALYSIS ═══ */}
                 {drawerTab === 'intelligence' && (() => {
                   const preemptionScore = Math.min(100, Math.max(0,
                     (atm.frequentJam ? 25 : 5) +
@@ -543,19 +542,19 @@ const CMSDataLake = () => {
                     (atm.dataCompleteness < 80 ? 12 : 2)
                   ));
                   const riskFactors = [
-                    { factor: `Last ${shortageQueries} Shortage Queries`, weight: shortageQueries * 12, max: 36, critical: shortageQueries >= 2 },
-                    { factor: 'BNA Sensor Error Active', weight: bnaSensorError ? 22 : 3, max: 22, critical: bnaSensorError },
-                    { factor: `Custodian Tenure: ${custodianTenureDays} days`, weight: custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3, max: 18, critical: custodianTenureDays > 90 },
-                    { factor: `Balance Drift: ${formatINR(Math.abs(atm.balanceDrift))}`, weight: Math.abs(atm.balanceDrift) > 3000 ? 15 : 4, max: 15, critical: Math.abs(atm.balanceDrift) > 3000 },
-                    { factor: `Data Completeness: ${atm.dataCompleteness}%`, weight: atm.dataCompleteness < 80 ? 12 : 2, max: 12, critical: atm.dataCompleteness < 80 },
-                    { factor: `Site Persona: ${atm.sitePersona}`, weight: atm.sitePersona === 'High-Risk Pilferage Zone' ? 10 : atm.sitePersona === 'Transit Corridor' ? 7 : 3, max: 10, critical: atm.sitePersona === 'High-Risk Pilferage Zone' },
+                    { factor: `${shortageQueries} Missing cash report${shortageQueries > 1 ? 's' : ''} found`, weight: shortageQueries * 12, max: 36, critical: shortageQueries >= 2 },
+                    { factor: 'Machine part is reporting a fault', weight: bnaSensorError ? 22 : 3, max: 22, critical: bnaSensorError },
+                    { factor: `Staff on same route for ${custodianTenureDays} days`, weight: custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3, max: 18, critical: custodianTenureDays > 90 },
+                    { factor: `Cash mismatch: ${formatINR(Math.abs(atm.balanceDrift))}`, weight: Math.abs(atm.balanceDrift) > 3000 ? 15 : 4, max: 15, critical: Math.abs(atm.balanceDrift) > 3000 },
+                    { factor: `Only ${atm.dataCompleteness}% of records are available`, weight: atm.dataCompleteness < 80 ? 12 : 2, max: 12, critical: atm.dataCompleteness < 80 },
+                    { factor: `Location Type: ${atm.sitePersona}`, weight: atm.sitePersona === 'High-Risk Pilferage Zone' ? 10 : atm.sitePersona === 'Transit Corridor' ? 7 : 3, max: 10, critical: atm.sitePersona === 'High-Risk Pilferage Zone' },
                   ];
 
                   return (
                     <div className="space-y-3">
                       {/* Preemption Score Card */}
                       <div className={`rounded-xl border-2 p-4 text-center ${preemptScore >= 70 ? 'border-red-300 bg-gradient-to-b from-red-50 to-white' : preemptScore >= 40 ? 'border-amber-300 bg-gradient-to-b from-amber-50 to-white' : 'border-emerald-300 bg-gradient-to-b from-emerald-50 to-white'}`}>
-                        <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-1">Machine Preemption Score</p>
+                        <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-1">ATM Risk Level</p>
                         <p className={`text-5xl font-black font-mono ${preemptScore >= 70 ? 'text-red-600' : preemptScore >= 40 ? 'text-amber-600' : 'text-emerald-600'}`}>
                           {preemptScore}<span className="text-lg text-slate-400">/100</span>
                         </p>
@@ -569,7 +568,7 @@ const CMSDataLake = () => {
 
                       {/* Why Breakdown */}
                       <div className="rounded-lg border border-slate-200 p-3">
-                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Why This Score — Contributing Factors</p>
+                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Why This Risk Level — Contributing Factors</p>
                         <div className="space-y-2">
                           {riskFactors.sort((a, b) => b.weight - a.weight).map((f, i) => (
                             <div key={i} className={`p-2 rounded border ${f.critical ? 'border-red-200 bg-red-50/50' : 'border-slate-100 bg-white'}`}>
@@ -731,7 +730,7 @@ const CMSDataLake = () => {
                   );
                 })()}
 
-                {/* ═══ HUB 4: OPERATIONAL CONTROLS ═══ */}
+                {/* ═══ HUB 4: RULES & COMPLIANCE ═══ */}
                 {drawerTab === 'controls' && (() => {
                   const custodianTenure = 45 + Math.floor(seededRandom(atm.terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 500)() * 150);
                   const controlRules = [
@@ -842,8 +841,8 @@ const CMSDataLake = () => {
                   );
                 })()}
 
-                {/* ═══ HUB 5: TECHNICAL DNA ═══ */}
-                {drawerTab === 'techdna' && (
+                {/* ═══ ATM DETAILS (merged into Rules & Compliance bottom) ═══ */}
+                {drawerTab === 'techdna_DISABLED' && (
                   <div className="space-y-3">
                     {/* Slot Mapping */}
                     <div className="rounded-lg border border-slate-200 p-3">
@@ -902,7 +901,7 @@ const CMSDataLake = () => {
 
                     {/* Location Context */}
                     <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> Location Context & Site Persona</p>
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> Location & ATM Details</p>
                       <div className="grid grid-cols-2 gap-2 text-[11px]">
                         <div><span className="text-slate-500">Site Persona:</span> <Badge className={`text-[9px] ${personaColor(atm.sitePersona)}`}>{atm.sitePersona}</Badge></div>
                         <div><span className="text-slate-500">Hub:</span> <span className="font-bold text-slate-900">{atm.hub}</span></div>
