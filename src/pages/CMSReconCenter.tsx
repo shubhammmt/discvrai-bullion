@@ -483,16 +483,14 @@ const CMSReconCenter = () => {
                                 <div className="w-40 shrink-0">
                                   <div className="flex items-center justify-between mb-0.5">
                                     <Badge className={`text-[9px] px-1.5 py-0 font-mono ${getClaimTimerColor(c.daysElapsed)}`}>
-                                      {isPenalty ? '⚠ PENALTY' : `Day ${c.daysElapsed}/5`}
+                                      {isPenalty ? `OVERDUE — Day ${c.daysElapsed}` : `Day ${c.daysElapsed} of 5`}
                                     </Badge>
-                                    <span className="text-[9px] text-amber-400 font-medium">
-                                      {isPenalty ? 'Overdue' : `${5 - c.daysElapsed}d left`}
-                                    </span>
                                   </div>
                                   <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : isCritical ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                                    <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
                                       style={{ width: `${Math.min(100, (c.daysElapsed / 5) * 100)}%` }} />
                                   </div>
+                                  {isPenalty && <Badge className="text-[7px] px-1 py-0 bg-red-600 text-white animate-pulse mt-1">Daily Fine Active</Badge>}
                                 </div>
                               </div>
                               <div className="px-3 pb-2">
