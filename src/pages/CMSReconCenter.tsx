@@ -363,10 +363,6 @@ const CMSReconCenter = () => {
                   <Shield className="h-3 w-3" /> A: Vault Audit
                   <Badge className="text-[8px] bg-purple-500/20 text-purple-300 ml-1">{fVault.length}</Badge>
                 </TabsTrigger>
-                <TabsTrigger value="txn-validator" className="text-[10px] h-7 data-[state=active]:bg-amber-600 data-[state=active]:text-white gap-1">
-                  <Scale className="h-3 w-3" /> B: Txn Validator
-                  <Badge className="text-[8px] bg-amber-500/20 text-amber-300 ml-1">{fClaims.length}</Badge>
-                </TabsTrigger>
                 <TabsTrigger value="penalties" className="text-[10px] h-7 data-[state=active]:bg-red-600 data-[state=active]:text-white gap-1">
                   <Clock className="h-3 w-3" /> C: Penalty Watch
                   <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{fPenalties.length}</Badge>
