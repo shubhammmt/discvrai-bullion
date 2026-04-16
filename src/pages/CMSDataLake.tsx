@@ -307,14 +307,17 @@ const CMSDataLake = () => {
                   <p className="text-[10px] text-slate-700"><span className="font-bold text-slate-900">Verdict:</span> {getVerdict(atm)}</p>
                 </div>
                 <Tabs value={drawerTab} onValueChange={setDrawerTab} className="mt-2.5">
-                  <TabsList className="h-7 w-full grid grid-cols-7">
-                    <TabsTrigger value="status" className="text-[8px] h-6 gap-0.5 px-1"><Wifi className="h-3 w-3" /> Live</TabsTrigger>
-                    <TabsTrigger value="dna" className="text-[8px] h-6 gap-0.5 px-1"><Cpu className="h-3 w-3" /> DNA</TabsTrigger>
-                    <TabsTrigger value="ledger" className="text-[8px] h-6 gap-0.5 px-1"><FileText className="h-3 w-3" /> Ledger</TabsTrigger>
-                    <TabsTrigger value="burns" className="text-[8px] h-6 gap-0.5 px-1"><BarChart3 className="h-3 w-3" /> Burns</TabsTrigger>
-                    <TabsTrigger value="risk" className="text-[8px] h-6 gap-0.5 px-1"><AlertTriangle className="h-3 w-3" /> Risk</TabsTrigger>
-                    <TabsTrigger value="planning" className="text-[8px] h-6 gap-0.5 px-1"><Calendar className="h-3 w-3" /> Plan</TabsTrigger>
-                    <TabsTrigger value="evidence" className="text-[8px] h-6 gap-0.5 px-1"><Archive className="h-3 w-3" /> Logs</TabsTrigger>
+                  <TabsList className="h-7 w-full grid grid-cols-10">
+                    <TabsTrigger value="status" className="text-[7px] h-6 gap-0.5 px-0.5"><Wifi className="h-3 w-3" /> Live</TabsTrigger>
+                    <TabsTrigger value="dna" className="text-[7px] h-6 gap-0.5 px-0.5"><Cpu className="h-3 w-3" /> DNA</TabsTrigger>
+                    <TabsTrigger value="lineage" className="text-[7px] h-6 gap-0.5 px-0.5"><Network className="h-3 w-3" /> Lineage</TabsTrigger>
+                    <TabsTrigger value="ledger" className="text-[7px] h-6 gap-0.5 px-0.5"><FileText className="h-3 w-3" /> Ledger</TabsTrigger>
+                    <TabsTrigger value="burns" className="text-[7px] h-6 gap-0.5 px-0.5"><BarChart3 className="h-3 w-3" /> Burns</TabsTrigger>
+                    <TabsTrigger value="risk" className="text-[7px] h-6 gap-0.5 px-0.5"><AlertTriangle className="h-3 w-3" /> Risk</TabsTrigger>
+                    <TabsTrigger value="actions" className="text-[7px] h-6 gap-0.5 px-0.5"><Wrench className="h-3 w-3" /> Actions</TabsTrigger>
+                    <TabsTrigger value="ml" className="text-[7px] h-6 gap-0.5 px-0.5"><Brain className="h-3 w-3" /> ML</TabsTrigger>
+                    <TabsTrigger value="planning" className="text-[7px] h-6 gap-0.5 px-0.5"><Calendar className="h-3 w-3" /> Plan</TabsTrigger>
+                    <TabsTrigger value="evidence" className="text-[7px] h-6 gap-0.5 px-0.5"><Archive className="h-3 w-3" /> Logs</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
