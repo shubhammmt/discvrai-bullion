@@ -533,15 +533,98 @@ const CMSReconCenter = () => {
                   </Table>
                 </div>
 
-                {/* ── Txn Validation (Merged) ── */}
+                {/* ── Txn Validation (Merged into Dispute Inbox) ── */}
                 <div className="mt-4">
                   <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
                     <Scale className="h-3.5 w-3.5 text-amber-400" />
                     Side-by-side Verdict Comparison: Bank Switch vs Machine EJ.
                     <Badge className="text-[8px] bg-amber-500/20 text-amber-300 ml-1">{fClaims.length} claims</Badge>
                   </div>
-
-              {/* ═══ QUEUE A: VAULT AUDIT ═══ */}
+                  <div className="space-y-2">
+                    {fClaims.map(c => {
+                      const acted = actionLog[c.id];
+                      const isPenalty = c.daysElapsed >= 5;
+                      const isCritical = c.daysElapsed >= 4;
+                      return (
+                        <div key={c.id} className={`rounded-lg border bg-slate-800 overflow-hidden ${
+                          isPenalty ? 'border-red-500/50' : isCritical ? 'border-red-500/30' : 'border-slate-700'
+                        } ${acted ? 'opacity-50' : ''}`}>
+                          <div className="px-3 py-2 flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 text-[11px]">
+                                <span className="font-mono font-bold text-white">{c.claimId}</span>
+                                <span className="text-slate-600">·</span>
+                                <span className="font-mono text-slate-400">{c.terminalId}</span>
+                                <span className="text-slate-600">·</span>
+                                <span className="text-slate-500">{c.bank}</span>
+                                <span className="text-slate-600">·</span>
+                                <span className="font-bold text-white">{formatINR(c.claimedAmount)}</span>
+                              </div>
+                              <p className="text-[10px] text-slate-500 mt-0.5">{c.errorDesc}</p>
+                            </div>
+                            <div className="w-36">
+                              <div className="flex items-center justify-between mb-0.5">
+                                <Badge className={`text-[9px] px-1.5 py-0 font-mono ${getClaimTimerColor(c.daysElapsed)}`}>
+                                  {isPenalty ? '⚠ PENALTY' : `Day ${c.daysElapsed}/5`}
+                                </Badge>
+                                {c.accruedPenalty > 0 && <span className="text-[9px] text-red-400 font-bold">{formatINR(c.accruedPenalty)}</span>}
+                              </div>
+                              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : isCritical ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                                  style={{ width: `${Math.min(100, (c.daysElapsed / 5) * 100)}%` }} />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="px-3 pb-2">
+                            <div className="grid grid-cols-3 gap-2 text-[10px] mb-2">
+                              <div className="bg-blue-500/5 border border-blue-500/20 rounded p-2">
+                                <p className="text-[8px] text-blue-400 font-bold uppercase mb-1">Bank Switch Says:</p>
+                                <p className="text-slate-300">{c.bankSwitch.action}</p>
+                                <Badge className={`text-[7px] px-1 py-0 mt-1 ${c.bankSwitch.status === 'Success' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                                  {c.bankSwitch.status}
+                                </Badge>
+                              </div>
+                              <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                                <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Machine EJ Says:</p>
+                                <p className="text-slate-300">{c.machineEJ.action}</p>
+                                <Badge className="text-[7px] px-1 py-0 mt-1 bg-red-500/20 text-red-400">{c.machineEJ.status}</Badge>
+                              </div>
+                              <div className={`rounded p-2 border ${c.systemVerdict.includes('Refund') ? 'bg-emerald-500/10 border-emerald-500/30' : c.systemVerdict.includes('Reject') ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/10 border-amber-500/30'}`}>
+                                <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">SYSTEM VERDICT</p>
+                                <p className={`text-sm font-bold ${c.systemVerdict.includes('Refund') ? 'text-emerald-400' : c.systemVerdict.includes('Reject') ? 'text-red-400' : 'text-amber-400'}`}>
+                                  {c.systemVerdict}
+                                </p>
+                                <p className="text-[8px] text-slate-400 mt-1 leading-snug">{c.verdictReason}</p>
+                              </div>
+                            </div>
+                            {!acted ? (
+                              <div className="flex items-center gap-2 pt-2 border-t border-slate-700/50">
+                                <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                                  onClick={() => handleAction(c.id, 'Authorize Refund', c.claimId)}>
+                                  <ThumbsUp className="h-3 w-3" /> Authorize Refund
+                                </Button>
+                                <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
+                                  onClick={() => handleAction(c.id, 'Reject — Successful Transaction', c.claimId)}>
+                                  <ThumbsDown className="h-3 w-3" /> Reject
+                                </Button>
+                                <Button size="sm" variant="ghost" className="h-6 text-[9px] text-blue-400 hover:bg-blue-500/10 gap-1"
+                                  onClick={() => setAnalyzeItem(c.terminalId)}>
+                                  <Eye className="h-3 w-3" /> 3-Pane Detail
+                                </Button>
+                              </div>
+                            ) : (
+                              <div className="pt-2 border-t border-slate-700/50 flex items-center gap-2 text-[10px]">
+                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                                <span className="text-emerald-400 font-medium">{acted}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </TabsContent>
               <TabsContent value="vault" className="mt-0">
                 <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
                   <Shield className="h-3.5 w-3.5 text-purple-400" />
