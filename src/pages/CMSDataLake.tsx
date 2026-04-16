@@ -630,83 +630,359 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ TAB 5: RISK & PROBLEMS ═══ */}
-                {drawerTab === 'risk' && (
-                  <div className="space-y-3">
-                    {termOverages.length > 0 && (
-                      <div className="rounded-lg border border-red-200 bg-red-50/30 p-3">
-                        <p className="text-[10px] font-bold text-red-700 mb-2 flex items-center gap-1"><AlertTriangle className="h-3.5 w-3.5" /> Harmonizing Penalty Tracker</p>
-                        {termOverages.map(o => (
-                          <div key={o.id} className={`p-2.5 rounded border mb-2 last:mb-0 ${o.penaltyApplicable ? 'border-red-200 bg-white' : 'border-emerald-200 bg-emerald-50'}`}>
-                            <div className="flex justify-between text-[11px] mb-1">
-                              <span className="font-bold">₹{o.amount.toLocaleString('en-IN')}</span>
-                              <Badge className={`text-[8px] ${o.status === 'Unreported' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>{o.status}</Badge>
+                {/* ═══ TAB: 3-STAGE COMPLAINT LIFECYCLE ═══ */}
+                {drawerTab === 'lifecycle' && (() => {
+                  const preemptionScore = Math.min(100, Math.max(0,
+                    (atm.frequentJam ? 25 : 5) +
+                    (atm.highCashBurn ? 15 : 3) +
+                    (Math.abs(atm.balanceDrift) > 3000 ? 20 : 5) +
+                    (atm.pendingClaimCount > 0 ? 25 : 0) +
+                    (atm.dataCompleteness < 80 ? 15 : 2)
+                  ));
+                  const sensorSignals = [
+                    ...(atm.frequentJam ? [{ signal: 'BNA Transport Jam detected 3x in 24hrs', severity: 'critical' as const }] : []),
+                    ...(Math.abs(atm.balanceDrift) > 3000 ? [{ signal: `Balance drift ₹${Math.abs(atm.balanceDrift).toLocaleString('en-IN')} — reconciliation mismatch`, severity: 'warning' as const }] : []),
+                    ...(atm.highCashBurn ? [{ signal: 'Cash burn rate 40% above route average', severity: 'warning' as const }] : []),
+                    ...(atm.dataCompleteness < 80 ? [{ signal: 'EJ data gap — Blind Window risk', severity: 'critical' as const }] : []),
+                    ...(atm.connectivityHistory.some(c => c.state === 'Offline') ? [{ signal: 'Network dropout detected — transaction integrity risk', severity: 'warning' as const }] : []),
+                    { signal: 'Cassette sensor reading normal', severity: 'info' as const },
+                  ];
+                  const activeTickets = termEj.filter(e => e.status === 'Disputed');
+                  return (
+                    <div className="space-y-3">
+                      {/* Stage 1: Pre-Complaint (Prevention) */}
+                      <div className="rounded-lg border-2 border-blue-200 bg-blue-50/30 p-3">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="h-6 w-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">1</div>
+                          <div className="flex-1">
+                            <p className="text-[11px] font-bold text-blue-900">Stage 1: Pre-Complaint — The Prevention</p>
+                            <p className="text-[9px] text-blue-600">Sensor signals that flagged risk before customer called</p>
+                          </div>
+                          <div className={`px-3 py-1.5 rounded-lg border-2 text-center ${preemptionScore >= 70 ? 'border-red-300 bg-red-50' : preemptionScore >= 40 ? 'border-amber-300 bg-amber-50' : 'border-emerald-300 bg-emerald-50'}`}>
+                            <p className="text-[8px] text-slate-500 uppercase font-bold">Preemption Score</p>
+                            <p className={`text-xl font-bold font-mono ${preemptionScore >= 70 ? 'text-red-600' : preemptionScore >= 40 ? 'text-amber-600' : 'text-emerald-600'}`}>{preemptionScore}<span className="text-[10px] text-slate-400">/100</span></p>
+                            <p className={`text-[8px] font-bold ${preemptionScore >= 70 ? 'text-red-600' : preemptionScore >= 40 ? 'text-amber-600' : 'text-emerald-600'}`}>
+                              {preemptionScore >= 70 ? 'CRITICAL' : preemptionScore >= 40 ? 'ELEVATED' : 'LOW RISK'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="space-y-1.5">
+                          {sensorSignals.map((s, i) => (
+                            <div key={i} className={`flex items-center gap-2 p-2 rounded border text-[10px] ${
+                              s.severity === 'critical' ? 'border-red-200 bg-red-50 text-red-700' :
+                              s.severity === 'warning' ? 'border-amber-200 bg-amber-50 text-amber-700' :
+                              'border-slate-200 bg-white text-slate-600'
+                            }`}>
+                              {s.severity === 'critical' ? <AlertTriangle className="h-3 w-3 text-red-500 shrink-0" /> :
+                               s.severity === 'warning' ? <AlertTriangle className="h-3 w-3 text-amber-500 shrink-0" /> :
+                               <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
+                              <span className="font-medium">{s.signal}</span>
+                              <Badge className={`text-[7px] px-1 py-0 ml-auto ${
+                                s.severity === 'critical' ? 'bg-red-100 text-red-700' :
+                                s.severity === 'warning' ? 'bg-amber-100 text-amber-700' :
+                                'bg-emerald-100 text-emerald-700'
+                              }`}>{s.severity}</Badge>
                             </div>
-                            <p className="text-[10px] text-slate-600">Detected: {o.detectedAt}</p>
-                            {o.eodsPassed > 0 && <p className="text-[10px] font-semibold text-red-600 mt-1">⚠ {o.eodsPassed} EOD(s) passed without declaration — Penalty applicable</p>}
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Stage 2: Post-Complaint (Management) */}
+                      <div className="rounded-lg border-2 border-amber-200 bg-amber-50/30 p-3">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="h-6 w-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-[10px] font-bold">2</div>
+                          <div>
+                            <p className="text-[11px] font-bold text-amber-900">Stage 2: Post-Complaint — The Management</p>
+                            <p className="text-[9px] text-amber-600">Active bank tickets linked to this machine's timeline</p>
+                          </div>
+                        </div>
+                        {activeTickets.length === 0 ? (
+                          <div className="text-center py-3 bg-white rounded border border-amber-100">
+                            <CheckCircle2 className="h-5 w-5 text-emerald-400 mx-auto mb-1" />
+                            <p className="text-[10px] text-slate-500">No active complaints. Prevention working.</p>
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            {activeTickets.map(t => (
+                              <div key={t.id} className="p-2.5 rounded border border-amber-200 bg-white">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-mono text-[11px] font-bold text-slate-900">{t.ticketId}</span>
+                                  <Badge className="text-[8px] bg-amber-100 text-amber-700">Active Dispute</Badge>
+                                  <span className="text-[9px] text-slate-400 ml-auto">{t.timestamp.split(' ')[1]}</span>
+                                </div>
+                                <p className="text-[10px] text-slate-600">{t.errorDesc}</p>
+                                {t.amount && <p className="text-[11px] font-bold text-red-600 mt-1">Disputed Amount: ₹{t.amount.toLocaleString('en-IN')}</p>}
+                                <div className="mt-2 flex items-center gap-2">
+                                  <span className="text-[8px] text-slate-500">T+5 Clock:</span>
+                                  <div className="flex gap-0.5 flex-1">{[1,2,3,4,5].map(d => <div key={d} className={`h-1.5 flex-1 rounded-full ${d <= 3 ? 'bg-amber-500' : 'bg-slate-200'}`} />)}</div>
+                                  <span className="text-[8px] font-bold text-amber-600">Day 3/5</span>
+                                </div>
+                                <p className="text-[8px] text-amber-600 mt-1">↗ Linked to Ledger event @ {t.timestamp.split(' ')[1]} · EJ correlation confirmed</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Stage 3: Finding Services (The Fix) */}
+                      <div className="rounded-lg border-2 border-emerald-200 bg-emerald-50/30 p-3">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="h-6 w-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold">3</div>
+                          <div>
+                            <p className="text-[11px] font-bold text-emerald-900">Stage 3: Finding Services — The Fix</p>
+                            <p className="text-[9px] text-emerald-600">Evidence Package for immediate resolution</p>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="p-2.5 rounded border border-emerald-200 bg-white">
+                            <p className="text-[9px] font-bold text-slate-500 uppercase mb-1.5">Evidence Package</p>
+                            <div className="space-y-1.5">
+                              {[
+                                { type: 'EJ Log Extract', icon: <FileCode className="h-3.5 w-3.5 text-blue-500" />, file: `EJ_${atm.terminalId}_20260412.log`, status: 'Available', size: '24KB' },
+                                { type: 'Counter JPEG', icon: <Camera className="h-3.5 w-3.5 text-emerald-500" />, file: `CAM_${atm.terminalId}_20260412_091200.jpg`, status: 'Available', size: '1.2MB' },
+                                { type: 'Body Cam Video', icon: <Video className="h-3.5 w-3.5 text-rose-500" />, file: `VID_${atm.terminalId}_20260412_FLM.mp4`, status: termEvidence.length > 3 ? 'Available' : 'Pending Upload', size: '18MB' },
+                                { type: 'MSP Correlation', icon: <FileText className="h-3.5 w-3.5 text-purple-500" />, file: `MSP_${atm.terminalId}_20260412.xml`, status: 'Available', size: '8KB' },
+                                { type: 'EOD Reconciliation', icon: <ClipboardCheck className="h-3.5 w-3.5 text-indigo-500" />, file: `EOD_${atm.terminalId}_20260412.pdf`, status: 'Available', size: '156KB' },
+                              ].map((e, i) => (
+                                <div key={i} className="flex items-center gap-2 p-1.5 rounded border border-slate-100 bg-slate-50 hover:bg-blue-50 cursor-pointer transition-all">
+                                  {e.icon}
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-[10px] font-medium text-slate-800 truncate">{e.file}</p>
+                                    <p className="text-[8px] text-slate-400">{e.type} · {e.size}</p>
+                                  </div>
+                                  <Badge className={`text-[7px] px-1 py-0 ${e.status === 'Available' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{e.status}</Badge>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="p-2 rounded border border-emerald-200 bg-emerald-50">
+                            <p className="text-[9px] text-emerald-700 font-bold">✅ Evidence Package Ready — 4/5 artifacts available for instant dispute resolution</p>
+                            <p className="text-[8px] text-emerald-600 mt-0.5">Auto-compiled: EJ + Video + MSP + EOD. One-click export to bank compliance team.</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Existing error analysis */}
+                      {termErrors.length > 0 && (
+                        <div className="rounded-lg border border-slate-200 p-3">
+                          <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><Zap className="h-3.5 w-3.5 text-red-500" /> Error Analysis</p>
+                          <div className="rounded border overflow-hidden">
+                            <Table>
+                              <TableHeader><TableRow className="bg-slate-50 h-6">
+                                <TableHead className="text-[9px] font-bold py-0.5">Code</TableHead>
+                                <TableHead className="text-[9px] font-bold py-0.5">Description</TableHead>
+                                <TableHead className="text-[9px] font-bold py-0.5">State</TableHead>
+                                <TableHead className="text-[9px] font-bold py-0.5 text-right">Count</TableHead>
+                              </TableRow></TableHeader>
+                              <TableBody>
+                                {termErrors.map(e => (
+                                  <TableRow key={e.id} className="text-[10px] h-6">
+                                    <TableCell className="py-0.5 font-mono font-bold text-red-600">{e.errorCode}</TableCell>
+                                    <TableCell className="py-0.5 text-slate-600">{e.errorDesc}</TableCell>
+                                    <TableCell className="py-0.5"><Badge className={`text-[8px] px-1 py-0 ${e.machineState === 'Auto-Recovery' ? 'bg-amber-100 text-amber-700' : e.machineState === 'Hard-Failure' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>{e.machineState}</Badge></TableCell>
+                                    <TableCell className="py-0.5 text-right font-bold">{e.occurrences}</TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {/* ═══ TAB: PREEMPTION RISK API ═══ */}
+                {drawerTab === 'preempt' && (() => {
+                  const shortageQueries = atm.pendingClaimCount > 0 ? 3 : 1;
+                  const bnaSensorError = atm.frequentJam;
+                  const custodianTenureDays = 45 + Math.floor(seededRandom(atm.terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 500)() * 150);
+                  const preemptScore = Math.min(100, Math.max(0,
+                    shortageQueries * 12 +
+                    (bnaSensorError ? 22 : 3) +
+                    (custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3) +
+                    (Math.abs(atm.balanceDrift) > 3000 ? 15 : 4) +
+                    (atm.dataCompleteness < 80 ? 12 : 2)
+                  ));
+                  const riskFactors = [
+                    { factor: `Last ${shortageQueries} Shortage Queries`, weight: shortageQueries * 12, max: 36, critical: shortageQueries >= 2 },
+                    { factor: 'BNA Sensor Error Active', weight: bnaSensorError ? 22 : 3, max: 22, critical: bnaSensorError },
+                    { factor: `Custodian Tenure: ${custodianTenureDays} days`, weight: custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3, max: 18, critical: custodianTenureDays > 90 },
+                    { factor: `Balance Drift: ${formatINR(Math.abs(atm.balanceDrift))}`, weight: Math.abs(atm.balanceDrift) > 3000 ? 15 : 4, max: 15, critical: Math.abs(atm.balanceDrift) > 3000 },
+                    { factor: `Data Completeness: ${atm.dataCompleteness}%`, weight: atm.dataCompleteness < 80 ? 12 : 2, max: 12, critical: atm.dataCompleteness < 80 },
+                    { factor: `Site Persona: ${atm.sitePersona}`, weight: atm.sitePersona === 'High-Risk Pilferage Zone' ? 10 : atm.sitePersona === 'Transit Corridor' ? 7 : 3, max: 10, critical: atm.sitePersona === 'High-Risk Pilferage Zone' },
+                  ];
+                  return (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Shield className="h-4 w-4 text-blue-600" />
+                        <p className="text-[11px] font-bold text-slate-800">Preemption Risk API</p>
+                        <Badge className="text-[7px] bg-blue-100 text-blue-700 px-1.5 py-0">v3.2 · Real-Time</Badge>
+                      </div>
+
+                      {/* Score Card */}
+                      <div className={`rounded-xl border-2 p-4 text-center ${preemptScore >= 70 ? 'border-red-300 bg-gradient-to-b from-red-50 to-white' : preemptScore >= 40 ? 'border-amber-300 bg-gradient-to-b from-amber-50 to-white' : 'border-emerald-300 bg-gradient-to-b from-emerald-50 to-white'}`}>
+                        <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-1">Machine Preemption Score</p>
+                        <p className={`text-5xl font-black font-mono ${preemptScore >= 70 ? 'text-red-600' : preemptScore >= 40 ? 'text-amber-600' : 'text-emerald-600'}`}>
+                          {preemptScore}<span className="text-lg text-slate-400">/100</span>
+                        </p>
+                        <Badge className={`mt-1 text-[10px] px-3 py-0.5 ${preemptScore >= 70 ? 'bg-red-100 text-red-700' : preemptScore >= 40 ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                          {preemptScore >= 70 ? '🔴 CRITICAL — Immediate Attention' : preemptScore >= 40 ? '🟡 ELEVATED — Monitor Closely' : '🟢 LOW RISK — Stable'}
+                        </Badge>
+                        <div className="mt-3 h-3 bg-slate-100 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full transition-all ${preemptScore >= 70 ? 'bg-gradient-to-r from-red-400 to-red-600' : preemptScore >= 40 ? 'bg-gradient-to-r from-amber-400 to-amber-600' : 'bg-gradient-to-r from-emerald-400 to-emerald-600'}`} style={{ width: `${preemptScore}%` }} />
+                        </div>
+                      </div>
+
+                      {/* Why Breakdown */}
+                      <div className="rounded-lg border border-slate-200 p-3">
+                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Why This Score — Contributing Factors</p>
+                        <div className="space-y-2">
+                          {riskFactors.sort((a, b) => b.weight - a.weight).map((f, i) => (
+                            <div key={i} className={`p-2 rounded border ${f.critical ? 'border-red-200 bg-red-50/50' : 'border-slate-100 bg-white'}`}>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className={`text-[10px] font-medium ${f.critical ? 'text-red-700' : 'text-slate-700'}`}>
+                                  {f.critical && <AlertTriangle className="h-3 w-3 text-red-500 inline mr-1" />}
+                                  {f.factor}
+                                </span>
+                                <span className={`text-[10px] font-bold font-mono ${f.critical ? 'text-red-600' : 'text-slate-600'}`}>+{f.weight}pts</span>
+                              </div>
+                              <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full ${f.critical ? 'bg-red-500' : 'bg-slate-400'}`} style={{ width: `${(f.weight / f.max) * 100}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* API Response Mock */}
+                      <div className="rounded-lg border border-slate-200 p-3">
+                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">API Response — /api/v1/preemption/{atm.terminalId}</p>
+                        <div className="bg-slate-900 rounded-lg p-3 font-mono text-[10px] text-green-400 space-y-0.5 overflow-x-auto">
+                          <p className="text-slate-500">{'{'}</p>
+                          <p className="ml-2">"terminal_id": "<span className="text-cyan-400">{atm.terminalId}</span>",</p>
+                          <p className="ml-2">"score": <span className={preemptScore >= 70 ? 'text-red-400' : 'text-amber-400'}>{preemptScore}</span>,</p>
+                          <p className="ml-2">"risk_level": "<span className={preemptScore >= 70 ? 'text-red-400' : preemptScore >= 40 ? 'text-amber-400' : 'text-emerald-400'}>{preemptScore >= 70 ? 'CRITICAL' : preemptScore >= 40 ? 'ELEVATED' : 'LOW'}</span>",</p>
+                          <p className="ml-2">"factors": [</p>
+                          {riskFactors.filter(f => f.critical).map((f, i) => (
+                            <p key={i} className="ml-4 text-red-400">"{f.factor}"{i < riskFactors.filter(ff => ff.critical).length - 1 ? ',' : ''}</p>
+                          ))}
+                          <p className="ml-2">],</p>
+                          <p className="ml-2">"computed_at": "<span className="text-slate-400">2026-04-12T18:00:00Z</span>"</p>
+                          <p className="text-slate-500">{'}'}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* ═══ TAB: CONTROL RULES (ANKIT'S LOGIC) ═══ */}
+                {drawerTab === 'rules' && (() => {
+                  const custodianTenure = 45 + Math.floor(seededRandom(atm.terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 500)() * 150);
+                  const controlRules = [
+                    {
+                      id: 'CR-001', rule: 'Custodian Route Rotation', condition: 'Custodian on same route > 60 days',
+                      status: custodianTenure > 60 ? 'VIOLATION' : 'COMPLIANT',
+                      detail: `${atm.custodianName} has been on route ${atm.routeId} for ${custodianTenure} days`,
+                      action: custodianTenure > 60 ? 'Auto-escalated to Regional Head for rotation' : 'No action needed',
+                      since: '2018 · Updated 2024',
+                    },
+                    {
+                      id: 'CR-002', rule: 'EOD Declaration Window', condition: 'Overage must be declared within same-day EOD',
+                      status: termOverages.some(o => o.eodsPassed > 0) ? 'VIOLATION' : 'COMPLIANT',
+                      detail: termOverages.some(o => o.eodsPassed > 0) ? `${termOverages.filter(o => o.eodsPassed > 0).length} overage(s) missed EOD declaration window` : 'All overages declared within EOD window',
+                      action: termOverages.some(o => o.eodsPassed > 0) ? 'Harmonizing Penalty auto-applied. Non-negotiable.' : 'Clean record',
+                      since: '2018 · Core Rule',
+                    },
+                    {
+                      id: 'CR-003', rule: 'Photo-to-Value Validation', condition: 'Camera capture must match loaded value ±₹500',
+                      status: atm.cassettes.some(c => !c.vaultPacked) ? 'WARNING' : 'COMPLIANT',
+                      detail: atm.cassettes.some(c => !c.vaultPacked) ? 'Missing vault-packed confirmation for 1+ cassettes' : 'All cassettes photo-verified at vault',
+                      action: atm.cassettes.some(c => !c.vaultPacked) ? 'Flag for next CIT audit' : 'Verified',
+                      since: '2020 · Enhanced 2024',
+                    },
+                    {
+                      id: 'CR-004', rule: 'Dual-Key Verification (High-Risk)', condition: 'High-risk zones require dual custodian sign-off',
+                      status: atm.sitePersona === 'High-Risk Pilferage Zone' && !atm.custodianRiskFlag ? 'ACTIVE' : atm.sitePersona === 'High-Risk Pilferage Zone' ? 'VIOLATION' : 'NOT APPLICABLE',
+                      detail: atm.sitePersona === 'High-Risk Pilferage Zone' ? 'Dual-key protocol enforced for this zone' : `Site persona "${atm.sitePersona}" does not require dual-key`,
+                      action: atm.custodianRiskFlag ? 'Custodian has red flags — escalate to compliance' : 'Standard protocol',
+                      since: '2019 · Security Directive',
+                    },
+                    {
+                      id: 'CR-005', rule: 'CLL Upload Compliance', condition: 'CLL must be uploaded within 30 min of cash load',
+                      status: 'COMPLIANT',
+                      detail: 'Last CLL uploaded within SLA window',
+                      action: 'Automated via CIT mobile app',
+                      since: '2021 · Digital Mandate',
+                    },
+                    {
+                      id: 'CR-006', rule: 'Reject Bin Seal Integrity', condition: 'Reject bin seal must match vault-issued seal number',
+                      status: rejectBin?.riskLevel === 'High' ? 'VIOLATION' : rejectBin?.riskLevel === 'Medium' ? 'WARNING' : 'COMPLIANT',
+                      detail: rejectBin ? `Bin type: ${rejectBin.binType} · Seal: ${rejectBin.cassetteSeal || 'N/A'} · Risk: ${rejectBin.riskLevel}` : 'No reject bin data',
+                      action: rejectBin?.riskLevel === 'High' ? 'Immediate physical verification required' : 'Seal verified',
+                      since: '2018 · Core Control',
+                    },
+                  ];
+                  const violations = controlRules.filter(r => r.status === 'VIOLATION').length;
+                  const warnings = controlRules.filter(r => r.status === 'WARNING').length;
+                  return (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Lock className="h-4 w-4 text-indigo-600" />
+                        <p className="text-[11px] font-bold text-slate-800">Control Rules — Ankit's Logic</p>
+                        <Badge className="text-[7px] bg-indigo-100 text-indigo-700 px-1.5 py-0">Modernized 2018 System</Badge>
+                      </div>
+
+                      {/* Summary */}
+                      <div className="grid grid-cols-3 gap-2">
+                        <div className={`rounded-lg border p-2 text-center ${violations > 0 ? 'border-red-200 bg-red-50' : 'border-emerald-200 bg-emerald-50'}`}>
+                          <p className="text-[8px] text-slate-500 uppercase font-bold">Violations</p>
+                          <p className={`text-xl font-bold ${violations > 0 ? 'text-red-600' : 'text-emerald-600'}`}>{violations}</p>
+                        </div>
+                        <div className={`rounded-lg border p-2 text-center ${warnings > 0 ? 'border-amber-200 bg-amber-50' : 'border-emerald-200 bg-emerald-50'}`}>
+                          <p className="text-[8px] text-slate-500 uppercase font-bold">Warnings</p>
+                          <p className={`text-xl font-bold ${warnings > 0 ? 'text-amber-600' : 'text-emerald-600'}`}>{warnings}</p>
+                        </div>
+                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-2 text-center">
+                          <p className="text-[8px] text-slate-500 uppercase font-bold">Compliant</p>
+                          <p className="text-xl font-bold text-emerald-600">{controlRules.filter(r => r.status === 'COMPLIANT').length}</p>
+                        </div>
+                      </div>
+
+                      {/* Rules List */}
+                      <div className="space-y-2">
+                        {controlRules.map(r => (
+                          <div key={r.id} className={`rounded-lg border p-3 ${
+                            r.status === 'VIOLATION' ? 'border-red-200 bg-red-50/50' :
+                            r.status === 'WARNING' ? 'border-amber-200 bg-amber-50/50' :
+                            r.status === 'ACTIVE' ? 'border-blue-200 bg-blue-50/50' :
+                            'border-slate-200 bg-white'
+                          }`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-[9px] font-mono text-slate-400">{r.id}</span>
+                              <span className="text-[11px] font-bold text-slate-900 flex-1">{r.rule}</span>
+                              <Badge className={`text-[8px] px-1.5 py-0 ${
+                                r.status === 'VIOLATION' ? 'bg-red-100 text-red-700' :
+                                r.status === 'WARNING' ? 'bg-amber-100 text-amber-700' :
+                                r.status === 'ACTIVE' ? 'bg-blue-100 text-blue-700' :
+                                r.status === 'NOT APPLICABLE' ? 'bg-slate-100 text-slate-500' :
+                                'bg-emerald-100 text-emerald-700'
+                              }`}>{r.status}</Badge>
+                            </div>
+                            <p className="text-[9px] text-slate-500 italic mb-1">Condition: {r.condition}</p>
+                            <p className="text-[10px] text-slate-700">{r.detail}</p>
+                            <div className="mt-1.5 flex items-center justify-between">
+                              <p className={`text-[9px] font-medium ${r.status === 'VIOLATION' ? 'text-red-600' : 'text-slate-500'}`}>
+                                <span className="font-bold">Action:</span> {r.action}
+                              </p>
+                              <span className="text-[7px] text-slate-400 italic">{r.since}</span>
+                            </div>
                           </div>
                         ))}
                       </div>
-                    )}
-                    {termEj.filter(e => e.status === 'Disputed').map(d => (
-                      <div key={d.id} className="rounded-lg border border-amber-200 bg-amber-50/30 p-3">
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[10px] font-bold text-amber-800 flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> T+5 Claim Clock</span>
-                          <Badge className="text-[9px] bg-amber-100 text-amber-700 font-mono">Day 3/5 — ₹100/day after T+5</Badge>
-                        </div>
-                        <p className="text-[11px] font-mono font-bold text-slate-800">{d.ticketId}</p>
-                        <p className="text-[10px] text-slate-600 mt-0.5">{d.errorDesc}</p>
-                        {d.amount && <p className="text-[11px] font-bold mt-1">₹{d.amount.toLocaleString('en-IN')}</p>}
-                        <div className="mt-2 flex gap-0.5">{[1,2,3,4,5].map(day => <div key={day} className={`h-1.5 flex-1 rounded-full ${day <= 3 ? (day >= 3 ? 'bg-amber-500' : 'bg-emerald-500') : 'bg-slate-200'}`} />)}</div>
-                      </div>
-                    ))}
-                    {termErrors.length > 0 && (
-                      <div className="rounded-lg border border-slate-200 p-3">
-                        <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><Zap className="h-3.5 w-3.5 text-red-500" /> Error Analysis</p>
-                        <div className="rounded border overflow-hidden">
-                          <Table>
-                            <TableHeader><TableRow className="bg-slate-50 h-6">
-                              <TableHead className="text-[9px] font-bold py-0.5">Code</TableHead>
-                              <TableHead className="text-[9px] font-bold py-0.5">Description</TableHead>
-                              <TableHead className="text-[9px] font-bold py-0.5">State</TableHead>
-                              <TableHead className="text-[9px] font-bold py-0.5 text-right">Count</TableHead>
-                            </TableRow></TableHeader>
-                            <TableBody>
-                              {termErrors.map(e => (
-                                <TableRow key={e.id} className="text-[10px] h-6">
-                                  <TableCell className="py-0.5 font-mono font-bold text-red-600">{e.errorCode}</TableCell>
-                                  <TableCell className="py-0.5 text-slate-600">{e.errorDesc}</TableCell>
-                                  <TableCell className="py-0.5"><Badge className={`text-[8px] px-1 py-0 ${e.machineState === 'Auto-Recovery' ? 'bg-amber-100 text-amber-700' : e.machineState === 'Hard-Failure' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>{e.machineState}</Badge></TableCell>
-                                  <TableCell className="py-0.5 text-right font-bold">{e.occurrences}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </div>
-                      </div>
-                    )}
-                    {termOverages.length === 0 && termEj.filter(e => e.status === 'Disputed').length === 0 && termErrors.length === 0 && (
-                      <div className="text-center py-8"><CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto mb-2" /><p className="text-xs text-slate-500">No active risk items for this ATM.</p></div>
-                    )}
-                  </div>
-                )}
-
-                {/* ═══ TAB: ACTION CONSOLE ═══ */}
-                {drawerTab === 'actions' && (
-                  <ActionConsole terminalId={atm.terminalId} />
-                )}
-
-                {/* ═══ TAB: ML PREDICTIVE INTELLIGENCE ═══ */}
-                {drawerTab === 'ml' && (
-                  <PredictiveIntelligence
-                    terminalId={atm.terminalId}
-                    frequentJam={atm.frequentJam}
-                    highCashBurn={atm.highCashBurn}
-                    balanceDrift={atm.balanceDrift}
-                    pendingClaimCount={atm.pendingClaimCount}
-                    dataCompleteness={atm.dataCompleteness}
-                  />
-                )}
+                    </div>
+                  );
+                })()}
 
                 {/* ═══ TAB 6: PLANNING ═══ */}
                 {drawerTab === 'planning' && (
