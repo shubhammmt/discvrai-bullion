@@ -378,6 +378,94 @@ const CMSReconCenter = () => {
                 </TabsTrigger>
               </TabsList>
 
+              {/* ═══ PREEMPTIVE ALERTS TAB ═══ */}
+              <TabsContent value="preemptive" className="mt-0">
+                <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500">
+                  <Bell className="h-3.5 w-3.5 text-orange-400" />
+                  FLM Signal Ingestion — Auto-recovery, complaint-triggered jams, and silent close events create preemptive overage tasks before EOD.
+                  <span className="ml-auto flex items-center gap-3">
+                    <span className="text-red-400">{preemptiveAlerts.filter(a => a.riskLevel === 'Critical').length} Critical</span>
+                    <span className="text-amber-400">{preemptiveAlerts.filter(a => a.confidence >= 80).length} High Confidence</span>
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {preemptiveAlerts.map(alert => {
+                    const acted = actionLog[alert.id];
+                    const confColor = alert.confidence >= 90 ? 'text-emerald-400' : alert.confidence >= 75 ? 'text-amber-400' : 'text-slate-400';
+                    const riskBorder = alert.riskLevel === 'Critical' ? 'border-red-500/50 bg-red-500/5' : alert.riskLevel === 'High' ? 'border-orange-500/30' : alert.riskLevel === 'Medium' ? 'border-amber-500/20' : 'border-slate-700';
+                    return (
+                      <div key={alert.id} className={`rounded-lg border bg-slate-800 p-3 ${riskBorder} ${acted ? 'opacity-50' : ''}`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-bold text-white text-[11px]">{alert.terminalId}</span>
+                          <span className="text-[10px] text-slate-500">{alert.bank} · {alert.region}</span>
+                          <Badge className={`text-[8px] px-1.5 py-0 ${
+                            alert.riskLevel === 'Critical' ? 'bg-red-500/20 text-red-400 animate-pulse' :
+                            alert.riskLevel === 'High' ? 'bg-orange-500/20 text-orange-400' :
+                            alert.riskLevel === 'Medium' ? 'bg-amber-500/20 text-amber-400' :
+                            'bg-slate-500/20 text-slate-400'
+                          }`}>{alert.riskLevel}</Badge>
+                          <Badge className="text-[8px] px-1.5 py-0 bg-blue-500/20 text-blue-400">{alert.signalType}</Badge>
+                          <span className="ml-auto text-[10px] text-slate-500">Signal: {alert.signalTime}</span>
+                        </div>
+                        <div className="grid grid-cols-5 gap-2 mb-2">
+                          <div className="bg-orange-500/5 border border-orange-500/20 rounded p-2">
+                            <p className="text-[8px] text-orange-400 font-bold uppercase mb-1">Inferred Overage</p>
+                            <p className="text-lg font-bold font-mono text-orange-400">{formatINR(alert.inferredOverage)}</p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">Confidence</p>
+                            <p className={`text-lg font-bold font-mono ${confColor}`}>{alert.confidence}%</p>
+                            <div className="h-1.5 bg-slate-700 rounded-full overflow-hidden mt-1">
+                              <div className={`h-full rounded-full ${alert.confidence >= 90 ? 'bg-emerald-500' : alert.confidence >= 75 ? 'bg-amber-500' : 'bg-slate-500'}`}
+                                style={{ width: `${alert.confidence}%` }} />
+                            </div>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Countdown</p>
+                            <p className={`text-lg font-bold font-mono ${alert.eodCountdown.startsWith('1h') || alert.eodCountdown.startsWith('0h') ? 'text-red-400' : 'text-white'}`}>
+                              {alert.eodCountdown}
+                            </p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">FLM Agent</p>
+                            <p className="text-sm font-bold text-white">{alert.flmAgent}</p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EJ Reference</p>
+                            <p className="text-[10px] font-mono text-blue-400">{alert.ejRef}</p>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mb-2">{alert.detail}</p>
+                        {!acted ? (
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                              onClick={() => handleAction(alert.id, 'Declare Pre-Emptive Overage', alert.terminalId)}>
+                              <Banknote className="h-3 w-3" /> Declare Overage
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
+                              onClick={() => handleAction(alert.id, 'Assign FLM Verification', alert.terminalId)}>
+                              <User className="h-3 w-3" /> Assign FLM Check
+                            </Button>
+                            {alert.riskLevel === 'Critical' && (
+                              <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
+                                onClick={() => handleAction(alert.id, 'Escalate to Regional Manager', alert.terminalId)}>
+                                <Gavel className="h-3 w-3" /> Escalate
+                              </Button>
+                            )}
+                            <span className="ml-auto text-[9px] text-slate-600">Status: {alert.status}</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 text-[10px]">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                            <span className="text-emerald-400 font-medium">{acted}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
+
               {/* ═══ DISPUTE INBOX ═══ */}
               <TabsContent value="inbox" className="mt-0">
                 <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500">
