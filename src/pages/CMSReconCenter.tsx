@@ -125,6 +125,7 @@ const CMSReconCenter = () => {
   const [regionFilter, setRegionFilter] = useState('All');
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('inbox');
+  const [penaltySubTab, setPenaltySubTab] = useState<'harmonizing' | 'delay'>('harmonizing');
   const [analyzeItem, setAnalyzeItem] = useState<string | null>(null);
   const [actionLog, setActionLog] = useState<Record<string, string>>({});
   const [timeframe, setTimeframe] = useState('live');
@@ -347,7 +348,7 @@ const CMSReconCenter = () => {
                   <Badge className="text-[8px] bg-purple-500/20 text-purple-300 ml-1">{fVault.length}</Badge>
                 </TabsTrigger>
                 <TabsTrigger value="penalty" className="text-[10px] h-7 data-[state=active]:bg-red-600 data-[state=active]:text-white gap-1">
-                  <Clock className="h-3 w-3" /> SLA & Penalty Tracking
+                  <Clock className="h-3 w-3" /> Penalty Tracking
                   <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{totalPenaltyCount}</Badge>
                   {breachedWindows > 0 && <Badge className="text-[8px] bg-red-500/20 text-red-300 animate-pulse">!</Badge>}
                 </TabsTrigger>
@@ -750,166 +751,234 @@ const CMSReconCenter = () => {
                   </div>
                 )}
 
-                <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
-                  <Clock className="h-3.5 w-3.5 text-red-400" />
-                  Prioritized by time remaining — T+5 claim deadlines and overage declaration windows combined.
+                {/* Sub-Tab Toggle */}
+                <div className="flex items-center gap-1 mb-3 p-1 bg-slate-800 rounded-lg border border-slate-700 w-fit">
+                  <button
+                    onClick={() => setPenaltySubTab('harmonizing')}
+                    className={`px-3 py-1.5 rounded-md text-[10px] font-bold transition-all flex items-center gap-1.5 ${
+                      penaltySubTab === 'harmonizing'
+                        ? 'bg-red-600 text-white shadow-lg shadow-red-600/20'
+                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    }`}
+                  >
+                    <AlertTriangle className="h-3 w-3" /> Harmonizing Penalties
+                    <Badge className={`text-[8px] px-1 py-0 ${penaltySubTab === 'harmonizing' ? 'bg-red-500/30 text-red-100' : 'bg-slate-600 text-slate-300'}`}>
+                      {controlWindowEntries.length}
+                    </Badge>
+                  </button>
+                  <button
+                    onClick={() => setPenaltySubTab('delay')}
+                    className={`px-3 py-1.5 rounded-md text-[10px] font-bold transition-all flex items-center gap-1.5 ${
+                      penaltySubTab === 'delay'
+                        ? 'bg-amber-600 text-white shadow-lg shadow-amber-600/20'
+                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    }`}
+                  >
+                    <Clock className="h-3 w-3" /> Delay Penalties
+                    <Badge className={`text-[8px] px-1 py-0 ${penaltySubTab === 'delay' ? 'bg-amber-500/30 text-amber-100' : 'bg-slate-600 text-slate-300'}`}>
+                      {fClaims.length}
+                    </Badge>
+                  </button>
                 </div>
 
-                {/* ── Control Window Section ── */}
-                <div className="mb-4">
-                  <p className="text-[10px] font-bold text-rose-400 uppercase mb-1.5 flex items-center gap-1">
-                    <Timer className="h-3.5 w-3.5" /> Overage Declaration Windows
-                  </p>
-                  <div className="space-y-2">
-                    {controlWindowEntries
-                      .sort((a, b) => a.remainingPct - b.remainingPct)
-                      .map(cw => {
-                      const acted = actionLog[cw.id];
-                      const isBreach = cw.status === 'Breached';
-                      const isCritical = cw.remainingPct <= 20 && !isBreach;
-                      return (
-                        <div key={cw.id} className={`rounded-lg border bg-slate-800 p-3 ${
-                          isBreach ? 'border-red-500/60 bg-red-500/5' : isCritical ? 'border-red-500/30' : 'border-slate-700'
-                        } ${acted ? 'opacity-50' : ''}`}>
-                          <div className="flex items-center gap-3 mb-2">
-                            <Monitor className="h-3.5 w-3.5 text-rose-400 shrink-0" />
-                            <span className="font-mono font-bold text-white text-[11px]">{cw.terminalId}</span>
-                            <Badge className={`text-[8px] px-1.5 py-0 ${
-                              isBreach ? 'bg-red-600 text-white animate-pulse' :
-                              isCritical ? 'bg-red-500/20 text-red-400' :
-                              'bg-amber-500/20 text-amber-400'
-                            }`}>{isBreach ? '🚨 CONTROL BREACH' : cw.status}</Badge>
-                            {isBreach && <Badge className="text-[8px] px-1.5 py-0 bg-red-600/30 text-red-300">Non-Negotiable</Badge>}
-                            <span className={`ml-auto text-sm font-mono font-bold ${isBreach ? 'text-red-400' : isCritical ? 'text-red-400' : 'text-amber-400'}`}>
-                              {isBreach ? 'EXPIRED' : `Declare within ${cw.remainingTime}`}
-                            </span>
-                          </div>
-                          <div className="grid grid-cols-3 gap-2 mb-2">
-                            <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
-                              <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Expected Overage</p>
-                              <p className="text-lg font-bold font-mono text-amber-400">{formatINR(cw.overageAmount)}</p>
+                {/* ══ SUB-TAB: Harmonizing Penalties ══ */}
+                {penaltySubTab === 'harmonizing' && (
+                  <div>
+                    <p className="text-[10px] text-red-400/70 mb-2 flex items-center gap-1">
+                      <AlertTriangle className="h-3 w-3" />
+                      Staff reporting errors — undeclared overages detected by EJ/Machine. <span className="font-bold text-red-400">Money already lost.</span>
+                    </p>
+                    <div className="space-y-2">
+                      {controlWindowEntries
+                        .sort((a, b) => a.remainingPct - b.remainingPct)
+                        .map(cw => {
+                        const acted = actionLog[cw.id];
+                        const isBreach = cw.status === 'Breached';
+                        const isCritical = cw.remainingPct <= 20 && !isBreach;
+                        const matchedHP = fPenalties.find(p => p.terminalId === cw.terminalId);
+                        const missedEODs = matchedHP?.eodsPassed || (isBreach ? 1 : 0);
+                        const penaltyPerEOD = matchedHP?.dailyBackdatedPenalty || 500;
+                        const accruedPenalty = missedEODs * penaltyPerEOD;
+                        return (
+                          <div key={cw.id} className={`rounded-lg border bg-slate-800 p-3 ${
+                            isBreach ? 'border-red-500/60 bg-red-900/20' : isCritical ? 'border-red-500/30' : 'border-red-500/20'
+                          } ${acted ? 'opacity-50' : ''}`}>
+                            <div className="flex items-center gap-3 mb-2">
+                              <Monitor className="h-3.5 w-3.5 text-red-400 shrink-0" />
+                              <span className="font-mono font-bold text-white text-[11px]">{cw.terminalId}</span>
+                              <Badge className={`text-[8px] px-1.5 py-0 ${
+                                isBreach ? 'bg-red-600 text-white animate-pulse' :
+                                isCritical ? 'bg-red-500/20 text-red-400' :
+                                'bg-red-500/10 text-red-300'
+                              }`}>{isBreach ? '🚨 CONTROL BREACH' : cw.status}</Badge>
+                              {isBreach && <Badge className="text-[8px] px-1.5 py-0 bg-red-600/30 text-red-300">Non-Negotiable</Badge>}
                             </div>
-                            <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
-                              <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Deadline</p>
-                              <p className="text-lg font-bold font-mono text-white">{cw.eodDeadline}</p>
-                            </div>
-                            <div className={`rounded p-2 border ${isBreach ? 'bg-red-500/10 border-red-500/30' : 'bg-blue-500/5 border-blue-500/20'}`}>
-                              <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Declaration</p>
-                              <p className={`text-sm font-bold ${isBreach ? 'text-red-400' : 'text-blue-400'}`}>{cw.declarationStatus}</p>
-                              <div className="h-2 bg-slate-700 rounded-full overflow-hidden mt-1">
-                                <div className={`h-full rounded-full transition-all ${
-                                  isBreach ? 'bg-red-600' : isCritical ? 'bg-red-500' : cw.remainingPct > 40 ? 'bg-emerald-500' : 'bg-amber-500'
-                                }`} style={{ width: `${Math.max(isBreach ? 100 : cw.remainingPct, 3)}%` }} />
+                            <div className="grid grid-cols-4 gap-2 mb-2">
+                              <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
+                                <p className="text-[8px] text-red-400 font-bold uppercase mb-1">Expected Overage</p>
+                                <p className="text-lg font-bold font-mono text-red-400">{formatINR(cw.overageAmount)}</p>
+                              </div>
+                              <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                                <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">Next EOD Deadline</p>
+                                <p className="text-lg font-bold font-mono text-white">{cw.eodDeadline}</p>
+                                <p className="text-[8px] text-slate-500">18:00 cutoff</p>
+                              </div>
+                              <div className="bg-red-500/10 border border-red-500/30 rounded p-2">
+                                <p className="text-[8px] text-red-400 font-bold uppercase mb-1">Missed Windows</p>
+                                <p className="text-lg font-bold font-mono text-red-400">{missedEODs}</p>
+                                <p className="text-[8px] text-red-300/60">EODs passed</p>
+                              </div>
+                              <div className="bg-red-500/10 border border-red-500/30 rounded p-2">
+                                <p className="text-[8px] text-red-400 font-bold uppercase mb-1">Accrued Penalty</p>
+                                <p className="text-lg font-bold font-mono text-red-400">{formatINR(accruedPenalty)}</p>
+                                <p className="text-[8px] text-red-300/60 font-semibold">Unrecoverable Loss</p>
                               </div>
                             </div>
+                            {/* Deadline bar */}
+                            <div className="mb-2">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-[9px] text-red-300/70 font-medium">
+                                  {isBreach ? '⏰ EXPIRED — Penalty Active' : `⏰ Declare within ${cw.remainingTime}`}
+                                </span>
+                                <span className="text-[9px] text-red-300/50">₹{penaltyPerEOD}/missed EOD</span>
+                              </div>
+                              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full transition-all ${
+                                  isBreach ? 'bg-red-600' : isCritical ? 'bg-red-500' : cw.remainingPct > 40 ? 'bg-red-400' : 'bg-red-500'
+                                }`} style={{ width: `${Math.max(isBreach ? 100 : 100 - cw.remainingPct, 3)}%` }} />
+                              </div>
+                            </div>
+                            {!acted && !isBreach ? (
+                              <Button size="sm" className="h-7 text-[10px] bg-red-600 hover:bg-red-700 text-white gap-1 font-bold"
+                                onClick={() => handleAction(cw.id, 'Overage Declared — Penalty Clock Stopped', cw.terminalId)}>
+                                <Banknote className="h-3 w-3" /> Declare Overage Now
+                              </Button>
+                            ) : isBreach && !acted ? (
+                              <div className="flex items-center gap-2">
+                                <Button size="sm" className="h-7 text-[10px] bg-red-600 hover:bg-red-700 text-white gap-1 font-bold"
+                                  onClick={() => handleAction(cw.id, 'Late Declaration Filed — Penalty Applied', cw.terminalId)}>
+                                  <Gavel className="h-3 w-3" /> Declare Overage Now
+                                </Button>
+                                <span className="text-[9px] text-red-400 font-bold">⚠ Harmonizing Penalty already applied</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-2 text-[10px]">
+                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                                <span className="text-emerald-400 font-medium">{acted}</span>
+                              </div>
+                            )}
                           </div>
-                          {!acted && !isBreach ? (
-                            <div className="flex items-center gap-2">
-                              <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
-                                onClick={() => handleAction(cw.id, 'System-Assisted Declaration Complete', cw.terminalId)}>
-                                <Banknote className="h-3 w-3" /> Declare Now
-                              </Button>
-                              <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
-                                onClick={() => handleAction(cw.id, 'Assign Verification', cw.terminalId)}>
-                                <User className="h-3 w-3" /> Verify First
-                              </Button>
-                            </div>
-                          ) : isBreach && !acted ? (
-                            <div className="flex items-center gap-2">
-                              <Button size="sm" className="h-6 text-[9px] bg-red-600 hover:bg-red-700 text-white gap-1"
-                                onClick={() => handleAction(cw.id, 'Late Declaration Filed — Penalty Applied', cw.terminalId)}>
-                                <Gavel className="h-3 w-3" /> File Late Declaration
-                              </Button>
-                              <span className="text-[9px] text-red-400 font-bold ml-2">⚠ Harmonizing Penalty will be auto-applied</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-2 text-[10px]">
-                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                              <span className="text-emerald-400 font-medium">{acted}</span>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
 
-                {/* ── T+5 Penalty Tracker Section ── */}
-                <div>
-                  <p className="text-[10px] font-bold text-red-400 uppercase mb-1.5 flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> T+5 Claim Penalties
-                  </p>
-                  <div className="space-y-2">
-                    {fPenalties
-                      .sort((a, b) => b.eodsPassed - a.eodsPassed)
-                      .map(p => {
-                      const acted = actionLog[p.id];
-                      return (
-                        <div key={p.id} className={`rounded-lg border bg-slate-800 p-3 ${
-                          p.status === 'Penalty Applied' ? 'border-red-500/50' :
-                          p.eodsPassed >= 2 ? 'border-red-500/30' : 'border-slate-700'
-                        } ${acted ? 'opacity-50' : ''}`}>
-                          <div className="flex items-center gap-3 mb-2">
-                            <User className="h-3.5 w-3.5 text-red-400 shrink-0" />
-                            <span className="font-mono font-bold text-white text-[11px]">{p.terminalId}</span>
-                            <span className="text-[10px] text-slate-500">{p.bank}</span>
-                            <Badge className={`text-[8px] px-1 py-0 ${
-                              p.status === 'Penalty Applied' ? 'bg-red-500/20 text-red-400' :
-                              p.status === 'Declared Late' ? 'bg-amber-500/20 text-amber-400' :
-                              'bg-blue-500/20 text-blue-400'
-                            }`}>{p.status}</Badge>
-                            <span className={`ml-auto text-sm font-mono font-bold ${p.eodsPassed >= 4 ? 'text-red-400' : 'text-amber-400'}`}>
-                              {p.eodsPassed >= 5 ? 'Overdue' : `Resolve within ${5 - p.eodsPassed} days`}
-                            </span>
+                {/* ══ SUB-TAB: Delay Penalties (Customer Claims T+5) ══ */}
+                {penaltySubTab === 'delay' && (
+                  <div>
+                    <p className="text-[10px] text-amber-400/70 mb-2 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      Customer claim management — resolve before T+5 to avoid daily penalties. <span className="font-bold text-amber-400">Money can still be saved.</span>
+                    </p>
+                    <div className="space-y-2">
+                      {fClaims
+                        .sort((a, b) => b.daysElapsed - a.daysElapsed)
+                        .map(c => {
+                        const acted = actionLog[c.id];
+                        const daysRemaining = Math.max(0, 5 - c.daysElapsed);
+                        const isOverdue = c.daysElapsed >= 5;
+                        const isCritical = daysRemaining <= 1 && !isOverdue;
+                        return (
+                          <div key={c.id} className={`rounded-lg border bg-slate-800 p-3 ${
+                            isOverdue ? 'border-red-500/50 bg-red-900/10' :
+                            isCritical ? 'border-amber-500/50' : 'border-amber-500/20'
+                          } ${acted ? 'opacity-50' : ''}`}>
+                            <div className="flex items-center gap-3 mb-2">
+                              <User className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                              <span className="font-mono font-bold text-white text-[11px]">{c.terminalId}</span>
+                              <span className="text-[10px] text-slate-500">{c.bank}</span>
+                              <span className="text-[9px] text-slate-500 font-mono">{c.claimId}</span>
+                              <Badge className={`text-[8px] px-1.5 py-0 ml-auto ${
+                                isOverdue ? 'bg-red-500/20 text-red-400 animate-pulse' :
+                                isCritical ? 'bg-amber-500/20 text-amber-400' :
+                                'bg-amber-500/10 text-amber-300'
+                              }`}>
+                                {isOverdue ? '🚨 OVERDUE' : `Resolve within ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''}`}
+                              </Badge>
+                            </div>
+                            <div className="grid grid-cols-5 gap-2 mb-2">
+                              <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                                <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Claim Amount</p>
+                                <p className="text-lg font-bold font-mono text-amber-400">{formatINR(c.claimedAmount)}</p>
+                              </div>
+                              <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                                <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">Complaint Date</p>
+                                <p className="text-sm font-bold font-mono text-white">{c.txnDate}</p>
+                                <p className="text-[8px] text-slate-500">T-Day</p>
+                              </div>
+                              <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                                <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">T+5 Clock</p>
+                                {/* Visual day indicators */}
+                                <div className="flex gap-0.5 mt-1">
+                                  {[1, 2, 3, 4, 5].map(day => (
+                                    <div key={day} className={`h-2.5 flex-1 rounded-sm ${
+                                      day <= c.daysElapsed
+                                        ? day >= 4 ? 'bg-red-500' : day >= 3 ? 'bg-amber-500' : 'bg-amber-400'
+                                        : 'bg-slate-600'
+                                    }`} />
+                                  ))}
+                                </div>
+                                <p className="text-[8px] text-amber-300/60 mt-0.5">{c.daysElapsed}/5 days elapsed</p>
+                              </div>
+                              <div className={`rounded p-2 border ${isOverdue ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/5 border-amber-500/20'}`}>
+                                <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Daily Penalty Rate</p>
+                                <p className={`text-lg font-bold font-mono ${isOverdue ? 'text-red-400' : 'text-amber-400'}`}>{formatINR(c.penaltyPerDay)}</p>
+                                <p className="text-[8px] text-slate-500">per day after T+5</p>
+                              </div>
+                              <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                                <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">Status</p>
+                                <p className={`text-[10px] font-bold ${
+                                  c.status === 'EJ Mismatch' ? 'text-red-400' :
+                                  c.status === 'Awaiting Physical' ? 'text-amber-400' :
+                                  c.status === 'Pending Verification' ? 'text-amber-300' :
+                                  'text-blue-400'
+                                }`}>
+                                  {c.status === 'EJ Mismatch' ? 'Awaiting EJ Log' :
+                                   c.status === 'Awaiting Physical' ? 'Awaiting Video' :
+                                   c.status}
+                                </p>
+                              </div>
+                            </div>
+                            <p className="text-[10px] text-slate-400 mb-2">{c.errorDesc}</p>
+                            {!acted ? (
+                              <div className="flex items-center gap-2">
+                                <Button size="sm" className={`h-7 text-[10px] font-bold gap-1 ${
+                                  isOverdue ? 'bg-red-600 hover:bg-red-700' : 'bg-amber-600 hover:bg-amber-700'
+                                } text-white`}
+                                  onClick={() => handleAction(c.id, 'Claim Resolved — Penalty Clock Stopped', c.terminalId)}>
+                                  <ShieldCheck className="h-3 w-3" /> Resolve & Stop Penalty
+                                </Button>
+                                <Button size="sm" variant="outline" className="h-7 text-[10px] border-slate-600 text-slate-300 hover:bg-slate-700 gap-1"
+                                  onClick={() => setAnalyzeItem(c.terminalId)}>
+                                  <Eye className="h-3 w-3" /> 3-Pane Detail
+                                </Button>
+                                {c.accruedPenalty > 0 && (
+                                  <span className="ml-auto text-[9px] text-red-400 font-bold">Accrued: {formatINR(c.accruedPenalty)}</span>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-2 text-[10px]">
+                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                                <span className="text-emerald-400 font-medium">{acted}</span>
+                              </div>
+                            )}
                           </div>
-                          <div className="grid grid-cols-5 gap-2 text-[10px] mb-2">
-                            <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
-                              <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Overage</p>
-                              <p className="text-lg font-bold font-mono text-amber-400">{formatINR(p.overageAmount)}</p>
-                            </div>
-                            <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
-                              <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Deadline</p>
-                              <p className="font-mono text-white text-sm">{p.eodDeadline.split(' ')[1]}</p>
-                            </div>
-                            <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
-                              <p className="text-[8px] text-red-400 font-bold uppercase mb-1">EODs Passed</p>
-                              <p className="text-lg font-bold font-mono text-red-400">{p.eodsPassed}</p>
-                            </div>
-                            <div className={`rounded p-2 border ${p.penaltyAmount > 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
-                              <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Penalty ₹</p>
-                              <p className={`text-lg font-bold font-mono ${p.penaltyAmount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-                                {p.penaltyAmount > 0 ? formatINR(p.penaltyAmount) : '₹0'}
-                              </p>
-                              <p className="text-[8px] text-slate-400">{p.penaltyFormula}</p>
-                            </div>
-                            <div className="bg-red-500/5 border border-red-500/20 rounded p-2">
-                              <p className="text-[8px] text-red-400 font-bold uppercase mb-1">Daily Backdated</p>
-                              <p className="text-lg font-bold font-mono text-red-400">{formatINR(p.dailyBackdatedPenalty)}</p>
-                            </div>
-                          </div>
-                          {!acted ? (
-                            <div className="flex items-center gap-2">
-                              <Button size="sm" className="h-6 text-[9px] bg-amber-600 hover:bg-amber-700 text-white gap-1"
-                                onClick={() => handleAction(p.id, 'Declare Overage', p.terminalId)}>
-                                <Banknote className="h-3 w-3" /> Declare Overage
-                              </Button>
-                              <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
-                                onClick={() => handleAction(p.id, 'Escalate to Audit', p.terminalId)}>
-                                <Gavel className="h-3 w-3" /> Escalate
-                              </Button>
-                              <span className="ml-auto text-[10px] text-slate-500">CIT: {p.citAgent}</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-2 text-[10px]">
-                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                              <span className="text-emerald-400 font-medium">{acted}</span>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
               </TabsContent>
             </Tabs>
           ) : (
