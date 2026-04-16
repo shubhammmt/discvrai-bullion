@@ -125,6 +125,7 @@ const CMSReconCenter = () => {
   const [regionFilter, setRegionFilter] = useState('All');
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('inbox');
+  const [penaltySubTab, setPenaltySubTab] = useState<'harmonizing' | 'delay'>('harmonizing');
   const [analyzeItem, setAnalyzeItem] = useState<string | null>(null);
   const [actionLog, setActionLog] = useState<Record<string, string>>({});
   const [timeframe, setTimeframe] = useState('live');
