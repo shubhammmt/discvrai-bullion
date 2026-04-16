@@ -17,7 +17,8 @@ import {
   ArrowUpRight, ArrowDownRight, Target, Activity, CheckCircle2,
   XCircle, AlertCircle, ShieldAlert, Banknote, Cpu, ThumbsUp, ThumbsDown,
   Scale, Gavel, Code, Inbox, FileArchive, MapPin, Shield, Camera, User, Lock,
-  CalendarIcon, TrendingUp, BarChart3, History, Award, Flame
+  CalendarIcon, TrendingUp, BarChart3, History, Award, Flame,
+  Bell, Timer, Image, Wifi, ShieldCheck, ArrowRight
 } from 'lucide-react';
 import {
   reconPulse, mismatchedLedgers, pendingClaims, harmonizingPenalties,
@@ -102,11 +103,37 @@ const recoveryEfficiency = [
   { category: 'Manual Resolution', potential: 2500000, recovered: 2125000 },
 ];
 
+// ── Preemptive Alerts Queue (FLM Signal-Triggered) ──
+const preemptiveAlerts = [
+  { id: 'PA-001', terminalId: 'ATM-1001', bank: 'HDFC', region: 'North', signalType: 'Auto-Recovery After Jam', signalTime: '09:14:01', inferredOverage: 2000, confidence: 92, status: 'Pending Declaration', eodCountdown: '6h 45m', flmAgent: 'Vikram Meena', ejRef: 'CMS-02435508', riskLevel: 'High', detail: 'BNA Transport Jam → Auto-Recovery → FLM Silent Close. Cash likely stuck in transport. Inferred ₹2,000 overage.' },
+  { id: 'PA-002', terminalId: 'ATM-2045', bank: 'SBI', region: 'West', signalType: 'Complaint-Triggered Jam', signalTime: '11:30:00', inferredOverage: 5000, confidence: 85, status: 'Pending Declaration', eodCountdown: '4h 30m', flmAgent: 'Rajesh Sharma', ejRef: 'CMS-02435512', riskLevel: 'High', detail: 'Customer complaint ₹5,000 not dispensed. EJ shows DISP_OK but sensor mismatch. Probable cassette retraction.' },
+  { id: 'PA-003', terminalId: 'ATM-3012', bank: 'ICICI', region: 'South', signalType: 'Auto-Recovery After Jam', signalTime: '14:16:00', inferredOverage: 1000, confidence: 78, status: 'Under Review', eodCountdown: '2h 15m', flmAgent: 'Karthik Nair', ejRef: 'CMS-02435514', riskLevel: 'Medium', detail: 'CDM Note Feed Failure → Auto-Recovery. Single ₹500 × 2 notes suspected in reject path. Moderate confidence.' },
+  { id: 'PA-004', terminalId: 'ATM-1089', bank: 'HDFC', region: 'North', signalType: 'Repeat Jam Pattern', signalTime: '10:42:00', inferredOverage: 3500, confidence: 71, status: 'Pending Declaration', eodCountdown: '5h 18m', flmAgent: 'Amit Verma', ejRef: 'CMS-02435520', riskLevel: 'Medium', detail: '3rd jam in 48h window. Cumulative suspected overage from transport mechanism. Pattern suggests roller degradation.' },
+  { id: 'PA-005', terminalId: 'ATM-4501', bank: 'Axis', region: 'East', signalType: 'Silent Close Event', signalTime: '12:05:00', inferredOverage: 8000, confidence: 95, status: 'Critical', eodCountdown: '1h 55m', flmAgent: 'Sunil Das', ejRef: 'CMS-02435525', riskLevel: 'Critical', detail: 'FLM auto-closed jam without physical verification. High-value ₹2,000 × 4 notes detected in transport sensor. No reject bin update.' },
+  { id: 'PA-006', terminalId: 'ATM-2078', bank: 'SBI', region: 'West', signalType: 'Auto-Recovery After Jam', signalTime: '15:22:00', inferredOverage: 500, confidence: 62, status: 'Low Priority', eodCountdown: '8h 38m', flmAgent: 'Deepak Joshi', ejRef: 'CMS-02435530', riskLevel: 'Low', detail: 'Single note jam in ₹500 cassette. Auto-cleared within 15 seconds. Low probability of stuck note.' },
+];
+
+// ── Control Window Tracker Data ──
+const controlWindowEntries = [
+  { id: 'CW-001', terminalId: 'ATM-1001', overageAmount: 2000, detectedAt: '09:14:01', eodDeadline: '18:00:00', remainingTime: '6h 45m', remainingPct: 56, status: 'Active', declarationStatus: 'Not Declared', breachRisk: false },
+  { id: 'CW-002', terminalId: 'ATM-2045', overageAmount: 5000, detectedAt: '11:30:00', eodDeadline: '18:00:00', remainingTime: '4h 30m', remainingPct: 37, status: 'Active', declarationStatus: 'Not Declared', breachRisk: false },
+  { id: 'CW-003', terminalId: 'ATM-4501', overageAmount: 8000, detectedAt: '12:05:00', eodDeadline: '18:00:00', remainingTime: '1h 55m', remainingPct: 16, status: 'Critical', declarationStatus: 'Not Declared', breachRisk: true },
+  { id: 'CW-004', terminalId: 'ATM-3098', overageAmount: 3200, detectedAt: '08:22:00', eodDeadline: '18:00:00', remainingTime: '0h 00m', remainingPct: 0, status: 'Breached', declarationStatus: 'CONTROL BREACH', breachRisk: true },
+  { id: 'CW-005', terminalId: 'ATM-1045', overageAmount: 1500, detectedAt: '10:15:00', eodDeadline: '18:00:00', remainingTime: '5h 45m', remainingPct: 48, status: 'Active', declarationStatus: 'System-Assisted Pending', breachRisk: false },
+];
+
+// ── Vault Counter Capture Data ──
+const vaultCounterCaptures = [
+  { id: 'VCC-001', terminalId: 'ATM-1001', captureTime: '06:28:15', cassettes: 4, verifiedBy: 'Camera Station A3', totalLoaded: 2500000, thumbnails: ['Cassette-1 ₹500 × 2000', 'Cassette-2 ₹100 × 2000', 'Cassette-3 ₹200 × 1500', 'Cassette-4 ₹2000 × 500'], integrityScore: 98, tamperDetected: false },
+  { id: 'VCC-002', terminalId: 'ATM-2045', captureTime: '06:42:30', cassettes: 4, verifiedBy: 'Camera Station B1', totalLoaded: 3000000, thumbnails: ['Cassette-1 ₹500 × 2400', 'Cassette-2 ₹100 × 3000', 'Cassette-3 ₹200 × 2500', 'Cassette-4 ₹2000 × 600'], integrityScore: 96, tamperDetected: false },
+  { id: 'VCC-003', terminalId: 'ATM-3012', captureTime: '06:55:10', cassettes: 4, verifiedBy: 'Camera Station A1', totalLoaded: 2000000, thumbnails: ['Cassette-1 ₹500 × 1600', 'Cassette-2 ₹100 × 2000', 'Cassette-3 ₹200 × 1000', 'Cassette-4 ₹2000 × 400'], integrityScore: 88, tamperDetected: true },
+];
+
 const CMSReconCenter = () => {
   const [bankFilter, setBankFilter] = useState('All');
   const [regionFilter, setRegionFilter] = useState('All');
   const [search, setSearch] = useState('');
-  const [activeTab, setActiveTab] = useState('inbox');
+  const [activeTab, setActiveTab] = useState('preemptive');
   const [analyzeItem, setAnalyzeItem] = useState<string | null>(null);
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [expandedAR, setExpandedAR] = useState<string | null>(null);
@@ -218,14 +245,22 @@ const CMSReconCenter = () => {
             </div>
             <div>
               <h1 className="text-xs font-bold text-white leading-tight">
-                {isHistorical ? 'Strategic Financial Analysis' : 'Financial Resolution Engine'}
+                {isHistorical ? 'Strategic Financial Analysis' : 'Preemptive Resolution Engine'}
               </h1>
               <p className="text-[9px] text-slate-400">
-                {isHistorical ? `${timeframeLabel} · Pattern Recognition & Leakage Analysis` : '₹40–43 Cr Leakage Recovery · Physical × Digital × Machine Reconciliation'}
+                {isHistorical ? `${timeframeLabel} · Pattern Recognition & Leakage Analysis` : '₹40–43 Cr Leakage Prevention · Signal Ingestion → Preemptive Action → Governed Declaration'}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Agile Sync Badge */}
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+              <div>
+                <p className="text-[9px] font-bold text-emerald-400 leading-tight">Agile Sync ✓</p>
+                <p className="text-[7px] text-emerald-500/80">Recon · Complaints · Penalties</p>
+              </div>
+            </div>
             {/* ── Timeframe Selector ── */}
             <div className="flex items-center gap-1 bg-slate-700 rounded-md p-0.5">
               {TIMEFRAMES.map(tf => (
@@ -316,10 +351,13 @@ const CMSReconCenter = () => {
           {!isHistorical ? (
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="h-8 bg-slate-800 border border-slate-700 mb-3">
+                <TabsTrigger value="preemptive" className="text-[10px] h-7 data-[state=active]:bg-orange-600 data-[state=active]:text-white gap-1">
+                  <Bell className="h-3 w-3" /> Preemptive Alerts
+                  <Badge className="text-[8px] bg-orange-500/20 text-orange-300 ml-1">{preemptiveAlerts.length}</Badge>
+                </TabsTrigger>
                 <TabsTrigger value="inbox" className="text-[10px] h-7 data-[state=active]:bg-blue-600 data-[state=active]:text-white gap-1">
                   <Inbox className="h-3 w-3" /> Dispute Inbox
                   <Badge className="text-[8px] bg-blue-500/20 text-blue-300 ml-1">{fDisputes.length}</Badge>
-                  {orphanCount > 0 && <Badge className="text-[8px] bg-red-500/20 text-red-300">{orphanCount} orphan</Badge>}
                 </TabsTrigger>
                 <TabsTrigger value="vault" className="text-[10px] h-7 data-[state=active]:bg-purple-600 data-[state=active]:text-white gap-1">
                   <Shield className="h-3 w-3" /> A: Vault Audit
@@ -333,7 +371,100 @@ const CMSReconCenter = () => {
                   <Clock className="h-3 w-3" /> C: Penalty Watch
                   <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{fPenalties.length}</Badge>
                 </TabsTrigger>
+                <TabsTrigger value="control-window" className="text-[10px] h-7 data-[state=active]:bg-rose-600 data-[state=active]:text-white gap-1">
+                  <Timer className="h-3 w-3" /> D: Control Window
+                  <Badge className="text-[8px] bg-rose-500/20 text-rose-300 ml-1">{controlWindowEntries.filter(c => c.status !== 'Breached').length}</Badge>
+                  {controlWindowEntries.some(c => c.breachRisk) && <Badge className="text-[8px] bg-red-500/20 text-red-300 animate-pulse">!</Badge>}
+                </TabsTrigger>
               </TabsList>
+
+              {/* ═══ PREEMPTIVE ALERTS TAB ═══ */}
+              <TabsContent value="preemptive" className="mt-0">
+                <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500">
+                  <Bell className="h-3.5 w-3.5 text-orange-400" />
+                  FLM Signal Ingestion — Auto-recovery, complaint-triggered jams, and silent close events create preemptive overage tasks before EOD.
+                  <span className="ml-auto flex items-center gap-3">
+                    <span className="text-red-400">{preemptiveAlerts.filter(a => a.riskLevel === 'Critical').length} Critical</span>
+                    <span className="text-amber-400">{preemptiveAlerts.filter(a => a.confidence >= 80).length} High Confidence</span>
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {preemptiveAlerts.map(alert => {
+                    const acted = actionLog[alert.id];
+                    const confColor = alert.confidence >= 90 ? 'text-emerald-400' : alert.confidence >= 75 ? 'text-amber-400' : 'text-slate-400';
+                    const riskBorder = alert.riskLevel === 'Critical' ? 'border-red-500/50 bg-red-500/5' : alert.riskLevel === 'High' ? 'border-orange-500/30' : alert.riskLevel === 'Medium' ? 'border-amber-500/20' : 'border-slate-700';
+                    return (
+                      <div key={alert.id} className={`rounded-lg border bg-slate-800 p-3 ${riskBorder} ${acted ? 'opacity-50' : ''}`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-bold text-white text-[11px]">{alert.terminalId}</span>
+                          <span className="text-[10px] text-slate-500">{alert.bank} · {alert.region}</span>
+                          <Badge className={`text-[8px] px-1.5 py-0 ${
+                            alert.riskLevel === 'Critical' ? 'bg-red-500/20 text-red-400 animate-pulse' :
+                            alert.riskLevel === 'High' ? 'bg-orange-500/20 text-orange-400' :
+                            alert.riskLevel === 'Medium' ? 'bg-amber-500/20 text-amber-400' :
+                            'bg-slate-500/20 text-slate-400'
+                          }`}>{alert.riskLevel}</Badge>
+                          <Badge className="text-[8px] px-1.5 py-0 bg-blue-500/20 text-blue-400">{alert.signalType}</Badge>
+                          <span className="ml-auto text-[10px] text-slate-500">Signal: {alert.signalTime}</span>
+                        </div>
+                        <div className="grid grid-cols-5 gap-2 mb-2">
+                          <div className="bg-orange-500/5 border border-orange-500/20 rounded p-2">
+                            <p className="text-[8px] text-orange-400 font-bold uppercase mb-1">Inferred Overage</p>
+                            <p className="text-lg font-bold font-mono text-orange-400">{formatINR(alert.inferredOverage)}</p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">Confidence</p>
+                            <p className={`text-lg font-bold font-mono ${confColor}`}>{alert.confidence}%</p>
+                            <div className="h-1.5 bg-slate-700 rounded-full overflow-hidden mt-1">
+                              <div className={`h-full rounded-full ${alert.confidence >= 90 ? 'bg-emerald-500' : alert.confidence >= 75 ? 'bg-amber-500' : 'bg-slate-500'}`}
+                                style={{ width: `${alert.confidence}%` }} />
+                            </div>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Countdown</p>
+                            <p className={`text-lg font-bold font-mono ${alert.eodCountdown.startsWith('1h') || alert.eodCountdown.startsWith('0h') ? 'text-red-400' : 'text-white'}`}>
+                              {alert.eodCountdown}
+                            </p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">FLM Agent</p>
+                            <p className="text-sm font-bold text-white">{alert.flmAgent}</p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EJ Reference</p>
+                            <p className="text-[10px] font-mono text-blue-400">{alert.ejRef}</p>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mb-2">{alert.detail}</p>
+                        {!acted ? (
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                              onClick={() => handleAction(alert.id, 'Declare Pre-Emptive Overage', alert.terminalId)}>
+                              <Banknote className="h-3 w-3" /> Declare Overage
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
+                              onClick={() => handleAction(alert.id, 'Assign FLM Verification', alert.terminalId)}>
+                              <User className="h-3 w-3" /> Assign FLM Check
+                            </Button>
+                            {alert.riskLevel === 'Critical' && (
+                              <Button size="sm" variant="outline" className="h-6 text-[9px] border-red-500/50 text-red-400 hover:bg-red-500/10 gap-1"
+                                onClick={() => handleAction(alert.id, 'Escalate to Regional Manager', alert.terminalId)}>
+                                <Gavel className="h-3 w-3" /> Escalate
+                              </Button>
+                            )}
+                            <span className="ml-auto text-[9px] text-slate-600">Status: {alert.status}</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 text-[10px]">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                            <span className="text-emerald-400 font-medium">{acted}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
 
               {/* ═══ DISPUTE INBOX ═══ */}
               <TabsContent value="inbox" className="mt-0">
@@ -658,6 +789,99 @@ const CMSReconCenter = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+              </TabsContent>
+
+              {/* ═══ QUEUE D: CONTROL WINDOW ═══ */}
+              <TabsContent value="control-window" className="mt-0">
+                <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
+                  <Timer className="h-3.5 w-3.5 text-rose-400" />
+                  Overage Declaration Discipline — System-assisted countdown for expected overages. Delays flagged as Non-Negotiable Control Breaches.
+                </div>
+
+                {/* Breach Alert Banner */}
+                {controlWindowEntries.some(c => c.status === 'Breached') && (
+                  <div className="mb-3 rounded-lg border border-red-500/50 bg-red-500/10 p-3 flex items-center gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 animate-pulse" />
+                    <div>
+                      <p className="text-[11px] font-bold text-red-400">⚠ NON-NEGOTIABLE CONTROL BREACH DETECTED</p>
+                      <p className="text-[10px] text-red-300/80">{controlWindowEntries.filter(c => c.status === 'Breached').length} overage(s) passed EOD deadline without declaration. Harmonizing Penalty auto-applied.</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  {controlWindowEntries.map(cw => {
+                    const acted = actionLog[cw.id];
+                    const isBreach = cw.status === 'Breached';
+                    const isCritical = cw.remainingPct <= 20 && !isBreach;
+                    return (
+                      <div key={cw.id} className={`rounded-lg border bg-slate-800 p-3 ${
+                        isBreach ? 'border-red-500/60 bg-red-500/5' : isCritical ? 'border-red-500/30' : 'border-slate-700'
+                      } ${acted ? 'opacity-50' : ''}`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-bold text-white text-[11px]">{cw.terminalId}</span>
+                          <Badge className={`text-[8px] px-1.5 py-0 ${
+                            isBreach ? 'bg-red-600 text-white animate-pulse' :
+                            isCritical ? 'bg-red-500/20 text-red-400' :
+                            'bg-amber-500/20 text-amber-400'
+                          }`}>{isBreach ? '🚨 CONTROL BREACH' : cw.status}</Badge>
+                          {isBreach && <Badge className="text-[8px] px-1.5 py-0 bg-red-600/30 text-red-300">Non-Negotiable</Badge>}
+                          <span className="ml-auto text-[10px] text-slate-500">Detected: {cw.detectedAt}</span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 mb-2">
+                          <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                            <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Expected Overage</p>
+                            <p className="text-lg font-bold font-mono text-amber-400">{formatINR(cw.overageAmount)}</p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Deadline</p>
+                            <p className="text-lg font-bold font-mono text-white">{cw.eodDeadline}</p>
+                          </div>
+                          <div className={`rounded p-2 border ${isBreach ? 'bg-red-500/10 border-red-500/30' : isCritical ? 'bg-red-500/5 border-red-500/20' : 'bg-slate-700/50 border-slate-600'}`}>
+                            <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Time Remaining</p>
+                            <p className={`text-lg font-bold font-mono ${isBreach ? 'text-red-400' : isCritical ? 'text-red-400' : 'text-white'}`}>
+                              {isBreach ? 'EXPIRED' : cw.remainingTime}
+                            </p>
+                            <div className="h-2 bg-slate-700 rounded-full overflow-hidden mt-1">
+                              <div className={`h-full rounded-full transition-all ${
+                                isBreach ? 'bg-red-600' : isCritical ? 'bg-red-500' : cw.remainingPct > 40 ? 'bg-emerald-500' : 'bg-amber-500'
+                              }`} style={{ width: `${Math.max(isBreach ? 100 : cw.remainingPct, 3)}%` }} />
+                            </div>
+                          </div>
+                          <div className={`rounded p-2 border ${isBreach ? 'bg-red-500/10 border-red-500/30' : 'bg-blue-500/5 border-blue-500/20'}`}>
+                            <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Declaration</p>
+                            <p className={`text-sm font-bold ${isBreach ? 'text-red-400' : 'text-blue-400'}`}>{cw.declarationStatus}</p>
+                          </div>
+                        </div>
+                        {!acted && !isBreach ? (
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                              onClick={() => handleAction(cw.id, 'System-Assisted Declaration Complete', cw.terminalId)}>
+                              <Banknote className="h-3 w-3" /> Declare Now
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
+                              onClick={() => handleAction(cw.id, 'Assign Verification', cw.terminalId)}>
+                              <User className="h-3 w-3" /> Verify First
+                            </Button>
+                          </div>
+                        ) : isBreach && !acted ? (
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" className="h-6 text-[9px] bg-red-600 hover:bg-red-700 text-white gap-1"
+                              onClick={() => handleAction(cw.id, 'Late Declaration Filed — Penalty Applied', cw.terminalId)}>
+                              <Gavel className="h-3 w-3" /> File Late Declaration
+                            </Button>
+                            <span className="text-[9px] text-red-400 font-bold ml-2">⚠ Harmonizing Penalty will be auto-applied</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 text-[10px]">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                            <span className="text-emerald-400 font-medium">{acted}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </TabsContent>
             </Tabs>
@@ -1070,6 +1294,47 @@ const CMSReconCenter = () => {
                           </div>
                         ))}
                       </div>
+                    </div>
+                    {/* Vault Counter Capture */}
+                    <div className="border-t border-slate-600 pt-2 mt-2">
+                      <p className="text-[9px] text-emerald-400 font-bold uppercase mb-1.5 flex items-center gap-1">
+                        <Camera className="h-3 w-3" /> Vault Counter Capture
+                      </p>
+                      {(() => {
+                        const vcc = vaultCounterCaptures.find(v => v.terminalId === analyzeItem?.replace('ATM-MUM-', 'ATM-'));
+                        const capture = vcc || vaultCounterCaptures[0];
+                        return (
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2 text-[10px]">
+                              <span className="text-slate-400">Station:</span>
+                              <span className="text-white font-medium">{capture.verifiedBy}</span>
+                              <span className="text-slate-600">·</span>
+                              <span className="text-slate-400">Time:</span>
+                              <span className="text-white">{capture.captureTime}</span>
+                              <Badge className={`text-[7px] px-1 py-0 ml-auto ${capture.integrityScore >= 95 ? 'bg-emerald-500/20 text-emerald-400' : capture.integrityScore >= 85 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                                Integrity: {capture.integrityScore}%
+                              </Badge>
+                            </div>
+                            <div className="grid grid-cols-2 gap-1">
+                              {capture.thumbnails.map((thumb, i) => (
+                                <div key={i} className="bg-slate-800 border border-slate-600 rounded px-2 py-1.5 flex items-center gap-1.5">
+                                  <div className="h-6 w-8 bg-slate-700 rounded flex items-center justify-center shrink-0">
+                                    <Image className="h-3 w-3 text-slate-500" />
+                                  </div>
+                                  <span className="text-[8px] text-slate-400">{thumb}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="flex items-center gap-2 text-[10px]">
+                              <span className="text-slate-400">Total Loaded:</span>
+                              <span className="text-white font-mono font-bold">{formatINR(capture.totalLoaded)}</span>
+                              {capture.tamperDetected && (
+                                <Badge className="text-[7px] px-1 py-0 bg-red-500/20 text-red-400 animate-pulse ml-auto">⚠ Tamper Alert</Badge>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>
