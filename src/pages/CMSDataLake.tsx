@@ -541,14 +541,34 @@ const CMSDataLake = () => {
                     (Math.abs(atm.balanceDrift) > 3000 ? 15 : 4) +
                     (atm.dataCompleteness < 80 ? 12 : 2)
                   ));
-                  const riskFactors = [
-                    { factor: `${shortageQueries} Missing cash report${shortageQueries > 1 ? 's' : ''} found`, weight: shortageQueries * 12, max: 36, critical: shortageQueries >= 2 },
-                    { factor: 'Machine part is reporting a fault', weight: bnaSensorError ? 22 : 3, max: 22, critical: bnaSensorError },
-                    { factor: `Staff on same route for ${custodianTenureDays} days`, weight: custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3, max: 18, critical: custodianTenureDays > 90 },
-                    { factor: `Cash mismatch: ${formatINR(Math.abs(atm.balanceDrift))}`, weight: Math.abs(atm.balanceDrift) > 3000 ? 15 : 4, max: 15, critical: Math.abs(atm.balanceDrift) > 3000 },
-                    { factor: `Only ${atm.dataCompleteness}% of records are available`, weight: atm.dataCompleteness < 80 ? 12 : 2, max: 12, critical: atm.dataCompleteness < 80 },
-                    { factor: `Location Type: ${atm.sitePersona}`, weight: atm.sitePersona === 'High-Risk Pilferage Zone' ? 10 : atm.sitePersona === 'Transit Corridor' ? 7 : 3, max: 10, critical: atm.sitePersona === 'High-Risk Pilferage Zone' },
+                  const missingReportCount = shortageQueries;
+                  const hwFaultCount = bnaSensorError ? 3 : 0;
+                  const daysOverRotation = Math.max(0, custodianTenureDays - 60);
+                  const missingLogDays = atm.dataCompleteness < 80 ? Math.round((100 - atm.dataCompleteness) / 10) : 0;
+                  const cashMismatchAmt = Math.abs(atm.balanceDrift);
+
+                  const riskFactors: { factor: string; severity: 'critical' | 'high' | 'moderate' | 'info'; color: 'red' | 'orange' | 'blue' }[] = [
+                    ...(missingReportCount >= 2 ? [{ factor: `${missingReportCount} Missing cash reports found in the last 30 days`, severity: 'critical' as const, color: 'red' as const }] : missingReportCount === 1 ? [{ factor: `${missingReportCount} Missing cash report found in the last 30 days`, severity: 'moderate' as const, color: 'orange' as const }] : []),
+                    ...(cashMismatchAmt > 0 ? [{ factor: `Total Cash Mismatch: ${formatINR(cashMismatchAmt)}`, severity: cashMismatchAmt > 3000 ? 'critical' as const : 'moderate' as const, color: cashMismatchAmt > 3000 ? 'red' as const : 'orange' as const }] : []),
+                    ...(hwFaultCount > 0 ? [{ factor: `${hwFaultCount} Hardware faults reported this week`, severity: 'high' as const, color: 'orange' as const }] : []),
+                    ...(daysOverRotation > 0 ? [{ factor: `${daysOverRotation} Days beyond rotation limit`, severity: daysOverRotation > 30 ? 'critical' as const : 'moderate' as const, color: daysOverRotation > 30 ? 'red' as const : 'orange' as const }] : []),
+                    ...(missingLogDays > 0 ? [{ factor: `${missingLogDays} Days of missing EJ/EOD logs in this cycle`, severity: missingLogDays > 3 ? 'critical' as const : 'moderate' as const, color: missingLogDays > 3 ? 'red' as const : 'orange' as const }] : []),
+                    { factor: `Location Type: ${atm.sitePersona}`, severity: 'info' as const, color: 'blue' as const },
                   ];
+
+                  const severityOrder = { critical: 0, high: 1, moderate: 2, info: 3 };
+                  const severityLabel = { critical: 'Critical', high: 'High', moderate: 'Moderate', info: 'Info' };
+                  const severityBadgeClass = {
+                    critical: 'bg-red-100 text-red-700 border-red-200',
+                    high: 'bg-orange-100 text-orange-700 border-orange-200',
+                    moderate: 'bg-amber-100 text-amber-700 border-amber-200',
+                    info: 'bg-blue-100 text-blue-700 border-blue-200',
+                  };
+                  const rowBorderClass = {
+                    red: 'border-red-200 bg-red-50/50',
+                    orange: 'border-orange-200 bg-orange-50/50',
+                    blue: 'border-blue-100 bg-blue-50/30',
+                  };
 
                   return (
                     <div className="space-y-3">
@@ -566,24 +586,28 @@ const CMSDataLake = () => {
                         </div>
                       </div>
 
-                      {/* Why Breakdown */}
+                      {/* Violations & Errors Summary */}
                       <div className="rounded-lg border border-slate-200 p-3">
-                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Why This Risk Level — Contributing Factors</p>
+                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Violations & Errors Summary</p>
                         <div className="space-y-2">
-                          {riskFactors.sort((a, b) => b.weight - a.weight).map((f, i) => (
-                            <div key={i} className={`p-2 rounded border ${f.critical ? 'border-red-200 bg-red-50/50' : 'border-slate-100 bg-white'}`}>
-                              <div className="flex items-center justify-between mb-1">
-                                <span className={`text-[10px] font-medium ${f.critical ? 'text-red-700' : 'text-slate-700'}`}>
-                                  {f.critical && <AlertTriangle className="h-3 w-3 text-red-500 inline mr-1" />}
+                          {riskFactors.sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity]).map((f, i) => (
+                            <div key={i} className={`p-2.5 rounded-lg border ${rowBorderClass[f.color]}`}>
+                              <div className="flex items-center justify-between">
+                                <span className={`text-[10px] font-medium ${f.color === 'red' ? 'text-red-700' : f.color === 'orange' ? 'text-orange-700' : 'text-blue-700'}`}>
+                                  {f.severity === 'critical' && <AlertTriangle className="h-3 w-3 text-red-500 inline mr-1" />}
                                   {f.factor}
                                 </span>
-                                <span className={`text-[10px] font-bold font-mono ${f.critical ? 'text-red-600' : 'text-slate-600'}`}>+{f.weight}pts</span>
-                              </div>
-                              <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                <div className={`h-full rounded-full ${f.critical ? 'bg-red-500' : 'bg-slate-400'}`} style={{ width: `${(f.weight / f.max) * 100}%` }} />
+                                <Badge className={`text-[8px] px-2 py-0 border ${severityBadgeClass[f.severity]}`}>
+                                  {severityLabel[f.severity]}
+                                </Badge>
                               </div>
                             </div>
                           ))}
+                          {riskFactors.length === 1 && riskFactors[0].severity === 'info' && (
+                            <div className="p-2.5 rounded-lg border border-emerald-200 bg-emerald-50/50 text-center">
+                              <span className="text-[10px] text-emerald-700 font-medium">✓ No violations or errors detected</span>
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -690,8 +714,8 @@ const CMSDataLake = () => {
                             <p className="ml-2">"score": <span className={preemptScore >= 70 ? 'text-red-400' : 'text-amber-400'}>{preemptScore}</span>,</p>
                             <p className="ml-2">"risk_level": "<span className={preemptScore >= 70 ? 'text-red-400' : preemptScore >= 40 ? 'text-amber-400' : 'text-emerald-400'}>{preemptScore >= 70 ? 'CRITICAL' : preemptScore >= 40 ? 'ELEVATED' : 'LOW'}</span>",</p>
                             <p className="ml-2">"factors": [</p>
-                            {riskFactors.filter(f => f.critical).map((f, i) => (
-                              <p key={i} className="ml-4 text-red-400">"{f.factor}"{i < riskFactors.filter(ff => ff.critical).length - 1 ? ',' : ''}</p>
+                            {riskFactors.filter(f => f.severity === 'critical').map((f, i) => (
+                              <p key={i} className="ml-4 text-red-400">"{f.factor}"{i < riskFactors.filter(ff => ff.severity === 'critical').length - 1 ? ',' : ''}</p>
                             ))}
                             <p className="ml-2">],</p>
                             <p className="ml-2">"computed_at": "<span className="text-slate-400">2026-04-12T18:00:00Z</span>"</p>
