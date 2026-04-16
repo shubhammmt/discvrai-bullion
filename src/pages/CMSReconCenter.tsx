@@ -791,6 +791,99 @@ const CMSReconCenter = () => {
                   ))}
                 </div>
               </TabsContent>
+
+              {/* ═══ QUEUE D: CONTROL WINDOW ═══ */}
+              <TabsContent value="control-window" className="mt-0">
+                <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
+                  <Timer className="h-3.5 w-3.5 text-rose-400" />
+                  Overage Declaration Discipline — System-assisted countdown for expected overages. Delays flagged as Non-Negotiable Control Breaches.
+                </div>
+
+                {/* Breach Alert Banner */}
+                {controlWindowEntries.some(c => c.status === 'Breached') && (
+                  <div className="mb-3 rounded-lg border border-red-500/50 bg-red-500/10 p-3 flex items-center gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 animate-pulse" />
+                    <div>
+                      <p className="text-[11px] font-bold text-red-400">⚠ NON-NEGOTIABLE CONTROL BREACH DETECTED</p>
+                      <p className="text-[10px] text-red-300/80">{controlWindowEntries.filter(c => c.status === 'Breached').length} overage(s) passed EOD deadline without declaration. Harmonizing Penalty auto-applied.</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  {controlWindowEntries.map(cw => {
+                    const acted = actionLog[cw.id];
+                    const isBreach = cw.status === 'Breached';
+                    const isCritical = cw.remainingPct <= 20 && !isBreach;
+                    return (
+                      <div key={cw.id} className={`rounded-lg border bg-slate-800 p-3 ${
+                        isBreach ? 'border-red-500/60 bg-red-500/5' : isCritical ? 'border-red-500/30' : 'border-slate-700'
+                      } ${acted ? 'opacity-50' : ''}`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-bold text-white text-[11px]">{cw.terminalId}</span>
+                          <Badge className={`text-[8px] px-1.5 py-0 ${
+                            isBreach ? 'bg-red-600 text-white animate-pulse' :
+                            isCritical ? 'bg-red-500/20 text-red-400' :
+                            'bg-amber-500/20 text-amber-400'
+                          }`}>{isBreach ? '🚨 CONTROL BREACH' : cw.status}</Badge>
+                          {isBreach && <Badge className="text-[8px] px-1.5 py-0 bg-red-600/30 text-red-300">Non-Negotiable</Badge>}
+                          <span className="ml-auto text-[10px] text-slate-500">Detected: {cw.detectedAt}</span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 mb-2">
+                          <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
+                            <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">Expected Overage</p>
+                            <p className="text-lg font-bold font-mono text-amber-400">{formatINR(cw.overageAmount)}</p>
+                          </div>
+                          <div className="bg-slate-700/50 border border-slate-600 rounded p-2">
+                            <p className="text-[8px] text-slate-400 font-bold uppercase mb-1">EOD Deadline</p>
+                            <p className="text-lg font-bold font-mono text-white">{cw.eodDeadline}</p>
+                          </div>
+                          <div className={`rounded p-2 border ${isBreach ? 'bg-red-500/10 border-red-500/30' : isCritical ? 'bg-red-500/5 border-red-500/20' : 'bg-slate-700/50 border-slate-600'}`}>
+                            <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Time Remaining</p>
+                            <p className={`text-lg font-bold font-mono ${isBreach ? 'text-red-400' : isCritical ? 'text-red-400' : 'text-white'}`}>
+                              {isBreach ? 'EXPIRED' : cw.remainingTime}
+                            </p>
+                            <div className="h-2 bg-slate-700 rounded-full overflow-hidden mt-1">
+                              <div className={`h-full rounded-full transition-all ${
+                                isBreach ? 'bg-red-600' : isCritical ? 'bg-red-500' : cw.remainingPct > 40 ? 'bg-emerald-500' : 'bg-amber-500'
+                              }`} style={{ width: `${Math.max(isBreach ? 100 : cw.remainingPct, 3)}%` }} />
+                            </div>
+                          </div>
+                          <div className={`rounded p-2 border ${isBreach ? 'bg-red-500/10 border-red-500/30' : 'bg-blue-500/5 border-blue-500/20'}`}>
+                            <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Declaration</p>
+                            <p className={`text-sm font-bold ${isBreach ? 'text-red-400' : 'text-blue-400'}`}>{cw.declarationStatus}</p>
+                          </div>
+                        </div>
+                        {!acted && !isBreach ? (
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" className="h-6 text-[9px] bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                              onClick={() => handleAction(cw.id, 'System-Assisted Declaration Complete', cw.terminalId)}>
+                              <Banknote className="h-3 w-3" /> Declare Now
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
+                              onClick={() => handleAction(cw.id, 'Assign Verification', cw.terminalId)}>
+                              <User className="h-3 w-3" /> Verify First
+                            </Button>
+                          </div>
+                        ) : isBreach && !acted ? (
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" className="h-6 text-[9px] bg-red-600 hover:bg-red-700 text-white gap-1"
+                              onClick={() => handleAction(cw.id, 'Late Declaration Filed — Penalty Applied', cw.terminalId)}>
+                              <Gavel className="h-3 w-3" /> File Late Declaration
+                            </Button>
+                            <span className="text-[9px] text-red-400 font-bold ml-2">⚠ Harmonizing Penalty will be auto-applied</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 text-[10px]">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                            <span className="text-emerald-400 font-medium">{acted}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
             </Tabs>
           ) : (
             /* ══════════ HISTORICAL MODE ══════════ */
