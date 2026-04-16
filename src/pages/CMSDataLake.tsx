@@ -610,7 +610,6 @@ const CMSDataLake = () => {
                           )}
                         </div>
                       </div>
-                      </div>
 
                       {/* 3-Stage Complaint Lifecycle */}
                       <div className="rounded-lg border border-slate-200 p-3">
