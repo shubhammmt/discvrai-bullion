@@ -90,12 +90,12 @@ const CMSDataLake = () => {
 
   const getVerdict = (a: ATMProfile) => {
     const parts: string[] = [];
-    parts.push(a.status === 'Online' ? 'Healthy machine' : a.status === 'Offline' ? '⚠ Machine OFFLINE' : '🔧 Under Maintenance');
+    parts.push(a.status === 'Online' ? 'Everything is working correctly' : a.status === 'Offline' ? '⚠ ATM is currently OFF' : '🔧 Team is checking this ATM');
     const hoursToLoad = Math.max(0, Math.round((new Date(a.nextReplenishmentDate).getTime() - new Date('2026-04-12T18:00:00').getTime()) / 3600000));
-    parts.push(`Next load in ${hoursToLoad}h`);
+    parts.push(`Next cash load in ${hoursToLoad}h`);
     if (a.pendingClaimCount > 0) parts.push(`${a.pendingClaimCount} claim(s) at T+${a.claimRiskDay}`);
     if (a.penaltyRisk !== 'None') parts.push(a.penaltyRisk);
-    if (Math.abs(a.balanceDrift) > 3000) parts.push(`Balance drift: ${formatINR(a.balanceDrift)}`);
+    if (Math.abs(a.balanceDrift) > 3000) parts.push(`Cash mismatch: ${formatINR(a.balanceDrift)}`);
     return parts.join(' · ');
   };
 
@@ -241,7 +241,7 @@ const CMSDataLake = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-slate-50 h-7">
-                  {['ATM ID','Bank','Hub','Type','Site Persona','Status','Balance (Proj.)','Next Replenish','Risk','Data %'].map(h => (
+                  {['ATM ID','Bank','Hub','Type','Location Type','Status','Balance (Proj.)','Next Replenish','Risk','Info %'].map(h => (
                     <TableHead key={h} className={`text-[9px] font-bold uppercase text-slate-500 py-1 ${h.includes('Balance') || h.includes('Data') ? 'text-right' : ''}`}>{h}</TableHead>
                   ))}
                 </TableRow>
@@ -308,12 +308,11 @@ const CMSDataLake = () => {
                   <p className="text-[10px] text-slate-700"><span className="font-bold text-slate-900">Verdict:</span> {getVerdict(atm)}</p>
                 </div>
                 <Tabs value={drawerTab} onValueChange={setDrawerTab} className="mt-2.5">
-                  <TabsList className="h-7 w-full grid grid-cols-5">
-                    <TabsTrigger value="pulse" className="text-[8px] h-6 gap-0.5 px-1"><Activity className="h-3 w-3" /> Live Pulse</TabsTrigger>
-                    <TabsTrigger value="history" className="text-[8px] h-6 gap-0.5 px-1"><GitBranch className="h-3 w-3" /> History</TabsTrigger>
-                    <TabsTrigger value="intelligence" className="text-[8px] h-6 gap-0.5 px-1"><Shield className="h-3 w-3" /> Intelligence</TabsTrigger>
-                    <TabsTrigger value="controls" className="text-[8px] h-6 gap-0.5 px-1"><Lock className="h-3 w-3" /> Controls</TabsTrigger>
-                    <TabsTrigger value="techdna" className="text-[8px] h-6 gap-0.5 px-1"><Cpu className="h-3 w-3" /> Tech DNA</TabsTrigger>
+                  <TabsList className="h-7 w-full grid grid-cols-4">
+                    <TabsTrigger value="pulse" className="text-[8px] h-6 gap-0.5 px-1"><Activity className="h-3 w-3" /> Live Status</TabsTrigger>
+                    <TabsTrigger value="history" className="text-[8px] h-6 gap-0.5 px-1"><GitBranch className="h-3 w-3" /> Cash Journey & Proof</TabsTrigger>
+                    <TabsTrigger value="intelligence" className="text-[8px] h-6 gap-0.5 px-1"><Shield className="h-3 w-3" /> Risk Analysis</TabsTrigger>
+                    <TabsTrigger value="controls" className="text-[8px] h-6 gap-0.5 px-1"><Lock className="h-3 w-3" /> Rules & Compliance</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
@@ -340,15 +339,15 @@ const CMSDataLake = () => {
                       {Math.abs(atm.balanceDrift) > 0 && (
                         <div className={`mt-2 px-2.5 py-1.5 rounded ${Math.abs(atm.balanceDrift) > 3000 ? 'bg-red-50 border border-red-200' : 'bg-slate-50 border border-slate-200'}`}>
                           <p className={`text-[10px] font-bold ${Math.abs(atm.balanceDrift) > 3000 ? 'text-red-600' : 'text-slate-600'}`}>
-                            Balance Drift: <span className="font-mono">{atm.balanceDrift > 0 ? '+' : ''}{formatINR(atm.balanceDrift)}</span>
-                            {Math.abs(atm.balanceDrift) > 3000 && ' — Investigate Required'}
+                            Cash Difference (Mismatch): <span className="font-mono">{atm.balanceDrift > 0 ? '+' : ''}{formatINR(atm.balanceDrift)}</span>
+                            {Math.abs(atm.balanceDrift) > 3000 && ' — Needs Investigation'}
                           </p>
                         </div>
                       )}
                     </div>
                     {/* Connectivity History */}
                     <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Network Connectivity Timeline<Tip text="Hourly network connectivity state history." /></p>
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Network Status Timeline<Tip text="Hourly network connectivity state history." /></p>
                       <div className="space-y-1">
                         <div className="flex gap-0.5">
                           {atm.connectivityHistory.map((c, i) => (
@@ -411,10 +410,10 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ HUB 2: HISTORY & LINEAGE ═══ */}
+                {/* ═══ HUB 2: CASH JOURNEY & PROOF ═══ */}
                 {drawerTab === 'history' && (
                   <div className="space-y-3">
-                    {/* Chain of Custody */}
+                    {/* Cash Journey Map */}
                     <LineageMap
                       terminalId={atm.terminalId}
                       custodianName={atm.custodianName}
@@ -513,7 +512,7 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
-                {/* ═══ HUB 3: INTELLIGENCE ═══ */}
+                {/* ═══ HUB 3: RISK ANALYSIS ═══ */}
                 {drawerTab === 'intelligence' && (() => {
                   const preemptionScore = Math.min(100, Math.max(0,
                     (atm.frequentJam ? 25 : 5) +
@@ -543,19 +542,19 @@ const CMSDataLake = () => {
                     (atm.dataCompleteness < 80 ? 12 : 2)
                   ));
                   const riskFactors = [
-                    { factor: `Last ${shortageQueries} Shortage Queries`, weight: shortageQueries * 12, max: 36, critical: shortageQueries >= 2 },
-                    { factor: 'BNA Sensor Error Active', weight: bnaSensorError ? 22 : 3, max: 22, critical: bnaSensorError },
-                    { factor: `Custodian Tenure: ${custodianTenureDays} days`, weight: custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3, max: 18, critical: custodianTenureDays > 90 },
-                    { factor: `Balance Drift: ${formatINR(Math.abs(atm.balanceDrift))}`, weight: Math.abs(atm.balanceDrift) > 3000 ? 15 : 4, max: 15, critical: Math.abs(atm.balanceDrift) > 3000 },
-                    { factor: `Data Completeness: ${atm.dataCompleteness}%`, weight: atm.dataCompleteness < 80 ? 12 : 2, max: 12, critical: atm.dataCompleteness < 80 },
-                    { factor: `Site Persona: ${atm.sitePersona}`, weight: atm.sitePersona === 'High-Risk Pilferage Zone' ? 10 : atm.sitePersona === 'Transit Corridor' ? 7 : 3, max: 10, critical: atm.sitePersona === 'High-Risk Pilferage Zone' },
+                    { factor: `${shortageQueries} Missing cash report${shortageQueries > 1 ? 's' : ''} found`, weight: shortageQueries * 12, max: 36, critical: shortageQueries >= 2 },
+                    { factor: 'Machine part is reporting a fault', weight: bnaSensorError ? 22 : 3, max: 22, critical: bnaSensorError },
+                    { factor: `Staff on same route for ${custodianTenureDays} days`, weight: custodianTenureDays > 90 ? 18 : custodianTenureDays > 60 ? 10 : 3, max: 18, critical: custodianTenureDays > 90 },
+                    { factor: `Cash mismatch: ${formatINR(Math.abs(atm.balanceDrift))}`, weight: Math.abs(atm.balanceDrift) > 3000 ? 15 : 4, max: 15, critical: Math.abs(atm.balanceDrift) > 3000 },
+                    { factor: `Only ${atm.dataCompleteness}% of records are available`, weight: atm.dataCompleteness < 80 ? 12 : 2, max: 12, critical: atm.dataCompleteness < 80 },
+                    { factor: `Location Type: ${atm.sitePersona}`, weight: atm.sitePersona === 'High-Risk Pilferage Zone' ? 10 : atm.sitePersona === 'Transit Corridor' ? 7 : 3, max: 10, critical: atm.sitePersona === 'High-Risk Pilferage Zone' },
                   ];
 
                   return (
                     <div className="space-y-3">
                       {/* Preemption Score Card */}
                       <div className={`rounded-xl border-2 p-4 text-center ${preemptScore >= 70 ? 'border-red-300 bg-gradient-to-b from-red-50 to-white' : preemptScore >= 40 ? 'border-amber-300 bg-gradient-to-b from-amber-50 to-white' : 'border-emerald-300 bg-gradient-to-b from-emerald-50 to-white'}`}>
-                        <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-1">Machine Preemption Score</p>
+                        <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-1">ATM Risk Level</p>
                         <p className={`text-5xl font-black font-mono ${preemptScore >= 70 ? 'text-red-600' : preemptScore >= 40 ? 'text-amber-600' : 'text-emerald-600'}`}>
                           {preemptScore}<span className="text-lg text-slate-400">/100</span>
                         </p>
@@ -569,7 +568,7 @@ const CMSDataLake = () => {
 
                       {/* Why Breakdown */}
                       <div className="rounded-lg border border-slate-200 p-3">
-                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Why This Score — Contributing Factors</p>
+                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Why This Risk Level — Contributing Factors</p>
                         <div className="space-y-2">
                           {riskFactors.sort((a, b) => b.weight - a.weight).map((f, i) => (
                             <div key={i} className={`p-2 rounded border ${f.critical ? 'border-red-200 bg-red-50/50' : 'border-slate-100 bg-white'}`}>
@@ -731,7 +730,7 @@ const CMSDataLake = () => {
                   );
                 })()}
 
-                {/* ═══ HUB 4: OPERATIONAL CONTROLS ═══ */}
+                {/* ═══ HUB 4: RULES & COMPLIANCE ═══ */}
                 {drawerTab === 'controls' && (() => {
                   const custodianTenure = 45 + Math.floor(seededRandom(atm.terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 500)() * 150);
                   const controlRules = [
@@ -838,192 +837,73 @@ const CMSDataLake = () => {
 
                       {/* Action Console */}
                       <ActionConsole terminalId={atm.terminalId} />
+
+                      {/* ── ATM Details (merged from Tech DNA) ── */}
+                      <div className="border-t border-slate-200 pt-3 mt-3">
+                        <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><Cpu className="h-3.5 w-3.5 text-blue-500" /> ATM Details</p>
+                        
+                        {/* Slot Mapping */}
+                        <div className="rounded-lg border border-slate-200 p-3 mb-2">
+                          <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><Box className="h-3.5 w-3.5 text-blue-500" /> Cassette Slot Mapping</p>
+                          <div className="grid grid-cols-4 gap-2">
+                            {atm.slotMapping.map(s => {
+                              const fillPct = Math.round(s.currentCount / s.capacity * 100);
+                              return (
+                                <div key={s.slot} className="rounded-lg p-2 border border-slate-200 bg-slate-50 text-center">
+                                  <p className="text-[8px] text-slate-400 uppercase font-bold">Slot {s.slot}</p>
+                                  <p className="text-sm font-bold text-slate-900">₹{s.denom}</p>
+                                  <div className="h-1.5 bg-slate-200 rounded-full mt-1 overflow-hidden">
+                                    <div className={`h-full rounded-full ${fillPct > 80 ? 'bg-emerald-500' : fillPct > 40 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${fillPct}%` }} />
+                                  </div>
+                                  <p className="text-[9px] text-slate-600 mt-0.5">{s.currentCount}/{s.capacity} ({fillPct}%)</p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Location */}
+                        <div className="rounded-lg border border-slate-200 p-3 mb-2">
+                          <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> Location & Assignment</p>
+                          <div className="grid grid-cols-2 gap-2 text-[11px]">
+                            <div><span className="text-slate-500">Location Type:</span> <Badge className={`text-[9px] ${personaColor(atm.sitePersona)}`}>{atm.sitePersona}</Badge></div>
+                            <div><span className="text-slate-500">Hub:</span> <span className="font-bold text-slate-900">{atm.hub}</span></div>
+                            <div><span className="text-slate-500">State:</span> <span className="font-bold text-slate-900">{atm.state}</span></div>
+                            <div><span className="text-slate-500">Region:</span> <span className="font-bold text-slate-900">{atm.region}</span></div>
+                            <div><span className="text-slate-500">Route:</span> <span className="font-mono text-slate-800">{atm.routeId}</span></div>
+                            <div><span className="text-slate-500">Replenishment Path:</span> <Badge variant="outline" className="text-[9px]">{atm.replenishmentPath}</Badge></div>
+                          </div>
+                        </div>
+
+                        {/* Next Replenishment */}
+                        <div className="rounded-lg border border-blue-200 bg-blue-50/30 p-3 mb-2">
+                          <p className="text-[10px] font-bold text-blue-700 mb-2 flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Next Cash Load</p>
+                          <div className="grid grid-cols-2 gap-2 text-[11px]">
+                            <div><span className="text-slate-500">Date:</span> <span className="font-bold text-slate-900">{repPlan?.scheduledDate || atm.nextReplenishmentDate.split(' ')[0]}</span></div>
+                            <div><span className="text-slate-500">Time:</span> <span className="font-bold text-slate-900">{repPlan?.scheduledTime || atm.nextReplenishmentDate.split(' ')[1]}</span></div>
+                            <div><span className="text-slate-500">Amount:</span> <span className="font-bold text-slate-900 font-mono">{formatINR(repPlan?.forecastAmount || atm.nextReplenishmentAmount)}</span></div>
+                            <div><span className="text-slate-500">Path:</span> <Badge variant="outline" className="text-[9px] px-1 py-0">{atm.replenishmentPath}</Badge></div>
+                          </div>
+                        </div>
+
+                        {/* Assigned Staff */}
+                        <div className="rounded-lg border border-slate-200 p-3">
+                          <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><User className="h-3.5 w-3.5" /> Assigned Staff</p>
+                          <div className="text-[11px] space-y-1">
+                            <div className="flex justify-between"><span className="text-slate-500">Name:</span><span className="font-bold text-slate-900">{atm.custodianName}</span></div>
+                            <div className="flex justify-between"><span className="text-slate-500">Route ID:</span><span className="font-mono text-slate-800">{atm.routeId}</span></div>
+                          </div>
+                          {atm.custodianRiskFlag && (
+                            <div className="mt-2 px-2 py-1.5 bg-red-50 border border-red-200 rounded">
+                              <p className="text-[10px] font-bold text-red-600">🔴 Security Note: Staff member has red flag(s) in this region</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   );
                 })()}
 
-                {/* ═══ HUB 5: TECHNICAL DNA ═══ */}
-                {drawerTab === 'techdna' && (
-                  <div className="space-y-3">
-                    {/* Slot Mapping */}
-                    <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><Box className="h-3.5 w-3.5 text-blue-500" /> Slot Mapping (Master Data)<Tip text="Physical cassette configuration. Used to detect Denomination Drift." /></p>
-                      <div className="grid grid-cols-4 gap-2">
-                        {atm.slotMapping.map(s => {
-                          const fillPct = Math.round(s.currentCount / s.capacity * 100);
-                          const denomDrift = s.denom === 500 && s.currentCount > s.capacity * 0.9;
-                          return (
-                            <div key={s.slot} className={`rounded-lg p-2 border text-center ${denomDrift ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}>
-                              <p className="text-[8px] text-slate-400 uppercase font-bold">Slot {s.slot}</p>
-                              <p className="text-sm font-bold text-slate-900">₹{s.denom}</p>
-                              <div className="h-1.5 bg-slate-200 rounded-full mt-1 overflow-hidden">
-                                <div className={`h-full rounded-full ${fillPct > 80 ? 'bg-emerald-500' : fillPct > 40 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${fillPct}%` }} />
-                              </div>
-                              <p className="text-[9px] text-slate-600 mt-0.5">{s.currentCount}/{s.capacity}</p>
-                              <p className="text-[8px] text-slate-400">{fillPct}% full</p>
-                              {denomDrift && <p className="text-[7px] text-red-600 font-bold mt-0.5">⚠ DRIFT</p>}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Cassette Inventory */}
-                    <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><Lock className="h-3.5 w-3.5 text-purple-500" /> Cassette Inventory</p>
-                      <div className="rounded border overflow-hidden">
-                        <Table>
-                          <TableHeader><TableRow className="bg-slate-50 h-6">
-                            <TableHead className="text-[9px] font-bold py-0.5">Cassette ID</TableHead>
-                            <TableHead className="text-[9px] font-bold py-0.5">Slot</TableHead>
-                            <TableHead className="text-[9px] font-bold py-0.5">Type</TableHead>
-                            <TableHead className="text-[9px] font-bold py-0.5">Vault Packed</TableHead>
-                            <TableHead className="text-[9px] font-bold py-0.5">Seal Verified</TableHead>
-                          </TableRow></TableHeader>
-                          <TableBody>
-                            {atm.cassettes.map(c => (
-                              <TableRow key={c.id} className="text-[10px] h-6">
-                                <TableCell className="py-0.5 font-mono font-bold text-slate-800">{c.id}</TableCell>
-                                <TableCell className="py-0.5">Slot {c.slot}</TableCell>
-                                <TableCell className="py-0.5">
-                                  <Badge className={`text-[8px] px-1 py-0 ${c.type === 'Sealed' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
-                                    {c.type === 'Sealed' ? <Lock className="h-2.5 w-2.5 mr-0.5" /> : <Unlock className="h-2.5 w-2.5 mr-0.5" />}
-                                    {c.type}
-                                  </Badge>
-                                </TableCell>
-                                <TableCell className="py-0.5">{c.vaultPacked ? <Badge className="text-[8px] px-1 py-0 bg-blue-100 text-blue-700">Yes</Badge> : <span className="text-slate-400">No</span>}</TableCell>
-                                <TableCell className="py-0.5 text-[9px] text-slate-500">{c.lastSealVerified.split(' ')[0].slice(5)} {c.lastSealVerified.split(' ')[1]}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    </div>
-
-                    {/* Location Context */}
-                    <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> Location Context & Site Persona</p>
-                      <div className="grid grid-cols-2 gap-2 text-[11px]">
-                        <div><span className="text-slate-500">Site Persona:</span> <Badge className={`text-[9px] ${personaColor(atm.sitePersona)}`}>{atm.sitePersona}</Badge></div>
-                        <div><span className="text-slate-500">Hub:</span> <span className="font-bold text-slate-900">{atm.hub}</span></div>
-                        <div><span className="text-slate-500">State:</span> <span className="font-bold text-slate-900">{atm.state}</span></div>
-                        <div><span className="text-slate-500">Region:</span> <span className="font-bold text-slate-900">{atm.region}</span></div>
-                        <div><span className="text-slate-500">Replenishment Path:</span> <Badge variant="outline" className="text-[9px]">{atm.replenishmentPath}</Badge></div>
-                        <div><span className="text-slate-500">Route:</span> <span className="font-mono text-slate-800">{atm.routeId}</span></div>
-                      </div>
-                      {atm.sitePersona === 'High-Risk Pilferage Zone' && (
-                        <div className="mt-2 px-2 py-1.5 bg-red-50 border border-red-200 rounded">
-                          <p className="text-[10px] font-bold text-red-600">🔴 High-Risk Zone — Enhanced custody protocols active. Dual-key verification required.</p>
-                        </div>
-                      )}
-                      {atm.sitePersona === 'High-Traffic Salary Site' && (
-                        <div className="mt-2 px-2 py-1.5 bg-blue-50 border border-blue-200 rounded">
-                          <p className="text-[10px] font-bold text-blue-600">📊 Salary Site — Expect peak cash burn on 1st, 7th, 15th. Auto-indent threshold: ₹5L.</p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Replenishment Plan */}
-                    <div className="rounded-lg border border-blue-200 bg-blue-50/30 p-3">
-                      <p className="text-[10px] font-bold text-blue-700 mb-2 flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Next Replenishment</p>
-                      <div className="grid grid-cols-2 gap-2 text-[11px]">
-                        <div><span className="text-slate-500">Date:</span> <span className="font-bold text-slate-900">{repPlan?.scheduledDate || atm.nextReplenishmentDate.split(' ')[0]}</span></div>
-                        <div><span className="text-slate-500">Time:</span> <span className="font-bold text-slate-900">{repPlan?.scheduledTime || atm.nextReplenishmentDate.split(' ')[1]}</span></div>
-                        <div><span className="text-slate-500">Amount:</span> <span className="font-bold text-slate-900 font-mono">{formatINR(repPlan?.forecastAmount || atm.nextReplenishmentAmount)}</span></div>
-                        <div><span className="text-slate-500">Path:</span> <Badge variant="outline" className="text-[9px] px-1 py-0">{atm.replenishmentPath}</Badge></div>
-                      </div>
-                    </div>
-                    {repPlan && (
-                      <div className="rounded-lg border border-slate-200 p-3">
-                        <p className="text-[10px] font-bold text-slate-700 mb-2">Denomination Breakout</p>
-                        <div className="grid grid-cols-4 gap-2">
-                          {repPlan.denomBreakdown.map(d => (
-                            <div key={d.denom} className="bg-slate-50 rounded p-2 text-center">
-                              <p className="text-[10px] text-slate-500">₹{d.denom}</p>
-                              <p className="text-sm font-bold text-slate-900">{d.count.toLocaleString()}</p>
-                              <p className="text-[9px] text-slate-400">{formatINR(d.total)}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Burn Rates */}
-                    <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><BarChart3 className="h-3.5 w-3.5 text-blue-500" /> 30-Day Cash Burn Pattern<Tip text="Daily dispensed vs loaded amounts." /></p>
-                      <div className="h-[160px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart data={burnRates} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                            <XAxis dataKey="date" tick={{ fontSize: 8 }} interval={4} />
-                            <YAxis tick={{ fontSize: 8 }} tickFormatter={v => `${(v / 100000).toFixed(0)}L`} />
-                            <RechartsTooltip contentStyle={{ fontSize: 10 }} formatter={(v: number) => formatINR(v)} />
-                            <Area type="monotone" dataKey="balance" fill="#dbeafe" stroke="#3b82f6" strokeWidth={1.5} name="Balance" />
-                            <Bar dataKey="dispensed" fill="#f87171" name="Dispensed" />
-                            <Bar dataKey="loaded" fill="#34d399" name="Loaded" />
-                          </AreaChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <div className="flex gap-4 mt-1 text-[8px] text-slate-500 justify-center">
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-blue-300" /> Balance</span>
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-red-400" /> Dispensed</span>
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-emerald-400" /> Loaded</span>
-                      </div>
-                    </div>
-
-                    {/* Error Patterns */}
-                    {errorPatterns.length > 0 && (
-                      <div className="rounded-lg border border-slate-200 p-3">
-                        <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><TrendingUp className="h-3.5 w-3.5 text-red-500" /> Historical Error Patterns (4 Months)</p>
-                        <div className="space-y-2">
-                          {errorPatterns.map(ep => (
-                            <div key={ep.errorCode} className="rounded border border-slate-100 p-2">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-mono text-[10px] font-bold text-red-600">{ep.errorCode}</span>
-                                <span className="text-[10px] text-slate-600 flex-1">{ep.errorDesc}</span>
-                                <Badge className={`text-[7px] px-1 py-0 ${ep.trend === 'rising' ? 'bg-red-100 text-red-700' : ep.trend === 'declining' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
-                                  {ep.trend === 'rising' ? <TrendingUp className="h-2.5 w-2.5 mr-0.5" /> : ep.trend === 'declining' ? <TrendingDown className="h-2.5 w-2.5 mr-0.5" /> : null}
-                                  {ep.trend}
-                                </Badge>
-                              </div>
-                              <div className="flex items-end gap-1 h-8">
-                                {ep.monthlyCount.map((c, i) => (
-                                  <TooltipProvider key={i}><Tooltip><TooltipTrigger asChild>
-                                    <div className="flex-1 flex flex-col items-center">
-                                      <div className={`w-full rounded-t ${ep.trend === 'rising' ? 'bg-red-400' : 'bg-slate-300'}`} style={{ height: `${Math.max(4, c * 4)}px` }} />
-                                      <span className="text-[7px] text-slate-400 mt-0.5">{ep.monthLabels[i]}</span>
-                                    </div>
-                                  </TooltipTrigger><TooltipContent className="text-[10px]">{ep.monthLabels[i]}: {c} occurrences</TooltipContent></Tooltip></TooltipProvider>
-                                ))}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Custodian */}
-                    <div className="rounded-lg border border-slate-200 p-3">
-                      <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><User className="h-3.5 w-3.5" /> Assigned Custodian</p>
-                      <div className="text-[11px] space-y-1">
-                        <div className="flex justify-between"><span className="text-slate-500">Name:</span><span className="font-bold text-slate-900">{atm.custodianName}</span></div>
-                        <div className="flex justify-between"><span className="text-slate-500">Route ID:</span><span className="font-mono text-slate-800">{atm.routeId}</span></div>
-                        <div className="flex justify-between"><span className="text-slate-500">Route Path:</span><Badge variant="outline" className="text-[9px]">{atm.replenishmentPath}</Badge></div>
-                        {repPlan && (
-                          <>
-                            <div className="flex justify-between"><span className="text-slate-500">Total Visits:</span><span className="font-bold">{repPlan.custodianHistory.totalVisits}</span></div>
-                            <div className="flex justify-between"><span className="text-slate-500">Avg Delay:</span><span>{repPlan.custodianHistory.avgDelay}</span></div>
-                          </>
-                        )}
-                      </div>
-                      {atm.custodianRiskFlag && (
-                        <div className="mt-2 px-2 py-1.5 bg-red-50 border border-red-200 rounded">
-                          <p className="text-[10px] font-bold text-red-600">🔴 Security Note: Custodian has {repPlan?.custodianHistory.redFlags || 1} red flag(s) in this region</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           )}
