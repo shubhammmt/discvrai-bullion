@@ -15,8 +15,12 @@ import {
   ClipboardCheck, Archive, Eye, Clock, ShieldAlert, Image, FileCode, File,
   Maximize2, MapPin, Building2, Cpu, Signal, EyeOff, Zap, Calendar, Truck,
   User, Route, Camera, Video, Download, TrendingUp, TrendingDown, Wifi, WifiOff,
-  Battery, BatteryCharging, Box, Lock, Unlock, BarChart3, GitBranch
+  Battery, BatteryCharging, Box, Lock, Unlock, BarChart3, GitBranch, Brain, Wrench,
+  Network, ShieldCheck
 } from 'lucide-react';
+import LineageMap from '@/components/cms-data-lake/LineageMap';
+import ActionConsole from '@/components/cms-data-lake/ActionConsole';
+import PredictiveIntelligence from '@/components/cms-data-lake/PredictiveIntelligence';
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
   Tooltip as RechartsTooltip
@@ -136,22 +140,28 @@ const CMSDataLake = () => {
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-slate-900 text-white px-2.5 py-1 rounded-md font-bold text-[11px] flex items-center gap-1">
-              <Database className="h-3.5 w-3.5" /> INTELLIGENCE SUITE
+              <Database className="h-3.5 w-3.5" /> UNIFIED EVENT FABRIC
             </div>
             <div>
               <h1 className="text-xs font-bold text-slate-900 leading-tight">Unified ATM Data Lake</h1>
-              <p className="text-[9px] text-slate-500">70,000 ATMs · Machine DNA · Raw Logs · Burn Patterns</p>
+              <p className="text-[9px] text-slate-500">70,000 ATMs · Full Lineage: Vault → Sub-Vault → Custodian → ATM → Recon → Complaint → Audit</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            {/* Data Governance Badge */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-emerald-200 bg-emerald-50">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+              <div>
+                <p className="text-[9px] font-bold text-emerald-700 leading-tight">Audit-Ready</p>
+                <p className="text-[7px] text-emerald-600">Lineage Verified · Governed</p>
+              </div>
+            </div>
             <div className="relative w-60">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <Input placeholder="Search ATM ID, bank, hub..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
                 className="pl-7 h-7 text-[11px] border-slate-200" />
               {search && <button onClick={() => setSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2"><X className="h-3 w-3 text-slate-400" /></button>}
             </div>
-            <Shield className="h-3.5 w-3.5 text-emerald-600" />
-            <span className="text-[9px] text-slate-500">Audit-Ready</span>
           </div>
         </div>
       </header>
@@ -280,7 +290,7 @@ const CMSDataLake = () => {
 
       {/* ═══ 7-TAB SIDE PANEL ═══ */}
       <Sheet open={!!selectedATM} onOpenChange={open => { if (!open) setSelectedATM(null); }}>
-        <SheetContent side="right" className="w-full sm:max-w-2xl p-0 overflow-y-auto">
+        <SheetContent side="right" className="w-full sm:max-w-3xl p-0 overflow-y-auto">
           {atm && (
             <div className="flex flex-col h-full">
               {/* Panel Header + Verdict */}
@@ -297,14 +307,17 @@ const CMSDataLake = () => {
                   <p className="text-[10px] text-slate-700"><span className="font-bold text-slate-900">Verdict:</span> {getVerdict(atm)}</p>
                 </div>
                 <Tabs value={drawerTab} onValueChange={setDrawerTab} className="mt-2.5">
-                  <TabsList className="h-7 w-full grid grid-cols-7">
-                    <TabsTrigger value="status" className="text-[8px] h-6 gap-0.5 px-1"><Wifi className="h-3 w-3" /> Live</TabsTrigger>
-                    <TabsTrigger value="dna" className="text-[8px] h-6 gap-0.5 px-1"><Cpu className="h-3 w-3" /> DNA</TabsTrigger>
-                    <TabsTrigger value="ledger" className="text-[8px] h-6 gap-0.5 px-1"><FileText className="h-3 w-3" /> Ledger</TabsTrigger>
-                    <TabsTrigger value="burns" className="text-[8px] h-6 gap-0.5 px-1"><BarChart3 className="h-3 w-3" /> Burns</TabsTrigger>
-                    <TabsTrigger value="risk" className="text-[8px] h-6 gap-0.5 px-1"><AlertTriangle className="h-3 w-3" /> Risk</TabsTrigger>
-                    <TabsTrigger value="planning" className="text-[8px] h-6 gap-0.5 px-1"><Calendar className="h-3 w-3" /> Plan</TabsTrigger>
-                    <TabsTrigger value="evidence" className="text-[8px] h-6 gap-0.5 px-1"><Archive className="h-3 w-3" /> Logs</TabsTrigger>
+                  <TabsList className="h-7 w-full grid grid-cols-10">
+                    <TabsTrigger value="status" className="text-[7px] h-6 gap-0.5 px-0.5"><Wifi className="h-3 w-3" /> Live</TabsTrigger>
+                    <TabsTrigger value="dna" className="text-[7px] h-6 gap-0.5 px-0.5"><Cpu className="h-3 w-3" /> DNA</TabsTrigger>
+                    <TabsTrigger value="lineage" className="text-[7px] h-6 gap-0.5 px-0.5"><Network className="h-3 w-3" /> Lineage</TabsTrigger>
+                    <TabsTrigger value="ledger" className="text-[7px] h-6 gap-0.5 px-0.5"><FileText className="h-3 w-3" /> Ledger</TabsTrigger>
+                    <TabsTrigger value="burns" className="text-[7px] h-6 gap-0.5 px-0.5"><BarChart3 className="h-3 w-3" /> Burns</TabsTrigger>
+                    <TabsTrigger value="risk" className="text-[7px] h-6 gap-0.5 px-0.5"><AlertTriangle className="h-3 w-3" /> Risk</TabsTrigger>
+                    <TabsTrigger value="actions" className="text-[7px] h-6 gap-0.5 px-0.5"><Wrench className="h-3 w-3" /> Actions</TabsTrigger>
+                    <TabsTrigger value="ml" className="text-[7px] h-6 gap-0.5 px-0.5"><Brain className="h-3 w-3" /> ML</TabsTrigger>
+                    <TabsTrigger value="planning" className="text-[7px] h-6 gap-0.5 px-0.5"><Calendar className="h-3 w-3" /> Plan</TabsTrigger>
+                    <TabsTrigger value="evidence" className="text-[7px] h-6 gap-0.5 px-0.5"><Archive className="h-3 w-3" /> Logs</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
@@ -485,6 +498,40 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
+                {/* ═══ TAB: LINEAGE MAP ═══ */}
+                {drawerTab === 'lineage' && (
+                  <div className="space-y-3">
+                    <LineageMap
+                      terminalId={atm.terminalId}
+                      custodianName={atm.custodianName}
+                      vaultPacked={atm.cassettes.some(c => c.vaultPacked)}
+                    />
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Extended Event Timeline</p>
+                      <div className="space-y-1.5">
+                        {[
+                          { time: '05:45', label: 'Vault Loading', detail: 'Cash packed at CMS Vault — Mumbai Central. Camera-assisted verification completed.', warn: false, icon: <Lock className="h-3 w-3 text-purple-500" /> },
+                          { time: '06:00', label: 'Sub-Vault Movement', detail: 'Cassettes moved to Sub-Vault W-12 for CIT dispatch.', warn: false, icon: <Box className="h-3 w-3 text-blue-500" /> },
+                          { time: '06:30', label: 'CIT Handover', detail: `Custodian ${atm.custodianName} received sealed cassettes. Route: ${atm.routeId}`, warn: false, icon: <User className="h-3 w-3 text-slate-500" /> },
+                          { time: '07:15', label: 'ATM Cash Load', detail: 'CLL uploaded. 4 cassettes swapped. All seals verified.', warn: false, icon: <Banknote className="h-3 w-3 text-emerald-500" /> },
+                          ...(atm.frequentJam ? [{ time: '09:12', label: 'FLM Intervention', detail: 'Auto-recovery triggered. FLM notified for physical check.', warn: true, icon: <Wrench className="h-3 w-3 text-amber-500" /> }] : []),
+                          { time: '18:00', label: 'EOD Reconciliation', detail: 'Physical count completed. Balance drift documented.', warn: false, icon: <ClipboardCheck className="h-3 w-3 text-purple-500" /> },
+                          { time: 'Scheduled', label: 'Audit Action', detail: 'Next audit cycle: Q1-2026 (Apr 18–20). Risk assessment in progress.', warn: false, icon: <ShieldAlert className="h-3 w-3 text-indigo-500" /> },
+                        ].map((ev, i) => (
+                          <div key={i} className={`flex items-start gap-2 p-2 rounded border ${ev.warn ? 'border-amber-200 bg-amber-50' : 'border-slate-100 bg-white'}`}>
+                            <span className="text-[9px] text-slate-400 font-mono w-12 shrink-0 pt-0.5">{ev.time}</span>
+                            {ev.icon}
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[10px] font-bold text-slate-900">{ev.label}</p>
+                              <p className="text-[9px] text-slate-600">{ev.detail}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* ═══ TAB 3: MACHINE LEDGER (with Connectivity/Power) ═══ */}
                 {drawerTab === 'ledger' && (
                   <div>
@@ -640,6 +687,23 @@ const CMSDataLake = () => {
                       <div className="text-center py-8"><CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto mb-2" /><p className="text-xs text-slate-500">No active risk items for this ATM.</p></div>
                     )}
                   </div>
+                )}
+
+                {/* ═══ TAB: ACTION CONSOLE ═══ */}
+                {drawerTab === 'actions' && (
+                  <ActionConsole terminalId={atm.terminalId} />
+                )}
+
+                {/* ═══ TAB: ML PREDICTIVE INTELLIGENCE ═══ */}
+                {drawerTab === 'ml' && (
+                  <PredictiveIntelligence
+                    terminalId={atm.terminalId}
+                    frequentJam={atm.frequentJam}
+                    highCashBurn={atm.highCashBurn}
+                    balanceDrift={atm.balanceDrift}
+                    pendingClaimCount={atm.pendingClaimCount}
+                    dataCompleteness={atm.dataCompleteness}
+                  />
                 )}
 
                 {/* ═══ TAB 6: PLANNING ═══ */}
