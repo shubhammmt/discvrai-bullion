@@ -103,6 +103,32 @@ const recoveryEfficiency = [
   { category: 'Manual Resolution', potential: 2500000, recovered: 2125000 },
 ];
 
+// ── Preemptive Alerts Queue (FLM Signal-Triggered) ──
+const preemptiveAlerts = [
+  { id: 'PA-001', terminalId: 'ATM-1001', bank: 'HDFC', region: 'North', signalType: 'Auto-Recovery After Jam', signalTime: '09:14:01', inferredOverage: 2000, confidence: 92, status: 'Pending Declaration', eodCountdown: '6h 45m', flmAgent: 'Vikram Meena', ejRef: 'CMS-02435508', riskLevel: 'High', detail: 'BNA Transport Jam → Auto-Recovery → FLM Silent Close. Cash likely stuck in transport. Inferred ₹2,000 overage.' },
+  { id: 'PA-002', terminalId: 'ATM-2045', bank: 'SBI', region: 'West', signalType: 'Complaint-Triggered Jam', signalTime: '11:30:00', inferredOverage: 5000, confidence: 85, status: 'Pending Declaration', eodCountdown: '4h 30m', flmAgent: 'Rajesh Sharma', ejRef: 'CMS-02435512', riskLevel: 'High', detail: 'Customer complaint ₹5,000 not dispensed. EJ shows DISP_OK but sensor mismatch. Probable cassette retraction.' },
+  { id: 'PA-003', terminalId: 'ATM-3012', bank: 'ICICI', region: 'South', signalType: 'Auto-Recovery After Jam', signalTime: '14:16:00', inferredOverage: 1000, confidence: 78, status: 'Under Review', eodCountdown: '2h 15m', flmAgent: 'Karthik Nair', ejRef: 'CMS-02435514', riskLevel: 'Medium', detail: 'CDM Note Feed Failure → Auto-Recovery. Single ₹500 × 2 notes suspected in reject path. Moderate confidence.' },
+  { id: 'PA-004', terminalId: 'ATM-1089', bank: 'HDFC', region: 'North', signalType: 'Repeat Jam Pattern', signalTime: '10:42:00', inferredOverage: 3500, confidence: 71, status: 'Pending Declaration', eodCountdown: '5h 18m', flmAgent: 'Amit Verma', ejRef: 'CMS-02435520', riskLevel: 'Medium', detail: '3rd jam in 48h window. Cumulative suspected overage from transport mechanism. Pattern suggests roller degradation.' },
+  { id: 'PA-005', terminalId: 'ATM-4501', bank: 'Axis', region: 'East', signalType: 'Silent Close Event', signalTime: '12:05:00', inferredOverage: 8000, confidence: 95, status: 'Critical', eodCountdown: '1h 55m', flmAgent: 'Sunil Das', ejRef: 'CMS-02435525', riskLevel: 'Critical', detail: 'FLM auto-closed jam without physical verification. High-value ₹2,000 × 4 notes detected in transport sensor. No reject bin update.' },
+  { id: 'PA-006', terminalId: 'ATM-2078', bank: 'SBI', region: 'West', signalType: 'Auto-Recovery After Jam', signalTime: '15:22:00', inferredOverage: 500, confidence: 62, status: 'Low Priority', eodCountdown: '8h 38m', flmAgent: 'Deepak Joshi', ejRef: 'CMS-02435530', riskLevel: 'Low', detail: 'Single note jam in ₹500 cassette. Auto-cleared within 15 seconds. Low probability of stuck note.' },
+];
+
+// ── Control Window Tracker Data ──
+const controlWindowEntries = [
+  { id: 'CW-001', terminalId: 'ATM-1001', overageAmount: 2000, detectedAt: '09:14:01', eodDeadline: '18:00:00', remainingTime: '6h 45m', remainingPct: 56, status: 'Active', declarationStatus: 'Not Declared', breachRisk: false },
+  { id: 'CW-002', terminalId: 'ATM-2045', overageAmount: 5000, detectedAt: '11:30:00', eodDeadline: '18:00:00', remainingTime: '4h 30m', remainingPct: 37, status: 'Active', declarationStatus: 'Not Declared', breachRisk: false },
+  { id: 'CW-003', terminalId: 'ATM-4501', overageAmount: 8000, detectedAt: '12:05:00', eodDeadline: '18:00:00', remainingTime: '1h 55m', remainingPct: 16, status: 'Critical', declarationStatus: 'Not Declared', breachRisk: true },
+  { id: 'CW-004', terminalId: 'ATM-3098', overageAmount: 3200, detectedAt: '08:22:00', eodDeadline: '18:00:00', remainingTime: '0h 00m', remainingPct: 0, status: 'Breached', declarationStatus: 'CONTROL BREACH', breachRisk: true },
+  { id: 'CW-005', terminalId: 'ATM-1045', overageAmount: 1500, detectedAt: '10:15:00', eodDeadline: '18:00:00', remainingTime: '5h 45m', remainingPct: 48, status: 'Active', declarationStatus: 'System-Assisted Pending', breachRisk: false },
+];
+
+// ── Vault Counter Capture Data ──
+const vaultCounterCaptures = [
+  { id: 'VCC-001', terminalId: 'ATM-1001', captureTime: '06:28:15', cassettes: 4, verifiedBy: 'Camera Station A3', totalLoaded: 2500000, thumbnails: ['Cassette-1 ₹500 × 2000', 'Cassette-2 ₹100 × 2000', 'Cassette-3 ₹200 × 1500', 'Cassette-4 ₹2000 × 500'], integrityScore: 98, tamperDetected: false },
+  { id: 'VCC-002', terminalId: 'ATM-2045', captureTime: '06:42:30', cassettes: 4, verifiedBy: 'Camera Station B1', totalLoaded: 3000000, thumbnails: ['Cassette-1 ₹500 × 2400', 'Cassette-2 ₹100 × 3000', 'Cassette-3 ₹200 × 2500', 'Cassette-4 ₹2000 × 600'], integrityScore: 96, tamperDetected: false },
+  { id: 'VCC-003', terminalId: 'ATM-3012', captureTime: '06:55:10', cassettes: 4, verifiedBy: 'Camera Station A1', totalLoaded: 2000000, thumbnails: ['Cassette-1 ₹500 × 1600', 'Cassette-2 ₹100 × 2000', 'Cassette-3 ₹200 × 1000', 'Cassette-4 ₹2000 × 400'], integrityScore: 88, tamperDetected: true },
+];
+
 const CMSReconCenter = () => {
   const [bankFilter, setBankFilter] = useState('All');
   const [regionFilter, setRegionFilter] = useState('All');
