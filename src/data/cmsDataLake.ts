@@ -160,7 +160,7 @@ const penaltyRisks: ATMProfile['penaltyRisk'][] = ['None', 'None', 'None', 'None
 const sitePersonas: ATMProfile['sitePersona'][] = ['High-Traffic Salary Site', 'Commercial Hub', 'Remote Area', 'High-Risk Pilferage Zone', 'Residential Area', 'Transit Corridor'];
 const cityCodes: Record<string, string> = { Maharashtra: 'MUM', Gujarat: 'AMD', Goa: 'GOA', Delhi: 'DEL', Rajasthan: 'JAI', UP: 'LKO', Haryana: 'GGN', Punjab: 'CHD', Karnataka: 'BLR', 'Tamil Nadu': 'CHN', Telangana: 'HYD', Kerala: 'KCH', 'West Bengal': 'KOL', Odisha: 'BBS', Bihar: 'PAT', Jharkhand: 'RAN' };
 
-function seededRandom(seed: number) { let s = seed; return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; }; }
+export function seededRandom(seed: number) { let s = seed; return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; }; }
 const rand = seededRandom(42);
 const pick = <T,>(arr: T[]): T => arr[Math.floor(rand() * arr.length)];
 
