@@ -697,7 +697,7 @@ const CMSAuditCommand: React.FC = () => {
                               <div className="w-full aspect-square bg-slate-800 rounded-md mb-1.5 flex items-center justify-center">
                                 <Camera className={`w-6 h-6 ${photo.verified ? 'text-emerald-600' : 'text-red-600'}`} />
                               </div>
-                              <p className="text-[10px] text-slate-300">{photo.label}</p>
+                              <p className="text-[10px] text-slate-300">{photo.type}</p>
                               <p className={`text-[9px] ${photo.verified ? 'text-emerald-400' : 'text-red-400'}`}>
                                 {photo.verified ? '✓ Verified' : '✗ Mismatch'}
                               </p>
@@ -707,20 +707,20 @@ const CMSAuditCommand: React.FC = () => {
                       </div>
                       <div className="space-y-3">
                         <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                          <p className="text-[10px] text-slate-500 uppercase mb-1">Denomination Breakdown</p>
-                          <div className="grid grid-cols-2 gap-2">
-                            {selectedAudit.denomination.map(d => (
-                              <div key={d.denom} className="flex items-center justify-between text-xs">
-                                <span className="text-slate-400">₹{d.denom}</span>
-                                <span className="text-white font-mono">{d.count}</span>
+                          <p className="text-[10px] text-slate-500 uppercase mb-1">SOP Compliance</p>
+                          <div className="space-y-1">
+                            {selectedAudit.sopCompliance.map((s, i) => (
+                              <div key={i} className="flex items-center justify-between text-xs">
+                                <span className="text-slate-400">{s.item}</span>
+                                <span className={s.status ? 'text-emerald-400' : 'text-red-400'}>{s.status ? '✓' : '✗'}</span>
                               </div>
                             ))}
                           </div>
                         </div>
                         <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                          <p className="text-[10px] text-slate-500 uppercase mb-1">Custodian</p>
-                          <p className="text-xs text-white">{selectedAudit.custodianName}</p>
-                          <p className="text-[10px] text-slate-400">{selectedAudit.custodianId}</p>
+                          <p className="text-[10px] text-slate-500 uppercase mb-1">Auditor</p>
+                          <p className="text-xs text-white">{selectedAudit.auditorName}</p>
+                          <p className="text-[10px] text-slate-400">{selectedAudit.auditorId}</p>
                         </div>
                         {selectedAudit.status === 'flagged' && (
                           <div className="flex gap-2">
