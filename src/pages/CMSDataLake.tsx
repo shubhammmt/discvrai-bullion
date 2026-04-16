@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import LineageMap from '@/components/cms-data-lake/LineageMap';
 import ActionConsole from '@/components/cms-data-lake/ActionConsole';
-import PredictiveIntelligence from '@/components/cms-data-lake/PredictiveIntelligence';
+// PredictiveIntelligence replaced by Preemption Risk API inline
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
   Tooltip as RechartsTooltip
