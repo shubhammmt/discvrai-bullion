@@ -17,7 +17,8 @@ import {
   ArrowUpRight, ArrowDownRight, Target, Activity, CheckCircle2,
   XCircle, AlertCircle, ShieldAlert, Banknote, Cpu, ThumbsUp, ThumbsDown,
   Scale, Gavel, Code, Inbox, FileArchive, MapPin, Shield, Camera, User, Lock,
-  CalendarIcon, TrendingUp, BarChart3, History, Award, Flame
+  CalendarIcon, TrendingUp, BarChart3, History, Award, Flame,
+  Bell, Timer, Image, Wifi, ShieldCheck, ArrowRight
 } from 'lucide-react';
 import {
   reconPulse, mismatchedLedgers, pendingClaims, harmonizingPenalties,
