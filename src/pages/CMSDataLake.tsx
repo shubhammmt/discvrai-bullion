@@ -26,10 +26,11 @@ import {
   Tooltip as RechartsTooltip
 } from 'recharts';
 import {
-  atmProfiles, dataHealthMetrics, ejLogs, timelineEvents, overageEvents,
-  digitalEvidence, cashOperations, rejectBinStatuses, replenishmentPlans,
-  hardwareErrors, getStatusColor, getSeverityColor, getPenaltyColor,
-  formatINR, ATMProfile, generateBurnRates, generateErrorPatterns
+  atmProfiles, dataHealthMetrics, getStatusColor, getSeverityColor, getPenaltyColor,
+  formatINR, ATMProfile, generateBurnRates, generateErrorPatterns,
+  generateEjLogs, generateTimelineEvents, generateOverageEvents,
+  generateDigitalEvidence, generateRejectBin, generateReplenishmentPlan,
+  generateHardwareErrors, generateCashOps
 } from '@/data/cmsDataLake';
 
 // ── InfoTip ──
@@ -51,8 +52,8 @@ const CMSDataLake = () => {
   const [selectedATM, setSelectedATM] = useState<string | null>(null);
   const [drawerTab, setDrawerTab] = useState('status');
   const [ejSearch, setEjSearch] = useState('');
-  const [previewDoc, setPreviewDoc] = useState<typeof digitalEvidence[0] | null>(null);
-  const [timelineDetail, setTimelineDetail] = useState<typeof timelineEvents[0] | null>(null);
+  const [previewDoc, setPreviewDoc] = useState<ReturnType<typeof generateDigitalEvidence>[0] | null>(null);
+  const [timelineDetail, setTimelineDetail] = useState<ReturnType<typeof generateTimelineEvents>[0] | null>(null);
 
   const banks = useMemo(() => ['All', ...Array.from(new Set(atmProfiles.map(a => a.bank))).sort()], []);
   const regionsArr = useMemo(() => ['All', ...Array.from(new Set(atmProfiles.map(a => a.region))).sort()], []);
@@ -75,13 +76,13 @@ const CMSDataLake = () => {
 
   // Drawer data
   const atm = selectedATM ? atmProfiles.find(a => a.terminalId === selectedATM) : null;
-  const termTimeline = selectedATM ? timelineEvents.filter(e => e.terminalId === selectedATM) : [];
-  const termEj = selectedATM ? ejLogs.filter(e => e.terminalId === selectedATM) : [];
-  const termOverages = selectedATM ? overageEvents.filter(o => o.terminalId === selectedATM) : [];
-  const termEvidence = selectedATM ? digitalEvidence.filter(d => d.terminalId === selectedATM) : [];
-  const termErrors = selectedATM ? hardwareErrors.filter(h => h.terminalId === selectedATM) : [];
-  const rejectBin = selectedATM ? rejectBinStatuses.find(r => r.terminalId === selectedATM) : null;
-  const repPlan = selectedATM ? replenishmentPlans[selectedATM] : null;
+  const termTimeline = useMemo(() => selectedATM ? generateTimelineEvents(selectedATM) : [], [selectedATM]);
+  const termEj = useMemo(() => selectedATM ? generateEjLogs(selectedATM) : [], [selectedATM]);
+  const termOverages = useMemo(() => selectedATM ? generateOverageEvents(selectedATM) : [], [selectedATM]);
+  const termEvidence = useMemo(() => selectedATM ? generateDigitalEvidence(selectedATM) : [], [selectedATM]);
+  const termErrors = useMemo(() => selectedATM ? generateHardwareErrors(selectedATM) : [], [selectedATM]);
+  const rejectBin = useMemo(() => selectedATM ? generateRejectBin(selectedATM) : null, [selectedATM]);
+  const repPlan = useMemo(() => (selectedATM && atm) ? generateReplenishmentPlan(selectedATM, atm) : null, [selectedATM, atm]);
   const filteredEj = ejSearch.trim() ? termEj.filter(e => (e.errorCode || '').toLowerCase().includes(ejSearch.toLowerCase()) || (e.errorDesc || '').toLowerCase().includes(ejSearch.toLowerCase()) || e.ticketId.toLowerCase().includes(ejSearch.toLowerCase())) : termEj;
   const burnRates = useMemo(() => selectedATM ? generateBurnRates(selectedATM) : [], [selectedATM]);
   const errorPatterns = useMemo(() => selectedATM ? generateErrorPatterns(selectedATM) : [], [selectedATM]);

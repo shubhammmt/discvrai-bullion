@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { timelineEvents, getSeverityColor } from '@/data/cmsDataLake';
+import { generateTimelineEvents, getSeverityColor } from '@/data/cmsDataLake';
 import { PackagePlus, Banknote, FileText, RefreshCw, ClipboardCheck, AlertTriangle, Archive } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const MachineLedgerTimeline: React.FC<Props> = ({ terminalId }) => {
-  const events = timelineEvents.filter(e => e.terminalId === terminalId);
+  const events = generateTimelineEvents(terminalId);
 
   if (events.length === 0) {
     return (
