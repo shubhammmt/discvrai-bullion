@@ -30,7 +30,7 @@ import {
   formatINR, ATMProfile, generateBurnRates, generateErrorPatterns,
   generateEjLogs, generateTimelineEvents, generateOverageEvents,
   generateDigitalEvidence, generateRejectBin, generateReplenishmentPlan,
-  generateHardwareErrors, generateCashOps
+  generateHardwareErrors, generateCashOps, seededRandom
 } from '@/data/cmsDataLake';
 
 // ── InfoTip ──
