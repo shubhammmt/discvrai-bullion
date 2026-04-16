@@ -483,16 +483,14 @@ const CMSReconCenter = () => {
                                 <div className="w-40 shrink-0">
                                   <div className="flex items-center justify-between mb-0.5">
                                     <Badge className={`text-[9px] px-1.5 py-0 font-mono ${getClaimTimerColor(c.daysElapsed)}`}>
-                                      {isPenalty ? '⚠ PENALTY' : `Day ${c.daysElapsed}/5`}
+                                      {isPenalty ? `OVERDUE — Day ${c.daysElapsed}` : `Day ${c.daysElapsed} of 5`}
                                     </Badge>
-                                    <span className="text-[9px] text-amber-400 font-medium">
-                                      {isPenalty ? 'Overdue' : `${5 - c.daysElapsed}d left`}
-                                    </span>
                                   </div>
                                   <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : isCritical ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                                    <div className={`h-full rounded-full ${isPenalty ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'}`}
                                       style={{ width: `${Math.min(100, (c.daysElapsed / 5) * 100)}%` }} />
                                   </div>
+                                  {isPenalty && <Badge className="text-[7px] px-1 py-0 bg-red-600 text-white animate-pulse mt-1">Daily Fine Active</Badge>}
                                 </div>
                               </div>
                               <div className="px-3 pb-2">
@@ -899,12 +897,15 @@ const CMSReconCenter = () => {
                               <span className="font-mono font-bold text-white text-[11px]">{c.terminalId}</span>
                               <span className="text-[10px] text-slate-500">{c.bank}</span>
                               <span className="text-[9px] text-slate-500 font-mono">{c.claimId}</span>
+                              {isOverdue && (
+                                <Badge className="text-[8px] px-1.5 py-0 bg-red-600 text-white animate-pulse ml-1">Daily Fine Active</Badge>
+                              )}
                               <Badge className={`text-[8px] px-1.5 py-0 ml-auto ${
-                                isOverdue ? 'bg-red-500/20 text-red-400 animate-pulse' :
+                                isOverdue ? 'bg-red-500/20 text-red-400' :
                                 isCritical ? 'bg-amber-500/20 text-amber-400' :
                                 'bg-amber-500/10 text-amber-300'
                               }`}>
-                                {isOverdue ? '🚨 OVERDUE' : `Resolve within ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''}`}
+                                {isOverdue ? `OVERDUE — Day ${c.daysElapsed}` : `Resolve within ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''}`}
                               </Badge>
                             </div>
                             <div className="grid grid-cols-5 gap-2 mb-2">
@@ -917,19 +918,16 @@ const CMSReconCenter = () => {
                                 <p className="text-sm font-bold font-mono text-white">{c.txnDate}</p>
                                 <p className="text-[8px] text-slate-500">T-Day</p>
                               </div>
-                              <div className="bg-amber-500/5 border border-amber-500/20 rounded p-2">
-                                <p className="text-[8px] text-amber-400 font-bold uppercase mb-1">T+5 Clock</p>
-                                {/* Visual day indicators */}
-                                <div className="flex gap-0.5 mt-1">
-                                  {[1, 2, 3, 4, 5].map(day => (
-                                    <div key={day} className={`h-2.5 flex-1 rounded-sm ${
-                                      day <= c.daysElapsed
-                                        ? day >= 4 ? 'bg-red-500' : day >= 3 ? 'bg-amber-500' : 'bg-amber-400'
-                                        : 'bg-slate-600'
-                                    }`} />
-                                  ))}
+                              <div className={`rounded p-2 border ${isOverdue ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/5 border-amber-500/20'}`}>
+                                <p className={`text-[8px] font-bold uppercase mb-1 ${isOverdue ? 'text-red-400' : 'text-amber-400'}`}>Time Since Complaint</p>
+                                <div className="h-2.5 bg-slate-700 rounded-full overflow-hidden mt-1">
+                                  <div className={`h-full rounded-full transition-all ${
+                                    isOverdue ? 'bg-red-500' : c.daysElapsed >= 3 ? 'bg-amber-500' : 'bg-emerald-500'
+                                  }`} style={{ width: `${Math.min(100, (c.daysElapsed / 5) * 100)}%` }} />
                                 </div>
-                                <p className="text-[8px] text-amber-300/60 mt-0.5">{c.daysElapsed}/5 days elapsed</p>
+                                <p className={`text-[9px] font-bold mt-1 ${isOverdue ? 'text-red-400' : 'text-amber-300'}`}>
+                                  {isOverdue ? `OVERDUE — Day ${c.daysElapsed}` : `Day ${c.daysElapsed} of 5`}
+                                </p>
                               </div>
                               <div className={`rounded p-2 border ${isOverdue ? 'bg-red-500/10 border-red-500/30' : 'bg-amber-500/5 border-amber-500/20'}`}>
                                 <p className="text-[8px] font-bold uppercase mb-1 text-slate-400">Daily Penalty Rate</p>
