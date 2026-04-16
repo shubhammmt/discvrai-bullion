@@ -245,14 +245,22 @@ const CMSReconCenter = () => {
             </div>
             <div>
               <h1 className="text-xs font-bold text-white leading-tight">
-                {isHistorical ? 'Strategic Financial Analysis' : 'Financial Resolution Engine'}
+                {isHistorical ? 'Strategic Financial Analysis' : 'Preemptive Resolution Engine'}
               </h1>
               <p className="text-[9px] text-slate-400">
-                {isHistorical ? `${timeframeLabel} · Pattern Recognition & Leakage Analysis` : '₹40–43 Cr Leakage Recovery · Physical × Digital × Machine Reconciliation'}
+                {isHistorical ? `${timeframeLabel} · Pattern Recognition & Leakage Analysis` : '₹40–43 Cr Leakage Prevention · Signal Ingestion → Preemptive Action → Governed Declaration'}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Agile Sync Badge */}
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+              <div>
+                <p className="text-[9px] font-bold text-emerald-400 leading-tight">Agile Sync ✓</p>
+                <p className="text-[7px] text-emerald-500/80">Recon · Complaints · Penalties</p>
+              </div>
+            </div>
             {/* ── Timeframe Selector ── */}
             <div className="flex items-center gap-1 bg-slate-700 rounded-md p-0.5">
               {TIMEFRAMES.map(tf => (
