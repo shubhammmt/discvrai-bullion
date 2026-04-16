@@ -15,8 +15,12 @@ import {
   ClipboardCheck, Archive, Eye, Clock, ShieldAlert, Image, FileCode, File,
   Maximize2, MapPin, Building2, Cpu, Signal, EyeOff, Zap, Calendar, Truck,
   User, Route, Camera, Video, Download, TrendingUp, TrendingDown, Wifi, WifiOff,
-  Battery, BatteryCharging, Box, Lock, Unlock, BarChart3, GitBranch
+  Battery, BatteryCharging, Box, Lock, Unlock, BarChart3, GitBranch, Brain, Wrench,
+  Network, ShieldCheck
 } from 'lucide-react';
+import LineageMap from '@/components/cms-data-lake/LineageMap';
+import ActionConsole from '@/components/cms-data-lake/ActionConsole';
+import PredictiveIntelligence from '@/components/cms-data-lake/PredictiveIntelligence';
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
   Tooltip as RechartsTooltip
