@@ -837,6 +837,69 @@ const CMSDataLake = () => {
 
                       {/* Action Console */}
                       <ActionConsole terminalId={atm.terminalId} />
+
+                      {/* ── ATM Details (merged from Tech DNA) ── */}
+                      <div className="border-t border-slate-200 pt-3 mt-3">
+                        <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><Cpu className="h-3.5 w-3.5 text-blue-500" /> ATM Details</p>
+                        
+                        {/* Slot Mapping */}
+                        <div className="rounded-lg border border-slate-200 p-3 mb-2">
+                          <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><Box className="h-3.5 w-3.5 text-blue-500" /> Cassette Slot Mapping</p>
+                          <div className="grid grid-cols-4 gap-2">
+                            {atm.slotMapping.map(s => {
+                              const fillPct = Math.round(s.currentCount / s.capacity * 100);
+                              return (
+                                <div key={s.slot} className="rounded-lg p-2 border border-slate-200 bg-slate-50 text-center">
+                                  <p className="text-[8px] text-slate-400 uppercase font-bold">Slot {s.slot}</p>
+                                  <p className="text-sm font-bold text-slate-900">₹{s.denom}</p>
+                                  <div className="h-1.5 bg-slate-200 rounded-full mt-1 overflow-hidden">
+                                    <div className={`h-full rounded-full ${fillPct > 80 ? 'bg-emerald-500' : fillPct > 40 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${fillPct}%` }} />
+                                  </div>
+                                  <p className="text-[9px] text-slate-600 mt-0.5">{s.currentCount}/{s.capacity} ({fillPct}%)</p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Location */}
+                        <div className="rounded-lg border border-slate-200 p-3 mb-2">
+                          <p className="text-[9px] font-bold text-slate-500 uppercase mb-2 flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> Location & Assignment</p>
+                          <div className="grid grid-cols-2 gap-2 text-[11px]">
+                            <div><span className="text-slate-500">Location Type:</span> <Badge className={`text-[9px] ${personaColor(atm.sitePersona)}`}>{atm.sitePersona}</Badge></div>
+                            <div><span className="text-slate-500">Hub:</span> <span className="font-bold text-slate-900">{atm.hub}</span></div>
+                            <div><span className="text-slate-500">State:</span> <span className="font-bold text-slate-900">{atm.state}</span></div>
+                            <div><span className="text-slate-500">Region:</span> <span className="font-bold text-slate-900">{atm.region}</span></div>
+                            <div><span className="text-slate-500">Route:</span> <span className="font-mono text-slate-800">{atm.routeId}</span></div>
+                            <div><span className="text-slate-500">Replenishment Path:</span> <Badge variant="outline" className="text-[9px]">{atm.replenishmentPath}</Badge></div>
+                          </div>
+                        </div>
+
+                        {/* Next Replenishment */}
+                        <div className="rounded-lg border border-blue-200 bg-blue-50/30 p-3 mb-2">
+                          <p className="text-[10px] font-bold text-blue-700 mb-2 flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Next Cash Load</p>
+                          <div className="grid grid-cols-2 gap-2 text-[11px]">
+                            <div><span className="text-slate-500">Date:</span> <span className="font-bold text-slate-900">{repPlan?.scheduledDate || atm.nextReplenishmentDate.split(' ')[0]}</span></div>
+                            <div><span className="text-slate-500">Time:</span> <span className="font-bold text-slate-900">{repPlan?.scheduledTime || atm.nextReplenishmentDate.split(' ')[1]}</span></div>
+                            <div><span className="text-slate-500">Amount:</span> <span className="font-bold text-slate-900 font-mono">{formatINR(repPlan?.forecastAmount || atm.nextReplenishmentAmount)}</span></div>
+                            <div><span className="text-slate-500">Path:</span> <Badge variant="outline" className="text-[9px] px-1 py-0">{atm.replenishmentPath}</Badge></div>
+                          </div>
+                        </div>
+
+                        {/* Assigned Staff */}
+                        <div className="rounded-lg border border-slate-200 p-3">
+                          <p className="text-[10px] font-bold text-slate-700 mb-2 flex items-center gap-1"><User className="h-3.5 w-3.5" /> Assigned Staff</p>
+                          <div className="text-[11px] space-y-1">
+                            <div className="flex justify-between"><span className="text-slate-500">Name:</span><span className="font-bold text-slate-900">{atm.custodianName}</span></div>
+                            <div className="flex justify-between"><span className="text-slate-500">Route ID:</span><span className="font-mono text-slate-800">{atm.routeId}</span></div>
+                          </div>
+                          {atm.custodianRiskFlag && (
+                            <div className="mt-2 px-2 py-1.5 bg-red-50 border border-red-200 rounded">
+                              <p className="text-[10px] font-bold text-red-600">🔴 Security Note: Staff member has red flag(s) in this region</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   );
                 })()}
