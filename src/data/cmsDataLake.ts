@@ -293,7 +293,7 @@ export function generateErrorPatterns(terminalId: string): ErrorPatternEntry[] {
   });
 }
 
-// ── EJ Logs ──
+// ── EJ Logs (static for backward compat + generator) ──
 export const ejLogs: EJLogEntry[] = [
   { id: 'EJ-001', terminalId: 'ATM-MUM-0001', ticketId: 'CMS-02435507', timestamp: '2026-04-12 09:12:34', type: 'Error', errorCode: 'BNA-TJ01', errorDesc: 'BNA ERROR - TRANSPORT JAM', status: 'Failed' },
   { id: 'EJ-002', terminalId: 'ATM-MUM-0001', ticketId: 'CMS-02435508', timestamp: '2026-04-12 09:14:01', type: 'AutoRecovery', errorDesc: 'Auto-recovery after BNA jam — FLM auto-close', status: 'Reversed' },
@@ -307,12 +307,63 @@ export const ejLogs: EJLogEntry[] = [
   { id: 'EJ-010', terminalId: 'ATM-BLR-0001', ticketId: 'CMS-02435530', timestamp: '2026-04-12 09:05:00', type: 'Transaction', amount: 5000, status: 'Success' },
 ];
 
+export function generateEjLogs(terminalId: string): EJLogEntry[] {
+  const existing = ejLogs.filter(e => e.terminalId === terminalId);
+  if (existing.length > 0) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 200);
+  const types: EJLogEntry['type'][] = ['Transaction', 'Transaction', 'Transaction', 'Error', 'AutoRecovery', 'Maintenance'];
+  const statuses: EJLogEntry['status'][] = ['Success', 'Success', 'Success', 'Failed', 'Reversed', 'Disputed'];
+  const errorCodes = ['BNA-TJ01', 'CDM-NF01', 'HTX-TO01', 'CST-SJ01', 'PWR-UPS01'];
+  const errorDescs: Record<string, string> = { 'BNA-TJ01': 'BNA ERROR - TRANSPORT JAM', 'CDM-NF01': 'NOTE FEED FAILURE', 'HTX-TO01': 'HOST TX TIMEOUT', 'CST-SJ01': 'CASSETTE SENSOR JAM', 'PWR-UPS01': 'UPS SWITCHOVER DETECTED' };
+  const count = 5 + Math.floor(r() * 8);
+  const entries: EJLogEntry[] = [];
+  for (let i = 0; i < count; i++) {
+    const type = types[Math.floor(r() * types.length)];
+    const hour = 6 + Math.floor(r() * 13);
+    const min = Math.floor(r() * 60);
+    const sec = Math.floor(r() * 60);
+    const isError = type === 'Error';
+    const ec = isError ? errorCodes[Math.floor(r() * errorCodes.length)] : undefined;
+    entries.push({
+      id: `EJ-${terminalId}-${i}`,
+      terminalId,
+      ticketId: `CMS-${String(2400000 + Math.floor(r() * 100000)).padStart(8, '0')}`,
+      timestamp: `2026-04-12 ${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`,
+      type,
+      errorCode: ec,
+      errorDesc: ec ? errorDescs[ec] : type === 'AutoRecovery' ? 'Auto-recovery — system resumed' : undefined,
+      amount: type === 'Transaction' ? [2000, 5000, 10000, 20000, 40000][Math.floor(r() * 5)] : undefined,
+      status: isError ? 'Failed' : type === 'AutoRecovery' ? 'Reversed' : statuses[Math.floor(r() * statuses.length)],
+    });
+  }
+  return entries.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+}
+
 // ── Cash Operations ──
 export const cashOperations: CashOperation[] = [
   { id: 'CO-001', terminalId: 'ATM-MUM-0001', indentNumber: 'IND-2026-04-001', indentAmount: 2500000, revisionType: 'Fresh', citAgent: 'Rajesh Sharma', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 06:30:00' },
   { id: 'CO-002', terminalId: 'ATM-DEL-0001', indentNumber: 'IND-2026-04-002', indentAmount: 3000000, revisionType: 'Top-Up', citAgent: 'Amit Verma', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 07:00:00' },
   { id: 'CO-003', terminalId: 'ATM-BLR-0001', indentNumber: 'IND-2026-04-004', indentAmount: 2000000, revisionType: 'Swap', citAgent: 'Karthik Nair', indentStatus: 'Completed', cllUpload: 'Uploaded', timestamp: '2026-04-12 06:45:00' },
 ];
+
+export function generateCashOps(terminalId: string): CashOperation[] {
+  const existing = cashOperations.filter(c => c.terminalId === terminalId);
+  if (existing.length > 0) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 300);
+  const revTypes: CashOperation['revisionType'][] = ['Fresh', 'Top-Up', 'Swap'];
+  const agents = ['Rajesh Sharma', 'Amit Verma', 'Priya Singh', 'Karthik Nair', 'Deepak Joshi'];
+  return [{
+    id: `CO-${terminalId}`,
+    terminalId,
+    indentNumber: `IND-2026-04-${String(Math.floor(r() * 999) + 1).padStart(3, '0')}`,
+    indentAmount: Math.round((1500000 + r() * 2000000) / 100000) * 100000,
+    revisionType: revTypes[Math.floor(r() * revTypes.length)],
+    citAgent: agents[Math.floor(r() * agents.length)],
+    indentStatus: 'Completed',
+    cllUpload: r() > 0.15 ? 'Uploaded' : 'Pending',
+    timestamp: `2026-04-12 ${String(6 + Math.floor(r() * 2)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')}:00`,
+  }];
+}
 
 // ── Timeline Events ──
 export const timelineEvents: TimelineEvent[] = [
@@ -333,17 +384,80 @@ export const timelineEvents: TimelineEvent[] = [
   { id: 'TL-012', terminalId: 'ATM-MUM-0001', timestamp: '2026-04-12 18:10:00', type: 'reject_bin', title: 'Reject Bin Sealed', detail: 'Cassette swap. Seal #RB-04122026-001.', severity: 'info' },
 ];
 
+export function generateTimelineEvents(terminalId: string): TimelineEvent[] {
+  const existing = timelineEvents.filter(e => e.terminalId === terminalId);
+  if (existing.length > 0) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 400);
+  const events: TimelineEvent[] = [];
+  const agentName = custodians[Math.floor(r() * custodians.length)];
+  const loadAmt = Math.round((1500000 + r() * 2000000) / 100000) * 100000;
+  events.push({ id: `TL-${terminalId}-01`, terminalId, timestamp: '2026-04-12 06:30:00', type: 'indent_created', title: 'Indent Created', detail: `IND-2026-04 — ${formatINR(loadAmt)} Fresh Load`, severity: 'info' });
+  events.push({ id: `TL-${terminalId}-02`, terminalId, timestamp: '2026-04-12 07:15:00', type: 'cash_loaded', title: 'Cash Loaded', detail: `CIT Agent ${agentName} loaded 4 cassettes. CLL uploaded.`, severity: 'info' });
+  if (r() > 0.4) events.push({ id: `TL-${terminalId}-03`, terminalId, timestamp: '2026-04-12 08:30:00', type: 'connectivity', title: 'Connectivity Degraded', detail: `Link quality dropped to ${30 + Math.floor(r() * 30)}%. Latency spike ${500 + Math.floor(r() * 500)}ms.`, severity: 'warning' });
+  const txnAmts = [5000, 10000, 20000, 40000];
+  for (let t = 0; t < 2 + Math.floor(r() * 3); t++) {
+    const hr = 9 + Math.floor(r() * 8);
+    const mn = Math.floor(r() * 60);
+    const amt = txnAmts[Math.floor(r() * txnAmts.length)];
+    events.push({ id: `TL-${terminalId}-T${t}`, terminalId, timestamp: `2026-04-12 ${String(hr).padStart(2, '0')}:${String(mn).padStart(2, '0')}:00`, type: 'transaction', title: `${formatINR(amt)} Withdrawal`, detail: `Dispensed successfully.`, severity: 'info' });
+  }
+  if (r() > 0.5) {
+    events.push({ id: `TL-${terminalId}-ERR`, terminalId, timestamp: '2026-04-12 10:42:00', type: 'error', title: 'Hardware Error', detail: 'BNA Transport Jam detected. Note stuck in transport.', severity: 'critical', suspectedOverage: 2000 });
+    events.push({ id: `TL-${terminalId}-RCV`, terminalId, timestamp: '2026-04-12 10:44:00', type: 'auto_recovery', title: 'Auto-Recovery', detail: 'Jam cleared automatically. FLM silent close.', severity: 'warning', suspectedOverage: 2000 });
+  }
+  if (r() > 0.6) events.push({ id: `TL-${terminalId}-PWR`, terminalId, timestamp: '2026-04-12 12:15:00', type: 'power', title: 'UPS Switchover', detail: `Mains power lost. UPS engaged for ${10 + Math.floor(r() * 30)} minutes.`, severity: 'warning' });
+  if (r() > 0.7) events.push({ id: `TL-${terminalId}-BW`, terminalId, timestamp: '2026-04-12 13:00:00', type: 'connectivity', title: '⚠ Machine Went OFFLINE', detail: `Connection lost for ${15 + Math.floor(r() * 30)} minutes. Cash movements unverifiable.`, severity: 'critical', blindWindow: true });
+  events.push({ id: `TL-${terminalId}-EOD`, terminalId, timestamp: '2026-04-12 18:00:00', type: 'physical_eod', title: 'Physical EOD Completed', detail: 'EOD visit completed. Cash tallied. Reject bin sealed.', severity: 'info' });
+  if (r() > 0.6) events.push({ id: `TL-${terminalId}-OV`, terminalId, timestamp: '2026-04-12 18:05:00', type: 'overage_flag', title: 'Overage Flag', detail: 'Overage from auto-recovery not declared within EOD. Penalty flagged.', severity: 'critical' });
+  events.push({ id: `TL-${terminalId}-RB`, terminalId, timestamp: '2026-04-12 18:10:00', type: 'reject_bin', title: 'Reject Bin Sealed', detail: `Cassette swap. Seal #RB-${terminalId.slice(-4)}.`, severity: 'info' });
+  return events.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+}
+
 // ── Overage Events ──
 export const overageEvents: OverageEvent[] = [
   { id: 'OV-001', terminalId: 'ATM-MUM-0001', detectedAt: '2026-04-12 09:14:01', amount: 2000, withinEOD: false, penaltyApplicable: true, status: 'Unreported', eodsPassed: 1 },
   { id: 'OV-002', terminalId: 'ATM-DEL-0001', detectedAt: '2026-04-11 14:22:00', declaredAt: '2026-04-11 16:00:00', amount: 5000, withinEOD: true, penaltyApplicable: false, status: 'Reported', eodsPassed: 0 },
 ];
 
+export function generateOverageEvents(terminalId: string): OverageEvent[] {
+  const existing = overageEvents.filter(o => o.terminalId === terminalId);
+  if (existing.length > 0) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 500);
+  if (r() > 0.5) return [];
+  const amt = [2000, 3000, 5000, 5200, 8000][Math.floor(r() * 5)];
+  const reported = r() > 0.5;
+  return [{
+    id: `OV-${terminalId}`,
+    terminalId,
+    detectedAt: `2026-04-12 ${String(9 + Math.floor(r() * 6)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')}:00`,
+    declaredAt: reported ? `2026-04-12 ${String(14 + Math.floor(r() * 4)).padStart(2, '0')}:00:00` : undefined,
+    amount: amt,
+    withinEOD: reported,
+    penaltyApplicable: !reported,
+    status: reported ? 'Reported' : 'Unreported',
+    eodsPassed: reported ? 0 : 1 + Math.floor(r() * 2),
+  }];
+}
+
 // ── Reject Bin ──
 export const rejectBinStatuses: RejectBinStatus[] = [
   { terminalId: 'ATM-MUM-0001', binType: 'Sealed', lastChecked: '2026-04-12 18:10:00', riskLevel: 'Low', cassetteSeal: 'RB-04122026-001' },
   { terminalId: 'ATM-DEL-0001', binType: 'Open', lastChecked: '2026-04-12 07:00:00', riskLevel: 'Medium' },
 ];
+
+export function generateRejectBin(terminalId: string): RejectBinStatus {
+  const existing = rejectBinStatuses.find(r => r.terminalId === terminalId);
+  if (existing) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 600);
+  const sealed = r() > 0.4;
+  return {
+    terminalId,
+    binType: sealed ? 'Sealed' : 'Open',
+    lastChecked: `2026-04-12 ${String(6 + Math.floor(r() * 12)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')}:00`,
+    riskLevel: sealed ? 'Low' : r() > 0.5 ? 'Medium' : 'High',
+    cassetteSeal: sealed ? `RB-${terminalId.slice(-4)}-001` : undefined,
+  };
+}
 
 // ── Digital Evidence ──
 export const digitalEvidence: DigitalEvidence[] = [
@@ -356,6 +470,24 @@ export const digitalEvidence: DigitalEvidence[] = [
   { id: 'DE-007', terminalId: 'ATM-DEL-0001', type: 'EJ File', filename: 'EJ_DEL0001_20260412.txt', uploadedAt: '2026-04-12 09:40:00', size: '1.8 MB', syncSource: 'FLM App', syncTimestamp: '2026-04-12 09:42:00' },
 ];
 
+export function generateDigitalEvidence(terminalId: string): DigitalEvidence[] {
+  const existing = digitalEvidence.filter(d => d.terminalId === terminalId);
+  if (existing.length > 0) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 700);
+  const code = terminalId.replace('ATM-', '').replace(/-/g, '');
+  const cardNums = () => String(1000 + Math.floor(r() * 9000));
+  const ejPreview = `09:${String(Math.floor(r() * 60)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')} TXN_START Card:XXXX-${cardNums()}\n09:12:38 DISP_REQ ₹10,000 [500x20]\n09:12:42 DISP_OK\n09:12:45 TXN_SUCCESS ₹10,000\n10:05:22 TXN_START Card:XXXX-${cardNums()}\n10:05:25 DISP_REQ ₹20,000 [2000x10]\n10:05:30 DISP_OK\n10:05:33 TXN_SUCCESS ₹20,000\n11:30:00 TXN_START Card:XXXX-${cardNums()}\n11:30:03 DISP_REQ ₹5,000 [500x10]\n11:30:05 DISP_OK\n11:30:08 TXN_SUCCESS ₹5,000\n14:15:18 CDM_ERROR CDM-NF01\n14:15:20 *** NOTE FEED FAILURE - CASSETTE 2 ***\n14:15:45 RECOVERY_INIT\n14:16:00 AUTO_RECOVERY OK`;
+  const mspPreview = `[06:30:00] SYSTEM BOOT: OK — POST checks passed\n[06:30:15] CASSETTE_INIT: Slot1=₹500 OK, Slot2=₹100 OK, Slot3=₹200 OK, Slot4=₹2000 OK\n[07:15:00] CASH_LOAD_EVENT: Cassettes=4, CLL=UPLOADED\n[09:00:00] NETWORK: Link quality 92%, latency 45ms\n[12:30:00] ALERT: Low cash warning — Slot 2 below 20%\n[14:15:20] ALERT: NOTE FEED FAILURE — Cassette 2\n[14:16:00] AUTO_RECOVERY: Feed retry success\n[18:00:00] EOD_VISIT: Custodian completed physical count`;
+  return [
+    { id: `DE-${terminalId}-1`, terminalId, type: 'EJ File', filename: `EJ_${code}_20260412.txt`, uploadedAt: '2026-04-12 09:45:00', size: `${(1.5 + r() * 2).toFixed(1)} MB`, syncSource: 'FLM App', syncTimestamp: '2026-04-12 10:02:00', preview: ejPreview },
+    { id: `DE-${terminalId}-2`, terminalId, type: 'MSP Log', filename: `MSP_${code}_20260412.html`, uploadedAt: '2026-04-12 09:46:00', size: `${(0.8 + r() * 1).toFixed(1)} MB`, syncSource: 'MSP Agent v3.2', syncTimestamp: '2026-04-12 09:46:00', preview: mspPreview },
+    { id: `DE-${terminalId}-3`, terminalId, type: 'Counter JPEG', filename: `COUNTER_${code}_20260412.jpg`, uploadedAt: '2026-04-12 18:15:00', size: `${(500 + Math.floor(r() * 500))} KB`, syncSource: 'Body Cam Upload', syncTimestamp: '2026-04-12 18:15:00' },
+    { id: `DE-${terminalId}-4`, terminalId, type: 'EOD Report', filename: `EOD_${code}_20260412.pdf`, uploadedAt: '2026-04-12 18:20:00', size: `${(300 + Math.floor(r() * 400))} KB`, syncSource: 'CMS Portal', syncTimestamp: '2026-04-12 18:22:00' },
+    { id: `DE-${terminalId}-5`, terminalId, type: 'Loading Slip', filename: `CLL_${code}_20260412.pdf`, uploadedAt: '2026-04-12 07:20:00', size: `${(200 + Math.floor(r() * 300))} KB`, syncSource: 'FLM App', syncTimestamp: '2026-04-12 07:20:00' },
+    ...(r() > 0.3 ? [{ id: `DE-${terminalId}-6`, terminalId, type: 'Body Cam' as const, filename: `BCAM_${code}_20260412.mp4`, uploadedAt: '2026-04-12 18:25:00', size: `${(30 + Math.floor(r() * 30))} MB`, syncSource: 'Body Cam Upload', syncTimestamp: '2026-04-12 18:25:00' }] : []),
+  ];
+}
+
 // ── Replenishment Plans ──
 export const replenishmentPlans: Record<string, ReplenishmentPlan> = {
   'ATM-MUM-0001': {
@@ -367,12 +499,66 @@ export const replenishmentPlans: Record<string, ReplenishmentPlan> = {
   },
 };
 
+export function generateReplenishmentPlan(terminalId: string, atm: ATMProfile): ReplenishmentPlan {
+  const existing = replenishmentPlans[terminalId];
+  if (existing) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 800);
+  const forecastAmt = Math.round((1500000 + r() * 2500000) / 100000) * 100000;
+  const d2000 = Math.floor(forecastAmt * 0.4 / 2000);
+  const d500 = Math.floor(forecastAmt * 0.35 / 500);
+  const d200 = Math.floor(forecastAmt * 0.15 / 200);
+  const d100 = Math.floor(forecastAmt * 0.1 / 100);
+  return {
+    terminalId,
+    scheduledDate: `2026-04-${13 + Math.floor(r() * 2)}`,
+    scheduledTime: `${String(6 + Math.floor(r() * 3)).padStart(2, '0')}:${r() > 0.5 ? '30' : '00'}`,
+    forecastAmount: forecastAmt,
+    denomBreakdown: [
+      { denom: 2000, count: d2000, total: d2000 * 2000 },
+      { denom: 500, count: d500, total: d500 * 500 },
+      { denom: 200, count: d200, total: d200 * 200 },
+      { denom: 100, count: d100, total: d100 * 100 },
+    ],
+    custodianName: atm.custodianName,
+    routeId: atm.routeId,
+    routePath: atm.replenishmentPath,
+    custodianHistory: {
+      totalVisits: 100 + Math.floor(r() * 400),
+      redFlags: Math.floor(r() * 4),
+      avgDelay: `${5 + Math.floor(r() * 20)} min`,
+    },
+  };
+}
+
 // ── Hardware Errors ──
 export const hardwareErrors: HardwareError[] = [
   { id: 'HE-001', terminalId: 'ATM-MUM-0001', errorCode: 'BNA-TJ01', errorDesc: 'BNA ERROR - TRANSPORT JAM', timestamp: '2026-04-12 09:12:34', machineState: 'Auto-Recovery', occurrences: 3 },
   { id: 'HE-002', terminalId: 'ATM-MUM-0001', errorCode: 'CDM-NF01', errorDesc: 'NOTE FEED FAILURE — Cassette 3', timestamp: '2026-04-12 14:15:20', machineState: 'Auto-Recovery', occurrences: 1 },
   { id: 'HE-003', terminalId: 'ATM-DEL-0001', errorCode: 'HTX-TO01', errorDesc: 'HOST TX TIMEOUT', timestamp: '2026-04-12 08:45:22', machineState: 'Resolved', occurrences: 5 },
 ];
+
+export function generateHardwareErrors(terminalId: string): HardwareError[] {
+  const existing = hardwareErrors.filter(h => h.terminalId === terminalId);
+  if (existing.length > 0) return existing;
+  const r = seededRandom(terminalId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + 900);
+  const allErrors = [
+    { code: 'BNA-TJ01', desc: 'BNA ERROR - TRANSPORT JAM', state: 'Auto-Recovery' as const },
+    { code: 'CDM-NF01', desc: 'NOTE FEED FAILURE', state: 'Auto-Recovery' as const },
+    { code: 'HTX-TO01', desc: 'HOST TX TIMEOUT', state: 'Resolved' as const },
+    { code: 'CST-SJ01', desc: 'CASSETTE SENSOR JAM', state: 'Hard-Failure' as const },
+    { code: 'PWR-UPS01', desc: 'UPS SWITCHOVER DETECTED', state: 'Resolved' as const },
+  ];
+  const count = 1 + Math.floor(r() * 3);
+  return allErrors.filter(() => r() > 0.4).slice(0, count).map((e, i) => ({
+    id: `HE-${terminalId}-${i}`,
+    terminalId,
+    errorCode: e.code,
+    errorDesc: e.desc,
+    timestamp: `2026-04-12 ${String(8 + Math.floor(r() * 10)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')}:${String(Math.floor(r() * 60)).padStart(2, '0')}`,
+    machineState: e.state,
+    occurrences: 1 + Math.floor(r() * 6),
+  }));
+}
 
 // ── Data Health ──
 export const dataHealthMetrics: DataHealthMetric[] = [
