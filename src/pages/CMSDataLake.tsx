@@ -689,6 +689,23 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
+                {/* ═══ TAB: ACTION CONSOLE ═══ */}
+                {drawerTab === 'actions' && (
+                  <ActionConsole terminalId={atm.terminalId} />
+                )}
+
+                {/* ═══ TAB: ML PREDICTIVE INTELLIGENCE ═══ */}
+                {drawerTab === 'ml' && (
+                  <PredictiveIntelligence
+                    terminalId={atm.terminalId}
+                    frequentJam={atm.frequentJam}
+                    highCashBurn={atm.highCashBurn}
+                    balanceDrift={atm.balanceDrift}
+                    pendingClaimCount={atm.pendingClaimCount}
+                    dataCompleteness={atm.dataCompleteness}
+                  />
+                )}
+
                 {/* ═══ TAB 6: PLANNING ═══ */}
                 {drawerTab === 'planning' && (
                   <div className="space-y-3">
