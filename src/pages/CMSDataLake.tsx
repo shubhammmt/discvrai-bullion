@@ -140,22 +140,28 @@ const CMSDataLake = () => {
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-slate-900 text-white px-2.5 py-1 rounded-md font-bold text-[11px] flex items-center gap-1">
-              <Database className="h-3.5 w-3.5" /> INTELLIGENCE SUITE
+              <Database className="h-3.5 w-3.5" /> UNIFIED EVENT FABRIC
             </div>
             <div>
               <h1 className="text-xs font-bold text-slate-900 leading-tight">Unified ATM Data Lake</h1>
-              <p className="text-[9px] text-slate-500">70,000 ATMs · Machine DNA · Raw Logs · Burn Patterns</p>
+              <p className="text-[9px] text-slate-500">70,000 ATMs · Full Lineage: Vault → Sub-Vault → Custodian → ATM → Recon → Complaint → Audit</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            {/* Data Governance Badge */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-emerald-200 bg-emerald-50">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+              <div>
+                <p className="text-[9px] font-bold text-emerald-700 leading-tight">Audit-Ready</p>
+                <p className="text-[7px] text-emerald-600">Lineage Verified · Governed</p>
+              </div>
+            </div>
             <div className="relative w-60">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <Input placeholder="Search ATM ID, bank, hub..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
                 className="pl-7 h-7 text-[11px] border-slate-200" />
               {search && <button onClick={() => setSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2"><X className="h-3 w-3 text-slate-400" /></button>}
             </div>
-            <Shield className="h-3.5 w-3.5 text-emerald-600" />
-            <span className="text-[9px] text-slate-500">Audit-Ready</span>
           </div>
         </div>
       </header>
