@@ -52,8 +52,8 @@ const CMSDataLake = () => {
   const [selectedATM, setSelectedATM] = useState<string | null>(null);
   const [drawerTab, setDrawerTab] = useState('status');
   const [ejSearch, setEjSearch] = useState('');
-  const [previewDoc, setPreviewDoc] = useState<typeof digitalEvidence[0] | null>(null);
-  const [timelineDetail, setTimelineDetail] = useState<typeof timelineEvents[0] | null>(null);
+  const [previewDoc, setPreviewDoc] = useState<ReturnType<typeof generateDigitalEvidence>[0] | null>(null);
+  const [timelineDetail, setTimelineDetail] = useState<ReturnType<typeof generateTimelineEvents>[0] | null>(null);
 
   const banks = useMemo(() => ['All', ...Array.from(new Set(atmProfiles.map(a => a.bank))).sort()], []);
   const regionsArr = useMemo(() => ['All', ...Array.from(new Set(atmProfiles.map(a => a.region))).sort()], []);
