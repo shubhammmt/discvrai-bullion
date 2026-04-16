@@ -532,7 +532,14 @@ const CMSReconCenter = () => {
                     </TableBody>
                   </Table>
                 </div>
-              </TabsContent>
+
+                {/* ── Txn Validation (Merged) ── */}
+                <div className="mt-4">
+                  <div className="mb-2 text-[10px] text-slate-500 flex items-center gap-1">
+                    <Scale className="h-3.5 w-3.5 text-amber-400" />
+                    Side-by-side Verdict Comparison: Bank Switch vs Machine EJ.
+                    <Badge className="text-[8px] bg-amber-500/20 text-amber-300 ml-1">{fClaims.length} claims</Badge>
+                  </div>
 
               {/* ═══ QUEUE A: VAULT AUDIT ═══ */}
               <TabsContent value="vault" className="mt-0">
