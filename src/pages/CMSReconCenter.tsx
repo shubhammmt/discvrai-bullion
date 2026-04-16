@@ -351,10 +351,13 @@ const CMSReconCenter = () => {
           {!isHistorical ? (
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="h-8 bg-slate-800 border border-slate-700 mb-3">
+                <TabsTrigger value="preemptive" className="text-[10px] h-7 data-[state=active]:bg-orange-600 data-[state=active]:text-white gap-1">
+                  <Bell className="h-3 w-3" /> Preemptive Alerts
+                  <Badge className="text-[8px] bg-orange-500/20 text-orange-300 ml-1">{preemptiveAlerts.length}</Badge>
+                </TabsTrigger>
                 <TabsTrigger value="inbox" className="text-[10px] h-7 data-[state=active]:bg-blue-600 data-[state=active]:text-white gap-1">
                   <Inbox className="h-3 w-3" /> Dispute Inbox
                   <Badge className="text-[8px] bg-blue-500/20 text-blue-300 ml-1">{fDisputes.length}</Badge>
-                  {orphanCount > 0 && <Badge className="text-[8px] bg-red-500/20 text-red-300">{orphanCount} orphan</Badge>}
                 </TabsTrigger>
                 <TabsTrigger value="vault" className="text-[10px] h-7 data-[state=active]:bg-purple-600 data-[state=active]:text-white gap-1">
                   <Shield className="h-3 w-3" /> A: Vault Audit
@@ -367,6 +370,11 @@ const CMSReconCenter = () => {
                 <TabsTrigger value="penalties" className="text-[10px] h-7 data-[state=active]:bg-red-600 data-[state=active]:text-white gap-1">
                   <Clock className="h-3 w-3" /> C: Penalty Watch
                   <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{fPenalties.length}</Badge>
+                </TabsTrigger>
+                <TabsTrigger value="control-window" className="text-[10px] h-7 data-[state=active]:bg-rose-600 data-[state=active]:text-white gap-1">
+                  <Timer className="h-3 w-3" /> D: Control Window
+                  <Badge className="text-[8px] bg-rose-500/20 text-rose-300 ml-1">{controlWindowEntries.filter(c => c.status !== 'Breached').length}</Badge>
+                  {controlWindowEntries.some(c => c.breachRisk) && <Badge className="text-[8px] bg-red-500/20 text-red-300 animate-pulse">!</Badge>}
                 </TabsTrigger>
               </TabsList>
 
