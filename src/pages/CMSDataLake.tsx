@@ -498,6 +498,40 @@ const CMSDataLake = () => {
                   </div>
                 )}
 
+                {/* ═══ TAB: LINEAGE MAP ═══ */}
+                {drawerTab === 'lineage' && (
+                  <div className="space-y-3">
+                    <LineageMap
+                      terminalId={atm.terminalId}
+                      custodianName={atm.custodianName}
+                      vaultPacked={atm.cassettes.some(c => c.vaultPacked)}
+                    />
+                    <div className="rounded-lg border border-slate-200 p-3">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase mb-2">Extended Event Timeline</p>
+                      <div className="space-y-1.5">
+                        {[
+                          { time: '05:45', label: 'Vault Loading', detail: 'Cash packed at CMS Vault — Mumbai Central. Camera-assisted verification completed.', warn: false, icon: <Lock className="h-3 w-3 text-purple-500" /> },
+                          { time: '06:00', label: 'Sub-Vault Movement', detail: 'Cassettes moved to Sub-Vault W-12 for CIT dispatch.', warn: false, icon: <Box className="h-3 w-3 text-blue-500" /> },
+                          { time: '06:30', label: 'CIT Handover', detail: `Custodian ${atm.custodianName} received sealed cassettes. Route: ${atm.routeId}`, warn: false, icon: <User className="h-3 w-3 text-slate-500" /> },
+                          { time: '07:15', label: 'ATM Cash Load', detail: 'CLL uploaded. 4 cassettes swapped. All seals verified.', warn: false, icon: <Banknote className="h-3 w-3 text-emerald-500" /> },
+                          ...(atm.frequentJam ? [{ time: '09:12', label: 'FLM Intervention', detail: 'Auto-recovery triggered. FLM notified for physical check.', warn: true, icon: <Wrench className="h-3 w-3 text-amber-500" /> }] : []),
+                          { time: '18:00', label: 'EOD Reconciliation', detail: 'Physical count completed. Balance drift documented.', warn: false, icon: <ClipboardCheck className="h-3 w-3 text-purple-500" /> },
+                          { time: 'Scheduled', label: 'Audit Action', detail: 'Next audit cycle: Q1-2026 (Apr 18–20). Risk assessment in progress.', warn: false, icon: <ShieldAlert className="h-3 w-3 text-indigo-500" /> },
+                        ].map((ev, i) => (
+                          <div key={i} className={`flex items-start gap-2 p-2 rounded border ${ev.warn ? 'border-amber-200 bg-amber-50' : 'border-slate-100 bg-white'}`}>
+                            <span className="text-[9px] text-slate-400 font-mono w-12 shrink-0 pt-0.5">{ev.time}</span>
+                            {ev.icon}
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[10px] font-bold text-slate-900">{ev.label}</p>
+                              <p className="text-[9px] text-slate-600">{ev.detail}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* ═══ TAB 3: MACHINE LEDGER (with Connectivity/Power) ═══ */}
                 {drawerTab === 'ledger' && (
                   <div>
