@@ -605,8 +605,8 @@ const CMSReconCenter = () => {
                           <div className="flex items-center gap-2">
                             {v.pilferageRiskScore >= 60 && (
                               <Button size="sm" className="h-6 text-[9px] bg-red-600 hover:bg-red-700 text-white gap-1"
-                                onClick={() => handleAction(v.id, 'Escalate to Audit', v.terminalId)}>
-                                <Gavel className="h-3 w-3" /> Escalate to Audit
+                                onClick={() => handleAction(v.id, 'Escalate to Checker', v.terminalId)}>
+                                <Gavel className="h-3 w-3" /> Escalate to Checker
                               </Button>
                             )}
                             <Button size="sm" variant="outline" className="h-6 text-[9px] border-amber-500/50 text-amber-400 hover:bg-amber-500/10 gap-1"
