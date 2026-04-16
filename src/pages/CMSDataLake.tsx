@@ -714,8 +714,8 @@ const CMSDataLake = () => {
                             <p className="ml-2">"score": <span className={preemptScore >= 70 ? 'text-red-400' : 'text-amber-400'}>{preemptScore}</span>,</p>
                             <p className="ml-2">"risk_level": "<span className={preemptScore >= 70 ? 'text-red-400' : preemptScore >= 40 ? 'text-amber-400' : 'text-emerald-400'}>{preemptScore >= 70 ? 'CRITICAL' : preemptScore >= 40 ? 'ELEVATED' : 'LOW'}</span>",</p>
                             <p className="ml-2">"factors": [</p>
-                            {riskFactors.filter(f => f.critical).map((f, i) => (
-                              <p key={i} className="ml-4 text-red-400">"{f.factor}"{i < riskFactors.filter(ff => ff.critical).length - 1 ? ',' : ''}</p>
+                            {riskFactors.filter(f => f.severity === 'critical').map((f, i) => (
+                              <p key={i} className="ml-4 text-red-400">"{f.factor}"{i < riskFactors.filter(ff => ff.severity === 'critical').length - 1 ? ',' : ''}</p>
                             ))}
                             <p className="ml-2">],</p>
                             <p className="ml-2">"computed_at": "<span className="text-slate-400">2026-04-12T18:00:00Z</span>"</p>
