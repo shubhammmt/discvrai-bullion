@@ -348,7 +348,7 @@ const CMSReconCenter = () => {
                   <Badge className="text-[8px] bg-purple-500/20 text-purple-300 ml-1">{fVault.length}</Badge>
                 </TabsTrigger>
                 <TabsTrigger value="penalty" className="text-[10px] h-7 data-[state=active]:bg-red-600 data-[state=active]:text-white gap-1">
-                  <Clock className="h-3 w-3" /> SLA & Penalty Tracking
+                  <Clock className="h-3 w-3" /> Penalty Tracking
                   <Badge className="text-[8px] bg-red-500/20 text-red-300 ml-1">{totalPenaltyCount}</Badge>
                   {breachedWindows > 0 && <Badge className="text-[8px] bg-red-500/20 text-red-300 animate-pulse">!</Badge>}
                 </TabsTrigger>
