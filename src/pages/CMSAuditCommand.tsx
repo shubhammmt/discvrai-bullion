@@ -1399,22 +1399,45 @@ const CMSAuditCommand: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3 mb-2">
-                      <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                        <p className="text-[9px] text-slate-500 uppercase mb-0.5">Current Tenure</p>
-                        <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-white'}`}>{violation.tenure}d</p>
+                    {violation.type === 'Custodian Rotation' ? (
+                      <div className="grid grid-cols-3 gap-3 mb-2">
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Current Tenure</p>
+                          <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-white'}`}>{violation.tenure}d</p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Rotation Limit</p>
+                          <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}d</p>
+                        </div>
+                        <div className={`rounded-lg p-2 border ${violation.tenure > violation.allowed ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Overshoot</p>
+                          <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-emerald-400'}`}>
+                            {violation.tenure > violation.allowed ? `+${violation.tenure - violation.allowed}d` : 'On Track'}
+                          </p>
+                        </div>
                       </div>
-                      <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                        <p className="text-[9px] text-slate-500 uppercase mb-0.5">Allowed Max</p>
-                        <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}d</p>
+                    ) : violation.type === 'Manual Mode Vulnerability' ? (
+                      <div className="grid grid-cols-3 gap-3 mb-2">
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Time in Manual Mode</p>
+                          <p className="text-lg font-bold font-mono text-red-400">{violation.tenure}h</p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">SOP Limit</p>
+                          <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}h</p>
+                        </div>
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Exposure Window</p>
+                          <p className="text-lg font-bold font-mono text-red-400">+{violation.tenure - violation.allowed}h</p>
+                        </div>
                       </div>
-                      <div className={`rounded-lg p-2 border ${violation.tenure > violation.allowed ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
-                        <p className="text-[9px] text-slate-500 uppercase mb-0.5">Overshoot</p>
-                        <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-emerald-400'}`}>
-                          {violation.tenure > violation.allowed ? `+${violation.tenure - violation.allowed}d` : 'On Track'}
-                        </p>
+                    ) : (
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 uppercase tracking-wider flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" /> SOP Breach Active
+                        </span>
                       </div>
-                    </div>
+                    )}
 
                     <p className="text-[10px] text-slate-400 mb-2">{violation.detail}</p>
 
