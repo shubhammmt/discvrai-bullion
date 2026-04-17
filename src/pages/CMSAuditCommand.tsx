@@ -1317,24 +1317,24 @@ const CMSAuditCommand: React.FC = () => {
               {/* SOP Category Tiles */}
               <div className="grid grid-cols-4 gap-3 mb-5">
                 {[
-                  { key: 'Custodian Rotation', label: 'Custodian Route Rotation', rule: '> 60 days = Red Alert', icon: <UserCog className="w-4 h-4" />, color: 'rose' },
-                  { key: 'HOTO Failure', label: 'HOTO Failures', rule: 'Liability Vacuum — Paper handovers', icon: <Users className="w-4 h-4" />, color: 'amber' },
-                  { key: 'Dual-Custody Breach', label: 'Dual-Custody Breach', rule: 'Single user · both locks · proximity', icon: <Lock className="w-4 h-4" />, color: 'red' },
-                  { key: 'Manual Mode Vulnerability', label: 'Manual Mode Vulnerability', rule: 'Non-OTC > 2 hours', icon: <Wrench className="w-4 h-4" />, color: 'indigo' },
+                  { key: 'Custodian Rotation', label: 'Custodian Route Rotation', rule: '> 60 days = Red Alert', icon: <UserCog className="w-4 h-4" />, tile: 'bg-rose-500/5 border-rose-500/20', text: 'text-rose-400' },
+                  { key: 'HOTO Failure', label: 'HOTO Failures', rule: 'Liability Vacuum — Paper handovers', icon: <Users className="w-4 h-4" />, tile: 'bg-amber-500/5 border-amber-500/20', text: 'text-amber-400' },
+                  { key: 'Dual-Custody Breach', label: 'Dual-Custody Breach', rule: 'Single user · both locks · proximity', icon: <Lock className="w-4 h-4" />, tile: 'bg-red-500/5 border-red-500/20', text: 'text-red-400' },
+                  { key: 'Manual Mode Vulnerability', label: 'Manual Mode Vulnerability', rule: 'Non-OTC > 2 hours', icon: <Wrench className="w-4 h-4" />, tile: 'bg-indigo-500/5 border-indigo-500/20', text: 'text-indigo-400' },
                 ].map(cat => {
                   const items = complianceViolations.filter(v => v.type === cat.key);
                   const critical = items.filter(v => v.severity === 'critical').length;
                   return (
-                    <div key={cat.key} className={`rounded-xl p-3 border bg-${cat.color}-500/5 border-${cat.color}-500/20`}>
+                    <div key={cat.key} className={`rounded-xl p-3 border ${cat.tile}`}>
                       <div className="flex items-center justify-between mb-2">
-                        <span className={`text-${cat.color}-400`}>{cat.icon}</span>
+                        <span className={cat.text}>{cat.icon}</span>
                         {critical > 0 && (
                           <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-red-600 text-white font-bold animate-pulse">{critical} CRIT</span>
                         )}
                       </div>
                       <p className="text-xs font-bold text-white">{cat.label}</p>
                       <p className="text-[9px] text-slate-500 mt-0.5">{cat.rule}</p>
-                      <p className={`text-lg font-bold text-${cat.color}-400 mt-1`}>{items.length}<span className="text-[10px] text-slate-500 ml-1 font-normal">active</span></p>
+                      <p className={`text-lg font-bold ${cat.text} mt-1`}>{items.length}<span className="text-[10px] text-slate-500 ml-1 font-normal">active</span></p>
                     </div>
                   );
                 })}
