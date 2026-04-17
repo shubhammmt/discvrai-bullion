@@ -123,12 +123,19 @@ const codifiedLearnings = [
 
 // ── Compliance Monitor Data ──
 const complianceViolations = [
-  { id: 'CV-001', type: 'Custodian Rotation', custodian: 'Manoj Kumar (CUS-1042)', route: 'DEL-S-03', tenure: 245, allowed: 180, severity: 'critical', status: 'Escalated', escalatedTo: 'Regional Ops Manager', detail: 'Custodian has been on this high-risk route 65 days beyond rotation window. Route has 3 shortage incidents in this period.' },
-  { id: 'CV-002', type: 'Custodian Rotation', custodian: 'Suresh Patil (CUS-2018)', route: 'MUM-W-07', tenure: 198, allowed: 180, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: 'Exceeded 180-day limit by 18 days. No incidents reported but compliance breach flagged.' },
-  { id: 'CV-003', type: 'Route Tenure', custodian: 'Ravi Shankar (CUS-3005)', route: 'BLR-E-02', tenure: 312, allowed: 180, severity: 'critical', status: 'Breach Confirmed', escalatedTo: 'Zonal Head + Audit Committee', detail: 'Longest active tenure violation. Route has highest theft risk score (92). 4 manipulation flags in last 90 days.' },
-  { id: 'CV-004', type: 'Custodian Rotation', custodian: 'Anil Mehta (CUS-1089)', route: 'JAI-C-01', tenure: 165, allowed: 180, severity: 'medium', status: 'Pre-Alert', escalatedTo: '', detail: '15 days until rotation deadline. Auto-rotation recommendation sent to ops.' },
-  { id: 'CV-005', type: 'Route Continuity', custodian: 'Deepak Joshi (CUS-4022)', route: 'HYD-N-04', tenure: 220, allowed: 180, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: '40 days over limit. Route serves transit corridor with high footfall. 2 overage delays reported.' },
-  { id: 'CV-006', type: 'SOP Violation', custodian: 'Vinay Gupta (CUS-2044)', route: 'PUN-E-01', tenure: 90, allowed: 180, severity: 'high', status: 'Under Investigation', escalatedTo: 'Internal Audit', detail: 'Custodian skipped 3 mandatory photo captures in last 7 days. SOP breach flagged for non-compliance.' },
+  // — Custodian Route Rotation (>60d)
+  { id: 'CV-001', type: 'Custodian Rotation', custodian: 'Manoj Kumar (CUS-1042)', route: 'DEL-S-03', tenure: 245, allowed: 60, severity: 'critical', status: 'Escalated', escalatedTo: 'Regional Ops Manager', detail: 'Custodian on same route 185 days beyond 60-day rotation rule. Route has 3 shortage incidents.' },
+  { id: 'CV-002', type: 'Custodian Rotation', custodian: 'Suresh Patil (CUS-2018)', route: 'MUM-W-07', tenure: 198, allowed: 60, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: 'Exceeded 60-day rotation by 138 days. No incidents yet — rotation window breached.' },
+  { id: 'CV-003', type: 'Custodian Rotation', custodian: 'Ravi Shankar (CUS-3005)', route: 'BLR-E-02', tenure: 312, allowed: 60, severity: 'critical', status: 'Breach Confirmed', escalatedTo: 'Zonal Head + Audit Committee', detail: 'Longest active tenure violation. 4 manipulation flags in last 90 days.' },
+  // — HOTO Failures (Liability Vacuum)
+  { id: 'CV-101', type: 'HOTO Failure', custodian: 'Outgoing: Anil Mehta → Incoming: Vinod Rao', route: 'JAI-C-01', tenure: 0, allowed: 0, severity: 'critical', status: 'Liability Vacuum', escalatedTo: 'Vault Ops Head', detail: 'Handover signed on PAPER instead of digital attestation. ₹4.2L cassette transfer unverified for 18 hours.' },
+  { id: 'CV-102', type: 'HOTO Failure', custodian: 'Outgoing: Deepak Joshi → Incoming: Karan Singh', route: 'HYD-N-04', tenure: 0, allowed: 0, severity: 'high', status: 'Pending Digital Sign', escalatedTo: '', detail: 'Incoming custodian acknowledged via SMS only. No biometric confirmation captured.' },
+  // — Dual-Custody Breach
+  { id: 'CV-201', type: 'Dual-Custody Breach', custodian: 'Vinay Gupta (CUS-2044)', route: 'PUN-E-01', tenure: 0, allowed: 0, severity: 'critical', status: 'SOP Violated', escalatedTo: 'Internal Audit', detail: 'Single custodian requested codes for BOTH locks at VLT-PUN-01. Proximity rule bypassed via remote auth.' },
+  { id: 'CV-202', type: 'Dual-Custody Breach', custodian: 'Rohit Kapoor (CUS-3012)', route: 'BLR-W-02', tenure: 0, allowed: 0, severity: 'high', status: 'Under Investigation', escalatedTo: 'Compliance Cell', detail: 'Second custodian was 2.4 km away when door codes were issued. Proximity threshold: 50m.' },
+  // — Manual Mode Vulnerability (>2hr)
+  { id: 'CV-301', type: 'Manual Mode Vulnerability', custodian: 'ATM-MUM-0001 · Engineer: Prakash Iyer', route: 'MUM-W-01', tenure: 4, allowed: 2, severity: 'critical', status: 'Active Breach', escalatedTo: 'FLM Supervisor', detail: 'ATM has been in Non-OTC manual mode for 4 hours. Window of fraud exposure exceeded SOP limit by 2 hours.' },
+  { id: 'CV-302', type: 'Manual Mode Vulnerability', custodian: 'ATM-DEL-0102 · Engineer: Sandeep Yadav', route: 'DEL-S-03', tenure: 3, allowed: 2, severity: 'high', status: 'Active Breach', escalatedTo: '', detail: 'Manual mode for 3 hours — 1 hour past safe threshold. No supervisor sign-off attached.' },
 ];
 
 // ── Risk Score Breakdown Data ──
