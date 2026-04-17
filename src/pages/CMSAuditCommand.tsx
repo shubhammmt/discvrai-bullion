@@ -538,7 +538,8 @@ const CMSAuditCommand: React.FC = () => {
                       <th className="text-left px-4 py-2.5 font-medium">Location</th>
                       <th className="text-left px-4 py-2.5 font-medium">Site Persona</th>
                       <th className="text-center px-4 py-2.5 font-medium">Priority</th>
-                      <th className="text-center px-4 py-2.5 font-medium">Risk Score</th>
+                      <th className="text-center px-4 py-2.5 font-medium" title="Live score from Data Lake — click row for the 'Why'">Preemption Score</th>
+                      <th className="text-center px-4 py-2.5 font-medium" title="Adaptive cycle — auto-shortened on leakage trends">Adaptive Cycle</th>
                       <th className="text-center px-4 py-2.5 font-medium">Balance Drift</th>
                       <th className="text-right px-4 py-2.5 font-medium">Total Shortage</th>
                       <th className="text-center px-4 py-2.5 font-medium">Days Since</th>
@@ -561,6 +562,25 @@ const CMSAuditCommand: React.FC = () => {
                           </td>
                           <td className="px-4 py-2.5 text-center">
                             <span className={`font-bold ${t.riskScore >= 80 ? 'text-red-400' : t.riskScore >= 50 ? 'text-amber-400' : 'text-emerald-400'}`}>{t.riskScore}</span>
+                            <span className="text-[9px] text-slate-600 ml-1">/100</span>
+                          </td>
+                          <td className="px-4 py-2.5 text-center">
+                            {(() => {
+                              const preempted = t.riskScore >= 80 && t.auditCycleTarget > 7;
+                              const effectiveCycle = preempted ? 7 : t.auditCycleTarget;
+                              return (
+                                <div className="flex flex-col items-center gap-0.5">
+                                  <span className={`text-xs font-mono font-bold ${preempted ? 'text-red-400' : 'text-slate-300'}`}>{effectiveCycle}d</span>
+                                  {preempted ? (
+                                    <span className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-red-500/20 text-red-400 uppercase tracking-wider flex items-center gap-0.5">
+                                      <Zap className="w-2 h-2" /> Preempted
+                                    </span>
+                                  ) : (
+                                    <span className="text-[9px] text-slate-600">{t.auditCycleTarget}d cycle</span>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </td>
                           <td className="px-4 py-2.5 text-center">
                             {t.balanceDriftCount > 0 ? <span className="text-red-400 font-medium">{t.balanceDriftCount}x</span> : <span className="text-slate-600">—</span>}
@@ -582,7 +602,7 @@ const CMSAuditCommand: React.FC = () => {
                         {/* ── Expanded: Risk Score Breakdown + Historical Context ── */}
                         {expandedRiskTarget === t.name && (
                           <tr>
-                            <td colSpan={9} className="px-4 py-3 bg-slate-800/40 border-t border-slate-700/30">
+                            <td colSpan={10} className="px-4 py-3 bg-slate-800/40 border-t border-slate-700/30">
                               <div className="grid grid-cols-2 gap-4">
                                 {/* Risk Score Breakdown */}
                                 <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
