@@ -1294,13 +1294,14 @@ const CMSAuditCommand: React.FC = () => {
             </div>
           )}
 
-          {/* ═══ COMPLIANCE MONITOR (SOP Enforcement) ═══ */}
+          {/* ═══ CONTROL ENFORCEMENT WORKSPACE (SOP Rules) ═══ */}
           {mainView === 'compliance' && (
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-bold flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-rose-400" />
-                  Compliance Monitor — Digital SOP Enforcement
+                  Control Enforcement Workspace
+                  <span className="text-[10px] text-slate-500 font-normal ml-2">Rule-Based SOP Monitoring · Non-Negotiables</span>
                 </h2>
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1 text-red-400 font-medium">
@@ -1313,8 +1314,34 @@ const CMSAuditCommand: React.FC = () => {
                 </div>
               </div>
 
+              {/* SOP Category Tiles */}
+              <div className="grid grid-cols-4 gap-3 mb-5">
+                {[
+                  { key: 'Custodian Rotation', label: 'Custodian Route Rotation', rule: '> 60 days = Red Alert', icon: <UserCog className="w-4 h-4" />, color: 'rose' },
+                  { key: 'HOTO Failure', label: 'HOTO Failures', rule: 'Liability Vacuum — Paper handovers', icon: <Users className="w-4 h-4" />, color: 'amber' },
+                  { key: 'Dual-Custody Breach', label: 'Dual-Custody Breach', rule: 'Single user · both locks · proximity', icon: <Lock className="w-4 h-4" />, color: 'red' },
+                  { key: 'Manual Mode Vulnerability', label: 'Manual Mode Vulnerability', rule: 'Non-OTC > 2 hours', icon: <Wrench className="w-4 h-4" />, color: 'indigo' },
+                ].map(cat => {
+                  const items = complianceViolations.filter(v => v.type === cat.key);
+                  const critical = items.filter(v => v.severity === 'critical').length;
+                  return (
+                    <div key={cat.key} className={`rounded-xl p-3 border bg-${cat.color}-500/5 border-${cat.color}-500/20`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-${cat.color}-400`}>{cat.icon}</span>
+                        {critical > 0 && (
+                          <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-red-600 text-white font-bold animate-pulse">{critical} CRIT</span>
+                        )}
+                      </div>
+                      <p className="text-xs font-bold text-white">{cat.label}</p>
+                      <p className="text-[9px] text-slate-500 mt-0.5">{cat.rule}</p>
+                      <p className={`text-lg font-bold text-${cat.color}-400 mt-1`}>{items.length}<span className="text-[10px] text-slate-500 ml-1 font-normal">active</span></p>
+                    </div>
+                  );
+                })}
+              </div>
+
               <p className="text-xs text-slate-500 mb-4">
-                Near-real-time SOP violation tracking: Custodian Rotation, Route Tenure, and Procedural Compliance.
+                Real-time SOP violation tracking across the four non-negotiable controls. Each finding can be enforced or escalated under 60 seconds.
               </p>
 
               {/* Critical Breach Banner */}
