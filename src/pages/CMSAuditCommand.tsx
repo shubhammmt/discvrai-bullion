@@ -1368,10 +1368,15 @@ const CMSAuditCommand: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <span className={`p-1.5 rounded-lg ${
                           violation.type === 'Custodian Rotation' ? 'bg-rose-500/15 text-rose-400' :
-                          violation.type === 'Route Tenure' ? 'bg-amber-500/15 text-amber-400' :
-                          'bg-red-500/15 text-red-400'
+                          violation.type === 'HOTO Failure' ? 'bg-amber-500/15 text-amber-400' :
+                          violation.type === 'Dual-Custody Breach' ? 'bg-red-500/15 text-red-400' :
+                          violation.type === 'Manual Mode Vulnerability' ? 'bg-indigo-500/15 text-indigo-400' :
+                          'bg-slate-700/40 text-slate-400'
                         }`}>
-                          {violation.type === 'SOP Violation' ? <Camera className="w-4 h-4" /> : <UserCog className="w-4 h-4" />}
+                          {violation.type === 'HOTO Failure' ? <Users className="w-4 h-4" /> :
+                           violation.type === 'Dual-Custody Breach' ? <Lock className="w-4 h-4" /> :
+                           violation.type === 'Manual Mode Vulnerability' ? <Wrench className="w-4 h-4" /> :
+                           <UserCog className="w-4 h-4" />}
                         </span>
                         <div>
                           <p className="text-sm font-medium text-white">{violation.custodian}</p>
