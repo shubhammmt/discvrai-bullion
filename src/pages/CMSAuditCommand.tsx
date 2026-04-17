@@ -123,12 +123,19 @@ const codifiedLearnings = [
 
 // ── Compliance Monitor Data ──
 const complianceViolations = [
-  { id: 'CV-001', type: 'Custodian Rotation', custodian: 'Manoj Kumar (CUS-1042)', route: 'DEL-S-03', tenure: 245, allowed: 180, severity: 'critical', status: 'Escalated', escalatedTo: 'Regional Ops Manager', detail: 'Custodian has been on this high-risk route 65 days beyond rotation window. Route has 3 shortage incidents in this period.' },
-  { id: 'CV-002', type: 'Custodian Rotation', custodian: 'Suresh Patil (CUS-2018)', route: 'MUM-W-07', tenure: 198, allowed: 180, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: 'Exceeded 180-day limit by 18 days. No incidents reported but compliance breach flagged.' },
-  { id: 'CV-003', type: 'Route Tenure', custodian: 'Ravi Shankar (CUS-3005)', route: 'BLR-E-02', tenure: 312, allowed: 180, severity: 'critical', status: 'Breach Confirmed', escalatedTo: 'Zonal Head + Audit Committee', detail: 'Longest active tenure violation. Route has highest theft risk score (92). 4 manipulation flags in last 90 days.' },
-  { id: 'CV-004', type: 'Custodian Rotation', custodian: 'Anil Mehta (CUS-1089)', route: 'JAI-C-01', tenure: 165, allowed: 180, severity: 'medium', status: 'Pre-Alert', escalatedTo: '', detail: '15 days until rotation deadline. Auto-rotation recommendation sent to ops.' },
-  { id: 'CV-005', type: 'Route Continuity', custodian: 'Deepak Joshi (CUS-4022)', route: 'HYD-N-04', tenure: 220, allowed: 180, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: '40 days over limit. Route serves transit corridor with high footfall. 2 overage delays reported.' },
-  { id: 'CV-006', type: 'SOP Violation', custodian: 'Vinay Gupta (CUS-2044)', route: 'PUN-E-01', tenure: 90, allowed: 180, severity: 'high', status: 'Under Investigation', escalatedTo: 'Internal Audit', detail: 'Custodian skipped 3 mandatory photo captures in last 7 days. SOP breach flagged for non-compliance.' },
+  // — Custodian Route Rotation (>60d)
+  { id: 'CV-001', type: 'Custodian Rotation', custodian: 'Manoj Kumar (CUS-1042)', route: 'DEL-S-03', tenure: 245, allowed: 60, severity: 'critical', status: 'Escalated', escalatedTo: 'Regional Ops Manager', detail: 'Custodian on same route 185 days beyond 60-day rotation rule. Route has 3 shortage incidents.' },
+  { id: 'CV-002', type: 'Custodian Rotation', custodian: 'Suresh Patil (CUS-2018)', route: 'MUM-W-07', tenure: 198, allowed: 60, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: 'Exceeded 60-day rotation by 138 days. No incidents yet — rotation window breached.' },
+  { id: 'CV-003', type: 'Custodian Rotation', custodian: 'Ravi Shankar (CUS-3005)', route: 'BLR-E-02', tenure: 312, allowed: 60, severity: 'critical', status: 'Breach Confirmed', escalatedTo: 'Zonal Head + Audit Committee', detail: 'Longest active tenure violation. 4 manipulation flags in last 90 days.' },
+  // — HOTO Failures (Liability Vacuum)
+  { id: 'CV-101', type: 'HOTO Failure', custodian: 'Outgoing: Anil Mehta → Incoming: Vinod Rao', route: 'JAI-C-01', tenure: 0, allowed: 0, severity: 'critical', status: 'Liability Vacuum', escalatedTo: 'Vault Ops Head', detail: 'Handover signed on PAPER instead of digital attestation. ₹4.2L cassette transfer unverified for 18 hours.' },
+  { id: 'CV-102', type: 'HOTO Failure', custodian: 'Outgoing: Deepak Joshi → Incoming: Karan Singh', route: 'HYD-N-04', tenure: 0, allowed: 0, severity: 'high', status: 'Pending Digital Sign', escalatedTo: '', detail: 'Incoming custodian acknowledged via SMS only. No biometric confirmation captured.' },
+  // — Dual-Custody Breach
+  { id: 'CV-201', type: 'Dual-Custody Breach', custodian: 'Vinay Gupta (CUS-2044)', route: 'PUN-E-01', tenure: 0, allowed: 0, severity: 'critical', status: 'SOP Violated', escalatedTo: 'Internal Audit', detail: 'Single custodian requested codes for BOTH locks at VLT-PUN-01. Proximity rule bypassed via remote auth.' },
+  { id: 'CV-202', type: 'Dual-Custody Breach', custodian: 'Rohit Kapoor (CUS-3012)', route: 'BLR-W-02', tenure: 0, allowed: 0, severity: 'high', status: 'Under Investigation', escalatedTo: 'Compliance Cell', detail: 'Second custodian was 2.4 km away when door codes were issued. Proximity threshold: 50m.' },
+  // — Manual Mode Vulnerability (>2hr)
+  { id: 'CV-301', type: 'Manual Mode Vulnerability', custodian: 'ATM-MUM-0001 · Engineer: Prakash Iyer', route: 'MUM-W-01', tenure: 4, allowed: 2, severity: 'critical', status: 'Active Breach', escalatedTo: 'FLM Supervisor', detail: 'ATM has been in Non-OTC manual mode for 4 hours. Window of fraud exposure exceeded SOP limit by 2 hours.' },
+  { id: 'CV-302', type: 'Manual Mode Vulnerability', custodian: 'ATM-DEL-0102 · Engineer: Sandeep Yadav', route: 'DEL-S-03', tenure: 3, allowed: 2, severity: 'high', status: 'Active Breach', escalatedTo: '', detail: 'Manual mode for 3 hours — 1 hour past safe threshold. No supervisor sign-off attached.' },
 ];
 
 // ── Risk Score Breakdown Data ──
@@ -401,8 +408,8 @@ const CMSAuditCommand: React.FC = () => {
           </div>
 
           {/* KPI Cards */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50">
+          <div className="grid grid-cols-4 gap-4">
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50" title="Targeting accuracy: % of audits that successfully identify a discrepancy">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Audit Hit Rate</span>
                 <Target className="w-4 h-4 text-amber-400" />
@@ -418,7 +425,7 @@ const CMSAuditCommand: React.FC = () => {
                 {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.hitRate} color="#f59e0b" />}
               </div>
             </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-red-500/20">
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-red-500/20" title="Total physical cash leakage caught by auditors this month">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Shortage Discovered</span>
                 <AlertTriangle className="w-4 h-4 text-red-400" />
@@ -434,7 +441,7 @@ const CMSAuditCommand: React.FC = () => {
                 {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.shortage} color="#ef4444" />}
               </div>
             </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50">
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50" title="% of Red (High-Risk) ATMs audited within their 30-day window">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Risk Coverage</span>
                 <Shield className="w-4 h-4 text-blue-400" />
@@ -448,6 +455,27 @@ const CMSAuditCommand: React.FC = () => {
                   </div>
                 </div>
                 {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.coverage} color="#3b82f6" />}
+              </div>
+            </div>
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-emerald-500/20" title="Average score for field rigor: Geo-tagging + OTC Status + Auditually Video quality">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-slate-400 uppercase tracking-wider">Auditor Compliance</span>
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-2xl font-bold text-white">{auditPulse.auditorComplianceScore}%</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <ArrowUpRight className="w-3 h-3 text-emerald-400" />
+                    <span className="text-xs text-emerald-400">{auditPulse.complianceTrend}% vs prev</span>
+                  </div>
+                </div>
+                {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.compliance} color="#10b981" />}
+              </div>
+              <div className="mt-2 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[9px] text-slate-500">
+                <span className="flex items-center gap-0.5"><MapPin className="w-2.5 h-2.5 text-emerald-400" />Geo 92%</span>
+                <span className="flex items-center gap-0.5"><Lock className="w-2.5 h-2.5 text-emerald-400" />OTC 88%</span>
+                <span className="flex items-center gap-0.5"><Camera className="w-2.5 h-2.5 text-amber-400" />Video 82%</span>
               </div>
             </div>
           </div>
@@ -517,7 +545,8 @@ const CMSAuditCommand: React.FC = () => {
                       <th className="text-left px-4 py-2.5 font-medium">Location</th>
                       <th className="text-left px-4 py-2.5 font-medium">Site Persona</th>
                       <th className="text-center px-4 py-2.5 font-medium">Priority</th>
-                      <th className="text-center px-4 py-2.5 font-medium">Risk Score</th>
+                      <th className="text-center px-4 py-2.5 font-medium" title="Live score from Data Lake — click row for the 'Why'">Preemption Score</th>
+                      <th className="text-center px-4 py-2.5 font-medium" title="Adaptive cycle — auto-shortened on leakage trends">Adaptive Cycle</th>
                       <th className="text-center px-4 py-2.5 font-medium">Balance Drift</th>
                       <th className="text-right px-4 py-2.5 font-medium">Total Shortage</th>
                       <th className="text-center px-4 py-2.5 font-medium">Days Since</th>
@@ -540,6 +569,25 @@ const CMSAuditCommand: React.FC = () => {
                           </td>
                           <td className="px-4 py-2.5 text-center">
                             <span className={`font-bold ${t.riskScore >= 80 ? 'text-red-400' : t.riskScore >= 50 ? 'text-amber-400' : 'text-emerald-400'}`}>{t.riskScore}</span>
+                            <span className="text-[9px] text-slate-600 ml-1">/100</span>
+                          </td>
+                          <td className="px-4 py-2.5 text-center">
+                            {(() => {
+                              const preempted = t.riskScore >= 80 && t.auditCycleTarget > 7;
+                              const effectiveCycle = preempted ? 7 : t.auditCycleTarget;
+                              return (
+                                <div className="flex flex-col items-center gap-0.5">
+                                  <span className={`text-xs font-mono font-bold ${preempted ? 'text-red-400' : 'text-slate-300'}`}>{effectiveCycle}d</span>
+                                  {preempted ? (
+                                    <span className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-red-500/20 text-red-400 uppercase tracking-wider flex items-center gap-0.5">
+                                      <Zap className="w-2 h-2" /> Preempted
+                                    </span>
+                                  ) : (
+                                    <span className="text-[9px] text-slate-600">{t.auditCycleTarget}d cycle</span>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </td>
                           <td className="px-4 py-2.5 text-center">
                             {t.balanceDriftCount > 0 ? <span className="text-red-400 font-medium">{t.balanceDriftCount}x</span> : <span className="text-slate-600">—</span>}
@@ -561,7 +609,7 @@ const CMSAuditCommand: React.FC = () => {
                         {/* ── Expanded: Risk Score Breakdown + Historical Context ── */}
                         {expandedRiskTarget === t.name && (
                           <tr>
-                            <td colSpan={9} className="px-4 py-3 bg-slate-800/40 border-t border-slate-700/30">
+                            <td colSpan={10} className="px-4 py-3 bg-slate-800/40 border-t border-slate-700/30">
                               <div className="grid grid-cols-2 gap-4">
                                 {/* Risk Score Breakdown */}
                                 <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
@@ -689,6 +737,51 @@ const CMSAuditCommand: React.FC = () => {
                         <Camera className="w-4 h-4 text-amber-400" />
                         Audit Detail — {selectedAudit.atmId}
                       </h3>
+                      {/* 3-Way Match Summary */}
+                      <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                        <p className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <BarChart3 className="w-3 h-3" /> The 3-Way Match
+                        </p>
+                        <div className="grid grid-cols-3 gap-2 text-center">
+                          <div className="bg-slate-800/60 rounded p-2">
+                            <p className="text-[9px] text-slate-500 uppercase">Switch Counter</p>
+                            <p className="text-xs font-mono text-white">{selectedAudit.switchCounter.toLocaleString()}</p>
+                          </div>
+                          <div className="bg-slate-800/60 rounded p-2">
+                            <p className="text-[9px] text-slate-500 uppercase">Machine Counter</p>
+                            <p className="text-xs font-mono text-white">{selectedAudit.machineCounter.toLocaleString()}</p>
+                          </div>
+                          <div className={`rounded p-2 ${selectedAudit.diffAmount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'}`}>
+                            <p className="text-[9px] text-slate-500 uppercase">Physical (Field)</p>
+                            <p className="text-xs font-mono text-white">{selectedAudit.physicalCount.toLocaleString()}</p>
+                          </div>
+                        </div>
+                        {selectedAudit.diffAmount > 0 && (
+                          <p className="text-[10px] text-red-400 mt-2 text-center">
+                            Δ Physical short by ₹{selectedAudit.diffAmount.toLocaleString()} vs Switch
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Auditually Video Player */}
+                      <div className="mb-4 rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
+                        <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <Eye className="w-3 h-3" /> "Auditually" Video Evidence
+                        </p>
+                        <div className="aspect-video bg-slate-950 rounded-md border border-slate-800 flex items-center justify-center relative overflow-hidden group cursor-pointer">
+                          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent" />
+                          <div className="relative z-10 flex flex-col items-center">
+                            <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center group-hover:bg-indigo-500/30 transition-colors">
+                              <span className="text-indigo-300 text-sm ml-0.5">▶</span>
+                            </div>
+                            <p className="text-[9px] text-slate-400 mt-1.5">Tap to play · 02:14 · 1080p</p>
+                          </div>
+                          <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[8px] font-bold bg-red-600 text-white">● REC</span>
+                          <span className="absolute bottom-1.5 right-1.5 text-[8px] text-slate-500 font-mono">{new Date(selectedAudit.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <p className="text-[9px] text-slate-500 mt-1.5">Physical count of cassette + jam inspection captured by auditor's mobile.</p>
+                      </div>
+
                       <div className="mb-4">
                         <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Photo Evidence Gallery</p>
                         <div className="grid grid-cols-3 gap-2">
@@ -703,6 +796,42 @@ const CMSAuditCommand: React.FC = () => {
                               </p>
                             </div>
                           ))}
+                        </div>
+                      </div>
+
+                      {/* Recommendation vs Standard Plan History */}
+                      <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                        <p className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <History className="w-3 h-3" /> Recommendation vs Site History
+                        </p>
+                        <div className="space-y-2">
+                          <div className="bg-slate-800/60 rounded p-2 border-l-2 border-amber-400">
+                            <p className="text-[9px] text-slate-500 uppercase mb-0.5">Auditor's Recommendation</p>
+                            <p className="text-xs text-white">
+                              {selectedAudit.diffAmount > 10000 ? 'Replace dispense shutter — repeat note jam pattern detected' :
+                               selectedAudit.diffAmount > 0 ? 'Re-seal cassette + verify counter sync at next replenishment' :
+                               'Site clean — standard 60-day cycle resume'}
+                            </p>
+                          </div>
+                          <div className="bg-slate-800/60 rounded p-2 border-l-2 border-slate-600">
+                            <p className="text-[9px] text-slate-500 uppercase mb-0.5">Standard Plan Audit History (last 90 days)</p>
+                            <div className="space-y-0.5 text-[10px]">
+                              {selectedAudit.diffAmount > 10000 ? (
+                                <>
+                                  <p className="text-red-400">▸ 12-Mar-26 — Shutter jam reported · NOT actioned</p>
+                                  <p className="text-red-400">▸ 28-Feb-26 — Shutter jam reported · NOT actioned</p>
+                                  <p className="text-amber-400 font-bold mt-1">⚠ Repeat failure — 3rd occurrence in 60 days</p>
+                                </>
+                              ) : selectedAudit.diffAmount > 0 ? (
+                                <>
+                                  <p className="text-slate-400">▸ 02-Apr-26 — Cassette seal verified clean</p>
+                                  <p className="text-slate-400">▸ 18-Mar-26 — Routine — no findings</p>
+                                </>
+                              ) : (
+                                <p className="text-emerald-400">▸ No prior findings — site stable</p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="space-y-3">
@@ -1165,13 +1294,14 @@ const CMSAuditCommand: React.FC = () => {
             </div>
           )}
 
-          {/* ═══ COMPLIANCE MONITOR (SOP Enforcement) ═══ */}
+          {/* ═══ CONTROL ENFORCEMENT WORKSPACE (SOP Rules) ═══ */}
           {mainView === 'compliance' && (
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-bold flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-rose-400" />
-                  Compliance Monitor — Digital SOP Enforcement
+                  Control Enforcement Workspace
+                  <span className="text-[10px] text-slate-500 font-normal ml-2">Rule-Based SOP Monitoring · Non-Negotiables</span>
                 </h2>
                 <div className="flex items-center gap-3 text-[10px]">
                   <span className="flex items-center gap-1 text-red-400 font-medium">
@@ -1184,8 +1314,34 @@ const CMSAuditCommand: React.FC = () => {
                 </div>
               </div>
 
+              {/* SOP Category Tiles */}
+              <div className="grid grid-cols-4 gap-3 mb-5">
+                {[
+                  { key: 'Custodian Rotation', label: 'Custodian Route Rotation', rule: '> 60 days = Red Alert', icon: <UserCog className="w-4 h-4" />, tile: 'bg-rose-500/5 border-rose-500/20', text: 'text-rose-400' },
+                  { key: 'HOTO Failure', label: 'HOTO Failures', rule: 'Liability Vacuum — Paper handovers', icon: <Users className="w-4 h-4" />, tile: 'bg-amber-500/5 border-amber-500/20', text: 'text-amber-400' },
+                  { key: 'Dual-Custody Breach', label: 'Dual-Custody Breach', rule: 'Single user · both locks · proximity', icon: <Lock className="w-4 h-4" />, tile: 'bg-red-500/5 border-red-500/20', text: 'text-red-400' },
+                  { key: 'Manual Mode Vulnerability', label: 'Manual Mode Vulnerability', rule: 'Non-OTC > 2 hours', icon: <Wrench className="w-4 h-4" />, tile: 'bg-indigo-500/5 border-indigo-500/20', text: 'text-indigo-400' },
+                ].map(cat => {
+                  const items = complianceViolations.filter(v => v.type === cat.key);
+                  const critical = items.filter(v => v.severity === 'critical').length;
+                  return (
+                    <div key={cat.key} className={`rounded-xl p-3 border ${cat.tile}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={cat.text}>{cat.icon}</span>
+                        {critical > 0 && (
+                          <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-red-600 text-white font-bold animate-pulse">{critical} CRIT</span>
+                        )}
+                      </div>
+                      <p className="text-xs font-bold text-white">{cat.label}</p>
+                      <p className="text-[9px] text-slate-500 mt-0.5">{cat.rule}</p>
+                      <p className={`text-lg font-bold ${cat.text} mt-1`}>{items.length}<span className="text-[10px] text-slate-500 ml-1 font-normal">active</span></p>
+                    </div>
+                  );
+                })}
+              </div>
+
               <p className="text-xs text-slate-500 mb-4">
-                Near-real-time SOP violation tracking: Custodian Rotation, Route Tenure, and Procedural Compliance.
+                Real-time SOP violation tracking across the four non-negotiable controls. Each finding can be enforced or escalated under 60 seconds.
               </p>
 
               {/* Critical Breach Banner */}
@@ -1212,10 +1368,15 @@ const CMSAuditCommand: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <span className={`p-1.5 rounded-lg ${
                           violation.type === 'Custodian Rotation' ? 'bg-rose-500/15 text-rose-400' :
-                          violation.type === 'Route Tenure' ? 'bg-amber-500/15 text-amber-400' :
-                          'bg-red-500/15 text-red-400'
+                          violation.type === 'HOTO Failure' ? 'bg-amber-500/15 text-amber-400' :
+                          violation.type === 'Dual-Custody Breach' ? 'bg-red-500/15 text-red-400' :
+                          violation.type === 'Manual Mode Vulnerability' ? 'bg-indigo-500/15 text-indigo-400' :
+                          'bg-slate-700/40 text-slate-400'
                         }`}>
-                          {violation.type === 'SOP Violation' ? <Camera className="w-4 h-4" /> : <UserCog className="w-4 h-4" />}
+                          {violation.type === 'HOTO Failure' ? <Users className="w-4 h-4" /> :
+                           violation.type === 'Dual-Custody Breach' ? <Lock className="w-4 h-4" /> :
+                           violation.type === 'Manual Mode Vulnerability' ? <Wrench className="w-4 h-4" /> :
+                           <UserCog className="w-4 h-4" />}
                         </span>
                         <div>
                           <p className="text-sm font-medium text-white">{violation.custodian}</p>
@@ -1238,22 +1399,45 @@ const CMSAuditCommand: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3 mb-2">
-                      <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                        <p className="text-[9px] text-slate-500 uppercase mb-0.5">Current Tenure</p>
-                        <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-white'}`}>{violation.tenure}d</p>
+                    {violation.type === 'Custodian Rotation' ? (
+                      <div className="grid grid-cols-3 gap-3 mb-2">
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Current Tenure</p>
+                          <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-white'}`}>{violation.tenure}d</p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Rotation Limit</p>
+                          <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}d</p>
+                        </div>
+                        <div className={`rounded-lg p-2 border ${violation.tenure > violation.allowed ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Overshoot</p>
+                          <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-emerald-400'}`}>
+                            {violation.tenure > violation.allowed ? `+${violation.tenure - violation.allowed}d` : 'On Track'}
+                          </p>
+                        </div>
                       </div>
-                      <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                        <p className="text-[9px] text-slate-500 uppercase mb-0.5">Allowed Max</p>
-                        <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}d</p>
+                    ) : violation.type === 'Manual Mode Vulnerability' ? (
+                      <div className="grid grid-cols-3 gap-3 mb-2">
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Time in Manual Mode</p>
+                          <p className="text-lg font-bold font-mono text-red-400">{violation.tenure}h</p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">SOP Limit</p>
+                          <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}h</p>
+                        </div>
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2">
+                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Exposure Window</p>
+                          <p className="text-lg font-bold font-mono text-red-400">+{violation.tenure - violation.allowed}h</p>
+                        </div>
                       </div>
-                      <div className={`rounded-lg p-2 border ${violation.tenure > violation.allowed ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
-                        <p className="text-[9px] text-slate-500 uppercase mb-0.5">Overshoot</p>
-                        <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-emerald-400'}`}>
-                          {violation.tenure > violation.allowed ? `+${violation.tenure - violation.allowed}d` : 'On Track'}
-                        </p>
+                    ) : (
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 uppercase tracking-wider flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" /> SOP Breach Active
+                        </span>
                       </div>
-                    </div>
+                    )}
 
                     <p className="text-[10px] text-slate-400 mb-2">{violation.detail}</p>
 
