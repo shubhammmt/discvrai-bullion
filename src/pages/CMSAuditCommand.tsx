@@ -1,1494 +1,800 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  Target, Shield, AlertTriangle, Users, MapPin, Eye, Camera, CheckCircle2, XCircle, 
-  ChevronRight, Bell, Zap, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight,
-  Building2, Route, Shuffle, Search, Filter, Clock, FileWarning, UserX, Wrench,
-  Package, BarChart3, Layers, CalendarDays, ChevronDown, Lightbulb, Archive,
-  BookOpen, ToggleLeft, ToggleRight, ShieldCheck, UserCog, Timer, History,
-  Brain, Lock, AlertCircle, Info
+import {
+  Shield, AlertTriangle, Search, Clock, MapPin, Camera, Video, CheckCircle2, XCircle,
+  Users, FileWarning, UserX, Lock, ShieldAlert, Bell, X, ChevronRight, TrendingUp,
+  TrendingDown, Eye, Send, FileText, BookOpen, CheckCheck, Activity, Radio,
 } from 'lucide-react';
-import { 
-  auditPulse, riskTargets, liveAuditFeed, discrepancies, vaults, routes, auditAlerts,
-  LiveAuditEntry, DiscrepancyEntry, VaultEntry, RouteEntry, AuditAlert
+import {
+  auditPulse, riskTargets, liveAuditFeed, AuditTarget, LiveAuditEntry,
 } from '@/data/cmsAuditCommand';
-import { format } from 'date-fns';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-const formatCurrency = (v: number) => {
-  if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)} Cr`;
+// ───────────────────────── helpers ─────────────────────────
+const formatINR = (v: number) => {
+  if (v >= 10000000) return `₹${(v / 10000000).toFixed(2)} Cr`;
   if (v >= 100000) return `₹${(v / 100000).toFixed(1)} L`;
   if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`;
   return `₹${v.toLocaleString('en-IN')}`;
 };
 
-type SidebarTab = 'site-audits' | 'vault-audits';
-type MainView = 'planner' | 'live-feed' | 'discrepancy' | 'vault-route' | 'learnings' | 'compliance';
-type TimeframeKey = 'live' | '24h' | '7d' | '30d' | 'custom';
+// Simple, readable risk-level mapping (no jargon, no numeric "scores")
+type RiskLevel = 'CRITICAL' | 'HIGH' | 'MODERATE' | 'INFO';
+const toRiskLevel = (t: AuditTarget): RiskLevel => {
+  if (t.riskScore >= 85 || t.overdue) return 'CRITICAL';
+  if (t.riskScore >= 65) return 'HIGH';
+  if (t.riskScore >= 40) return 'MODERATE';
+  return 'INFO';
+};
 
-interface TimeframeOption {
-  key: TimeframeKey;
-  label: string;
-  shortLabel: string;
-}
+const riskBadgeClass = (lvl: RiskLevel) => ({
+  CRITICAL: 'bg-red-600 text-white',
+  HIGH: 'bg-orange-500 text-white',
+  MODERATE: 'bg-blue-500 text-white',
+  INFO: 'bg-slate-400 text-white',
+}[lvl]);
 
-const TIMEFRAME_OPTIONS: TimeframeOption[] = [
-  { key: 'live', label: 'Live (Real-Time)', shortLabel: 'Live' },
-  { key: '24h', label: 'Last 24 Hours', shortLabel: '24H' },
-  { key: '7d', label: 'Last 7 Days', shortLabel: '7D' },
-  { key: '30d', label: 'Last 30 Days', shortLabel: '30D' },
-  { key: 'custom', label: 'Custom Range', shortLabel: 'Custom' },
-];
-
-// Generate sparkline data for KPIs
-const generateSparkline = (endValue: number, points: number, volatility: number = 0.08): number[] => {
+const generateSpark = (end: number, n: number, vol = 0.08): number[] => {
   const data: number[] = [];
-  let current = endValue * (1 - volatility * 2);
-  for (let i = 0; i < points; i++) {
-    const change = (Math.random() - 0.4) * volatility * endValue;
-    current = Math.max(current + change, endValue * 0.5);
-    data.push(Math.round(current * 100) / 100);
+  let cur = end * (1 - vol * 2);
+  for (let i = 0; i < n; i++) {
+    cur = Math.max(cur + (Math.random() - 0.4) * vol * end, end * 0.5);
+    data.push(Math.round(cur * 100) / 100);
   }
-  data[data.length - 1] = endValue;
+  data[data.length - 1] = end;
   return data;
 };
 
-// Historical KPI data per timeframe
-const HISTORICAL_KPI: Record<Exclude<TimeframeKey, 'live'>, { hitRate: number[]; shortage: number[]; coverage: number[]; compliance: number[] }> = {
-  '24h': { hitRate: generateSparkline(34.2, 24, 0.05), shortage: generateSparkline(1847500, 24, 0.06), coverage: generateSparkline(78.5, 24, 0.03), compliance: generateSparkline(87.3, 24, 0.02) },
-  '7d': { hitRate: generateSparkline(34.2, 7, 0.08), shortage: generateSparkline(1847500, 7, 0.1), coverage: generateSparkline(78.5, 7, 0.06), compliance: generateSparkline(87.3, 7, 0.04) },
-  '30d': { hitRate: generateSparkline(34.2, 30, 0.1), shortage: generateSparkline(1847500, 30, 0.15), coverage: generateSparkline(78.5, 30, 0.08), compliance: generateSparkline(87.3, 30, 0.05) },
-  'custom': { hitRate: generateSparkline(34.2, 14, 0.09), shortage: generateSparkline(1847500, 14, 0.12), coverage: generateSparkline(78.5, 14, 0.07), compliance: generateSparkline(87.3, 14, 0.04) },
-};
-
-// Historical audit archive entries
-const generateArchiveEntries = () => {
-  const statuses: ('completed' | 'flagged')[] = ['completed', 'completed', 'completed', 'flagged', 'completed', 'flagged', 'completed', 'completed'];
-  const locations = ['Andheri, Mumbai', 'CP, Delhi', 'MG Road, Bangalore', 'T. Nagar, Chennai', 'Hitec City, Hyderabad', 'Park St, Kolkata', 'MI Road, Jaipur', 'FC Road, Pune'];
-  const auditors = ['Rajesh Sharma', 'Priya Mehta', 'Amit Patel', 'Kavita Joshi', 'Vikram Singh', 'Neha Gupta', 'Ravi Kumar', 'Sanjay Verma'];
-  const entries = [];
-  for (let i = 0; i < 40; i++) {
-    const status = statuses[i % statuses.length];
-    const hasMismatch = status === 'flagged' && Math.random() > 0.5;
-    entries.push({
-      id: `ARC-${String(i + 1).padStart(4, '0')}`,
-      atmId: `ATM-${['MUM', 'DEL', 'BLR', 'CHN', 'HYD', 'KOL', 'JAI', 'PUN'][i % 8]}-${String(Math.floor(Math.random() * 200) + 1).padStart(4, '0')}`,
-      location: locations[i % locations.length],
-      auditorName: auditors[i % auditors.length],
-      date: new Date(2026, 3, 13 - Math.floor(i / 3)).toISOString(),
-      status,
-      shortage: status === 'flagged' ? Math.floor(Math.random() * 50000 + 2000) : 0,
-      manipulation: hasMismatch,
-      result: status === 'flagged' ? (hasMismatch ? 'Manual Input Manipulation' : 'Shortage Found') : 'Clean',
-    });
-  }
-  return entries;
-};
-
-const archiveEntries = generateArchiveEntries();
-
-// Pattern insights
-const PATTERN_INSIGHTS: Record<Exclude<TimeframeKey, 'live'>, string[]> = {
-  '24h': [
-    'Insight: 3 of 4 flagged audits in the last 24 hours originated from the South Region.',
-    'Alert: Auditor AUD-1015 has been flagged twice — potential compliance review needed.',
-  ],
-  '7d': [
-    'Insight: Vault Shortages in the North Region have spiked by 12% every Tuesday over the last week.',
-    'Pattern: High-Traffic Salary Sites show 2.3x more discrepancies on month-end (29th–2nd).',
-    'Trend: Manual Input Manipulations increased 40% week-over-week, concentrated in BLR-E routes.',
-  ],
-  '30d': [
-    'Insight: Vault Shortages in the North Region have spiked by 12% every Tuesday over the last month.',
-    'Pattern: 68% of all Human Error/Fraud cases originate from just 3 routes (BLR-E-02, DEL-S-03, JAI-C-01).',
-    'Trend: Audit Hit Rate improved from 28% to 34% after introducing surprise audits in Week 2.',
-    'Alert: Jaipur Regional Vault (VLT-JAI-01) shows a consistent upward shortage trend for 4 consecutive months.',
-  ],
-  'custom': [
-    'Insight: Selected period shows 15% higher shortage discovery rate compared to the previous equivalent period.',
-    'Pattern: Technical discrepancies peak during 6 AM–9 AM window (counter sync delays post-replenishment).',
-  ],
-};
-
-// ── Codified Learnings Data ──
-const codifiedLearnings = [
-  { id: 'CL-001', observation: 'Manual Input Manipulation', source: 'ARC-0004 · ATM-CHN-0142', date: '12-Apr-26', rule: 'Enforce Photo-to-Value Validation for this Route', enabled: true, impact: 'Blocks manual override without camera verification', category: 'fraud-prevention', affectedRoutes: 3, savings: 185000 },
-  { id: 'CL-002', observation: 'Repeated Cassette Seal Breach', source: 'ARC-0009 · VLT-MUM-03', date: '08-Apr-26', rule: 'Auto-escalate if seal status = Broken for 2+ consecutive loads', enabled: true, impact: 'Triggers immediate custodian review', category: 'physical-control', affectedRoutes: 5, savings: 320000 },
-  { id: 'CL-003', observation: 'Counter Sync Drift > ₹10K', source: 'ARC-0012 · ATM-BLR-0088', date: '05-Apr-26', rule: 'Flag for same-day reconciliation if drift exceeds ₹10,000', enabled: false, impact: 'Prevents EOD drift accumulation', category: 'technical', affectedRoutes: 12, savings: 0 },
-  { id: 'CL-004', observation: 'Custodian Route Tenure > 180 Days', source: 'Route DEL-S-03', date: '01-Apr-26', rule: 'Auto-trigger rotation recommendation after 180 days on same route', enabled: true, impact: 'Reduces pilferage risk from route familiarity', category: 'compliance', affectedRoutes: 8, savings: 450000 },
-  { id: 'CL-005', observation: 'Silent FLM Close Without EJ Update', source: 'ARC-0017 · ATM-HYD-0201', date: '28-Mar-26', rule: 'Block FLM close action unless EJ log updated within 15 min', enabled: false, impact: 'Prevents unverified closures from masking shortages', category: 'fraud-prevention', affectedRoutes: 6, savings: 0 },
-  { id: 'CL-006', observation: 'Overage Reporting Delay > 2 EODs', source: 'ARC-0021 · ATM-MUM-0034', date: '22-Mar-26', rule: 'Auto-apply harmonizing penalty flag if overage undeclared by EOD+1', enabled: true, impact: 'Enforces declaration discipline, prevents penalty leakage', category: 'compliance', affectedRoutes: 15, savings: 280000 },
-];
-
-// ── Compliance Monitor Data ──
-const complianceViolations = [
-  // — Custodian Route Rotation (>60d)
-  { id: 'CV-001', type: 'Custodian Rotation', custodian: 'Manoj Kumar (CUS-1042)', route: 'DEL-S-03', tenure: 245, allowed: 60, severity: 'critical', status: 'Escalated', escalatedTo: 'Regional Ops Manager', detail: 'Custodian on same route 185 days beyond 60-day rotation rule. Route has 3 shortage incidents.' },
-  { id: 'CV-002', type: 'Custodian Rotation', custodian: 'Suresh Patil (CUS-2018)', route: 'MUM-W-07', tenure: 198, allowed: 60, severity: 'high', status: 'Pending Review', escalatedTo: '', detail: 'Exceeded 60-day rotation by 138 days. No incidents yet — rotation window breached.' },
-  { id: 'CV-003', type: 'Custodian Rotation', custodian: 'Ravi Shankar (CUS-3005)', route: 'BLR-E-02', tenure: 312, allowed: 60, severity: 'critical', status: 'Breach Confirmed', escalatedTo: 'Zonal Head + Audit Committee', detail: 'Longest active tenure violation. 4 manipulation flags in last 90 days.' },
-  // — HOTO Failures (Liability Vacuum)
-  { id: 'CV-101', type: 'HOTO Failure', custodian: 'Outgoing: Anil Mehta → Incoming: Vinod Rao', route: 'JAI-C-01', tenure: 0, allowed: 0, severity: 'critical', status: 'Liability Vacuum', escalatedTo: 'Vault Ops Head', detail: 'Handover signed on PAPER instead of digital attestation. ₹4.2L cassette transfer unverified for 18 hours.' },
-  { id: 'CV-102', type: 'HOTO Failure', custodian: 'Outgoing: Deepak Joshi → Incoming: Karan Singh', route: 'HYD-N-04', tenure: 0, allowed: 0, severity: 'high', status: 'Pending Digital Sign', escalatedTo: '', detail: 'Incoming custodian acknowledged via SMS only. No biometric confirmation captured.' },
-  // — Dual-Custody Breach
-  { id: 'CV-201', type: 'Dual-Custody Breach', custodian: 'Vinay Gupta (CUS-2044)', route: 'PUN-E-01', tenure: 0, allowed: 0, severity: 'critical', status: 'SOP Violated', escalatedTo: 'Internal Audit', detail: 'Single custodian requested codes for BOTH locks at VLT-PUN-01. Proximity rule bypassed via remote auth.' },
-  { id: 'CV-202', type: 'Dual-Custody Breach', custodian: 'Rohit Kapoor (CUS-3012)', route: 'BLR-W-02', tenure: 0, allowed: 0, severity: 'high', status: 'Under Investigation', escalatedTo: 'Compliance Cell', detail: 'Second custodian was 2.4 km away when door codes were issued. Proximity threshold: 50m.' },
-  // — Manual Mode Vulnerability (>2hr)
-  { id: 'CV-301', type: 'Manual Mode Vulnerability', custodian: 'ATM-MUM-0001 · Engineer: Prakash Iyer', route: 'MUM-W-01', tenure: 4, allowed: 2, severity: 'critical', status: 'Active Breach', escalatedTo: 'FLM Supervisor', detail: 'ATM has been in Non-OTC manual mode for 4 hours. Window of fraud exposure exceeded SOP limit by 2 hours.' },
-  { id: 'CV-302', type: 'Manual Mode Vulnerability', custodian: 'ATM-DEL-0102 · Engineer: Sandeep Yadav', route: 'DEL-S-03', tenure: 3, allowed: 2, severity: 'high', status: 'Active Breach', escalatedTo: '', detail: 'Manual mode for 3 hours — 1 hour past safe threshold. No supervisor sign-off attached.' },
-];
-
-// ── Risk Score Breakdown Data ──
-const riskScoreBreakdown: Record<string, { factor: string; weight: number; score: number; detail: string }[]> = {};
-riskTargets.forEach(t => {
-  riskScoreBreakdown[t.name] = [
-    { factor: 'Overage Reporting Delay', weight: 25, score: Math.min(100, Math.round(t.riskScore * 0.3 + Math.random() * 20)), detail: `${Math.floor(Math.random() * 3 + 1)} late declarations in last 30 days` },
-    { factor: 'Custodian Tenure', weight: 20, score: Math.min(100, Math.round(t.riskScore * 0.25 + Math.random() * 15)), detail: `${Math.floor(Math.random() * 200 + 60)} days on current route` },
-    { factor: 'Site Persona Risk', weight: 20, score: Math.min(100, Math.round(t.riskScore * 0.2 + Math.random() * 25)), detail: `${t.sitePersona} — ${t.sitePersona.includes('Transit') || t.sitePersona.includes('Salary') ? 'High footfall corridor' : 'Standard risk profile'}` },
-    { factor: 'Historical Shortage', weight: 20, score: t.totalShortage > 0 ? Math.min(100, Math.round(t.totalShortage / 1000)) : 0, detail: t.totalShortage > 0 ? `₹${formatCurrency(t.totalShortage)} cumulative` : 'No prior shortage' },
-    { factor: 'Balance Drift Frequency', weight: 15, score: Math.min(100, t.balanceDriftCount * 25), detail: `${t.balanceDriftCount} drift events detected` },
-  ];
-});
-
-// ── Historical Context for planned audits ──
-const historicalIncidents: Record<string, { date: string; type: string; amount: number; resolution: string; severity: string }[]> = {};
-riskTargets.forEach(t => {
-  const incidents = [];
-  if (t.totalShortage > 0) {
-    incidents.push({ date: '15-Mar-26', type: 'Shortage', amount: Math.round(t.totalShortage * 0.6), resolution: 'Vendor Debited', severity: 'high' });
-    incidents.push({ date: '02-Feb-26', type: 'Counter Mismatch', amount: Math.round(t.totalShortage * 0.4), resolution: 'Technical Error — Auto-corrected', severity: 'medium' });
-  }
-  if (t.balanceDriftCount > 0) {
-    incidents.push({ date: '20-Jan-26', type: 'Balance Drift', amount: 8500, resolution: 'FLM Verification — Cleared', severity: 'low' });
-  }
-  if (t.riskScore >= 70) {
-    incidents.push({ date: '10-Dec-25', type: 'Manual Input Manipulation', amount: 25000, resolution: 'Custodian Suspended', severity: 'critical' });
-  }
-  historicalIncidents[t.name] = incidents.length > 0 ? incidents : [
-    { date: '01-Mar-26', type: 'Routine Audit', amount: 0, resolution: 'Clean — No Issues', severity: 'info' }
-  ];
-});
-
-// Mini sparkline SVG component
-const MiniSparkline: React.FC<{ data: number[]; color: string; height?: number; width?: number }> = ({ data, color, height = 28, width = 80 }) => {
+const Sparkline: React.FC<{ data: number[]; color: string; w?: number; h?: number }> = ({ data, color, w = 100, h = 32 }) => {
   if (!data.length) return null;
   const min = Math.min(...data);
   const max = Math.max(...data);
   const range = max - min || 1;
-  const points = data.map((v, i) => {
-    const x = (i / (data.length - 1)) * width;
-    const y = height - ((v - min) / range) * (height - 4) - 2;
-    return `${x},${y}`;
-  }).join(' ');
-  const firstPoint = `0,${height}`;
-  const lastPoint = `${width},${height}`;
-  const fillPoints = `${firstPoint} ${points} ${lastPoint}`;
+  const pts = data.map((v, i) => `${(i / (data.length - 1)) * w},${h - ((v - min) / range) * (h - 4) - 2}`).join(' ');
   return (
-    <svg width={width} height={height} className="mt-1">
-      <defs>
-        <linearGradient id={`grad-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-          <stop offset="100%" stopColor={color} stopOpacity="0.02" />
-        </linearGradient>
-      </defs>
-      <polygon points={fillPoints} fill={`url(#grad-${color.replace('#', '')})`} />
-      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width={w} height={h} className="block">
+      <polyline points={pts} fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 };
 
+// ───────────────────────── plain-english risk reasons ─────────────────────────
+type RiskReason = { label: string; count: string; severity: 'critical' | 'high' | 'moderate' };
+const buildRiskReasons = (t: AuditTarget): RiskReason[] => {
+  const out: RiskReason[] = [];
+  if (t.balanceDriftCount > 0) out.push({ label: 'Missing Cash Reports', count: `${t.balanceDriftCount} found`, severity: 'high' });
+  if (t.totalShortage > 0) out.push({ label: 'Unresolved Cash Mismatch', count: formatINR(t.totalShortage), severity: 'critical' });
+  if (t.overdue) out.push({ label: `Beyond ${t.auditCycleTarget}-Day Audit Cycle`, count: `${t.daysSinceAudit - t.auditCycleTarget} days overdue`, severity: 'critical' });
+  // Synthesised plain-english factors
+  const tenure = 60 + Math.floor((t.riskScore / 100) * 90);
+  if (tenure > 60) out.push({ label: 'Staff on Same Route Too Long', count: `${tenure - 60} days beyond limit`, severity: tenure > 120 ? 'high' : 'moderate' });
+  if (t.sitePersona.toLowerCase().includes('high')) out.push({ label: 'Located in High-Footfall Area', count: t.sitePersona, severity: 'moderate' });
+  if (out.length === 0) out.push({ label: 'No active risk signals', count: 'Routine cycle audit', severity: 'moderate' });
+  return out;
+};
+
+// ───────────────────────── SOP control violations (plain english) ─────────────────────────
+type ControlHub = 'rotation' | 'handover' | 'two-person' | 'security';
+interface SOPViolation {
+  id: string; hub: ControlHub; title: string; subject: string; route: string;
+  detail: string; severity: 'CRITICAL' | 'HIGH' | 'MODERATE'; status: 'Open' | 'Escalated' | 'Notice Issued';
+}
+const sopViolations: SOPViolation[] = [
+  // Hub A — Staff Rotation
+  { id: 'SOP-101', hub: 'rotation', title: 'Staff on same route 245 days', subject: 'Manoj Kumar (CUS-1042)', route: 'DEL-S-03', detail: '185 days beyond the 60-day rotation limit. Route has 3 cash mismatch incidents in the last 90 days.', severity: 'CRITICAL', status: 'Open' },
+  { id: 'SOP-102', hub: 'rotation', title: 'Staff on same route 198 days', subject: 'Suresh Patil (CUS-2018)', route: 'MUM-W-07', detail: '138 days beyond limit. No incidents yet — review window has been breached.', severity: 'HIGH', status: 'Open' },
+  { id: 'SOP-103', hub: 'rotation', title: 'Staff on same route 312 days', subject: 'Ravi Shankar (CUS-3005)', route: 'BLR-E-02', detail: 'Longest active tenure violation. 4 manipulation flags in last 90 days.', severity: 'CRITICAL', status: 'Escalated' },
+  // Hub B — Handover (HOTO)
+  { id: 'SOP-201', hub: 'handover', title: 'Paper-based handover detected', subject: 'Anil Mehta → Vinod Rao', route: 'JAI-C-01', detail: '₹4.2L cassette transfer signed on paper instead of digital app. 18 hours of unverified custody.', severity: 'CRITICAL', status: 'Open' },
+  { id: 'SOP-202', hub: 'handover', title: 'Missing biometric confirmation', subject: 'Deepak Joshi → Karan Singh', route: 'HYD-N-04', detail: 'Incoming custodian acknowledged via SMS only — no fingerprint or face match captured.', severity: 'HIGH', status: 'Open' },
+  // Hub C — Two-Person Rule
+  { id: 'SOP-301', hub: 'two-person', title: 'Single-user vault access', subject: 'Vinay Gupta (CUS-2044)', route: 'PUN-E-01', detail: 'One custodian requested codes for both locks at the same vault. Two-person rule was bypassed.', severity: 'CRITICAL', status: 'Open' },
+  { id: 'SOP-302', hub: 'two-person', title: 'Second custodian out of range', subject: 'Rohit Kapoor (CUS-3012)', route: 'BLR-W-02', detail: 'Second custodian was 2.4 km away when door codes were issued. Required: within 50 metres.', severity: 'HIGH', status: 'Open' },
+  // Hub D — Security Mode
+  { id: 'SOP-401', hub: 'security', title: 'ATM in Manual Mode for 4 hours', subject: 'ATM-MUM-0001 · Engineer: Prakash Iyer', route: 'MUM-W-01', detail: 'Manual mode active 2 hours past the safe limit. Window of fraud exposure exceeded.', severity: 'CRITICAL', status: 'Open' },
+  { id: 'SOP-402', hub: 'security', title: 'ATM in Manual Mode for 3 hours', subject: 'ATM-DEL-0102 · Engineer: Sandeep Yadav', route: 'DEL-S-03', detail: '1 hour past the 2-hour safe threshold. No supervisor sign-off on file.', severity: 'HIGH', status: 'Open' },
+];
+
+const HUB_META: Record<ControlHub, { label: string; sub: string; icon: React.ReactNode }> = {
+  rotation: { label: 'Staff Rotation', sub: 'Staff on same route > 60 days', icon: <Users className="w-4 h-4" /> },
+  handover: { label: 'Handover (HOTO) Gaps', sub: 'Paper-based or unverified custody transfers', icon: <FileWarning className="w-4 h-4" /> },
+  'two-person': { label: 'Two-Person Rule', sub: 'Single-user access or proximity breaches', icon: <UserX className="w-4 h-4" /> },
+  security: { label: 'Security Mode', sub: 'ATMs in Manual Mode > 2 hours', icon: <Lock className="w-4 h-4" /> },
+};
+
+// ───────────────────────── Learning Loop entries ─────────────────────────
+type ClosureKind = 'task-completed' | 'rule-codified';
+const learningEntries: { id: string; finding: string; site: string; date: string; kind: ClosureKind; outcome: string }[] = [
+  { id: 'LL-001', finding: 'Repeat shortage in Cassette 3', site: 'ATM-MUM-0001', date: '12-Apr-26', kind: 'task-completed', outcome: 'Cassette replaced, seal re-verified by FLM' },
+  { id: 'LL-002', finding: 'Manual override without photo evidence', site: 'ATM-CHN-0142', date: '10-Apr-26', kind: 'rule-codified', outcome: 'New rule: block manual override unless camera verifies counter' },
+  { id: 'LL-003', finding: 'Custodian on route 245 days', site: 'Route DEL-S-03', date: '08-Apr-26', kind: 'rule-codified', outcome: 'Auto-trigger rotation alert at 60-day mark for all routes' },
+  { id: 'LL-004', finding: 'Cash found outside cassette', site: 'ATM-HYD-0044', date: '06-Apr-26', kind: 'task-completed', outcome: 'Cash recovered, custodian under HR investigation' },
+  { id: 'LL-005', finding: 'Counter sync drift > ₹10K', site: 'ATM-BLR-0088', date: '03-Apr-26', kind: 'rule-codified', outcome: 'Same-day reconciliation now mandatory above ₹10K drift' },
+];
+
+// ───────────────────────── KPI sparkline data (30 days) ─────────────────────────
+const KPI_SPARK = {
+  hitRate: generateSpark(auditPulse.auditHitRate, 30, 0.08),
+  shortage: generateSpark(auditPulse.totalShortageDiscovered, 30, 0.12),
+  coverage: generateSpark(auditPulse.riskCoverage, 30, 0.06),
+  compliance: generateSpark(auditPulse.auditorComplianceScore, 30, 0.04),
+};
+
+// ───────────────────────── Main component ─────────────────────────
+type View = 'planner' | 'live' | 'sop' | 'learning';
+
 const CMSAuditCommand: React.FC = () => {
-  const [sidebarTab, setSidebarTab] = useState<SidebarTab>('site-audits');
-  const [mainView, setMainView] = useState<MainView>('planner');
+  const [view, setView] = useState<View>('planner');
+  const [search, setSearch] = useState('');
+  const [riskFilter, setRiskFilter] = useState<'all' | RiskLevel>('all');
+  const [detailTarget, setDetailTarget] = useState<AuditTarget | null>(null);
   const [selectedAudit, setSelectedAudit] = useState<LiveAuditEntry | null>(null);
-  const [selectedDiscrepancy, setSelectedDiscrepancy] = useState<DiscrepancyEntry | null>(null);
+  const [activeHub, setActiveHub] = useState<ControlHub>('rotation');
   const [alertsOpen, setAlertsOpen] = useState(false);
-  const [priorityFilter, setPriorityFilter] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [vaultRouteView, setVaultRouteView] = useState<'vaults' | 'routes'>('vaults');
-  const [timeframe, setTimeframe] = useState<TimeframeKey>('live');
-  const [timeframeDropdownOpen, setTimeframeDropdownOpen] = useState(false);
-  const [customDateFrom, setCustomDateFrom] = useState<Date | undefined>();
-  const [customDateTo, setCustomDateTo] = useState<Date | undefined>();
-  const [archiveSearch, setArchiveSearch] = useState('');
-  const [archiveFilter, setArchiveFilter] = useState<'all' | 'flagged' | 'manipulation'>('all');
-  const [archivePage, setArchivePage] = useState(1);
-  const archivePageSize = 8;
-  const [expandedRiskTarget, setExpandedRiskTarget] = useState<string | null>(null);
-  const [learningToggles, setLearningToggles] = useState<Record<string, boolean>>(
-    Object.fromEntries(codifiedLearnings.map(l => [l.id, l.enabled]))
-  );
 
-  const isHistorical = timeframe !== 'live';
-  const criticalAlerts = auditAlerts.filter(a => a.severity === 'critical' || a.requiresSignoff);
-
-  const filteredTargets = riskTargets.filter(t => {
-    if (priorityFilter !== 'all' && t.priority !== priorityFilter) return false;
-    if (searchQuery && !t.name.toLowerCase().includes(searchQuery.toLowerCase()) && !t.location.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-    return true;
-  });
-
-  const filteredArchive = useMemo(() => {
-    return archiveEntries.filter(e => {
-      if (archiveFilter === 'flagged' && e.status !== 'flagged') return false;
-      if (archiveFilter === 'manipulation' && !e.manipulation) return false;
-      if (archiveSearch) {
-        const q = archiveSearch.toLowerCase();
-        return e.atmId.toLowerCase().includes(q) || e.location.toLowerCase().includes(q) || e.auditorName.toLowerCase().includes(q) || e.result.toLowerCase().includes(q);
+  const filteredTargets = useMemo(() => {
+    return riskTargets.filter(t => {
+      const lvl = toRiskLevel(t);
+      if (riskFilter !== 'all' && lvl !== riskFilter) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        if (!t.name.toLowerCase().includes(q) && !t.location.toLowerCase().includes(q)) return false;
       }
       return true;
     });
-  }, [archiveFilter, archiveSearch]);
+  }, [search, riskFilter]);
 
-  const paginatedArchive = filteredArchive.slice((archivePage - 1) * archivePageSize, archivePage * archivePageSize);
-  const totalArchivePages = Math.ceil(filteredArchive.length / archivePageSize);
-
-  const historicalDiscrepancyAggregate = useMemo(() => {
-    const multiplier = timeframe === '30d' ? 5 : timeframe === '7d' ? 2.5 : timeframe === '24h' ? 1 : 3;
-    return {
-      technical: Math.round(discrepancies.filter(d => d.category === 'technical').length * multiplier),
-      physical: Math.round(discrepancies.filter(d => d.category === 'physical').length * multiplier),
-      human: Math.round(discrepancies.filter(d => d.category === 'human').length * multiplier),
-    };
-  }, [timeframe]);
-
-  const getPriorityColor = (p: string) => {
-    switch (p) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200';
-      case 'medium': return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'low': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      default: return 'bg-slate-100 text-slate-800';
-    }
-  };
-
-  const getSeverityColor = (s: string) => {
-    switch (s) {
-      case 'critical': return 'bg-red-600 text-white';
-      case 'high': return 'bg-red-100 text-red-800';
-      case 'medium': return 'bg-amber-100 text-amber-800';
-      case 'low': return 'bg-emerald-100 text-emerald-800';
-      case 'info': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-slate-100 text-slate-800';
-    }
-  };
-
-  const getCategoryIcon = (c: string) => {
-    switch (c) {
-      case 'technical': return <Wrench className="w-4 h-4" />;
-      case 'physical': return <Package className="w-4 h-4" />;
-      case 'human': return <UserX className="w-4 h-4" />;
-      default: return <FileWarning className="w-4 h-4" />;
-    }
-  };
-
-  const historicalKey = timeframe !== 'live' ? timeframe : '24h';
-  const currentHistKpi = isHistorical ? HISTORICAL_KPI[historicalKey] : null;
-  const currentInsights = isHistorical ? PATTERN_INSIGHTS[historicalKey] : null;
-  const timeframeLabel = TIMEFRAME_OPTIONS.find(o => o.key === timeframe)?.label || 'Live';
+  const liveCount = liveAuditFeed.filter(a => a.status === 'flagged' || a.status === 'in-progress').length;
+  const sopCounts = useMemo(() => {
+    const c: Record<ControlHub, number> = { rotation: 0, handover: 0, 'two-person': 0, security: 0 };
+    sopViolations.forEach(v => c[v.hub]++);
+    return c;
+  }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex">
-      {/* Sidebar */}
-      <div className="w-56 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex">
+      {/* ── Dark Sidebar ── */}
+      <aside className="w-56 bg-slate-900 text-slate-200 flex flex-col shrink-0">
         <div className="p-4 border-b border-slate-800">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-amber-400" />
-            <span className="font-bold text-sm tracking-tight">Audit Command</span>
+            <div>
+              <div className="font-bold text-sm">Audit Command</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-widest">CMS Guardian</div>
+            </div>
           </div>
-          <p className="text-[10px] text-slate-500 uppercase tracking-widest">Continuous Control Hub</p>
         </div>
-
-        <div className="p-2 space-y-1">
-          <button onClick={() => setSidebarTab('site-audits')} className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${sidebarTab === 'site-audits' ? 'bg-amber-500/15 text-amber-400' : 'text-slate-400 hover:bg-slate-800'}`}>
-            <MapPin className="w-4 h-4" /> Site Audits
-          </button>
-          <button onClick={() => setSidebarTab('vault-audits')} className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${sidebarTab === 'vault-audits' ? 'bg-amber-500/15 text-amber-400' : 'text-slate-400 hover:bg-slate-800'}`}>
-            <Building2 className="w-4 h-4" /> Vault Audits
-          </button>
-        </div>
-
-        <div className="border-t border-slate-800 mt-2 p-2 space-y-1">
-          <p className="text-[10px] text-slate-600 uppercase tracking-widest px-3 py-1">Workspace</p>
+        <nav className="flex-1 p-2 space-y-1">
           {[
-            { key: 'planner' as MainView, icon: Target, label: 'Risk Planner' },
-            { key: 'live-feed' as MainView, icon: isHistorical ? Archive : Eye, label: isHistorical ? 'Audit Archive' : 'Live Feed' },
-            { key: 'discrepancy' as MainView, icon: AlertTriangle, label: 'Discrepancies' },
-            { key: 'vault-route' as MainView, icon: Route, label: 'Vaults & Routes' },
+            { k: 'planner', label: 'Audit Planner', icon: <ShieldAlert className="w-4 h-4" />, badge: filteredTargets.filter(t => toRiskLevel(t) === 'CRITICAL').length },
+            { k: 'live', label: 'Live Forensic Feed', icon: <Radio className="w-4 h-4" />, badge: liveCount },
+            { k: 'sop', label: 'SOP Enforcement', icon: <Lock className="w-4 h-4" />, badge: sopViolations.length },
+            { k: 'learning', label: 'Learning Loop', icon: <BookOpen className="w-4 h-4" />, badge: 0 },
           ].map(item => (
-            <button key={item.key} onClick={() => setMainView(item.key)} className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${mainView === item.key ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-800/50'}`}>
-              <item.icon className="w-4 h-4" /> {item.label}
+            <button
+              key={item.k}
+              onClick={() => setView(item.k as View)}
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded text-sm transition-colors ${
+                view === item.k ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30' : 'hover:bg-slate-800 text-slate-300'
+              }`}
+            >
+              {item.icon}
+              <span className="flex-1 text-left">{item.label}</span>
+              {item.badge > 0 && (
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                  view === item.k ? 'bg-amber-400 text-slate-900' : 'bg-slate-700 text-slate-300'
+                }`}>{item.badge}</span>
+              )}
             </button>
           ))}
+        </nav>
+        <div className="p-3 border-t border-slate-800 text-[10px] text-slate-500">
+          <div className="flex items-center gap-1.5"><Activity className="w-3 h-3 text-emerald-400" /> System healthy · 70,000 ATMs monitored</div>
         </div>
+      </aside>
 
-        {/* Workstream 4 & 5 Section */}
-        <div className="border-t border-slate-800 mt-2 p-2 space-y-1">
-          <p className="text-[10px] text-slate-600 uppercase tracking-widest px-3 py-1">Continuous Control</p>
-          <button onClick={() => setMainView('learnings')} className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${mainView === 'learnings' ? 'bg-indigo-500/15 text-indigo-400' : 'text-slate-400 hover:bg-slate-800/50'}`}>
-            <Brain className="w-4 h-4" /> Codified Learnings
-          </button>
-          <button onClick={() => setMainView('compliance')} className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${mainView === 'compliance' ? 'bg-rose-500/15 text-rose-400' : 'text-slate-400 hover:bg-slate-800/50'}`}>
-            <ShieldCheck className="w-4 h-4" /> Compliance Monitor
-            {complianceViolations.filter(v => v.severity === 'critical').length > 0 && (
-              <span className="ml-auto px-1.5 py-0.5 rounded-full text-[9px] bg-red-600 text-white font-bold animate-pulse">
-                {complianceViolations.filter(v => v.severity === 'critical').length}
-              </span>
-            )}
-          </button>
+      {/* ── Main ── */}
+      <main className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <header className="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+          <div>
+            <h1 className="text-base font-bold text-slate-900">Audit Command Center</h1>
+            <p className="text-xs text-slate-500">Real-time forensic hub · 70,000 ATMs · 3,000 routes</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-xs text-slate-600 hidden md:flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5" />Last 30 days
+            </div>
+            <button
+              onClick={() => setAlertsOpen(!alertsOpen)}
+              className="relative p-2 rounded-md border border-slate-200 hover:bg-slate-50"
+            >
+              <Bell className="w-4 h-4 text-slate-700" />
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">3</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Executive Pulse */}
+        <section className="px-6 pt-5 pb-4 bg-white border-b border-slate-200 grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <KpiTile
+            label="Audit Hit Rate"
+            value={`${auditPulse.auditHitRate}%`}
+            sub="Audits that found a discrepancy"
+            trend={auditPulse.auditHitRateTrend}
+            spark={KPI_SPARK.hitRate}
+            sparkColor="hsl(217,91%,60%)"
+          />
+          <KpiTile
+            label="Shortage Found"
+            value={formatINR(auditPulse.totalShortageDiscovered)}
+            sub="Total cash leakage caught"
+            trend={auditPulse.shortageTrend}
+            spark={KPI_SPARK.shortage}
+            sparkColor="hsl(0,84%,60%)"
+            invertTrend
+          />
+          <KpiTile
+            label="High-Risk Coverage"
+            value={`${auditPulse.riskCoverage}%`}
+            sub="Critical sites audited in 30 days"
+            trend={auditPulse.riskCoverageTrend}
+            spark={KPI_SPARK.coverage}
+            sparkColor="hsl(38,92%,50%)"
+          />
+          <KpiTile
+            label="Field Compliance"
+            value={`${auditPulse.auditorComplianceScore}%`}
+            sub="Geo-tag · Photo · Video quality"
+            trend={auditPulse.complianceTrend}
+            spark={KPI_SPARK.compliance}
+            sparkColor="hsl(160,84%,39%)"
+          />
+        </section>
+
+        {/* View body */}
+        <div className="flex-1 overflow-auto">
+          {view === 'planner' && (
+            <PlannerView
+              targets={filteredTargets}
+              search={search}
+              setSearch={setSearch}
+              riskFilter={riskFilter}
+              setRiskFilter={setRiskFilter}
+              onRowDoubleClick={setDetailTarget}
+            />
+          )}
+          {view === 'live' && (
+            <LiveFeedView feed={liveAuditFeed} onSelect={setSelectedAudit} selected={selectedAudit} />
+          )}
+          {view === 'sop' && (
+            <SOPView activeHub={activeHub} setActiveHub={setActiveHub} counts={sopCounts} />
+          )}
+          {view === 'learning' && <LearningView />}
         </div>
+      </main>
 
-        <div className="mt-auto p-3 border-t border-slate-800">
-          <button onClick={() => setAlertsOpen(!alertsOpen)} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors">
-            <Bell className="w-4 h-4 text-red-400" />
-            <span className="text-sm text-red-400 font-medium">{criticalAlerts.length} Alerts</span>
-          </button>
+      {/* Modals */}
+      {detailTarget && <RiskDetailModal target={detailTarget} onClose={() => setDetailTarget(null)} />}
+      {selectedAudit && <LiveAuditModal audit={selectedAudit} onClose={() => setSelectedAudit(null)} />}
+      {alertsOpen && <AlertsDrawer onClose={() => setAlertsOpen(false)} />}
+    </div>
+  );
+};
+
+// ───────────────────────── KPI tile ─────────────────────────
+const KpiTile: React.FC<{
+  label: string; value: string; sub: string; trend: number;
+  spark: number[]; sparkColor: string; invertTrend?: boolean;
+}> = ({ label, value, sub, trend, spark, sparkColor, invertTrend }) => {
+  const positive = invertTrend ? trend < 0 : trend > 0;
+  return (
+    <div className="rounded-lg border border-slate-200 bg-white p-4">
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="text-[11px] uppercase tracking-wider text-slate-500 font-medium">{label}</div>
+          <div className="mt-1 text-2xl font-bold text-slate-900">{value}</div>
+          <div className="text-[11px] text-slate-500 mt-0.5">{sub}</div>
+        </div>
+        <div className={`flex items-center gap-1 text-[11px] font-semibold px-1.5 py-0.5 rounded ${
+          positive ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+        }`}>
+          {positive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+          {Math.abs(trend)}%
         </div>
       </div>
+      <div className="mt-2"><Sparkline data={spark} color={sparkColor} w={220} h={32} /></div>
+    </div>
+  );
+};
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header with Timeframe Filter */}
-        <div className="border-b border-slate-800 bg-slate-900/50 px-6 py-4">
-          <div className="flex items-center justify-between mb-3">
-            <h1 className="text-lg font-bold flex items-center gap-2">
-              <Shield className="w-5 h-5 text-amber-400" />
-              Audit Command Center
-            </h1>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <span>70,000 ATMs</span><span>·</span><span>129 Vaults</span><span>·</span><span>3,000 Routes</span>
-              </div>
-
-              {/* Timeframe Selector */}
-              <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5 border border-slate-700">
-                {TIMEFRAME_OPTIONS.filter(o => o.key !== 'custom').map(opt => (
-                  <button key={opt.key} onClick={() => { setTimeframe(opt.key); setTimeframeDropdownOpen(false); }}
-                    className={`px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-wider transition-colors flex items-center gap-1 ${
-                      timeframe === opt.key
-                        ? opt.key === 'live' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
-                        : 'text-slate-500 hover:text-slate-300'
-                    }`}>
-                    {opt.key === 'live' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />}
-                    {opt.shortLabel}
-                  </button>
-                ))}
-                <Popover open={timeframeDropdownOpen} onOpenChange={setTimeframeDropdownOpen}>
-                  <PopoverTrigger asChild>
-                    <button className={`px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-wider transition-colors flex items-center gap-1 ${
-                      timeframe === 'custom' ? 'bg-amber-500/20 text-amber-400' : 'text-slate-500 hover:text-slate-300'
-                    }`}>
-                      <CalendarDays className="w-3 h-3" /> Custom
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-3 bg-slate-900 border-slate-700" align="end">
-                    <div className="space-y-3">
-                      <p className="text-xs font-medium text-slate-300">Select Date Range</p>
-                      <div className="flex gap-3">
-                        <div>
-                          <p className="text-[10px] text-slate-500 mb-1">From</p>
-                          <Calendar mode="single" selected={customDateFrom} onSelect={setCustomDateFrom} className="p-2 pointer-events-auto bg-slate-800 rounded-lg border border-slate-700" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-slate-500 mb-1">To</p>
-                          <Calendar mode="single" selected={customDateTo} onSelect={setCustomDateTo} className="p-2 pointer-events-auto bg-slate-800 rounded-lg border border-slate-700" />
-                        </div>
-                      </div>
-                      <button onClick={() => { setTimeframe('custom'); setTimeframeDropdownOpen(false); }}
-                        className="w-full px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-xs font-medium hover:bg-amber-500/30 transition-colors border border-amber-500/20">
-                        Apply Range
-                      </button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              {!isHistorical && <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-medium">LIVE</span>}
-              {isHistorical && <span className="px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 text-[10px] font-medium flex items-center gap-1"><Clock className="w-3 h-3" /> HISTORICAL</span>}
-            </div>
-          </div>
-
-          {/* KPI Cards */}
-          <div className="grid grid-cols-4 gap-4">
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50" title="Targeting accuracy: % of audits that successfully identify a discrepancy">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-slate-400 uppercase tracking-wider">Audit Hit Rate</span>
-                <Target className="w-4 h-4 text-amber-400" />
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-white">{auditPulse.auditHitRate}%</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    {auditPulse.auditHitRateTrend > 0 ? <ArrowUpRight className="w-3 h-3 text-emerald-400" /> : <ArrowDownRight className="w-3 h-3 text-red-400" />}
-                    <span className={`text-xs ${auditPulse.auditHitRateTrend > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{Math.abs(auditPulse.auditHitRateTrend)}% vs prev</span>
-                  </div>
-                </div>
-                {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.hitRate} color="#f59e0b" />}
-              </div>
-            </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-red-500/20" title="Total physical cash leakage caught by auditors this month">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-slate-400 uppercase tracking-wider">Shortage Discovered</span>
-                <AlertTriangle className="w-4 h-4 text-red-400" />
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-red-400">{formatCurrency(auditPulse.totalShortageDiscovered)}</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    {auditPulse.shortageTrend < 0 ? <TrendingDown className="w-3 h-3 text-emerald-400" /> : <TrendingUp className="w-3 h-3 text-red-400" />}
-                    <span className={`text-xs ${auditPulse.shortageTrend < 0 ? 'text-emerald-400' : 'text-red-400'}`}>{Math.abs(auditPulse.shortageTrend)}% vs prev</span>
-                  </div>
-                </div>
-                {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.shortage} color="#ef4444" />}
-              </div>
-            </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50" title="% of Red (High-Risk) ATMs audited within their 30-day window">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-slate-400 uppercase tracking-wider">Risk Coverage</span>
-                <Shield className="w-4 h-4 text-blue-400" />
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-white">{auditPulse.riskCoverage}%</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <ArrowUpRight className="w-3 h-3 text-emerald-400" />
-                    <span className="text-xs text-emerald-400">{auditPulse.riskCoverageTrend}% vs prev</span>
-                  </div>
-                </div>
-                {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.coverage} color="#3b82f6" />}
-              </div>
-            </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-emerald-500/20" title="Average score for field rigor: Geo-tagging + OTC Status + Auditually Video quality">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-slate-400 uppercase tracking-wider">Auditor Compliance</span>
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-white">{auditPulse.auditorComplianceScore}%</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <ArrowUpRight className="w-3 h-3 text-emerald-400" />
-                    <span className="text-xs text-emerald-400">{auditPulse.complianceTrend}% vs prev</span>
-                  </div>
-                </div>
-                {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.compliance} color="#10b981" />}
-              </div>
-              <div className="mt-2 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[9px] text-slate-500">
-                <span className="flex items-center gap-0.5"><MapPin className="w-2.5 h-2.5 text-emerald-400" />Geo 92%</span>
-                <span className="flex items-center gap-0.5"><Lock className="w-2.5 h-2.5 text-emerald-400" />OTC 88%</span>
-                <span className="flex items-center gap-0.5"><Camera className="w-2.5 h-2.5 text-amber-400" />Video 82%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Pattern Insights Banner (historical only) */}
-          {isHistorical && currentInsights && (
-            <div className="mt-4 bg-amber-500/5 border border-amber-500/20 rounded-xl p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <Lightbulb className="w-4 h-4 text-amber-400" />
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Pattern Recognition — {timeframeLabel}</span>
-              </div>
-              <div className="space-y-1.5">
-                {currentInsights.map((insight, i) => (
-                  <p key={i} className="text-xs text-slate-300 leading-relaxed flex items-start gap-2">
-                    <span className="text-amber-500 mt-0.5 shrink-0">▸</span>{insight}
-                  </p>
-                ))}
-              </div>
-            </div>
-          )}
+// ───────────────────────── Planner view ─────────────────────────
+const PlannerView: React.FC<{
+  targets: AuditTarget[]; search: string; setSearch: (s: string) => void;
+  riskFilter: 'all' | RiskLevel; setRiskFilter: (r: 'all' | RiskLevel) => void;
+  onRowDoubleClick: (t: AuditTarget) => void;
+}> = ({ targets, search, setSearch, riskFilter, setRiskFilter, onRowDoubleClick }) => {
+  return (
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h2 className="text-base font-bold text-slate-900">Audit Planner</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Sites prioritised by risk · Double-click any row for full risk breakdown</p>
         </div>
-
-        {/* Main Workspace */}
-        <div className="flex-1 overflow-auto p-6">
-
-          {/* ═══ RISK PLANNER (Enhanced with Score Breakdown + Historical Context) ═══ */}
-          {mainView === 'planner' && (
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold flex items-center gap-2">
-                  <Target className="w-4 h-4 text-amber-400" />
-                  Risk-Based Audit Planner
-                  <span className="text-[10px] text-slate-500 font-normal ml-2">Scoring ingested from Data Lake ML models</span>
-                </h2>
-                <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                    <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search ATM / Location..." className="bg-slate-800 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-600 w-56 focus:outline-none focus:border-amber-500/50" />
-                  </div>
-                  <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5 border border-slate-700">
-                    {['all', 'high', 'medium', 'low'].map(p => (
-                      <button key={p} onClick={() => setPriorityFilter(p)} className={`px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-wider transition-colors ${priorityFilter === p ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}>
-                        {p}
-                      </button>
-                    ))}
-                  </div>
-                  <button disabled={isHistorical}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
-                      isHistorical ? 'bg-slate-800 text-slate-600 border-slate-700 cursor-not-allowed' : 'bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 border-amber-500/20'
-                    }`} title={isHistorical ? 'Surprise Audits are live events only' : 'Trigger Surprise Audit'}>
-                    <Shuffle className="w-3.5 h-3.5" /> Surprise Audit
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex gap-4 mb-4 text-[10px]">
-                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-red-500" /> High Priority — 30 Day Cycle</span>
-                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500" /> Medium — 60 Day Cycle</span>
-                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Low — 90 Day Cycle</span>
-              </div>
-
-              <div className="overflow-hidden rounded-xl border border-slate-800">
-                <table className="w-full text-xs">
-                  <thead>
-                    <tr className="bg-slate-800/80 text-slate-400 uppercase tracking-wider">
-                      <th className="text-left px-4 py-2.5 font-medium">Terminal ID</th>
-                      <th className="text-left px-4 py-2.5 font-medium">Location</th>
-                      <th className="text-left px-4 py-2.5 font-medium">Site Persona</th>
-                      <th className="text-center px-4 py-2.5 font-medium">Priority</th>
-                      <th className="text-center px-4 py-2.5 font-medium" title="Live score from Data Lake — click row for the 'Why'">Preemption Score</th>
-                      <th className="text-center px-4 py-2.5 font-medium" title="Adaptive cycle — auto-shortened on leakage trends">Adaptive Cycle</th>
-                      <th className="text-center px-4 py-2.5 font-medium">Balance Drift</th>
-                      <th className="text-right px-4 py-2.5 font-medium">Total Shortage</th>
-                      <th className="text-center px-4 py-2.5 font-medium">Days Since</th>
-                      <th className="text-center px-4 py-2.5 font-medium">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredTargets.map((t) => (
-                      <React.Fragment key={t.id}>
-                        <tr className={`border-t border-slate-800/50 hover:bg-slate-800/30 transition-colors cursor-pointer ${t.overdue ? 'bg-red-500/5' : ''}`}
-                          onClick={() => setExpandedRiskTarget(expandedRiskTarget === t.name ? null : t.name)}>
-                          <td className="px-4 py-2.5 font-mono font-medium text-white flex items-center gap-1">
-                            <ChevronRight className={`w-3 h-3 text-slate-500 transition-transform ${expandedRiskTarget === t.name ? 'rotate-90' : ''}`} />
-                            {t.name}
-                          </td>
-                          <td className="px-4 py-2.5 text-slate-400">{t.location}</td>
-                          <td className="px-4 py-2.5"><span className="text-slate-300">{t.sitePersona}</span></td>
-                          <td className="px-4 py-2.5 text-center">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${getPriorityColor(t.priority)}`}>{t.priority.toUpperCase()}</span>
-                          </td>
-                          <td className="px-4 py-2.5 text-center">
-                            <span className={`font-bold ${t.riskScore >= 80 ? 'text-red-400' : t.riskScore >= 50 ? 'text-amber-400' : 'text-emerald-400'}`}>{t.riskScore}</span>
-                            <span className="text-[9px] text-slate-600 ml-1">/100</span>
-                          </td>
-                          <td className="px-4 py-2.5 text-center">
-                            {(() => {
-                              const preempted = t.riskScore >= 80 && t.auditCycleTarget > 7;
-                              const effectiveCycle = preempted ? 7 : t.auditCycleTarget;
-                              return (
-                                <div className="flex flex-col items-center gap-0.5">
-                                  <span className={`text-xs font-mono font-bold ${preempted ? 'text-red-400' : 'text-slate-300'}`}>{effectiveCycle}d</span>
-                                  {preempted ? (
-                                    <span className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-red-500/20 text-red-400 uppercase tracking-wider flex items-center gap-0.5">
-                                      <Zap className="w-2 h-2" /> Preempted
-                                    </span>
-                                  ) : (
-                                    <span className="text-[9px] text-slate-600">{t.auditCycleTarget}d cycle</span>
-                                  )}
-                                </div>
-                              );
-                            })()}
-                          </td>
-                          <td className="px-4 py-2.5 text-center">
-                            {t.balanceDriftCount > 0 ? <span className="text-red-400 font-medium">{t.balanceDriftCount}x</span> : <span className="text-slate-600">—</span>}
-                          </td>
-                          <td className="px-4 py-2.5 text-right">
-                            {t.totalShortage > 0 ? <span className="text-red-400 font-medium">{formatCurrency(t.totalShortage)}</span> : <span className="text-emerald-400">Clean</span>}
-                          </td>
-                          <td className="px-4 py-2.5 text-center">
-                            <span className={`font-mono ${t.daysSinceAudit > t.auditCycleTarget ? 'text-red-400 font-bold' : 'text-slate-400'}`}>{t.daysSinceAudit}d</span>
-                          </td>
-                          <td className="px-4 py-2.5 text-center">
-                            {t.overdue ? (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-600 text-white animate-pulse">OVERDUE</span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-700 text-slate-300">On Track</span>
-                            )}
-                          </td>
-                        </tr>
-                        {/* ── Expanded: Risk Score Breakdown + Historical Context ── */}
-                        {expandedRiskTarget === t.name && (
-                          <tr>
-                            <td colSpan={10} className="px-4 py-3 bg-slate-800/40 border-t border-slate-700/30">
-                              <div className="grid grid-cols-2 gap-4">
-                                {/* Risk Score Breakdown */}
-                                <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
-                                    <span className="text-[10px] font-bold text-indigo-400 uppercase">Risk Score Breakdown — {t.riskScore}/100</span>
-                                  </div>
-                                  <p className="text-[9px] text-slate-500 mb-2">
-                                    High Risk due to: {riskScoreBreakdown[t.name]?.filter(f => f.score >= 60).map(f => f.factor).join(' + ') || 'Multiple factors'}
-                                  </p>
-                                  <div className="space-y-1.5">
-                                    {riskScoreBreakdown[t.name]?.map((f, i) => (
-                                      <div key={i}>
-                                        <div className="flex items-center justify-between text-[10px] mb-0.5">
-                                          <span className="text-slate-300">{f.factor} <span className="text-slate-600">({f.weight}%)</span></span>
-                                          <span className={`font-bold ${f.score >= 70 ? 'text-red-400' : f.score >= 40 ? 'text-amber-400' : 'text-emerald-400'}`}>{f.score}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                            <div className={`h-full rounded-full ${f.score >= 70 ? 'bg-red-500' : f.score >= 40 ? 'bg-amber-500' : 'bg-emerald-500'}`}
-                                              style={{ width: `${f.score}%` }} />
-                                          </div>
-                                          <span className="text-[9px] text-slate-500 min-w-[140px]">{f.detail}</span>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-
-                                {/* Historical Context Card */}
-                                <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <History className="w-3.5 h-3.5 text-amber-400" />
-                                    <span className="text-[10px] font-bold text-amber-400 uppercase">Historical Context — Past Incidents</span>
-                                  </div>
-                                  <p className="text-[9px] text-slate-500 mb-2">Major events at this site — helps auditor know what to look for.</p>
-                                  <div className="space-y-1.5">
-                                    {historicalIncidents[t.name]?.map((inc, i) => (
-                                      <div key={i} className={`flex items-center gap-2 p-1.5 rounded border ${
-                                        inc.severity === 'critical' ? 'border-red-500/30 bg-red-500/5' :
-                                        inc.severity === 'high' ? 'border-amber-500/20 bg-amber-500/5' :
-                                        inc.severity === 'medium' ? 'border-slate-600 bg-slate-800/30' :
-                                        'border-slate-700 bg-slate-800/20'
-                                      }`}>
-                                        <span className="text-[9px] text-slate-500 font-mono min-w-[70px]">{inc.date}</span>
-                                        <span className={`px-1.5 py-0.5 rounded text-[8px] font-medium ${
-                                          inc.severity === 'critical' ? 'bg-red-600 text-white' :
-                                          inc.severity === 'high' ? 'bg-red-500/20 text-red-400' :
-                                          inc.severity === 'medium' ? 'bg-amber-500/20 text-amber-400' :
-                                          'bg-slate-700 text-slate-400'
-                                        }`}>{inc.type}</span>
-                                        {inc.amount > 0 && <span className="text-[9px] text-red-400 font-mono">{formatCurrency(inc.amount)}</span>}
-                                        <span className="text-[9px] text-slate-400 ml-auto">{inc.resolution}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* ═══ LIVE FEED / AUDIT ARCHIVE ═══ */}
-          {mainView === 'live-feed' && (
-            <>
-              {!isHistorical ? (
-                <div className="flex gap-6">
-                  <div className="flex-1">
-                    <h2 className="text-base font-bold flex items-center gap-2 mb-4">
-                      <Eye className="w-4 h-4 text-emerald-400" />
-                      Live Audit Feed
-                      <span className="ml-2 px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-medium">LIVE</span>
-                    </h2>
-                    <div className="space-y-3">
-                      {liveAuditFeed.map(audit => (
-                        <div key={audit.id} onClick={() => setSelectedAudit(selectedAudit?.id === audit.id ? null : audit)}
-                          className={`rounded-xl border p-4 cursor-pointer transition-all ${
-                            audit.status === 'flagged' ? 'border-red-500/30 bg-red-500/5 hover:bg-red-500/10' :
-                            audit.status === 'completed' ? 'border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10' :
-                            'border-slate-700 bg-slate-800/50 hover:bg-slate-800'
-                          } ${selectedAudit?.id === audit.id ? 'ring-1 ring-amber-400/50' : ''}`}>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <span className="font-mono font-bold text-white text-sm">{audit.atmId}</span>
-                              <span className="text-xs text-slate-500">{audit.location}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                                audit.status === 'flagged' ? 'bg-red-600 text-white' :
-                                audit.status === 'completed' ? 'bg-emerald-600 text-white' : 'bg-blue-600 text-white'
-                              }`}>{audit.status.toUpperCase()}</span>
-                              <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${selectedAudit?.id === audit.id ? 'rotate-90' : ''}`} />
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-4 gap-3 mb-2">
-                            <div className="text-center"><p className="text-[10px] text-slate-500 uppercase">Switch</p><p className="text-sm font-mono text-white">{audit.switchCounter.toLocaleString()}</p></div>
-                            <div className="text-center"><p className="text-[10px] text-slate-500 uppercase">Machine</p><p className="text-sm font-mono text-white">{audit.machineCounter.toLocaleString()}</p></div>
-                            <div className="text-center"><p className="text-[10px] text-slate-500 uppercase">Physical</p><p className="text-sm font-mono text-white">{audit.physicalCount.toLocaleString()}</p></div>
-                            <div className="text-center"><p className="text-[10px] text-slate-500 uppercase">Diff. AMT</p>
-                              <p className={`text-sm font-mono font-bold ${audit.diffAmount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-                                {audit.diffAmount > 0 ? `-₹${audit.diffAmount.toLocaleString()}` : '₹0'}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-3 text-[10px]">
-                            <span className="text-slate-500">Auditor: <span className="text-slate-300">{audit.auditorName}</span></span>
-                            <span className="text-slate-500">ID: <span className="text-slate-300">{audit.auditorId}</span></span>
-                            <span className="text-slate-500">{new Date(audit.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {selectedAudit && (
-                    <div className="w-96 bg-slate-900 rounded-xl border border-slate-800 p-4 overflow-auto max-h-[calc(100vh-240px)]">
-                      <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
-                        <Camera className="w-4 h-4 text-amber-400" />
-                        Audit Detail — {selectedAudit.atmId}
-                      </h3>
-                      {/* 3-Way Match Summary */}
-                      <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
-                        <p className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <BarChart3 className="w-3 h-3" /> The 3-Way Match
-                        </p>
-                        <div className="grid grid-cols-3 gap-2 text-center">
-                          <div className="bg-slate-800/60 rounded p-2">
-                            <p className="text-[9px] text-slate-500 uppercase">Switch Counter</p>
-                            <p className="text-xs font-mono text-white">{selectedAudit.switchCounter.toLocaleString()}</p>
-                          </div>
-                          <div className="bg-slate-800/60 rounded p-2">
-                            <p className="text-[9px] text-slate-500 uppercase">Machine Counter</p>
-                            <p className="text-xs font-mono text-white">{selectedAudit.machineCounter.toLocaleString()}</p>
-                          </div>
-                          <div className={`rounded p-2 ${selectedAudit.diffAmount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'}`}>
-                            <p className="text-[9px] text-slate-500 uppercase">Physical (Field)</p>
-                            <p className="text-xs font-mono text-white">{selectedAudit.physicalCount.toLocaleString()}</p>
-                          </div>
-                        </div>
-                        {selectedAudit.diffAmount > 0 && (
-                          <p className="text-[10px] text-red-400 mt-2 text-center">
-                            Δ Physical short by ₹{selectedAudit.diffAmount.toLocaleString()} vs Switch
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Auditually Video Player */}
-                      <div className="mb-4 rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
-                        <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <Eye className="w-3 h-3" /> "Auditually" Video Evidence
-                        </p>
-                        <div className="aspect-video bg-slate-950 rounded-md border border-slate-800 flex items-center justify-center relative overflow-hidden group cursor-pointer">
-                          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent" />
-                          <div className="relative z-10 flex flex-col items-center">
-                            <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center group-hover:bg-indigo-500/30 transition-colors">
-                              <span className="text-indigo-300 text-sm ml-0.5">▶</span>
-                            </div>
-                            <p className="text-[9px] text-slate-400 mt-1.5">Tap to play · 02:14 · 1080p</p>
-                          </div>
-                          <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[8px] font-bold bg-red-600 text-white">● REC</span>
-                          <span className="absolute bottom-1.5 right-1.5 text-[8px] text-slate-500 font-mono">{new Date(selectedAudit.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
-                        <p className="text-[9px] text-slate-500 mt-1.5">Physical count of cassette + jam inspection captured by auditor's mobile.</p>
-                      </div>
-
-                      <div className="mb-4">
-                        <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Photo Evidence Gallery</p>
-                        <div className="grid grid-cols-3 gap-2">
-                          {selectedAudit.photoEvidence.map((photo, i) => (
-                            <div key={i} className={`rounded-lg border p-2 text-center ${photo.verified ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-red-500/30 bg-red-500/5'}`}>
-                              <div className="w-full aspect-square bg-slate-800 rounded-md mb-1.5 flex items-center justify-center">
-                                <Camera className={`w-6 h-6 ${photo.verified ? 'text-emerald-600' : 'text-red-600'}`} />
-                              </div>
-                              <p className="text-[10px] text-slate-300">{photo.type}</p>
-                              <p className={`text-[9px] ${photo.verified ? 'text-emerald-400' : 'text-red-400'}`}>
-                                {photo.verified ? '✓ Verified' : '✗ Mismatch'}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Recommendation vs Standard Plan History */}
-                      <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
-                        <p className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <History className="w-3 h-3" /> Recommendation vs Site History
-                        </p>
-                        <div className="space-y-2">
-                          <div className="bg-slate-800/60 rounded p-2 border-l-2 border-amber-400">
-                            <p className="text-[9px] text-slate-500 uppercase mb-0.5">Auditor's Recommendation</p>
-                            <p className="text-xs text-white">
-                              {selectedAudit.diffAmount > 10000 ? 'Replace dispense shutter — repeat note jam pattern detected' :
-                               selectedAudit.diffAmount > 0 ? 'Re-seal cassette + verify counter sync at next replenishment' :
-                               'Site clean — standard 60-day cycle resume'}
-                            </p>
-                          </div>
-                          <div className="bg-slate-800/60 rounded p-2 border-l-2 border-slate-600">
-                            <p className="text-[9px] text-slate-500 uppercase mb-0.5">Standard Plan Audit History (last 90 days)</p>
-                            <div className="space-y-0.5 text-[10px]">
-                              {selectedAudit.diffAmount > 10000 ? (
-                                <>
-                                  <p className="text-red-400">▸ 12-Mar-26 — Shutter jam reported · NOT actioned</p>
-                                  <p className="text-red-400">▸ 28-Feb-26 — Shutter jam reported · NOT actioned</p>
-                                  <p className="text-amber-400 font-bold mt-1">⚠ Repeat failure — 3rd occurrence in 60 days</p>
-                                </>
-                              ) : selectedAudit.diffAmount > 0 ? (
-                                <>
-                                  <p className="text-slate-400">▸ 02-Apr-26 — Cassette seal verified clean</p>
-                                  <p className="text-slate-400">▸ 18-Mar-26 — Routine — no findings</p>
-                                </>
-                              ) : (
-                                <p className="text-emerald-400">▸ No prior findings — site stable</p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                          <p className="text-[10px] text-slate-500 uppercase mb-1">SOP Compliance</p>
-                          <div className="space-y-1">
-                            {selectedAudit.sopCompliance.map((s, i) => (
-                              <div key={i} className="flex items-center justify-between text-xs">
-                                <span className="text-slate-400">{s.item}</span>
-                                <span className={s.status ? 'text-emerald-400' : 'text-red-400'}>{s.status ? '✓' : '✗'}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                          <p className="text-[10px] text-slate-500 uppercase mb-1">Auditor</p>
-                          <p className="text-xs text-white">{selectedAudit.auditorName}</p>
-                          <p className="text-[10px] text-slate-400">{selectedAudit.auditorId}</p>
-                        </div>
-                        {selectedAudit.status === 'flagged' && (
-                          <div className="flex gap-2">
-                            <button className="flex-1 px-3 py-2 bg-red-600 text-white rounded-lg text-xs font-medium hover:bg-red-700 transition-colors">Escalate</button>
-                            <button className="flex-1 px-3 py-2 bg-slate-700 text-white rounded-lg text-xs font-medium hover:bg-slate-600 transition-colors">FIR Attach</button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                /* HISTORICAL MODE — Archive */
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-base font-bold flex items-center gap-2">
-                      <Archive className="w-4 h-4 text-amber-400" />
-                      Audit Archive & Logs
-                      <span className="ml-2 px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 text-[10px] font-medium">{timeframeLabel}</span>
-                    </h2>
-                    <div className="flex items-center gap-2">
-                      <div className="relative">
-                        <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                        <input value={archiveSearch} onChange={e => { setArchiveSearch(e.target.value); setArchivePage(1); }}
-                          placeholder="Search ATM, location, auditor..." className="bg-slate-800 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-600 w-64 focus:outline-none focus:border-amber-500/50" />
-                      </div>
-                      <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5 border border-slate-700">
-                        {([
-                          { key: 'all' as const, label: 'All' },
-                          { key: 'flagged' as const, label: 'Flagged Only' },
-                          { key: 'manipulation' as const, label: 'Manipulations' },
-                        ]).map(f => (
-                          <button key={f.key} onClick={() => { setArchiveFilter(f.key); setArchivePage(1); }}
-                            className={`px-2.5 py-1 rounded-md text-[10px] font-medium transition-colors ${archiveFilter === f.key ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}>
-                            {f.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3 mb-4">
-                    <div className="bg-slate-800/60 rounded-lg px-4 py-2 border border-slate-700/50 text-center">
-                      <p className="text-[10px] text-slate-500 uppercase">Total Audits</p>
-                      <p className="text-lg font-bold text-white">{filteredArchive.length}</p>
-                    </div>
-                    <div className="bg-slate-800/60 rounded-lg px-4 py-2 border border-red-500/20 text-center">
-                      <p className="text-[10px] text-slate-500 uppercase">Flagged</p>
-                      <p className="text-lg font-bold text-red-400">{filteredArchive.filter(e => e.status === 'flagged').length}</p>
-                    </div>
-                    <div className="bg-slate-800/60 rounded-lg px-4 py-2 border border-amber-500/20 text-center">
-                      <p className="text-[10px] text-slate-500 uppercase">Manipulations</p>
-                      <p className="text-lg font-bold text-amber-400">{filteredArchive.filter(e => e.manipulation).length}</p>
-                    </div>
-                    <div className="bg-slate-800/60 rounded-lg px-4 py-2 border border-slate-700/50 text-center">
-                      <p className="text-[10px] text-slate-500 uppercase">Total Shortage</p>
-                      <p className="text-lg font-bold text-red-400">{formatCurrency(filteredArchive.reduce((s, e) => s + e.shortage, 0))}</p>
-                    </div>
-                  </div>
-
-                  <div className="overflow-hidden rounded-xl border border-slate-800">
-                    <table className="w-full text-xs">
-                      <thead>
-                        <tr className="bg-slate-800/80 text-slate-400 uppercase tracking-wider">
-                          <th className="text-left px-4 py-2.5 font-medium">Audit ID</th>
-                          <th className="text-left px-4 py-2.5 font-medium">ATM</th>
-                          <th className="text-left px-4 py-2.5 font-medium">Location</th>
-                          <th className="text-left px-4 py-2.5 font-medium">Auditor</th>
-                          <th className="text-center px-4 py-2.5 font-medium">Date</th>
-                          <th className="text-center px-4 py-2.5 font-medium">Status</th>
-                          <th className="text-right px-4 py-2.5 font-medium">Shortage</th>
-                          <th className="text-center px-4 py-2.5 font-medium">Closure Quality</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {paginatedArchive.map(e => (
-                          <tr key={e.id} className={`border-t border-slate-800/50 hover:bg-slate-800/30 transition-colors ${e.manipulation ? 'bg-red-500/5' : ''}`}>
-                            <td className="px-4 py-2.5 font-mono text-slate-400">{e.id}</td>
-                            <td className="px-4 py-2.5 font-mono font-medium text-white">{e.atmId}</td>
-                            <td className="px-4 py-2.5 text-slate-400">{e.location}</td>
-                            <td className="px-4 py-2.5 text-slate-300">{e.auditorName}</td>
-                            <td className="px-4 py-2.5 text-center text-slate-400">{new Date(e.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</td>
-                            <td className="px-4 py-2.5 text-center">
-                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${e.status === 'flagged' ? 'bg-red-600 text-white' : 'bg-emerald-600 text-white'}`}>
-                                {e.status.toUpperCase()}
-                              </span>
-                            </td>
-                            <td className="px-4 py-2.5 text-right">
-                              {e.shortage > 0 ? <span className="text-red-400 font-medium">{formatCurrency(e.shortage)}</span> : <span className="text-emerald-400">₹0</span>}
-                            </td>
-                            {/* Closure Quality: Report Closed vs System Fixed */}
-                            <td className="px-4 py-2.5 text-center">
-                              {e.status === 'flagged' ? (
-                                e.manipulation ? (
-                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/20 text-indigo-400 flex items-center gap-1 justify-center">
-                                    <Lock className="w-3 h-3" /> System Fixed
-                                  </span>
-                                ) : (
-                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-700 text-slate-300 flex items-center gap-1 justify-center">
-                                    <CheckCircle2 className="w-3 h-3" /> Report Closed
-                                  </span>
-                                )
-                              ) : (
-                                <span className="text-emerald-400 text-[10px]">Clean</span>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {totalArchivePages > 1 && (
-                    <div className="flex items-center justify-between mt-3">
-                      <span className="text-[10px] text-slate-500">Showing {(archivePage - 1) * archivePageSize + 1}–{Math.min(archivePage * archivePageSize, filteredArchive.length)} of {filteredArchive.length}</span>
-                      <div className="flex gap-1">
-                        {Array.from({ length: totalArchivePages }, (_, i) => (
-                          <button key={i} onClick={() => setArchivePage(i + 1)}
-                            className={`w-7 h-7 rounded text-[10px] font-medium transition-colors ${archivePage === i + 1 ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-800 text-slate-500 hover:text-slate-300'}`}>
-                            {i + 1}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </>
-          )}
-
-          {/* ═══ DISCREPANCY ROOT CAUSE ═══ */}
-          {mainView === 'discrepancy' && (
-            <div className="flex gap-6">
-              <div className="flex-1">
-                <h2 className="text-base font-bold flex items-center gap-2 mb-4">
-                  <AlertTriangle className="w-4 h-4 text-red-400" />
-                  Discrepancy Root Cause Workspace
-                  {isHistorical && <span className="ml-2 px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 text-[10px] font-medium">Aggregate — {timeframeLabel}</span>}
-                </h2>
-                <div className="grid grid-cols-3 gap-3 mb-4">
-                  {[
-                    { cat: 'Technical', icon: <Wrench className="w-4 h-4" />, count: isHistorical ? historicalDiscrepancyAggregate.technical : discrepancies.filter(d => d.category === 'technical').length, color: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
-                    { cat: 'Physical', icon: <Package className="w-4 h-4" />, count: isHistorical ? historicalDiscrepancyAggregate.physical : discrepancies.filter(d => d.category === 'physical').length, color: 'text-amber-400 bg-amber-500/10 border-amber-500/20' },
-                    { cat: 'Human Error/Fraud', icon: <UserX className="w-4 h-4" />, count: isHistorical ? historicalDiscrepancyAggregate.human : discrepancies.filter(d => d.category === 'human').length, color: 'text-red-400 bg-red-500/10 border-red-500/20' },
-                  ].map(c => (
-                    <div key={c.cat} className={`rounded-xl p-3 border ${c.color}`}>
-                      <div className="flex items-center gap-2 mb-1">{c.icon}<span className="text-sm font-medium">{c.cat}</span></div>
-                      <span className="text-2xl font-bold">{c.count}</span><span className="text-xs ml-1 opacity-60">findings</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="space-y-2">
-                  {discrepancies.map(d => (
-                    <div key={d.id} onClick={() => setSelectedDiscrepancy(selectedDiscrepancy?.id === d.id ? null : d)}
-                      className={`rounded-xl border p-4 cursor-pointer transition-all hover:bg-slate-800/30 ${
-                        d.severity === 'critical' ? 'border-red-500/30 bg-red-500/5' :
-                        d.severity === 'high' ? 'border-amber-500/30 bg-amber-500/5' :
-                        'border-slate-700 bg-slate-800/30'
-                      } ${selectedDiscrepancy?.id === d.id ? 'ring-1 ring-amber-400/50' : ''}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                          <span className={`p-1.5 rounded-lg ${d.category === 'human' ? 'bg-red-500/15 text-red-400' : d.category === 'physical' ? 'bg-amber-500/15 text-amber-400' : 'bg-blue-500/15 text-blue-400'}`}>
-                            {getCategoryIcon(d.category)}
-                          </span>
-                          <div>
-                            <span className="font-mono font-medium text-white text-sm">{d.atmId}</span>
-                            <span className="mx-2 text-slate-600">·</span>
-                            <span className="text-xs text-slate-400">{d.subCategory}</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-red-400 font-bold text-sm">{formatCurrency(d.amount)}</span>
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${getSeverityColor(d.severity)}`}>{d.severity.toUpperCase()}</span>
-                        </div>
-                      </div>
-                      <p className="text-xs text-slate-400 leading-relaxed">{d.description}</p>
-                      {d.photoMismatch && (
-                        <div className="mt-2 flex items-center gap-1.5 text-[10px] text-red-400 bg-red-500/10 rounded-lg px-2.5 py-1 w-fit">
-                          <Camera className="w-3 h-3" /> Manual Input Manipulation Detected
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {selectedDiscrepancy && (
-                <div className="w-96 bg-slate-900 rounded-xl border border-slate-800 p-4 overflow-auto max-h-[calc(100vh-240px)]">
-                  <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
-                    <FileWarning className="w-4 h-4 text-red-400" />
-                    Deep Dive — {selectedDiscrepancy.atmId}
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                      <p className="text-[10px] text-slate-500 uppercase mb-1">Category</p>
-                      <div className="flex items-center gap-2">
-                        {getCategoryIcon(selectedDiscrepancy.category)}
-                        <span className="text-sm font-medium text-white capitalize">{selectedDiscrepancy.category}</span>
-                        <span className="text-xs text-slate-400">— {selectedDiscrepancy.subCategory}</span>
-                      </div>
-                    </div>
-                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                      <p className="text-[10px] text-slate-500 uppercase mb-1">Root Cause</p>
-                      <p className="text-xs text-slate-300 leading-relaxed">{selectedDiscrepancy.rootCause}</p>
-                    </div>
-                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                      <p className="text-[10px] text-slate-500 uppercase mb-1">Shortage Amount</p>
-                      <p className="text-xl font-bold text-red-400">{formatCurrency(selectedDiscrepancy.amount)}</p>
-                    </div>
-                    <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                      <p className="text-[10px] text-slate-500 uppercase mb-1">Closure Quality</p>
-                      {selectedDiscrepancy.photoMismatch ? (
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/20 text-indigo-400 flex items-center gap-1">
-                            <Lock className="w-3 h-3" /> System Fixed
-                          </span>
-                          <span className="text-[10px] text-slate-500">Root cause codified into photo validation rule</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                            selectedDiscrepancy.status === 'resolved' ? 'bg-emerald-600 text-white' :
-                            selectedDiscrepancy.status === 'escalated' ? 'bg-red-600 text-white' :
-                            'bg-amber-600 text-white'
-                          }`}>{selectedDiscrepancy.status === 'resolved' ? 'Report Closed' : selectedDiscrepancy.status.toUpperCase()}</span>
-                        </div>
-                      )}
-                    </div>
-                    {selectedDiscrepancy.photoMismatch && (
-                      <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
-                        <p className="text-xs text-red-300 font-medium flex items-center gap-1.5">
-                          <Camera className="w-3.5 h-3.5" /> Photo Mismatch Alert
-                        </p>
-                        <p className="text-[10px] text-red-400/80 mt-1">Photo evidence does not match manually typed digits. Flagged for potential fraud investigation.</p>
-                      </div>
-                    )}
-                    <div className="flex gap-2 pt-2">
-                      <button className="flex-1 px-3 py-2 bg-red-600 text-white rounded-lg text-xs font-medium hover:bg-red-700 transition-colors">Escalate</button>
-                      <button className="flex-1 px-3 py-2 bg-slate-700 text-white rounded-lg text-xs font-medium hover:bg-slate-600 transition-colors">Mark Resolved</button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ═══ VAULT & ROUTE EXPLORER ═══ */}
-          {mainView === 'vault-route' && (
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-blue-400" />
-                  Vault & Route Explorer
-                  {isHistorical && <span className="ml-2 px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 text-[10px] font-medium">{timeframeLabel}</span>}
-                </h2>
-                <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5 border border-slate-700">
-                  <button onClick={() => setVaultRouteView('vaults')} className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vaultRouteView === 'vaults' ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}>129 Vaults</button>
-                  <button onClick={() => setVaultRouteView('routes')} className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vaultRouteView === 'routes' ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}>3,000 Routes</button>
-                </div>
-              </div>
-
-              {vaultRouteView === 'vaults' && (
-                <div className="overflow-hidden rounded-xl border border-slate-800">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="bg-slate-800/80 text-slate-400 uppercase tracking-wider">
-                        <th className="text-left px-4 py-2.5 font-medium">Vault</th>
-                        <th className="text-left px-4 py-2.5 font-medium">Location</th>
-                        <th className="text-center px-4 py-2.5 font-medium">ATMs</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Last Audit</th>
-                        <th className="text-right px-4 py-2.5 font-medium">Total Shortage</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Trend ({isHistorical ? timeframeLabel : '4M'})</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Compliance</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Risk</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {vaults.map(v => {
-                        const trendUp = v.shortageTrend[3] > v.shortageTrend[2];
-                        return (
-                          <tr key={v.id} className="border-t border-slate-800/50 hover:bg-slate-800/30 transition-colors">
-                            <td className="px-4 py-2.5 font-mono font-medium text-white">{v.id}</td>
-                            <td className="px-4 py-2.5 text-slate-400">{v.name}, {v.location}</td>
-                            <td className="px-4 py-2.5 text-center text-slate-300">{v.totalATMs}</td>
-                            <td className="px-4 py-2.5 text-center text-slate-400">{new Date(v.lastAuditDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</td>
-                            <td className="px-4 py-2.5 text-right text-red-400 font-medium">{formatCurrency(v.totalShortage)}</td>
-                            <td className="px-4 py-2.5 text-center">
-                              <div className="flex items-center justify-center gap-1">
-                                {trendUp ? <TrendingUp className="w-3 h-3 text-red-400" /> : <TrendingDown className="w-3 h-3 text-emerald-400" />}
-                                <div className="flex gap-px">
-                                  {v.shortageTrend.map((val, i) => (
-                                    <div key={i} className="w-3" style={{ height: `${Math.max(4, (val / Math.max(...v.shortageTrend)) * 16)}px` }}>
-                                      <div className={`w-full h-full rounded-sm ${i === 3 ? (trendUp ? 'bg-red-400' : 'bg-emerald-400') : 'bg-slate-600'}`} />
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-4 py-2.5 text-center">
-                              <span className={`font-medium ${v.complianceScore >= 90 ? 'text-emerald-400' : v.complianceScore >= 80 ? 'text-amber-400' : 'text-red-400'}`}>{v.complianceScore}%</span>
-                            </td>
-                            <td className="px-4 py-2.5 text-center">
-                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${getPriorityColor(v.riskLevel)}`}>{v.riskLevel.toUpperCase()}</span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              {vaultRouteView === 'routes' && (
-                <div className="overflow-hidden rounded-xl border border-slate-800">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="bg-slate-800/80 text-slate-400 uppercase tracking-wider">
-                        <th className="text-left px-4 py-2.5 font-medium">Route Code</th>
-                        <th className="text-left px-4 py-2.5 font-medium">Region</th>
-                        <th className="text-left px-4 py-2.5 font-medium">Custodian</th>
-                        <th className="text-center px-4 py-2.5 font-medium">ATMs</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Theft Risk</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Discrepancies</th>
-                        <th className="text-right px-4 py-2.5 font-medium">Avg Shortage</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Surprise Audits</th>
-                        <th className="text-center px-4 py-2.5 font-medium">Last Audit</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {routes.sort((a, b) => b.theftRiskScore - a.theftRiskScore).map(r => (
-                        <tr key={r.id} className="border-t border-slate-800/50 hover:bg-slate-800/30 transition-colors">
-                          <td className="px-4 py-2.5 font-mono font-medium text-white">{r.routeCode}</td>
-                          <td className="px-4 py-2.5 text-slate-400">{r.region}</td>
-                          <td className="px-4 py-2.5">
-                            <span className="text-slate-300">{r.custodianName}</span>
-                            <span className="text-slate-600 ml-1 text-[10px]">{r.custodianId}</span>
-                          </td>
-                          <td className="px-4 py-2.5 text-center text-slate-300">{r.atmCount}</td>
-                          <td className="px-4 py-2.5 text-center">
-                            <div className="flex items-center justify-center gap-1.5">
-                              <div className="w-12 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                <div className={`h-full rounded-full ${r.theftRiskScore >= 80 ? 'bg-red-500' : r.theftRiskScore >= 50 ? 'bg-amber-500' : 'bg-emerald-500'}`}
-                                  style={{ width: `${r.theftRiskScore}%` }} />
-                              </div>
-                              <span className={`font-bold ${r.theftRiskScore >= 80 ? 'text-red-400' : r.theftRiskScore >= 50 ? 'text-amber-400' : 'text-emerald-400'}`}>{r.theftRiskScore}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-2.5 text-center text-slate-300">{r.totalDiscrepancies}</td>
-                          <td className="px-4 py-2.5 text-right text-red-400 font-medium">{formatCurrency(r.averageShortage)}</td>
-                          <td className="px-4 py-2.5 text-center text-slate-400">{r.surpriseAuditCount}</td>
-                          <td className="px-4 py-2.5 text-center text-slate-400">{new Date(r.lastAuditDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ═══ CODIFIED LEARNINGS (Learning Loop) ═══ */}
-          {mainView === 'learnings' && (
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold flex items-center gap-2">
-                  <Brain className="w-4 h-4 text-indigo-400" />
-                  Codified Learnings — The Learning Loop
-                </h2>
-                <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1 text-emerald-400">
-                    <CheckCircle2 className="w-3 h-3" /> {codifiedLearnings.filter(l => learningToggles[l.id]).length} Active Rules
-                  </span>
-                  <span className="flex items-center gap-1 text-slate-500">
-                    <XCircle className="w-3 h-3" /> {codifiedLearnings.filter(l => !learningToggles[l.id]).length} Inactive
-                  </span>
-                  <span className="flex items-center gap-1 text-amber-400">
-                    Est. Savings: {formatCurrency(codifiedLearnings.filter(l => learningToggles[l.id]).reduce((s, l) => s + l.savings, 0))}
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-500 mb-4">
-                Historical audit observations are converted into active system rules. Toggle a rule to enforce it across all affected routes automatically.
-              </p>
-
-              <div className="space-y-3">
-                {codifiedLearnings.map(learning => {
-                  const isActive = learningToggles[learning.id];
-                  return (
-                    <div key={learning.id} className={`rounded-xl border p-4 transition-all ${
-                      isActive ? 'border-indigo-500/30 bg-indigo-500/5' : 'border-slate-700 bg-slate-800/30'
-                    }`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                          <span className={`p-1.5 rounded-lg ${
-                            learning.category === 'fraud-prevention' ? 'bg-red-500/15 text-red-400' :
-                            learning.category === 'compliance' ? 'bg-amber-500/15 text-amber-400' :
-                            learning.category === 'physical-control' ? 'bg-blue-500/15 text-blue-400' :
-                            'bg-slate-700 text-slate-400'
-                          }`}>
-                            {learning.category === 'fraud-prevention' ? <AlertTriangle className="w-4 h-4" /> :
-                             learning.category === 'compliance' ? <ShieldCheck className="w-4 h-4" /> :
-                             learning.category === 'physical-control' ? <Lock className="w-4 h-4" /> :
-                             <Wrench className="w-4 h-4" />}
-                          </span>
-                          <div>
-                            <p className="text-sm font-medium text-white">{learning.observation}</p>
-                            <p className="text-[10px] text-slate-500">Source: {learning.source} · {learning.date}</p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => setLearningToggles(prev => ({ ...prev, [learning.id]: !prev[learning.id] }))}
-                          className="flex items-center gap-2 transition-colors"
-                        >
-                          {isActive ? (
-                            <ToggleRight className="w-8 h-8 text-indigo-400" />
-                          ) : (
-                            <ToggleLeft className="w-8 h-8 text-slate-600" />
-                          )}
-                        </button>
-                      </div>
-
-                      <div className={`rounded-lg p-3 mb-2 border ${isActive ? 'bg-indigo-500/10 border-indigo-500/20' : 'bg-slate-800/50 border-slate-700'}`}>
-                        <p className="text-[10px] text-indigo-400 font-bold uppercase mb-1">System Rule</p>
-                        <p className="text-xs text-slate-200">{learning.rule}</p>
-                      </div>
-
-                      <div className="flex items-center gap-4 text-[10px]">
-                        <span className="text-slate-500">Impact: <span className="text-slate-300">{learning.impact}</span></span>
-                        <span className="text-slate-500">Routes: <span className="text-white font-bold">{learning.affectedRoutes}</span></span>
-                        {learning.savings > 0 && (
-                          <span className="text-emerald-400 font-medium">Savings: {formatCurrency(learning.savings)}</span>
-                        )}
-                        <span className={`ml-auto px-2 py-0.5 rounded text-[9px] font-medium ${isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700 text-slate-500'}`}>
-                          {isActive ? '● ENFORCED' : '○ DISABLED'}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* ═══ CONTROL ENFORCEMENT WORKSPACE (SOP Rules) ═══ */}
-          {mainView === 'compliance' && (
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-rose-400" />
-                  Control Enforcement Workspace
-                  <span className="text-[10px] text-slate-500 font-normal ml-2">Rule-Based SOP Monitoring · Non-Negotiables</span>
-                </h2>
-                <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1 text-red-400 font-medium">
-                    <AlertCircle className="w-3 h-3 animate-pulse" />
-                    {complianceViolations.filter(v => v.severity === 'critical').length} Critical Violations
-                  </span>
-                  <span className="text-slate-500">
-                    {complianceViolations.length} total findings
-                  </span>
-                </div>
-              </div>
-
-              {/* SOP Category Tiles */}
-              <div className="grid grid-cols-4 gap-3 mb-5">
-                {[
-                  { key: 'Custodian Rotation', label: 'Custodian Route Rotation', rule: '> 60 days = Red Alert', icon: <UserCog className="w-4 h-4" />, tile: 'bg-rose-500/5 border-rose-500/20', text: 'text-rose-400' },
-                  { key: 'HOTO Failure', label: 'HOTO Failures', rule: 'Liability Vacuum — Paper handovers', icon: <Users className="w-4 h-4" />, tile: 'bg-amber-500/5 border-amber-500/20', text: 'text-amber-400' },
-                  { key: 'Dual-Custody Breach', label: 'Dual-Custody Breach', rule: 'Single user · both locks · proximity', icon: <Lock className="w-4 h-4" />, tile: 'bg-red-500/5 border-red-500/20', text: 'text-red-400' },
-                  { key: 'Manual Mode Vulnerability', label: 'Manual Mode Vulnerability', rule: 'Non-OTC > 2 hours', icon: <Wrench className="w-4 h-4" />, tile: 'bg-indigo-500/5 border-indigo-500/20', text: 'text-indigo-400' },
-                ].map(cat => {
-                  const items = complianceViolations.filter(v => v.type === cat.key);
-                  const critical = items.filter(v => v.severity === 'critical').length;
-                  return (
-                    <div key={cat.key} className={`rounded-xl p-3 border ${cat.tile}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={cat.text}>{cat.icon}</span>
-                        {critical > 0 && (
-                          <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-red-600 text-white font-bold animate-pulse">{critical} CRIT</span>
-                        )}
-                      </div>
-                      <p className="text-xs font-bold text-white">{cat.label}</p>
-                      <p className="text-[9px] text-slate-500 mt-0.5">{cat.rule}</p>
-                      <p className={`text-lg font-bold ${cat.text} mt-1`}>{items.length}<span className="text-[10px] text-slate-500 ml-1 font-normal">active</span></p>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <p className="text-xs text-slate-500 mb-4">
-                Real-time SOP violation tracking across the four non-negotiable controls. Each finding can be enforced or escalated under 60 seconds.
-              </p>
-
-              {/* Critical Breach Banner */}
-              {complianceViolations.some(v => v.severity === 'critical') && (
-                <div className="mb-4 rounded-xl border border-red-500/40 bg-red-500/10 p-4 flex items-start gap-3">
-                  <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5 animate-pulse" />
-                  <div>
-                    <p className="text-xs font-bold text-red-400 mb-1">⚠ CRITICAL ROTATION BREACHES DETECTED</p>
-                    <p className="text-[10px] text-red-300/80">
-                      {complianceViolations.filter(v => v.severity === 'critical').length} custodian(s) have exceeded maximum rotation window on high-risk routes. Immediate action required.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <div className="space-y-3">
-                {complianceViolations.map(violation => (
-                  <div key={violation.id} className={`rounded-xl border p-4 transition-all ${
-                    violation.severity === 'critical' ? 'border-red-500/40 bg-red-500/5' :
-                    violation.severity === 'high' ? 'border-amber-500/30 bg-amber-500/5' :
-                    'border-slate-700 bg-slate-800/30'
-                  }`}>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3">
-                        <span className={`p-1.5 rounded-lg ${
-                          violation.type === 'Custodian Rotation' ? 'bg-rose-500/15 text-rose-400' :
-                          violation.type === 'HOTO Failure' ? 'bg-amber-500/15 text-amber-400' :
-                          violation.type === 'Dual-Custody Breach' ? 'bg-red-500/15 text-red-400' :
-                          violation.type === 'Manual Mode Vulnerability' ? 'bg-indigo-500/15 text-indigo-400' :
-                          'bg-slate-700/40 text-slate-400'
-                        }`}>
-                          {violation.type === 'HOTO Failure' ? <Users className="w-4 h-4" /> :
-                           violation.type === 'Dual-Custody Breach' ? <Lock className="w-4 h-4" /> :
-                           violation.type === 'Manual Mode Vulnerability' ? <Wrench className="w-4 h-4" /> :
-                           <UserCog className="w-4 h-4" />}
-                        </span>
-                        <div>
-                          <p className="text-sm font-medium text-white">{violation.custodian}</p>
-                          <p className="text-[10px] text-slate-500">Route: <span className="text-slate-300 font-mono">{violation.route}</span> · {violation.type}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                          violation.severity === 'critical' ? 'bg-red-600 text-white animate-pulse' :
-                          violation.severity === 'high' ? 'bg-red-500/20 text-red-400' :
-                          'bg-amber-500/20 text-amber-400'
-                        }`}>{violation.severity.toUpperCase()}</span>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                          violation.status === 'Escalated' ? 'bg-red-500/20 text-red-400' :
-                          violation.status === 'Breach Confirmed' ? 'bg-red-600 text-white' :
-                          violation.status === 'Under Investigation' ? 'bg-amber-500/20 text-amber-400' :
-                          violation.status === 'Pre-Alert' ? 'bg-blue-500/20 text-blue-400' :
-                          'bg-slate-700 text-slate-300'
-                        }`}>{violation.status}</span>
-                      </div>
-                    </div>
-
-                    {violation.type === 'Custodian Rotation' ? (
-                      <div className="grid grid-cols-3 gap-3 mb-2">
-                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Current Tenure</p>
-                          <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-white'}`}>{violation.tenure}d</p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Rotation Limit</p>
-                          <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}d</p>
-                        </div>
-                        <div className={`rounded-lg p-2 border ${violation.tenure > violation.allowed ? 'bg-red-500/10 border-red-500/20' : 'bg-emerald-500/5 border-emerald-500/20'}`}>
-                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Overshoot</p>
-                          <p className={`text-lg font-bold font-mono ${violation.tenure > violation.allowed ? 'text-red-400' : 'text-emerald-400'}`}>
-                            {violation.tenure > violation.allowed ? `+${violation.tenure - violation.allowed}d` : 'On Track'}
-                          </p>
-                        </div>
-                      </div>
-                    ) : violation.type === 'Manual Mode Vulnerability' ? (
-                      <div className="grid grid-cols-3 gap-3 mb-2">
-                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Time in Manual Mode</p>
-                          <p className="text-lg font-bold font-mono text-red-400">{violation.tenure}h</p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">SOP Limit</p>
-                          <p className="text-lg font-bold font-mono text-slate-400">{violation.allowed}h</p>
-                        </div>
-                        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2">
-                          <p className="text-[9px] text-slate-500 uppercase mb-0.5">Exposure Window</p>
-                          <p className="text-lg font-bold font-mono text-red-400">+{violation.tenure - violation.allowed}h</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 uppercase tracking-wider flex items-center gap-1">
-                          <AlertTriangle className="w-3 h-3" /> SOP Breach Active
-                        </span>
-                      </div>
-                    )}
-
-                    <p className="text-[10px] text-slate-400 mb-2">{violation.detail}</p>
-
-                    {violation.escalatedTo && (
-                      <div className="flex items-center gap-2 text-[10px] text-amber-400">
-                        <ArrowUpRight className="w-3 h-3" />
-                        Escalated to: <span className="font-medium text-white">{violation.escalatedTo}</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-        </div>
-      </div>
-
-      {/* Alert Sidebar */}
-      {alertsOpen && (
-        <div className="w-80 bg-slate-900 border-l border-slate-800 overflow-auto shrink-0">
-          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-            <h3 className="text-sm font-bold flex items-center gap-2">
-              <Bell className="w-4 h-4 text-red-400" />
-              Real-Time Alerts
-            </h3>
-            <button onClick={() => setAlertsOpen(false)} className="text-slate-500 hover:text-white text-xs">✕</button>
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <Search className="w-4 h-4 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search ATM ID or location"
+              className="pl-8 pr-3 py-1.5 text-sm border border-slate-200 rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+            />
           </div>
-          <div className="p-3 space-y-2">
-            {auditAlerts.map(alert => (
-              <div key={alert.id} className={`rounded-lg p-3 border ${
-                alert.severity === 'critical' ? 'border-red-500/30 bg-red-500/10' :
-                alert.severity === 'high' ? 'border-amber-500/30 bg-amber-500/10' :
-                alert.severity === 'info' ? 'border-blue-500/30 bg-blue-500/10' :
-                'border-slate-700 bg-slate-800/50'
-              }`}>
-                <div className="flex items-start gap-2 mb-1">
-                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-medium ${getSeverityColor(alert.severity)}`}>{alert.severity.toUpperCase()}</span>
-                  <span className="text-[10px] text-slate-500">{new Date(alert.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{alert.message}</p>
-                {alert.requiresSignoff && (
-                  <button className="mt-2 w-full px-2 py-1.5 bg-amber-500/15 text-amber-400 rounded-lg text-[10px] font-medium hover:bg-amber-500/25 transition-colors border border-amber-500/20">
-                    Requires Sign-off →
-                  </button>
-                )}
-              </div>
+          <div className="flex items-center bg-slate-100 rounded-md p-0.5">
+            {(['all', 'CRITICAL', 'HIGH', 'MODERATE', 'INFO'] as const).map(r => (
+              <button
+                key={r}
+                onClick={() => setRiskFilter(r)}
+                className={`text-[11px] px-2.5 py-1 rounded font-medium ${
+                  riskFilter === r ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >{r === 'all' ? 'All' : r}</button>
             ))}
           </div>
         </div>
-      )}
+      </div>
+
+      <div className="rounded-lg border border-slate-200 bg-white overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-600 border-b border-slate-200">
+            <tr>
+              <th className="text-left font-semibold px-4 py-2.5">Terminal ID</th>
+              <th className="text-left font-semibold px-4 py-2.5">Location Type</th>
+              <th className="text-left font-semibold px-4 py-2.5">Risk Level</th>
+              <th className="text-right font-semibold px-4 py-2.5">Days Since Last Audit</th>
+              <th className="text-right font-semibold px-4 py-2.5">Days Left in Cycle</th>
+              <th className="text-right font-semibold px-4 py-2.5">Total Shortage History</th>
+              <th className="text-left font-semibold px-4 py-2.5">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {targets.map(t => {
+              const lvl = toRiskLevel(t);
+              const daysLeft = t.auditCycleTarget - t.daysSinceAudit;
+              const overdue = daysLeft <= 0;
+              return (
+                <tr
+                  key={t.id}
+                  onDoubleClick={() => onRowDoubleClick(t)}
+                  className="border-b border-slate-100 hover:bg-blue-50/40 cursor-pointer transition-colors"
+                  title="Double-click for risk breakdown"
+                >
+                  <td className="px-4 py-2.5 font-mono text-xs font-semibold text-slate-900">{t.name}</td>
+                  <td className="px-4 py-2.5 text-slate-700">{t.sitePersona}</td>
+                  <td className="px-4 py-2.5">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${riskBadgeClass(lvl)}`}>{lvl}</span>
+                  </td>
+                  <td className="px-4 py-2.5 text-right tabular-nums text-slate-700">{t.daysSinceAudit}</td>
+                  <td className={`px-4 py-2.5 text-right tabular-nums font-semibold ${
+                    overdue ? 'text-red-600 animate-pulse' : daysLeft <= 5 ? 'text-orange-600' : 'text-slate-700'
+                  }`}>
+                    {overdue ? `${Math.abs(daysLeft)}d OVERDUE` : `${daysLeft} days`}
+                    <div className="text-[10px] font-normal text-slate-400">{t.auditCycleTarget}-Day Cycle</div>
+                  </td>
+                  <td className="px-4 py-2.5 text-right tabular-nums">
+                    {t.totalShortage > 0 ? <span className="text-red-700 font-semibold">{formatINR(t.totalShortage)}</span> : <span className="text-slate-400">—</span>}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    {overdue ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-red-700 font-medium"><AlertTriangle className="w-3 h-3" />Action Required</span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-slate-600"><Clock className="w-3 h-3" />Scheduled</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+            {targets.length === 0 && (
+              <tr><td colSpan={7} className="text-center py-8 text-sm text-slate-400">No sites match the current filters.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-[11px] text-slate-500 mt-3 flex items-center gap-1.5">
+        <Eye className="w-3 h-3" />Tip: Double-click any row to see exactly why this ATM is flagged.
+      </p>
+    </div>
+  );
+};
+
+// ───────────────────────── Risk Detail Modal (double-click) ─────────────────────────
+const RiskDetailModal: React.FC<{ target: AuditTarget; onClose: () => void }> = ({ target, onClose }) => {
+  const lvl = toRiskLevel(target);
+  const reasons = buildRiskReasons(target);
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl" onClick={e => e.stopPropagation()}>
+        <div className="px-5 py-4 border-b border-slate-200 flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${riskBadgeClass(lvl)}`}>{lvl}</span>
+              <h3 className="text-base font-bold text-slate-900">Risk Factor Analysis</h3>
+            </div>
+            <p className="text-xs text-slate-500 mt-1">{target.name} · {target.location}</p>
+          </div>
+          <button onClick={onClose} className="p-1 rounded hover:bg-slate-100"><X className="w-4 h-4 text-slate-500" /></button>
+        </div>
+
+        <div className="p-5">
+          <p className="text-sm text-slate-700 mb-3">
+            This ATM is <span className="font-semibold">{lvl}</span> because of the following active issues:
+          </p>
+          <ul className="space-y-2">
+            {reasons.map((r, i) => (
+              <li key={i} className="flex items-start gap-3 p-3 rounded border border-slate-200 bg-slate-50">
+                <div className={`mt-0.5 w-1.5 h-1.5 rounded-full ${
+                  r.severity === 'critical' ? 'bg-red-600' : r.severity === 'high' ? 'bg-orange-500' : 'bg-blue-500'
+                }`} />
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-slate-900">{r.label}</div>
+                  <div className="text-xs text-slate-600 mt-0.5">{r.count}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-5 grid grid-cols-3 gap-3 text-center">
+            <div className="p-3 rounded border border-slate-200">
+              <div className="text-[10px] uppercase tracking-wider text-slate-500">Audit Cycle</div>
+              <div className="text-sm font-bold text-slate-900 mt-0.5">{target.auditCycleTarget}-Day</div>
+            </div>
+            <div className="p-3 rounded border border-slate-200">
+              <div className="text-[10px] uppercase tracking-wider text-slate-500">Days Since Audit</div>
+              <div className="text-sm font-bold text-slate-900 mt-0.5">{target.daysSinceAudit}</div>
+            </div>
+            <div className="p-3 rounded border border-slate-200">
+              <div className="text-[10px] uppercase tracking-wider text-slate-500">Site Type</div>
+              <div className="text-xs font-semibold text-slate-900 mt-0.5">{target.sitePersona}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="px-5 py-3 border-t border-slate-200 bg-slate-50 flex justify-end gap-2 rounded-b-lg">
+          <button onClick={onClose} className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100">Close</button>
+          <button className="px-3 py-1.5 text-xs font-semibold text-white bg-amber-500 rounded hover:bg-amber-600 inline-flex items-center gap-1.5">
+            <Send className="w-3.5 h-3.5" />Schedule Audit Now
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ───────────────────────── Live Feed view ─────────────────────────
+const LiveFeedView: React.FC<{
+  feed: LiveAuditEntry[]; onSelect: (a: LiveAuditEntry) => void; selected: LiveAuditEntry | null;
+}> = ({ feed, onSelect }) => {
+  return (
+    <div className="p-6 space-y-3">
+      <div>
+        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+          <Radio className="w-4 h-4 text-red-500 animate-pulse" />Live Forensic Feed
+        </h2>
+        <p className="text-xs text-slate-500 mt-0.5">Field audits streaming in real time. Click any audit to verify the physical count against bank and machine records.</p>
+      </div>
+
+      <div className="rounded-lg border border-slate-200 bg-white overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-600 border-b border-slate-200">
+            <tr>
+              <th className="text-left font-semibold px-4 py-2.5">Status</th>
+              <th className="text-left font-semibold px-4 py-2.5">Auditor</th>
+              <th className="text-left font-semibold px-4 py-2.5">ATM</th>
+              <th className="text-right font-semibold px-4 py-2.5">Mismatch</th>
+              <th className="text-left font-semibold px-4 py-2.5">Field Compliance</th>
+              <th className="text-left font-semibold px-4 py-2.5">Time</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {feed.map(a => {
+              const live = a.status === 'in-progress' || a.status === 'flagged';
+              return (
+                <tr key={a.id} className="border-b border-slate-100 hover:bg-blue-50/40 cursor-pointer" onClick={() => onSelect(a)}>
+                  <td className="px-4 py-2.5">
+                    {live ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-red-600 text-white">
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />LIVE
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">CLOSED</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-2.5 text-slate-800">{a.auditorName}</td>
+                  <td className="px-4 py-2.5">
+                    <div className="font-mono text-xs font-semibold text-slate-900">{a.atmId}</div>
+                    <div className="text-[11px] text-slate-500">{a.location}</div>
+                  </td>
+                  <td className="px-4 py-2.5 text-right tabular-nums">
+                    {a.diffAmount > 0 ? <span className="text-red-700 font-bold">{formatINR(a.diffAmount)}</span> : <span className="text-emerald-600">Matched</span>}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <div className="flex items-center gap-1.5">
+                      <ComplianceDot ok={a.geoTagged} label="Geo" />
+                      <ComplianceDot ok={a.photoEvidence.every(p => p.verified)} label="Photo" />
+                      <ComplianceDot ok={a.otcStatus === 'active'} label="Video" />
+                    </div>
+                  </td>
+                  <td className="px-4 py-2.5 text-xs text-slate-600">{new Date(a.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
+                  <td className="px-4 py-2.5"><ChevronRight className="w-4 h-4 text-slate-400" /></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+const ComplianceDot: React.FC<{ ok: boolean; label: string }> = ({ ok, label }) => (
+  <span className={`inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded ${
+    ok ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+  }`}>
+    {ok ? <CheckCircle2 className="w-2.5 h-2.5" /> : <XCircle className="w-2.5 h-2.5" />}
+    {label}
+  </span>
+);
+
+// ───────────────────────── Live Audit Modal (3-way + video) ─────────────────────────
+const LiveAuditModal: React.FC<{ audit: LiveAuditEntry; onClose: () => void }> = ({ audit, onClose }) => {
+  const bank = audit.switchCounter;
+  const machine = audit.machineCounter;
+  const physical = audit.physicalCount;
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
+        <div className="px-5 py-4 border-b border-slate-200 flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-red-600 text-white">
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />LIVE
+              </span>
+              <h3 className="text-base font-bold text-slate-900">Field Audit · {audit.atmId}</h3>
+            </div>
+            <p className="text-xs text-slate-500 mt-1">Auditor: {audit.auditorName} · {audit.location}</p>
+          </div>
+          <button onClick={onClose} className="p-1 rounded hover:bg-slate-100"><X className="w-4 h-4 text-slate-500" /></button>
+        </div>
+
+        <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Three-way triangulation */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Three-Way Triangulation</h4>
+            <div className="space-y-2">
+              <CounterRow label="Bank Record" value={bank} tone="neutral" />
+              <CounterRow label="Machine Record" value={machine} tone="neutral" />
+              <CounterRow label="Auditor's Physical Count" value={physical} tone={physical === bank ? 'good' : 'bad'} />
+            </div>
+            {audit.diffAmount > 0 && (
+              <div className="mt-3 p-3 rounded border border-red-200 bg-red-50">
+                <div className="text-[11px] uppercase tracking-wider font-bold text-red-700">Cash Mismatch</div>
+                <div className="text-2xl font-bold text-red-700">{formatINR(audit.diffAmount)}</div>
+                <div className="text-xs text-red-600 mt-0.5">Physical count is short of bank record</div>
+              </div>
+            )}
+          </div>
+
+          {/* Video evidence */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Video Evidence</h4>
+            <div className="aspect-video rounded border border-slate-200 bg-slate-900 flex items-center justify-center relative">
+              <Video className="w-10 h-10 text-slate-500" />
+              <span className="absolute top-2 left-2 inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-600 text-white">
+                <span className="w-1 h-1 bg-white rounded-full animate-pulse" />REC
+              </span>
+              <span className="absolute bottom-2 right-2 text-[10px] text-slate-400 font-mono">{new Date(audit.timestamp).toLocaleTimeString()}</span>
+            </div>
+            <div className="mt-2 grid grid-cols-3 gap-2">
+              {audit.photoEvidence.map((p, i) => (
+                <div key={i} className="aspect-square rounded border border-slate-200 bg-slate-100 flex flex-col items-center justify-center text-center p-1">
+                  <Camera className="w-4 h-4 text-slate-500" />
+                  <div className="text-[9px] text-slate-600 mt-1 leading-tight">{p.type}</div>
+                  {p.verified ? <CheckCircle2 className="w-3 h-3 text-emerald-500 mt-0.5" /> : <XCircle className="w-3 h-3 text-red-500 mt-0.5" />}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="px-5 py-3 border-t border-slate-200 bg-slate-50 flex justify-between items-center rounded-b-lg">
+          <div className="text-[11px] text-slate-600 flex items-center gap-1.5">
+            <MapPin className="w-3 h-3" />
+            {audit.geoTagged ? `Geo-tagged · ${audit.geoDistance}m from ATM` : 'Geo-tag failed'}
+          </div>
+          <div className="flex gap-2">
+            <button onClick={onClose} className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100">Close</button>
+            <button className="px-3 py-1.5 text-xs font-semibold text-white bg-red-600 rounded hover:bg-red-700 inline-flex items-center gap-1.5">
+              <Send className="w-3.5 h-3.5" />Escalate to Supervisor
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CounterRow: React.FC<{ label: string; value: number; tone: 'good' | 'bad' | 'neutral' }> = ({ label, value, tone }) => (
+  <div className={`flex items-center justify-between p-3 rounded border ${
+    tone === 'good' ? 'border-emerald-200 bg-emerald-50' :
+    tone === 'bad' ? 'border-red-200 bg-red-50' : 'border-slate-200 bg-white'
+  }`}>
+    <span className="text-xs font-medium text-slate-700">{label}</span>
+    <span className="font-mono text-sm font-bold text-slate-900 tabular-nums">{value.toLocaleString('en-IN')}</span>
+  </div>
+);
+
+// ───────────────────────── SOP Enforcement view ─────────────────────────
+const SOPView: React.FC<{ activeHub: ControlHub; setActiveHub: (h: ControlHub) => void; counts: Record<ControlHub, number> }> = ({ activeHub, setActiveHub, counts }) => {
+  const hubViolations = sopViolations.filter(v => v.hub === activeHub);
+  return (
+    <div className="p-6 space-y-4">
+      <div>
+        <h2 className="text-base font-bold text-slate-900">SOP Enforcement</h2>
+        <p className="text-xs text-slate-500 mt-0.5">Monitor non-negotiable rules. Every violation can be escalated or issued an SOP breach notice.</p>
+      </div>
+
+      {/* Hub tiles */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {(['rotation', 'handover', 'two-person', 'security'] as ControlHub[]).map(hub => {
+          const meta = HUB_META[hub];
+          const active = activeHub === hub;
+          return (
+            <button
+              key={hub}
+              onClick={() => setActiveHub(hub)}
+              className={`text-left p-4 rounded-lg border transition-colors ${
+                active ? 'border-amber-400 bg-amber-50' : 'border-slate-200 bg-white hover:border-slate-300'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className={`p-1.5 rounded ${active ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}`}>
+                  {meta.icon}
+                </div>
+                <span className="text-2xl font-bold text-slate-900">{counts[hub]}</span>
+              </div>
+              <div className="mt-2 text-sm font-semibold text-slate-900">{meta.label}</div>
+              <div className="text-[11px] text-slate-500 mt-0.5">{meta.sub}</div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Violations list */}
+      <div className="rounded-lg border border-slate-200 bg-white overflow-hidden">
+        <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {HUB_META[activeHub].icon}
+            <span className="text-sm font-bold text-slate-900">{HUB_META[activeHub].label}</span>
+            <span className="text-xs text-slate-500">· {hubViolations.length} active</span>
+          </div>
+        </div>
+        <div className="divide-y divide-slate-100">
+          {hubViolations.map(v => (
+            <div key={v.id} className="p-4 flex items-start justify-between gap-4 hover:bg-slate-50">
+              <div className="flex items-start gap-3 min-w-0 flex-1">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                  v.severity === 'CRITICAL' ? 'bg-red-600 text-white' :
+                  v.severity === 'HIGH' ? 'bg-orange-500 text-white' : 'bg-blue-500 text-white'
+                }`}>{v.severity}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold text-slate-900">{v.title}</div>
+                  <div className="text-xs text-slate-700 mt-0.5">{v.subject} · Route {v.route}</div>
+                  <div className="text-xs text-slate-600 mt-1">{v.detail}</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5 shrink-0">
+                <button className="px-2.5 py-1 text-[11px] font-semibold text-white bg-red-600 rounded hover:bg-red-700 inline-flex items-center gap-1">
+                  <Send className="w-3 h-3" />Escalate to Supervisor
+                </button>
+                <button className="px-2.5 py-1 text-[11px] font-semibold text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 inline-flex items-center gap-1">
+                  <FileText className="w-3 h-3" />Issue SOP Breach Notice
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ───────────────────────── Learning Loop view ─────────────────────────
+const LearningView: React.FC = () => {
+  const completed = learningEntries.filter(e => e.kind === 'task-completed');
+  const codified = learningEntries.filter(e => e.kind === 'rule-codified');
+  return (
+    <div className="p-6 space-y-4">
+      <div>
+        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+          <BookOpen className="w-4 h-4" />Learning Loop
+        </h2>
+        <p className="text-xs text-slate-500 mt-0.5">Track every finding through to closure: was the issue fixed in the field, or was the root cause turned into a permanent system rule?</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <ClosureSection
+          title="Task Completed"
+          subtitle="Fixed in the field"
+          icon={<CheckCheck className="w-4 h-4 text-emerald-600" />}
+          tone="emerald"
+          entries={completed}
+        />
+        <ClosureSection
+          title="Rule Codified"
+          subtitle="Root cause turned into an automated system alert"
+          icon={<BookOpen className="w-4 h-4 text-blue-600" />}
+          tone="blue"
+          entries={codified}
+        />
+      </div>
+    </div>
+  );
+};
+
+const ClosureSection: React.FC<{
+  title: string; subtitle: string; icon: React.ReactNode; tone: 'emerald' | 'blue';
+  entries: typeof learningEntries;
+}> = ({ title, subtitle, icon, tone, entries }) => (
+  <div className="rounded-lg border border-slate-200 bg-white">
+    <div className={`px-4 py-3 border-b border-slate-200 ${tone === 'emerald' ? 'bg-emerald-50' : 'bg-blue-50'}`}>
+      <div className="flex items-center gap-2">
+        {icon}
+        <span className="text-sm font-bold text-slate-900">{title}</span>
+        <span className="text-xs text-slate-500">· {entries.length}</span>
+      </div>
+      <div className="text-[11px] text-slate-600 mt-0.5">{subtitle}</div>
+    </div>
+    <div className="divide-y divide-slate-100">
+      {entries.map(e => (
+        <div key={e.id} className="p-3">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-semibold text-slate-900">{e.finding}</div>
+            <span className="text-[10px] text-slate-500">{e.date}</span>
+          </div>
+          <div className="text-xs text-slate-600 mt-0.5">{e.site}</div>
+          <div className="text-xs text-slate-700 mt-1.5 italic">→ {e.outcome}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// ───────────────────────── Alerts drawer ─────────────────────────
+const AlertsDrawer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const items = [
+    { sev: 'CRITICAL' as const, msg: '₹25,000 shortage at ATM-BLR-0055 — needs supervisor sign-off', time: '2 min ago' },
+    { sev: 'HIGH' as const, msg: 'Geo-tag failed at ATM-BLR-0055 (auditor 350m away)', time: '5 min ago' },
+    { sev: 'CRITICAL' as const, msg: 'Cash found outside cassette at ATM-HYD-0044', time: '1 hour ago' },
+  ];
+  return (
+    <div className="fixed inset-0 z-50 bg-black/30 flex justify-end" onClick={onClose}>
+      <div className="w-96 bg-white h-full overflow-auto shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+          <h3 className="text-sm font-bold text-slate-900">Recent Alerts</h3>
+          <button onClick={onClose}><X className="w-4 h-4 text-slate-500" /></button>
+        </div>
+        <div className="divide-y divide-slate-100">
+          {items.map((it, i) => (
+            <div key={i} className="p-3">
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${it.sev === 'CRITICAL' ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'}`}>{it.sev}</span>
+                <span className="text-[10px] text-slate-500">{it.time}</span>
+              </div>
+              <div className="text-sm text-slate-800 mt-1">{it.msg}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
