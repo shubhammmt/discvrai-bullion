@@ -730,6 +730,51 @@ const CMSAuditCommand: React.FC = () => {
                         <Camera className="w-4 h-4 text-amber-400" />
                         Audit Detail — {selectedAudit.atmId}
                       </h3>
+                      {/* 3-Way Match Summary */}
+                      <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                        <p className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <BarChart3 className="w-3 h-3" /> The 3-Way Match
+                        </p>
+                        <div className="grid grid-cols-3 gap-2 text-center">
+                          <div className="bg-slate-800/60 rounded p-2">
+                            <p className="text-[9px] text-slate-500 uppercase">Switch Counter</p>
+                            <p className="text-xs font-mono text-white">{selectedAudit.switchCounter.toLocaleString()}</p>
+                          </div>
+                          <div className="bg-slate-800/60 rounded p-2">
+                            <p className="text-[9px] text-slate-500 uppercase">Machine Counter</p>
+                            <p className="text-xs font-mono text-white">{selectedAudit.machineCounter.toLocaleString()}</p>
+                          </div>
+                          <div className={`rounded p-2 ${selectedAudit.diffAmount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'}`}>
+                            <p className="text-[9px] text-slate-500 uppercase">Physical (Field)</p>
+                            <p className="text-xs font-mono text-white">{selectedAudit.physicalCount.toLocaleString()}</p>
+                          </div>
+                        </div>
+                        {selectedAudit.diffAmount > 0 && (
+                          <p className="text-[10px] text-red-400 mt-2 text-center">
+                            Δ Physical short by ₹{selectedAudit.diffAmount.toLocaleString()} vs Switch
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Auditually Video Player */}
+                      <div className="mb-4 rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
+                        <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <Eye className="w-3 h-3" /> "Auditually" Video Evidence
+                        </p>
+                        <div className="aspect-video bg-slate-950 rounded-md border border-slate-800 flex items-center justify-center relative overflow-hidden group cursor-pointer">
+                          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent" />
+                          <div className="relative z-10 flex flex-col items-center">
+                            <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center group-hover:bg-indigo-500/30 transition-colors">
+                              <span className="text-indigo-300 text-sm ml-0.5">▶</span>
+                            </div>
+                            <p className="text-[9px] text-slate-400 mt-1.5">Tap to play · 02:14 · 1080p</p>
+                          </div>
+                          <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[8px] font-bold bg-red-600 text-white">● REC</span>
+                          <span className="absolute bottom-1.5 right-1.5 text-[8px] text-slate-500 font-mono">{new Date(selectedAudit.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <p className="text-[9px] text-slate-500 mt-1.5">Physical count of cassette + jam inspection captured by auditor's mobile.</p>
+                      </div>
+
                       <div className="mb-4">
                         <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Photo Evidence Gallery</p>
                         <div className="grid grid-cols-3 gap-2">
@@ -744,6 +789,42 @@ const CMSAuditCommand: React.FC = () => {
                               </p>
                             </div>
                           ))}
+                        </div>
+                      </div>
+
+                      {/* Recommendation vs Standard Plan History */}
+                      <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                        <p className="text-[10px] text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <History className="w-3 h-3" /> Recommendation vs Site History
+                        </p>
+                        <div className="space-y-2">
+                          <div className="bg-slate-800/60 rounded p-2 border-l-2 border-amber-400">
+                            <p className="text-[9px] text-slate-500 uppercase mb-0.5">Auditor's Recommendation</p>
+                            <p className="text-xs text-white">
+                              {selectedAudit.diffAmount > 10000 ? 'Replace dispense shutter — repeat note jam pattern detected' :
+                               selectedAudit.diffAmount > 0 ? 'Re-seal cassette + verify counter sync at next replenishment' :
+                               'Site clean — standard 60-day cycle resume'}
+                            </p>
+                          </div>
+                          <div className="bg-slate-800/60 rounded p-2 border-l-2 border-slate-600">
+                            <p className="text-[9px] text-slate-500 uppercase mb-0.5">Standard Plan Audit History (last 90 days)</p>
+                            <div className="space-y-0.5 text-[10px]">
+                              {selectedAudit.diffAmount > 10000 ? (
+                                <>
+                                  <p className="text-red-400">▸ 12-Mar-26 — Shutter jam reported · NOT actioned</p>
+                                  <p className="text-red-400">▸ 28-Feb-26 — Shutter jam reported · NOT actioned</p>
+                                  <p className="text-amber-400 font-bold mt-1">⚠ Repeat failure — 3rd occurrence in 60 days</p>
+                                </>
+                              ) : selectedAudit.diffAmount > 0 ? (
+                                <>
+                                  <p className="text-slate-400">▸ 02-Apr-26 — Cassette seal verified clean</p>
+                                  <p className="text-slate-400">▸ 18-Mar-26 — Routine — no findings</p>
+                                </>
+                              ) : (
+                                <p className="text-emerald-400">▸ No prior findings — site stable</p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="space-y-3">
