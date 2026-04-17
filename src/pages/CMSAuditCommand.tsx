@@ -401,8 +401,8 @@ const CMSAuditCommand: React.FC = () => {
           </div>
 
           {/* KPI Cards */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50">
+          <div className="grid grid-cols-4 gap-4">
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50" title="Targeting accuracy: % of audits that successfully identify a discrepancy">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Audit Hit Rate</span>
                 <Target className="w-4 h-4 text-amber-400" />
@@ -418,7 +418,7 @@ const CMSAuditCommand: React.FC = () => {
                 {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.hitRate} color="#f59e0b" />}
               </div>
             </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-red-500/20">
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-red-500/20" title="Total physical cash leakage caught by auditors this month">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Shortage Discovered</span>
                 <AlertTriangle className="w-4 h-4 text-red-400" />
@@ -434,7 +434,7 @@ const CMSAuditCommand: React.FC = () => {
                 {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.shortage} color="#ef4444" />}
               </div>
             </div>
-            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50">
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50" title="% of Red (High-Risk) ATMs audited within their 30-day window">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Risk Coverage</span>
                 <Shield className="w-4 h-4 text-blue-400" />
@@ -448,6 +448,27 @@ const CMSAuditCommand: React.FC = () => {
                   </div>
                 </div>
                 {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.coverage} color="#3b82f6" />}
+              </div>
+            </div>
+            <div className="bg-slate-800/60 rounded-xl p-4 border border-emerald-500/20" title="Average score for field rigor: Geo-tagging + OTC Status + Auditually Video quality">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-slate-400 uppercase tracking-wider">Auditor Compliance</span>
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-2xl font-bold text-white">{auditPulse.auditorComplianceScore}%</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <ArrowUpRight className="w-3 h-3 text-emerald-400" />
+                    <span className="text-xs text-emerald-400">{auditPulse.complianceTrend}% vs prev</span>
+                  </div>
+                </div>
+                {isHistorical && currentHistKpi && <MiniSparkline data={currentHistKpi.compliance} color="#10b981" />}
+              </div>
+              <div className="mt-2 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[9px] text-slate-500">
+                <span className="flex items-center gap-0.5"><MapPin className="w-2.5 h-2.5 text-emerald-400" />Geo 92%</span>
+                <span className="flex items-center gap-0.5"><Lock className="w-2.5 h-2.5 text-emerald-400" />OTC 88%</span>
+                <span className="flex items-center gap-0.5"><Camera className="w-2.5 h-2.5 text-amber-400" />Video 82%</span>
               </div>
             </div>
           </div>
