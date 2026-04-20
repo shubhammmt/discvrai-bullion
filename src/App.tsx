@@ -57,6 +57,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
 import CMSPitchDeck from './pages/CMSPitchDeck';
+import MahindraArmoredDeck from './pages/MahindraArmoredDeck';
+import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import CMSGuardian from './pages/CMSGuardian';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
@@ -446,6 +448,8 @@ const AppContent = () => {
                     <Route path="/cms-audit-2" element={<CMSGuardian />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
                     <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
+                    <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
+                    <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
