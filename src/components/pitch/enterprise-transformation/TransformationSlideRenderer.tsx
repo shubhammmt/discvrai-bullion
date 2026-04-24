@@ -18,6 +18,9 @@ import { DifferentiatorsSlide } from './DifferentiatorsSlide';
 import { CTASlide } from './CTASlide';
 import { ArchitectureSlide } from './ArchitectureSlide';
 import { ContactSlide } from './ContactSlide';
+import { SupplyChainSlide } from './SupplyChainSlide';
+import { PredictiveAnalyticsSlide } from './PredictiveAnalyticsSlide';
+import { VedantaBuiltSlide } from './VedantaBuiltSlide';
 
 interface TransformationSlideRendererProps {
   slide: EnterpriseTransformationSlide;
@@ -67,6 +70,12 @@ export const TransformationSlideRenderer: React.FC<TransformationSlideRendererPr
       return <CTASlide {...props} />;
     case 'architecture':
       return <ArchitectureSlide {...props} />;
+    case 'supply-chain':
+      return <SupplyChainSlide {...props} />;
+    case 'predictive-analytics':
+      return <PredictiveAnalyticsSlide {...props} />;
+    case 'vedanta-built':
+      return <VedantaBuiltSlide {...props} />;
     case 'contact':
       return <ContactSlide {...props} />;
     default:

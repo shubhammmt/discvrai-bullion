@@ -512,9 +512,87 @@ export const enterpriseTransformationSlides: EnterpriseTransformationSlide[] = [
     }
   },
 
-  // Slide 18: Thank You / Contact
+  // Slide 18: Supply Chain Transformation
   {
     id: 18,
+    type: 'supply-chain',
+    title: 'Supply Chain Transformation',
+    subtitle: 'How We Enable It — Execution Layer, Not Rip-and-Replace',
+    content: {
+      capabilities: [
+        {
+          name: 'Warehouse Utilization',
+          items: [
+            'Inbound control & dock scheduling',
+            'Slotting & velocity optimization',
+            'Labor planning, exception-driven receiving / putaway'
+          ],
+          kpis: ['OTIF', 'Lines / hr', 'Inventory accuracy', 'Capacity headroom']
+        },
+        {
+          name: 'Supply Chain Planning',
+          items: [
+            'Unified demand signal across channels',
+            'Constrained replenishment & inventory policy by service class',
+            'S&OP / IBP cadence acceleration with scenario planning'
+          ],
+          kpis: ['Forecast accuracy', 'Service level', 'Working capital', 'Stockouts']
+        }
+      ]
+    }
+  },
+
+  // Slide 19: Predictive Analytics for Heavy Equipment
+  {
+    id: 19,
+    type: 'predictive-analytics',
+    title: 'Predictive Analytics for Heavy Equipment',
+    subtitle: "What's Possible for Vedanta — Metals & Mining Context",
+    content: {
+      capabilities: [
+        'Predictive maintenance & failure risk scoring',
+        'Remaining useful life (RUL) proxies',
+        'Anomaly detection — vibration, temperature, current',
+        'Energy intensity deviation alerts'
+      ],
+      outcomes: [
+        'Reduced unplanned downtime',
+        'Better spares planning & lower carrying cost',
+        'Safer, planned interventions',
+        'Higher OEE across critical assets'
+      ]
+    }
+  },
+
+  // Slide 20: Command Center — Already Built for Vedanta Aluminium
+  {
+    id: 20,
+    type: 'vedanta-built',
+    title: 'Command Center — Already Built for Vedanta Aluminium',
+    subtitle: 'What We Have Delivered · Designed For / Pilot Scope / In Progress',
+    content: {
+      modules: [
+        { name: 'Executive Command Center', detail: 'KPI strip, 30-day trends, top-5 alerts, today\'s decisions' },
+        { name: 'Operations Control Tower', detail: 'Smelter / refinery cards, line heatmap, downtime timeline' },
+        { name: 'Procurement & Inventory', detail: 'PR-to-PO funnel, supplier risk, exception approvals' },
+        { name: 'Commercial Margin Center', detail: 'LME pricing sim, margin waterfall, deal desk' },
+        { name: 'Workflow Orchestration', detail: 'Unified inbox, SLA timers, decision audit trail' },
+        { name: 'AI Copilot', detail: 'NL Q&A with confidence score & source citations' }
+      ],
+      meta: [
+        { label: 'Pilot Site / Scope', value: '[PILOT SITE / SCOPE — e.g., Jharsuguda Smelter, Potline 1–4]' },
+        { label: 'Integrations', value: '[SAP S/4HANA · MES · SCADA / PI Historian · Data Lake]' },
+        { label: 'Workflows Live', value: '[Alert → Approve → Assign → Closure → Impact captured]' },
+        { label: 'Users / Roles', value: '[CDO/CXO · Plant Head · Procurement · Commercial · Shift Sup.]' },
+        { label: 'Metrics Tracked', value: '[Prod vs plan · kWh/kg · Anode eff. · PR cycle · Margin/ton]' },
+        { label: '90-Day Pilot Frame', value: 'Baseline → Target → Current progress → Annualized value' }
+      ]
+    }
+  },
+
+  // Slide 21: Thank You / Contact
+  {
+    id: 21,
     type: 'contact',
     title: 'Thank You',
     subtitle: "Let's start with understanding. Then we'll build the future together.",
