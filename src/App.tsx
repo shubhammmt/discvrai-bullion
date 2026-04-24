@@ -61,6 +61,7 @@ import MahindraArmoredDeck from './pages/MahindraArmoredDeck';
 import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import MSMELendingCommandCenter from './pages/MSMELendingCommandCenter';
 import CVMCommandCenter from './pages/CVMCommandCenter';
+import VedantaDecisionHub from './pages/VedantaDecisionHub';
 import CMSGuardian from './pages/CMSGuardian';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
@@ -260,7 +261,8 @@ const AppContent = () => {
                           location.pathname === '/cms-recon-center' ||
                            location.pathname === '/cms-audit-command' ||
                            location.pathname === '/cms-audit-2' ||
-                           location.pathname === '/demo/schlumberger-ops';
+                           location.pathname === '/demo/schlumberger-ops' ||
+                           location.pathname === '/vedanta-decision-hub';
   return (
     <>
       <Routes>
@@ -453,7 +455,8 @@ const AppContent = () => {
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
-                    <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
+                     <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
+                     <Route path="/vedanta-decision-hub" element={<VedantaDecisionHub />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
