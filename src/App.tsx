@@ -60,6 +60,7 @@ import CMSPitchDeck from './pages/CMSPitchDeck';
 import MahindraArmoredDeck from './pages/MahindraArmoredDeck';
 import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import MSMELendingCommandCenter from './pages/MSMELendingCommandCenter';
+import CVMCommandCenter from './pages/CVMCommandCenter';
 import CMSGuardian from './pages/CMSGuardian';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
@@ -452,6 +453,7 @@ const AppContent = () => {
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
+                    <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
