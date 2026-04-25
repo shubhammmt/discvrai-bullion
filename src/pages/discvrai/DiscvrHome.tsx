@@ -1,10 +1,22 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, Sparkles, MessageSquare, TrendingUp, Target, ShieldCheck,
+  ArrowRight, Sparkles, MessageSquare, TrendingUp, ShieldCheck,
   Wallet, Search, Receipt, RefreshCw, FileText, Calculator, LogOut,
   History, User, Home as HomeIcon, BarChart3, Zap, Clock, CheckCircle2,
+  Target,
 } from 'lucide-react';
 import { APP_URL, GradientCTA, SectionEyebrow, StatRow } from './_shared';
+import DiscvrHomeInvestor from './DiscvrHomeInvestor';
+import DiscvrHomeNewUser from './DiscvrHomeNewUser';
+
+type UserState = 'visitor' | 'new_user' | 'investor';
+
+const STATES: { value: UserState; label: string; desc: string }[] = [
+  { value: 'visitor', label: 'Visitor', desc: 'Marketing landing' },
+  { value: 'new_user', label: 'New User', desc: 'Start first SIP' },
+  { value: 'investor', label: 'Investor', desc: 'Portfolio dashboard' },
+];
 
 const MODULES = [
   { icon: HomeIcon, label: 'Home', desc: 'Personalised wealth pulse' },
@@ -22,6 +34,47 @@ const MODULES = [
 ];
 
 export default function DiscvrHome() {
+  const [userState, setUserState] = useState<UserState>('visitor');
+
+  return (
+    <>
+      <UserStateSwitcher value={userState} onChange={setUserState} />
+
+      {userState === 'investor' && <DiscvrHomeInvestor />}
+      {userState === 'new_user' && <DiscvrHomeNewUser />}
+      {userState === 'visitor' && <VisitorHome />}
+    </>
+  );
+}
+
+function UserStateSwitcher({ value, onChange }: { value: UserState; onChange: (v: UserState) => void }) {
+  return (
+    <div className="fixed bottom-4 right-4 z-50">
+      <div className="rounded-2xl border border-slate-200 bg-white/95 p-2 shadow-2xl backdrop-blur-xl">
+        <p className="mb-1.5 text-center text-[9px] font-semibold uppercase tracking-wider text-slate-500">Demo Mode</p>
+        <div className="flex gap-1">
+          {STATES.map((s) => {
+            const active = value === s.value;
+            return (
+              <button
+                key={s.value}
+                onClick={() => onChange(s.value)}
+                className={`flex flex-col items-center rounded-lg px-3 py-1.5 text-[10px] font-medium transition ${
+                  active ? 'bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span>{s.label}</span>
+                <span className={`text-[9px] ${active ? 'text-white/80' : 'text-slate-400'}`}>{s.desc}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VisitorHome() {
   return (
     <>
       {/* HERO */}
@@ -78,7 +131,6 @@ export default function DiscvrHome() {
                 <div className="ml-3 text-xs text-slate-500">agent.discvr.ai / Wealth Copilot</div>
               </div>
               <div className="grid grid-cols-12">
-                {/* Mini sidebar */}
                 <aside className="col-span-3 hidden border-r border-slate-200/80 bg-slate-50/50 p-3 md:block">
                   {[
                     'Home', 'Portfolio', 'Invest', 'Search', 'Transactions', 'SIPs', 'Statements', 'Calculator', 'Goals',
