@@ -27,8 +27,8 @@ export default function DiscvrModules() {
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="grid gap-6 md:grid-cols-2">
-          {MODULES.map(({ icon: Icon, name, tag, desc }) => (
-            <div key={name} className="group relative overflow-hidden rounded-2xl border border-slate-900/5 bg-white p-7 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10">
+          {MODULES.map(({ id, icon: Icon, name, tag, desc }) => (
+            <div key={name} id={id} className="group relative scroll-mt-24 overflow-hidden rounded-2xl border border-slate-900/5 bg-white p-7 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10">
               <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 opacity-0 blur-2xl transition group-hover:opacity-100" />
               <div className="relative flex items-start gap-5">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow shadow-indigo-500/30">
