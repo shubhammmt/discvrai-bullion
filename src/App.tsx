@@ -70,6 +70,7 @@ import DiscvrSecurity from './pages/discvrai/DiscvrSecurity';
 import DiscvrPricing from './pages/discvrai/DiscvrPricing';
 import DiscvrAbout from './pages/discvrai/DiscvrAbout';
 import DiscvrContact from './pages/discvrai/DiscvrContact';
+import DiscvrCopilot from './pages/discvrai/DiscvrCopilot';
 import CMSGuardian from './pages/CMSGuardian';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
@@ -466,6 +467,7 @@ const AppContent = () => {
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
                      <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
                      <Route path="/vedanta-decision-hub" element={<VedantaDecisionHub />} />
+                     <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
                        <Route path="features" element={<DiscvrFeatures />} />
