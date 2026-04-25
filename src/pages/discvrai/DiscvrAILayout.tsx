@@ -140,14 +140,14 @@ export default function DiscvrAILayout() {
         {open && (
           <div className="border-t border-slate-900/5 bg-white px-6 py-4 lg:hidden">
             <div className="flex flex-col gap-1">
-              {NAV.map((n) => (
+              {[...MODULE_NAV, ...MORE_NAV].map((n: any) => (
                 <NavLink
-                  key={n.to}
+                  key={n.label}
                   to={n.to}
                   end={n.end as any}
                   className={({ isActive }) =>
                     `rounded-lg px-3 py-2 text-sm font-medium ${
-                      isActive ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50'
+                      isActive && !String(n.to).includes('#') ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50'
                     }`
                   }
                 >
