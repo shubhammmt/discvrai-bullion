@@ -28,7 +28,27 @@ const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
 
 export default function DiscvrAILayout() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    function onClick(e: MouseEvent) {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+    }
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, []);
+
+  // Smooth-scroll to module anchors when nav links jump within /discvrai/modules
+  useEffect(() => {
+    if (pathname === '/discvrai/modules' && hash) {
+      const id = hash.slice(1);
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, [pathname, hash]);
 
   useEffect(() => {
     setOpen(false);
