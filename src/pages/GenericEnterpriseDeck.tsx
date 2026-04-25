@@ -138,23 +138,10 @@ const slides = [
   {
     id: 10,
     type: 'vedanta-built',
-    title: 'Command Centre — already built for Vedanta Aluminium',
-    subtitle: 'Working storyboard at /vedanta-decision-hub — boardroom-ready, integration-first, decision-and-execution layer.',
-    modules: [
-      { icon: LayoutDashboard, title: 'Executive Command Center', desc: 'KPI strip (production vs plan, kWh/ton, anode effect, RM coverage, margin/ton), 30-day trends, top-5 actionable alerts, today\'s decisions with owners & ₹ impact.' },
-      { icon: Factory, title: 'Operations Control Tower', desc: 'Smelter/refinery overview, line-wise heatmap, downtime timeline with causes, recommendation engine, shift-supervisor approval workflow.' },
-      { icon: ShoppingCart, title: 'Procurement & Inventory', desc: 'PR-to-PO funnel & bottlenecks, supplier risk scorecards, should-cost variance, slow-moving inventory liquidation, exception approvals.' },
-      { icon: TrendingUp, title: 'Commercial Margin Center', desc: 'LME-linked pricing simulation, customer margin waterfall, logistics leakage, receivables ageing, deal-desk approval flow.' },
-      { icon: Workflow, title: 'Workflow Orchestration', desc: 'Unified inbox across Ops/Procurement/Commercial, SLA timers & escalation, decision audit trail, projected vs realised value tracker.' },
-      { icon: Bot, title: 'AI Copilot', desc: 'Natural-language Q&A with confidence score and source lineage; preloaded scenarios (alumina delay, energy spike, high-margin order with logistics constraint).' },
-    ],
-    placeholders: [
-      { k: 'Pilot site / scope', v: '[Jharsuguda — Smelter Line 1 + procurement & commercial overlay]' },
-      { k: 'Integrations touched', v: '[SAP S/4 · MES · SCADA historian · data lake]' },
-      { k: 'Workflows live', v: '[Shift-supervisor approval · PR exception · deal-desk margin lock]' },
-      { k: 'Users / roles', v: '[CDO/CXO · Plant Head · Procurement Mgr · Commercial Mgr · Shift Supervisor]' },
-    ],
-    status: 'Status: storyboard live & demo-ready. Outcomes claimed only after pilot baselines are agreed; current scope = designed for / pilot scope / in progress.',
+    title: 'Command Centre — mock demo for Vedanta Aluminium',
+    subtitle: 'A working mock of the command centre is attached in the next slides. The following pages walk through the demo screen-by-screen via screenshots.',
+    note: 'The slides that follow are screenshots of the mock demo — Executive Command Center, Operations Control Tower, Procurement & Inventory, Commercial Margin Center, Workflow Orchestration and AI Copilot — shown in the order an operator would use them.',
+    footer: 'Screenshots to be inserted before the meeting. Outcomes will be claimed only after pilot baselines are agreed.',
   },
   {
     id: 11,
