@@ -569,7 +569,9 @@ const TeamSlideContent: React.FC = () => {
 
 const slideRenderers = [
   TitleSlideContent, WhyNowSlide, CapabilitiesSlide, GapSlide,
-  ClientsSlide, PatternsSlide, LifecycleSlide, TeamSlideContent,
+  ClientsSlide, PatternsSlide, LifecycleSlide,
+  SupplyChainSlide, PredictiveSlide, VedantaBuiltSlide,
+  TeamSlideContent,
 ];
 
 const GenericEnterpriseDeck: React.FC = () => {
