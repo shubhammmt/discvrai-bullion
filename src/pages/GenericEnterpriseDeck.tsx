@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Factory, Landmark, HardHat, ShoppingCart, TrendingUp, Bot, Mail, Phone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Factory, Landmark, HardHat, ShoppingCart, TrendingUp, Bot, Mail, Phone, Truck, Warehouse, PackageSearch, Activity, Gauge, Wrench, Database, Cpu, LayoutDashboard, CheckCircle2, AlertTriangle } from 'lucide-react';
 
-const TOTAL = 8;
+const TOTAL = 11;
 const ACCENT = '#0F766E';
 
 const slides = [
@@ -97,6 +97,67 @@ const slides = [
   },
   {
     id: 8,
+    type: 'supply-chain',
+    title: 'Supply chain transformation — how we enable it',
+    intro: 'A decision and execution layer on top of ERP, WMS, TMS, and planning systems — orchestrate exceptions and workflows without rip-and-replace.',
+    pillars: [
+      { icon: Warehouse, title: 'Warehouse utilisation', points: ['Inbound control & dock scheduling', 'Slotting by velocity, labor planning', 'Exception-driven receiving & put-away', 'KPIs: OTIF, lines/hr, accuracy, headroom'] },
+      { icon: PackageSearch, title: 'Supply chain planning', points: ['Unified demand signal across channels', 'Constrained replenishment & policy by service class', 'S&OP / IBP cadence acceleration', 'Scenario & what-if planning'] },
+    ],
+    panel: {
+      label: 'Illustrative / anonymized — command-centre pattern',
+      tiles: [
+        { k: 'OTIF', v: '94.2%', d: '+1.8 WoW' },
+        { k: 'Inbound exceptions', v: '17', d: '6 owners assigned' },
+        { k: 'DC capacity headroom', v: '12%', d: 'amber on DC-3' },
+        { k: 'Lane cost variance', v: '+4.6%', d: 'vs should-cost' },
+      ],
+      alerts: ['Supplier S-104 ASN delayed by 9h — reroute window closing', 'DC-3 dock saturation 14:00–18:00 — auto-reslot suggested', 'Lane MUM→BLR fuel surcharge breach — quote refresh'],
+    },
+    footnote: 'End-to-end visibility (supplier → inbound → DC → outbound → customer), exception-based alerts, orchestrated workflows with owners & SLAs, and a financial lens (working capital, cost-to-serve).',
+  },
+  {
+    id: 9,
+    type: 'predictive',
+    title: 'Predictive analytics for heavy equipment — what is possible for metals & mining',
+    outcomes: [
+      { icon: Wrench, title: 'Predictive maintenance', text: 'Failure-risk scoring, RUL proxies, vibration/temp/current anomaly detection — interventions planned, not reactive.' },
+      { icon: Gauge, title: 'Reliability & OEE', text: 'Lower unplanned downtime, better spares planning, safer interventions, sustained throughput.' },
+      { icon: Activity, title: 'Energy & process', text: 'Energy-intensity deviation alerts, drift detection on key process variables across sites.' },
+    ],
+    architecture: [
+      { icon: Database, label: 'Sensors · SCADA · MES · EAM' },
+      { icon: Cpu, label: 'Feature store & signals' },
+      { icon: Brain, label: 'Models (risk · anomaly · RUL)' },
+      { icon: LayoutDashboard, label: 'Recommendations' },
+      { icon: Workflow, label: 'Workflows in command centre' },
+    ],
+    operating: 'Alert → diagnosis → work order → parts → crew scheduling → feedback loop. Governance for false positives; thresholds tuned by reliability engineering.',
+    framing: 'Group-wide framing: common data platform, standard asset hierarchy & KPIs across sites, federated rollout — one spine, many sites.',
+  },
+  {
+    id: 10,
+    type: 'vedanta-built',
+    title: 'Command Centre — already built for Vedanta Aluminium',
+    subtitle: 'Working storyboard at /vedanta-decision-hub — boardroom-ready, integration-first, decision-and-execution layer.',
+    modules: [
+      { icon: LayoutDashboard, title: 'Executive Command Center', desc: 'KPI strip (production vs plan, kWh/ton, anode effect, RM coverage, margin/ton), 30-day trends, top-5 actionable alerts, today\'s decisions with owners & ₹ impact.' },
+      { icon: Factory, title: 'Operations Control Tower', desc: 'Smelter/refinery overview, line-wise heatmap, downtime timeline with causes, recommendation engine, shift-supervisor approval workflow.' },
+      { icon: ShoppingCart, title: 'Procurement & Inventory', desc: 'PR-to-PO funnel & bottlenecks, supplier risk scorecards, should-cost variance, slow-moving inventory liquidation, exception approvals.' },
+      { icon: TrendingUp, title: 'Commercial Margin Center', desc: 'LME-linked pricing simulation, customer margin waterfall, logistics leakage, receivables ageing, deal-desk approval flow.' },
+      { icon: Workflow, title: 'Workflow Orchestration', desc: 'Unified inbox across Ops/Procurement/Commercial, SLA timers & escalation, decision audit trail, projected vs realised value tracker.' },
+      { icon: Bot, title: 'AI Copilot', desc: 'Natural-language Q&A with confidence score and source lineage; preloaded scenarios (alumina delay, energy spike, high-margin order with logistics constraint).' },
+    ],
+    placeholders: [
+      { k: 'Pilot site / scope', v: '[Jharsuguda — Smelter Line 1 + procurement & commercial overlay]' },
+      { k: 'Integrations touched', v: '[SAP S/4 · MES · SCADA historian · data lake]' },
+      { k: 'Workflows live', v: '[Shift-supervisor approval · PR exception · deal-desk margin lock]' },
+      { k: 'Users / roles', v: '[CDO/CXO · Plant Head · Procurement Mgr · Commercial Mgr · Shift Supervisor]' },
+    ],
+    status: 'Status: storyboard live & demo-ready. Outcomes claimed only after pilot baselines are agreed; current scope = designed for / pilot scope / in progress.',
+  },
+  {
+    id: 11,
     type: 'team',
     title: 'Operator-led engineering — pilots with CIO-grade discipline',
     person: {
@@ -307,10 +368,158 @@ const LifecycleSlide: React.FC = () => {
   );
 };
 
-const TeamSlideContent: React.FC = () => {
+const SupplyChainSlide: React.FC = () => {
   const s = slides[7] as any;
   return (
     <SlideWrapper num={8}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-3">{s.title}</h2>
+      <p className="text-slate-600 text-base mb-5 max-w-4xl">{s.intro}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {s.pillars.map((p: any, i: number) => {
+          const Icon = p.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}18` }}>
+                  <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+                </div>
+                <span className="font-bold text-slate-900 text-base">{p.title}</span>
+              </div>
+              <ul className="space-y-1.5">
+                {p.points.map((pt: string, j: number) => (
+                  <li key={j} className="flex gap-2 text-sm text-slate-600">
+                    <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: ACCENT }} />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border border-slate-200 rounded-xl p-4 bg-white flex-1">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Truck className="w-4 h-4" style={{ color: ACCENT }} />
+            <span className="text-sm font-bold text-slate-900">Command-centre view</span>
+          </div>
+          <span className="text-[10px] uppercase tracking-wider text-slate-400">{s.panel.label}</span>
+        </div>
+        <div className="grid grid-cols-4 gap-3 mb-3">
+          {s.panel.tiles.map((t: any, i: number) => (
+            <div key={i} className="border border-slate-100 rounded-lg p-3 bg-slate-50/60">
+              <div className="text-[11px] uppercase tracking-wide text-slate-500">{t.k}</div>
+              <div className="text-xl font-bold text-slate-900">{t.v}</div>
+              <div className="text-[11px]" style={{ color: ACCENT }}>{t.d}</div>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-1.5">
+          {s.panel.alerts.map((a: string, i: number) => (
+            <div key={i} className="flex items-start gap-2 text-xs text-slate-600">
+              <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+              <span>{a}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className="text-xs text-slate-400 italic mt-3">{s.footnote}</p>
+    </SlideWrapper>
+  );
+};
+
+const PredictiveSlide: React.FC = () => {
+  const s = slides[8] as any;
+  return (
+    <SlideWrapper num={9}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-5">{s.title}</h2>
+      <div className="grid grid-cols-3 gap-4 mb-5">
+        {s.outcomes.map((o: any, i: number) => {
+          const Icon = o.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}18` }}>
+                <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+              </div>
+              <h3 className="font-bold text-slate-900 text-base mb-2">{o.title}</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">{o.text}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border border-slate-200 rounded-xl p-4 bg-white mb-4">
+        <div className="text-[11px] uppercase tracking-wider text-slate-400 mb-3">Reference architecture</div>
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          {s.architecture.map((node: any, i: number) => {
+            const Icon = node.icon;
+            return (
+              <React.Fragment key={i}>
+                <div className="flex-1 min-w-[140px] flex flex-col items-center text-center px-3 py-3 rounded-lg border border-slate-200 bg-slate-50/60">
+                  <Icon className="w-5 h-5 mb-1.5" style={{ color: ACCENT }} />
+                  <span className="text-xs font-semibold text-slate-700">{node.label}</span>
+                </div>
+                {i < s.architecture.length - 1 && <ArrowRight className="w-4 h-4 text-slate-300 shrink-0" />}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="border-l-4 rounded-r-lg bg-slate-50 px-4 py-3" style={{ borderColor: ACCENT }}>
+          <div className="text-[11px] uppercase tracking-wide text-slate-500 mb-1">Operating model</div>
+          <p className="text-sm text-slate-700">{s.operating}</p>
+        </div>
+        <div className="border-l-4 rounded-r-lg bg-slate-50 px-4 py-3" style={{ borderColor: ACCENT }}>
+          <div className="text-[11px] uppercase tracking-wide text-slate-500 mb-1">Group framing</div>
+          <p className="text-sm text-slate-700">{s.framing}</p>
+        </div>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const VedantaBuiltSlide: React.FC = () => {
+  const s = slides[9] as any;
+  return (
+    <SlideWrapper num={10}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-2">{s.title}</h2>
+      <p className="text-slate-600 text-sm mb-4">{s.subtitle}</p>
+      <div className="grid grid-cols-3 gap-3 mb-4">
+        {s.modules.map((m: any, i: number) => {
+          const Icon = m.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
+                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+                </div>
+                <span className="font-bold text-slate-900 text-sm">{m.title}</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{m.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        {s.placeholders.map((p: any, i: number) => (
+          <div key={i} className="flex items-start gap-2 border border-slate-100 rounded-lg px-3 py-2 bg-slate-50/60">
+            <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+            <div className="text-xs">
+              <div className="font-semibold text-slate-700">{p.k}</div>
+              <div className="text-slate-500">{p.v}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-slate-400 italic border-t border-slate-100 pt-3">{s.status}</p>
+    </SlideWrapper>
+  );
+};
+
+const TeamSlideContent: React.FC = () => {
+  const s = slides[10] as any;
+  return (
+    <SlideWrapper num={11}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
         <div>
@@ -360,7 +569,9 @@ const TeamSlideContent: React.FC = () => {
 
 const slideRenderers = [
   TitleSlideContent, WhyNowSlide, CapabilitiesSlide, GapSlide,
-  ClientsSlide, PatternsSlide, LifecycleSlide, TeamSlideContent,
+  ClientsSlide, PatternsSlide, LifecycleSlide,
+  SupplyChainSlide, PredictiveSlide, VedantaBuiltSlide,
+  TeamSlideContent,
 ];
 
 const GenericEnterpriseDeck: React.FC = () => {
