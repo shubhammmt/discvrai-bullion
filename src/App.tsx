@@ -62,6 +62,14 @@ import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import MSMELendingCommandCenter from './pages/MSMELendingCommandCenter';
 import CVMCommandCenter from './pages/CVMCommandCenter';
 import VedantaDecisionHub from './pages/VedantaDecisionHub';
+import DiscvrAILayout from './pages/discvrai/DiscvrAILayout';
+import DiscvrHome from './pages/discvrai/DiscvrHome';
+import DiscvrFeatures from './pages/discvrai/DiscvrFeatures';
+import DiscvrModules from './pages/discvrai/DiscvrModules';
+import DiscvrSecurity from './pages/discvrai/DiscvrSecurity';
+import DiscvrPricing from './pages/discvrai/DiscvrPricing';
+import DiscvrAbout from './pages/discvrai/DiscvrAbout';
+import DiscvrContact from './pages/discvrai/DiscvrContact';
 import CMSGuardian from './pages/CMSGuardian';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
@@ -262,7 +270,8 @@ const AppContent = () => {
                            location.pathname === '/cms-audit-command' ||
                            location.pathname === '/cms-audit-2' ||
                            location.pathname === '/demo/schlumberger-ops' ||
-                           location.pathname === '/vedanta-decision-hub';
+                           location.pathname === '/vedanta-decision-hub' ||
+                           location.pathname.startsWith('/discvrai');
   return (
     <>
       <Routes>
@@ -457,6 +466,15 @@ const AppContent = () => {
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
                      <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
                      <Route path="/vedanta-decision-hub" element={<VedantaDecisionHub />} />
+                     <Route path="/discvrai" element={<DiscvrAILayout />}>
+                       <Route index element={<DiscvrHome />} />
+                       <Route path="features" element={<DiscvrFeatures />} />
+                       <Route path="modules" element={<DiscvrModules />} />
+                       <Route path="security" element={<DiscvrSecurity />} />
+                       <Route path="pricing" element={<DiscvrPricing />} />
+                       <Route path="about" element={<DiscvrAbout />} />
+                       <Route path="contact" element={<DiscvrContact />} />
+                     </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
         
