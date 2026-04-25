@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import {
   Sparkles,
   ArrowRight,
@@ -13,6 +13,17 @@ import {
   Zap,
   CheckCircle2,
   XCircle,
+  User,
+  LogOut,
+  Sun,
+  Moon,
+  ChevronDown,
+  Wallet,
+  RefreshCw,
+  Calculator,
+  Target,
+  PieChart as PortfolioIcon,
+  Bot,
 } from 'lucide-react';
 import {
   PieChart,
