@@ -1,12 +1,23 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Menu, X, Sparkles, ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Menu, X, Sparkles, ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const NAV = [
+// Primary nav now mirrors the in-app modules
+const MODULE_NAV = [
   { to: '/discvrai', label: 'Home', end: true },
+  { to: '/discvrai/modules#portfolio', label: 'Portfolio' },
+  { to: '/discvrai/modules#invest', label: 'Invest' },
+  { to: '/discvrai/modules#sips', label: 'SIPs' },
+  { to: '/discvrai/modules#goals', label: 'Goals' },
+  { to: '/discvrai/modules#calculator', label: 'Calculator' },
+  { to: '/discvrai/modules#statements', label: 'Statements' },
+];
+
+// Secondary links live in a "More" dropdown to keep the bar clean
+const MORE_NAV = [
+  { to: '/discvrai/modules', label: 'All modules' },
   { to: '/discvrai/features', label: 'Features' },
-  { to: '/discvrai/modules', label: 'Modules' },
   { to: '/discvrai/security', label: 'Security' },
   { to: '/discvrai/pricing', label: 'Pricing' },
   { to: '/discvrai/about', label: 'About' },
