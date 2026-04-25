@@ -469,36 +469,15 @@ const VedantaBuiltSlide: React.FC = () => {
   const s = slides[9] as any;
   return (
     <SlideWrapper num={10}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-2">{s.title}</h2>
-      <p className="text-slate-600 text-sm mb-4">{s.subtitle}</p>
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        {s.modules.map((m: any, i: number) => {
-          const Icon = m.icon;
-          return (
-            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
-                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
-                </div>
-                <span className="font-bold text-slate-900 text-sm">{m.title}</span>
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{m.desc}</p>
-            </div>
-          );
-        })}
+      <h2 className="text-3xl font-bold text-slate-900 mb-3">{s.title}</h2>
+      <p className="text-slate-700 text-base mb-6 max-w-3xl">{s.subtitle}</p>
+      <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/60 mb-6 max-w-3xl">
+        <div className="flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+          <p className="text-sm text-slate-700 leading-relaxed">{s.note}</p>
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 mb-3">
-        {s.placeholders.map((p: any, i: number) => (
-          <div key={i} className="flex items-start gap-2 border border-slate-100 rounded-lg px-3 py-2 bg-slate-50/60">
-            <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" style={{ color: ACCENT }} />
-            <div className="text-xs">
-              <div className="font-semibold text-slate-700">{p.k}</div>
-              <div className="text-slate-500">{p.v}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="text-xs text-slate-400 italic border-t border-slate-100 pt-3">{s.status}</p>
+      <p className="text-xs text-slate-400 italic border-t border-slate-100 pt-4">{s.footer}</p>
     </SlideWrapper>
   );
 };
