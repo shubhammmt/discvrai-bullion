@@ -45,7 +45,28 @@ const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
    Aesthetic: deep charcoal #07090d, electric emerald #10F0A8, cyber blue #38BDF8
    ========================================================================= */
 
-const NAV = ['Features', 'Agents', 'Security', 'Pricing'];
+type Persona = 'visitor' | 'new_user' | 'investor';
+
+const NAV_VISITOR = [
+  { label: 'Features', href: '#features' },
+  { label: 'Agents', href: '#agents' },
+  { label: 'Security', href: '#security' },
+  { label: 'Pricing', href: '#pricing' },
+];
+
+const NAV_NEW_USER = [
+  { label: 'Invest', href: '#features', icon: Wallet },
+  { label: 'SIP', href: '#agents', icon: RefreshCw },
+  { label: 'Calculator', href: '#features', icon: Calculator },
+  { label: 'Goal', href: '#agents', icon: Target },
+  { label: 'Chatbot', href: '#chat', icon: Bot },
+];
+
+const NAV_INVESTOR_PORTFOLIO_SUB = [
+  { label: 'Sell', href: '#agents' },
+  { label: 'Transactions', href: '#agents' },
+  { label: 'Statement', href: '#security' },
+];
 
 const ALLOC = [
   { name: 'Equity', value: 52, color: '#38BDF8' },
