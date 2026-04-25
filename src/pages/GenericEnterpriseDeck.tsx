@@ -138,23 +138,10 @@ const slides = [
   {
     id: 10,
     type: 'vedanta-built',
-    title: 'Command Centre — already built for Vedanta Aluminium',
-    subtitle: 'Working storyboard at /vedanta-decision-hub — boardroom-ready, integration-first, decision-and-execution layer.',
-    modules: [
-      { icon: LayoutDashboard, title: 'Executive Command Center', desc: 'KPI strip (production vs plan, kWh/ton, anode effect, RM coverage, margin/ton), 30-day trends, top-5 actionable alerts, today\'s decisions with owners & ₹ impact.' },
-      { icon: Factory, title: 'Operations Control Tower', desc: 'Smelter/refinery overview, line-wise heatmap, downtime timeline with causes, recommendation engine, shift-supervisor approval workflow.' },
-      { icon: ShoppingCart, title: 'Procurement & Inventory', desc: 'PR-to-PO funnel & bottlenecks, supplier risk scorecards, should-cost variance, slow-moving inventory liquidation, exception approvals.' },
-      { icon: TrendingUp, title: 'Commercial Margin Center', desc: 'LME-linked pricing simulation, customer margin waterfall, logistics leakage, receivables ageing, deal-desk approval flow.' },
-      { icon: Workflow, title: 'Workflow Orchestration', desc: 'Unified inbox across Ops/Procurement/Commercial, SLA timers & escalation, decision audit trail, projected vs realised value tracker.' },
-      { icon: Bot, title: 'AI Copilot', desc: 'Natural-language Q&A with confidence score and source lineage; preloaded scenarios (alumina delay, energy spike, high-margin order with logistics constraint).' },
-    ],
-    placeholders: [
-      { k: 'Pilot site / scope', v: '[Jharsuguda — Smelter Line 1 + procurement & commercial overlay]' },
-      { k: 'Integrations touched', v: '[SAP S/4 · MES · SCADA historian · data lake]' },
-      { k: 'Workflows live', v: '[Shift-supervisor approval · PR exception · deal-desk margin lock]' },
-      { k: 'Users / roles', v: '[CDO/CXO · Plant Head · Procurement Mgr · Commercial Mgr · Shift Supervisor]' },
-    ],
-    status: 'Status: storyboard live & demo-ready. Outcomes claimed only after pilot baselines are agreed; current scope = designed for / pilot scope / in progress.',
+    title: 'Command Centre — mock demo for Vedanta Aluminium',
+    subtitle: 'A working mock of the command centre is attached in the next slides. The following pages walk through the demo screen-by-screen via screenshots.',
+    note: 'The slides that follow are screenshots of the mock demo — Executive Command Center, Operations Control Tower, Procurement & Inventory, Commercial Margin Center, Workflow Orchestration and AI Copilot — shown in the order an operator would use them.',
+    footer: 'Screenshots to be inserted before the meeting. Outcomes will be claimed only after pilot baselines are agreed.',
   },
   {
     id: 11,
@@ -482,36 +469,15 @@ const VedantaBuiltSlide: React.FC = () => {
   const s = slides[9] as any;
   return (
     <SlideWrapper num={10}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-2">{s.title}</h2>
-      <p className="text-slate-600 text-sm mb-4">{s.subtitle}</p>
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        {s.modules.map((m: any, i: number) => {
-          const Icon = m.icon;
-          return (
-            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
-                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
-                </div>
-                <span className="font-bold text-slate-900 text-sm">{m.title}</span>
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{m.desc}</p>
-            </div>
-          );
-        })}
+      <h2 className="text-3xl font-bold text-slate-900 mb-3">{s.title}</h2>
+      <p className="text-slate-700 text-base mb-6 max-w-3xl">{s.subtitle}</p>
+      <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/60 mb-6 max-w-3xl">
+        <div className="flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+          <p className="text-sm text-slate-700 leading-relaxed">{s.note}</p>
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 mb-3">
-        {s.placeholders.map((p: any, i: number) => (
-          <div key={i} className="flex items-start gap-2 border border-slate-100 rounded-lg px-3 py-2 bg-slate-50/60">
-            <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" style={{ color: ACCENT }} />
-            <div className="text-xs">
-              <div className="font-semibold text-slate-700">{p.k}</div>
-              <div className="text-slate-500">{p.v}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="text-xs text-slate-400 italic border-t border-slate-100 pt-3">{s.status}</p>
+      <p className="text-xs text-slate-400 italic border-t border-slate-100 pt-4">{s.footer}</p>
     </SlideWrapper>
   );
 };
