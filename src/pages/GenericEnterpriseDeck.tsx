@@ -97,6 +97,67 @@ const slides = [
   },
   {
     id: 8,
+    type: 'supply-chain',
+    title: 'Supply chain transformation — how we enable it',
+    intro: 'A decision and execution layer on top of ERP, WMS, TMS, and planning systems — orchestrate exceptions and workflows without rip-and-replace.',
+    pillars: [
+      { icon: Warehouse, title: 'Warehouse utilisation', points: ['Inbound control & dock scheduling', 'Slotting by velocity, labor planning', 'Exception-driven receiving & put-away', 'KPIs: OTIF, lines/hr, accuracy, headroom'] },
+      { icon: PackageSearch, title: 'Supply chain planning', points: ['Unified demand signal across channels', 'Constrained replenishment & policy by service class', 'S&OP / IBP cadence acceleration', 'Scenario & what-if planning'] },
+    ],
+    panel: {
+      label: 'Illustrative / anonymized — command-centre pattern',
+      tiles: [
+        { k: 'OTIF', v: '94.2%', d: '+1.8 WoW' },
+        { k: 'Inbound exceptions', v: '17', d: '6 owners assigned' },
+        { k: 'DC capacity headroom', v: '12%', d: 'amber on DC-3' },
+        { k: 'Lane cost variance', v: '+4.6%', d: 'vs should-cost' },
+      ],
+      alerts: ['Supplier S-104 ASN delayed by 9h — reroute window closing', 'DC-3 dock saturation 14:00–18:00 — auto-reslot suggested', 'Lane MUM→BLR fuel surcharge breach — quote refresh'],
+    },
+    footnote: 'End-to-end visibility (supplier → inbound → DC → outbound → customer), exception-based alerts, orchestrated workflows with owners & SLAs, and a financial lens (working capital, cost-to-serve).',
+  },
+  {
+    id: 9,
+    type: 'predictive',
+    title: 'Predictive analytics for heavy equipment — what is possible for metals & mining',
+    outcomes: [
+      { icon: Wrench, title: 'Predictive maintenance', text: 'Failure-risk scoring, RUL proxies, vibration/temp/current anomaly detection — interventions planned, not reactive.' },
+      { icon: Gauge, title: 'Reliability & OEE', text: 'Lower unplanned downtime, better spares planning, safer interventions, sustained throughput.' },
+      { icon: Activity, title: 'Energy & process', text: 'Energy-intensity deviation alerts, drift detection on key process variables across sites.' },
+    ],
+    architecture: [
+      { icon: Database, label: 'Sensors · SCADA · MES · EAM' },
+      { icon: Cpu, label: 'Feature store & signals' },
+      { icon: Brain, label: 'Models (risk · anomaly · RUL)' },
+      { icon: LayoutDashboard, label: 'Recommendations' },
+      { icon: Workflow, label: 'Workflows in command centre' },
+    ],
+    operating: 'Alert → diagnosis → work order → parts → crew scheduling → feedback loop. Governance for false positives; thresholds tuned by reliability engineering.',
+    framing: 'Group-wide framing: common data platform, standard asset hierarchy & KPIs across sites, federated rollout — one spine, many sites.',
+  },
+  {
+    id: 10,
+    type: 'vedanta-built',
+    title: 'Command Centre — already built for Vedanta Aluminium',
+    subtitle: 'Working storyboard at /vedanta-decision-hub — boardroom-ready, integration-first, decision-and-execution layer.',
+    modules: [
+      { icon: LayoutDashboard, title: 'Executive Command Center', desc: 'KPI strip (production vs plan, kWh/ton, anode effect, RM coverage, margin/ton), 30-day trends, top-5 actionable alerts, today\'s decisions with owners & ₹ impact.' },
+      { icon: Factory, title: 'Operations Control Tower', desc: 'Smelter/refinery overview, line-wise heatmap, downtime timeline with causes, recommendation engine, shift-supervisor approval workflow.' },
+      { icon: ShoppingCart, title: 'Procurement & Inventory', desc: 'PR-to-PO funnel & bottlenecks, supplier risk scorecards, should-cost variance, slow-moving inventory liquidation, exception approvals.' },
+      { icon: TrendingUp, title: 'Commercial Margin Center', desc: 'LME-linked pricing simulation, customer margin waterfall, logistics leakage, receivables ageing, deal-desk approval flow.' },
+      { icon: Workflow, title: 'Workflow Orchestration', desc: 'Unified inbox across Ops/Procurement/Commercial, SLA timers & escalation, decision audit trail, projected vs realised value tracker.' },
+      { icon: Bot, title: 'AI Copilot', desc: 'Natural-language Q&A with confidence score and source lineage; preloaded scenarios (alumina delay, energy spike, high-margin order with logistics constraint).' },
+    ],
+    placeholders: [
+      { k: 'Pilot site / scope', v: '[Jharsuguda — Smelter Line 1 + procurement & commercial overlay]' },
+      { k: 'Integrations touched', v: '[SAP S/4 · MES · SCADA historian · data lake]' },
+      { k: 'Workflows live', v: '[Shift-supervisor approval · PR exception · deal-desk margin lock]' },
+      { k: 'Users / roles', v: '[CDO/CXO · Plant Head · Procurement Mgr · Commercial Mgr · Shift Supervisor]' },
+    ],
+    status: 'Status: storyboard live & demo-ready. Outcomes claimed only after pilot baselines are agreed; current scope = designed for / pilot scope / in progress.',
+  },
+  {
+    id: 11,
     type: 'team',
     title: 'Operator-led engineering — pilots with CIO-grade discipline',
     person: {
