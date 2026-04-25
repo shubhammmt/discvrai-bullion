@@ -1,12 +1,23 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Menu, X, Sparkles, ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Menu, X, Sparkles, ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const NAV = [
+// Primary nav now mirrors the in-app modules
+const MODULE_NAV = [
   { to: '/discvrai', label: 'Home', end: true },
+  { to: '/discvrai/modules#portfolio', label: 'Portfolio' },
+  { to: '/discvrai/modules#invest', label: 'Invest' },
+  { to: '/discvrai/modules#sips', label: 'SIPs' },
+  { to: '/discvrai/modules#goals', label: 'Goals' },
+  { to: '/discvrai/modules#calculator', label: 'Calculator' },
+  { to: '/discvrai/modules#statements', label: 'Statements' },
+];
+
+// Secondary links live in a "More" dropdown to keep the bar clean
+const MORE_NAV = [
+  { to: '/discvrai/modules', label: 'All modules' },
   { to: '/discvrai/features', label: 'Features' },
-  { to: '/discvrai/modules', label: 'Modules' },
   { to: '/discvrai/security', label: 'Security' },
   { to: '/discvrai/pricing', label: 'Pricing' },
   { to: '/discvrai/about', label: 'About' },
@@ -17,7 +28,27 @@ const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
 
 export default function DiscvrAILayout() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    function onClick(e: MouseEvent) {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+    }
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, []);
+
+  // Smooth-scroll to module anchors when nav links jump within /discvrai/modules
+  useEffect(() => {
+    if (pathname === '/discvrai/modules' && hash) {
+      const id = hash.slice(1);
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, [pathname, hash]);
 
   useEffect(() => {
     setOpen(false);
@@ -45,21 +76,45 @@ export default function DiscvrAILayout() {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex">
-            {NAV.map((n) => (
+          <nav className="hidden items-center gap-0.5 lg:flex">
+            {MODULE_NAV.map((n) => (
               <NavLink
-                key={n.to}
+                key={n.label}
                 to={n.to}
                 end={n.end as any}
                 className={({ isActive }) =>
-                  `rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                    isActive ? 'bg-slate-900 text-white' : 'text-slate-600 hover:text-slate-900'
+                  `rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
+                    isActive && !n.to.includes('#') ? 'bg-slate-900 text-white' : 'text-slate-600 hover:text-slate-900'
                   }`
                 }
               >
                 {n.label}
               </NavLink>
             ))}
+            <div ref={moreRef} className="relative">
+              <button
+                onClick={() => setMoreOpen((p) => !p)}
+                className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900"
+              >
+                More <ChevronDown className={`h-3.5 w-3.5 transition ${moreOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {moreOpen && (
+                <div className="absolute right-0 mt-2 w-52 overflow-hidden rounded-xl border border-slate-900/5 bg-white shadow-lg shadow-slate-900/10">
+                  {MORE_NAV.map((n) => (
+                    <NavLink
+                      key={n.to}
+                      to={n.to}
+                      onClick={() => setMoreOpen(false)}
+                      className={({ isActive }) =>
+                        `block px-4 py-2.5 text-sm font-medium ${isActive ? 'bg-slate-50 text-slate-900' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`
+                      }
+                    >
+                      {n.label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
@@ -85,14 +140,14 @@ export default function DiscvrAILayout() {
         {open && (
           <div className="border-t border-slate-900/5 bg-white px-6 py-4 lg:hidden">
             <div className="flex flex-col gap-1">
-              {NAV.map((n) => (
+              {[...MODULE_NAV, ...MORE_NAV].map((n: any) => (
                 <NavLink
-                  key={n.to}
+                  key={n.label}
                   to={n.to}
                   end={n.end as any}
                   className={({ isActive }) =>
                     `rounded-lg px-3 py-2 text-sm font-medium ${
-                      isActive ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50'
+                      isActive && !String(n.to).includes('#') ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50'
                     }`
                   }
                 >

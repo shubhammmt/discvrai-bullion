@@ -2,18 +2,18 @@ import { Home, BarChart3, Wallet, Search, Receipt, RefreshCw, FileText, Calculat
 import { GradientCTA, PageHero, SectionEyebrow } from './_shared';
 
 const MODULES = [
-  { icon: Home, name: 'Home', tag: 'Dashboard', desc: 'A personalised wealth pulse — net worth, today\'s movement, SIP runway, goal progress and AI nudges, all on the first screen.' },
-  { icon: BarChart3, name: 'Portfolio', tag: 'Holdings', desc: 'Live holdings, XIRR, asset allocation, fund-wise drilldowns and side-by-side performance vs benchmark.' },
-  { icon: Wallet, name: 'Invest', tag: 'Buy', desc: 'Conversational buying — recommendations, comparisons and one-tap SIP/lumpsum execution with OTP confirmation.' },
-  { icon: Search, name: 'Search', tag: 'Discovery', desc: 'Universal search across 5,000+ schemes, AMCs, themes and categories with AI-ranked results.' },
-  { icon: Receipt, name: 'Transactions', tag: 'History', desc: 'A unified timeline of every buy, sell, switch and dividend — filterable and downloadable.' },
-  { icon: RefreshCw, name: 'SIPs', tag: 'Recurring', desc: 'Manage every SIP in chat — pause, modify, step-up, top-up or switch in seconds.' },
-  { icon: FileText, name: 'Statements', tag: 'Tax', desc: 'Capital gains, ELSS proofs, account statements — generated, summarised and emailed on demand.' },
-  { icon: Calculator, name: 'Calculator', tag: 'Planning', desc: 'SIP, lumpsum, goal and step-up calculators pre-filled with your live portfolio context.' },
-  { icon: Target, name: 'Goals', tag: 'Outcomes', desc: 'Map money to outcomes — retirement, home, education, emergency. Track progress live.' },
-  { icon: LogOut, name: 'Sell', tag: 'Redeem', desc: 'Smart redemption with tax impact preview, settlement timing and partial-redeem options.' },
-  { icon: History, name: 'Chat history', tag: 'Threads', desc: 'Resume any prior decision thread — every conversation is saved, searchable and contextual.' },
-  { icon: User, name: 'Profile', tag: 'Account', desc: 'KYC, nominee, bank mandates, risk profile and notification preferences in one place.' },
+  { id: 'home', icon: Home, name: 'Home', tag: 'Dashboard', desc: 'A personalised wealth pulse — net worth, today\'s movement, SIP runway, goal progress and AI nudges, all on the first screen.' },
+  { id: 'portfolio', icon: BarChart3, name: 'Portfolio', tag: 'Holdings', desc: 'Live holdings, XIRR, asset allocation, fund-wise drilldowns and side-by-side performance vs benchmark.' },
+  { id: 'invest', icon: Wallet, name: 'Invest', tag: 'Buy', desc: 'Conversational buying — recommendations, comparisons and one-tap SIP/lumpsum execution with OTP confirmation.' },
+  { id: 'search', icon: Search, name: 'Search', tag: 'Discovery', desc: 'Universal search across 5,000+ schemes, AMCs, themes and categories with AI-ranked results.' },
+  { id: 'transactions', icon: Receipt, name: 'Transactions', tag: 'History', desc: 'A unified timeline of every buy, sell, switch and dividend — filterable and downloadable.' },
+  { id: 'sips', icon: RefreshCw, name: 'SIPs', tag: 'Recurring', desc: 'Manage every SIP in chat — pause, modify, step-up, top-up or switch in seconds.' },
+  { id: 'statements', icon: FileText, name: 'Statements', tag: 'Tax', desc: 'Capital gains, ELSS proofs, account statements — generated, summarised and emailed on demand.' },
+  { id: 'calculator', icon: Calculator, name: 'Calculator', tag: 'Planning', desc: 'SIP, lumpsum, goal and step-up calculators pre-filled with your live portfolio context.' },
+  { id: 'goals', icon: Target, name: 'Goals', tag: 'Outcomes', desc: 'Map money to outcomes — retirement, home, education, emergency. Track progress live.' },
+  { id: 'sell', icon: LogOut, name: 'Sell', tag: 'Redeem', desc: 'Smart redemption with tax impact preview, settlement timing and partial-redeem options.' },
+  { id: 'chat-history', icon: History, name: 'Chat history', tag: 'Threads', desc: 'Resume any prior decision thread — every conversation is saved, searchable and contextual.' },
+  { id: 'profile', icon: User, name: 'Profile', tag: 'Account', desc: 'KYC, nominee, bank mandates, risk profile and notification preferences in one place.' },
 ];
 
 export default function DiscvrModules() {
@@ -27,8 +27,8 @@ export default function DiscvrModules() {
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="grid gap-6 md:grid-cols-2">
-          {MODULES.map(({ icon: Icon, name, tag, desc }) => (
-            <div key={name} className="group relative overflow-hidden rounded-2xl border border-slate-900/5 bg-white p-7 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10">
+          {MODULES.map(({ id, icon: Icon, name, tag, desc }) => (
+            <div key={name} id={id} className="group relative scroll-mt-24 overflow-hidden rounded-2xl border border-slate-900/5 bg-white p-7 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10">
               <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 opacity-0 blur-2xl transition group-hover:opacity-100" />
               <div className="relative flex items-start gap-5">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow shadow-indigo-500/30">
