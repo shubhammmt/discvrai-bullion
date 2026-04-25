@@ -153,3 +153,37 @@ marketing site is untouched.
   global `ChatbotTrigger`, or shared footer; the sticky bottom chat bar
   replaces them.
 
+
+---
+
+## 2026-04-25 — Copilot persona-aware nav + lighter background
+
+**Route:** `/discvrai/copilot`
+
+### 1. Persona-aware top navigation
+A floating "Demo Mode" switcher (bottom-right, above the chat bar) toggles the page between three personas: **Visitor**, **New User**, **Investor**. The top nav re-renders accordingly.
+
+| Persona     | Nav items                                                                              |
+|-------------|----------------------------------------------------------------------------------------|
+| Visitor     | Features · Agents · Security · Pricing                                                 |
+| New User    | Invest · SIP · Calculator · Goal · Chatbot                                             |
+| Investor    | **Portfolio ▾** (Sell, Transactions, Statement) · Invest · SIP · Calculator · Goal · Chatbot |
+
+- Each module link uses a Lucide icon for quick recognition.
+- "Portfolio" on the Investor view is a dropdown (`useRef` + outside-click handler) revealing Sell / Transactions / Statement.
+
+### 2. Right-side action cluster
+- **Visitor** keeps the original gradient `Launch` CTA.
+- **New User & Investor** replace `Launch` with three icon buttons:
+  - **Mode toggle** (`Sun` / `Moon`) — flips the page between dark (`#111827`) and light (`#f1f5f9`) themes via `useState`.
+  - **Profile** (`User`) — dropdown showing the persona's name, KYC status, Edit Profile, Settings.
+  - **Logout** (`LogOut`).
+- All icon buttons share a themed `iconBtn` class that adapts to the current dark/light state.
+
+### 3. Background lightened
+- Old: solid charcoal `#07090d`.
+- New: deep slate `#111827` (dark mode) with an instant flip to soft `#f1f5f9` (light mode) via the new mode toggle.
+- Ambient glow blobs and the bottom chat-bar gradient were updated to match the new base color so they blend cleanly.
+
+### Files edited
+- `src/pages/discvrai/DiscvrCopilot.tsx` — persona type, NAV_VISITOR/NEW_USER/INVESTOR_PORTFOLIO_SUB constants, `PersonaSwitcher` component, refactored `TopNav` (now takes `persona`, `dark`, `onToggleDark` props), root `DiscvrCopilot` now manages persona + theme state, chat-bar gradient updated.
