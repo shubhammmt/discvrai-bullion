@@ -910,7 +910,7 @@ function StartBuilding() {
 function ChatBar() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-30">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07090d] via-[#07090d]/85 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/80 to-transparent" />
       <div className="relative mx-auto max-w-3xl px-6 pb-6">
         <form
           onSubmit={(e) => {
