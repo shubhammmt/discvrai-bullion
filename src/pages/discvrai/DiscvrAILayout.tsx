@@ -76,21 +76,45 @@ export default function DiscvrAILayout() {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex">
-            {NAV.map((n) => (
+          <nav className="hidden items-center gap-0.5 lg:flex">
+            {MODULE_NAV.map((n) => (
               <NavLink
-                key={n.to}
+                key={n.label}
                 to={n.to}
                 end={n.end as any}
                 className={({ isActive }) =>
-                  `rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                    isActive ? 'bg-slate-900 text-white' : 'text-slate-600 hover:text-slate-900'
+                  `rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
+                    isActive && !n.to.includes('#') ? 'bg-slate-900 text-white' : 'text-slate-600 hover:text-slate-900'
                   }`
                 }
               >
                 {n.label}
               </NavLink>
             ))}
+            <div ref={moreRef} className="relative">
+              <button
+                onClick={() => setMoreOpen((p) => !p)}
+                className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900"
+              >
+                More <ChevronDown className={`h-3.5 w-3.5 transition ${moreOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {moreOpen && (
+                <div className="absolute right-0 mt-2 w-52 overflow-hidden rounded-xl border border-slate-900/5 bg-white shadow-lg shadow-slate-900/10">
+                  {MORE_NAV.map((n) => (
+                    <NavLink
+                      key={n.to}
+                      to={n.to}
+                      onClick={() => setMoreOpen(false)}
+                      className={({ isActive }) =>
+                        `block px-4 py-2.5 text-sm font-medium ${isActive ? 'bg-slate-50 text-slate-900' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`
+                      }
+                    >
+                      {n.label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
