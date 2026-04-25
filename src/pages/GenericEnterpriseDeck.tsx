@@ -368,8 +368,156 @@ const LifecycleSlide: React.FC = () => {
   );
 };
 
-const TeamSlideContent: React.FC = () => {
+const SupplyChainSlide: React.FC = () => {
   const s = slides[7] as any;
+  return (
+    <SlideWrapper num={8}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-3">{s.title}</h2>
+      <p className="text-slate-600 text-base mb-5 max-w-4xl">{s.intro}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {s.pillars.map((p: any, i: number) => {
+          const Icon = p.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}18` }}>
+                  <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+                </div>
+                <span className="font-bold text-slate-900 text-base">{p.title}</span>
+              </div>
+              <ul className="space-y-1.5">
+                {p.points.map((pt: string, j: number) => (
+                  <li key={j} className="flex gap-2 text-sm text-slate-600">
+                    <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: ACCENT }} />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border border-slate-200 rounded-xl p-4 bg-white flex-1">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Truck className="w-4 h-4" style={{ color: ACCENT }} />
+            <span className="text-sm font-bold text-slate-900">Command-centre view</span>
+          </div>
+          <span className="text-[10px] uppercase tracking-wider text-slate-400">{s.panel.label}</span>
+        </div>
+        <div className="grid grid-cols-4 gap-3 mb-3">
+          {s.panel.tiles.map((t: any, i: number) => (
+            <div key={i} className="border border-slate-100 rounded-lg p-3 bg-slate-50/60">
+              <div className="text-[11px] uppercase tracking-wide text-slate-500">{t.k}</div>
+              <div className="text-xl font-bold text-slate-900">{t.v}</div>
+              <div className="text-[11px]" style={{ color: ACCENT }}>{t.d}</div>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-1.5">
+          {s.panel.alerts.map((a: string, i: number) => (
+            <div key={i} className="flex items-start gap-2 text-xs text-slate-600">
+              <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+              <span>{a}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className="text-xs text-slate-400 italic mt-3">{s.footnote}</p>
+    </SlideWrapper>
+  );
+};
+
+const PredictiveSlide: React.FC = () => {
+  const s = slides[8] as any;
+  return (
+    <SlideWrapper num={9}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-5">{s.title}</h2>
+      <div className="grid grid-cols-3 gap-4 mb-5">
+        {s.outcomes.map((o: any, i: number) => {
+          const Icon = o.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}18` }}>
+                <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+              </div>
+              <h3 className="font-bold text-slate-900 text-base mb-2">{o.title}</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">{o.text}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border border-slate-200 rounded-xl p-4 bg-white mb-4">
+        <div className="text-[11px] uppercase tracking-wider text-slate-400 mb-3">Reference architecture</div>
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          {s.architecture.map((node: any, i: number) => {
+            const Icon = node.icon;
+            return (
+              <React.Fragment key={i}>
+                <div className="flex-1 min-w-[140px] flex flex-col items-center text-center px-3 py-3 rounded-lg border border-slate-200 bg-slate-50/60">
+                  <Icon className="w-5 h-5 mb-1.5" style={{ color: ACCENT }} />
+                  <span className="text-xs font-semibold text-slate-700">{node.label}</span>
+                </div>
+                {i < s.architecture.length - 1 && <ArrowRight className="w-4 h-4 text-slate-300 shrink-0" />}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="border-l-4 rounded-r-lg bg-slate-50 px-4 py-3" style={{ borderColor: ACCENT }}>
+          <div className="text-[11px] uppercase tracking-wide text-slate-500 mb-1">Operating model</div>
+          <p className="text-sm text-slate-700">{s.operating}</p>
+        </div>
+        <div className="border-l-4 rounded-r-lg bg-slate-50 px-4 py-3" style={{ borderColor: ACCENT }}>
+          <div className="text-[11px] uppercase tracking-wide text-slate-500 mb-1">Group framing</div>
+          <p className="text-sm text-slate-700">{s.framing}</p>
+        </div>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const VedantaBuiltSlide: React.FC = () => {
+  const s = slides[9] as any;
+  return (
+    <SlideWrapper num={10}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-2">{s.title}</h2>
+      <p className="text-slate-600 text-sm mb-4">{s.subtitle}</p>
+      <div className="grid grid-cols-3 gap-3 mb-4">
+        {s.modules.map((m: any, i: number) => {
+          const Icon = m.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
+                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+                </div>
+                <span className="font-bold text-slate-900 text-sm">{m.title}</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{m.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        {s.placeholders.map((p: any, i: number) => (
+          <div key={i} className="flex items-start gap-2 border border-slate-100 rounded-lg px-3 py-2 bg-slate-50/60">
+            <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+            <div className="text-xs">
+              <div className="font-semibold text-slate-700">{p.k}</div>
+              <div className="text-slate-500">{p.v}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-slate-400 italic border-t border-slate-100 pt-3">{s.status}</p>
+    </SlideWrapper>
+  );
+};
+
+const TeamSlideContent: React.FC = () => {
+  const s = slides[10] as any;
   return (
     <SlideWrapper num={11}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
