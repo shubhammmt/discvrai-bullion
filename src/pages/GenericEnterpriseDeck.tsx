@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Factory, Landmark, HardHat, ShoppingCart, TrendingUp, Bot, Mail, Phone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Factory, Landmark, HardHat, ShoppingCart, TrendingUp, Bot, Mail, Phone, Truck, Warehouse, PackageSearch, Activity, Gauge, Wrench, Database, Cpu, LayoutDashboard, CheckCircle2, AlertTriangle } from 'lucide-react';
 
-const TOTAL = 8;
+const TOTAL = 11;
 const ACCENT = '#0F766E';
 
 const slides = [
