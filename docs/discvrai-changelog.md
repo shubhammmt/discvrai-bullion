@@ -187,3 +187,37 @@ A floating "Demo Mode" switcher (bottom-right, above the chat bar) toggles the p
 
 ### Files edited
 - `src/pages/discvrai/DiscvrCopilot.tsx` — persona type, NAV_VISITOR/NEW_USER/INVESTOR_PORTFOLIO_SUB constants, `PersonaSwitcher` component, refactored `TopNav` (now takes `persona`, `dark`, `onToggleDark` props), root `DiscvrCopilot` now manages persona + theme state, chat-bar gradient updated.
+
+---
+
+## Update — Hero simplification & light-mode readability
+
+**Route:** `/discvrai/copilot`
+
+### Changes
+1. **Light-mode readability fix** — The hero `H1`, sub-headline, and stat values previously used hardcoded `text-white` / `text-slate-400`, which became unreadable on the new light background `#f1f5f9`. They now adapt:
+   - Headline: `text-white` (dark) ↔ `text-slate-900` (light)
+   - Sub-headline: `text-slate-400` (dark) ↔ `text-slate-600` (light)
+   - Stat values: `text-white` (dark) ↔ `text-slate-900` (light)
+   - Gradient accent span: `from-emerald-300…` (dark) ↔ `from-emerald-500…` (light) for sufficient contrast on white
+   - Verified visually in both modes via the Sun/Moon toggle.
+
+2. **Live Portfolio card → Auth choice card** — The right-hand glassmorphism card no longer shows the `₹ 18,42,310` portfolio + pie chart + decision log. It now presents three clear entry options:
+   - **Already a User · Login** → sets persona to `investor`
+   - **New User · Register** → sets persona to `new_user`
+   - **Continue as Visitor** → sets persona to `visitor`
+   Each option is a full-width button with gradient icon, title, description, and pill CTA. Selecting one immediately updates the top-nav and right-side action cluster (since they are persona-driven).
+
+3. **Page trimmed to hero only** — Removed all sections below the hero:
+   - `ComparisonTable` (Traditional Chatbot vs DiscvrAI Agent)
+   - `BentoGrid` (Live Market Sentinel / Autonomous Rebalancing / Natural Language Logic)
+   - `LiveStream` (agent action log)
+   - `TrustSection` (audit chart)
+   - `StartBuilding` (partner logos / second CTA)
+   - `ChatBar` (sticky bottom input)
+   The page now contains only: **Top Nav + Hero (headline + auth choice card) + Demo Persona Switcher**.
+   Cleaned up unused imports (`recharts`, `useMemo`, ~12 unused lucide icons) and unused data constants (`ALLOC`, `REBAL`, `TICKERS`, `STREAM`, `AUDIT_SERIES`).
+
+### Files
+- `src/pages/discvrai/DiscvrCopilot.tsx` — Hero rewritten, sections removed, imports trimmed.
+- `docs/discvrai-changelog.md` — This entry.
