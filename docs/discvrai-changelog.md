@@ -221,3 +221,22 @@ A floating "Demo Mode" switcher (bottom-right, above the chat bar) toggles the p
 ### Files
 - `src/pages/discvrai/DiscvrCopilot.tsx` — Hero rewritten, sections removed, imports trimmed.
 - `docs/discvrai-changelog.md` — This entry.
+
+---
+
+## Update — Header & hero text trimmed
+
+**Route:** `/discvrai/copilot`
+
+### Changes
+1. **Header** — Removed the "Wealth Copilot" sub-label under the DiscvrAI logo. Header now shows only the gradient mark + "DiscvrAI" wordmark.
+2. **Hero (left column)** — Removed:
+   - The "Agentic · Always-on" pill above the headline.
+   - The sub-headline paragraph "The first agentic investment assistant that doesn't just chat — it executes…"
+   - The bottom stats row (Markets watched 24/7 · Avg decision latency 0.4s · Audit traceability 100%) including its dividers.
+   The left column is now just the gradient headline "Your money never sleeps. Now, neither does your strategy."
+3. Cleaned unused `Stat` component and unused style helpers (`dividerCls`, `statValueCls`, `statKeyCls`).
+
+### Files
+- `src/pages/discvrai/DiscvrCopilot.tsx`
+- `docs/discvrai-changelog.md`
