@@ -384,12 +384,3 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
     </section>
   );
 }
-
-function Stat({ k, v, valueCls }: { k: string; v: string; valueCls: string }) {
-  return (
-    <div>
-      <div className={`text-base font-semibold ${valueCls}`}>{v}</div>
-      <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider">{k}</div>
-    </div>
-  );
-}
