@@ -46,41 +46,6 @@ const NAV_INVESTOR_PORTFOLIO_SUB = [
   { label: 'Statement', href: '#security' },
 ];
 
-const ALLOC = [
-  { name: 'Equity', value: 52, color: '#38BDF8' },
-  { name: 'Debt', value: 23, color: '#A78BFA' },
-  { name: 'Gold', value: 10, color: '#10F0A8' },
-  { name: 'Cash', value: 8, color: '#F59E0B' },
-  { name: 'Intl', value: 7, color: '#F472B6' },
-];
-
-const REBAL = [
-  { name: 'Equity', value: 50, color: '#38BDF8' },
-  { name: 'Debt', value: 25, color: '#A78BFA' },
-  { name: 'Gold', value: 15, color: '#10F0A8' },
-  { name: 'Cash', value: 5, color: '#F59E0B' },
-  { name: 'Intl', value: 5, color: '#F472B6' },
-];
-
-const TICKERS = [
-  { sym: 'NIFTY 50', px: '24,812.40', chg: '+0.82%', up: true },
-  { sym: 'GOLD 24K', px: '₹ 7,318/g', chg: '+1.14%', up: true },
-  { sym: 'HDFCBANK', px: '₹ 1,712.05', chg: '-0.46%', up: false },
-];
-
-const STREAM = [
-  { agent: 'Agent 422', action: 'Profit-take 5% Digital Gold', time: '2s ago', tone: 'emerald' },
-  { agent: 'Agent 101', action: 'Set 3% GST rule for new buys', time: '14s ago', tone: 'blue' },
-  { agent: 'Agent 318', action: 'Rebalanced ELSS → 12% allocation', time: '47s ago', tone: 'emerald' },
-  { agent: 'Agent 207', action: 'Paused SIP — bank balance < ₹5,000', time: '1m ago', tone: 'amber' },
-  { agent: 'Agent 555', action: 'Goal hit — Vacation 2026 fully funded', time: '3m ago', tone: 'emerald' },
-];
-
-const AUDIT_SERIES = Array.from({ length: 24 }).map((_, i) => ({
-  t: `${String(i).padStart(2, '0')}:00`,
-  v: 80 + Math.sin(i / 2) * 12 + Math.random() * 8,
-}));
-
 export default function DiscvrCopilot() {
   const [persona, setPersona] = useState<Persona>('visitor');
   const [dark, setDark] = useState(true);
