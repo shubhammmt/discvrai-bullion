@@ -130,7 +130,7 @@ function PersonaSwitcher({ persona, onChange }: { persona: Persona; onChange: (p
 }
 
 /* ----------------------------- Top Nav ----------------------------- */
-function TopNav({ persona, dark, onToggleDark }: { persona: Persona; dark: boolean; onToggleDark: () => void }) {
+function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; dark: boolean; onToggleDark: () => void; onLogout: () => void }) {
   const [portfolioOpen, setPortfolioOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const portfolioRef = useRef<HTMLDivElement>(null);
