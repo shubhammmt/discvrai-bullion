@@ -296,6 +296,7 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
 
               {/* Logout */}
               <button
+                onClick={onLogout}
                 aria-label="Logout"
                 title="Logout"
                 className={`grid h-9 w-9 place-items-center rounded-full border transition ${iconBtn}`}
