@@ -122,16 +122,9 @@ export default function DiscvrCopilot() {
       <TopNav persona={persona} dark={dark} onToggleDark={() => setDark((d) => !d)} />
       <PersonaSwitcher persona={persona} onChange={setPersona} />
 
-      <main className="mx-auto max-w-7xl px-6 pb-40">
-        <Hero />
-        <ComparisonTable />
-        <BentoGrid />
-        <LiveStream />
-        <TrustSection />
-        <StartBuilding />
+      <main className="mx-auto max-w-7xl px-6 pb-24">
+        <Hero dark={dark} onPersona={setPersona} />
       </main>
-
-      <ChatBar />
     </div>
   );
 }
