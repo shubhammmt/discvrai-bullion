@@ -18,7 +18,11 @@ import {
   Calendar,
   Loader2,
   CheckCircle2,
+  Menu,
 } from 'lucide-react';
+import { toast } from 'sonner';
+
+const OTP_API_BASE = 'https://api.discvr.ai/api/auth/phone';
 
 const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
 
