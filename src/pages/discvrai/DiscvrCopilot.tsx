@@ -1,18 +1,7 @@
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   Sparkles,
   ArrowRight,
-  ArrowUpRight,
-  ArrowDownRight,
-  LineChart as LineChartIcon,
-  PieChart as PieChartIcon,
-  MessageSquare,
-  ShieldCheck,
-  Activity,
-  Send,
-  Zap,
-  CheckCircle2,
-  XCircle,
   User,
   LogOut,
   Sun,
@@ -25,17 +14,6 @@ import {
   PieChart as PortfolioIcon,
   Bot,
 } from 'lucide-react';
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from 'recharts';
 
 const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
 
