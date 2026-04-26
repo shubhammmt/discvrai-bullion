@@ -240,3 +240,24 @@ A floating "Demo Mode" switcher (bottom-right, above the chat bar) toggles the p
 ### Files
 - `src/pages/discvrai/DiscvrCopilot.tsx`
 - `docs/discvrai-changelog.md`
+
+## Login & Register Modals + Persona-Aware Nav
+
+**Landing page (Visitor / unauthenticated)** — Hero now shows three entry points wired to interactive flows:
+- **Already a User · Login** → opens `LoginModal` (Mobile + OTP). On verify, persona switches to `investor`.
+- **New User · Register** → opens `RegisterModal` (Name + Mobile + DOB). On submit, persona switches to `new_user`.
+- **Continue as Visitor** → stays on visitor view, no modal.
+
+**Modals** (`LoginModal`, `RegisterModal`)
+- Reusable `ModalShell` with `Esc`-to-close, backdrop click, and dark/light theming.
+- `LoginModal`: 2-step (phone → OTP) with simulated 700ms verify.
+- `RegisterModal`: single-step form (Full Name, +91 mobile, DOB) with client validation.
+
+**Top navigation by persona** (image references)
+- **New User** (image 3): `Invest · SIP · Calculator · Goal · Chatbot` (icon + label).
+- **Investor** (image 4): `Portfolio ▾ (Sell / Transactions / Statement) · Invest · SIP · Calculator · Goal · Chatbot`.
+- Right cluster for both: theme toggle (sun/moon) · Profile dropdown · Logout (now wired to reset persona to `visitor`).
+
+**Files changed**
+- `src/pages/discvrai/DiscvrCopilot.tsx` — added `authModal` state, `handleChoice` / `handleAuthSuccess`, `LoginModal`, `RegisterModal`, `ModalShell`; wired logout button.
+- `docs/discvrai-changelog.md` — this entry.
