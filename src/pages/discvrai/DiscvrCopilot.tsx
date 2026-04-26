@@ -13,6 +13,11 @@ import {
   Target,
   PieChart as PortfolioIcon,
   Bot,
+  X,
+  Phone,
+  Calendar,
+  Loader2,
+  CheckCircle2,
 } from 'lucide-react';
 
 const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
@@ -49,9 +54,23 @@ const NAV_INVESTOR_PORTFOLIO_SUB = [
 export default function DiscvrCopilot() {
   const [persona, setPersona] = useState<Persona>('visitor');
   const [dark, setDark] = useState(true);
+  const [authModal, setAuthModal] = useState<'login' | 'register' | null>(null);
 
   const bg = dark ? 'bg-[#111827]' : 'bg-[#f1f5f9]';
   const text = dark ? 'text-slate-100' : 'text-slate-900';
+
+  const handleChoice = (choice: 'login' | 'register' | 'visitor') => {
+    if (choice === 'visitor') {
+      setPersona('visitor');
+    } else {
+      setAuthModal(choice);
+    }
+  };
+
+  const handleAuthSuccess = (target: Persona) => {
+    setPersona(target);
+    setAuthModal(null);
+  };
 
   return (
     <div className={`min-h-screen ${bg} ${text} antialiased selection:bg-emerald-400/30 transition-colors`}>
@@ -62,12 +81,19 @@ export default function DiscvrCopilot() {
         <div className={`absolute top-[140vh] left-[-10%] h-[420px] w-[640px] rounded-full blur-3xl ${dark ? 'bg-violet-500/10' : 'bg-violet-300/30'}`} />
       </div>
 
-      <TopNav persona={persona} dark={dark} onToggleDark={() => setDark((d) => !d)} />
+      <TopNav persona={persona} dark={dark} onToggleDark={() => setDark((d) => !d)} onLogout={() => setPersona('visitor')} />
       <PersonaSwitcher persona={persona} onChange={setPersona} />
 
       <main className="mx-auto max-w-7xl px-6 pb-24">
-        <Hero dark={dark} onPersona={setPersona} />
+        <Hero dark={dark} onChoice={handleChoice} />
       </main>
+
+      {authModal === 'login' && (
+        <LoginModal dark={dark} onClose={() => setAuthModal(null)} onSuccess={() => handleAuthSuccess('investor')} />
+      )}
+      {authModal === 'register' && (
+        <RegisterModal dark={dark} onClose={() => setAuthModal(null)} onSuccess={() => handleAuthSuccess('new_user')} />
+      )}
     </div>
   );
 }
@@ -104,7 +130,7 @@ function PersonaSwitcher({ persona, onChange }: { persona: Persona; onChange: (p
 }
 
 /* ----------------------------- Top Nav ----------------------------- */
-function TopNav({ persona, dark, onToggleDark }: { persona: Persona; dark: boolean; onToggleDark: () => void }) {
+function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; dark: boolean; onToggleDark: () => void; onLogout: () => void }) {
   const [portfolioOpen, setPortfolioOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const portfolioRef = useRef<HTMLDivElement>(null);
@@ -270,6 +296,7 @@ function TopNav({ persona, dark, onToggleDark }: { persona: Persona; dark: boole
 
               {/* Logout */}
               <button
+                onClick={onLogout}
                 aria-label="Logout"
                 title="Logout"
                 className={`grid h-9 w-9 place-items-center rounded-full border transition ${iconBtn}`}
@@ -285,12 +312,12 @@ function TopNav({ persona, dark, onToggleDark }: { persona: Persona; dark: boole
 }
 
 /* ----------------------------- Hero ----------------------------- */
-function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => void }) {
+function Hero({ dark, onChoice }: { dark: boolean; onChoice: (c: 'login' | 'register' | 'visitor') => void }) {
   const headingMain = dark ? 'text-white' : 'text-slate-900';
   const subText = dark ? 'text-slate-400' : 'text-slate-600';
 
   const choices: {
-    persona: Persona;
+    key: 'login' | 'register' | 'visitor';
     title: string;
     desc: string;
     icon: typeof User;
@@ -298,7 +325,7 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
     accent: string;
   }[] = [
     {
-      persona: 'investor',
+      key: 'login',
       title: 'Already a User · Login',
       desc: 'Resume your portfolio, agents and rebalance rules.',
       icon: LogOut,
@@ -306,7 +333,7 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
       accent: 'from-emerald-400 to-sky-500',
     },
     {
-      persona: 'new_user',
+      key: 'register',
       title: 'New User · Register',
       desc: 'Create your account in under 2 minutes and start your first SIP.',
       icon: User,
@@ -314,7 +341,7 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
       accent: 'from-sky-400 to-violet-500',
     },
     {
-      persona: 'visitor',
+      key: 'visitor',
       title: 'Continue as Visitor',
       desc: 'Explore the platform without signing in.',
       icon: Sparkles,
@@ -354,8 +381,8 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
                 const Icon = c.icon;
                 return (
                   <button
-                    key={c.persona}
-                    onClick={() => onPersona(c.persona)}
+                    key={c.key}
+                    onClick={() => onChoice(c.key)}
                     className={`group flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition ${
                       dark
                         ? 'border-white/10 bg-white/[0.03] hover:bg-white/[0.07]'
@@ -382,5 +409,244 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
         </div>
       </div>
     </section>
+  );
+}
+
+/* ----------------------------- Auth Modals ----------------------------- */
+function ModalShell({
+  dark,
+  onClose,
+  title,
+  subtitle,
+  children,
+}: {
+  dark: boolean;
+  onClose: () => void;
+  title: string;
+  subtitle: string;
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[60] grid place-items-center p-4">
+      <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className={`relative w-full max-w-md overflow-hidden rounded-2xl border shadow-2xl ${
+          dark ? 'border-white/10 bg-[#0f172a] text-slate-100' : 'border-slate-900/10 bg-white text-slate-900'
+        }`}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className={`absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full transition ${
+            dark ? 'text-slate-400 hover:bg-white/5 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+          }`}
+        >
+          <X className="h-4 w-4" />
+        </button>
+        <div className="p-6">
+          <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
+          <p className={`mt-1 text-sm ${dark ? 'text-slate-400' : 'text-slate-500'}`}>{subtitle}</p>
+          <div className="mt-5">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function inputCls(dark: boolean) {
+  return `w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition focus:ring-2 focus:ring-emerald-400/40 ${
+    dark
+      ? 'border-white/10 bg-white/5 text-white placeholder:text-slate-500'
+      : 'border-slate-300 bg-white text-slate-900 placeholder:text-slate-400'
+  }`;
+}
+
+function labelCls(dark: boolean) {
+  return `mb-1.5 block text-xs font-medium ${dark ? 'text-slate-300' : 'text-slate-600'}`;
+}
+
+function LoginModal({ dark, onClose, onSuccess }: { dark: boolean; onClose: () => void; onSuccess: () => void }) {
+  const [step, setStep] = useState<'phone' | 'otp'>('phone');
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const sendOtp = () => {
+    if (phone.replace(/\D/g, '').length !== 10) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setStep('otp');
+    }, 700);
+  };
+
+  const verifyOtp = () => {
+    if (otp.length !== 6) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      onSuccess();
+    }, 700);
+  };
+
+  return (
+    <ModalShell
+      dark={dark}
+      onClose={onClose}
+      title="Login to your account"
+      subtitle={step === 'phone' ? 'Enter your mobile number to receive an OTP.' : `Enter the 6-digit code sent to +91 ${phone}`}
+    >
+      {step === 'phone' && (
+        <div className="space-y-4">
+          <div>
+            <label className={labelCls(dark)}>Mobile Number</label>
+            <div className="flex gap-2">
+              <div
+                className={`grid place-items-center rounded-lg border px-3 text-sm font-medium ${
+                  dark ? 'border-white/10 bg-white/5 text-slate-300' : 'border-slate-300 bg-slate-50 text-slate-600'
+                }`}
+              >
+                +91
+              </div>
+              <input
+                type="tel"
+                inputMode="numeric"
+                maxLength={10}
+                placeholder="10-digit mobile number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                className={inputCls(dark)}
+              />
+            </div>
+          </div>
+          <button
+            onClick={sendOtp}
+            disabled={loading || phone.length !== 10}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-emerald-400 to-sky-500 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:opacity-95 disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Phone className="h-4 w-4" />}
+            Send OTP
+          </button>
+        </div>
+      )}
+
+      {step === 'otp' && (
+        <div className="space-y-4">
+          <div>
+            <label className={labelCls(dark)}>Enter OTP</label>
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              placeholder="••••••"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              className={`${inputCls(dark)} text-center text-lg tracking-[0.5em]`}
+            />
+            <button
+              onClick={() => setStep('phone')}
+              className={`mt-2 text-xs ${dark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
+            >
+              ← Change number
+            </button>
+          </div>
+          <button
+            onClick={verifyOtp}
+            disabled={loading || otp.length !== 6}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-emerald-400 to-sky-500 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:opacity-95 disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+            Verify & Login
+          </button>
+        </div>
+      )}
+    </ModalShell>
+  );
+}
+
+function RegisterModal({ dark, onClose, onSuccess }: { dark: boolean; onClose: () => void; onSuccess: () => void }) {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dob, setDob] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const submit = () => {
+    if (!name.trim() || phone.length !== 10 || !dob) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      onSuccess();
+    }, 800);
+  };
+
+  const valid = name.trim().length >= 2 && phone.length === 10 && !!dob;
+
+  return (
+    <ModalShell
+      dark={dark}
+      onClose={onClose}
+      title="Create your account"
+      subtitle="Get started in under 2 minutes."
+    >
+      <div className="space-y-4">
+        <div>
+          <label className={labelCls(dark)}>Full Name</label>
+          <input
+            type="text"
+            placeholder="e.g. Aarav Mehta"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={inputCls(dark)}
+          />
+        </div>
+        <div>
+          <label className={labelCls(dark)}>Mobile Number</label>
+          <div className="flex gap-2">
+            <div
+              className={`grid place-items-center rounded-lg border px-3 text-sm font-medium ${
+                dark ? 'border-white/10 bg-white/5 text-slate-300' : 'border-slate-300 bg-slate-50 text-slate-600'
+              }`}
+            >
+              +91
+            </div>
+            <input
+              type="tel"
+              inputMode="numeric"
+              maxLength={10}
+              placeholder="10-digit mobile number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+              className={inputCls(dark)}
+            />
+          </div>
+        </div>
+        <div>
+          <label className={labelCls(dark)}>Date of Birth</label>
+          <div className="relative">
+            <Calendar className={`pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 ${dark ? 'text-slate-400' : 'text-slate-500'}`} />
+            <input
+              type="date"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              className={inputCls(dark)}
+            />
+          </div>
+        </div>
+        <button
+          onClick={submit}
+          disabled={loading || !valid}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-400 to-violet-500 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-sky-500/20 transition hover:opacity-95 disabled:opacity-50"
+        >
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+          Create Account
+        </button>
+      </div>
+    </ModalShell>
   );
 }
