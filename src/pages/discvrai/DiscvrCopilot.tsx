@@ -381,8 +381,8 @@ function Hero({ dark, onChoice }: { dark: boolean; onChoice: (c: 'login' | 'regi
                 const Icon = c.icon;
                 return (
                   <button
-                    key={c.persona}
-                    onClick={() => onPersona(c.persona)}
+                    key={c.key}
+                    onClick={() => onChoice(c.key)}
                     className={`group flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition ${
                       dark
                         ? 'border-white/10 bg-white/[0.03] hover:bg-white/[0.07]'
