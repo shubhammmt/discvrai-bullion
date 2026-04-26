@@ -656,12 +656,21 @@ function LoginModal({ dark, onClose, onSuccess }: { dark: boolean; onClose: () =
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
               className={`${inputCls(dark)} text-center text-lg tracking-[0.5em]`}
             />
-            <button
-              onClick={() => setStep('phone')}
-              className={`mt-2 text-xs ${dark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
-            >
-              ← Change number
-            </button>
+            <div className="mt-2 flex items-center justify-between">
+              <button
+                onClick={() => { setStep('phone'); setOtp(''); }}
+                className={`text-xs ${dark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                ← Change number
+              </button>
+              <button
+                onClick={sendOtp}
+                disabled={retryAfter > 0 || loading}
+                className={`text-xs font-medium disabled:opacity-50 ${dark ? 'text-emerald-300 hover:text-emerald-200' : 'text-emerald-600 hover:text-emerald-700'}`}
+              >
+                {retryAfter > 0 ? `Resend in ${retryAfter}s` : 'Resend OTP'}
+              </button>
+            </div>
           </div>
           <button
             onClick={verifyOtp}
