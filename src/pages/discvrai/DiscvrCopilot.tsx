@@ -288,9 +288,6 @@ function TopNav({ persona, dark, onToggleDark }: { persona: Persona; dark: boole
 function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => void }) {
   const headingMain = dark ? 'text-white' : 'text-slate-900';
   const subText = dark ? 'text-slate-400' : 'text-slate-600';
-  const dividerCls = dark ? 'bg-white/10' : 'bg-slate-900/10';
-  const statValueCls = dark ? 'text-white' : 'text-slate-900';
-  const statKeyCls = dark ? 'text-slate-500' : 'text-slate-500';
 
   const choices: {
     persona: Persona;
