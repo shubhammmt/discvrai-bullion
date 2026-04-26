@@ -312,12 +312,12 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
 }
 
 /* ----------------------------- Hero ----------------------------- */
-function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => void }) {
+function Hero({ dark, onChoice }: { dark: boolean; onChoice: (c: 'login' | 'register' | 'visitor') => void }) {
   const headingMain = dark ? 'text-white' : 'text-slate-900';
   const subText = dark ? 'text-slate-400' : 'text-slate-600';
 
   const choices: {
-    persona: Persona;
+    key: 'login' | 'register' | 'visitor';
     title: string;
     desc: string;
     icon: typeof User;
@@ -325,7 +325,7 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
     accent: string;
   }[] = [
     {
-      persona: 'investor',
+      key: 'login',
       title: 'Already a User · Login',
       desc: 'Resume your portfolio, agents and rebalance rules.',
       icon: LogOut,
@@ -333,7 +333,7 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
       accent: 'from-emerald-400 to-sky-500',
     },
     {
-      persona: 'new_user',
+      key: 'register',
       title: 'New User · Register',
       desc: 'Create your account in under 2 minutes and start your first SIP.',
       icon: User,
@@ -341,7 +341,7 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
       accent: 'from-sky-400 to-violet-500',
     },
     {
-      persona: 'visitor',
+      key: 'visitor',
       title: 'Continue as Visitor',
       desc: 'Explore the platform without signing in.',
       icon: Sparkles,
