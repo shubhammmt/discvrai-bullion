@@ -517,23 +517,89 @@ function LoginModal({ dark, onClose, onSuccess }: { dark: boolean; onClose: () =
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
+  const [requestId, setRequestId] = useState('');
+  const [retryAfter, setRetryAfter] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval>>();
 
-  const sendOtp = () => {
-    if (phone.replace(/\D/g, '').length !== 10) return;
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setStep('otp');
-    }, 700);
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const startRetryTimer = (seconds: number) => {
+    setRetryAfter(seconds);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setRetryAfter((prev) => {
+        if (prev <= 1) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
 
-  const verifyOtp = () => {
-    if (otp.length !== 6) return;
+  const fullPhone = `+91${phone}`;
+
+  const sendOtp = async () => {
+    if (phone.length !== 10) {
+      toast.error('Enter a valid 10-digit mobile number');
+      return;
+    }
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch(`${OTP_API_BASE}/request-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: fullPhone, customer_name: 'User' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to send OTP');
+      setRequestId(data.request_id);
+      setStep('otp');
+      toast.success('OTP sent successfully');
+      startRetryTimer(data.retry_after || 30);
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to send OTP');
+    } finally {
       setLoading(false);
+    }
+  };
+
+  const verifyOtp = async () => {
+    if (otp.length !== 6) {
+      toast.error('Enter the 6-digit OTP');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(`${OTP_API_BASE}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: fullPhone,
+          otp,
+          request_id: requestId,
+          name: 'User',
+          platform: 'web',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Verification failed');
+
+      // Persist session for downstream pages
+      if (data.session) localStorage.setItem('discvr_session', JSON.stringify(data.session));
+      if (data.user) localStorage.setItem('discvr_user', JSON.stringify(data.user));
+
+      toast.success(`Welcome${data.user?.name ? ', ' + data.user.name : ''}!`);
       onSuccess();
-    }, 700);
+    } catch (err: any) {
+      toast.error(err.message || 'Invalid OTP');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
