@@ -18,7 +18,11 @@ import {
   Calendar,
   Loader2,
   CheckCircle2,
+  Menu,
 } from 'lucide-react';
+import { toast } from 'sonner';
+
+const OTP_API_BASE = 'https://api.discvr.ai/api/auth/phone';
 
 const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
 
@@ -133,6 +137,7 @@ function PersonaSwitcher({ persona, onChange }: { persona: Persona; onChange: (p
 function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; dark: boolean; onToggleDark: () => void; onLogout: () => void }) {
   const [portfolioOpen, setPortfolioOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const portfolioRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -145,6 +150,11 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
     return () => document.removeEventListener('mousedown', onClick);
   }, []);
 
+  // Close mobile menu when persona switches
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [persona]);
+
   const headerBg = dark ? 'bg-[#111827]/80 border-white/5' : 'bg-white/80 border-slate-900/10';
   const linkCls = dark
     ? 'text-slate-300 hover:bg-white/5 hover:text-white'
@@ -153,9 +163,26 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
     ? 'border-white/10 bg-white/5 text-slate-200 hover:bg-white/10'
     : 'border-slate-900/10 bg-white text-slate-700 hover:bg-slate-100';
 
+  // Build flat link list for mobile menu (mirrors persona nav)
+  const mobileLinks: { label: string; href: string; icon?: typeof User }[] =
+    persona === 'visitor'
+      ? []
+      : persona === 'new_user'
+      ? NAV_NEW_USER
+      : [
+          { label: 'Portfolio · Sell', href: '#agents', icon: PortfolioIcon },
+          { label: 'Portfolio · Transactions', href: '#agents', icon: PortfolioIcon },
+          { label: 'Portfolio · Statement', href: '#security', icon: PortfolioIcon },
+          { label: 'Invest', href: '#features', icon: Wallet },
+          { label: 'SIP', href: '#agents', icon: RefreshCw },
+          { label: 'Calculator', href: '#features', icon: Calculator },
+          { label: 'Goal', href: '#agents', icon: Target },
+          { label: 'Chatbot', href: '#chat', icon: Bot },
+        ];
+
   return (
     <header className={`sticky top-0 z-40 border-b backdrop-blur-xl ${headerBg}`}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3.5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 md:px-6">
         <a href="/discvrai/copilot" className="flex items-center gap-2.5">
           <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 to-sky-500 text-slate-950 shadow-lg shadow-emerald-500/30">
             <Sparkles className="h-4 w-4" strokeWidth={2.6} />
@@ -165,15 +192,8 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
           </div>
         </a>
 
-        {/* NAV — varies by persona */}
+        {/* DESKTOP NAV — varies by persona */}
         <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
-          {persona === 'visitor' &&
-            NAV_VISITOR.map((n) => (
-              <a key={n.label} href={n.href} className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${linkCls}`}>
-                {n.label}
-              </a>
-            ))}
-
           {persona === 'new_user' &&
             NAV_NEW_USER.map((n) => {
               const Icon = n.icon;
@@ -191,7 +211,6 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
 
           {persona === 'investor' && (
             <>
-              {/* Portfolio dropdown */}
               <div ref={portfolioRef} className="relative">
                 <button
                   onClick={() => setPortfolioOpen((p) => !p)}
@@ -239,29 +258,20 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
           )}
         </nav>
 
-        {/* Right side */}
+        {/* Right side — actions */}
         <div className="flex items-center gap-2">
-          {persona === 'visitor' ? (
-            <a
-              href={APP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-emerald-400 to-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 hover:opacity-95"
-            >
-              Launch <ArrowRight className="h-3.5 w-3.5" />
-            </a>
-          ) : (
-            <>
-              {/* Mode toggle */}
-              <button
-                onClick={onToggleDark}
-                aria-label="Toggle theme"
-                title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-                className={`grid h-9 w-9 place-items-center rounded-full border transition ${iconBtn}`}
-              >
-                {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
+          {/* Mode toggle — always visible */}
+          <button
+            onClick={onToggleDark}
+            aria-label="Toggle theme"
+            title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            className={`grid h-9 w-9 place-items-center rounded-full border transition ${iconBtn}`}
+          >
+            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
 
+          {persona !== 'visitor' && (
+            <>
               {/* Profile dropdown */}
               <div ref={profileRef} className="relative">
                 <button
@@ -303,10 +313,41 @@ function TopNav({ persona, dark, onToggleDark, onLogout }: { persona: Persona; d
               >
                 <LogOut className="h-4 w-4" />
               </button>
+
+              {/* Mobile hamburger — only for logged-in personas */}
+              <button
+                onClick={() => setMobileOpen((m) => !m)}
+                aria-label="Menu"
+                className={`grid h-9 w-9 place-items-center rounded-full border transition md:hidden ${iconBtn}`}
+              >
+                {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              </button>
             </>
           )}
         </div>
       </div>
+
+      {/* MOBILE MENU drawer */}
+      {mobileOpen && persona !== 'visitor' && (
+        <div className={`md:hidden border-t ${dark ? 'border-white/5 bg-[#111827]' : 'border-slate-900/10 bg-white'}`}>
+          <nav className="mx-auto max-w-7xl px-4 py-3 space-y-1">
+            {mobileLinks.map((n) => {
+              const Icon = n.icon;
+              return (
+                <a
+                  key={n.label}
+                  href={n.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium ${linkCls}`}
+                >
+                  {Icon && <Icon className="h-4 w-4" />}
+                  {n.label}
+                </a>
+              );
+            })}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
@@ -476,23 +517,89 @@ function LoginModal({ dark, onClose, onSuccess }: { dark: boolean; onClose: () =
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
+  const [requestId, setRequestId] = useState('');
+  const [retryAfter, setRetryAfter] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval>>();
 
-  const sendOtp = () => {
-    if (phone.replace(/\D/g, '').length !== 10) return;
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setStep('otp');
-    }, 700);
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const startRetryTimer = (seconds: number) => {
+    setRetryAfter(seconds);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setRetryAfter((prev) => {
+        if (prev <= 1) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
 
-  const verifyOtp = () => {
-    if (otp.length !== 6) return;
+  const fullPhone = `+91${phone}`;
+
+  const sendOtp = async () => {
+    if (phone.length !== 10) {
+      toast.error('Enter a valid 10-digit mobile number');
+      return;
+    }
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch(`${OTP_API_BASE}/request-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: fullPhone, customer_name: 'User' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to send OTP');
+      setRequestId(data.request_id);
+      setStep('otp');
+      toast.success('OTP sent successfully');
+      startRetryTimer(data.retry_after || 30);
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to send OTP');
+    } finally {
       setLoading(false);
+    }
+  };
+
+  const verifyOtp = async () => {
+    if (otp.length !== 6) {
+      toast.error('Enter the 6-digit OTP');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(`${OTP_API_BASE}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: fullPhone,
+          otp,
+          request_id: requestId,
+          name: 'User',
+          platform: 'web',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Verification failed');
+
+      // Persist session for downstream pages
+      if (data.session) localStorage.setItem('discvr_session', JSON.stringify(data.session));
+      if (data.user) localStorage.setItem('discvr_user', JSON.stringify(data.user));
+
+      toast.success(`Welcome${data.user?.name ? ', ' + data.user.name : ''}!`);
       onSuccess();
-    }, 700);
+    } catch (err: any) {
+      toast.error(err.message || 'Invalid OTP');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -549,12 +656,21 @@ function LoginModal({ dark, onClose, onSuccess }: { dark: boolean; onClose: () =
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
               className={`${inputCls(dark)} text-center text-lg tracking-[0.5em]`}
             />
-            <button
-              onClick={() => setStep('phone')}
-              className={`mt-2 text-xs ${dark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
-            >
-              ← Change number
-            </button>
+            <div className="mt-2 flex items-center justify-between">
+              <button
+                onClick={() => { setStep('phone'); setOtp(''); }}
+                className={`text-xs ${dark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                ← Change number
+              </button>
+              <button
+                onClick={sendOtp}
+                disabled={retryAfter > 0 || loading}
+                className={`text-xs font-medium disabled:opacity-50 ${dark ? 'text-emerald-300 hover:text-emerald-200' : 'text-emerald-600 hover:text-emerald-700'}`}
+              >
+                {retryAfter > 0 ? `Resend in ${retryAfter}s` : 'Resend OTP'}
+              </button>
+            </div>
           </div>
           <button
             onClick={verifyOtp}

@@ -261,3 +261,24 @@ A floating "Demo Mode" switcher (bottom-right, above the chat bar) toggles the p
 **Files changed**
 - `src/pages/discvrai/DiscvrCopilot.tsx` — added `authModal` state, `handleChoice` / `handleAuthSuccess`, `LoginModal`, `RegisterModal`, `ModalShell`; wired logout button.
 - `docs/discvrai-changelog.md` — this entry.
+
+## Real OTP Login + Visitor Header Cleanup + Mobile Hamburger
+
+**LoginModal — real OTP API**
+- Wired to `https://api.discvr.ai/api/auth/phone/request-otp` and `/verify-otp`.
+- Stores `discvr_session` and `discvr_user` in `localStorage` on success.
+- Added 30s "Resend OTP" countdown with toast feedback (sonner) for errors and success.
+- On verify success, persona switches to `investor` and the page transitions to the logged-in dashboard view.
+
+**Visitor header simplified**
+- Removed `Features`, `Agents`, `Security`, `Pricing` links from visitor nav.
+- Replaced the `Launch` CTA with the **mode toggle** (sun/moon) so visitors can switch theme on the landing page.
+
+**Mobile responsive nav**
+- For logged-in personas (`new_user` / `investor`), desktop links collapse below `md` and a **hamburger** button appears in the right cluster.
+- Tapping the hamburger opens a full-width drawer below the header listing every nav item (including Portfolio sub-items as flat entries for investors).
+- Drawer auto-closes on persona change and on link tap.
+
+**Files changed**
+- `src/pages/discvrai/DiscvrCopilot.tsx` — Real OTP fetch flow, resend timer, visitor nav cleanup, mobile drawer.
+- `docs/discvrai-changelog.md` — this entry.
