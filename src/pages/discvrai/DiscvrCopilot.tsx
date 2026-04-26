@@ -329,31 +329,13 @@ function Hero({ dark, onPersona }: { dark: boolean; onPersona: (p: Persona) => v
   return (
     <section className="grid items-center gap-10 pt-16 md:pt-24 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-7">
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-500 dark:text-emerald-300">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-          Agentic · Always-on
-        </div>
-
-        <h1 className={`mt-5 text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl ${headingMain}`}>
+        <h1 className={`text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl ${headingMain}`}>
           Your money never sleeps.
           <br />
           <span className="bg-gradient-to-r from-emerald-500 via-sky-500 to-violet-500 bg-clip-text text-transparent dark:from-emerald-300 dark:via-sky-300 dark:to-violet-300">
             Now, neither does your strategy.
           </span>
         </h1>
-
-        <p className={`mt-6 max-w-xl text-lg leading-relaxed ${subText}`}>
-          The first agentic investment assistant that doesn't just chat — it executes. Build,
-          test, and deploy AI agents that monitor markets 24/7.
-        </p>
-
-        <div className={`mt-10 flex items-center gap-6 text-xs ${statKeyCls}`}>
-          <Stat k="Markets watched" v="24/7" valueCls={statValueCls} />
-          <div className={`h-6 w-px ${dividerCls}`} />
-          <Stat k="Avg decision latency" v="0.4s" valueCls={statValueCls} />
-          <div className={`h-6 w-px ${dividerCls}`} />
-          <Stat k="Audit traceability" v="100%" valueCls={statValueCls} />
-        </div>
       </div>
 
       {/* Auth choice card (replaces Live Portfolio) */}
