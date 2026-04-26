@@ -13,6 +13,11 @@ import {
   Target,
   PieChart as PortfolioIcon,
   Bot,
+  X,
+  Phone,
+  Calendar,
+  Loader2,
+  CheckCircle2,
 } from 'lucide-react';
 
 const APP_URL = 'https://agent.discvr.ai/discovery?view=invest';
