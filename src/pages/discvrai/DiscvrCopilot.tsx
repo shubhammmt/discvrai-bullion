@@ -136,7 +136,6 @@ function TopNav({ persona, dark, onToggleDark }: { persona: Persona; dark: boole
           </div>
           <div className="leading-tight">
             <div className={`text-[15px] font-semibold tracking-tight ${dark ? 'text-white' : 'text-slate-900'}`}>DiscvrAI</div>
-            <div className={`text-[10px] font-medium uppercase tracking-[0.18em] ${dark ? 'text-slate-400' : 'text-slate-500'}`}>Wealth Copilot</div>
           </div>
         </a>
 
