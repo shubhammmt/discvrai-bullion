@@ -54,9 +54,23 @@ const NAV_INVESTOR_PORTFOLIO_SUB = [
 export default function DiscvrCopilot() {
   const [persona, setPersona] = useState<Persona>('visitor');
   const [dark, setDark] = useState(true);
+  const [authModal, setAuthModal] = useState<'login' | 'register' | null>(null);
 
   const bg = dark ? 'bg-[#111827]' : 'bg-[#f1f5f9]';
   const text = dark ? 'text-slate-100' : 'text-slate-900';
+
+  const handleChoice = (choice: 'login' | 'register' | 'visitor') => {
+    if (choice === 'visitor') {
+      setPersona('visitor');
+    } else {
+      setAuthModal(choice);
+    }
+  };
+
+  const handleAuthSuccess = (target: Persona) => {
+    setPersona(target);
+    setAuthModal(null);
+  };
 
   return (
     <div className={`min-h-screen ${bg} ${text} antialiased selection:bg-emerald-400/30 transition-colors`}>
@@ -67,12 +81,19 @@ export default function DiscvrCopilot() {
         <div className={`absolute top-[140vh] left-[-10%] h-[420px] w-[640px] rounded-full blur-3xl ${dark ? 'bg-violet-500/10' : 'bg-violet-300/30'}`} />
       </div>
 
-      <TopNav persona={persona} dark={dark} onToggleDark={() => setDark((d) => !d)} />
+      <TopNav persona={persona} dark={dark} onToggleDark={() => setDark((d) => !d)} onLogout={() => setPersona('visitor')} />
       <PersonaSwitcher persona={persona} onChange={setPersona} />
 
       <main className="mx-auto max-w-7xl px-6 pb-24">
-        <Hero dark={dark} onPersona={setPersona} />
+        <Hero dark={dark} onChoice={handleChoice} />
       </main>
+
+      {authModal === 'login' && (
+        <LoginModal dark={dark} onClose={() => setAuthModal(null)} onSuccess={() => handleAuthSuccess('investor')} />
+      )}
+      {authModal === 'register' && (
+        <RegisterModal dark={dark} onClose={() => setAuthModal(null)} onSuccess={() => handleAuthSuccess('new_user')} />
+      )}
     </div>
   );
 }
