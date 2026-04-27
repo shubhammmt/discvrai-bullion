@@ -235,6 +235,7 @@ const CMSAuditCommandCenter: React.FC = () => {
   const [selectedAtm, setSelectedAtm] = useState<string | null>(null);
   const [hoverAtm, setHoverAtm] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [drill, setDrill] = useState<DrillState>(null);
 
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 1000);
