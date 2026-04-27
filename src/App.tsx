@@ -62,6 +62,9 @@ import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import MSMELendingCommandCenter from './pages/MSMELendingCommandCenter';
 import CVMCommandCenter from './pages/CVMCommandCenter';
 import VedantaDecisionHub from './pages/VedantaDecisionHub';
+import GreenkoCommandCenter from './pages/GreenkoCommandCenter';
+import HavellsDecisionStudio from './pages/HavellsDecisionStudio';
+import DPWorldOrchestration from './pages/DPWorldOrchestration';
 import DiscvrAILayout from './pages/discvrai/DiscvrAILayout';
 import DiscvrHome from './pages/discvrai/DiscvrHome';
 import DiscvrFeatures from './pages/discvrai/DiscvrFeatures';
@@ -274,6 +277,9 @@ const AppContent = () => {
                            location.pathname === '/cms-audit' ||
                            location.pathname === '/demo/schlumberger-ops' ||
                            location.pathname === '/vedanta-decision-hub' ||
+                           location.pathname === '/greenko-command-center' ||
+                           location.pathname === '/havells-decision-studio' ||
+                           location.pathname === '/dpworld-orchestration' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -470,6 +476,9 @@ const AppContent = () => {
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
                      <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
                      <Route path="/vedanta-decision-hub" element={<VedantaDecisionHub />} />
+                    <Route path="/greenko-command-center" element={<GreenkoCommandCenter />} />
+                    <Route path="/havells-decision-studio" element={<HavellsDecisionStudio />} />
+                    <Route path="/dpworld-orchestration" element={<DPWorldOrchestration />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
