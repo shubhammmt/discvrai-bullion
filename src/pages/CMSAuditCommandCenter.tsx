@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle, Shield, Mail, MessageSquare, Cpu, Clock, Activity,
   Lock, Power, UserX, Radio, Fingerprint, Users, Timer, Crosshair,
-  CheckCircle2, Circle, Loader2, Gauge, Flame, MapPin
+  CheckCircle2, Circle, Loader2, Gauge, Flame, MapPin, X
 } from 'lucide-react';
 
 /* ---------------- Types ---------------- */
@@ -75,6 +75,127 @@ const BREACHES_SEED: Breach[] = [
   { id: 'BR-05', type: 'hrc',          atmId: 'ATM-HYD-103', label: 'HRC Login Attempt',    detail: 'High-Risk Custodian flagged' },
 ];
 
+/* ---------------- Drill-down data ---------------- */
+interface CustodianRow {
+  custodianId: string;
+  name: string;
+  atmId: string;
+  city: string;
+  violation: string;
+  lastAction: string;
+  severity: 'High' | 'Medium' | 'Critical';
+}
+
+const BREACH_DRILLDOWN: Record<Breach['type'], { title: string; subtitle: string; columns: string[]; rows: CustodianRow[] }> = {
+  'day91': {
+    title: 'Day 91 Route Breach — SOP Violators',
+    subtitle: 'Custodians whose route reshuffle is overdue beyond the 90-day SOP window',
+    columns: ['Custodian', 'ATM', 'City', 'Days on Route', 'Last Reshuffle', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-4471', name: 'R. Mehta',     atmId: 'ATM-DLH-014', city: 'Delhi · CP',       violation: '93 days', lastAction: '2024-01-25', severity: 'Critical' },
+      { custodianId: 'CUS-4488', name: 'S. Khanna',    atmId: 'ATM-DLH-014', city: 'Delhi · CP',       violation: '93 days', lastAction: '2024-01-25', severity: 'Critical' },
+      { custodianId: 'CUS-5012', name: 'A. Bhatia',    atmId: 'ATM-LKO-031', city: 'Lucknow',          violation: '91 days', lastAction: '2024-01-27', severity: 'High' },
+      { custodianId: 'CUS-5103', name: 'V. Iyer',      atmId: 'ATM-JAI-006', city: 'Jaipur',           violation: '92 days', lastAction: '2024-01-26', severity: 'High' },
+    ],
+  },
+  'hoto': {
+    title: 'HOTO Failure — Handover/Takeover SOP Skips',
+    subtitle: 'Custodians who skipped biometric or QR verification at handover',
+    columns: ['Custodian', 'ATM', 'City', 'Skip Type', 'Timestamp', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-3321', name: 'P. Naidu',     atmId: 'ATM-MUM-221', city: 'Mumbai · Andheri', violation: 'Biometric skipped', lastAction: 'Today 09:14', severity: 'Critical' },
+      { custodianId: 'CUS-3322', name: 'D. Shah',      atmId: 'ATM-MUM-221', city: 'Mumbai · Andheri', violation: 'QR not scanned',    lastAction: 'Today 09:15', severity: 'High' },
+      { custodianId: 'CUS-3340', name: 'T. Reddy',     atmId: 'ATM-CHN-045', city: 'Chennai',          violation: 'Biometric skipped', lastAction: 'Today 11:02', severity: 'High' },
+    ],
+  },
+  'dual-custody': {
+    title: 'Dual-Custody Anomaly — Single-Person Sync Events',
+    subtitle: 'ATMs where only one of two keys / OTC was entered during sync',
+    columns: ['Custodian', 'ATM', 'City', 'Anomaly', 'Detected', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-2210', name: 'M. Pillai',    atmId: 'ATM-BLR-088', city: 'Bengaluru · MG Rd', violation: 'Only Key-A entered · Key-B missing', lastAction: 'Today 07:48', severity: 'Critical' },
+      { custodianId: 'CUS-2233', name: 'L. Goswami',   atmId: 'ATM-BLR-088', city: 'Bengaluru · MG Rd', violation: 'OTC password absent',                lastAction: 'Today 07:48', severity: 'Critical' },
+      { custodianId: 'CUS-2298', name: 'N. Chatterjee',atmId: 'ATM-KOL-077', city: 'Kolkata',           violation: 'Single custodian sync',              lastAction: 'Today 06:22', severity: 'High' },
+    ],
+  },
+  'manual-mode': {
+    title: 'Manual Mode — Active 24h Enforcement Windows',
+    subtitle: 'ATMs operating in manual override beyond approved limits',
+    columns: ['Custodian', 'ATM', 'City', 'Override Reason', 'Started', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-6601', name: 'K. Sharma',    atmId: 'ATM-CHN-045', city: 'Chennai',          violation: 'Cassette jam · manual dispense', lastAction: 'Yesterday 18:05', severity: 'High' },
+      { custodianId: 'CUS-6644', name: 'J. Verma',     atmId: 'ATM-MUM-221', city: 'Mumbai · Andheri', violation: 'Sensor bypass',                  lastAction: 'Today 04:30',     severity: 'Medium' },
+    ],
+  },
+  'hrc': {
+    title: 'HRC Login — High-Risk Custodian Access Attempts',
+    subtitle: 'Flagged custodians attempting access outside approved windows',
+    columns: ['Custodian', 'ATM', 'City', 'Flag Reason', 'Attempted At', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-9911', name: 'B. Pawar',     atmId: 'ATM-HYD-103', city: 'Hyderabad',        violation: 'Off-hours · prior incident on file', lastAction: 'Today 02:14', severity: 'Critical' },
+      { custodianId: 'CUS-9920', name: 'G. Rao',       atmId: 'ATM-HYD-103', city: 'Hyderabad',        violation: 'On HRC watchlist',                   lastAction: 'Today 02:18', severity: 'Critical' },
+    ],
+  },
+};
+
+interface ATMForensics {
+  machineCounter: { dispensed: number; presented: number; retracted: number };
+  systemBalance: { expected: number; actual: number; variance: number };
+  overages: { count: number; totalAmount: number; openClaims: number };
+  signals: string[];
+}
+
+const ATM_FORENSICS: Record<string, ATMForensics> = {
+  'ATM-DLH-014': {
+    machineCounter: { dispensed: 14820000, presented: 14820000, retracted: 12000 },
+    systemBalance:  { expected: 5180000, actual: 5168000, variance: -12000 },
+    overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+    signals: ['Day 91 route stagnation', 'Same custodian pair last 3 visits', 'Audit SLA missed', 'Off-hours sensor pings ×4 in 7 days'],
+  },
+  'ATM-HYD-103': {
+    machineCounter: { dispensed: 9240000, presented: 9240000, retracted: 0 },
+    systemBalance:  { expected: 3760000, actual: 3760000, variance: 0 },
+    overages:       { count: 1, totalAmount: 5000, openClaims: 0 },
+    signals: ['HRC custodian login at 02:14 IST', 'Off-window access', 'Prior incident on file'],
+  },
+  'ATM-MUM-221': {
+    machineCounter: { dispensed: 6810000, presented: 6788000, retracted: 22000 },
+    systemBalance:  { expected: 2190000, actual: 2188000, variance: -2000 },
+    overages:       { count: 3, totalAmount: 6500, openClaims: 2 },
+    signals: ['3 customer claims in 24h', 'Cassette jam reported', 'Manual mode invoked'],
+  },
+  'ATM-BLR-088': {
+    machineCounter: { dispensed: 8910000, presented: 8910000, retracted: 0 },
+    systemBalance:  { expected: 1840000, actual: 1840000, variance: 0 },
+    overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+    signals: ['Tx velocity +312% vs 7d baseline', 'Projected dry in ~2h', 'Single custodian sync event'],
+  },
+  'ATM-CHN-045': {
+    machineCounter: { dispensed: 5420000, presented: 5398000, retracted: 22000 },
+    systemBalance:  { expected: 1620000, actual: 1618500, variance: -1500 },
+    overages:       { count: 2, totalAmount: 4000, openClaims: 1 },
+    signals: ['Manual mode active', 'Cassette jam', 'Sensor bypass attempt'],
+  },
+  'ATM-KOL-077': {
+    machineCounter: { dispensed: 7230000, presented: 7230000, retracted: 0 },
+    systemBalance:  { expected: 2010000, actual: 2010000, variance: 0 },
+    overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+    signals: ['Withdrawal pattern anomaly', 'Single custodian sync flag'],
+  },
+};
+
+const DEFAULT_FORENSICS: ATMForensics = {
+  machineCounter: { dispensed: 0, presented: 0, retracted: 0 },
+  systemBalance:  { expected: 0, actual: 0, variance: 0 },
+  overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+  signals: ['No anomalies detected · normal operation'],
+};
+
+type DrillState =
+  | { kind: 'breach'; breach: Breach }
+  | { kind: 'atm'; atmId: string }
+  | null;
+
 /* ---------------- Helpers ---------------- */
 const RISK_META: Record<RiskTier, { label: string; dot: string; ring: string; text: string; chip: string }> = {
   theft:   { label: 'Theft',    dot: 'bg-rose-500',    ring: 'ring-rose-500/40',    text: 'text-rose-300',    chip: 'bg-rose-500/15 text-rose-300 border-rose-500/30' },
@@ -114,6 +235,7 @@ const CMSAuditCommandCenter: React.FC = () => {
   const [selectedAtm, setSelectedAtm] = useState<string | null>(null);
   const [hoverAtm, setHoverAtm] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [drill, setDrill] = useState<DrillState>(null);
 
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 1000);
@@ -240,7 +362,8 @@ const CMSAuditCommandCenter: React.FC = () => {
           <div className="px-4 py-3 border-b border-white/5 flex items-center gap-2">
             <Flame className="h-4 w-4 text-rose-400 animate-pulse" />
             <h2 className="text-sm font-semibold">5-Gap Breach Ticker</h2>
-            <span className="ml-auto text-[10px] text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/30">{BREACHES_SEED.length} LIVE</span>
+            <span className="ml-auto text-[9px] text-amber-300/80 mr-2 hidden sm:inline">double-click for SOP violators</span>
+            <span className="text-[10px] text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/30">{BREACHES_SEED.length} LIVE</span>
           </div>
           <div className="flex-1 overflow-y-auto divide-y divide-white/5">
             {BREACHES_SEED.map(b => {
@@ -250,8 +373,10 @@ const CMSAuditCommandCenter: React.FC = () => {
                 : b.type === 'manual-mode' ? Clock
                 : Radio;
               return (
-                <div key={b.id} className="px-4 py-3 hover:bg-white/[0.02] transition cursor-pointer"
-                     onClick={() => setSelectedAtm(b.atmId)}>
+                <div key={b.id} className="px-4 py-3 hover:bg-white/[0.02] transition cursor-pointer select-none"
+                     onClick={() => setSelectedAtm(b.atmId)}
+                     onDoubleClick={() => setDrill({ kind: 'breach', breach: b })}
+                     title="Double-click to see SOP violators">
                   <div className="flex items-start gap-2.5">
                     <Icon className="h-4 w-4 text-rose-400 mt-0.5 shrink-0" />
                     <div className="min-w-0 flex-1">
@@ -346,7 +471,9 @@ const CMSAuditCommandCenter: React.FC = () => {
                     <tr
                       key={a.id}
                       onClick={() => setSelectedAtm(linked ? null : a.atmId)}
-                      className={`cursor-pointer transition ${linked ? 'bg-rose-500/5' : 'hover:bg-white/[0.02]'}`}
+                      onDoubleClick={() => setDrill({ kind: 'atm', atmId: a.atmId })}
+                      title="Double-click for ATM forensics"
+                      className={`cursor-pointer transition select-none ${linked ? 'bg-rose-500/5' : 'hover:bg-white/[0.02]'}`}
                     >
                       <td className="px-4 py-2.5 font-mono text-slate-300">{a.id}</td>
                       <td className="px-3 py-2.5">
@@ -397,7 +524,7 @@ const CMSAuditCommandCenter: React.FC = () => {
             </table>
           </div>
           <div className="px-4 py-2.5 border-t border-white/5 text-[10px] text-slate-500 flex items-center justify-between">
-            <span>Click any row to highlight the corresponding ATM on the map</span>
+            <span>Click a row to link the ATM on the map · <span className="text-amber-300">Double-click for ATM forensics</span></span>
             <span className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-fuchsia-400" /> Audit-Triggered
               <span className="h-1.5 w-1.5 rounded-full bg-slate-400 ml-2" /> System-Generated
@@ -407,6 +534,9 @@ const CMSAuditCommandCenter: React.FC = () => {
       </main>
 
       {/* Toast */}
+      {/* Drill-down modal */}
+      {drill && <DrillModal drill={drill} onClose={() => setDrill(null)} />}
+
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#0a0f1c] border border-white/10 rounded-lg px-4 py-3 shadow-2xl flex items-center gap-2 text-sm">
           <CheckCircle2 className="h-4 w-4 text-emerald-400" />
@@ -457,6 +587,158 @@ const Gauge2: React.FC<{ label: string; value: number; suffix?: string; tone: 'e
       <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
         <div className={`h-full ${bar}`} style={{ width: `${pct}%` }} />
       </div>
+    </div>
+  );
+};
+
+/* ---------------- Drill-down Modal ---------------- */
+const SEVERITY_CHIP: Record<CustodianRow['severity'], string> = {
+  Critical: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+  High:     'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  Medium:   'bg-sky-500/15 text-sky-300 border-sky-500/30',
+};
+
+const DrillModal: React.FC<{ drill: NonNullable<DrillState>; onClose: () => void }> = ({ drill, onClose }) => {
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm grid place-items-center p-4" onClick={onClose}>
+      <div
+        className="bg-[#0c1322] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {drill.kind === 'breach' ? <BreachDrill breach={drill.breach} /> : <ATMDrill atmId={drill.atmId} />}
+        <div className="px-5 py-3 border-t border-white/5 flex justify-end">
+          <button onClick={onClose} className="text-[11px] px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:bg-white/10 text-slate-200 inline-flex items-center gap-1.5">
+            <X className="h-3 w-3" /> Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BreachDrill: React.FC<{ breach: Breach }> = ({ breach }) => {
+  const data = BREACH_DRILLDOWN[breach.type];
+  return (
+    <>
+      <div className="px-5 py-4 border-b border-white/5 bg-gradient-to-r from-rose-500/10 to-transparent">
+        <div className="flex items-center gap-2 text-[10px] text-rose-300 uppercase tracking-wider">
+          <Flame className="h-3 w-3" /> SOP Breach Drill-Down
+        </div>
+        <h3 className="text-base font-bold text-slate-100 mt-1">{data.title}</h3>
+        <p className="text-[11px] text-slate-400 mt-0.5">{data.subtitle}</p>
+      </div>
+      <div className="p-5 overflow-y-auto">
+        <div className="rounded-lg border border-white/5 overflow-hidden">
+          <table className="w-full text-[11px]">
+            <thead className="bg-white/[0.03] text-[10px] uppercase tracking-wider text-slate-500">
+              <tr>{data.columns.map(c => <th key={c} className="text-left px-3 py-2 font-medium">{c}</th>)}</tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {data.rows.map(r => (
+                <tr key={r.custodianId} className="hover:bg-white/[0.02]">
+                  <td className="px-3 py-2.5">
+                    <div className="font-semibold text-slate-100">{r.name}</div>
+                    <div className="font-mono text-[10px] text-slate-500">{r.custodianId}</div>
+                  </td>
+                  <td className="px-3 py-2.5 font-mono text-slate-300">{r.atmId}</td>
+                  <td className="px-3 py-2.5 text-slate-300">{r.city}</td>
+                  <td className="px-3 py-2.5 text-slate-200">{r.violation}</td>
+                  <td className="px-3 py-2.5 text-slate-400">{r.lastAction}</td>
+                  <td className="px-3 py-2.5">
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded border ${SEVERITY_CHIP[r.severity]}`}>{r.severity}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-3 text-[11px]">
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase">Violators</div>
+            <div className="text-xl font-bold text-rose-300">{data.rows.length}</div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase">ATMs Impacted</div>
+            <div className="text-xl font-bold text-amber-300">{new Set(data.rows.map(r => r.atmId)).size}</div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase">Critical</div>
+            <div className="text-xl font-bold text-rose-300">{data.rows.filter(r => r.severity === 'Critical').length}</div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const ATMDrill: React.FC<{ atmId: string }> = ({ atmId }) => {
+  const atm = ATMS.find(a => a.id === atmId);
+  const f = ATM_FORENSICS[atmId] ?? DEFAULT_FORENSICS;
+  const meta = atm ? RISK_META[atm.risk] : RISK_META.safe;
+  const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+  return (
+    <>
+      <div className="px-5 py-4 border-b border-white/5 bg-gradient-to-r from-violet-500/10 to-transparent">
+        <div className="flex items-center gap-2 text-[10px] text-violet-300 uppercase tracking-wider">
+          <Crosshair className="h-3 w-3" /> ATM Forensics
+        </div>
+        <div className="flex items-center justify-between mt-1">
+          <div>
+            <h3 className="text-base font-bold text-slate-100 font-mono">{atmId}</h3>
+            <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1"><MapPin className="h-3 w-3" />{atm?.city ?? 'Unknown'}</p>
+          </div>
+          <span className={`text-[10px] px-2 py-1 rounded border ${meta.chip}`}>Risk: {meta.label}</span>
+        </div>
+        {atm && <p className="text-[11px] text-slate-300 mt-2"><span className="text-slate-500">Why flagged: </span>{atm.reason}</p>}
+      </div>
+      <div className="p-5 overflow-y-auto space-y-4">
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase mb-2">Machine Counter</div>
+            <div className="space-y-1 text-[11px]">
+              <Row label="Dispensed"  value={inr(f.machineCounter.dispensed)} />
+              <Row label="Presented"  value={inr(f.machineCounter.presented)} />
+              <Row label="Retracted"  value={inr(f.machineCounter.retracted)} tone={f.machineCounter.retracted > 0 ? 'amber' : undefined} />
+            </div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase mb-2">System Balance</div>
+            <div className="space-y-1 text-[11px]">
+              <Row label="Expected" value={inr(f.systemBalance.expected)} />
+              <Row label="Actual"   value={inr(f.systemBalance.actual)} />
+              <Row label="Variance" value={inr(f.systemBalance.variance)} tone={f.systemBalance.variance < 0 ? 'rose' : f.systemBalance.variance > 0 ? 'amber' : 'emerald'} />
+            </div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase mb-2">Overages & Claims</div>
+            <div className="space-y-1 text-[11px]">
+              <Row label="Events"      value={String(f.overages.count)} />
+              <Row label="Total Value" value={inr(f.overages.totalAmount)} />
+              <Row label="Open Claims" value={String(f.overages.openClaims)} tone={f.overages.openClaims > 0 ? 'rose' : undefined} />
+            </div>
+          </div>
+        </div>
+        <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+          <div className="text-[10px] text-slate-500 uppercase mb-2 flex items-center gap-1.5"><AlertTriangle className="h-3 w-3 text-rose-400" />Risk Signals</div>
+          <ul className="space-y-1.5">
+            {f.signals.map((s, i) => (
+              <li key={i} className="text-[11px] text-slate-200 flex items-start gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-400 mt-1.5 shrink-0" />{s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Row: React.FC<{ label: string; value: string; tone?: 'rose' | 'amber' | 'emerald' }> = ({ label, value, tone }) => {
+  const c = tone === 'rose' ? 'text-rose-300' : tone === 'amber' ? 'text-amber-300' : tone === 'emerald' ? 'text-emerald-300' : 'text-slate-200';
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-slate-500">{label}</span>
+      <span className={`font-mono font-semibold ${c}`}>{value}</span>
     </div>
   );
 };
