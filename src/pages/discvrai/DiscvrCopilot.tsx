@@ -89,7 +89,11 @@ export default function DiscvrCopilot() {
       <PersonaSwitcher persona={persona} onChange={setPersona} />
 
       <main className="mx-auto max-w-7xl px-6 pb-24">
-        <Hero dark={dark} onChoice={handleChoice} />
+        {persona === 'visitor' ? (
+          <Hero dark={dark} onChoice={handleChoice} />
+        ) : (
+          <MutualFundsHome dark={dark} persona={persona} />
+        )}
       </main>
 
       {authModal === 'login' && (
