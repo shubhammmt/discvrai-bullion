@@ -590,4 +590,156 @@ const Gauge2: React.FC<{ label: string; value: number; suffix?: string; tone: 'e
   );
 };
 
+/* ---------------- Drill-down Modal ---------------- */
+const SEVERITY_CHIP: Record<CustodianRow['severity'], string> = {
+  Critical: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+  High:     'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  Medium:   'bg-sky-500/15 text-sky-300 border-sky-500/30',
+};
+
+const DrillModal: React.FC<{ drill: NonNullable<DrillState>; onClose: () => void }> = ({ drill, onClose }) => {
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm grid place-items-center p-4" onClick={onClose}>
+      <div
+        className="bg-[#0c1322] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {drill.kind === 'breach' ? <BreachDrill breach={drill.breach} /> : <ATMDrill atmId={drill.atmId} />}
+        <div className="px-5 py-3 border-t border-white/5 flex justify-end">
+          <button onClick={onClose} className="text-[11px] px-3 py-1.5 rounded bg-white/5 border border-white/10 hover:bg-white/10 text-slate-200 inline-flex items-center gap-1.5">
+            <X className="h-3 w-3" /> Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BreachDrill: React.FC<{ breach: Breach }> = ({ breach }) => {
+  const data = BREACH_DRILLDOWN[breach.type];
+  return (
+    <>
+      <div className="px-5 py-4 border-b border-white/5 bg-gradient-to-r from-rose-500/10 to-transparent">
+        <div className="flex items-center gap-2 text-[10px] text-rose-300 uppercase tracking-wider">
+          <Flame className="h-3 w-3" /> SOP Breach Drill-Down
+        </div>
+        <h3 className="text-base font-bold text-slate-100 mt-1">{data.title}</h3>
+        <p className="text-[11px] text-slate-400 mt-0.5">{data.subtitle}</p>
+      </div>
+      <div className="p-5 overflow-y-auto">
+        <div className="rounded-lg border border-white/5 overflow-hidden">
+          <table className="w-full text-[11px]">
+            <thead className="bg-white/[0.03] text-[10px] uppercase tracking-wider text-slate-500">
+              <tr>{data.columns.map(c => <th key={c} className="text-left px-3 py-2 font-medium">{c}</th>)}</tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {data.rows.map(r => (
+                <tr key={r.custodianId} className="hover:bg-white/[0.02]">
+                  <td className="px-3 py-2.5">
+                    <div className="font-semibold text-slate-100">{r.name}</div>
+                    <div className="font-mono text-[10px] text-slate-500">{r.custodianId}</div>
+                  </td>
+                  <td className="px-3 py-2.5 font-mono text-slate-300">{r.atmId}</td>
+                  <td className="px-3 py-2.5 text-slate-300">{r.city}</td>
+                  <td className="px-3 py-2.5 text-slate-200">{r.violation}</td>
+                  <td className="px-3 py-2.5 text-slate-400">{r.lastAction}</td>
+                  <td className="px-3 py-2.5">
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded border ${SEVERITY_CHIP[r.severity]}`}>{r.severity}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-3 text-[11px]">
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase">Violators</div>
+            <div className="text-xl font-bold text-rose-300">{data.rows.length}</div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase">ATMs Impacted</div>
+            <div className="text-xl font-bold text-amber-300">{new Set(data.rows.map(r => r.atmId)).size}</div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase">Critical</div>
+            <div className="text-xl font-bold text-rose-300">{data.rows.filter(r => r.severity === 'Critical').length}</div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const ATMDrill: React.FC<{ atmId: string }> = ({ atmId }) => {
+  const atm = ATMS.find(a => a.id === atmId);
+  const f = ATM_FORENSICS[atmId] ?? DEFAULT_FORENSICS;
+  const meta = atm ? RISK_META[atm.risk] : RISK_META.safe;
+  const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+  return (
+    <>
+      <div className="px-5 py-4 border-b border-white/5 bg-gradient-to-r from-violet-500/10 to-transparent">
+        <div className="flex items-center gap-2 text-[10px] text-violet-300 uppercase tracking-wider">
+          <Crosshair className="h-3 w-3" /> ATM Forensics
+        </div>
+        <div className="flex items-center justify-between mt-1">
+          <div>
+            <h3 className="text-base font-bold text-slate-100 font-mono">{atmId}</h3>
+            <p className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1"><MapPin className="h-3 w-3" />{atm?.city ?? 'Unknown'}</p>
+          </div>
+          <span className={`text-[10px] px-2 py-1 rounded border ${meta.chip}`}>Risk: {meta.label}</span>
+        </div>
+        {atm && <p className="text-[11px] text-slate-300 mt-2"><span className="text-slate-500">Why flagged: </span>{atm.reason}</p>}
+      </div>
+      <div className="p-5 overflow-y-auto space-y-4">
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase mb-2">Machine Counter</div>
+            <div className="space-y-1 text-[11px]">
+              <Row label="Dispensed"  value={inr(f.machineCounter.dispensed)} />
+              <Row label="Presented"  value={inr(f.machineCounter.presented)} />
+              <Row label="Retracted"  value={inr(f.machineCounter.retracted)} tone={f.machineCounter.retracted > 0 ? 'amber' : undefined} />
+            </div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase mb-2">System Balance</div>
+            <div className="space-y-1 text-[11px]">
+              <Row label="Expected" value={inr(f.systemBalance.expected)} />
+              <Row label="Actual"   value={inr(f.systemBalance.actual)} />
+              <Row label="Variance" value={inr(f.systemBalance.variance)} tone={f.systemBalance.variance < 0 ? 'rose' : f.systemBalance.variance > 0 ? 'amber' : 'emerald'} />
+            </div>
+          </div>
+          <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+            <div className="text-[10px] text-slate-500 uppercase mb-2">Overages & Claims</div>
+            <div className="space-y-1 text-[11px]">
+              <Row label="Events"      value={String(f.overages.count)} />
+              <Row label="Total Value" value={inr(f.overages.totalAmount)} />
+              <Row label="Open Claims" value={String(f.overages.openClaims)} tone={f.overages.openClaims > 0 ? 'rose' : undefined} />
+            </div>
+          </div>
+        </div>
+        <div className="bg-white/[0.02] border border-white/5 rounded-lg p-3">
+          <div className="text-[10px] text-slate-500 uppercase mb-2 flex items-center gap-1.5"><AlertTriangle className="h-3 w-3 text-rose-400" />Risk Signals</div>
+          <ul className="space-y-1.5">
+            {f.signals.map((s, i) => (
+              <li key={i} className="text-[11px] text-slate-200 flex items-start gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-400 mt-1.5 shrink-0" />{s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Row: React.FC<{ label: string; value: string; tone?: 'rose' | 'amber' | 'emerald' }> = ({ label, value, tone }) => {
+  const c = tone === 'rose' ? 'text-rose-300' : tone === 'amber' ? 'text-amber-300' : tone === 'emerald' ? 'text-emerald-300' : 'text-slate-200';
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-slate-500">{label}</span>
+      <span className={`font-mono font-semibold ${c}`}>{value}</span>
+    </div>
+  );
+};
+
 export default CMSAuditCommandCenter;
