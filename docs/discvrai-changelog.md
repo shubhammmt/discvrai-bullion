@@ -282,3 +282,11 @@ A floating "Demo Mode" switcher (bottom-right, above the chat bar) toggles the p
 **Files changed**
 - `src/pages/discvrai/DiscvrCopilot.tsx` — Real OTP fetch flow, resend timer, visitor nav cleanup, mobile drawer.
 - `docs/discvrai-changelog.md` — this entry.
+
+## Logged-in Home Page (Mutual Funds Theme)
+- Route: `/discvrai/copilot`
+- For `new_user` and `investor` personas, the landing Hero is replaced by `MutualFundsHome`.
+- Layout: centered "Mutual Funds" H1 + subtitle, "Popular Investment Themes" section, 3-column responsive grid of 9 fund cards.
+- Each card: gradient top accent, icon tile, level/return row (green badge), 2-line description, color-coded tag (Policy-Driven, Defensive, High-Risk, Trade-Policy, Cost-Focused, Risk-Based, Performance, Investment Style), and Explore CTA. Premium funds show 👑.
+- Visitor persona is unchanged (still shows the auth-choice Hero).
+- Theme-aware (dark/light) using existing `dark` boolean from parent.
