@@ -533,6 +533,9 @@ const CMSAuditCommandCenter: React.FC = () => {
       </main>
 
       {/* Toast */}
+      {/* Drill-down modal */}
+      {drill && <DrillModal drill={drill} onClose={() => setDrill(null)} />}
+
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#0a0f1c] border border-white/10 rounded-lg px-4 py-3 shadow-2xl flex items-center gap-2 text-sm">
           <CheckCircle2 className="h-4 w-4 text-emerald-400" />
