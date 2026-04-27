@@ -611,24 +611,24 @@ export const enterpriseTransformationSlides: EnterpriseTransformationSlide[] = [
   {
     id: 22,
     type: 'company-reality',
-    title: 'Greenko Reality: Systems Exist, Decisioning Still Lags',
-    subtitle: 'Energy operations · Plant + cost-center context',
+    title: 'A Reality Most Energy Majors Recognise',
+    subtitle: 'Patterns we see across organisations of similar scale and complexity',
     content: {
       company: 'Greenko',
       accent: '#1f7a3a',
       exists: [
-        'ERP rollout in progress',
-        'HR & workforce tools deployed',
-        'Plant-level data capture exists',
-        'Reporting cadence established'
+        'Modern ERP and workforce platforms in place',
+        'Plant-level data capture across the asset base',
+        'Established MIS and reporting cadence',
+        'Investments in digital and analytics already underway'
       ],
       breaks: [
-        'Manual MIS still stitched in Excel',
-        'Delayed visibility across plants',
-        'Fragmented plant-by-plant view',
-        'Reactive — not preventive — actions'
+        'Insight-to-action loops typically remain manual',
+        'Cross-plant signals get consolidated, not orchestrated',
+        'Decision context tends to live in inboxes and Excel',
+        'Operating responses skew reactive rather than preventive'
       ],
-      footer: 'Core issue: data is available, but not operationally orchestrated.'
+      footer: 'Across organisations of this scale, the gap is rarely data — it is the orchestration layer that turns signals into owner-led action.'
     }
   },
   {
