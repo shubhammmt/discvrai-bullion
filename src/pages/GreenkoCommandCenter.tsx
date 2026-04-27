@@ -74,13 +74,13 @@ const GreenkoCommandCenter: React.FC = () => {
     { id: 'pilot', label: 'AI Pilot Plan', icon: Sparkles },
   ];
 
-  const kpis = [
+  const kpis: { label: string; value: string; sub?: string; tone?: 'green' | 'amber' | 'red' | 'neutral' }[] = [
     { label: 'Installed Capacity', value: `${(totalCap / 1000).toFixed(2)} GW`, sub: `${PLANTS.length} plants` },
-    { label: 'Gen vs Plan', value: `${genVsPlan}%`, sub: `${totalGen}/${totalPlan} MW`, tone: parseFloat(genVsPlan) >= 98 ? 'green' : 'amber' as const },
-    { label: 'Open Exceptions', value: `${open}`, sub: `${high} high severity`, tone: high > 0 ? 'red' : 'neutral' as const },
+    { label: 'Gen vs Plan', value: `${genVsPlan}%`, sub: `${totalGen}/${totalPlan} MW`, tone: parseFloat(genVsPlan) >= 98 ? 'green' : 'amber' },
+    { label: 'Open Exceptions', value: `${open}`, sub: `${high} high severity`, tone: high > 0 ? 'red' : 'neutral' },
     { label: 'Avg PLF (24h)', value: `${(PLANTS.reduce((s, p) => s + p.plf, 0) / PLANTS.length).toFixed(1)}%` },
     { label: 'Cost Var MTD', value: '+1.6%', sub: 'vs O&M budget' },
-    { label: 'Action SLA', value: '87%', sub: 'within target', tone: 'green' as const },
+    { label: 'Action SLA', value: '87%', sub: 'within target', tone: 'green' },
   ];
 
   return (
