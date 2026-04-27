@@ -605,5 +605,263 @@ export const enterpriseTransformationSlides: EnterpriseTransformationSlide[] = [
       },
       tagline: "We don't just sell AI. We become your AI infrastructure partner."
     }
+  },
+
+  // ============ GREENKO INSERT (Slides 22–25) ============
+  {
+    id: 22,
+    type: 'company-reality',
+    title: 'Greenko Reality: Systems Exist, Decisioning Still Lags',
+    subtitle: 'Energy operations · Plant + cost-center context',
+    content: {
+      company: 'Greenko',
+      accent: '#1f7a3a',
+      exists: [
+        'ERP rollout in progress',
+        'HR & workforce tools deployed',
+        'Plant-level data capture exists',
+        'Reporting cadence established'
+      ],
+      breaks: [
+        'Manual MIS still stitched in Excel',
+        'Delayed visibility across plants',
+        'Fragmented plant-by-plant view',
+        'Reactive — not preventive — actions'
+      ],
+      footer: 'Core issue: data is available, but not operationally orchestrated.'
+    }
+  },
+  {
+    id: 23,
+    type: 'company-value-leak',
+    title: 'Current Decision Gaps and Their Business Impact',
+    subtitle: 'Where unstitched signals quietly erode value',
+    content: {
+      company: 'Greenko',
+      accent: '#1f7a3a',
+      rows: [
+        { fn: 'Expense Management', breaks: 'Delayed tracking & approval cycles', impact: 'Cost overruns' },
+        { fn: 'MIS Consolidation', breaks: 'Manual Excel stitching across teams', impact: 'Lagging decisions' },
+        { fn: 'Plant Operations', breaks: 'No unified cross-plant view', impact: 'Throughput & efficiency loss' },
+        { fn: 'Vendor Governance', breaks: 'Fragmented monitoring', impact: 'Leakage & weak controls' }
+      ]
+    }
+  },
+  {
+    id: 24,
+    type: 'company-command-center',
+    title: 'From Plant Data to Real-Time Action',
+    subtitle: 'Command Center for Energy Operations',
+    content: {
+      company: 'Greenko',
+      accent: '#1f7a3a',
+      demoUrl: '/greenko-command-center',
+      kpis: [
+        { label: 'Gen vs Plan', val: '96.8%' },
+        { label: 'PLF', val: '34.2%' },
+        { label: 'Cost Var', val: '+2.1%' },
+        { label: 'Downtime', val: '4.6h' }
+      ],
+      alerts: [
+        { sev: 'High', msg: 'AP-Solar-2 underperforming plan by 4.8%', owner: 'Plant Head' },
+        { sev: 'High', msg: 'Karnataka wind farm — predictive maint. risk', owner: 'O&M Lead' },
+        { sev: 'Med', msg: 'Cost variance breach · O&M ledger', owner: 'Finance' }
+      ],
+      bullets: [
+        'Unified view across plants',
+        'Variance detection in near real time',
+        'Auto-escalation to responsible owners'
+      ]
+    }
+  },
+  {
+    id: 25,
+    type: 'company-pilot',
+    title: 'Pilot Fast: From MIS Friction to Measurable Control',
+    subtitle: '2–3 Week Pilot Proposal',
+    content: {
+      company: 'Greenko',
+      accent: '#1f7a3a',
+      blocks: [
+        { label: 'Scope', value: 'One plant OR an expense control use case' },
+        { label: 'Integrations', value: 'ERP + 1–2 operational data sources' },
+        { label: 'Outputs', value: 'Live dashboard + alerts + action workflow' },
+        { label: 'KPIs', value: 'MIS cycle time · cost variance visibility · action closure time' },
+        { label: 'Timeline', value: 'Wk 1 setup · Wk 2 intelligence · Wk 3 actions' }
+      ],
+      cta: 'Start with one plant, prove impact, then scale across the network.'
+    }
+  },
+
+  // ============ HAVELLS INSERT (Slides 26–29) ============
+  {
+    id: 26,
+    type: 'company-reality',
+    title: 'Good Data, Slow Decisions Across Channel and Supply',
+    subtitle: 'Execution reality in fast-moving electricals',
+    content: {
+      company: 'Havells',
+      accent: '#0b3d91',
+      exists: [
+        'ERP & sales reporting in place',
+        'Distributor & secondary-sales data',
+        'Established planning cadence',
+        'Regional sales infrastructure'
+      ],
+      breaks: [
+        'Demand volatility — slow correction',
+        'Stock imbalance across SKU × region',
+        'Delayed correction cycles',
+        'Regional blind spots in execution'
+      ],
+      footer: 'Core challenge: fragmented signals across planning, sales, and dispatch.'
+    }
+  },
+  {
+    id: 27,
+    type: 'company-value-leak',
+    title: 'Decision Gaps Driving Revenue and Working Capital Loss',
+    subtitle: 'Where execution friction compounds at scale',
+    content: {
+      company: 'Havells',
+      accent: '#0b3d91',
+      rows: [
+        { fn: 'Demand Planning', breaks: 'Lagging forecast corrections', impact: 'Stockouts & missed sales' },
+        { fn: 'Inventory Deployment', breaks: 'Suboptimal stock positioning', impact: 'Excess working capital' },
+        { fn: 'Dispatch Prioritization', breaks: 'Manual exception handling', impact: 'Fill-rate & service risk' },
+        { fn: 'Channel Performance', breaks: 'Delayed sell-through visibility', impact: 'Weak regional response' }
+      ]
+    }
+  },
+  {
+    id: 28,
+    type: 'company-command-center',
+    title: 'From Demand Signals to Region-Wise Action',
+    subtitle: 'Havells Decision Command Center',
+    content: {
+      company: 'Havells',
+      accent: '#0b3d91',
+      demoUrl: '/havells-decision-studio',
+      kpis: [
+        { label: 'Fill Rate', val: '92.4%' },
+        { label: 'Forecast Acc.', val: '78%' },
+        { label: 'Inv Turns', val: '6.2x' },
+        { label: 'Stockouts', val: '47 SKU' }
+      ],
+      alerts: [
+        { sev: 'High', msg: 'Fans · North — stockout risk in 72h', owner: 'Regional SCM' },
+        { sev: 'High', msg: 'Switchgear · South — overstock 38 days', owner: 'Planning' },
+        { sev: 'Med', msg: 'Top distributor fill-rate dip in West', owner: 'Sales Head' }
+      ],
+      bullets: [
+        'Daily decision cadence',
+        'Actionable alerts, not static reports',
+        'Traceable closure and impact tracking'
+      ]
+    }
+  },
+  {
+    id: 29,
+    type: 'company-pilot',
+    title: 'Pilot One Category, Prove Speed and Control',
+    subtitle: '2–3 Week Pilot · Measurable Impact',
+    content: {
+      company: 'Havells',
+      accent: '#0b3d91',
+      blocks: [
+        { label: 'Scope', value: '1 category × 3–5 regions' },
+        { label: 'Data Inputs', value: 'ERP + secondary sales + inventory snapshots' },
+        { label: 'Outputs', value: 'Live control dashboard + risk alerts + action workflow' },
+        { label: 'KPI Targets', value: 'Forecast correction speed · stockout reduction · fill-rate uplift · turns' },
+        { label: 'Scale Plan', value: 'Expand by category and region after pilot validation' }
+      ],
+      cta: 'Start narrow, improve decision velocity, scale to a national control model.'
+    }
+  },
+
+  // ============ DP WORLD INSERT (Slides 30–33) ============
+  {
+    id: 30,
+    type: 'company-reality',
+    title: 'High System Maturity, Low Operational Orchestration',
+    subtitle: 'Mature systems, fragmented execution',
+    content: {
+      company: 'DP World',
+      accent: '#1f4e79',
+      exists: [
+        'TMS, WMS, ERP deployed globally',
+        'Strong data availability across stack',
+        'Mature digital infrastructure',
+        'Established regional ops teams'
+      ],
+      breaks: [
+        'Manual exception handling',
+        'Low cross-region visibility',
+        'Reactive decision posture',
+        'Disconnected approval workflows'
+      ],
+      footer: 'Problem is no longer digitization — it is synchronized decision execution.'
+    }
+  },
+  {
+    id: 31,
+    type: 'company-value-leak',
+    title: 'Top Decision Breakpoints Across Global Logistics',
+    subtitle: 'Where multi-system signals fail to converge',
+    content: {
+      company: 'DP World',
+      accent: '#1f4e79',
+      rows: [
+        { fn: 'Lane Planning', breaks: 'Static routing · weak dynamic optimization', impact: 'Higher cost per move' },
+        { fn: 'Exception Handling', breaks: 'Manual triage & approvals', impact: 'Delays & SLA misses' },
+        { fn: 'Warehouse Utilization', breaks: 'Disconnected capacity signals', impact: 'Underutilization & congestion' },
+        { fn: 'Vendor Decisions', breaks: 'Fragmented performance view', impact: 'Cost leakage & compliance risk' }
+      ]
+    }
+  },
+  {
+    id: 32,
+    type: 'company-command-center',
+    title: 'Unified Control View Across Lanes, DCs, and Exceptions',
+    subtitle: 'Supply Chain Command Layer',
+    content: {
+      company: 'DP World',
+      accent: '#1f4e79',
+      demoUrl: '/dpworld-orchestration',
+      kpis: [
+        { label: 'On-Time %', val: '91.7%' },
+        { label: 'Cost / Move', val: '$284' },
+        { label: 'DC Util.', val: '76%' },
+        { label: 'Open Exc.', val: '143' }
+      ],
+      alerts: [
+        { sev: 'High', msg: 'Jebel Ali → Mundra · SLA breach risk', owner: 'Lane Ops' },
+        { sev: 'High', msg: 'DC-Sohar congestion · capacity 94%', owner: 'WH Manager' },
+        { sev: 'Med', msg: 'Carrier underperformance · APAC corridor', owner: 'Vendor Mgmt' }
+      ],
+      bullets: [
+        'One decision surface across systems',
+        'Owner-assigned action queues',
+        'Clear SLA & closure tracking'
+      ]
+    }
+  },
+  {
+    id: 33,
+    type: 'company-pilot',
+    title: '2–3 Week Pilot: Detect, Decide, Execute',
+    subtitle: 'Exception to Action · Pilot Frame',
+    content: {
+      company: 'DP World',
+      accent: '#1f4e79',
+      blocks: [
+        { label: 'Scope', value: 'One lane cluster OR one regional warehouse network' },
+        { label: 'Integrations', value: 'TMS + WMS + ERP event feed' },
+        { label: 'Intelligence', value: 'Exception detection + reroute / reallocation suggestions' },
+        { label: 'Workflow', value: 'Human-in-loop approvals & action logging' },
+        { label: 'KPIs', value: 'Exception TAT · SLA breaches · cost per move' }
+      ],
+      cta: 'Start with one high-friction flow, prove faster closure and cost control, then scale globally.'
+    }
   }
 ];
