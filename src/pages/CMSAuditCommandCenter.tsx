@@ -372,8 +372,10 @@ const CMSAuditCommandCenter: React.FC = () => {
                 : b.type === 'manual-mode' ? Clock
                 : Radio;
               return (
-                <div key={b.id} className="px-4 py-3 hover:bg-white/[0.02] transition cursor-pointer"
-                     onClick={() => setSelectedAtm(b.atmId)}>
+                <div key={b.id} className="px-4 py-3 hover:bg-white/[0.02] transition cursor-pointer select-none"
+                     onClick={() => setSelectedAtm(b.atmId)}
+                     onDoubleClick={() => setDrill({ kind: 'breach', breach: b })}
+                     title="Double-click to see SOP violators">
                   <div className="flex items-start gap-2.5">
                     <Icon className="h-4 w-4 text-rose-400 mt-0.5 shrink-0" />
                     <div className="min-w-0 flex-1">
