@@ -523,7 +523,7 @@ const CMSAuditCommandCenter: React.FC = () => {
             </table>
           </div>
           <div className="px-4 py-2.5 border-t border-white/5 text-[10px] text-slate-500 flex items-center justify-between">
-            <span>Click any row to highlight the corresponding ATM on the map</span>
+            <span>Click a row to link the ATM on the map · <span className="text-amber-300">Double-click for ATM forensics</span></span>
             <span className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-fuchsia-400" /> Audit-Triggered
               <span className="h-1.5 w-1.5 rounded-full bg-slate-400 ml-2" /> System-Generated
