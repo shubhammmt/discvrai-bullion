@@ -362,7 +362,8 @@ const CMSAuditCommandCenter: React.FC = () => {
           <div className="px-4 py-3 border-b border-white/5 flex items-center gap-2">
             <Flame className="h-4 w-4 text-rose-400 animate-pulse" />
             <h2 className="text-sm font-semibold">5-Gap Breach Ticker</h2>
-            <span className="ml-auto text-[10px] text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/30">{BREACHES_SEED.length} LIVE</span>
+            <span className="ml-auto text-[9px] text-amber-300/80 mr-2 hidden sm:inline">double-click for SOP violators</span>
+            <span className="text-[10px] text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/30">{BREACHES_SEED.length} LIVE</span>
           </div>
           <div className="flex-1 overflow-y-auto divide-y divide-white/5">
             {BREACHES_SEED.map(b => {
