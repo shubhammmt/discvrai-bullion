@@ -72,6 +72,7 @@ import DiscvrAbout from './pages/discvrai/DiscvrAbout';
 import DiscvrContact from './pages/discvrai/DiscvrContact';
 import DiscvrCopilot from './pages/discvrai/DiscvrCopilot';
 import CMSGuardian from './pages/CMSGuardian';
+import CMSAuditCommandCenter from './pages/CMSAuditCommandCenter';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
 import EngineerShowcase from './pages/EngineerShowcase';
@@ -270,6 +271,7 @@ const AppContent = () => {
                           location.pathname === '/cms-recon-center' ||
                            location.pathname === '/cms-audit-command' ||
                            location.pathname === '/cms-audit-2' ||
+                           location.pathname === '/cms-audit' ||
                            location.pathname === '/demo/schlumberger-ops' ||
                            location.pathname === '/vedanta-decision-hub' ||
                            location.pathname.startsWith('/discvrai');
@@ -460,6 +462,7 @@ const AppContent = () => {
                     <Route path="/cms-recon-center" element={<CMSReconCenter />} />
                     <Route path="/cms-audit-command" element={<CMSAuditCommand />} />
                     <Route path="/cms-audit-2" element={<CMSGuardian />} />
+                    <Route path="/cms-audit" element={<CMSAuditCommandCenter />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
                     <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
