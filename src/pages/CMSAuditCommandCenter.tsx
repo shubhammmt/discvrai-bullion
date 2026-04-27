@@ -470,7 +470,9 @@ const CMSAuditCommandCenter: React.FC = () => {
                     <tr
                       key={a.id}
                       onClick={() => setSelectedAtm(linked ? null : a.atmId)}
-                      className={`cursor-pointer transition ${linked ? 'bg-rose-500/5' : 'hover:bg-white/[0.02]'}`}
+                      onDoubleClick={() => setDrill({ kind: 'atm', atmId: a.atmId })}
+                      title="Double-click for ATM forensics"
+                      className={`cursor-pointer transition select-none ${linked ? 'bg-rose-500/5' : 'hover:bg-white/[0.02]'}`}
                     >
                       <td className="px-4 py-2.5 font-mono text-slate-300">{a.id}</td>
                       <td className="px-3 py-2.5">
