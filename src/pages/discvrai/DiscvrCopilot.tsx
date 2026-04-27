@@ -89,7 +89,11 @@ export default function DiscvrCopilot() {
       <PersonaSwitcher persona={persona} onChange={setPersona} />
 
       <main className="mx-auto max-w-7xl px-6 pb-24">
-        <Hero dark={dark} onChoice={handleChoice} />
+        {persona === 'visitor' ? (
+          <Hero dark={dark} onChoice={handleChoice} />
+        ) : (
+          <MutualFundsHome dark={dark} persona={persona} />
+        )}
       </main>
 
       {authModal === 'login' && (
@@ -453,7 +457,111 @@ function Hero({ dark, onChoice }: { dark: boolean; onChoice: (c: 'login' | 'regi
   );
 }
 
-/* ----------------------------- Auth Modals ----------------------------- */
+/* ----------------------------- Mutual Funds Home (logged-in) ----------------------------- */
+type FundTheme = {
+  name: string;
+  level: 'Basic' | 'Intermediate' | 'Advanced' | 'Expert';
+  return: string;
+  period: string;
+  desc: string;
+  tag: string;
+  tagColor: string; // tailwind classes for badge bg/text
+  accent: string;   // top border gradient classes
+  icon: typeof Wallet;
+  premium?: boolean;
+};
+
+const FUND_THEMES: FundTheme[] = [
+  { name: 'GST Edge Fund', level: 'Intermediate', return: '+5.58%', period: '3M', desc: 'Captures growth in GST-beneficiary sectors boosting demand and profitability.', tag: 'Policy-Driven', tagColor: 'bg-violet-500/15 text-violet-400', accent: 'from-slate-500 to-slate-700', icon: Wallet, premium: true },
+  { name: 'Monsoon Momentum Fund', level: 'Intermediate', return: '+4.43%', period: '3M', desc: "Capitalizes on India's rural consumption boom fueled by strong rainfall.", tag: 'Policy-Driven', tagColor: 'bg-violet-500/15 text-violet-400', accent: 'from-slate-500 to-slate-700', icon: RefreshCw, premium: true },
+  { name: 'Tariff-Resilient India', level: 'Intermediate', return: '+0.79%', period: '3M', desc: 'Focused on sectors resilient to global trade tensions, providing a safe haven from US tariffs and external shocks.', tag: 'Defensive', tagColor: 'bg-violet-500/15 text-violet-400', accent: 'from-slate-500 to-slate-700', icon: Target },
+  { name: 'US Tariff Vulnerable', level: 'Expert', return: '+5.79%', period: '3M', desc: 'Sectors facing pricing pressure from increased US import tariffs.', tag: 'High-Risk', tagColor: 'bg-violet-500/15 text-violet-400', accent: 'from-slate-500 to-slate-700', icon: Calculator, premium: true },
+  { name: 'India-UK Trade Winners', level: 'Advanced', return: '+2.98%', period: '3M', desc: 'Export-oriented sectors benefiting from India-UK Free Trade Agreement eliminating tariffs.', tag: 'Trade-Policy', tagColor: 'bg-sky-500/15 text-sky-400', accent: 'from-slate-500 to-slate-700', icon: PortfolioIcon, premium: true },
+  { name: 'Cost Cutters', level: 'Basic', return: '+1.61%', period: '3M', desc: 'Ultra-low expense funds for smart, cost-conscious investors focused on maximizing returns through efficient investing.', tag: 'Cost-Focused', tagColor: 'bg-emerald-500/15 text-emerald-400', accent: 'from-emerald-400 to-emerald-600', icon: Wallet },
+  { name: 'Stable Large Cap', level: 'Basic', return: '+1.66%', period: '3M', desc: 'Focuses on reliable large-cap companies; ideal for conservative investors seeking steady growth with low volatility.', tag: 'Risk-Based', tagColor: 'bg-sky-500/15 text-sky-400', accent: 'from-sky-400 to-sky-600', icon: Target },
+  { name: 'Return Rockets', level: 'Intermediate', return: '+9.54%', period: '3M', desc: 'Proven high-return funds; ideal for growth-seeking investors willing to embrace moderate risk for superior gains.', tag: 'Performance', tagColor: 'bg-violet-500/15 text-violet-400', accent: 'from-violet-400 to-violet-600', icon: RefreshCw, premium: true },
+  { name: 'SIP Smart Starter', level: 'Basic', return: '+1.90%', period: '3M', desc: 'Low-ticket SIP option; perfect for regular investors seeking disciplined, long-term wealth building with minimal complexity.', tag: 'Investment Style', tagColor: 'bg-orange-500/15 text-orange-400', accent: 'from-orange-400 to-orange-600', icon: Calculator },
+];
+
+function MutualFundsHome({ dark, persona }: { dark: boolean; persona: Persona }) {
+  const heading = dark ? 'text-white' : 'text-slate-900';
+  const sub = dark ? 'text-slate-400' : 'text-slate-600';
+  const cardBg = dark ? 'bg-white/[0.04] border-white/10' : 'bg-white border-slate-900/10';
+  const cardHover = dark ? 'hover:bg-white/[0.07]' : 'hover:shadow-lg';
+  const exploreBtn = dark
+    ? 'border-white/15 text-slate-200 hover:bg-white/10'
+    : 'border-slate-900/15 text-slate-700 hover:bg-slate-100';
+
+  return (
+    <section className="pt-10 md:pt-14">
+      {/* Header */}
+      <div className="mb-10 text-center">
+        <h1 className={`text-4xl font-bold tracking-tight md:text-5xl ${heading}`}>Mutual Funds</h1>
+        <p className={`mt-2 text-base ${sub}`}>
+          {persona === 'investor'
+            ? 'Welcome back — explore funds tailored to your portfolio'
+            : 'Discover and invest in professionally managed mutual funds'}
+        </p>
+      </div>
+
+      {/* Section title */}
+      <div className="mb-6">
+        <h2 className={`text-2xl font-bold tracking-tight ${heading}`}>Popular Investment Themes</h2>
+        <p className={`mt-1 text-sm ${sub}`}>Discover funds by investment style and strategy</p>
+      </div>
+
+      {/* Cards grid */}
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {FUND_THEMES.map((f) => {
+          const Icon = f.icon;
+          return (
+            <article
+              key={f.name}
+              className={`relative overflow-hidden rounded-2xl border transition ${cardBg} ${cardHover}`}
+            >
+              {/* top accent strip */}
+              <div className={`h-1.5 w-full bg-gradient-to-r ${f.accent}`} />
+
+              <div className="p-5">
+                {/* Title row */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br ${f.accent} text-white shadow`}>
+                      <Icon className="h-4 w-4" strokeWidth={2.4} />
+                    </div>
+                    <h3 className={`text-base font-semibold ${heading}`}>{f.name}</h3>
+                  </div>
+                  {f.premium && <span className="text-amber-400">👑</span>}
+                </div>
+
+                {/* Level + return */}
+                <div className="mt-4 flex items-center justify-between">
+                  <span className={`text-sm ${sub}`}>{f.level}</span>
+                  <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-500">
+                    <span>↗</span>
+                    {f.return}
+                    <span className={`ml-1 text-[10px] font-normal ${sub}`}>{f.period}</span>
+                  </span>
+                </div>
+
+                {/* Description */}
+                <p className={`mt-3 line-clamp-2 text-sm leading-relaxed ${sub}`}>{f.desc}</p>
+
+                {/* Footer: tag + explore */}
+                <div className="mt-4 flex items-center justify-between">
+                  <span className={`rounded-md px-2.5 py-1 text-xs font-medium ${f.tagColor}`}>{f.tag}</span>
+                  <button className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition ${exploreBtn}`}>
+                    Explore <ArrowRight className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
 function ModalShell({
   dark,
   onClose,
