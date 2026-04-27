@@ -75,6 +75,127 @@ const BREACHES_SEED: Breach[] = [
   { id: 'BR-05', type: 'hrc',          atmId: 'ATM-HYD-103', label: 'HRC Login Attempt',    detail: 'High-Risk Custodian flagged' },
 ];
 
+/* ---------------- Drill-down data ---------------- */
+interface CustodianRow {
+  custodianId: string;
+  name: string;
+  atmId: string;
+  city: string;
+  violation: string;
+  lastAction: string;
+  severity: 'High' | 'Medium' | 'Critical';
+}
+
+const BREACH_DRILLDOWN: Record<Breach['type'], { title: string; subtitle: string; columns: string[]; rows: CustodianRow[] }> = {
+  'day91': {
+    title: 'Day 91 Route Breach — SOP Violators',
+    subtitle: 'Custodians whose route reshuffle is overdue beyond the 90-day SOP window',
+    columns: ['Custodian', 'ATM', 'City', 'Days on Route', 'Last Reshuffle', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-4471', name: 'R. Mehta',     atmId: 'ATM-DLH-014', city: 'Delhi · CP',       violation: '93 days', lastAction: '2024-01-25', severity: 'Critical' },
+      { custodianId: 'CUS-4488', name: 'S. Khanna',    atmId: 'ATM-DLH-014', city: 'Delhi · CP',       violation: '93 days', lastAction: '2024-01-25', severity: 'Critical' },
+      { custodianId: 'CUS-5012', name: 'A. Bhatia',    atmId: 'ATM-LKO-031', city: 'Lucknow',          violation: '91 days', lastAction: '2024-01-27', severity: 'High' },
+      { custodianId: 'CUS-5103', name: 'V. Iyer',      atmId: 'ATM-JAI-006', city: 'Jaipur',           violation: '92 days', lastAction: '2024-01-26', severity: 'High' },
+    ],
+  },
+  'hoto': {
+    title: 'HOTO Failure — Handover/Takeover SOP Skips',
+    subtitle: 'Custodians who skipped biometric or QR verification at handover',
+    columns: ['Custodian', 'ATM', 'City', 'Skip Type', 'Timestamp', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-3321', name: 'P. Naidu',     atmId: 'ATM-MUM-221', city: 'Mumbai · Andheri', violation: 'Biometric skipped', lastAction: 'Today 09:14', severity: 'Critical' },
+      { custodianId: 'CUS-3322', name: 'D. Shah',      atmId: 'ATM-MUM-221', city: 'Mumbai · Andheri', violation: 'QR not scanned',    lastAction: 'Today 09:15', severity: 'High' },
+      { custodianId: 'CUS-3340', name: 'T. Reddy',     atmId: 'ATM-CHN-045', city: 'Chennai',          violation: 'Biometric skipped', lastAction: 'Today 11:02', severity: 'High' },
+    ],
+  },
+  'dual-custody': {
+    title: 'Dual-Custody Anomaly — Single-Person Sync Events',
+    subtitle: 'ATMs where only one of two keys / OTC was entered during sync',
+    columns: ['Custodian', 'ATM', 'City', 'Anomaly', 'Detected', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-2210', name: 'M. Pillai',    atmId: 'ATM-BLR-088', city: 'Bengaluru · MG Rd', violation: 'Only Key-A entered · Key-B missing', lastAction: 'Today 07:48', severity: 'Critical' },
+      { custodianId: 'CUS-2233', name: 'L. Goswami',   atmId: 'ATM-BLR-088', city: 'Bengaluru · MG Rd', violation: 'OTC password absent',                lastAction: 'Today 07:48', severity: 'Critical' },
+      { custodianId: 'CUS-2298', name: 'N. Chatterjee',atmId: 'ATM-KOL-077', city: 'Kolkata',           violation: 'Single custodian sync',              lastAction: 'Today 06:22', severity: 'High' },
+    ],
+  },
+  'manual-mode': {
+    title: 'Manual Mode — Active 24h Enforcement Windows',
+    subtitle: 'ATMs operating in manual override beyond approved limits',
+    columns: ['Custodian', 'ATM', 'City', 'Override Reason', 'Started', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-6601', name: 'K. Sharma',    atmId: 'ATM-CHN-045', city: 'Chennai',          violation: 'Cassette jam · manual dispense', lastAction: 'Yesterday 18:05', severity: 'High' },
+      { custodianId: 'CUS-6644', name: 'J. Verma',     atmId: 'ATM-MUM-221', city: 'Mumbai · Andheri', violation: 'Sensor bypass',                  lastAction: 'Today 04:30',     severity: 'Medium' },
+    ],
+  },
+  'hrc': {
+    title: 'HRC Login — High-Risk Custodian Access Attempts',
+    subtitle: 'Flagged custodians attempting access outside approved windows',
+    columns: ['Custodian', 'ATM', 'City', 'Flag Reason', 'Attempted At', 'Severity'],
+    rows: [
+      { custodianId: 'CUS-9911', name: 'B. Pawar',     atmId: 'ATM-HYD-103', city: 'Hyderabad',        violation: 'Off-hours · prior incident on file', lastAction: 'Today 02:14', severity: 'Critical' },
+      { custodianId: 'CUS-9920', name: 'G. Rao',       atmId: 'ATM-HYD-103', city: 'Hyderabad',        violation: 'On HRC watchlist',                   lastAction: 'Today 02:18', severity: 'Critical' },
+    ],
+  },
+};
+
+interface ATMForensics {
+  machineCounter: { dispensed: number; presented: number; retracted: number };
+  systemBalance: { expected: number; actual: number; variance: number };
+  overages: { count: number; totalAmount: number; openClaims: number };
+  signals: string[];
+}
+
+const ATM_FORENSICS: Record<string, ATMForensics> = {
+  'ATM-DLH-014': {
+    machineCounter: { dispensed: 14820000, presented: 14820000, retracted: 12000 },
+    systemBalance:  { expected: 5180000, actual: 5168000, variance: -12000 },
+    overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+    signals: ['Day 91 route stagnation', 'Same custodian pair last 3 visits', 'Audit SLA missed', 'Off-hours sensor pings ×4 in 7 days'],
+  },
+  'ATM-HYD-103': {
+    machineCounter: { dispensed: 9240000, presented: 9240000, retracted: 0 },
+    systemBalance:  { expected: 3760000, actual: 3760000, variance: 0 },
+    overages:       { count: 1, totalAmount: 5000, openClaims: 0 },
+    signals: ['HRC custodian login at 02:14 IST', 'Off-window access', 'Prior incident on file'],
+  },
+  'ATM-MUM-221': {
+    machineCounter: { dispensed: 6810000, presented: 6788000, retracted: 22000 },
+    systemBalance:  { expected: 2190000, actual: 2188000, variance: -2000 },
+    overages:       { count: 3, totalAmount: 6500, openClaims: 2 },
+    signals: ['3 customer claims in 24h', 'Cassette jam reported', 'Manual mode invoked'],
+  },
+  'ATM-BLR-088': {
+    machineCounter: { dispensed: 8910000, presented: 8910000, retracted: 0 },
+    systemBalance:  { expected: 1840000, actual: 1840000, variance: 0 },
+    overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+    signals: ['Tx velocity +312% vs 7d baseline', 'Projected dry in ~2h', 'Single custodian sync event'],
+  },
+  'ATM-CHN-045': {
+    machineCounter: { dispensed: 5420000, presented: 5398000, retracted: 22000 },
+    systemBalance:  { expected: 1620000, actual: 1618500, variance: -1500 },
+    overages:       { count: 2, totalAmount: 4000, openClaims: 1 },
+    signals: ['Manual mode active', 'Cassette jam', 'Sensor bypass attempt'],
+  },
+  'ATM-KOL-077': {
+    machineCounter: { dispensed: 7230000, presented: 7230000, retracted: 0 },
+    systemBalance:  { expected: 2010000, actual: 2010000, variance: 0 },
+    overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+    signals: ['Withdrawal pattern anomaly', 'Single custodian sync flag'],
+  },
+};
+
+const DEFAULT_FORENSICS: ATMForensics = {
+  machineCounter: { dispensed: 0, presented: 0, retracted: 0 },
+  systemBalance:  { expected: 0, actual: 0, variance: 0 },
+  overages:       { count: 0, totalAmount: 0, openClaims: 0 },
+  signals: ['No anomalies detected · normal operation'],
+};
+
+type DrillState =
+  | { kind: 'breach'; breach: Breach }
+  | { kind: 'atm'; atmId: string }
+  | null;
+
 /* ---------------- Helpers ---------------- */
 const RISK_META: Record<RiskTier, { label: string; dot: string; ring: string; text: string; chip: string }> = {
   theft:   { label: 'Theft',    dot: 'bg-rose-500',    ring: 'ring-rose-500/40',    text: 'text-rose-300',    chip: 'bg-rose-500/15 text-rose-300 border-rose-500/30' },
