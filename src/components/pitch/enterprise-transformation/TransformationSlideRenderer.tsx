@@ -21,6 +21,10 @@ import { ContactSlide } from './ContactSlide';
 import { SupplyChainSlide } from './SupplyChainSlide';
 import { PredictiveAnalyticsSlide } from './PredictiveAnalyticsSlide';
 import { VedantaBuiltSlide } from './VedantaBuiltSlide';
+import { CompanyRealitySlide } from './CompanyRealitySlide';
+import { CompanyValueLeakSlide } from './CompanyValueLeakSlide';
+import { CompanyCommandCenterSlide } from './CompanyCommandCenterSlide';
+import { CompanyPilotSlide } from './CompanyPilotSlide';
 
 interface TransformationSlideRendererProps {
   slide: EnterpriseTransformationSlide;
@@ -76,6 +80,14 @@ export const TransformationSlideRenderer: React.FC<TransformationSlideRendererPr
       return <PredictiveAnalyticsSlide {...props} />;
     case 'vedanta-built':
       return <VedantaBuiltSlide {...props} />;
+    case 'company-reality':
+      return <CompanyRealitySlide {...props} />;
+    case 'company-value-leak':
+      return <CompanyValueLeakSlide {...props} />;
+    case 'company-command-center':
+      return <CompanyCommandCenterSlide {...props} />;
+    case 'company-pilot':
+      return <CompanyPilotSlide {...props} />;
     case 'contact':
       return <ContactSlide {...props} />;
     default:
