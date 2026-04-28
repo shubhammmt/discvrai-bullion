@@ -560,14 +560,11 @@ const slides = [Slide1, Slide2, Slide3, Slide4, Slide5, Slide6];
 
 const SupplyChainPitch: React.FC = () => {
   const [i, setI] = useState(0);
-  const [present, setPresent] = useState(false);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') setI((v) => Math.min(v + 1, slides.length - 1));
       if (e.key === 'ArrowLeft') setI((v) => Math.max(v - 1, 0));
-      if (e.key === 'p' || e.key === 'P') setPresent((v) => !v);
-      if (e.key === 'Escape') setPresent(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
