@@ -588,41 +588,39 @@ const SupplyChainPitch: React.FC = () => {
       </AnimatePresence>
 
       {/* Bottom nav */}
-      {!present && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border rounded-full px-3 py-1.5 shadow-sm" style={{ borderColor: RULE }}>
-          <button
-            onClick={() => setI((v) => Math.max(v - 1, 0))}
-            disabled={i === 0}
-            className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
-            style={{ background: ACCENT_SOFT, color: ACCENT }}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <div className="flex items-center gap-1.5">
-            {slides.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                className="transition-all"
-                style={{
-                  width: idx === i ? 22 : 8,
-                  height: 8,
-                  borderRadius: 999,
-                  background: idx === i ? ACCENT : '#CBD5E1',
-                }}
-              />
-            ))}
-          </div>
-          <button
-            onClick={() => setI((v) => Math.min(v + 1, slides.length - 1))}
-            disabled={i === slides.length - 1}
-            className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
-            style={{ background: ACCENT_SOFT, color: ACCENT }}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border rounded-full px-3 py-1.5 shadow-sm" style={{ borderColor: RULE }}>
+        <button
+          onClick={() => setI((v) => Math.max(v - 1, 0))}
+          disabled={i === 0}
+          className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
+          style={{ background: ACCENT_SOFT, color: ACCENT }}
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <div className="flex items-center gap-1.5">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setI(idx)}
+              className="transition-all"
+              style={{
+                width: idx === i ? 22 : 8,
+                height: 8,
+                borderRadius: 999,
+                background: idx === i ? ACCENT : '#CBD5E1',
+              }}
+            />
+          ))}
         </div>
-      )}
+        <button
+          onClick={() => setI((v) => Math.min(v + 1, slides.length - 1))}
+          disabled={i === slides.length - 1}
+          className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
+          style={{ background: ACCENT_SOFT, color: ACCENT }}
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 };
