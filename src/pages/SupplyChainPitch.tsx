@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChevronLeft, ChevronRight, Eye, EyeOff,
+  ChevronLeft, ChevronRight,
   AlertTriangle, TrendingUp, Workflow, Layers, Bot,
   GitBranch, Target, CheckCircle2, Clock, ShieldCheck, Handshake,
   BarChart3, Boxes, Truck, Calendar
