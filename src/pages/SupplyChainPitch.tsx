@@ -72,7 +72,7 @@ const SlideShell: React.FC<SlideShellProps> = ({ eyebrow, title, subtitle, n, to
     {/* Footer */}
     <div className="px-12 py-3 flex items-center justify-between border-t text-[11px]" style={{ borderColor: RULE, color: MUTE }}>
       <span>© DiscvrAI · Confidential pitch material</span>
-      <span>Press ← → to navigate · P for present mode</span>
+      <span>Press ← → to navigate</span>
     </div>
   </div>
 );
