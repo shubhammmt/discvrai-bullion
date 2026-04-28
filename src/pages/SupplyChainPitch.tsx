@@ -590,16 +590,6 @@ const SupplyChainPitch: React.FC = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Top-left present toggle */}
-      <button
-        onClick={() => setPresent((v) => !v)}
-        className="fixed top-3 left-3 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] bg-white shadow-sm"
-        style={{ borderColor: RULE, color: ACCENT }}
-      >
-        {present ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-        {present ? 'Exit (Esc)' : 'Present (P)'}
-      </button>
-
       {/* Bottom nav */}
       {!present && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border rounded-full px-3 py-1.5 shadow-sm" style={{ borderColor: RULE }}>
