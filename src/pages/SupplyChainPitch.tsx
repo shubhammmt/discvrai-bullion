@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChevronLeft, ChevronRight, Eye, EyeOff,
+  ChevronLeft, ChevronRight,
   AlertTriangle, TrendingUp, Workflow, Layers, Bot,
   GitBranch, Target, CheckCircle2, Clock, ShieldCheck, Handshake,
   BarChart3, Boxes, Truck, Calendar
@@ -72,7 +72,7 @@ const SlideShell: React.FC<SlideShellProps> = ({ eyebrow, title, subtitle, n, to
     {/* Footer */}
     <div className="px-12 py-3 flex items-center justify-between border-t text-[11px]" style={{ borderColor: RULE, color: MUTE }}>
       <span>© DiscvrAI · Confidential pitch material</span>
-      <span>Press ← → to navigate · P for present mode</span>
+      <span>Press ← → to navigate</span>
     </div>
   </div>
 );
@@ -560,14 +560,11 @@ const slides = [Slide1, Slide2, Slide3, Slide4, Slide5, Slide6];
 
 const SupplyChainPitch: React.FC = () => {
   const [i, setI] = useState(0);
-  const [present, setPresent] = useState(false);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') setI((v) => Math.min(v + 1, slides.length - 1));
       if (e.key === 'ArrowLeft') setI((v) => Math.max(v - 1, 0));
-      if (e.key === 'p' || e.key === 'P') setPresent((v) => !v);
-      if (e.key === 'Escape') setPresent(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -590,52 +587,40 @@ const SupplyChainPitch: React.FC = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Top-left present toggle */}
-      <button
-        onClick={() => setPresent((v) => !v)}
-        className="fixed top-3 left-3 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] bg-white shadow-sm"
-        style={{ borderColor: RULE, color: ACCENT }}
-      >
-        {present ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-        {present ? 'Exit (Esc)' : 'Present (P)'}
-      </button>
-
       {/* Bottom nav */}
-      {!present && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border rounded-full px-3 py-1.5 shadow-sm" style={{ borderColor: RULE }}>
-          <button
-            onClick={() => setI((v) => Math.max(v - 1, 0))}
-            disabled={i === 0}
-            className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
-            style={{ background: ACCENT_SOFT, color: ACCENT }}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <div className="flex items-center gap-1.5">
-            {slides.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                className="transition-all"
-                style={{
-                  width: idx === i ? 22 : 8,
-                  height: 8,
-                  borderRadius: 999,
-                  background: idx === i ? ACCENT : '#CBD5E1',
-                }}
-              />
-            ))}
-          </div>
-          <button
-            onClick={() => setI((v) => Math.min(v + 1, slides.length - 1))}
-            disabled={i === slides.length - 1}
-            className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
-            style={{ background: ACCENT_SOFT, color: ACCENT }}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border rounded-full px-3 py-1.5 shadow-sm" style={{ borderColor: RULE }}>
+        <button
+          onClick={() => setI((v) => Math.max(v - 1, 0))}
+          disabled={i === 0}
+          className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
+          style={{ background: ACCENT_SOFT, color: ACCENT }}
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <div className="flex items-center gap-1.5">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setI(idx)}
+              className="transition-all"
+              style={{
+                width: idx === i ? 22 : 8,
+                height: 8,
+                borderRadius: 999,
+                background: idx === i ? ACCENT : '#CBD5E1',
+              }}
+            />
+          ))}
         </div>
-      )}
+        <button
+          onClick={() => setI((v) => Math.min(v + 1, slides.length - 1))}
+          disabled={i === slides.length - 1}
+          className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30"
+          style={{ background: ACCENT_SOFT, color: ACCENT }}
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 };
