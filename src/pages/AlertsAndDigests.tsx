@@ -8,6 +8,7 @@ import {
   ArrowLeft, ArrowRight, Shield, Clock, TrendingDown, AlertTriangle,
   Zap, Inbox, ExternalLink, X, Bot, User as UserIcon, Check,
 } from 'lucide-react';
+import { trackedStore, useTracked, type AlertItem, type WatchItem } from '@/lib/trackedStore';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,7 +28,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from '@/hooks/use-toast';
 
 // ============ Types ============
-type ViewMode = 'home' | 'alerts' | 'inbox' | 'profile-notif' | 'copilot-demo';
+type ViewMode = 'home' | 'alerts' | 'tracked' | 'inbox' | 'profile-notif' | 'copilot-demo';
 type WizardStep = 0 | 1 | 2 | 3;
 type Depth = 'quick' | 'detailed';
 type Frequency = 'daily' | 'weekdays' | 'custom';
