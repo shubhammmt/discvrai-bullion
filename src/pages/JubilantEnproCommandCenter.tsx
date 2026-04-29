@@ -765,6 +765,7 @@ const margAns = {
   func: 'Finance',
   due: '12-May',
   linkedEx: 'EX-1043',
+  value: 6.2,
   confidence: 86,
   sources: ['MIS-P&L', 'PROJ-CTRL', 'MAINT-LOG'],
 };
@@ -777,6 +778,7 @@ const riskAns = {
   func: 'Ops',
   due: '08-May',
   linkedEx: 'EX-1042',
+  value: 3.8,
   confidence: 91,
   sources: ['MAINT-LOG', 'WX-FCST', 'CHARTER-RATES'],
 };
@@ -789,6 +791,7 @@ const dsoAns = {
   func: 'Finance',
   due: '20-May',
   linkedEx: 'EX-1046',
+  value: 1.8,
   confidence: 78,
   sources: ['AR-AGEING', 'MILESTONE-LOG', 'MIS-P&L'],
 };
@@ -801,6 +804,7 @@ const maintAns = {
   func: 'Ops',
   due: '30-May',
   linkedEx: 'EX-1042',
+  value: 2.4,
   confidence: 83,
   sources: ['MAINT-LOG', 'SENSOR-FEED', 'INSPECTION'],
 };
