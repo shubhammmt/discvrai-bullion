@@ -8,10 +8,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 import {
   TrendingUp, Shield, Info, Repeat, Zap,
   BarChart3, AlertTriangle, PieChart, Briefcase, FileText,
-  Loader2,
+  Loader2, Bell, Heart, Check,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MutualFund } from '@/data/sipMockData';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { trackedStore, useTracked } from '@/lib/trackedStore';
+import { toast } from '@/hooks/use-toast';
 
 interface FundDetailSheetProps {
   fund: MutualFund | null;
