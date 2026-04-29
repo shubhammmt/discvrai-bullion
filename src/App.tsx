@@ -180,6 +180,7 @@ import NbfcCollectionsDemo from './pages/NbfcCollectionsDemo';
 import NbfcKycDemo from './pages/NbfcKycDemo';
 import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import SIPManagement from './pages/SIPManagement';
+import AlertsAndDigests from './pages/AlertsAndDigests';
 import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
 import TredsFinopsDemo from './pages/TredsFinopsDemo';
@@ -291,6 +292,8 @@ const AppContent = () => {
                            location.pathname === '/havells-channel-studio' ||
                            location.pathname === '/jubilant-enpro' ||
                            location.pathname === '/jubilant-enpro-pitch' ||
+                           location.pathname === '/alerts' ||
+                           location.pathname === '/alerts/inbox' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -496,6 +499,8 @@ const AppContent = () => {
                    <Route path="/havells-channel-studio" element={<HavellsChannelStudio />} />
                    <Route path="/jubilant-enpro" element={<JubilantEnproCommandCenter />} />
                    <Route path="/jubilant-enpro-pitch" element={<JubilantEnproPitch />} />
+                   <Route path="/alerts" element={<AlertsAndDigests />} />
+                   <Route path="/alerts/inbox" element={<AlertsAndDigests />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
