@@ -495,6 +495,7 @@ const AppContent = () => {
                     <Route path="/havells-pitch" element={<HavellsSalesOpsPitch />} />
                    <Route path="/havells-channel-studio" element={<HavellsChannelStudio />} />
                    <Route path="/jubilant-enpro" element={<JubilantEnproCommandCenter />} />
+                   <Route path="/jubilant-enpro-pitch" element={<JubilantEnproPitch />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
