@@ -282,6 +282,7 @@ const AppContent = () => {
                            location.pathname === '/greenko-command-center' ||
                            location.pathname === '/havells-decision-studio' ||
                            location.pathname === '/dpworld-orchestration' ||
+                           location.pathname === '/supply-chain-demo' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
