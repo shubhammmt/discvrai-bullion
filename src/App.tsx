@@ -482,6 +482,7 @@ const AppContent = () => {
                     <Route path="/havells-decision-studio" element={<HavellsDecisionStudio />} />
                     <Route path="/dpworld-orchestration" element={<DPWorldOrchestration />} />
                     <Route path="/supply-chain-pitch" element={<SupplyChainPitch />} />
+                    <Route path="/supply-chain-demo" element={<SupplyChainDemo />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
