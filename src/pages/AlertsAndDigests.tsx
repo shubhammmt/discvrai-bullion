@@ -168,7 +168,7 @@ export default function AlertsAndDigests() {
       toast({ title: 'Demo module', description: 'This section lives in the full Wealth Platform.' });
       return;
     }
-    if (id === 'home' || id === 'alerts' || id === 'inbox' || id === 'profile-notif') {
+    if (id === 'home' || id === 'alerts' || id === 'tracked' || id === 'inbox' || id === 'profile-notif') {
       setView(id as ViewMode);
     }
     if (isMobile) setSidebarOpen(false);
@@ -206,6 +206,7 @@ export default function AlertsAndDigests() {
             const isActive =
               (view === 'home' && item.id === 'home') ||
               (view === 'alerts' && item.id === 'alerts') ||
+              (view === 'tracked' && item.id === 'tracked') ||
               (view === 'inbox' && item.id === 'inbox') ||
               (view === 'profile-notif' && item.id === 'profile-notif');
             return (
@@ -276,6 +277,7 @@ export default function AlertsAndDigests() {
             <h1 className="text-base md:text-lg font-semibold text-sip-text-primary truncate">
               {view === 'home' && 'Home'}
               {view === 'alerts' && 'Alerts & digests'}
+              {view === 'tracked' && 'Tracked instruments'}
               {view === 'inbox' && 'Notification inbox'}
               {view === 'profile-notif' && 'Profile · Notifications'}
               {view === 'copilot-demo' && 'Wealth Copilot'}
