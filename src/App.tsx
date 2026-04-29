@@ -66,6 +66,7 @@ import GreenkoCommandCenter from './pages/GreenkoCommandCenter';
 import HavellsDecisionStudio from './pages/HavellsDecisionStudio';
 import DPWorldOrchestration from './pages/DPWorldOrchestration';
 import SupplyChainPitch from './pages/SupplyChainPitch';
+import SupplyChainDemo from './pages/SupplyChainDemo';
 import DiscvrAILayout from './pages/discvrai/DiscvrAILayout';
 import DiscvrHome from './pages/discvrai/DiscvrHome';
 import DiscvrFeatures from './pages/discvrai/DiscvrFeatures';
