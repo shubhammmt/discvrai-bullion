@@ -67,6 +67,8 @@ interface ApiFundData {
 export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDetailSheetProps) {
   const [apiData, setApiData] = useState<ApiFundData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [alertPct, setAlertPct] = useState('5');
+  useTracked(); // re-render on store changes
 
   useEffect(() => {
     if (!open || !fund) {
