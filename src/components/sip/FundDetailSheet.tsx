@@ -295,6 +295,65 @@ export function FundDetailSheet({ fund, open, onOpenChange, onInvest }: FundDeta
           )}
         </div>
 
+        {/* Track row — Watch + Set alert (writes to shared TrackedStore) */}
+        {(() => {
+          const symbol = (schemeName || 'FUND').toUpperCase().replace(/[^A-Z0-9]+/g, '-').slice(0, 24);
+          const watched = trackedStore.isWatched('mutual_fund', symbol);
+          const onWatch = () => {
+            if (watched) {
+              trackedStore.removeWatch('mutual_fund', symbol);
+              toast({ title: 'Removed from watchlist', description: schemeName });
+            } else {
+              trackedStore.addWatch({ assetType: 'mutual_fund', symbol, name: schemeName, refValue: nav });
+              toast({ title: 'Added to watchlist', description: `${schemeName} · NAV ₹${nav}` });
+            }
+          };
+          const onCreateAlert = () => {
+            const pct = Math.max(1, Math.min(20, Number(alertPct) || 5));
+            trackedStore.addAlert({
+              assetType: 'mutual_fund', symbol, name: schemeName,
+              kind: 'drawdown', condition: 'below', targetValue: pct, baseline: nav, source: 'sheet',
+            });
+            toast({ title: 'Alert created', description: `Notify if ${schemeName} drops more than ${pct}%` });
+          };
+          return (
+            <div className="border-t border-border bg-muted/30 px-4 py-2.5 flex items-center gap-2 shrink-0">
+              <Button
+                size="sm" variant={watched ? 'default' : 'outline'}
+                className="flex-1 h-9 text-xs gap-1.5"
+                onClick={onWatch}
+              >
+                <Heart className={cn('w-3.5 h-3.5', watched && 'fill-current')} />
+                {watched ? 'Watching' : 'Watch'}
+              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button size="sm" variant="outline" className="flex-1 h-9 text-xs gap-1.5">
+                    <Bell className="w-3.5 h-3.5" /> Set alert
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-64 p-3" align="end">
+                  <p className="text-xs font-semibold mb-1">Notify me if NAV drops more than</p>
+                  <p className="text-[10px] text-muted-foreground mb-2">Baseline ₹{nav}</p>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number" min={1} max={20} value={alertPct}
+                      onChange={(e) => setAlertPct(e.target.value)}
+                      onFocus={(e) => e.target.select()}
+                      className="h-8 text-xs"
+                    />
+                    <span className="text-xs text-muted-foreground">%</span>
+                    <Button size="sm" className="h-8 text-xs" onClick={onCreateAlert}>
+                      <Check className="w-3 h-3 mr-1" /> Save
+                    </Button>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground mt-2">Manage in Alerts → Tracked.</p>
+                </PopoverContent>
+              </Popover>
+            </div>
+          );
+        })()}
+
         {/* Sticky Invest CTAs — always visible at bottom */}
         {onInvest && (
           <div className="border-t border-border bg-background p-4 space-y-2 shrink-0">
