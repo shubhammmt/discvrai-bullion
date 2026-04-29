@@ -156,6 +156,7 @@ export default function AlertsAndDigests() {
     { id: 'calculator', label: 'Calculator', icon: Calculator, disabled: true },
     { id: 'goals', label: 'Goals', icon: Target, disabled: true },
     { id: 'alerts', label: 'Alerts & digests', icon: Bell, badge: 'New' },
+    { id: 'tracked', label: 'Tracked instruments', icon: Heart },
     { id: 'inbox', label: 'Notification inbox', icon: Inbox },
     { id: 'sell', label: 'Sell', icon: ArrowDownLeft, disabled: true },
     { id: 'chat', label: 'Chat History', icon: MessageSquare, disabled: true },
