@@ -69,6 +69,7 @@ import SupplyChainPitch from './pages/SupplyChainPitch';
 import SupplyChainDemo from './pages/SupplyChainDemo';
 import HavellsSalesOpsPitch from './pages/HavellsSalesOpsPitch';
 import HavellsChannelStudio from './pages/HavellsChannelStudio';
+import JubilantEnproCommandCenter from './pages/JubilantEnproCommandCenter';
 import DiscvrAILayout from './pages/discvrai/DiscvrAILayout';
 import DiscvrHome from './pages/discvrai/DiscvrHome';
 import DiscvrFeatures from './pages/discvrai/DiscvrFeatures';
@@ -287,6 +288,7 @@ const AppContent = () => {
                            location.pathname === '/supply-chain-demo' ||
                            location.pathname === '/havells-pitch' ||
                            location.pathname === '/havells-channel-studio' ||
+                           location.pathname === '/jubilant-enpro' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -489,7 +491,8 @@ const AppContent = () => {
                     <Route path="/supply-chain-pitch" element={<SupplyChainPitch />} />
                     <Route path="/supply-chain-demo" element={<SupplyChainDemo />} />
                     <Route path="/havells-pitch" element={<HavellsSalesOpsPitch />} />
-                    <Route path="/havells-channel-studio" element={<HavellsChannelStudio />} />
+                   <Route path="/havells-channel-studio" element={<HavellsChannelStudio />} />
+                   <Route path="/jubilant-enpro" element={<JubilantEnproCommandCenter />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
