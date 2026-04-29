@@ -6,8 +6,9 @@ import {
   PanelLeft, PanelLeftClose, LogIn, LogOut, Send, Sparkles, Plus,
   CalendarClock, Smartphone, MessageCircle, CheckCircle2, ChevronRight,
   ArrowLeft, ArrowRight, Shield, Clock, TrendingDown, AlertTriangle,
-  Zap, Inbox, ExternalLink, X, Bot, User as UserIcon, Check,
+  Zap, Inbox, ExternalLink, X, Bot, User as UserIcon, Check, Heart, Trash2, Pencil,
 } from 'lucide-react';
+import { trackedStore, useTracked, type AlertItem, type WatchItem } from '@/lib/trackedStore';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,7 +28,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from '@/hooks/use-toast';
 
 // ============ Types ============
-type ViewMode = 'home' | 'alerts' | 'inbox' | 'profile-notif' | 'copilot-demo';
+type ViewMode = 'home' | 'alerts' | 'tracked' | 'inbox' | 'profile-notif' | 'copilot-demo';
 type WizardStep = 0 | 1 | 2 | 3;
 type Depth = 'quick' | 'detailed';
 type Frequency = 'daily' | 'weekdays' | 'custom';
@@ -155,6 +156,7 @@ export default function AlertsAndDigests() {
     { id: 'calculator', label: 'Calculator', icon: Calculator, disabled: true },
     { id: 'goals', label: 'Goals', icon: Target, disabled: true },
     { id: 'alerts', label: 'Alerts & digests', icon: Bell, badge: 'New' },
+    { id: 'tracked', label: 'Tracked instruments', icon: Heart },
     { id: 'inbox', label: 'Notification inbox', icon: Inbox },
     { id: 'sell', label: 'Sell', icon: ArrowDownLeft, disabled: true },
     { id: 'chat', label: 'Chat History', icon: MessageSquare, disabled: true },
@@ -166,7 +168,7 @@ export default function AlertsAndDigests() {
       toast({ title: 'Demo module', description: 'This section lives in the full Wealth Platform.' });
       return;
     }
-    if (id === 'home' || id === 'alerts' || id === 'inbox' || id === 'profile-notif') {
+    if (id === 'home' || id === 'alerts' || id === 'tracked' || id === 'inbox' || id === 'profile-notif') {
       setView(id as ViewMode);
     }
     if (isMobile) setSidebarOpen(false);
@@ -204,6 +206,7 @@ export default function AlertsAndDigests() {
             const isActive =
               (view === 'home' && item.id === 'home') ||
               (view === 'alerts' && item.id === 'alerts') ||
+              (view === 'tracked' && item.id === 'tracked') ||
               (view === 'inbox' && item.id === 'inbox') ||
               (view === 'profile-notif' && item.id === 'profile-notif');
             return (
@@ -274,6 +277,7 @@ export default function AlertsAndDigests() {
             <h1 className="text-base md:text-lg font-semibold text-sip-text-primary truncate">
               {view === 'home' && 'Home'}
               {view === 'alerts' && 'Alerts & digests'}
+              {view === 'tracked' && 'Tracked instruments'}
               {view === 'inbox' && 'Notification inbox'}
               {view === 'profile-notif' && 'Profile · Notifications'}
               {view === 'copilot-demo' && 'Wealth Copilot'}
@@ -317,6 +321,9 @@ export default function AlertsAndDigests() {
               onOpenAdvanced={() => setAdvancedOpen(true)}
             />
           )}
+          {view === 'tracked' && (
+            <TrackedView onOpenCopilot={() => setView('copilot-demo')} />
+          )}
           {view === 'inbox' && (
             <InboxView onOpen={setOpenItem} />
           )}
@@ -324,7 +331,12 @@ export default function AlertsAndDigests() {
             <ProfileNotifView prefs={prefs} onEdit={() => setView('alerts')} />
           )}
           {view === 'copilot-demo' && (
-            <CopilotDemoView onViewAlerts={() => setView('alerts')} threshold={prefs.threshold} setThreshold={(n) => updatePref('threshold', n)} />
+            <CopilotDemoView
+              onViewAlerts={() => setView('alerts')}
+              onViewTracked={() => setView('tracked')}
+              threshold={prefs.threshold}
+              setThreshold={(n) => updatePref('threshold', n)}
+            />
           )}
         </main>
 
@@ -909,77 +921,326 @@ function labelForTopic(k: string) {
 }
 
 // ============ COPILOT DEMO (static chat) ============
-function CopilotDemoView({ onViewAlerts, threshold, setThreshold }: {
+// ============ COPILOT (interactive) ============
+interface ChatTurn {
+  role: 'user' | 'assistant';
+  text: string;
+  card?: { kind: 'alert' | 'watch' | 'digest'; title: string; rows: Array<[string, string]> };
+}
+
+const KNOWN_INSTRUMENTS: Array<{ symbol: string; name: string; type: 'mutual_fund' | 'stock'; nav: number }> = [
+  { symbol: 'HDFC-FLEXI', name: 'HDFC Flexi Cap Fund', type: 'mutual_fund', nav: 1542.8 },
+  { symbol: 'PPFAS-FLEXI', name: 'Parag Parikh Flexi Cap', type: 'mutual_fund', nav: 78.2 },
+  { symbol: 'AXIS-BLUECHIP', name: 'Axis Bluechip Fund', type: 'mutual_fund', nav: 58.4 },
+  { symbol: 'MIRAE-LARGECAP', name: 'Mirae Large Cap', type: 'mutual_fund', nav: 102.6 },
+  { symbol: 'HDFCBANK', name: 'HDFC Bank', type: 'stock', nav: 1684.3 },
+  { symbol: 'RELIANCE', name: 'Reliance Industries', type: 'stock', nav: 2847.1 },
+  { symbol: 'TSLA', name: 'Tesla Inc.', type: 'stock', nav: 14210 },
+];
+
+function matchInstrument(text: string) {
+  const t = text.toLowerCase();
+  return KNOWN_INSTRUMENTS.find(i =>
+    t.includes(i.symbol.toLowerCase().replace('-', ' ')) ||
+    t.includes(i.symbol.toLowerCase()) ||
+    i.name.toLowerCase().split(/\s+/).some(w => w.length > 3 && t.includes(w.toLowerCase()))
+  );
+}
+
+function parsePrompt(text: string): { kind: 'alert' | 'watch' | 'digest' | 'unknown'; pct?: number; instrument?: typeof KNOWN_INSTRUMENTS[number]; time?: string } {
+  const lower = text.toLowerCase();
+  const instrument = matchInstrument(text);
+  const pctMatch = lower.match(/(\d{1,2})\s*%/);
+  const timeMatch = lower.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/);
+
+  if (/(watch|track|add to watchlist)/.test(lower) && instrument) {
+    return { kind: 'watch', instrument };
+  }
+  if (/(alert|notify|ping|tell me).*(drop|fall|down|below|under)/.test(lower) || /(drop|fall|below|under).*\d/.test(lower)) {
+    return { kind: 'alert', instrument: instrument, pct: pctMatch ? Number(pctMatch[1]) : 5 };
+  }
+  if (/(digest|daily|every day|update me)/.test(lower)) {
+    let time = '08:00';
+    if (timeMatch) {
+      const h = Number(timeMatch[1]);
+      const m = timeMatch[2] || '00';
+      const ampm = timeMatch[3];
+      const hh = ampm === 'pm' && h < 12 ? h + 12 : (ampm === 'am' && h === 12 ? 0 : h);
+      time = `${String(hh).padStart(2, '0')}:${m}`;
+    }
+    return { kind: 'digest', time };
+  }
+  return { kind: 'unknown' };
+}
+
+function CopilotDemoView({ onViewAlerts, onViewTracked, threshold, setThreshold }: {
   onViewAlerts: () => void;
+  onViewTracked: () => void;
   threshold: number;
   setThreshold: (n: number) => void;
 }) {
-  const [confirmed, setConfirmed] = useState(true);
+  useTracked();
+  const [turns, setTurns] = useState<ChatTurn[]>([
+    { role: 'assistant', text: "Hi — I can set price alerts, watch funds or stocks, and schedule your digest. Try one of the suggestions below or type your own." },
+  ]);
+  const [draft, setDraft] = useState('');
+
+  const send = (raw: string) => {
+    const text = raw.trim();
+    if (!text) return;
+    const parsed = parsePrompt(text);
+    const userTurn: ChatTurn = { role: 'user', text };
+
+    let reply: ChatTurn;
+    if (parsed.kind === 'alert' && parsed.instrument) {
+      const pct = parsed.pct ?? threshold;
+      trackedStore.addAlert({
+        assetType: parsed.instrument.type, symbol: parsed.instrument.symbol, name: parsed.instrument.name,
+        kind: 'drawdown', condition: 'below', targetValue: pct, baseline: parsed.instrument.nav, source: 'copilot',
+      });
+      reply = {
+        role: 'assistant',
+        text: `Done. I'll notify you if **${parsed.instrument.name}** drops more than **${pct}%** from ₹${parsed.instrument.nav}.`,
+        card: { kind: 'alert', title: 'Alert created', rows: [
+          ['Instrument', parsed.instrument.name], ['Trigger', `Drop > ${pct}%`],
+          ['Baseline', `₹${parsed.instrument.nav}`], ['Channel', 'WhatsApp + In-app'],
+        ]},
+      };
+    } else if (parsed.kind === 'watch' && parsed.instrument) {
+      trackedStore.addWatch({ assetType: parsed.instrument.type, symbol: parsed.instrument.symbol, name: parsed.instrument.name, refValue: parsed.instrument.nav });
+      reply = {
+        role: 'assistant',
+        text: `Added **${parsed.instrument.name}** to your watchlist. You'll see daily moves in your digest.`,
+        card: { kind: 'watch', title: 'Watching now', rows: [
+          ['Instrument', parsed.instrument.name], ['Type', parsed.instrument.type === 'stock' ? 'Stock' : 'Mutual Fund'], ['Reference', `₹${parsed.instrument.nav}`],
+        ]},
+      };
+    } else if (parsed.kind === 'digest') {
+      reply = {
+        role: 'assistant',
+        text: `Got it. Daily digest scheduled at **${parsed.time} IST**. You can change channels in Alerts & digests.`,
+        card: { kind: 'digest', title: 'Digest scheduled', rows: [
+          ['Time', `${parsed.time} IST`], ['Frequency', 'Every day'], ['Depth', 'Quick'],
+        ]},
+      };
+    } else if (parsed.kind === 'alert' && !parsed.instrument) {
+      reply = { role: 'assistant', text: "I can set drop alerts on a specific fund or stock. Try: *Alert me if HDFC Flexi Cap drops 5%*." };
+    } else {
+      reply = { role: 'assistant', text: "I didn't catch a specific intent. Try one of the suggested prompts below." };
+    }
+
+    setTurns(t => [...t, userTurn, reply]);
+    setDraft('');
+  };
+
+  const suggestions = [
+    'Alert me if HDFC Flexi Cap drops 5%',
+    'Watch Parag Parikh Flexi Cap',
+    'Send me a daily digest at 9am',
+    'Notify me if Reliance falls 3%',
+  ];
+
   return (
     <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 space-y-3">
-      <div>
-        <h2 className="text-xl font-semibold text-sip-text-primary">Wealth Copilot</h2>
-        <p className="text-xs text-sip-text-muted mt-0.5">Static demo · single agent turn</p>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h2 className="text-xl font-semibold text-sip-text-primary">Wealth Copilot</h2>
+          <p className="text-xs text-sip-text-muted mt-0.5">Conversational layer over your watchlist, alerts and digest preferences.</p>
+        </div>
+        <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onViewTracked}>
+          <Heart className="w-3.5 h-3.5 mr-1.5" /> View tracked
+        </Button>
       </div>
 
-      {/* User msg */}
-      <div className="flex justify-end">
-        <div className="flex items-start gap-2 max-w-[80%]">
-          <div className="bg-sip-brand text-sip-brand-foreground rounded-2xl rounded-tr-sm px-4 py-2.5 shadow-sm">
-            <p className="text-sm">Only alert me if my portfolio drops more than {threshold}%</p>
-          </div>
-          <Avatar className="w-7 h-7 mt-0.5"><AvatarFallback className="bg-sip-sidebar-hover text-[10px]"><UserIcon className="w-3.5 h-3.5" /></AvatarFallback></Avatar>
-        </div>
-      </div>
-
-      {/* Assistant */}
-      <div className="flex items-start gap-2">
-        <div className="w-8 h-8 rounded-lg bg-sip-brand text-sip-brand-foreground flex items-center justify-center shrink-0">
-          <Bot className="w-4 h-4" />
-        </div>
-        <div className="flex-1 max-w-[85%] space-y-2">
-          <Card className="border-sip-border rounded-2xl rounded-tl-sm">
-            <CardContent className="p-4">
-              <p className="text-sm text-sip-text-primary">
-                Got it. I'll only ping you when your portfolio's <span className="font-semibold">single-day drop exceeds {threshold}%</span>. Other digests will continue as scheduled.
-              </p>
-
-              {confirmed && (
-                <div className="mt-3 rounded-xl border border-sip-brand/30 bg-sip-brand/5 p-3">
+      <div className="space-y-3 min-h-[280px]">
+        {turns.map((t, i) => (
+          <div key={i} className={cn('flex items-start gap-2', t.role === 'user' && 'justify-end')}>
+            {t.role === 'assistant' && (
+              <div className="w-8 h-8 rounded-lg bg-sip-brand text-sip-brand-foreground flex items-center justify-center shrink-0">
+                <Bot className="w-4 h-4" />
+              </div>
+            )}
+            <div className={cn('max-w-[80%]', t.role === 'user' ? 'order-1' : '')}>
+              <div className={cn(
+                'rounded-2xl px-4 py-2.5 text-sm shadow-sm',
+                t.role === 'user'
+                  ? 'bg-sip-brand text-sip-brand-foreground rounded-tr-sm'
+                  : 'bg-card border border-sip-border text-sip-text-primary rounded-tl-sm',
+              )}>
+                {t.text.split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
+                  part.startsWith('**')
+                    ? <strong key={j}>{part.slice(2, -2)}</strong>
+                    : <span key={j}>{part}</span>
+                )}
+              </div>
+              {t.card && (
+                <div className="mt-2 rounded-xl border border-sip-brand/30 bg-sip-brand/5 p-3">
                   <div className="flex items-center gap-2 mb-2">
                     <Check className="w-4 h-4 text-sip-brand" />
-                    <p className="text-xs font-semibold text-sip-text-primary">Rule saved · Drop alert</p>
+                    <p className="text-xs font-semibold text-sip-text-primary">{t.card.title}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <SummaryRow label="Trigger" value={`Portfolio drop > ${threshold}%`} />
-                    <SummaryRow label="Window" value="Single day" />
-                    <SummaryRow label="Channel" value="WhatsApp + In-app" />
-                    <SummaryRow label="Status" value="Active" />
+                    {t.card.rows.map(([k, v]) => <SummaryRow key={k} label={k} value={v} />)}
                   </div>
-
-                  <div className="mt-3">
-                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-sip-text-muted">Adjust threshold</Label>
-                    <div className="flex items-center gap-3 mt-1">
-                      <Slider value={[threshold]} min={1} max={15} step={1} onValueChange={(v) => setThreshold(v[0])} className="flex-1" />
-                      <span className="text-xs font-semibold text-sip-brand w-10 text-right">{threshold}%</span>
-                    </div>
-                  </div>
-
                   <div className="flex gap-2 mt-3">
-                    <Button size="sm" className="h-8 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={onViewAlerts}>
-                      View in Alerts & digests <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                    <Button size="sm" className="h-8 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={t.card.kind === 'digest' ? onViewAlerts : onViewTracked}>
+                      {t.card.kind === 'digest' ? 'Open Alerts & digests' : 'View in Tracked'} <ChevronRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
-                    <Button size="sm" variant="ghost" className="h-8" onClick={() => setConfirmed(false)}>Undo</Button>
                   </div>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+            {t.role === 'user' && (
+              <Avatar className="w-7 h-7 mt-0.5 order-2"><AvatarFallback className="bg-sip-sidebar-hover text-[10px]"><UserIcon className="w-3.5 h-3.5" /></AvatarFallback></Avatar>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Suggestion chips */}
+      <div className="flex flex-wrap gap-2 pt-2">
+        {suggestions.map(s => (
+          <button
+            key={s}
+            onClick={() => send(s)}
+            className="text-[11px] px-2.5 py-1.5 rounded-full border border-sip-border bg-card hover:bg-sip-sidebar-hover text-sip-text-secondary"
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="flex items-center gap-2 pt-2">
+        <Input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') send(draft); }}
+          placeholder="Try: alert me if Tesla drops 4%"
+          className="h-10"
+        />
+        <Button onClick={() => send(draft)} className="h-10 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
+          <Send className="w-4 h-4" />
+        </Button>
+      </div>
+
+      {/* Threshold helper */}
+      <div className="rounded-xl border border-sip-border bg-card p-3 mt-2">
+        <Label className="text-[10px] font-semibold uppercase tracking-wider text-sip-text-muted">Default portfolio drop threshold</Label>
+        <div className="flex items-center gap-3 mt-1">
+          <Slider value={[threshold]} min={1} max={15} step={1} onValueChange={(v) => setThreshold(v[0])} className="flex-1" />
+          <span className="text-xs font-semibold text-sip-brand w-10 text-right">{threshold}%</span>
         </div>
+        <p className="text-[10px] text-sip-text-muted mt-1">Used when an alert prompt doesn't include a percentage.</p>
       </div>
     </div>
   );
 }
+
+// ============ TRACKED VIEW ============
+function TrackedView({ onOpenCopilot }: { onOpenCopilot: () => void }) {
+  const { watch, alerts } = useTracked();
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-6">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h2 className="text-xl font-semibold text-sip-text-primary">Tracked instruments</h2>
+          <p className="text-xs text-sip-text-muted mt-0.5">Watchlist + active price alerts across funds and stocks. Same source as the fund detail buttons and the Wealth Copilot.</p>
+        </div>
+        <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
+          <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
+        </Button>
+      </div>
+
+      {/* Active alerts */}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
+            <Bell className="w-4 h-4 text-sip-brand" /> Active price alerts
+            <Badge variant="secondary" className="text-[10px]">{alerts.length}</Badge>
+          </h3>
+        </div>
+        {alerts.length === 0 ? (
+          <Card className="border-dashed"><CardContent className="p-6 text-center text-xs text-sip-text-muted">No active alerts. Open any fund detail or ask the Copilot.</CardContent></Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {alerts.map(a => <AlertRow key={a.id} alert={a} />)}
+          </div>
+        )}
+      </section>
+
+      {/* Watchlist */}
+      <section className="space-y-3">
+        <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
+          <Heart className="w-4 h-4 text-sip-brand" /> Watchlist
+          <Badge variant="secondary" className="text-[10px]">{watch.length}</Badge>
+        </h3>
+        {watch.length === 0 ? (
+          <Card className="border-dashed"><CardContent className="p-6 text-center text-xs text-sip-text-muted">Watchlist is empty. Tap the heart on any fund detail.</CardContent></Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {watch.map(w => <WatchRow key={w.id} item={w} />)}
+          </div>
+        )}
+      </section>
+
+      <p className="text-[10px] text-sip-text-muted">All entries persist locally for the demo. In production, both watchlist and alerts read/write the same backend the buttons and the Copilot use.</p>
+    </div>
+  );
+}
+
+function AlertRow({ alert }: { alert: AlertItem }) {
+  return (
+    <Card className="border-sip-border">
+      <CardContent className="p-3.5">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <Badge variant="outline" className="text-[9px] uppercase">{alert.assetType === 'stock' ? 'Stock' : 'MF'}</Badge>
+              <Badge className="text-[9px] bg-sip-brand/10 text-sip-brand border-0 capitalize">{alert.source}</Badge>
+            </div>
+            <p className="text-sm font-semibold text-sip-text-primary truncate">{alert.name}</p>
+            <p className="text-[11px] text-sip-text-muted mt-0.5">
+              {alert.kind === 'drawdown'
+                ? `Notify if drops > ${alert.targetValue}% from ₹${alert.baseline}`
+                : `Notify when ${alert.condition} ₹${alert.targetValue}`}
+            </p>
+          </div>
+          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-sip-text-muted hover:text-destructive"
+            onClick={() => { trackedStore.removeAlert(alert.id); toast({ title: 'Alert removed', description: alert.name }); }}>
+            <Trash2 className="w-3.5 h-3.5" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function WatchRow({ item }: { item: WatchItem }) {
+  return (
+    <Card className="border-sip-border">
+      <CardContent className="p-3.5">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <Badge variant="outline" className="text-[9px] uppercase">{item.assetType === 'stock' ? 'Stock' : 'MF'}</Badge>
+            </div>
+            <p className="text-sm font-semibold text-sip-text-primary truncate">{item.name}</p>
+            <p className="text-[11px] text-sip-text-muted mt-0.5">
+              Ref ₹{item.refValue ?? '—'} · added {new Date(item.addedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+            </p>
+          </div>
+          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-sip-text-muted hover:text-destructive"
+            onClick={() => { trackedStore.removeWatch(item.assetType, item.symbol); toast({ title: 'Removed from watchlist', description: item.name }); }}>
+            <Trash2 className="w-3.5 h-3.5" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 
 // ============ WIZARD ============
 function WizardBody({ step, setStep, prefs, updatePref, onClose, onDone }: {
