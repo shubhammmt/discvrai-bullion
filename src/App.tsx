@@ -70,6 +70,7 @@ import SupplyChainDemo from './pages/SupplyChainDemo';
 import HavellsSalesOpsPitch from './pages/HavellsSalesOpsPitch';
 import HavellsChannelStudio from './pages/HavellsChannelStudio';
 import JubilantEnproCommandCenter from './pages/JubilantEnproCommandCenter';
+import JubilantEnproPitch from './pages/JubilantEnproPitch';
 import DiscvrAILayout from './pages/discvrai/DiscvrAILayout';
 import DiscvrHome from './pages/discvrai/DiscvrHome';
 import DiscvrFeatures from './pages/discvrai/DiscvrFeatures';
