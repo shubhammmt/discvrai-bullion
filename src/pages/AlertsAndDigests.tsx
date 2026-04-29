@@ -6,7 +6,7 @@ import {
   PanelLeft, PanelLeftClose, LogIn, LogOut, Send, Sparkles, Plus,
   CalendarClock, Smartphone, MessageCircle, CheckCircle2, ChevronRight,
   ArrowLeft, ArrowRight, Shield, Clock, TrendingDown, AlertTriangle,
-  Zap, Inbox, ExternalLink, X, Bot, User as UserIcon, Check,
+  Zap, Inbox, ExternalLink, X, Bot, User as UserIcon, Check, Heart, Trash2, Pencil,
 } from 'lucide-react';
 import { trackedStore, useTracked, type AlertItem, type WatchItem } from '@/lib/trackedStore';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
