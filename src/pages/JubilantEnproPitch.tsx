@@ -31,8 +31,8 @@ const Slide: React.FC<{ children: React.ReactNode; title: string; eyebrow: strin
   </div>
 );
 
-const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <div className={`bg-white border border-slate-200 rounded-lg p-5 shadow-sm ${className}`}>{children}</div>
+const Card: React.FC<{ children: React.ReactNode; className?: string; style?: React.CSSProperties }> = ({ children, className = '', style }) => (
+  <div style={style} className={`bg-white border border-slate-200 rounded-lg p-5 shadow-sm ${className}`}>{children}</div>
 );
 
 const Pill: React.FC<{ children: React.ReactNode; tone?: 'navy' | 'gold' | 'amber' | 'green' }> = ({ children, tone = 'navy' }) => {
