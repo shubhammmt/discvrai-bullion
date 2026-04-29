@@ -321,6 +321,9 @@ export default function AlertsAndDigests() {
               onOpenAdvanced={() => setAdvancedOpen(true)}
             />
           )}
+          {view === 'tracked' && (
+            <TrackedView onOpenCopilot={() => setView('copilot-demo')} />
+          )}
           {view === 'inbox' && (
             <InboxView onOpen={setOpenItem} />
           )}
@@ -328,7 +331,12 @@ export default function AlertsAndDigests() {
             <ProfileNotifView prefs={prefs} onEdit={() => setView('alerts')} />
           )}
           {view === 'copilot-demo' && (
-            <CopilotDemoView onViewAlerts={() => setView('alerts')} threshold={prefs.threshold} setThreshold={(n) => updatePref('threshold', n)} />
+            <CopilotDemoView
+              onViewAlerts={() => setView('alerts')}
+              onViewTracked={() => setView('tracked')}
+              threshold={prefs.threshold}
+              setThreshold={(n) => updatePref('threshold', n)}
+            />
           )}
         </main>
 
