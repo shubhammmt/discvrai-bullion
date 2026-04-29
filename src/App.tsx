@@ -290,6 +290,7 @@ const AppContent = () => {
                            location.pathname === '/havells-pitch' ||
                            location.pathname === '/havells-channel-studio' ||
                            location.pathname === '/jubilant-enpro' ||
+                           location.pathname === '/jubilant-enpro-pitch' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
