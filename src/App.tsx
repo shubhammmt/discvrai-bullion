@@ -206,6 +206,7 @@ import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
 import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
 import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import RelianceEPDeck from './pages/RelianceEPDeck';
+import RelianceEPCommandCenter from './pages/RelianceEPCommandCenter';
 import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
@@ -271,6 +272,7 @@ const AppContent = () => {
                         location.pathname === '/pitch/chitale-bandhu' ||
                         location.pathname === '/pitch/adani-group' ||
                   location.pathname === '/pitch/reliance-ep' ||
+                  location.pathname === '/demo/reliance-ep' ||
                   location.pathname === '/pitch/asian-energy' ||
                         location.pathname === '/pitch/schlumberger' ||
                         location.pathname === '/pitch/walchandnagar' ||
@@ -472,6 +474,7 @@ const AppContent = () => {
                   <Route path="/pitch/chitale-bandhu" element={<ChitaleBandhuDeck />} />
                   <Route path="/pitch/adani-group" element={<AdaniGroupDeck />} />
                    <Route path="/pitch/reliance-ep" element={<RelianceEPDeck />} />
+                   <Route path="/demo/reliance-ep" element={<RelianceEPCommandCenter />} />
                   <Route path="/pitch/asian-energy" element={<AsianEnergyDeck />} />
                   <Route path="/pitch/schlumberger" element={<SchlumbergerDeck />} />
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
