@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Globe, Factory, Droplets } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Globe, Factory, Droplets, Cpu, Database, Activity, GitBranch, Layers, LineChart, Sigma } from 'lucide-react';
 
 const TOTAL = 8;
 const ACCENT = '#0D9488';
@@ -9,106 +9,114 @@ const slides = [
   {
     id: 1,
     type: 'title',
-    headline: 'AI-first operations intelligence for Exploration & Production — on your existing data and engineering landscape',
-    subhead: 'Integration-first workflow automation, governed knowledge (RAG), and agentic orchestration across subsurface, drilling, production, and HSE — built as an edge layer, not a rip-and-replace.',
-    kicker: '',
-    microLine: 'Reliance Industries · E&P operations · Subsurface to surface · AI at production pace',
+    headline: 'Deep tech, deep ML — engineered for digitally mature E&P operations',
+    subhead: 'A co-build engineering partner for Reliance E&P: hard-core machine learning, physics-aware models, large-scale data engineering, and orchestration — built on top of your existing digital estate (SAP, PI, SCADA, engineering stack), not around it.',
+    kicker: 'For digitally mature enterprises',
+    microLine: 'Reliance Industries · E&P · Subsurface · Drilling · Production · HSE — engineered with your platforms, not replacing them',
   },
   {
     id: 2,
     type: 'why-now',
-    title: 'Core systems hold data; competitive advantage is speed of decision at the wellsite and beyond',
+    title: 'You already have the platforms. The frontier is depth — physics-aware ML, large-scale optimisation, and decision automation on top.',
     bullets: [
-      { label: 'Subsurface complexity', text: 'Seismic interpretation, reservoir modelling, well planning — decisions depend on synthesising geological, petrophysical, and production data scattered across specialised tools and legacy historians.' },
-      { label: 'Drilling & completions', text: 'Real-time drilling parameters, mud logs, directional surveys, BHA configurations — exception-first visibility can prevent NPT and reduce well delivery costs measurably.' },
-      { label: 'Production operations', text: 'Artificial lift optimisation, flow assurance, facility uptime, water/gas injection — daily decisions still rely on manual data pulls and spreadsheet reconciliation across multiple SCADA/DCS systems.' },
-      { label: 'HSE & regulatory', text: 'OISD compliance, DGH reporting, environmental monitoring, PTW workflows — governed knowledge and automated audit trails reduce risk and manual effort simultaneously.' },
+      { label: 'Subsurface intelligence', text: 'Seismic interpretation with deep CNNs, geostatistical inversion, reservoir surrogate models (PINNs, neural operators), uncertainty quantification across realisations — beyond dashboards, into model-driven decisions.' },
+      { label: 'Drilling & completions', text: 'Real-time anomaly detection on multivariate sensor streams, ROP / NPT forecasting (LSTM / Temporal Fusion Transformers), stuck-pipe and kick early warning, BHA / mud-program optimisation via Bayesian and RL methods.' },
+      { label: 'Production & flow assurance', text: 'Virtual flow metering, ESP/gas-lift surrogate models, well-testing reconciliation, hydrate / wax / slugging risk scoring, MILP/OR-Tools-based production allocation and injection optimisation across networks.' },
+      { label: 'Asset integrity & HSE', text: 'Corrosion / erosion remaining-life models, vibration-based rotating-equipment prognostics (survival analysis, DeepSurv), CV-based PPE / leak / flare monitoring, NLP over incident reports for systemic risk patterns.' },
     ],
   },
   {
     id: 3,
     type: 'capabilities',
-    title: 'What DiscvrAI ships today — capabilities, not slides',
+    title: 'Hard-core engineering capability — what we bring to a Reliance-grade estate',
     cards: [
-      { icon: Link2, title: 'Connect & integrate', desc: 'REST/SOAP/files/OPC-UA/historians; meet data where it lives — SCADA, PI, OSIsoft, SAP PM, drilling systems — bounded pilots without forced migration.' },
-      { icon: Brain, title: 'Understand (RAG)', desc: 'Well files, SOPs, safety manuals, regulatory guidelines, engineering standards: grounded answers with citations and full audit trail.' },
-      { icon: Workflow, title: 'Automate & orchestrate', desc: 'Approvals, SLAs, escalations, PTW workflows; multi-step agents where appropriate; humans approve material actions — every time.' },
-      { icon: BarChart3, title: 'Measure', desc: 'Operational KPIs, production dashboards, drill-downs from signal → decision → action for asset teams and leadership.' },
+      { icon: Cpu, title: 'Classical & deep ML', desc: 'Time-series (N-BEATS, TFT, Prophet), gradient-boosted ensembles, Bayesian optimisation, Gaussian processes for sparse subsurface data — model choice driven by data physics, not hype.' },
+      { icon: Brain, title: 'Physics-informed & scientific ML', desc: 'PINNs, neural operators (FNO/DeepONet) for reservoir & flow surrogates, hybrid first-principles + data-driven models, uncertainty quantification with reservoir & process engineers.' },
+      { icon: Sigma, title: 'Optimisation & decision science', desc: 'MILP / OR-Tools for production allocation, scheduling and logistics; Reinforcement Learning for control loops; causal inference for intervention design; digital-twin-in-the-loop simulation.' },
+      { icon: Activity, title: 'Anomaly, prognostics & risk', desc: 'Isolation Forests, autoencoders, change-point detection on PI / historian streams; survival models for asset RUL; multivariate early-warning across drilling, rotating equipment and facilities.' },
+      { icon: Layers, title: 'Data & streaming engineering', desc: 'OPC-UA / PI / OSIsoft / SCADA / Kafka / Spark / lakehouse on ADLS / S3 — large-scale feature stores (Feast), low-latency inference, edge deployment for wellsite and platform compute.' },
+      { icon: Database, title: 'GenAI grounded in your stack', desc: 'Multimodal RAG over well files, P&IDs, SOPs, regulatory standards; fine-tuning (LoRA / QLoRA), distillation, agentic graphs (LangGraph) — used where it beats classical ML, not as a default.' },
+      { icon: GitBranch, title: 'MLOps & governance', desc: 'CI/CD for models, drift / bias monitoring, lineage, model cards, reproducible training, on-prem / VPC / India-region deployment — aligned to RIL security, audit and DGH/OISD obligations.' },
+      { icon: Workflow, title: 'Orchestration & human-in-loop', desc: 'Workflow engine, approvals, SLAs, role-based actioning. Agents are used selectively; consequential actions always go through engineering review — built for an org that owns its risk.' },
     ],
-    closing: 'Production-minded stack — connectors, model routing, workflow engine — weeks-to-pilot engineering discipline.',
+    closing: 'Not "an AI vendor." A deep-tech engineering pod — ML scientists, data engineers, optimisation and domain specialists — working alongside Reliance teams on hard problems, with production discipline.',
   },
   {
     id: 4,
     type: 'gap',
-    title: 'Systems of record are not systems of decision — or of field-level speed',
-    diagram: ['Edge (wellsites, platforms, SCADA, historians, field data)', 'DiscvrAI (connect · understand · automate · measure)', 'SAP / PI / data lake / engineering tools'],
+    title: 'Your platforms are the foundation. We add the modelling depth and decision automation on top.',
+    diagram: ['Reliance digital estate (SAP · PI/OSIsoft · SCADA/DCS · engineering apps · lakehouse)', 'DiscvrAI deep-tech layer (ML · optimisation · RAG · orchestration)', 'Engineering, ops & leadership decisions'],
     table: [
-      { reality: 'Drilling systems, SCADA, historians, SAP PM', breaks: 'Silos; truth rebuilt in email/Excel daily', adds: 'One operational picture + early exceptions per well / facility' },
-      { reality: 'Engineering tools & reservoir models', breaks: 'Insights locked in specialist desktops', adds: 'Governed RAG: searchable, citable knowledge across disciplines' },
-      { reality: 'HSE, PTW, compliance workflows', breaks: 'Manual tracking; audit gaps', adds: 'Versioned workflows with citations and automated compliance narratives' },
+      { reality: 'PI / historian / SCADA streams at scale', breaks: 'Used for visualisation; little predictive or prescriptive intelligence on top', adds: 'Streaming ML — anomaly, forecasting, virtual sensors, early-warning at well / facility level' },
+      { reality: 'Reservoir & subsurface models in specialist tools', breaks: 'Long simulation cycles; insights trapped on engineering desktops', adds: 'Surrogate models (PINNs / neural operators), faster what-ifs, governed RAG over well files & studies' },
+      { reality: 'Production planning & injection allocation', breaks: 'Spreadsheets, heuristics, manual reconciliation across assets', adds: 'MILP / RL-based optimisation with constraints from facilities, contracts, HSE' },
+      { reality: 'SAP PM, integrity, HSE & compliance', breaks: 'Reactive maintenance, manual audit prep, incident learnings lost', adds: 'Prognostics + NLP on incidents + automated DGH/OISD narratives with citations' },
     ],
   },
   {
     id: 5,
     type: 'clients',
-    title: 'Selected references — complex operations & regulated environments',
+    title: 'Where this depth has been built — industrial, asset-heavy and regulated environments',
     intro: '',
     rows: [
-      { client: 'Deep Industries', domain: 'Oil & Gas (field services)', useCase: 'Operations analytics, asset reliability, field service orchestration, ESG visibility' },
-      { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Supply chain analytics, operations intelligence' },
-      { client: 'CAMS', domain: 'BFSI / AMC', useCase: 'Distribution, investor analytics' },
-      { client: 'ADF Foods', domain: 'Manufacturing', useCase: 'CEO sales dashboard, analytics' },
-      { client: 'Bajaj Finserv', domain: 'NBFC', useCase: 'AI transformation, digital journeys' },
-      { client: 'Dalmia Tech', domain: 'Cement / Industrial', useCase: 'Digital transformation, operations intelligence' },
-      { client: 'CMS Infosystems', domain: 'Cash logistics', useCase: 'Operations intelligence, network optimisation' },
-      { client: 'Drychem', domain: 'Manufacturing', useCase: 'Operations, analytics' },
-      { client: 'Aptech', domain: 'Education', useCase: 'AI career counsellor, enrollment' },
+      { client: 'Deep Industries', domain: 'Oil & Gas (field services)', useCase: 'Field operations analytics, asset reliability ML, ESG visibility — direct upstream relevance' },
+      { client: 'Bajaj Electricals', domain: 'Manufacturing', useCase: 'Demand forecasting, supply-chain optimisation, plant operations intelligence' },
+      { client: 'Dalmia Tech', domain: 'Cement / Industrial', useCase: 'Process and energy optimisation, plant digital transformation' },
+      { client: 'CMS Infosystems', domain: 'Cash logistics (large-scale ops)', useCase: 'Network optimisation, anomaly detection across 70k+ ATMs, route ML' },
+      { client: 'CAMS', domain: 'BFSI / AMC', useCase: 'Distribution analytics, ML on investor behaviour' },
+      { client: 'Bajaj Finserv', domain: 'NBFC', useCase: 'Risk and journey ML, decision automation at scale' },
+      { client: 'ADF Foods', domain: 'Manufacturing / FMCG', useCase: 'Sales & margin analytics, forecasting, executive MIS' },
+      { client: 'Drychem', domain: 'Specialty chemicals', useCase: 'Process and operations analytics' },
+      { client: 'Aptech', domain: 'Education', useCase: 'NLP-driven counsellor, intent scoring, conversion ML' },
     ],
-    footnote: 'Oil & gas field operations (Deep Industries), manufacturing, and industrial patterns directly inform how we adapter-map to upstream E&P estates — subsurface, drilling, production, and HSE workflows.',
+    footnote: 'Patterns from oil & gas (Deep Industries), heavy manufacturing, cement and large-scale logistics translate directly to E&P: high-frequency sensor data, asset criticality, regulatory load, and engineering-grade tolerance for error.',
   },
   {
     id: 6,
     type: 'patterns',
-    title: 'Representative E&P patterns — prototypes and demos on request',
+    title: 'Representative deep-tech patterns for Reliance E&P — domain × ML × optimisation',
     grid: [
-      { pattern: 'Production control tower', demo: 'Exception-first ops: well performance, facility uptime, injection rates, artificial lift health — drill-downs, fewer status meetings' },
-      { pattern: 'Drilling performance intelligence', demo: 'Real-time KPIs: ROP, NPT tracking, BHA analytics, offset well comparison — one screen per active well' },
-      { pattern: 'Subsurface knowledge (RAG)', demo: 'Well files, geological reports, completion records, reservoir studies — searchable, citable, governed access' },
-      { pattern: 'HSE & compliance workflows', demo: 'PTW automation, incident tracking, OISD/DGH compliance narratives, environmental monitoring dashboards' },
-      { pattern: 'Asset integrity & maintenance', demo: 'Equipment health, corrosion monitoring, inspection scheduling, SAP PM integration with predictive signals' },
-      { pattern: 'Leadership MIS', demo: 'One-screen story: production vs target, cost per barrel, facility availability, HSE scorecard' },
+      { pattern: 'Subsurface surrogate & UQ', tech: 'PINNs · Neural operators (FNO) · Bayesian inversion', demo: 'Replace slow forward simulations with surrogates for reservoir what-ifs and well placement; quantify uncertainty across realisations.' },
+      { pattern: 'Drilling early-warning', tech: 'TFT / LSTM · Multivariate anomaly · Bayesian optimisation', demo: 'Stuck-pipe, kick, washout early warning on real-time mud-log + surface sensors; mud-program and BHA parameter optimisation.' },
+      { pattern: 'Virtual flow metering & well allocation', tech: 'Hybrid physics + ML · Constrained MILP', demo: 'Per-well rates without continuous metering; reconciliation with test separators; allocation under facility and contract constraints.' },
+      { pattern: 'Production optimisation', tech: 'Reinforcement Learning · OR-Tools · Causal inference', demo: 'Gas-lift / ESP setpoint optimisation, water/gas injection allocation across networks, intervention prioritisation with causal lift estimates.' },
+      { pattern: 'Asset integrity & RUL', tech: 'Survival analysis · DeepSurv · Vibration ML', demo: 'Remaining-useful-life on rotating equipment, corrosion-loop prognostics, integrated with SAP PM for prescriptive maintenance.' },
+      { pattern: 'HSE & compliance intelligence', tech: 'CV (PPE/flare/leak) · NLP over incidents · RAG', demo: 'Vision models on CCTV/drone feeds, NLP clustering of incident reports for systemic risk, auto-generated DGH/OISD narratives with citations.' },
     ],
+    footnote: 'Each pattern is a co-build: Reliance brings the domain, asset and process truth; we bring the modelling, data engineering and MLOps depth.',
   },
   {
     id: 7,
     type: 'ep-extension',
-    title: 'One spine across the E&P value chain — subsurface to export',
+    title: 'How we engage a digitally mature E&P organisation — co-build, not pilot-theatre',
     bullets: [
-      { label: 'Shared foundation', text: 'Identity, roles, audit logs, data residency and deployment choices agreed before scope expansion — one governance spine across all E&P assets and functions.' },
-      { label: 'Subsurface & reservoir', text: 'Geological knowledge management (RAG over well files, seismic reports), reservoir performance tracking, offset well analytics — making institutional knowledge searchable and citable.' },
-      { label: 'Drilling & completions', text: 'Real-time drilling dashboards, NPT reduction workflows, BHA performance tracking, well delivery cost analytics — exception-first visibility for drilling engineers and management.' },
-      { label: 'Production & facilities', text: 'Artificial lift optimisation, flow assurance, water/gas injection monitoring, facility uptime — daily production meeting intelligence automated.' },
-      { label: 'HSE & regulatory', text: 'PTW digitisation, OISD compliance tracking, DGH reporting automation, environmental monitoring — governed workflows with complete audit trails.' },
-      { label: '8–10 week pilot', text: 'One asset, one end-to-end workflow, KPIs fixed day one (cycle time, manual hours, exception age, decision quality, compliance coverage).' },
+      { label: 'Architecture-first', text: 'Joint architecture review on integration points (SAP, PI/OSIsoft, SCADA/DCS, lakehouse, engineering apps), data residency, security and identity — before any model is trained.' },
+      { label: 'Mixed engineering pods', text: 'Reliance domain experts + DiscvrAI ML scientists, data engineers, optimisation specialists and product engineers in one pod. Knowledge transfers as we build, not after.' },
+      { label: 'Hard problems first', text: 'We start where conventional BI and packaged tools have hit a ceiling — physics-aware modelling, multivariate prognostics, large-scale optimisation, multimodal grounded GenAI — not generic dashboards.' },
+      { label: 'Production engineering discipline', text: 'CI/CD for models, drift monitoring, lineage, reproducibility, on-prem / VPC / India-region deployment, security and observability — engineered to your CIO and CISO bar.' },
+      { label: '8–12 week first build', text: 'One asset, one hard use case, KPIs fixed on day one (model performance, decision lift, cycle time, manual hours displaced, compliance coverage). Outcome-linked commercials available.' },
+      { label: 'Clear exit path', text: 'You own the code, the data, the models, the pipelines. The platform is designed from day one to be run by Reliance teams independently.' },
     ],
-    quote: "Built to be E&P's execution intelligence layer — wellsite to boardroom, fast to production, measurable, and architecture-friendly.",
+    quote: 'A deep engineering partner for the parts of E&P where models, optimisation and data depth — not dashboards — change the outcome.',
   },
   {
     id: 8,
     type: 'team',
-    title: 'Operator-led engineering — pilots with CIO-grade discipline',
+    title: 'Operator-led engineering — large-scale digital transformation, run by people who have done it',
     person: {
       name: 'Shubham Srivastava',
-      role: 'CEO, DiscvrAI',
-      cred: 'Two decades leading large-scale digital transformation and technology organisations — CIO (Eureka Forbes), CTO (Hindustan Times), Head of Technology (MakeMyTrip).',
+      role: 'Founder & CEO, DiscvrAI',
+      cred: 'Two decades leading large-scale digital and data transformations at CXO scale — CIO (Eureka Forbes), CTO (Hindustan Times), Head of Technology (MakeMyTrip). Owned $100M+ digital programs and built engineering organisations across data, ML and platform.',
     },
     bullets: [
-      'Built for legacy stacks, fragmented data, and compliance pressure — oil & gas field operations experience via Deep Industries.',
-      'Repeatable accelerators: connectors, RAG, model routing, orchestration — production in weeks, not quarters.',
+      'Engineering bench: ML scientists (classical + deep + scientific ML), optimisation specialists (OR / RL), data and streaming engineers, MLOps and security engineers, and domain SMEs in oil & gas, manufacturing and BFSI.',
+      'Built for legacy stacks, fragmented data and compliance pressure — direct upstream experience via Deep Industries and large-scale industrial estates.',
+      'Repeatable accelerators: connectors, feature stores, model routing, RAG, optimisation libraries, orchestration — production in weeks, not quarters.',
+      'Positioned as a transformation enabler, not a startup pilot vendor — designed to sit alongside Reliance’s own engineering and digital teams as a co-builder.',
     ],
     cta: {
-      primary: 'Identify one high-impact E&P use case — production intelligence, drilling performance, or subsurface knowledge management — we build a working pilot in 8–10 weeks on your data and workflows.',
-      secondary: 'Architecture alignment on integration points (SAP, SCADA/PI, historians, engineering tools) before build commitments.',
+      primary: 'Pick one hard E&P problem — subsurface surrogate, drilling early-warning, virtual flow metering, production optimisation or integrity prognostics — we co-build a production-grade first version in 8–12 weeks on your data, your infrastructure and your KPIs.',
+      secondary: 'Joint architecture & ML capability review with Reliance E&P digital, subsurface, drilling and production teams — integration points, data, security and target use-case shortlist before build commitments.',
     },
   },
 ];
@@ -176,21 +184,21 @@ const CapabilitiesSlide: React.FC = () => {
   return (
     <SlideWrapper num={3}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
         {s.cards.map((c: any, i: number) => {
           const Icon = c.icon;
           return (
-            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-white">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}15` }}>
-                <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-2" style={{ background: `${ACCENT}15` }}>
+                <Icon className="w-4.5 h-4.5" style={{ color: ACCENT }} />
               </div>
-              <h3 className="font-bold text-slate-900 text-base mb-2">{c.title}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{c.desc}</p>
+              <h3 className="font-bold text-slate-900 text-sm mb-1.5 leading-tight">{c.title}</h3>
+              <p className="text-slate-600 text-xs leading-snug">{c.desc}</p>
             </div>
           );
         })}
       </div>
-      <p className="text-slate-500 text-sm italic border-t border-slate-100 pt-4">{s.closing}</p>
+      <p className="text-slate-500 text-sm italic border-t border-slate-100 pt-3">{s.closing}</p>
     </SlideWrapper>
   );
 };
@@ -269,15 +277,17 @@ const PatternsSlide: React.FC = () => {
   const s = slides[5] as any;
   return (
     <SlideWrapper num={6}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
+      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1">
         {s.grid.map((g: any, i: number) => (
-          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-base mb-2">{g.pattern}</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">{g.demo}</p>
+          <div key={i} className="border border-slate-200 rounded-xl p-4 bg-slate-50/50 flex flex-col">
+            <h3 className="font-bold text-slate-900 text-sm mb-1.5">{g.pattern}</h3>
+            <span className="inline-block self-start text-[11px] font-semibold px-2 py-0.5 rounded-md mb-2" style={{ background: `${ACCENT}15`, color: ACCENT }}>{g.tech}</span>
+            <p className="text-slate-600 text-xs leading-snug">{g.demo}</p>
           </div>
         ))}
       </div>
+      {s.footnote && <p className="text-xs text-slate-400 italic mt-3">{s.footnote}</p>}
     </SlideWrapper>
   );
 };
