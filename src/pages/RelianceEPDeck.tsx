@@ -277,15 +277,17 @@ const PatternsSlide: React.FC = () => {
   const s = slides[5] as any;
   return (
     <SlideWrapper num={6}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
+      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">{s.title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1">
         {s.grid.map((g: any, i: number) => (
-          <div key={i} className="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-base mb-2">{g.pattern}</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">{g.demo}</p>
+          <div key={i} className="border border-slate-200 rounded-xl p-4 bg-slate-50/50 flex flex-col">
+            <h3 className="font-bold text-slate-900 text-sm mb-1.5">{g.pattern}</h3>
+            <span className="inline-block self-start text-[11px] font-semibold px-2 py-0.5 rounded-md mb-2" style={{ background: `${ACCENT}15`, color: ACCENT }}>{g.tech}</span>
+            <p className="text-slate-600 text-xs leading-snug">{g.demo}</p>
           </div>
         ))}
       </div>
+      {s.footnote && <p className="text-xs text-slate-400 italic mt-3">{s.footnote}</p>}
     </SlideWrapper>
   );
 };
