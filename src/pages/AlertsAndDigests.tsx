@@ -156,6 +156,7 @@ export default function AlertsAndDigests() {
     { id: 'statements', label: 'Statements', icon: FileText, disabled: true },
     { id: 'calculator', label: 'Calculator', icon: Calculator, disabled: true },
     { id: 'goals', label: 'Goals', icon: Target, disabled: true },
+    { id: 'rebalancing', label: 'Portfolio Rebalancing', icon: Scale, badge: 'New' },
     { id: 'alerts', label: 'Alerts & digests', icon: Bell, badge: 'New' },
     { id: 'tracked', label: 'Tracked instruments', icon: Heart },
     { id: 'inbox', label: 'Notification inbox', icon: Inbox },
