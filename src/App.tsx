@@ -504,8 +504,9 @@ const AppContent = () => {
                    <Route path="/havells-channel-studio" element={<HavellsChannelStudio />} />
                    <Route path="/jubilant-enpro" element={<JubilantEnproCommandCenter />} />
                    <Route path="/jubilant-enpro-pitch" element={<JubilantEnproPitch />} />
-                   <Route path="/alerts" element={<AlertsAndDigests />} />
-                   <Route path="/alerts/inbox" element={<AlertsAndDigests />} />
+                  <Route path="/alerts" element={<AlertsAndDigests />} />
+                  <Route path="/alerts/inbox" element={<AlertsAndDigests />} />
+                  <Route path="/rebalancing" element={<Rebalancing />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
