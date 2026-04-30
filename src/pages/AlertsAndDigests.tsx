@@ -170,6 +170,10 @@ export default function AlertsAndDigests() {
       toast({ title: 'Demo module', description: 'This section lives in the full Wealth Platform.' });
       return;
     }
+    if (id === 'rebalancing') {
+      navigate('/rebalancing');
+      return;
+    }
     if (id === 'home' || id === 'alerts' || id === 'tracked' || id === 'inbox' || id === 'profile-notif') {
       setView(id as ViewMode);
     }
