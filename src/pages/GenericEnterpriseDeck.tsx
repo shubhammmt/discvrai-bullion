@@ -219,21 +219,37 @@ const slides = [
   {
     id: 13,
     type: 'team',
-    title: 'Operator-led engineering — pilots with CIO-grade discipline',
+    eyebrow: 'A transformation partner — not a startup experiment',
+    title: 'Operator-led business transformation, executed with CIO-grade engineering discipline',
+    subhead: 'We are built by operators who have run technology at scale — to take enterprises from boardroom intent to production outcomes. Consulting, problem framing, architecture, build, and run — under one accountable team.',
     person: {
       name: 'Shubham Srivastava',
       role: 'Founder & CEO, DiscvrAI',
-      cred: 'Two decades leading large-scale digital transformation — CIO (Eureka Forbes), CTO (Hindustan Times), Head of Technology (MakeMyTrip). Built and scaled technology organisations across media, travel, manufacturing, and financial services.',
+      cred: 'Two decades leading large-scale digital and business transformation as a CXO operator — CIO at Eureka Forbes, CTO at Hindustan Times, Head of Technology at MakeMyTrip. Has personally led re-platforming, data and AI modernisation, post-merger integration, and digital P&L turnarounds across media, travel, consumer, manufacturing, and financial services — owning outcomes against revenue, cost, and risk KPIs at the board table.',
       email: 'shubham@discvr.ai',
       phone: '+91 9873961591',
     },
+    operatorCreds: [
+      { label: '20+ yrs', text: 'as a CXO operator across media, travel, consumer, manufacturing & BFSI' },
+      { label: '5 industries', text: 'transformed end-to-end — strategy, architecture, build, adoption' },
+      { label: '1000+', text: 'engineers, data scientists & operators led across global organisations' },
+      { label: '$100M+', text: 'in technology, data and AI programmes owned at the board level' },
+    ],
+    valueChain: [
+      { phase: 'Consult', text: 'Sharpen the business problem, frame the economic case, align CXOs on outcomes — before any build.' },
+      { phase: 'Architect', text: 'Reference architecture across ERP, CRM, MES, core banking, commerce — integration-first, not rip-and-replace.' },
+      { phase: 'Build', text: 'Senior pods build on your data and workflows — connectors, RAG, ML, agentic orchestration — production in weeks.' },
+      { phase: 'Run & transfer', text: 'Adoption playbooks, governance, and knowledge transfer — your team owns it from day one.' },
+    ],
     bullets: [
-      'Built for legacy stacks, fragmented data, and compliance pressure — cross-industry experience across BFSI, manufacturing, industrial, EPC, and D2C.',
-      'Repeatable accelerators: connectors, RAG, model routing, orchestration, agentic commerce & analytics — production in weeks, not quarters.',
+      'Built for legacy stacks, fragmented data, and compliance pressure — proven across BFSI, manufacturing, industrial, EPC, energy, and D2C.',
+      'Repeatable accelerators — connectors, RAG, model routing, classical ML, orchestration, agentic commerce & analytics — compress 18-month programmes into quarters.',
+      'CIO-grade discipline: security, observability, reversibility, audit — production-ready by default, not retrofitted.',
+      'You own the code, the data, the models, and the playbook. We are designed to make ourselves dispensable.',
     ],
     cta: {
-      primary: 'Identify one high-impact use case in your business — we build a working pilot in 8–10 weeks on your data, your workflows, your KPIs.',
-      secondary: 'Architecture alignment on integration points (ERP, CRM, MES, core banking, commerce platforms) before build commitments.',
+      primary: 'Pick one boardroom-level outcome — revenue, cost, risk, or customer. We co-build a working transformation pilot in 8–10 weeks on your data, your workflows, your KPIs — with a clear path to enterprise rollout.',
+      secondary: 'Start with a joint architecture and outcomes workshop with Shubham and a senior pod — across ERP, CRM, MES, core banking, and commerce platforms — before any build commitment.',
     },
   },
 ];
