@@ -184,21 +184,21 @@ const CapabilitiesSlide: React.FC = () => {
   return (
     <SlideWrapper num={3}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
         {s.cards.map((c: any, i: number) => {
           const Icon = c.icon;
           return (
-            <div key={i} className="border border-slate-200 rounded-xl p-5 bg-white">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}15` }}>
-                <Icon className="w-5 h-5" style={{ color: ACCENT }} />
+            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-2" style={{ background: `${ACCENT}15` }}>
+                <Icon className="w-4.5 h-4.5" style={{ color: ACCENT }} />
               </div>
-              <h3 className="font-bold text-slate-900 text-base mb-2">{c.title}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{c.desc}</p>
+              <h3 className="font-bold text-slate-900 text-sm mb-1.5 leading-tight">{c.title}</h3>
+              <p className="text-slate-600 text-xs leading-snug">{c.desc}</p>
             </div>
           );
         })}
       </div>
-      <p className="text-slate-500 text-sm italic border-t border-slate-100 pt-4">{s.closing}</p>
+      <p className="text-slate-500 text-sm italic border-t border-slate-100 pt-3">{s.closing}</p>
     </SlideWrapper>
   );
 };
