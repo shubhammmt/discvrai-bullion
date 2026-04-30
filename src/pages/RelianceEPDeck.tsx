@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Globe, Factory, Droplets } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Globe, Factory, Droplets, Cpu, Database, Activity, GitBranch, Layers, LineChart, Sigma } from 'lucide-react';
 
 const TOTAL = 8;
 const ACCENT = '#0D9488';
