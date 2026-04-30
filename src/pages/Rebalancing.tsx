@@ -6,7 +6,12 @@ import {
   PanelLeft, PanelLeftClose, LogIn, Plus, Heart, Inbox, Bot,
   Scale, ChevronRight, ChevronLeft, Lock, Shield, TrendingUp, TrendingDown,
   Sparkles, CheckCircle2, AlertTriangle, ArrowRightLeft, Loader2, Check,
+  Info, RefreshCw, Replace,
 } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Input } from '@/components/ui/input';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -822,157 +827,405 @@ function DashboardPhase({ onSimulateDrift }: { onSimulateDrift: () => void }) {
 // ============================================================
 // PHASE 4 — ACTION PLAN
 // ============================================================
+type ActionKind = 'SELL' | 'BUY' | 'SWAP' | 'HOLD';
+
+interface FundOption {
+  id: string;
+  name: string;
+  amc: string;
+  expense: number;   // %
+  cagr3y: number;    // %
+  risk: 'Low' | 'Medium' | 'High';
+  rationale: string;
+}
+
 interface ActionRow {
-  instrument: string;
+  id: string;
+  instrument: string;       // current/source instrument
   type: string;
   current: number;
   target: number;
-  delta: number;
-  action: 'SELL' | 'BUY' | 'SWAP_OUT' | 'SWAP_IN' | 'HOLD';
+  action: ActionKind;
+  // SWAP-specific
+  replacement?: FundOption;
+  alternatives?: FundOption[];
+  // BUY/SELL specific
+  editable?: boolean;
+  why: string;
   note?: string;
 }
 
-const ACTION_PLAN: ActionRow[] = [
-  { instrument: 'High-Risk Tech Sector Fund', type: 'MF', current: 18, target: 0, delta: -18, action: 'SWAP_OUT', note: 'High expense ratio · 18m underperformance' },
-  { instrument: 'Stable Nifty 500 Index Fund', type: 'MF', current: 0, target: 18, delta: 18, action: 'SWAP_IN', note: 'Low cost · Same equity exposure, lower risk' },
-  { instrument: 'Equity Aggressive Fund', type: 'MF', current: 22, target: 17, delta: -5, action: 'SELL', note: 'Trim to bring equity within 60% cap' },
-  { instrument: 'Short-Term Debt Fund', type: 'MF', current: 12, target: 17, delta: 5, action: 'BUY', note: 'Restore debt buffer' },
-  { instrument: 'Nippon Gold ETF', type: 'ETF', current: 10, target: 10, delta: 0, action: 'HOLD', note: 'Within tolerance · No action' },
+const TECH_ALTERNATIVES: FundOption[] = [
+  { id: 'icici-bc', name: 'ICICI Prudential Bluechip Fund', amc: 'ICICI Pru', expense: 0.85, cagr3y: 16.4, risk: 'Medium', rationale: 'Large-cap stability with strong 3Y track record.' },
+  { id: 'axis-bc', name: 'Axis Bluechip Fund', amc: 'Axis MF', expense: 0.62, cagr3y: 14.8, risk: 'Medium', rationale: 'Lowest expense ratio in peer group.' },
+  { id: 'hdfc-t100', name: 'HDFC Top 100 Fund', amc: 'HDFC MF', expense: 1.02, cagr3y: 17.1, risk: 'Medium', rationale: 'Highest 3Y CAGR · slightly higher cost.' },
+  { id: 'nifty500-idx', name: 'UTI Nifty 500 Index Fund', amc: 'UTI MF', expense: 0.21, cagr3y: 15.6, risk: 'Medium', rationale: 'Index hugger · lowest cost of all options.' },
+  { id: 'mira-largecap', name: 'Mirae Asset Large Cap Fund', amc: 'Mirae', expense: 0.54, cagr3y: 15.9, risk: 'Medium', rationale: 'Balanced risk-adjusted return profile.' },
+];
+
+const CURRENT_TECH: FundOption = {
+  id: 'current-tech', name: 'High-Risk Tech Sector Fund', amc: 'Sectoral', expense: 1.95, cagr3y: 9.2, risk: 'High',
+  rationale: 'Underperforming peer group by 18 months.',
+};
+
+const buildInitialPlan = (): ActionRow[] => [
+  {
+    id: 'swap-tech',
+    instrument: CURRENT_TECH.name,
+    type: 'MF',
+    current: 18,
+    target: 18,
+    action: 'SWAP',
+    replacement: TECH_ALTERNATIVES[3], // default = lowest cost index
+    alternatives: TECH_ALTERNATIVES,
+    why: 'New fund has ~6% higher 3Y CAGR at the same risk level, with a meaningfully lower expense ratio.',
+  },
+  {
+    id: 'sell-equity',
+    instrument: 'Equity Aggressive Fund',
+    type: 'MF',
+    current: 22,
+    target: 17,
+    action: 'SELL',
+    editable: true,
+    why: 'Trimming equity brings allocation back within your 60% cap and reduces drawdown risk.',
+    note: 'Trim to bring equity within 60% cap',
+  },
+  {
+    id: 'buy-debt',
+    instrument: 'Short-Term Debt Fund',
+    type: 'MF',
+    current: 12,
+    target: 17,
+    action: 'BUY',
+    editable: true,
+    why: 'Restoring the debt buffer cushions the portfolio against equity volatility.',
+    note: 'Restore debt buffer',
+  },
+  {
+    id: 'hold-gold',
+    instrument: 'Nippon Gold ETF',
+    type: 'ETF',
+    current: 10,
+    target: 10,
+    action: 'HOLD',
+    why: 'Allocation is within tolerance band — no action required.',
+    note: 'Within tolerance · No action',
+  },
 ];
 
 function ActionPhase({ onBack }: { onBack: () => void }) {
+  const [plan, setPlan] = useState<ActionRow[]>(buildInitialPlan);
   const [executing, setExecuting] = useState(false);
   const [done, setDone] = useState(false);
+  const [swapRowId, setSwapRowId] = useState<string | null>(null);
+
+  const swapRow = plan.find(r => r.id === swapRowId) || null;
+
+  const updateTarget = (id: string, newTarget: number) => {
+    setPlan(prev => prev.map(r => r.id === id ? { ...r, target: Math.max(0, Math.min(100, newTarget)) } : r));
+    toast({ title: 'Recalculating…', description: `Updated allocation for ${plan.find(r => r.id === id)?.instrument}` });
+  };
+
+  const selectReplacement = (rowId: string, fund: FundOption) => {
+    setPlan(prev => prev.map(r => r.id === rowId ? { ...r, replacement: fund } : r));
+    setSwapRowId(null);
+    toast({ title: 'Replacement updated', description: `Now swapping into ${fund.name}` });
+  };
 
   const execute = () => {
     setExecuting(true);
-    setTimeout(() => { setExecuting(false); setDone(true); toast({ title: 'Batch trade executed', description: '5 actions queued · Settlement T+1' }); }, 1400);
+    setTimeout(() => { setExecuting(false); setDone(true); toast({ title: 'Batch trade executed', description: `${plan.filter(r => r.action !== 'HOLD').length} actions queued · Settlement T+1` }); }, 1400);
   };
 
+  const swapCount = plan.filter(r => r.action === 'SWAP').length;
+  const totalActions = plan.filter(r => r.action !== 'HOLD').length;
+
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-5">
-      <button onClick={onBack} className="text-xs text-sip-text-muted hover:text-sip-text-primary flex items-center gap-1">
-        <ChevronLeft className="w-3.5 h-3.5" /> Back to dashboard
-      </button>
+    <TooltipProvider delayDuration={150}>
+      <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-5">
+        <button onClick={onBack} className="text-xs text-sip-text-muted hover:text-sip-text-primary flex items-center gap-1">
+          <ChevronLeft className="w-3.5 h-3.5" /> Back to dashboard
+        </button>
 
-      {/* Copilot nudge */}
-      <Card className="border-sip-brand/30 bg-gradient-to-br from-sip-brand/5 to-background overflow-hidden">
-        <CardContent className="p-5 flex gap-4">
-          <div className="w-10 h-10 rounded-xl bg-sip-brand text-sip-brand-foreground flex items-center justify-center shrink-0">
-            <Bot className="w-5 h-5" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-sip-text-primary">DiscvrAI Copilot</p>
-              <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 text-[10px]">
-                <AlertTriangle className="w-3 h-3 mr-1" /> Drift detected
-              </Badge>
+        {/* Copilot nudge */}
+        <Card className="border-sip-brand/30 bg-gradient-to-br from-sip-brand/5 to-background overflow-hidden">
+          <CardContent className="p-5 flex gap-4">
+            <div className="w-10 h-10 rounded-xl bg-sip-brand text-sip-brand-foreground flex items-center justify-center shrink-0">
+              <Bot className="w-5 h-5" />
             </div>
-            <p className="text-sm text-sip-text-secondary leading-relaxed">
-              Hello Priya 👋 Our background monitoring has detected a significant <strong>portfolio drift</strong>.
-              Your equity exposure is currently <strong className="text-amber-700">15% too high</strong> versus your
-              Moderate profile. We've prepared a simple, cost-aware rebalancing plan to protect your goals
-              (including <span className="text-purple-700 font-medium">2 high-quality smart swaps</span>).
-            </p>
-            <div className="flex flex-wrap gap-2 pt-1">
-              <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Estimated tax: ₹420</Badge>
-              <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Brokerage: ₹0</Badge>
-              <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Sharpe lift: +0.32x</Badge>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-semibold text-sip-text-primary">DiscvrAI Copilot</p>
+                <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 text-[10px]">
+                  <AlertTriangle className="w-3 h-3 mr-1" /> Drift detected
+                </Badge>
+              </div>
+              <p className="text-sm text-sip-text-secondary leading-relaxed">
+                Hello Priya 👋 Our background monitoring has detected a significant <strong>portfolio drift</strong>.
+                Your equity exposure is currently <strong className="text-amber-700">15% too high</strong> versus your
+                Moderate profile. We've prepared a simple, cost-aware rebalancing plan to protect your goals
+                (including <span className="text-purple-700 font-medium">{swapCount} high-quality smart swap{swapCount === 1 ? '' : 's'}</span>).
+              </p>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Estimated tax: ₹420</Badge>
+                <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Brokerage: ₹0</Badge>
+                <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Sharpe lift: +0.32x</Badge>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Action plan table */}
-      <Card className="border-sip-border overflow-hidden">
-        <CardContent className="p-0">
-          <div className="px-5 py-4 border-b border-sip-border flex items-center justify-between">
-            <h3 className="text-base font-semibold text-sip-text-primary">Action Plan Summary</h3>
-            <p className="text-xs text-sip-text-muted">5 actions · 2 smart swaps</p>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-sip-sidebar-hover text-left">
-                <tr className="text-[11px] uppercase tracking-wider text-sip-text-muted">
-                  <th className="px-5 py-2.5 font-semibold">Instrument</th>
-                  <th className="px-3 py-2.5 font-semibold text-right">Current</th>
-                  <th className="px-3 py-2.5 font-semibold text-right">Target</th>
-                  <th className="px-5 py-2.5 font-semibold">Recommended Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-sip-border">
-                {ACTION_PLAN.map((r, i) => (
-                  <tr key={i} className={cn(
-                    (r.action === 'SWAP_IN' || r.action === 'SWAP_OUT') && 'bg-purple-50/40',
-                  )}>
-                    <td className="px-5 py-3.5">
-                      <div className={cn(
-                        'flex items-start gap-2',
-                        (r.action === 'SWAP_IN' || r.action === 'SWAP_OUT') && 'border-l-2 border-purple-400 pl-2 -ml-2',
-                      )}>
-                        <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-sip-border text-sip-text-muted mt-0.5">{r.type}</Badge>
-                        <div>
-                          <p className="font-semibold text-sip-text-primary">{r.instrument}</p>
-                          {r.note && <p className="text-[11px] text-sip-text-muted mt-0.5">{r.note}</p>}
+        {/* Action plan table */}
+        <Card className="border-sip-border overflow-hidden">
+          <CardContent className="p-0">
+            <div className="px-5 py-4 border-b border-sip-border flex items-center justify-between">
+              <h3 className="text-base font-semibold text-sip-text-primary">Action Plan Summary</h3>
+              <p className="text-xs text-sip-text-muted">{totalActions} actions · {swapCount} smart swap{swapCount === 1 ? '' : 's'} · click any row to review</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-sip-sidebar-hover text-left">
+                  <tr className="text-[11px] uppercase tracking-wider text-sip-text-muted">
+                    <th className="px-5 py-2.5 font-semibold">Instrument & Details</th>
+                    <th className="px-3 py-2.5 font-semibold text-right">Current</th>
+                    <th className="px-3 py-2.5 font-semibold text-right w-32">Target</th>
+                    <th className="px-5 py-2.5 font-semibold w-56">Recommended Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-sip-border">
+                  {plan.map((r) => (
+                    <ActionRowView
+                      key={r.id}
+                      row={r}
+                      onOpenSwap={() => setSwapRowId(r.id)}
+                      onTargetChange={(v) => updateTarget(r.id, v)}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Execute */}
+        <div className="text-center pt-2 space-y-3">
+          {!done ? (
+            <>
+              <Button
+                size="lg"
+                disabled={executing}
+                onClick={execute}
+                className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90 h-12 px-8 text-base font-semibold rounded-xl shadow-lg shadow-sip-brand/20"
+              >
+                {executing
+                  ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Executing batch trade…</>)
+                  : (<><Sparkles className="w-4 h-4 mr-2" /> Approve and Execute Batch Trade</>)}
+              </Button>
+              <div>
+                <button className="text-xs text-sip-brand hover:underline">Adjust recommendations manually</button>
+              </div>
+            </>
+          ) : (
+            <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <div className="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center animate-in zoom-in-50">
+                <Check className="w-7 h-7" strokeWidth={3} />
+              </div>
+              <div>
+                <p className="text-base font-bold text-emerald-900">Batch trade approved</p>
+                <p className="text-xs text-emerald-800/80 mt-1">{totalActions} actions queued · Settlement expected by T+1</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={onBack} className="border-emerald-300 text-emerald-800 hover:bg-emerald-100">
+                Back to dashboard
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Replacement Drawer */}
+        <Sheet open={!!swapRow} onOpenChange={(o) => !o && setSwapRowId(null)}>
+          <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
+            {swapRow && swapRow.replacement && swapRow.alternatives && (
+              <>
+                <SheetHeader className="pb-4 border-b border-sip-border">
+                  <SheetTitle className="flex items-center gap-2">
+                    <Replace className="w-4 h-4 text-purple-600" /> Select Replacement Fund
+                  </SheetTitle>
+                  <SheetDescription>
+                    Replacing <strong>{swapRow.instrument}</strong>. Compare any candidate side-by-side and pick the one that suits you.
+                  </SheetDescription>
+                </SheetHeader>
+
+                {/* Side-by-side comparison: current vs selected */}
+                <div className="mt-5">
+                  <p className="text-[11px] uppercase tracking-wider text-sip-text-muted mb-2 font-semibold">Currently selected</p>
+                  <ComparisonCard current={CURRENT_TECH} selected={swapRow.replacement} />
+                </div>
+
+                {/* Alternatives list */}
+                <div className="mt-6 space-y-2">
+                  <p className="text-[11px] uppercase tracking-wider text-sip-text-muted mb-1 font-semibold">Best-fit alternatives</p>
+                  {swapRow.alternatives.map((f) => {
+                    const isSelected = f.id === swapRow.replacement?.id;
+                    return (
+                      <div
+                        key={f.id}
+                        className={cn(
+                          'border rounded-lg p-3 transition-all',
+                          isSelected ? 'border-purple-400 bg-purple-50/60' : 'border-sip-border hover:border-purple-300 hover:bg-purple-50/30'
+                        )}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-sip-text-primary truncate">{f.name}</p>
+                            <p className="text-[11px] text-sip-text-muted">{f.amc} · {f.rationale}</p>
+                            <div className="flex flex-wrap gap-3 mt-2 text-[11px] tabular-nums">
+                              <span className="text-sip-text-secondary">Expense <strong className="text-sip-text-primary">{f.expense}%</strong></span>
+                              <span className="text-sip-text-secondary">3Y CAGR <strong className="text-emerald-700">{f.cagr3y}%</strong></span>
+                              <span className="text-sip-text-secondary">Risk <strong className={riskColor(f.risk)}>{f.risk}</strong></span>
+                            </div>
+                          </div>
+                          <Button
+                            size="sm"
+                            variant={isSelected ? 'outline' : 'default'}
+                            onClick={() => selectReplacement(swapRow.id, f)}
+                            className={cn(
+                              'shrink-0 text-xs h-8',
+                              !isSelected && 'bg-purple-600 hover:bg-purple-700 text-white'
+                            )}
+                          >
+                            {isSelected ? <><Check className="w-3 h-3 mr-1" /> Selected</> : 'Select this Fund'}
+                          </Button>
                         </div>
                       </div>
-                    </td>
-                    <td className="px-3 py-3.5 text-right tabular-nums text-sip-text-primary">{r.current}%</td>
-                    <td className="px-3 py-3.5 text-right tabular-nums font-semibold text-sip-text-primary">{r.target}%</td>
-                    <td className="px-5 py-3.5">
-                      <ActionPill action={r.action} delta={r.delta} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </SheetContent>
+        </Sheet>
+      </div>
+    </TooltipProvider>
+  );
+}
 
-      {/* Execute */}
-      <div className="text-center pt-2 space-y-3">
-        {!done ? (
-          <>
-            <Button
-              size="lg"
-              disabled={executing}
-              onClick={execute}
-              className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90 h-12 px-8 text-base font-semibold rounded-xl shadow-lg shadow-sip-brand/20"
-            >
-              {executing
-                ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Executing batch trade…</>)
-                : (<><Sparkles className="w-4 h-4 mr-2" /> Approve and Execute Batch Trade</>)}
-            </Button>
-            <div>
-              <button className="text-xs text-sip-brand hover:underline">Adjust recommendations manually</button>
-            </div>
-          </>
-        ) : (
-          <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-emerald-50 border border-emerald-200">
-            <div className="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center animate-in zoom-in-50">
-              <Check className="w-7 h-7" strokeWidth={3} />
-            </div>
-            <div>
-              <p className="text-base font-bold text-emerald-900">Batch trade approved</p>
-              <p className="text-xs text-emerald-800/80 mt-1">5 actions queued · Settlement expected by T+1</p>
-            </div>
-            <Button variant="outline" size="sm" onClick={onBack} className="border-emerald-300 text-emerald-800 hover:bg-emerald-100">
-              Back to dashboard
-            </Button>
-          </div>
-        )}
+function riskColor(risk: 'Low' | 'Medium' | 'High') {
+  return risk === 'Low' ? 'text-emerald-700' : risk === 'Medium' ? 'text-amber-700' : 'text-red-700';
+}
+
+function ComparisonCard({ current, selected }: { current: FundOption; selected: FundOption }) {
+  const cheaper = selected.expense < current.expense;
+  const higherCagr = selected.cagr3y > current.cagr3y;
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      <div className="border border-sip-border rounded-lg p-3 bg-sip-sidebar-hover/30">
+        <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1">Current</p>
+        <p className="text-sm font-semibold text-sip-text-primary leading-tight">{current.name}</p>
+        <div className="mt-3 space-y-1.5 text-xs">
+          <Row label="Expense Ratio" value={`${current.expense}%`} />
+          <Row label="3-Year CAGR" value={`${current.cagr3y}%`} />
+          <Row label="Risk Grade" value={current.risk} valueClass={riskColor(current.risk)} />
+        </div>
+      </div>
+      <div className="border-2 border-purple-400 rounded-lg p-3 bg-purple-50/60">
+        <p className="text-[10px] uppercase tracking-wider text-purple-700 font-semibold mb-1">Replacement</p>
+        <p className="text-sm font-semibold text-sip-text-primary leading-tight">{selected.name}</p>
+        <div className="mt-3 space-y-1.5 text-xs">
+          <Row label="Expense Ratio" value={`${selected.expense}%`} hint={cheaper ? 'cheaper' : ''} hintTone="good" />
+          <Row label="3-Year CAGR" value={`${selected.cagr3y}%`} hint={higherCagr ? 'higher' : ''} hintTone="good" />
+          <Row label="Risk Grade" value={selected.risk} valueClass={riskColor(selected.risk)} />
+        </div>
       </div>
     </div>
   );
 }
 
-function ActionPill({ action, delta }: { action: ActionRow['action']; delta: number }) {
-  const map: Record<ActionRow['action'], { label: string; cls: string; icon: React.ReactNode }> = {
+function Row({ label, value, valueClass, hint, hintTone }: { label: string; value: string; valueClass?: string; hint?: string; hintTone?: 'good' | 'bad' }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-sip-text-muted">{label}</span>
+      <span className={cn('font-semibold tabular-nums flex items-center gap-1.5', valueClass || 'text-sip-text-primary')}>
+        {value}
+        {hint && (
+          <span className={cn('text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded',
+            hintTone === 'good' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+          )}>{hint}</span>
+        )}
+      </span>
+    </div>
+  );
+}
+
+function ActionRowView({ row, onOpenSwap, onTargetChange }: { row: ActionRow; onOpenSwap: () => void; onTargetChange: (v: number) => void }) {
+  const isSwap = row.action === 'SWAP';
+  const detail = isSwap && row.replacement
+    ? `Replacing ${row.instrument} with ${row.replacement.name} — saves ${(row.replacement ? Math.max(0, (CURRENT_TECH.expense - row.replacement.expense)) : 0).toFixed(2)}% in expense ratio.`
+    : row.note || '';
+
+  return (
+    <tr className={cn(isSwap && 'bg-purple-50/40')}>
+      <td className="px-5 py-3.5">
+        <div className={cn('flex items-start gap-2', isSwap && 'border-l-2 border-purple-400 pl-2 -ml-2')}>
+          <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-sip-border text-sip-text-muted mt-0.5">{row.type}</Badge>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <p className="font-semibold text-sip-text-primary">{row.instrument}</p>
+              {isSwap && row.replacement && (
+                <>
+                  <RefreshCw className="w-3 h-3 text-purple-500 mx-0.5" />
+                  <p className="font-semibold text-purple-700">{row.replacement.name}</p>
+                </>
+              )}
+              <UITooltip>
+                <TooltipTrigger asChild>
+                  <button type="button" className="inline-flex"><Info className="w-3 h-3 text-sip-text-muted hover:text-sip-brand" /></button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-[260px] text-xs">{row.why}</TooltipContent>
+              </UITooltip>
+            </div>
+            <p className="text-[11px] text-sip-text-muted mt-0.5">{detail}</p>
+          </div>
+        </div>
+      </td>
+      <td className="px-3 py-3.5 text-right tabular-nums text-sip-text-primary">{row.current}%</td>
+      <td className="px-3 py-3.5 text-right">
+        {row.editable ? (
+          <div className="flex items-center justify-end gap-1.5">
+            <Input
+              type="number"
+              value={row.target}
+              onChange={(e) => onTargetChange(Number(e.target.value))}
+              onFocus={(e) => e.target.select()}
+              className="h-7 w-16 text-right text-sm tabular-nums px-2 font-semibold"
+              min={0}
+              max={100}
+            />
+            <span className="text-xs text-sip-text-muted">%</span>
+          </div>
+        ) : (
+          <span className="font-semibold tabular-nums text-sip-text-primary">{row.target}%</span>
+        )}
+      </td>
+      <td className="px-5 py-3.5">
+        <div className="flex items-center gap-2">
+          <ActionPill action={row.action} delta={row.target - row.current} />
+          {isSwap && (
+            <Button size="sm" variant="outline" onClick={onOpenSwap} className="h-7 text-[11px] border-purple-300 text-purple-700 hover:bg-purple-50">
+              Change
+            </Button>
+          )}
+        </div>
+      </td>
+    </tr>
+  );
+}
+
+function ActionPill({ action, delta }: { action: ActionKind; delta: number }) {
+  const map: Record<ActionKind, { label: string; cls: string; icon: React.ReactNode }> = {
     SELL: { label: 'SELL', cls: 'bg-red-50 text-red-700 border-red-200', icon: <TrendingDown className="w-3 h-3" /> },
     BUY: { label: 'BUY', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: <TrendingUp className="w-3 h-3" /> },
-    SWAP_OUT: { label: 'SWAP OUT', cls: 'bg-purple-50 text-purple-700 border-purple-300', icon: <ArrowRightLeft className="w-3 h-3" /> },
-    SWAP_IN: { label: 'SWAP IN', cls: 'bg-purple-50 text-purple-700 border-purple-300', icon: <ArrowRightLeft className="w-3 h-3" /> },
+    SWAP: { label: 'SWAP', cls: 'bg-purple-50 text-purple-700 border-purple-300', icon: <ArrowRightLeft className="w-3 h-3" /> },
     HOLD: { label: 'NO ACTION', cls: 'bg-gray-100 text-gray-600 border-gray-200', icon: <CheckCircle2 className="w-3 h-3" /> },
   };
   const m = map[action];
@@ -981,7 +1234,7 @@ function ActionPill({ action, delta }: { action: ActionRow['action']; delta: num
       <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded-md border', m.cls)}>
         {m.icon} {m.label}
       </span>
-      {delta !== 0 && (
+      {delta !== 0 && action !== 'SWAP' && (
         <span className={cn('text-xs font-semibold tabular-nums', delta > 0 ? 'text-emerald-700' : 'text-red-700')}>
           {delta > 0 ? '+' : ''}{delta}%
         </span>
