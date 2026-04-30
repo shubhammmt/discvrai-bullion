@@ -147,20 +147,34 @@ const slides = [
     id: 11,
     type: 'partner-at-scale',
     title: 'How we partner at scale',
-    subtitle: 'Capability + modus operandi — what you actually get when you bring us in',
+    subtitle: 'Capability + modus operandi — what you get when you bring us in. Hard ML, not just GenAI.',
     capabilities: [
       { icon: Target, title: 'Strategy & operating model', desc: 'Sharpen the problem, fix KPIs, agree the operating model — before any code is written.' },
-      { icon: Brain, title: 'Data & AI engineering', desc: 'Connectors, RAG, model routing, agentic orchestration — built on your stack, with audit trails.' },
-      { icon: Workflow, title: 'Product & workflow design', desc: 'Workflows that real operators will actually use — exception-first, role-aware, mobile-ready.' },
-      { icon: Shield, title: 'Change & enablement', desc: 'Adoption playbooks, training, governance — so the system survives a leadership change.' },
+      { icon: Cpu, title: 'Classical & deep ML engineering', desc: 'Forecasting, anomaly detection, survival models, uplift, recsys, computer vision, time-series — built, tuned and back-tested on your data.' },
+      { icon: Brain, title: 'Generative & agentic AI', desc: 'RAG, fine-tuning, model routing, eval harnesses, agent orchestration — grounded in enterprise data with full audit trails.' },
+      { icon: Database, title: 'Data & MLOps platform', desc: 'Feature stores, vector + lakehouse, training/serving pipelines, drift & bias monitors, CI/CD for models on your cloud.' },
+      { icon: Workflow, title: 'Product & workflow design', desc: 'Exception-first, role-aware, mobile-ready workflows real operators actually use.' },
+      { icon: Shield, title: 'Change, governance & enablement', desc: 'Adoption playbooks, model risk governance, training — so the system survives a leadership change.' },
     ],
+    mlDepth: {
+      title: 'Hard-core ML expertise — not just prompts',
+      subtitle: 'A dedicated ML pod with PhD/Masters-level depth across the modelling stack.',
+      tracks: [
+        { title: 'Predictive & forecasting', items: ['Demand & price forecasting (ARIMA, Prophet, LightGBM, N-BEATS, Temporal Fusion Transformer)', 'Hierarchical & probabilistic forecasts with reconciliation'] },
+        { title: 'Anomaly, risk & survival', items: ['Isolation Forest, Autoencoders, One-Class SVM for fraud / equipment failure', 'Survival analysis (Cox PH, DeepSurv) for churn, default, asset life'] },
+        { title: 'Optimization & decisioning', items: ['MILP / OR-Tools, reinforcement learning for routing, scheduling, pricing', 'Causal inference & uplift modelling (DoubleML, CausalForest) for true ROI'] },
+        { title: 'Vision, NLP & multimodal', items: ['CV for inspection, OCR, document AI; transformer NLP for IE & classification', 'Speech, multilingual Indic NLP, multimodal RAG'] },
+        { title: 'GenAI engineering', items: ['Fine-tuning (LoRA/QLoRA), distillation, evals, guardrails, on-prem inference', 'Agentic graphs (LangGraph), tool-use, deterministic fallbacks'] },
+        { title: 'MLOps & responsible AI', items: ['MLflow, Kubeflow, Vertex/SageMaker, feature stores (Feast), online/offline parity', 'Drift, bias, explainability (SHAP, LIME), model cards, RBI/SEBI/DPDP-aligned governance'] },
+      ],
+    },
     pillars: [
-      { icon: Users, title: 'Joint teams, not vendors', desc: 'Mixed pods of your people and ours — knowledge transfers as we build, not after.' },
-      { icon: CheckCircle2, title: 'Quality bar', desc: 'CIO-grade engineering discipline: security, observability, reversibility — production-ready by default.' },
-      { icon: ArrowRight, title: 'Clear exit path', desc: 'You own the code, the data, the models. We design from day one for you to run it without us.' },
+      { icon: Users, title: 'Joint teams, not vendors', desc: 'Mixed pods of your people and ours — domain SMEs, ML scientists, ML engineers, data engineers, product, design — knowledge transfers as we build, not after.' },
+      { icon: CheckCircle2, title: 'Quality bar', desc: 'CIO-grade engineering: security, observability, reproducibility, reversibility, model risk controls — production-ready by default.' },
+      { icon: ArrowRight, title: 'Clear exit path', desc: 'You own the code, the data, the features, the model weights and the pipelines. We design from day one for you to run it without us.' },
     ],
-    flow: ['Your teams', 'DiscvrAI pod', 'Outcomes you own'],
-    footer: 'For digitally mature enterprises.',
+    flow: ['Your teams', 'DiscvrAI pod (Strategy · ML Science · ML Eng · Data · Product)', 'Outcomes you own'],
+    footer: 'For digitally mature enterprises. Hard ML + GenAI, delivered as one pod.',
   },
   {
     id: 12,
@@ -545,49 +559,83 @@ const PartnerAtScaleSlide: React.FC = () => {
   const s = slides[10] as any;
   return (
     <SlideWrapper num={11}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-1">{s.title}</h2>
-      <p className="text-base mb-6" style={{ color: ACCENT }}>{s.subtitle}</p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      <h2 className="text-2xl font-bold text-slate-900 mb-0.5">{s.title}</h2>
+      <p className="text-sm mb-3" style={{ color: ACCENT }}>{s.subtitle}</p>
+
+      {/* Capabilities — 6 in a 3-col grid, compact */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
         {s.capabilities.map((c: any, i: number) => {
           const Icon = c.icon;
           return (
-            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
-                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+            <div key={i} className="border border-slate-200 rounded-lg p-2.5 bg-white">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-7 h-7 rounded-md flex items-center justify-center shrink-0" style={{ background: `${ACCENT}15` }}>
+                  <Icon className="w-3.5 h-3.5" style={{ color: ACCENT }} />
                 </div>
-                <div className="text-sm font-bold text-slate-900 leading-tight">{c.title}</div>
+                <div className="text-[12px] font-bold text-slate-900 leading-tight">{c.title}</div>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{c.desc}</p>
+              <p className="text-[10.5px] text-slate-600 leading-snug">{c.desc}</p>
             </div>
           );
         })}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5 flex-1">
+
+      {/* ML depth band */}
+      <div className="rounded-xl border p-3 mb-3" style={{ borderColor: `${ACCENT}55`, background: `${ACCENT}06` }}>
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: ACCENT }}>
+            <Cpu className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <div className="text-[13px] font-bold text-slate-900 leading-tight">{s.mlDepth.title}</div>
+            <div className="text-[10.5px] text-slate-600 leading-tight">{s.mlDepth.subtitle}</div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {s.mlDepth.tracks.map((t: any, i: number) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-md p-2">
+              <div className="text-[11px] font-semibold text-slate-900 mb-1" style={{ color: ACCENT }}>{t.title}</div>
+              <ul className="space-y-0.5">
+                {t.items.map((it: string, j: number) => (
+                  <li key={j} className="flex gap-1 text-[10px] text-slate-700 leading-snug">
+                    <span className="shrink-0" style={{ color: ACCENT }}>•</span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Pillars */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
         {s.pillars.map((p: any, i: number) => {
           const Icon = p.icon;
           return (
-            <div key={i} className="rounded-xl p-5 border" style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}08` }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Icon className="w-4 h-4" style={{ color: ACCENT }} />
-                <div className="text-sm font-bold text-slate-900">{p.title}</div>
+            <div key={i} className="rounded-lg p-2.5 border" style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}08` }}>
+              <div className="flex items-center gap-2 mb-1">
+                <Icon className="w-3.5 h-3.5" style={{ color: ACCENT }} />
+                <div className="text-[12px] font-bold text-slate-900">{p.title}</div>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">{p.desc}</p>
+              <p className="text-[10.5px] text-slate-700 leading-snug">{p.desc}</p>
             </div>
           );
         })}
       </div>
-      <div className="border border-slate-200 rounded-xl py-3 px-5 flex items-center justify-center gap-3 bg-slate-50/60 flex-wrap">
+
+      {/* Co-build flow */}
+      <div className="border border-slate-200 rounded-lg py-2 px-4 flex items-center justify-center gap-2 bg-slate-50/60 flex-wrap">
         {s.flow.map((step: string, i: number) => (
           <React.Fragment key={i}>
-            <div className={`text-xs font-medium px-3 py-1.5 rounded-full ${i === 1 ? 'text-white' : 'bg-white border border-slate-200 text-slate-700'}`}
+            <div className={`text-[11px] font-medium px-3 py-1 rounded-full ${i === 1 ? 'text-white' : 'bg-white border border-slate-200 text-slate-700'}`}
               style={i === 1 ? { background: ACCENT } : undefined}>
               {step}
             </div>
-            {i < s.flow.length - 1 && <ArrowRight className="w-4 h-4" style={{ color: `${ACCENT}99` }} />}
+            {i < s.flow.length - 1 && <ArrowRight className="w-3.5 h-3.5" style={{ color: `${ACCENT}99` }} />}
           </React.Fragment>
         ))}
-        <span className="text-xs text-slate-400 ml-3 italic">{s.footer}</span>
+        <span className="text-[10px] text-slate-400 ml-2 italic">{s.footer}</span>
       </div>
     </SlideWrapper>
   );
