@@ -25,6 +25,8 @@ import { CompanyRealitySlide } from './CompanyRealitySlide';
 import { CompanyValueLeakSlide } from './CompanyValueLeakSlide';
 import { CompanyCommandCenterSlide } from './CompanyCommandCenterSlide';
 import { CompanyPilotSlide } from './CompanyPilotSlide';
+import { PartnerAtScaleSlide } from './PartnerAtScaleSlide';
+import { EngagementModelsSlide } from './EngagementModelsSlide';
 
 interface TransformationSlideRendererProps {
   slide: EnterpriseTransformationSlide;
