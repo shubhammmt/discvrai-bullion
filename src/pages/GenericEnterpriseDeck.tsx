@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Link2, Brain, Workflow, BarChart3, Shield, Zap, Users, ArrowRight, Target, Factory, Landmark, HardHat, ShoppingCart, TrendingUp, Bot, Mail, Phone, Truck, Warehouse, PackageSearch, Activity, Gauge, Wrench, Database, Cpu, LayoutDashboard, CheckCircle2, AlertTriangle } from 'lucide-react';
 
-const TOTAL = 11;
+const TOTAL = 13;
 const ACCENT = '#0F766E';
 
 const slides = [
@@ -145,6 +145,65 @@ const slides = [
   },
   {
     id: 11,
+    type: 'partner-at-scale',
+    title: 'How we partner at scale',
+    subtitle: 'Capability + modus operandi — what you actually get when you bring us in',
+    capabilities: [
+      { icon: Target, title: 'Strategy & operating model', desc: 'Sharpen the problem, fix KPIs, agree the operating model — before any code is written.' },
+      { icon: Brain, title: 'Data & AI engineering', desc: 'Connectors, RAG, model routing, agentic orchestration — built on your stack, with audit trails.' },
+      { icon: Workflow, title: 'Product & workflow design', desc: 'Workflows that real operators will actually use — exception-first, role-aware, mobile-ready.' },
+      { icon: Shield, title: 'Change & enablement', desc: 'Adoption playbooks, training, governance — so the system survives a leadership change.' },
+    ],
+    pillars: [
+      { icon: Users, title: 'Joint teams, not vendors', desc: 'Mixed pods of your people and ours — knowledge transfers as we build, not after.' },
+      { icon: CheckCircle2, title: 'Quality bar', desc: 'CIO-grade engineering discipline: security, observability, reversibility — production-ready by default.' },
+      { icon: ArrowRight, title: 'Clear exit path', desc: 'You own the code, the data, the models. We design from day one for you to run it without us.' },
+    ],
+    flow: ['Your teams', 'DiscvrAI pod', 'Outcomes you own'],
+    footer: 'For digitally mature enterprises.',
+  },
+  {
+    id: 12,
+    type: 'engagement-models',
+    title: 'Engagement models — three ways we can engage',
+    subtitle: 'Pick the shape that fits the problem — not the other way around',
+    models: [
+      {
+        name: 'End-to-end transformation',
+        definition: 'A multi-quarter program to rewire a business unit or function — strategy, build, change.',
+        bestWhen: 'You have a board-level mandate and a real P&L to move; ambiguity is high; multiple workstreams need to land together.',
+        differentiators: ['Single accountable pod across strategy + build', 'Operating model + tech delivered together', 'CIO-grade engineering, not slideware'],
+        contrast: 'Not a staff-aug bench; not a 6-week pilot in disguise.',
+        ttv: '2–3 quarters',
+        ownership: 'Joint, then yours',
+        shape: 'Outcome-linked',
+      },
+      {
+        name: 'Targeted problem solutions',
+        definition: 'A focused 8–12 week build to solve one painful, well-defined problem end-to-end.',
+        bestWhen: 'The problem is sharp, the data exists, and you need a working system — not another deck.',
+        differentiators: ['Fixed scope, fixed window, fixed KPIs', 'Production-ready, not a prototype', 'Repeatable accelerators (RAG, connectors, agents)'],
+        contrast: 'Not a discovery sprint; not a throwaway POC.',
+        ttv: '8–12 weeks',
+        ownership: 'Yours from day one',
+        shape: 'Fixed-fee or milestone',
+      },
+      {
+        name: 'Talent augmentation',
+        definition: 'Senior AI / data / product talent embedded into your existing teams under your leadership.',
+        bestWhen: 'You already have direction and architecture — you need depth on specific roles to ship faster.',
+        differentiators: ['Senior, vetted operators (not juniors)', 'Cultural fit with your engineering bar', 'Flex up or down by quarter'],
+        contrast: 'Not a body shop; not commodity rate cards.',
+        ttv: 'Weeks',
+        ownership: 'Fully yours',
+        shape: 'T&M / monthly',
+      },
+    ],
+    howToChoose: 'Mandate is broad → Transformation. Problem is sharp → Targeted solution. Capacity is the gap → Talent augmentation.',
+    footer: 'Engagement models — generic module.',
+  },
+  {
+    id: 13,
     type: 'team',
     title: 'Operator-led engineering — pilots with CIO-grade discipline',
     person: {
@@ -482,10 +541,131 @@ const VedantaBuiltSlide: React.FC = () => {
   );
 };
 
-const TeamSlideContent: React.FC = () => {
+const PartnerAtScaleSlide: React.FC = () => {
   const s = slides[10] as any;
   return (
     <SlideWrapper num={11}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-1">{s.title}</h2>
+      <p className="text-base mb-6" style={{ color: ACCENT }}>{s.subtitle}</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+        {s.capabilities.map((c: any, i: number) => {
+          const Icon = c.icon;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
+                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+                </div>
+                <div className="text-sm font-bold text-slate-900 leading-tight">{c.title}</div>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{c.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5 flex-1">
+        {s.pillars.map((p: any, i: number) => {
+          const Icon = p.icon;
+          return (
+            <div key={i} className="rounded-xl p-5 border" style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}08` }}>
+              <div className="flex items-center gap-2 mb-2">
+                <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+                <div className="text-sm font-bold text-slate-900">{p.title}</div>
+              </div>
+              <p className="text-xs text-slate-700 leading-relaxed">{p.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border border-slate-200 rounded-xl py-3 px-5 flex items-center justify-center gap-3 bg-slate-50/60 flex-wrap">
+        {s.flow.map((step: string, i: number) => (
+          <React.Fragment key={i}>
+            <div className={`text-xs font-medium px-3 py-1.5 rounded-full ${i === 1 ? 'text-white' : 'bg-white border border-slate-200 text-slate-700'}`}
+              style={i === 1 ? { background: ACCENT } : undefined}>
+              {step}
+            </div>
+            {i < s.flow.length - 1 && <ArrowRight className="w-4 h-4" style={{ color: `${ACCENT}99` }} />}
+          </React.Fragment>
+        ))}
+        <span className="text-xs text-slate-400 ml-3 italic">{s.footer}</span>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const EngagementModelsSlide: React.FC = () => {
+  const s = slides[11] as any;
+  const icons = [Workflow, Target, Users];
+  return (
+    <SlideWrapper num={12}>
+      <h2 className="text-3xl font-bold text-slate-900 mb-1">{s.title}</h2>
+      <p className="text-base mb-5" style={{ color: ACCENT }}>{s.subtitle}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 min-h-0">
+        {s.models.map((m: any, i: number) => {
+          const Icon = icons[i] || Workflow;
+          return (
+            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white flex flex-col">
+              <div className="flex items-start gap-2 mb-3 pb-3 border-b border-slate-100">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${ACCENT}15` }}>
+                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider font-medium" style={{ color: ACCENT }}>Model {i + 1}</div>
+                  <div className="text-sm font-bold text-slate-900 leading-tight">{m.name}</div>
+                </div>
+              </div>
+              <p className="text-xs text-slate-700 leading-snug mb-3">{m.definition}</p>
+              <div className="mb-3">
+                <div className="text-[10px] uppercase tracking-wider text-slate-500 mb-0.5">Best when</div>
+                <p className="text-xs text-slate-600 leading-snug">{m.bestWhen}</p>
+              </div>
+              <div className="mb-3">
+                <div className="text-[10px] uppercase tracking-wider text-slate-500 mb-1">Differentiators</div>
+                <ul className="space-y-1">
+                  {m.differentiators.map((d: string, j: number) => (
+                    <li key={j} className="flex items-start gap-1.5">
+                      <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+                      <span className="text-[11px] text-slate-700 leading-snug">{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mb-3 bg-slate-50 border border-slate-200 rounded-md p-2">
+                <div className="text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Contrast</div>
+                <p className="text-[11px] text-slate-500 leading-snug italic">{m.contrast}</p>
+              </div>
+              <div className="mt-auto grid grid-cols-3 gap-1 pt-2 border-t border-slate-100">
+                <div>
+                  <div className="text-[9px] uppercase text-slate-400">Time to value</div>
+                  <div className="text-[11px] text-slate-900 font-semibold">{m.ttv}</div>
+                </div>
+                <div>
+                  <div className="text-[9px] uppercase text-slate-400">Ownership</div>
+                  <div className="text-[11px] text-slate-900 font-semibold leading-tight">{m.ownership}</div>
+                </div>
+                <div>
+                  <div className="text-[9px] uppercase text-slate-400">Shape</div>
+                  <div className="text-[11px] font-semibold" style={{ color: ACCENT }}>{m.shape}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-4 text-center rounded-xl py-2 px-4 border" style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}10` }}>
+        <p className="text-xs font-medium" style={{ color: ACCENT }}>
+          <span className="text-slate-500 mr-2">How to choose →</span>
+          {s.howToChoose}
+        </p>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+const TeamSlideContent: React.FC = () => {
+  const s = slides[12] as any;
+  return (
+    <SlideWrapper num={13}>
       <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
         <div>
@@ -537,6 +717,7 @@ const slideRenderers = [
   TitleSlideContent, WhyNowSlide, CapabilitiesSlide, GapSlide,
   ClientsSlide, PatternsSlide, LifecycleSlide,
   SupplyChainSlide, PredictiveSlide, VedantaBuiltSlide,
+  PartnerAtScaleSlide, EngagementModelsSlide,
   TeamSlideContent,
 ];
 
