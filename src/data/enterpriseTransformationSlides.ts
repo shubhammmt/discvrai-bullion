@@ -863,5 +863,81 @@ export const enterpriseTransformationSlides: EnterpriseTransformationSlide[] = [
       ],
       cta: 'Start with one high-friction flow, prove faster closure and cost control, then scale globally.'
     }
+  },
+
+  // ============ ENGAGEMENT MODELS — GENERIC MODULE (Slides 34–35) ============
+  {
+    id: 34,
+    type: 'partner-at-scale',
+    title: 'How We Partner at Scale',
+    subtitle: 'For digitally mature enterprises',
+    content: {
+      capabilities: [
+        { title: 'Strategy → Execution', desc: 'Roadmaps anchored in measurable outcomes, not slideware.' },
+        { title: 'Data, AI & Platforms', desc: 'Modern stacks, MLOps patterns, governance where it matters.' },
+        { title: 'Product & Experience', desc: 'Operator-grade UX and adoption — not lab demos.' },
+        { title: 'Change & Capability', desc: 'Playbooks, standards, and knowledge transfer built in.' }
+      ],
+      pillars: [
+        { title: 'Joint Teams', desc: 'We embed with your leads. Decisions stay yours.' },
+        { title: 'Quality Bar', desc: 'Reviews, patterns, and repeatable ways of working — not heroics.' },
+        { title: 'Exit / Insource Path', desc: 'Designed for your people to own the runway: docs, hiring profile, handover milestones.' }
+      ],
+      flow: ['You (Client)', 'Us (Firm)', 'Outcomes'],
+      footer: 'Co-build, not black-box outsource.'
+    }
+  },
+  {
+    id: 35,
+    type: 'engagement-models',
+    title: 'Three Ways We Can Engage',
+    subtitle: 'Engagement models — generic module',
+    content: {
+      models: [
+        {
+          name: 'Large-Scale Digital Transformation',
+          definition: 'End-to-end program across data, platforms, AI and ways of working with executive alignment and staged value.',
+          bestWhen: 'Portfolio of initiatives, shared foundations, or enterprise-wide rhythm is needed.',
+          differentiators: [
+            'Breadth + sequencing — interdependencies managed',
+            'Governance cadence across tracks',
+            'Standardization across teams'
+          ],
+          contrast: 'Slower to first narrow win than a point solution. Not the default for a single isolated KPI.',
+          shape: 'Program fee',
+          ttv: '6–12 months',
+          ownership: 'Gradual, governed handover'
+        },
+        {
+          name: 'Specific Problem Solutions',
+          definition: 'Time-boxed problem → design → pilot → scale plan on a bounded use case.',
+          bestWhen: 'Proof before scale; sponsor and data are localized; need speed and clarity.',
+          differentiators: [
+            'Fastest time-to-evidence',
+            'Tighter scope and cost control',
+            'Crisp success metrics'
+          ],
+          contrast: 'Will not alone reset platform debt or org design. Often feeds the transformation track as a beachhead.',
+          shape: 'Fixed outcome',
+          ttv: '4–12 weeks',
+          ownership: 'Hand back at pilot close'
+        },
+        {
+          name: 'Manpower / Talent with Our Setup',
+          definition: 'We stand up or augment squads (DS/ML, analytics engineering, product analytics) using our hiring bar, playbooks, and leadership — operating inside your tools and security boundary.',
+          bestWhen: 'You want to insource or scale talent without losing velocity; quality > volume hiring is the bottleneck.',
+          differentiators: [
+            'Speed to a competent bench',
+            'Mentorship + code/model review culture',
+            'Clear handover: JD, leveling, KT milestones'
+          ],
+          contrast: 'Ongoing cost; integrates with your HR & title structures. Less suited if you only need a one-off model.',
+          shape: 'Squad-based',
+          ttv: '2–6 weeks to bench',
+          ownership: 'Build → Operate → Transfer'
+        }
+      ],
+      howToChoose: 'Transformation for portfolio change · Problem solutions for proof and focus · Manpower / pods when capacity and quality must land inside your org.'
+    }
   }
 ];
