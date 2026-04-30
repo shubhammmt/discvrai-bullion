@@ -559,49 +559,83 @@ const PartnerAtScaleSlide: React.FC = () => {
   const s = slides[10] as any;
   return (
     <SlideWrapper num={11}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-1">{s.title}</h2>
-      <p className="text-base mb-6" style={{ color: ACCENT }}>{s.subtitle}</p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      <h2 className="text-2xl font-bold text-slate-900 mb-0.5">{s.title}</h2>
+      <p className="text-sm mb-3" style={{ color: ACCENT }}>{s.subtitle}</p>
+
+      {/* Capabilities — 6 in a 3-col grid, compact */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
         {s.capabilities.map((c: any, i: number) => {
           const Icon = c.icon;
           return (
-            <div key={i} className="border border-slate-200 rounded-xl p-4 bg-white">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
-                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+            <div key={i} className="border border-slate-200 rounded-lg p-2.5 bg-white">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-7 h-7 rounded-md flex items-center justify-center shrink-0" style={{ background: `${ACCENT}15` }}>
+                  <Icon className="w-3.5 h-3.5" style={{ color: ACCENT }} />
                 </div>
-                <div className="text-sm font-bold text-slate-900 leading-tight">{c.title}</div>
+                <div className="text-[12px] font-bold text-slate-900 leading-tight">{c.title}</div>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{c.desc}</p>
+              <p className="text-[10.5px] text-slate-600 leading-snug">{c.desc}</p>
             </div>
           );
         })}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5 flex-1">
+
+      {/* ML depth band */}
+      <div className="rounded-xl border p-3 mb-3" style={{ borderColor: `${ACCENT}55`, background: `${ACCENT}06` }}>
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: ACCENT }}>
+            <Cpu className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <div className="text-[13px] font-bold text-slate-900 leading-tight">{s.mlDepth.title}</div>
+            <div className="text-[10.5px] text-slate-600 leading-tight">{s.mlDepth.subtitle}</div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {s.mlDepth.tracks.map((t: any, i: number) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-md p-2">
+              <div className="text-[11px] font-semibold text-slate-900 mb-1" style={{ color: ACCENT }}>{t.title}</div>
+              <ul className="space-y-0.5">
+                {t.items.map((it: string, j: number) => (
+                  <li key={j} className="flex gap-1 text-[10px] text-slate-700 leading-snug">
+                    <span className="shrink-0" style={{ color: ACCENT }}>•</span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Pillars */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
         {s.pillars.map((p: any, i: number) => {
           const Icon = p.icon;
           return (
-            <div key={i} className="rounded-xl p-5 border" style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}08` }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Icon className="w-4 h-4" style={{ color: ACCENT }} />
-                <div className="text-sm font-bold text-slate-900">{p.title}</div>
+            <div key={i} className="rounded-lg p-2.5 border" style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}08` }}>
+              <div className="flex items-center gap-2 mb-1">
+                <Icon className="w-3.5 h-3.5" style={{ color: ACCENT }} />
+                <div className="text-[12px] font-bold text-slate-900">{p.title}</div>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">{p.desc}</p>
+              <p className="text-[10.5px] text-slate-700 leading-snug">{p.desc}</p>
             </div>
           );
         })}
       </div>
-      <div className="border border-slate-200 rounded-xl py-3 px-5 flex items-center justify-center gap-3 bg-slate-50/60 flex-wrap">
+
+      {/* Co-build flow */}
+      <div className="border border-slate-200 rounded-lg py-2 px-4 flex items-center justify-center gap-2 bg-slate-50/60 flex-wrap">
         {s.flow.map((step: string, i: number) => (
           <React.Fragment key={i}>
-            <div className={`text-xs font-medium px-3 py-1.5 rounded-full ${i === 1 ? 'text-white' : 'bg-white border border-slate-200 text-slate-700'}`}
+            <div className={`text-[11px] font-medium px-3 py-1 rounded-full ${i === 1 ? 'text-white' : 'bg-white border border-slate-200 text-slate-700'}`}
               style={i === 1 ? { background: ACCENT } : undefined}>
               {step}
             </div>
-            {i < s.flow.length - 1 && <ArrowRight className="w-4 h-4" style={{ color: `${ACCENT}99` }} />}
+            {i < s.flow.length - 1 && <ArrowRight className="w-3.5 h-3.5" style={{ color: `${ACCENT}99` }} />}
           </React.Fragment>
         ))}
-        <span className="text-xs text-slate-400 ml-3 italic">{s.footer}</span>
+        <span className="text-[10px] text-slate-400 ml-2 italic">{s.footer}</span>
       </div>
     </SlideWrapper>
   );
