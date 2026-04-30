@@ -7,6 +7,7 @@ import {
   CalendarClock, Smartphone, MessageCircle, CheckCircle2, ChevronRight,
   ArrowLeft, ArrowRight, Shield, Clock, TrendingDown, AlertTriangle,
   Zap, Inbox, ExternalLink, X, Bot, User as UserIcon, Check, Heart, Trash2, Pencil,
+  Scale,
 } from 'lucide-react';
 import { trackedStore, useTracked, type AlertItem, type WatchItem } from '@/lib/trackedStore';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -155,6 +156,7 @@ export default function AlertsAndDigests() {
     { id: 'statements', label: 'Statements', icon: FileText, disabled: true },
     { id: 'calculator', label: 'Calculator', icon: Calculator, disabled: true },
     { id: 'goals', label: 'Goals', icon: Target, disabled: true },
+    { id: 'rebalancing', label: 'Portfolio Rebalancing', icon: Scale, badge: 'New' },
     { id: 'alerts', label: 'Alerts & digests', icon: Bell, badge: 'New' },
     { id: 'tracked', label: 'Tracked instruments', icon: Heart },
     { id: 'inbox', label: 'Notification inbox', icon: Inbox },
@@ -166,6 +168,10 @@ export default function AlertsAndDigests() {
   const handleNav = (id: string, disabled?: boolean) => {
     if (disabled) {
       toast({ title: 'Demo module', description: 'This section lives in the full Wealth Platform.' });
+      return;
+    }
+    if (id === 'rebalancing') {
+      navigate('/rebalancing');
       return;
     }
     if (id === 'home' || id === 'alerts' || id === 'tracked' || id === 'inbox' || id === 'profile-notif') {
