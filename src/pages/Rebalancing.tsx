@@ -6,7 +6,12 @@ import {
   PanelLeft, PanelLeftClose, LogIn, Plus, Heart, Inbox, Bot,
   Scale, ChevronRight, ChevronLeft, Lock, Shield, TrendingUp, TrendingDown,
   Sparkles, CheckCircle2, AlertTriangle, ArrowRightLeft, Loader2, Check,
+  Info, RefreshCw, Replace,
 } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
