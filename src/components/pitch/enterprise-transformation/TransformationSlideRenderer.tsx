@@ -25,6 +25,8 @@ import { CompanyRealitySlide } from './CompanyRealitySlide';
 import { CompanyValueLeakSlide } from './CompanyValueLeakSlide';
 import { CompanyCommandCenterSlide } from './CompanyCommandCenterSlide';
 import { CompanyPilotSlide } from './CompanyPilotSlide';
+import { PartnerAtScaleSlide } from './PartnerAtScaleSlide';
+import { EngagementModelsSlide } from './EngagementModelsSlide';
 
 interface TransformationSlideRendererProps {
   slide: EnterpriseTransformationSlide;
@@ -88,6 +90,10 @@ export const TransformationSlideRenderer: React.FC<TransformationSlideRendererPr
       return <CompanyCommandCenterSlide {...props} />;
     case 'company-pilot':
       return <CompanyPilotSlide {...props} />;
+    case 'partner-at-scale':
+      return <PartnerAtScaleSlide {...props} />;
+    case 'engagement-models':
+      return <EngagementModelsSlide {...props} />;
     case 'contact':
       return <ContactSlide {...props} />;
     default:
