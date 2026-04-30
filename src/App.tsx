@@ -296,6 +296,7 @@ const AppContent = () => {
                            location.pathname === '/jubilant-enpro-pitch' ||
                            location.pathname === '/alerts' ||
                            location.pathname === '/alerts/inbox' ||
+                           location.pathname === '/rebalancing' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
