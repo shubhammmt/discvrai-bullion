@@ -717,6 +717,7 @@ const slideRenderers = [
   TitleSlideContent, WhyNowSlide, CapabilitiesSlide, GapSlide,
   ClientsSlide, PatternsSlide, LifecycleSlide,
   SupplyChainSlide, PredictiveSlide, VedantaBuiltSlide,
+  PartnerAtScaleSlide, EngagementModelsSlide,
   TeamSlideContent,
 ];
 
