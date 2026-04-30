@@ -206,6 +206,7 @@ import DiageoIndiaDeck from './pages/DiageoIndiaDeck';
 import ChitaleBandhuDeck from './pages/ChitaleBandhuDeck';
 import AdaniGroupDeck from './pages/AdaniGroupDeck';
 import RelianceEPDeck from './pages/RelianceEPDeck';
+import RelianceEPCommandCenter from './pages/RelianceEPCommandCenter';
 import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
