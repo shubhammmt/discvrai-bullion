@@ -219,21 +219,37 @@ const slides = [
   {
     id: 13,
     type: 'team',
-    title: 'Operator-led engineering — pilots with CIO-grade discipline',
+    eyebrow: 'A transformation partner — not a startup experiment',
+    title: 'Operator-led business transformation, executed with CIO-grade engineering discipline',
+    subhead: 'We are built by operators who have run technology at scale — to take enterprises from boardroom intent to production outcomes. Consulting, problem framing, architecture, build, and run — under one accountable team.',
     person: {
       name: 'Shubham Srivastava',
       role: 'Founder & CEO, DiscvrAI',
-      cred: 'Two decades leading large-scale digital transformation — CIO (Eureka Forbes), CTO (Hindustan Times), Head of Technology (MakeMyTrip). Built and scaled technology organisations across media, travel, manufacturing, and financial services.',
+      cred: 'Two decades leading large-scale digital and business transformation as a CXO operator — CIO at Eureka Forbes, CTO at Hindustan Times, Head of Technology at MakeMyTrip. Has personally led re-platforming, data and AI modernisation, post-merger integration, and digital P&L turnarounds across media, travel, consumer, manufacturing, and financial services — owning outcomes against revenue, cost, and risk KPIs at the board table.',
       email: 'shubham@discvr.ai',
       phone: '+91 9873961591',
     },
+    operatorCreds: [
+      { label: '20+ yrs', text: 'as a CXO operator across media, travel, consumer, manufacturing & BFSI' },
+      { label: '5 industries', text: 'transformed end-to-end — strategy, architecture, build, adoption' },
+      { label: '1000+', text: 'engineers, data scientists & operators led across global organisations' },
+      { label: '$100M+', text: 'in technology, data and AI programmes owned at the board level' },
+    ],
+    valueChain: [
+      { phase: 'Consult', text: 'Sharpen the business problem, frame the economic case, align CXOs on outcomes — before any build.' },
+      { phase: 'Architect', text: 'Reference architecture across ERP, CRM, MES, core banking, commerce — integration-first, not rip-and-replace.' },
+      { phase: 'Build', text: 'Senior pods build on your data and workflows — connectors, RAG, ML, agentic orchestration — production in weeks.' },
+      { phase: 'Run & transfer', text: 'Adoption playbooks, governance, and knowledge transfer — your team owns it from day one.' },
+    ],
     bullets: [
-      'Built for legacy stacks, fragmented data, and compliance pressure — cross-industry experience across BFSI, manufacturing, industrial, EPC, and D2C.',
-      'Repeatable accelerators: connectors, RAG, model routing, orchestration, agentic commerce & analytics — production in weeks, not quarters.',
+      'Built for legacy stacks, fragmented data, and compliance pressure — proven across BFSI, manufacturing, industrial, EPC, energy, and D2C.',
+      'Repeatable accelerators — connectors, RAG, model routing, classical ML, orchestration, agentic commerce & analytics — compress 18-month programmes into quarters.',
+      'CIO-grade discipline: security, observability, reversibility, audit — production-ready by default, not retrofitted.',
+      'You own the code, the data, the models, and the playbook. We are designed to make ourselves dispensable.',
     ],
     cta: {
-      primary: 'Identify one high-impact use case in your business — we build a working pilot in 8–10 weeks on your data, your workflows, your KPIs.',
-      secondary: 'Architecture alignment on integration points (ERP, CRM, MES, core banking, commerce platforms) before build commitments.',
+      primary: 'Pick one boardroom-level outcome — revenue, cost, risk, or customer. We co-build a working transformation pilot in 8–10 weeks on your data, your workflows, your KPIs — with a clear path to enterprise rollout.',
+      secondary: 'Start with a joint architecture and outcomes workshop with Shubham and a senior pod — across ERP, CRM, MES, core banking, and commerce platforms — before any build commitment.',
     },
   },
 ];
@@ -714,46 +730,92 @@ const TeamSlideContent: React.FC = () => {
   const s = slides[12] as any;
   return (
     <SlideWrapper num={13}>
-      <h2 className="text-3xl font-bold text-slate-900 mb-6">{s.title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
-        <div>
-          <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/50 mb-5">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: `${ACCENT}18` }}>
-              <Users className="w-7 h-7" style={{ color: ACCENT }} />
+      <div className="mb-3">
+        <div className="text-[11px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: ACCENT }}>
+          {s.eyebrow}
+        </div>
+        <h2 className="text-[26px] leading-tight font-bold text-slate-900 mb-1.5">{s.title}</h2>
+        <p className="text-sm text-slate-600 leading-snug max-w-4xl">{s.subhead}</p>
+      </div>
+
+      <div className="grid grid-cols-12 gap-4 flex-1 min-h-0">
+        {/* Left: Founder */}
+        <div className="col-span-5 flex flex-col gap-3 min-h-0">
+          <div className="border border-slate-200 rounded-xl p-4 bg-slate-50/60">
+            <div className="flex items-start gap-3 mb-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ background: `${ACCENT}18` }}>
+                <Users className="w-6 h-6" style={{ color: ACCENT }} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 leading-tight">{s.person.name}</h3>
+                <p className="text-sm font-medium" style={{ color: ACCENT }}>{s.person.role}</p>
+              </div>
             </div>
-            <h3 className="text-xl font-bold text-slate-900">{s.person.name}</h3>
-            <p className="font-medium mb-3" style={{ color: ACCENT }}>{s.person.role}</p>
-            <p className="text-sm text-slate-600 leading-relaxed mb-4">{s.person.cred}</p>
-            <div className="space-y-2 border-t border-slate-200 pt-3">
-              <div className="flex items-center gap-2 text-sm text-slate-700">
-                <Mail className="w-4 h-4" style={{ color: ACCENT }} />
+            <p className="text-[12px] text-slate-600 leading-relaxed mb-3">{s.person.cred}</p>
+            <div className="space-y-1.5 border-t border-slate-200 pt-2.5">
+              <div className="flex items-center gap-2 text-xs text-slate-700">
+                <Mail className="w-3.5 h-3.5" style={{ color: ACCENT }} />
                 <span>{s.person.email}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-slate-700">
-                <Phone className="w-4 h-4" style={{ color: ACCENT }} />
+              <div className="flex items-center gap-2 text-xs text-slate-700">
+                <Phone className="w-3.5 h-3.5" style={{ color: ACCENT }} />
                 <span>{s.person.phone}</span>
               </div>
             </div>
           </div>
-          <ul className="space-y-2">
+
+          <div className="grid grid-cols-2 gap-2">
+            {s.operatorCreds.map((c: any, i: number) => (
+              <div key={i} className="rounded-lg border border-slate-200 bg-white p-2.5">
+                <div className="text-base font-bold leading-none mb-1" style={{ color: ACCENT }}>{c.label}</div>
+                <div className="text-[10.5px] text-slate-600 leading-snug">{c.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: How we partner + value chain */}
+        <div className="col-span-7 flex flex-col gap-3 min-h-0">
+          <div className="border border-slate-200 rounded-xl p-3.5 bg-white">
+            <div className="flex items-center gap-2 mb-2.5">
+              <Workflow className="w-4 h-4" style={{ color: ACCENT }} />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">Consulting → architecture → build → run, under one team</h4>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {s.valueChain.map((v: any, i: number) => (
+                <div key={i} className="rounded-lg p-2.5 h-full border" style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}08` }}>
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ background: ACCENT }}>{i + 1}</div>
+                    <div className="text-[11px] font-bold text-slate-900">{v.phase}</div>
+                  </div>
+                  <p className="text-[10.5px] text-slate-600 leading-snug">{v.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <ul className="space-y-1.5">
             {s.bullets.map((b: string, i: number) => (
-              <li key={i} className="flex gap-3 text-sm text-slate-700">
-                <div className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: ACCENT }} />
-                {b}
+              <li key={i} className="flex gap-2 text-[11.5px] text-slate-700 leading-snug">
+                <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: ACCENT }} />
+                <span>{b}</span>
               </li>
             ))}
           </ul>
-        </div>
-        <div className="flex flex-col gap-4">
-          <div className="rounded-xl p-6 text-white flex-1" style={{ background: ACCENT }}>
-            <Target className="w-6 h-6 mb-3 text-white/80" />
-            <h4 className="font-bold text-lg mb-2">Next step</h4>
-            <p className="text-white/90 text-sm leading-relaxed">{s.cta.primary}</p>
+
+          <div className="rounded-xl p-3.5 text-white" style={{ background: ACCENT }}>
+            <div className="flex items-center gap-2 mb-1">
+              <Target className="w-4 h-4 text-white/80" />
+              <h4 className="font-bold text-sm">Next step — co-build a transformation outcome</h4>
+            </div>
+            <p className="text-white/90 text-[11.5px] leading-relaxed">{s.cta.primary}</p>
           </div>
-          <div className="border border-slate-200 rounded-xl p-6 bg-slate-50/50">
-            <Shield className="w-5 h-5 mb-2 text-slate-400" />
-            <h4 className="font-bold text-slate-900 mb-2">Architecture alignment</h4>
-            <p className="text-sm text-slate-600 leading-relaxed">{s.cta.secondary}</p>
+          <div className="border border-slate-200 rounded-xl p-3 bg-slate-50/60">
+            <div className="flex items-center gap-2 mb-1">
+              <Shield className="w-3.5 h-3.5 text-slate-500" />
+              <h4 className="font-bold text-slate-900 text-xs">Or start with an architecture & outcomes workshop</h4>
+            </div>
+            <p className="text-[11px] text-slate-600 leading-relaxed">{s.cta.secondary}</p>
           </div>
         </div>
       </div>
