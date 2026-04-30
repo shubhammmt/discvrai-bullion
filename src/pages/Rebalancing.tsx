@@ -276,8 +276,8 @@ function TeaserPhase({ onStart }: { onStart: () => void }) {
               <AreaChart data={baseSeries} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
                 <defs>
                   <linearGradient id="optGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="hsl(var(--sip-brand))" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="hsl(var(--sip-brand))" stopOpacity={0} />
+                    <stop offset="0%" stopColor="hsl(var(--sip-brand-primary))" stopOpacity={0.35} />
+                    <stop offset="100%" stopColor="hsl(var(--sip-brand-primary))" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="m" hide />
@@ -288,7 +288,7 @@ function TeaserPhase({ onStart }: { onStart: () => void }) {
                   dot={false} strokeDasharray="3 3" style={{ filter: 'blur(2px)', opacity: 0.7 }}
                 />
                 {/* Sharp optimized line */}
-                <Area type="monotone" dataKey="optimized" stroke="hsl(var(--sip-brand))" strokeWidth={2.5} fill="url(#optGrad)" />
+                <Area type="monotone" dataKey="optimized" stroke="hsl(var(--sip-brand-primary))" strokeWidth={2.5} fill="url(#optGrad)" />
                 <Tooltip
                   contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid hsl(var(--sip-border))' }}
                   labelFormatter={() => ''}
@@ -592,7 +592,7 @@ function ProfileSummary({ profile, smartSwapEnabled }: { profile: { name: string
           <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
             <circle cx="60" cy="60" r="50" stroke="hsl(var(--sip-border))" strokeWidth="10" fill="none" />
             <circle
-              cx="60" cy="60" r="50" stroke="hsl(var(--sip-brand))" strokeWidth="10" fill="none"
+              cx="60" cy="60" r="50" stroke="hsl(var(--sip-brand-primary))" strokeWidth="10" fill="none"
               strokeDasharray={`${profile.equityCap / 100 * 314} 314`} strokeLinecap="round"
             />
           </svg>
