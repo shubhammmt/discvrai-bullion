@@ -473,43 +473,19 @@ function WizardPhase({ onActivate, onCancel }: { onActivate: () => void; onCance
             />
           )}
           {step === 5 && (
-            <>
-              <WizardStep
-                question="How well do you understand the stock market?"
-                hint="Determines whether Smart Swapping is enabled."
-                options={[
-                  { value: 'beginner', label: 'Beginner', desc: 'I want simple, guided choices' },
-                  { value: 'advanced', label: 'Advanced', desc: 'I understand fund switches & taxes' },
-                ]}
-                selected={answers.knowledge}
-                onSelect={(v) => setAnswers(a => ({ ...a, knowledge: v as Knowledge }))}
-              />
-              {answers.knowledge && (
-                <div className={cn(
-                  'rounded-xl border p-3 flex items-start gap-3 text-xs',
-                  answers.knowledge === 'advanced'
-                    ? 'border-purple-200 bg-purple-50 text-purple-900'
-                    : 'border-amber-200 bg-amber-50 text-amber-900',
-                )}>
-                  {answers.knowledge === 'advanced'
-                    ? <ArrowRightLeft className="w-4 h-4 mt-0.5 shrink-0" />
-                    : <Shield className="w-4 h-4 mt-0.5 shrink-0" />}
-                  <div>
-                    <p className="font-semibold mb-0.5">
-                      Smart Swapping {answers.knowledge === 'advanced' ? 'Enabled' : 'Disabled'}
-                    </p>
-                    <p className="opacity-80">
-                      {answers.knowledge === 'advanced'
-                        ? 'Copilot can recommend swapping a high-cost / underperforming fund for a better one inside the same category.'
-                        : 'We will only suggest standard buy/sell rebalances — no fund switches. You can change this later in Settings.'}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </>
+            <WizardStep
+              question="How well do you understand the stock market?"
+              hint="Determines the depth of data we surface to you."
+              options={[
+                { value: 'beginner', label: 'Beginner', desc: 'I want simple, guided actions.' },
+                { value: 'advanced', label: 'Advanced', desc: 'I want deep technical data and risk metrics.' },
+              ]}
+              selected={answers.knowledge}
+              onSelect={(v) => setAnswers(a => ({ ...a, knowledge: v as Knowledge }))}
+            />
           )}
           {step === 6 && (
-            <ProfileSummary profile={profile} smartSwapEnabled={smartSwapEnabled} />
+            <ProfileSummary profile={profile} advancedMode={advancedMode} />
           )}
 
           {/* Footer buttons */}
