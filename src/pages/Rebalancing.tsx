@@ -1114,9 +1114,12 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
 
   const execute = () => {
     setExecuting(true);
+    const selectedIds = Object.entries(selected).filter(([, v]) => v).map(([k]) => k);
+    setRowState(s => ({ ...s, ...Object.fromEntries(selectedIds.map(id => [id, 'executing' as const])) }));
     setTimeout(() => {
       setExecuting(false);
       setDone(true);
+      setRowState(s => ({ ...s, ...Object.fromEntries(selectedIds.map(id => [id, 'done' as const])) }));
       toast({
         title: 'Trades executed',
         description: `${totalSelected} actions queued · Settlement T+1.`,
