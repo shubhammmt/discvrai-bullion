@@ -1076,6 +1076,12 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
   const [executing, setExecuting] = useState(false);
   const [done, setDone] = useState(false);
   const [intelRowId, setIntelRowId] = useState<string | null>(null);
+  const [rowState, setRowState] = useState<Record<string, 'idle' | 'executing' | 'done'>>({});
+
+  const executeRow = (id: string) => {
+    setRowState(s => ({ ...s, [id]: 'executing' }));
+    setTimeout(() => setRowState(s => ({ ...s, [id]: 'done' })), 900);
+  };
 
   const intelRow = plan.find(r => r.id === intelRowId) || null;
 
