@@ -258,7 +258,7 @@ function TeaserPhase({ onStart }: { onStart: () => void }) {
         </h2>
         <p className="text-sm md:text-base text-sip-text-secondary leading-relaxed">
           Protect your investments from silent decay. Our Smart Brain constantly tracks drift and provides
-          one-click rebalancing advice (including smart swaps) to maximize your risk-adjusted returns.
+          one-click rebalancing advice (including strategic asset additions) to maximize your risk-adjusted returns.
         </p>
       </div>
 
@@ -326,9 +326,9 @@ function TeaserPhase({ onStart }: { onStart: () => void }) {
               tone="brand"
             />
             <MetricCard
-              icon={<ArrowRightLeft className="w-4 h-4 text-purple-600" />}
-              label="Smart Swaps Available"
-              value="2 of 7 funds"
+              icon={<Sparkles className="w-4 h-4 text-purple-600" />}
+              label="Strategic Asset Additions"
+              value="2 new exposures"
               tone="purple"
             />
           </div>
@@ -395,7 +395,7 @@ function WizardPhase({ onActivate, onCancel }: { onActivate: () => void; onCance
     return { name: 'Aggressive', equityCap: 85, focus: 'Long-Term Growth', tone: 'purple' };
   }, [answers]);
 
-  const smartSwapEnabled = answers.knowledge === 'advanced';
+  const advancedMode = answers.knowledge === 'advanced';
 
   return (
     <div className="max-w-2xl mx-auto px-4 md:px-6 py-8 space-y-5">
@@ -473,43 +473,19 @@ function WizardPhase({ onActivate, onCancel }: { onActivate: () => void; onCance
             />
           )}
           {step === 5 && (
-            <>
-              <WizardStep
-                question="How well do you understand the stock market?"
-                hint="Determines whether Smart Swapping is enabled."
-                options={[
-                  { value: 'beginner', label: 'Beginner', desc: 'I want simple, guided choices' },
-                  { value: 'advanced', label: 'Advanced', desc: 'I understand fund switches & taxes' },
-                ]}
-                selected={answers.knowledge}
-                onSelect={(v) => setAnswers(a => ({ ...a, knowledge: v as Knowledge }))}
-              />
-              {answers.knowledge && (
-                <div className={cn(
-                  'rounded-xl border p-3 flex items-start gap-3 text-xs',
-                  answers.knowledge === 'advanced'
-                    ? 'border-purple-200 bg-purple-50 text-purple-900'
-                    : 'border-amber-200 bg-amber-50 text-amber-900',
-                )}>
-                  {answers.knowledge === 'advanced'
-                    ? <ArrowRightLeft className="w-4 h-4 mt-0.5 shrink-0" />
-                    : <Shield className="w-4 h-4 mt-0.5 shrink-0" />}
-                  <div>
-                    <p className="font-semibold mb-0.5">
-                      Smart Swapping {answers.knowledge === 'advanced' ? 'Enabled' : 'Disabled'}
-                    </p>
-                    <p className="opacity-80">
-                      {answers.knowledge === 'advanced'
-                        ? 'Copilot can recommend swapping a high-cost / underperforming fund for a better one inside the same category.'
-                        : 'We will only suggest standard buy/sell rebalances — no fund switches. You can change this later in Settings.'}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </>
+            <WizardStep
+              question="How well do you understand the stock market?"
+              hint="Determines the depth of data we surface to you."
+              options={[
+                { value: 'beginner', label: 'Beginner', desc: 'I want simple, guided actions.' },
+                { value: 'advanced', label: 'Advanced', desc: 'I want deep technical data and risk metrics.' },
+              ]}
+              selected={answers.knowledge}
+              onSelect={(v) => setAnswers(a => ({ ...a, knowledge: v as Knowledge }))}
+            />
           )}
           {step === 6 && (
-            <ProfileSummary profile={profile} smartSwapEnabled={smartSwapEnabled} />
+            <ProfileSummary profile={profile} advancedMode={advancedMode} />
           )}
 
           {/* Footer buttons */}
@@ -531,7 +507,7 @@ function WizardPhase({ onActivate, onCancel }: { onActivate: () => void; onCance
               </Button>
             ) : (
               <Button
-                onClick={() => { onActivate(); toast({ title: 'Smart Rebalancing activated 🎉', description: `Profile: ${profile.name} · Smart Swapping ${smartSwapEnabled ? 'on' : 'off'}` }); }}
+                onClick={() => { onActivate(); toast({ title: 'Smart Rebalancing activated 🎉', description: `Profile: ${profile.name} · ${advancedMode ? 'Advanced' : 'Guided'} mode` }); }}
                 className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
               >
                 <Sparkles className="w-4 h-4 mr-1.5" /> Activate Smart Rebalancing
@@ -587,7 +563,7 @@ function WizardStep({ question, hint, options, selected, onSelect }: {
   );
 }
 
-function ProfileSummary({ profile, smartSwapEnabled }: { profile: { name: string; equityCap: number; focus: string; tone: string }; smartSwapEnabled: boolean }) {
+function ProfileSummary({ profile, advancedMode }: { profile: { name: string; equityCap: number; focus: string; tone: string }; advancedMode: boolean }) {
   return (
     <div className="space-y-5">
       <div className="text-center space-y-3">
@@ -611,7 +587,7 @@ function ProfileSummary({ profile, smartSwapEnabled }: { profile: { name: string
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <SummaryCard label="Equity Cap" value={`${profile.equityCap}%`} icon={<TrendingUp className="w-4 h-4" />} />
         <SummaryCard label="Focus" value={profile.focus} icon={<Target className="w-4 h-4" />} />
-        <SummaryCard label="Smart Swapping" value={smartSwapEnabled ? 'Enabled' : 'Disabled'} icon={<ArrowRightLeft className="w-4 h-4" />} accent={smartSwapEnabled} />
+        <SummaryCard label="Insight Depth" value={advancedMode ? 'Advanced' : 'Guided'} icon={<Sparkles className="w-4 h-4" />} accent={advancedMode} />
       </div>
     </div>
   );
@@ -1294,7 +1270,21 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                     </div>
                   </div>
 
-                  {/* The Why */}
+                  {/* ============ MARKET EVIDENCE — Hard Proof First ============ */}
+                  <div className="rounded-xl border border-sip-border bg-sip-sidebar-hover/30 p-1">
+                    <FundEvidenceCard evidence={intelRow.evidence} highlight5Y={intelRow.action === 'NEW'} />
+                  </div>
+
+                  {/* Visual divider between Technical Data and Strategic Insights */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 h-px bg-sip-border" />
+                    <span className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">
+                      Agent Intelligence
+                    </span>
+                    <div className="flex-1 h-px bg-sip-border" />
+                  </div>
+
+                  {/* AGENT INTELLIGENCE — The Why */}
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1.5">The "Why"</p>
                     <p className="text-sm text-sip-text-primary leading-relaxed">{intelRow.why}</p>
@@ -1309,11 +1299,13 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                         ? 'bg-red-50 border-red-100 text-red-900'
                         : 'bg-emerald-50 border-emerald-100 text-emerald-900',
                     )}>
-                      {intelRow.benefit}
+                      {intelRow.action === 'NEW'
+                        ? `This addition is mathematically required to re-align your portfolio with your ${topGoals[0].name} target.`
+                        : intelRow.benefit}
                     </p>
                   </div>
 
-                  {/* New Addition specific */}
+                  {/* New Addition specific rationale */}
                   {intelRow.action === 'NEW' && intelRow.newAdditionRationale && (
                     <div>
                       <p className="text-[10px] uppercase tracking-wider text-purple-700 font-semibold mb-1.5 flex items-center gap-1.5">
@@ -1324,9 +1316,6 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                       </p>
                     </div>
                   )}
-
-                  {/* ============ Market Evidence ============ */}
-                  <FundEvidenceCard evidence={intelRow.evidence} highlight5Y={intelRow.action === 'NEW'} />
 
                   {/* Impact tag */}
                   <div className="flex items-center justify-between pt-2 border-t border-sip-border">
