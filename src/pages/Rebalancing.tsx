@@ -1591,3 +1591,98 @@ function ImpactTagPill({ tag }: { tag: ImpactTag }) {
   );
 }
 
+// ============ Fund Evidence Card (Market Evidence) ============
+function FundEvidenceCard({ evidence, highlight5Y }: { evidence: FundEvidence; highlight5Y: boolean }) {
+  const fmtPct = (n: number) => `${n > 0 ? '+' : ''}${n.toFixed(2)}%`;
+  const toneCls = (n: number) =>
+    n >= 0 ? 'text-emerald-700' : 'text-red-700';
+
+  const fmtAum = (cr: number) =>
+    cr >= 1000 ? `₹${(cr / 1000).toFixed(2)}K Cr` : `₹${cr.toLocaleString('en-IN')} Cr`;
+
+  const riskTone =
+    evidence.riskLevel.toLowerCase().includes('very high')
+      ? 'bg-red-50 text-red-700 border-red-200'
+      : evidence.riskLevel.toLowerCase().includes('moderate')
+        ? 'bg-amber-50 text-amber-800 border-amber-200'
+        : 'bg-slate-100 text-slate-700 border-slate-200';
+
+  return (
+    <div>
+      <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-2 flex items-center gap-1.5">
+        <BarChart3 className="w-3 h-3" /> Market Evidence
+      </p>
+      <div className="rounded-xl border border-sip-border bg-slate-50/60 p-4 space-y-3.5">
+        {/* Header metadata */}
+        <div className="space-y-1.5">
+          <p className="text-sm font-bold text-sip-text-primary leading-snug">{evidence.fullName}</p>
+          <p className="text-[10px] text-sip-text-muted tabular-nums">Scheme Code · {evidence.schemeCode}</p>
+          <div className="flex flex-wrap gap-1.5 pt-0.5">
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full border bg-slate-100 text-slate-700 border-slate-200">
+              {evidence.category}
+            </span>
+            <span className={cn('text-[10px] font-medium px-2 py-0.5 rounded-full border', riskTone)}>
+              {evidence.riskLevel}
+            </span>
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full border bg-blue-50 text-blue-700 border-blue-200">
+              {evidence.planType}
+            </span>
+          </div>
+        </div>
+
+        {/* Primary metric cards */}
+        <div className="grid grid-cols-2 gap-2.5">
+          <div className="rounded-lg border border-sip-border bg-background p-3">
+            <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">Current NAV</p>
+            <p className="text-base font-bold text-sip-text-primary tabular-nums mt-0.5">
+              ₹{evidence.navPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <p className="text-[10px] text-sip-text-muted mt-0.5">As of {evidence.navAsOf}</p>
+          </div>
+          <div className="rounded-lg border border-sip-border bg-background p-3">
+            <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">AUM</p>
+            <p className="text-base font-bold text-sip-text-primary tabular-nums mt-0.5">
+              {fmtAum(evidence.aumCrore)}
+            </p>
+            <p className="text-[10px] text-sip-text-muted mt-0.5">Assets under management</p>
+          </div>
+        </div>
+
+        {/* Returns grid */}
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1.5">Returns Performance</p>
+          <div className="grid grid-cols-3 gap-2">
+            <ReturnCell label="1Y" value={evidence.ret1Y} />
+            <ReturnCell label="3Y" value={evidence.ret3Y} />
+            <ReturnCell label="5Y" value={evidence.ret5Y} highlight={highlight5Y} />
+          </div>
+          <div className="flex items-center justify-between mt-2 px-1">
+            <span className="text-[10px] text-sip-text-muted">Benchmark beat (3Y)</span>
+            <span className={cn('text-[11px] font-bold tabular-nums', toneCls(evidence.benchmarkBeat))}>
+              {fmtPct(evidence.benchmarkBeat)}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReturnCell({ label, value, highlight = false }: { label: string; value: number; highlight?: boolean }) {
+  const positive = value >= 0;
+  return (
+    <div
+      className={cn(
+        'rounded-lg border p-2.5 text-center transition-all',
+        highlight
+          ? 'border-purple-300 bg-purple-50 ring-2 ring-purple-300/60 animate-pulse'
+          : 'border-sip-border bg-background',
+      )}
+    >
+      <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">{label}</p>
+      <p className={cn('text-sm font-bold tabular-nums mt-0.5', positive ? 'text-emerald-700' : 'text-red-700')}>
+        {value > 0 ? '+' : ''}{value.toFixed(2)}%
+      </p>
+    </div>
+  );
+}
