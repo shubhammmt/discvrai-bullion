@@ -1325,6 +1325,9 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                     </div>
                   )}
 
+                  {/* ============ Market Evidence ============ */}
+                  <FundEvidenceCard evidence={intelRow.evidence} highlight5Y={intelRow.action === 'NEW'} />
+
                   {/* Impact tag */}
                   <div className="flex items-center justify-between pt-2 border-t border-sip-border">
                     <span className="text-[11px] text-sip-text-muted">Strategic impact</span>
