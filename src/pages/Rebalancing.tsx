@@ -825,9 +825,9 @@ function DashboardPhase({ onSimulateDrift }: { onSimulateDrift: () => void }) {
 }
 
 // ============================================================
-// PHASE 4 — ACTION PLAN
+// PHASE 4 — ACTION PLAN  (Rebalancing Agent)
 // ============================================================
-type ActionKind = 'SELL' | 'BUY' | 'SWAP' | 'HOLD';
+type ActionKind = 'SELL' | 'BUY' | 'SWAP' | 'NEW';
 
 interface FundOption {
   id: string;
@@ -839,21 +839,29 @@ interface FundOption {
   rationale: string;
 }
 
-interface ActionRow {
+interface BenefitTag {
+  label: string;
+  tone: 'return' | 'cost' | 'factor' | 'balance';
+}
+
+interface PlanRow {
   id: string;
-  instrument: string;       // current/source instrument
+  instrument: string;
   type: string;
-  current: number;
-  target: number;
+  current: number;        // current % allocation
+  target: number;         // target % allocation
   action: ActionKind;
+  cost: number;           // ₹ cash required to execute (BUY/SWAP/NEW); SELL = 0
+  uplift: number;         // % goal-success probability uplift if approved
+  benefit: BenefitTag;
+  why: string;
   // SWAP-specific
   replacement?: FundOption;
   alternatives?: FundOption[];
-  // BUY/SELL specific
-  editable?: boolean;
-  why: string;
-  note?: string;
 }
+
+const USER_AVAILABLE_CASH = 15000;
+const BASE_SUCCESS = 73;
 
 const TECH_ALTERNATIVES: FundOption[] = [
   { id: 'icici-bc', name: 'ICICI Prudential Bluechip Fund', amc: 'ICICI Pru', expense: 0.85, cagr3y: 16.4, risk: 'Medium', rationale: 'Large-cap stability with strong 3Y track record.' },
@@ -868,7 +876,7 @@ const CURRENT_TECH: FundOption = {
   rationale: 'Underperforming peer group by 18 months.',
 };
 
-const buildInitialPlan = (): ActionRow[] => [
+const buildInitialPlan = (): PlanRow[] => [
   {
     id: 'swap-tech',
     instrument: CURRENT_TECH.name,
@@ -876,20 +884,12 @@ const buildInitialPlan = (): ActionRow[] => [
     current: 18,
     target: 18,
     action: 'SWAP',
-    replacement: TECH_ALTERNATIVES[3], // default = lowest cost index
+    cost: 4500,
+    uplift: 4,
+    benefit: { label: 'Reduces Expense Ratio −1.74%', tone: 'cost' },
+    replacement: TECH_ALTERNATIVES[3],
     alternatives: TECH_ALTERNATIVES,
-    why: 'New fund has ~6% higher 3Y CAGR at the same risk level, with a meaningfully lower expense ratio.',
-  },
-  {
-    id: 'sell-equity',
-    instrument: 'Equity Aggressive Fund',
-    type: 'MF',
-    current: 22,
-    target: 17,
-    action: 'SELL',
-    editable: true,
-    why: 'Trimming equity brings allocation back within your 60% cap and reduces drawdown risk.',
-    note: 'Trim to bring equity within 60% cap',
+    why: 'Lower cost, higher 3Y CAGR at the same risk band.',
   },
   {
     id: 'buy-debt',
@@ -898,48 +898,117 @@ const buildInitialPlan = (): ActionRow[] => [
     current: 12,
     target: 17,
     action: 'BUY',
-    editable: true,
-    why: 'Restoring the debt buffer cushions the portfolio against equity volatility.',
-    note: 'Restore debt buffer',
+    cost: 8000,
+    uplift: 3,
+    benefit: { label: 'Increases Return Probability +3%', tone: 'return' },
+    why: 'Restores debt buffer to cushion equity volatility.',
   },
   {
-    id: 'hold-gold',
-    instrument: 'Nippon Gold ETF',
-    type: 'ETF',
-    current: 10,
-    target: 10,
-    action: 'HOLD',
-    why: 'Allocation is within tolerance band — no action required.',
-    note: 'Within tolerance · No action',
+    id: 'new-intl',
+    instrument: 'Global Equity Index Fund',
+    type: 'MF',
+    current: 0,
+    target: 6,
+    action: 'NEW',
+    cost: 2400,
+    uplift: 2,
+    benefit: { label: 'Required for Mathematical Target Balance', tone: 'balance' },
+    why: 'New geographic exposure to complete target allocation.',
+  },
+  {
+    id: 'sell-equity',
+    instrument: 'Equity Aggressive Fund',
+    type: 'MF',
+    current: 22,
+    target: 17,
+    action: 'SELL',
+    cost: 0,
+    uplift: 0,
+    benefit: { label: 'Factor Alignment: Lower Drawdown Risk', tone: 'factor' },
+    why: 'Trim equity to bring portfolio inside the 60% cap.',
+  },
+  {
+    id: 'buy-largecap',
+    instrument: 'Mirae Large Cap Fund',
+    type: 'MF',
+    current: 5,
+    target: 12,
+    action: 'BUY',
+    cost: 12000,
+    uplift: 0,
+    benefit: { label: 'Factor Alignment: High Quality', tone: 'factor' },
+    why: 'Tilts core toward higher-quality large caps.',
   },
 ];
 
 function ActionPhase({ onBack }: { onBack: () => void }) {
-  const [plan, setPlan] = useState<ActionRow[]>(buildInitialPlan);
+  const [plan] = useState<PlanRow[]>(buildInitialPlan);
+  const [selected, setSelected] = useState<Record<string, boolean>>(() => {
+    // Default-select all rows that fit within liquidity cap, in order
+    const init: Record<string, boolean> = {};
+    let running = 0;
+    for (const r of buildInitialPlan()) {
+      if (running + r.cost <= USER_AVAILABLE_CASH) {
+        init[r.id] = true;
+        running += r.cost;
+      } else {
+        init[r.id] = false;
+      }
+    }
+    return init;
+  });
   const [executing, setExecuting] = useState(false);
   const [done, setDone] = useState(false);
   const [swapRowId, setSwapRowId] = useState<string | null>(null);
+  const [pendingReplacement, setPendingReplacement] = useState<FundOption | null>(null);
+  const [activeReplacement, setActiveReplacement] = useState<FundOption>(TECH_ALTERNATIVES[3]);
 
   const swapRow = plan.find(r => r.id === swapRowId) || null;
 
-  const updateTarget = (id: string, newTarget: number) => {
-    setPlan(prev => prev.map(r => r.id === id ? { ...r, target: Math.max(0, Math.min(100, newTarget)) } : r));
-    toast({ title: 'Recalculating…', description: `Updated allocation for ${plan.find(r => r.id === id)?.instrument}` });
+  // Liquidity gating — compute which rows are locked based on cumulative cost order.
+  const gated = useMemo(() => {
+    let running = 0;
+    return plan.map(r => {
+      const fits = running + r.cost <= USER_AVAILABLE_CASH;
+      if (fits) running += r.cost;
+      return { ...r, locked: !fits };
+    });
+  }, [plan]);
+
+  const activeSelectedRows = gated.filter(r => !r.locked && selected[r.id]);
+  const projectedUplift = activeSelectedRows.reduce((s, r) => s + r.uplift, 0);
+  const projectedSuccess = Math.min(100, BASE_SUCCESS + projectedUplift);
+  const totalCost = activeSelectedRows.reduce((s, r) => s + r.cost, 0);
+  const remainingCash = USER_AVAILABLE_CASH - totalCost;
+
+  const displayedSuccess = done ? projectedSuccess : BASE_SUCCESS;
+  const displayedProjected = done ? 0 : (projectedSuccess - BASE_SUCCESS);
+
+  const toggleRow = (id: string) => setSelected(s => ({ ...s, [id]: !s[id] }));
+
+  const openSwap = (id: string) => {
+    const row = plan.find(r => r.id === id);
+    setPendingReplacement(row?.replacement || activeReplacement);
+    setSwapRowId(id);
   };
 
-  const selectReplacement = (rowId: string, fund: FundOption) => {
-    setPlan(prev => prev.map(r => r.id === rowId ? { ...r, replacement: fund } : r));
+  const confirmSwap = () => {
+    if (pendingReplacement) setActiveReplacement(pendingReplacement);
     setSwapRowId(null);
-    toast({ title: 'Replacement updated', description: `Now swapping into ${fund.name}` });
+    toast({ title: 'Plan updated', description: `Now swapping into ${pendingReplacement?.name}` });
   };
 
   const execute = () => {
     setExecuting(true);
-    setTimeout(() => { setExecuting(false); setDone(true); toast({ title: 'Batch trade executed', description: `${plan.filter(r => r.action !== 'HOLD').length} actions queued · Settlement T+1` }); }, 1400);
+    setTimeout(() => {
+      setExecuting(false);
+      setDone(true);
+      toast({
+        title: 'Trades executed',
+        description: `Goal Success Probability now ${projectedSuccess}%. Settlement T+1.`,
+      });
+    }, 1400);
   };
-
-  const swapCount = plan.filter(r => r.action === 'SWAP').length;
-  const totalActions = plan.filter(r => r.action !== 'HOLD').length;
 
   return (
     <TooltipProvider delayDuration={150}>
@@ -948,58 +1017,95 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           <ChevronLeft className="w-3.5 h-3.5" /> Back to dashboard
         </button>
 
-        {/* Copilot nudge */}
-        <Card className="border-sip-brand/30 bg-gradient-to-br from-sip-brand/5 to-background overflow-hidden">
-          <CardContent className="p-5 flex gap-4">
-            <div className="w-10 h-10 rounded-xl bg-sip-brand text-sip-brand-foreground flex items-center justify-center shrink-0">
-              <Bot className="w-5 h-5" />
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold text-sip-text-primary">DiscvrAI Copilot</p>
-                <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 text-[10px]">
-                  <AlertTriangle className="w-3 h-3 mr-1" /> Drift detected
+        {/* ============ Predictive Success Header ============ */}
+        <Card className="border-[#006AFF]/20 bg-gradient-to-br from-[#006AFF]/5 to-background overflow-hidden">
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <Badge className="bg-[#006AFF]/10 text-[#006AFF] hover:bg-[#006AFF]/10 border-[#006AFF]/20">
+                  <Target className="w-3 h-3 mr-1" /> Goal Alignment
                 </Badge>
+                <h2 className="text-xl md:text-2xl font-bold text-sip-text-primary mt-2">Wedding 2027</h2>
+                <p className="text-sm text-sip-text-secondary mt-1.5 leading-relaxed">
+                  {done ? (
+                    <>Plan executed — your Goal Success Probability is now <strong className="text-[#006AFF]">{projectedSuccess}%</strong>.</>
+                  ) : displayedProjected > 0 ? (
+                    <>Executing this plan increases your Goal Success Probability from <strong className="text-sip-text-primary">{BASE_SUCCESS}%</strong> to <strong className="text-[#006AFF]">{projectedSuccess}%</strong>.</>
+                  ) : (
+                    <>Select active trades below to project your Goal Success Probability uplift.</>
+                  )}
+                </p>
               </div>
-              <p className="text-sm text-sip-text-secondary leading-relaxed">
-                Hello Priya 👋 Our background monitoring has detected a significant <strong>portfolio drift</strong>.
-                Your equity exposure is currently <strong className="text-amber-700">15% too high</strong> versus your
-                Moderate profile. We've prepared a simple, cost-aware rebalancing plan to protect your goals
-                (including <span className="text-purple-700 font-medium">{swapCount} high-quality smart swap{swapCount === 1 ? '' : 's'}</span>).
-              </p>
-              <div className="flex flex-wrap gap-2 pt-1">
-                <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Estimated tax: ₹420</Badge>
-                <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Brokerage: ₹0</Badge>
-                <Badge variant="outline" className="border-sip-border text-sip-text-secondary text-[11px]">Sharpe lift: +0.32x</Badge>
+              <div className="text-right">
+                <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">Available Cash</p>
+                <p className="text-lg font-bold text-sip-text-primary tabular-nums">₹{USER_AVAILABLE_CASH.toLocaleString('en-IN')}</p>
+                <p className="text-[11px] text-sip-text-muted mt-0.5 tabular-nums">After plan: ₹{Math.max(0, remainingCash).toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+
+            {/* Dual-layered progress bar */}
+            <div className="space-y-2">
+              <div className="relative h-4 w-full rounded-full bg-slate-100 overflow-hidden">
+                {/* Current layer — solid dark */}
+                <div
+                  className="absolute inset-y-0 left-0 bg-slate-700 rounded-full transition-all duration-500"
+                  style={{ width: `${displayedSuccess}%` }}
+                />
+                {/* Projected layer — animated shimmer */}
+                {displayedProjected > 0 && (
+                  <div
+                    className="absolute inset-y-0 rounded-r-full overflow-hidden transition-all duration-500"
+                    style={{ left: `${displayedSuccess}%`, width: `${displayedProjected}%` }}
+                  >
+                    <div className="h-full w-full bg-gradient-to-r from-[#006AFF] to-cyan-400 animate-pulse" />
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center justify-between text-[11px] tabular-nums">
+                <span className="text-slate-700 font-semibold">Current {displayedSuccess}%</span>
+                {displayedProjected > 0 && (
+                  <span className="text-[#006AFF] font-semibold">+{displayedProjected}% projected</span>
+                )}
+                <span className="text-sip-text-muted">Goal target 100%</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Action plan table */}
+        {/* ============ Liquidity-Gated Rebalancing Table ============ */}
         <Card className="border-sip-border overflow-hidden">
           <CardContent className="p-0">
-            <div className="px-5 py-4 border-b border-sip-border flex items-center justify-between">
-              <h3 className="text-base font-semibold text-sip-text-primary">Action Plan Summary</h3>
-              <p className="text-xs text-sip-text-muted">{totalActions} actions · {swapCount} smart swap{swapCount === 1 ? '' : 's'} · click any row to review</p>
+            <div className="px-5 py-4 border-b border-sip-border flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h3 className="text-base font-semibold text-sip-text-primary">Rebalancing Plan</h3>
+                <p className="text-xs text-sip-text-muted mt-0.5">{activeSelectedRows.length} active · {gated.filter(r => r.locked).length} locked by liquidity</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">Cost of selected trades</p>
+                <p className="text-sm font-semibold text-sip-text-primary tabular-nums">₹{totalCost.toLocaleString('en-IN')} / ₹{USER_AVAILABLE_CASH.toLocaleString('en-IN')}</p>
+              </div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-sip-sidebar-hover text-left">
                   <tr className="text-[11px] uppercase tracking-wider text-sip-text-muted">
-                    <th className="px-5 py-2.5 font-semibold">Instrument & Details</th>
+                    <th className="px-5 py-2.5 font-semibold">Investment</th>
                     <th className="px-3 py-2.5 font-semibold text-right">Current</th>
-                    <th className="px-3 py-2.5 font-semibold text-right w-32">Target</th>
-                    <th className="px-5 py-2.5 font-semibold w-56">Recommended Action</th>
+                    <th className="px-3 py-2.5 font-semibold text-right">Target</th>
+                    <th className="px-5 py-2.5 font-semibold">Action</th>
+                    <th className="px-3 py-2.5 font-semibold">Numerical Benefit</th>
+                    <th className="px-5 py-2.5 font-semibold w-44 text-right">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-sip-border">
-                  {plan.map((r) => (
-                    <ActionRowView
+                  {gated.map((r) => (
+                    <PlanRowView
                       key={r.id}
                       row={r}
-                      onOpenSwap={() => setSwapRowId(r.id)}
-                      onTargetChange={(v) => updateTarget(r.id, v)}
+                      checked={!!selected[r.id]}
+                      onToggle={() => toggleRow(r.id)}
+                      onOpenSwap={() => openSwap(r.id)}
+                      activeReplacement={activeReplacement}
                     />
                   ))}
                 </tbody>
@@ -1008,23 +1114,23 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           </CardContent>
         </Card>
 
-        {/* Execute */}
+        {/* ============ Execute ============ */}
         <div className="text-center pt-2 space-y-3">
           {!done ? (
             <>
               <Button
                 size="lg"
-                disabled={executing}
+                disabled={executing || activeSelectedRows.length === 0}
                 onClick={execute}
-                className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90 h-12 px-8 text-base font-semibold rounded-xl shadow-lg shadow-sip-brand/20"
+                className="bg-[#006AFF] text-white hover:bg-[#0058D6] h-12 px-8 text-base font-semibold rounded-xl shadow-lg shadow-[#006AFF]/20"
               >
                 {executing
-                  ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Executing batch trade…</>)
-                  : (<><Sparkles className="w-4 h-4 mr-2" /> Approve and Execute Batch Trade</>)}
+                  ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing trades…</>)
+                  : (<><Sparkles className="w-4 h-4 mr-2" /> Execute All Active Trades ({activeSelectedRows.length})</>)}
               </Button>
-              <div>
-                <button className="text-xs text-sip-brand hover:underline">Adjust recommendations manually</button>
-              </div>
+              <p className="text-[11px] text-sip-text-muted">
+                Locked trades require additional cash · Deposit to unlock further uplift
+              </p>
             </>
           ) : (
             <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-emerald-50 border border-emerald-200">
@@ -1032,8 +1138,8 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                 <Check className="w-7 h-7" strokeWidth={3} />
               </div>
               <div>
-                <p className="text-base font-bold text-emerald-900">Batch trade approved</p>
-                <p className="text-xs text-emerald-800/80 mt-1">{totalActions} actions queued · Settlement expected by T+1</p>
+                <p className="text-base font-bold text-emerald-900">Trades executed successfully</p>
+                <p className="text-xs text-emerald-800/80 mt-1">{activeSelectedRows.length} actions queued · Goal Success now {projectedSuccess}% · Settlement T+1</p>
               </div>
               <Button variant="outline" size="sm" onClick={onBack} className="border-emerald-300 text-emerald-800 hover:bg-emerald-100">
                 Back to dashboard
@@ -1042,37 +1148,37 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           )}
         </div>
 
-        {/* Replacement Drawer */}
+        {/* ============ Smart Swap Drawer ============ */}
         <Sheet open={!!swapRow} onOpenChange={(o) => !o && setSwapRowId(null)}>
-          <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
-            {swapRow && swapRow.replacement && swapRow.alternatives && (
+          <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+            {swapRow && pendingReplacement && swapRow.alternatives && (
               <>
                 <SheetHeader className="pb-4 border-b border-sip-border">
                   <SheetTitle className="flex items-center gap-2">
-                    <Replace className="w-4 h-4 text-purple-600" /> Select Replacement Fund
+                    <Replace className="w-4 h-4 text-[#006AFF]" /> Smart Swap — Before vs. After
                   </SheetTitle>
                   <SheetDescription>
-                    Replacing <strong>{swapRow.instrument}</strong>. Compare any candidate side-by-side and pick the one that suits you.
+                    Battle-card view: compare your current holding against the recommended replacement.
                   </SheetDescription>
                 </SheetHeader>
 
-                {/* Side-by-side comparison: current vs selected */}
+                {/* Battle card */}
                 <div className="mt-5">
-                  <p className="text-[11px] uppercase tracking-wider text-sip-text-muted mb-2 font-semibold">Currently selected</p>
-                  <ComparisonCard current={CURRENT_TECH} selected={swapRow.replacement} />
+                  <BattleCard current={CURRENT_TECH} recommended={pendingReplacement} />
                 </div>
 
-                {/* Alternatives list */}
+                {/* Alternatives */}
                 <div className="mt-6 space-y-2">
-                  <p className="text-[11px] uppercase tracking-wider text-sip-text-muted mb-1 font-semibold">Best-fit alternatives</p>
+                  <p className="text-[11px] uppercase tracking-wider text-sip-text-muted mb-1 font-semibold">Other best-fit alternatives</p>
                   {swapRow.alternatives.map((f) => {
-                    const isSelected = f.id === swapRow.replacement?.id;
+                    const isSelected = f.id === pendingReplacement.id;
                     return (
-                      <div
+                      <button
                         key={f.id}
+                        onClick={() => setPendingReplacement(f)}
                         className={cn(
-                          'border rounded-lg p-3 transition-all',
-                          isSelected ? 'border-purple-400 bg-purple-50/60' : 'border-sip-border hover:border-purple-300 hover:bg-purple-50/30'
+                          'w-full text-left border rounded-lg p-3 transition-all',
+                          isSelected ? 'border-[#006AFF] bg-[#006AFF]/5 ring-2 ring-[#006AFF]/15' : 'border-sip-border hover:border-[#006AFF]/40'
                         )}
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -1085,21 +1191,21 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                               <span className="text-sip-text-secondary">Risk <strong className={riskColor(f.risk)}>{f.risk}</strong></span>
                             </div>
                           </div>
-                          <Button
-                            size="sm"
-                            variant={isSelected ? 'outline' : 'default'}
-                            onClick={() => selectReplacement(swapRow.id, f)}
-                            className={cn(
-                              'shrink-0 text-xs h-8',
-                              !isSelected && 'bg-purple-600 hover:bg-purple-700 text-white'
-                            )}
-                          >
-                            {isSelected ? <><Check className="w-3 h-3 mr-1" /> Selected</> : 'Select this Fund'}
-                          </Button>
+                          {isSelected && <Check className="w-4 h-4 text-[#006AFF] shrink-0 mt-1" />}
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
+                </div>
+
+                {/* Confirm */}
+                <div className="mt-6 pt-4 border-t border-sip-border">
+                  <Button
+                    onClick={confirmSwap}
+                    className="w-full bg-[#006AFF] text-white hover:bg-[#0058D6] h-11 text-sm font-semibold rounded-lg"
+                  >
+                    Confirm & Update Plan
+                  </Button>
                 </div>
               </>
             )}
@@ -1114,42 +1220,54 @@ function riskColor(risk: 'Low' | 'Medium' | 'High') {
   return risk === 'Low' ? 'text-emerald-700' : risk === 'Medium' ? 'text-amber-700' : 'text-red-700';
 }
 
-function ComparisonCard({ current, selected }: { current: FundOption; selected: FundOption }) {
-  const cheaper = selected.expense < current.expense;
-  const higherCagr = selected.cagr3y > current.cagr3y;
+// ============ Battle Card (Before vs. After) ============
+function BattleCard({ current, recommended }: { current: FundOption; recommended: FundOption }) {
+  const cheaper = recommended.expense < current.expense;
+  const higherCagr = recommended.cagr3y > current.cagr3y;
+  const lowerRisk = ['Low', 'Medium', 'High'].indexOf(recommended.risk) < ['Low', 'Medium', 'High'].indexOf(current.risk);
+
   return (
     <div className="grid grid-cols-2 gap-3">
-      <div className="border border-sip-border rounded-lg p-3 bg-sip-sidebar-hover/30">
-        <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1">Current</p>
+      {/* LEFT — Current */}
+      <div className="border border-sip-border rounded-xl p-4 bg-slate-50">
+        <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1">Current — Underperformer</p>
         <p className="text-sm font-semibold text-sip-text-primary leading-tight">{current.name}</p>
-        <div className="mt-3 space-y-1.5 text-xs">
-          <Row label="Expense Ratio" value={`${current.expense}%`} />
-          <Row label="3-Year CAGR" value={`${current.cagr3y}%`} />
-          <Row label="Risk Grade" value={current.risk} valueClass={riskColor(current.risk)} />
+        <p className="text-[11px] text-sip-text-muted mt-0.5">{current.amc}</p>
+        <div className="mt-4 space-y-2 text-xs">
+          <BattleRow label="Expense Ratio" value={`${current.expense}%`} tone="bad" />
+          <BattleRow label="3-Year CAGR" value={`${current.cagr3y}%`} tone="bad" />
+          <BattleRow label="Risk Grade" value={current.risk} valueClass={riskColor(current.risk)} tone="bad" />
+          <BattleRow label="Goal Alignment" value="Low" tone="bad" />
         </div>
       </div>
-      <div className="border-2 border-purple-400 rounded-lg p-3 bg-purple-50/60">
-        <p className="text-[10px] uppercase tracking-wider text-purple-700 font-semibold mb-1">Replacement</p>
-        <p className="text-sm font-semibold text-sip-text-primary leading-tight">{selected.name}</p>
-        <div className="mt-3 space-y-1.5 text-xs">
-          <Row label="Expense Ratio" value={`${selected.expense}%`} hint={cheaper ? 'cheaper' : ''} hintTone="good" />
-          <Row label="3-Year CAGR" value={`${selected.cagr3y}%`} hint={higherCagr ? 'higher' : ''} hintTone="good" />
-          <Row label="Risk Grade" value={selected.risk} valueClass={riskColor(selected.risk)} />
+
+      {/* RIGHT — Recommended */}
+      <div className="border-2 border-[#006AFF] rounded-xl p-4 bg-[#006AFF]/5 relative">
+        <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#006AFF] text-white px-2 py-0.5 rounded">Recommended</span>
+        <p className="text-[10px] uppercase tracking-wider text-[#006AFF] font-semibold mb-1">After — Optimised Pick</p>
+        <p className="text-sm font-semibold text-sip-text-primary leading-tight">{recommended.name}</p>
+        <p className="text-[11px] text-sip-text-muted mt-0.5">{recommended.amc}</p>
+        <div className="mt-4 space-y-2 text-xs">
+          <BattleRow label="Expense Ratio" value={`${recommended.expense}%`} hint={cheaper ? 'lower fees' : ''} tone="good" />
+          <BattleRow label="3-Year CAGR" value={`${recommended.cagr3y}%`} hint={higherCagr ? 'higher' : ''} tone="good" />
+          <BattleRow label="Risk Grade" value={recommended.risk} valueClass={riskColor(recommended.risk)} tone={lowerRisk ? 'good' : 'neutral'} />
+          <BattleRow label="Goal Alignment" value="High" tone="good" />
         </div>
       </div>
     </div>
   );
 }
 
-function Row({ label, value, valueClass, hint, hintTone }: { label: string; value: string; valueClass?: string; hint?: string; hintTone?: 'good' | 'bad' }) {
+function BattleRow({ label, value, valueClass, hint, tone }: { label: string; value: string; valueClass?: string; hint?: string; tone: 'good' | 'bad' | 'neutral' }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-sip-text-muted">{label}</span>
       <span className={cn('font-semibold tabular-nums flex items-center gap-1.5', valueClass || 'text-sip-text-primary')}>
         {value}
         {hint && (
-          <span className={cn('text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded',
-            hintTone === 'good' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+          <span className={cn(
+            'text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded',
+            tone === 'good' ? 'bg-emerald-100 text-emerald-700' : tone === 'bad' ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-600'
           )}>{hint}</span>
         )}
       </span>
@@ -1157,81 +1275,109 @@ function Row({ label, value, valueClass, hint, hintTone }: { label: string; valu
   );
 }
 
-function ActionRowView({ row, onOpenSwap, onTargetChange }: { row: ActionRow; onOpenSwap: () => void; onTargetChange: (v: number) => void }) {
+// ============ Plan Row ============
+function PlanRowView({
+  row, checked, onToggle, onOpenSwap, activeReplacement,
+}: {
+  row: PlanRow & { locked: boolean };
+  checked: boolean;
+  onToggle: () => void;
+  onOpenSwap: () => void;
+  activeReplacement: FundOption;
+}) {
   const isSwap = row.action === 'SWAP';
-  const detail = isSwap && row.replacement
-    ? `Replacing ${row.instrument} with ${row.replacement.name} — saves ${(row.replacement ? Math.max(0, (CURRENT_TECH.expense - row.replacement.expense)) : 0).toFixed(2)}% in expense ratio.`
-    : row.note || '';
+  const isNew = row.action === 'NEW';
+  const replacement = isSwap ? activeReplacement : undefined;
 
   return (
-    <tr className={cn(isSwap && 'bg-purple-50/40')}>
+    <tr className={cn(
+      'transition-opacity',
+      row.locked && 'opacity-60 bg-slate-50/50',
+      isNew && !row.locked && 'bg-purple-50/40',
+    )}>
       <td className="px-5 py-3.5">
-        <div className={cn('flex items-start gap-2', isSwap && 'border-l-2 border-purple-400 pl-2 -ml-2')}>
+        <div className="flex items-start gap-2">
           <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-sip-border text-sip-text-muted mt-0.5">{row.type}</Badge>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               <p className="font-semibold text-sip-text-primary">{row.instrument}</p>
-              {isSwap && row.replacement && (
+              {isSwap && replacement && (
                 <>
-                  <RefreshCw className="w-3 h-3 text-purple-500 mx-0.5" />
-                  <p className="font-semibold text-purple-700">{row.replacement.name}</p>
+                  <RefreshCw className="w-3 h-3 text-[#006AFF] mx-0.5" />
+                  <p className="font-semibold text-[#006AFF]">{replacement.name}</p>
                 </>
               )}
               <UITooltip>
                 <TooltipTrigger asChild>
-                  <button type="button" className="inline-flex"><Info className="w-3 h-3 text-sip-text-muted hover:text-sip-brand" /></button>
+                  <button type="button" className="inline-flex"><Info className="w-3 h-3 text-sip-text-muted hover:text-[#006AFF]" /></button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-[260px] text-xs">{row.why}</TooltipContent>
               </UITooltip>
             </div>
-            <p className="text-[11px] text-sip-text-muted mt-0.5">{detail}</p>
+            <p className="text-[11px] text-sip-text-muted mt-0.5 tabular-nums">
+              Cost: ₹{row.cost.toLocaleString('en-IN')}{row.uplift > 0 && <> · +{row.uplift}% goal success</>}
+            </p>
           </div>
         </div>
       </td>
       <td className="px-3 py-3.5 text-right tabular-nums text-sip-text-primary">{row.current}%</td>
-      <td className="px-3 py-3.5 text-right">
-        {row.editable ? (
-          <div className="flex items-center justify-end gap-1.5">
-            <Input
-              type="number"
-              value={row.target}
-              onChange={(e) => onTargetChange(Number(e.target.value))}
-              onFocus={(e) => e.target.select()}
-              className="h-7 w-16 text-right text-sm tabular-nums px-2 font-semibold"
-              min={0}
-              max={100}
-            />
-            <span className="text-xs text-sip-text-muted">%</span>
-          </div>
-        ) : (
-          <span className="font-semibold tabular-nums text-sip-text-primary">{row.target}%</span>
-        )}
-      </td>
+      <td className="px-3 py-3.5 text-right tabular-nums text-sip-text-primary font-semibold">{row.target}%</td>
       <td className="px-5 py-3.5">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <ActionPill action={row.action} delta={row.target - row.current} />
-          {isSwap && (
-            <Button size="sm" variant="outline" onClick={onOpenSwap} className="h-7 text-[11px] border-purple-300 text-purple-700 hover:bg-purple-50">
-              Change
+          {isSwap && !row.locked && (
+            <Button size="sm" variant="outline" onClick={onOpenSwap} className="h-7 text-[11px] border-[#006AFF]/40 text-[#006AFF] hover:bg-[#006AFF]/5">
+              Swap
             </Button>
           )}
         </div>
+      </td>
+      <td className="px-3 py-3.5">
+        <BenefitTagPill tag={row.benefit} />
+      </td>
+      <td className="px-5 py-3.5 text-right">
+        {row.locked ? (
+          <UITooltip>
+            <TooltipTrigger asChild>
+              <Button size="sm" variant="outline" disabled className="h-8 text-[11px] bg-slate-100 text-slate-500 border-slate-200 cursor-not-allowed">
+                <Lock className="w-3 h-3 mr-1" /> Locked
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-[260px] text-xs">
+              Insufficient Balance. Deposit ₹{row.cost.toLocaleString('en-IN')} to execute this trade and unlock +{row.uplift}% success probability.
+            </TooltipContent>
+          </UITooltip>
+        ) : (
+          <Button
+            size="sm"
+            onClick={onToggle}
+            className={cn(
+              'h-8 text-[11px] font-semibold',
+              checked
+                ? 'bg-[#006AFF] text-white hover:bg-[#0058D6]'
+                : 'bg-white text-[#006AFF] border border-[#006AFF]/40 hover:bg-[#006AFF]/5',
+            )}
+          >
+            {checked ? (<><Check className="w-3 h-3 mr-1" /> Approved</>) : 'Approve'}
+          </Button>
+        )}
       </td>
     </tr>
   );
 }
 
+// ============ Action Pill ============
 function ActionPill({ action, delta }: { action: ActionKind; delta: number }) {
   const map: Record<ActionKind, { label: string; cls: string; icon: React.ReactNode }> = {
     SELL: { label: 'SELL', cls: 'bg-red-50 text-red-700 border-red-200', icon: <TrendingDown className="w-3 h-3" /> },
     BUY: { label: 'BUY', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: <TrendingUp className="w-3 h-3" /> },
-    SWAP: { label: 'SWAP', cls: 'bg-purple-50 text-purple-700 border-purple-300', icon: <ArrowRightLeft className="w-3 h-3" /> },
-    HOLD: { label: 'NO ACTION', cls: 'bg-gray-100 text-gray-600 border-gray-200', icon: <CheckCircle2 className="w-3 h-3" /> },
+    SWAP: { label: 'SWAP', cls: 'bg-[#006AFF]/10 text-[#006AFF] border-[#006AFF]/30', icon: <ArrowRightLeft className="w-3 h-3" /> },
+    NEW: { label: 'NEW ADDITION', cls: 'bg-purple-100 text-purple-700 border-purple-300', icon: <Plus className="w-3 h-3" /> },
   };
   const m = map[action];
   return (
     <div className="flex items-center gap-2">
-      <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded-md border', m.cls)}>
+      <span className={cn('inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-md border', m.cls)}>
         {m.icon} {m.label}
       </span>
       {delta !== 0 && action !== 'SWAP' && (
@@ -1240,5 +1386,21 @@ function ActionPill({ action, delta }: { action: ActionKind; delta: number }) {
         </span>
       )}
     </div>
+  );
+}
+
+// ============ Benefit Tag ============
+function BenefitTagPill({ tag }: { tag: BenefitTag }) {
+  const tones: Record<BenefitTag['tone'], { cls: string; icon: React.ReactNode }> = {
+    return: { cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: <TrendingUp className="w-3 h-3" /> },
+    cost: { cls: 'bg-blue-50 text-blue-700 border-blue-200', icon: <TrendingDown className="w-3 h-3" /> },
+    factor: { cls: 'bg-amber-50 text-amber-800 border-amber-200', icon: <Sparkles className="w-3 h-3" /> },
+    balance: { cls: 'bg-purple-50 text-purple-700 border-purple-200', icon: <Scale className="w-3 h-3" /> },
+  };
+  const t = tones[tag.tone];
+  return (
+    <span className={cn('inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-md border whitespace-nowrap', t.cls)}>
+      {t.icon} {tag.label}
+    </span>
   );
 }
