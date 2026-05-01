@@ -587,7 +587,7 @@ function ProfileSummary({ profile, advancedMode }: { profile: { name: string; eq
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <SummaryCard label="Equity Cap" value={`${profile.equityCap}%`} icon={<TrendingUp className="w-4 h-4" />} />
         <SummaryCard label="Focus" value={profile.focus} icon={<Target className="w-4 h-4" />} />
-        <SummaryCard label="Smart Swapping" value={smartSwapEnabled ? 'Enabled' : 'Disabled'} icon={<ArrowRightLeft className="w-4 h-4" />} accent={smartSwapEnabled} />
+        <SummaryCard label="Insight Depth" value={advancedMode ? 'Advanced' : 'Guided'} icon={<Sparkles className="w-4 h-4" />} accent={advancedMode} />
       </div>
     </div>
   );
