@@ -326,9 +326,9 @@ function TeaserPhase({ onStart }: { onStart: () => void }) {
               tone="brand"
             />
             <MetricCard
-              icon={<ArrowRightLeft className="w-4 h-4 text-purple-600" />}
-              label="Smart Swaps Available"
-              value="2 of 7 funds"
+              icon={<Sparkles className="w-4 h-4 text-purple-600" />}
+              label="Strategic Asset Additions"
+              value="2 new exposures"
               tone="purple"
             />
           </div>
