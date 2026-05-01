@@ -1165,8 +1165,10 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           icon={<TrendingDown className="w-4 h-4" />}
           rows={sells}
           selected={selected}
+          rowState={rowState}
           onToggle={toggleRow}
           onIntel={setIntelRowId}
+          onExecute={executeRow}
         />
 
         {/* ============ BUY Section ============ */}
