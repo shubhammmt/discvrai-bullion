@@ -1396,7 +1396,7 @@ function GoalImpactCard({
 
 // ============ Trade Section (Sell only — Buy uses inline grouping) ============
 function TradeSection({
-  title, subtitle, tone, icon, rows, selected, onToggle, onIntel,
+  title, subtitle, tone, icon, rows, selected, rowState, onToggle, onIntel, onExecute,
 }: {
   title: string;
   subtitle: string;
@@ -1404,8 +1404,10 @@ function TradeSection({
   icon: React.ReactNode;
   rows: PlanRow[];
   selected: Record<string, boolean>;
+  rowState: Record<string, 'idle' | 'executing' | 'done'>;
   onToggle: (id: string) => void;
   onIntel: (id: string) => void;
+  onExecute: (id: string) => void;
 }) {
   const headerCls = tone === 'sell' ? 'bg-red-50/40' : 'bg-emerald-50/40';
   const iconCls = tone === 'sell' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700';
@@ -1430,8 +1432,10 @@ function TradeSection({
                   key={r.id}
                   row={r}
                   checked={!!selected[r.id]}
+                  state={rowState[r.id] || 'idle'}
                   onToggle={() => onToggle(r.id)}
                   onIntel={() => onIntel(r.id)}
+                  onExecute={() => onExecute(r.id)}
                 />
               ))}
             </tbody>
