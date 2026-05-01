@@ -507,7 +507,7 @@ function WizardPhase({ onActivate, onCancel }: { onActivate: () => void; onCance
               </Button>
             ) : (
               <Button
-                onClick={() => { onActivate(); toast({ title: 'Smart Rebalancing activated 🎉', description: `Profile: ${profile.name} · Smart Swapping ${smartSwapEnabled ? 'on' : 'off'}` }); }}
+                onClick={() => { onActivate(); toast({ title: 'Smart Rebalancing activated 🎉', description: `Profile: ${profile.name} · ${advancedMode ? 'Advanced' : 'Guided'} mode` }); }}
                 className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
               >
                 <Sparkles className="w-4 h-4 mr-1.5" /> Activate Smart Rebalancing
