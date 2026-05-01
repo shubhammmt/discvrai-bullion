@@ -6,7 +6,7 @@ import {
   PanelLeft, PanelLeftClose, LogIn, Plus, Heart, Inbox, Bot,
   Scale, ChevronRight, ChevronLeft, Lock, Shield, TrendingUp, TrendingDown,
   Sparkles, CheckCircle2, AlertTriangle, ArrowRightLeft, Loader2, Check,
-  Info, RefreshCw, Replace,
+  Info,
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
