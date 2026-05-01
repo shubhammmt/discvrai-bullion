@@ -395,7 +395,7 @@ function WizardPhase({ onActivate, onCancel }: { onActivate: () => void; onCance
     return { name: 'Aggressive', equityCap: 85, focus: 'Long-Term Growth', tone: 'purple' };
   }, [answers]);
 
-  const smartSwapEnabled = answers.knowledge === 'advanced';
+  const advancedMode = answers.knowledge === 'advanced';
 
   return (
     <div className="max-w-2xl mx-auto px-4 md:px-6 py-8 space-y-5">
