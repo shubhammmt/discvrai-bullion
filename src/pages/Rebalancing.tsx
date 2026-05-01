@@ -1463,15 +1463,26 @@ function TradeTableHeader() {
 
 // ============ Plan Row ============
 function PlanRowView({
-  row, checked, onToggle, onIntel,
+  row, checked, state, onToggle, onIntel, onExecute,
 }: {
   row: PlanRow;
   checked: boolean;
+  state: 'idle' | 'executing' | 'done';
   onToggle: () => void;
   onIntel: () => void;
+  onExecute: () => void;
 }) {
   const isNew = row.action === 'NEW';
   const isSell = row.action === 'SELL';
+  const isExecuting = state === 'executing';
+  const isDone = state === 'done';
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isExecuting || isDone) return;
+    if (!checked) onToggle();
+    onExecute();
+  };
 
   return (
     <tr
@@ -1479,6 +1490,7 @@ function PlanRowView({
       className={cn(
         'transition-colors cursor-pointer hover:bg-sip-sidebar-hover/50',
         isNew && 'bg-purple-50/30',
+        isDone && 'opacity-80',
       )}
       title="Double-click for Agent Intelligence"
     >
@@ -1514,19 +1526,24 @@ function PlanRowView({
       <td className="px-5 py-3.5 text-right">
         <Button
           size="sm"
-          onClick={(e) => { e.stopPropagation(); onToggle(); }}
+          disabled={isExecuting}
+          onClick={handleClick}
           className={cn(
-            'h-8 text-[11px] font-semibold',
-            checked
-              ? isSell
-                ? 'bg-red-600 text-white hover:bg-red-700'
-                : 'bg-emerald-600 text-white hover:bg-emerald-700'
+            'h-8 text-[11px] font-semibold transition-all',
+            isDone
+              ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100 cursor-default border border-emerald-300'
               : isSell
-                ? 'bg-white text-red-700 border border-red-300 hover:bg-red-50'
-                : 'bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50',
+                ? 'bg-red-600 text-white hover:bg-red-700 hover:shadow-md hover:shadow-red-500/30'
+                : 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-md hover:shadow-emerald-500/30',
           )}
         >
-          {checked ? (<><Check className="w-3 h-3 mr-1" /> Approved</>) : isSell ? 'Approve Sell' : 'Approve Buy'}
+          {isExecuting ? (
+            <><Loader2 className="w-3 h-3 mr-1 animate-spin" /> Executing…</>
+          ) : isDone ? (
+            <><Check className="w-3 h-3 mr-1" /> Executed</>
+          ) : (
+            <>Execute Trade</>
+          )}
         </Button>
       </td>
     </tr>
