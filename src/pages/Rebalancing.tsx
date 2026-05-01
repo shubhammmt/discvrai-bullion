@@ -6,7 +6,7 @@ import {
   PanelLeft, PanelLeftClose, LogIn, Plus, Heart, Inbox, Bot,
   Scale, ChevronRight, ChevronLeft, Lock, Shield, TrendingUp, TrendingDown,
   Sparkles, CheckCircle2, AlertTriangle, ArrowRightLeft, Loader2, Check,
-  Info, RefreshCw, Replace,
+  Info,
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -825,178 +825,186 @@ function DashboardPhase({ onSimulateDrift }: { onSimulateDrift: () => void }) {
 }
 
 // ============================================================
-// PHASE 4 — ACTION PLAN  (Rebalancing Agent)
+// PHASE 4 — ACTION PLAN  (Goal-Impact Engine)
 // ============================================================
-type ActionKind = 'SELL' | 'BUY' | 'SWAP' | 'NEW';
+type ActionKind = 'SELL' | 'BUY' | 'NEW';
 
-interface FundOption {
-  id: string;
-  name: string;
-  amc: string;
-  expense: number;   // %
-  cagr3y: number;    // %
-  risk: 'Low' | 'Medium' | 'High';
-  rationale: string;
-}
-
-interface BenefitTag {
+interface ImpactTag {
   label: string;
-  tone: 'return' | 'cost' | 'factor' | 'balance';
+  tone: 'velocity' | 'shield' | 'cost' | 'balance';
 }
 
 interface PlanRow {
   id: string;
   instrument: string;
+  amc: string;
   type: string;
   current: number;        // current % allocation
   target: number;         // target % allocation
   action: ActionKind;
-  cost: number;           // ₹ cash required to execute (BUY/SWAP/NEW); SELL = 0
-  uplift: number;         // % goal-success probability uplift if approved
-  benefit: BenefitTag;
-  why: string;
-  // SWAP-specific
-  replacement?: FundOption;
-  alternatives?: FundOption[];
+  amount: number;         // ₹ value moved (informational only)
+  impact: ImpactTag;
+  why: string;            // The "Why"
+  benefit: string;        // The "Benefit"
+  newAdditionRationale?: string; // Specific to NEW
 }
 
-const USER_AVAILABLE_CASH = 15000;
+interface GoalImpact {
+  id: string;
+  name: string;
+  dueLabel: string;
+  dueSortKey: number;     // months from today (smaller = sooner)
+  baseline: number;       // current success %
+  uplift: number;         // % uplift from full plan
+  emoji: string;
+  rowImpact: Record<string, number>;
+}
+
 const BASE_SUCCESS = 73;
-
-const TECH_ALTERNATIVES: FundOption[] = [
-  { id: 'icici-bc', name: 'ICICI Prudential Bluechip Fund', amc: 'ICICI Pru', expense: 0.85, cagr3y: 16.4, risk: 'Medium', rationale: 'Large-cap stability with strong 3Y track record.' },
-  { id: 'axis-bc', name: 'Axis Bluechip Fund', amc: 'Axis MF', expense: 0.62, cagr3y: 14.8, risk: 'Medium', rationale: 'Lowest expense ratio in peer group.' },
-  { id: 'hdfc-t100', name: 'HDFC Top 100 Fund', amc: 'HDFC MF', expense: 1.02, cagr3y: 17.1, risk: 'Medium', rationale: 'Highest 3Y CAGR · slightly higher cost.' },
-  { id: 'nifty500-idx', name: 'UTI Nifty 500 Index Fund', amc: 'UTI MF', expense: 0.21, cagr3y: 15.6, risk: 'Medium', rationale: 'Index hugger · lowest cost of all options.' },
-  { id: 'mira-largecap', name: 'Mirae Asset Large Cap Fund', amc: 'Mirae', expense: 0.54, cagr3y: 15.9, risk: 'Medium', rationale: 'Balanced risk-adjusted return profile.' },
-];
-
-const CURRENT_TECH: FundOption = {
-  id: 'current-tech', name: 'High-Risk Tech Sector Fund', amc: 'Sectoral', expense: 1.95, cagr3y: 9.2, risk: 'High',
-  rationale: 'Underperforming peer group by 18 months.',
-};
 
 const buildInitialPlan = (): PlanRow[] => [
   {
-    id: 'swap-tech',
-    instrument: CURRENT_TECH.name,
+    id: 'sell-tech',
+    instrument: 'High-Risk Tech Sector Fund',
+    amc: 'Sectoral',
     type: 'MF',
     current: 18,
-    target: 18,
-    action: 'SWAP',
-    cost: 4500,
-    uplift: 4,
-    benefit: { label: 'Reduces Expense Ratio −1.74%', tone: 'cost' },
-    replacement: TECH_ALTERNATIVES[3],
-    alternatives: TECH_ALTERNATIVES,
-    why: 'Lower cost, higher 3Y CAGR at the same risk band.',
-  },
-  {
-    id: 'buy-debt',
-    instrument: 'Short-Term Debt Fund',
-    type: 'MF',
-    current: 12,
-    target: 17,
-    action: 'BUY',
-    cost: 8000,
-    uplift: 3,
-    benefit: { label: 'Increases Return Probability +3%', tone: 'return' },
-    why: 'Restores debt buffer to cushion equity volatility.',
-  },
-  {
-    id: 'new-intl',
-    instrument: 'Global Equity Index Fund',
-    type: 'MF',
-    current: 0,
     target: 6,
-    action: 'NEW',
-    cost: 2400,
-    uplift: 2,
-    benefit: { label: 'Required for Mathematical Target Balance', tone: 'balance' },
-    why: 'New geographic exposure to complete target allocation.',
+    action: 'SELL',
+    amount: 54000,
+    impact: { label: 'Risk-Shield Enabled', tone: 'shield' },
+    why: 'This fund has drifted 12% above its target weight and trails its peer group by 18 months.',
+    benefit: 'Locking in ₹18,400 in profits and reducing single-sector concentration risk by 67%.',
   },
   {
     id: 'sell-equity',
     instrument: 'Equity Aggressive Fund',
+    amc: 'HDFC MF',
     type: 'MF',
     current: 22,
     target: 17,
     action: 'SELL',
-    cost: 0,
-    uplift: 0,
-    benefit: { label: 'Factor Alignment: Lower Drawdown Risk', tone: 'factor' },
-    why: 'Trim equity to bring portfolio inside the 60% cap.',
+    amount: 22500,
+    impact: { label: 'Risk-Shield Enabled', tone: 'shield' },
+    why: 'Equity bucket has drifted 5% above the 60% policy cap due to last quarter\'s rally.',
+    benefit: 'Locking in ₹9,200 in profits and bringing the portfolio inside its risk envelope.',
   },
   {
     id: 'buy-largecap',
     instrument: 'Mirae Large Cap Fund',
+    amc: 'Mirae',
     type: 'MF',
     current: 5,
     target: 12,
     action: 'BUY',
-    cost: 12000,
-    uplift: 0,
-    benefit: { label: 'Factor Alignment: High Quality', tone: 'factor' },
-    why: 'Tilts core toward higher-quality large caps.',
+    amount: 31500,
+    impact: { label: 'Goal Velocity +5%', tone: 'velocity' },
+    why: 'Existing core holding is underweight by 7% relative to the optimised target weight.',
+    benefit: 'Tilts the core toward higher-quality large caps — improves expected risk-adjusted return for your Studies goal.',
+  },
+  {
+    id: 'buy-debt',
+    instrument: 'Short-Term Debt Fund',
+    amc: 'ICICI Pru',
+    type: 'MF',
+    current: 12,
+    target: 17,
+    action: 'BUY',
+    amount: 22500,
+    impact: { label: 'Risk-Shield Enabled', tone: 'shield' },
+    why: 'Debt buffer is below the 17% floor required by your medium-term goal horizon.',
+    benefit: 'Restores volatility cushion — reduces projected drawdown for the Tour goal by 22%.',
+  },
+  {
+    id: 'new-intl',
+    instrument: 'Global Equity Index Fund',
+    amc: 'Motilal Oswal',
+    type: 'MF',
+    current: 0,
+    target: 6,
+    action: 'NEW',
+    amount: 27000,
+    impact: { label: 'Diversification Unlocked', tone: 'balance' },
+    why: 'Portfolio currently has zero international exposure — fails the geographic diversification check.',
+    benefit: 'Aligning risk profile from "Aggressive" to "Balanced" for your Studies Goal.',
+    newAdditionRationale: 'We are adding this fund because your current portfolio lacks International Equity exposure, which is mathematically necessary to hit your target probability for your 2027 goals.',
+  },
+  {
+    id: 'new-gold',
+    instrument: 'Sovereign Gold ETF',
+    amc: 'Nippon India',
+    type: 'ETF',
+    current: 0,
+    target: 4,
+    action: 'NEW',
+    amount: 18000,
+    impact: { label: 'Inflation Hedge Added', tone: 'balance' },
+    why: 'No inflation-hedge sleeve present — model portfolio requires 4% Gold for your goal horizon.',
+    benefit: 'Adds an uncorrelated asset that historically protects purchasing power against rupee inflation.',
+    newAdditionRationale: 'We are adding this fund because your current portfolio lacks Commodity / Inflation-Hedge exposure, which is mathematically necessary to hit your target probability for your 2027 goals.',
+  },
+];
+
+const GOALS: GoalImpact[] = [
+  {
+    id: 'studies', name: "Aanya's Studies", dueLabel: 'Aug 2026', dueSortKey: 16,
+    baseline: 68, uplift: 11, emoji: '🎓',
+    rowImpact: { 'sell-tech': 3, 'sell-equity': 1, 'buy-largecap': 3, 'buy-debt': 2, 'new-intl': 2, 'new-gold': 0 },
+  },
+  {
+    id: 'tour', name: 'Europe Tour', dueLabel: 'Dec 2026', dueSortKey: 20,
+    baseline: 74, uplift: 9, emoji: '✈️',
+    rowImpact: { 'sell-tech': 2, 'sell-equity': 2, 'buy-largecap': 1, 'buy-debt': 3, 'new-intl': 1, 'new-gold': 0 },
+  },
+  {
+    id: 'wedding', name: 'Wedding 2027', dueLabel: 'Nov 2027', dueSortKey: 31,
+    baseline: 73, uplift: 12, emoji: '💍',
+    rowImpact: { 'sell-tech': 3, 'sell-equity': 1, 'buy-largecap': 2, 'buy-debt': 2, 'new-intl': 2, 'new-gold': 2 },
+  },
+  {
+    id: 'retire', name: 'Retirement', dueLabel: '2042', dueSortKey: 200,
+    baseline: 81, uplift: 6, emoji: '🌴',
+    rowImpact: { 'sell-tech': 1, 'sell-equity': 0, 'buy-largecap': 1, 'buy-debt': 1, 'new-intl': 2, 'new-gold': 1 },
   },
 ];
 
 function ActionPhase({ onBack }: { onBack: () => void }) {
   const [plan] = useState<PlanRow[]>(buildInitialPlan);
-  const [selected, setSelected] = useState<Record<string, boolean>>(() => {
-    // Default-select all rows that fit within liquidity cap, in order
-    const init: Record<string, boolean> = {};
-    let running = 0;
-    for (const r of buildInitialPlan()) {
-      if (running + r.cost <= USER_AVAILABLE_CASH) {
-        init[r.id] = true;
-        running += r.cost;
-      } else {
-        init[r.id] = false;
-      }
-    }
-    return init;
-  });
+  const [selected, setSelected] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(buildInitialPlan().map(r => [r.id, true])),
+  );
   const [executing, setExecuting] = useState(false);
   const [done, setDone] = useState(false);
-  const [swapRowId, setSwapRowId] = useState<string | null>(null);
-  const [pendingReplacement, setPendingReplacement] = useState<FundOption | null>(null);
-  const [activeReplacement, setActiveReplacement] = useState<FundOption>(TECH_ALTERNATIVES[3]);
+  const [intelRowId, setIntelRowId] = useState<string | null>(null);
 
-  const swapRow = plan.find(r => r.id === swapRowId) || null;
+  const intelRow = plan.find(r => r.id === intelRowId) || null;
 
-  // Liquidity gating — compute which rows are locked based on cumulative cost order.
-  const gated = useMemo(() => {
-    let running = 0;
-    return plan.map(r => {
-      const fits = running + r.cost <= USER_AVAILABLE_CASH;
-      if (fits) running += r.cost;
-      return { ...r, locked: !fits };
-    });
-  }, [plan]);
-
-  const activeSelectedRows = gated.filter(r => !r.locked && selected[r.id]);
-  const projectedUplift = activeSelectedRows.reduce((s, r) => s + r.uplift, 0);
-  const projectedSuccess = Math.min(100, BASE_SUCCESS + projectedUplift);
-  const totalCost = activeSelectedRows.reduce((s, r) => s + r.cost, 0);
-  const remainingCash = USER_AVAILABLE_CASH - totalCost;
-
-  const displayedSuccess = done ? projectedSuccess : BASE_SUCCESS;
-  const displayedProjected = done ? 0 : (projectedSuccess - BASE_SUCCESS);
+  const sells = plan.filter(r => r.action === 'SELL');
+  const buysExisting = plan.filter(r => r.action === 'BUY');
+  const buysNew = plan.filter(r => r.action === 'NEW');
 
   const toggleRow = (id: string) => setSelected(s => ({ ...s, [id]: !s[id] }));
 
-  const openSwap = (id: string) => {
-    const row = plan.find(r => r.id === id);
-    setPendingReplacement(row?.replacement || activeReplacement);
-    setSwapRowId(id);
-  };
+  // Top 3 goals sorted by due date (closest first)
+  const topGoals = useMemo(
+    () => [...GOALS].sort((a, b) => a.dueSortKey - b.dueSortKey).slice(0, 3),
+    [],
+  );
 
-  const confirmSwap = () => {
-    if (pendingReplacement) setActiveReplacement(pendingReplacement);
-    setSwapRowId(null);
-    toast({ title: 'Plan updated', description: `Now swapping into ${pendingReplacement?.name}` });
-  };
+  // Per-goal projected uplift based on currently selected rows
+  const goalProjections = useMemo(
+    () =>
+      topGoals.map(g => {
+        const projUplift = Object.entries(g.rowImpact)
+          .filter(([rid]) => selected[rid])
+          .reduce((s, [, v]) => s + v, 0);
+        const projected = Math.min(100, g.baseline + projUplift);
+        return { goal: g, projUplift, projected };
+      }),
+    [topGoals, selected],
+  );
+
+  const totalSelected = Object.values(selected).filter(Boolean).length;
 
   const execute = () => {
     setExecuting(true);
@@ -1005,7 +1013,7 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
       setDone(true);
       toast({
         title: 'Trades executed',
-        description: `Goal Success Probability now ${projectedSuccess}%. Settlement T+1.`,
+        description: `${totalSelected} actions queued · Settlement T+1.`,
       });
     }, 1400);
   };
@@ -1017,95 +1025,96 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           <ChevronLeft className="w-3.5 h-3.5" /> Back to dashboard
         </button>
 
-        {/* ============ Predictive Success Header ============ */}
+        {/* ============ Goal Multi-Impact Dashboard ============ */}
         <Card className="border-[#006AFF]/20 bg-gradient-to-br from-[#006AFF]/5 to-background overflow-hidden">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <Badge className="bg-[#006AFF]/10 text-[#006AFF] hover:bg-[#006AFF]/10 border-[#006AFF]/20">
-                  <Target className="w-3 h-3 mr-1" /> Goal Alignment
-                </Badge>
-                <h2 className="text-xl md:text-2xl font-bold text-sip-text-primary mt-2">Wedding 2027</h2>
-                <p className="text-sm text-sip-text-secondary mt-1.5 leading-relaxed">
-                  {done ? (
-                    <>Plan executed — your Goal Success Probability is now <strong className="text-[#006AFF]">{projectedSuccess}%</strong>.</>
-                  ) : displayedProjected > 0 ? (
-                    <>Executing this plan increases your Goal Success Probability from <strong className="text-sip-text-primary">{BASE_SUCCESS}%</strong> to <strong className="text-[#006AFF]">{projectedSuccess}%</strong>.</>
-                  ) : (
-                    <>Select active trades below to project your Goal Success Probability uplift.</>
-                  )}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">Available Cash</p>
-                <p className="text-lg font-bold text-sip-text-primary tabular-nums">₹{USER_AVAILABLE_CASH.toLocaleString('en-IN')}</p>
-                <p className="text-[11px] text-sip-text-muted mt-0.5 tabular-nums">After plan: ₹{Math.max(0, remainingCash).toLocaleString('en-IN')}</p>
-              </div>
+          <CardContent className="p-6 space-y-5">
+            <div>
+              <Badge className="bg-[#006AFF]/10 text-[#006AFF] hover:bg-[#006AFF]/10 border-[#006AFF]/20">
+                <Target className="w-3 h-3 mr-1" /> Goal Multi-Impact Dashboard
+              </Badge>
+              <h2 className="text-xl md:text-2xl font-bold text-sip-text-primary mt-2">
+                How this rebalance affects your top priorities
+              </h2>
+              <p className="text-sm text-sip-text-secondary mt-1.5">
+                Top 3 goals sorted by closest due date. Toggle trades below to see live uplift.
+              </p>
             </div>
 
-            {/* Dual-layered progress bar */}
-            <div className="space-y-2">
-              <div className="relative h-4 w-full rounded-full bg-slate-100 overflow-hidden">
-                {/* Current layer — solid dark */}
-                <div
-                  className="absolute inset-y-0 left-0 bg-slate-700 rounded-full transition-all duration-500"
-                  style={{ width: `${displayedSuccess}%` }}
-                />
-                {/* Projected layer — animated shimmer */}
-                {displayedProjected > 0 && (
-                  <div
-                    className="absolute inset-y-0 rounded-r-full overflow-hidden transition-all duration-500"
-                    style={{ left: `${displayedSuccess}%`, width: `${displayedProjected}%` }}
-                  >
-                    <div className="h-full w-full bg-gradient-to-r from-[#006AFF] to-cyan-400 animate-pulse" />
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center justify-between text-[11px] tabular-nums">
-                <span className="text-slate-700 font-semibold">Current {displayedSuccess}%</span>
-                {displayedProjected > 0 && (
-                  <span className="text-[#006AFF] font-semibold">+{displayedProjected}% projected</span>
-                )}
-                <span className="text-sip-text-muted">Goal target 100%</span>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {goalProjections.map(({ goal, projUplift, projected }, idx) => (
+                <GoalImpactCard key={goal.id} goal={goal} projUplift={projUplift} projected={projected} priority={idx + 1} done={done} />
+              ))}
             </div>
           </CardContent>
         </Card>
 
-        {/* ============ Liquidity-Gated Rebalancing Table ============ */}
+        {/* ============ SELL Section ============ */}
+        <TradeSection
+          title="Sell to Secure Gains"
+          subtitle="Trim over-exposed assets — locks in profits and restores risk balance."
+          tone="sell"
+          icon={<TrendingDown className="w-4 h-4" />}
+          rows={sells}
+          selected={selected}
+          onToggle={toggleRow}
+          onIntel={setIntelRowId}
+        />
+
+        {/* ============ BUY Section ============ */}
         <Card className="border-sip-border overflow-hidden">
           <CardContent className="p-0">
-            <div className="px-5 py-4 border-b border-sip-border flex items-center justify-between flex-wrap gap-2">
-              <div>
-                <h3 className="text-base font-semibold text-sip-text-primary">Rebalancing Plan</h3>
-                <p className="text-xs text-sip-text-muted mt-0.5">{activeSelectedRows.length} active · {gated.filter(r => r.locked).length} locked by liquidity</p>
+            <div className="px-5 py-4 border-b border-sip-border bg-emerald-50/40">
+              <div className="flex items-center gap-2">
+                <span className="w-7 h-7 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4" />
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold text-sip-text-primary">Buy to Optimize Growth</h3>
+                  <p className="text-xs text-sip-text-muted">Redeployment of proceeds into mathematically optimal weights.</p>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">Cost of selected trades</p>
-                <p className="text-sm font-semibold text-sip-text-primary tabular-nums">₹{totalCost.toLocaleString('en-IN')} / ₹{USER_AVAILABLE_CASH.toLocaleString('en-IN')}</p>
-              </div>
+            </div>
+
+            {/* Existing Holdings sub-group */}
+            <div className="px-5 pt-4 pb-2 border-b border-sip-border/60 bg-background">
+              <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">
+                Existing Holdings · Top-ups
+              </p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-sip-sidebar-hover text-left">
-                  <tr className="text-[11px] uppercase tracking-wider text-sip-text-muted">
-                    <th className="px-5 py-2.5 font-semibold">Investment</th>
-                    <th className="px-3 py-2.5 font-semibold text-right">Current</th>
-                    <th className="px-3 py-2.5 font-semibold text-right">Target</th>
-                    <th className="px-5 py-2.5 font-semibold">Action</th>
-                    <th className="px-3 py-2.5 font-semibold">Numerical Benefit</th>
-                    <th className="px-5 py-2.5 font-semibold w-44 text-right">Status</th>
-                  </tr>
-                </thead>
+                <TradeTableHeader />
                 <tbody className="divide-y divide-sip-border">
-                  {gated.map((r) => (
+                  {buysExisting.map(r => (
                     <PlanRowView
                       key={r.id}
                       row={r}
                       checked={!!selected[r.id]}
                       onToggle={() => toggleRow(r.id)}
-                      onOpenSwap={() => openSwap(r.id)}
-                      activeReplacement={activeReplacement}
+                      onIntel={() => setIntelRowId(r.id)}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* New Strategic Additions sub-group */}
+            <div className="px-5 pt-4 pb-2 border-y border-sip-border/60 bg-purple-50/30">
+              <p className="text-[10px] uppercase tracking-wider text-purple-700 font-semibold flex items-center gap-1.5">
+                <Sparkles className="w-3 h-3" /> New Strategic Additions · First-time exposures
+              </p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <TradeTableHeader />
+                <tbody className="divide-y divide-sip-border">
+                  {buysNew.map(r => (
+                    <PlanRowView
+                      key={r.id}
+                      row={r}
+                      checked={!!selected[r.id]}
+                      onToggle={() => toggleRow(r.id)}
+                      onIntel={() => setIntelRowId(r.id)}
                     />
                   ))}
                 </tbody>
@@ -1114,24 +1123,23 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           </CardContent>
         </Card>
 
+        <p className="text-[11px] text-sip-text-muted text-center -mt-1">
+          💡 Tip: <strong>Double-click any row</strong> to open Agent Intelligence — the full reasoning behind each move.
+        </p>
+
         {/* ============ Execute ============ */}
-        <div className="text-center pt-2 space-y-3">
+        <div className="text-center pt-1 space-y-3">
           {!done ? (
-            <>
-              <Button
-                size="lg"
-                disabled={executing || activeSelectedRows.length === 0}
-                onClick={execute}
-                className="bg-[#006AFF] text-white hover:bg-[#0058D6] h-12 px-8 text-base font-semibold rounded-xl shadow-lg shadow-[#006AFF]/20"
-              >
-                {executing
-                  ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing trades…</>)
-                  : (<><Sparkles className="w-4 h-4 mr-2" /> Execute All Active Trades ({activeSelectedRows.length})</>)}
-              </Button>
-              <p className="text-[11px] text-sip-text-muted">
-                Locked trades require additional cash · Deposit to unlock further uplift
-              </p>
-            </>
+            <Button
+              size="lg"
+              disabled={executing || totalSelected === 0}
+              onClick={execute}
+              className="bg-[#006AFF] text-white hover:bg-[#0058D6] h-12 px-8 text-base font-semibold rounded-xl shadow-lg shadow-[#006AFF]/20"
+            >
+              {executing
+                ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Processing trades…</>)
+                : (<><Sparkles className="w-4 h-4 mr-2" /> Execute All Active Trades ({totalSelected})</>)}
+            </Button>
           ) : (
             <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-emerald-50 border border-emerald-200">
               <div className="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center animate-in zoom-in-50">
@@ -1139,7 +1147,7 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
               </div>
               <div>
                 <p className="text-base font-bold text-emerald-900">Trades executed successfully</p>
-                <p className="text-xs text-emerald-800/80 mt-1">{activeSelectedRows.length} actions queued · Goal Success now {projectedSuccess}% · Settlement T+1</p>
+                <p className="text-xs text-emerald-800/80 mt-1">{totalSelected} actions queued · Settlement T+1</p>
               </div>
               <Button variant="outline" size="sm" onClick={onBack} className="border-emerald-300 text-emerald-800 hover:bg-emerald-100">
                 Back to dashboard
@@ -1148,64 +1156,65 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           )}
         </div>
 
-        {/* ============ Smart Swap Drawer ============ */}
-        <Sheet open={!!swapRow} onOpenChange={(o) => !o && setSwapRowId(null)}>
-          <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
-            {swapRow && pendingReplacement && swapRow.alternatives && (
+        {/* ============ Agent Intelligence Drawer ============ */}
+        <Sheet open={!!intelRow} onOpenChange={(o) => !o && setIntelRowId(null)}>
+          <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
+            {intelRow && (
               <>
                 <SheetHeader className="pb-4 border-b border-sip-border">
                   <SheetTitle className="flex items-center gap-2">
-                    <Replace className="w-4 h-4 text-[#006AFF]" /> Smart Swap — Before vs. After
+                    <Bot className="w-4 h-4 text-[#006AFF]" /> Agent Intelligence
                   </SheetTitle>
-                  <SheetDescription>
-                    Battle-card view: compare your current holding against the recommended replacement.
-                  </SheetDescription>
+                  <SheetDescription>{intelRow.instrument}</SheetDescription>
                 </SheetHeader>
 
-                {/* Battle card */}
-                <div className="mt-5">
-                  <BattleCard current={CURRENT_TECH} recommended={pendingReplacement} />
-                </div>
+                <div className="mt-5 space-y-5">
+                  {/* Action banner */}
+                  <div className="flex items-center gap-3 p-3 rounded-xl border border-sip-border bg-sip-sidebar-hover">
+                    <ActionPill action={intelRow.action} delta={intelRow.target - intelRow.current} />
+                    <div className="text-xs text-sip-text-secondary tabular-nums">
+                      {intelRow.current}% → <strong className="text-sip-text-primary">{intelRow.target}%</strong>
+                      <span className="mx-1.5 text-sip-text-muted">·</span>
+                      ₹{intelRow.amount.toLocaleString('en-IN')}
+                    </div>
+                  </div>
 
-                {/* Alternatives */}
-                <div className="mt-6 space-y-2">
-                  <p className="text-[11px] uppercase tracking-wider text-sip-text-muted mb-1 font-semibold">Other best-fit alternatives</p>
-                  {swapRow.alternatives.map((f) => {
-                    const isSelected = f.id === pendingReplacement.id;
-                    return (
-                      <button
-                        key={f.id}
-                        onClick={() => setPendingReplacement(f)}
-                        className={cn(
-                          'w-full text-left border rounded-lg p-3 transition-all',
-                          isSelected ? 'border-[#006AFF] bg-[#006AFF]/5 ring-2 ring-[#006AFF]/15' : 'border-sip-border hover:border-[#006AFF]/40'
-                        )}
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <p className="text-sm font-semibold text-sip-text-primary truncate">{f.name}</p>
-                            <p className="text-[11px] text-sip-text-muted">{f.amc} · {f.rationale}</p>
-                            <div className="flex flex-wrap gap-3 mt-2 text-[11px] tabular-nums">
-                              <span className="text-sip-text-secondary">Expense <strong className="text-sip-text-primary">{f.expense}%</strong></span>
-                              <span className="text-sip-text-secondary">3Y CAGR <strong className="text-emerald-700">{f.cagr3y}%</strong></span>
-                              <span className="text-sip-text-secondary">Risk <strong className={riskColor(f.risk)}>{f.risk}</strong></span>
-                            </div>
-                          </div>
-                          {isSelected && <Check className="w-4 h-4 text-[#006AFF] shrink-0 mt-1" />}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                  {/* The Why */}
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1.5">The "Why"</p>
+                    <p className="text-sm text-sip-text-primary leading-relaxed">{intelRow.why}</p>
+                  </div>
 
-                {/* Confirm */}
-                <div className="mt-6 pt-4 border-t border-sip-border">
-                  <Button
-                    onClick={confirmSwap}
-                    className="w-full bg-[#006AFF] text-white hover:bg-[#0058D6] h-11 text-sm font-semibold rounded-lg"
-                  >
-                    Confirm & Update Plan
-                  </Button>
+                  {/* The Benefit */}
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1.5">The "Benefit"</p>
+                    <p className={cn(
+                      'text-sm leading-relaxed p-3 rounded-lg border',
+                      intelRow.action === 'SELL'
+                        ? 'bg-red-50 border-red-100 text-red-900'
+                        : 'bg-emerald-50 border-emerald-100 text-emerald-900',
+                    )}>
+                      {intelRow.benefit}
+                    </p>
+                  </div>
+
+                  {/* New Addition specific */}
+                  {intelRow.action === 'NEW' && intelRow.newAdditionRationale && (
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider text-purple-700 font-semibold mb-1.5 flex items-center gap-1.5">
+                        <Sparkles className="w-3 h-3" /> Why a New Addition
+                      </p>
+                      <p className="text-sm text-purple-900 leading-relaxed p-3 rounded-lg bg-purple-50 border border-purple-100">
+                        {intelRow.newAdditionRationale}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Impact tag */}
+                  <div className="flex items-center justify-between pt-2 border-t border-sip-border">
+                    <span className="text-[11px] text-sip-text-muted">Strategic impact</span>
+                    <ImpactTagPill tag={intelRow.impact} />
+                  </div>
                 </div>
               </>
             )}
@@ -1216,106 +1225,161 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
   );
 }
 
-function riskColor(risk: 'Low' | 'Medium' | 'High') {
-  return risk === 'Low' ? 'text-emerald-700' : risk === 'Medium' ? 'text-amber-700' : 'text-red-700';
-}
-
-// ============ Battle Card (Before vs. After) ============
-function BattleCard({ current, recommended }: { current: FundOption; recommended: FundOption }) {
-  const cheaper = recommended.expense < current.expense;
-  const higherCagr = recommended.cagr3y > current.cagr3y;
-  const lowerRisk = ['Low', 'Medium', 'High'].indexOf(recommended.risk) < ['Low', 'Medium', 'High'].indexOf(current.risk);
+// ============ Goal Impact Card ============
+function GoalImpactCard({
+  goal, projUplift, projected, priority, done,
+}: {
+  goal: GoalImpact; projUplift: number; projected: number; priority: number; done: boolean;
+}) {
+  const displayedBase = done ? projected : goal.baseline;
+  const displayedUplift = done ? 0 : projUplift;
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {/* LEFT — Current */}
-      <div className="border border-sip-border rounded-xl p-4 bg-slate-50">
-        <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1">Current — Underperformer</p>
-        <p className="text-sm font-semibold text-sip-text-primary leading-tight">{current.name}</p>
-        <p className="text-[11px] text-sip-text-muted mt-0.5">{current.amc}</p>
-        <div className="mt-4 space-y-2 text-xs">
-          <BattleRow label="Expense Ratio" value={`${current.expense}%`} tone="bad" />
-          <BattleRow label="3-Year CAGR" value={`${current.cagr3y}%`} tone="bad" />
-          <BattleRow label="Risk Grade" value={current.risk} valueClass={riskColor(current.risk)} tone="bad" />
-          <BattleRow label="Goal Alignment" value="Low" tone="bad" />
+    <div className="rounded-xl border border-sip-border bg-background p-3.5 space-y-2.5">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5">
+            <span className="text-base leading-none">{goal.emoji}</span>
+            <p className="text-sm font-semibold text-sip-text-primary truncate">{goal.name}</p>
+          </div>
+          <p className="text-[10px] text-sip-text-muted mt-0.5">Due {goal.dueLabel}</p>
         </div>
+        <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-[#006AFF]/10 text-[#006AFF]">
+          P{priority}
+        </span>
       </div>
 
-      {/* RIGHT — Recommended */}
-      <div className="border-2 border-[#006AFF] rounded-xl p-4 bg-[#006AFF]/5 relative">
-        <span className="absolute -top-2 right-3 text-[9px] font-bold uppercase tracking-wider bg-[#006AFF] text-white px-2 py-0.5 rounded">Recommended</span>
-        <p className="text-[10px] uppercase tracking-wider text-[#006AFF] font-semibold mb-1">After — Optimised Pick</p>
-        <p className="text-sm font-semibold text-sip-text-primary leading-tight">{recommended.name}</p>
-        <p className="text-[11px] text-sip-text-muted mt-0.5">{recommended.amc}</p>
-        <div className="mt-4 space-y-2 text-xs">
-          <BattleRow label="Expense Ratio" value={`${recommended.expense}%`} hint={cheaper ? 'lower fees' : ''} tone="good" />
-          <BattleRow label="3-Year CAGR" value={`${recommended.cagr3y}%`} hint={higherCagr ? 'higher' : ''} tone="good" />
-          <BattleRow label="Risk Grade" value={recommended.risk} valueClass={riskColor(recommended.risk)} tone={lowerRisk ? 'good' : 'neutral'} />
-          <BattleRow label="Goal Alignment" value="High" tone="good" />
+      <div className="space-y-1.5">
+        <div className="relative h-2.5 w-full rounded-full bg-slate-100 overflow-hidden">
+          <div
+            className="absolute inset-y-0 left-0 bg-slate-700 rounded-full transition-all duration-500"
+            style={{ width: `${displayedBase}%` }}
+          />
+          {displayedUplift > 0 && (
+            <div
+              className="absolute inset-y-0 rounded-r-full overflow-hidden transition-all duration-500"
+              style={{ left: `${displayedBase}%`, width: `${displayedUplift}%` }}
+            >
+              <div className="h-full w-full bg-gradient-to-r from-[#006AFF] to-cyan-400 animate-pulse" />
+            </div>
+          )}
+        </div>
+        <div className="flex items-center justify-between text-[10px] tabular-nums">
+          <span className="text-slate-700 font-semibold">Baseline {displayedBase}%</span>
+          {displayedUplift > 0 ? (
+            <span className="text-[#006AFF] font-semibold">+{displayedUplift}% post-rebalance</span>
+          ) : done ? (
+            <span className="text-emerald-700 font-semibold">✓ Locked in</span>
+          ) : (
+            <span className="text-sip-text-muted">No uplift</span>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function BattleRow({ label, value, valueClass, hint, tone }: { label: string; value: string; valueClass?: string; hint?: string; tone: 'good' | 'bad' | 'neutral' }) {
+// ============ Trade Section (Sell only — Buy uses inline grouping) ============
+function TradeSection({
+  title, subtitle, tone, icon, rows, selected, onToggle, onIntel,
+}: {
+  title: string;
+  subtitle: string;
+  tone: 'sell' | 'buy';
+  icon: React.ReactNode;
+  rows: PlanRow[];
+  selected: Record<string, boolean>;
+  onToggle: (id: string) => void;
+  onIntel: (id: string) => void;
+}) {
+  const headerCls = tone === 'sell' ? 'bg-red-50/40' : 'bg-emerald-50/40';
+  const iconCls = tone === 'sell' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700';
   return (
-    <div className="flex items-center justify-between">
-      <span className="text-sip-text-muted">{label}</span>
-      <span className={cn('font-semibold tabular-nums flex items-center gap-1.5', valueClass || 'text-sip-text-primary')}>
-        {value}
-        {hint && (
-          <span className={cn(
-            'text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded',
-            tone === 'good' ? 'bg-emerald-100 text-emerald-700' : tone === 'bad' ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-600'
-          )}>{hint}</span>
-        )}
-      </span>
-    </div>
+    <Card className="border-sip-border overflow-hidden">
+      <CardContent className="p-0">
+        <div className={cn('px-5 py-4 border-b border-sip-border', headerCls)}>
+          <div className="flex items-center gap-2">
+            <span className={cn('w-7 h-7 rounded-md flex items-center justify-center', iconCls)}>{icon}</span>
+            <div>
+              <h3 className="text-base font-semibold text-sip-text-primary">{title}</h3>
+              <p className="text-xs text-sip-text-muted">{subtitle}</p>
+            </div>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <TradeTableHeader />
+            <tbody className="divide-y divide-sip-border">
+              {rows.map(r => (
+                <PlanRowView
+                  key={r.id}
+                  row={r}
+                  checked={!!selected[r.id]}
+                  onToggle={() => onToggle(r.id)}
+                  onIntel={() => onIntel(r.id)}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function TradeTableHeader() {
+  return (
+    <thead className="bg-sip-sidebar-hover text-left">
+      <tr className="text-[11px] uppercase tracking-wider text-sip-text-muted">
+        <th className="px-5 py-2.5 font-semibold">Investment</th>
+        <th className="px-3 py-2.5 font-semibold text-right">Current</th>
+        <th className="px-3 py-2.5 font-semibold text-right">Target</th>
+        <th className="px-5 py-2.5 font-semibold">Action</th>
+        <th className="px-3 py-2.5 font-semibold">Impact</th>
+        <th className="px-5 py-2.5 font-semibold w-36 text-right">Status</th>
+      </tr>
+    </thead>
   );
 }
 
 // ============ Plan Row ============
 function PlanRowView({
-  row, checked, onToggle, onOpenSwap, activeReplacement,
+  row, checked, onToggle, onIntel,
 }: {
-  row: PlanRow & { locked: boolean };
+  row: PlanRow;
   checked: boolean;
   onToggle: () => void;
-  onOpenSwap: () => void;
-  activeReplacement: FundOption;
+  onIntel: () => void;
 }) {
-  const isSwap = row.action === 'SWAP';
   const isNew = row.action === 'NEW';
-  const replacement = isSwap ? activeReplacement : undefined;
+  const isSell = row.action === 'SELL';
 
   return (
-    <tr className={cn(
-      'transition-opacity',
-      row.locked && 'opacity-60 bg-slate-50/50',
-      isNew && !row.locked && 'bg-purple-50/40',
-    )}>
+    <tr
+      onDoubleClick={onIntel}
+      className={cn(
+        'transition-colors cursor-pointer hover:bg-sip-sidebar-hover/50',
+        isNew && 'bg-purple-50/30',
+      )}
+      title="Double-click for Agent Intelligence"
+    >
       <td className="px-5 py-3.5">
         <div className="flex items-start gap-2">
           <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-sip-border text-sip-text-muted mt-0.5">{row.type}</Badge>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               <p className="font-semibold text-sip-text-primary">{row.instrument}</p>
-              {isSwap && replacement && (
-                <>
-                  <RefreshCw className="w-3 h-3 text-[#006AFF] mx-0.5" />
-                  <p className="font-semibold text-[#006AFF]">{replacement.name}</p>
-                </>
-              )}
-              <UITooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" className="inline-flex"><Info className="w-3 h-3 text-sip-text-muted hover:text-[#006AFF]" /></button>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-[260px] text-xs">{row.why}</TooltipContent>
-              </UITooltip>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); onIntel(); }}
+                className="inline-flex"
+                aria-label="Open Agent Intelligence"
+              >
+                <Info className="w-3 h-3 text-sip-text-muted hover:text-[#006AFF]" />
+              </button>
             </div>
             <p className="text-[11px] text-sip-text-muted mt-0.5 tabular-nums">
-              Cost: ₹{row.cost.toLocaleString('en-IN')}{row.uplift > 0 && <> · +{row.uplift}% goal success</>}
+              {row.amc} · ₹{row.amount.toLocaleString('en-IN')}
             </p>
           </div>
         </div>
@@ -1323,44 +1387,28 @@ function PlanRowView({
       <td className="px-3 py-3.5 text-right tabular-nums text-sip-text-primary">{row.current}%</td>
       <td className="px-3 py-3.5 text-right tabular-nums text-sip-text-primary font-semibold">{row.target}%</td>
       <td className="px-5 py-3.5">
-        <div className="flex items-center gap-2 flex-wrap">
-          <ActionPill action={row.action} delta={row.target - row.current} />
-          {isSwap && !row.locked && (
-            <Button size="sm" variant="outline" onClick={onOpenSwap} className="h-7 text-[11px] border-[#006AFF]/40 text-[#006AFF] hover:bg-[#006AFF]/5">
-              Swap
-            </Button>
-          )}
-        </div>
+        <ActionPill action={row.action} delta={row.target - row.current} />
       </td>
       <td className="px-3 py-3.5">
-        <BenefitTagPill tag={row.benefit} />
+        <ImpactTagPill tag={row.impact} />
       </td>
       <td className="px-5 py-3.5 text-right">
-        {row.locked ? (
-          <UITooltip>
-            <TooltipTrigger asChild>
-              <Button size="sm" variant="outline" disabled className="h-8 text-[11px] bg-slate-100 text-slate-500 border-slate-200 cursor-not-allowed">
-                <Lock className="w-3 h-3 mr-1" /> Locked
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-[260px] text-xs">
-              Insufficient Balance. Deposit ₹{row.cost.toLocaleString('en-IN')} to execute this trade and unlock +{row.uplift}% success probability.
-            </TooltipContent>
-          </UITooltip>
-        ) : (
-          <Button
-            size="sm"
-            onClick={onToggle}
-            className={cn(
-              'h-8 text-[11px] font-semibold',
-              checked
-                ? 'bg-[#006AFF] text-white hover:bg-[#0058D6]'
-                : 'bg-white text-[#006AFF] border border-[#006AFF]/40 hover:bg-[#006AFF]/5',
-            )}
-          >
-            {checked ? (<><Check className="w-3 h-3 mr-1" /> Approved</>) : 'Approve'}
-          </Button>
-        )}
+        <Button
+          size="sm"
+          onClick={(e) => { e.stopPropagation(); onToggle(); }}
+          className={cn(
+            'h-8 text-[11px] font-semibold',
+            checked
+              ? isSell
+                ? 'bg-red-600 text-white hover:bg-red-700'
+                : 'bg-emerald-600 text-white hover:bg-emerald-700'
+              : isSell
+                ? 'bg-white text-red-700 border border-red-300 hover:bg-red-50'
+                : 'bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50',
+          )}
+        >
+          {checked ? (<><Check className="w-3 h-3 mr-1" /> Approved</>) : isSell ? 'Approve Sell' : 'Approve Buy'}
+        </Button>
       </td>
     </tr>
   );
@@ -1371,7 +1419,6 @@ function ActionPill({ action, delta }: { action: ActionKind; delta: number }) {
   const map: Record<ActionKind, { label: string; cls: string; icon: React.ReactNode }> = {
     SELL: { label: 'SELL', cls: 'bg-red-50 text-red-700 border-red-200', icon: <TrendingDown className="w-3 h-3" /> },
     BUY: { label: 'BUY', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: <TrendingUp className="w-3 h-3" /> },
-    SWAP: { label: 'SWAP', cls: 'bg-[#006AFF]/10 text-[#006AFF] border-[#006AFF]/30', icon: <ArrowRightLeft className="w-3 h-3" /> },
     NEW: { label: 'NEW ADDITION', cls: 'bg-purple-100 text-purple-700 border-purple-300', icon: <Plus className="w-3 h-3" /> },
   };
   const m = map[action];
@@ -1380,7 +1427,7 @@ function ActionPill({ action, delta }: { action: ActionKind; delta: number }) {
       <span className={cn('inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-md border', m.cls)}>
         {m.icon} {m.label}
       </span>
-      {delta !== 0 && action !== 'SWAP' && (
+      {delta !== 0 && (
         <span className={cn('text-xs font-semibold tabular-nums', delta > 0 ? 'text-emerald-700' : 'text-red-700')}>
           {delta > 0 ? '+' : ''}{delta}%
         </span>
@@ -1389,13 +1436,13 @@ function ActionPill({ action, delta }: { action: ActionKind; delta: number }) {
   );
 }
 
-// ============ Benefit Tag ============
-function BenefitTagPill({ tag }: { tag: BenefitTag }) {
-  const tones: Record<BenefitTag['tone'], { cls: string; icon: React.ReactNode }> = {
-    return: { cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: <TrendingUp className="w-3 h-3" /> },
-    cost: { cls: 'bg-blue-50 text-blue-700 border-blue-200', icon: <TrendingDown className="w-3 h-3" /> },
-    factor: { cls: 'bg-amber-50 text-amber-800 border-amber-200', icon: <Sparkles className="w-3 h-3" /> },
-    balance: { cls: 'bg-purple-50 text-purple-700 border-purple-200', icon: <Scale className="w-3 h-3" /> },
+// ============ Impact Tag ============
+function ImpactTagPill({ tag }: { tag: ImpactTag }) {
+  const tones: Record<ImpactTag['tone'], { cls: string; icon: React.ReactNode }> = {
+    velocity: { cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: <TrendingUp className="w-3 h-3" /> },
+    shield:   { cls: 'bg-blue-50 text-blue-700 border-blue-200', icon: <Shield className="w-3 h-3" /> },
+    cost:     { cls: 'bg-amber-50 text-amber-800 border-amber-200', icon: <TrendingDown className="w-3 h-3" /> },
+    balance:  { cls: 'bg-purple-50 text-purple-700 border-purple-200', icon: <Scale className="w-3 h-3" /> },
   };
   const t = tones[tag.tone];
   return (
@@ -1404,3 +1451,4 @@ function BenefitTagPill({ tag }: { tag: BenefitTag }) {
     </span>
   );
 }
+
