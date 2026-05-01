@@ -834,6 +834,21 @@ interface ImpactTag {
   tone: 'velocity' | 'shield' | 'cost' | 'balance';
 }
 
+interface FundEvidence {
+  fullName: string;
+  schemeCode: string;
+  category: string;
+  riskLevel: string;
+  planType: string;
+  navPrice: number;
+  navAsOf: string;
+  aumCrore: number;
+  ret1Y: number;
+  ret3Y: number;
+  ret5Y: number;
+  benchmarkBeat: number; // % vs benchmark over 3Y
+}
+
 interface PlanRow {
   id: string;
   instrument: string;
@@ -847,6 +862,7 @@ interface PlanRow {
   why: string;            // The "Why"
   benefit: string;        // The "Benefit"
   newAdditionRationale?: string; // Specific to NEW
+  evidence: FundEvidence;
 }
 
 interface GoalImpact {
@@ -873,8 +889,22 @@ const buildInitialPlan = (): PlanRow[] => [
     action: 'SELL',
     amount: 54000,
     impact: { label: 'Risk-Shield Enabled', tone: 'shield' },
-    why: 'This fund has drifted 12% above its target weight and trails its peer group by 18 months.',
-    benefit: 'Locking in ₹18,400 in profits and reducing single-sector concentration risk by 67%.',
+    why: 'This fund has drifted 12% above its target weight and trails its peer group by 18 months on rolling 3Y returns.',
+    benefit: 'Locking in ₹18,400 in profits while exiting a fund whose 3Y CAGR of 9.41% lags its benchmark by -3.2% — reducing single-sector concentration risk by 67%.',
+    evidence: {
+      fullName: 'ICICI Prudential Technology Fund - Direct Plan - Growth',
+      schemeCode: '120586',
+      category: 'Sectoral / Technology',
+      riskLevel: 'Very High Risk',
+      planType: 'Direct Plan',
+      navPrice: 187.42,
+      navAsOf: '30 Apr 2026',
+      aumCrore: 12840,
+      ret1Y: -4.18,
+      ret3Y: 9.41,
+      ret5Y: 18.77,
+      benchmarkBeat: -3.21,
+    },
   },
   {
     id: 'sell-equity',
@@ -887,7 +917,21 @@ const buildInitialPlan = (): PlanRow[] => [
     amount: 22500,
     impact: { label: 'Risk-Shield Enabled', tone: 'shield' },
     why: 'Equity bucket has drifted 5% above the 60% policy cap due to last quarter\'s rally.',
-    benefit: 'Locking in ₹9,200 in profits and bringing the portfolio inside its risk envelope.',
+    benefit: 'Locking in ₹9,200 in profits at a 3Y CAGR of 14.62% and bringing the portfolio inside its risk envelope before mean-reversion erodes gains.',
+    evidence: {
+      fullName: 'HDFC Equity Fund - Direct Plan - Growth',
+      schemeCode: '118533',
+      category: 'Equity - Multi Cap',
+      riskLevel: 'Very High Risk',
+      planType: 'Direct Plan',
+      navPrice: 1842.65,
+      navAsOf: '30 Apr 2026',
+      aumCrore: 65420,
+      ret1Y: 18.34,
+      ret3Y: 14.62,
+      ret5Y: 16.81,
+      benchmarkBeat: -0.09,
+    },
   },
   {
     id: 'buy-largecap',
@@ -900,7 +944,21 @@ const buildInitialPlan = (): PlanRow[] => [
     amount: 31500,
     impact: { label: 'Goal Velocity +5%', tone: 'velocity' },
     why: 'Existing core holding is underweight by 7% relative to the optimised target weight.',
-    benefit: 'Tilts the core toward higher-quality large caps — improves expected risk-adjusted return for your Studies goal.',
+    benefit: 'Topping up a fund with a strong 3Y CAGR of 12.72% that has consistently beaten its benchmark by +1.8% — improves expected risk-adjusted return for your Studies goal.',
+    evidence: {
+      fullName: 'Mirae Asset Large Cap Fund - Direct Plan - Growth',
+      schemeCode: '118565',
+      category: 'Equity - Large Cap',
+      riskLevel: 'Very High Risk',
+      planType: 'Direct Plan',
+      navPrice: 96.18,
+      navAsOf: '30 Apr 2026',
+      aumCrore: 38560,
+      ret1Y: 16.42,
+      ret3Y: 12.72,
+      ret5Y: 14.95,
+      benchmarkBeat: 1.84,
+    },
   },
   {
     id: 'buy-debt',
@@ -913,7 +971,21 @@ const buildInitialPlan = (): PlanRow[] => [
     amount: 22500,
     impact: { label: 'Risk-Shield Enabled', tone: 'shield' },
     why: 'Debt buffer is below the 17% floor required by your medium-term goal horizon.',
-    benefit: 'Restores volatility cushion — reduces projected drawdown for the Tour goal by 22%.',
+    benefit: 'Restores volatility cushion at a steady 3Y CAGR of 6.94% — reduces projected drawdown for the Tour goal by 22%.',
+    evidence: {
+      fullName: 'ICICI Prudential Short Term Fund - Direct Plan - Growth',
+      schemeCode: '120754',
+      category: 'Debt - Short Duration',
+      riskLevel: 'Moderate Risk',
+      planType: 'Direct Plan',
+      navPrice: 58.91,
+      navAsOf: '30 Apr 2026',
+      aumCrore: 18920,
+      ret1Y: 7.42,
+      ret3Y: 6.94,
+      ret5Y: 7.18,
+      benchmarkBeat: 0.42,
+    },
   },
   {
     id: 'new-intl',
@@ -926,8 +998,22 @@ const buildInitialPlan = (): PlanRow[] => [
     amount: 27000,
     impact: { label: 'Diversification Unlocked', tone: 'balance' },
     why: 'Portfolio currently has zero international exposure — fails the geographic diversification check.',
-    benefit: 'Aligning risk profile from "Aggressive" to "Balanced" for your Studies Goal.',
+    benefit: 'Adds a fund with a 5Y CAGR of 17.84% that is uncorrelated to Indian equity — aligning risk profile from "Aggressive" to "Balanced" for your Studies Goal.',
     newAdditionRationale: 'We are adding this fund because your current portfolio lacks International Equity exposure, which is mathematically necessary to hit your target probability for your 2027 goals.',
+    evidence: {
+      fullName: 'Motilal Oswal Nasdaq 100 Fund of Fund - Direct Plan - Growth',
+      schemeCode: '127068',
+      category: 'FoF - Overseas',
+      riskLevel: 'Very High Risk',
+      planType: 'Direct Plan',
+      navPrice: 32.47,
+      navAsOf: '30 Apr 2026',
+      aumCrore: 6240,
+      ret1Y: 22.18,
+      ret3Y: 15.62,
+      ret5Y: 17.84,
+      benchmarkBeat: 0.18,
+    },
   },
   {
     id: 'new-gold',
@@ -940,8 +1026,22 @@ const buildInitialPlan = (): PlanRow[] => [
     amount: 18000,
     impact: { label: 'Inflation Hedge Added', tone: 'balance' },
     why: 'No inflation-hedge sleeve present — model portfolio requires 4% Gold for your goal horizon.',
-    benefit: 'Adds an uncorrelated asset that historically protects purchasing power against rupee inflation.',
+    benefit: 'Adds an uncorrelated asset with a 5Y CAGR of 11.42% that historically protects purchasing power against rupee inflation.',
     newAdditionRationale: 'We are adding this fund because your current portfolio lacks Commodity / Inflation-Hedge exposure, which is mathematically necessary to hit your target probability for your 2027 goals.',
+    evidence: {
+      fullName: 'Nippon India ETF Gold BeES',
+      schemeCode: '101099',
+      category: 'ETF - Gold',
+      riskLevel: 'Moderately High Risk',
+      planType: 'Regular Plan',
+      navPrice: 68.92,
+      navAsOf: '30 Apr 2026',
+      aumCrore: 9840,
+      ret1Y: 14.82,
+      ret3Y: 12.18,
+      ret5Y: 11.42,
+      benchmarkBeat: 0.08,
+    },
   },
 ];
 
@@ -976,6 +1076,12 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
   const [executing, setExecuting] = useState(false);
   const [done, setDone] = useState(false);
   const [intelRowId, setIntelRowId] = useState<string | null>(null);
+  const [rowState, setRowState] = useState<Record<string, 'idle' | 'executing' | 'done'>>({});
+
+  const executeRow = (id: string) => {
+    setRowState(s => ({ ...s, [id]: 'executing' }));
+    setTimeout(() => setRowState(s => ({ ...s, [id]: 'done' })), 900);
+  };
 
   const intelRow = plan.find(r => r.id === intelRowId) || null;
 
@@ -1008,9 +1114,12 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
 
   const execute = () => {
     setExecuting(true);
+    const selectedIds = Object.entries(selected).filter(([, v]) => v).map(([k]) => k);
+    setRowState(s => ({ ...s, ...Object.fromEntries(selectedIds.map(id => [id, 'executing' as const])) }));
     setTimeout(() => {
       setExecuting(false);
       setDone(true);
+      setRowState(s => ({ ...s, ...Object.fromEntries(selectedIds.map(id => [id, 'done' as const])) }));
       toast({
         title: 'Trades executed',
         description: `${totalSelected} actions queued · Settlement T+1.`,
@@ -1056,8 +1165,10 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
           icon={<TrendingDown className="w-4 h-4" />}
           rows={sells}
           selected={selected}
+          rowState={rowState}
           onToggle={toggleRow}
           onIntel={setIntelRowId}
+          onExecute={executeRow}
         />
 
         {/* ============ BUY Section ============ */}
@@ -1090,8 +1201,10 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                       key={r.id}
                       row={r}
                       checked={!!selected[r.id]}
+                      state={rowState[r.id] || 'idle'}
                       onToggle={() => toggleRow(r.id)}
                       onIntel={() => setIntelRowId(r.id)}
+                      onExecute={() => executeRow(r.id)}
                     />
                   ))}
                 </tbody>
@@ -1113,8 +1226,10 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                       key={r.id}
                       row={r}
                       checked={!!selected[r.id]}
+                      state={rowState[r.id] || 'idle'}
                       onToggle={() => toggleRow(r.id)}
                       onIntel={() => setIntelRowId(r.id)}
+                      onExecute={() => executeRow(r.id)}
                     />
                   ))}
                 </tbody>
@@ -1210,6 +1325,9 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                     </div>
                   )}
 
+                  {/* ============ Market Evidence ============ */}
+                  <FundEvidenceCard evidence={intelRow.evidence} highlight5Y={intelRow.action === 'NEW'} />
+
                   {/* Impact tag */}
                   <div className="flex items-center justify-between pt-2 border-t border-sip-border">
                     <span className="text-[11px] text-sip-text-muted">Strategic impact</span>
@@ -1281,7 +1399,7 @@ function GoalImpactCard({
 
 // ============ Trade Section (Sell only — Buy uses inline grouping) ============
 function TradeSection({
-  title, subtitle, tone, icon, rows, selected, onToggle, onIntel,
+  title, subtitle, tone, icon, rows, selected, rowState, onToggle, onIntel, onExecute,
 }: {
   title: string;
   subtitle: string;
@@ -1289,8 +1407,10 @@ function TradeSection({
   icon: React.ReactNode;
   rows: PlanRow[];
   selected: Record<string, boolean>;
+  rowState: Record<string, 'idle' | 'executing' | 'done'>;
   onToggle: (id: string) => void;
   onIntel: (id: string) => void;
+  onExecute: (id: string) => void;
 }) {
   const headerCls = tone === 'sell' ? 'bg-red-50/40' : 'bg-emerald-50/40';
   const iconCls = tone === 'sell' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700';
@@ -1315,8 +1435,10 @@ function TradeSection({
                   key={r.id}
                   row={r}
                   checked={!!selected[r.id]}
+                  state={rowState[r.id] || 'idle'}
                   onToggle={() => onToggle(r.id)}
                   onIntel={() => onIntel(r.id)}
+                  onExecute={() => onExecute(r.id)}
                 />
               ))}
             </tbody>
@@ -1344,15 +1466,26 @@ function TradeTableHeader() {
 
 // ============ Plan Row ============
 function PlanRowView({
-  row, checked, onToggle, onIntel,
+  row, checked, state, onToggle, onIntel, onExecute,
 }: {
   row: PlanRow;
   checked: boolean;
+  state: 'idle' | 'executing' | 'done';
   onToggle: () => void;
   onIntel: () => void;
+  onExecute: () => void;
 }) {
   const isNew = row.action === 'NEW';
   const isSell = row.action === 'SELL';
+  const isExecuting = state === 'executing';
+  const isDone = state === 'done';
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isExecuting || isDone) return;
+    if (!checked) onToggle();
+    onExecute();
+  };
 
   return (
     <tr
@@ -1360,6 +1493,7 @@ function PlanRowView({
       className={cn(
         'transition-colors cursor-pointer hover:bg-sip-sidebar-hover/50',
         isNew && 'bg-purple-50/30',
+        isDone && 'opacity-80',
       )}
       title="Double-click for Agent Intelligence"
     >
@@ -1395,19 +1529,24 @@ function PlanRowView({
       <td className="px-5 py-3.5 text-right">
         <Button
           size="sm"
-          onClick={(e) => { e.stopPropagation(); onToggle(); }}
+          disabled={isExecuting}
+          onClick={handleClick}
           className={cn(
-            'h-8 text-[11px] font-semibold',
-            checked
-              ? isSell
-                ? 'bg-red-600 text-white hover:bg-red-700'
-                : 'bg-emerald-600 text-white hover:bg-emerald-700'
+            'h-8 text-[11px] font-semibold transition-all',
+            isDone
+              ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100 cursor-default border border-emerald-300'
               : isSell
-                ? 'bg-white text-red-700 border border-red-300 hover:bg-red-50'
-                : 'bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50',
+                ? 'bg-red-600 text-white hover:bg-red-700 hover:shadow-md hover:shadow-red-500/30'
+                : 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-md hover:shadow-emerald-500/30',
           )}
         >
-          {checked ? (<><Check className="w-3 h-3 mr-1" /> Approved</>) : isSell ? 'Approve Sell' : 'Approve Buy'}
+          {isExecuting ? (
+            <><Loader2 className="w-3 h-3 mr-1 animate-spin" /> Executing…</>
+          ) : isDone ? (
+            <><Check className="w-3 h-3 mr-1" /> Executed</>
+          ) : (
+            <>Execute Trade</>
+          )}
         </Button>
       </td>
     </tr>
@@ -1452,3 +1591,98 @@ function ImpactTagPill({ tag }: { tag: ImpactTag }) {
   );
 }
 
+// ============ Fund Evidence Card (Market Evidence) ============
+function FundEvidenceCard({ evidence, highlight5Y }: { evidence: FundEvidence; highlight5Y: boolean }) {
+  const fmtPct = (n: number) => `${n > 0 ? '+' : ''}${n.toFixed(2)}%`;
+  const toneCls = (n: number) =>
+    n >= 0 ? 'text-emerald-700' : 'text-red-700';
+
+  const fmtAum = (cr: number) =>
+    cr >= 1000 ? `₹${(cr / 1000).toFixed(2)}K Cr` : `₹${cr.toLocaleString('en-IN')} Cr`;
+
+  const riskTone =
+    evidence.riskLevel.toLowerCase().includes('very high')
+      ? 'bg-red-50 text-red-700 border-red-200'
+      : evidence.riskLevel.toLowerCase().includes('moderate')
+        ? 'bg-amber-50 text-amber-800 border-amber-200'
+        : 'bg-slate-100 text-slate-700 border-slate-200';
+
+  return (
+    <div>
+      <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-2 flex items-center gap-1.5">
+        <BarChart3 className="w-3 h-3" /> Market Evidence
+      </p>
+      <div className="rounded-xl border border-sip-border bg-slate-50/60 p-4 space-y-3.5">
+        {/* Header metadata */}
+        <div className="space-y-1.5">
+          <p className="text-sm font-bold text-sip-text-primary leading-snug">{evidence.fullName}</p>
+          <p className="text-[10px] text-sip-text-muted tabular-nums">Scheme Code · {evidence.schemeCode}</p>
+          <div className="flex flex-wrap gap-1.5 pt-0.5">
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full border bg-slate-100 text-slate-700 border-slate-200">
+              {evidence.category}
+            </span>
+            <span className={cn('text-[10px] font-medium px-2 py-0.5 rounded-full border', riskTone)}>
+              {evidence.riskLevel}
+            </span>
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full border bg-blue-50 text-blue-700 border-blue-200">
+              {evidence.planType}
+            </span>
+          </div>
+        </div>
+
+        {/* Primary metric cards */}
+        <div className="grid grid-cols-2 gap-2.5">
+          <div className="rounded-lg border border-sip-border bg-background p-3">
+            <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">Current NAV</p>
+            <p className="text-base font-bold text-sip-text-primary tabular-nums mt-0.5">
+              ₹{evidence.navPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <p className="text-[10px] text-sip-text-muted mt-0.5">As of {evidence.navAsOf}</p>
+          </div>
+          <div className="rounded-lg border border-sip-border bg-background p-3">
+            <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">AUM</p>
+            <p className="text-base font-bold text-sip-text-primary tabular-nums mt-0.5">
+              {fmtAum(evidence.aumCrore)}
+            </p>
+            <p className="text-[10px] text-sip-text-muted mt-0.5">Assets under management</p>
+          </div>
+        </div>
+
+        {/* Returns grid */}
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1.5">Returns Performance</p>
+          <div className="grid grid-cols-3 gap-2">
+            <ReturnCell label="1Y" value={evidence.ret1Y} />
+            <ReturnCell label="3Y" value={evidence.ret3Y} />
+            <ReturnCell label="5Y" value={evidence.ret5Y} highlight={highlight5Y} />
+          </div>
+          <div className="flex items-center justify-between mt-2 px-1">
+            <span className="text-[10px] text-sip-text-muted">Benchmark beat (3Y)</span>
+            <span className={cn('text-[11px] font-bold tabular-nums', toneCls(evidence.benchmarkBeat))}>
+              {fmtPct(evidence.benchmarkBeat)}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReturnCell({ label, value, highlight = false }: { label: string; value: number; highlight?: boolean }) {
+  const positive = value >= 0;
+  return (
+    <div
+      className={cn(
+        'rounded-lg border p-2.5 text-center transition-all',
+        highlight
+          ? 'border-purple-300 bg-purple-50 ring-2 ring-purple-300/60 animate-pulse'
+          : 'border-sip-border bg-background',
+      )}
+    >
+      <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">{label}</p>
+      <p className={cn('text-sm font-bold tabular-nums mt-0.5', positive ? 'text-emerald-700' : 'text-red-700')}>
+        {value > 0 ? '+' : ''}{value.toFixed(2)}%
+      </p>
+    </div>
+  );
+}
