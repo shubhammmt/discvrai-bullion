@@ -258,7 +258,7 @@ function TeaserPhase({ onStart }: { onStart: () => void }) {
         </h2>
         <p className="text-sm md:text-base text-sip-text-secondary leading-relaxed">
           Protect your investments from silent decay. Our Smart Brain constantly tracks drift and provides
-          one-click rebalancing advice (including smart swaps) to maximize your risk-adjusted returns.
+          one-click rebalancing advice (including strategic asset additions) to maximize your risk-adjusted returns.
         </p>
       </div>
 
