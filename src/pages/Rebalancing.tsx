@@ -1226,8 +1226,10 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                       key={r.id}
                       row={r}
                       checked={!!selected[r.id]}
+                      state={rowState[r.id] || 'idle'}
                       onToggle={() => toggleRow(r.id)}
                       onIntel={() => setIntelRowId(r.id)}
+                      onExecute={() => executeRow(r.id)}
                     />
                   ))}
                 </tbody>
