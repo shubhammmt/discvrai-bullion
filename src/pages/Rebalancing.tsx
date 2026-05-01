@@ -834,6 +834,21 @@ interface ImpactTag {
   tone: 'velocity' | 'shield' | 'cost' | 'balance';
 }
 
+interface FundEvidence {
+  fullName: string;
+  schemeCode: string;
+  category: string;
+  riskLevel: string;
+  planType: string;
+  navPrice: number;
+  navAsOf: string;
+  aumCrore: number;
+  ret1Y: number;
+  ret3Y: number;
+  ret5Y: number;
+  benchmarkBeat: number; // % vs benchmark over 3Y
+}
+
 interface PlanRow {
   id: string;
   instrument: string;
@@ -847,6 +862,7 @@ interface PlanRow {
   why: string;            // The "Why"
   benefit: string;        // The "Benefit"
   newAdditionRationale?: string; // Specific to NEW
+  evidence: FundEvidence;
 }
 
 interface GoalImpact {
