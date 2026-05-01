@@ -1270,7 +1270,21 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                     </div>
                   </div>
 
-                  {/* The Why */}
+                  {/* ============ MARKET EVIDENCE — Hard Proof First ============ */}
+                  <div className="rounded-xl border border-sip-border bg-sip-sidebar-hover/30 p-1">
+                    <FundEvidenceCard evidence={intelRow.evidence} highlight5Y={intelRow.action === 'NEW'} />
+                  </div>
+
+                  {/* Visual divider between Technical Data and Strategic Insights */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 h-px bg-sip-border" />
+                    <span className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold">
+                      Agent Intelligence
+                    </span>
+                    <div className="flex-1 h-px bg-sip-border" />
+                  </div>
+
+                  {/* AGENT INTELLIGENCE — The Why */}
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-sip-text-muted font-semibold mb-1.5">The "Why"</p>
                     <p className="text-sm text-sip-text-primary leading-relaxed">{intelRow.why}</p>
@@ -1285,11 +1299,13 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                         ? 'bg-red-50 border-red-100 text-red-900'
                         : 'bg-emerald-50 border-emerald-100 text-emerald-900',
                     )}>
-                      {intelRow.benefit}
+                      {intelRow.action === 'NEW'
+                        ? `This addition is mathematically required to re-align your portfolio with your ${topGoals[0].name} target.`
+                        : intelRow.benefit}
                     </p>
                   </div>
 
-                  {/* New Addition specific */}
+                  {/* New Addition specific rationale */}
                   {intelRow.action === 'NEW' && intelRow.newAdditionRationale && (
                     <div>
                       <p className="text-[10px] uppercase tracking-wider text-purple-700 font-semibold mb-1.5 flex items-center gap-1.5">
@@ -1300,9 +1316,6 @@ function ActionPhase({ onBack }: { onBack: () => void }) {
                       </p>
                     </div>
                   )}
-
-                  {/* ============ Market Evidence ============ */}
-                  <FundEvidenceCard evidence={intelRow.evidence} highlight5Y={intelRow.action === 'NEW'} />
 
                   {/* Impact tag */}
                   <div className="flex items-center justify-between pt-2 border-t border-sip-border">
