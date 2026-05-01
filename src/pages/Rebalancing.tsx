@@ -563,7 +563,7 @@ function WizardStep({ question, hint, options, selected, onSelect }: {
   );
 }
 
-function ProfileSummary({ profile, smartSwapEnabled }: { profile: { name: string; equityCap: number; focus: string; tone: string }; smartSwapEnabled: boolean }) {
+function ProfileSummary({ profile, advancedMode }: { profile: { name: string; equityCap: number; focus: string; tone: string }; advancedMode: boolean }) {
   return (
     <div className="space-y-5">
       <div className="text-center space-y-3">
