@@ -304,7 +304,15 @@ const AwnicCommandCenter: React.FC = () => {
                   <h2 className="mt-2 text-3xl font-bold tracking-tight text-card-foreground">{screen.title}</h2>
                   <p className="mt-2 max-w-3xl text-base text-muted-foreground">{screen.subtitle}</p>
                 </div>
-                <Button className="bg-enterprise-navy text-enterprise-text-primary hover:bg-enterprise-navy/90">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const idx = screens.findIndex((s) => s.id === active);
+                    const next = screens[(idx + 1) % screens.length];
+                    setActive(next.id);
+                  }}
+                  className="bg-enterprise-navy text-enterprise-text-primary hover:bg-enterprise-navy/90"
+                >
                   <RefreshCw className="mr-2 h-4 w-4" /> Simulate next event
                 </Button>
               </div>
