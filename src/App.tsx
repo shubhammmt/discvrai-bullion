@@ -98,6 +98,7 @@ import B2BPreIPOPitch from './pages/B2BPreIPOPitch';
 import AMCPitch from './pages/AMCPitch';
 import AMCEnterprisePitch from './pages/AMCEnterprisePitch';
 import EnterprisePitch from './pages/EnterprisePitch';
+import EnterpriseDeckLite from './pages/EnterpriseDeckLite';
 import ExpoPitch from './pages/ExpoPitch';
 import PartnerDistribution from './pages/PartnerDistribution';
 import { B2BCapabilities } from './pages/B2BCapabilities';
@@ -278,6 +279,7 @@ const AppContent = () => {
                         location.pathname === '/pitch/schlumberger' ||
                         location.pathname === '/pitch/walchandnagar' ||
                          location.pathname === '/pitch/enterprise' ||
+                         location.pathname === '/pitch/enterprise-lite' ||
                          location.pathname === '/pitch/bajaj-finserv' ||
                          location.pathname === '/pitch/discvrai-platform' ||
                          location.pathname === '/cms-data-lake' ||
@@ -481,6 +483,7 @@ const AppContent = () => {
                   <Route path="/pitch/schlumberger" element={<SchlumbergerDeck />} />
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
                    <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
+                   <Route path="/pitch/enterprise-lite" element={<EnterpriseDeckLite />} />
                    <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
                    <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
                     <Route path="/cms-data-lake" element={<CMSDataLake />} />
