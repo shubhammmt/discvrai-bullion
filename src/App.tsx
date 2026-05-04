@@ -515,6 +515,7 @@ const AppContent = () => {
                   <Route path="/alerts" element={<AlertsAndDigests />} />
                   <Route path="/alerts/inbox" element={<AlertsAndDigests />} />
                   <Route path="/rebalancing" element={<Rebalancing />} />
+                  <Route path="/admin/conversion-metrics" element={<ConversionMetrics />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />
