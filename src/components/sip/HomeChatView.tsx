@@ -8,6 +8,8 @@ import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { AgenticChatHome } from './AgenticChatHome';
 import { AuthUser } from './OTPLoginDialog';
 import { SIPUserState } from './SIPUserStateSwitcher';
+import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS } from '@/components/conversion';
+import { useNavigate } from 'react-router-dom';
 
 interface HomeChatViewProps {
   hasHoldings: boolean;
@@ -96,6 +98,11 @@ export function HomeChatView({
         </Card>
       )}
 
+      {/* Conversion strip — Resume + top Action + top Alert */}
+      {hasHoldings && !chatFullscreen && (
+        <ConversionStrip onNavigateTab={onNavigateTab} />
+      )}
+
       {/* Chat — with fullscreen toggle */}
       <Card className={cn(
         'transition-all',
@@ -125,6 +132,27 @@ export function HomeChatView({
           </div>
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function ConversionStrip({ onNavigateTab }: { onNavigateTab: (t: string) => void }) {
+  const navigate = useNavigate();
+  const handleAct = (target?: string) => {
+    if (!target) return;
+    if (target.startsWith('/')) navigate(target);
+  };
+  return (
+    <div className="space-y-2">
+      <ResumeSetupCard fundName="Parag Parikh Flexi Cap" step={3} totalSteps={4} onResume={() => onNavigateTab('buy')} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <ActionCard item={SAMPLE_ACTION_CARDS[0]} onAct={(i) => handleAct(i.ctaTarget)} />
+        <AlertCard alert={SAMPLE_ALERTS[1]} onAct={(a) => handleAct(a.ctaTarget)} />
+      </div>
+      <div className="flex items-center justify-between text-[10px] text-muted-foreground px-1">
+        <span>3 actions awaiting your input</span>
+        <button onClick={() => navigate('/alerts')} className="text-sip-brand hover:underline">View all alerts →</button>
+      </div>
     </div>
   );
 }

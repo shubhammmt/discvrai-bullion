@@ -184,6 +184,7 @@ import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import SIPManagement from './pages/SIPManagement';
 import AlertsAndDigests from './pages/AlertsAndDigests';
 import Rebalancing from './pages/Rebalancing';
+import ConversionMetrics from './pages/ConversionMetrics';
 import MFAnalyticsDashboard from './pages/MFAnalyticsDashboard';
 import AIAICProposal from './pages/AIAICProposal';
 import TredsFinopsDemo from './pages/TredsFinopsDemo';
@@ -302,6 +303,7 @@ const AppContent = () => {
                            location.pathname === '/alerts' ||
                            location.pathname === '/alerts/inbox' ||
                            location.pathname === '/rebalancing' ||
+                           location.pathname === '/admin/conversion-metrics' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -513,6 +515,7 @@ const AppContent = () => {
                   <Route path="/alerts" element={<AlertsAndDigests />} />
                   <Route path="/alerts/inbox" element={<AlertsAndDigests />} />
                   <Route path="/rebalancing" element={<Rebalancing />} />
+                  <Route path="/admin/conversion-metrics" element={<ConversionMetrics />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
                        <Route index element={<DiscvrHome />} />

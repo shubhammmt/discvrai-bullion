@@ -26,6 +26,7 @@ import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { AlertCard, SAMPLE_ALERTS } from '@/components/conversion';
 import { toast } from '@/hooks/use-toast';
 
 // ============ Types ============
@@ -471,6 +472,9 @@ function HomeView({ prefs, onSchedule, onOpenAlerts, onOpenCopilot }: {
         </CardContent>
       </Card>
 
+      {/* Personalized holdings-tagged feed */}
+      <PersonalizedFeedSection />
+
       {/* Composer */}
       <Card className="border-sip-border rounded-2xl">
         <CardContent className="p-3 flex items-center gap-2">
@@ -480,6 +484,42 @@ function HomeView({ prefs, onSchedule, onOpenAlerts, onOpenCopilot }: {
           </Button>
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function PersonalizedFeedSection() {
+  const navigate = useNavigate();
+  const handle = (target?: string) => target?.startsWith('/') && navigate(target);
+  return (
+    <Card className="border-sip-border rounded-2xl">
+      <CardContent className="p-4 space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-semibold text-sip-text-primary">Your personalized feed</p>
+            <p className="text-[11px] text-sip-text-secondary">Tagged to your holdings · CTA on every alert</p>
+          </div>
+          <button onClick={() => navigate('/alerts/inbox')} className="text-[11px] text-sip-brand hover:underline">Inbox →</button>
+        </div>
+        {SAMPLE_ALERTS.slice(0, 4).map(a => (
+          <AlertCard key={a.id} alert={a} onAct={(it) => handle(it.ctaTarget)} />
+        ))}
+        <DigestModeCard />
+      </CardContent>
+    </Card>
+  );
+}
+
+function DigestModeCard() {
+  return (
+    <div className="rounded-lg border border-dashed border-sip-brand/40 bg-sip-brand/5 p-3">
+      <p className="text-xs font-semibold text-foreground">Digest mode (weekly)</p>
+      <p className="text-[10px] text-muted-foreground mt-0.5">Bundled summary every Monday 9 AM IST. Reduces notification fatigue for inactive users.</p>
+      <div className="mt-2 grid grid-cols-3 gap-2 text-center">
+        <div><p className="text-[9px] text-muted-foreground uppercase">This week</p><p className="text-sm font-bold text-emerald-600">+1.8%</p></div>
+        <div><p className="text-[9px] text-muted-foreground uppercase">Actions</p><p className="text-sm font-bold text-foreground">3</p></div>
+        <div><p className="text-[9px] text-muted-foreground uppercase">Cleared</p><p className="text-sm font-bold text-foreground">5</p></div>
+      </div>
     </div>
   );
 }

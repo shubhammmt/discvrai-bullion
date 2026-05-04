@@ -33,6 +33,7 @@ import { Button } from '@/components/ui/button';
 import { MOCK_SIPS, MutualFund } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ConversionContextHeader, SmartShortlistSection } from '@/components/conversion/screenerSections';
 
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -265,16 +266,20 @@ const SIPManagement = () => {
 
           {/* SCREENER TAB */}
           {activeTab === 'screener' && (
-            <Card>
-              <CardContent className="p-4">
-                <SmartFundSearch
-                  standalone
-                  onSelectFund={(fund, investMode) => {
-                    setActiveTab('buy');
-                  }}
-                />
-              </CardContent>
-            </Card>
+            <div className="space-y-4">
+              <ConversionContextHeader />
+              <SmartShortlistSection onInvest={() => setActiveTab('buy')} />
+              <Card>
+                <CardContent className="p-4">
+                  <SmartFundSearch
+                    standalone
+                    onSelectFund={(fund, investMode) => {
+                      setActiveTab('buy');
+                    }}
+                  />
+                </CardContent>
+              </Card>
+            </div>
           )}
 
           {/* TRANSACTIONS */}
