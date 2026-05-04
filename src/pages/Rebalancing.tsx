@@ -672,6 +672,24 @@ function DashboardPhase({ onSimulateDrift }: { onSimulateDrift: () => void }) {
         </Card>
       </div>
 
+      {/* Action Cards — Pillar 3: Insight → Action linkage */}
+      <Card className="border-sip-border">
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-semibold text-sip-text-primary">Recommended actions</h3>
+              <p className="text-xs text-sip-text-muted mt-0.5">Insight → Impact preview → Execute. Tracks acceptance %.</p>
+            </div>
+            <Badge variant="outline" className="text-[10px]">{SAMPLE_ACTION_CARDS.length} pending</Badge>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            {SAMPLE_ACTION_CARDS.map(item => (
+              <ActionCard key={item.id} item={item} onAct={(i) => i.ctaTarget && (window.location.href = i.ctaTarget)} />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Demo trigger */}
       <Card className="border-amber-200 bg-amber-50/50">
         <CardContent className="p-4 flex items-center justify-between gap-4">
