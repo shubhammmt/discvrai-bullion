@@ -98,6 +98,11 @@ export function HomeChatView({
         </Card>
       )}
 
+      {/* Conversion strip — Resume + top Action + top Alert */}
+      {hasHoldings && !chatFullscreen && (
+        <ConversionStrip onNavigateTab={onNavigateTab} />
+      )}
+
       {/* Chat — with fullscreen toggle */}
       <Card className={cn(
         'transition-all',
