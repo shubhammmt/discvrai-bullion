@@ -12,6 +12,11 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { SIP_CATEGORY_MAP } from '@/config/sipBrandConfig';
 
+type RiskLevel = 'Conservative' | 'Moderate' | 'Aggressive' | 'Very Aggressive';
+
+// Profile-level default risk (in real app, comes from user profile API)
+const PROFILE_DEFAULT_RISK: RiskLevel = 'Moderate';
+
 interface GoalData {
   id: string;
   name: string;
@@ -20,12 +25,14 @@ interface GoalData {
   monthlySIP: number;
   targetDate: string;
   category: string;
+  riskLevel: RiskLevel;
+  useProfileRisk: boolean;
 }
 
 const SAMPLE_GOALS: GoalData[] = [
-  { id: '1', name: 'Marriage Celebration', targetAmount: 10000000, currentAmount: 280000, monthlySIP: 29494, targetDate: 'Dec 2028', category: 'Wedding' },
-  { id: '2', name: "Child's Education", targetAmount: 5000000, currentAmount: 120000, monthlySIP: 15000, targetDate: 'Jun 2032', category: 'Education' },
-  { id: '3', name: 'Emergency Fund', targetAmount: 500000, currentAmount: 320000, monthlySIP: 5000, targetDate: 'Dec 2026', category: 'Emergency' },
+  { id: '1', name: 'Marriage Celebration', targetAmount: 10000000, currentAmount: 280000, monthlySIP: 29494, targetDate: 'Dec 2028', category: 'Wedding', riskLevel: 'Moderate', useProfileRisk: true },
+  { id: '2', name: "Child's Education", targetAmount: 5000000, currentAmount: 120000, monthlySIP: 15000, targetDate: 'Jun 2032', category: 'Education', riskLevel: 'Aggressive', useProfileRisk: false },
+  { id: '3', name: 'Emergency Fund', targetAmount: 500000, currentAmount: 320000, monthlySIP: 5000, targetDate: 'Dec 2026', category: 'Emergency', riskLevel: 'Conservative', useProfileRisk: false },
 ];
 
 const categoryIcons: Record<string, typeof Target> = {
@@ -37,6 +44,7 @@ const categoryIcons: Record<string, typeof Target> = {
 };
 
 const CATEGORIES = ['Wedding', 'Education', 'Home', 'Emergency', 'Retirement'];
+const RISK_LEVELS: RiskLevel[] = ['Conservative', 'Moderate', 'Aggressive', 'Very Aggressive'];
 
 interface GoalFormData {
   name: string;
@@ -45,9 +53,11 @@ interface GoalFormData {
   monthlySIP: string;
   targetDate: string;
   category: string;
+  riskLevel: RiskLevel;
+  useProfileRisk: boolean;
 }
 
-const emptyForm: GoalFormData = { name: '', targetAmount: '', currentAmount: '0', monthlySIP: '', targetDate: '', category: 'Emergency' };
+const emptyForm: GoalFormData = { name: '', targetAmount: '', currentAmount: '0', monthlySIP: '', targetDate: '', category: 'Emergency', riskLevel: PROFILE_DEFAULT_RISK, useProfileRisk: true };
 
 export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
   compact?: boolean;
@@ -65,13 +75,14 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
   const openAdd = () => { setEditingGoal(null); setForm(emptyForm); setDialogOpen(true); };
   const openEdit = (goal: GoalData) => {
     setEditingGoal(goal);
-    setForm({ name: goal.name, targetAmount: goal.targetAmount.toString(), currentAmount: goal.currentAmount.toString(), monthlySIP: goal.monthlySIP.toString(), targetDate: goal.targetDate, category: goal.category });
+    setForm({ name: goal.name, targetAmount: goal.targetAmount.toString(), currentAmount: goal.currentAmount.toString(), monthlySIP: goal.monthlySIP.toString(), targetDate: goal.targetDate, category: goal.category, riskLevel: goal.riskLevel, useProfileRisk: goal.useProfileRisk });
     setDialogOpen(true);
   };
 
   const handleSave = () => {
     if (!form.name || !form.targetAmount || !form.targetDate) { toast.error('Please fill all required fields'); return; }
-    const goalData: GoalData = { id: editingGoal?.id || Date.now().toString(), name: form.name, targetAmount: Number(form.targetAmount), currentAmount: Number(form.currentAmount) || 0, monthlySIP: Number(form.monthlySIP) || 0, targetDate: form.targetDate, category: form.category };
+    const effectiveRisk = form.useProfileRisk ? PROFILE_DEFAULT_RISK : form.riskLevel;
+    const goalData: GoalData = { id: editingGoal?.id || Date.now().toString(), name: form.name, targetAmount: Number(form.targetAmount), currentAmount: Number(form.currentAmount) || 0, monthlySIP: Number(form.monthlySIP) || 0, targetDate: form.targetDate, category: form.category, riskLevel: effectiveRisk, useProfileRisk: form.useProfileRisk };
     if (editingGoal) { setGoals(prev => prev.map(g => g.id === editingGoal.id ? goalData : g)); toast.success('Goal updated'); }
     else { setGoals(prev => [...prev, goalData]); toast.success('Goal created'); }
     setDialogOpen(false);
@@ -149,6 +160,11 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
                     <span>by {goal.targetDate}</span>
                   </div>
                   <Progress value={progress} className="h-1.5" />
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4">
+                      Risk: {goal.riskLevel}{goal.useProfileRisk && ' · profile'}
+                    </Badge>
+                  </div>
                 </div>
               </div>
             );
@@ -204,6 +220,35 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
                 <Label>Target Date *</Label>
                 <Input placeholder="e.g. Dec 2030" value={form.targetDate} onChange={e => setForm(f => ({ ...f, targetDate: e.target.value }))} />
               </div>
+            </div>
+
+            {/* Risk profile — per-goal override on top of profile default */}
+            <div className="space-y-2 rounded-lg border border-sip-border p-3 bg-muted/20">
+              <div className="flex items-center justify-between gap-2">
+                <Label className="text-xs">Risk for this goal</Label>
+                <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="h-3 w-3 accent-sip-brand"
+                    checked={form.useProfileRisk}
+                    onChange={e => setForm(f => ({ ...f, useProfileRisk: e.target.checked, riskLevel: e.target.checked ? PROFILE_DEFAULT_RISK : f.riskLevel }))}
+                  />
+                  Use my profile risk ({PROFILE_DEFAULT_RISK})
+                </label>
+              </div>
+              <Select
+                value={form.riskLevel}
+                onValueChange={v => setForm(f => ({ ...f, riskLevel: v as RiskLevel, useProfileRisk: false }))}
+                disabled={form.useProfileRisk}
+              >
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {RISK_LEVELS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                </SelectContent>
+              </Select>
+              <p className="text-[10px] text-muted-foreground">
+                Risk lives on your profile by default. Override per-goal when, e.g., your emergency fund needs to be more conservative than your retirement corpus.
+              </p>
             </div>
           </div>
           <DialogFooter>
