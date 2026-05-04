@@ -8,11 +8,11 @@ interface ContextChipsProps {
 }
 
 export function ContextChips({ context, onClear }: ContextChipsProps) {
-  const chips: { key: keyof ConversionContext; label: string; icon: any; value?: any }[] = [
-    { key: 'goal', label: 'Goal', icon: Target, value: context.goal },
-    { key: 'risk', label: 'Risk', icon: Activity, value: context.risk },
-    { key: 'horizon', label: 'Horizon', icon: Clock, value: context.horizon },
-  ].filter(c => c.value);
+  const chips = ([
+    { key: 'goal' as const, label: 'Goal', icon: Target, value: context.goal },
+    { key: 'risk' as const, label: 'Risk', icon: Activity, value: context.risk },
+    { key: 'horizon' as const, label: 'Horizon', icon: Clock, value: context.horizon },
+  ]).filter(c => c.value);
 
   if (chips.length === 0) return null;
 
