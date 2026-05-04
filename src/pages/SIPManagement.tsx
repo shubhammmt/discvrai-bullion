@@ -34,6 +34,7 @@ import { MOCK_SIPS, MutualFund } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ConversionContextHeader, SmartShortlistSection } from '@/components/conversion/screenerSections';
+import { CuratedShelves } from '@/components/conversion';
 
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -268,6 +269,11 @@ const SIPManagement = () => {
           {activeTab === 'screener' && (
             <div className="space-y-4">
               <ConversionContextHeader />
+              <CuratedShelves
+                title="Browse by Category"
+                onInvest={() => setActiveTab('buy')}
+                onSeeAll={() => {/* stays on screener */}}
+              />
               <SmartShortlistSection onInvest={() => setActiveTab('buy')} />
               <Card>
                 <CardContent className="p-4">

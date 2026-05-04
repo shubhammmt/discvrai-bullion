@@ -8,7 +8,7 @@ import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { AgenticChatHome } from './AgenticChatHome';
 import { AuthUser } from './OTPLoginDialog';
 import { SIPUserState } from './SIPUserStateSwitcher';
-import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS } from '@/components/conversion';
+import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS, CuratedShelves } from '@/components/conversion';
 import { useNavigate } from 'react-router-dom';
 
 interface HomeChatViewProps {
@@ -101,6 +101,16 @@ export function HomeChatView({
       {/* Conversion strip — Resume + top Action + top Alert */}
       {hasHoldings && !chatFullscreen && (
         <ConversionStrip onNavigateTab={onNavigateTab} />
+      )}
+
+      {/* Curated discovery shelves — visible to ALL users (new + existing) */}
+      {!chatFullscreen && (
+        <CuratedShelves
+          variant="full"
+          defaultShelf={hasHoldings ? 'top-returns' : 'tax'}
+          onInvest={() => onNavigateTab('buy')}
+          onSeeAll={() => onNavigateTab('screener')}
+        />
       )}
 
       {/* Chat — with fullscreen toggle */}
