@@ -61,6 +61,7 @@ import MahindraArmoredDeck from './pages/MahindraArmoredDeck';
 import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import MSMELendingCommandCenter from './pages/MSMELendingCommandCenter';
 import CVMCommandCenter from './pages/CVMCommandCenter';
+import AwnicCommandCenter from './pages/AwnicCommandCenter';
 import VedantaDecisionHub from './pages/VedantaDecisionHub';
 import GreenkoCommandCenter from './pages/GreenkoCommandCenter';
 import HavellsDecisionStudio from './pages/HavellsDecisionStudio';
@@ -288,6 +289,7 @@ const AppContent = () => {
                            location.pathname === '/cms-audit-2' ||
                            location.pathname === '/cms-audit' ||
                            location.pathname === '/demo/schlumberger-ops' ||
+                            location.pathname === '/demo/awnic' ||
                            location.pathname === '/vedanta-decision-hub' ||
                            location.pathname === '/greenko-command-center' ||
                            location.pathname === '/havells-decision-studio' ||
@@ -497,6 +499,7 @@ const AppContent = () => {
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
                      <Route path="/demo/cvm-command" element={<CVMCommandCenter />} />
+                     <Route path="/demo/awnic" element={<AwnicCommandCenter />} />
                      <Route path="/vedanta-decision-hub" element={<VedantaDecisionHub />} />
                     <Route path="/greenko-command-center" element={<GreenkoCommandCenter />} />
                     <Route path="/havells-decision-studio" element={<HavellsDecisionStudio />} />
