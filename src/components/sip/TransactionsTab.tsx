@@ -7,6 +7,7 @@ import { ArrowUpRight, ArrowDownLeft, Repeat, ArrowLeftRight, Filter, Download, 
 import { cn } from '@/lib/utils';
 import { SIPStatusBadge, txTypeColors } from './SIPStatusBadge';
 import { API_CONFIG, getApiToken } from '@/config/api';
+import { TransactionTimeline, SAMPLE_TIMELINE, CutoffBanner } from '@/components/conversion';
 
 interface APITransaction {
   order_id: string;
