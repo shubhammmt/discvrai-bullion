@@ -117,6 +117,14 @@ export function TransactionsTab() {
 
   return (
     <div className="space-y-4">
+      {/* Live in-flight order timeline (Pillar 2) */}
+      <Card className="border-sip-brand/20">
+        <CardContent className="p-4 space-y-3">
+          <TransactionTimeline steps={SAMPLE_TIMELINE} title="Order in-flight · #ORD-AX9821" />
+          <CutoffBanner />
+        </CardContent>
+      </Card>
+
       {/* Summary */}
       <div className="grid grid-cols-3 gap-3">
         <Card>
