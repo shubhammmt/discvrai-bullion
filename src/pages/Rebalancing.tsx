@@ -28,6 +28,7 @@ import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ActionCard, SAMPLE_ACTION_CARDS } from '@/components/conversion';
 import { toast } from '@/hooks/use-toast';
 
 // ============ Phases ============
