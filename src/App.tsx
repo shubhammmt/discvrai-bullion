@@ -303,6 +303,7 @@ const AppContent = () => {
                            location.pathname === '/alerts' ||
                            location.pathname === '/alerts/inbox' ||
                            location.pathname === '/rebalancing' ||
+                           location.pathname === '/admin/conversion-metrics' ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
