@@ -7,13 +7,11 @@ import {
   CheckCircle2,
   Clock,
   Headphones,
-  MessageSquare,
   RefreshCw,
   ShieldCheck,
   Sparkles,
   Target,
   UserRoundCheck,
-  Wrench,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
