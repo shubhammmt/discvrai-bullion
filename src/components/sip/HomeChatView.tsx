@@ -8,6 +8,8 @@ import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { AgenticChatHome } from './AgenticChatHome';
 import { AuthUser } from './OTPLoginDialog';
 import { SIPUserState } from './SIPUserStateSwitcher';
+import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS } from '@/components/conversion';
+import { useNavigate } from 'react-router-dom';
 
 interface HomeChatViewProps {
   hasHoldings: boolean;
