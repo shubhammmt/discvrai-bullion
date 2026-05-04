@@ -8,3 +8,4 @@ export { TransactionTimeline, SAMPLE_TIMELINE } from './TransactionTimeline';
 export { ActionCard, ImpactPreviewView, SAMPLE_ACTION_CARDS } from './ActionCard';
 export { AlertCard, SAMPLE_ALERTS } from './AlertCard';
 export { buildSmartShortlist } from './shortlistEngine';
+export { CuratedShelves, CURATED_SHELVES } from './CuratedShelves';
