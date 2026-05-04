@@ -160,6 +160,11 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
                     <span>by {goal.targetDate}</span>
                   </div>
                   <Progress value={progress} className="h-1.5" />
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4">
+                      Risk: {goal.riskLevel}{goal.useProfileRisk && ' · profile'}
+                    </Badge>
+                  </div>
                 </div>
               </div>
             );
@@ -215,6 +220,35 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
                 <Label>Target Date *</Label>
                 <Input placeholder="e.g. Dec 2030" value={form.targetDate} onChange={e => setForm(f => ({ ...f, targetDate: e.target.value }))} />
               </div>
+            </div>
+
+            {/* Risk profile — per-goal override on top of profile default */}
+            <div className="space-y-2 rounded-lg border border-sip-border p-3 bg-muted/20">
+              <div className="flex items-center justify-between gap-2">
+                <Label className="text-xs">Risk for this goal</Label>
+                <label className="flex items-center gap-1.5 text-[10px] text-muted-foreground cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="h-3 w-3 accent-sip-brand"
+                    checked={form.useProfileRisk}
+                    onChange={e => setForm(f => ({ ...f, useProfileRisk: e.target.checked, riskLevel: e.target.checked ? PROFILE_DEFAULT_RISK : f.riskLevel }))}
+                  />
+                  Use my profile risk ({PROFILE_DEFAULT_RISK})
+                </label>
+              </div>
+              <Select
+                value={form.riskLevel}
+                onValueChange={v => setForm(f => ({ ...f, riskLevel: v as RiskLevel, useProfileRisk: false }))}
+                disabled={form.useProfileRisk}
+              >
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {RISK_LEVELS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                </SelectContent>
+              </Select>
+              <p className="text-[10px] text-muted-foreground">
+                Risk lives on your profile by default. Override per-goal when, e.g., your emergency fund needs to be more conservative than your retirement corpus.
+              </p>
             </div>
           </div>
           <DialogFooter>
