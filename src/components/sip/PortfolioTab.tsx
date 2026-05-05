@@ -7,6 +7,7 @@ import { MOCK_SIPS, MOCK_FUNDS } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { SIPBrandLogo } from './SIPBrandLogo';
 import { SIP_ALLOCATION_COLORS } from '@/config/sipBrandConfig';
+import { ActionQueue, SAMPLE_TRIGGERS } from '@/components/conversion';
 
 function formatINR(value: number): string {
   if (value >= 10000000) return `₹${(value / 10000000).toFixed(2)} Cr`;
@@ -48,6 +49,14 @@ export function PortfolioTab({ onInvest }: { onInvest?: () => void }) {
 
   return (
     <div className="space-y-4">
+      {/* Rebalance Alerts — top of portfolio, highest-severity first */}
+      <ActionQueue
+        triggers={SAMPLE_TRIGGERS}
+        title="Rebalance Alerts"
+        subtitle="What changed, why it matters, and the suggested action — sorted by severity."
+        limit={4}
+      />
+
       <Card className="border-border">
         <CardContent className="p-4">
           <div className="flex items-center gap-2 mb-4">
