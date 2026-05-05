@@ -7,6 +7,7 @@ import { MOCK_SIPS, MOCK_FUNDS } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { SIPBrandLogo } from './SIPBrandLogo';
 import { SIP_ALLOCATION_COLORS } from '@/config/sipBrandConfig';
+import { ActionQueue, SAMPLE_TRIGGERS } from '@/components/conversion';
 
 function formatINR(value: number): string {
   if (value >= 10000000) return `₹${(value / 10000000).toFixed(2)} Cr`;
