@@ -49,6 +49,14 @@ export function PortfolioTab({ onInvest }: { onInvest?: () => void }) {
 
   return (
     <div className="space-y-4">
+      {/* Rebalance Alerts — top of portfolio, highest-severity first */}
+      <ActionQueue
+        triggers={SAMPLE_TRIGGERS}
+        title="Rebalance Alerts"
+        subtitle="What changed, why it matters, and the suggested action — sorted by severity."
+        limit={4}
+      />
+
       <Card className="border-border">
         <CardContent className="p-4">
           <div className="flex items-center gap-2 mb-4">
