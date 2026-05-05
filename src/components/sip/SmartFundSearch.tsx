@@ -376,9 +376,20 @@ export function SmartFundSearch({
             </span>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-1 shrink-0">
+        <div className="flex flex-col items-center gap-1.5 shrink-0">
+          <button
+            onClick={(e) => { e.stopPropagation(); toggleCompare(fund.code); }}
+            title={compareCodes.includes(fund.code) ? 'Remove from compare' : 'Add to compare'}
+            className={cn(
+              'w-6 h-6 rounded border flex items-center justify-center transition-colors',
+              compareCodes.includes(fund.code)
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border text-muted-foreground hover:border-primary/40'
+            )}
+          >
+            {compareCodes.includes(fund.code) ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          </button>
           <Eye className="w-4 h-4 text-muted-foreground" />
-          <span className="text-[9px] text-muted-foreground">Details</span>
         </div>
       </div>
     </div>
