@@ -9,3 +9,19 @@ export { ActionCard, ImpactPreviewView, SAMPLE_ACTION_CARDS } from './ActionCard
 export { AlertCard, SAMPLE_ALERTS } from './AlertCard';
 export { buildSmartShortlist } from './shortlistEngine';
 export { CuratedShelves, CURATED_SHELVES } from './CuratedShelves';
+export { TriggerCard } from './TriggerCard';
+export { ActionQueue } from './ActionQueue';
+export { SipHealthModule } from './SipHealthModule';
+export type { SipHealth } from './SipHealthModule';
+export { AddInstrumentDialog } from './AddInstrumentDialog';
+export {
+  DEFAULT_THRESHOLDS, SAMPLE_TRIGGERS, sortTriggers,
+  topTrigger, topRebalanceTrigger, topSipTrigger, isApplyAllEligible,
+  triggerActionLabel,
+} from './triggerEngine';
+export type {
+  PortfolioTrigger, TriggerSeverity, TriggerActionType,
+  TriggerCategory, TriggerThresholds,
+} from './triggerEngine';
+export { trackConversionEvent } from './events';
+export type { ConversionEvent } from './events';
