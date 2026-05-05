@@ -49,6 +49,10 @@ const SIPManagement = () => {
     } catch { return null; }
   });
 
+  // Goal-derived screener context (set when user creates a goal)
+  const [goalContext, setGoalContext] = useState<import('@/components/conversion/types').ConversionContext | undefined>();
+  const [purchasePrefill, setPurchasePrefill] = useState<import('@/components/sip/FundPurchaseWidget').FundPurchasePrefill | undefined>();
+
   // Collapse sidebar on mobile by default
   useEffect(() => {
     if (isMobile) setSidebarOpen(false);
