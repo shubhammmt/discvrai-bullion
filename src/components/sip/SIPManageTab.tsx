@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ShoppingCart, Filter } from 'lucide-react';
 import { ManageSIPWidget } from './ManageSIPWidget';
 import { SIPDashboardSummary } from './SIPDashboardSummary';
+import { SipHealthModule } from '@/components/conversion';
 
 const API_BASE_URL = import.meta.env.VITE_DISCVR_API_BASE_URL || '';
 const API_TOKEN = import.meta.env.VITE_DISCVR_API_TOKEN || '';
@@ -52,6 +53,14 @@ export function SIPManageTab({ onCreateSIP }: SIPManageTabProps) {
           <ShoppingCart className="w-3.5 h-3.5 mr-1.5" /> Create New SIP
         </Button>
       </div>
+
+      {/* SIP Health module — Active / Failed / Upcoming / Top-up */}
+      <SipHealthModule
+        onResume={onCreateSIP}
+        onTopup={() => setStatusFilter('ACTIVE')}
+        onChangeDate={() => setStatusFilter('ACTIVE')}
+        onSwitchFund={onCreateSIP}
+      />
 
       {/* Summary Dashboard */}
       <SIPDashboardSummary sips={allSips} />
