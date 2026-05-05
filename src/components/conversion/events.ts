@@ -5,7 +5,8 @@ export type ConversionEvent =
   | 'rebalance_plan_opened' | 'plan_accepted' | 'plan_edited'
   | 'order_initiated' | 'order_completed'
   | 'sip_resumed' | 'sip_topup_accepted' | 'sip_date_changed'
-  | 'apply_all_clicked' | 'instrument_added' | 'alert_created';
+  | 'apply_all_clicked' | 'instrument_added' | 'alert_created'
+  | 'compare_opened' | 'compare_picked' | 'goal_created' | 'shortlist_invest_clicked';
 
 export function trackConversionEvent(event: ConversionEvent, payload: Record<string, unknown> = {}) {
   const evt = { event, ts: Date.now(), ...payload };

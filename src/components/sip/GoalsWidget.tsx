@@ -59,10 +59,20 @@ interface GoalFormData {
 
 const emptyForm: GoalFormData = { name: '', targetAmount: '', currentAmount: '0', monthlySIP: '', targetDate: '', category: 'Emergency', riskLevel: PROFILE_DEFAULT_RISK, useProfileRisk: true };
 
-export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
+export interface GoalCreatedContext {
+  goal: string;
+  category: string;
+  risk: RiskLevel;
+  monthlySIP: number;
+  targetDate: string;
+  targetAmount: number;
+}
+
+export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoalCreated }: {
   compact?: boolean;
   onCreateGoal?: () => void;
   onViewGoals?: () => void;
+  onGoalCreated?: (ctx: GoalCreatedContext) => void;
 }) {
   const [goals, setGoals] = useState<GoalData[]>(SAMPLE_GOALS);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -84,7 +94,18 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
     const effectiveRisk = form.useProfileRisk ? PROFILE_DEFAULT_RISK : form.riskLevel;
     const goalData: GoalData = { id: editingGoal?.id || Date.now().toString(), name: form.name, targetAmount: Number(form.targetAmount), currentAmount: Number(form.currentAmount) || 0, monthlySIP: Number(form.monthlySIP) || 0, targetDate: form.targetDate, category: form.category, riskLevel: effectiveRisk, useProfileRisk: form.useProfileRisk };
     if (editingGoal) { setGoals(prev => prev.map(g => g.id === editingGoal.id ? goalData : g)); toast.success('Goal updated'); }
-    else { setGoals(prev => [...prev, goalData]); toast.success('Goal created'); }
+    else {
+      setGoals(prev => [...prev, goalData]);
+      toast.success('Goal created — finding matching funds…');
+      onGoalCreated?.({
+        goal: goalData.name,
+        category: goalData.category,
+        risk: effectiveRisk,
+        monthlySIP: goalData.monthlySIP,
+        targetDate: goalData.targetDate,
+        targetAmount: goalData.targetAmount,
+      });
+    }
     setDialogOpen(false);
   };
 

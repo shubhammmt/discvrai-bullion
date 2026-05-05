@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, AlertCircle, Info, ArrowRight, Target } from 'lucide-react';
+import { AlertTriangle, AlertCircle, Info, ArrowRight, Target, GitCompare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { PortfolioTrigger, triggerActionLabel } from './triggerEngine';
 import { trackConversionEvent } from './events';
+import { CompareDrawer } from './CompareDrawer';
+import { buildSmartShortlist } from './shortlistEngine';
 
 const SEV_STYLE = {
   critical: { ring: 'border-red-300 bg-red-50/50', chip: 'bg-red-100 text-red-700 border-red-200', icon: AlertCircle },
@@ -22,6 +25,9 @@ interface TriggerCardProps {
 export function TriggerCard({ trigger: t, compact, onAct }: TriggerCardProps) {
   const navigate = useNavigate();
   const { ring, chip, icon: Icon } = SEV_STYLE[t.severity];
+  const [compareOpen, setCompareOpen] = useState(false);
+  const showCompare = t.recommendedAction === 'switch' || t.recommendedAction === 'rebalance' || t.category === 'overlap';
+  const compareFunds = showCompare ? buildSmartShortlist({ goal: t.impactedGoals[0], risk: 'Moderate', horizon: 'long-term' }).slice(0, 3) : [];
 
   const handleAct = () => {
     trackConversionEvent('trigger_action_clicked', { id: t.id, category: t.category, severity: t.severity });
@@ -62,12 +68,23 @@ export function TriggerCard({ trigger: t, compact, onAct }: TriggerCardProps) {
           </div>
         )}
 
-        <div className="flex justify-end">
+        <div className="flex justify-end items-center gap-2">
+          {showCompare && compareFunds.length >= 2 && (
+            <Button size="sm" variant="outline" className="h-7 text-[11px] gap-1" onClick={() => { trackConversionEvent('compare_opened', { trigger: t.id }); setCompareOpen(true); }}>
+              <GitCompare className="w-3 h-3" /> Compare alternatives
+            </Button>
+          )}
           <Button size="sm" className="h-7 text-[11px] gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={handleAct}>
             {t.ctaLabel} <ArrowRight className="w-3 h-3" />
           </Button>
         </div>
       </CardContent>
+      <CompareDrawer
+        open={compareOpen}
+        funds={compareFunds}
+        onClose={() => setCompareOpen(false)}
+        onPick={() => { trackConversionEvent('compare_picked', { trigger: t.id }); navigate(t.ctaTarget || '/rebalancing'); }}
+      />
     </Card>
   );
 }

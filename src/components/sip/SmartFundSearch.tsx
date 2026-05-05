@@ -20,6 +20,22 @@ import {
 import { MFScreenerFilters } from './MFScreenerWidget';
 import { FundDetailSheet } from './FundDetailSheet';
 import { SearchableSelect } from './SearchableSelect';
+import { CompareDrawer } from '@/components/conversion/CompareDrawer';
+import type { ShortlistFund } from '@/components/conversion/types';
+import { Plus, Check, GitCompare } from 'lucide-react';
+
+function toShortlistFund(f: MutualFund): ShortlistFund {
+  return {
+    code: f.code, name: f.name, category: f.category, amc: f.amc,
+    returns3Y: f.returns3Y, expenseRatio: f.expenseRatio, riskLevel: f.riskLevel,
+    reason: `3Y ${f.returns3Y}% • Expense ${f.expenseRatio}% • ${f.riskLevel} risk`,
+    reasonTags: [
+      f.expenseRatio < 0.7 ? 'Low expense' : null,
+      f.returns3Y > 18 ? 'Top quartile 3Y' : null,
+      f.aum > 20000 ? 'Large AUM' : null,
+    ].filter(Boolean) as string[],
+  };
+}
 
 type SearchMode = 'conventional' | 'ai';
 
@@ -124,6 +140,12 @@ export function SmartFundSearch({
   // Fund detail sheet state
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+
+  // Compare state
+  const [compareCodes, setCompareCodes] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const toggleCompare = (code: string) =>
+    setCompareCodes(p => p.includes(code) ? p.filter(c => c !== code) : p.length < 4 ? [...p, code] : p);
 
   const allCategories = assetClass
     ? getCategoriesForAssetClass(assetClass)
@@ -354,9 +376,20 @@ export function SmartFundSearch({
             </span>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-1 shrink-0">
+        <div className="flex flex-col items-center gap-1.5 shrink-0">
+          <button
+            onClick={(e) => { e.stopPropagation(); toggleCompare(fund.code); }}
+            title={compareCodes.includes(fund.code) ? 'Remove from compare' : 'Add to compare'}
+            className={cn(
+              'w-6 h-6 rounded border flex items-center justify-center transition-colors',
+              compareCodes.includes(fund.code)
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border text-muted-foreground hover:border-primary/40'
+            )}
+          >
+            {compareCodes.includes(fund.code) ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          </button>
           <Eye className="w-4 h-4 text-muted-foreground" />
-          <span className="text-[9px] text-muted-foreground">Details</span>
         </div>
       </div>
     </div>
@@ -771,6 +804,30 @@ export function SmartFundSearch({
         open={detailOpen}
         onOpenChange={setDetailOpen}
         onInvest={onSelectFund ? handleInvestFromDetail : undefined}
+      />
+
+      {/* Floating Compare bar */}
+      {compareCodes.length >= 2 && (
+        <div className="sticky bottom-3 flex justify-center pointer-events-none">
+          <div className="pointer-events-auto flex items-center gap-2 bg-foreground text-background px-3 py-2 rounded-full shadow-lg">
+            <GitCompare className="w-3.5 h-3.5" />
+            <span className="text-xs font-medium">{compareCodes.length} selected</span>
+            <button onClick={() => setCompareCodes([])} className="text-[10px] opacity-70 hover:opacity-100">clear</button>
+            <Button size="sm" className="h-7 text-xs ml-1" onClick={() => setCompareOpen(true)}>
+              Compare →
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <CompareDrawer
+        open={compareOpen}
+        funds={displayedFunds.filter(f => compareCodes.includes(f.code)).map(toShortlistFund)}
+        onClose={() => setCompareOpen(false)}
+        onPick={(sf) => {
+          const f = displayedFunds.find(x => x.code === sf.code);
+          if (f) handleFundAction(f);
+        }}
       />
     </div>
   );
