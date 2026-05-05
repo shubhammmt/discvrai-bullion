@@ -28,7 +28,7 @@ import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ActionCard, SAMPLE_ACTION_CARDS } from '@/components/conversion';
+import { ActionCard, SAMPLE_ACTION_CARDS, ActionQueue, SAMPLE_TRIGGERS } from '@/components/conversion';
 import { toast } from '@/hooks/use-toast';
 
 // ============ Phases ============
@@ -673,12 +673,19 @@ function DashboardPhase({ onSimulateDrift }: { onSimulateDrift: () => void }) {
         </Card>
       </div>
 
-      {/* Action Cards — Pillar 3: Insight → Action linkage */}
+      {/* Action Queue — Trigger → Severity → CTA pipeline */}
+      <ActionQueue
+        triggers={SAMPLE_TRIGGERS}
+        title="Action Queue"
+        subtitle="Trigger → Severity → Recommended action. Critical items first; high-confidence bundles can be applied together."
+      />
+
+      {/* Recommended action cards — Insight → Impact preview → Execute */}
       <Card className="border-sip-border">
         <CardContent className="p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-semibold text-sip-text-primary">Recommended actions</h3>
+              <h3 className="text-base font-semibold text-sip-text-primary">Recommended actions (with impact preview)</h3>
               <p className="text-xs text-sip-text-muted mt-0.5">Insight → Impact preview → Execute. Tracks acceptance %.</p>
             </div>
             <Badge variant="outline" className="text-[10px]">{SAMPLE_ACTION_CARDS.length} pending</Badge>
