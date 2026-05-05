@@ -68,12 +68,23 @@ export function TriggerCard({ trigger: t, compact, onAct }: TriggerCardProps) {
           </div>
         )}
 
-        <div className="flex justify-end">
+        <div className="flex justify-end items-center gap-2">
+          {showCompare && compareFunds.length >= 2 && (
+            <Button size="sm" variant="outline" className="h-7 text-[11px] gap-1" onClick={() => { trackConversionEvent('compare_opened', { trigger: t.id }); setCompareOpen(true); }}>
+              <GitCompare className="w-3 h-3" /> Compare alternatives
+            </Button>
+          )}
           <Button size="sm" className="h-7 text-[11px] gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={handleAct}>
             {t.ctaLabel} <ArrowRight className="w-3 h-3" />
           </Button>
         </div>
       </CardContent>
+      <CompareDrawer
+        open={compareOpen}
+        funds={compareFunds}
+        onClose={() => setCompareOpen(false)}
+        onPick={() => { trackConversionEvent('compare_picked', { trigger: t.id }); navigate(t.ctaTarget || '/rebalancing'); }}
+      />
     </Card>
   );
 }
