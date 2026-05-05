@@ -141,6 +141,12 @@ export function SmartFundSearch({
   const [detailFund, setDetailFund] = useState<MutualFund | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
+  // Compare state
+  const [compareCodes, setCompareCodes] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const toggleCompare = (code: string) =>
+    setCompareCodes(p => p.includes(code) ? p.filter(c => c !== code) : p.length < 4 ? [...p, code] : p);
+
   const allCategories = assetClass
     ? getCategoriesForAssetClass(assetClass)
     : [...EQUITY_CATEGORIES, ...DEBT_CATEGORIES, ...HYBRID_CATEGORIES];
