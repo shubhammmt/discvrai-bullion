@@ -25,6 +25,9 @@ interface TriggerCardProps {
 export function TriggerCard({ trigger: t, compact, onAct }: TriggerCardProps) {
   const navigate = useNavigate();
   const { ring, chip, icon: Icon } = SEV_STYLE[t.severity];
+  const [compareOpen, setCompareOpen] = useState(false);
+  const showCompare = t.recommendedAction === 'switch' || t.recommendedAction === 'rebalance' || t.category === 'overlap';
+  const compareFunds = showCompare ? buildSmartShortlist({ goal: t.impactedGoals[0], risk: 'Moderate', horizon: 'long-term' }).slice(0, 3) : [];
 
   const handleAct = () => {
     trackConversionEvent('trigger_action_clicked', { id: t.id, category: t.category, severity: t.severity });
