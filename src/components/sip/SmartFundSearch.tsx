@@ -20,6 +20,22 @@ import {
 import { MFScreenerFilters } from './MFScreenerWidget';
 import { FundDetailSheet } from './FundDetailSheet';
 import { SearchableSelect } from './SearchableSelect';
+import { CompareDrawer } from '@/components/conversion/CompareDrawer';
+import type { ShortlistFund } from '@/components/conversion/types';
+import { Plus, Check, GitCompare } from 'lucide-react';
+
+function toShortlistFund(f: MutualFund): ShortlistFund {
+  return {
+    code: f.code, name: f.name, category: f.category, amc: f.amc,
+    returns3Y: f.returns3Y, expenseRatio: f.expenseRatio, riskLevel: f.riskLevel,
+    reason: `3Y ${f.returns3Y}% • Expense ${f.expenseRatio}% • ${f.riskLevel} risk`,
+    reasonTags: [
+      f.expenseRatio < 0.7 ? 'Low expense' : null,
+      f.returns3Y > 18 ? 'Top quartile 3Y' : null,
+      f.aum > 20000 ? 'Large AUM' : null,
+    ].filter(Boolean) as string[],
+  };
+}
 
 type SearchMode = 'conventional' | 'ai';
 
