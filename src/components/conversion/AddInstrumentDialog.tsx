@@ -37,8 +37,9 @@ export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
     if (actions.priceAlert && ref) {
       trackedStore.addAlert({
         assetType: type, symbol: sym, name: name.trim(),
-        kind: 'drawdown', condition: 'falls_below', targetValue: 5, baseline: ref, source: 'add-instrument',
-      } as any);
+        kind: 'drawdown', condition: 'below', targetValue: 5, baseline: ref,
+        source: 'wizard',
+      });
       trackConversionEvent('alert_created', { kind: 'drawdown', symbol: sym });
     }
     trackConversionEvent('instrument_added', { type, symbol: sym, actions });
