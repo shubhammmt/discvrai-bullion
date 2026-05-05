@@ -8,7 +8,7 @@ import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { AgenticChatHome } from './AgenticChatHome';
 import { AuthUser } from './OTPLoginDialog';
 import { SIPUserState } from './SIPUserStateSwitcher';
-import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS, CuratedShelves } from '@/components/conversion';
+import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS, CuratedShelves, SAMPLE_TRIGGERS, TriggerCard, topRebalanceTrigger, topSipTrigger } from '@/components/conversion';
 import { useNavigate } from 'react-router-dom';
 
 interface HomeChatViewProps {
@@ -98,6 +98,11 @@ export function HomeChatView({
         </Card>
       )}
 
+      {/* Portfolio Needs Attention — top trigger + SIP trigger when present */}
+      {hasHoldings && !chatFullscreen && (
+        <PortfolioAttentionBanner onNavigateTab={onNavigateTab} />
+      )}
+
       {/* Conversion strip — Resume + top Action + top Alert */}
       {hasHoldings && !chatFullscreen && (
         <ConversionStrip onNavigateTab={onNavigateTab} />
@@ -164,5 +169,41 @@ function ConversionStrip({ onNavigateTab }: { onNavigateTab: (t: string) => void
         <button onClick={() => navigate('/alerts')} className="text-sip-brand hover:underline">View all alerts →</button>
       </div>
     </div>
+  );
+}
+
+function PortfolioAttentionBanner({ onNavigateTab }: { onNavigateTab: (t: string) => void }) {
+  const navigate = useNavigate();
+  const reb = topRebalanceTrigger(SAMPLE_TRIGGERS);
+  const sip = topSipTrigger(SAMPLE_TRIGGERS);
+  if (!reb && !sip) return null;
+
+  const cards = [reb, sip].filter(Boolean).slice(0, 2);
+
+  return (
+    <Card className="border-amber-200 bg-gradient-to-br from-amber-50/60 to-background">
+      <CardContent className="p-3 space-y-2">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-[11px] uppercase tracking-wider text-amber-800 font-semibold">Portfolio Needs Attention</p>
+            <p className="text-[11px] text-sip-text-muted">Sharp triggers from your Smart Brain — sorted by severity.</p>
+          </div>
+          <button onClick={() => navigate('/rebalancing')} className="text-[11px] text-sip-brand hover:underline">Open rebalance →</button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {cards.map(t => (
+            <TriggerCard
+              key={t!.id}
+              trigger={t!}
+              compact
+              onAct={(tg) => {
+                if (tg.recommendedAction === 'fix-sip' || tg.recommendedAction === 'topup') onNavigateTab('manage');
+                else navigate(tg.ctaTarget);
+              }}
+            />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
