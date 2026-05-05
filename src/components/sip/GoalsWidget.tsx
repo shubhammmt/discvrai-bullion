@@ -59,10 +59,20 @@ interface GoalFormData {
 
 const emptyForm: GoalFormData = { name: '', targetAmount: '', currentAmount: '0', monthlySIP: '', targetDate: '', category: 'Emergency', riskLevel: PROFILE_DEFAULT_RISK, useProfileRisk: true };
 
-export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals }: {
+export interface GoalCreatedContext {
+  goal: string;
+  category: string;
+  risk: RiskLevel;
+  monthlySIP: number;
+  targetDate: string;
+  targetAmount: number;
+}
+
+export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoalCreated }: {
   compact?: boolean;
   onCreateGoal?: () => void;
   onViewGoals?: () => void;
+  onGoalCreated?: (ctx: GoalCreatedContext) => void;
 }) {
   const [goals, setGoals] = useState<GoalData[]>(SAMPLE_GOALS);
   const [dialogOpen, setDialogOpen] = useState(false);
