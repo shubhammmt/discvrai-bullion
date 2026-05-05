@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, AlertCircle, Info, ArrowRight, Target } from 'lucide-react';
+import { AlertTriangle, AlertCircle, Info, ArrowRight, Target, GitCompare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { PortfolioTrigger, triggerActionLabel } from './triggerEngine';
 import { trackConversionEvent } from './events';
+import { CompareDrawer } from './CompareDrawer';
+import { buildSmartShortlist } from './shortlistEngine';
 
 const SEV_STYLE = {
   critical: { ring: 'border-red-300 bg-red-50/50', chip: 'bg-red-100 text-red-700 border-red-200', icon: AlertCircle },
