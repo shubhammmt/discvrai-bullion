@@ -267,23 +267,48 @@ const SIPManagement = () => {
           {activeTab === 'portfolio' && <PortfolioTab onInvest={() => setActiveTab('buy')} />}
 
           {/* INVEST TAB */}
-          {activeTab === 'buy' && <FundPurchaseWidget />}
+          {activeTab === 'buy' && <FundPurchaseWidget prefill={purchasePrefill} />}
 
           {/* SCREENER TAB */}
           {activeTab === 'screener' && (
             <div className="space-y-4">
-              <ConversionContextHeader />
+              {goalContext && (
+                <Card className="border-sip-brand/30 bg-sip-brand/5">
+                  <CardContent className="p-3 flex items-center justify-between gap-2">
+                    <div className="text-xs">
+                      <span className="font-semibold text-foreground">Showing funds for: </span>
+                      <span className="text-sip-brand font-medium">{goalContext.goal}</span>
+                      <span className="text-muted-foreground"> · {goalContext.risk} risk · {goalContext.horizon}</span>
+                      {goalContext.amount ? <span className="text-muted-foreground"> · ₹{goalContext.amount.toLocaleString()}/mo</span> : null}
+                    </div>
+                    <Button size="sm" variant="ghost" className="h-6 text-[11px]" onClick={() => setGoalContext(undefined)}>Clear</Button>
+                  </CardContent>
+                </Card>
+              )}
+              <ConversionContextHeader context={goalContext} />
               <CuratedShelves
                 title="Browse by Category"
                 onInvest={() => setActiveTab('buy')}
                 onSeeAll={() => {/* stays on screener */}}
               />
-              <SmartShortlistSection onInvest={() => setActiveTab('buy')} />
+              <SmartShortlistSection
+                context={goalContext}
+                onInvest={() => {
+                  if (goalContext?.amount) setPurchasePrefill({ amount: goalContext.amount, mode: 'sip', goalTag: goalContext.goal });
+                  setActiveTab('buy');
+                }}
+              />
               <Card>
                 <CardContent className="p-4">
                   <SmartFundSearch
                     standalone
                     onSelectFund={(fund, investMode) => {
+                      setPurchasePrefill({
+                        fundCode: fund.code,
+                        mode: investMode === 'onetime' ? 'onetime' : 'sip',
+                        amount: goalContext?.amount,
+                        goalTag: goalContext?.goal,
+                      });
                       setActiveTab('buy');
                     }}
                   />
@@ -311,6 +336,19 @@ const SIPManagement = () => {
             <GoalsWidget
               onCreateGoal={() => {/* handled inside widget */}}
               onViewGoals={() => {}}
+              onGoalCreated={(ctx) => {
+                // Derive years from "Mon YYYY"
+                const m = ctx.targetDate.match(/(\d{4})/);
+                const years = m ? Math.max(1, Number(m[1]) - new Date().getFullYear()) : 5;
+                const horizon = years <= 3 ? '1-3 years' : years <= 7 ? '3-7 years' : '7+ years';
+                setGoalContext({
+                  goal: ctx.goal,
+                  risk: ctx.risk === 'Conservative' ? 'Low' : ctx.risk === 'Moderate' ? 'Moderate' : ctx.risk === 'Aggressive' ? 'High' : 'Very High',
+                  horizon,
+                  amount: ctx.monthlySIP || undefined,
+                });
+                setActiveTab('screener');
+              }}
             />
           )}
 
