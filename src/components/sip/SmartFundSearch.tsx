@@ -805,6 +805,30 @@ export function SmartFundSearch({
         onOpenChange={setDetailOpen}
         onInvest={onSelectFund ? handleInvestFromDetail : undefined}
       />
+
+      {/* Floating Compare bar */}
+      {compareCodes.length >= 2 && (
+        <div className="sticky bottom-3 flex justify-center pointer-events-none">
+          <div className="pointer-events-auto flex items-center gap-2 bg-foreground text-background px-3 py-2 rounded-full shadow-lg">
+            <GitCompare className="w-3.5 h-3.5" />
+            <span className="text-xs font-medium">{compareCodes.length} selected</span>
+            <button onClick={() => setCompareCodes([])} className="text-[10px] opacity-70 hover:opacity-100">clear</button>
+            <Button size="sm" className="h-7 text-xs ml-1" onClick={() => setCompareOpen(true)}>
+              Compare →
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <CompareDrawer
+        open={compareOpen}
+        funds={displayedFunds.filter(f => compareCodes.includes(f.code)).map(toShortlistFund)}
+        onClose={() => setCompareOpen(false)}
+        onPick={(sf) => {
+          const f = displayedFunds.find(x => x.code === sf.code);
+          if (f) handleFundAction(f);
+        }}
+      />
     </div>
   );
 }
