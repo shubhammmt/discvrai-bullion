@@ -26,7 +26,7 @@ import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { AlertCard, SAMPLE_ALERTS } from '@/components/conversion';
+import { AlertCard, SAMPLE_ALERTS, AddInstrumentDialog } from '@/components/conversion';
 import { toast } from '@/hooks/use-toast';
 
 // ============ Types ============
@@ -1194,9 +1194,12 @@ function TrackedView({ onOpenCopilot }: { onOpenCopilot: () => void }) {
           <h2 className="text-xl font-semibold text-sip-text-primary">Tracked instruments</h2>
           <p className="text-xs text-sip-text-muted mt-0.5">Watchlist + active price alerts across funds and stocks. Same source as the fund detail buttons and the Wealth Copilot.</p>
         </div>
-        <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
-          <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
-        </Button>
+        <div className="flex items-center gap-2">
+          <AddInstrumentDialog />
+          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
+          </Button>
+        </div>
       </div>
 
       {/* Active alerts */}
