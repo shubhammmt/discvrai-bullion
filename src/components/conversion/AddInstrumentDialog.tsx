@@ -10,7 +10,7 @@ import { trackedStore } from '@/lib/trackedStore';
 import { toast } from '@/hooks/use-toast';
 import { trackConversionEvent } from './events';
 
-type AssetType = 'stock' | 'mf';
+type AssetType = 'stock' | 'mutual_fund';
 
 interface AddInstrumentDialogProps {
   trigger?: React.ReactNode;
@@ -18,7 +18,7 @@ interface AddInstrumentDialogProps {
 
 export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState<AssetType>('mf');
+  const [type, setType] = useState<AssetType>('mutual_fund');
   const [name, setName] = useState('');
   const [symbol, setSymbol] = useState('');
   const [refValue, setRefValue] = useState('');
@@ -64,30 +64,30 @@ export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
 
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-2">
-            {(['mf', 'stock'] as AssetType[]).map(t => (
+            {(['mutual_fund', 'stock'] as AssetType[]).map(t => (
               <button
                 key={t}
                 onClick={() => setType(t)}
                 className={cn('rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
                   type === t ? 'border-sip-brand bg-sip-brand/5 text-sip-brand' : 'border-sip-border text-sip-text-secondary hover:border-sip-brand/40')}
               >
-                {t === 'mf' ? 'Mutual Fund' : 'Stock'}
+                {t === 'mutual_fund' ? 'Mutual Fund' : 'Stock'}
               </button>
             ))}
           </div>
 
           <div className="space-y-1.5">
             <Label className="text-xs">Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={type === 'mf' ? 'e.g. Parag Parikh Flexi Cap' : 'e.g. HDFC Bank'} />
+            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={type === 'mutual_fund' ? 'e.g. Parag Parikh Flexi Cap' : 'e.g. HDFC Bank'} />
           </div>
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1.5">
-              <Label className="text-xs">{type === 'mf' ? 'Scheme code (optional)' : 'Symbol'}</Label>
-              <Input value={symbol} onChange={(e) => setSymbol(e.target.value)} placeholder={type === 'mf' ? '120586' : 'HDFCBANK'} />
+              <Label className="text-xs">{type === 'mutual_fund' ? 'Scheme code (optional)' : 'Symbol'}</Label>
+              <Input value={symbol} onChange={(e) => setSymbol(e.target.value)} placeholder={type === 'mutual_fund' ? '120586' : 'HDFCBANK'} />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">{type === 'mf' ? 'Latest NAV (₹)' : 'Reference price (₹)'}</Label>
+              <Label className="text-xs">{type === 'mutual_fund' ? 'Latest NAV (₹)' : 'Reference price (₹)'}</Label>
               <Input type="number" value={refValue} onChange={(e) => setRefValue(e.target.value)} placeholder="0.00" />
             </div>
           </div>
@@ -96,7 +96,7 @@ export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
             <p className="text-[11px] uppercase tracking-wider text-sip-text-muted font-semibold">Quick actions</p>
             <ToggleRow icon={<Bell className="w-3.5 h-3.5" />} label="Set price alert (−5% drawdown)"
               checked={actions.priceAlert} onChange={(v) => setActions(a => ({ ...a, priceAlert: v }))} />
-            {type === 'mf' && (
+            {type === 'mutual_fund' && (
               <ToggleRow icon={<CalendarClock className="w-3.5 h-3.5" />} label="Set SIP reminder"
                 checked={actions.sipReminder} onChange={(v) => setActions(a => ({ ...a, sipReminder: v }))} />
             )}
