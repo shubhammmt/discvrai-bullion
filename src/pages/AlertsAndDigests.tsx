@@ -523,6 +523,47 @@ function DigestModeCard() {
 }
 
 // ============ ALERTS HUB ============
+function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced, onOpenCopilot }: {
+  defaultTab: 'instruments' | 'digest';
+  prefs: Prefs;
+  updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
+  onSave: () => void;
+  onConnect: (ch: 'whatsapp' | 'telegram') => void;
+  onOpenWizard: () => void;
+  onOpenAdvanced: () => void;
+  onOpenCopilot: () => void;
+}) {
+  return (
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6">
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold text-sip-text-primary">My Alerts & Watchlist</h2>
+        <p className="text-xs text-sip-text-muted mt-0.5 max-w-2xl">
+          One place for everything you're tracking — funds & stocks on your watchlist, custom price alerts, and your daily digest schedule across WhatsApp, Telegram and in-app.
+        </p>
+      </div>
+      <Tabs defaultValue={defaultTab} className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="instruments" className="gap-1.5"><Heart className="w-3.5 h-3.5" /> My instruments & alerts</TabsTrigger>
+          <TabsTrigger value="digest" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> Digest schedule</TabsTrigger>
+        </TabsList>
+        <TabsContent value="instruments" className="mt-0">
+          <TrackedView onOpenCopilot={onOpenCopilot} />
+        </TabsContent>
+        <TabsContent value="digest" className="mt-0">
+          <AlertsHubView
+            prefs={prefs}
+            updatePref={updatePref}
+            onSave={onSave}
+            onConnect={onConnect}
+            onOpenWizard={onOpenWizard}
+            onOpenAdvanced={onOpenAdvanced}
+          />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
 function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced }: {
   prefs: Prefs;
   updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
