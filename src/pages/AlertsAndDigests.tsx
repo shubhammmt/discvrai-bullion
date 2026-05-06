@@ -281,8 +281,8 @@ export default function AlertsAndDigests() {
             </div>
             <h1 className="text-base md:text-lg font-semibold text-sip-text-primary truncate">
               {view === 'home' && 'Home'}
-              {view === 'alerts' && 'Alerts & digests'}
-              {view === 'tracked' && 'Tracked instruments'}
+              {view === 'alerts' && 'My Alerts & Watchlist'}
+              {view === 'tracked' && 'My Alerts & Watchlist'}
               {view === 'inbox' && 'Notification inbox'}
               {view === 'profile-notif' && 'Profile · Notifications'}
               {view === 'copilot-demo' && 'Wealth Copilot'}
