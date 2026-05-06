@@ -1225,12 +1225,9 @@ function TrackedView({ onOpenCopilot }: { onOpenCopilot: () => void }) {
   const { watch, alerts } = useTracked();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-start justify-between gap-3 flex-wrap">
-        <div>
-          <h2 className="text-xl font-semibold text-sip-text-primary">Tracked instruments</h2>
-          <p className="text-xs text-sip-text-muted mt-0.5">Watchlist + active price alerts across funds and stocks. Same source as the fund detail buttons and the Wealth Copilot.</p>
-        </div>
+        <p className="text-xs text-sip-text-muted max-w-2xl">Your watchlist + custom price alerts for any mutual fund or stock. Same source as the fund detail buttons and the Wealth Copilot.</p>
         <div className="flex items-center gap-2">
           <AddInstrumentDialog />
           <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
