@@ -114,14 +114,18 @@ export function AddInstrumentDialog({ trigger, mode = 'both', open: openProp, on
 
           <div className="space-y-2 pt-1">
             <p className="text-[11px] uppercase tracking-wider text-sip-text-muted font-semibold">Quick actions</p>
-            <ToggleRow icon={<Bell className="w-3.5 h-3.5" />} label="Set price alert (−5% drawdown)"
-              checked={actions.priceAlert} onChange={(v) => setActions(a => ({ ...a, priceAlert: v }))} />
-            {type === 'mutual_fund' && (
+            {mode !== 'watchlist' && (
+              <ToggleRow icon={<Bell className="w-3.5 h-3.5" />} label="Set price alert (−5% drawdown)"
+                checked={actions.priceAlert} onChange={(v) => setActions(a => ({ ...a, priceAlert: v }))} />
+            )}
+            {type === 'mutual_fund' && mode === 'both' && (
               <ToggleRow icon={<CalendarClock className="w-3.5 h-3.5" />} label="Set SIP reminder"
                 checked={actions.sipReminder} onChange={(v) => setActions(a => ({ ...a, sipReminder: v }))} />
             )}
-            <ToggleRow icon={<Heart className="w-3.5 h-3.5" />} label="Add to watchlist"
-              checked={actions.watchlist} onChange={(v) => setActions(a => ({ ...a, watchlist: v }))} />
+            {mode !== 'alert' && (
+              <ToggleRow icon={<Heart className="w-3.5 h-3.5" />} label="Add to watchlist"
+                checked={actions.watchlist} onChange={(v) => setActions(a => ({ ...a, watchlist: v }))} />
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-2">
