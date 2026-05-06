@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
@@ -158,8 +159,7 @@ export default function AlertsAndDigests() {
     { id: 'calculator', label: 'Calculator', icon: Calculator, disabled: true },
     { id: 'goals', label: 'Goals', icon: Target, disabled: true },
     { id: 'rebalancing', label: 'Portfolio Rebalancing', icon: Scale, badge: 'New' },
-    { id: 'alerts', label: 'Alerts & digests', icon: Bell, badge: 'New' },
-    { id: 'tracked', label: 'Tracked instruments', icon: Heart },
+    { id: 'alerts', label: 'My Alerts & Watchlist', icon: Bell, badge: 'New' },
     { id: 'inbox', label: 'Notification inbox', icon: Inbox },
     { id: 'sell', label: 'Sell', icon: ArrowDownLeft, disabled: true },
     { id: 'chat', label: 'Chat History', icon: MessageSquare, disabled: true },
@@ -175,7 +175,7 @@ export default function AlertsAndDigests() {
       navigate('/rebalancing');
       return;
     }
-    if (id === 'home' || id === 'alerts' || id === 'tracked' || id === 'inbox' || id === 'profile-notif') {
+    if (id === 'home' || id === 'alerts' || id === 'inbox' || id === 'profile-notif') {
       setView(id as ViewMode);
     }
     if (isMobile) setSidebarOpen(false);
@@ -213,7 +213,6 @@ export default function AlertsAndDigests() {
             const isActive =
               (view === 'home' && item.id === 'home') ||
               (view === 'alerts' && item.id === 'alerts') ||
-              (view === 'tracked' && item.id === 'tracked') ||
               (view === 'inbox' && item.id === 'inbox') ||
               (view === 'profile-notif' && item.id === 'profile-notif');
             return (
@@ -283,8 +282,8 @@ export default function AlertsAndDigests() {
             </div>
             <h1 className="text-base md:text-lg font-semibold text-sip-text-primary truncate">
               {view === 'home' && 'Home'}
-              {view === 'alerts' && 'Alerts & digests'}
-              {view === 'tracked' && 'Tracked instruments'}
+              {view === 'alerts' && 'My Alerts & Watchlist'}
+              {view === 'tracked' && 'My Alerts & Watchlist'}
               {view === 'inbox' && 'Notification inbox'}
               {view === 'profile-notif' && 'Profile · Notifications'}
               {view === 'copilot-demo' && 'Wealth Copilot'}
@@ -318,18 +317,17 @@ export default function AlertsAndDigests() {
               onOpenCopilot={() => setView('copilot-demo')}
             />
           )}
-          {view === 'alerts' && (
-            <AlertsHubView
+          {(view === 'alerts' || view === 'tracked') && (
+            <NotificationsHub
+              defaultTab={view === 'tracked' ? 'instruments' : 'instruments'}
               prefs={prefs}
               updatePref={updatePref}
               onSave={savePrefs}
               onConnect={connectChannel}
               onOpenWizard={() => { setWizardStep(1); setWizardOpen(true); }}
               onOpenAdvanced={() => setAdvancedOpen(true)}
+              onOpenCopilot={() => setView('copilot-demo')}
             />
-          )}
-          {view === 'tracked' && (
-            <TrackedView onOpenCopilot={() => setView('copilot-demo')} />
           )}
           {view === 'inbox' && (
             <InboxView onOpen={setOpenItem} />
@@ -525,6 +523,47 @@ function DigestModeCard() {
 }
 
 // ============ ALERTS HUB ============
+function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced, onOpenCopilot }: {
+  defaultTab: 'instruments' | 'digest';
+  prefs: Prefs;
+  updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
+  onSave: () => void;
+  onConnect: (ch: 'whatsapp' | 'telegram') => void;
+  onOpenWizard: () => void;
+  onOpenAdvanced: () => void;
+  onOpenCopilot: () => void;
+}) {
+  return (
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6">
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold text-sip-text-primary">My Alerts & Watchlist</h2>
+        <p className="text-xs text-sip-text-muted mt-0.5 max-w-2xl">
+          One place for everything you're tracking — funds & stocks on your watchlist, custom price alerts, and your daily digest schedule across WhatsApp, Telegram and in-app.
+        </p>
+      </div>
+      <Tabs defaultValue={defaultTab} className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="instruments" className="gap-1.5"><Heart className="w-3.5 h-3.5" /> My instruments & alerts</TabsTrigger>
+          <TabsTrigger value="digest" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> Digest schedule</TabsTrigger>
+        </TabsList>
+        <TabsContent value="instruments" className="mt-0">
+          <TrackedView onOpenCopilot={onOpenCopilot} />
+        </TabsContent>
+        <TabsContent value="digest" className="mt-0">
+          <AlertsHubView
+            prefs={prefs}
+            updatePref={updatePref}
+            onSave={onSave}
+            onConnect={onConnect}
+            onOpenWizard={onOpenWizard}
+            onOpenAdvanced={onOpenAdvanced}
+          />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
 function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced }: {
   prefs: Prefs;
   updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
@@ -534,13 +573,11 @@ function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onO
   onOpenAdvanced: () => void;
 }) {
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-5">
+    <div className="space-y-5">
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold text-sip-text-primary">Alerts & digests</h2>
-          <p className="text-xs text-sip-text-muted mt-0.5">Personalized Financial Copilot</p>
-          <p className="text-sm text-sip-text-secondary mt-2 max-w-2xl">
+          <p className="text-sm text-sip-text-secondary max-w-2xl">
             Control how the Wealth Copilot keeps you informed — across <span className="font-medium text-sip-text-primary">WhatsApp</span>, <span className="font-medium text-sip-text-primary">Telegram</span> and <span className="font-medium text-sip-text-primary">in-app</span>. Smart digests, urgent alerts, zero spam.
           </p>
         </div>
@@ -1188,12 +1225,9 @@ function TrackedView({ onOpenCopilot }: { onOpenCopilot: () => void }) {
   const { watch, alerts } = useTracked();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-start justify-between gap-3 flex-wrap">
-        <div>
-          <h2 className="text-xl font-semibold text-sip-text-primary">Tracked instruments</h2>
-          <p className="text-xs text-sip-text-muted mt-0.5">Watchlist + active price alerts across funds and stocks. Same source as the fund detail buttons and the Wealth Copilot.</p>
-        </div>
+        <p className="text-xs text-sip-text-muted max-w-2xl">Your watchlist + custom price alerts for any mutual fund or stock. Same source as the fund detail buttons and the Wealth Copilot.</p>
         <div className="flex items-center gap-2">
           <AddInstrumentDialog />
           <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
