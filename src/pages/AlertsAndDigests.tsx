@@ -577,9 +577,7 @@ function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onO
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold text-sip-text-primary">Alerts & digests</h2>
-          <p className="text-xs text-sip-text-muted mt-0.5">Personalized Financial Copilot</p>
-          <p className="text-sm text-sip-text-secondary mt-2 max-w-2xl">
+          <p className="text-sm text-sip-text-secondary max-w-2xl">
             Control how the Wealth Copilot keeps you informed — across <span className="font-medium text-sip-text-primary">WhatsApp</span>, <span className="font-medium text-sip-text-primary">Telegram</span> and <span className="font-medium text-sip-text-primary">in-app</span>. Smart digests, urgent alerts, zero spam.
           </p>
         </div>
