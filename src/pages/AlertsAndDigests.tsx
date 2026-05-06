@@ -316,18 +316,17 @@ export default function AlertsAndDigests() {
               onOpenCopilot={() => setView('copilot-demo')}
             />
           )}
-          {view === 'alerts' && (
-            <AlertsHubView
+          {(view === 'alerts' || view === 'tracked') && (
+            <NotificationsHub
+              defaultTab={view === 'tracked' ? 'instruments' : 'instruments'}
               prefs={prefs}
               updatePref={updatePref}
               onSave={savePrefs}
               onConnect={connectChannel}
               onOpenWizard={() => { setWizardStep(1); setWizardOpen(true); }}
               onOpenAdvanced={() => setAdvancedOpen(true)}
+              onOpenCopilot={() => setView('copilot-demo')}
             />
-          )}
-          {view === 'tracked' && (
-            <TrackedView onOpenCopilot={() => setView('copilot-demo')} />
           )}
           {view === 'inbox' && (
             <InboxView onOpen={setOpenItem} />
