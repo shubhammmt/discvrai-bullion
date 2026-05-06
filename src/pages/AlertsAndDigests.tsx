@@ -368,16 +368,7 @@ export default function AlertsAndDigests() {
         </DialogContent>
       </Dialog>
 
-      {/* ============ Advanced setup ============ */}
-      <Dialog open={advancedOpen} onOpenChange={setAdvancedOpen}>
-        <DialogContent className="max-w-xl">
-          <DialogHeader>
-            <DialogTitle>Advanced setup</DialogTitle>
-            <DialogDescription>Phase 1 onboarding — finer control over what, when and how.</DialogDescription>
-          </DialogHeader>
-          <AdvancedSetup prefs={prefs} updatePref={updatePref} onClose={() => { setAdvancedOpen(false); savePrefs(); }} />
-        </DialogContent>
-      </Dialog>
+      {/* Advanced setup removed — channel selection lives in the default view */}
 
       {/* ============ Inbox slide-over ============ */}
       <Sheet open={!!openItem} onOpenChange={(o) => !o && setOpenItem(null)}>
