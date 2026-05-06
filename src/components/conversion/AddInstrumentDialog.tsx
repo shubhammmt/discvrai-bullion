@@ -14,15 +14,25 @@ type AssetType = 'stock' | 'mutual_fund';
 
 interface AddInstrumentDialogProps {
   trigger?: React.ReactNode;
+  /** Preconfigure dialog as alert-only or watchlist-only */
+  mode?: 'alert' | 'watchlist' | 'both';
+  open?: boolean;
+  onOpenChange?: (v: boolean) => void;
 }
 
-export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
-  const [open, setOpen] = useState(false);
+export function AddInstrumentDialog({ trigger, mode = 'both', open: openProp, onOpenChange }: AddInstrumentDialogProps) {
+  const [openState, setOpenState] = useState(false);
+  const open = openProp ?? openState;
+  const setOpen = (v: boolean) => { setOpenState(v); onOpenChange?.(v); };
   const [type, setType] = useState<AssetType>('mutual_fund');
   const [name, setName] = useState('');
   const [symbol, setSymbol] = useState('');
   const [refValue, setRefValue] = useState('');
-  const [actions, setActions] = useState({ priceAlert: true, sipReminder: false, watchlist: true });
+  const [actions, setActions] = useState({
+    priceAlert: mode !== 'watchlist',
+    sipReminder: false,
+    watchlist: mode !== 'alert',
+  });
 
   const reset = () => { setName(''); setSymbol(''); setRefValue(''); };
 
