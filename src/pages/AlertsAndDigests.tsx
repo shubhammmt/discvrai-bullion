@@ -130,7 +130,7 @@ export default function AlertsAndDigests() {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [wizardOpen, setWizardOpen] = useState(false);
   const [wizardStep, setWizardStep] = useState<WizardStep>(1);
-  const [advancedOpen, setAdvancedOpen] = useState(false);
+  // advanced setup removed; channels are configured inline below
   const [openItem, setOpenItem] = useState<InboxItem | null>(null);
   const [sessionId] = useState('03826ACD');
 
