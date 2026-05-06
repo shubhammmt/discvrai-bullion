@@ -14,15 +14,25 @@ type AssetType = 'stock' | 'mutual_fund';
 
 interface AddInstrumentDialogProps {
   trigger?: React.ReactNode;
+  /** Preconfigure dialog as alert-only or watchlist-only */
+  mode?: 'alert' | 'watchlist' | 'both';
+  open?: boolean;
+  onOpenChange?: (v: boolean) => void;
 }
 
-export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
-  const [open, setOpen] = useState(false);
+export function AddInstrumentDialog({ trigger, mode = 'both', open: openProp, onOpenChange }: AddInstrumentDialogProps) {
+  const [openState, setOpenState] = useState(false);
+  const open = openProp ?? openState;
+  const setOpen = (v: boolean) => { setOpenState(v); onOpenChange?.(v); };
   const [type, setType] = useState<AssetType>('mutual_fund');
   const [name, setName] = useState('');
   const [symbol, setSymbol] = useState('');
   const [refValue, setRefValue] = useState('');
-  const [actions, setActions] = useState({ priceAlert: true, sipReminder: false, watchlist: true });
+  const [actions, setActions] = useState({
+    priceAlert: mode !== 'watchlist',
+    sipReminder: false,
+    watchlist: mode !== 'alert',
+  });
 
   const reset = () => { setName(''); setSymbol(''); setRefValue(''); };
 
@@ -48,19 +58,28 @@ export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
     setOpen(false);
   };
 
+  const title = mode === 'alert' ? 'Create a price alert' : mode === 'watchlist' ? 'Add to watchlist' : 'Track a new instrument';
+  const description = mode === 'alert'
+    ? 'Pick a stock or mutual fund and set the price condition that should notify you.'
+    : mode === 'watchlist'
+      ? 'Add a stock or mutual fund to keep an eye on. You can add an alert later.'
+      : 'Add a stock or mutual fund and pick the actions you want around it.';
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {trigger ?? (
-          <Button size="sm" className="h-8 text-xs gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
-            <Plus className="w-3.5 h-3.5" /> Add Instrument
-          </Button>
-        )}
-      </DialogTrigger>
+      {trigger !== null && (
+        <DialogTrigger asChild>
+          {trigger ?? (
+            <Button size="sm" className="h-8 text-xs gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
+              <Plus className="w-3.5 h-3.5" /> Add Instrument
+            </Button>
+          )}
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Track a new instrument</DialogTitle>
-          <DialogDescription>Add a stock or mutual fund and pick the actions you want around it.</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
@@ -95,14 +114,18 @@ export function AddInstrumentDialog({ trigger }: AddInstrumentDialogProps) {
 
           <div className="space-y-2 pt-1">
             <p className="text-[11px] uppercase tracking-wider text-sip-text-muted font-semibold">Quick actions</p>
-            <ToggleRow icon={<Bell className="w-3.5 h-3.5" />} label="Set price alert (−5% drawdown)"
-              checked={actions.priceAlert} onChange={(v) => setActions(a => ({ ...a, priceAlert: v }))} />
-            {type === 'mutual_fund' && (
+            {mode !== 'watchlist' && (
+              <ToggleRow icon={<Bell className="w-3.5 h-3.5" />} label="Set price alert (−5% drawdown)"
+                checked={actions.priceAlert} onChange={(v) => setActions(a => ({ ...a, priceAlert: v }))} />
+            )}
+            {type === 'mutual_fund' && mode === 'both' && (
               <ToggleRow icon={<CalendarClock className="w-3.5 h-3.5" />} label="Set SIP reminder"
                 checked={actions.sipReminder} onChange={(v) => setActions(a => ({ ...a, sipReminder: v }))} />
             )}
-            <ToggleRow icon={<Heart className="w-3.5 h-3.5" />} label="Add to watchlist"
-              checked={actions.watchlist} onChange={(v) => setActions(a => ({ ...a, watchlist: v }))} />
+            {mode !== 'alert' && (
+              <ToggleRow icon={<Heart className="w-3.5 h-3.5" />} label="Add to watchlist"
+                checked={actions.watchlist} onChange={(v) => setActions(a => ({ ...a, watchlist: v }))} />
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-2">

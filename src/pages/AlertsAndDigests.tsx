@@ -130,7 +130,7 @@ export default function AlertsAndDigests() {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [wizardOpen, setWizardOpen] = useState(false);
   const [wizardStep, setWizardStep] = useState<WizardStep>(1);
-  const [advancedOpen, setAdvancedOpen] = useState(false);
+  // advanced setup removed; channels are configured inline below
   const [openItem, setOpenItem] = useState<InboxItem | null>(null);
   const [sessionId] = useState('03826ACD');
 
@@ -325,7 +325,6 @@ export default function AlertsAndDigests() {
               onSave={savePrefs}
               onConnect={connectChannel}
               onOpenWizard={() => { setWizardStep(1); setWizardOpen(true); }}
-              onOpenAdvanced={() => setAdvancedOpen(true)}
               onOpenCopilot={() => setView('copilot-demo')}
             />
           )}
@@ -369,16 +368,7 @@ export default function AlertsAndDigests() {
         </DialogContent>
       </Dialog>
 
-      {/* ============ Advanced setup ============ */}
-      <Dialog open={advancedOpen} onOpenChange={setAdvancedOpen}>
-        <DialogContent className="max-w-xl">
-          <DialogHeader>
-            <DialogTitle>Advanced setup</DialogTitle>
-            <DialogDescription>Phase 1 onboarding — finer control over what, when and how.</DialogDescription>
-          </DialogHeader>
-          <AdvancedSetup prefs={prefs} updatePref={updatePref} onClose={() => { setAdvancedOpen(false); savePrefs(); }} />
-        </DialogContent>
-      </Dialog>
+      {/* Advanced setup removed — channel selection lives in the default view */}
 
       {/* ============ Inbox slide-over ============ */}
       <Sheet open={!!openItem} onOpenChange={(o) => !o && setOpenItem(null)}>
@@ -523,14 +513,13 @@ function DigestModeCard() {
 }
 
 // ============ ALERTS HUB ============
-function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced, onOpenCopilot }: {
+function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenCopilot }: {
   defaultTab: 'instruments' | 'digest';
   prefs: Prefs;
   updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
   onSave: () => void;
   onConnect: (ch: 'whatsapp' | 'telegram') => void;
   onOpenWizard: () => void;
-  onOpenAdvanced: () => void;
   onOpenCopilot: () => void;
 }) {
   return (
@@ -543,8 +532,8 @@ function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, on
       </div>
       <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="instruments" className="gap-1.5"><Heart className="w-3.5 h-3.5" /> My instruments & alerts</TabsTrigger>
-          <TabsTrigger value="digest" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> Digest schedule</TabsTrigger>
+          <TabsTrigger value="instruments" className="gap-1.5"><Heart className="w-3.5 h-3.5" /> My Alerts and Watchlist</TabsTrigger>
+          <TabsTrigger value="digest" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> Daily Updates & Channels</TabsTrigger>
         </TabsList>
         <TabsContent value="instruments" className="mt-0">
           <TrackedView onOpenCopilot={onOpenCopilot} />
@@ -556,7 +545,6 @@ function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, on
             onSave={onSave}
             onConnect={onConnect}
             onOpenWizard={onOpenWizard}
-            onOpenAdvanced={onOpenAdvanced}
           />
         </TabsContent>
       </Tabs>
@@ -564,13 +552,12 @@ function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, on
   );
 }
 
-function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced }: {
+function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard }: {
   prefs: Prefs;
   updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
   onSave: () => void;
   onConnect: (ch: 'whatsapp' | 'telegram') => void;
   onOpenWizard: () => void;
-  onOpenAdvanced: () => void;
 }) {
   return (
     <div className="space-y-5">
@@ -582,7 +569,6 @@ function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onO
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={onOpenAdvanced} size="sm">Advanced setup</Button>
           <Button onClick={onOpenWizard} size="sm" className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
             <Zap className="w-3.5 h-3.5 mr-1.5" /> Set up in 30 seconds
           </Button>
@@ -1223,52 +1209,121 @@ function CopilotDemoView({ onViewAlerts, onViewTracked, threshold, setThreshold 
 // ============ TRACKED VIEW ============
 function TrackedView({ onOpenCopilot }: { onOpenCopilot: () => void }) {
   const { watch, alerts } = useTracked();
+  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
+  const [watchDialogOpen, setWatchDialogOpen] = useState(false);
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-3 flex-wrap">
-        <p className="text-xs text-sip-text-muted max-w-2xl">Your watchlist + custom price alerts for any mutual fund or stock. Same source as the fund detail buttons and the Wealth Copilot.</p>
-        <div className="flex items-center gap-2">
-          <AddInstrumentDialog />
-          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
-          </Button>
-        </div>
+        <p className="text-xs text-sip-text-muted max-w-2xl">
+          Your watchlist + custom price alerts for any mutual fund or stock. Same source as the fund detail buttons and the Wealth Copilot.
+        </p>
+        <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
+          <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
+        </Button>
       </div>
 
-      {/* Active alerts */}
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
-            <Bell className="w-4 h-4 text-sip-brand" /> Active price alerts
-            <Badge variant="secondary" className="text-[10px]">{alerts.length}</Badge>
-          </h3>
-        </div>
-        {alerts.length === 0 ? (
-          <Card className="border-dashed"><CardContent className="p-6 text-center text-xs text-sip-text-muted">No active alerts. Open any fund detail or ask the Copilot.</CardContent></Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {alerts.map(a => <AlertRow key={a.id} alert={a} />)}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* Alerts section */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
+              <Bell className="w-4 h-4 text-sip-brand" /> Active price alerts
+              <Badge variant="secondary" className="text-[10px]">{alerts.length}</Badge>
+            </h3>
+            {alerts.length > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-7 text-[11px] gap-1"
+                onClick={() => setAlertDialogOpen(true)}
+              >
+                <Plus className="w-3 h-3" /> New alert
+              </Button>
+            )}
           </div>
-        )}
-      </section>
+          {alerts.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-sip-brand/10 text-sip-brand flex items-center justify-center">
+                  <Bell className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-sip-text-primary">No price alerts yet</p>
+                  <p className="text-[11px] text-sip-text-muted mt-1 max-w-xs">
+                    Get notified when a fund or stock crosses a price you care about.
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  className="h-8 text-xs bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
+                  onClick={() => setAlertDialogOpen(true)}
+                >
+                  <Plus className="w-3.5 h-3.5 mr-1" /> Create your first alert
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-3">
+              {alerts.map(a => <AlertRow key={a.id} alert={a} />)}
+            </div>
+          )}
+        </section>
 
-      {/* Watchlist */}
-      <section className="space-y-3">
-        <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
-          <Heart className="w-4 h-4 text-sip-brand" /> Watchlist
-          <Badge variant="secondary" className="text-[10px]">{watch.length}</Badge>
-        </h3>
-        {watch.length === 0 ? (
-          <Card className="border-dashed"><CardContent className="p-6 text-center text-xs text-sip-text-muted">Watchlist is empty. Tap the heart on any fund detail.</CardContent></Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {watch.map(w => <WatchRow key={w.id} item={w} />)}
+        {/* Watchlist section */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
+              <Heart className="w-4 h-4 text-sip-brand" /> Watchlist
+              <Badge variant="secondary" className="text-[10px]">{watch.length}</Badge>
+            </h3>
+            {watch.length > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-7 text-[11px] gap-1"
+                onClick={() => setWatchDialogOpen(true)}
+              >
+                <Plus className="w-3 h-3" /> Add to watchlist
+              </Button>
+            )}
           </div>
-        )}
-      </section>
+          {watch.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-sip-brand/10 text-sip-brand flex items-center justify-center">
+                  <Heart className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-sip-text-primary">Your watchlist is empty</p>
+                  <p className="text-[11px] text-sip-text-muted mt-1 max-w-xs">
+                    Track funds & stocks you're researching — without setting up an alert.
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  className="h-8 text-xs bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
+                  onClick={() => setWatchDialogOpen(true)}
+                >
+                  <Plus className="w-3.5 h-3.5 mr-1" /> Add your first instrument
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-3">
+              {watch.map(w => <WatchRow key={w.id} item={w} />)}
+            </div>
+          )}
+        </section>
+      </div>
 
-      <p className="text-[10px] text-sip-text-muted">All entries persist locally for the demo. In production, both watchlist and alerts read/write the same backend the buttons and the Copilot use.</p>
+      <p className="text-[10px] text-sip-text-muted">
+        All entries persist locally for the demo. In production, both watchlist and alerts read/write the same backend the buttons and the Copilot use.
+      </p>
+
+      {/* Hidden controlled dialogs triggered by section CTAs */}
+      <AddInstrumentDialog mode="alert" trigger={null} open={alertDialogOpen} onOpenChange={setAlertDialogOpen} />
+      <AddInstrumentDialog mode="watchlist" trigger={null} open={watchDialogOpen} onOpenChange={setWatchDialogOpen} />
     </div>
   );
 }
