@@ -523,14 +523,13 @@ function DigestModeCard() {
 }
 
 // ============ ALERTS HUB ============
-function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced, onOpenCopilot }: {
+function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenCopilot }: {
   defaultTab: 'instruments' | 'digest';
   prefs: Prefs;
   updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
   onSave: () => void;
   onConnect: (ch: 'whatsapp' | 'telegram') => void;
   onOpenWizard: () => void;
-  onOpenAdvanced: () => void;
   onOpenCopilot: () => void;
 }) {
   return (
