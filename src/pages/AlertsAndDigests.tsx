@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
