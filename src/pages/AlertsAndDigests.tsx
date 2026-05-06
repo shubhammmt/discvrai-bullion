@@ -174,7 +174,7 @@ export default function AlertsAndDigests() {
       navigate('/rebalancing');
       return;
     }
-    if (id === 'home' || id === 'alerts' || id === 'tracked' || id === 'inbox' || id === 'profile-notif') {
+    if (id === 'home' || id === 'alerts' || id === 'inbox' || id === 'profile-notif') {
       setView(id as ViewMode);
     }
     if (isMobile) setSidebarOpen(false);
