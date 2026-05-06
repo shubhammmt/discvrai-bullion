@@ -212,7 +212,6 @@ export default function AlertsAndDigests() {
             const isActive =
               (view === 'home' && item.id === 'home') ||
               (view === 'alerts' && item.id === 'alerts') ||
-              (view === 'tracked' && item.id === 'tracked') ||
               (view === 'inbox' && item.id === 'inbox') ||
               (view === 'profile-notif' && item.id === 'profile-notif');
             return (
