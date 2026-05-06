@@ -58,19 +58,28 @@ export function AddInstrumentDialog({ trigger, mode = 'both', open: openProp, on
     setOpen(false);
   };
 
+  const title = mode === 'alert' ? 'Create a price alert' : mode === 'watchlist' ? 'Add to watchlist' : 'Track a new instrument';
+  const description = mode === 'alert'
+    ? 'Pick a stock or mutual fund and set the price condition that should notify you.'
+    : mode === 'watchlist'
+      ? 'Add a stock or mutual fund to keep an eye on. You can add an alert later.'
+      : 'Add a stock or mutual fund and pick the actions you want around it.';
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {trigger ?? (
-          <Button size="sm" className="h-8 text-xs gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
-            <Plus className="w-3.5 h-3.5" /> Add Instrument
-          </Button>
-        )}
-      </DialogTrigger>
+      {trigger !== null && (
+        <DialogTrigger asChild>
+          {trigger ?? (
+            <Button size="sm" className="h-8 text-xs gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
+              <Plus className="w-3.5 h-3.5" /> Add Instrument
+            </Button>
+          )}
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Track a new instrument</DialogTitle>
-          <DialogDescription>Add a stock or mutual fund and pick the actions you want around it.</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
