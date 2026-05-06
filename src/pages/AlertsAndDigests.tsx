@@ -1209,52 +1209,121 @@ function CopilotDemoView({ onViewAlerts, onViewTracked, threshold, setThreshold 
 // ============ TRACKED VIEW ============
 function TrackedView({ onOpenCopilot }: { onOpenCopilot: () => void }) {
   const { watch, alerts } = useTracked();
+  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
+  const [watchDialogOpen, setWatchDialogOpen] = useState(false);
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-3 flex-wrap">
-        <p className="text-xs text-sip-text-muted max-w-2xl">Your watchlist + custom price alerts for any mutual fund or stock. Same source as the fund detail buttons and the Wealth Copilot.</p>
-        <div className="flex items-center gap-2">
-          <AddInstrumentDialog />
-          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
-          </Button>
-        </div>
+        <p className="text-xs text-sip-text-muted max-w-2xl">
+          Your watchlist + custom price alerts for any mutual fund or stock. Same source as the fund detail buttons and the Wealth Copilot.
+        </p>
+        <Button size="sm" variant="outline" className="h-8 text-xs" onClick={onOpenCopilot}>
+          <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Add via Copilot
+        </Button>
       </div>
 
-      {/* Active alerts */}
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
-            <Bell className="w-4 h-4 text-sip-brand" /> Active price alerts
-            <Badge variant="secondary" className="text-[10px]">{alerts.length}</Badge>
-          </h3>
-        </div>
-        {alerts.length === 0 ? (
-          <Card className="border-dashed"><CardContent className="p-6 text-center text-xs text-sip-text-muted">No active alerts. Open any fund detail or ask the Copilot.</CardContent></Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {alerts.map(a => <AlertRow key={a.id} alert={a} />)}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* Alerts section */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
+              <Bell className="w-4 h-4 text-sip-brand" /> Active price alerts
+              <Badge variant="secondary" className="text-[10px]">{alerts.length}</Badge>
+            </h3>
+            {alerts.length > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-7 text-[11px] gap-1"
+                onClick={() => setAlertDialogOpen(true)}
+              >
+                <Plus className="w-3 h-3" /> New alert
+              </Button>
+            )}
           </div>
-        )}
-      </section>
+          {alerts.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-sip-brand/10 text-sip-brand flex items-center justify-center">
+                  <Bell className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-sip-text-primary">No price alerts yet</p>
+                  <p className="text-[11px] text-sip-text-muted mt-1 max-w-xs">
+                    Get notified when a fund or stock crosses a price you care about.
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  className="h-8 text-xs bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
+                  onClick={() => setAlertDialogOpen(true)}
+                >
+                  <Plus className="w-3.5 h-3.5 mr-1" /> Create your first alert
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-3">
+              {alerts.map(a => <AlertRow key={a.id} alert={a} />)}
+            </div>
+          )}
+        </section>
 
-      {/* Watchlist */}
-      <section className="space-y-3">
-        <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
-          <Heart className="w-4 h-4 text-sip-brand" /> Watchlist
-          <Badge variant="secondary" className="text-[10px]">{watch.length}</Badge>
-        </h3>
-        {watch.length === 0 ? (
-          <Card className="border-dashed"><CardContent className="p-6 text-center text-xs text-sip-text-muted">Watchlist is empty. Tap the heart on any fund detail.</CardContent></Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {watch.map(w => <WatchRow key={w.id} item={w} />)}
+        {/* Watchlist section */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-sip-text-primary flex items-center gap-2">
+              <Heart className="w-4 h-4 text-sip-brand" /> Watchlist
+              <Badge variant="secondary" className="text-[10px]">{watch.length}</Badge>
+            </h3>
+            {watch.length > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-7 text-[11px] gap-1"
+                onClick={() => setWatchDialogOpen(true)}
+              >
+                <Plus className="w-3 h-3" /> Add to watchlist
+              </Button>
+            )}
           </div>
-        )}
-      </section>
+          {watch.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="p-6 flex flex-col items-center text-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-sip-brand/10 text-sip-brand flex items-center justify-center">
+                  <Heart className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-sip-text-primary">Your watchlist is empty</p>
+                  <p className="text-[11px] text-sip-text-muted mt-1 max-w-xs">
+                    Track funds & stocks you're researching — without setting up an alert.
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  className="h-8 text-xs bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
+                  onClick={() => setWatchDialogOpen(true)}
+                >
+                  <Plus className="w-3.5 h-3.5 mr-1" /> Add your first instrument
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-3">
+              {watch.map(w => <WatchRow key={w.id} item={w} />)}
+            </div>
+          )}
+        </section>
+      </div>
 
-      <p className="text-[10px] text-sip-text-muted">All entries persist locally for the demo. In production, both watchlist and alerts read/write the same backend the buttons and the Copilot use.</p>
+      <p className="text-[10px] text-sip-text-muted">
+        All entries persist locally for the demo. In production, both watchlist and alerts read/write the same backend the buttons and the Copilot use.
+      </p>
+
+      {/* Hidden controlled dialogs triggered by section CTAs */}
+      <AddInstrumentDialog mode="alert" trigger={null} open={alertDialogOpen} onOpenChange={setAlertDialogOpen} />
+      <AddInstrumentDialog mode="watchlist" trigger={null} open={watchDialogOpen} onOpenChange={setWatchDialogOpen} />
     </div>
   );
 }
