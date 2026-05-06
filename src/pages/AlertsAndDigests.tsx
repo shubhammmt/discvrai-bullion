@@ -563,13 +563,12 @@ function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, on
   );
 }
 
-function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onOpenAdvanced }: {
+function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard }: {
   prefs: Prefs;
   updatePref: <K extends keyof Prefs>(k: K, v: Prefs[K]) => void;
   onSave: () => void;
   onConnect: (ch: 'whatsapp' | 'telegram') => void;
   onOpenWizard: () => void;
-  onOpenAdvanced: () => void;
 }) {
   return (
     <div className="space-y-5">
@@ -581,7 +580,6 @@ function AlertsHubView({ prefs, updatePref, onSave, onConnect, onOpenWizard, onO
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={onOpenAdvanced} size="sm">Advanced setup</Button>
           <Button onClick={onOpenWizard} size="sm" className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90">
             <Zap className="w-3.5 h-3.5 mr-1.5" /> Set up in 30 seconds
           </Button>
