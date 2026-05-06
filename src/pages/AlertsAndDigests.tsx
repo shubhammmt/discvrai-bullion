@@ -543,8 +543,8 @@ function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, on
       </div>
       <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="instruments" className="gap-1.5"><Heart className="w-3.5 h-3.5" /> My instruments & alerts</TabsTrigger>
-          <TabsTrigger value="digest" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> Digest schedule</TabsTrigger>
+          <TabsTrigger value="instruments" className="gap-1.5"><Heart className="w-3.5 h-3.5" /> My Alerts and Watchlist</TabsTrigger>
+          <TabsTrigger value="digest" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> Daily Updates & Channels</TabsTrigger>
         </TabsList>
         <TabsContent value="instruments" className="mt-0">
           <TrackedView onOpenCopilot={onOpenCopilot} />
@@ -556,7 +556,6 @@ function NotificationsHub({ defaultTab, prefs, updatePref, onSave, onConnect, on
             onSave={onSave}
             onConnect={onConnect}
             onOpenWizard={onOpenWizard}
-            onOpenAdvanced={onOpenAdvanced}
           />
         </TabsContent>
       </Tabs>
