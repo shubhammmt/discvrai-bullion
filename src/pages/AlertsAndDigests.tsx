@@ -325,7 +325,6 @@ export default function AlertsAndDigests() {
               onSave={savePrefs}
               onConnect={connectChannel}
               onOpenWizard={() => { setWizardStep(1); setWizardOpen(true); }}
-              onOpenAdvanced={() => setAdvancedOpen(true)}
               onOpenCopilot={() => setView('copilot-demo')}
             />
           )}
