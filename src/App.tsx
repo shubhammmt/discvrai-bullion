@@ -290,6 +290,7 @@ const AppContent = () => {
                            location.pathname === '/cms-audit-command' ||
                            location.pathname === '/cms-audit-2' ||
                            location.pathname === '/cms-audit' ||
+                           location.pathname === '/cms-evidence-deck' ||
                            location.pathname === '/demo/schlumberger-ops' ||
                             location.pathname === '/demo/awnic' ||
                            location.pathname === '/vedanta-decision-hub' ||
