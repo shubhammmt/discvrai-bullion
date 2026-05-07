@@ -498,6 +498,7 @@ const AppContent = () => {
                     <Route path="/cms-audit" element={<CMSAuditCommandCenter />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
                     <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
+                    <Route path="/cms-evidence-deck" element={<CMSEvidenceDeck />} />
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
