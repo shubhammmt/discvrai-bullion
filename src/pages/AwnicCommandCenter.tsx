@@ -4,14 +4,19 @@ import {
   AlertTriangle,
   ArrowRight,
   BellRing,
+  Bot,
   CheckCircle2,
   Clock,
   Headphones,
+  MessageCircle,
   RefreshCw,
+  Send,
   ShieldCheck,
   Sparkles,
   Target,
   UserRoundCheck,
+  X,
+  Zap,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
