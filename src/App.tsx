@@ -57,6 +57,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataDeletionPolicy from './pages/DataDeletionPolicy';
 import NotFound from './pages/NotFound';
 import CMSPitchDeck from './pages/CMSPitchDeck';
+import CMSEvidenceDeck from './pages/CMSEvidenceDeck';
 import MahindraArmoredDeck from './pages/MahindraArmoredDeck';
 import MahindraArmoredSignalsDemo from './pages/MahindraArmoredSignalsDemo';
 import MSMELendingCommandCenter from './pages/MSMELendingCommandCenter';
