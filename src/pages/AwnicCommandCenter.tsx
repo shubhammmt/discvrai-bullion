@@ -4,14 +4,19 @@ import {
   AlertTriangle,
   ArrowRight,
   BellRing,
+  Bot,
   CheckCircle2,
   Clock,
   Headphones,
+  MessageCircle,
   RefreshCw,
+  Send,
   ShieldCheck,
   Sparkles,
   Target,
   UserRoundCheck,
+  X,
+  Zap,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -250,6 +255,138 @@ const ScreenVisual: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
+type CopilotMsg = { from: 'me' | 'bot'; text: string };
+type CopilotPersona = 'customer' | 'agent';
+
+const copilotConfig: Record<CopilotPersona, {
+  label: string;
+  greeting: string;
+  quick: { label: string; reply: string }[];
+}> = {
+  customer: {
+    label: 'Customer copilot',
+    greeting: 'Hi Aisha — I can see your motor claim C-48211. Want a workshop ETA, a callback or to skip the queue?',
+    quick: [
+      { label: 'Track my claim', reply: 'Claim C-48211 is at workshop. Parts ETA: 14 Apr. I have queued a proactive update — no need to call.' },
+      { label: 'Talk to a human now', reply: 'Connecting you to a senior service agent with full claim context — average wait under 90 seconds.' },
+      { label: 'Renew my motor policy', reply: 'Your renewal is in 36 days. I will hold any offers until your open claim is closed, then send a one-tap renewal.' },
+    ],
+  },
+  agent: {
+    label: 'Support agent copilot',
+    greeting: 'Aisha (A-1842) is on the line. Open claim C-48211, sentiment dipping. Want me to pre-fill a recovery script?',
+    quick: [
+      { label: 'Summarise customer in 5 lines', reply: 'Motor comprehensive · open claim C-48211 (workshop, parts delay) · renewal in 36d · NPS dipped · suppress all upsell · last contact: app, 09:18.' },
+      { label: 'Draft apology + ETA message', reply: 'Drafted: "Hi Aisha, parts for your claim are confirmed — pickup by 14 Apr. We have credited a free service as goodwill. Reply 1 to confirm."' },
+      { label: 'Trigger supervisor callback', reply: 'Supervisor S-12 paged · callback scheduled in 25 min · case auto-tagged "service recovery — high".' },
+    ],
+  },
+};
+
+const Copilot: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [persona, setPersona] = useState<CopilotPersona>('customer');
+  const [history, setHistory] = useState<Record<CopilotPersona, CopilotMsg[]>>({
+    customer: [{ from: 'bot', text: copilotConfig.customer.greeting }],
+    agent: [{ from: 'bot', text: copilotConfig.agent.greeting }],
+  });
+  const [input, setInput] = useState('');
+
+  const send = (text: string, reply?: string) => {
+    if (!text.trim()) return;
+    const botReply = reply ?? 'Got it — I will fast-track this and update you here without breaking your flow.';
+    setHistory((h) => ({
+      ...h,
+      [persona]: [...h[persona], { from: 'me', text }, { from: 'bot', text: botReply }],
+    }));
+    setInput('');
+  };
+
+  const cfg = copilotConfig[persona];
+  const msgs = history[persona];
+
+  return (
+    <>
+      {!open && (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-enterprise-navy px-5 py-3 text-sm font-semibold text-enterprise-text-primary shadow-lg hover:bg-enterprise-navy/90"
+        >
+          <Bot className="h-4 w-4" /> AWNIC Copilot
+          <span className="ml-1 rounded-full bg-enterprise-gold/20 px-2 py-0.5 text-[10px] uppercase tracking-wider text-enterprise-gold">Dual</span>
+        </button>
+      )}
+      {open && (
+        <div className="fixed bottom-6 right-6 z-50 flex h-[560px] w-[380px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+          <div className="flex items-center justify-between border-b border-border bg-enterprise-navy px-4 py-3 text-enterprise-text-primary">
+            <div className="flex items-center gap-2">
+              <Bot className="h-4 w-4 text-enterprise-gold" />
+              <span className="text-sm font-semibold">AWNIC Copilot</span>
+            </div>
+            <button type="button" onClick={() => setOpen(false)} className="opacity-70 hover:opacity-100">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="grid grid-cols-2 border-b border-border bg-card text-xs font-semibold">
+            {(['customer', 'agent'] as CopilotPersona[]).map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setPersona(p)}
+                className={`px-3 py-2.5 transition ${persona === p ? 'bg-secondary text-secondary-foreground' : 'text-muted-foreground hover:bg-secondary/60'}`}
+              >
+                {p === 'customer' ? <MessageCircle className="mx-auto mb-0.5 h-3.5 w-3.5" /> : <Headphones className="mx-auto mb-0.5 h-3.5 w-3.5" />}
+                {copilotConfig[p].label}
+              </button>
+            ))}
+          </div>
+          <div className="flex-1 space-y-2 overflow-y-auto bg-background p-3">
+            {msgs.map((m, i) => (
+              <div key={i} className={`flex ${m.from === 'me' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] rounded-lg px-3 py-2 text-xs leading-relaxed ${m.from === 'me' ? 'bg-enterprise-blue text-enterprise-text-primary' : 'bg-card border border-border text-card-foreground'}`}>
+                  {m.text}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-border bg-card px-3 pt-2">
+            <div className="mb-2 flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <Zap className="h-3 w-3" /> Fast-track actions
+            </div>
+            <div className="flex flex-wrap gap-1.5 pb-2">
+              {cfg.quick.map((q) => (
+                <button
+                  key={q.label}
+                  type="button"
+                  onClick={() => send(q.label, q.reply)}
+                  className="rounded-full border border-border bg-secondary px-2.5 py-1 text-[11px] font-medium text-secondary-foreground hover:bg-secondary/70"
+                >
+                  {q.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <form
+            onSubmit={(e) => { e.preventDefault(); send(input); }}
+            className="flex items-center gap-2 border-t border-border bg-card p-3"
+          >
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={persona === 'customer' ? 'Ask about your policy or claim…' : 'Ask the copilot to act for the customer…'}
+              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-enterprise-blue"
+            />
+            <button type="submit" className="grid h-8 w-8 place-items-center rounded-md bg-enterprise-navy text-enterprise-text-primary hover:bg-enterprise-navy/90">
+              <Send className="h-3.5 w-3.5" />
+            </button>
+          </form>
+        </div>
+      )}
+    </>
+  );
+};
+
 const AwnicCommandCenter: React.FC = () => {
   const [active, setActive] = useState(screens[0].id);
   const screen = useMemo(() => screens.find((item) => item.id === active) ?? screens[0], [active]);
@@ -344,6 +481,7 @@ const AwnicCommandCenter: React.FC = () => {
           </Card>
         </div>
       </section>
+      <Copilot />
     </main>
   );
 };

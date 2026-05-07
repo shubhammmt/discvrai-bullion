@@ -34,47 +34,48 @@ const SlideWrapper: React.FC<{ children: React.ReactNode; num: number; total: nu
 const CapabilitiesLiteSlide: React.FC<{ num: number; total: number }> = ({ num, total }) => {
   const blocks = [
     {
+      icon: Database,
+      title: 'One trusted data foundation',
+      desc: 'Consolidate scattered systems into a single enterprise data lake — or enrich and transform an existing one — with golden records, lineage and a semantic layer. This baseline is the prerequisite that makes every AI, decisioning and integration outcome possible.',
+      chips: ['Enterprise data lake', 'Consolidation & enrichment', 'Golden records', 'Lineage & quality', 'Semantic layer', 'CDC pipelines'],
+    },
+    {
       icon: Brain,
       title: 'Generative & agentic AI',
-      desc: 'Multi-LLM routing, RAG with citations and RBAC, fine-tuning (LoRA/QLoRA), eval harnesses, guardrails, on-prem inference, agent orchestration (LangGraph) with deterministic fallbacks — grounded in enterprise knowledge.',
+      desc: 'AI assistants and autonomous agents grounded in your knowledge — with citations, role-based access, guardrails and human checkpoints, so business users get reliable answers and actions, not generic chatbot replies.',
       chips: ['Multi-LLM routing', 'RAG + RBAC', 'LoRA / QLoRA', 'LangGraph agents', 'On-prem inference', 'Guardrails & evals'],
     },
     {
       icon: BarChart3,
       title: 'Decision intelligence & command centres',
-      desc: 'Operator-grade dashboards, exception-first workflows, NL-to-SQL on governed data, predictive alerts wired to action — signal → decision → measurable outcome.',
+      desc: 'Operator-grade dashboards and exception-first workflows that turn signals into action — predictive alerts, ask-in-plain-English, and every decision tied to a measurable business outcome.',
       chips: ['Exception-first workflows', 'NL-to-SQL', 'Predictive alerts', 'Operator dashboards', 'Signal → decision'],
     },
     {
-      icon: Database, secondaryIcon: Link2,
-      title: 'Data, MLOps & integration platform',
-      desc: 'Lakehouse + feature store (Feast), vector DBs, training/serving on AWS / Azure / GCP, MLflow / Kubeflow / SageMaker / Vertex, drift, bias and explainability (SHAP/LIME). Battle-tested connectors for SAP, Oracle, Salesforce, core banking, MES, SCADA, historian, Shopify and payment rails — CDC pipelines, semantic layer, golden records.',
-      chips: ['Lakehouse + Feast', 'Vector DBs', 'MLflow / Kubeflow', 'SAP · Oracle · Salesforce', 'MES · SCADA · historian', 'CDC + semantic layer'],
+      icon: Link2,
+      title: 'MLOps & enterprise integration',
+      desc: 'Reliable model lifecycle (training, serving, drift, explainability) plus battle-tested connectors into SAP, Oracle, Salesforce, core banking, MES, SCADA, Shopify and payment rails — so AI runs safely inside the systems your teams already use.',
+      chips: ['MLflow / Kubeflow', 'Drift & SHAP/LIME', 'AWS · Azure · GCP', 'SAP · Oracle · Salesforce', 'MES · SCADA · historian', 'Payment rails'],
     },
   ];
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-6">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-3" style={{ color: ACCENT }}>Deep-tech capability stack</div>
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">Hard ML, agentic AI and data engineering — engineered into the systems you already run</h2>
-        <p className="text-slate-600 text-base md:text-lg max-w-4xl">Three pillars that turn a mature enterprise stack into a measurable, agentic operating model.</p>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-3" style={{ color: ACCENT }}>What we bring to the table</div>
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">Four building blocks to turn your enterprise into an AI-ready, decision-led business</h2>
+        <p className="text-slate-600 text-base md:text-lg max-w-4xl">Start with a trusted data foundation, then layer AI, decisioning and integration — engineered into the systems you already run.</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
         {blocks.map((b, i) => {
-          const Icon = b.icon; const Secondary = b.secondaryIcon;
+          const Icon = b.icon;
           return (
             <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1 }}
-              className="border border-slate-200 rounded-2xl p-6 bg-white flex flex-col relative overflow-hidden">
+              className="border border-slate-200 rounded-2xl p-5 bg-white flex flex-col relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1" style={{ background: ACCENT }} />
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
                   <Icon className="w-5 h-5" style={{ color: ACCENT }} />
                 </div>
-                {Secondary && (
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}10` }}>
-                    <Secondary className="w-5 h-5" style={{ color: ACCENT }} />
-                  </div>
-                )}
                 <span className="ml-auto text-[11px] font-semibold tracking-wider text-slate-400">0{i + 1}</span>
               </div>
               <h3 className="font-bold text-slate-900 text-lg mb-2 leading-snug">{b.title}</h3>
@@ -111,8 +112,9 @@ const AwnicOrchestrationSlide: React.FC<{ num: number; total: number }> = ({ num
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>AWNIC · Why orchestration matters now</div>
-        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>From channel fragments to one AWNIC customer journey</h2>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>Workstream 01 · Unified customer journey</div>
+        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>One AWNIC journey — owned by the customer, visible to every service support agent</h2>
+        <p className="text-slate-600 text-sm mt-2 max-w-4xl"><span className="font-semibold text-slate-800">Who uses it:</span> the customer (mobile / web / WhatsApp) and the service support agent (contact centre desk). <span className="font-semibold text-slate-800">Who benefits:</span> the customer gets a continuous, in-context experience; the agent sees the same memory and resolves faster.</p>
       </div>
       <div className="grid grid-cols-2 gap-5 flex-1 min-h-0">
         <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} className="border border-slate-200 rounded-2xl p-6 bg-white flex flex-col">
@@ -179,8 +181,9 @@ const AwnicClaimsSlide: React.FC<{ num: number; total: number }> = ({ num, total
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>AWNIC · Claims trust engine</div>
-        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>Claims as the retention moment: fast, transparent, predictable</h2>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>Workstream 02 · Claims trust engine</div>
+        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>The claim is the central entity — owned by the customer, orchestrated end-to-end</h2>
+        <p className="text-slate-600 text-sm mt-2 max-w-4xl"><span className="font-semibold text-slate-800">Central entity:</span> the claim (linked to one customer + policy). <span className="font-semibold text-slate-800">Direct beneficiary:</span> the customer — fast, transparent, predictable resolution. <span className="font-semibold text-slate-800">Also benefits:</span> claim handlers, surveyors, workshops and service desk all act on the same live state.</p>
       </div>
       <div className="grid grid-cols-3 gap-5 flex-1 min-h-0">
         {/* Customer tracker */}
@@ -254,8 +257,9 @@ const AwnicGrowthSlide: React.FC<{ num: number; total: number }> = ({ num, total
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>AWNIC · Service-first growth playbook</div>
-        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>Grow without spamming: recovery, renewal, contextual offers</h2>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>Workstream 03 · Service-first growth playbook</div>
+        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>Recovery, renewal and contextual offers — delivered automatically to eligible customers</h2>
+        <p className="text-slate-600 text-sm mt-2 max-w-4xl"><span className="font-semibold text-slate-800">Who consumes it:</span> existing AWNIC policyholders — segmented by service status, claim history and consent. <span className="font-semibold text-slate-800">How it runs:</span> rules + decisioning fire automatically across app, WhatsApp and email — no manual campaign push. Service agents only step in for high-value save calls flagged by the engine.</p>
       </div>
 
       {/* Flow */}
