@@ -34,32 +34,38 @@ const SlideWrapper: React.FC<{ children: React.ReactNode; num: number; total: nu
 const CapabilitiesLiteSlide: React.FC<{ num: number; total: number }> = ({ num, total }) => {
   const blocks = [
     {
+      icon: Database,
+      title: 'One trusted data foundation',
+      desc: 'Consolidate scattered systems into a single enterprise data lake — or enrich and transform an existing one — with golden records, lineage and a semantic layer. This baseline is the prerequisite that makes every AI, decisioning and integration outcome possible.',
+      chips: ['Enterprise data lake', 'Consolidation & enrichment', 'Golden records', 'Lineage & quality', 'Semantic layer', 'CDC pipelines'],
+    },
+    {
       icon: Brain,
       title: 'Generative & agentic AI',
-      desc: 'Multi-LLM routing, RAG with citations and RBAC, fine-tuning (LoRA/QLoRA), eval harnesses, guardrails, on-prem inference, agent orchestration (LangGraph) with deterministic fallbacks — grounded in enterprise knowledge.',
+      desc: 'AI assistants and autonomous agents grounded in your knowledge — with citations, role-based access, guardrails and human checkpoints, so business users get reliable answers and actions, not generic chatbot replies.',
       chips: ['Multi-LLM routing', 'RAG + RBAC', 'LoRA / QLoRA', 'LangGraph agents', 'On-prem inference', 'Guardrails & evals'],
     },
     {
       icon: BarChart3,
       title: 'Decision intelligence & command centres',
-      desc: 'Operator-grade dashboards, exception-first workflows, NL-to-SQL on governed data, predictive alerts wired to action — signal → decision → measurable outcome.',
+      desc: 'Operator-grade dashboards and exception-first workflows that turn signals into action — predictive alerts, ask-in-plain-English, and every decision tied to a measurable business outcome.',
       chips: ['Exception-first workflows', 'NL-to-SQL', 'Predictive alerts', 'Operator dashboards', 'Signal → decision'],
     },
     {
-      icon: Database, secondaryIcon: Link2,
-      title: 'Data, MLOps & integration platform',
-      desc: 'Lakehouse + feature store (Feast), vector DBs, training/serving on AWS / Azure / GCP, MLflow / Kubeflow / SageMaker / Vertex, drift, bias and explainability (SHAP/LIME). Battle-tested connectors for SAP, Oracle, Salesforce, core banking, MES, SCADA, historian, Shopify and payment rails — CDC pipelines, semantic layer, golden records.',
-      chips: ['Lakehouse + Feast', 'Vector DBs', 'MLflow / Kubeflow', 'SAP · Oracle · Salesforce', 'MES · SCADA · historian', 'CDC + semantic layer'],
+      icon: Link2,
+      title: 'MLOps & enterprise integration',
+      desc: 'Reliable model lifecycle (training, serving, drift, explainability) plus battle-tested connectors into SAP, Oracle, Salesforce, core banking, MES, SCADA, Shopify and payment rails — so AI runs safely inside the systems your teams already use.',
+      chips: ['MLflow / Kubeflow', 'Drift & SHAP/LIME', 'AWS · Azure · GCP', 'SAP · Oracle · Salesforce', 'MES · SCADA · historian', 'Payment rails'],
     },
   ];
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-6">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-3" style={{ color: ACCENT }}>Deep-tech capability stack</div>
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">Hard ML, agentic AI and data engineering — engineered into the systems you already run</h2>
-        <p className="text-slate-600 text-base md:text-lg max-w-4xl">Three pillars that turn a mature enterprise stack into a measurable, agentic operating model.</p>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-3" style={{ color: ACCENT }}>What we bring to the table</div>
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-3">Four building blocks to turn your enterprise into an AI-ready, decision-led business</h2>
+        <p className="text-slate-600 text-base md:text-lg max-w-4xl">Start with a trusted data foundation, then layer AI, decisioning and integration — engineered into the systems you already run.</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
         {blocks.map((b, i) => {
           const Icon = b.icon; const Secondary = b.secondaryIcon;
           return (
