@@ -221,6 +221,12 @@ import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
 import CMSAuditCommand from './pages/CMSAuditCommand';
 import SchlumbergerOps from './pages/SchlumbergerOps';
+import SBIHub from './pages/sbi/SBIHub';
+import SBIDeck from './pages/sbi/SBIDeck';
+import SBIAcquisition from './pages/sbi/SBIAcquisition';
+import SBIPersonalization from './pages/sbi/SBIPersonalization';
+import SBIFraud from './pages/sbi/SBIFraud';
+import SBILifecycle from './pages/sbi/SBILifecycle';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -306,6 +312,9 @@ const AppContent = () => {
                            location.pathname === '/alerts/inbox' ||
                            location.pathname === '/rebalancing' ||
                            location.pathname === '/admin/conversion-metrics' ||
+                           location.pathname === '/sbi-card' ||
+                           location.pathname === '/pitch/sbi-card' ||
+                           location.pathname.startsWith('/sbi-card/') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -500,6 +509,12 @@ const AppContent = () => {
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
                     <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
                     <Route path="/cms-evidence-deck" element={<CMSEvidenceDeck />} />
+                    <Route path="/sbi-card" element={<SBIHub />} />
+                    <Route path="/pitch/sbi-card" element={<SBIDeck />} />
+                    <Route path="/sbi-card/acquisition" element={<SBIAcquisition />} />
+                    <Route path="/sbi-card/personalization" element={<SBIPersonalization />} />
+                    <Route path="/sbi-card/fraud" element={<SBIFraud />} />
+                    <Route path="/sbi-card/lifecycle" element={<SBILifecycle />} />
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
