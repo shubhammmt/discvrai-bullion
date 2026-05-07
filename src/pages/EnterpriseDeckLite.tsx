@@ -112,8 +112,9 @@ const AwnicOrchestrationSlide: React.FC<{ num: number; total: number }> = ({ num
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>AWNIC · Why orchestration matters now</div>
-        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>From channel fragments to one AWNIC customer journey</h2>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>Workstream 01 · Unified customer journey</div>
+        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>One AWNIC journey — owned by the customer, visible to every service support agent</h2>
+        <p className="text-slate-600 text-sm mt-2 max-w-4xl"><span className="font-semibold text-slate-800">Who uses it:</span> the customer (mobile / web / WhatsApp) and the service support agent (contact centre desk). <span className="font-semibold text-slate-800">Who benefits:</span> the customer gets a continuous, in-context experience; the agent sees the same memory and resolves faster.</p>
       </div>
       <div className="grid grid-cols-2 gap-5 flex-1 min-h-0">
         <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} className="border border-slate-200 rounded-2xl p-6 bg-white flex flex-col">
