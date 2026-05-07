@@ -67,20 +67,15 @@ const CapabilitiesLiteSlide: React.FC<{ num: number; total: number }> = ({ num, 
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
         {blocks.map((b, i) => {
-          const Icon = b.icon; const Secondary = b.secondaryIcon;
+          const Icon = b.icon;
           return (
             <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1 }}
-              className="border border-slate-200 rounded-2xl p-6 bg-white flex flex-col relative overflow-hidden">
+              className="border border-slate-200 rounded-2xl p-5 bg-white flex flex-col relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1" style={{ background: ACCENT }} />
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
                   <Icon className="w-5 h-5" style={{ color: ACCENT }} />
                 </div>
-                {Secondary && (
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}10` }}>
-                    <Secondary className="w-5 h-5" style={{ color: ACCENT }} />
-                  </div>
-                )}
                 <span className="ml-auto text-[11px] font-semibold tracking-wider text-slate-400">0{i + 1}</span>
               </div>
               <h3 className="font-bold text-slate-900 text-lg mb-2 leading-snug">{b.title}</h3>
