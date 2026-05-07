@@ -481,6 +481,7 @@ const AwnicCommandCenter: React.FC = () => {
           </Card>
         </div>
       </section>
+      <Copilot />
     </main>
   );
 };
