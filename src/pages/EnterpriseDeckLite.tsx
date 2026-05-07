@@ -181,8 +181,9 @@ const AwnicClaimsSlide: React.FC<{ num: number; total: number }> = ({ num, total
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>AWNIC · Claims trust engine</div>
-        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>Claims as the retention moment: fast, transparent, predictable</h2>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>Workstream 02 · Claims trust engine</div>
+        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>The claim is the central entity — owned by the customer, orchestrated end-to-end</h2>
+        <p className="text-slate-600 text-sm mt-2 max-w-4xl"><span className="font-semibold text-slate-800">Central entity:</span> the claim (linked to one customer + policy). <span className="font-semibold text-slate-800">Direct beneficiary:</span> the customer — fast, transparent, predictable resolution. <span className="font-semibold text-slate-800">Also benefits:</span> claim handlers, surveyors, workshops and service desk all act on the same live state.</p>
       </div>
       <div className="grid grid-cols-3 gap-5 flex-1 min-h-0">
         {/* Customer tracker */}
