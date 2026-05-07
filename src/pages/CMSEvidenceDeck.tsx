@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   Shield, Users, MapPin, Workflow, AlertTriangle, TrendingDown,
   Layers, Network, Brain, Target, Calendar, BarChart3, GitBranch,
-  ArrowRight, CheckCircle2, FileText, Eye, Cpu, Database
+  ArrowRight, CheckCircle2, FileText, Eye, Cpu, Database, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 interface SlideProps { isActive: boolean; }
@@ -10,35 +10,38 @@ interface SlideProps { isActive: boolean; }
 const wrap = (active: boolean) =>
   `transition-opacity duration-500 h-full ${active ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'}`;
 
-const SectionHeader: React.FC<{ kicker: string; title: string; accent?: string }> = ({ kicker, title, accent = 'text-blue-400' }) => (
+const SectionHeader: React.FC<{ kicker: string; title: string; accent?: string }> = ({ kicker, title, accent = 'text-blue-600' }) => (
   <div className="mb-6">
-    <p className={`text-xs uppercase tracking-widest mb-2 ${accent}`}>{kicker}</p>
-    <h2 className="text-3xl md:text-4xl font-bold text-white">{title}</h2>
+    <p className={`text-xs uppercase tracking-widest mb-2 font-semibold ${accent}`}>{kicker}</p>
+    <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{title}</h2>
   </div>
 );
 
 const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ children, className = '' }) => (
-  <div className={`bg-slate-800/60 border border-slate-700/50 rounded-xl p-5 ${className}`}>{children}</div>
+  <div className={`bg-white border border-slate-200 rounded-xl p-5 shadow-sm ${className}`}>{children}</div>
 );
 
 // 1 — Title
 const S1: React.FC<SlideProps> = ({ isActive }) => (
   <div className={wrap(isActive)}>
     <div className="h-full flex flex-col items-center justify-center text-center px-16 relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-amber-500/10 rounded-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-transparent to-amber-50 rounded-3xl" />
       <div className="relative z-10 space-y-6 max-w-5xl">
-        <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+        <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-600 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
           <Shield className="w-10 h-10 text-white" />
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
-          From reactive reconciliation to <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">evidence-led operations</span>
+        <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight">
+          From reactive reconciliation to <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">evidence-led operations</span>
         </h1>
-        <p className="text-xl text-slate-300">National cash ATM network — vault-to-machine integrity programme</p>
-        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
-          <span className="text-amber-300 text-sm uppercase tracking-widest">Indicative annual leakage band</span>
-          <span className="text-3xl font-bold text-amber-300">₹40 Cr</span>
+        <p className="text-xl text-slate-600">National cash ATM network — vault-to-machine integrity programme</p>
+        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-amber-50 border border-amber-300">
+          <span className="text-amber-700 text-sm uppercase tracking-widest font-semibold">Indicative annual leakage band</span>
+          <span className="text-3xl font-bold text-amber-700">₹40 Cr</span>
         </div>
-        <p className="text-sm text-slate-500">Basis to be defined verbally · Confidential</p>
+        <p className="max-w-3xl mx-auto text-slate-600 leading-relaxed text-base">
+          Beyond visible penalties, a large <span className="font-semibold text-slate-800">unaccounted manual manpower load</span> (vault ops, field ops, checkers, reconciliation, audit follow-up) is absorbed daily to stitch root cause from fragmented records — a hidden cost that reduces operating agility.
+        </p>
+        <p className="text-xs text-slate-400 uppercase tracking-widest">Confidential — Internal</p>
       </div>
     </div>
   </div>
@@ -60,16 +63,16 @@ const S2: React.FC<SlideProps> = ({ isActive }) => {
         <SectionHeader kicker="Ground-up discovery" title="Depth of engagement completed" />
         <div className="grid grid-cols-3 gap-4 flex-1 content-start">
           {items.map((it, i) => (
-            <Card key={i} className="hover:border-blue-500/40 transition-colors">
-              <it.icon className="w-6 h-6 text-blue-400 mb-3" />
-              <p className="text-white font-semibold mb-1">{it.t}</p>
-              <p className="text-sm text-slate-400">{it.d}</p>
+            <Card key={i} className="hover:border-blue-400 transition-colors">
+              <it.icon className="w-6 h-6 text-blue-600 mb-3" />
+              <p className="text-slate-900 font-semibold mb-1">{it.t}</p>
+              <p className="text-sm text-slate-500">{it.d}</p>
             </Card>
           ))}
         </div>
-        <div className="mt-6 flex items-center gap-3 px-5 py-4 rounded-xl bg-blue-500/10 border border-blue-500/30">
-          <FileText className="w-5 h-5 text-blue-300" />
-          <span className="text-slate-200">Output: workflows, observations and findings documented in a <span className="text-blue-300 font-semibold">~50-page working document</span>.</span>
+        <div className="mt-6 flex items-center gap-3 px-5 py-4 rounded-xl bg-blue-50 border border-blue-200">
+          <FileText className="w-5 h-5 text-blue-600" />
+          <span className="text-slate-700">Output: workflows, observations and findings documented in a <span className="text-blue-700 font-semibold">~50-page working document</span>.</span>
         </div>
       </div>
     </div>
@@ -93,11 +96,11 @@ const S3: React.FC<SlideProps> = ({ isActive }) => {
             {stages.map((s, i) => (
               <div key={i} className="relative">
                 <Card className="h-full">
-                  <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">0{i + 1}</div>
-                  <p className="text-white font-semibold mb-2">{s.t}</p>
-                  <p className="text-sm text-slate-400">{s.d}</p>
+                  <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 mb-2">0{i + 1}</div>
+                  <p className="text-slate-900 font-semibold mb-2">{s.t}</p>
+                  <p className="text-sm text-slate-500">{s.d}</p>
                 </Card>
-                {i < 3 && <ArrowRight className="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 w-5 h-5 text-slate-600" />}
+                {i < 3 && <ArrowRight className="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 w-5 h-5 text-slate-300" />}
               </div>
             ))}
           </div>
@@ -120,15 +123,15 @@ const S4: React.FC<SlideProps> = ({ isActive }) => {
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Problem statement" title="Root-cause fracture points" accent="text-red-400" />
+        <SectionHeader kicker="Problem statement" title="Root-cause fracture points" accent="text-red-600" />
         <div className="grid grid-cols-2 gap-4 flex-1 content-start">
           {fractures.map((f, i) => (
-            <Card key={i} className="border-l-4 border-l-red-500/60">
+            <Card key={i} className="border-l-4 border-l-red-500">
               <div className="flex gap-3">
-                <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-semibold mb-1">{f.t}</p>
-                  <p className="text-sm text-slate-400">{f.d}</p>
+                  <p className="text-slate-900 font-semibold mb-1">{f.t}</p>
+                  <p className="text-sm text-slate-500">{f.d}</p>
                 </div>
               </div>
             </Card>
@@ -141,39 +144,33 @@ const S4: React.FC<SlideProps> = ({ isActive }) => {
 
 // 5 — Business impact
 const S5: React.FC<SlideProps> = ({ isActive }) => {
-  const stats = [
-    { v: '₹10k', l: 'Cash-out penalty', d: 'Wipes out monthly machine economics' },
-    { v: '4 hr', l: 'SLA window', d: 'Magnifies routing & dispatch pressure' },
-    { v: 'T+5', l: 'Harmonizing slippage', d: 'Inflates dispute and recovery overhead' },
+  const items = [
+    { t: 'Direct commercial pressure', d: 'Shortages/claims, cash-out penalties, harmonizing/T+5 delays, and excess-cash carrying penalties hit P&L' },
+    { t: 'Hidden people cost', d: 'Large cross-functional manual effort across vault, route ops, HO checkers, reconciliation, audit and escalation to reconstruct one ATM-day truth' },
+    { t: 'Slow root-cause closure', d: 'Teams reconcile paper, Excel, slips, app logs and machine records before ownership is clear' },
+    { t: 'Low agility cost', d: 'Supervisory bandwidth shifts from prevention to post-facto firefighting; intraday decision latency increases' },
+    { t: 'Unit economics stress', d: '₹10k cash-out penalty can neutralize monthly ATM contribution; excess cash simultaneously locks capital and attracts penalty/interest deltas' },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Management-safe framing" title="Business impact" accent="text-amber-400" />
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {stats.map((s, i) => (
-            <Card key={i} className="text-center">
-              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 mb-2">{s.v}</div>
-              <p className="text-white font-semibold">{s.l}</p>
-              <p className="text-sm text-slate-400 mt-1">{s.d}</p>
+        <SectionHeader kicker="Management-safe framing" title="Business impact" accent="text-amber-600" />
+        <div className="grid grid-cols-2 gap-4 flex-1 content-start">
+          {items.map((it, i) => (
+            <Card key={i}>
+              <div className="flex gap-3">
+                <TrendingDown className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-slate-900 font-semibold mb-1">{it.t}</p>
+                  <p className="text-sm text-slate-500">{it.d}</p>
+                </div>
+              </div>
             </Card>
           ))}
-        </div>
-        <div className="flex-1 grid grid-cols-2 gap-4">
-          <Card>
-            <TrendingDown className="w-6 h-6 text-red-400 mb-3" />
-            <p className="text-white font-semibold mb-2">Where pressure shows up</p>
-            <ul className="text-sm text-slate-300 space-y-1.5 list-disc pl-5">
-              <li>Shortages and customer claims</li>
-              <li>Cash-out penalties</li>
-              <li>Harmonizing / T+5 slippages</li>
-              <li>Delayed root-cause assignment</li>
-            </ul>
-          </Card>
-          <Card className="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border-amber-500/30">
-            <Eye className="w-6 h-6 text-amber-300 mb-3" />
-            <p className="text-white font-semibold mb-2">Core issue</p>
-            <p className="text-slate-200 leading-relaxed">It is <span className="text-amber-300 font-semibold">not effort</span>. It is <span className="text-amber-300 font-semibold">fragmented evidence and asynchronous control.</span></p>
+          <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300">
+            <Eye className="w-6 h-6 text-amber-600 mb-2" />
+            <p className="text-slate-900 font-semibold mb-1">Core issue</p>
+            <p className="text-slate-700 text-sm">It is <span className="text-amber-700 font-semibold">not effort</span>. It is <span className="text-amber-700 font-semibold">fragmented evidence and asynchronous control.</span></p>
           </Card>
         </div>
       </div>
@@ -181,28 +178,29 @@ const S5: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 6 — Design principles
+// 6 — What changes in business control
 const S6: React.FC<SlideProps> = ({ isActive }) => {
   const principles = [
-    { t: 'Evidence before verdict', d: 'No exception without traceable evidence_id', icon: Shield },
-    { t: 'One variance core', d: 'Single diff engine for reconciliation, overage and command-center consumers', icon: Layers },
-    { t: 'Rules before ML', d: 'Deterministic detection first; AI for ranking/prediction once labels stabilize', icon: Brain },
-    { t: 'Indent truth in train 1', d: 'Sanctioned vs disbursed reconciles same day — no email-only bypass', icon: CheckCircle2 },
+    { t: 'Single source of operational truth', d: 'One joined view across vault handoff, trip execution, machine counters, bank/disbursement and closures', icon: Layers },
+    { t: 'No closure without evidence', d: 'Every critical exception carries auditable proof — who, what, when, amount', icon: Shield },
+    { t: 'Standardized decision flow', d: 'Same rulebook for alerts, ownership, SLA clocks and escalation paths across regions', icon: GitBranch },
+    { t: 'Same-day indent truth', d: 'Sanctioned vs disbursed vs revised amount recorded in-system for CMS-MSP estate (no email-only bypass)', icon: CheckCircle2 },
+    { t: 'Human effort moves up the value chain', d: 'Less time on re-key/reconstruction; more time on prevention and prioritized action', icon: Brain },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Solution design principle" title="Control before complexity" />
+        <SectionHeader kicker="Simple operating model" title="What changes in business control" />
         <div className="grid grid-cols-2 gap-4 flex-1 content-start">
           {principles.map((p, i) => (
-            <Card key={i} className="hover:border-cyan-500/40 transition-colors">
+            <Card key={i} className="hover:border-cyan-400 transition-colors">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shrink-0">
                   <p.icon className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-lg mb-1">{p.t}</p>
-                  <p className="text-sm text-slate-400">{p.d}</p>
+                  <p className="text-slate-900 font-semibold text-lg mb-1">{p.t}</p>
+                  <p className="text-sm text-slate-500">{p.d}</p>
                 </div>
               </div>
             </Card>
@@ -213,26 +211,26 @@ const S6: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 7 — Control architecture
+// 7 — Operating backbone
 const S7: React.FC<SlideProps> = ({ isActive }) => {
-  const layers = [
-    { t: 'Unified spine', d: 'Vault / App / Switch / FLM / Bank feeds normalized by atm_day + trip_id', icon: Database, color: 'from-blue-500 to-cyan-500' },
-    { t: 'variance_core', d: 'Computes bank vs machine vs vault diffs; publishes exception events', icon: GitBranch, color: 'from-purple-500 to-pink-500' },
-    { t: 'OCR service', d: 'Slip/screen field extraction with confidence + fallback workflow', icon: Eye, color: 'from-amber-500 to-orange-500' },
-    { t: 'Ops queue', d: 'Owner, SLA clock, escalation, structured closure reasons', icon: Workflow, color: 'from-emerald-500 to-teal-500' },
+  const steps = [
+    { n: '01', t: 'Capture', d: 'Vault dispatch, app activity, slips/screens, switch/machine/FLM events captured in one operational spine', icon: Database },
+    { n: '02', t: 'Reconcile', d: 'System compares bank-vs-machine-vs-vault positions and flags only material mismatches', icon: GitBranch },
+    { n: '03', t: 'Assign', d: 'Each mismatch gets owner, severity, due-time and escalation route — no orphan cases', icon: Target },
+    { n: '04', t: 'Resolve', d: 'Checkers and ops close through guided actions with mandatory evidence — not free-text approval', icon: CheckCircle2 },
+    { n: '05', t: 'Govern', d: 'Command center shows live queue health, aging risk, audit coverage and high-risk ATM watchlist', icon: BarChart3 },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Control architecture" title="What changes operationally" />
-        <div className="grid grid-cols-4 gap-3 flex-1 content-start">
-          {layers.map((l, i) => (
+        <SectionHeader kicker="Operating backbone" title="How teams will run day-to-day" />
+        <div className="grid grid-cols-5 gap-3 flex-1 content-start">
+          {steps.map((s, i) => (
             <Card key={i}>
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${l.color} flex items-center justify-center mb-3`}>
-                <l.icon className="w-6 h-6 text-white" />
-              </div>
-              <p className="text-white font-semibold mb-1">{l.t}</p>
-              <p className="text-sm text-slate-400">{l.d}</p>
+              <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">{s.n}</span>
+              <s.icon className="w-5 h-5 text-blue-600 mt-2 mb-2" />
+              <p className="text-slate-900 font-semibold mb-1">{s.t}</p>
+              <p className="text-sm text-slate-500">{s.d}</p>
             </Card>
           ))}
         </div>
@@ -244,30 +242,31 @@ const S7: React.FC<SlideProps> = ({ isActive }) => {
 // 8 — Six workstreams
 const S8: React.FC<SlideProps> = ({ isActive }) => {
   const ws = [
-    'AI & risk intelligence',
-    'Digital evidence & vault automation',
-    'Preemptive overage & recovery intelligence',
-    'Protocol enforcement & SOP hard-coding',
-    'Automated indent & replenishment logic',
-    'Operations command center / three-way truth',
+    { t: 'AI & risk intelligence', d: 'Predicts where loss/cash-out risk is likely — action becomes proactive' },
+    { t: 'Digital evidence & vault automation', d: 'Removes paper/board dependency; reliable handoff from vault to field' },
+    { t: 'Preemptive overage & recovery intelligence', d: 'Catches overage and penalty-risk early, before T+5 breach' },
+    { t: 'Protocol enforcement & SOP hard-coding', d: 'Hard-codes non-negotiable controls (route, custody, HOTO, manual mode)' },
+    { t: 'Automated indent & replenishment', d: 'CMS-MSP indent automation; same-day revised indent truth in first rollout' },
+    { t: 'Operations command center / three-way truth', d: 'Unifies triage, resolution and governance in one command center' },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
         <SectionHeader kicker="Landscape → solution map" title="Six workstreams" />
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-3 mb-5">
           {ws.map((w, i) => (
-            <Card key={i} className="hover:border-blue-500/40 transition-colors">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{i + 1}</span>
-                <span className="text-white font-medium">{w}</span>
+            <Card key={i} className="hover:border-blue-400 transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">{i + 1}</span>
+                <span className="text-slate-900 font-semibold">{w.t}</span>
               </div>
+              <p className="text-sm text-slate-500">{w.d}</p>
             </Card>
           ))}
         </div>
-        <div className="px-5 py-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-          <p className="text-slate-200 leading-relaxed">
-            <span className="text-purple-300 font-semibold">Audit programme runs in parallel</span> — process enforcement + predictive targeting on the same signal spine, with an <span className="text-purple-300 font-semibold">audit command center</span> for planning, execution tracking and high-risk ATM alerting.
+        <div className="px-5 py-4 rounded-xl bg-purple-50 border border-purple-200">
+          <p className="text-slate-700 leading-relaxed">
+            <span className="text-purple-700 font-semibold">Audit runs in parallel</span> on the same spine, with dedicated command-center visibility for planning, execution progress and risk-triggered candidate ATMs.
           </p>
         </div>
       </div>
@@ -275,66 +274,58 @@ const S8: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 9 — AI catalogue
+// 9 — AI streams in business terms
 const S9: React.FC<SlideProps> = ({ isActive }) => {
   const groups = [
-    { t: 'Core risk AI', d: 'DRS + risk-mode classification (theft, overage, cash-out stress)', icon: Brain },
-    { t: 'Flow AI', d: 'Cash demand prediction, mismatch/variance detection, stuck-cash estimation', icon: Network },
-    { t: 'Evidence AI', d: 'OCR for screen/slip, claims/triangulation assist, structured intake assist', icon: Eye },
+    { t: 'Risk prioritization AI', d: 'Tells management where to focus audit and ops first — highest loss probability first', icon: Brain },
+    { t: 'Demand & availability AI', d: 'Predicts likely cash-out or stress sites early, including neighbour-pressure effects', icon: Network },
+    { t: 'Integrity AI', d: 'Detects mismatches between what systems say and what machine/field evidence shows', icon: Shield },
+    { t: 'Evidence AI', d: 'Converts slips/screens/messages into structured data — checker quality up, cycle time down', icon: Eye },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Master catalogue" title="AI streams" />
-        <div className="grid grid-cols-3 gap-4 mb-5">
+        <SectionHeader kicker="AI in business language" title="What each stream actually does" />
+        <div className="grid grid-cols-2 gap-4 mb-5">
           {groups.map((g, i) => (
             <Card key={i}>
-              <g.icon className="w-7 h-7 text-cyan-300 mb-3" />
-              <p className="text-white font-semibold mb-1">{g.t}</p>
-              <p className="text-sm text-slate-400">{g.d}</p>
+              <g.icon className="w-7 h-7 text-cyan-600 mb-3" />
+              <p className="text-slate-900 font-semibold mb-1">{g.t}</p>
+              <p className="text-sm text-slate-500">{g.d}</p>
             </Card>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-4 flex-1">
-          <Card className="border-amber-500/30">
-            <p className="text-amber-300 text-xs uppercase tracking-widest mb-2">Boundary</p>
-            <p className="text-slate-200">No shadow models beyond catalogue. Each model maps to a consumer workflow and KPI.</p>
-          </Card>
-          <Card className="border-blue-500/30">
-            <p className="text-blue-300 text-xs uppercase tracking-widest mb-2">Shared base</p>
-            <p className="text-slate-200">Reconciliation (WS1) and Audit (WS2) consume the same DRS feature backbone.</p>
-          </Card>
-        </div>
+        <Card className="border-amber-300 bg-amber-50">
+          <p className="text-amber-700 text-xs uppercase tracking-widest font-semibold mb-1">Governance rule</p>
+          <p className="text-slate-700">AI recommends priority; <span className="font-semibold">policy-driven human workflow remains accountable</span> for final operational action.</p>
+        </Card>
       </div>
     </div>
   );
 };
 
-// 10 — Stream → outcome map
+// 10 — AI outcomes
 const S10: React.FC<SlideProps> = ({ isActive }) => {
-  const rows = [
-    ['DRS / risk mode', 'Smarter audit scheduling, risk queues, escalations'],
-    ['Demand + neighbour stress', 'Proactive replenishment, fewer cash-out incidents'],
-    ['Mismatch + overage inference', 'Early exception detection before EOD drift'],
-    ['OCR + structured intake', 'Same-day indent correction, lower checker re-key error'],
-    ['Claims assist', 'Faster dispute packs, tighter forensic turnaround'],
-    ['OOC/jam + excess-cash signals', 'Prioritized recovery; reduced loot-risk + sibling cash-out cascades'],
+  const outcomes = [
+    { t: 'Audit productivity uplift', d: 'Fewer random visits, more high-yield audits, better hit-rate, lower post-audit incidents' },
+    { t: 'Penalty reduction', d: 'Earlier cash-out prediction and overage/T+5 control reduce avoidable penalty exposure' },
+    { t: 'Working-capital efficiency', d: 'Better load-sizing and excess-cash visibility reduce idle cash and carrying cost' },
+    { t: 'Faster dispute turnaround', d: 'Evidence packaging shortens bank/customer resolution cycles' },
+    { t: 'Lower risk concentration', d: 'ATM down/OOO and jam signals trigger faster recovery — reduces loot-risk + neighbour cascades' },
+    { t: 'Leadership visibility', d: 'Command center tracks prevention, resolution velocity and unresolved high-risk aging in one screen' },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Stream-by-stream" title="AI outcome mapping" />
-        <Card className="p-0 overflow-hidden flex-1">
-          <div className="grid grid-cols-[1.2fr_2fr] px-6 py-3 border-b border-slate-700/50 text-xs uppercase tracking-wider text-slate-400">
-            <span>AI signal</span><span>Operational outcome</span>
-          </div>
-          {rows.map(([a, b], i) => (
-            <div key={i} className="grid grid-cols-[1.2fr_2fr] px-6 py-4 border-b border-slate-700/30 items-center hover:bg-slate-700/20">
-              <span className="text-cyan-300 font-medium">{a}</span>
-              <span className="text-slate-200">{b}</span>
-            </div>
+        <SectionHeader kicker="Stream → outcome" title="What each AI stream delivers" />
+        <div className="grid grid-cols-3 gap-4 flex-1 content-start">
+          {outcomes.map((o, i) => (
+            <Card key={i} className="border-l-4 border-l-cyan-500">
+              <p className="text-slate-900 font-semibold mb-1">{o.t}</p>
+              <p className="text-sm text-slate-500">{o.d}</p>
+            </Card>
           ))}
-        </Card>
+        </div>
       </div>
     </div>
   );
@@ -343,8 +334,8 @@ const S10: React.FC<SlideProps> = ({ isActive }) => {
 // 11 — Phased execution
 const S11: React.FC<SlideProps> = ({ isActive }) => {
   const phases = [
-    { p: 'P1', w: '0–8 wks', t: 'Evidence contracts', d: 'OCR for pilot templates; mandatory capture on in-scope flows', color: 'from-blue-500 to-cyan-500' },
-    { p: 'P2', w: '4–12 wks', t: 'Variance core + rules', d: 'First rule-set + indent automation lite (revised indent persistence)', color: 'from-purple-500 to-pink-500' },
+    { p: 'P1', w: '0–8 wks', t: 'Evidence contracts', d: 'OCR for pilot templates; mandatory capture on in-scope flows', color: 'from-blue-600 to-cyan-500' },
+    { p: 'P2', w: '4–12 wks', t: 'Variance core + rules', d: 'First rule-set + indent automation lite (revised indent persistence)', color: 'from-purple-600 to-pink-500' },
     { p: 'P3', w: '8–16 wks', t: 'Ops dashboard & queue', d: 'Ownership, SLA tracking, exception-first workflows', color: 'from-amber-500 to-orange-500' },
     { p: 'P4', w: '10–16 wks', t: 'Hardening & expansion', d: 'Baseline month lock, second-region expansion, DRS scale-up', color: 'from-emerald-500 to-teal-500' },
   ];
@@ -357,10 +348,10 @@ const S11: React.FC<SlideProps> = ({ isActive }) => {
             <Card key={i}>
               <div className="flex items-center justify-between mb-3">
                 <span className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${p.color}`}>{p.p}</span>
-                <span className="text-xs text-slate-400 px-2 py-1 rounded bg-slate-700/50">{p.w}</span>
+                <span className="text-xs text-slate-500 px-2 py-1 rounded bg-slate-100">{p.w}</span>
               </div>
-              <p className="text-white font-semibold mb-1">{p.t}</p>
-              <p className="text-sm text-slate-400">{p.d}</p>
+              <p className="text-slate-900 font-semibold mb-1">{p.t}</p>
+              <p className="text-sm text-slate-500">{p.d}</p>
             </Card>
           ))}
         </div>
@@ -369,11 +360,42 @@ const S11: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 12 — KPI tree
+// 12 — Before vs after
 const S12: React.FC<SlideProps> = ({ isActive }) => {
+  const rows = [
+    ['Root-cause cycle', 'Multi-team manual reconstruction across paper/Excel/slips/logs', 'Guided, evidence-linked closure with clear ownership'],
+    ['Operational manpower', 'Heavy hidden workload across vault/ops/checkers/recon/audit', 'Lower validation load; manpower redeployed to prevention'],
+    ['Indent management', 'Intraday revisions fragmented; email/manual bypass common', 'CMS-MSP indent truth captured in-system, auditable revisions'],
+    ['Risk response', 'ATM down, jams, excess-cash, neighbour stress handled late', 'Early warning + prioritized playbooks + escalation SLAs'],
+    ['Governance visibility', 'Siloed reports, delayed operational truth', 'Unified command-center view: planning, execution, risk aging'],
+    ['Financial control', 'Penalty-heavy, slow recovery, poor agility', 'Reduced avoidable penalties, faster recovery, tighter capital control'],
+  ];
+  return (
+    <div className={wrap(isActive)}>
+      <div className="h-full flex flex-col px-12 py-8">
+        <SectionHeader kicker="When all workstreams are operational" title="Before vs after" />
+        <Card className="p-0 overflow-hidden flex-1">
+          <div className="grid grid-cols-[1.1fr_2fr_2fr] px-6 py-3 border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+            <span>Dimension</span><span>Before (as-is)</span><span>After (target state)</span>
+          </div>
+          {rows.map(([d, b, a], i) => (
+            <div key={i} className="grid grid-cols-[1.1fr_2fr_2fr] px-6 py-3 border-b border-slate-100 items-start text-sm">
+              <span className="text-slate-900 font-semibold">{d}</span>
+              <span className="text-slate-500">{b}</span>
+              <span className="text-emerald-700">{a}</span>
+            </div>
+          ))}
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+// 13 — KPI tree
+const S13: React.FC<SlideProps> = ({ isActive }) => {
   const kpis = [
     { t: 'Evidence completeness', d: '% trips with complete vault-to-field digital evidence bundle' },
-    { t: 'Indent truth', d: '% revised indents persisted same day vs email-only/manual path' },
+    { t: 'Indent truth', d: '% revised indents persisted same day vs email-only/manual' },
     { t: 'Exception quality', d: 'True-positive critical diffs caught before EOD' },
     { t: 'Audit yield', d: 'DRS-driven hit rate, post-audit incident rate, LMR trend' },
     { t: 'SLA / commercial', d: 'Cash-out incidence, harmonizing/T+5 exposure, dispute TAT' },
@@ -385,9 +407,9 @@ const S12: React.FC<SlideProps> = ({ isActive }) => {
         <div className="grid grid-cols-5 gap-3 flex-1 content-start">
           {kpis.map((k, i) => (
             <Card key={i}>
-              <BarChart3 className="w-6 h-6 text-blue-400 mb-3" />
-              <p className="text-white font-semibold mb-1">{k.t}</p>
-              <p className="text-sm text-slate-400">{k.d}</p>
+              <BarChart3 className="w-6 h-6 text-blue-600 mb-3" />
+              <p className="text-slate-900 font-semibold mb-1">{k.t}</p>
+              <p className="text-sm text-slate-500">{k.d}</p>
             </Card>
           ))}
         </div>
@@ -396,8 +418,8 @@ const S12: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 13 — Decisions
-const S13: React.FC<SlideProps> = ({ isActive }) => {
+// 14 — Decisions
+const S14: React.FC<SlideProps> = ({ isActive }) => {
   const items = [
     'MSP vs non-MSP operating boundary and liability split',
     'Alert RACI and escalation policy (who acts, by when, with what authority)',
@@ -409,13 +431,13 @@ const S13: React.FC<SlideProps> = ({ isActive }) => {
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="To unblock scale" title="Decisions required from management" accent="text-amber-400" />
+        <SectionHeader kicker="To unblock scale" title="Decisions required from management" accent="text-amber-600" />
         <div className="grid grid-cols-2 gap-3 flex-1 content-start">
           {items.map((it, i) => (
-            <Card key={i} className="border-l-4 border-l-amber-500/60">
+            <Card key={i} className="border-l-4 border-l-amber-500">
               <div className="flex gap-3">
-                <Target className="w-5 h-5 text-amber-300 shrink-0 mt-0.5" />
-                <p className="text-slate-200">{it}</p>
+                <Target className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-slate-700">{it}</p>
               </div>
             </Card>
           ))}
@@ -425,34 +447,34 @@ const S13: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 14 — Ask / next step
-const S14: React.FC<SlideProps> = ({ isActive }) => {
+// 15 — Ask / next step
+const S15: React.FC<SlideProps> = ({ isActive }) => {
   const steps = [
     { n: '01', t: 'Approve phase-1 scope', d: 'Lock pilot region and in-scope flows' },
     { n: '02', t: 'Lock baseline month', d: 'Metric definitions agreed with finance/ops' },
     { n: '03', t: 'Nominate sponsors', d: 'Sponsor, ops owner, data owner, policy approver' },
-    { n: '04', t: '30-60-90-120 cadence', p: 'review cadence', d: 'Gated go/no-go decisions at each checkpoint' },
+    { n: '04', t: '30-60-90-120 cadence', d: 'Gated go/no-go decisions at each checkpoint' },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col items-center justify-center px-12 py-8 text-center">
         <div className="space-y-8 max-w-5xl">
-          <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center">
             <Calendar className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-4xl font-bold text-white">Ask & next step</h2>
-          <p className="text-xl text-slate-400">Four decisions to start the programme</p>
+          <h2 className="text-4xl font-bold text-slate-900">Ask & next step</h2>
+          <p className="text-xl text-slate-500">Four decisions to start the programme</p>
           <div className="grid grid-cols-4 gap-4 mt-6">
             {steps.map((s, i) => (
-              <div key={i} className="bg-slate-800/60 border border-slate-700/50 rounded-xl p-6 text-left hover:border-amber-500/30 transition-colors">
-                <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">{s.n}</span>
-                <h4 className="text-white font-bold mt-3 mb-2">{s.t}</h4>
-                <p className="text-sm text-slate-400">{s.d}</p>
+              <div key={i} className="bg-white border border-slate-200 rounded-xl p-6 text-left hover:border-amber-400 transition-colors shadow-sm">
+                <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">{s.n}</span>
+                <h4 className="text-slate-900 font-bold mt-3 mb-2">{s.t}</h4>
+                <p className="text-sm text-slate-500">{s.d}</p>
               </div>
             ))}
           </div>
           <div className="pt-6">
-            <div className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl text-white font-bold text-lg shadow-lg shadow-blue-500/20">
+            <div className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl text-white font-bold text-lg shadow-lg shadow-blue-500/20">
               <span>Begin the vault-to-machine integrity programme</span>
               <ArrowRight className="w-5 h-5" />
             </div>
@@ -463,11 +485,11 @@ const S14: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-const SLIDES = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14];
+const SLIDES = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15];
 const TITLES = [
   'Title', 'Discovery', 'Landscape', 'Root Causes', 'Business Impact',
-  'Design Principles', 'Control Architecture', 'Workstreams', 'AI Catalogue',
-  'AI Outcomes', 'Phasing', 'KPI Tree', 'Decisions', 'Next Step'
+  'Control Model', 'Operating Backbone', 'Workstreams', 'AI Streams',
+  'AI Outcomes', 'Phasing', 'Before vs After', 'KPI Tree', 'Decisions', 'Ask'
 ];
 
 const CMSEvidenceDeck: React.FC = () => {
@@ -483,13 +505,13 @@ const CMSEvidenceDeck: React.FC = () => {
   }, [current, goTo]);
 
   return (
-    <div className="h-screen w-screen bg-[#0B1120] flex flex-col overflow-hidden">
-      <div className="h-10 bg-slate-900/80 border-b border-slate-800/50 flex items-center px-4 shrink-0 gap-1 overflow-x-auto">
-        <Shield className="w-4 h-4 text-blue-400 shrink-0 mr-2" />
+    <div className="h-screen w-screen bg-slate-50 flex flex-col overflow-hidden">
+      <div className="h-10 bg-white border-b border-slate-200 flex items-center px-4 shrink-0 gap-1 overflow-x-auto">
+        <Shield className="w-4 h-4 text-blue-600 shrink-0 mr-2" />
         {TITLES.map((title, i) => (
           <button key={i} onClick={() => goTo(i)}
             className={`shrink-0 px-2.5 py-1 rounded text-xs transition-colors whitespace-nowrap ${
-              current === i ? 'bg-blue-500/20 text-blue-300 font-medium' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
+              current === i ? 'bg-blue-100 text-blue-700 font-medium' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'
             }`}>
             {String(i + 1).padStart(2, '0')}. {title}
           </button>
@@ -497,6 +519,15 @@ const CMSEvidenceDeck: React.FC = () => {
       </div>
       <div className="flex-1 relative min-h-0">
         {SLIDES.map((SlideComp, i) => (<SlideComp key={i} isActive={current === i} />))}
+      </div>
+      <div className="h-9 bg-white border-t border-slate-200 flex items-center justify-between px-4 text-xs text-slate-400 shrink-0">
+        <button onClick={() => goTo(current - 1)} disabled={current === 0} className="flex items-center gap-1 disabled:opacity-30 hover:text-slate-700">
+          <ChevronLeft className="w-3.5 h-3.5" /> Prev
+        </button>
+        <span>{String(current + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')} · Confidential — Internal</span>
+        <button onClick={() => goTo(current + 1)} disabled={current === SLIDES.length - 1} className="flex items-center gap-1 disabled:opacity-30 hover:text-slate-700">
+          Next <ChevronRight className="w-3.5 h-3.5" />
+        </button>
       </div>
     </div>
   );
