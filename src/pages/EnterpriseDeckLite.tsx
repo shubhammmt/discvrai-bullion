@@ -257,8 +257,9 @@ const AwnicGrowthSlide: React.FC<{ num: number; total: number }> = ({ num, total
   return (
     <SlideWrapper num={num} total={total}>
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>AWNIC · Service-first growth playbook</div>
-        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>Grow without spamming: recovery, renewal, contextual offers</h2>
+        <div className="text-xs uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: ACCENT }}>Workstream 03 · Service-first growth playbook</div>
+        <h2 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: NAVY }}>Recovery, renewal and contextual offers — delivered automatically to eligible customers</h2>
+        <p className="text-slate-600 text-sm mt-2 max-w-4xl"><span className="font-semibold text-slate-800">Who consumes it:</span> existing AWNIC policyholders — segmented by service status, claim history and consent. <span className="font-semibold text-slate-800">How it runs:</span> rules + decisioning fire automatically across app, WhatsApp and email — no manual campaign push. Service agents only step in for high-value save calls flagged by the engine.</p>
       </div>
 
       {/* Flow */}
