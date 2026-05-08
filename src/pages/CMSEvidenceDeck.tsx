@@ -331,29 +331,142 @@ const S10: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-// 11 — Phased execution
+// 11 — 6-9 month execution visibility (phased AI deployment)
 const S11: React.FC<SlideProps> = ({ isActive }) => {
   const phases = [
-    { p: 'P1', w: '0–8 wks', t: 'Evidence contracts', d: 'OCR for pilot templates; mandatory capture on in-scope flows', color: 'from-blue-600 to-cyan-500' },
-    { p: 'P2', w: '4–12 wks', t: 'Variance core + rules', d: 'First rule-set + indent automation lite (revised indent persistence)', color: 'from-purple-600 to-pink-500' },
-    { p: 'P3', w: '8–16 wks', t: 'Ops dashboard & queue', d: 'Ownership, SLA tracking, exception-first workflows', color: 'from-amber-500 to-orange-500' },
-    { p: 'P4', w: '10–16 wks', t: 'Hardening & expansion', d: 'Baseline month lock, second-region expansion, DRS scale-up', color: 'from-emerald-500 to-teal-500' },
+    { p: 'M0–3', t: 'Foundation', d: 'WS2 evidence spine live (capture + OCR #6); baseline variance rules; data contracts for model-ready signals', color: 'from-blue-600 to-cyan-500' },
+    { p: 'M3–4', t: 'Control activation', d: 'WS5 indent truth live for CMS-MSP in-scope flows; WS6 command-center-lite + mismatch pipeline (#4) in production for exception triage', color: 'from-indigo-600 to-purple-500' },
+    { p: 'M4–6', t: 'First AI go-live', d: 'WS1 deploys DRS #1 + risk mode #2 for audit/recon prioritization; WS5 starts cash demand #3 pilot in selected clusters', color: 'from-purple-600 to-pink-500' },
+    { p: 'M6–7', t: 'AI expansion', d: 'WS3 adds overage ranking #7 and stuck-cash estimation #5 in assisted mode; WS6 adds claims/triangulation assist #8 for forensic packs', color: 'from-amber-500 to-orange-500' },
+    { p: 'M7–9', t: 'Scale & harden', d: 'WS1/WS5 add neighbour-stress features #9; WS5 evaluates structured intake assist #10; expand regions and tighten SLA outcomes', color: 'from-emerald-500 to-teal-500' },
   ];
   return (
     <div className={wrap(isActive)}>
       <div className="h-full flex flex-col px-12 py-8">
-        <SectionHeader kicker="Phased execution" title="Practical, low-footprint rollout" />
-        <div className="grid grid-cols-4 gap-3 flex-1 content-start">
+        <SectionHeader kicker="6–9 month execution visibility" title="Phased rollout with AI deployment" />
+        <div className="grid grid-cols-5 gap-3 content-start">
           {phases.map((p, i) => (
             <Card key={i}>
-              <div className="flex items-center justify-between mb-3">
-                <span className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${p.color}`}>{p.p}</span>
-                <span className="text-xs text-slate-500 px-2 py-1 rounded bg-slate-100">{p.w}</span>
+              <div className="mb-3">
+                <span className={`text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${p.color}`}>{p.p}</span>
               </div>
               <p className="text-slate-900 font-semibold mb-1">{p.t}</p>
-              <p className="text-sm text-slate-500">{p.d}</p>
+              <p className="text-xs text-slate-500 leading-relaxed">{p.d}</p>
             </Card>
           ))}
+        </div>
+        <div className="mt-5 px-5 py-3 rounded-xl bg-blue-50 border border-blue-200">
+          <p className="text-sm text-slate-700"><span className="text-blue-700 font-semibold">Commercial alignment:</span> same core squad covers first 6 months; month-6 scale review decides +1–2 engineers only if AI and control KPIs clear agreed gates.</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 12 — Commercial model
+const S12Commercial: React.FC<SlideProps> = ({ isActive }) => {
+  const team = [
+    { r: '4 × AI/ML + Full-Stack Engineers', c: '₹4.5L / mo each' },
+    { r: '1 × Product Manager', c: '₹3.5L / mo' },
+    { r: '1 × QA', c: '₹2.5L / mo' },
+  ];
+  return (
+    <div className={wrap(isActive)}>
+      <div className="h-full flex flex-col px-12 py-8">
+        <SectionHeader kicker="Start lean, scale with outcomes" title="Commercial model" />
+        <div className="grid grid-cols-2 gap-4 flex-1 content-start">
+          <Card>
+            <p className="text-xs uppercase tracking-widest text-blue-600 font-semibold mb-3">Initial 6-month squad (fixed)</p>
+            <div className="space-y-2">
+              {team.map((t, i) => (
+                <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
+                  <span className="text-sm text-slate-800 font-medium">{t.r}</span>
+                  <span className="text-xs text-slate-600 font-mono">{t.c}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="px-3 py-3 rounded-lg bg-blue-50 border border-blue-200">
+                <p className="text-xs text-blue-700 uppercase tracking-wider font-semibold">Monthly run-rate</p>
+                <p className="text-2xl font-bold text-slate-900">₹24L<span className="text-sm text-slate-500"> / mo</span></p>
+              </div>
+              <div className="px-3 py-3 rounded-lg bg-blue-50 border border-blue-200">
+                <p className="text-xs text-blue-700 uppercase tracking-wider font-semibold">6-month base</p>
+                <p className="text-2xl font-bold text-slate-900">₹144L<span className="text-sm text-slate-500"> total</span></p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-400 mt-2">Before infra / tools / taxes</p>
+          </Card>
+          <div className="space-y-3">
+            <Card className="border-l-4 border-l-amber-500">
+              <p className="text-slate-900 font-semibold mb-1">Capacity position</p>
+              <p className="text-sm text-slate-500">Sufficient for pilot + controlled phase-1; not a comfortable long-run shape for full multi-workstream 6–9 month scale without augmentation.</p>
+            </Card>
+            <Card className="border-l-4 border-l-blue-500">
+              <p className="text-slate-900 font-semibold mb-1">Planned augmentation</p>
+              <p className="text-sm text-slate-500">Pre-plan <span className="font-semibold text-slate-700">+2 engineers around month 4–6</span> for AI deployment hardening, integration load and multi-workstream parallelization (minimum +1 if scope stays tightly controlled).</p>
+            </Card>
+            <Card className="border-l-4 border-l-emerald-500">
+              <p className="text-slate-900 font-semibold mb-1">Commercial principle</p>
+              <p className="text-sm text-slate-500">Stage-gated scaling tied to <span className="font-semibold text-emerald-700">delivered control outcomes</span>, not upfront headcount expansion.</p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 13 — Deliverables phase-1
+const S13Deliverables: React.FC<SlideProps> = ({ isActive }) => {
+  const deliverables = [
+    { t: 'Evidence stack live', d: 'Structured capture + OCR pipelines + auditable evidence IDs in pilot flows' },
+    { t: 'Indent truth live', d: 'CMS-MSP in-scope: sanctioned vs disbursed vs revised indent persisted same day (no email-only bypass)' },
+    { t: 'Exception operations live', d: 'Core mismatch rules + owner / SLA / escalation queue for high-impact exceptions' },
+    { t: 'Audit visibility live', d: 'Command-center panels for planning coverage, execution progress, high-risk candidate ATM alerts' },
+  ];
+  const aiItems = [
+    { n: '#1', t: 'DRS', d: 'ATM risk ranking in audit/recon queues' },
+    { n: '#2', t: 'Risk mode classification', d: 'Theft vs overage vs cash-out playbooks' },
+    { n: '#3', t: 'Cash demand prediction', d: 'Pilot clusters — proactive replenishment' },
+    { n: '#6', t: 'OCR intelligence', d: 'Production evidence extractor feeding alerts' },
+  ];
+  return (
+    <div className={wrap(isActive)}>
+      <div className="h-full flex flex-col px-12 py-6">
+        <SectionHeader kicker="Aligned to commercial phase-1 (first 6 months)" title="Deliverables" />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            {deliverables.map((d, i) => (
+              <Card key={i} className="border-l-4 border-l-blue-500 py-3">
+                <div className="flex gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-slate-900 font-semibold text-sm mb-0.5">{d.t}</p>
+                    <p className="text-xs text-slate-500">{d.d}</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-widest text-cyan-600 font-semibold mb-2">AI workstreams live by month 6–7 (V3 catalogue)</p>
+            <div className="grid grid-cols-2 gap-2">
+              {aiItems.map((a, i) => (
+                <Card key={i} className="py-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-bold text-cyan-600">{a.n}</span>
+                    <span className="text-sm text-slate-900 font-semibold">{a.t}</span>
+                  </div>
+                  <p className="text-xs text-slate-500">{a.d}</p>
+                </Card>
+              ))}
+            </div>
+            <div className="mt-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-300">
+              <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold mb-1">Resourcing gate for phase-2</p>
+              <p className="text-xs text-slate-700">Move to full-scale delivery only with augmented team in place (<span className="font-semibold">+2 engineers preferred</span>), then expand AI streams and regional coverage without delivery risk concentration.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
