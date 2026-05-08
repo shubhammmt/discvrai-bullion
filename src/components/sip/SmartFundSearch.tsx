@@ -684,21 +684,32 @@ export function SmartFundSearch({
       {/* AI Screener Mode */}
       {mode === 'ai' && (
         <div className="space-y-3">
-          <div className="p-3 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 space-y-1">
+          <div className="p-3 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 space-y-2">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-xs font-semibold text-foreground">AI-Powered Fund Discovery</span>
+              <span className="text-xs font-semibold text-foreground">Why use the AI Screener?</span>
             </div>
-            <p className="text-[11px] text-muted-foreground leading-relaxed">
-              Describe what you're looking for in plain language.
-            </p>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="text-[10px] leading-snug">
+                <p className="font-semibold text-foreground">Combine criteria</p>
+                <p className="text-muted-foreground">Returns + expense + risk in one query</p>
+              </div>
+              <div className="text-[10px] leading-snug">
+                <p className="font-semibold text-foreground">Plain English</p>
+                <p className="text-muted-foreground">No need to learn filter labels</p>
+              </div>
+              <div className="text-[10px] leading-snug">
+                <p className="font-semibold text-foreground">Smart suggestions</p>
+                <p className="text-muted-foreground">Refines &amp; recommends follow-ups</p>
+              </div>
+            </div>
           </div>
 
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Sparkles className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/50" />
               <Input
-                placeholder='e.g. "Low-cost large cap fund with 15%+ returns"'
+                placeholder='Try: "Low-cost large cap with 15%+ 3Y returns and low risk"'
                 value={aiQuery}
                 onChange={e => setAiQuery(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAISubmit()}
@@ -715,32 +726,32 @@ export function SmartFundSearch({
             </Button>
           </div>
 
-          {!aiQuery && !effectiveAiResults?.length && (
-            <div className="space-y-1.5">
-              <p className="text-[10px] text-muted-foreground">Try these:</p>
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  'Top performing mid cap funds under 1% expense',
-                  'Safe debt funds for emergency corpus',
-                  'Best SIP options for retirement planning',
-                  'High return small cap with 5-star rating',
-                ].map(suggestion => (
-                  <Badge
-                    key={suggestion}
-                    variant="outline"
-                    className="cursor-pointer text-[10px] px-2 py-1 hover:bg-primary/5 hover:border-primary/30 transition-colors"
-                    onClick={() => setAiQuery(suggestion)}
-                  >
-                    {suggestion}
-                  </Badge>
-                ))}
-              </div>
+          {/* Example queries — always visible to spark ideas */}
+          <div className="space-y-1.5">
+            <p className="text-[10px] text-muted-foreground font-medium">Try one of these:</p>
+            <div className="flex flex-wrap gap-1.5">
+              {[
+                'Top mid cap funds under 1% expense',
+                'Safe debt funds for emergency corpus',
+                'Best SIPs for retirement in 15 years',
+                'High return small cap, low expense',
+              ].map(suggestion => (
+                <Badge
+                  key={suggestion}
+                  variant="outline"
+                  className="cursor-pointer text-[10px] px-2 py-1 hover:bg-primary/5 hover:border-primary/30 transition-colors"
+                  onClick={() => { setAiQuery(suggestion); handleAISubmit(1, suggestion); }}
+                >
+                  <Sparkles className="w-2.5 h-2.5 mr-1 text-primary" />
+                  {suggestion}
+                </Badge>
+              ))}
             </div>
-          )}
+          </div>
 
           <p className="text-[10px] text-muted-foreground flex items-center gap-1">
             <ToggleLeft className="w-3 h-3" />
-            Each AI query uses 1 credit. Switch to Search & Filter for unlimited free searches.
+            Each AI query uses 1 credit. Switch to Search &amp; Filter for unlimited free searches.
           </p>
         </div>
       )}
