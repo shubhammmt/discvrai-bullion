@@ -495,14 +495,11 @@ export function SmartFundSearch({
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search funds, AMC, category..."
+              placeholder="Search by fund name, AMC or category…"
               value={query}
               onChange={e => {
                 setQuery(e.target.value);
                 setCurrentPage(1);
-                if (e.target.value && showAdvanced) {
-                  setShowAdvanced(false);
-                }
               }}
               className="pl-9 pr-10"
             />
@@ -511,6 +508,39 @@ export function SmartFundSearch({
                 <X className="w-3.5 h-3.5 text-muted-foreground hover:text-foreground" />
               </button>
             )}
+          </div>
+
+          {/* Always-visible quick filters: Asset Class chips */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Quick filter by asset class
+              </Label>
+              {assetClass && (
+                <button
+                  onClick={() => { setAssetClass(undefined); setCategory(undefined); setCurrentPage(1); }}
+                  className="text-[10px] text-muted-foreground hover:text-destructive"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <div className="flex gap-1.5 flex-wrap">
+              {ASSET_CLASSES.map(ac => (
+                <Badge
+                  key={ac}
+                  variant={assetClass === ac ? 'default' : 'outline'}
+                  className="cursor-pointer text-[11px] px-2.5 py-1 hover:border-primary/40"
+                  onClick={() => {
+                    setAssetClass(assetClass === ac ? undefined : ac);
+                    setCategory(undefined);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {ac}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           {/* Active filter chips (shown when advanced is collapsed and filters are active) */}
