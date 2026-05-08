@@ -573,15 +573,19 @@ export function SmartFundSearch({
             </div>
           )}
 
-          {/* Advanced Filters */}
+          {/* More refinements (always discoverable, defaults open if filters set) */}
           <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
             <CollapsibleTrigger asChild>
-              <Button variant="outline" size="sm" className="w-full justify-between text-xs">
+              <Button
+                variant={showAdvanced || activeFilterCount > 0 ? 'default' : 'outline'}
+                size="sm"
+                className="w-full justify-between text-xs"
+              >
                 <span className="flex items-center gap-1.5">
                   <SlidersHorizontal className="w-3.5 h-3.5" />
-                  Advanced Filters
+                  {showAdvanced ? 'Hide refinements' : 'More refinements — category, AMC, returns, expense'}
                   {activeFilterCount > 0 && (
-                    <Badge variant="default" className="text-[9px] px-1.5 py-0 ml-1">{activeFilterCount}</Badge>
+                    <Badge variant="secondary" className="text-[9px] px-1.5 py-0 ml-1">{activeFilterCount} active</Badge>
                   )}
                 </span>
                 <ChevronRight className={cn('w-3.5 h-3.5 transition-transform', showAdvanced && 'rotate-90')} />
@@ -590,26 +594,6 @@ export function SmartFundSearch({
 
             <CollapsibleContent className="pt-3">
               <div className="p-3 rounded-lg border border-border bg-muted/30 space-y-4">
-                {/* Asset Class chips */}
-                <div className="space-y-1.5">
-                  <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Asset Class</Label>
-                  <div className="flex gap-1.5 flex-wrap">
-                    {ASSET_CLASSES.map(ac => (
-                      <Badge
-                        key={ac}
-                        variant={assetClass === ac ? 'default' : 'outline'}
-                        className="cursor-pointer text-[10px] sm:text-[11px] px-2 py-0.5 sm:px-2.5 sm:py-1"
-                        onClick={() => {
-                          setAssetClass(assetClass === ac ? undefined : ac);
-                          setCategory(undefined);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        {ac}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Searchable dropdowns row */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
