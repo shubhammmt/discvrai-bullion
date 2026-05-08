@@ -598,11 +598,11 @@ const S15: React.FC<SlideProps> = ({ isActive }) => {
   );
 };
 
-const SLIDES = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15];
+const SLIDES = [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12Commercial, S13Deliverables, S12, S13, S14, S15];
 const TITLES = [
   'Title', 'Discovery', 'Landscape', 'Root Causes', 'Business Impact',
   'Control Model', 'Operating Backbone', 'Workstreams', 'AI Streams',
-  'AI Outcomes', 'Phasing', 'Before vs After', 'KPI Tree', 'Decisions', 'Ask'
+  'AI Outcomes', 'Phasing', 'Commercial', 'Deliverables', 'Before vs After', 'KPI Tree', 'Decisions', 'Ask'
 ];
 
 const CMSEvidenceDeck: React.FC = () => {
