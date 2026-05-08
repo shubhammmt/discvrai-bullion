@@ -448,31 +448,44 @@ export function SmartFundSearch({
 
   return (
     <div className="space-y-3">
-      {/* Mode Toggle */}
-      <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60 border border-border">
+      {/* Mode Toggle — descriptive cards so users see what each mode is best for */}
+      <div className="grid grid-cols-2 gap-2">
         <button
           onClick={() => setMode('conventional')}
           className={cn(
-            'flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-xs font-medium transition-all',
+            'text-left p-2.5 rounded-lg border-2 transition-all',
             mode === 'conventional'
-              ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground'
+              ? 'border-primary bg-primary/5 shadow-sm'
+              : 'border-border bg-background hover:border-primary/30'
           )}
         >
-          <Search className="w-3.5 h-3.5" />
-          Search & Filter
+          <div className="flex items-center gap-1.5">
+            <Search className={cn('w-3.5 h-3.5', mode === 'conventional' ? 'text-primary' : 'text-muted-foreground')} />
+            <span className="text-xs font-semibold text-foreground">Search &amp; Filter</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">
+            Browse with category, AMC, returns &amp; expense filters
+          </p>
         </button>
         <button
           onClick={() => setMode('ai')}
           className={cn(
-            'flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-xs font-medium transition-all',
+            'text-left p-2.5 rounded-lg border-2 transition-all relative overflow-hidden',
             mode === 'ai'
-              ? 'bg-gradient-to-r from-primary/10 to-accent/10 text-primary shadow-sm border border-primary/20'
-              : 'text-muted-foreground hover:text-foreground'
+              ? 'border-primary bg-gradient-to-br from-primary/10 to-accent/10 shadow-sm'
+              : 'border-border bg-background hover:border-primary/30'
           )}
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          AI Screener
+          <Badge className="absolute top-1.5 right-1.5 text-[8px] px-1.5 py-0 h-3.5 bg-primary/15 text-primary border-0">
+            Smart
+          </Badge>
+          <div className="flex items-center gap-1.5">
+            <Sparkles className={cn('w-3.5 h-3.5', mode === 'ai' ? 'text-primary' : 'text-muted-foreground')} />
+            <span className="text-xs font-semibold text-foreground">AI Screener</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">
+            Ask in plain English — combines multiple criteria instantly
+          </p>
         </button>
       </div>
 
@@ -482,14 +495,11 @@ export function SmartFundSearch({
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search funds, AMC, category..."
+              placeholder="Search by fund name, AMC or category…"
               value={query}
               onChange={e => {
                 setQuery(e.target.value);
                 setCurrentPage(1);
-                if (e.target.value && showAdvanced) {
-                  setShowAdvanced(false);
-                }
               }}
               className="pl-9 pr-10"
             />
@@ -498,6 +508,39 @@ export function SmartFundSearch({
                 <X className="w-3.5 h-3.5 text-muted-foreground hover:text-foreground" />
               </button>
             )}
+          </div>
+
+          {/* Always-visible quick filters: Asset Class chips */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Quick filter by asset class
+              </Label>
+              {assetClass && (
+                <button
+                  onClick={() => { setAssetClass(undefined); setCategory(undefined); setCurrentPage(1); }}
+                  className="text-[10px] text-muted-foreground hover:text-destructive"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <div className="flex gap-1.5 flex-wrap">
+              {ASSET_CLASSES.map(ac => (
+                <Badge
+                  key={ac}
+                  variant={assetClass === ac ? 'default' : 'outline'}
+                  className="cursor-pointer text-[11px] px-2.5 py-1 hover:border-primary/40"
+                  onClick={() => {
+                    setAssetClass(assetClass === ac ? undefined : ac);
+                    setCategory(undefined);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {ac}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           {/* Active filter chips (shown when advanced is collapsed and filters are active) */}
@@ -530,15 +573,19 @@ export function SmartFundSearch({
             </div>
           )}
 
-          {/* Advanced Filters */}
+          {/* More refinements (always discoverable, defaults open if filters set) */}
           <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
             <CollapsibleTrigger asChild>
-              <Button variant="outline" size="sm" className="w-full justify-between text-xs">
+              <Button
+                variant={showAdvanced || activeFilterCount > 0 ? 'default' : 'outline'}
+                size="sm"
+                className="w-full justify-between text-xs"
+              >
                 <span className="flex items-center gap-1.5">
                   <SlidersHorizontal className="w-3.5 h-3.5" />
-                  Advanced Filters
+                  {showAdvanced ? 'Hide refinements' : 'More refinements — category, AMC, returns, expense'}
                   {activeFilterCount > 0 && (
-                    <Badge variant="default" className="text-[9px] px-1.5 py-0 ml-1">{activeFilterCount}</Badge>
+                    <Badge variant="secondary" className="text-[9px] px-1.5 py-0 ml-1">{activeFilterCount} active</Badge>
                   )}
                 </span>
                 <ChevronRight className={cn('w-3.5 h-3.5 transition-transform', showAdvanced && 'rotate-90')} />
@@ -547,26 +594,6 @@ export function SmartFundSearch({
 
             <CollapsibleContent className="pt-3">
               <div className="p-3 rounded-lg border border-border bg-muted/30 space-y-4">
-                {/* Asset Class chips */}
-                <div className="space-y-1.5">
-                  <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Asset Class</Label>
-                  <div className="flex gap-1.5 flex-wrap">
-                    {ASSET_CLASSES.map(ac => (
-                      <Badge
-                        key={ac}
-                        variant={assetClass === ac ? 'default' : 'outline'}
-                        className="cursor-pointer text-[10px] sm:text-[11px] px-2 py-0.5 sm:px-2.5 sm:py-1"
-                        onClick={() => {
-                          setAssetClass(assetClass === ac ? undefined : ac);
-                          setCategory(undefined);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        {ac}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Searchable dropdowns row */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -657,21 +684,32 @@ export function SmartFundSearch({
       {/* AI Screener Mode */}
       {mode === 'ai' && (
         <div className="space-y-3">
-          <div className="p-3 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 space-y-1">
+          <div className="p-3 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 space-y-2">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-xs font-semibold text-foreground">AI-Powered Fund Discovery</span>
+              <span className="text-xs font-semibold text-foreground">Why use the AI Screener?</span>
             </div>
-            <p className="text-[11px] text-muted-foreground leading-relaxed">
-              Describe what you're looking for in plain language.
-            </p>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="text-[10px] leading-snug">
+                <p className="font-semibold text-foreground">Combine criteria</p>
+                <p className="text-muted-foreground">Returns + expense + risk in one query</p>
+              </div>
+              <div className="text-[10px] leading-snug">
+                <p className="font-semibold text-foreground">Plain English</p>
+                <p className="text-muted-foreground">No need to learn filter labels</p>
+              </div>
+              <div className="text-[10px] leading-snug">
+                <p className="font-semibold text-foreground">Smart suggestions</p>
+                <p className="text-muted-foreground">Refines &amp; recommends follow-ups</p>
+              </div>
+            </div>
           </div>
 
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Sparkles className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/50" />
               <Input
-                placeholder='e.g. "Low-cost large cap fund with 15%+ returns"'
+                placeholder='Try: "Low-cost large cap with 15%+ 3Y returns and low risk"'
                 value={aiQuery}
                 onChange={e => setAiQuery(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAISubmit()}
@@ -688,32 +726,32 @@ export function SmartFundSearch({
             </Button>
           </div>
 
-          {!aiQuery && !effectiveAiResults?.length && (
-            <div className="space-y-1.5">
-              <p className="text-[10px] text-muted-foreground">Try these:</p>
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  'Top performing mid cap funds under 1% expense',
-                  'Safe debt funds for emergency corpus',
-                  'Best SIP options for retirement planning',
-                  'High return small cap with 5-star rating',
-                ].map(suggestion => (
-                  <Badge
-                    key={suggestion}
-                    variant="outline"
-                    className="cursor-pointer text-[10px] px-2 py-1 hover:bg-primary/5 hover:border-primary/30 transition-colors"
-                    onClick={() => setAiQuery(suggestion)}
-                  >
-                    {suggestion}
-                  </Badge>
-                ))}
-              </div>
+          {/* Example queries — always visible to spark ideas */}
+          <div className="space-y-1.5">
+            <p className="text-[10px] text-muted-foreground font-medium">Try one of these:</p>
+            <div className="flex flex-wrap gap-1.5">
+              {[
+                'Top mid cap funds under 1% expense',
+                'Safe debt funds for emergency corpus',
+                'Best SIPs for retirement in 15 years',
+                'High return small cap, low expense',
+              ].map(suggestion => (
+                <Badge
+                  key={suggestion}
+                  variant="outline"
+                  className="cursor-pointer text-[10px] px-2 py-1 hover:bg-primary/5 hover:border-primary/30 transition-colors"
+                  onClick={() => { setAiQuery(suggestion); handleAISubmit(1, suggestion); }}
+                >
+                  <Sparkles className="w-2.5 h-2.5 mr-1 text-primary" />
+                  {suggestion}
+                </Badge>
+              ))}
             </div>
-          )}
+          </div>
 
           <p className="text-[10px] text-muted-foreground flex items-center gap-1">
             <ToggleLeft className="w-3 h-3" />
-            Each AI query uses 1 credit. Switch to Search & Filter for unlimited free searches.
+            Each AI query uses 1 credit. Switch to Search &amp; Filter for unlimited free searches.
           </p>
         </div>
       )}
