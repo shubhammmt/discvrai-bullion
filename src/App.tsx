@@ -566,6 +566,16 @@ const AppContent = () => {
                       <Route path="copilot" element={<PetroleumCopilot />} />
                       <Route path="walkthrough" element={<PetroleumWalkthrough />} />
                     </Route>
+                    <Route path="/upmetro" element={<UPMetroHub />} />
+                    <Route path="/pitch/upmetro" element={<UPMetroDeck />} />
+                    <Route path="/upmetro" element={<UPMetroLayout />}>
+                      <Route path="command" element={<UPMetroCommand />} />
+                      <Route path="assets" element={<UPMetroAssetMap />} />
+                      <Route path="incidents" element={<UPMetroIncidents />} />
+                      <Route path="access" element={<UPMetroAccess />} />
+                      <Route path="recovery" element={<UPMetroRecovery />} />
+                      <Route path="compliance" element={<UPMetroCompliance />} />
+                    </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
