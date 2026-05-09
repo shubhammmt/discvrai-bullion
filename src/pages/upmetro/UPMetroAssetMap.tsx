@@ -22,7 +22,7 @@ export default function UPMetroAssetMap() {
       <PageHeader eyebrow="Module 02" title="IT-OT Asset & Segmentation Map"
         sub="Zone-and-conduit view aligned to IEC 62443. Trust boundaries, criticality and lateral movement risk."
         right={
-          <label className="flex items-center gap-2 text-xs text-slate-300 bg-white/5 px-3 py-2 rounded-lg cursor-pointer">
+          <label className="flex items-center gap-2 text-xs text-slate-600 bg-slate-50 px-3 py-2 rounded-lg cursor-pointer">
             <input type="checkbox" checked={showOnlyNonCompliant} onChange={e => setShowOnlyNonCompliant(e.target.checked)} />
             Highlight non-compliant pathways only
           </label>
@@ -64,8 +64,8 @@ export default function UPMetroAssetMap() {
               return (
                 <g key={z.id} style={{ cursor: 'pointer' }} onClick={() => setSelected(isSel ? null : z.id)}>
                   <rect x={pos.x} y={pos.y} width={140} height={60} rx={10} fill={z.color} fillOpacity={isSel ? 0.35 : 0.18} stroke={z.color} strokeWidth={isSel ? 2 : 1.2} />
-                  <text x={pos.x + 12} y={pos.y + 22} fontSize="11" fontWeight="600" fill="#fff">{z.name}</text>
-                  <text x={pos.x + 12} y={pos.y + 40} fontSize="10" fill="#cbd5e1">{z.assets} assets · {z.criticality}</text>
+                  <text x={pos.x + 12} y={pos.y + 22} fontSize="11" fontWeight="600" fill="#0f172a">{z.name}</text>
+                  <text x={pos.x + 12} y={pos.y + 40} fontSize="10" fill="#475569">{z.assets} assets · {z.criticality}</text>
                   {z.criticality === 'Critical' && <circle cx={pos.x + 130} cy={pos.y + 12} r="4" fill="#ef4444" />}
                 </g>
               );
@@ -77,13 +77,13 @@ export default function UPMetroAssetMap() {
           <Card title="Zone inventory">
             <div className="space-y-2">
               {zones.map(z => (
-                <div key={z.id} className="flex items-center gap-3 px-3 py-2 rounded bg-white/5 border border-white/10">
+                <div key={z.id} className="flex items-center gap-3 px-3 py-2 rounded bg-slate-50 border border-slate-200">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ background: z.color }} />
                   <div className="flex-1">
                     <div className="text-sm font-medium">{z.name}</div>
-                    <div className="text-[11px] text-slate-400">Trust: {z.trust} · {z.assets} assets</div>
+                    <div className="text-[11px] text-slate-500">Trust: {z.trust} · {z.assets} assets</div>
                   </div>
-                  <span className={`text-[10px] px-2 py-0.5 rounded border ${z.criticality === 'Critical' ? 'bg-red-500/15 text-red-300 border-red-500/30' : 'bg-amber-500/15 text-amber-300 border-amber-500/30'}`}>{z.criticality}</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded border ${z.criticality === 'Critical' ? 'bg-red-500/15 text-red-700 border-red-500/30' : 'bg-amber-500/15 text-amber-700 border-amber-500/30'}`}>{z.criticality}</span>
                 </div>
               ))}
             </div>
@@ -91,16 +91,16 @@ export default function UPMetroAssetMap() {
           <Card title="Lateral movement findings">
             <div className="space-y-2">
               {lateralPaths.filter(p => !p.compliant).map((p, i) => (
-                <div key={i} className="rounded bg-white/5 border border-white/10 p-3">
+                <div key={i} className="rounded bg-slate-50 border border-slate-200 p-3">
                   <div className="flex items-center justify-between">
                     <div className="text-sm">
-                      <span className="text-cyan-300">{zones.find(z => z.id === p.from)?.name}</span>
-                      <span className="text-slate-400 mx-2">→</span>
-                      <span className="text-cyan-300">{zones.find(z => z.id === p.to)?.name}</span>
+                      <span className="text-cyan-700">{zones.find(z => z.id === p.from)?.name}</span>
+                      <span className="text-slate-500 mx-2">→</span>
+                      <span className="text-cyan-700">{zones.find(z => z.id === p.to)?.name}</span>
                     </div>
-                    <span className={`text-[10px] px-2 py-0.5 rounded border ${p.risk === 'High' ? 'bg-red-500/15 text-red-300 border-red-500/30' : 'bg-amber-500/15 text-amber-300 border-amber-500/30'}`}>{p.risk}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded border ${p.risk === 'High' ? 'bg-red-500/15 text-red-700 border-red-500/30' : 'bg-amber-500/15 text-amber-700 border-amber-500/30'}`}>{p.risk}</span>
                   </div>
-                  <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5"><ShieldAlert className="w-3 h-3" /> {p.issue}</div>
+                  <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5"><ShieldAlert className="w-3 h-3" /> {p.issue}</div>
                 </div>
               ))}
             </div>

@@ -19,9 +19,9 @@ export default function UPMetroAccess() {
         </div>
 
         <Card title="Vendor access · live sessions and compliance">
-          <div className="overflow-hidden rounded-lg border border-white/10">
+          <div className="overflow-hidden rounded-lg border border-slate-200">
             <table className="w-full text-sm">
-              <thead className="bg-white/5 text-[11px] uppercase tracking-wider text-slate-400">
+              <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
                 <tr>
                   <th className="text-left px-3 py-2 font-medium">Vendor / OEM</th>
                   <th className="text-left px-3 py-2 font-medium">Sessions (24h)</th>
@@ -34,16 +34,16 @@ export default function UPMetroAccess() {
               </thead>
               <tbody>
                 {vendors.map(v => (
-                  <tr key={v.name} className="border-t border-white/5">
-                    <td className="px-3 py-2.5 text-slate-100">{v.name}</td>
-                    <td className="px-3 py-2.5 text-slate-300">{v.sessions}</td>
-                    <td className="px-3 py-2.5 text-slate-400">{v.last}</td>
-                    <td className="px-3 py-2.5">{v.mfa ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <XCircle className="w-4 h-4 text-red-400" />}</td>
-                    <td className="px-3 py-2.5">{v.pam ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <XCircle className="w-4 h-4 text-red-400" />}</td>
+                  <tr key={v.name} className="border-t border-slate-100">
+                    <td className="px-3 py-2.5 text-slate-900">{v.name}</td>
+                    <td className="px-3 py-2.5 text-slate-600">{v.sessions}</td>
+                    <td className="px-3 py-2.5 text-slate-500">{v.last}</td>
+                    <td className="px-3 py-2.5">{v.mfa ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <XCircle className="w-4 h-4 text-red-600" />}</td>
+                    <td className="px-3 py-2.5">{v.pam ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <XCircle className="w-4 h-4 text-red-600" />}</td>
                     <td className="px-3 py-2.5">
-                      <span className={`text-[10px] px-2 py-0.5 rounded border ${v.status === 'OK' ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' : 'bg-red-500/15 text-red-300 border-red-500/30'}`}>{v.status}</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded border ${v.status === 'OK' ? 'bg-emerald-500/15 text-emerald-700 border-emerald-500/30' : 'bg-red-500/15 text-red-700 border-red-500/30'}`}>{v.status}</span>
                     </td>
-                    <td className="px-3 py-2.5 text-slate-300">{v.expires}</td>
+                    <td className="px-3 py-2.5 text-slate-600">{v.expires}</td>
                   </tr>
                 ))}
               </tbody>
@@ -54,19 +54,19 @@ export default function UPMetroAccess() {
         <div className="grid grid-cols-2 gap-4">
           <Card title="Access request · simulation">
             <div className="space-y-3 text-sm">
-              <div className="rounded bg-white/5 border border-white/10 p-3">
-                <div className="text-xs text-slate-400">Request</div>
-                <div className="text-slate-100">Hikvision Partner — emergency NVR access · Hazratganj station</div>
+              <div className="rounded bg-slate-50 border border-slate-200 p-3">
+                <div className="text-xs text-slate-500">Request</div>
+                <div className="text-slate-900">Hikvision Partner — emergency NVR access · Hazratganj station</div>
               </div>
               <div className="grid grid-cols-2 gap-2 text-[12px]">
-                <div className="rounded bg-white/5 border border-white/10 p-2">Requester · Vendor PoC</div>
-                <div className="rounded bg-white/5 border border-white/10 p-2">Window · 4 hours</div>
-                <div className="rounded bg-white/5 border border-white/10 p-2">MFA · Required (FIDO2)</div>
-                <div className="rounded bg-white/5 border border-white/10 p-2">PAM session · Recorded</div>
+                <div className="rounded bg-slate-50 border border-slate-200 p-2">Requester · Vendor PoC</div>
+                <div className="rounded bg-slate-50 border border-slate-200 p-2">Window · 4 hours</div>
+                <div className="rounded bg-slate-50 border border-slate-200 p-2">MFA · Required (FIDO2)</div>
+                <div className="rounded bg-slate-50 border border-slate-200 p-2">PAM session · Recorded</div>
               </div>
               <div className="flex gap-2">
                 <button className="flex-1 rounded bg-cyan-400 text-[#06142A] text-sm font-semibold py-2">Approve with conditions</button>
-                <button className="flex-1 rounded border border-white/15 text-slate-200 text-sm py-2">Deny</button>
+                <button className="flex-1 rounded border border-slate-300 text-slate-800 text-sm py-2">Deny</button>
               </div>
             </div>
           </Card>
@@ -79,10 +79,10 @@ export default function UPMetroAccess() {
                 ['07:30', 'Risk',   'Flag: CMS-Edge accessed AFC switch outside window'],
                 ['06:12', 'IR',     'Compromised credential rotated · escalated to L3'],
               ].map(([t, who, what], i) => (
-                <li key={i} className="flex gap-3 border-b border-white/5 pb-1.5">
-                  <span className="text-cyan-300 font-mono w-12">{t}</span>
-                  <span className="text-slate-400 w-20">{who}</span>
-                  <span className="text-slate-200 flex-1">{what}</span>
+                <li key={i} className="flex gap-3 border-b border-slate-100 pb-1.5">
+                  <span className="text-cyan-700 font-mono w-12">{t}</span>
+                  <span className="text-slate-500 w-20">{who}</span>
+                  <span className="text-slate-800 flex-1">{what}</span>
                 </li>
               ))}
             </ul>

@@ -13,14 +13,14 @@ export default function UPMetroCompliance() {
       <div className="p-8 space-y-6">
         <div className="grid grid-cols-4 gap-4">
           {complianceFrameworks.map(f => (
-            <div key={f.fw} className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-              <div className="text-[11px] uppercase tracking-wider text-slate-400">{f.fw}</div>
+            <div key={f.fw} className="rounded-xl border border-slate-200 bg-white p-4">
+              <div className="text-[11px] uppercase tracking-wider text-slate-500">{f.fw}</div>
               <div className="mt-2 flex items-baseline gap-2">
-                <div className={`text-3xl font-semibold ${f.score >= 80 ? 'text-emerald-300' : f.score >= 70 ? 'text-amber-300' : 'text-red-300'}`}>{f.score}</div>
-                <div className="text-xs text-slate-400">/ 100</div>
+                <div className={`text-3xl font-semibold ${f.score >= 80 ? 'text-emerald-700' : f.score >= 70 ? 'text-amber-700' : 'text-red-700'}`}>{f.score}</div>
+                <div className="text-xs text-slate-500">/ 100</div>
               </div>
-              <div className="text-[11px] text-slate-400 mt-1">{f.met}/{f.controls} controls met · {f.gap} gap</div>
-              <div className="mt-2 h-1.5 bg-white/5 rounded">
+              <div className="text-[11px] text-slate-500 mt-1">{f.met}/{f.controls} controls met · {f.gap} gap</div>
+              <div className="mt-2 h-1.5 bg-slate-50 rounded">
                 <div className={`h-1.5 rounded ${f.score >= 80 ? 'bg-emerald-400' : f.score >= 70 ? 'bg-amber-400' : 'bg-red-400'}`} style={{ width: `${f.score}%` }} />
               </div>
             </div>
@@ -28,9 +28,9 @@ export default function UPMetroCompliance() {
         </div>
 
         <Card title="Audit findings · open and aging">
-          <div className="overflow-hidden rounded-lg border border-white/10">
+          <div className="overflow-hidden rounded-lg border border-slate-200">
             <table className="w-full text-sm">
-              <thead className="bg-white/5 text-[11px] uppercase tracking-wider text-slate-400">
+              <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
                 <tr>
                   <th className="text-left px-3 py-2 font-medium">Finding</th>
                   <th className="text-left px-3 py-2 font-medium">Area</th>
@@ -43,15 +43,15 @@ export default function UPMetroCompliance() {
               </thead>
               <tbody>
                 {auditFindings.map(f => (
-                  <tr key={f.id} className="border-t border-white/5">
-                    <td className="px-3 py-2.5 text-cyan-300 font-mono text-xs">{f.id}</td>
-                    <td className="px-3 py-2.5 text-slate-100">{f.area}</td>
+                  <tr key={f.id} className="border-t border-slate-100">
+                    <td className="px-3 py-2.5 text-cyan-700 font-mono text-xs">{f.id}</td>
+                    <td className="px-3 py-2.5 text-slate-900">{f.area}</td>
                     <td className="px-3 py-2.5"><SevPill sev={f.sev} /></td>
-                    <td className="px-3 py-2.5 text-slate-300">{f.age}</td>
-                    <td className="px-3 py-2.5 text-slate-300">{f.owner}</td>
-                    <td className={`px-3 py-2.5 ${f.sla.includes('Overdue') ? 'text-red-300' : 'text-slate-300'}`}>{f.sla}</td>
+                    <td className="px-3 py-2.5 text-slate-600">{f.age}</td>
+                    <td className="px-3 py-2.5 text-slate-600">{f.owner}</td>
+                    <td className={`px-3 py-2.5 ${f.sla.includes('Overdue') ? 'text-red-700' : 'text-slate-600'}`}>{f.sla}</td>
                     <td className="px-3 py-2.5">
-                      <span className={`text-[10px] px-2 py-0.5 rounded border ${f.status === 'At Risk' ? 'bg-red-500/15 text-red-300 border-red-500/30' : f.status === 'In Progress' ? 'bg-amber-500/15 text-amber-300 border-amber-500/30' : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'}`}>{f.status}</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded border ${f.status === 'At Risk' ? 'bg-red-500/15 text-red-700 border-red-500/30' : f.status === 'In Progress' ? 'bg-amber-500/15 text-amber-700 border-amber-500/30' : 'bg-emerald-500/15 text-emerald-700 border-emerald-500/30'}`}>{f.status}</span>
                     </td>
                   </tr>
                 ))}
