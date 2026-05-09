@@ -244,6 +244,15 @@ import PetroleumLeakage from './pages/petroleum/Leakage';
 import PetroleumRhythm from './pages/petroleum/Rhythm';
 import PetroleumCopilot from './pages/petroleum/Copilot';
 import PetroleumWalkthrough from './pages/petroleum/Walkthrough';
+import UPMetroHub from './pages/upmetro/UPMetroHub';
+import UPMetroDeck from './pages/upmetro/UPMetroDeck';
+import { UPMetroLayout } from './pages/upmetro/ui';
+import UPMetroCommand from './pages/upmetro/UPMetroCommand';
+import UPMetroAssetMap from './pages/upmetro/UPMetroAssetMap';
+import UPMetroIncidents from './pages/upmetro/UPMetroIncidents';
+import UPMetroAccess from './pages/upmetro/UPMetroAccess';
+import UPMetroRecovery from './pages/upmetro/UPMetroRecovery';
+import UPMetroCompliance from './pages/upmetro/UPMetroCompliance';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -336,6 +345,9 @@ const AppContent = () => {
                            location.pathname === '/pitch/icici-lombard' ||
                            location.pathname.startsWith('/icici-lombard/') ||
                            location.pathname.startsWith('/petroleum') ||
+                           location.pathname === '/upmetro' ||
+                           location.pathname === '/pitch/upmetro' ||
+                           location.pathname.startsWith('/upmetro/') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -553,6 +565,16 @@ const AppContent = () => {
                       <Route path="rhythm" element={<PetroleumRhythm />} />
                       <Route path="copilot" element={<PetroleumCopilot />} />
                       <Route path="walkthrough" element={<PetroleumWalkthrough />} />
+                    </Route>
+                    <Route path="/upmetro" element={<UPMetroHub />} />
+                    <Route path="/pitch/upmetro" element={<UPMetroDeck />} />
+                    <Route path="/upmetro" element={<UPMetroLayout />}>
+                      <Route path="command" element={<UPMetroCommand />} />
+                      <Route path="assets" element={<UPMetroAssetMap />} />
+                      <Route path="incidents" element={<UPMetroIncidents />} />
+                      <Route path="access" element={<UPMetroAccess />} />
+                      <Route path="recovery" element={<UPMetroRecovery />} />
+                      <Route path="compliance" element={<UPMetroCompliance />} />
                     </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
