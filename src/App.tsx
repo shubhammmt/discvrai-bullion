@@ -244,6 +244,15 @@ import PetroleumLeakage from './pages/petroleum/Leakage';
 import PetroleumRhythm from './pages/petroleum/Rhythm';
 import PetroleumCopilot from './pages/petroleum/Copilot';
 import PetroleumWalkthrough from './pages/petroleum/Walkthrough';
+import UPMetroHub from './pages/upmetro/UPMetroHub';
+import UPMetroDeck from './pages/upmetro/UPMetroDeck';
+import { UPMetroLayout } from './pages/upmetro/ui';
+import UPMetroCommand from './pages/upmetro/UPMetroCommand';
+import UPMetroAssetMap from './pages/upmetro/UPMetroAssetMap';
+import UPMetroIncidents from './pages/upmetro/UPMetroIncidents';
+import UPMetroAccess from './pages/upmetro/UPMetroAccess';
+import UPMetroRecovery from './pages/upmetro/UPMetroRecovery';
+import UPMetroCompliance from './pages/upmetro/UPMetroCompliance';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
