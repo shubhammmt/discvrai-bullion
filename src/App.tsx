@@ -227,6 +227,17 @@ import SBIAcquisition from './pages/sbi/SBIAcquisition';
 import SBIPersonalization from './pages/sbi/SBIPersonalization';
 import SBIFraud from './pages/sbi/SBIFraud';
 import SBILifecycle from './pages/sbi/SBILifecycle';
+import PetroleumLayout from './pages/petroleum/Layout';
+import PetroleumExec from './pages/petroleum/Exec';
+import PetroleumRetail from './pages/petroleum/Retail';
+import PetroleumDispatch from './pages/petroleum/Dispatch';
+import PetroleumLPG from './pages/petroleum/LPG';
+import PetroleumLubricants from './pages/petroleum/Lubricants';
+import PetroleumB2B from './pages/petroleum/B2B';
+import PetroleumLeakage from './pages/petroleum/Leakage';
+import PetroleumRhythm from './pages/petroleum/Rhythm';
+import PetroleumCopilot from './pages/petroleum/Copilot';
+import PetroleumWalkthrough from './pages/petroleum/Walkthrough';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -315,6 +326,7 @@ const AppContent = () => {
                            location.pathname === '/sbi-card' ||
                            location.pathname === '/pitch/sbi-card' ||
                            location.pathname.startsWith('/sbi-card/') ||
+                           location.pathname.startsWith('/petroleum') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -515,6 +527,18 @@ const AppContent = () => {
                     <Route path="/sbi-card/personalization" element={<SBIPersonalization />} />
                     <Route path="/sbi-card/fraud" element={<SBIFraud />} />
                     <Route path="/sbi-card/lifecycle" element={<SBILifecycle />} />
+                    <Route path="/petroleum" element={<PetroleumLayout />}>
+                      <Route index element={<PetroleumExec />} />
+                      <Route path="retail" element={<PetroleumRetail />} />
+                      <Route path="dispatch" element={<PetroleumDispatch />} />
+                      <Route path="lpg" element={<PetroleumLPG />} />
+                      <Route path="lubricants" element={<PetroleumLubricants />} />
+                      <Route path="b2b" element={<PetroleumB2B />} />
+                      <Route path="leakage" element={<PetroleumLeakage />} />
+                      <Route path="rhythm" element={<PetroleumRhythm />} />
+                      <Route path="copilot" element={<PetroleumCopilot />} />
+                      <Route path="walkthrough" element={<PetroleumWalkthrough />} />
+                    </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
