@@ -10,10 +10,10 @@ export default function UPMetroCommand() {
       <PageHeader eyebrow="Module 01" title="Executive Cyber Command Center"
         sub="Multi-city posture across Lucknow, Kanpur and Agra — risk index, MTTD/MTTR, recovery, compliance."
         right={
-          <div className="flex gap-1 bg-white/5 rounded-lg p-1">
+          <div className="flex gap-1 bg-slate-50 rounded-lg p-1">
             {(['All', ...cities] as const).map(c => (
               <button key={c} onClick={() => setCity(c as any)}
-                className={`px-3 py-1.5 text-xs rounded-md ${city === c ? 'bg-cyan-400 text-[#06142A] font-semibold' : 'text-slate-300 hover:bg-white/5'}`}>{c}</button>
+                className={`px-3 py-1.5 text-xs rounded-md ${city === c ? 'bg-cyan-400 text-[#06142A] font-semibold' : 'text-slate-600 hover:bg-slate-50'}`}>{c}</button>
             ))}
           </div>
         }
@@ -48,18 +48,18 @@ export default function UPMetroCommand() {
               {cities.map(c => {
                 const p = cityPosture[c];
                 return (
-                  <div key={c} className="rounded-lg bg-white/5 border border-white/10 p-3">
+                  <div key={c} className="rounded-lg bg-slate-50 border border-slate-200 p-3">
                     <div className="flex items-center justify-between">
                       <div className="text-sm font-semibold">{c}</div>
-                      <div className="text-[11px] text-slate-400">{p.assets} IT · {p.otAssets} OT</div>
+                      <div className="text-[11px] text-slate-500">{p.assets} IT · {p.otAssets} OT</div>
                     </div>
                     <div className="mt-2 flex items-center gap-2">
-                      <div className="flex-1 h-2 bg-white/5 rounded">
+                      <div className="flex-1 h-2 bg-slate-50 rounded">
                         <div className="h-2 rounded" style={{ width: `${p.risk}%`, background: p.risk > 70 ? BRAND.red : p.risk > 60 ? BRAND.warn : BRAND.green }} />
                       </div>
                       <div className="text-xs font-semibold w-10 text-right">{p.risk}</div>
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">{p.incidents} open critical incidents</div>
+                    <div className="text-[11px] text-slate-500 mt-1">{p.incidents} open critical incidents</div>
                   </div>
                 );
               })}
@@ -68,9 +68,9 @@ export default function UPMetroCommand() {
         </div>
 
         <Card title="Top 10 priority risks · with business impact tags">
-          <div className="overflow-hidden rounded-lg border border-white/10">
+          <div className="overflow-hidden rounded-lg border border-slate-200">
             <table className="w-full text-sm">
-              <thead className="bg-white/5 text-[11px] uppercase tracking-wider text-slate-400">
+              <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
                 <tr>
                   <th className="text-left px-3 py-2 font-medium">ID</th>
                   <th className="text-left px-3 py-2 font-medium">Risk</th>
@@ -82,17 +82,17 @@ export default function UPMetroCommand() {
               </thead>
               <tbody>
                 {topRisks.filter(r => city === 'All' || r.city === 'All' || r.city === city).map(r => (
-                  <tr key={r.id} className="border-t border-white/5 hover:bg-white/5">
-                    <td className="px-3 py-2 text-cyan-300 font-mono text-xs">{r.id}</td>
-                    <td className="px-3 py-2 text-slate-200">{r.title}</td>
+                  <tr key={r.id} className="border-t border-slate-100 hover:bg-slate-50">
+                    <td className="px-3 py-2 text-cyan-700 font-mono text-xs">{r.id}</td>
+                    <td className="px-3 py-2 text-slate-800">{r.title}</td>
                     <td className="px-3 py-2"><SevPill sev={r.severity} /></td>
                     <td className="px-3 py-2">
                       <div className="flex flex-wrap gap-1">
-                        {r.impact.map(t => <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-300">{t}</span>)}
+                        {r.impact.map(t => <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-700">{t}</span>)}
                       </div>
                     </td>
-                    <td className="px-3 py-2 text-slate-300">{r.owner}</td>
-                    <td className="px-3 py-2 text-slate-400">{r.city}</td>
+                    <td className="px-3 py-2 text-slate-600">{r.owner}</td>
+                    <td className="px-3 py-2 text-slate-500">{r.city}</td>
                   </tr>
                 ))}
               </tbody>
