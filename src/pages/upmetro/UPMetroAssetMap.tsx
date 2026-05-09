@@ -64,8 +64,8 @@ export default function UPMetroAssetMap() {
               return (
                 <g key={z.id} style={{ cursor: 'pointer' }} onClick={() => setSelected(isSel ? null : z.id)}>
                   <rect x={pos.x} y={pos.y} width={140} height={60} rx={10} fill={z.color} fillOpacity={isSel ? 0.35 : 0.18} stroke={z.color} strokeWidth={isSel ? 2 : 1.2} />
-                  <text x={pos.x + 12} y={pos.y + 22} fontSize="11" fontWeight="600" fill="#fff">{z.name}</text>
-                  <text x={pos.x + 12} y={pos.y + 40} fontSize="10" fill="#cbd5e1">{z.assets} assets · {z.criticality}</text>
+                  <text x={pos.x + 12} y={pos.y + 22} fontSize="11" fontWeight="600" fill="#0f172a">{z.name}</text>
+                  <text x={pos.x + 12} y={pos.y + 40} fontSize="10" fill="#475569">{z.assets} assets · {z.criticality}</text>
                   {z.criticality === 'Critical' && <circle cx={pos.x + 130} cy={pos.y + 12} r="4" fill="#ef4444" />}
                 </g>
               );

@@ -33,10 +33,10 @@ export default function UPMetroCommand() {
             <div className="h-56">
               <ResponsiveContainer>
                 <LineChart data={riskTrend90d}>
-                  <CartesianGrid stroke="rgba(255,255,255,0.06)" />
+                  <CartesianGrid stroke="rgba(15,23,42,0.08)" />
                   <XAxis dataKey="week" stroke="#94a3b8" fontSize={11} />
                   <YAxis stroke="#94a3b8" fontSize={11} />
-                  <Tooltip contentStyle={{ background: BRAND.navy, border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: 12 }} />
+                  <Tooltip contentStyle={{ background: "#fff", border: '1px solid rgba(15,23,42,0.1)', color: '#0f172a', fontSize: 12 }} />
                   <Line type="monotone" dataKey="risk" stroke={BRAND.accent} strokeWidth={2.5} dot={false} />
                   <Line type="monotone" dataKey="incidents" stroke={BRAND.warn} strokeWidth={2} dot={false} />
                 </LineChart>
