@@ -222,6 +222,12 @@ import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
 import CMSAuditCommand from './pages/CMSAuditCommand';
 import SchlumbergerOps from './pages/SchlumbergerOps';
 import SBIHub from './pages/sbi/SBIHub';
+import ICICIHub from './pages/icici/ICICIHub';
+import ICICIDeck from './pages/icici/ICICIDeck';
+import ICICICopilot from './pages/icici/ICICICopilot';
+import ICICIPitchAssistant from './pages/icici/ICICIPitchAssistant';
+import ICICIManager from './pages/icici/ICICIManager';
+import ICICIAdmin from './pages/icici/ICICIAdmin';
 import SBIDeck from './pages/sbi/SBIDeck';
 import SBIAcquisition from './pages/sbi/SBIAcquisition';
 import SBIPersonalization from './pages/sbi/SBIPersonalization';
@@ -326,6 +332,9 @@ const AppContent = () => {
                            location.pathname === '/sbi-card' ||
                            location.pathname === '/pitch/sbi-card' ||
                            location.pathname.startsWith('/sbi-card/') ||
+                           location.pathname === '/icici-lombard' ||
+                           location.pathname === '/pitch/icici-lombard' ||
+                           location.pathname.startsWith('/icici-lombard/') ||
                            location.pathname.startsWith('/petroleum') ||
                            location.pathname.startsWith('/discvrai');
   return (
@@ -527,6 +536,12 @@ const AppContent = () => {
                     <Route path="/sbi-card/personalization" element={<SBIPersonalization />} />
                     <Route path="/sbi-card/fraud" element={<SBIFraud />} />
                     <Route path="/sbi-card/lifecycle" element={<SBILifecycle />} />
+                    <Route path="/icici-lombard" element={<ICICIHub />} />
+                    <Route path="/pitch/icici-lombard" element={<ICICIDeck />} />
+                    <Route path="/icici-lombard/copilot" element={<ICICICopilot />} />
+                    <Route path="/icici-lombard/pitch-assistant" element={<ICICIPitchAssistant />} />
+                    <Route path="/icici-lombard/manager" element={<ICICIManager />} />
+                    <Route path="/icici-lombard/admin" element={<ICICIAdmin />} />
                     <Route path="/petroleum" element={<PetroleumLayout />}>
                       <Route index element={<PetroleumExec />} />
                       <Route path="retail" element={<PetroleumRetail />} />
