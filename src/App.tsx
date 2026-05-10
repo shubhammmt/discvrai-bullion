@@ -267,6 +267,15 @@ import BajajCapitalRMCockpit from './pages/bajajcapital/BajajCapitalRMCockpit';
 import BajajCapitalOps from './pages/bajajcapital/BajajCapitalOps';
 import BajajCapitalRetirement from './pages/bajajcapital/BajajCapitalRetirement';
 import BajajCapitalArchitecture from './pages/bajajcapital/BajajCapitalArchitecture';
+import JaiKhuranaHub from './pages/jaikhurana/JaiKhuranaHub';
+import JaiKhuranaDeck from './pages/jaikhurana/JaiKhuranaDeck';
+import { JaiKhuranaLayout } from './pages/jaikhurana/ui';
+import JaiKhuranaExec from './pages/jaikhurana/JaiKhuranaExec';
+import JaiKhuranaFreight from './pages/jaikhurana/JaiKhuranaFreight';
+import JaiKhuranaLeakage from './pages/jaikhurana/JaiKhuranaLeakage';
+import JaiKhuranaVendor from './pages/jaikhurana/JaiKhuranaVendor';
+import JaiKhuranaRopeway from './pages/jaikhurana/JaiKhuranaRopeway';
+import JaiKhuranaAssurance from './pages/jaikhurana/JaiKhuranaAssurance';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -368,6 +377,9 @@ const AppContent = () => {
                            location.pathname === '/bajajcapital' ||
                            location.pathname === '/pitch/bajajcapital' ||
                            location.pathname.startsWith('/bajajcapital/') ||
+                           location.pathname === '/jaikhurana' ||
+                           location.pathname === '/pitch/jaikhurana' ||
+                           location.pathname.startsWith('/jaikhurana/') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -610,8 +622,18 @@ const AppContent = () => {
                       <Route path="cockpit" element={<BajajCapitalRMCockpit />} />
                       <Route path="ops" element={<BajajCapitalOps />} />
                       <Route path="retirement" element={<BajajCapitalRetirement />} />
-                      <Route path="architecture" element={<BajajCapitalArchitecture />} />
-                    </Route>
+                       <Route path="architecture" element={<BajajCapitalArchitecture />} />
+                     </Route>
+                     <Route path="/jaikhurana" element={<JaiKhuranaHub />} />
+                     <Route path="/pitch/jaikhurana" element={<JaiKhuranaDeck />} />
+                     <Route path="/jaikhurana" element={<JaiKhuranaLayout />}>
+                       <Route path="exec" element={<JaiKhuranaExec />} />
+                       <Route path="freight" element={<JaiKhuranaFreight />} />
+                       <Route path="leakage" element={<JaiKhuranaLeakage />} />
+                       <Route path="vendor" element={<JaiKhuranaVendor />} />
+                       <Route path="ropeway" element={<JaiKhuranaRopeway />} />
+                       <Route path="assurance" element={<JaiKhuranaAssurance />} />
+                     </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
