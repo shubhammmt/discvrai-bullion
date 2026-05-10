@@ -253,6 +253,13 @@ import UPMetroIncidents from './pages/upmetro/UPMetroIncidents';
 import UPMetroAccess from './pages/upmetro/UPMetroAccess';
 import UPMetroRecovery from './pages/upmetro/UPMetroRecovery';
 import UPMetroCompliance from './pages/upmetro/UPMetroCompliance';
+import RAKHub from './pages/rak/RAKHub';
+import RAKDeck from './pages/rak/RAKDeck';
+import { RAKLayout } from './pages/rak/ui';
+import RAKCockpit from './pages/rak/RAKCockpit';
+import RAKKiln from './pages/rak/RAKKiln';
+import RAKCopilot from './pages/rak/RAKCopilot';
+import RAKArchitecture from './pages/rak/RAKArchitecture';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -348,6 +355,9 @@ const AppContent = () => {
                            location.pathname === '/upmetro' ||
                            location.pathname === '/pitch/upmetro' ||
                            location.pathname.startsWith('/upmetro/') ||
+                           location.pathname === '/rak' ||
+                           location.pathname === '/pitch/rak' ||
+                           location.pathname.startsWith('/rak/') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -575,6 +585,14 @@ const AppContent = () => {
                       <Route path="access" element={<UPMetroAccess />} />
                       <Route path="recovery" element={<UPMetroRecovery />} />
                       <Route path="compliance" element={<UPMetroCompliance />} />
+                    </Route>
+                    <Route path="/rak" element={<RAKHub />} />
+                    <Route path="/pitch/rak" element={<RAKDeck />} />
+                    <Route path="/rak" element={<RAKLayout />}>
+                      <Route path="cockpit" element={<RAKCockpit />} />
+                      <Route path="kiln" element={<RAKKiln />} />
+                      <Route path="copilot" element={<RAKCopilot />} />
+                      <Route path="architecture" element={<RAKArchitecture />} />
                     </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
