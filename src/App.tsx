@@ -260,6 +260,13 @@ import RAKCockpit from './pages/rak/RAKCockpit';
 import RAKKiln from './pages/rak/RAKKiln';
 import RAKCopilot from './pages/rak/RAKCopilot';
 import RAKArchitecture from './pages/rak/RAKArchitecture';
+import BajajCapitalHub from './pages/bajajcapital/BajajCapitalHub';
+import BajajCapitalDeck from './pages/bajajcapital/BajajCapitalDeck';
+import { BajajCapitalLayout } from './pages/bajajcapital/ui';
+import BajajCapitalRMCockpit from './pages/bajajcapital/BajajCapitalRMCockpit';
+import BajajCapitalOps from './pages/bajajcapital/BajajCapitalOps';
+import BajajCapitalRetirement from './pages/bajajcapital/BajajCapitalRetirement';
+import BajajCapitalArchitecture from './pages/bajajcapital/BajajCapitalArchitecture';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
