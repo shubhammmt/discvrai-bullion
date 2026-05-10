@@ -260,6 +260,13 @@ import RAKCockpit from './pages/rak/RAKCockpit';
 import RAKKiln from './pages/rak/RAKKiln';
 import RAKCopilot from './pages/rak/RAKCopilot';
 import RAKArchitecture from './pages/rak/RAKArchitecture';
+import BajajCapitalHub from './pages/bajajcapital/BajajCapitalHub';
+import BajajCapitalDeck from './pages/bajajcapital/BajajCapitalDeck';
+import { BajajCapitalLayout } from './pages/bajajcapital/ui';
+import BajajCapitalRMCockpit from './pages/bajajcapital/BajajCapitalRMCockpit';
+import BajajCapitalOps from './pages/bajajcapital/BajajCapitalOps';
+import BajajCapitalRetirement from './pages/bajajcapital/BajajCapitalRetirement';
+import BajajCapitalArchitecture from './pages/bajajcapital/BajajCapitalArchitecture';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -358,6 +365,9 @@ const AppContent = () => {
                            location.pathname === '/rak' ||
                            location.pathname === '/pitch/rak' ||
                            location.pathname.startsWith('/rak/') ||
+                           location.pathname === '/bajajcapital' ||
+                           location.pathname === '/pitch/bajajcapital' ||
+                           location.pathname.startsWith('/bajajcapital/') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
@@ -593,6 +603,14 @@ const AppContent = () => {
                       <Route path="kiln" element={<RAKKiln />} />
                       <Route path="copilot" element={<RAKCopilot />} />
                       <Route path="architecture" element={<RAKArchitecture />} />
+                    </Route>
+                    <Route path="/bajajcapital" element={<BajajCapitalHub />} />
+                    <Route path="/pitch/bajajcapital" element={<BajajCapitalDeck />} />
+                    <Route path="/bajajcapital" element={<BajajCapitalLayout />}>
+                      <Route path="cockpit" element={<BajajCapitalRMCockpit />} />
+                      <Route path="ops" element={<BajajCapitalOps />} />
+                      <Route path="retirement" element={<BajajCapitalRetirement />} />
+                      <Route path="architecture" element={<BajajCapitalArchitecture />} />
                     </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
