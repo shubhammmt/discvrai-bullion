@@ -604,6 +604,14 @@ const AppContent = () => {
                       <Route path="copilot" element={<RAKCopilot />} />
                       <Route path="architecture" element={<RAKArchitecture />} />
                     </Route>
+                    <Route path="/bajajcapital" element={<BajajCapitalHub />} />
+                    <Route path="/pitch/bajajcapital" element={<BajajCapitalDeck />} />
+                    <Route path="/bajajcapital" element={<BajajCapitalLayout />}>
+                      <Route path="cockpit" element={<BajajCapitalRMCockpit />} />
+                      <Route path="ops" element={<BajajCapitalOps />} />
+                      <Route path="retirement" element={<BajajCapitalRetirement />} />
+                      <Route path="architecture" element={<BajajCapitalArchitecture />} />
+                    </Route>
                     <Route path="/pitch/mahindra-armored" element={<MahindraArmoredDeck />} />
                     <Route path="/demo/mahindra-armored-signals" element={<MahindraArmoredSignalsDemo />} />
                     <Route path="/demo/msme-lending" element={<MSMELendingCommandCenter />} />
