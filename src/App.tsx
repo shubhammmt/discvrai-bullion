@@ -365,6 +365,9 @@ const AppContent = () => {
                            location.pathname === '/rak' ||
                            location.pathname === '/pitch/rak' ||
                            location.pathname.startsWith('/rak/') ||
+                           location.pathname === '/bajajcapital' ||
+                           location.pathname === '/pitch/bajajcapital' ||
+                           location.pathname.startsWith('/bajajcapital/') ||
                            location.pathname.startsWith('/discvrai');
   return (
     <>
