@@ -31,7 +31,7 @@ const LENSES: { id: DiscoverLens; label: string; short: string; icon: typeof Spa
   { id: 'screener',   label: 'Search',     short: 'Search',   icon: SlidersHorizontal, sub: 'Search by name or filter the full universe' },
 ];
 
-export function DiscoverTab({ context, onClearContext, onInvest, compact, defaultLens = 'foryou' }: Props) {
+export function DiscoverTab({ context, onClearContext, onInvest, onAddGoal, compact, defaultLens = 'foryou' }: Props) {
   const [lens, setLens] = useState<DiscoverLens>(defaultLens);
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareList, setCompareList] = useState<ShortlistFund[]>([]);
