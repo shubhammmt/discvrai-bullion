@@ -33,8 +33,7 @@ import { Button } from '@/components/ui/button';
 import { MOCK_SIPS, MutualFund } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ConversionContextHeader, SmartShortlistSection } from '@/components/conversion/screenerSections';
-import { CuratedShelves } from '@/components/conversion';
+import { DiscoverTab } from '@/components/sip/DiscoverTab';
 
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
