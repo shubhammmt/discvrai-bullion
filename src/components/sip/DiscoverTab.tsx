@@ -113,9 +113,10 @@ export function DiscoverTab({ context, onClearContext, onInvest, onAddGoal, comp
           <Card>
             <CardContent className="p-3 sm:p-4">
               <SmartShortlist
-                context={context || { goal: 'Wealth Creation', risk: 'High', horizon: '5+ years' }}
+                context={context}
                 onInvest={handleFundInvest}
                 onCompare={(funds) => { setCompareList(funds); setCompareOpen(true); }}
+                onAddGoal={onAddGoal}
                 compact={compact}
               />
               {!compact && (
