@@ -54,16 +54,19 @@ export interface GoalCreatedContext {
   targetAmount: number;
 }
 
-export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoalCreated }: {
+export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoalCreated, onInvest }: {
   compact?: boolean;
   onCreateGoal?: () => void;
   onViewGoals?: () => void;
   onGoalCreated?: (ctx: GoalCreatedContext) => void;
+  /** Hand-off when user clicks Invest on a fund tagged to a goal */
+  onInvest?: (prefill: FundPurchasePrefill) => void;
 }) {
-  const [goals, setGoals] = useState<GoalData[]>(SAMPLE_GOALS);
+  const goals = useGoals();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<GoalData | null>(null);
   const [form, setForm] = useState<GoalFormData>(emptyForm);
+  const [openShortlist, setOpenShortlist] = useState<string | null>(null);
 
   const totalMonthlyGap = goals.reduce((sum, g) => sum + g.monthlySIP, 0);
   const totalTarget = goals.reduce((sum, g) => sum + g.targetAmount, 0);
@@ -79,9 +82,9 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoal
     if (!form.name || !form.targetAmount || !form.targetDate) { toast.error('Please fill all required fields'); return; }
     const effectiveRisk = form.useProfileRisk ? PROFILE_DEFAULT_RISK : form.riskLevel;
     const goalData: GoalData = { id: editingGoal?.id || Date.now().toString(), name: form.name, targetAmount: Number(form.targetAmount), currentAmount: Number(form.currentAmount) || 0, monthlySIP: Number(form.monthlySIP) || 0, targetDate: form.targetDate, category: form.category, riskLevel: effectiveRisk, useProfileRisk: form.useProfileRisk };
-    if (editingGoal) { setGoals(prev => prev.map(g => g.id === editingGoal.id ? goalData : g)); toast.success('Goal updated'); }
+    if (editingGoal) { goalsStore.update(goalData); toast.success('Goal updated'); }
     else {
-      setGoals(prev => [...prev, goalData]);
+      goalsStore.add(goalData);
       toast.success('Goal created — finding matching funds…');
       onGoalCreated?.({
         goal: goalData.name,
@@ -95,7 +98,11 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoal
     setDialogOpen(false);
   };
 
-  const handleDelete = (id: string) => { setGoals(prev => prev.filter(g => g.id !== id)); toast.success('Goal removed'); };
+  const handleDelete = (id: string) => { goalsStore.remove(id); toast.success('Goal removed'); };
+
+  const handleFundInvest = (goal: GoalData) => (fund: ShortlistFund) => {
+    onInvest?.({ fundCode: fund.code, mode: 'sip', amount: goal.monthlySIP || undefined, goalTag: goal.name });
+  };
 
   return (
     <>
