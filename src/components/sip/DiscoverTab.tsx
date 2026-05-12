@@ -18,6 +18,8 @@ interface Props {
   context?: ConversionContext;
   onClearContext?: () => void;
   onInvest: (prefill?: FundPurchasePrefill) => void;
+  /** Called when user taps "+ Add goal" pill in Smart Shortlist */
+  onAddGoal?: () => void;
   /** compact mode for embedding in chat / home — hides chrome */
   compact?: boolean;
   defaultLens?: DiscoverLens;
@@ -29,7 +31,7 @@ const LENSES: { id: DiscoverLens; label: string; short: string; icon: typeof Spa
   { id: 'screener',   label: 'Search',     short: 'Search',   icon: SlidersHorizontal, sub: 'Search by name or filter the full universe' },
 ];
 
-export function DiscoverTab({ context, onClearContext, onInvest, compact, defaultLens = 'foryou' }: Props) {
+export function DiscoverTab({ context, onClearContext, onInvest, onAddGoal, compact, defaultLens = 'foryou' }: Props) {
   const [lens, setLens] = useState<DiscoverLens>(defaultLens);
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareList, setCompareList] = useState<ShortlistFund[]>([]);
@@ -111,9 +113,10 @@ export function DiscoverTab({ context, onClearContext, onInvest, compact, defaul
           <Card>
             <CardContent className="p-3 sm:p-4">
               <SmartShortlist
-                context={context || { goal: 'Wealth Creation', risk: 'High', horizon: '5+ years' }}
+                context={context}
                 onInvest={handleFundInvest}
                 onCompare={(funds) => { setCompareList(funds); setCompareOpen(true); }}
+                onAddGoal={onAddGoal}
                 compact={compact}
               />
               {!compact && (

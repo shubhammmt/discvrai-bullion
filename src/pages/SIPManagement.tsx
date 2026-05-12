@@ -272,6 +272,7 @@ const SIPManagement = () => {
             <DiscoverTab
               context={goalContext}
               onClearContext={() => setGoalContext(undefined)}
+              onAddGoal={() => setActiveTab('goals')}
               onInvest={(prefill) => {
                 if (prefill) setPurchasePrefill(prefill);
                 else if (goalContext?.amount) setPurchasePrefill({ amount: goalContext.amount, mode: 'sip', goalTag: goalContext.goal });
@@ -299,6 +300,7 @@ const SIPManagement = () => {
             <GoalsWidget
               onCreateGoal={() => {/* handled inside widget */}}
               onViewGoals={() => {}}
+              onInvest={(prefill) => { setPurchasePrefill(prefill); setActiveTab('buy'); }}
               onGoalCreated={(ctx) => {
                 // Derive years from "Mon YYYY"
                 const m = ctx.targetDate.match(/(\d{4})/);

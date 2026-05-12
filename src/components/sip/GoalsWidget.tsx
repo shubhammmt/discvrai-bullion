@@ -7,33 +7,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Target, Plus, TrendingUp, Heart, GraduationCap, Home, Sparkles, ArrowRight, Edit, Trash2, X } from 'lucide-react';
+import { Target, Plus, TrendingUp, Heart, GraduationCap, Home, Sparkles, ArrowRight, Edit, Trash2, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { SIP_CATEGORY_MAP } from '@/config/sipBrandConfig';
-
-type RiskLevel = 'Conservative' | 'Moderate' | 'Aggressive' | 'Very Aggressive';
+import { useGoals, goalsStore, Goal as StoreGoal, RiskLevel } from '@/lib/goalsStore';
+import { SmartShortlist } from '@/components/conversion/SmartShortlist';
+import type { ShortlistFund } from '@/components/conversion/types';
+import type { FundPurchasePrefill } from './FundPurchaseWidget';
 
 // Profile-level default risk (in real app, comes from user profile API)
 const PROFILE_DEFAULT_RISK: RiskLevel = 'Moderate';
 
-interface GoalData {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  monthlySIP: number;
-  targetDate: string;
-  category: string;
-  riskLevel: RiskLevel;
-  useProfileRisk: boolean;
-}
-
-const SAMPLE_GOALS: GoalData[] = [
-  { id: '1', name: 'Marriage Celebration', targetAmount: 10000000, currentAmount: 280000, monthlySIP: 29494, targetDate: 'Dec 2028', category: 'Wedding', riskLevel: 'Moderate', useProfileRisk: true },
-  { id: '2', name: "Child's Education", targetAmount: 5000000, currentAmount: 120000, monthlySIP: 15000, targetDate: 'Jun 2032', category: 'Education', riskLevel: 'Aggressive', useProfileRisk: false },
-  { id: '3', name: 'Emergency Fund', targetAmount: 500000, currentAmount: 320000, monthlySIP: 5000, targetDate: 'Dec 2026', category: 'Emergency', riskLevel: 'Conservative', useProfileRisk: false },
-];
+type GoalData = StoreGoal;
 
 const categoryIcons: Record<string, typeof Target> = {
   Wedding: Heart,
@@ -68,16 +54,19 @@ export interface GoalCreatedContext {
   targetAmount: number;
 }
 
-export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoalCreated }: {
+export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoalCreated, onInvest }: {
   compact?: boolean;
   onCreateGoal?: () => void;
   onViewGoals?: () => void;
   onGoalCreated?: (ctx: GoalCreatedContext) => void;
+  /** Hand-off when user clicks Invest on a fund tagged to a goal */
+  onInvest?: (prefill: FundPurchasePrefill) => void;
 }) {
-  const [goals, setGoals] = useState<GoalData[]>(SAMPLE_GOALS);
+  const goals = useGoals();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<GoalData | null>(null);
   const [form, setForm] = useState<GoalFormData>(emptyForm);
+  const [openShortlist, setOpenShortlist] = useState<string | null>(null);
 
   const totalMonthlyGap = goals.reduce((sum, g) => sum + g.monthlySIP, 0);
   const totalTarget = goals.reduce((sum, g) => sum + g.targetAmount, 0);
@@ -93,9 +82,9 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoal
     if (!form.name || !form.targetAmount || !form.targetDate) { toast.error('Please fill all required fields'); return; }
     const effectiveRisk = form.useProfileRisk ? PROFILE_DEFAULT_RISK : form.riskLevel;
     const goalData: GoalData = { id: editingGoal?.id || Date.now().toString(), name: form.name, targetAmount: Number(form.targetAmount), currentAmount: Number(form.currentAmount) || 0, monthlySIP: Number(form.monthlySIP) || 0, targetDate: form.targetDate, category: form.category, riskLevel: effectiveRisk, useProfileRisk: form.useProfileRisk };
-    if (editingGoal) { setGoals(prev => prev.map(g => g.id === editingGoal.id ? goalData : g)); toast.success('Goal updated'); }
+    if (editingGoal) { goalsStore.update(goalData); toast.success('Goal updated'); }
     else {
-      setGoals(prev => [...prev, goalData]);
+      goalsStore.add(goalData);
       toast.success('Goal created — finding matching funds…');
       onGoalCreated?.({
         goal: goalData.name,
@@ -109,7 +98,11 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoal
     setDialogOpen(false);
   };
 
-  const handleDelete = (id: string) => { setGoals(prev => prev.filter(g => g.id !== id)); toast.success('Goal removed'); };
+  const handleDelete = (id: string) => { goalsStore.remove(id); toast.success('Goal removed'); };
+
+  const handleFundInvest = (goal: GoalData) => (fund: ShortlistFund) => {
+    onInvest?.({ fundCode: fund.code, mode: 'sip', amount: goal.monthlySIP || undefined, goalTag: goal.name });
+  };
 
   return (
     <>
@@ -181,12 +174,30 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoal
                     <span>by {goal.targetDate}</span>
                   </div>
                   <Progress value={progress} className="h-1.5" />
-                  <div className="flex items-center gap-1.5 pt-1">
+                  <div className="flex items-center justify-between gap-1.5 pt-1">
                     <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4">
                       Risk: {goal.riskLevel}{goal.useProfileRisk && ' · profile'}
                     </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 text-[10px] text-sip-brand hover:bg-sip-brand/10"
+                      onClick={() => setOpenShortlist(openShortlist === goal.id ? null : goal.id)}
+                    >
+                      {openShortlist === goal.id ? 'Hide funds' : 'Recommended funds'}
+                      <ChevronDown className={cn('w-3 h-3 ml-1 transition-transform', openShortlist === goal.id && 'rotate-180')} />
+                    </Button>
                   </div>
                 </div>
+                {openShortlist === goal.id && (
+                  <div className="pt-2 mt-2 border-t border-border">
+                    <SmartShortlist
+                      lockedGoalId={goal.id}
+                      compact
+                      onInvest={handleFundInvest(goal)}
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
