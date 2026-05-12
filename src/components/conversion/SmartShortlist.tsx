@@ -1,16 +1,20 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Info, Plus, Check, ChevronDown, ArrowUpDown, HelpCircle } from 'lucide-react';
+import { Sparkles, Info, Plus, Check, ChevronDown, ArrowUpDown, HelpCircle, Target, Heart, GraduationCap, Home, AlertTriangle } from 'lucide-react';
 import { ConversionContext, ShortlistFund } from './types';
-import { buildSmartShortlist } from './shortlistEngine';
+import { buildSmartShortlist, buildNoGoalShortlist, buildShortlistForGoal } from './shortlistEngine';
+import { useGoals, Goal, requiredCAGR, goalHorizonYears } from '@/lib/goalsStore';
 import { cn } from '@/lib/utils';
 
 interface SmartShortlistProps {
-  context: ConversionContext;
+  context?: ConversionContext;
   onInvest?: (fund: ShortlistFund) => void;
   onCompare?: (funds: ShortlistFund[]) => void;
+  onAddGoal?: () => void;
+  /** Lock to a single goal — used when embedded inside a Goal card. Hides the pill row. */
+  lockedGoalId?: string;
   compact?: boolean;
 }
 
@@ -19,13 +23,44 @@ const SORT_LABEL: Record<SortKey, string> = {
   match: 'Best match', '1y': '1Y returns', '3y': '3Y returns', '5y': '5Y returns', expense: 'Lowest expense',
 };
 
-export function SmartShortlist({ context, onInvest, onCompare, compact }: SmartShortlistProps) {
-  const fullList = useMemo(() => buildSmartShortlist(context, 20), [context]);
+const GOAL_ICONS: Record<string, typeof Target> = {
+  Wedding: Heart, Education: GraduationCap, Home: Home, Emergency: Target, Retirement: Sparkles,
+};
+
+type ActivePill = 'all' | string; // 'all' or goal.id
+
+export function SmartShortlist({ context, onInvest, onCompare, onAddGoal, lockedGoalId, compact }: SmartShortlistProps) {
+  const goals = useGoals();
+  const lockedGoal = lockedGoalId ? goals.find(g => g.id === lockedGoalId) : undefined;
+
+  // Default pill: locked → that goal; else if user has goals → first goal; else 'all'
+  const defaultPill: ActivePill = lockedGoal ? lockedGoal.id : (goals[0]?.id ?? 'all');
+  const [active, setActive] = useState<ActivePill>(defaultPill);
+
+  // Re-sync when goals list changes (e.g. user added a goal)
+  useEffect(() => {
+    if (lockedGoalId) { setActive(lockedGoalId); return; }
+    if (active !== 'all' && !goals.find(g => g.id === active)) setActive(goals[0]?.id ?? 'all');
+  }, [goals, lockedGoalId]);
+
+  const activeGoal: Goal | undefined = active === 'all' ? undefined : goals.find(g => g.id === active);
+
+  // Build the right list for the active pill
+  const fullList = useMemo<ShortlistFund[]>(() => {
+    if (activeGoal) return buildShortlistForGoal(activeGoal, 20);
+    // 'all' — if user has a context use legacy, else no-goal default
+    if (context?.goal || context?.risk) return buildSmartShortlist(context, 20);
+    return buildNoGoalShortlist(40);
+  }, [active, activeGoal, context]);
+
   const [sort, setSort] = useState<SortKey>('match');
   const [showAll, setShowAll] = useState(false);
   const [explainOpen, setExplainOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [compare, setCompare] = useState<string[]>([]);
+
+  // Reset sort/expand when switching pill
+  useEffect(() => { setSort('match'); setShowAll(false); setExpanded(null); }, [active]);
 
   const sorted = useMemo(() => {
     const arr = [...fullList];
@@ -40,10 +75,12 @@ export function SmartShortlist({ context, onInvest, onCompare, compact }: SmartS
   const toggleCompare = (code: string) =>
     setCompare(p => p.includes(code) ? p.filter(c => c !== code) : p.length < 3 ? [...p, code] : p);
 
-  const isNewVisitor = !context.goal && !context.risk;
+  const isAnonymousAll = active === 'all' && !context?.goal && !context?.risk && goals.length === 0;
+  const cagr = activeGoal ? requiredCAGR(activeGoal) : null;
 
   return (
     <div className="space-y-3">
+      {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-sip-brand" />
@@ -65,24 +102,98 @@ export function SmartShortlist({ context, onInvest, onCompare, compact }: SmartS
         </div>
       </div>
 
-      {explainOpen && (
-        <div className="text-[11px] text-foreground bg-sip-brand/5 border border-sip-brand/20 rounded p-2.5 leading-relaxed">
-          <p className="font-semibold mb-1">How this shortlist is built</p>
-          <ol className="list-decimal pl-4 space-y-0.5 text-muted-foreground">
-            <li>Filter the universe by your <b className="text-foreground">risk band</b> ({context.risk || 'default Moderate for new users'}).</li>
-            <li>Tilt by <b className="text-foreground">goal</b> ({context.goal || 'Wealth Creation default'}) — e.g. Retirement skips speculative themes; Emergency keeps only Liquid/Debt.</li>
-            <li>Rank by <b className="text-foreground">3Y returns − (expense × 2) + AUM stability bonus</b>.</li>
-          </ol>
-          {isNewVisitor && (
-            <p className="mt-1.5 text-muted-foreground">New here? You're seeing the default <b className="text-foreground">Wealth Creation · Moderate · long-term</b> picks. Set your context above to personalise.</p>
+      {/* Goal pills — hidden when locked to a single goal */}
+      {!lockedGoalId && (
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
+          <button
+            onClick={() => setActive('all')}
+            className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors flex items-center gap-1',
+              active === 'all' ? 'bg-sip-brand text-sip-brand-foreground border-sip-brand' : 'bg-background text-foreground border-border hover:border-sip-brand/40')}
+          >
+            <Sparkles className="w-3 h-3" /> {goals.length === 0 ? 'Recommended' : 'All'}
+          </button>
+          {goals.map(g => {
+            const Icon = GOAL_ICONS[g.category] || Target;
+            const isActive = active === g.id;
+            return (
+              <button
+                key={g.id}
+                onClick={() => setActive(g.id)}
+                className={cn('shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors flex items-center gap-1 max-w-[180px]',
+                  isActive ? 'bg-sip-brand text-sip-brand-foreground border-sip-brand' : 'bg-background text-foreground border-border hover:border-sip-brand/40')}
+                title={g.name}
+              >
+                <Icon className="w-3 h-3 shrink-0" />
+                <span className="truncate">{g.name}</span>
+              </button>
+            );
+          })}
+          {onAddGoal && (
+            <button
+              onClick={onAddGoal}
+              className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium border border-dashed border-border text-muted-foreground hover:border-sip-brand/50 hover:text-sip-brand flex items-center gap-1"
+            >
+              <Plus className="w-3 h-3" /> Add goal
+            </button>
           )}
         </div>
       )}
 
-      {context.goal && (
-        <p className="text-[10px] text-muted-foreground">For: <b className="text-foreground">{context.goal}</b> · {context.risk || 'Moderate'} risk · {context.horizon || 'long-term'}</p>
+      {/* How it's built — context-aware copy */}
+      {explainOpen && (
+        <div className="text-[11px] text-foreground bg-sip-brand/5 border border-sip-brand/20 rounded p-2.5 leading-relaxed">
+          <p className="font-semibold mb-1">How this shortlist is built</p>
+          {activeGoal ? (
+            <ol className="list-decimal pl-4 space-y-0.5 text-muted-foreground">
+              <li>Asset tilt by goal type & horizon (<b className="text-foreground">{activeGoal.category}, {goalHorizonYears(activeGoal.targetDate)}y</b>) — e.g. emergency stays in Liquid/Debt; long horizon goes equity-led.</li>
+              <li>Risk guardrail (<b className="text-foreground">{activeGoal.riskLevel}</b>) caps how aggressive the picks can be.</li>
+              <li>Score = <b className="text-foreground">3Y returns − (expense × 2) + AUM stability bonus</b>.</li>
+            </ol>
+          ) : (
+            <ol className="list-decimal pl-4 space-y-0.5 text-muted-foreground">
+              <li>Filter universe: <b className="text-foreground">AUM &gt; ₹10,000 Cr</b> AND <b className="text-foreground">expense &lt; 0.5%</b>, exclude sectoral/thematic.</li>
+              <li>Sort by <b className="text-foreground">3Y returns</b> (descending).</li>
+              <li>Take top <b className="text-foreground">40</b>.</li>
+            </ol>
+          )}
+          {isAnonymousAll && (
+            <p className="mt-1.5 text-muted-foreground">No goal yet? Set one to see funds tailored to your horizon, risk and target — most users see 30% better matches after that.</p>
+          )}
+        </div>
       )}
 
+      {/* Goal context strip */}
+      {activeGoal && (
+        <div className="rounded-lg bg-muted/40 border border-border p-2.5 text-[11px] flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-semibold text-foreground">{activeGoal.name}</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">₹{(activeGoal.targetAmount / 100000).toFixed(1)}L by {activeGoal.targetDate}</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">₹{activeGoal.monthlySIP.toLocaleString()}/mo</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">{activeGoal.riskLevel}</span>
+            {cagr != null && (
+              <>
+                <span className="text-muted-foreground">·</span>
+                <span className={cn('font-semibold', cagr > 14 ? 'text-amber-600' : 'text-sip-success')}>
+                  ~{cagr.toFixed(0)}% CAGR needed
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Stretch warning */}
+      {activeGoal && cagr != null && cagr > 14 && activeGoal.riskLevel === 'Conservative' && (
+        <div className="rounded-lg bg-amber-50 border border-amber-200 p-2.5 text-[11px] flex items-start gap-2">
+          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+          <span className="text-amber-900">This goal needs ~{cagr.toFixed(0)}% CAGR but your risk is set to Conservative. Consider raising risk, increasing the SIP, or extending the timeline.</span>
+        </div>
+      )}
+
+      {/* Fund cards */}
       <div className={cn('grid gap-2', compact ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2')}>
         {visible.map(f => (
           <Card key={f.code} className="border-sip-border hover:border-sip-brand/40 transition-colors">
@@ -125,7 +236,7 @@ export function SmartShortlist({ context, onInvest, onCompare, compact }: SmartS
               )}
 
               <Button size="sm" className="w-full h-7 text-xs bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={() => onInvest?.(f)}>
-                Start SIP
+                Invest
               </Button>
             </CardContent>
           </Card>
