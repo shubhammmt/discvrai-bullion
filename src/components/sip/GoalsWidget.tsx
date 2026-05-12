@@ -7,33 +7,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Target, Plus, TrendingUp, Heart, GraduationCap, Home, Sparkles, ArrowRight, Edit, Trash2, X } from 'lucide-react';
+import { Target, Plus, TrendingUp, Heart, GraduationCap, Home, Sparkles, ArrowRight, Edit, Trash2, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { SIP_CATEGORY_MAP } from '@/config/sipBrandConfig';
-
-type RiskLevel = 'Conservative' | 'Moderate' | 'Aggressive' | 'Very Aggressive';
+import { useGoals, goalsStore, Goal as StoreGoal, RiskLevel } from '@/lib/goalsStore';
+import { SmartShortlist } from '@/components/conversion/SmartShortlist';
+import type { ShortlistFund } from '@/components/conversion/types';
+import type { FundPurchasePrefill } from './FundPurchaseWidget';
 
 // Profile-level default risk (in real app, comes from user profile API)
 const PROFILE_DEFAULT_RISK: RiskLevel = 'Moderate';
 
-interface GoalData {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  monthlySIP: number;
-  targetDate: string;
-  category: string;
-  riskLevel: RiskLevel;
-  useProfileRisk: boolean;
-}
-
-const SAMPLE_GOALS: GoalData[] = [
-  { id: '1', name: 'Marriage Celebration', targetAmount: 10000000, currentAmount: 280000, monthlySIP: 29494, targetDate: 'Dec 2028', category: 'Wedding', riskLevel: 'Moderate', useProfileRisk: true },
-  { id: '2', name: "Child's Education", targetAmount: 5000000, currentAmount: 120000, monthlySIP: 15000, targetDate: 'Jun 2032', category: 'Education', riskLevel: 'Aggressive', useProfileRisk: false },
-  { id: '3', name: 'Emergency Fund', targetAmount: 500000, currentAmount: 320000, monthlySIP: 5000, targetDate: 'Dec 2026', category: 'Emergency', riskLevel: 'Conservative', useProfileRisk: false },
-];
+type GoalData = StoreGoal;
 
 const categoryIcons: Record<string, typeof Target> = {
   Wedding: Heart,
