@@ -33,8 +33,7 @@ import { Button } from '@/components/ui/button';
 import { MOCK_SIPS, MutualFund } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ConversionContextHeader, SmartShortlistSection } from '@/components/conversion/screenerSections';
-import { CuratedShelves } from '@/components/conversion';
+import { DiscoverTab } from '@/components/sip/DiscoverTab';
 
 const SIPManagement = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -95,8 +94,7 @@ const SIPManagement = () => {
   const allTabs = [
     { value: 'home', icon: Home, label: 'Home', always: true },
     { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
-    { value: 'buy', icon: ShoppingCart, label: 'Invest', always: true },
-    { value: 'screener', icon: Search, label: 'Screener', always: true },
+    { value: 'screener', icon: Search, label: 'Discover', always: true },
     { value: 'transactions', icon: Receipt, label: 'Transactions', requiresLogin: true },
     { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
     { value: 'statements', icon: FileText, label: 'Statements', requiresLogin: true },
@@ -230,7 +228,7 @@ const SIPManagement = () => {
           )}
           <div className="flex-1">
             <h1 className="text-lg font-bold text-foreground">
-              {visibleTabs.find(t => t.value === activeTab)?.label || 'Home'}
+              {visibleTabs.find(t => t.value === activeTab)?.label || (activeTab === 'buy' ? 'Invest' : 'Home')}
             </h1>
           </div>
           {isLoggedIn && (
@@ -269,52 +267,17 @@ const SIPManagement = () => {
           {/* INVEST TAB */}
           {activeTab === 'buy' && <FundPurchaseWidget prefill={purchasePrefill} />}
 
-          {/* SCREENER TAB */}
+          {/* DISCOVER TAB — unified For You / Categories / Screener */}
           {activeTab === 'screener' && (
-            <div className="space-y-4">
-              {goalContext && (
-                <Card className="border-sip-brand/30 bg-sip-brand/5">
-                  <CardContent className="p-3 flex items-center justify-between gap-2">
-                    <div className="text-xs">
-                      <span className="font-semibold text-foreground">Showing funds for: </span>
-                      <span className="text-sip-brand font-medium">{goalContext.goal}</span>
-                      <span className="text-muted-foreground"> · {goalContext.risk} risk · {goalContext.horizon}</span>
-                      {goalContext.amount ? <span className="text-muted-foreground"> · ₹{goalContext.amount.toLocaleString()}/mo</span> : null}
-                    </div>
-                    <Button size="sm" variant="ghost" className="h-6 text-[11px]" onClick={() => setGoalContext(undefined)}>Clear</Button>
-                  </CardContent>
-                </Card>
-              )}
-              <ConversionContextHeader context={goalContext} />
-              <CuratedShelves
-                title="Browse by Category"
-                onInvest={() => setActiveTab('buy')}
-                onSeeAll={() => {/* stays on screener */}}
-              />
-              <SmartShortlistSection
-                context={goalContext}
-                onInvest={() => {
-                  if (goalContext?.amount) setPurchasePrefill({ amount: goalContext.amount, mode: 'sip', goalTag: goalContext.goal });
-                  setActiveTab('buy');
-                }}
-              />
-              <Card>
-                <CardContent className="p-4">
-                  <SmartFundSearch
-                    standalone
-                    onSelectFund={(fund, investMode) => {
-                      setPurchasePrefill({
-                        fundCode: fund.code,
-                        mode: investMode === 'onetime' ? 'onetime' : 'sip',
-                        amount: goalContext?.amount,
-                        goalTag: goalContext?.goal,
-                      });
-                      setActiveTab('buy');
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            </div>
+            <DiscoverTab
+              context={goalContext}
+              onClearContext={() => setGoalContext(undefined)}
+              onInvest={(prefill) => {
+                if (prefill) setPurchasePrefill(prefill);
+                else if (goalContext?.amount) setPurchasePrefill({ amount: goalContext.amount, mode: 'sip', goalTag: goalContext.goal });
+                setActiveTab('buy');
+              }}
+            />
           )}
 
           {/* TRANSACTIONS */}
