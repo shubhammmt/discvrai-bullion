@@ -120,7 +120,7 @@ export function DiscoverTab({ context, onClearContext, onInvest, compact, defaul
                 <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
                   <span className="text-[11px] text-muted-foreground">Want to filter by your own criteria?</span>
                   <Button size="sm" variant="ghost" className="h-7 text-xs text-sip-brand" onClick={() => switchLens('screener')}>
-                    Open Screener <ChevronRight className="w-3 h-3 ml-0.5" />
+                    Open Search <ChevronRight className="w-3 h-3 ml-0.5" />
                   </Button>
                 </div>
               )}
