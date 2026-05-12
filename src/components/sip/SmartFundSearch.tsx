@@ -27,7 +27,9 @@ import { Plus, Check, GitCompare } from 'lucide-react';
 function toShortlistFund(f: MutualFund): ShortlistFund {
   return {
     code: f.code, name: f.name, category: f.category, amc: f.amc,
-    returns3Y: f.returns3Y, expenseRatio: f.expenseRatio, riskLevel: f.riskLevel,
+    returns1Y: f.returns1Y, returns3Y: f.returns3Y, returns5Y: f.returns5Y,
+    expenseRatio: f.expenseRatio, riskLevel: f.riskLevel,
+    rating: f.rating, aum: f.aum,
     reason: `3Y ${f.returns3Y}% • Expense ${f.expenseRatio}% • ${f.riskLevel} risk`,
     reasonTags: [
       f.expenseRatio < 0.7 ? 'Low expense' : null,

@@ -94,7 +94,7 @@ const SIPManagement = () => {
   const allTabs = [
     { value: 'home', icon: Home, label: 'Home', always: true },
     { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
-    { value: 'screener', icon: Search, label: 'Discover', always: true },
+    { value: 'screener', icon: Search, label: 'Explore', always: true },
     { value: 'transactions', icon: Receipt, label: 'Transactions', requiresLogin: true },
     { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
     { value: 'statements', icon: FileText, label: 'Statements', requiresLogin: true },

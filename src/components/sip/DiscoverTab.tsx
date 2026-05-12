@@ -24,9 +24,9 @@ interface Props {
 }
 
 const LENSES: { id: DiscoverLens; label: string; short: string; icon: typeof Sparkles; sub: string }[] = [
-  { id: 'foryou',     label: 'For You',    short: 'For You',  icon: Sparkles,         sub: 'Shortlist matched to your context' },
-  { id: 'categories', label: 'Categories', short: 'Browse',   icon: LayoutGrid,       sub: 'Curated shelves by intent' },
-  { id: 'screener',   label: 'Screener',   short: 'Filter',   icon: SlidersHorizontal, sub: 'Search & filter all funds' },
+  { id: 'foryou',     label: 'For You',    short: 'For You',  icon: Sparkles,         sub: 'Personalised shortlist ranked for your goal, risk and horizon' },
+  { id: 'categories', label: 'Categories', short: 'Browse',   icon: LayoutGrid,       sub: 'Explore funds by intent — sort by 1Y / 3Y / 5Y returns' },
+  { id: 'screener',   label: 'Search',     short: 'Search',   icon: SlidersHorizontal, sub: 'Search by name or filter the full universe' },
 ];
 
 export function DiscoverTab({ context, onClearContext, onInvest, compact, defaultLens = 'foryou' }: Props) {
@@ -120,7 +120,7 @@ export function DiscoverTab({ context, onClearContext, onInvest, compact, defaul
                 <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
                   <span className="text-[11px] text-muted-foreground">Want to filter by your own criteria?</span>
                   <Button size="sm" variant="ghost" className="h-7 text-xs text-sip-brand" onClick={() => switchLens('screener')}>
-                    Open Screener <ChevronRight className="w-3 h-3 ml-0.5" />
+                    Open Search <ChevronRight className="w-3 h-3 ml-0.5" />
                   </Button>
                 </div>
               )}
