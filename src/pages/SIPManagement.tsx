@@ -300,6 +300,7 @@ const SIPManagement = () => {
             <GoalsWidget
               onCreateGoal={() => {/* handled inside widget */}}
               onViewGoals={() => {}}
+              onInvest={(prefill) => { setPurchasePrefill(prefill); setActiveTab('buy'); }}
               onGoalCreated={(ctx) => {
                 // Derive years from "Mon YYYY"
                 const m = ctx.targetDate.match(/(\d{4})/);
