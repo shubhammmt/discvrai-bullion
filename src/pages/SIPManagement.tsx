@@ -272,6 +272,7 @@ const SIPManagement = () => {
             <DiscoverTab
               context={goalContext}
               onClearContext={() => setGoalContext(undefined)}
+              onAddGoal={() => setActiveTab('goals')}
               onInvest={(prefill) => {
                 if (prefill) setPurchasePrefill(prefill);
                 else if (goalContext?.amount) setPurchasePrefill({ amount: goalContext.amount, mode: 'sip', goalTag: goalContext.goal });
