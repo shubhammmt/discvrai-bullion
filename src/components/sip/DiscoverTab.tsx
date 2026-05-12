@@ -18,6 +18,8 @@ interface Props {
   context?: ConversionContext;
   onClearContext?: () => void;
   onInvest: (prefill?: FundPurchasePrefill) => void;
+  /** Called when user taps "+ Add goal" pill in Smart Shortlist */
+  onAddGoal?: () => void;
   /** compact mode for embedding in chat / home — hides chrome */
   compact?: boolean;
   defaultLens?: DiscoverLens;
