@@ -174,12 +174,30 @@ export function GoalsWidget({ compact = false, onCreateGoal, onViewGoals, onGoal
                     <span>by {goal.targetDate}</span>
                   </div>
                   <Progress value={progress} className="h-1.5" />
-                  <div className="flex items-center gap-1.5 pt-1">
+                  <div className="flex items-center justify-between gap-1.5 pt-1">
                     <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4">
                       Risk: {goal.riskLevel}{goal.useProfileRisk && ' · profile'}
                     </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 text-[10px] text-sip-brand hover:bg-sip-brand/10"
+                      onClick={() => setOpenShortlist(openShortlist === goal.id ? null : goal.id)}
+                    >
+                      {openShortlist === goal.id ? 'Hide funds' : 'Recommended funds'}
+                      <ChevronDown className={cn('w-3 h-3 ml-1 transition-transform', openShortlist === goal.id && 'rotate-180')} />
+                    </Button>
                   </div>
                 </div>
+                {openShortlist === goal.id && (
+                  <div className="pt-2 mt-2 border-t border-border">
+                    <SmartShortlist
+                      lockedGoalId={goal.id}
+                      compact
+                      onInvest={handleFundInvest(goal)}
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
