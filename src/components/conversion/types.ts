@@ -12,10 +12,14 @@ export interface ShortlistFund {
   category: string;
   reason: string; // "Why this fund" — 1 sentence
   reasonTags: string[]; // e.g. ["Low expense", "Top quartile 3Y"]
+  returns1Y: number;
   returns3Y: number;
+  returns5Y: number;
   expenseRatio: number;
   riskLevel: string;
   amc: string;
+  rating: number;
+  aum: number;
 }
 
 export interface ActionCardItem {
