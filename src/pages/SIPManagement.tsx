@@ -228,7 +228,7 @@ const SIPManagement = () => {
           )}
           <div className="flex-1">
             <h1 className="text-lg font-bold text-foreground">
-              {visibleTabs.find(t => t.value === activeTab)?.label || 'Home'}
+              {visibleTabs.find(t => t.value === activeTab)?.label || (activeTab === 'buy' ? 'Invest' : 'Home')}
             </h1>
           </div>
           {isLoggedIn && (
