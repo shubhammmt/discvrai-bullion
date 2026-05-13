@@ -624,7 +624,8 @@ const AppContent = () => {
                       <Route path="retirement" element={<BajajCapitalRetirement />} />
                        <Route path="architecture" element={<BajajCapitalArchitecture />} />
                      </Route>
-                     <Route path="/jaikhurana" element={<JaiKhuranaHub />} />
+                      <Route path="/deck/one-plant-triangulation" element={<OnePlantTriangulationDeck />} />
+                      <Route path="/jaikhurana" element={<JaiKhuranaHub />} />
                      <Route path="/pitch/jaikhurana" element={<JaiKhuranaDeck />} />
                      <Route path="/jaikhurana" element={<JaiKhuranaLayout />}>
                        <Route path="exec" element={<JaiKhuranaExec />} />
