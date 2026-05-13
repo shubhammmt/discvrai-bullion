@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 /**
  * One-plant triangulation — mathematical validation (proxy run)
  * Management-facing deck. Light enterprise theme. Print-friendly.
+ * Part A (1–6) = CXO storyline. Part B (7+) = Appendix / Deep dive.
  */
 
 const ACCENT = '#0F766E'; // restrained teal
@@ -12,24 +13,33 @@ const BG = '#FAFAF7';
 const CARD = '#FFFFFF';
 const BORDER = '#E2E8F0';
 
-const SLIDES = [
-  { id: 's1', label: '1 · Cover' },
-  { id: 's2', label: '2 · Why this exists' },
-  { id: 's3', label: '3 · Built vs not built' },
-  { id: 's4', label: '4 · Data spine' },
-  { id: 's5', label: '5 · Governance' },
-  { id: 's6', label: '6 · Math flow' },
-  { id: 's7', label: '7 · Config constants' },
-  { id: 's8', label: '8 · Adoption probability' },
-  { id: 's9', label: '9 · Vehicle fit' },
-  { id: 's10', label: '10 · summary.json' },
-  { id: 's11', label: '11 · Top lanes' },
-  { id: 's12', label: '12 · Read the headline' },
-  { id: 's13', label: '13 · Possibility space' },
-  { id: 's14', label: '14 · Roadmap' },
-  { id: 's15', label: '15 · Ask / decision' },
-  { id: 's16', label: '16 · Glossary' },
+type SlideMeta = { id: string; label: string; part: 'A' | 'B' };
+
+const SLIDES: SlideMeta[] = [
+  { id: 's1',  label: '1 · Cover',                       part: 'A' },
+  { id: 's2',  label: '2 · The problem',                 part: 'A' },
+  { id: 's3',  label: '3 · Our approach',                part: 'A' },
+  { id: 's4',  label: '4 · What we achieved & proved',   part: 'A' },
+  { id: 's5',  label: '5 · Outcome at a glance',         part: 'A' },
+  { id: 's6',  label: '6 · How this deck is laid out',   part: 'A' },
+  { id: 's7',  label: '7 · Bridge: story → spec',        part: 'B' },
+  { id: 's8',  label: '8 · Built vs not built',          part: 'B' },
+  { id: 's9',  label: '9 · Data spine',                  part: 'B' },
+  { id: 's10', label: '10 · Governance',                 part: 'B' },
+  { id: 's11', label: '11 · Math flow',                  part: 'B' },
+  { id: 's12', label: '12 · Config constants',           part: 'B' },
+  { id: 's13', label: '13 · Adoption probability',       part: 'B' },
+  { id: 's14', label: '14 · Vehicle fit',                part: 'B' },
+  { id: 's15', label: '15 · summary.json',               part: 'B' },
+  { id: 's16', label: '16 · Top lanes',                  part: 'B' },
+  { id: 's17', label: '17 · Read the headline',          part: 'B' },
+  { id: 's18', label: '18 · Possibility space',          part: 'B' },
+  { id: 's19', label: '19 · Roadmap to real data',       part: 'B' },
+  { id: 's20', label: '20 · Ask / decision',             part: 'B' },
+  { id: 's21', label: '21 · Glossary',                   part: 'B' },
 ];
+
+const TOTAL = SLIDES.length;
 
 const Footer: React.FC<{ n: number }> = ({ n }) => (
   <div
@@ -43,16 +53,13 @@ const Footer: React.FC<{ n: number }> = ({ n }) => (
       dispatch, transporter contracts, or safety / compliance decisions.
     </span>
     <span className="font-mono whitespace-nowrap" style={{ color: '#94A3B8' }}>
-      {String(n).padStart(2, '0')} / 16
+      {String(n).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}
     </span>
   </div>
 );
 
-const Slide: React.FC<{ id: string; n: number; children: React.ReactNode; dark?: boolean }> = ({
-  id,
-  n,
-  children,
-  dark,
+const Slide: React.FC<{ id: string; n: number; children: React.ReactNode; dark?: boolean; part?: 'A' | 'B' }> = ({
+  id, n, children, dark, part,
 }) => (
   <section
     id={id}
@@ -67,6 +74,18 @@ const Slide: React.FC<{ id: string; n: number; children: React.ReactNode; dark?:
     }}
   >
     <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: ACCENT }} />
+    {part && (
+      <div
+        className="absolute top-3 right-4 text-[10px] font-semibold uppercase tracking-[0.18em] px-2 py-0.5 rounded"
+        style={{
+          color: part === 'A' ? ACCENT : '#64748B',
+          background: part === 'A' ? '#F0FDFA' : '#F1F5F9',
+          border: `1px solid ${part === 'A' ? '#99F6E4' : BORDER}`,
+        }}
+      >
+        {part === 'A' ? 'Part A · Management' : 'Part B · Deep dive'}
+      </div>
+    )}
     <div className="px-12 pt-10 pb-20">{children}</div>
     <Footer n={n} />
   </section>
@@ -75,10 +94,7 @@ const Slide: React.FC<{ id: string; n: number; children: React.ReactNode; dark?:
 const SlideTitle: React.FC<{ kicker?: string; title: string; sub?: string }> = ({ kicker, title, sub }) => (
   <header className="mb-6">
     {kicker && (
-      <div
-        className="text-[11px] font-semibold uppercase tracking-[0.18em] mb-2"
-        style={{ color: ACCENT }}
-      >
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] mb-2" style={{ color: ACCENT }}>
         {kicker}
       </div>
     )}
@@ -90,10 +106,7 @@ const SlideTitle: React.FC<{ kicker?: string; title: string; sub?: string }> = (
 );
 
 const Callout: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
-  <div
-    className="rounded-md border-l-4 p-4 text-sm"
-    style={{ borderColor: ACCENT, background: '#F0FDFA', color: SLATE }}
-  >
+  <div className="rounded-md border-l-4 p-4 text-sm mt-5" style={{ borderColor: ACCENT, background: '#F0FDFA', color: SLATE }}>
     <div className="text-[10.5px] font-semibold uppercase tracking-widest mb-1" style={{ color: ACCENT }}>
       {label}
     </div>
@@ -120,32 +133,14 @@ const SUMMARY_JSON = {
   pair_count_after_outbound_radius_filter: 190,
   pair_count_match_score_ge_threshold: 13,
   top_row: {
-    match_id: 'M0001',
-    plant_id: 'DADRI-GR-001',
-    supplier_id: 'SUP-FA-001',
-    material: 'Fly ash',
-    supplier_return_city: 'Dadri',
-    destination_id: 'GZB',
-    destination_city: 'Ghaziabad',
-    plant_to_dest_km: 16.2,
-    return_deviation_km: 15.3,
-    within_triangulation_delta: true,
-    supplier_monthly_inbound_trips: 125.0,
-    destination_monthly_dispatch_trips: 125.0,
-    matched_trips_cap: 125.0,
-    vehicle_fit_score: 48.0,
-    vehicle_fit_band: 'Low',
-    transporter_fit_prob: 0.9,
-    transporter_score: 90.0,
-    proximity_score: 69.3,
-    volume_score: 100.0,
-    commercial_score: 84.7,
-    match_score: 78.9,
-    gross_empty_return_index: 60.0,
-    detour_cost_index: 9.2,
-    net_saving_index_per_trip: 23.8,
-    expected_monthly_saving_index: 1606.5,
-    actionability: 'Medium',
+    match_id: 'M0001', plant_id: 'DADRI-GR-001', supplier_id: 'SUP-FA-001', material: 'Fly ash',
+    supplier_return_city: 'Dadri', destination_id: 'GZB', destination_city: 'Ghaziabad',
+    plant_to_dest_km: 16.2, return_deviation_km: 15.3, within_triangulation_delta: true,
+    supplier_monthly_inbound_trips: 125.0, destination_monthly_dispatch_trips: 125.0, matched_trips_cap: 125.0,
+    vehicle_fit_score: 48.0, vehicle_fit_band: 'Low', transporter_fit_prob: 0.9, transporter_score: 90.0,
+    proximity_score: 69.3, volume_score: 100.0, commercial_score: 84.7, match_score: 78.9,
+    gross_empty_return_index: 60.0, detour_cost_index: 9.2, net_saving_index_per_trip: 23.8,
+    expected_monthly_saving_index: 1606.5, actionability: 'Medium',
   },
 };
 
@@ -190,7 +185,7 @@ const CONFIG_ROWS: { k: string; v: string; what: string; mgmt: string }[] = [
   { k: 'commercial.gross_empty_return_index', v: '60', what: 'Index cost of empty return / reposition before detour.', mgmt: '"How painful empty return is in index space."' },
   { k: 'commercial.avoidable_share_of_empty_return', v: '0.55', what: 'Fraction of gross empty index treated as recoverable before detour.', mgmt: '"Conservative share triangulation can touch."' },
   { k: 'commercial.detour_index_per_km', v: '0.6', what: 'Index penalty per km of return deviation.', mgmt: '"Penalise deliveries off the natural return vector."' },
-  { k: 'commercial.adoption_probability', v: '0.6', what: 'Multiplier on EXPECTED index — see slide 8.', mgmt: '"Reality haircut on execution — not geography alone."' },
+  { k: 'commercial.adoption_probability', v: '0.6', what: 'Multiplier on EXPECTED index — see slide 13.', mgmt: '"Reality haircut on execution — not geography alone."' },
   { k: 'commercial.minimum_match_score_for_headline', v: '65', what: 'Only pairs with match score ≥ this add to headline sum.', mgmt: '"Quality bar for counting a lane in the headline KPI."' },
   { k: 'scoring.weights', v: 'prox 0.22 · vol 0.22 · comm 0.22 · veh 0.18 · trans 0.16', what: 'Linear blend into match score (sum 1.0).', mgmt: 'How RANKING trades off geometry, volume, kit, people factors.' },
   { k: 'vehicle_fit.default_score', v: '50', what: 'Score used when inbound vehicle label not in table.', mgmt: '"Unknown equipment does not get a free pass."' },
@@ -198,7 +193,6 @@ const CONFIG_ROWS: { k: string; v: string; what: string; mgmt: string }[] = [
 ];
 
 // ---- Component -------------------------------------------------------------
-
 const fmt = (v: any) => (typeof v === 'number' ? v.toLocaleString('en-IN') : String(v));
 
 const OnePlantTriangulationDeck: React.FC = () => {
@@ -218,13 +212,13 @@ const OnePlantTriangulationDeck: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [active]);
 
+  const partA = SLIDES.filter(s => s.part === 'A');
+  const partB = SLIDES.filter(s => s.part === 'B');
+
   return (
     <div style={{ background: BG, minHeight: '100vh', color: SLATE, fontFamily: 'ui-sans-serif, system-ui' }}>
-      {/* Sticky mini-nav */}
-      <nav
-        className="sticky top-0 z-20 print:hidden border-b backdrop-blur"
-        style={{ background: 'rgba(250,250,247,0.92)', borderColor: BORDER }}
-      >
+      {/* Sticky mini-nav grouped by Part A | Part B */}
+      <nav className="sticky top-0 z-20 print:hidden border-b backdrop-blur" style={{ background: 'rgba(250,250,247,0.92)', borderColor: BORDER }}>
         <div className="max-w-[1280px] mx-auto px-6 py-2.5 flex items-center gap-3">
           <div className="text-[12px] font-semibold tracking-tight whitespace-nowrap" style={{ color: SLATE }}>
             One-plant triangulation
@@ -233,33 +227,44 @@ const OnePlantTriangulationDeck: React.FC = () => {
             </span>
           </div>
           <div className="flex-1 overflow-x-auto">
-            <div className="flex gap-1">
-              {SLIDES.map((s) => (
-                <a
-                  key={s.id}
-                  href={`#${s.id}`}
-                  className="text-[11px] px-2 py-1 rounded whitespace-nowrap transition-colors"
-                  style={{
-                    color: active === s.id ? '#fff' : MUTED,
-                    background: active === s.id ? ACCENT : 'transparent',
-                  }}
-                >
-                  {s.label}
-                </a>
-              ))}
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] px-1.5" style={{ color: ACCENT }}>
+                Part A · Mgmt
+              </span>
+              <div className="flex gap-1">
+                {partA.map((s) => (
+                  <a key={s.id} href={`#${s.id}`}
+                    className="text-[11px] px-2 py-1 rounded whitespace-nowrap transition-colors"
+                    style={{ color: active === s.id ? '#fff' : MUTED, background: active === s.id ? ACCENT : 'transparent' }}>
+                    {s.label}
+                  </a>
+                ))}
+              </div>
+              <span className="mx-2 text-[10px]" style={{ color: '#CBD5E1' }}>│</span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] px-1.5" style={{ color: '#64748B' }}>
+                Part B · Deep dive
+              </span>
+              <div className="flex gap-1">
+                {partB.map((s) => (
+                  <a key={s.id} href={`#${s.id}`}
+                    className="text-[11px] px-2 py-1 rounded whitespace-nowrap transition-colors"
+                    style={{ color: active === s.id ? '#fff' : MUTED, background: active === s.id ? ACCENT : 'transparent' }}>
+                    {s.label}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-          <button
-            onClick={() => window.print()}
+          <button onClick={() => window.print()}
             className="text-[11px] font-medium px-3 py-1.5 rounded border whitespace-nowrap"
-            style={{ borderColor: ACCENT, color: ACCENT }}
-          >
+            style={{ borderColor: ACCENT, color: ACCENT }}>
             Print / PDF
           </button>
         </div>
       </nav>
 
       <main className="max-w-[1280px] mx-auto px-4 py-8">
+
         {/* SLIDE 1 — Cover */}
         <Slide id="s1" n={1} dark>
           <div className="flex flex-col h-[78vh] justify-between">
@@ -268,7 +273,7 @@ const OnePlantTriangulationDeck: React.FC = () => {
                 Management briefing · Cement & Logistics leadership
               </div>
               <div className="mt-1 text-[12px]" style={{ color: '#94A3B8' }}>
-                Method before scale · proxy run · transparent scoring
+                Method before scale · proxy run · transparent scoring · Part A for CXOs, Part B for working teams
               </div>
             </div>
             <div>
@@ -296,40 +301,170 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 2 — Why this exists */}
-        <Slide id="s2" n={2}>
-          <SlideTitle kicker="Why this exists" title="The empty return is the largest unmanaged cost we can model first." sub="One plant in scope. Method before scale. We rank and size lanes — we do not optimise a single live truck." />
-          <div className="grid grid-cols-3 gap-5">
-            <div className="rounded-md border p-5" style={{ borderColor: BORDER }}>
-              <div className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: ACCENT }}>Problem</div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: SLATE }}>
-                Inbound raw-material trucks return empty. Outbound cement dispatch is planned in a different system,
-                with different commercials. The natural triangulation between them is unmeasured today.
-              </p>
-            </div>
-            <div className="rounded-md border p-5" style={{ borderColor: BORDER }}>
-              <div className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: ACCENT }}>Scope of this run</div>
-              <p className="mt-2 text-sm leading-relaxed">
-                One plant hub. All inbound supplier clusters × all outbound dispatch cities. Deterministic engine,
-                published config, frozen output set.
-              </p>
-            </div>
-            <div className="rounded-md border p-5" style={{ borderColor: BORDER }}>
-              <div className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: ACCENT }}>Why now</div>
-              <p className="mt-2 text-sm leading-relaxed">
-                We need leadership alignment on the <strong>method</strong> and the <strong>data contract</strong>
-                {' '}before we touch ERP / TMS integration or claim a rupee number externally.
-              </p>
-            </div>
-          </div>
-          <Callout label="Honest framing">
-            This is a <strong>kick-starter</strong> analysis, run on research-led synthetic inputs. It exists to align
-            COO / Head of Logistics / Cement leadership on the recipe — not to declare a saving in INR.
+        {/* SLIDE 2 — The problem (plain English) */}
+        <Slide id="s2" n={2} part="A">
+          <SlideTitle kicker="Part A · The problem"
+            title="Empty return legs cost money. The combination space is too large to argue in spreadsheets."
+            sub="Plain English. No equations. No config." />
+          <ul className="space-y-3 text-[15px] leading-relaxed max-w-4xl">
+            <li className="flex gap-3"><span style={{ color: ACCENT }}>•</span><span>
+              Raw materials arrive at the plant by truck; often those assets <strong>do not go straight to the next paid load</strong> —
+              empty or repositioning legs cost money and time.</span></li>
+            <li className="flex gap-3"><span style={{ color: ACCENT }}>•</span><span>
+              The plant also <strong>ships cement out</strong> to many cities — a separate outbound programme run on different commercials.</span></li>
+            <li className="flex gap-3"><span style={{ color: ACCENT }}>•</span><span>
+              The opportunity: if a delivery city sits near where a truck would <strong>naturally return</strong> after inbound material,
+              we might <strong>share or reduce</strong> that empty leg — but the pair-space is huge and easy to argue without discipline.</span></li>
+            <li className="flex gap-3"><span style={{ color: ACCENT }}>•</span><span>
+              Today we <strong>do not</strong> have full operational truth from every plant in one system — we still need a
+              <strong> credible method</strong> to show where to focus first.</span></li>
+          </ul>
+          <Callout label="What this slide is NOT">
+            Not a P&L claim. Not a TMS replacement. Not multi-plant. One plant, one method, debated openly.
           </Callout>
         </Slide>
 
-        {/* SLIDE 3 — Built vs not built */}
-        <Slide id="s3" n={3}>
+        {/* SLIDE 3 — Our approach (plain English) */}
+        <Slide id="s3" n={3} part="A">
+          <SlideTitle kicker="Part A · Our approach"
+            title="One plant. Clear distance rules. A transparent score. A debatable shortlist."
+            sub="No equations on this page — just the recipe in three steps." />
+          <div className="grid grid-cols-3 gap-5">
+            {[
+              ['1 · Pick one hub', 'We took ONE plant and treated it as the hub. Every supplier cluster and every dispatch city is enumerated against it.'],
+              ['2 · Apply clear rules', 'We combined where suppliers effectively RETURN from with where we DISPATCH cement to, using documented distance filters and a 0–100 transparent score — not live GPS, not a black box.'],
+              ['3 · Output a ranked list', 'We produce a TABLE OF CANDIDATE LANES (supplier × destination city) that leadership and ops can debate and pilot. The tool prioritises attention; it does not auto-run trucks.'],
+            ].map(([k, v]) => (
+              <div key={k} className="rounded-md border p-5" style={{ borderColor: BORDER }}>
+                <div className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: ACCENT }}>{k}</div>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: SLATE }}>{v}</p>
+              </div>
+            ))}
+          </div>
+          <Callout label="Why deterministic">
+            Same inputs and same config → same ranked table and same headline roll-up. Auditable, reproducible, easy to challenge.
+          </Callout>
+        </Slide>
+
+        {/* SLIDE 4 — What we achieved & proved */}
+        <Slide id="s4" n={4} part="A">
+          <SlideTitle kicker="Part A · What we achieved & proved"
+            title="The method holds — even while enterprise data integration catches up." />
+          <div className="grid grid-cols-3 gap-5">
+            {[
+              ['Built', 'A documented mathematical pipeline (inputs → filters → scores → savings INDEX) that anyone can re-run and audit. Same inputs, same answers.'],
+              ['Ran', 'End-to-end on a realistic proxy for one grinding-style plant — REAL latitudes and longitudes for plant, supplier clusters, and cities (research-led demo data, not a full ERP extract).'],
+              ['Proved', 'We can already produce a defensible SHORTLIST of where triangulation is worth deeper operational work BEFORE we finish enterprise data integration. The recipe is robust to data maturity.'],
+            ].map(([k, v]) => (
+              <div key={k} className="rounded-md border p-5" style={{ borderColor: ACCENT, background: '#F0FDFA' }}>
+                <div className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: ACCENT }}>{k}</div>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: SLATE }}>{v}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 rounded-md border p-5" style={{ borderColor: BORDER, background: '#F8FAFC' }}>
+            <div className="text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ color: MUTED }}>So what?</div>
+            <p className="text-sm" style={{ color: SLATE }}>
+              We have a <strong>repeatable plant-by-plant pattern</strong>. As each real site is onboarded, the same engine
+              consumes its governed coordinates and trip counts and produces a comparable ranked table — no rebuild required.
+            </p>
+          </div>
+        </Slide>
+
+        {/* SLIDE 5 — Outcome at a glance */}
+        <Slide id="s5" n={5} part="A">
+          <SlideTitle kicker="Part A · Outcome at a glance"
+            title="One run. Three numbers. One hero lane to remember."
+            sub="All values below are INDEX POINTS under published assumptions — not Indian Rupees." />
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <Stat value="190" label="Feasible supplier × destination combinations" note="after the 500 km outbound reach filter" />
+            <Stat value="13" label="Combinations above the headline quality bar" note="match_score ≥ 65" />
+            <Stat value="12,244.8" label="Combined opportunity INDEX per month" note="sum across the 13 qualifying lanes — NOT ₹" />
+          </div>
+          <div className="rounded-md border p-5 mb-4" style={{ borderColor: ACCENT, background: '#F0FDFA' }}>
+            <div className="text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ color: ACCENT }}>
+              One concrete hero lane to remember
+            </div>
+            <p className="text-[15px] leading-relaxed" style={{ color: SLATE }}>
+              <strong>Fly ash · Dadri → Ghaziabad.</strong> 125 monthly trips align on both inbound and outbound sides;
+              the delivery city sits ~15 km from the natural return geography. After the detour penalty, expected monthly
+              opportunity index is <strong>1,606.5</strong> with a match score of <strong>78.9</strong> — the cleanest lane in this run.
+            </p>
+          </div>
+          <p className="text-[13px]" style={{ color: MUTED }}>
+            What this tells us: <strong>where to pilot</strong> and <strong>what data to tighten next</strong> — not a final P&L.
+          </p>
+        </Slide>
+
+        {/* SLIDE 6 — How this deck is laid out */}
+        <Slide id="s6" n={6} part="A">
+          <SlideTitle kicker="Part A · You are here"
+            title="A roadmap of the remaining pages — so you can decide where to stop reading." />
+          <div className="grid grid-cols-2 gap-5">
+            <div className="rounded-md border p-5" style={{ borderColor: ACCENT, background: '#F0FDFA' }}>
+              <div className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: ACCENT }}>
+                Part A · For executives (slides 1–6)
+              </div>
+              <ul className="text-sm space-y-2" style={{ color: SLATE }}>
+                <li><strong>1</strong> — Title and guardrails.</li>
+                <li><strong>2–5</strong> — The full business story in plain English: problem → approach → what we achieved and proved → outcome numbers.</li>
+                <li><strong>6 · this slide</strong> — Roadmap of what comes next.</li>
+              </ul>
+            </div>
+            <div className="rounded-md border p-5" style={{ borderColor: BORDER }}>
+              <div className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#64748B' }}>
+                Part B · Deep dive (slides 7–21)
+              </div>
+              <ul className="text-sm space-y-1.5" style={{ color: MUTED }}>
+                <li><strong>7–8</strong> — Bridge + what we did NOT claim.</li>
+                <li><strong>9–10</strong> — Where the data comes from today vs at scale.</li>
+                <li><strong>11–12</strong> — How the calculation works + every config dial.</li>
+                <li><strong>13–14</strong> — Why the adoption haircut and vehicle rules exist.</li>
+                <li><strong>15–16</strong> — Raw outputs (summary + ranked table).</li>
+                <li><strong>17–20</strong> — Reading the headline · scaling · roadmap to real data · ask.</li>
+                <li><strong>21</strong> — Glossary for specialists.</li>
+              </ul>
+            </div>
+          </div>
+          <Callout label="Reading guide">
+            Executives can stop after Slide 6. Slides 7+ support working sessions with planning, analytics, and IT.
+          </Callout>
+        </Slide>
+
+        {/* ===== Section divider — Appendix / Deep dive ===== */}
+        <div className="max-w-[1280px] mx-auto my-6 px-4 print:hidden">
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-px" style={{ background: BORDER }} />
+            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] px-3 py-1 rounded border"
+              style={{ color: '#64748B', borderColor: BORDER, background: '#F1F5F9' }}>
+              Appendix · Deep dive begins
+            </div>
+            <div className="flex-1 h-px" style={{ background: BORDER }} />
+          </div>
+        </div>
+
+        {/* SLIDE 7 — Bridge */}
+        <Slide id="s7" n={7} part="B">
+          <SlideTitle kicker="Part B · Bridge"
+            title="From story to specification."
+            sub="Slides 2–5 told the story. Slides 7+ are the spec behind it — for planning, analytics, and IT teams." />
+          <div className="grid grid-cols-2 gap-5">
+            {[
+              ['We are not optimising routes in TMS.', 'No live GPS, no slot management, no rate-card ingestion.'],
+              ['We rank opportunities under published assumptions.', 'Every filter and weight is in one config file — auditable, not buried.'],
+              ['Index ≠ cash.', 'A finance workshop converts index to ₹ once a baseline empty-return cost is agreed per plant.'],
+              ['One plant, deliberately.', 'The same engine onboards subsequent plants with their own governed coordinates.'],
+            ].map(([k, v]) => (
+              <div key={k} className="rounded-md border p-4" style={{ borderColor: BORDER }}>
+                <div className="text-sm font-semibold" style={{ color: SLATE }}>{k}</div>
+                <p className="mt-1 text-sm" style={{ color: MUTED }}>{v}</p>
+              </div>
+            ))}
+          </div>
+        </Slide>
+
+        {/* SLIDE 8 — Built vs not built */}
+        <Slide id="s8" n={8} part="B">
           <SlideTitle kicker="Scope contract" title="What we built — and what we deliberately did not." />
           <div className="grid grid-cols-2 gap-6">
             <div className="rounded-md border p-5" style={{ borderColor: ACCENT, background: '#F0FDFA' }}>
@@ -355,9 +490,11 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 4 — Data spine */}
-        <Slide id="s4" n={4}>
-          <SlideTitle kicker="Data spine" title="Three geographic layers drive every distance and filter." sub="Dadri grinding-unit proxy: real lat/long taken from research-led synthetic seeds. Hardcoded for repeatability — not extracted live from operational masters." />
+        {/* SLIDE 9 — Data spine */}
+        <Slide id="s9" n={9} part="B">
+          <SlideTitle kicker="Data spine"
+            title="Three geographic layers drive every distance and filter."
+            sub="Dadri grinding-unit proxy: real lat/long taken from research-led synthetic seeds. Hardcoded for repeatability — not extracted live from operational masters." />
           <div className="grid grid-cols-2 gap-6">
             <div>
               <table className="w-full text-sm border" style={{ borderColor: BORDER }}>
@@ -401,9 +538,11 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 5 — Governance */}
-        <Slide id="s5" n={5}>
-          <SlideTitle kicker="Governance" title="Hardcoded today — retrieved and governed tomorrow." sub="At scale, every coordinate must come from an approved source with a named data owner." />
+        {/* SLIDE 10 — Governance */}
+        <Slide id="s10" n={10} part="B">
+          <SlideTitle kicker="Governance"
+            title="Hardcoded today — retrieved and governed tomorrow."
+            sub="At scale, every coordinate must come from an approved source with a named data owner." />
           <div className="grid grid-cols-2 gap-5">
             {[
               ['Plant + dispatch nodes', 'Survey / GIS or enterprise plant master.', 'Owner: Logistics IT'],
@@ -424,8 +563,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </Callout>
         </Slide>
 
-        {/* SLIDE 6 — Math flow */}
-        <Slide id="s6" n={6}>
+        {/* SLIDE 11 — Math flow */}
+        <Slide id="s11" n={11} part="B">
           <SlideTitle kicker="Mathematical flow" title="For each (supplier i, destination j) — a deterministic seven-step pipeline." />
           <ol className="grid grid-cols-2 gap-3 text-sm">
             {[
@@ -449,8 +588,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 7 — Config constants */}
-        <Slide id="s7" n={7}>
+        {/* SLIDE 12 — Config constants */}
+        <Slide id="s12" n={12} part="B">
           <SlideTitle kicker="Config constants" title="Every dial in one place — what runs in code, and how to read it." />
           <div className="overflow-x-auto">
             <table className="w-full text-[12.5px] border" style={{ borderColor: BORDER }}>
@@ -476,9 +615,10 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 8 — adoption probability */}
-        <Slide id="s8" n={8}>
-          <SlideTitle kicker="Q & A — slide 8" title="Why commercial.adoption_probability = 0.6?" sub="A documented haircut on the geometric ceiling — risk-adjusted opportunity, not physics optimum." />
+        {/* SLIDE 13 — Adoption probability */}
+        <Slide id="s13" n={13} part="B">
+          <SlideTitle kicker="Q & A" title="Why commercial.adoption_probability = 0.6?"
+            sub="A documented haircut on the geometric ceiling — risk-adjusted opportunity, not physics optimum." />
           <Callout label="Management will ask">
             "Why multiply savings by 0.6? Are we making the number small on purpose?"
           </Callout>
@@ -488,16 +628,15 @@ const OnePlantTriangulationDeck: React.FC = () => {
               <p className="mt-2 text-sm" style={{ color: MUTED }}>
                 Even when geometry and trip counts look perfect, real ops do not convert every theoretical backhaul.
                 Dispatch windows conflict, customers insist on slots, transporters refuse to share asset days,
-                commercial terms are not closed, plant silo / loading rules block sequences. A 100% number would be
-                fiction.
+                commercial terms are not closed, plant silo / loading rules block sequences. A 100% number would be fiction.
               </p>
             </div>
             <div className="rounded-md border p-5" style={{ borderColor: BORDER }}>
               <div className="text-sm font-semibold" style={{ color: SLATE }}>Why in YAML</div>
               <p className="mt-2 text-sm" style={{ color: MUTED }}>
-                The dial is explicit, configurable and auditable — not buried in a hidden spreadsheet cell. In a
-                pilot, replace 0.6 with evidence: fraction of trial lanes actually executed, or workshop estimates
-                from dispatch + sales + transport.
+                The dial is explicit, configurable and auditable — not buried in a hidden spreadsheet cell. In a pilot,
+                replace 0.6 with evidence: fraction of trial lanes actually executed, or workshop estimates from
+                dispatch + sales + transport.
               </p>
             </div>
           </div>
@@ -510,9 +649,10 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </p>
         </Slide>
 
-        {/* SLIDE 9 — vehicle fit */}
-        <Slide id="s9" n={9}>
-          <SlideTitle kicker="Q & A — slide 9" title="Why vehicle_fit and inbound_to_covered_truck?" sub="Distance-only models rank lanes that are mathematically neat but operationally impossible." />
+        {/* SLIDE 14 — Vehicle fit */}
+        <Slide id="s14" n={14} part="B">
+          <SlideTitle kicker="Q & A" title="Why vehicle_fit and inbound_to_covered_truck?"
+            sub="Distance-only models rank lanes that are mathematically neat but operationally impossible." />
           <Callout label="Management will ask">
             "Why do we need vehicle scores? Can't we just use distance?"
           </Callout>
@@ -558,8 +698,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 10 — summary.json */}
-        <Slide id="s10" n={10}>
+        {/* SLIDE 15 — summary.json */}
+        <Slide id="s15" n={15} part="B">
           <SlideTitle kicker="Results · summary.json" title="One deterministic Python run on the bundled inputs and config." />
           <div className="grid grid-cols-3 gap-4 mb-5">
             <Stat value="190" label="Feasible pairs after 500 km outbound filter" note="pair_count_after_outbound_radius_filter" />
@@ -594,9 +734,10 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </Callout>
         </Slide>
 
-        {/* SLIDE 11 — top lanes table */}
-        <Slide id="s11" n={11}>
-          <SlideTitle kicker="Results · ranked lanes" title="Top 21 ranked pairs from outputs/pairs.csv." sub="Highlighted columns: supplier_return_city, destination_city, match_score, expected_monthly_saving_index, actionability." />
+        {/* SLIDE 16 — Top lanes */}
+        <Slide id="s16" n={16} part="B">
+          <SlideTitle kicker="Results · ranked lanes" title="Top 21 ranked pairs from outputs/pairs.csv."
+            sub="Highlighted columns: supplier_return_city, destination_city, match_score, expected_monthly_saving_index, actionability." />
           <div className="overflow-x-auto border rounded-md" style={{ borderColor: BORDER }}>
             <table className="w-full text-[11px]">
               <thead>
@@ -630,8 +771,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 12 — read the headline */}
-        <Slide id="s12" n={12}>
+        {/* SLIDE 17 — Read the headline */}
+        <Slide id="s17" n={17} part="B">
           <SlideTitle kicker="How to read the headline" title="12,244.8 is the sum of 13 lanes. It is index, not cash." />
           <div className="grid grid-cols-2 gap-5">
             <div className="rounded-md border p-5" style={{ borderColor: BORDER }}>
@@ -663,9 +804,10 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 13 — possibility space */}
-        <Slide id="s13" n={13}>
-          <SlideTitle kicker="Possibility space" title="Scaling without false precision." sub="Today: trip-based scaling. Tomorrow: tonne-based curves and INR calibration on real ops." />
+        {/* SLIDE 18 — Possibility space */}
+        <Slide id="s18" n={18} part="B">
+          <SlideTitle kicker="Possibility space" title="Scaling without false precision."
+            sub="Today: trip-based scaling. Tomorrow: tonne-based curves and INR calibration on real ops." />
           <div className="grid grid-cols-3 gap-4">
             {[
               ['Today', 'Trips × per-trip index. Tonnes are in inputs for narrative, not in the headline math.'],
@@ -683,8 +825,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 14 — Roadmap */}
-        <Slide id="s14" n={14}>
+        {/* SLIDE 19 — Roadmap */}
+        <Slide id="s19" n={19} part="B">
           <SlideTitle kicker="Roadmap to real data" title="Six concrete moves to move from proxy to production." />
           <ol className="space-y-3">
             {[
@@ -703,8 +845,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </ol>
         </Slide>
 
-        {/* SLIDE 15 — Ask / decision */}
-        <Slide id="s15" n={15} dark>
+        {/* SLIDE 20 — Ask / decision */}
+        <Slide id="s20" n={20} dark>
           <div className="flex flex-col h-[78vh] justify-between">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: '#5EEAD4' }}>Ask · decision page</div>
@@ -730,8 +872,8 @@ const OnePlantTriangulationDeck: React.FC = () => {
           </div>
         </Slide>
 
-        {/* SLIDE 16 — glossary */}
-        <Slide id="s16" n={16}>
+        {/* SLIDE 21 — Glossary */}
+        <Slide id="s21" n={21} part="B">
           <SlideTitle kicker="Appendix · glossary" title="Plain-English definitions." />
           <div className="grid grid-cols-2 gap-4 text-sm">
             {[
