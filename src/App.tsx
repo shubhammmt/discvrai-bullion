@@ -276,6 +276,7 @@ import JaiKhuranaLeakage from './pages/jaikhurana/JaiKhuranaLeakage';
 import JaiKhuranaVendor from './pages/jaikhurana/JaiKhuranaVendor';
 import JaiKhuranaRopeway from './pages/jaikhurana/JaiKhuranaRopeway';
 import JaiKhuranaAssurance from './pages/jaikhurana/JaiKhuranaAssurance';
+import OnePlantTriangulationDeck from './pages/OnePlantTriangulationDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -624,7 +625,8 @@ const AppContent = () => {
                       <Route path="retirement" element={<BajajCapitalRetirement />} />
                        <Route path="architecture" element={<BajajCapitalArchitecture />} />
                      </Route>
-                     <Route path="/jaikhurana" element={<JaiKhuranaHub />} />
+                      <Route path="/deck/one-plant-triangulation" element={<OnePlantTriangulationDeck />} />
+                      <Route path="/jaikhurana" element={<JaiKhuranaHub />} />
                      <Route path="/pitch/jaikhurana" element={<JaiKhuranaDeck />} />
                      <Route path="/jaikhurana" element={<JaiKhuranaLayout />}>
                        <Route path="exec" element={<JaiKhuranaExec />} />
