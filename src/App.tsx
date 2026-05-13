@@ -276,6 +276,7 @@ import JaiKhuranaLeakage from './pages/jaikhurana/JaiKhuranaLeakage';
 import JaiKhuranaVendor from './pages/jaikhurana/JaiKhuranaVendor';
 import JaiKhuranaRopeway from './pages/jaikhurana/JaiKhuranaRopeway';
 import JaiKhuranaAssurance from './pages/jaikhurana/JaiKhuranaAssurance';
+import OnePlantTriangulationDeck from './pages/OnePlantTriangulationDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
