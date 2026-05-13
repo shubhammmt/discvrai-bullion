@@ -277,6 +277,7 @@ import JaiKhuranaVendor from './pages/jaikhurana/JaiKhuranaVendor';
 import JaiKhuranaRopeway from './pages/jaikhurana/JaiKhuranaRopeway';
 import JaiKhuranaAssurance from './pages/jaikhurana/JaiKhuranaAssurance';
 import OnePlantTriangulationDeck from './pages/OnePlantTriangulationDeck';
+import OnePlantTriangulationProofDeck from './pages/OnePlantTriangulationProofDeck';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -626,6 +627,7 @@ const AppContent = () => {
                        <Route path="architecture" element={<BajajCapitalArchitecture />} />
                      </Route>
                       <Route path="/deck/one-plant-triangulation" element={<OnePlantTriangulationDeck />} />
+                      <Route path="/deck/one-plant-triangulation-proof" element={<OnePlantTriangulationProofDeck />} />
                       <Route path="/jaikhurana" element={<JaiKhuranaHub />} />
                      <Route path="/pitch/jaikhurana" element={<JaiKhuranaDeck />} />
                      <Route path="/jaikhurana" element={<JaiKhuranaLayout />}>
