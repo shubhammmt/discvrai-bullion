@@ -9,6 +9,7 @@ import { AgenticChatHome } from './AgenticChatHome';
 import { AuthUser } from './OTPLoginDialog';
 import { SIPUserState } from './SIPUserStateSwitcher';
 import { ResumeSetupCard, ActionCard, AlertCard, SAMPLE_ACTION_CARDS, SAMPLE_ALERTS, CuratedShelves, SAMPLE_TRIGGERS, TriggerCard, topRebalanceTrigger, topSipTrigger } from '@/components/conversion';
+import { HomeOnboardingPanel } from './HomeOnboardingPanel';
 import { useNavigate } from 'react-router-dom';
 
 interface HomeChatViewProps {
@@ -106,6 +107,14 @@ export function HomeChatView({
       {/* Conversion strip — Resume + top Action + top Alert */}
       {hasHoldings && !chatFullscreen && (
         <ConversionStrip onNavigateTab={onNavigateTab} />
+      )}
+
+      {/* Onboarding panel — non-investors only */}
+      {!hasHoldings && !chatFullscreen && (
+        <HomeOnboardingPanel
+          userState={userState}
+          onNavigateTab={onNavigateTab}
+        />
       )}
 
       {/* Curated discovery shelves — visible to ALL users (new + existing) */}

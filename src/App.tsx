@@ -386,7 +386,8 @@ const AppContent = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<SIPManagement />} />
+        <Route path="/welcome" element={<Index />} />
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/feed" element={<Feed />} />
