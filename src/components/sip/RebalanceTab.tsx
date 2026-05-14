@@ -201,26 +201,37 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
             <>
               <Card className="border-sip-border">
                 <CardContent className="p-4 space-y-3">
-                  <p className="text-xs text-sip-text-muted">Active alerts</p>
-                  <div className="flex flex-wrap gap-2">
-                    {triggers.map(t => (
-                      <button
-                        key={t.id}
-                        onClick={() => setFocusId(t.id)}
-                        className={cn(
-                          'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] border transition-colors',
-                          focusId === t.id
-                            ? 'border-sip-brand bg-sip-brand/10 text-sip-brand'
-                            : 'border-sip-border text-sip-text-secondary hover:bg-muted/50',
-                        )}
-                      >
-                        {t.severity === 'critical'
-                          ? <AlertCircle className="w-3 h-3 text-red-600" />
-                          : <AlertTriangle className="w-3 h-3 text-amber-600" />}
-                        <span className="truncate max-w-[200px]">{t.title}</span>
-                      </button>
-                    ))}
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs text-sip-text-muted">Active alerts</p>
+                    <p className="text-[10px] text-sip-text-muted">Tap any alert to jump to its plan</p>
                   </div>
+                  <div className="flex flex-wrap gap-2">
+                    {triggers.map(t => {
+                      const hasPlan = cards.some(c => c.triggerId === t.id);
+                      return (
+                        <button
+                          key={t.id}
+                          onClick={() => hasPlan ? jumpToPlanFor(t.id) : setFocusId(t.id)}
+                          className={cn(
+                            'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] border transition-colors',
+                            focusId === t.id
+                              ? 'border-sip-brand bg-sip-brand/10 text-sip-brand'
+                              : 'border-sip-border text-sip-text-secondary hover:bg-muted/50',
+                          )}
+                          title={hasPlan ? 'Open this alert in the plan' : 'No auto-trade for this alert'}
+                        >
+                          {t.severity === 'critical'
+                            ? <AlertCircle className="w-3 h-3 text-red-600" />
+                            : <AlertTriangle className="w-3 h-3 text-amber-600" />}
+                          <span className="truncate max-w-[200px]">{t.title}</span>
+                          {hasPlan && <ArrowRight className="w-3 h-3 opacity-60" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="text-[10px] text-sip-text-muted">
+                    Below: read-only snapshot of your portfolio so you can sanity-check the alerts before acting.
+                  </p>
                   {benchmarkOnly && (
                     <div className="rounded-md border border-amber-200 bg-amber-50/50 p-3 text-[11px] text-amber-800">
                       Markets have moved sharply. Phase 1 will not auto-suggest trades for a market move alone — review your mix below and decide if changes are needed.
