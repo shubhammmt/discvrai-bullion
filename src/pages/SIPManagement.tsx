@@ -274,7 +274,17 @@ const SIPManagement = () => {
           )}
 
           {/* PORTFOLIO TAB */}
-          {activeTab === 'portfolio' && <PortfolioTab onInvest={() => setActiveTab('buy')} />}
+          {activeTab === 'portfolio' && (
+            <PortfolioTab onInvest={() => setActiveTab('buy')} onReviewRebalance={goToRebalance} />
+          )}
+
+          {/* REBALANCE TAB — Phase-1 inline workspace */}
+          {activeTab === 'rebalance' && (
+            <RebalanceTab
+              initialFocusId={rebalanceFocusId}
+              onDone={() => setActiveTab('portfolio')}
+            />
+          )}
 
           {/* INVEST TAB */}
           {activeTab === 'buy' && <FundPurchaseWidget prefill={purchasePrefill} />}
