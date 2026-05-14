@@ -47,6 +47,7 @@ export function HomeOnboardingPanel({ userState, onNavigateTab, onSignIn }: Home
         { label: 'Plan for Goals', emoji: '🧭', tab: 'calculator', tone: 'amber' },
         { label: 'Calculate Returns', emoji: '🧮', tab: 'calculator', tone: 'pink' },
         { label: 'Fund Search', emoji: '⚙️', tab: 'screener', tone: 'purple' },
+        { label: 'Ask Copilot', emoji: '💬', tab: 'chat', tone: 'blue' },
       ]
     : [
         { label: isKycDone ? 'Define a Goal' : 'Complete KYC', emoji: isKycDone ? '🎯' : '🛡️', tab: isKycDone ? 'goals' : 'profile', tone: 'blue' },
@@ -54,6 +55,7 @@ export function HomeOnboardingPanel({ userState, onNavigateTab, onSignIn }: Home
         { label: 'Calculate Returns', emoji: '🧮', tab: 'calculator', tone: 'pink' },
         { label: 'Plan for Goals', emoji: '🧭', tab: 'calculator', tone: 'amber' },
         { label: 'I want to Invest', emoji: '💰', tab: 'buy', tone: 'purple' },
+        { label: 'Ask Copilot', emoji: '💬', tab: 'chat', tone: 'green' },
       ];
 
   const toneClass: Record<string, string> = {
