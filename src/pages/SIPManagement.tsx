@@ -22,10 +22,12 @@ import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
-  TrendingUp, Bell, BarChart3, FileText, Receipt,
+  TrendingUp, Bell, BarChart3, FileText, Receipt, Scale,
   MessageSquare, History, Sparkles, LogIn, LogOut,
   PanelLeft, PanelLeftClose, ChevronRight, UserCircle,
 } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { RebalanceTab } from '@/components/sip/RebalanceTab';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -36,7 +38,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { DiscoverTab } from '@/components/sip/DiscoverTab';
 
 const SIPManagement = () => {
-  const [activeTab, setActiveTab] = useState('home');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'home';
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [rebalanceFocusId, setRebalanceFocusId] = useState<string | undefined>(searchParams.get('focus') || undefined);
   const [userState, setUserState] = useState<SIPUserState>('investor');
   const [showLogin, setShowLogin] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -88,12 +93,19 @@ const SIPManagement = () => {
 
   const handleNavClick = (tab: string) => {
     setActiveTab(tab);
+    if (tab !== 'rebalance') setRebalanceFocusId(undefined);
     if (isMobile) setSidebarOpen(false);
+  };
+
+  const goToRebalance = (focusId?: string) => {
+    setRebalanceFocusId(focusId);
+    setActiveTab('rebalance');
   };
 
   const allTabs = [
     { value: 'home', icon: Home, label: 'Home', always: true },
     { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
+    { value: 'rebalance', icon: Scale, label: 'Rebalance', requiresHoldings: true },
     { value: 'screener', icon: Search, label: 'Explore', always: true },
     { value: 'transactions', icon: Receipt, label: 'Transactions', requiresLogin: true },
     { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
@@ -262,7 +274,17 @@ const SIPManagement = () => {
           )}
 
           {/* PORTFOLIO TAB */}
-          {activeTab === 'portfolio' && <PortfolioTab onInvest={() => setActiveTab('buy')} />}
+          {activeTab === 'portfolio' && (
+            <PortfolioTab onInvest={() => setActiveTab('buy')} onReviewRebalance={goToRebalance} />
+          )}
+
+          {/* REBALANCE TAB — Phase-1 inline workspace */}
+          {activeTab === 'rebalance' && (
+            <RebalanceTab
+              initialFocusId={rebalanceFocusId}
+              onDone={() => setActiveTab('portfolio')}
+            />
+          )}
 
           {/* INVEST TAB */}
           {activeTab === 'buy' && <FundPurchaseWidget prefill={purchasePrefill} />}

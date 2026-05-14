@@ -25,3 +25,10 @@ export type {
 } from './triggerEngine';
 export { trackConversionEvent } from './events';
 export type { ConversionEvent } from './events';
+export { RebalanceAlertsStrip } from './RebalanceAlertsStrip';
+export {
+  evaluateTriggers, buildPlanLegs, submitRebalancePlan,
+  getMockHoldings, getSectorBreakdown, getFundBreakdown, topTriggers,
+} from './rebalanceEngine';
+export type { RebalanceTrigger, PlanLeg, Holding } from './rebalanceEngine';
+export { REBALANCE_CONFIG } from './rebalanceConfig';

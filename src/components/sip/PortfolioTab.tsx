@@ -7,7 +7,7 @@ import { MOCK_SIPS, MOCK_FUNDS } from '@/data/sipMockData';
 import { cn } from '@/lib/utils';
 import { SIPBrandLogo } from './SIPBrandLogo';
 import { SIP_ALLOCATION_COLORS } from '@/config/sipBrandConfig';
-import { ActionQueue, SAMPLE_TRIGGERS } from '@/components/conversion';
+import { RebalanceAlertsStrip } from '@/components/conversion';
 
 function formatINR(value: number): string {
   if (value >= 10000000) return `₹${(value / 10000000).toFixed(2)} Cr`;
@@ -15,7 +15,7 @@ function formatINR(value: number): string {
   return `₹${value.toLocaleString('en-IN')}`;
 }
 
-export function PortfolioTab({ onInvest }: { onInvest?: () => void }) {
+export function PortfolioTab({ onInvest, onReviewRebalance }: { onInvest?: () => void; onReviewRebalance?: (focusId?: string) => void }) {
   const [view, setView] = useState<'card' | 'table'>('card');
 
   const totalInvested = MOCK_SIPS.reduce((s, sip) => s + sip.totalInvested, 0);
@@ -49,13 +49,8 @@ export function PortfolioTab({ onInvest }: { onInvest?: () => void }) {
 
   return (
     <div className="space-y-4">
-      {/* Rebalance Alerts — top of portfolio, highest-severity first */}
-      <ActionQueue
-        triggers={SAMPLE_TRIGGERS}
-        title="Rebalance Alerts"
-        subtitle="What changed, why it matters, and the suggested action — sorted by severity."
-        limit={4}
-      />
+      {/* Rebalance Alerts — Phase-1 strip (concentration + benchmark only) */}
+      <RebalanceAlertsStrip onReview={(id) => onReviewRebalance?.(id)} />
 
       <Card className="border-border">
         <CardContent className="p-4">
