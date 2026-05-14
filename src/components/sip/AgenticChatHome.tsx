@@ -198,8 +198,10 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
     setIsTyping(false);
   };
 
-  const handleChipClick = (chip: typeof ACTION_CHIPS[0][0]) => {
+  const actionChips = getActionChips(userState);
+  const handleChipClick = (chip: Chip) => {
     if (chip.tab) onNavigateTab(chip.tab);
+    else if (chip.href) window.location.assign(chip.href);
     else if (chip.prompt) handleSend(chip.prompt);
   };
 
