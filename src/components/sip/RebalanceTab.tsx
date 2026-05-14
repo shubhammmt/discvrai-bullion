@@ -3,12 +3,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, AlertTriangle, Loader2 } from 'lucide-react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import {
+  ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, AlertTriangle,
+  Loader2, Check, Info, Wallet, TrendingDown, Calendar,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   evaluateTriggers, buildPlanLegs, submitRebalancePlan,
   getMockHoldings, getSectorBreakdown, getFundBreakdown,
-  RebalanceTrigger, PlanLeg,
+  suggestSipPlan, calcExitLoad, calcTaxNote,
+  addWorkingDays, formatDayLabel,
+  RebalanceCard, BuyMode, SubmittedCardSummary,
 } from '@/components/conversion/rebalanceEngine';
 import { REBALANCE_CONFIG } from '@/components/conversion/rebalanceConfig';
 import { buildSmartShortlist } from '@/components/conversion/shortlistEngine';
@@ -19,7 +26,9 @@ interface RebalanceTabProps {
   onDone?: () => void;
 }
 
-const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+const inr = (n: number) => `₹${Math.round(n).toLocaleString('en-IN')}`;
+
+type CardSelection = Record<string, { included: boolean; mode: BuyMode; destFundId: string }>;
 
 export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -28,29 +37,75 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const holdings = useMemo(() => getMockHoldings(), []);
   const sectors = useMemo(() => getSectorBreakdown(holdings), [holdings]);
   const fundsBd = useMemo(() => getFundBreakdown(holdings), [holdings]);
-  const initialLegs = useMemo(() => buildPlanLegs(triggers, holdings), [triggers, holdings]);
-  const [legs, setLegs] = useState<PlanLeg[]>(initialLegs);
+  const initialCards = useMemo(() => buildPlanLegs(triggers, holdings), [triggers, holdings]);
+  const [cards, setCards] = useState<RebalanceCard[]>(initialCards);
+  const destinations = useMemo(() => buildSmartShortlist({ risk: 'Moderate' }, 12), []);
+
+  const [sel, setSel] = useState<CardSelection>(() => {
+    const init: CardSelection = {};
+    initialCards.forEach(c => {
+      init[c.id] = {
+        included: c.severity === 'critical', // default critical-on, warn-off
+        mode: c.buy?.mode ?? 'sip',
+        destFundId: c.buy?.destFundId ?? '',
+      };
+    });
+    return init;
+  });
+
   const [submitting, setSubmitting] = useState(false);
   const [planId, setPlanId] = useState<string | null>(null);
+  const [submittedAt, setSubmittedAt] = useState<string | null>(null);
+  const [summaries, setSummaries] = useState<SubmittedCardSummary[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => { setFocusId(initialFocusId); }, [initialFocusId]);
 
   const benchmarkOnly = triggers.length > 0 && triggers.every(t => t.kind === 'benchmark');
   const noTriggers = triggers.length === 0;
+  const includedCards = cards.filter(c => sel[c.id]?.included);
 
-  const updateDest = (legId: string, destCode: string) => {
-    setLegs(prev => prev.map(l => l.id === legId
-      ? { ...l, destFundId: destCode, destFundName: MOCK_FUNDS.find(f => f.code === destCode)?.name }
-      : l));
+  const updateSel = (cardId: string, patch: Partial<CardSelection[string]>) =>
+    setSel(prev => ({ ...prev, [cardId]: { ...prev[cardId], ...patch } }));
+
+  const updateDest = (cardId: string, destCode: string) => {
+    const dest = MOCK_FUNDS.find(f => f.code === destCode);
+    if (!dest) return;
+    setCards(prev => prev.map(c => c.id === cardId && c.buy
+      ? { ...c, buy: { ...c.buy, destFundId: dest.code, destFundName: dest.name, destCategory: dest.category } }
+      : c));
+    updateSel(cardId, { destFundId: destCode });
+  };
+
+  const setMode = (cardId: string, mode: BuyMode) => {
+    setCards(prev => prev.map(c => {
+      if (c.id !== cardId || !c.buy) return c;
+      const sip = suggestSipPlan(c.buy.amountINR);
+      return {
+        ...c,
+        buy: {
+          ...c.buy, mode,
+          sipMonthlyINR: sip.monthly, sipMonths: sip.months,
+          lumpsumINR: c.buy.amountINR,
+          rationale: mode === 'sip'
+            ? 'Deploy gradually to average NAV across months.'
+            : 'Single deployment when sell proceeds settle.',
+        },
+      };
+    }));
+    updateSel(cardId, { mode });
   };
 
   const handleSubmit = async () => {
+    if (includedCards.length === 0) return;
     setSubmitting(true); setError(null);
     try {
-      const res = await submitRebalancePlan(legs);
-      setPlanId(res.planId); setStep(3);
-    } catch (e) {
+      const res = await submitRebalancePlan(includedCards);
+      setPlanId(res.planId);
+      setSubmittedAt(res.submittedAt);
+      setSummaries(res.summaries);
+      setStep(3);
+    } catch {
       setError('Could not submit plan. Try again.');
     } finally { setSubmitting(false); }
   };
@@ -93,7 +148,6 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
             </Card>
           ) : (
             <>
-              {/* Trigger chips */}
               <Card className="border-sip-border">
                 <CardContent className="p-4 space-y-3">
                   <p className="text-xs text-sip-text-muted">Active alerts</p>
@@ -124,7 +178,6 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                 </CardContent>
               </Card>
 
-              {/* Sector weights */}
               <Card className="border-sip-border">
                 <CardContent className="p-4 space-y-3">
                   <p className="text-xs font-semibold text-sip-text-primary">Sector exposure</p>
@@ -156,7 +209,6 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                 </CardContent>
               </Card>
 
-              {/* Fund weights */}
               <Card className="border-sip-border">
                 <CardContent className="p-4 space-y-2">
                   <p className="text-xs font-semibold text-sip-text-primary">Holdings by weight</p>
@@ -202,10 +254,10 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
         </div>
       )}
 
-      {/* Step 2 — Plan */}
+      {/* Step 2 — Plan (per-card: Sell + Buy + SIP/Lumpsum) */}
       {step === 2 && (
         <div className="space-y-4">
-          {legs.length === 0 ? (
+          {cards.length === 0 ? (
             <Card className="border-sip-border">
               <CardContent className="p-6 text-center text-sm text-sip-text-muted space-y-3">
                 <p>No automatic legs for the active alerts.</p>
@@ -218,97 +270,302 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
               </CardContent>
             </Card>
           ) : (
-            <Card className="border-sip-border">
-              <CardContent className="p-4 space-y-3">
+            <>
+              <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold text-sip-text-primary">Suggested transactions</p>
+                  <p className="text-sm font-semibold text-sip-text-primary">Suggested transactions</p>
                   <p className="text-[11px] text-sip-text-muted mt-0.5">
-                    {legs.length} {legs.length === 1 ? 'leg' : 'legs'} · every row tied to an alert
+                    Pick what to act on now — you can do one at a time.
+                    {' '}<span className="font-medium text-sip-text-secondary">{includedCards.length}</span> of {cards.length} selected.
                   </p>
                 </div>
+              </div>
 
-                <div className="space-y-2">
-                  {legs.map(l => (
-                    <div key={l.id} className="rounded-md border border-sip-border p-3 space-y-2">
-                      <div className="flex items-start justify-between gap-2">
+              {cards.map(c => {
+                const s = sel[c.id];
+                const included = !!s?.included;
+                const proceeds = c.sell.amountINR - c.sell.exitLoadINR;
+                return (
+                  <Card key={c.id} className={cn(
+                    'border-sip-border transition-shadow',
+                    included && 'ring-1 ring-sip-brand/40 shadow-sm',
+                  )}>
+                    <CardContent className="p-4 space-y-4">
+                      {/* Header */}
+                      <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <Badge variant="outline" className="text-[9px] uppercase tracking-wider mb-1">
-                            {l.type}
-                          </Badge>
-                          <p className="text-sm font-medium text-sip-text-primary truncate">
-                            {l.sourceFundName}
-                          </p>
-                          <p className="text-[11px] text-sip-text-muted">{l.why}</p>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            {c.severity === 'critical'
+                              ? <AlertCircle className="w-3.5 h-3.5 text-red-600" />
+                              : <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />}
+                            <Badge variant="outline" className="text-[9px] uppercase tracking-wider">
+                              {c.severity}
+                            </Badge>
+                          </div>
+                          <p className="text-sm font-medium text-sip-text-primary">{c.title}</p>
+                          <p className="text-[11px] text-sip-text-muted mt-0.5">{c.why}</p>
                         </div>
-                        <p className="text-sm font-semibold text-sip-text-primary shrink-0">{inr(l.amountINR)}</p>
                       </div>
-                      {(l.type === 'switch' || l.type === 'buy') && (
-                        <div>
-                          <p className="text-[10px] uppercase tracking-wider text-sip-text-muted mb-1">Destination</p>
-                          <Select value={l.destFundId} onValueChange={(v) => updateDest(l.id, v)}>
-                            <SelectTrigger className="h-8 text-xs">
-                              <SelectValue placeholder="Choose destination fund" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {buildSmartShortlist({ risk: 'Moderate' }, 12).map(s => (
-                                <SelectItem key={s.code} value={s.code} className="text-xs">
-                                  {s.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+
+                      {/* Sell half */}
+                      <div className="rounded-md border border-sip-border bg-muted/30 p-3 space-y-2">
+                        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-sip-text-muted">
+                          <TrendingDown className="w-3 h-3" /> Step 1 · Sell
+                        </div>
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-sip-text-primary truncate">{c.sell.sourceFundName}</p>
+                            <p className="text-[10px] text-sip-text-muted">Held ~{Math.round(c.sell.holdingDays / 30)} months</p>
+                          </div>
+                          <p className="text-sm font-semibold text-sip-text-primary shrink-0">{inr(c.sell.amountINR)}</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-[10.5px]">
+                          <div className="flex items-center gap-1 text-sip-text-secondary">
+                            <Wallet className="w-3 h-3" /> Exit load: <span className="font-medium text-sip-text-primary">{inr(c.sell.exitLoadINR)}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-sip-text-secondary">
+                            <Calendar className="w-3 h-3" /> Funds: <span className="font-medium text-sip-text-primary">{c.sell.settlementLabel}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-1 text-[10px] text-sip-text-muted">
+                          <Info className="w-3 h-3 mt-0.5 shrink-0" />
+                          <span>{c.sell.taxNote}</span>
+                        </div>
+                      </div>
+
+                      {/* Buy half */}
+                      {c.buy && (
+                        <div className="rounded-md border border-sip-border p-3 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-sip-text-muted">
+                              Step 2 · Buy
+                            </div>
+                            <span className="text-[10px] text-sip-text-muted">
+                              Net of exit load: {inr(proceeds)}
+                            </span>
+                          </div>
+
+                          {/* Destination picker */}
+                          <div>
+                            <p className="text-[10px] uppercase tracking-wider text-sip-text-muted mb-1">Destination fund</p>
+                            <Select
+                              value={c.buy.destFundId}
+                              onValueChange={(v) => updateDest(c.id, v)}
+                            >
+                              <SelectTrigger className="h-8 text-xs">
+                                <SelectValue placeholder="Choose destination fund" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {destinations.map(d => (
+                                  <SelectItem key={d.code} value={d.code} className="text-xs">
+                                    {d.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          {/* Mode toggle */}
+                          <div>
+                            <p className="text-[10px] uppercase tracking-wider text-sip-text-muted mb-1.5">How to invest</p>
+                            <RadioGroup
+                              value={c.buy.mode}
+                              onValueChange={(v) => setMode(c.id, v as BuyMode)}
+                              className="grid grid-cols-2 gap-2"
+                            >
+                              <Label
+                                htmlFor={`${c.id}-sip`}
+                                className={cn(
+                                  'flex flex-col gap-0.5 rounded-md border p-2 cursor-pointer transition-colors',
+                                  c.buy.mode === 'sip' ? 'border-sip-brand bg-sip-brand/5' : 'border-sip-border',
+                                )}
+                              >
+                                <div className="flex items-center gap-1.5">
+                                  <RadioGroupItem id={`${c.id}-sip`} value="sip" />
+                                  <span className="text-xs font-medium">SIP</span>
+                                  <Badge variant="secondary" className="text-[9px] ml-auto">Recommended</Badge>
+                                </div>
+                                <span className="text-[10px] text-sip-text-muted pl-5">
+                                  {inr(c.buy.sipMonthlyINR || 0)}/mo × {c.buy.sipMonths}
+                                </span>
+                              </Label>
+                              <Label
+                                htmlFor={`${c.id}-lump`}
+                                className={cn(
+                                  'flex flex-col gap-0.5 rounded-md border p-2 cursor-pointer transition-colors',
+                                  c.buy.mode === 'lumpsum' ? 'border-sip-brand bg-sip-brand/5' : 'border-sip-border',
+                                )}
+                              >
+                                <div className="flex items-center gap-1.5">
+                                  <RadioGroupItem id={`${c.id}-lump`} value="lumpsum" />
+                                  <span className="text-xs font-medium">One-time</span>
+                                </div>
+                                <span className="text-[10px] text-sip-text-muted pl-5">
+                                  {inr(c.buy.lumpsumINR || 0)} after settlement
+                                </span>
+                              </Label>
+                            </RadioGroup>
+                            <p className="text-[10px] text-sip-text-muted mt-1.5 italic">{c.buy.rationale}</p>
+                          </div>
+
+                          <div className="flex items-start gap-1 text-[10px] text-amber-700 bg-amber-50/60 border border-amber-200 rounded p-2">
+                            <Info className="w-3 h-3 mt-0.5 shrink-0" />
+                            <span>
+                              Buy executes after sell settles ({c.sell.settlementLabel}). NAV may move between today and settlement.
+                            </span>
+                          </div>
                         </div>
                       )}
-                    </div>
-                  ))}
-                </div>
 
-                {error && <p className="text-xs text-red-600">{error}</p>}
+                      {/* Per-card action */}
+                      <div className="flex items-center justify-between gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => updateSel(c.id, { included: false })}
+                          className={cn('text-[11px] underline-offset-2 hover:underline',
+                            !included ? 'text-sip-text-muted' : 'text-sip-text-secondary')}
+                        >
+                          Skip this
+                        </button>
+                        <Button
+                          size="sm"
+                          variant={included ? 'default' : 'outline'}
+                          className={cn('gap-1', included && 'bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90')}
+                          onClick={() => updateSel(c.id, { included: !included })}
+                        >
+                          {included ? (<><Check className="w-3.5 h-3.5" /> Added to plan</>) : 'Add to plan'}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
 
-                <div className="flex justify-between pt-2">
-                  <Button size="sm" variant="ghost" className="gap-1" onClick={() => setStep(1)}>
-                    <ArrowLeft className="w-3.5 h-3.5" /> Back
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
-                    onClick={handleSubmit}
-                    disabled={submitting}
-                  >
-                    {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                    Confirm & submit
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+              {error && <p className="text-xs text-red-600">{error}</p>}
+
+              {/* Footer */}
+              <div className="flex justify-between items-center pt-2 sticky bottom-0 bg-background/95 backdrop-blur py-2">
+                <Button size="sm" variant="ghost" className="gap-1" onClick={() => setStep(1)}>
+                  <ArrowLeft className="w-3.5 h-3.5" /> Back
+                </Button>
+                <Button
+                  size="sm"
+                  className="gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
+                  onClick={handleSubmit}
+                  disabled={submitting || includedCards.length === 0}
+                >
+                  {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  Confirm {includedCards.length > 0 ? `(${includedCards.length})` : ''}
+                </Button>
+              </div>
+            </>
           )}
         </div>
       )}
 
-      {/* Step 3 — Done */}
+      {/* Step 3 — Done (execution timeline) */}
       {step === 3 && (
-        <Card className="border-sip-border">
-          <CardContent className="p-6 text-center space-y-3">
-            <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-            <p className="text-sm font-semibold text-sip-text-primary">Rebalance plan submitted</p>
-            <p className="text-[11px] text-sip-text-muted">
-              Plan ID: <span className="font-mono">{planId}</span>
-            </p>
-            <p className="text-[11px] text-sip-text-muted">
-              Next review in {REBALANCE_CONFIG.nextReviewDays} days.
-            </p>
-            <div className="flex justify-center gap-2 pt-2">
-              <Button size="sm" variant="outline" onClick={() => { setStep(1); setPlanId(null); }}>
-                Start over
+        <div className="space-y-4">
+          <Card className="border-sip-border">
+            <CardContent className="p-5 space-y-3">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-7 h-7 text-emerald-600 shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-sip-text-primary">Plan submitted</p>
+                  <p className="text-[11px] text-sip-text-muted">
+                    {summaries.length} {summaries.length === 1 ? 'transaction' : 'transactions'} queued · Plan ID <span className="font-mono">{planId}</span>
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Execution timeline per card */}
+          {summaries.map((sm, idx) => {
+            const today = submittedAt ? new Date(submittedAt) : new Date();
+            const settleDate = addWorkingDays(today, REBALANCE_CONFIG.settlement.redeemWorkingDays);
+            return (
+              <Card key={sm.cardId} className="border-sip-border">
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-semibold text-sip-text-primary">
+                      Transaction {idx + 1} of {summaries.length}
+                    </p>
+                    <Badge variant="outline" className="text-[9px]">Queued</Badge>
+                  </div>
+
+                  <div className="relative pl-5 space-y-3">
+                    <div className="absolute left-1.5 top-1.5 bottom-1.5 w-px bg-sip-border" />
+                    {/* Today */}
+                    <div className="relative">
+                      <div className="absolute -left-[15px] top-1 w-2.5 h-2.5 rounded-full bg-sip-brand border-2 border-background" />
+                      <p className="text-[10px] uppercase tracking-wider text-sip-text-muted">Today · {formatDayLabel(today)}</p>
+                      <p className="text-xs text-sip-text-primary mt-0.5">
+                        Redemption placed: <span className="font-medium">{sm.sellFundName}</span> · {inr(sm.sellAmountINR)}
+                      </p>
+                      {sm.exitLoadINR > 0 && (
+                        <p className="text-[10px] text-sip-text-muted">Exit load: {inr(sm.exitLoadINR)}</p>
+                      )}
+                    </div>
+                    {/* Settlement */}
+                    <div className="relative">
+                      <div className="absolute -left-[15px] top-1 w-2.5 h-2.5 rounded-full bg-amber-500 border-2 border-background" />
+                      <p className="text-[10px] uppercase tracking-wider text-sip-text-muted">
+                        {sm.settlementLabel} · {formatDayLabel(settleDate)}
+                      </p>
+                      <p className="text-xs text-sip-text-primary mt-0.5">Sell proceeds expected to settle</p>
+                    </div>
+                    {/* Buy */}
+                    {sm.buy && (
+                      <div className="relative">
+                        <div className="absolute -left-[15px] top-1 w-2.5 h-2.5 rounded-full bg-emerald-600 border-2 border-background" />
+                        <p className="text-[10px] uppercase tracking-wider text-sip-text-muted">
+                          On settlement · {formatDayLabel(settleDate)}
+                        </p>
+                        {sm.buy.mode === 'sip' ? (
+                          <p className="text-xs text-sip-text-primary mt-0.5">
+                            SIP starts: <span className="font-medium">{sm.buy.destFundName}</span>
+                            {' · '}{inr(sm.buy.sipMonthlyINR || 0)}/mo × {sm.buy.sipMonths}
+                          </p>
+                        ) : (
+                          <p className="text-xs text-sip-text-primary mt-0.5">
+                            Lumpsum buy: <span className="font-medium">{sm.buy.destFundName}</span>
+                            {' · '}{inr(sm.buy.lumpsumINR || sm.buy.amountINR)}
+                          </p>
+                        )}
+                        <p className="text-[10px] text-sip-text-muted mt-0.5">
+                          Auto-placed from settled proceeds. NAV applied at order time.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+
+          <Card className="border-sip-border bg-muted/30">
+            <CardContent className="p-3 text-[10.5px] text-sip-text-muted space-y-1">
+              <p className="font-medium text-sip-text-secondary">Disclosures</p>
+              <p>• Exit load and tax estimates are indicative. Final values per AMC + SEBI rules.</p>
+              <p>• Settlement timing assumes working days; holiday calendar not applied.</p>
+              <p>• NAV may move between order and settlement (mark-to-market).</p>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-center gap-2 pt-1">
+            <Button size="sm" variant="outline" onClick={() => {
+              setStep(1); setPlanId(null); setSummaries([]);
+            }}>
+              Start over
+            </Button>
+            {onDone && (
+              <Button size="sm" className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={onDone}>
+                Back to portfolio
               </Button>
-              {onDone && (
-                <Button size="sm" className="bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90" onClick={onDone}>
-                  Back to portfolio
-                </Button>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
