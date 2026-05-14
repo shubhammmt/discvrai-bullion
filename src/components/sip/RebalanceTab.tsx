@@ -154,14 +154,33 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
               { n: 3, label: 'Done' },
             ].map((s, i, arr) => (
               <div key={s.n} className="flex items-center gap-2 flex-1">
-                <div className={cn(
-                  'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-semibold',
-                  step >= (s.n as 1 | 2 | 3)
-                    ? 'bg-sip-brand text-sip-brand-foreground'
-                    : 'bg-muted text-muted-foreground',
-                )}>{s.n}</div>
-                <span className={cn('text-xs font-medium',
-                  step === s.n ? 'text-sip-text-primary' : 'text-sip-text-muted')}>{s.label}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (s.n === 3 && summaries.length === 0) return;
+                    setStep(s.n as 1 | 2 | 3);
+                  }}
+                  disabled={s.n === 3 && summaries.length === 0}
+                  className={cn(
+                    'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-semibold transition-colors',
+                    step >= (s.n as 1 | 2 | 3)
+                      ? 'bg-sip-brand text-sip-brand-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/70',
+                    s.n === 3 && summaries.length === 0 && 'cursor-not-allowed opacity-60',
+                  )}
+                >{s.n}</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (s.n === 3 && summaries.length === 0) return;
+                    setStep(s.n as 1 | 2 | 3);
+                  }}
+                  disabled={s.n === 3 && summaries.length === 0}
+                  className={cn('text-xs font-medium text-left',
+                    step === s.n ? 'text-sip-text-primary' : 'text-sip-text-muted hover:text-sip-text-secondary',
+                    s.n === 3 && summaries.length === 0 && 'cursor-not-allowed',
+                  )}
+                >{s.label}</button>
                 {i < arr.length - 1 && <div className="flex-1 h-px bg-sip-border" />}
               </div>
             ))}
