@@ -1,57 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChevronLeft, ChevronRight, Eye, EyeOff,
+  ChevronLeft, ChevronRight, Zap,
   Handshake, Network, Target, Compass, Layers, MessageSquare,
   Building2, Factory, Truck, Flame, ShoppingBag, Radio, Cpu,
-  Search, Brain, Zap, Repeat, TrendingUp, Activity,
+  Search, Brain, Repeat, TrendingUp, Activity,
   Briefcase, Users, FileCheck, Rocket, BadgeCheck, Phone, Mail, User,
-  ArrowRight, CheckCircle2, Database, Workflow
+  ArrowRight, CheckCircle2, Database, Workflow, Shield
 } from 'lucide-react';
-import { SlideLayout } from '@/components/pitch/enterprise-transformation/SlideLayout';
 
-// ---------- Slide Components ----------
+const ACCENT = '#0F766E';
+const TOTAL = 7;
 
-const S1Proposition: React.FC<{ n: number; t: number }> = ({ n, t }) => (
-  <SlideLayout slideNumber={n} totalSlides={t}>
-    <div className="h-full flex flex-col justify-center items-center text-center relative">
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-enterprise-blue/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-enterprise-gold/10 rounded-full blur-3xl" />
-      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="z-10 max-w-5xl">
-        <p className="text-sm uppercase tracking-[0.3em] text-enterprise-gold mb-6">Strategic Advisor & GTM Partner Proposition</p>
-        <h1 className="text-5xl md:text-6xl font-light text-white tracking-tight mb-6 leading-tight">
-          Partnering with senior leaders to scale<br />
-          <span className="text-enterprise-gold font-normal">AI-led enterprise transformation</span>
-        </h1>
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <div className="h-px w-20 bg-gradient-to-r from-transparent to-enterprise-gold" />
-          <span className="text-base text-enterprise-text-secondary">An opportunity-led collaboration, not a passive title</span>
-          <div className="h-px w-20 bg-gradient-to-l from-transparent to-enterprise-gold" />
-        </div>
-        <p className="text-lg text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
-          DiscvrAI is building an AI-led enterprise transformation practice across analytics, workflow automation,
-          decision intelligence, agentic workflows and command-center solutions. We collaborate with select senior
-          leaders whose experience, network and judgment help create real enterprise outcomes.
-        </p>
-        <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {[
-            { icon: Brain, label: 'Domain Depth' },
-            { icon: Network, label: 'Senior Access' },
-            { icon: Handshake, label: 'Outcome-Linked Collaboration' }
-          ].map((it, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.1 }}
-              className="bg-enterprise-surface-elevated/60 border border-enterprise-gold/20 rounded-xl py-6 px-4">
-              <it.icon className="w-7 h-7 text-enterprise-gold mx-auto mb-3" />
-              <p className="text-white font-medium">{it.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+const SlideWrapper: React.FC<{ children: React.ReactNode; num: number }> = ({ children, num }) => (
+  <div className="w-full h-screen flex flex-col relative overflow-hidden bg-white">
+    <div className="absolute top-0 left-0 right-0 h-1" style={{ background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT}88, ${ACCENT})` }} />
+    <div className="absolute top-5 left-8 z-20 flex items-center gap-2">
+      <Zap className="w-5 h-5" style={{ color: ACCENT }} />
+      <span className="text-base font-bold tracking-tight text-slate-800">DiscvrAI</span>
     </div>
-  </SlideLayout>
+    <div className="absolute top-5 right-8 z-20 text-[10px] uppercase tracking-widest text-slate-400">Advisor & GTM Partner Module</div>
+    <div className="flex-1 relative z-10 px-12 pt-16 pb-16 flex flex-col overflow-hidden" style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+      {children}
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 px-12 pb-3 flex justify-between items-center text-xs text-slate-400">
+      <span>Confidential | DiscvrAI | Advisor Proposition</span>
+      <span className="font-mono">{String(num).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}</span>
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
+  </div>
 );
 
-const S2Value: React.FC<{ n: number; t: number }> = ({ n, t }) => {
+const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="text-[11px] font-semibold tracking-widest uppercase mb-1.5" style={{ color: ACCENT }}>{children}</div>
+);
+
+// ---------- Slide 1 ----------
+const S1: React.FC = () => (
+  <SlideWrapper num={1}>
+    <div className="flex-1 flex flex-col justify-center">
+      <Eyebrow>Strategic Advisor & GTM Partner Proposition</Eyebrow>
+      <h1 className="text-[42px] leading-tight font-bold text-slate-900 mb-5 max-w-4xl">
+        Partnering with senior leaders to scale <span style={{ color: ACCENT }}>AI-led enterprise transformation</span>
+      </h1>
+      <p className="text-base text-slate-600 leading-relaxed max-w-4xl mb-3">
+        DiscvrAI is building an AI-led enterprise transformation practice across analytics, workflow automation,
+        decision intelligence, agentic workflows and command-center solutions.
+      </p>
+      <p className="text-base text-slate-600 leading-relaxed max-w-4xl mb-8">
+        We are looking to collaborate with select senior leaders, domain experts and GTM partners who can help us
+        validate use cases, access relevant enterprise conversations and convert meaningful business opportunities.
+      </p>
+      <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 mb-8 max-w-4xl">
+        <p className="text-sm text-slate-700 leading-relaxed">
+          <span className="font-semibold text-slate-900">This is not a passive advisory title.</span> It is an
+          opportunity-led collaboration where the advisor's experience, network and judgment help create real
+          enterprise outcomes.
+        </p>
+      </div>
+      <div className="grid grid-cols-3 gap-3 max-w-4xl">
+        {[
+          { icon: Brain, label: 'Domain Depth' },
+          { icon: Network, label: 'Senior Access' },
+          { icon: Handshake, label: 'Outcome-Linked Collaboration' }
+        ].map((it, i) => (
+          <div key={i} className="rounded-xl border p-4 flex items-center gap-3"
+            style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}08` }}>
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}18` }}>
+              <it.icon className="w-4.5 h-4.5" style={{ color: ACCENT }} />
+            </div>
+            <p className="text-sm font-semibold text-slate-900">{it.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </SlideWrapper>
+);
+
+// ---------- Slide 2 ----------
+const S2: React.FC = () => {
   const caps = [
     'AI & Analytics', 'Workflow Automation', 'Decision Intelligence',
     'Agentic Workflows', 'Command-Center Dashboards', 'ERP / CRM / SAP / Salesforce',
@@ -64,154 +91,160 @@ const S2Value: React.FC<{ n: number; t: number }> = ({ n, t }) => {
     { icon: Zap, label: 'Actions · Alerts · Automation · Dashboards' }
   ];
   return (
-    <SlideLayout slideNumber={n} totalSlides={t}>
-      <div className="h-full flex flex-col">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-enterprise-gold mb-2">Where DiscvrAI Creates Value</p>
-          <h2 className="text-4xl font-light text-white">A decision + execution layer on top of existing enterprise systems</h2>
-        </motion.div>
+    <SlideWrapper num={2}>
+      <Eyebrow>Where DiscvrAI Creates Value</Eyebrow>
+      <h2 className="text-[28px] leading-tight font-bold text-slate-900 mb-2">
+        A decision + execution layer on top of existing enterprise systems
+      </h2>
+      <p className="text-sm text-slate-600 max-w-4xl mb-5 leading-relaxed">
+        We help enterprises move from fragmented data, manual workflows and reactive decision-making to
+        intelligent, measurable, execution-ready operating models.
+      </p>
 
-        <div className="grid grid-cols-2 gap-8 flex-1">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-            <p className="text-enterprise-text-secondary mb-5 leading-relaxed">
-              We help enterprises move from fragmented data, manual workflows and reactive decisions to
-              intelligent, measurable, execution-ready operating models.
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {caps.map((c, i) => (
-                <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 + i * 0.04 }}
-                  className="flex items-center gap-2 bg-enterprise-surface-elevated/60 border border-enterprise-border rounded-lg px-3 py-2">
-                  <CheckCircle2 className="w-4 h-4 text-enterprise-gold flex-shrink-0" />
-                  <span className="text-sm text-white/90">{c}</span>
-                </motion.div>
-              ))}
+      <div className="grid grid-cols-12 gap-5 flex-1 min-h-0">
+        <div className="col-span-7 grid grid-cols-2 gap-2 content-start">
+          {caps.map((c, i) => (
+            <div key={i} className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2.5">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: ACCENT }} />
+              <span className="text-sm text-slate-800">{c}</span>
             </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
-            className="flex flex-col justify-center gap-4">
-            {flow.map((f, i) => (
-              <React.Fragment key={i}>
-                <div className="bg-gradient-to-r from-enterprise-gold/10 to-transparent border border-enterprise-gold/20 rounded-xl px-5 py-4 flex items-center gap-4">
-                  <f.icon className="w-6 h-6 text-enterprise-gold flex-shrink-0" />
-                  <span className="text-white font-medium">{f.label}</span>
-                </div>
-                {i < flow.length - 1 && <div className="text-enterprise-gold/60 text-center">↓</div>}
-              </React.Fragment>
-            ))}
-          </motion.div>
+          ))}
         </div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
-          className="mt-6 text-center">
-          <p className="text-enterprise-gold italic">
-            We don't just create dashboards — we convert data, workflows and insights into measurable business actions.
-          </p>
-        </motion.div>
-      </div>
-    </SlideLayout>
-  );
-};
-
-const S3Sectors: React.FC<{ n: number; t: number }> = ({ n, t }) => {
-  const sectors = [
-    { icon: Building2, name: 'BFSI', uses: 'Agentic commerce, digital investment journeys, conversion, onboarding, operations automation' },
-    { icon: Factory, name: 'Manufacturing', uses: 'Factory analytics, production visibility, predictive maintenance, quality, ERP/OT integration' },
-    { icon: Truck, name: 'Supply Chain & Logistics', uses: 'Dispatch control towers, freight optimization, demand visibility, warehouse intelligence' },
-    { icon: Flame, name: 'Energy, Mining, Oil & Gas', uses: 'Operations intelligence, asset performance, predictive insights, command centers' },
-    { icon: ShoppingBag, name: 'FMCG, Retail & Distribution', uses: 'Sales performance, distributor analytics, route-to-market, field productivity, channel visibility' },
-    { icon: Radio, name: 'Telecom, Media & Cloud', uses: 'Customer intelligence, revenue assurance, cloud modernization, executive dashboards' },
-    { icon: Cpu, name: 'GCCs & Enterprise Operations', uses: 'Process automation, AI copilots, workflow optimization, productivity intelligence' }
-  ];
-  return (
-    <SlideLayout slideNumber={n} totalSlides={t}>
-      <div className="h-full flex flex-col">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5">
-          <p className="text-xs uppercase tracking-[0.25em] text-enterprise-gold mb-2">Priority Sectors & Opportunity Themes</p>
-          <h2 className="text-3xl font-light text-white">Sector-specific transformation themes where advisors can help us scale</h2>
-        </motion.div>
-        <div className="grid grid-cols-2 gap-3 flex-1 content-start">
-          {sectors.map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.05 }}
-              className="bg-enterprise-surface-elevated/60 border border-enterprise-border hover:border-enterprise-gold/40 transition-colors rounded-xl p-4 flex gap-3">
-              <div className="w-10 h-10 rounded-lg bg-enterprise-gold/15 flex items-center justify-center flex-shrink-0">
-                <s.icon className="w-5 h-5 text-enterprise-gold" />
+        <div className="col-span-5 flex flex-col justify-center gap-2">
+          {flow.map((f, i) => (
+            <React.Fragment key={i}>
+              <div className="rounded-lg border px-4 py-3 flex items-center gap-3"
+                style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}08` }}>
+                <f.icon className="w-4.5 h-4.5 flex-shrink-0" style={{ color: ACCENT }} />
+                <span className="text-[13px] font-semibold text-slate-900">{f.label}</span>
               </div>
-              <div className="min-w-0">
-                <p className="text-white font-semibold mb-1">{s.name}</p>
-                <p className="text-xs text-enterprise-text-secondary leading-relaxed">{s.uses}</p>
-              </div>
-            </motion.div>
+              {i < flow.length - 1 && <div className="text-center text-xs" style={{ color: `${ACCENT}80` }}>↓</div>}
+            </React.Fragment>
           ))}
         </div>
       </div>
-    </SlideLayout>
+
+      <div className="mt-4 rounded-xl py-2.5 px-4 border text-center"
+        style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}10` }}>
+        <p className="text-xs font-medium" style={{ color: ACCENT }}>
+          We don't just create dashboards — we convert data, workflows and insights into measurable business actions.
+        </p>
+      </div>
+    </SlideWrapper>
   );
 };
 
-const S4BFSI: React.FC<{ n: number; t: number }> = ({ n, t }) => {
+// ---------- Slide 3 ----------
+const S3: React.FC = () => {
+  const sectors = [
+    { icon: Building2, name: 'BFSI', uses: 'Agentic commerce, digital investment journeys, conversion, onboarding, operations & workflow intelligence' },
+    { icon: Factory, name: 'Manufacturing', uses: 'Factory analytics, production visibility, predictive maintenance, quality intelligence, ERP/OT integration' },
+    { icon: Truck, name: 'Supply Chain & Logistics', uses: 'Dispatch control towers, freight optimization, demand visibility, warehouse intelligence, procurement analytics' },
+    { icon: Flame, name: 'Energy, Mining, Oil & Gas', uses: 'Operations intelligence, asset performance, performance reporting, predictive insights, command centers' },
+    { icon: ShoppingBag, name: 'FMCG, Retail & Distribution', uses: 'Sales performance, distributor analytics, route-to-market, field productivity, channel visibility' },
+    { icon: Radio, name: 'Telecom, Media & Cloud', uses: 'Customer intelligence, revenue assurance, cloud modernization, service assurance, executive dashboards' },
+    { icon: Cpu, name: 'GCCs & Enterprise Operations', uses: 'Process automation, analytics, AI copilots, workflow optimization, productivity intelligence' }
+  ];
+  return (
+    <SlideWrapper num={3}>
+      <Eyebrow>Priority Sectors & Opportunity Themes</Eyebrow>
+      <h2 className="text-[26px] leading-tight font-bold text-slate-900 mb-4">
+        Sector-specific transformation themes where advisors can help us scale
+      </h2>
+      <div className="grid grid-cols-2 gap-3 flex-1 content-start">
+        {sectors.map((s, i) => (
+          <div key={i} className="rounded-xl border border-slate-200 bg-white p-3.5 flex gap-3 hover:shadow-sm transition">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${ACCENT}15` }}>
+              <s.icon className="w-5 h-5" style={{ color: ACCENT }} />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-slate-900 mb-1">{s.name}</p>
+              <p className="text-[11.5px] text-slate-600 leading-snug">{s.uses}</p>
+            </div>
+          </div>
+        ))}
+        <div className="rounded-xl border border-dashed border-slate-300 p-3.5 flex items-center justify-center text-center">
+          <p className="text-[11.5px] text-slate-500">
+            <span className="font-semibold text-slate-700">Advisor lens →</span> Help us prioritize where DiscvrAI's
+            capabilities meet real, fundable enterprise problems.
+          </p>
+        </div>
+      </div>
+    </SlideWrapper>
+  );
+};
+
+// ---------- Slide 4 ----------
+const S4: React.FC = () => {
   const flow = ['Discovery', 'Decision', 'Execution', 'Portfolio Action', 'Continuity', 'Repeat Conversion'];
-  const connects = ['Guided discovery', 'Decision support', 'Transaction execution', 'Portfolio actionability', 'Rebalancing triggers', 'SIP continuity', 'Personalized nudges', 'Repeat engagement'];
+  const connects = ['Guided discovery', 'Decision support', 'Transaction execution', 'Portfolio actionability', 'Rebalancing triggers', 'SIP continuity', 'Personalized nudges', 'Repeat investor engagement'];
   const outcomes = ['Higher funded conversion', 'Better SIP setup & persistence', 'Repeat investment actions', 'Rebalancing completion', 'Dormant-user reactivation', 'Higher nudge-to-action conversion'];
   return (
-    <SlideLayout slideNumber={n} totalSlides={t}>
-      <div className="h-full flex flex-col">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-5">
-          <p className="text-xs uppercase tracking-[0.25em] text-enterprise-gold mb-2">BFSI Product Proposition</p>
-          <h2 className="text-3xl font-light text-white">Agentic commerce & full-stack digital commerce for BFSI</h2>
-        </motion.div>
+    <SlideWrapper num={4}>
+      <Eyebrow>BFSI Product Proposition</Eyebrow>
+      <h2 className="text-[26px] leading-tight font-bold text-slate-900 mb-2">
+        Agentic commerce & full-stack digital commerce for BFSI
+      </h2>
+      <p className="text-sm text-slate-600 max-w-4xl mb-4 leading-relaxed">
+        A conversion operating layer for banks, AMCs, NBFCs, wealth platforms and fintechs — connecting discovery,
+        decision, execution and continuity into one measurable journey.
+      </p>
 
-        <p className="text-enterprise-text-secondary mb-5 max-w-4xl leading-relaxed">
-          A conversion operating layer for banks, AMCs, NBFCs, wealth platforms and fintechs — connecting
-          discovery, decision, execution and continuity into one measurable journey.
-        </p>
+      <div className="rounded-xl border p-3 mb-4" style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}08` }}>
+        <div className="flex items-center justify-between gap-1">
+          {flow.map((f, i) => (
+            <React.Fragment key={i}>
+              <div className="flex-1 text-center">
+                <div className="text-[9px] uppercase tracking-wider mb-0.5" style={{ color: ACCENT }}>Step {i + 1}</div>
+                <div className="text-[12px] font-semibold text-slate-900">{f}</div>
+              </div>
+              {i < flow.length - 1 && <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" style={{ color: `${ACCENT}80` }} />}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
 
-        {/* Flow */}
-        <div className="bg-gradient-to-r from-enterprise-gold/5 via-enterprise-blue/5 to-enterprise-gold/5 border border-enterprise-gold/20 rounded-xl p-4 mb-5">
-          <div className="flex items-center justify-between gap-2">
-            {flow.map((f, i) => (
-              <React.Fragment key={i}>
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 + i * 0.08 }}
-                  className="flex-1 text-center">
-                  <div className="text-[10px] uppercase tracking-wider text-enterprise-gold mb-1">Step {i + 1}</div>
-                  <div className="text-sm text-white font-medium">{f}</div>
-                </motion.div>
-                {i < flow.length - 1 && <ArrowRight className="w-4 h-4 text-enterprise-gold/60 flex-shrink-0" />}
-              </React.Fragment>
+      <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <div className="flex items-center gap-2 mb-2.5">
+            <Layers className="w-4 h-4" style={{ color: ACCENT }} />
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-700">What it connects</p>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5">
+            {connects.map((c, i) => (
+              <div key={i} className="flex items-center gap-2 text-[11.5px] text-slate-700">
+                <div className="w-1 h-1 rounded-full" style={{ background: ACCENT }} />{c}
+              </div>
             ))}
           </div>
         </div>
-
-        <div className="grid grid-cols-2 gap-5 flex-1">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
-            className="bg-enterprise-surface-elevated/60 border border-enterprise-border rounded-xl p-5">
-            <p className="text-sm uppercase tracking-wider text-enterprise-gold mb-3 flex items-center gap-2"><Layers className="w-4 h-4" /> What it connects</p>
-            <div className="grid grid-cols-2 gap-1.5">
-              {connects.map((c, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs text-white/80">
-                  <div className="w-1 h-1 bg-enterprise-gold rounded-full" />{c}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}
-            className="bg-enterprise-surface-elevated/60 border border-enterprise-gold/30 rounded-xl p-5">
-            <p className="text-sm uppercase tracking-wider text-enterprise-gold mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4" /> Business outcomes</p>
-            <div className="space-y-1.5">
-              {outcomes.map((o, i) => (
-                <div key={i} className="flex items-start gap-2 text-xs text-white/90">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-enterprise-gold mt-0.5 flex-shrink-0" />{o}
-                </div>
-              ))}
-            </div>
-          </motion.div>
+        <div className="rounded-xl border p-4" style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}08` }}>
+          <div className="flex items-center gap-2 mb-2.5">
+            <TrendingUp className="w-4 h-4" style={{ color: ACCENT }} />
+            <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: ACCENT }}>Business outcomes</p>
+          </div>
+          <div className="space-y-1.5">
+            {outcomes.map((o, i) => (
+              <div key={i} className="flex items-start gap-2 text-[11.5px] text-slate-800">
+                <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: ACCENT }} />{o}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </SlideLayout>
+
+      <div className="mt-3 rounded-lg py-2 px-4 border border-slate-200 bg-slate-50/60 text-center">
+        <p className="text-[12px] text-slate-700">
+          Most platforms optimize either discovery or transactions. <span className="font-semibold">DiscvrAI connects discovery, decision, execution and continuity into one measurable journey.</span>
+        </p>
+      </div>
+    </SlideWrapper>
   );
 };
 
-const S5Advisor: React.FC<{ n: number; t: number }> = ({ n, t }) => {
+// ---------- Slide 5 ----------
+const S5: React.FC = () => {
   const items = [
     { icon: Compass, label: 'Strategic guidance & market positioning' },
     { icon: BadgeCheck, label: 'Domain validation for sector use cases' },
@@ -220,233 +253,201 @@ const S5Advisor: React.FC<{ n: number; t: number }> = ({ n, t }) => {
     { icon: Search, label: 'Client problem discovery' },
     { icon: FileCheck, label: 'Solution shaping & proposal input' },
     { icon: Briefcase, label: 'Pilot design & commercial structuring' },
-    { icon: Activity, label: 'Industry credibility & relationship access' },
+    { icon: Activity, label: 'Industry credibility & relationship-led access' },
     { icon: Target, label: 'Opportunity qualification & conversion support' }
   ];
   return (
-    <SlideLayout slideNumber={n} totalSlides={t}>
-      <div className="h-full flex flex-col">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-enterprise-gold mb-2">How Advisors Add Value</p>
-          <h2 className="text-3xl font-light text-white">Where senior advisors and GTM partners create leverage</h2>
-        </motion.div>
-        <div className="grid grid-cols-3 gap-3 flex-1 content-start">
-          {items.map((it, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.05 }}
-              className="bg-enterprise-surface-elevated/60 border border-enterprise-border hover:border-enterprise-gold/40 transition-colors rounded-xl p-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-enterprise-gold/15 flex items-center justify-center flex-shrink-0">
-                <it.icon className="w-4.5 h-4.5 text-enterprise-gold" />
-              </div>
-              <p className="text-sm text-white/90 leading-snug pt-1">{it.label}</p>
-            </motion.div>
-          ))}
-        </div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-          className="mt-5 text-center">
-          <p className="text-enterprise-gold italic">
-            Selective, focused, opportunity-led — the advisor doesn't need to be involved in every opportunity.
-          </p>
-        </motion.div>
+    <SlideWrapper num={5}>
+      <Eyebrow>How Advisors Add Value</Eyebrow>
+      <h2 className="text-[26px] leading-tight font-bold text-slate-900 mb-4">
+        Where senior advisors and GTM partners create leverage
+      </h2>
+      <p className="text-sm text-slate-600 max-w-4xl mb-5 leading-relaxed">
+        We are looking for selective, high-trust associations where advisors can help us in one or more of the following ways:
+      </p>
+      <div className="grid grid-cols-3 gap-3 flex-1 content-start">
+        {items.map((it, i) => (
+          <div key={i} className="rounded-xl border border-slate-200 bg-white p-3.5 flex items-start gap-3 hover:shadow-sm transition">
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${ACCENT}15` }}>
+              <it.icon className="w-4.5 h-4.5" style={{ color: ACCENT }} />
+            </div>
+            <p className="text-[12.5px] text-slate-800 leading-snug pt-1.5 font-medium">{it.label}</p>
+          </div>
+        ))}
       </div>
-    </SlideLayout>
+      <div className="mt-4 rounded-xl py-2.5 px-4 border text-center"
+        style={{ borderColor: `${ACCENT}30`, background: `${ACCENT}10` }}>
+        <p className="text-xs font-medium" style={{ color: ACCENT }}>
+          The advisor doesn't need to be involved in every opportunity — the association can remain selective, focused and opportunity-led.
+        </p>
+      </div>
+    </SlideWrapper>
   );
 };
 
-const S6Commercial: React.FC<{ n: number; t: number }> = ({ n, t }) => (
-  <SlideLayout slideNumber={n} totalSlides={t}>
-    <div className="h-full flex flex-col">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-        <p className="text-xs uppercase tracking-[0.25em] text-enterprise-gold mb-2">Engagement & Commercial Model</p>
-        <h2 className="text-3xl font-light text-white">Flexible, outcome-linked engagement model</h2>
-      </motion.div>
-
-      <p className="text-enterprise-text-secondary mb-5 max-w-4xl leading-relaxed">
-        DiscvrAI prefers flexible, opportunity-led associations directly linked to meaningful business contribution.
+// ---------- Slide 6 ----------
+const S6: React.FC = () => {
+  const cards = [
+    {
+      num: '01', title: 'Success-Linked Advisory Payout',
+      body: 'For opportunities that convert into paid engagements, DiscvrAI can structure a success-linked advisory payout based on deal size, nature, margin and level of advisor involvement.',
+      highlight: '7.5% – 15%', sub: 'of project value, depending on contribution & commercial structure'
+    },
+    {
+      num: '02', title: 'Project-Specific Advisory Fee',
+      body: 'For deeper involvement in defined client workshops, discovery sessions, proposal review, solution shaping or domain validation — a project-specific fee can be mutually agreed in advance.',
+      highlight: 'Mutually agreed', sub: 'in advance, scoped per engagement'
+    },
+    {
+      num: '03', title: 'No Passive Retainers by Default',
+      body: 'We prefer outcome-linked commercial arrangements over standing retainers, unless there is a clearly defined operating role, time commitment and mutual scope.',
+      highlight: 'Outcome > Retainer', sub: 'transparency over passivity'
+    }
+  ];
+  return (
+    <SlideWrapper num={6}>
+      <Eyebrow>Engagement & Commercial Model</Eyebrow>
+      <h2 className="text-[26px] leading-tight font-bold text-slate-900 mb-2">
+        Flexible, outcome-linked engagement model
+      </h2>
+      <p className="text-sm text-slate-600 max-w-4xl mb-5 leading-relaxed">
+        DiscvrAI prefers flexible, opportunity-led advisory associations directly linked to meaningful business contribution.
       </p>
 
-      <div className="grid grid-cols-3 gap-4 flex-1">
-        {[
-          {
-            num: '01', title: 'Success-Linked Advisory Payout',
-            body: 'For opportunities that convert into paid engagements, structured based on deal size, nature, margin and level of advisor involvement.',
-            highlight: '7.5% – 15%', sub: 'of project value, depending on contribution'
-          },
-          {
-            num: '02', title: 'Project-Specific Advisory Fee',
-            body: 'For deeper involvement in client workshops, discovery sessions, proposal review, solution shaping or domain validation.',
-            highlight: 'Mutually agreed', sub: 'in advance, scoped per engagement'
-          },
-          {
-            num: '03', title: 'No Passive Retainers by Default',
-            body: 'We prefer outcome-linked arrangements over standing retainers, unless there is a clearly defined operating role and mutual scope.',
-            highlight: 'Outcome > Retainer', sub: 'transparency over passivity'
-          }
-        ].map((c, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.1 }}
-            className="bg-gradient-to-b from-enterprise-surface-elevated to-enterprise-surface-elevated/40 border border-enterprise-border rounded-xl p-5 flex flex-col">
-            <div className="text-3xl font-light text-enterprise-gold/60 mb-2">{c.num}</div>
-            <p className="text-white font-semibold mb-3">{c.title}</p>
-            <p className="text-xs text-enterprise-text-secondary leading-relaxed mb-4 flex-1">{c.body}</p>
-            <div className="border-t border-enterprise-gold/20 pt-3">
-              <p className="text-enterprise-gold font-medium">{c.highlight}</p>
-              <p className="text-[11px] text-enterprise-text-muted">{c.sub}</p>
+      <div className="grid grid-cols-3 gap-4 flex-1 min-h-0">
+        {cards.map((c, i) => (
+          <div key={i} className="rounded-xl border border-slate-200 bg-white p-5 flex flex-col">
+            <div className="text-3xl font-light mb-2" style={{ color: `${ACCENT}80` }}>{c.num}</div>
+            <p className="text-[14px] font-bold text-slate-900 mb-2">{c.title}</p>
+            <p className="text-[11.5px] text-slate-600 leading-relaxed mb-4 flex-1">{c.body}</p>
+            <div className="border-t pt-3" style={{ borderColor: `${ACCENT}30` }}>
+              <p className="text-sm font-bold" style={{ color: ACCENT }}>{c.highlight}</p>
+              <p className="text-[10.5px] text-slate-500">{c.sub}</p>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-        className="mt-5 text-center bg-enterprise-gold/5 border border-enterprise-gold/20 rounded-lg py-3">
-        <p className="text-enterprise-gold text-sm">
+      <div className="mt-4 rounded-xl py-2.5 px-4 border text-center"
+        style={{ borderColor: `${ACCENT}40`, background: `${ACCENT}10` }}>
+        <p className="text-xs font-semibold" style={{ color: ACCENT }}>
           A transparent advisory & GTM collaboration — not a passive referral arrangement.
         </p>
-      </motion.div>
-    </div>
-  </SlideLayout>
-);
+      </div>
+    </SlideWrapper>
+  );
+};
 
-const S7HowWeStart: React.FC<{ n: number; t: number }> = ({ n, t }) => {
+// ---------- Slide 7 ----------
+const S7: React.FC = () => {
   const steps = [
     { icon: MessageSquare, title: 'Introductory conversation', body: 'Understand advisor background, network, interest areas and potential fit.' },
     { icon: Target, title: 'Sector & account mapping', body: 'Identify sectors, accounts or themes where DiscvrAI capabilities are relevant.' },
     { icon: Search, title: 'Opportunity qualification', body: 'Assess buyer access, business problem, budget visibility, urgency and conversion potential.' },
-    { icon: Briefcase, title: 'Client conversation or workshop', body: 'Support discovery, positioning or solutioning conversations where required.' },
+    { icon: Briefcase, title: 'Client conversation / workshop', body: 'Support discovery, positioning or solutioning conversations where required.' },
     { icon: Rocket, title: 'Commercial closure & payout', body: 'For converted engagements, payout is structured per contribution and deal economics.' }
   ];
   return (
-    <SlideLayout slideNumber={n} totalSlides={t}>
-      <div className="h-full flex flex-col">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-enterprise-gold mb-2">How We Start</p>
-          <h2 className="text-3xl font-light text-white">A simple path to collaborate</h2>
-        </motion.div>
+    <SlideWrapper num={7}>
+      <Eyebrow>How We Start</Eyebrow>
+      <h2 className="text-[26px] leading-tight font-bold text-slate-900 mb-5">A simple path to collaborate</h2>
 
-        <div className="grid grid-cols-5 gap-3 mb-6">
-          {steps.map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.1 }}
-              className="bg-enterprise-surface-elevated/60 border border-enterprise-border rounded-xl p-4 flex flex-col">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 rounded-full bg-enterprise-gold/20 flex items-center justify-center text-enterprise-gold text-xs font-bold">{i + 1}</div>
-                <s.icon className="w-4 h-4 text-enterprise-gold" />
-              </div>
-              <p className="text-sm text-white font-semibold mb-2 leading-snug">{s.title}</p>
-              <p className="text-[11px] text-enterprise-text-secondary leading-relaxed">{s.body}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-          className="bg-gradient-to-r from-enterprise-gold/10 to-transparent border border-enterprise-gold/20 rounded-xl p-5 mb-4">
-          <p className="text-white/90 leading-relaxed">
-            DiscvrAI is building <span className="text-enterprise-gold font-medium">long-term, trust-led relationships</span> with senior
-            professionals who can identify serious opportunities where AI-led transformation can deliver measurable enterprise value.
-          </p>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-          className="bg-enterprise-surface-elevated border border-enterprise-gold/30 rounded-xl p-5 flex items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-enterprise-gold/20 flex items-center justify-center">
-              <User className="w-7 h-7 text-enterprise-gold" />
+      <div className="grid grid-cols-5 gap-3 mb-5">
+        {steps.map((s, i) => (
+          <div key={i} className="rounded-xl border border-slate-200 bg-white p-3.5 flex flex-col">
+            <div className="flex items-center gap-2 mb-2.5">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white" style={{ background: ACCENT }}>{i + 1}</div>
+              <s.icon className="w-4 h-4" style={{ color: ACCENT }} />
             </div>
-            <div>
-              <p className="text-white font-semibold text-lg">Shubham Srivastava</p>
-              <p className="text-xs text-enterprise-text-muted">Founder, DiscvrAI · AI-led Enterprise Transformation · Decision Intelligence · Agentic Workflows · Digital Commerce</p>
-            </div>
+            <p className="text-[12px] font-bold text-slate-900 mb-1.5 leading-snug">{s.title}</p>
+            <p className="text-[10.5px] text-slate-600 leading-relaxed">{s.body}</p>
           </div>
-          <div className="flex items-center gap-5 text-sm">
-            <div className="flex items-center gap-2 text-white/90"><Phone className="w-4 h-4 text-enterprise-gold" />+91-9873961591</div>
-            <div className="flex items-center gap-2 text-white/90"><Mail className="w-4 h-4 text-enterprise-gold" />shubham@discvr.ai</div>
-          </div>
-        </motion.div>
+        ))}
       </div>
-    </SlideLayout>
+
+      <div className="rounded-xl p-4 mb-3 text-white" style={{ background: ACCENT }}>
+        <p className="text-[13px] leading-relaxed">
+          DiscvrAI is building <span className="font-bold">long-term, trust-led relationships</span> with senior
+          professionals who can help identify serious opportunities where AI-led transformation can deliver
+          measurable enterprise value.
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 flex items-center justify-between gap-6 flex-wrap">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: `${ACCENT}18` }}>
+            <User className="w-6 h-6" style={{ color: ACCENT }} />
+          </div>
+          <div>
+            <p className="text-[15px] font-bold text-slate-900 leading-tight">Shubham Srivastava</p>
+            <p className="text-[10.5px] text-slate-500 leading-snug">Founder, DiscvrAI · 20+ yrs technology & digital leadership · Ex-CIO/CTO/CPTO Eureka Forbes, HT Media, MakeMyTrip · IIT(ISM) Dhanbad</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-5 text-[12px] text-slate-700">
+          <div className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" style={{ color: ACCENT }} />+91-9873961591</div>
+          <div className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" style={{ color: ACCENT }} />shubham@discvr.ai</div>
+        </div>
+      </div>
+
+      <p className="text-[10px] text-slate-400 text-center mt-2">
+        AI-led Enterprise Transformation · Decision Intelligence · Agentic Workflows · Digital Commerce
+      </p>
+    </SlideWrapper>
   );
 };
 
-// ---------- Page Shell ----------
-
-const slides = [S1Proposition, S2Value, S3Sectors, S4BFSI, S5Advisor, S6Commercial, S7HowWeStart];
-const titles = [
-  'Strategic Advisor Proposition',
-  'Where DiscvrAI Creates Value',
-  'Priority Sectors',
-  'BFSI Product Proposition',
-  'How Advisors Add Value',
-  'Engagement & Commercial Model',
-  'How We Start'
-];
+const slideRenderers = [S1, S2, S3, S4, S5, S6, S7];
 
 const AdvisorPitch: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const [presentationMode, setPresentationMode] = useState(false);
-  const total = slides.length;
+  const [entered, setEntered] = useState(false);
 
-  const next = () => setCurrent(c => Math.min(c + 1, total - 1));
-  const prev = () => setCurrent(c => Math.max(c - 1, 0));
+  useEffect(() => { setEntered(true); }, []);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') next();
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'p' || e.key === 'P') setPresentationMode(p => !p);
-      if (e.key === 'Escape') setPresentationMode(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+  const go = useCallback((dir: number) => {
+    setCurrent(c => Math.max(0, Math.min(TOTAL - 1, c + dir)));
   }, []);
 
-  const Slide = slides[current];
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [go]);
+
+  const Slide = slideRenderers[current];
 
   return (
-    <div className="h-screen bg-enterprise-navy-dark overflow-hidden relative">
-      <Slide n={current + 1} t={total} />
-
-      {!presentationMode && (
-        <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
-          <button onClick={() => setPresentationMode(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-enterprise-gold/10 backdrop-blur-sm border border-enterprise-gold/30 text-enterprise-gold hover:bg-enterprise-gold/20 transition-all text-xs">
-            <Eye className="w-3.5 h-3.5" /><span>Present (P)</span>
-          </button>
-        </div>
-      )}
-
-      {presentationMode && (
-        <button onClick={() => setPresentationMode(false)}
-          className="fixed top-3 left-3 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/40 hover:bg-white/10 hover:text-white/70 transition-all text-xs opacity-0 hover:opacity-100">
-          <EyeOff className="w-3.5 h-3.5" /><span>Exit (Esc)</span>
+    <div className="w-full h-screen overflow-hidden relative bg-white">
+      <div className="fixed top-0 left-0 right-0 z-50 flex">
+        {Array.from({ length: TOTAL }).map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)} className="flex-1 h-1 transition-colors duration-300"
+            style={{ background: i <= current ? ACCENT : '#e2e8f0' }} />
+        ))}
+      </div>
+      <AnimatePresence mode="wait">
+        <motion.div key={current}
+          initial={entered ? { opacity: 0, x: 30 } : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.3 }}
+          className="w-full h-full"
+        >
+          <Slide />
+        </motion.div>
+      </AnimatePresence>
+      <div className="fixed bottom-6 right-8 z-50 flex gap-2">
+        <button onClick={() => go(-1)} disabled={current === 0}
+          className="w-10 h-10 rounded-full border border-slate-200 bg-white/90 backdrop-blur flex items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-30 transition-all shadow-sm">
+          <ChevronLeft className="w-5 h-5" />
         </button>
-      )}
-
-      {!presentationMode && (
-        <>
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50">
-            <button onClick={prev} disabled={current === 0}
-              className="w-10 h-10 rounded-full bg-enterprise-gold/10 backdrop-blur-sm border border-enterprise-gold/30 flex items-center justify-center text-enterprise-gold hover:bg-enterprise-gold/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-1.5 bg-enterprise-navy/80 backdrop-blur-sm rounded-full px-3 py-2 border border-enterprise-border">
-              {slides.map((_, i) => (
-                <button key={i} onClick={() => setCurrent(i)}
-                  className={`transition-all duration-200 ${i === current ? 'w-6 h-2 bg-enterprise-gold rounded-full' : 'w-2 h-2 bg-enterprise-gold/30 rounded-full hover:bg-enterprise-gold/50'}`} />
-              ))}
-            </div>
-            <button onClick={next} disabled={current === total - 1}
-              className="w-10 h-10 rounded-full bg-enterprise-gold/10 backdrop-blur-sm border border-enterprise-gold/30 flex items-center justify-center text-enterprise-gold hover:bg-enterprise-gold/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all">
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-          <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50">
-            <span className="text-enterprise-text-muted text-xs bg-enterprise-navy/80 backdrop-blur-sm rounded-full px-4 py-1.5 border border-enterprise-border">
-              {titles[current]}
-            </span>
-          </div>
-          <div className="fixed bottom-6 right-6 z-50 text-enterprise-text-muted text-xs space-y-1">
-            <p>← → Navigate slides</p>
-            <p>P - Present mode</p>
-          </div>
-        </>
-      )}
+        <button onClick={() => go(1)} disabled={current === TOTAL - 1}
+          className="w-10 h-10 rounded-full border border-slate-200 bg-white/90 backdrop-blur flex items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-30 transition-all shadow-sm">
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
     </div>
   );
 };
