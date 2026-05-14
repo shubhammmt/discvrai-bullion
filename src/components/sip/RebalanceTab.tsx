@@ -630,6 +630,5 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
         onComplete={onCardExecuted}
       />
     </div>
-    </div>
   );
 }
