@@ -218,6 +218,7 @@ import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
 import AdvisorPitch from './pages/AdvisorPitch';
+import RAKSapPitch from './pages/RAKSapPitch';
 import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
