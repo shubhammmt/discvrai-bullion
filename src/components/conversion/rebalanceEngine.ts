@@ -1,6 +1,7 @@
 // Phase-1 Rebalance Engine — deterministic, config-driven.
-// Three triggers only: single-fund concentration, sector concentration, benchmark nudge.
-// No drift. Every leg traceable to a triggerId + rule.
+// Triggers: single-fund concentration, sector concentration, benchmark nudge.
+// Output: RebalanceCard[] — each card = one trigger, with explicit Sell + Buy halves
+// so the UI can show settlement (T+N), exit load, tax note, and SIP-vs-lumpsum choice.
 
 import { REBALANCE_CONFIG, RebalanceConfig } from './rebalanceConfig';
 import { MOCK_SIPS, MOCK_FUNDS, MutualFund } from '@/data/sipMockData';
@@ -17,6 +18,7 @@ export interface Holding {
   sector: string;
   assetClass: string;
   valueINR: number;
+  holdingDays: number;
 }
 
 export interface RebalanceTrigger {
@@ -26,28 +28,60 @@ export interface RebalanceTrigger {
   title: string;
   why: string;
   metric?: string;
-  // Identifier of the breached entity (fundId or sector name) — used for leg generation.
   ref?: string;
 }
 
 export type LegType = 'reduce' | 'switch' | 'buy';
 
-export interface PlanLeg {
-  id: string;
-  type: LegType;
-  sourceFundId?: string;
-  sourceFundName?: string;
-  destFundId?: string;
-  destFundName?: string;
+// Sell half of a card
+export interface SellLeg {
+  sourceFundId: string;
+  sourceFundName: string;
   amountINR: number;
-  triggerId: string;
-  why: string;
+  holdingDays: number;
+  exitLoadINR: number;       // indicative
+  settlementDays: number;    // T+N
+  settlementLabel: string;
+  taxNote: string;           // indicative
 }
+
+export type BuyMode = 'sip' | 'lumpsum';
+
+// Buy half of a card
+export interface BuyLeg {
+  destFundId: string;
+  destFundName: string;
+  destCategory: string;
+  amountINR: number;          // total to deploy (matches sell proceeds by default)
+  mode: BuyMode;
+  lumpsumINR?: number;
+  sipMonthlyINR?: number;
+  sipMonths?: number;
+  rationale: string;
+}
+
+// One card per trigger
+export interface RebalanceCard {
+  id: string;
+  triggerId: string;
+  type: LegType;             // 'switch' | 'reduce' (Phase-1 mostly switch)
+  severity: RebalanceSeverity;
+  title: string;
+  why: string;
+  sell: SellLeg;
+  buy?: BuyLeg;              // optional — user can choose Reduce-only
+  reinvestmentOptional: boolean;
+}
+
+// Back-compat shim — older code imports `PlanLeg`. Card is the new primitive.
+export type PlanLeg = RebalanceCard;
 
 // ---------- Holdings adapter ----------
 export function getMockHoldings(): Holding[] {
-  return MOCK_SIPS.map(sip => {
+  return MOCK_SIPS.map((sip, i) => {
     const fund = MOCK_FUNDS.find(f => f.code === sip.fundCode);
+    // Mock holding period: derive from installmentsDone (≈30d each), capped at 5y.
+    const holdingDays = Math.min(1825, Math.max(30, (sip.installmentsDone || 6) * 30 + (i % 4) * 90));
     return {
       fundId: sip.fundCode,
       name: sip.fundName,
@@ -56,14 +90,13 @@ export function getMockHoldings(): Holding[] {
       sector: fund?.sector || (fund?.assetClass === 'Debt' ? 'Debt' : 'Diversified'),
       assetClass: fund?.assetClass || 'Equity',
       valueINR: sip.currentValue,
+      holdingDays,
     };
   });
 }
 
 // ---------- Aggregates ----------
-function totalValue(hs: Holding[]) {
-  return hs.reduce((s, h) => s + h.valueINR, 0);
-}
+function totalValue(hs: Holding[]) { return hs.reduce((s, h) => s + h.valueINR, 0); }
 function fundWeights(hs: Holding[]) {
   const tv = totalValue(hs) || 1;
   return hs.map(h => ({ h, weight: (h.valueINR / tv) * 100 }));
@@ -82,77 +115,58 @@ export function evaluateTriggers(
 ): RebalanceTrigger[] {
   const out: RebalanceTrigger[] = [];
 
-  // Single-fund concentration
   if (cfg.singleFund.enabled) {
     fundWeights(hs).forEach(({ h, weight }) => {
       if (weight > cfg.singleFund.critical) {
         out.push({
-          id: `tg-fund-${h.fundId}`,
-          kind: 'single-fund',
-          severity: 'critical',
+          id: `tg-fund-${h.fundId}`, kind: 'single-fund', severity: 'critical',
           title: `${h.name} is ${weight.toFixed(1)}% of portfolio`,
           why: `One fund above the ${cfg.singleFund.critical}% critical cap.`,
-          metric: `${weight.toFixed(1)}% / cap ${cfg.singleFund.warn}%`,
-          ref: h.fundId,
+          metric: `${weight.toFixed(1)}% / cap ${cfg.singleFund.warn}%`, ref: h.fundId,
         });
       } else if (weight > cfg.singleFund.warn) {
         out.push({
-          id: `tg-fund-${h.fundId}`,
-          kind: 'single-fund',
-          severity: 'warn',
+          id: `tg-fund-${h.fundId}`, kind: 'single-fund', severity: 'warn',
           title: `${h.name} is ${weight.toFixed(1)}% of portfolio`,
           why: `Above the ${cfg.singleFund.warn}% warning cap.`,
-          metric: `${weight.toFixed(1)}% / cap ${cfg.singleFund.warn}%`,
-          ref: h.fundId,
+          metric: `${weight.toFixed(1)}% / cap ${cfg.singleFund.warn}%`, ref: h.fundId,
         });
       }
     });
   }
 
-  // Sector concentration
   if (cfg.sector.enabled) {
     sectorWeights(hs).forEach(({ sector, weight }) => {
       if (weight > cfg.sector.critical) {
         out.push({
-          id: `tg-sector-${sector}`,
-          kind: 'sector',
-          severity: 'critical',
+          id: `tg-sector-${sector}`, kind: 'sector', severity: 'critical',
           title: `${sector} sector is ${weight.toFixed(1)}% of portfolio`,
           why: `Sector exposure above the ${cfg.sector.critical}% critical cap.`,
-          metric: `${weight.toFixed(1)}% / cap ${cfg.sector.warn}%`,
-          ref: sector,
+          metric: `${weight.toFixed(1)}% / cap ${cfg.sector.warn}%`, ref: sector,
         });
       } else if (weight > cfg.sector.warn) {
         out.push({
-          id: `tg-sector-${sector}`,
-          kind: 'sector',
-          severity: 'warn',
+          id: `tg-sector-${sector}`, kind: 'sector', severity: 'warn',
           title: `${sector} sector is ${weight.toFixed(1)}% of portfolio`,
           why: `Above the ${cfg.sector.warn}% warning cap.`,
-          metric: `${weight.toFixed(1)}% / cap ${cfg.sector.warn}%`,
-          ref: sector,
+          metric: `${weight.toFixed(1)}% / cap ${cfg.sector.warn}%`, ref: sector,
         });
       }
     });
   }
 
-  // Benchmark / market move
   if (cfg.benchmark.enabled) {
     const dd = Math.abs(cfg.benchmark.mockDrawdownPct);
     if (dd >= cfg.benchmark.criticalDrawdownPct) {
       out.push({
-        id: 'tg-benchmark',
-        kind: 'benchmark',
-        severity: 'critical',
+        id: 'tg-benchmark', kind: 'benchmark', severity: 'critical',
         title: `${cfg.benchmark.index} down ${dd.toFixed(1)}% (last ${cfg.benchmark.lookbackSessions} sessions)`,
         why: `Market move beyond the ${cfg.benchmark.criticalDrawdownPct}% critical band — review your plan.`,
         metric: `${dd.toFixed(1)}% drawdown`,
       });
     } else if (dd >= cfg.benchmark.warnDrawdownPct) {
       out.push({
-        id: 'tg-benchmark',
-        kind: 'benchmark',
-        severity: 'warn',
+        id: 'tg-benchmark', kind: 'benchmark', severity: 'warn',
         title: `${cfg.benchmark.index} down ${dd.toFixed(1)}% (last ${cfg.benchmark.lookbackSessions} sessions)`,
         why: `Market move beyond the ${cfg.benchmark.warnDrawdownPct}% warning band.`,
         metric: `${dd.toFixed(1)}% drawdown`,
@@ -163,24 +177,43 @@ export function evaluateTriggers(
   return sortTriggers(out);
 }
 
-// Sort: critical first, tie-break order singleFund → sector → benchmark.
-const KIND_ORDER: Record<RebalanceTriggerKind, number> = {
-  'single-fund': 0, 'sector': 1, 'benchmark': 2,
-};
+const KIND_ORDER: Record<RebalanceTriggerKind, number> = { 'single-fund': 0, 'sector': 1, 'benchmark': 2 };
 export function sortTriggers(xs: RebalanceTrigger[]) {
   return [...xs].sort((a, b) =>
     (a.severity === 'critical' ? 0 : 1) - (b.severity === 'critical' ? 0 : 1)
-    || KIND_ORDER[a.kind] - KIND_ORDER[b.kind],
-  );
+    || KIND_ORDER[a.kind] - KIND_ORDER[b.kind]);
 }
-
 export function topTriggers(xs: RebalanceTrigger[], n = REBALANCE_CONFIG.maxAlertCards) {
   return xs.slice(0, n);
 }
 
-// ---------- Plan legs ----------
+// ---------- Rules: amount, exit load, tax, SIP suggestion ----------
 function roundAmount(v: number, step = REBALANCE_CONFIG.roundToINR) {
   return Math.max(REBALANCE_CONFIG.minOrderINR, Math.round(v / step) * step);
+}
+
+export function calcExitLoad(amountINR: number, holdingDays: number, cfg: RebalanceConfig = REBALANCE_CONFIG) {
+  if (holdingDays >= cfg.exitLoad.holdingDaysCutoff) return 0;
+  return Math.round((amountINR * cfg.exitLoad.chargePctIfWithin) / 100);
+}
+
+export function calcTaxNote(holdingDays: number) {
+  if (holdingDays >= 365) {
+    return 'LTCG above ₹1L taxable at 10% in FY. Indicative only.';
+  }
+  return 'STCG taxable at 15%. Indicative only — confirm with your CA.';
+}
+
+export function suggestSipPlan(amountINR: number, cfg: RebalanceConfig = REBALANCE_CONFIG) {
+  const { sipMonthsMin, sipMonthsMax, sipInstallmentRoundINR } = cfg.buyDefaults;
+  // Aim ~₹5k/mo if amount allows; clamp months to [min, max]
+  let months = Math.round(amountINR / 5000);
+  months = Math.max(sipMonthsMin, Math.min(sipMonthsMax, months));
+  const monthly = Math.max(
+    cfg.minOrderINR,
+    Math.round(amountINR / months / sipInstallmentRoundINR) * sipInstallmentRoundINR,
+  );
+  return { months, monthly };
 }
 
 function pickDestination(sourceCategory: string, excludeFundId?: string): MutualFund | undefined {
@@ -188,17 +221,64 @@ function pickDestination(sourceCategory: string, excludeFundId?: string): Mutual
   const eligible = shortlist
     .map(s => MOCK_FUNDS.find(f => f.code === s.code))
     .filter((f): f is MutualFund => !!f && f.code !== excludeFundId);
-  // Prefer same category, otherwise fallback to first eligible.
   return eligible.find(f => f.category === sourceCategory) || eligible[0];
+}
+
+// ---------- Card builder ----------
+function buildCardForFund(
+  trigger: RebalanceTrigger, h: Holding, ppGap: number, tv: number, cfg: RebalanceConfig,
+): RebalanceCard {
+  const amount = roundAmount((ppGap / 100) * tv);
+  const dest = pickDestination(h.category, h.fundId);
+  const exitLoadINR = calcExitLoad(amount, h.holdingDays, cfg);
+  const taxNote = calcTaxNote(h.holdingDays);
+  const sip = suggestSipPlan(amount, cfg);
+
+  const sell: SellLeg = {
+    sourceFundId: h.fundId,
+    sourceFundName: h.name,
+    amountINR: amount,
+    holdingDays: h.holdingDays,
+    exitLoadINR,
+    settlementDays: cfg.settlement.redeemWorkingDays,
+    settlementLabel: cfg.settlement.label,
+    taxNote,
+  };
+
+  const buy: BuyLeg | undefined = dest ? {
+    destFundId: dest.code,
+    destFundName: dest.name,
+    destCategory: dest.category,
+    amountINR: amount - exitLoadINR,
+    mode: cfg.buyDefaults.mode,
+    sipMonthlyINR: sip.monthly,
+    sipMonths: sip.months,
+    lumpsumINR: amount - exitLoadINR,
+    rationale: cfg.buyDefaults.mode === 'sip'
+      ? 'Deploy gradually to average NAV across months.'
+      : 'Single deployment when sell proceeds settle.',
+  } : undefined;
+
+  return {
+    id: `${trigger.id}-card`,
+    triggerId: trigger.id,
+    type: 'switch',
+    severity: trigger.severity,
+    title: trigger.title,
+    why: trigger.why,
+    sell,
+    buy,
+    reinvestmentOptional: true,
+  };
 }
 
 export function buildPlanLegs(
   triggers: RebalanceTrigger[],
   hs: Holding[] = getMockHoldings(),
   cfg: RebalanceConfig = REBALANCE_CONFIG,
-): PlanLeg[] {
+): RebalanceCard[] {
   const tv = totalValue(hs);
-  const legs: PlanLeg[] = [];
+  const cards: RebalanceCard[] = [];
   const reducedByFund: Record<string, number> = {};
 
   for (const t of triggers) {
@@ -206,23 +286,12 @@ export function buildPlanLegs(
       const h = hs.find(x => x.fundId === t.ref);
       if (!h) continue;
       const currentWeight = (h.valueINR / tv) * 100;
-      const targetWeight = Math.max(0, cfg.singleFund.warn - 1); // 1pp buffer
+      const targetWeight = Math.max(0, cfg.singleFund.warn - 1);
       const ppGap = currentWeight - targetWeight;
       if (ppGap <= 0) continue;
-      const amount = roundAmount((ppGap / 100) * tv);
-      const dest = pickDestination(h.category, h.fundId);
-      legs.push({
-        id: `${t.id}-reduce`,
-        type: 'switch',
-        sourceFundId: h.fundId,
-        sourceFundName: h.name,
-        destFundId: dest?.code,
-        destFundName: dest?.name,
-        amountINR: amount,
-        triggerId: t.id,
-        why: `Trim ${h.name} from ${currentWeight.toFixed(1)}% → ~${targetWeight}% (cap ${cfg.singleFund.warn}%).`,
-      });
-      reducedByFund[h.fundId] = (reducedByFund[h.fundId] || 0) + amount;
+      const card = buildCardForFund(t, h, ppGap, tv, cfg);
+      cards.push(card);
+      reducedByFund[h.fundId] = (reducedByFund[h.fundId] || 0) + card.sell.amountINR;
     }
 
     if (t.kind === 'sector' && t.ref) {
@@ -240,41 +309,59 @@ export function buildPlanLegs(
         const available = Math.max(0, h.valueINR - already);
         const take = Math.min(available, toTrimINR);
         if (take < cfg.minOrderINR) continue;
-        const amount = roundAmount(take);
-        const dest = pickDestination(h.category, h.fundId);
-        legs.push({
-          id: `${t.id}-reduce-${h.fundId}`,
-          type: 'switch',
-          sourceFundId: h.fundId,
-          sourceFundName: h.name,
-          destFundId: dest?.code,
-          destFundName: dest?.name,
-          amountINR: amount,
-          triggerId: t.id,
-          why: `Bring ${sector} sector ${currentWeight.toFixed(1)}% → ~${targetWeight}% (cap ${cfg.sector.warn}%).`,
-        });
-        reducedByFund[h.fundId] = (reducedByFund[h.fundId] || 0) + amount;
-        toTrimINR -= amount;
+        const localPpGap = (take / tv) * 100;
+        const card = buildCardForFund(t, h, localPpGap, tv, cfg);
+        card.id = `${t.id}-card-${h.fundId}`;
+        cards.push(card);
+        reducedByFund[h.fundId] = (reducedByFund[h.fundId] || 0) + card.sell.amountINR;
+        toTrimINR -= card.sell.amountINR;
       }
     }
-
-    // benchmark → no auto legs in MVP
+    // benchmark → no auto cards in MVP
   }
 
-  // Merge duplicates (same source + dest)
-  const merged: Record<string, PlanLeg> = {};
-  for (const l of legs) {
-    const k = `${l.sourceFundId}:${l.destFundId}:${l.triggerId}`;
-    if (merged[k]) merged[k].amountINR += l.amountINR;
-    else merged[k] = l;
-  }
-  return Object.values(merged);
+  return cards;
 }
 
-// ---------- Mock submit (single integration boundary) ----------
-export async function submitRebalancePlan(legs: PlanLeg[]): Promise<{ ok: true; planId: string; submittedAt: string }> {
+// ---------- Submit (mock single boundary) ----------
+export interface SubmittedCardSummary {
+  cardId: string;
+  triggerId: string;
+  sellFundName: string;
+  sellAmountINR: number;
+  exitLoadINR: number;
+  settlementLabel: string;
+  buy?: {
+    destFundName: string;
+    mode: BuyMode;
+    lumpsumINR?: number;
+    sipMonthlyINR?: number;
+    sipMonths?: number;
+    amountINR: number;
+  };
+}
+
+export async function submitRebalancePlan(
+  cards: RebalanceCard[],
+): Promise<{ ok: true; planId: string; submittedAt: string; summaries: SubmittedCardSummary[] }> {
   await new Promise(r => setTimeout(r, 600));
-  return { ok: true, planId: `PLN-${Date.now()}`, submittedAt: new Date().toISOString() };
+  const summaries: SubmittedCardSummary[] = cards.map(c => ({
+    cardId: c.id,
+    triggerId: c.triggerId,
+    sellFundName: c.sell.sourceFundName,
+    sellAmountINR: c.sell.amountINR,
+    exitLoadINR: c.sell.exitLoadINR,
+    settlementLabel: c.sell.settlementLabel,
+    buy: c.buy ? {
+      destFundName: c.buy.destFundName,
+      mode: c.buy.mode,
+      lumpsumINR: c.buy.mode === 'lumpsum' ? c.buy.lumpsumINR : undefined,
+      sipMonthlyINR: c.buy.mode === 'sip' ? c.buy.sipMonthlyINR : undefined,
+      sipMonths: c.buy.mode === 'sip' ? c.buy.sipMonths : undefined,
+      amountINR: c.buy.amountINR,
+    } : undefined,
+  }));
+  return { ok: true, planId: `PLN-${Date.now()}`, submittedAt: new Date().toISOString(), summaries };
 }
 
 // ---------- View helpers ----------
@@ -283,4 +370,20 @@ export function getSectorBreakdown(hs: Holding[] = getMockHoldings()) {
 }
 export function getFundBreakdown(hs: Holding[] = getMockHoldings()) {
   return fundWeights(hs).sort((a, b) => b.weight - a.weight);
+}
+
+// ---------- Working-day adder (no holiday calendar in Phase-1) ----------
+export function addWorkingDays(from: Date, n: number): Date {
+  const d = new Date(from);
+  let added = 0;
+  while (added < n) {
+    d.setDate(d.getDate() + 1);
+    const day = d.getDay();
+    if (day !== 0 && day !== 6) added += 1;
+  }
+  return d;
+}
+
+export function formatDayLabel(d: Date): string {
+  return d.toLocaleDateString('en-IN', { weekday: 'short', day: '2-digit', month: 'short' });
 }
