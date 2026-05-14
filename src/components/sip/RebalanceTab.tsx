@@ -341,19 +341,44 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                     {' '}<span className="font-medium text-sip-text-secondary">{executedCount}</span> of {cards.length} executed.
                   </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="text-[11px] text-sip-brand hover:underline shrink-0"
+                >
+                  View portfolio context
+                </button>
               </div>
+
+              {focusId && cards.some(c => c.triggerId === focusId) && (
+                <div className="text-[11px] text-sip-text-muted flex items-center gap-2">
+                  <span>Showing plan for the selected alert.</span>
+                  <button
+                    type="button"
+                    onClick={() => setFocusId(undefined)}
+                    className="text-sip-brand hover:underline"
+                  >
+                    Clear focus · show all
+                  </button>
+                </div>
+              )}
 
               {cards.map(c => {
                 const st = status[c.id];
                 const executed = st === 'executed';
                 const skipped = st === 'skipped';
                 const proceeds = c.sell.amountINR - c.sell.exitLoadINR;
+                const isFocused = focusId && c.triggerId === focusId;
                 return (
-                  <Card key={c.id} className={cn(
-                    'border-sip-border transition-shadow',
-                    executed && 'ring-1 ring-emerald-300 shadow-sm bg-emerald-50/20',
-                    skipped && 'opacity-60',
-                  )}>
+                  <Card
+                    key={c.id}
+                    ref={(el) => { cardRefs.current[c.id] = el; }}
+                    className={cn(
+                      'border-sip-border transition-shadow scroll-mt-24',
+                      executed && 'ring-1 ring-emerald-300 shadow-sm bg-emerald-50/20',
+                      skipped && 'opacity-60',
+                      isFocused && !executed && 'ring-2 ring-sip-brand shadow-md',
+                    )}>
                     <CardContent className="p-4 space-y-4">
                       {/* Header */}
                       <div className="flex items-start justify-between gap-3">
