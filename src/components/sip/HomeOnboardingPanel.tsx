@@ -123,7 +123,7 @@ export function HomeOnboardingPanel({ userState, onNavigateTab, onSignIn }: Home
         <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-1.5 px-1">
           Quick actions
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           {tiles.map((t) => (
             <button
               key={t.label}
