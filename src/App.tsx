@@ -83,6 +83,7 @@ import DiscvrAbout from './pages/discvrai/DiscvrAbout';
 import DiscvrContact from './pages/discvrai/DiscvrContact';
 import DiscvrCopilot from './pages/discvrai/DiscvrCopilot';
 import CMSGuardian from './pages/CMSGuardian';
+import CMSTransformation from './pages/CMSTransformation';
 import CMSAuditCommandCenter from './pages/CMSAuditCommandCenter';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
