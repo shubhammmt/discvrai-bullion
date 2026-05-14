@@ -217,6 +217,7 @@ import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
+import AdvisorPitch from './pages/AdvisorPitch';
 import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
@@ -566,7 +567,8 @@ const AppContent = () => {
                   <Route path="/pitch/asian-energy" element={<AsianEnergyDeck />} />
                   <Route path="/pitch/schlumberger" element={<SchlumbergerDeck />} />
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
-                   <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
+                  <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
+                  <Route path="/pitch/advisor" element={<AdvisorPitch />} />
                    <Route path="/pitch/enterprise-lite" element={<EnterpriseDeckLite />} />
                    <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
                    <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
