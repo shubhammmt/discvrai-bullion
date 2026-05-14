@@ -7,19 +7,20 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import {
   ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, AlertTriangle,
-  Loader2, Check, Info, Wallet, TrendingDown, Calendar,
+  Check, Info, Wallet, TrendingDown, Calendar, PlayCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
-  evaluateTriggers, buildPlanLegs, submitRebalancePlan,
+  evaluateTriggers, buildPlanLegs,
   getMockHoldings, getSectorBreakdown, getFundBreakdown,
-  suggestSipPlan, calcExitLoad, calcTaxNote,
+  suggestSipPlan,
   addWorkingDays, formatDayLabel,
   RebalanceCard, BuyMode, SubmittedCardSummary,
 } from '@/components/conversion/rebalanceEngine';
 import { REBALANCE_CONFIG } from '@/components/conversion/rebalanceConfig';
 import { buildSmartShortlist } from '@/components/conversion/shortlistEngine';
 import { MOCK_FUNDS } from '@/data/sipMockData';
+import { RebalanceExecuteSheet } from './RebalanceExecuteSheet';
 
 interface RebalanceTabProps {
   initialFocusId?: string;
