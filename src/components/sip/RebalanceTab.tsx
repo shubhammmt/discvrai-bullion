@@ -33,7 +33,8 @@ type CardSelection = Record<string, { mode: BuyMode; destFundId: string }>;
 type ExecStatus = Record<string, 'pending' | 'executed' | 'skipped'>;
 
 export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  // If user lands here from an alert (with focus), open straight on Plan.
+  const [step, setStep] = useState<1 | 2 | 3>(initialFocusId ? 2 : 1);
   const [focusId, setFocusId] = useState<string | undefined>(initialFocusId);
   const triggers = useMemo(() => evaluateTriggers(), []);
   const holdings = useMemo(() => getMockHoldings(), []);
@@ -42,6 +43,7 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const initialCards = useMemo(() => buildPlanLegs(triggers, holdings), [triggers, holdings]);
   const [cards, setCards] = useState<RebalanceCard[]>(initialCards);
   const destinations = useMemo(() => buildSmartShortlist({ risk: 'Moderate' }, 12), []);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const [sel, setSel] = useState<CardSelection>(() => {
     const init: CardSelection = {};
@@ -66,7 +68,28 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const submittedAt = summaries.length > 0 ? new Date().toISOString() : null;
   const planId = summaries.length > 0 ? `PLN-${Date.now().toString().slice(-8)}` : null;
 
-  useEffect(() => { setFocusId(initialFocusId); }, [initialFocusId]);
+  // Honour external focus changes (e.g., user clicks a different alert from Portfolio strip).
+  useEffect(() => {
+    if (!initialFocusId) return;
+    setFocusId(initialFocusId);
+    setStep(2);
+  }, [initialFocusId]);
+
+  // When a focus is set on Step 2, scroll the matching card into view + flash highlight.
+  useEffect(() => {
+    if (step !== 2 || !focusId) return;
+    const targetCard = cards.find(c => c.triggerId === focusId);
+    if (!targetCard) return;
+    const el = cardRefs.current[targetCard.id];
+    if (el) {
+      requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    }
+  }, [step, focusId, cards]);
+
+  const jumpToPlanFor = (triggerId: string) => {
+    setFocusId(triggerId);
+    setStep(2);
+  };
 
   const benchmarkOnly = triggers.length > 0 && triggers.every(t => t.kind === 'benchmark');
   const noTriggers = triggers.length === 0;
