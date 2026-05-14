@@ -10,7 +10,6 @@ export interface RebalanceConfig {
     lookbackSessions: number;
     warnDrawdownPct: number;
     criticalDrawdownPct: number;
-    // Mock current drawdown (negative number); replace with real series.
     mockDrawdownPct: number;
   };
   drift:     { enabled: false }; // explicitly off in Phase-1 MVP
@@ -18,6 +17,23 @@ export interface RebalanceConfig {
   nextReviewDays: number;
   minOrderINR: number;
   roundToINR: number;
+  // Settlement + execution mock rules (indicative copy only — not OMS truth)
+  settlement: {
+    redeemWorkingDays: number;       // T+N for proceeds to clear
+    label: string;                   // e.g. "T+3 working days"
+  };
+  // Static, indicative exit-load rule (Phase-1 mock)
+  exitLoad: {
+    holdingDaysCutoff: number;       // e.g. 365 — beyond which exit load is 0
+    chargePctIfWithin: number;       // e.g. 1 — % of redeemed amount if held < cutoff
+  };
+  // Default Buy mode for switch destinations
+  buyDefaults: {
+    mode: 'sip' | 'lumpsum';
+    sipMonthsMin: number;
+    sipMonthsMax: number;
+    sipInstallmentRoundINR: number;  // round each SIP installment to this
+  };
 }
 
 export const REBALANCE_CONFIG: RebalanceConfig = {
@@ -36,4 +52,18 @@ export const REBALANCE_CONFIG: RebalanceConfig = {
   nextReviewDays: 30,
   minOrderINR: 500,
   roundToINR: 500,
+  settlement: {
+    redeemWorkingDays: 3,
+    label: 'T+3 working days',
+  },
+  exitLoad: {
+    holdingDaysCutoff: 365,
+    chargePctIfWithin: 1,
+  },
+  buyDefaults: {
+    mode: 'sip',
+    sipMonthsMin: 4,
+    sipMonthsMax: 12,
+    sipInstallmentRoundINR: 500,
+  },
 };
