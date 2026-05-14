@@ -570,6 +570,7 @@ const AppContent = () => {
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
                   <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
                   <Route path="/pitch/advisor" element={<AdvisorPitch />} />
+                  <Route path="/pitch/rak-sap" element={<RAKSapPitch />} />
                    <Route path="/pitch/enterprise-lite" element={<EnterpriseDeckLite />} />
                    <Route path="/pitch/bajaj-finserv" element={<BajajFinservDeck />} />
                    <Route path="/pitch/discvrai-platform" element={<DiscvrPlatformDeck />} />
