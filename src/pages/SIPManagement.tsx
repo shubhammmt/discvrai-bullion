@@ -62,6 +62,15 @@ const SIPManagement = () => {
     if (isMobile) setSidebarOpen(false);
   }, [isMobile]);
 
+  // Sync tab + rebalance focus when URL search params change (e.g. alert CTAs).
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    const focus = searchParams.get('focus') || undefined;
+    if (tab && tab !== activeTab) setActiveTab(tab);
+    if (tab === 'rebalance') setRebalanceFocusId(focus);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   const isLoggedIn = userState !== 'anonymous';
   const hasHoldings = userState === 'investor';
 

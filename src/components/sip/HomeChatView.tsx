@@ -197,7 +197,7 @@ function PortfolioAttentionBanner({ onNavigateTab }: { onNavigateTab: (t: string
             <p className="text-[11px] uppercase tracking-wider text-amber-800 font-semibold">Portfolio Needs Attention</p>
             <p className="text-[11px] text-sip-text-muted">Sharp triggers from your Smart Brain — sorted by severity.</p>
           </div>
-          <button onClick={() => navigate('/rebalancing')} className="text-[11px] text-sip-brand hover:underline">Open rebalance →</button>
+          <button onClick={() => navigate('/sip-management?tab=rebalance')} className="text-[11px] text-sip-brand hover:underline">Open rebalance →</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {cards.map(t => (
@@ -207,7 +207,7 @@ function PortfolioAttentionBanner({ onNavigateTab }: { onNavigateTab: (t: string
               compact
               onAct={(tg) => {
                 if (tg.recommendedAction === 'fix-sip' || tg.recommendedAction === 'topup') onNavigateTab('manage');
-                else navigate(tg.ctaTarget);
+                else navigate(`/sip-management?tab=rebalance&focus=${encodeURIComponent(tg.id)}`);
               }}
             />
           ))}
