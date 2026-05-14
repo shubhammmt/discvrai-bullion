@@ -44,23 +44,60 @@ interface AgenticChatHomeProps {
 
 const CHAT_API_URL = 'https://agentapi.discvr.ai/webhook/bd9626e9-20de-49dd-a4da-0d9c6c5555d6';
 
-const ACTION_CHIPS: { label: string; emoji: string; tab?: string; prompt?: string }[][] = [
-  [
-    { label: 'Ask me anything', emoji: '✨', prompt: 'What can you help me with?' },
-    { label: 'Plan for Goals', emoji: '🎯', tab: 'goals' },
-    { label: 'Advise on my Portfolio', emoji: '📊', prompt: 'Advise on my portfolio' },
-  ],
-  [
-    { label: 'Explore Funds', emoji: '🔍', tab: 'screener' },
-    { label: 'Fund Screener', emoji: '⚙️', tab: 'screener' },
-    { label: 'Calculate my Returns', emoji: '🧮', tab: 'calculator' },
-  ],
-  [
-    { label: 'Statements', emoji: '📄', tab: 'statements' },
-    { label: 'I want to Invest', emoji: '💰', prompt: 'I want to invest' },
-    { label: 'KYC Complete', emoji: '✅', prompt: 'Is my KYC complete?' },
-  ],
-];
+type Chip = { label: string; emoji: string; tab?: string; prompt?: string; href?: string };
+
+function getActionChips(userState: AgenticChatHomeProps['userState']): Chip[][] {
+  const common: Chip = { label: 'Ask me anything', emoji: '✨', prompt: 'What can you help me with?' };
+  const calc: Chip = { label: 'Calculate Returns', emoji: '🧮', tab: 'calculator' };
+  const explore: Chip = { label: 'Explore Funds', emoji: '🔍', tab: 'screener' };
+  const screener: Chip = { label: 'Fund Screener', emoji: '⚙️', tab: 'screener' };
+
+  if (userState === 'anonymous') {
+    return [
+      [common, explore, calc],
+      [
+        { label: 'Plan for Goals', emoji: '🎯', tab: 'goals' },
+        screener,
+        { label: 'I want to Invest', emoji: '💰', prompt: 'I want to invest' },
+      ],
+      [
+        { label: 'Sign in to start', emoji: '🔐', prompt: 'How do I sign in?' },
+        { label: 'About KYC', emoji: '✅', prompt: 'What is KYC and why do I need it?' },
+        { label: 'Top SIPs for beginners', emoji: '🌱', prompt: 'Show me top SIPs for beginners' },
+      ],
+    ];
+  }
+
+  if (userState === 'logged_in_no_holdings') {
+    return [
+      [common, { label: 'Plan for Goals', emoji: '🎯', tab: 'goals' }, explore],
+      [screener, calc, { label: 'I want to Invest', emoji: '💰', prompt: 'I want to invest' }],
+      [
+        { label: 'Complete KYC', emoji: '✅', prompt: 'Help me complete my KYC' },
+        { label: 'Top SIPs for beginners', emoji: '🌱', prompt: 'Show me top SIPs for beginners' },
+        { label: 'Tax saving funds', emoji: '🧾', prompt: 'Show ELSS tax-saving funds' },
+      ],
+    ];
+  }
+
+  // Investor
+  return [
+    [common,
+      { label: 'Advise on my Portfolio', emoji: '📊', prompt: 'Advise on my portfolio' },
+      { label: 'Rebalance now', emoji: '⚖️', tab: 'rebalance' },
+    ],
+    [
+      { label: 'View Alerts', emoji: '🔔', href: '/alerts' },
+      { label: 'Top-up an SIP', emoji: '⬆️', tab: 'manage' },
+      { label: 'Manage SIPs', emoji: '🛠️', tab: 'manage' },
+    ],
+    [
+      explore,
+      { label: 'Statements', emoji: '📄', tab: 'statements' },
+      { label: 'Latest news for me', emoji: '📰', prompt: 'Show me latest news relevant to my portfolio' },
+    ],
+  ];
+}
 
 function getWelcomeMessage(userState: string, authUser?: AuthUser | null): string {
   if (authUser?.name) {
@@ -161,8 +198,10 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
     setIsTyping(false);
   };
 
-  const handleChipClick = (chip: typeof ACTION_CHIPS[0][0]) => {
+  const actionChips = getActionChips(userState);
+  const handleChipClick = (chip: Chip) => {
     if (chip.tab) onNavigateTab(chip.tab);
+    else if (chip.href) window.location.assign(chip.href);
     else if (chip.prompt) handleSend(chip.prompt);
   };
 
@@ -255,7 +294,7 @@ export function AgenticChatHome({ userState, onNavigateTab, userName, authUser, 
       {/* Action Chips */}
       {showChips && (
         <div className="space-y-2 py-3 shrink-0">
-          {ACTION_CHIPS.map((row, ri) => (
+          {actionChips.map((row, ri) => (
             <div key={ri} className="flex flex-wrap justify-center gap-2">
               {row.map(chip => (
                 <button
