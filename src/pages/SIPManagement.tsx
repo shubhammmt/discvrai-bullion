@@ -22,10 +22,12 @@ import { SIPBrandLogo } from '@/components/sip/SIPBrandLogo';
 import { SIP_BRAND } from '@/config/sipBrandConfig';
 import {
   Home, ShoppingCart, Search, Settings, Calculator, Target, ArrowDownLeft,
-  TrendingUp, Bell, BarChart3, FileText, Receipt,
+  TrendingUp, Bell, BarChart3, FileText, Receipt, Scale,
   MessageSquare, History, Sparkles, LogIn, LogOut,
   PanelLeft, PanelLeftClose, ChevronRight, UserCircle,
 } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { RebalanceTab } from '@/components/sip/RebalanceTab';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -36,7 +38,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { DiscoverTab } from '@/components/sip/DiscoverTab';
 
 const SIPManagement = () => {
-  const [activeTab, setActiveTab] = useState('home');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'home';
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [rebalanceFocusId, setRebalanceFocusId] = useState<string | undefined>(searchParams.get('focus') || undefined);
   const [userState, setUserState] = useState<SIPUserState>('investor');
   const [showLogin, setShowLogin] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
