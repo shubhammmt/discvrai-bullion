@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -33,7 +33,8 @@ type CardSelection = Record<string, { mode: BuyMode; destFundId: string }>;
 type ExecStatus = Record<string, 'pending' | 'executed' | 'skipped'>;
 
 export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  // If user lands here from an alert (with focus), open straight on Plan.
+  const [step, setStep] = useState<1 | 2 | 3>(initialFocusId ? 2 : 1);
   const [focusId, setFocusId] = useState<string | undefined>(initialFocusId);
   const triggers = useMemo(() => evaluateTriggers(), []);
   const holdings = useMemo(() => getMockHoldings(), []);
@@ -42,6 +43,7 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const initialCards = useMemo(() => buildPlanLegs(triggers, holdings), [triggers, holdings]);
   const [cards, setCards] = useState<RebalanceCard[]>(initialCards);
   const destinations = useMemo(() => buildSmartShortlist({ risk: 'Moderate' }, 12), []);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const [sel, setSel] = useState<CardSelection>(() => {
     const init: CardSelection = {};
@@ -66,7 +68,28 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const submittedAt = summaries.length > 0 ? new Date().toISOString() : null;
   const planId = summaries.length > 0 ? `PLN-${Date.now().toString().slice(-8)}` : null;
 
-  useEffect(() => { setFocusId(initialFocusId); }, [initialFocusId]);
+  // Honour external focus changes (e.g., user clicks a different alert from Portfolio strip).
+  useEffect(() => {
+    if (!initialFocusId) return;
+    setFocusId(initialFocusId);
+    setStep(2);
+  }, [initialFocusId]);
+
+  // When a focus is set on Step 2, scroll the matching card into view + flash highlight.
+  useEffect(() => {
+    if (step !== 2 || !focusId) return;
+    const targetCard = cards.find(c => c.triggerId === focusId);
+    if (!targetCard) return;
+    const el = cardRefs.current[targetCard.id];
+    if (el) {
+      requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+    }
+  }, [step, focusId, cards]);
+
+  const jumpToPlanFor = (triggerId: string) => {
+    setFocusId(triggerId);
+    setStep(2);
+  };
 
   const benchmarkOnly = triggers.length > 0 && triggers.every(t => t.kind === 'benchmark');
   const noTriggers = triggers.length === 0;
@@ -131,14 +154,33 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
               { n: 3, label: 'Done' },
             ].map((s, i, arr) => (
               <div key={s.n} className="flex items-center gap-2 flex-1">
-                <div className={cn(
-                  'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-semibold',
-                  step >= (s.n as 1 | 2 | 3)
-                    ? 'bg-sip-brand text-sip-brand-foreground'
-                    : 'bg-muted text-muted-foreground',
-                )}>{s.n}</div>
-                <span className={cn('text-xs font-medium',
-                  step === s.n ? 'text-sip-text-primary' : 'text-sip-text-muted')}>{s.label}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (s.n === 3 && summaries.length === 0) return;
+                    setStep(s.n as 1 | 2 | 3);
+                  }}
+                  disabled={s.n === 3 && summaries.length === 0}
+                  className={cn(
+                    'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-semibold transition-colors',
+                    step >= (s.n as 1 | 2 | 3)
+                      ? 'bg-sip-brand text-sip-brand-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/70',
+                    s.n === 3 && summaries.length === 0 && 'cursor-not-allowed opacity-60',
+                  )}
+                >{s.n}</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (s.n === 3 && summaries.length === 0) return;
+                    setStep(s.n as 1 | 2 | 3);
+                  }}
+                  disabled={s.n === 3 && summaries.length === 0}
+                  className={cn('text-xs font-medium text-left',
+                    step === s.n ? 'text-sip-text-primary' : 'text-sip-text-muted hover:text-sip-text-secondary',
+                    s.n === 3 && summaries.length === 0 && 'cursor-not-allowed',
+                  )}
+                >{s.label}</button>
                 {i < arr.length - 1 && <div className="flex-1 h-px bg-sip-border" />}
               </div>
             ))}
@@ -159,26 +201,37 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
             <>
               <Card className="border-sip-border">
                 <CardContent className="p-4 space-y-3">
-                  <p className="text-xs text-sip-text-muted">Active alerts</p>
-                  <div className="flex flex-wrap gap-2">
-                    {triggers.map(t => (
-                      <button
-                        key={t.id}
-                        onClick={() => setFocusId(t.id)}
-                        className={cn(
-                          'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] border transition-colors',
-                          focusId === t.id
-                            ? 'border-sip-brand bg-sip-brand/10 text-sip-brand'
-                            : 'border-sip-border text-sip-text-secondary hover:bg-muted/50',
-                        )}
-                      >
-                        {t.severity === 'critical'
-                          ? <AlertCircle className="w-3 h-3 text-red-600" />
-                          : <AlertTriangle className="w-3 h-3 text-amber-600" />}
-                        <span className="truncate max-w-[200px]">{t.title}</span>
-                      </button>
-                    ))}
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs text-sip-text-muted">Active alerts</p>
+                    <p className="text-[10px] text-sip-text-muted">Tap any alert to jump to its plan</p>
                   </div>
+                  <div className="flex flex-wrap gap-2">
+                    {triggers.map(t => {
+                      const hasPlan = cards.some(c => c.triggerId === t.id);
+                      return (
+                        <button
+                          key={t.id}
+                          onClick={() => hasPlan ? jumpToPlanFor(t.id) : setFocusId(t.id)}
+                          className={cn(
+                            'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] border transition-colors',
+                            focusId === t.id
+                              ? 'border-sip-brand bg-sip-brand/10 text-sip-brand'
+                              : 'border-sip-border text-sip-text-secondary hover:bg-muted/50',
+                          )}
+                          title={hasPlan ? 'Open this alert in the plan' : 'No auto-trade for this alert'}
+                        >
+                          {t.severity === 'critical'
+                            ? <AlertCircle className="w-3 h-3 text-red-600" />
+                            : <AlertTriangle className="w-3 h-3 text-amber-600" />}
+                          <span className="truncate max-w-[200px]">{t.title}</span>
+                          {hasPlan && <ArrowRight className="w-3 h-3 opacity-60" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="text-[10px] text-sip-text-muted">
+                    Below: read-only snapshot of your portfolio so you can sanity-check the alerts before acting.
+                  </p>
                   {benchmarkOnly && (
                     <div className="rounded-md border border-amber-200 bg-amber-50/50 p-3 text-[11px] text-amber-800">
                       Markets have moved sharply. Phase 1 will not auto-suggest trades for a market move alone — review your mix below and decide if changes are needed.
@@ -288,19 +341,44 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                     {' '}<span className="font-medium text-sip-text-secondary">{executedCount}</span> of {cards.length} executed.
                   </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="text-[11px] text-sip-brand hover:underline shrink-0"
+                >
+                  View portfolio context
+                </button>
               </div>
+
+              {focusId && cards.some(c => c.triggerId === focusId) && (
+                <div className="text-[11px] text-sip-text-muted flex items-center gap-2">
+                  <span>Showing plan for the selected alert.</span>
+                  <button
+                    type="button"
+                    onClick={() => setFocusId(undefined)}
+                    className="text-sip-brand hover:underline"
+                  >
+                    Clear focus · show all
+                  </button>
+                </div>
+              )}
 
               {cards.map(c => {
                 const st = status[c.id];
                 const executed = st === 'executed';
                 const skipped = st === 'skipped';
                 const proceeds = c.sell.amountINR - c.sell.exitLoadINR;
+                const isFocused = focusId && c.triggerId === focusId;
                 return (
-                  <Card key={c.id} className={cn(
-                    'border-sip-border transition-shadow',
-                    executed && 'ring-1 ring-emerald-300 shadow-sm bg-emerald-50/20',
-                    skipped && 'opacity-60',
-                  )}>
+                  <Card
+                    key={c.id}
+                    ref={(el) => { cardRefs.current[c.id] = el; }}
+                    className={cn(
+                      'border-sip-border transition-shadow scroll-mt-24',
+                      executed && 'ring-1 ring-emerald-300 shadow-sm bg-emerald-50/20',
+                      skipped && 'opacity-60',
+                      isFocused && !executed && 'ring-2 ring-sip-brand shadow-md',
+                    )}>
                     <CardContent className="p-4 space-y-4">
                       {/* Header */}
                       <div className="flex items-start justify-between gap-3">
