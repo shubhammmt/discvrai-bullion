@@ -7,19 +7,20 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import {
   ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, AlertTriangle,
-  Loader2, Check, Info, Wallet, TrendingDown, Calendar,
+  Check, Info, Wallet, TrendingDown, Calendar, PlayCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
-  evaluateTriggers, buildPlanLegs, submitRebalancePlan,
+  evaluateTriggers, buildPlanLegs,
   getMockHoldings, getSectorBreakdown, getFundBreakdown,
-  suggestSipPlan, calcExitLoad, calcTaxNote,
+  suggestSipPlan,
   addWorkingDays, formatDayLabel,
   RebalanceCard, BuyMode, SubmittedCardSummary,
 } from '@/components/conversion/rebalanceEngine';
 import { REBALANCE_CONFIG } from '@/components/conversion/rebalanceConfig';
 import { buildSmartShortlist } from '@/components/conversion/shortlistEngine';
 import { MOCK_FUNDS } from '@/data/sipMockData';
+import { RebalanceExecuteSheet } from './RebalanceExecuteSheet';
 
 interface RebalanceTabProps {
   initialFocusId?: string;
@@ -28,7 +29,8 @@ interface RebalanceTabProps {
 
 const inr = (n: number) => `₹${Math.round(n).toLocaleString('en-IN')}`;
 
-type CardSelection = Record<string, { included: boolean; mode: BuyMode; destFundId: string }>;
+type CardSelection = Record<string, { mode: BuyMode; destFundId: string }>;
+type ExecStatus = Record<string, 'pending' | 'executed' | 'skipped'>;
 
 export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -45,7 +47,6 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
     const init: CardSelection = {};
     initialCards.forEach(c => {
       init[c.id] = {
-        included: c.severity === 'critical', // default critical-on, warn-off
         mode: c.buy?.mode ?? 'sip',
         destFundId: c.buy?.destFundId ?? '',
       };
@@ -53,17 +54,24 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
     return init;
   });
 
-  const [submitting, setSubmitting] = useState(false);
-  const [planId, setPlanId] = useState<string | null>(null);
-  const [submittedAt, setSubmittedAt] = useState<string | null>(null);
+  const [status, setStatus] = useState<ExecStatus>(() => {
+    const init: ExecStatus = {};
+    initialCards.forEach(c => { init[c.id] = 'pending'; });
+    return init;
+  });
+
+  const [execCardId, setExecCardId] = useState<string | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [summaries, setSummaries] = useState<SubmittedCardSummary[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const submittedAt = summaries.length > 0 ? new Date().toISOString() : null;
+  const planId = summaries.length > 0 ? `PLN-${Date.now().toString().slice(-8)}` : null;
 
   useEffect(() => { setFocusId(initialFocusId); }, [initialFocusId]);
 
   const benchmarkOnly = triggers.length > 0 && triggers.every(t => t.kind === 'benchmark');
   const noTriggers = triggers.length === 0;
-  const includedCards = cards.filter(c => sel[c.id]?.included);
+  const executedCount = Object.values(status).filter(s => s === 'executed').length;
+  const pendingCount = Object.values(status).filter(s => s === 'pending').length;
 
   const updateSel = (cardId: string, patch: Partial<CardSelection[string]>) =>
     setSel(prev => ({ ...prev, [cardId]: { ...prev[cardId], ...patch } }));
@@ -96,19 +104,20 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
     updateSel(cardId, { mode });
   };
 
-  const handleSubmit = async () => {
-    if (includedCards.length === 0) return;
-    setSubmitting(true); setError(null);
-    try {
-      const res = await submitRebalancePlan(includedCards);
-      setPlanId(res.planId);
-      setSubmittedAt(res.submittedAt);
-      setSummaries(res.summaries);
-      setStep(3);
-    } catch {
-      setError('Could not submit plan. Try again.');
-    } finally { setSubmitting(false); }
+  const openExecutor = (cardId: string) => {
+    setExecCardId(cardId);
+    setSheetOpen(true);
   };
+
+  const onCardExecuted = (summary: SubmittedCardSummary) => {
+    setStatus(prev => ({ ...prev, [summary.cardId]: 'executed' }));
+    setSummaries(prev => [...prev.filter(s => s.cardId !== summary.cardId), summary]);
+  };
+
+  const skipCard = (cardId: string) =>
+    setStatus(prev => ({ ...prev, [cardId]: 'skipped' }));
+
+  const execCard = cards.find(c => c.id === execCardId) || null;
 
   return (
     <div className="space-y-4">
@@ -275,20 +284,22 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                 <div>
                   <p className="text-sm font-semibold text-sip-text-primary">Suggested transactions</p>
                   <p className="text-[11px] text-sip-text-muted mt-0.5">
-                    Pick what to act on now — you can do one at a time.
-                    {' '}<span className="font-medium text-sip-text-secondary">{includedCards.length}</span> of {cards.length} selected.
+                    Execute one at a time. Each runs the real sell + buy mandate flow.
+                    {' '}<span className="font-medium text-sip-text-secondary">{executedCount}</span> of {cards.length} executed.
                   </p>
                 </div>
               </div>
 
               {cards.map(c => {
-                const s = sel[c.id];
-                const included = !!s?.included;
+                const st = status[c.id];
+                const executed = st === 'executed';
+                const skipped = st === 'skipped';
                 const proceeds = c.sell.amountINR - c.sell.exitLoadINR;
                 return (
                   <Card key={c.id} className={cn(
                     'border-sip-border transition-shadow',
-                    included && 'ring-1 ring-sip-brand/40 shadow-sm',
+                    executed && 'ring-1 ring-emerald-300 shadow-sm bg-emerald-50/20',
+                    skipped && 'opacity-60',
                   )}>
                     <CardContent className="p-4 space-y-4">
                       {/* Header */}
@@ -301,6 +312,14 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                             <Badge variant="outline" className="text-[9px] uppercase tracking-wider">
                               {c.severity}
                             </Badge>
+                            {executed && (
+                              <Badge className="text-[9px] bg-emerald-600 text-white hover:bg-emerald-600">
+                                <CheckCircle2 className="w-2.5 h-2.5 mr-1" /> Executed
+                              </Badge>
+                            )}
+                            {skipped && (
+                              <Badge variant="outline" className="text-[9px]">Skipped</Badge>
+                            )}
                           </div>
                           <p className="text-sm font-medium text-sip-text-primary">{c.title}</p>
                           <p className="text-[11px] text-sip-text-muted mt-0.5">{c.why}</p>
@@ -351,6 +370,7 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                             <Select
                               value={c.buy.destFundId}
                               onValueChange={(v) => updateDest(c.id, v)}
+                              disabled={executed}
                             >
                               <SelectTrigger className="h-8 text-xs">
                                 <SelectValue placeholder="Choose destination fund" />
@@ -372,6 +392,7 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                               value={c.buy.mode}
                               onValueChange={(v) => setMode(c.id, v as BuyMode)}
                               className="grid grid-cols-2 gap-2"
+                              disabled={executed}
                             >
                               <Label
                                 htmlFor={`${c.id}-sip`}
@@ -411,7 +432,7 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                           <div className="flex items-start gap-1 text-[10px] text-amber-700 bg-amber-50/60 border border-amber-200 rounded p-2">
                             <Info className="w-3 h-3 mt-0.5 shrink-0" />
                             <span>
-                              Buy executes after sell settles ({c.sell.settlementLabel}). NAV may move between today and settlement.
+                              Buy mandate is authorised today and auto-executed after sell settles ({c.sell.settlementLabel}).
                             </span>
                           </div>
                         </div>
@@ -419,29 +440,55 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
 
                       {/* Per-card action */}
                       <div className="flex items-center justify-between gap-2 pt-1">
-                        <button
-                          type="button"
-                          onClick={() => updateSel(c.id, { included: false })}
-                          className={cn('text-[11px] underline-offset-2 hover:underline',
-                            !included ? 'text-sip-text-muted' : 'text-sip-text-secondary')}
-                        >
-                          Skip this
-                        </button>
-                        <Button
-                          size="sm"
-                          variant={included ? 'default' : 'outline'}
-                          className={cn('gap-1', included && 'bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90')}
-                          onClick={() => updateSel(c.id, { included: !included })}
-                        >
-                          {included ? (<><Check className="w-3.5 h-3.5" /> Added to plan</>) : 'Add to plan'}
-                        </Button>
+                        {!executed && !skipped ? (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => skipCard(c.id)}
+                              className="text-[11px] underline-offset-2 hover:underline text-sip-text-muted"
+                            >
+                              Skip this
+                            </button>
+                            <Button
+                              size="sm"
+                              className="gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
+                              onClick={() => openExecutor(c.id)}
+                            >
+                              <PlayCircle className="w-3.5 h-3.5" /> Execute now
+                            </Button>
+                          </>
+                        ) : executed ? (
+                          <>
+                            <span className="text-[11px] text-emerald-700 flex items-center gap-1">
+                              <Check className="w-3 h-3" /> Sell + buy mandate authorised
+                            </span>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => openExecutor(c.id)}
+                              className="text-[11px]"
+                            >
+                              View
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-[11px] text-sip-text-muted">Skipped</span>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setStatus(prev => ({ ...prev, [c.id]: 'pending' }))}
+                              className="text-[11px]"
+                            >
+                              Restore
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
                 );
               })}
-
-              {error && <p className="text-xs text-red-600">{error}</p>}
 
               {/* Footer */}
               <div className="flex justify-between items-center pt-2 sticky bottom-0 bg-background/95 backdrop-blur py-2">
@@ -451,11 +498,13 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
                 <Button
                   size="sm"
                   className="gap-1 bg-sip-brand text-sip-brand-foreground hover:bg-sip-brand/90"
-                  onClick={handleSubmit}
-                  disabled={submitting || includedCards.length === 0}
+                  onClick={() => setStep(3)}
+                  disabled={executedCount === 0}
                 >
-                  {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  Confirm {includedCards.length > 0 ? `(${includedCards.length})` : ''}
+                  {executedCount > 0
+                    ? `View summary (${executedCount})`
+                    : pendingCount > 0 ? 'Execute at least one' : 'View summary'}
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Button>
               </div>
             </>
@@ -555,7 +604,12 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
 
           <div className="flex justify-center gap-2 pt-1">
             <Button size="sm" variant="outline" onClick={() => {
-              setStep(1); setPlanId(null); setSummaries([]);
+              setStep(1); setSummaries([]);
+              setStatus(prev => {
+                const n: ExecStatus = {};
+                Object.keys(prev).forEach(k => { n[k] = 'pending'; });
+                return n;
+              });
             }}>
               Start over
             </Button>
@@ -567,6 +621,14 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
           </div>
         </div>
       )}
+
+      {/* Per-card execution sheet */}
+      <RebalanceExecuteSheet
+        card={execCard}
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        onComplete={onCardExecuted}
+      />
     </div>
   );
 }
