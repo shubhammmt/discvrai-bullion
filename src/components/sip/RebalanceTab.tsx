@@ -29,7 +29,8 @@ interface RebalanceTabProps {
 
 const inr = (n: number) => `₹${Math.round(n).toLocaleString('en-IN')}`;
 
-type CardSelection = Record<string, { included: boolean; mode: BuyMode; destFundId: string }>;
+type CardSelection = Record<string, { mode: BuyMode; destFundId: string }>;
+type ExecStatus = Record<string, 'pending' | 'executed' | 'skipped'>;
 
 export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -46,7 +47,6 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
     const init: CardSelection = {};
     initialCards.forEach(c => {
       init[c.id] = {
-        included: c.severity === 'critical', // default critical-on, warn-off
         mode: c.buy?.mode ?? 'sip',
         destFundId: c.buy?.destFundId ?? '',
       };
@@ -54,17 +54,24 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
     return init;
   });
 
-  const [submitting, setSubmitting] = useState(false);
-  const [planId, setPlanId] = useState<string | null>(null);
-  const [submittedAt, setSubmittedAt] = useState<string | null>(null);
+  const [status, setStatus] = useState<ExecStatus>(() => {
+    const init: ExecStatus = {};
+    initialCards.forEach(c => { init[c.id] = 'pending'; });
+    return init;
+  });
+
+  const [execCardId, setExecCardId] = useState<string | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [summaries, setSummaries] = useState<SubmittedCardSummary[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const submittedAt = summaries.length > 0 ? new Date().toISOString() : null;
+  const planId = summaries.length > 0 ? `PLN-${Date.now().toString().slice(-8)}` : null;
 
   useEffect(() => { setFocusId(initialFocusId); }, [initialFocusId]);
 
   const benchmarkOnly = triggers.length > 0 && triggers.every(t => t.kind === 'benchmark');
   const noTriggers = triggers.length === 0;
-  const includedCards = cards.filter(c => sel[c.id]?.included);
+  const executedCount = Object.values(status).filter(s => s === 'executed').length;
+  const pendingCount = Object.values(status).filter(s => s === 'pending').length;
 
   const updateSel = (cardId: string, patch: Partial<CardSelection[string]>) =>
     setSel(prev => ({ ...prev, [cardId]: { ...prev[cardId], ...patch } }));
@@ -97,19 +104,20 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
     updateSel(cardId, { mode });
   };
 
-  const handleSubmit = async () => {
-    if (includedCards.length === 0) return;
-    setSubmitting(true); setError(null);
-    try {
-      const res = await submitRebalancePlan(includedCards);
-      setPlanId(res.planId);
-      setSubmittedAt(res.submittedAt);
-      setSummaries(res.summaries);
-      setStep(3);
-    } catch {
-      setError('Could not submit plan. Try again.');
-    } finally { setSubmitting(false); }
+  const openExecutor = (cardId: string) => {
+    setExecCardId(cardId);
+    setSheetOpen(true);
   };
+
+  const onCardExecuted = (summary: SubmittedCardSummary) => {
+    setStatus(prev => ({ ...prev, [summary.cardId]: 'executed' }));
+    setSummaries(prev => [...prev.filter(s => s.cardId !== summary.cardId), summary]);
+  };
+
+  const skipCard = (cardId: string) =>
+    setStatus(prev => ({ ...prev, [cardId]: 'skipped' }));
+
+  const execCard = cards.find(c => c.id === execCardId) || null;
 
   return (
     <div className="space-y-4">
