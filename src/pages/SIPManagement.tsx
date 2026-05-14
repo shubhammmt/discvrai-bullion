@@ -93,12 +93,19 @@ const SIPManagement = () => {
 
   const handleNavClick = (tab: string) => {
     setActiveTab(tab);
+    if (tab !== 'rebalance') setRebalanceFocusId(undefined);
     if (isMobile) setSidebarOpen(false);
+  };
+
+  const goToRebalance = (focusId?: string) => {
+    setRebalanceFocusId(focusId);
+    setActiveTab('rebalance');
   };
 
   const allTabs = [
     { value: 'home', icon: Home, label: 'Home', always: true },
     { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
+    { value: 'rebalance', icon: Scale, label: 'Rebalance', requiresHoldings: true },
     { value: 'screener', icon: Search, label: 'Explore', always: true },
     { value: 'transactions', icon: Receipt, label: 'Transactions', requiresLogin: true },
     { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
