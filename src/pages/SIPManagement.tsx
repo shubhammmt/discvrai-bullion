@@ -251,7 +251,13 @@ const SIPManagement = () => {
           )}
         </div>
 
-        <div className="max-w-3xl mx-auto px-4 py-6">
+        <div className={cn(
+          'mx-auto px-4 md:px-6 lg:px-8 py-6',
+          // Chat-led tabs stay narrow for readability; data-led tabs go full webapp width
+          (activeTab === 'home' || activeTab === 'chat')
+            ? 'max-w-5xl'
+            : 'max-w-screen-2xl'
+        )}>
           {/* HOME TAB */}
           {activeTab === 'home' && (
             <HomeChatView
