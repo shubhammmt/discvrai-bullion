@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Toaster } from "@/components/ui/sonner";
 import Index from './pages/Index';
 import Home from './pages/Home';
@@ -655,7 +655,7 @@ const AppContent = () => {
                    <Route path="/jubilant-enpro-pitch" element={<JubilantEnproPitch />} />
                   <Route path="/alerts" element={<AlertsAndDigests />} />
                   <Route path="/alerts/inbox" element={<AlertsAndDigests />} />
-                  <Route path="/rebalancing" element={<Rebalancing />} />
+                  <Route path="/rebalancing" element={<Navigate to="/sip-management?tab=rebalance" replace />} />
                   <Route path="/admin/conversion-metrics" element={<ConversionMetrics />} />
                      <Route path="/discvrai/copilot" element={<DiscvrCopilot />} />
                      <Route path="/discvrai" element={<DiscvrAILayout />}>
