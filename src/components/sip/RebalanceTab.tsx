@@ -604,7 +604,12 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
 
           <div className="flex justify-center gap-2 pt-1">
             <Button size="sm" variant="outline" onClick={() => {
-              setStep(1); setPlanId(null); setSummaries([]);
+              setStep(1); setSummaries([]);
+              setStatus(prev => {
+                const n: ExecStatus = {};
+                Object.keys(prev).forEach(k => { n[k] = 'pending'; });
+                return n;
+              });
             }}>
               Start over
             </Button>
@@ -616,6 +621,15 @@ export function RebalanceTab({ initialFocusId, onDone }: RebalanceTabProps) {
           </div>
         </div>
       )}
+
+      {/* Per-card execution sheet */}
+      <RebalanceExecuteSheet
+        card={execCard}
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        onComplete={onCardExecuted}
+      />
+    </div>
     </div>
   );
 }
