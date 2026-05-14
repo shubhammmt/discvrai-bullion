@@ -83,6 +83,7 @@ import DiscvrAbout from './pages/discvrai/DiscvrAbout';
 import DiscvrContact from './pages/discvrai/DiscvrContact';
 import DiscvrCopilot from './pages/discvrai/DiscvrCopilot';
 import CMSGuardian from './pages/CMSGuardian';
+import CMSTransformation from './pages/CMSTransformation';
 import CMSAuditCommandCenter from './pages/CMSAuditCommandCenter';
 import AdfCeoSalesDashboard from './pages/AdfCeoSalesDashboard';
 import NewsHub from './pages/NewsHub';
@@ -576,7 +577,8 @@ const AppContent = () => {
                     <Route path="/cms-audit" element={<CMSAuditCommandCenter />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
                     <Route path="/CMS-pitch-deck" element={<CMSPitchDeck />} />
-                    <Route path="/cms-evidence-deck" element={<CMSEvidenceDeck />} />
+                     <Route path="/cms-evidence-deck" element={<CMSEvidenceDeck />} />
+                     <Route path="/cms-transformation" element={<CMSTransformation />} />
                     <Route path="/sbi-card" element={<SBIHub />} />
                     <Route path="/pitch/sbi-card" element={<SBIDeck />} />
                     <Route path="/sbi-card/acquisition" element={<SBIAcquisition />} />
