@@ -350,22 +350,32 @@ const CMSReconCenter = () => {
                 ))}
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 text-[11px]">
               {[
-                { atm: 'ATM-MUM-0001', bank: 'HDFC', region: 'West', exposure: '₹84,000', signal: 'OTC reset spike + FLM jam', sla: '6h', tone: 'red' },
-                { atm: 'ATM-DEL-0102', bank: 'SBI', region: 'North', exposure: '₹62,500', signal: 'Custodian tenure 246d · neighbor stress', sla: '12h', tone: 'amber' },
-                { atm: 'ATM-BLR-0055', bank: 'Kotak', region: 'South', exposure: '₹38,200', signal: 'Velocity −22% vs plan', sla: '4h', tone: 'blue' },
+                { atm: 'ATM-MUM-0001', bank: 'HDFC', region: 'West', exposure: '₹84,000', signal: 'OTC reset spike + FLM jam', sla: '6h', tone: 'red', mode: 'Theft' },
+                { atm: 'ATM-DEL-0102', bank: 'SBI', region: 'North', exposure: '₹62,500', signal: 'Custodian tenure 246d · neighbor stress', sla: '12h', tone: 'amber', mode: 'Overage' },
+                { atm: 'ATM-BLR-0055', bank: 'Kotak', region: 'South', exposure: '₹38,200', signal: 'Velocity −22% vs plan', sla: '4h', tone: 'blue', mode: 'Cashout' },
+                { atm: 'ATM-AMD-0001', bank: 'HDFC', region: 'West', exposure: '₹54,800', signal: 'Vault attestation pending · 4-day blind window', sla: '8h', tone: 'red', mode: 'Theft' },
+                { atm: 'ATM-HYD-0044', bank: 'ICICI', region: 'South', exposure: '₹46,200', signal: 'Claim CMS-02435512 unmatched · OCR drift', sla: '10h', tone: 'amber', mode: 'Overage' },
+                { atm: 'ATM-CHN-0142', bank: 'Axis', region: 'South', exposure: '₹32,900', signal: 'Manual override w/o photo · auto-rule fired', sla: '7h', tone: 'red', mode: 'Theft' },
+                { atm: 'ATM-PUN-0019', bank: 'Kotak', region: 'West', exposure: '₹28,400', signal: 'Single-user vault open · two-person breach', sla: '5h', tone: 'red', mode: 'Theft' },
+                { atm: 'ATM-JAI-0021', bank: 'PNB', region: 'North', exposure: '₹21,700', signal: 'Paper HOTO · 18h unverified custody', sla: '14h', tone: 'amber', mode: 'Overage' },
+                { atm: 'ATM-BLR-0088', bank: 'Kotak', region: 'South', exposure: '₹19,300', signal: 'Counter sync drift > ₹10K vs EJ', sla: '9h', tone: 'amber', mode: 'Overage' },
+                { atm: 'ATM-LKO-0067', bank: 'SBI', region: 'North', exposure: '₹14,500', signal: 'Stagnant route Day 91 · cash-out forecast breach', sla: '16h', tone: 'blue', mode: 'Cashout' },
               ].map(r => (
                 <div key={r.atm} className={`p-2.5 rounded border ${r.tone === 'red' ? 'border-red-500/30 bg-red-500/5' : r.tone === 'amber' ? 'border-amber-500/30 bg-amber-500/5' : 'border-blue-500/30 bg-blue-500/5'}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-mono font-bold text-white">{r.atm}</span>
-                    <span className="text-slate-400 text-[10px]">{r.bank} · {r.region}</span>
+                    <span className="font-mono font-bold text-white text-[10px]">{r.atm}</span>
+                    <span className={`text-[8px] px-1 py-0.5 rounded font-bold ${r.mode === 'Theft' ? 'bg-red-500/20 text-red-300' : r.mode === 'Overage' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'}`}>{r.mode}</span>
                   </div>
-                  <div className="text-white font-bold">{r.exposure}</div>
-                  <div className="text-slate-400 text-[10px] mb-1">{r.signal}</div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-amber-300 text-[10px]">SLA {r.sla}</span>
-                    <button className="text-[10px] px-2 py-0.5 rounded bg-blue-600 text-white hover:bg-blue-500">Open Case</button>
+                  <div className="text-white font-bold text-sm">{r.exposure}</div>
+                  <div className="text-slate-400 text-[9px] mb-1 line-clamp-2 leading-tight min-h-[24px]">{r.signal}</div>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-amber-300 text-[9px]">SLA {r.sla}</span>
+                    <button
+                      onClick={() => toast.success(`Evidence package for ${r.atm} bundled · EJ + vault line + camera clip`)}
+                      className="text-[9px] px-1.5 py-0.5 rounded bg-blue-600 text-white hover:bg-blue-500"
+                    >Evidence →</button>
                   </div>
                 </div>
               ))}
