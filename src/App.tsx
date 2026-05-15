@@ -223,6 +223,9 @@ import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
 import CMSAuditCommand from './pages/CMSAuditCommand';
+import CMSOverageAlerts from './pages/CMSOverageAlerts';
+import CMSVaultOps from './pages/CMSVaultOps';
+import CMSIndentEngine from './pages/CMSIndentEngine';
 import SchlumbergerOps from './pages/SchlumbergerOps';
 import SBIHub from './pages/sbi/SBIHub';
 import ICICIHub from './pages/icici/ICICIHub';
@@ -577,6 +580,9 @@ const AppContent = () => {
                     <Route path="/cms-data-lake" element={<CMSDataLake />} />
                     <Route path="/cms-recon-center" element={<CMSReconCenter />} />
                     <Route path="/cms-audit-command" element={<CMSAuditCommand />} />
+                    <Route path="/cms-overage-alerts" element={<CMSOverageAlerts />} />
+                    <Route path="/cms-vault-ops" element={<CMSVaultOps />} />
+                    <Route path="/cms-indent-engine" element={<CMSIndentEngine />} />
                     <Route path="/cms-audit-2" element={<CMSGuardian />} />
                     <Route path="/cms-audit" element={<CMSAuditCommandCenter />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />

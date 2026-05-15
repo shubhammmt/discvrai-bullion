@@ -19,6 +19,8 @@ import {
   Network, ShieldCheck
 } from 'lucide-react';
 import LineageMap from '@/components/cms-data-lake/LineageMap';
+import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import ThreeWayTruth from '@/components/cms-shared/ThreeWayTruth';
 import ActionConsole from '@/components/cms-data-lake/ActionConsole';
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
@@ -137,6 +139,7 @@ const CMSDataLake = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
+      <CMSModuleNav />
       {/* HEADER */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 px-4 py-2">
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">
@@ -230,6 +233,34 @@ const CMSDataLake = () => {
                 <span className="text-[9px] font-bold text-slate-700 w-7 text-right">{m.pct}%</span>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* THREE-WAY TRUTH HERO */}
+      <div className="px-4 py-3 bg-slate-50">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3">
+          <div className="lg:col-span-2">
+            <ThreeWayTruth bank={1240000} machine={1240000} vault={null} atmId="ATM-AMD-0001 · Top fleet risk" />
+          </div>
+          <div className="rounded-xl border border-slate-200 bg-white p-3">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Top-5 Network Risks (DRS)</p>
+            <div className="space-y-1.5">
+              {[
+                { id: 'ATM-MUM-0001', drs: 84, mode: 'Theft', why: 'OTC resets +8 · FLM jam unresolved' },
+                { id: 'ATM-DEL-0102', drs: 78, mode: 'Overage', why: 'Custodian tenure 246d · neighbor stress' },
+                { id: 'ATM-BLR-0055', drs: 72, mode: 'Cashout', why: 'Velocity −22% vs plan' },
+                { id: 'ATM-AMD-0001', drs: 68, mode: 'Theft', why: 'Vault attestation pending · 4-day blind' },
+                { id: 'ATM-HYD-0044', drs: 61, mode: 'Overage', why: 'Claim CMS-02435512 unmatched' },
+              ].map(r => (
+                <div key={r.id} className="flex items-center gap-2 text-[11px]">
+                  <span className="font-mono font-bold text-slate-900 w-28">{r.id}</span>
+                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${r.drs >= 80 ? 'bg-red-600 text-white' : r.drs >= 65 ? 'bg-amber-500 text-white' : 'bg-blue-500 text-white'}`}>DRS {r.drs}</span>
+                  <span className={`px-1.5 py-0.5 rounded text-[9px] ${r.mode === 'Theft' ? 'bg-red-100 text-red-700' : r.mode === 'Overage' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>{r.mode}</span>
+                  <span className="text-[10px] text-slate-500 truncate flex-1">{r.why}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
