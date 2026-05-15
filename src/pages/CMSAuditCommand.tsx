@@ -280,6 +280,7 @@ const CMSAuditCommand: React.FC = () => {
       {detailTarget && <RiskDetailModal target={detailTarget} onClose={() => setDetailTarget(null)} />}
       {selectedAudit && <LiveAuditModal audit={selectedAudit} onClose={() => setSelectedAudit(null)} />}
       {alertsOpen && <AlertsDrawer onClose={() => setAlertsOpen(false)} />}
+      </div>
     </div>
   );
 };
