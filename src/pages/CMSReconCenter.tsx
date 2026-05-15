@@ -334,6 +334,46 @@ const CMSReconCenter = () => {
         </div>
       </div>
 
+      {/* ═══ OPS COMMAND: Top-10 Risk + Breach Ticker ═══ */}
+      <div className="px-4 py-3 bg-slate-900 border-b border-slate-800">
+        <div className="max-w-[1600px] mx-auto space-y-2">
+          <CMSBreachTicker variant="dark" />
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-3">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <p className="text-xs font-bold text-white">Top 10 Risk Queue — Action Required Today</p>
+                <p className="text-[10px] text-slate-400">Three-Way Truth · DRS-prioritized · Evidence-ready</p>
+              </div>
+              <div className="flex gap-1">
+                {(['Theft Risk', 'Overage Risk', 'Cashout Risk'] as const).map((t, i) => (
+                  <span key={t} className={`px-2 py-0.5 rounded text-[10px] font-bold ${i === 0 ? 'bg-red-500/20 text-red-300 border border-red-500/30' : i === 1 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'}`}>{t} · {[4, 6, 3][i]}</span>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
+              {[
+                { atm: 'ATM-MUM-0001', bank: 'HDFC', region: 'West', exposure: '₹84,000', signal: 'OTC reset spike + FLM jam', sla: '6h', tone: 'red' },
+                { atm: 'ATM-DEL-0102', bank: 'SBI', region: 'North', exposure: '₹62,500', signal: 'Custodian tenure 246d · neighbor stress', sla: '12h', tone: 'amber' },
+                { atm: 'ATM-BLR-0055', bank: 'Kotak', region: 'South', exposure: '₹38,200', signal: 'Velocity −22% vs plan', sla: '4h', tone: 'blue' },
+              ].map(r => (
+                <div key={r.atm} className={`p-2.5 rounded border ${r.tone === 'red' ? 'border-red-500/30 bg-red-500/5' : r.tone === 'amber' ? 'border-amber-500/30 bg-amber-500/5' : 'border-blue-500/30 bg-blue-500/5'}`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-mono font-bold text-white">{r.atm}</span>
+                    <span className="text-slate-400 text-[10px]">{r.bank} · {r.region}</span>
+                  </div>
+                  <div className="text-white font-bold">{r.exposure}</div>
+                  <div className="text-slate-400 text-[10px] mb-1">{r.signal}</div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-amber-300 text-[10px]">SLA {r.sla}</span>
+                    <button className="text-[10px] px-2 py-0.5 rounded bg-blue-600 text-white hover:bg-blue-500">Open Case</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ═══ MAIN WORKSPACE ═══ */}
       <div className="flex-1 px-4 py-3">
         <div className="max-w-[1600px] mx-auto">
