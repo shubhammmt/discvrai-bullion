@@ -267,6 +267,17 @@ import RAKCockpit from './pages/rak/RAKCockpit';
 import RAKKiln from './pages/rak/RAKKiln';
 import RAKCopilot from './pages/rak/RAKCopilot';
 import RAKArchitecture from './pages/rak/RAKArchitecture';
+import AWNICHub from './pages/awnic/AWNICHub';
+import AWNICDeck from './pages/awnic/AWNICDeck';
+import { AWNICLayout } from './pages/awnic/ui';
+import AWNICCockpit from './pages/awnic/AWNICCockpit';
+import AWNICAcquisition from './pages/awnic/AWNICAcquisition';
+import AWNICRecovery from './pages/awnic/AWNICRecovery';
+import AWNICRetention from './pages/awnic/AWNICRetention';
+import AWNICCrossSell from './pages/awnic/AWNICCrossSell';
+import AWNICAgent from './pages/awnic/AWNICAgent';
+import AWNICExperiment from './pages/awnic/AWNICExperiment';
+import AWNICIntegration from './pages/awnic/AWNICIntegration';
 import BajajCapitalHub from './pages/bajajcapital/BajajCapitalHub';
 import BajajCapitalDeck from './pages/bajajcapital/BajajCapitalDeck';
 import { BajajCapitalLayout } from './pages/bajajcapital/ui';
@@ -383,6 +394,9 @@ const AppContent = () => {
                            location.pathname === '/rak' ||
                            location.pathname === '/pitch/rak' ||
                            location.pathname.startsWith('/rak/') ||
+                           location.pathname === '/awnic' ||
+                           location.pathname === '/pitch/awnic' ||
+                           location.pathname.startsWith('/awnic/') ||
                            location.pathname === '/bajajcapital' ||
                            location.pathname === '/pitch/bajajcapital' ||
                            location.pathname.startsWith('/bajajcapital/') ||
