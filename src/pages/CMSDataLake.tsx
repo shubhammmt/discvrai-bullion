@@ -21,6 +21,8 @@ import {
 import LineageMap from '@/components/cms-data-lake/LineageMap';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
 import ThreeWayTruth from '@/components/cms-shared/ThreeWayTruth';
+import CMSSOPControls from '@/components/cms-shared/CMSSOPControls';
+import CMSBreachTicker from '@/components/cms-shared/CMSBreachTicker';
 import ActionConsole from '@/components/cms-data-lake/ActionConsole';
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
@@ -262,6 +264,14 @@ const CMSDataLake = () => {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* 5 SOP CONTROLS + BREACH TICKER */}
+      <div className="px-4 py-2 bg-slate-50">
+        <div className="max-w-[1600px] mx-auto space-y-2">
+          <CMSBreachTicker />
+          <CMSSOPControls />
         </div>
       </div>
 
