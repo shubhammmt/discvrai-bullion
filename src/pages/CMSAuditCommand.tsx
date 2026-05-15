@@ -9,6 +9,8 @@ import {
 } from '@/data/cmsAuditCommand';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
 import CMSBreachTicker from '@/components/cms-shared/CMSBreachTicker';
+import CMSPostAuditKPIs from '@/components/cms-shared/CMSPostAuditKPIs';
+import CMSSOPControls from '@/components/cms-shared/CMSSOPControls';
 
 // ───────────────────────── helpers ─────────────────────────
 const formatINR = (v: number) => {
@@ -252,6 +254,12 @@ const CMSAuditCommand: React.FC = () => {
             spark={KPI_SPARK.compliance}
             sparkColor="hsl(160,84%,39%)"
           />
+        </section>
+
+        {/* Post-Audit Outcome KPIs + 5 Controls */}
+        <section className="px-6 py-4 bg-slate-50 border-b border-slate-200 space-y-3">
+          <CMSPostAuditKPIs />
+          <CMSSOPControls />
         </section>
 
         {/* View body */}
