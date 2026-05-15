@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Database, Scale, Bell, Vault, PackageSearch, ShieldCheck } from 'lucide-react';
+import { Database, Scale, Bell, Vault, PackageSearch, ShieldCheck, Radar } from 'lucide-react';
 
 const links = [
+  { to: '/cms-ai-risk-radar', label: 'AI Risk Radar', icon: Radar },
   { to: '/cms-data-lake', label: 'Data Lake', icon: Database },
   { to: '/cms-recon-center', label: 'Recon Center', icon: Scale },
   { to: '/cms-overage-alerts', label: 'Overage Alerts', icon: Bell },

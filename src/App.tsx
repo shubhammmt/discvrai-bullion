@@ -226,6 +226,7 @@ import CMSAuditCommand from './pages/CMSAuditCommand';
 import CMSOverageAlerts from './pages/CMSOverageAlerts';
 import CMSVaultOps from './pages/CMSVaultOps';
 import CMSIndentEngine from './pages/CMSIndentEngine';
+import CMSAIRiskRadar from './pages/CMSAIRiskRadar';
 import SchlumbergerOps from './pages/SchlumbergerOps';
 import SBIHub from './pages/sbi/SBIHub';
 import ICICIHub from './pages/icici/ICICIHub';
@@ -583,6 +584,7 @@ const AppContent = () => {
                     <Route path="/cms-overage-alerts" element={<CMSOverageAlerts />} />
                     <Route path="/cms-vault-ops" element={<CMSVaultOps />} />
                     <Route path="/cms-indent-engine" element={<CMSIndentEngine />} />
+                    <Route path="/cms-ai-risk-radar" element={<CMSAIRiskRadar />} />
                     <Route path="/cms-audit-2" element={<CMSGuardian />} />
                     <Route path="/cms-audit" element={<CMSAuditCommandCenter />} />
                     <Route path="/demo/schlumberger-ops" element={<SchlumbergerOps />} />
