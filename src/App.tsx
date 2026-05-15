@@ -226,6 +226,7 @@ import CMSAuditCommand from './pages/CMSAuditCommand';
 import CMSOverageAlerts from './pages/CMSOverageAlerts';
 import CMSVaultOps from './pages/CMSVaultOps';
 import CMSIndentEngine from './pages/CMSIndentEngine';
+import CMSAIRiskRadar from './pages/CMSAIRiskRadar';
 import SchlumbergerOps from './pages/SchlumbergerOps';
 import SBIHub from './pages/sbi/SBIHub';
 import ICICIHub from './pages/icici/ICICIHub';
