@@ -19,6 +19,8 @@ import {
   Network, ShieldCheck
 } from 'lucide-react';
 import LineageMap from '@/components/cms-data-lake/LineageMap';
+import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import ThreeWayTruth from '@/components/cms-shared/ThreeWayTruth';
 import ActionConsole from '@/components/cms-data-lake/ActionConsole';
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart,
@@ -137,6 +139,7 @@ const CMSDataLake = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
+      <CMSModuleNav />
       {/* HEADER */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50 px-4 py-2">
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">

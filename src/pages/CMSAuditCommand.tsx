@@ -7,6 +7,8 @@ import {
 import {
   auditPulse, riskTargets, liveAuditFeed, AuditTarget, LiveAuditEntry,
 } from '@/data/cmsAuditCommand';
+import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBreachTicker from '@/components/cms-shared/CMSBreachTicker';
 
 // ───────────────────────── helpers ─────────────────────────
 const formatINR = (v: number) => {
@@ -150,7 +152,9 @@ const CMSAuditCommand: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
+      <CMSModuleNav />
+      <div className="flex flex-1">
       {/* ── Dark Sidebar ── */}
       <aside className="w-56 bg-slate-900 text-slate-200 flex flex-col shrink-0">
         <div className="p-4 border-b border-slate-800">
