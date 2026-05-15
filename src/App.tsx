@@ -629,6 +629,18 @@ const AppContent = () => {
                       <Route path="copilot" element={<PetroleumCopilot />} />
                       <Route path="walkthrough" element={<PetroleumWalkthrough />} />
                     </Route>
+                    <Route path="/awnic" element={<AWNICHub />} />
+                    <Route path="/pitch/awnic" element={<AWNICDeck />} />
+                    <Route path="/awnic" element={<AWNICLayout />}>
+                      <Route path="cockpit" element={<AWNICCockpit />} />
+                      <Route path="acquisition" element={<AWNICAcquisition />} />
+                      <Route path="recovery" element={<AWNICRecovery />} />
+                      <Route path="retention" element={<AWNICRetention />} />
+                      <Route path="crosssell" element={<AWNICCrossSell />} />
+                      <Route path="agent" element={<AWNICAgent />} />
+                      <Route path="experiment" element={<AWNICExperiment />} />
+                      <Route path="integration" element={<AWNICIntegration />} />
+                    </Route>
                     <Route path="/upmetro" element={<UPMetroHub />} />
                     <Route path="/pitch/upmetro" element={<UPMetroDeck />} />
                     <Route path="/upmetro" element={<UPMetroLayout />}>
