@@ -799,6 +799,7 @@ const AlertsDrawer: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           ))}
         </div>
       </div>
+      </div>
     </div>
   );
 };
