@@ -360,12 +360,17 @@ const AppContent = () => {
                          location.pathname === '/pitch/enterprise-lite' ||
                          location.pathname === '/pitch/bajaj-finserv' ||
                          location.pathname === '/pitch/discvrai-platform' ||
-                         location.pathname === '/cms-data-lake' ||
-                          location.pathname === '/cms-recon-center' ||
-                           location.pathname === '/cms-audit-command' ||
-                           location.pathname === '/cms-audit-2' ||
-                           location.pathname === '/cms-audit' ||
-                           location.pathname === '/cms-evidence-deck' ||
+                          location.pathname === '/cms-data-lake' ||
+                           location.pathname === '/cms-recon-center' ||
+                            location.pathname === '/cms-audit-command' ||
+                            location.pathname === '/cms-audit-2' ||
+                            location.pathname === '/cms-audit' ||
+                            location.pathname === '/cms-evidence-deck' ||
+                            location.pathname === '/cms-overage-alerts' ||
+                            location.pathname === '/cms-vault-ops' ||
+                            location.pathname === '/cms-indent-engine' ||
+                            location.pathname === '/cms-ai-risk-radar' ||
+                            location.pathname === '/cms-transformation' ||
                            location.pathname === '/demo/schlumberger-ops' ||
                             location.pathname === '/demo/awnic' ||
                            location.pathname === '/vedanta-decision-hub' ||
