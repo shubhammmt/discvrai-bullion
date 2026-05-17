@@ -715,6 +715,7 @@ const AppContent = () => {
                        <Route path="about" element={<DiscvrAbout />} />
                        <Route path="contact" element={<DiscvrContact />} />
                      </Route>
+          <Route path="/pitch/discvr-content" element={<DiscvrContentDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
