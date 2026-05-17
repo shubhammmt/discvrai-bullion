@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBusinessOutcome from '@/components/cms-shared/CMSBusinessOutcome';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -47,6 +48,7 @@ const CMSVaultOps = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <CMSModuleNav />
+      <CMSBusinessOutcome routeKey="vault-ops" />
 
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-[1600px] mx-auto px-4 py-3 flex items-center justify-between">

@@ -25,6 +25,7 @@ import {
   TransactionComparison
 } from '@/data/cmsReconCenter';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBusinessOutcome from '@/components/cms-shared/CMSBusinessOutcome';
 import CMSBreachTicker from '@/components/cms-shared/CMSBreachTicker';
 
 // ── Mini Sparkline ──
@@ -228,6 +229,7 @@ const CMSReconCenter = () => {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
       <CMSModuleNav variant="dark" />
+      <CMSBusinessOutcome routeKey="recon-center" variant="dark" />
       {/* ═══ HEADER ═══ */}
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 px-4 py-2">
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">

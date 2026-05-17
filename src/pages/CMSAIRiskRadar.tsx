@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBusinessOutcome from '@/components/cms-shared/CMSBusinessOutcome';
+import CMSModelGovernance from '@/components/cms-shared/CMSModelGovernance';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -646,6 +648,10 @@ const CMSAIRiskRadar: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <CMSModuleNav />
+      <CMSBusinessOutcome routeKey="ai-risk-radar" />
+      <div className="max-w-[1600px] mx-auto px-4 pt-3">
+        <CMSModelGovernance />
+      </div>
       {/* Header */}
       <div className="max-w-[1600px] mx-auto px-4 pt-3">
         <div className="flex items-start justify-between gap-3 mb-3">
