@@ -48,6 +48,7 @@ import StocksHome from './pages/StocksHome';
 import PitchPresentation from './pages/PitchPresentation';
 import PitchV1 from './pages/PitchV1';
 import PitchV2 from './pages/PitchV2';
+import DiscvrContentDeck from './pages/DiscvrContentDeck';
 import PitchV3 from './pages/PitchV3';
 import PitchV4 from './pages/PitchV4';
 import StockPage from './pages/StockPage';
@@ -408,7 +409,8 @@ const AppContent = () => {
                            location.pathname === '/jaikhurana' ||
                            location.pathname === '/pitch/jaikhurana' ||
                            location.pathname.startsWith('/jaikhurana/') ||
-                           location.pathname.startsWith('/discvrai');
+                           location.pathname.startsWith('/discvrai') ||
+                           location.pathname === '/pitch/discvr-content';
   return (
     <>
       <Routes>
@@ -713,6 +715,7 @@ const AppContent = () => {
                        <Route path="about" element={<DiscvrAbout />} />
                        <Route path="contact" element={<DiscvrContact />} />
                      </Route>
+          <Route path="/pitch/discvr-content" element={<DiscvrContentDeck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
