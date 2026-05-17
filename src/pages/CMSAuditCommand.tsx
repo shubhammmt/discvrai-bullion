@@ -157,6 +157,7 @@ const CMSAuditCommand: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
       <CMSModuleNav />
+      <CMSBusinessOutcome routeKey="audit-command" />
       <div className="flex flex-1">
       {/* ── Dark Sidebar ── */}
       <aside className="w-56 bg-slate-900 text-slate-200 flex flex-col shrink-0">

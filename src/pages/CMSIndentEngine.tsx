@@ -48,6 +48,7 @@ const CMSIndentEngine = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <CMSModuleNav />
+      <CMSBusinessOutcome routeKey="indent-engine" />
 
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-[1600px] mx-auto px-4 py-3 flex items-center justify-between">
