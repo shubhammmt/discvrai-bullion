@@ -48,6 +48,7 @@ import StocksHome from './pages/StocksHome';
 import PitchPresentation from './pages/PitchPresentation';
 import PitchV1 from './pages/PitchV1';
 import PitchV2 from './pages/PitchV2';
+import DiscvrContentDeck from './pages/DiscvrContentDeck';
 import PitchV3 from './pages/PitchV3';
 import PitchV4 from './pages/PitchV4';
 import StockPage from './pages/StockPage';
