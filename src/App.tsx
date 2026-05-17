@@ -408,7 +408,8 @@ const AppContent = () => {
                            location.pathname === '/jaikhurana' ||
                            location.pathname === '/pitch/jaikhurana' ||
                            location.pathname.startsWith('/jaikhurana/') ||
-                           location.pathname.startsWith('/discvrai');
+                           location.pathname.startsWith('/discvrai') ||
+                           location.pathname === '/pitch/discvr-content';
   return (
     <>
       <Routes>
