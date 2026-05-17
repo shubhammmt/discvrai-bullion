@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBusinessOutcome from '@/components/cms-shared/CMSBusinessOutcome';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

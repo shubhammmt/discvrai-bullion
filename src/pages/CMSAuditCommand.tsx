@@ -8,6 +8,7 @@ import {
   auditPulse, riskTargets, liveAuditFeed, AuditTarget, LiveAuditEntry,
 } from '@/data/cmsAuditCommand';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBusinessOutcome from '@/components/cms-shared/CMSBusinessOutcome';
 import CMSBreachTicker from '@/components/cms-shared/CMSBreachTicker';
 import CMSPostAuditKPIs from '@/components/cms-shared/CMSPostAuditKPIs';
 import CMSSOPControls from '@/components/cms-shared/CMSSOPControls';

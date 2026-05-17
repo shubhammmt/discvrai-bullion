@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import LineageMap from '@/components/cms-data-lake/LineageMap';
 import CMSModuleNav from '@/components/cms-shared/CMSModuleNav';
+import CMSBusinessOutcome from '@/components/cms-shared/CMSBusinessOutcome';
 import ThreeWayTruth from '@/components/cms-shared/ThreeWayTruth';
 import CMSSOPControls from '@/components/cms-shared/CMSSOPControls';
 import CMSBreachTicker from '@/components/cms-shared/CMSBreachTicker';
