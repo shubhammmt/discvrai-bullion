@@ -164,7 +164,7 @@ const DRSExplorer: React.FC = () => {
         </CardContent>
       </Card>
       <ModelIO
-        inputs={['EJ logs (15-day rolling)', 'Switch txns (90-day)', 'FLM/MSP tickets', 'Custodian behavior history', 'Vault attestation gaps', 'Neighbor cluster status']}
+        inputs={['EJ logs (15-day rolling)', 'Switch txns (5-yr history)', 'FLM/MSP tickets', 'Custodian behavior history', 'Vault attestation gaps', 'Neighbor cluster status']}
         outputs={[{ k: 'drs_score', v: '78' }, { k: 'risk_mode', v: 'Overage' }, { k: 'confidence_pct', v: '82' }, { k: 'model_version', v: 'drs-v3.2' }]}
         confidence={82}
       />
@@ -248,7 +248,7 @@ const DemandForecast: React.FC = () => {
         </CardContent>
       </Card>
       <ModelIO
-        inputs={['90-day dispense history', 'Calendar (payday/festival)', 'Machine counter velocity', 'System counter fallback', 'Local event flags']}
+        inputs={['Dispense history (5-yr long-range)', 'Calendar (payday/festival)', 'Machine counter velocity', 'System counter fallback', 'Local event flags']}
         outputs={[{ k: 'forecast_load_₹', v: '19,00,000' }, { k: 'forecast_cashout_at', v: 'Apr 14 16:30' }, { k: 'confidence_pct', v: '88' }, { k: 'action', v: 'Prepone load' }]}
         confidence={88}
       />
