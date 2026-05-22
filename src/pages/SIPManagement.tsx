@@ -303,6 +303,11 @@ const SIPManagement = () => {
             />
           )}
 
+          {/* NEW REBALANCE — premium mobile-first 5-step flow */}
+          {activeTab === 'new-rebalance' && (
+            <NewRebalanceFlow onExit={() => setActiveTab('portfolio')} />
+          )}
+
           {/* INVEST TAB */}
           {activeTab === 'buy' && <FundPurchaseWidget prefill={purchasePrefill} />}
 
