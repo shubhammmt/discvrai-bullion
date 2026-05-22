@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { RebalanceTab } from '@/components/sip/RebalanceTab';
+import { NewRebalanceFlow } from '@/components/sip/NewRebalanceFlow';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -115,6 +116,7 @@ const SIPManagement = () => {
     { value: 'home', icon: Home, label: 'Home', always: true },
     { value: 'portfolio', icon: BarChart3, label: 'Portfolio', requiresHoldings: true },
     { value: 'rebalance', icon: Scale, label: 'Rebalance', requiresHoldings: true },
+    { value: 'new-rebalance', icon: Sparkles, label: 'New Rebalance', always: true },
     { value: 'screener', icon: Search, label: 'Explore', always: true },
     { value: 'transactions', icon: Receipt, label: 'Transactions', requiresLogin: true },
     { value: 'manage', icon: Settings, label: 'SIPs', requiresHoldings: true },
@@ -299,6 +301,11 @@ const SIPManagement = () => {
               initialFocusId={rebalanceFocusId}
               onDone={() => setActiveTab('portfolio')}
             />
+          )}
+
+          {/* NEW REBALANCE — premium mobile-first 5-step flow */}
+          {activeTab === 'new-rebalance' && (
+            <NewRebalanceFlow onExit={() => setActiveTab('portfolio')} />
           )}
 
           {/* INVEST TAB */}
