@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { RebalanceTab } from '@/components/sip/RebalanceTab';
+import { NewRebalanceFlow } from '@/components/sip/NewRebalanceFlow';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
