@@ -271,6 +271,7 @@ import RAKArchitecture from './pages/rak/RAKArchitecture';
 import AWNICHub from './pages/awnic/AWNICHub';
 import AWNICDeck from './pages/awnic/AWNICDeck';
 import AWNICRenewalDeck from './pages/awnic/AWNICRenewalDeck';
+import DeloitteSessionDeck from './pages/deloitte/DeloitteSessionDeck';
 import { AWNICLayout } from './pages/awnic/ui';
 import AWNICCockpit from './pages/awnic/AWNICCockpit';
 import AWNICAcquisition from './pages/awnic/AWNICAcquisition';
@@ -412,7 +413,8 @@ const AppContent = () => {
                            location.pathname === '/pitch/jaikhurana' ||
                            location.pathname.startsWith('/jaikhurana/') ||
                            location.pathname.startsWith('/discvrai') ||
-                           location.pathname === '/pitch/discvr-content';
+                           location.pathname === '/pitch/discvr-content' ||
+                           location.pathname === '/pitch/deloitte';
   return (
     <>
       <Routes>
@@ -641,6 +643,7 @@ const AppContent = () => {
                     <Route path="/awnic" element={<AWNICHub />} />
                     <Route path="/pitch/awnic" element={<AWNICDeck />} />
                     <Route path="/pitch/awnic-renewal" element={<AWNICRenewalDeck />} />
+                    <Route path="/pitch/deloitte" element={<DeloitteSessionDeck />} />
                     <Route path="/awnic" element={<AWNICLayout />}>
                       <Route path="cockpit" element={<AWNICCockpit />} />
                       <Route path="acquisition" element={<AWNICAcquisition />} />
