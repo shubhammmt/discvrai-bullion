@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Printer, Mail, Phone, ArrowRight, CheckCircle2, AlertTriangle, Shield, Layers, Search, GitBranch, FileCheck } from 'lucide-react';
 
-const TOTAL_SLIDES = 8;
+const TOTAL_SLIDES = 9;
 const FOOTER = "Confidential — Discvr × Bajaj Finserv | For discussion";
 const RIBBON = "Next session: scope, metrics, data — and commercials.";
 
@@ -303,7 +303,121 @@ const Slide8 = () => (
   </Slide>
 );
 
-const allSlides = [Slide1, Slide2, Slide3, Slide4, Slide5, Slide6, Slide7, Slide8];
+const Slide9 = () => (
+  <Slide>
+    <SectionLabel>Commercials</SectionLabel>
+    <H1>Commercial Options for Phase 1</H1>
+    <p className="text-slate-600 text-[15px] mb-6 max-w-4xl print:text-[13px] print:mb-4">
+      Two engagement models depending on Bajaj's preferred operating style: flexible T&amp;M or outcome-led fixed scope.
+    </p>
+
+    <div className="grid md:grid-cols-2 gap-5 mb-5 print:gap-4 print:mb-4">
+      {/* Option A — T&M */}
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 print:p-4 flex flex-col">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Option A</span>
+          <span className="text-[11px] font-semibold text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-full">Flexibility</span>
+        </div>
+        <h3 className="text-lg font-bold text-slate-900 mb-1 print:text-base">Specialist T&amp;M Pod</h3>
+        <p className="text-xs text-slate-600 mb-4 print:text-[11px]">
+          Best when Bajaj wants flexibility, evolving scope, and the ability to reprioritize across the three AI workstreams during execution.
+        </p>
+        <div className="bg-white border border-slate-200 rounded-lg p-3 mb-3">
+          <div className="text-[11px] uppercase tracking-wide text-slate-500 font-semibold">Monthly pod cost</div>
+          <div className="text-2xl font-bold text-teal-700 print:text-xl">₹24 lakh<span className="text-sm text-slate-500 font-medium">/month + taxes</span></div>
+        </div>
+        <div className="text-[11px] uppercase tracking-wide text-slate-500 font-semibold mb-1.5">Indicative team</div>
+        <ul className="space-y-1 text-[13px] text-slate-700 mb-3 print:text-[11px]">
+          <li className="flex justify-between"><span>2× Data Scientist (3–6 yrs)</span><span className="font-mono text-slate-600">₹5L each</span></li>
+          <li className="flex justify-between"><span>1× Data Engineer</span><span className="font-mono text-slate-600">₹4L</span></li>
+          <li className="flex justify-between"><span>1× QA Engineer</span><span className="font-mono text-slate-600">₹2L</span></li>
+          <li className="flex justify-between"><span>1× Sr Data Scientist / Model Lead</span><span className="font-mono text-slate-600">₹8L</span></li>
+        </ul>
+        <div className="bg-slate-100 rounded-lg p-3 mb-3">
+          <div className="text-[11px] uppercase tracking-wide text-slate-500 font-semibold">Indicative 6-month cost</div>
+          <div className="text-xl font-bold text-slate-900 print:text-lg">₹1.44 crore <span className="text-xs text-slate-500 font-medium">+ taxes</span></div>
+        </div>
+        <p className="text-[11px] text-slate-500 italic leading-snug mt-auto print:text-[10px]">
+          Not staff augmentation. Specialist AI delivery pod covering senior model ownership, feature engineering, data engineering, QA, evaluation, documentation and delivery governance.
+        </p>
+      </div>
+
+      {/* Option B — Outcome-led */}
+      <div className="bg-teal-50 border-2 border-teal-300 rounded-xl p-5 print:p-4 flex flex-col relative">
+        <div className="absolute -top-2.5 right-4 bg-teal-600 text-white text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full">Recommended</div>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[11px] font-bold text-teal-700 uppercase tracking-widest">Option B</span>
+          <span className="text-[11px] font-semibold text-teal-700 bg-white border border-teal-200 px-2 py-0.5 rounded-full">Cost certainty</span>
+        </div>
+        <h3 className="text-lg font-bold text-slate-900 mb-1 print:text-base">Outcome-led Phase 1</h3>
+        <p className="text-xs text-slate-700 mb-4 print:text-[11px]">
+          Best when Bajaj wants a controlled commercial commitment with defined deliverables, milestones and success criteria.
+        </p>
+        <div className="space-y-2 mb-3">
+          <div className="bg-white border border-teal-200 rounded-lg p-2.5 flex items-center justify-between">
+            <span className="text-[13px] text-slate-700 print:text-[11px]">1 use case</span>
+            <span className="text-base font-bold text-teal-700 print:text-sm">₹50 lakh<span className="text-[11px] text-slate-500 font-medium"> + taxes</span></span>
+          </div>
+          <div className="bg-white border border-teal-200 rounded-lg p-2.5 flex items-center justify-between">
+            <span className="text-[13px] text-slate-700 print:text-[11px]">2 use cases</span>
+            <span className="text-base font-bold text-teal-700 print:text-sm">₹80 lakh<span className="text-[11px] text-slate-500 font-medium"> + taxes</span></span>
+          </div>
+          <div className="bg-teal-600 text-white rounded-lg p-2.5 flex items-center justify-between">
+            <span className="text-[13px] font-semibold print:text-[11px]">3 use cases <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded ml-1">Best value</span></span>
+            <span className="text-base font-bold print:text-sm">₹1 crore<span className="text-[11px] text-white/80 font-medium"> + taxes</span></span>
+          </div>
+        </div>
+        <div className="text-[11px] text-slate-600 mb-3 print:text-[10px]">
+          <strong>Indicative duration:</strong> up to 6 months for the complete Phase 1 program.
+        </div>
+        <p className="text-[11px] text-slate-600 italic leading-snug mt-auto print:text-[10px]">
+          The 3-use-case option is commercially more efficient because the backbone is shared across all workstreams — feature contracts, evaluation harness, model registry, monitoring, HITL queues, documentation templates and governance discipline.
+        </p>
+      </div>
+    </div>
+
+    {/* Recommendation */}
+    <div className="bg-slate-900 text-white rounded-xl p-5 print:p-4 mb-4">
+      <div className="flex items-center gap-2 mb-2">
+        <CheckCircle2 size={16} className="text-teal-400" />
+        <span className="text-[11px] font-bold uppercase tracking-widest text-teal-400">Recommendation</span>
+      </div>
+      <h3 className="text-base font-bold mb-2 print:text-sm">Proceed with the outcome-led Phase 1 model across 3 use cases.</h3>
+      <div className="grid md:grid-cols-3 gap-3 mb-3 print:gap-2">
+        <div className="bg-white/5 border border-white/10 rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wide text-slate-400">T&amp;M, 6 months</div>
+          <div className="text-lg font-bold text-white print:text-base">₹1.44 crore <span className="text-[11px] text-slate-400 font-medium">+ tax</span></div>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wide text-slate-400">Outcome-led, 3 use cases</div>
+          <div className="text-lg font-bold text-white print:text-base">₹1 crore <span className="text-[11px] text-slate-400 font-medium">+ tax</span></div>
+        </div>
+        <div className="bg-teal-500/15 border border-teal-400/40 rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wide text-teal-300">Effective saving vs T&amp;M</div>
+          <div className="text-lg font-bold text-teal-300 print:text-base">~30%</div>
+        </div>
+      </div>
+      <p className="text-[12px] text-slate-300 leading-relaxed print:text-[11px]">
+        T&amp;M works if the requirement is pure flexibility and ongoing reprioritization. The outcome-led model is better for a governed, measurable Phase 1 — these three use cases share the same AI governance and delivery backbone.
+      </p>
+    </div>
+
+    {/* Caveat */}
+    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 print:p-2.5">
+      <div className="flex items-start gap-2">
+        <AlertTriangle size={14} className="text-amber-700 mt-0.5 shrink-0" />
+        <div>
+          <div className="text-[11px] font-bold text-amber-800 uppercase tracking-wide mb-0.5">Commercial caveat</div>
+          <p className="text-[12px] text-amber-900 leading-snug print:text-[10px]">
+            Outcome-led delivery means defined technical and business deliverables, subject to data access, stakeholder availability, validation sign-offs, InfoSec approvals and agreed scope boundaries. Production go-live, validator approval and measurable business impact depend on joint execution and Bajaj-side decisioning timelines.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Slide>
+);
+
+const allSlides = [Slide1, Slide2, Slide3, Slide4, Slide5, Slide6, Slide7, Slide8, Slide9];
 
 const BajajFinservDeck: React.FC = () => {
   const [current, setCurrent] = useState(0);
