@@ -83,6 +83,7 @@ import DiscvrPricing from './pages/discvrai/DiscvrPricing';
 import DiscvrAbout from './pages/discvrai/DiscvrAbout';
 import DiscvrContact from './pages/discvrai/DiscvrContact';
 import DiscvrCopilot from './pages/discvrai/DiscvrCopilot';
+import DiscvrAISite from './pages/DiscvrAISite';
 import CMSGuardian from './pages/CMSGuardian';
 import CMSTransformation from './pages/CMSTransformation';
 import CMSAuditCommandCenter from './pages/CMSAuditCommandCenter';
@@ -414,7 +415,8 @@ const AppContent = () => {
                            location.pathname.startsWith('/jaikhurana/') ||
                            location.pathname.startsWith('/discvrai') ||
                            location.pathname === '/pitch/discvr-content' ||
-                           location.pathname === '/pitch/deloitte';
+                           location.pathname === '/pitch/deloitte' ||
+                           location.pathname === '/discvrai-site';
   return (
     <>
       <Routes>
@@ -503,6 +505,7 @@ const AppContent = () => {
           <Route path="/crypto/:symbol" element={<CryptoAsset />} />
         <Route path="/metals" element={<MetalsHub />} />
         <Route path="/discvr" element={<DiscvrHomepage />} />
+        <Route path="/discvrai-site" element={<DiscvrAISite />} />
         <Route path="/bullion" element={<BullionInvestment />} />
         <Route path="/bullion/trade" element={<BullionInvestment />} />
         <Route path="/bullion/profile" element={<BullionProfile />} />
