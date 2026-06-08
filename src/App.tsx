@@ -186,6 +186,13 @@ import NbfcCollectionsDemo from './pages/NbfcCollectionsDemo';
 import NbfcKycDemo from './pages/NbfcKycDemo';
 import NbfcAltCreditDemo from './pages/NbfcAltCreditDemo';
 import SIPManagement from './pages/SIPManagement';
+import PlantOpsLayout from './pages/plantops/PlantOpsLayout';
+import PlantOpsDashboard from './pages/plantops/PlantOpsDashboard';
+import ManpowerEntryPage from './pages/plantops/ManpowerEntry';
+import WastageEntryPage from './pages/plantops/WastageEntry';
+import ExcelUploadPage from './pages/plantops/ExcelUpload';
+import MasterDataPage from './pages/plantops/MasterData';
+import MonthlyReportsPage from './pages/plantops/MonthlyReports';
 import AlertsAndDigests from './pages/AlertsAndDigests';
 import Rebalancing from './pages/Rebalancing';
 import ConversionMetrics from './pages/ConversionMetrics';
@@ -421,6 +428,14 @@ const AppContent = () => {
     <>
       <Routes>
         <Route path="/" element={<SIPManagement />} />
+        <Route path="/plant-ops" element={<PlantOpsLayout />}>
+          <Route index element={<PlantOpsDashboard />} />
+          <Route path="manpower" element={<ManpowerEntryPage />} />
+          <Route path="wastage" element={<WastageEntryPage />} />
+          <Route path="upload" element={<ExcelUploadPage />} />
+          <Route path="master" element={<MasterDataPage />} />
+          <Route path="reports" element={<MonthlyReportsPage />} />
+        </Route>
         <Route path="/welcome" element={<Index />} />
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
