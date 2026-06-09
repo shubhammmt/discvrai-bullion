@@ -231,6 +231,7 @@ import RAKSapPitch from './pages/RAKSapPitch';
 import BajajFinservDeck from './pages/BajajFinservDeck';
 import DiscvrPlatformDeck from './pages/DiscvrPlatformDeck';
 import AdfCeoSales12MDashboard from './pages/AdfCeoSales12MDashboard';
+import AdfDistributorDashboard from './pages/AdfDistributorDashboard';
 import CMSAuditCommand from './pages/CMSAuditCommand';
 import CMSOverageAlerts from './pages/CMSOverageAlerts';
 import CMSVaultOps from './pages/CMSVaultOps';
