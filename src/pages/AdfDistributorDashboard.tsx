@@ -298,10 +298,10 @@ const SalesTab = () => {
           <table className="w-full text-[12px]">
             <thead className="bg-slate-50 sticky top-0 z-10">
               <tr>
-                <SortTh active={key==='sku'} dir={dir} onClick={()=>toggle('sku' as any)}>SKU</SortTh>
-                <SortTh active={key==='sales'} dir={dir} align="right" onClick={()=>toggle('sales' as any)}>Sales</SortTh>
-                <SortTh active={key==='cases'} dir={dir} align="right" onClick={()=>toggle('cases' as any)}>Cases</SortTh>
-                <SortTh active={key==='ppc'} dir={dir} align="right" onClick={()=>toggle('ppc' as any)}>$/case</SortTh>
+                <SortTh active={key==='sku'} dir={dir} onClick={()=>toggle('sku')}>SKU</SortTh>
+                <SortTh active={key==='sales'} dir={dir} align="right" onClick={()=>toggle('sales')}>Sales</SortTh>
+                <SortTh active={key==='cases'} dir={dir} align="right" onClick={()=>toggle('cases')}>Cases</SortTh>
+                <SortTh active={key==='ppc'} dir={dir} align="right" onClick={()=>toggle('ppc')}>$/case</SortTh>
               </tr>
             </thead>
             <tbody>
