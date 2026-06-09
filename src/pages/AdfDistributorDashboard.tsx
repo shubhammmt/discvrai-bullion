@@ -169,7 +169,7 @@ const OverviewTab = () => {
           <ResponsiveContainer width="100%" height={200}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={sourceData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                label={renderPieLabel} labelLine={false}
                 >
                 {sourceData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
@@ -218,7 +218,7 @@ const OverviewTab = () => {
           <ResponsiveContainer width="100%" height={200}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={catData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                label={renderPieLabel} labelLine={false}
                 >
                 {catData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
@@ -245,7 +245,7 @@ const OverviewTab = () => {
                 {name:'Late',value:po.late_count,fill:'#ef4444'},
                 {name:'On-Time',value:po.ontime_count,fill:'#10b981'},
               ]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                label={renderPieLabel} labelLine={false}
                 >
               </Pie>
               <Tooltip />
@@ -374,7 +374,7 @@ const InventoryTab = () => {
           <ResponsiveContainer width="100%" height={240}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={distData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                label={renderPieLabel} labelLine={false}
                 >
                 {distData.map((d,i)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
@@ -530,7 +530,7 @@ const POTab = () => {
           <ResponsiveContainer width="100%" height={260}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={onTimeData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                label={renderPieLabel} labelLine={false}
                 >
               </Pie>
               <Tooltip formatter={(v:any)=>`${v} POs`}/>
