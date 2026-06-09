@@ -358,25 +358,37 @@ const InventoryTab = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <Card>
           <CardTitle icon={<Package className="w-4 h-4 text-blue-600"/>}>Inventory distribution by distributor</CardTitle>
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie data={distData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={(e:any)=>`${e.name}: ${e.value.toFixed(0)} (${((e.value/totalInv)*100).toFixed(1)}%)`}>
+          <ResponsiveContainer width="100%" height={240}>
+            <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
+              <Pie data={distData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={2}
+                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                style={{fontSize:12,fontWeight:600,fill:'#fff'}}>
+                {distData.map((d,i)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtNum(v as number)+' cases'} />
+              <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
             </PieChart>
           </ResponsiveContainer>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {distData.map((d)=>(
+              <div key={d.name} className="bg-slate-50 rounded p-2 text-[12px] border-l-2" style={{borderLeftColor:d.fill}}>
+                <div className="font-semibold text-slate-800">{d.name}</div>
+                <div className="text-slate-600">{fmtNum(d.value)} cases · {((d.value/totalInv)*100).toFixed(1)}%</div>
+              </div>
+            ))}
+          </div>
         </Card>
 
         <Card>
           <CardTitle icon={<BarChart3 className="w-4 h-4 text-emerald-600"/>}>On Hand vs On PO by distributor</CardTitle>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={stacked}>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={stacked} margin={{top:20,right:20,left:0,bottom:5}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
               <XAxis dataKey="name" tick={{fontSize:11}}/>
-              <YAxis tick={{fontSize:10}}/>
-              <Tooltip />
-              <Legend wrapperStyle={{fontSize:11}}/>
-              <RBar dataKey="On Hand" stackId="a" fill="#3b82f6" radius={[0,0,0,0]}/>
+              <YAxis tick={{fontSize:10}} tickFormatter={(v)=>fmtNum(v)}/>
+              <Tooltip formatter={(v:any)=>fmtNum(v as number)+' cases'} />
+              <Legend verticalAlign="top" align="right" wrapperStyle={{fontSize:11,paddingBottom:8}}/>
+              <RBar dataKey="On Hand" stackId="a" fill="#3b82f6"/>
               <RBar dataKey="On PO" stackId="a" fill="#ef4444" radius={[3,3,0,0]}/>
             </BarChart>
           </ResponsiveContainer>
@@ -384,13 +396,13 @@ const InventoryTab = () => {
 
         <Card className="lg:col-span-2">
           <CardTitle icon={<Package className="w-4 h-4 text-violet-600"/>}>Top 10 SKUs by total inventory</CardTitle>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topInvChart} margin={{left:0,right:8,bottom:80}}>
+          <ResponsiveContainer width="100%" height={340}>
+            <BarChart data={topInvChart} margin={{left:0,right:20,top:20,bottom:90}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
-              <XAxis dataKey="name" tick={{fontSize:9}} angle={-30} textAnchor="end" interval={0} height={80}/>
-              <YAxis tick={{fontSize:10}}/>
-              <Tooltip />
-              <Legend wrapperStyle={{fontSize:11}}/>
+              <XAxis dataKey="name" tick={{fontSize:9}} angle={-35} textAnchor="end" interval={0} height={100}/>
+              <YAxis tick={{fontSize:10}} tickFormatter={(v)=>fmtNum(v)}/>
+              <Tooltip formatter={(v:any)=>fmtNum(v as number)+' cases'} />
+              <Legend verticalAlign="top" align="right" wrapperStyle={{fontSize:11,paddingBottom:8}}/>
               <RBar dataKey="On Hand" stackId="a" fill="#3b82f6"/>
               <RBar dataKey="On PO" stackId="a" fill="#ef4444"/>
             </BarChart>
