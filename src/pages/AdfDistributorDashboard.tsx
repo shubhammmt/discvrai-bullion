@@ -472,11 +472,21 @@ const InventoryTab = () => {
 const POTab = () => {
   const dcData = po.by_dc.map((d:any)=>({ name:d.dc.replace(' DC',''), amount:d.amount, late:d.late, lines:d.lines, slip:d.avg_days_late }));
   const onTimeData = [
-    { name:'Late', value:po.late_count, fill:'#3b82f6' },
-    { name:'On-Time', value:po.ontime_count, fill:'#ef4444' },
+    { name:'Late', value:po.late_count, fill:'#ef4444' },
+    { name:'On-Time', value:po.ontime_count, fill:'#10b981' },
   ];
   const dailyData = po.daily.map((d:any)=>({ date: d.date.slice(5), amount:d.amount }));
-  const productData = po.by_product.map((p:any)=>({ name:p.product, amount:p.amount, ordered:p.ordered, recv:p.received, fill:(p.received/p.ordered) }));
+  const productRows = useMemo(()=> po.by_product.map((p:any)=>({
+    name: p.product as string, amount: p.amount as number, ordered: p.ordered as number,
+    recv: p.received as number, fill: (p.received/Math.max(p.ordered,1)) as number, lines: p.lines as number,
+  })) as Array<{name:string;amount:number;ordered:number;recv:number;fill:number;lines:number}>, []);
+  const prodSort = useSort(productRows, 'amount', 'desc');
+
+  const dcRows = useMemo(()=> po.by_dc.map((d:any)=>({
+    dc: d.dc as string, amount: d.amount as number, lines: d.lines as number, late: d.late as number,
+    slip: d.avg_days_late as number, fill: (d.received/Math.max(d.ordered,1)) as number,
+  })) as Array<{dc:string;amount:number;lines:number;late:number;slip:number;fill:number}>, []);
+  const dcSort = useSort(dcRows, 'amount', 'desc');
 
   return (
     <div className="space-y-4">
@@ -491,37 +501,40 @@ const POTab = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <Card className="lg:col-span-2">
           <CardTitle icon={<MapPin className="w-4 h-4 text-blue-600"/>}>Total PO amount by distribution center</CardTitle>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={dcData} margin={{left:0,right:8,bottom:60}}>
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart data={dcData} margin={{left:0,right:20,top:20,bottom:70}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
-              <XAxis dataKey="name" tick={{fontSize:10}} angle={-30} textAnchor="end" interval={0} height={70}/>
-              <YAxis tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)}/>
-              <Tooltip formatter={(v:any,k:any)=>k==='amount'?fmtMoneyFull(v as number):v} />
-              <RBar dataKey="amount" fill="#3b82f6" radius={[3,3,0,0]} name="PO $"/>
+              <XAxis dataKey="name" tick={{fontSize:10}} angle={-30} textAnchor="end" interval={0} height={80}/>
+              <YAxis tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)} label={{value:'PO $',angle:-90,position:'insideLeft',style:{fontSize:10,fill:'#64748b'}}}/>
+              <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
+              <RBar dataKey="amount" fill="#3b82f6" radius={[3,3,0,0]} name="PO $" label={{position:'top',fontSize:10,fill:'#475569',formatter:(v:any)=>fmtMoney(v)}}/>
             </BarChart>
           </ResponsiveContainer>
         </Card>
 
         <Card>
           <CardTitle icon={<Clock className="w-4 h-4 text-rose-600"/>}>On-Time vs Late</CardTitle>
-          <ResponsiveContainer width="100%" height={240}>
-            <PieChart>
-              <Pie data={onTimeData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={(e:any)=>`${e.name}: ${((e.value/po.lines)*100).toFixed(0)}%`}>
+          <ResponsiveContainer width="100%" height={260}>
+            <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
+              <Pie data={onTimeData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={2}
+                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                style={{fontSize:12,fontWeight:600,fill:'#fff'}}>
               </Pie>
-              <Tooltip/>
+              <Tooltip formatter={(v:any)=>`${v} POs`}/>
+              <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
             </PieChart>
           </ResponsiveContainer>
         </Card>
 
         <Card>
           <CardTitle icon={<TrendingDown className="w-4 h-4 text-amber-600"/>}>Daily PO amount trend</CardTitle>
-          <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={dailyData}>
+          <ResponsiveContainer width="100%" height={260}>
+            <LineChart data={dailyData} margin={{left:0,right:20,top:10,bottom:5}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
               <XAxis dataKey="date" tick={{fontSize:10}}/>
               <YAxis tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)}/>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)}/>
-              <Line type="monotone" dataKey="amount" stroke="#3b82f6" strokeWidth={2} dot={{r:3}}/>
+              <Line type="monotone" dataKey="amount" stroke="#3b82f6" strokeWidth={2} dot={{r:3}} name="PO $"/>
             </LineChart>
           </ResponsiveContainer>
         </Card>
@@ -530,18 +543,18 @@ const POTab = () => {
           <CardTitle icon={<Package className="w-4 h-4 text-violet-600"/>}>PO by product</CardTitle>
           <div className="overflow-auto max-h-80 border border-slate-100 rounded">
             <table className="w-full text-[12px]">
-              <thead className="bg-slate-50 sticky top-0">
-                <tr className="text-left text-slate-600">
-                  <th className="px-2 py-1.5">Product</th>
-                  <th className="px-2 py-1.5 text-right">PO $</th>
-                  <th className="px-2 py-1.5 text-right">Ordered</th>
-                  <th className="px-2 py-1.5 text-right">Received</th>
-                  <th className="px-2 py-1.5 text-right">Fill %</th>
-                  <th className="px-2 py-1.5 text-right">Lines</th>
+              <thead className="bg-slate-50 sticky top-0 z-10">
+                <tr>
+                  <SortTh active={prodSort.key==='name'} dir={prodSort.dir} onClick={()=>prodSort.toggle('name')}>Product</SortTh>
+                  <SortTh active={prodSort.key==='amount'} dir={prodSort.dir} align="right" onClick={()=>prodSort.toggle('amount')}>PO $</SortTh>
+                  <SortTh active={prodSort.key==='ordered'} dir={prodSort.dir} align="right" onClick={()=>prodSort.toggle('ordered')}>Ordered</SortTh>
+                  <SortTh active={prodSort.key==='recv'} dir={prodSort.dir} align="right" onClick={()=>prodSort.toggle('recv')}>Received</SortTh>
+                  <SortTh active={prodSort.key==='fill'} dir={prodSort.dir} align="right" onClick={()=>prodSort.toggle('fill')}>Fill %</SortTh>
+                  <SortTh active={prodSort.key==='lines'} dir={prodSort.dir} align="right" onClick={()=>prodSort.toggle('lines')}>Lines</SortTh>
                 </tr>
               </thead>
               <tbody>
-                {productData.map((p:any)=>(
+                {prodSort.sorted.map((p)=>(
                   <tr key={p.name} className="border-t border-slate-100">
                     <td className="px-2 py-1.5">{p.name}</td>
                     <td className="px-2 py-1.5 text-right font-medium">{fmtMoneyFull(p.amount)}</td>
@@ -560,31 +573,27 @@ const POTab = () => {
           <CardTitle icon={<MapPin className="w-4 h-4 text-emerald-600"/>}>DC performance breakdown</CardTitle>
           <div className="overflow-auto max-h-80 border border-slate-100 rounded">
             <table className="w-full text-[12px]">
-              <thead className="bg-slate-50 sticky top-0">
-                <tr className="text-left text-slate-600">
-                  <th className="px-2 py-1.5">DC</th>
-                  <th className="px-2 py-1.5 text-right">PO $</th>
-                  <th className="px-2 py-1.5 text-right">Lines</th>
-                  <th className="px-2 py-1.5 text-right">Late</th>
-                  <th className="px-2 py-1.5 text-right">Avg days late</th>
-                  <th className="px-2 py-1.5 text-right">Fill %</th>
+              <thead className="bg-slate-50 sticky top-0 z-10">
+                <tr>
+                  <SortTh active={dcSort.key==='dc'} dir={dcSort.dir} onClick={()=>dcSort.toggle('dc')}>DC</SortTh>
+                  <SortTh active={dcSort.key==='amount'} dir={dcSort.dir} align="right" onClick={()=>dcSort.toggle('amount')}>PO $</SortTh>
+                  <SortTh active={dcSort.key==='lines'} dir={dcSort.dir} align="right" onClick={()=>dcSort.toggle('lines')}>Lines</SortTh>
+                  <SortTh active={dcSort.key==='late'} dir={dcSort.dir} align="right" onClick={()=>dcSort.toggle('late')}>Late</SortTh>
+                  <SortTh active={dcSort.key==='slip'} dir={dcSort.dir} align="right" onClick={()=>dcSort.toggle('slip')}>Avg days late</SortTh>
+                  <SortTh active={dcSort.key==='fill'} dir={dcSort.dir} align="right" onClick={()=>dcSort.toggle('fill')}>Fill %</SortTh>
                 </tr>
               </thead>
               <tbody>
-                {po.by_dc.map((d:any)=>{
-                  const fill = d.received/d.ordered;
-                  const slip = d.avg_days_late;
-                  return (
-                    <tr key={d.dc} className="border-t border-slate-100">
-                      <td className="px-2 py-1.5">{d.dc}</td>
-                      <td className="px-2 py-1.5 text-right font-medium">{fmtMoneyFull(d.amount)}</td>
-                      <td className="px-2 py-1.5 text-right">{d.lines}</td>
-                      <td className="px-2 py-1.5 text-right">{d.late}</td>
-                      <td className="px-2 py-1.5 text-right"><Badge tone={slip>=10?'danger':slip>=5?'warn':'good'}>{slip}d</Badge></td>
-                      <td className="px-2 py-1.5 text-right"><Badge tone={fill>=0.95?'good':fill>=0.85?'warn':'danger'}>{(fill*100).toFixed(0)}%</Badge></td>
-                    </tr>
-                  );
-                })}
+                {dcSort.sorted.map((d)=>(
+                  <tr key={d.dc} className="border-t border-slate-100">
+                    <td className="px-2 py-1.5">{d.dc}</td>
+                    <td className="px-2 py-1.5 text-right font-medium">{fmtMoneyFull(d.amount)}</td>
+                    <td className="px-2 py-1.5 text-right">{d.lines}</td>
+                    <td className="px-2 py-1.5 text-right">{d.late}</td>
+                    <td className="px-2 py-1.5 text-right"><Badge tone={d.slip>=10?'danger':d.slip>=5?'warn':'good'}>{d.slip}d</Badge></td>
+                    <td className="px-2 py-1.5 text-right"><Badge tone={d.fill>=0.95?'good':d.fill>=0.85?'warn':'danger'}>{(d.fill*100).toFixed(0)}%</Badge></td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
