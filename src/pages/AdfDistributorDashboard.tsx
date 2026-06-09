@@ -98,6 +98,19 @@ const Alert: React.FC<{ tone: 'danger'|'warn'|'info'|'good'; icon: React.ReactNo
 
 const COLORS = ['#3b82f6','#ef4444','#10b981','#f59e0b','#8b5cf6','#06b6d4','#ec4899','#84cc16'];
 
+const renderPieLabel = ({cx,cy,midAngle,innerRadius,outerRadius,percent}:any) => {
+  if (!percent || percent < 0.04) return null;
+  const RAD = Math.PI/180;
+  const r = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + r * Math.cos(-midAngle * RAD);
+  const y = cy + r * Math.sin(-midAngle * RAD);
+  return (
+    <text x={x} y={y} fill="#fff" textAnchor="middle" dominantBaseline="central" style={{fontSize:11,fontWeight:700}}>
+      {`${(percent*100).toFixed(0)}%`}
+    </text>
+  );
+};
+
 // ---------- derived ----------
 const inv = data.inv as Array<any>;
 const sales = data.sales;
