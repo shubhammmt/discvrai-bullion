@@ -157,7 +157,7 @@ const OverviewTab = () => {
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={sourceData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
                 label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
+                >
                 {sourceData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
@@ -206,7 +206,7 @@ const OverviewTab = () => {
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={catData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
                 label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
+                >
                 {catData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
@@ -233,7 +233,7 @@ const OverviewTab = () => {
                 {name:'On-Time',value:po.ontime_count,fill:'#10b981'},
               ]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
                 label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
+                >
               </Pie>
               <Tooltip />
               <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
@@ -362,7 +362,7 @@ const InventoryTab = () => {
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={distData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={2}
                 label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:12,fontWeight:600,fill:'#fff'}}>
+                >
                 {distData.map((d,i)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtNum(v as number)+' cases'} />
@@ -518,7 +518,7 @@ const POTab = () => {
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={onTimeData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={2}
                 label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:12,fontWeight:600,fill:'#fff'}}>
+                >
               </Pie>
               <Tooltip formatter={(v:any)=>`${v} POs`}/>
               <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
