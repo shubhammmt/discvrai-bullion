@@ -98,6 +98,19 @@ const Alert: React.FC<{ tone: 'danger'|'warn'|'info'|'good'; icon: React.ReactNo
 
 const COLORS = ['#3b82f6','#ef4444','#10b981','#f59e0b','#8b5cf6','#06b6d4','#ec4899','#84cc16'];
 
+const renderPieLabel = ({cx,cy,midAngle,innerRadius,outerRadius,percent}:any) => {
+  if (!percent || percent < 0.04) return null;
+  const RAD = Math.PI/180;
+  const r = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + r * Math.cos(-midAngle * RAD);
+  const y = cy + r * Math.sin(-midAngle * RAD);
+  return (
+    <text x={x} y={y} fill="#fff" textAnchor="middle" dominantBaseline="central" style={{fontSize:11,fontWeight:700}}>
+      {`${(percent*100).toFixed(0)}%`}
+    </text>
+  );
+};
+
 // ---------- derived ----------
 const inv = data.inv as Array<any>;
 const sales = data.sales;
@@ -156,8 +169,8 @@ const OverviewTab = () => {
           <ResponsiveContainer width="100%" height={200}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={sourceData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
+                label={renderPieLabel} labelLine={false}
+                >
                 {sourceData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
@@ -205,8 +218,8 @@ const OverviewTab = () => {
           <ResponsiveContainer width="100%" height={200}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={catData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
+                label={renderPieLabel} labelLine={false}
+                >
                 {catData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
@@ -232,8 +245,8 @@ const OverviewTab = () => {
                 {name:'Late',value:po.late_count,fill:'#ef4444'},
                 {name:'On-Time',value:po.ontime_count,fill:'#10b981'},
               ]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
+                label={renderPieLabel} labelLine={false}
+                >
               </Pie>
               <Tooltip />
               <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
@@ -361,8 +374,8 @@ const InventoryTab = () => {
           <ResponsiveContainer width="100%" height={240}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={distData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:12,fontWeight:600,fill:'#fff'}}>
+                label={renderPieLabel} labelLine={false}
+                >
                 {distData.map((d,i)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtNum(v as number)+' cases'} />
@@ -517,8 +530,8 @@ const POTab = () => {
           <ResponsiveContainer width="100%" height={260}>
             <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={onTimeData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={2}
-                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
-                style={{fontSize:12,fontWeight:600,fill:'#fff'}}>
+                label={renderPieLabel} labelLine={false}
+                >
               </Pie>
               <Tooltip formatter={(v:any)=>`${v} POs`}/>
               <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
