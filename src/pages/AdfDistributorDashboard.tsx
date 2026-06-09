@@ -116,7 +116,7 @@ const topInv = [...inv].sort((a,b)=>(b.total_oh+b.total_op)-(a.total_oh+a.total_
 // ---------- Overview ----------
 const OverviewTab = () => {
   const sourceData = sales.by_source.map((s:any,i:number)=>({ name:s.Source, value:s.sales, fill: COLORS[i] }));
-  const catData = sales.by_category.map((c:any,i:number)=>({ name:c.Category, value:c.sales, fill: COLORS[i] }));
+  const catData = sales.by_category.map((c:any,i:number)=>({ name:c.Category, value:(c.sales ?? c['Sales Dollars'] ?? 0), fill: COLORS[i+2] }));
   const topChainData = sales.top_chains.slice(0,5).map((c:any)=>({ name:c['Retailer Chain Name'], value:c['Sales Dollars'] }));
   const topItemData = sales.top_items.slice(0,5).map((i:any)=>({ name:i.item_short, value:i.sales }));
 
