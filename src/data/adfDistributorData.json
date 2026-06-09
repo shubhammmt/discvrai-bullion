@@ -1,1 +1,1044 @@
-{"sales": {"totalSales": 401185.34, "totalOrdered": 11066.0, "totalShipped": 8812.0, "fillRate": 0.8, "chainCount": 504, "storeCount": 2654, "skuCount": 21, "topChains": [{"Retailer Chain Name": "CONFIDENTIAL", "sales": 230721.0, "ordered": 0.0, "shipped": 11304, "stores": 524, "source": "UNFI", "fill": 11304.0}, {"Retailer Chain Name": "HEB", "sales": 9951.36, "ordered": 568.0, "shipped": 432, "stores": 63, "source": "KEHE", "fill": 0.76}, {"Retailer Chain Name": "Price Chopper", "sales": 8510.52, "ordered": 674.0, "shipped": 649, "stores": 98, "source": "KEHE", "fill": 0.96}, {"Retailer Chain Name": "RALEYSBEL AIR SUPERMARKETS", "sales": 7486.0, "ordered": 0.0, "shipped": 474, "stores": 112, "source": "UNFI", "fill": 474.0}, {"Retailer Chain Name": "Kimberton Whole Foods", "sales": 4362.54, "ordered": 363.0, "shipped": 223, "stores": 8, "source": "KEHE", "fill": 0.61}, {"Retailer Chain Name": "Fresh Thyme Northwest", "sales": 3944.76, "ordered": 350.0, "shipped": 273, "stores": 14, "source": "KEHE", "fill": 0.78}, {"Retailer Chain Name": "Safeway Nor Cal", "sales": 3659.16, "ordered": 329.0, "shipped": 295, "stores": 66, "source": "KEHE", "fill": 0.9}, {"Retailer Chain Name": "Fresh Thyme Southwest", "sales": 3204.12, "ordered": 287.0, "shipped": 224, "stores": 14, "source": "KEHE", "fill": 0.78}, {"Retailer Chain Name": "Shaw's", "sales": 3046.44, "ordered": 276.0, "shipped": 239, "stores": 73, "source": "KEHE", "fill": 0.87}, {"Retailer Chain Name": "Fresh Thyme Northeast", "sales": 2914.56, "ordered": 260.0, "shipped": 203, "stores": 14, "source": "KEHE", "fill": 0.78}, {"Retailer Chain Name": "Star Market", "sales": 2674.44, "ordered": 247.0, "shipped": 232, "stores": 13, "source": "KEHE", "fill": 0.94}, {"Retailer Chain Name": "Fresh Thyme Midwest", "sales": 2455.8, "ordered": 217.0, "shipped": 170, "stores": 12, "source": "KEHE", "fill": 0.78}, {"Retailer Chain Name": "Alb/Swy Seattle", "sales": 2387.52, "ordered": 224.0, "shipped": 207, "stores": 70, "source": "KEHE", "fill": 0.92}, {"Retailer Chain Name": "Fresh Thyme Southeast", "sales": 2229.12, "ordered": 199.0, "shipped": 161, "stores": 15, "source": "KEHE", "fill": 0.81}, {"Retailer Chain Name": "Safeway East", "sales": 2100.12, "ordered": 198.0, "shipped": 197, "stores": 22, "source": "KEHE", "fill": 0.99}, {"Retailer Chain Name": "Food Bazaar", "sales": 1732.56, "ordered": 99.0, "shipped": 83, "stores": 32, "source": "KEHE", "fill": 0.84}, {"Retailer Chain Name": "Tom Thumb", "sales": 1665.24, "ordered": 134.0, "shipped": 123, "stores": 27, "source": "KEHE", "fill": 0.92}, {"Retailer Chain Name": "METROPOLITAN MARKET", "sales": 1619.0, "ordered": 0.0, "shipped": 97, "stores": 6, "source": "UNFI", "fill": 97.0}, {"Retailer Chain Name": "Sprouts Miami (D3)", "sales": 1561.8, "ordered": 90.0, "shipped": 30, "stores": 10, "source": "KEHE", "fill": 0.33}, {"Retailer Chain Name": "Sprouts Tampa Bay (D1)", "sales": 1525.92, "ordered": 88.0, "shipped": 30, "stores": 11, "source": "KEHE", "fill": 0.34}, {"Retailer Chain Name": "Sprouts Maryland/Virginia (D4)", "sales": 1485.24, "ordered": 86.0, "shipped": 42, "stores": 11, "source": "KEHE", "fill": 0.49}, {"Retailer Chain Name": "Sprouts Orlando/Jacksonville (D2)", "sales": 1422.12, "ordered": 82.0, "shipped": 32, "stores": 10, "source": "KEHE", "fill": 0.39}, {"Retailer Chain Name": "Sprouts West Central Florida (D22)", "sales": 1248.48, "ordered": 72.0, "shipped": 30, "stores": 9, "source": "KEHE", "fill": 0.42}, {"Retailer Chain Name": "Sprouts Gulf Coast (D18)", "sales": 1248.48, "ordered": 72.0, "shipped": 36, "stores": 9, "source": "KEHE", "fill": 0.5}, {"Retailer Chain Name": "Sprouts Palm Beach (D19)", "sales": 1248.48, "ordered": 72.0, "shipped": 24, "stores": 9, "source": "KEHE", "fill": 0.33}], "topSkus": [{"ADF Item Name": "NAAN, GARLIC", "Category": "FROZEN", "sales": 175473.08, "ordered": 1498.0, "shipped": 7831, "chains": 105, "fill": 5.23}, {"ADF Item Name": "NAAN, TANDOORI", "Category": "FROZEN", "sales": 92636.64, "ordered": 184.0, "shipped": 4559, "chains": 105, "fill": 24.78}, {"ADF Item Name": "NAAN, TIKKA MASALA", "Category": "FROZEN", "sales": 20189.22, "ordered": 1209.0, "shipped": 1148, "chains": 153, "fill": 0.95}, {"ADF Item Name": "ENTR\u00c9E, DAL MAKHANI", "Category": "SHELF STABLE", "sales": 19313.12, "ordered": 1527.0, "shipped": 1334, "chains": 157, "fill": 0.87}, {"ADF Item Name": "WRAP, TANDOORI ALOO", "Category": "FROZEN", "sales": 10982.84, "ordered": 592.0, "shipped": 426, "chains": 80, "fill": 0.72}, {"ADF Item Name": "SAUCE, BUTTER CHICKEN", "Category": "SHELF STABLE", "sales": 10604.4, "ordered": 612.0, "shipped": 686, "chains": 121, "fill": 1.12}, {"ADF Item Name": "ENTR\u00c9E, PALAK PANEER / TOFU", "Category": "SHELF STABLE", "sales": 10442.28, "ordered": 717.0, "shipped": 841, "chains": 155, "fill": 1.17}, {"ADF Item Name": "WRAP PANEER TIKKA", "Category": "FROZEN", "sales": 10197.2, "ordered": 535.0, "shipped": 472, "chains": 69, "fill": 0.88}, {"ADF Item Name": "ENTR\u00c9E, CHANA MASALA", "Category": "SHELF STABLE", "sales": 8902.2, "ordered": 587.0, "shipped": 644, "chains": 99, "fill": 1.1}, {"ADF Item Name": "RICE, BOMBAY BIRYANI", "Category": "SHELF STABLE", "sales": 8195.72, "ordered": 1021.0, "shipped": 1013, "chains": 167, "fill": 0.99}, {"ADF Item Name": "SAUCE, TIKKA MASALA", "Category": "SHELF STABLE", "sales": 8002.44, "ordered": 441.0, "shipped": 505, "chains": 87, "fill": 1.15}, {"ADF Item Name": "SAMOSA VEG", "Category": "FROZEN", "sales": 6882.94, "ordered": 389.0, "shipped": 386, "chains": 68, "fill": 0.99}, {"ADF Item Name": "RICE, TIKKA MASALA", "Category": "SHELF STABLE", "sales": 5231.48, "ordered": 662.0, "shipped": 618, "chains": 118, "fill": 0.93}, {"ADF Item Name": "ENTR\u00c9E, POTATO PEA CURRY", "Category": "SHELF STABLE", "sales": 3395.28, "ordered": 300.0, "shipped": 242, "chains": 37, "fill": 0.81}, {"ADF Item Name": "NAAN, GREEN CHILI", "Category": "FROZEN", "sales": 3277.14, "ordered": 173.0, "shipped": 161, "chains": 103, "fill": 0.93}, {"ADF Item Name": "CHUTNEY, CRUNCHY CHILLI MANGO", "Category": "SHELF STABLE", "sales": 1974.0, "ordered": 175.0, "shipped": 151, "chains": 95, "fill": 0.86}, {"ADF Item Name": "CHUTNEY SWEET MANGO", "Category": "SHELF STABLE", "sales": 1861.2, "ordered": 165.0, "shipped": 135, "chains": 82, "fill": 0.82}, {"ADF Item Name": "CHUTNEY MANGO GINGER", "Category": "SHELF STABLE", "sales": 1714.56, "ordered": 152.0, "shipped": 135, "chains": 83, "fill": 0.89}, {"ADF Item Name": "SAUCE, MADRAS CURRY", "Category": "SHELF STABLE", "sales": 1349.28, "ordered": 92.0, "shipped": 101, "chains": 29, "fill": 1.1}, {"ADF Item Name": "WRAP, CAULIFLWR PTO", "Category": "FROZEN", "sales": 424.96, "ordered": 23.0, "shipped": 24, "chains": 6, "fill": 1.04}, {"ADF Item Name": "CHUTNEY TAMARIND & DATES", "Category": "SHELF STABLE", "sales": 135.36, "ordered": 12.0, "shipped": 0, "chains": 4, "fill": 0.0}], "categories": [{"Category": "FROZEN", "sales": 320064.02, "ordered": 4603.0, "shipped": 15007, "fill": 3.26}, {"Category": "SHELF STABLE", "sales": 81121.32, "ordered": 6463.0, "shipped": 6405, "fill": 0.99}], "sources": [{"Source": "KEHE", "sales": 148247.34, "ordered": 11066.0, "shipped": 8812, "chains": 408, "fill": 0.8}, {"Source": "UNFI", "sales": 252938.0, "ordered": 0.0, "shipped": 12600, "chains": 97, "fill": 12600.0}], "lowFillChains": [{"Retailer Chain Name": "Kimberton Whole Foods", "sales": 4362.54, "ordered": 363.0, "shipped": 223, "stores": 8, "source": "KEHE", "fill": 0.61}, {"Retailer Chain Name": "Sprouts Miami (D3)", "sales": 1561.8, "ordered": 90.0, "shipped": 30, "stores": 10, "source": "KEHE", "fill": 0.33}, {"Retailer Chain Name": "Sprouts Tampa Bay (D1)", "sales": 1525.92, "ordered": 88.0, "shipped": 30, "stores": 11, "source": "KEHE", "fill": 0.34}, {"Retailer Chain Name": "Sprouts Maryland/Virginia (D4)", "sales": 1485.24, "ordered": 86.0, "shipped": 42, "stores": 11, "source": "KEHE", "fill": 0.49}, {"Retailer Chain Name": "Sprouts Orlando/Jacksonville (D2)", "sales": 1422.12, "ordered": 82.0, "shipped": 32, "stores": 10, "source": "KEHE", "fill": 0.39}, {"Retailer Chain Name": "Jungle Jim's", "sales": 937.44, "ordered": 77.0, "shipped": 31, "stores": 2, "source": "KEHE", "fill": 0.4}, {"Retailer Chain Name": "Sprouts Gulf Coast (D18)", "sales": 1248.48, "ordered": 72.0, "shipped": 36, "stores": 9, "source": "KEHE", "fill": 0.5}, {"Retailer Chain Name": "Sprouts Palm Beach (D19)", "sales": 1248.48, "ordered": 72.0, "shipped": 24, "stores": 9, "source": "KEHE", "fill": 0.33}, {"Retailer Chain Name": "Sprouts West Central Florida (D22)", "sales": 1248.48, "ordered": 72.0, "shipped": 30, "stores": 9, "source": "KEHE", "fill": 0.42}, {"Retailer Chain Name": "Sprouts Southern AZ (D49)", "sales": 1141.8, "ordered": 66.0, "shipped": 44, "stores": 11, "source": "KEHE", "fill": 0.67}, {"Retailer Chain Name": "Sprouts New Mexico/El Paso (D50)", "sales": 1104.0, "ordered": 64.0, "shipped": 36, "stores": 13, "source": "KEHE", "fill": 0.56}, {"Retailer Chain Name": "Sprouts East Valley (D48)", "sales": 1089.9, "ordered": 63.0, "shipped": 42, "stores": 10, "source": "KEHE", "fill": 0.67}, {"Retailer Chain Name": "Sprouts Tennessee (D5)", "sales": 1072.92, "ordered": 62.0, "shipped": 20, "stores": 10, "source": "KEHE", "fill": 0.32}, {"Retailer Chain Name": "Sprouts West Valley (D61)", "sales": 1038.0, "ordered": 60.0, "shipped": 40, "stores": 10, "source": "KEHE", "fill": 0.67}, {"Retailer Chain Name": "Sprouts E Georgia (D7)", "sales": 1038.0, "ordered": 60.0, "shipped": 26, "stores": 10, "source": "KEHE", "fill": 0.43}]}, "po": {"totalPO": 119, "onTime": 10, "late": 109, "onTimePct": 0.08, "totalAmount": 190832.0, "totalOrdered": 12264.0, "totalReceived": 11259.0, "fillQty": 0.92, "avgLeadDays": 19.0, "avgLateDays": 9.84, "dcs": [{"Sr. No.": 1, "Distribution Center": "Atlanta GA DC", "# of POs": 4, "Open POs": 0, "Late POs": 4, "Original Qty Ordered": 1080, "Revised Qty Ordered": 1080, "Qty Received": 1079, "PO Amount": 18627.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$121.41"}, {"Sr. No.": 2, "Distribution Center": "Chesterfield NH DC", "# of POs": 6, "Open POs": 0, "Late POs": 4, "Original Qty Ordered": 820, "Revised Qty Ordered": 820, "Qty Received": 780, "PO Amount": 13550.0, "Off Invoice Allowance": 681.0, "Line Purchase Price": "$191.37"}, {"Sr. No.": 3, "Distribution Center": "Dallas TX DC", "# of POs": 4, "Open POs": 0, "Late POs": 4, "Original Qty Ordered": 1100, "Revised Qty Ordered": 1100, "Qty Received": 1001, "PO Amount": 17354.0, "Off Invoice Allowance": 944.0, "Line Purchase Price": "$139.92"}, {"Sr. No.": 4, "Distribution Center": "Dayville CT DC", "# of POs": 6, "Open POs": 0, "Late POs": 5, "Original Qty Ordered": 520, "Revised Qty Ordered": 520, "Qty Received": 456, "PO Amount": 7904.0, "Off Invoice Allowance": 419.0, "Line Purchase Price": "$173.88"}, {"Sr. No.": 5, "Distribution Center": "Denver CO DC", "# of POs": 3, "Open POs": 0, "Late POs": 3, "Original Qty Ordered": 660, "Revised Qty Ordered": 660, "Qty Received": 616, "PO Amount": 10621.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$104.94"}, {"Sr. No.": 6, "Distribution Center": "Gilroy CA DC", "# of POs": 3, "Open POs": 0, "Late POs": 3, "Original Qty Ordered": 600, "Revised Qty Ordered": 600, "Qty Received": 600, "PO Amount": 10433.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$87.45"}, {"Sr. No.": 7, "Distribution Center": "Hudson Valley NY DC", "# of POs": 7, "Open POs": 0, "Late POs": 7, "Original Qty Ordered": 1920, "Revised Qty Ordered": 1920, "Qty Received": 1781, "PO Amount": 30874.0, "Off Invoice Allowance": 1415.0, "Line Purchase Price": "$191.37"}, {"Sr. No.": 8, "Distribution Center": "Iowa City IA DC", "# of POs": 3, "Open POs": 0, "Late POs": 3, "Original Qty Ordered": 300, "Revised Qty Ordered": 300, "Qty Received": 300, "PO Amount": 5196.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$103.92"}, {"Sr. No.": 9, "Distribution Center": "Manchester PA DC", "# of POs": 7, "Open POs": 0, "Late POs": 5, "Original Qty Ordered": 1680, "Revised Qty Ordered": 1680, "Qty Received": 1541, "PO Amount": 26666.0, "Off Invoice Allowance": 1153.0, "Line Purchase Price": "$208.86"}, {"Sr. No.": 10, "Distribution Center": "Moreno Valley CA DC", "# of POs": 5, "Open POs": 0, "Late POs": 5, "Original Qty Ordered": 1232, "Revised Qty Ordered": 1232, "Qty Received": 873, "PO Amount": 14863.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$183.66"}, {"Sr. No.": 11, "Distribution Center": "Racine WI DC", "# of POs": 2, "Open POs": 0, "Late POs": 2, "Original Qty Ordered": 860, "Revised Qty Ordered": 860, "Qty Received": 860, "PO Amount": 15041.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$69.96"}, {"Sr. No.": 12, "Distribution Center": "Ridgefield WA DC", "# of POs": 6, "Open POs": 0, "Late POs": 6, "Original Qty Ordered": 832, "Revised Qty Ordered": 832, "Qty Received": 792, "PO Amount": 13141.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$237.61"}, {"Sr. No.": 13, "Distribution Center": "Rocklin CA DC", "# of POs": 3, "Open POs": 0, "Late POs": 3, "Original Qty Ordered": 660, "Revised Qty Ordered": 660, "Qty Received": 580, "PO Amount": 6554.0, "Off Invoice Allowance": 0.0, "Line Purchase Price": "$106.41"}], "suppliers": [{"supplier": "EDISON, NJ", "pos": 119, "late": 109, "amount": 190832.0, "avg_late_days": 8.95, "ontime_pct": 0.08}], "topLatePOs": [{"PO Number": 1135115, "Distribution Center": "Hudson Valley NY DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 60, "Qty Received": 60, "PO Amount": 1049.0, "late_days": 31, "PO Create Date": "2026-03-10", "Received Date": "2026-04-20", "supplier": "EDISON, NJ"}, {"PO Number": 1135254, "Distribution Center": "Atlanta GA DC", "Product": "NAAN,PLAIN,VEGET,4 PC", "Original Qty Ordered": 100, "Qty Received": 100, "PO Amount": 1749.0, "late_days": 28, "PO Create Date": "2026-03-10", "Received Date": "2026-04-17", "supplier": "EDISON, NJ"}, {"PO Number": 1135110, "Distribution Center": "Dayville CT DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 40, "Qty Received": 40, "PO Amount": 700.0, "late_days": 28, "PO Create Date": "2026-03-10", "Received Date": "2026-04-17", "supplier": "EDISON, NJ"}, {"PO Number": 1135129, "Distribution Center": "Manchester PA DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 60, "Qty Received": 60, "PO Amount": 1049.0, "late_days": 26, "PO Create Date": "2026-03-10", "Received Date": "2026-04-15", "supplier": "EDISON, NJ"}, {"PO Number": "065052055-003", "Distribution Center": "Ridgefield WA DC", "Product": "VEG SAMOSA,SPCED POT,PEA", "Original Qty Ordered": 24, "Qty Received": 24, "PO Amount": 420.0, "late_days": 21, "PO Create Date": "2026-02-27", "Received Date": "2026-03-27", "supplier": "EDISON, NJ"}, {"PO Number": "065052055-003", "Distribution Center": "Ridgefield WA DC", "Product": "ROTI WRAP,TNDRI,SPCED POT", "Original Qty Ordered": 72, "Qty Received": 72, "PO Amount": 1264.0, "late_days": 21, "PO Create Date": "2026-02-27", "Received Date": "2026-03-27", "supplier": "EDISON, NJ"}, {"PO Number": "065052055-003", "Distribution Center": "Ridgefield WA DC", "Product": "ROTI WRAP,CTGCHS,GRN PPR", "Original Qty Ordered": 72, "Qty Received": 72, "PO Amount": 1264.0, "late_days": 21, "PO Create Date": "2026-02-27", "Received Date": "2026-03-27", "supplier": "EDISON, NJ"}, {"PO Number": "084081807-003", "Distribution Center": "Gilroy CA DC", "Product": "NAAN,PLAIN,VEGET,4 PC", "Original Qty Ordered": 120, "Qty Received": 120, "PO Amount": 2099.0, "late_days": 19, "PO Create Date": "2026-02-10", "Received Date": "2026-03-11", "supplier": "EDISON, NJ"}, {"PO Number": "044850581-003", "Distribution Center": "Moreno Valley CA DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 240, "Qty Received": 240, "PO Amount": 4075.0, "late_days": 19, "PO Create Date": "2026-01-20", "Received Date": "2026-02-18", "supplier": "EDISON, NJ"}, {"PO Number": "065044077-003", "Distribution Center": "Ridgefield WA DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 160, "Qty Received": 160, "PO Amount": 2717.0, "late_days": 19, "PO Create Date": "2026-01-20", "Received Date": "2026-02-18", "supplier": "EDISON, NJ"}, {"PO Number": "065044077-003", "Distribution Center": "Ridgefield WA DC", "Product": "NAAN,PLAIN,VEGET,4 PC", "Original Qty Ordered": 60, "Qty Received": 60, "PO Amount": 1019.0, "late_days": 19, "PO Create Date": "2026-01-20", "Received Date": "2026-02-18", "supplier": "EDISON, NJ"}, {"PO Number": "044850581-003", "Distribution Center": "Moreno Valley CA DC", "Product": "NAAN,PLAIN,VEGET,4 PC", "Original Qty Ordered": 120, "Qty Received": 120, "PO Amount": 2038.0, "late_days": 19, "PO Create Date": "2026-01-20", "Received Date": "2026-02-18", "supplier": "EDISON, NJ"}, {"PO Number": "084081807-003", "Distribution Center": "Gilroy CA DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 180, "Qty Received": 180, "PO Amount": 3148.0, "late_days": 19, "PO Create Date": "2026-02-10", "Received Date": "2026-03-11", "supplier": "EDISON, NJ"}, {"PO Number": "065048414-003", "Distribution Center": "Ridgefield WA DC", "Product": "NAAN,PLAIN,VEGET,4 PC", "Original Qty Ordered": 80, "Qty Received": 80, "PO Amount": 1399.0, "late_days": 19, "PO Create Date": "2026-02-10", "Received Date": "2026-03-11", "supplier": "EDISON, NJ"}, {"PO Number": "065048414-003", "Distribution Center": "Ridgefield WA DC", "Product": "NAAN,GARLIC,VEGET,4 PC", "Original Qty Ordered": 120, "Qty Received": 120, "PO Amount": 2099.0, "late_days": 19, "PO Create Date": "2026-02-10", "Received Date": "2026-03-11", "supplier": "EDISON, NJ"}], "dcCount": 13}, "inv": {"totalOnHand": 36555.3, "totalOnPO": 5020.0, "skuCount": 58, "dcCount": 13, "byDC": [{"dc": "Aurora, CO", "onHand": 566.6, "onPO": 340.0, "skus": 7, "stockouts": 51}, {"dc": "Bloomington, IN", "onHand": 791.0, "onPO": 213.0, "skus": 18, "stockouts": 40}, {"dc": "Chino A, CA", "onHand": 1369.5, "onPO": 450.0, "skus": 13, "stockouts": 45}, {"dc": "Dallas/Fort Worth, TX", "onHand": 7297.0, "onPO": 494.0, "skus": 54, "stockouts": 4}, {"dc": "Douglasville, GA", "onHand": 8.0, "onPO": 280.0, "skus": 2, "stockouts": 56}, {"dc": "Lehigh Valley, PA", "onHand": 2578.5, "onPO": 752.0, "skus": 25, "stockouts": 33}, {"dc": "Miami, FL", "onHand": 118.0, "onPO": 300.0, "skus": 2, "stockouts": 56}, {"dc": "North East Maryland, MD", "onHand": 423.0, "onPO": 690.0, "skus": 18, "stockouts": 40}, {"dc": "Phoenix, AZ", "onHand": 88.0, "onPO": 0.0, "skus": 2, "stockouts": 56}, {"dc": "Portland, OR", "onHand": 1134.5, "onPO": 240.0, "skus": 21, "stockouts": 37}, {"dc": "Stockton, CA", "onHand": 840.55, "onPO": 219.0, "skus": 27, "stockouts": 31}, {"dc": "Romeoville, IL", "onHand": 848.5, "onPO": 451.0, "skus": 23, "stockouts": 35}, {"dc": "Total KeHE", "onHand": 20492.15, "onPO": 591.0, "skus": 56, "stockouts": 2}], "topSkus": [{"item": "3076753203008 0 - TANDOORI NAAN GARLIC 6 X 340 GM (4 PCS) BAG (FROZEN)", "upc": "307675320300", "onHand": 3184.0, "onPO": 924.0, "dcCoverage": 9}, {"item": "767532030645 - TRULY INDIAN NAAN TIKKA MASALA - 10.600 OZ", "upc": "767532030645", "onHand": 2228.0, "onPO": 1222.0, "dcCoverage": 10}, {"item": "1076753203029 1 - SPICED LENTIL & BEAN CHILI (DAL MAKHANI) 6 X 283 GM PACKETS/BO", "upc": "107675320302", "onHand": 2190.0, "onPO": 302.0, "dcCoverage": 9}, {"item": "888025033803 - ASHOKA CHUTNEY DATE & TAMARIND - 10.600 OZ", "upc": "888025033803", "onHand": 1764.0, "onPO": 90.0, "dcCoverage": 8}, {"item": "1076753203027 7 - BOMBAY BIRYANI 6 X 200 GM PACKETS/BOX", "upc": "107675320302", "onHand": 1512.0, "onPO": 168.0, "dcCoverage": 8}, {"item": "888025033810 - ASHOKA CHUTNEY CORIANDER - 8.800 OZ", "upc": "888025033810", "onHand": 1181.0, "onPO": 45.0, "dcCoverage": 8}, {"item": "1076753203026 0 - TIKKA MASALA RICE 6 X 200 GM PACKETS/BOX", "upc": "107675320302", "onHand": 1162.0, "onPO": 126.0, "dcCoverage": 7}, {"item": "888025033827 - ASHOKA CHUTNEY SWEET MANGO - 10.600 OZ", "upc": "888025033827", "onHand": 1099.0, "onPO": 51.0, "dcCoverage": 5}, {"item": "1076753203032 1 - CREAMED SPINACH & TOFU CURRY (PALAK TOFU PANEER) 6 X 283 GM PA", "upc": "107675320303", "onHand": 965.0, "onPO": 179.0, "dcCoverage": 7}, {"item": "888026016171 - GITS MIX DSRT SHAHI GULAB JMN - 5.300 OZ", "upc": "888026016171", "onHand": 940.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888025093531 - ASHOKA MANGO PULP KESAR - 1.870 LB", "upc": "888025093531", "onHand": 918.0, "onPO": 48.0, "dcCoverage": 7}, {"item": "888025033797 - ASHOKA PASTE GINGER GARLIC - 10.600 OZ", "upc": "888025033797", "onHand": 884.0, "onPO": 68.0, "dcCoverage": 8}, {"item": "888025033537 - ASHOKA PUNJABI CHOLEY - 10.000 OZ", "upc": "888025033537", "onHand": 839.0, "onPO": 22.0, "dcCoverage": 7}, {"item": "888025093500 - ASHOKA PICKLE MANGO IN OIL HOT - 1.100 LB", "upc": "888025093500", "onHand": 780.0, "onPO": 56.0, "dcCoverage": 7}, {"item": "1076753203024 6 - TIKKA MASALA SAUCE (VEGAN) 6 X 369 GMS GLASS BOTTLES", "upc": "107675320302", "onHand": 777.0, "onPO": 61.0, "dcCoverage": 6}, {"item": "1076753203023 9 - BUTTER CHICKEN SAUCE (VEGAN) 6 X 369 GMS GLASS BOTTLES", "upc": "107675320302", "onHand": 758.0, "onPO": 234.0, "dcCoverage": 8}, {"item": "888026015976 - GITS MIX SNACK PAKORA - 7.000 OZ", "upc": "888026015976", "onHand": 720.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026016041 - GITS MIX SNACK DAHI VADA - 7.000 OZ", "upc": "888026016041", "onHand": 720.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026016126 - GITS MIX SNACK HANDVO - 7.000 OZ", "upc": "888026016126", "onHand": 720.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026016188 - GITS MIX DRNK ROSE FALOODA - 7.000 OZ", "upc": "888026016188", "onHand": 720.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026016218 - GITS MIX DRNK BADM PISTA FLDA - 7.000 OZ", "upc": "888026016218", "onHand": 720.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026015938 - GITS MIX BRKFAST DOSA - 7.000 OZ", "upc": "888026015938", "onHand": 700.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026015952 - GITS MIX BRKFAST SAMBAR - 3.500 OZ", "upc": "888026015952", "onHand": 700.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026016027 - GITS MIX DSSRT VRMICLI KHEER - 3.500 OZ", "upc": "888026016027", "onHand": 700.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "888026016096 - GITS MIX BRKFAST UTTAPAM - 7.000 OZ", "upc": "888026016096", "onHand": 700.0, "onPO": 0.0, "dcCoverage": 2}], "lowStock": [{"item": "767532030591 - TRULY INDIAN CHUTNEY TAMARIND & DATES - 10.580 OZ", "upc": "767532030591", "onHand": 18.0, "onPO": 18.0, "dcCoverage": 1}, {"item": "888025137488 - ASHOKA COCONUT SHREDS - 10.930 OZ", "upc": "888025137488", "onHand": 20.0, "onPO": 0.0, "dcCoverage": 2}, {"item": "1076753203003 1 - ALOO GOBI ROTI WRAP 12 X 150 GM BOX", "upc": "107675320300", "onHand": 38.0, "onPO": 0.0, "dcCoverage": 2}], "atRisk": [{"item": "888026060563 - ASHOKA IVY GOURD TINDORA CUT - 11.000 OZ", "upc": "888026060563", "onHand": 0.0, "onPO": 0.0, "dcCoverage": 0}, {"item": "888026060600 - ASHOKA GOOSEBERRIES AMLA WHOLE - 11.000 OZ", "upc": "888026060600", "onHand": 0.0, "onPO": 0.0, "dcCoverage": 0}]}}
+{
+  "inv": [
+    {
+      "short_name": "ASHOKA PUNJABI CHOLEY",
+      "kehe_oh": 408.5,
+      "kehe_op": 22.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 408.5,
+      "total_op": 22.0
+    },
+    {
+      "short_name": "ASHOKA DAL MAKHANI",
+      "kehe_oh": 108.1,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 108.1,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA PALAK PANEER",
+      "kehe_oh": 166.5,
+      "kehe_op": 18.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 166.5,
+      "total_op": 18.0
+    },
+    {
+      "short_name": "ASHOKA PANEER MAKHANI",
+      "kehe_oh": 214.1,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 214.1,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA PASTE GINGER GARLIC",
+      "kehe_oh": 408.0,
+      "kehe_op": 68.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 408.0,
+      "total_op": 68.0
+    },
+    {
+      "short_name": "ASHOKA CHUTNEY DATE & TAMARIND",
+      "kehe_oh": 837.0,
+      "kehe_op": 90.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 837.0,
+      "total_op": 90.0
+    },
+    {
+      "short_name": "ASHOKA CHUTNEY CORIANDER",
+      "kehe_oh": 568.0,
+      "kehe_op": 45.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 568.0,
+      "total_op": 45.0
+    },
+    {
+      "short_name": "ASHOKA CHUTNEY SWEET MANGO",
+      "kehe_oh": 524.0,
+      "kehe_op": 51.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 524.0,
+      "total_op": 51.0
+    },
+    {
+      "short_name": "ASHOKA PICKLE MANGO IN OIL HOT",
+      "kehe_oh": 362.0,
+      "kehe_op": 56.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 362.0,
+      "total_op": 56.0
+    },
+    {
+      "short_name": "ASHOKA PICKLE MIXED IN OIL",
+      "kehe_oh": 96.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 96.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA PICKLE LIME IN OIL HOT",
+      "kehe_oh": 118.0,
+      "kehe_op": 4.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 118.0,
+      "total_op": 4.0
+    },
+    {
+      "short_name": "ASHOKA MANGO PULP KESAR",
+      "kehe_oh": 435.0,
+      "kehe_op": 48.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 435.0,
+      "total_op": 48.0
+    },
+    {
+      "short_name": "ASHOKA MANGO PULP ALPHONSO",
+      "kehe_oh": 78.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 78.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA GULAB JAMUN",
+      "kehe_oh": 136.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 136.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA ROSSOGULLA",
+      "kehe_oh": 191.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 191.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA PEAS GREEN INDIAN",
+      "kehe_oh": 36.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 36.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA SARAGOVA DRUMSTICKS CUT",
+      "kehe_oh": 32.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 32.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA CHICKOO INIDAN CUT",
+      "kehe_oh": 0.0,
+      "kehe_op": 100.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 0.0,
+      "total_op": 100.0
+    },
+    {
+      "short_name": "ASHOKA OKRA BHINDI CUT",
+      "kehe_oh": 37.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 37.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA COCONUT SHREDS",
+      "kehe_oh": 10.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 10.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA IVY GOURD TINDORA CUT",
+      "kehe_oh": 0.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 0.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "ASHOKA GOOSEBERRIES AMLA WHOLE",
+      "kehe_oh": 0.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 0.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX BRKFAST DOSA",
+      "kehe_oh": 350.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 350.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX DSSRT & MAKER JALEBI",
+      "kehe_oh": 330.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 330.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX BRKFAST SAMBAR",
+      "kehe_oh": 350.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 350.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX SNACK PAKORA",
+      "kehe_oh": 360.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 360.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX DSSRT VRMICLI KHEER",
+      "kehe_oh": 350.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 350.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX SNACK DAHI VADA",
+      "kehe_oh": 360.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 360.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX BRKFAST UPMA",
+      "kehe_oh": 180.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 180.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX BRKFAST UTTAPAM",
+      "kehe_oh": 350.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 350.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX DSSRT BATSUNDI",
+      "kehe_oh": 350.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 350.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX SNACK HANDVO",
+      "kehe_oh": 360.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 360.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX SNACK SANDWICH DHKLA",
+      "kehe_oh": 350.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 350.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX DSRT SHAHI GULAB JMN",
+      "kehe_oh": 470.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 470.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX DRNK ROSE FALOODA",
+      "kehe_oh": 360.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 360.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MIX DRNK BADM PISTA FLDA",
+      "kehe_oh": 360.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 360.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "GITS MEAL PANEER TKA MSLA RTE",
+      "kehe_oh": 220.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 220.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "TANDOORI NAAN GARLIC 6 X 340 GM (4 PCS) BAG (FROZEN)",
+      "kehe_oh": 1327.0,
+      "kehe_op": 530.0,
+      "unfi_oh": 1575.0,
+      "unfi_op": 1780.0,
+      "unfi_13w": 527.0,
+      "unfi_wks": 3.0,
+      "total_oh": 2902.0,
+      "total_op": 2310.0
+    },
+    {
+      "short_name": "TANDOORI NAAN PLAIN 6 X 340 GM (4 PCS) BAG (FROZEN)",
+      "kehe_oh": 95.0,
+      "kehe_op": 120.0,
+      "unfi_oh": 1079.0,
+      "unfi_op": 1020.0,
+      "unfi_13w": 315.0,
+      "unfi_wks": 3.4,
+      "total_oh": 1174.0,
+      "total_op": 1140.0
+    },
+    {
+      "short_name": "VEGETABLE SAMOSA + 2 CHUTNEYS \u2013 6 X 420 GM (8 PCS X 40 GM (1.41 OZ)) BOX (FROZEN)",
+      "kehe_oh": 141.0,
+      "kehe_op": 144.0,
+      "unfi_oh": 20.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 161.0,
+      "total_op": 144.0
+    },
+    {
+      "short_name": "PANEER TIKKA ROTI WRAP 12 X 150 GM BOX",
+      "kehe_oh": 96.0,
+      "kehe_op": 147.0,
+      "unfi_oh": 30.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 3.0,
+      "unfi_wks": 10.0,
+      "total_oh": 126.0,
+      "total_op": 147.0
+    },
+    {
+      "short_name": "TANDOORI ALOO ROTI WRAP 12 X 150 GM BOX",
+      "kehe_oh": 48.0,
+      "kehe_op": 164.0,
+      "unfi_oh": 43.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 3.0,
+      "unfi_wks": 14.3,
+      "total_oh": 91.0,
+      "total_op": 164.0
+    },
+    {
+      "short_name": "ALOO GOBI ROTI WRAP 12 X 150 GM BOX",
+      "kehe_oh": 19.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 19.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "TIKKA MASALA RICE 6 X 200 GM PACKETS/BOX",
+      "kehe_oh": 518.0,
+      "kehe_op": 126.0,
+      "unfi_oh": 36.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 2.0,
+      "unfi_wks": 18.0,
+      "total_oh": 554.0,
+      "total_op": 126.0
+    },
+    {
+      "short_name": "BOMBAY BIRYANI 6 X 200 GM PACKETS/BOX",
+      "kehe_oh": 672.0,
+      "kehe_op": 168.0,
+      "unfi_oh": 21.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 4.0,
+      "unfi_wks": 5.2,
+      "total_oh": 693.0,
+      "total_op": 168.0
+    },
+    {
+      "short_name": "SPICED LENTIL & BEAN CHILI (DAL MAKHANI) 6 X 283 GM PACKETS/BOX",
+      "kehe_oh": 944.0,
+      "kehe_op": 302.0,
+      "unfi_oh": 107.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 10.0,
+      "unfi_wks": 10.7,
+      "total_oh": 1051.0,
+      "total_op": 302.0
+    },
+    {
+      "short_name": "CURRIED CHICKPEAS (CHANA MASALA) 6 X 283 GM PACKETS/BOX",
+      "kehe_oh": 200.0,
+      "kehe_op": 171.0,
+      "unfi_oh": 101.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 12.0,
+      "unfi_wks": 8.4,
+      "total_oh": 301.0,
+      "total_op": 171.0
+    },
+    {
+      "short_name": "POTATO PEA CURRY (ALOO MATAR) 6 X 283 GM PACKETS/BOX",
+      "kehe_oh": 127.0,
+      "kehe_op": 15.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 127.0,
+      "total_op": 15.0
+    },
+    {
+      "short_name": "CREAMED SPINACH & TOFU CURRY (PALAK TOFU PANEER) 6 X 283 GM PACKETS/BOX",
+      "kehe_oh": 394.0,
+      "kehe_op": 177.0,
+      "unfi_oh": 134.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 12.0,
+      "unfi_wks": 11.2,
+      "total_oh": 528.0,
+      "total_op": 177.0
+    },
+    {
+      "short_name": "BUTTER CHICKEN SAUCE (VEGAN) 6 X 369 GMS GLASS BOTTLES",
+      "kehe_oh": 262.0,
+      "kehe_op": 234.0,
+      "unfi_oh": 63.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 10.0,
+      "unfi_wks": 6.3,
+      "total_oh": 325.0,
+      "total_op": 234.0
+    },
+    {
+      "short_name": "TIKKA MASALA SAUCE (VEGAN) 6 X 369 GMS GLASS BOTTLES",
+      "kehe_oh": 358.0,
+      "kehe_op": 61.0,
+      "unfi_oh": 72.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 9.0,
+      "unfi_wks": 8.0,
+      "total_oh": 430.0,
+      "total_op": 61.0
+    },
+    {
+      "short_name": "MADRAS CURRY SAUCE (VEGAN) 6 X 369 GMS GLASS BOTTLES",
+      "kehe_oh": 95.0,
+      "kehe_op": 0.0,
+      "unfi_oh": 2.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 97.0,
+      "total_op": 0.0
+    },
+    {
+      "short_name": "TRULY INDIAN CHUTNEY TAMARIND & DATES",
+      "kehe_oh": 0.0,
+      "kehe_op": 18.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 0.0,
+      "total_op": 18.0
+    },
+    {
+      "short_name": "TRULY INDIAN CHUTNEY SWEET MANGO",
+      "kehe_oh": 91.0,
+      "kehe_op": 46.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 91.0,
+      "total_op": 46.0
+    },
+    {
+      "short_name": "TRULY INDIAN CHUTNEY MANGO GINGER",
+      "kehe_oh": 96.0,
+      "kehe_op": 95.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 96.0,
+      "total_op": 95.0
+    },
+    {
+      "short_name": "TRULY INDIAN CHUTNEY CRNCH CHILI MNGO",
+      "kehe_oh": 76.0,
+      "kehe_op": 106.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 76.0,
+      "total_op": 106.0
+    },
+    {
+      "short_name": "TRULY INDIAN NAAN GREEN CHILI",
+      "kehe_oh": 136.0,
+      "kehe_op": 81.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 136.0,
+      "total_op": 81.0
+    },
+    {
+      "short_name": "TRULY INDIAN NAAN TIKKA MASALA",
+      "kehe_oh": 503.0,
+      "kehe_op": 1222.0,
+      "unfi_oh": 0.0,
+      "unfi_op": 0.0,
+      "unfi_13w": 0.0,
+      "unfi_wks": null,
+      "total_oh": 503.0,
+      "total_op": 1222.0
+    }
+  ],
+  "sales": {
+    "total_sales": 401185.34,
+    "total_cases_shipped": 21412.0,
+    "total_cases_ordered": 11066.0,
+    "transactions": 6948,
+    "chains": 504,
+    "stores": 2654,
+    "by_source": [
+      {
+        "Source": "KEHE",
+        "sales": 148247.34,
+        "cases": 8812
+      },
+      {
+        "Source": "UNFI",
+        "sales": 252938.0,
+        "cases": 12600
+      }
+    ],
+    "by_category": [
+      {
+        "Category": "FROZEN",
+        "Sales Dollars": 320064.02
+      },
+      {
+        "Category": "SHELF STABLE",
+        "Sales Dollars": 81121.32
+      }
+    ],
+    "top_items": [
+      {
+        "item_short": "NAAN, GARLIC",
+        "sales": 175473.08,
+        "cases": 7831
+      },
+      {
+        "item_short": "NAAN, TANDOORI",
+        "sales": 92636.64,
+        "cases": 4559
+      },
+      {
+        "item_short": "NAAN, TIKKA MASALA",
+        "sales": 20189.22,
+        "cases": 1148
+      },
+      {
+        "item_short": "ENTR\u00c9E, DAL MAKHANI",
+        "sales": 19313.12,
+        "cases": 1334
+      },
+      {
+        "item_short": "WRAP, TANDOORI ALOO",
+        "sales": 10982.84,
+        "cases": 426
+      },
+      {
+        "item_short": "SAUCE, BUTTER CHICKEN",
+        "sales": 10604.4,
+        "cases": 686
+      },
+      {
+        "item_short": "ENTR\u00c9E, PALAK PANEER / TOFU",
+        "sales": 10442.28,
+        "cases": 841
+      },
+      {
+        "item_short": "WRAP PANEER TIKKA",
+        "sales": 10197.2,
+        "cases": 472
+      },
+      {
+        "item_short": "ENTR\u00c9E, CHANA MASALA",
+        "sales": 8902.2,
+        "cases": 644
+      },
+      {
+        "item_short": "RICE, BOMBAY BIRYANI",
+        "sales": 8195.72,
+        "cases": 1013
+      }
+    ],
+    "top_chains": [
+      {
+        "Retailer Chain Name": "CONFIDENTIAL",
+        "Sales Dollars": 230721.0
+      },
+      {
+        "Retailer Chain Name": "HEB",
+        "Sales Dollars": 9951.36
+      },
+      {
+        "Retailer Chain Name": "Price Chopper",
+        "Sales Dollars": 8510.52
+      },
+      {
+        "Retailer Chain Name": "RALEYSBEL AIR SUPERMARKETS",
+        "Sales Dollars": 7486.0
+      },
+      {
+        "Retailer Chain Name": "Kimberton Whole Foods",
+        "Sales Dollars": 4362.54
+      },
+      {
+        "Retailer Chain Name": "Fresh Thyme Northwest",
+        "Sales Dollars": 3944.76
+      },
+      {
+        "Retailer Chain Name": "Safeway Nor Cal",
+        "Sales Dollars": 3659.16
+      },
+      {
+        "Retailer Chain Name": "Fresh Thyme Southwest",
+        "Sales Dollars": 3204.12
+      },
+      {
+        "Retailer Chain Name": "Shaw's",
+        "Sales Dollars": 3046.44
+      },
+      {
+        "Retailer Chain Name": "Fresh Thyme Northeast",
+        "Sales Dollars": 2914.56
+      }
+    ]
+  },
+  "po": {
+    "total_amount": 190832.0,
+    "lines": 119,
+    "ordered": 12264,
+    "received": 11259,
+    "fill_pct": 91.81,
+    "late_count": 109,
+    "ontime_count": 10,
+    "late_pct": 91.6,
+    "in_full_count": 100,
+    "short_count": 19,
+    "avg_days_late": 9.8,
+    "by_dc": [
+      {
+        "dc": "Hudson Valley NY DC",
+        "amount": 30874.0,
+        "lines": 11,
+        "late": 11,
+        "ordered": 1920,
+        "received": 1781,
+        "avg_days_late": 7.4
+      },
+      {
+        "dc": "Manchester PA DC",
+        "amount": 26666.0,
+        "lines": 12,
+        "late": 8,
+        "ordered": 1680,
+        "received": 1541,
+        "avg_days_late": 4.0
+      },
+      {
+        "dc": "Atlanta GA DC",
+        "amount": 18628.0,
+        "lines": 7,
+        "late": 7,
+        "ordered": 1080,
+        "received": 1079,
+        "avg_days_late": 10.9
+      },
+      {
+        "dc": "Dallas TX DC",
+        "amount": 17355.0,
+        "lines": 8,
+        "late": 8,
+        "ordered": 1100,
+        "received": 1001,
+        "avg_days_late": 5.2
+      },
+      {
+        "dc": "Racine WI DC",
+        "amount": 15041.0,
+        "lines": 4,
+        "late": 4,
+        "ordered": 860,
+        "received": 860,
+        "avg_days_late": 6.0
+      },
+      {
+        "dc": "Moreno Valley CA DC",
+        "amount": 14867.0,
+        "lines": 14,
+        "late": 14,
+        "ordered": 1232,
+        "received": 873,
+        "avg_days_late": 10.9
+      },
+      {
+        "dc": "Chesterfield NH DC",
+        "amount": 13550.0,
+        "lines": 11,
+        "late": 7,
+        "ordered": 820,
+        "received": 780,
+        "avg_days_late": 2.5
+      },
+      {
+        "dc": "Ridgefield WA DC",
+        "amount": 13143.0,
+        "lines": 16,
+        "late": 16,
+        "ordered": 832,
+        "received": 792,
+        "avg_days_late": 17.0
+      },
+      {
+        "dc": "Denver CO DC",
+        "amount": 10621.0,
+        "lines": 6,
+        "late": 6,
+        "ordered": 660,
+        "received": 616,
+        "avg_days_late": 12.0
+      },
+      {
+        "dc": "Gilroy CA DC",
+        "amount": 10433.0,
+        "lines": 5,
+        "late": 5,
+        "ordered": 600,
+        "received": 600,
+        "avg_days_late": 16.8
+      },
+      {
+        "dc": "Dayville CT DC",
+        "amount": 7905.0,
+        "lines": 10,
+        "late": 8,
+        "ordered": 520,
+        "received": 456,
+        "avg_days_late": 6.7
+      },
+      {
+        "dc": "Rocklin CA DC",
+        "amount": 6553.0,
+        "lines": 9,
+        "late": 9,
+        "ordered": 660,
+        "received": 580,
+        "avg_days_late": 7.7
+      },
+      {
+        "dc": "Iowa City IA DC",
+        "amount": 5196.0,
+        "lines": 6,
+        "late": 6,
+        "ordered": 300,
+        "received": 300,
+        "avg_days_late": 8.3
+      }
+    ],
+    "by_product": [
+      {
+        "product": "NAAN,GARLIC,VEGET,4 PC",
+        "amount": 113316.0,
+        "ordered": 6860,
+        "received": 6544,
+        "lines": 47
+      },
+      {
+        "product": "NAAN,PLAIN,VEGET,4 PC",
+        "amount": 66498.0,
+        "ordered": 4440,
+        "received": 3833,
+        "lines": 45
+      },
+      {
+        "product": "PALAK TOFU PANEER,VGN",
+        "amount": 2275.0,
+        "ordered": 206,
+        "received": 204,
+        "lines": 5
+      },
+      {
+        "product": "DAL MAKHANI,VGN",
+        "amount": 2190.0,
+        "ordered": 199,
+        "received": 195,
+        "lines": 4
+      },
+      {
+        "product": "CHANA MASALA,VGN",
+        "amount": 1868.0,
+        "ordered": 170,
+        "received": 170,
+        "lines": 2
+      },
+      {
+        "product": "ROTI WRAP,CTGCHS,GRN PPR",
+        "amount": 1264.0,
+        "ordered": 72,
+        "received": 72,
+        "lines": 1
+      },
+      {
+        "product": "ROTI WRAP,TNDRI,SPCED POT",
+        "amount": 1264.0,
+        "ordered": 72,
+        "received": 72,
+        "lines": 1
+      },
+      {
+        "product": "SAUCE,BUTTER CHKN,VGN",
+        "amount": 1153.0,
+        "ordered": 131,
+        "received": 92,
+        "lines": 5
+      },
+      {
+        "product": "SAUCE,TIKKA MASALA,VGN",
+        "amount": 462.0,
+        "ordered": 72,
+        "received": 37,
+        "lines": 3
+      },
+      {
+        "product": "VEG SAMOSA,SPCED POT,PEA",
+        "amount": 420.0,
+        "ordered": 24,
+        "received": 24,
+        "lines": 1
+      },
+      {
+        "product": "RICE,BOMBAY BIRYANI,VGN",
+        "amount": 76.0,
+        "ordered": 8,
+        "received": 10,
+        "lines": 3
+      },
+      {
+        "product": "RICE,TIKKA MASALA,VGN",
+        "amount": 46.0,
+        "ordered": 10,
+        "received": 6,
+        "lines": 2
+      }
+    ],
+    "daily": [
+      {
+        "date": "2026-01-16",
+        "amount": 4709.0
+      },
+      {
+        "date": "2026-01-20",
+        "amount": 56018.0
+      },
+      {
+        "date": "2026-01-23",
+        "amount": 174.0
+      },
+      {
+        "date": "2026-01-27",
+        "amount": 3848.0
+      },
+      {
+        "date": "2026-02-03",
+        "amount": 1749.0
+      },
+      {
+        "date": "2026-02-04",
+        "amount": 2448.0
+      },
+      {
+        "date": "2026-02-10",
+        "amount": 46874.0
+      },
+      {
+        "date": "2026-02-13",
+        "amount": 9794.0
+      },
+      {
+        "date": "2026-02-17",
+        "amount": 2799.0
+      },
+      {
+        "date": "2026-02-24",
+        "amount": 5247.0
+      },
+      {
+        "date": "2026-02-27",
+        "amount": 2948.0
+      },
+      {
+        "date": "2026-03-02",
+        "amount": 1156.0
+      },
+      {
+        "date": "2026-03-03",
+        "amount": 15707.0
+      },
+      {
+        "date": "2026-03-10",
+        "amount": 4547.0
+      }
+    ]
+  },
+  "generated": "2026-04-25",
+  "period": "13 weeks ending 04/25/2026"
+}
