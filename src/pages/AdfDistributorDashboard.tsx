@@ -430,37 +430,32 @@ const InventoryTab = () => {
           <CardTitle icon={<FileText className="w-4 h-4 text-slate-600"/>}>SKU-level inventory ({inv.length} items)</CardTitle>
           <div className="overflow-auto max-h-96 border border-slate-100 rounded">
             <table className="w-full text-[11.5px]">
-              <thead className="bg-slate-50 sticky top-0">
-                <tr className="text-left text-slate-600">
-                  <th className="px-2 py-1.5">SKU</th>
-                  <th className="px-2 py-1.5 text-right">KeHE OH</th>
-                  <th className="px-2 py-1.5 text-right">KeHE PO</th>
-                  <th className="px-2 py-1.5 text-right">UNFI OH</th>
-                  <th className="px-2 py-1.5 text-right">UNFI PO</th>
-                  <th className="px-2 py-1.5 text-right">UNFI 13wk</th>
-                  <th className="px-2 py-1.5 text-right">UNFI WoH</th>
-                  <th className="px-2 py-1.5">Status</th>
+              <thead className="bg-slate-50 sticky top-0 z-10">
+                <tr>
+                  <SortTh active={invSort.key==='sku'} dir={invSort.dir} onClick={()=>invSort.toggle('sku')}>SKU</SortTh>
+                  <SortTh active={invSort.key==='kehe_oh'} dir={invSort.dir} align="right" onClick={()=>invSort.toggle('kehe_oh')}>KeHE OH</SortTh>
+                  <SortTh active={invSort.key==='kehe_op'} dir={invSort.dir} align="right" onClick={()=>invSort.toggle('kehe_op')}>KeHE PO</SortTh>
+                  <SortTh active={invSort.key==='unfi_oh'} dir={invSort.dir} align="right" onClick={()=>invSort.toggle('unfi_oh')}>UNFI OH</SortTh>
+                  <SortTh active={invSort.key==='unfi_op'} dir={invSort.dir} align="right" onClick={()=>invSort.toggle('unfi_op')}>UNFI PO</SortTh>
+                  <SortTh active={invSort.key==='unfi_13w'} dir={invSort.dir} align="right" onClick={()=>invSort.toggle('unfi_13w')}>UNFI 13wk</SortTh>
+                  <SortTh active={invSort.key==='unfi_wks'} dir={invSort.dir} align="right" onClick={()=>invSort.toggle('unfi_wks')}>UNFI WoH</SortTh>
+                  <SortTh active={invSort.key==='statusRank'} dir={invSort.dir} onClick={()=>invSort.toggle('statusRank')}>Status</SortTh>
                 </tr>
               </thead>
               <tbody>
-                {inv.map((i:any)=>{
-                  const status = i.total_oh===0 && i.total_op===0 ? 'danger'
-                    : (i.unfi_wks!=null && i.unfi_wks<4) ? 'danger'
-                    : (i.unfi_wks!=null && i.unfi_wks<6) ? 'warn'
-                    : 'good';
-                  const label = i.total_oh===0 && i.total_op===0 ? 'Stockout'
-                    : (i.unfi_wks!=null && i.unfi_wks<4) ? 'Critical'
-                    : (i.unfi_wks!=null && i.unfi_wks<6) ? 'Watch' : 'Healthy';
+                {invSort.sorted.map((i)=>{
+                  const tone = i.statusRank===0 || i.statusRank===1 ? 'danger' : i.statusRank===2 ? 'warn' : 'good';
+                  const label = i.statusRank===0 ? 'Stockout' : i.statusRank===1 ? 'Critical' : i.statusRank===2 ? 'Watch' : 'Healthy';
                   return (
-                    <tr key={i.short_name} className="border-t border-slate-100">
-                      <td className="px-2 py-1.5 max-w-xs truncate" title={i.short_name}>{i.short_name}</td>
+                    <tr key={i.sku} className="border-t border-slate-100">
+                      <td className="px-2 py-1.5 max-w-xs truncate" title={i.sku}>{i.sku}</td>
                       <td className="px-2 py-1.5 text-right">{fmtNum(i.kehe_oh)}</td>
                       <td className="px-2 py-1.5 text-right text-slate-500">{fmtNum(i.kehe_op)}</td>
                       <td className="px-2 py-1.5 text-right">{fmtNum(i.unfi_oh)}</td>
                       <td className="px-2 py-1.5 text-right text-slate-500">{fmtNum(i.unfi_op)}</td>
-                      <td className="px-2 py-1.5 text-right">{i.unfi_13w||'—'}</td>
-                      <td className="px-2 py-1.5 text-right font-medium">{i.unfi_wks!=null?i.unfi_wks:'—'}</td>
-                      <td className="px-2 py-1.5"><Badge tone={status as any}>{label}</Badge></td>
+                      <td className="px-2 py-1.5 text-right">{i.unfi_13w || '—'}</td>
+                      <td className="px-2 py-1.5 text-right font-medium">{i.unfi_wks || '—'}</td>
+                      <td className="px-2 py-1.5"><Badge tone={tone as any}>{label}</Badge></td>
                     </tr>
                   );
                 })}
