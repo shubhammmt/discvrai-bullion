@@ -250,8 +250,8 @@ const OverviewTab = () => {
 const SalesTab = () => {
   const itemData = sales.top_items.map((i:any)=>({ name:i.item_short, sales:i.sales, cases:i.cases }));
   const chainData = sales.top_chains.map((c:any)=>({ name:c['Retailer Chain Name'], sales:c['Sales Dollars'] }));
-  const tableRows = useMemo(()=> sales.top_items.map((i:any)=>({ sku:i.item_short, sales:i.sales, cases:i.cases, ppc: i.sales/Math.max(i.cases,1) })), []);
-  const { sorted, key, dir, toggle } = useSort(tableRows, 'sales' as any, 'desc');
+  const tableRows = useMemo(()=> sales.top_items.map((i:any)=>({ sku:i.item_short as string, sales:i.sales as number, cases:i.cases as number, ppc: i.sales/Math.max(i.cases,1) })) as Array<{sku:string;sales:number;cases:number;ppc:number}>, []);
+  const { sorted, key, dir, toggle } = useSort(tableRows, 'sales');
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
