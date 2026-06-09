@@ -431,11 +431,15 @@ const COPILOT_QA = (d: typeof data) => [
     a: `**13-week distributor snapshot, week ending 04/25/2026.** Combined KeHE + UNFI revenue was **${fmtMoney(d.sales.totalSales)}** across **${fmtNum(d.sales.chainCount)} chains** and **${fmtNum(d.sales.storeCount)} stores**, on a fill rate of **${fmtPct(d.sales.fillRate)}**. The headline issue is the supply line: only **${d.po.onTime} of ${d.po.totalPO} POs (${fmtPct(d.po.onTimePct)})** arrived on time, with an average lateness of **${d.po.avgLateDays.toFixed(1)} days**. Every one of the **${d.po.dcCount} DCs** received at least one late PO — this is systemic, not isolated. Revenue is heavily concentrated: **${d.sales.topSkus[0]['ADF Item Name']}** alone accounts for **${fmtPct(d.sales.topSkus[0].sales/d.sales.totalSales)}** of sell-through. Recommend pulling the supply chain lead into the next review.`,
     sources: ['Sales · CombinedData', 'PO · Detail', 'Inventory · 13 DCs'],
   },
-  {
-    q: 'What is causing the low Sprouts / low-fill chain problem?',
-    a: `Looking at the chains below 70% fill that ordered ≥20 cases, the pattern is consistent: **${d.sales.lowFillChains.length} chains** have ordered a total of **${fmtNum(d.sales.lowFillChains.reduce((s:number,c:any)=>s+c.ordered,0))} cases** but only received **${fmtNum(d.sales.lowFillChains.reduce((s:number,c:any)=>s+c.shipped,0))}**. Cross-referencing with the PO file, the DCs supplying these chains (Hudson Valley, Manchester PA, Moreno Valley) are exactly the DCs with the worst PO lateness — **Moreno Valley alone is ${fmtNum(d.po.dcs.find((x:any)=>/Moreno/.test(x['Distribution Center']))?.['Original Qty Ordered']||0)-fmtNum(d.po.dcs.find((x:any)=>/Moreno/.test(x['Distribution Center']))?.['Qty Received']||0)} cases short on inbound**. The two problems are the same problem viewed from different ends.`,
-    sources: ['Sales · low-fill chains', 'PO · DC shortfall', 'Join: chain→DC'],
-  },
+  (() => {
+    const mv: any = d.po.dcs.find((x:any)=>/Moreno/.test(x['Distribution Center']));
+    const mvShort = mv ? (mv['Original Qty Ordered'] - mv['Qty Received']) : 0;
+    return {
+      q: 'What is causing the low Sprouts / low-fill chain problem?',
+      a: `Looking at the chains below 70% fill that ordered ≥20 cases, the pattern is consistent: **${d.sales.lowFillChains.length} chains** have ordered a total of **${fmtNum(d.sales.lowFillChains.reduce((s:number,c:any)=>s+c.ordered,0))} cases** but only received **${fmtNum(d.sales.lowFillChains.reduce((s:number,c:any)=>s+c.shipped,0))}**. Cross-referencing with the PO file, the DCs supplying these chains (Hudson Valley, Manchester PA, Moreno Valley) are exactly the DCs with the worst PO lateness — **Moreno Valley alone is ${fmtNum(mvShort)} cases short on inbound**. The two problems are the same problem viewed from different ends.`,
+      sources: ['Sales · low-fill chains', 'PO · DC shortfall', 'Join: chain→DC'],
+    };
+  })(),
   {
     q: 'Which chains should ADF prioritise for growth?',
     a: `Looking at revenue-per-store-per-week rather than headline revenue, the hidden gems are smaller chains with high pull-through. The top revenue chains by absolute $ are **${d.sales.topChains.slice(0,3).map((c:any)=>c['Retailer Chain Name']).join(', ')}**, but on $/store/week the most efficient buyers warrant deeper investment — they convert listings into velocity. Combined with the **${d.sales.sources.length}-distributor split** (KeHE ${fmtMoney(d.sales.sources.find((s:any)=>s.Source==='KEHE')?.sales||0)}, UNFI ${fmtMoney(d.sales.sources.find((s:any)=>s.Source==='UNFI')?.sales||0)}), the growth motion is: protect the top 10, then push the top 10 hidden-gem chains to add 5–10 more stores each.`,
