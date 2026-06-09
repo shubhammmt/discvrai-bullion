@@ -334,6 +334,17 @@ const InventoryTab = () => {
   const topInvChart = topInv.map(i=>({ name: i.short_name.split(' 6 X')[0].split(' 12 X')[0].slice(0,28), 'On Hand': i.total_oh, 'On PO': i.total_op }));
   const lowChart = lowWoh.map(i=>({ name: i.short_name.split(' 6 X')[0].slice(0,24), wks: i.unfi_wks, oh: i.unfi_oh }));
 
+  const invRows = useMemo(()=> inv.map((i:any)=>({
+    sku: i.short_name as string,
+    kehe_oh: i.kehe_oh as number, kehe_op: i.kehe_op as number,
+    unfi_oh: i.unfi_oh as number, unfi_op: i.unfi_op as number,
+    unfi_13w: (i.unfi_13w ?? 0) as number, unfi_wks: (i.unfi_wks ?? 0) as number,
+    statusRank: (i.total_oh===0 && i.total_op===0) ? 0
+              : (i.unfi_wks!=null && i.unfi_wks<4) ? 1
+              : (i.unfi_wks!=null && i.unfi_wks<6) ? 2 : 3,
+  })) as Array<{sku:string;kehe_oh:number;kehe_op:number;unfi_oh:number;unfi_op:number;unfi_13w:number;unfi_wks:number;statusRank:number}>, []);
+  const invSort = useSort(invRows, 'unfi_wks', 'asc');
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
