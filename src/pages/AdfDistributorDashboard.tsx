@@ -153,17 +153,20 @@ const OverviewTab = () => {
 
         <Card>
           <CardTitle icon={<BarChart3 className="w-4 h-4 text-blue-600" />}>Sales by distributor</CardTitle>
-          <ResponsiveContainer width="100%" height={180}>
-            <PieChart>
-              <Pie data={sourceData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={(e:any)=>`${e.name}: ${((e.value/sales.total_sales)*100).toFixed(0)}%`}>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
+              <Pie data={sourceData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
+                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
                 {sourceData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
+              <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
             </PieChart>
           </ResponsiveContainer>
           <div className="grid grid-cols-2 gap-2 mt-2">
-            {sales.by_source.map((s:any)=>(
-              <div key={s.Source} className="bg-slate-50 rounded p-2 text-[12px]">
+            {sales.by_source.map((s:any,i:number)=>(
+              <div key={s.Source} className="bg-slate-50 rounded p-2 text-[12px] border-l-2" style={{borderLeftColor: COLORS[i]}}>
                 <div className="font-semibold text-slate-800">{s.Source}</div>
                 <div className="text-slate-600">{fmtMoneyFull(s.sales)} · {fmtNum(s.cases)} cases</div>
               </div>
@@ -173,53 +176,67 @@ const OverviewTab = () => {
 
         <Card>
           <CardTitle icon={<Building2 className="w-4 h-4 text-violet-600"/>}>Top 5 retailers ($)</CardTitle>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={topChainData} layout="vertical" margin={{left:8,right:8}}>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={topChainData} layout="vertical" margin={{left:8,right:30,top:5,bottom:5}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
               <XAxis type="number" tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)}/>
               <YAxis dataKey="name" type="category" width={140} tick={{fontSize:10}}/>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
-              <RBar dataKey="value" fill="#3b82f6" radius={[0,4,4,0]} />
+              <RBar dataKey="value" fill="#3b82f6" radius={[0,4,4,0]} label={{position:'right',fontSize:10,fill:'#475569',formatter:(v:any)=>fmtMoney(v)}}/>
             </BarChart>
           </ResponsiveContainer>
         </Card>
 
         <Card>
           <CardTitle icon={<Package className="w-4 h-4 text-emerald-600"/>}>Top 5 SKUs ($)</CardTitle>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={topItemData} layout="vertical" margin={{left:8,right:8}}>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={topItemData} layout="vertical" margin={{left:8,right:30,top:5,bottom:5}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
               <XAxis type="number" tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)}/>
               <YAxis dataKey="name" type="category" width={140} tick={{fontSize:10}}/>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
-              <RBar dataKey="value" fill="#10b981" radius={[0,4,4,0]} />
+              <RBar dataKey="value" fill="#10b981" radius={[0,4,4,0]} label={{position:'right',fontSize:10,fill:'#475569',formatter:(v:any)=>fmtMoney(v)}}/>
             </BarChart>
           </ResponsiveContainer>
         </Card>
 
         <Card>
           <CardTitle icon={<Layers className="w-4 h-4 text-amber-600"/>}>Category mix</CardTitle>
-          <ResponsiveContainer width="100%" height={180}>
-            <PieChart>
-              <Pie data={catData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={(e:any)=>`${e.name}: ${((e.value/sales.total_sales)*100).toFixed(0)}%`}>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
+              <Pie data={catData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
+                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
                 {catData.map((d:any,i:number)=><Cell key={i} fill={d.fill}/>)}
               </Pie>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
+              <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
             </PieChart>
           </ResponsiveContainer>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {catData.map((c:any,i:number)=>(
+              <div key={c.name} className="bg-slate-50 rounded p-2 text-[12px] border-l-2" style={{borderLeftColor: c.fill}}>
+                <div className="font-semibold text-slate-800">{c.name}</div>
+                <div className="text-slate-600">{fmtMoneyFull(c.value)} · {((c.value/sales.total_sales)*100).toFixed(0)}%</div>
+              </div>
+            ))}
+          </div>
           <div className="text-[11px] text-slate-500 mt-2">Frozen drives 80% of revenue — protect frozen Naan velocity at all costs.</div>
         </Card>
 
         <Card>
           <CardTitle icon={<Truck className="w-4 h-4 text-rose-600"/>}>PO on-time mix</CardTitle>
-          <ResponsiveContainer width="100%" height={180}>
-            <PieChart>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart margin={{top:10,right:10,bottom:10,left:10}}>
               <Pie data={[
-                {name:'Late',value:po.late_count,fill:'#3b82f6'},
-                {name:'On-Time',value:po.ontime_count,fill:'#ef4444'},
-              ]} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={(e:any)=>`${e.name}: ${((e.value/po.lines)*100).toFixed(0)}%`}>
+                {name:'Late',value:po.late_count,fill:'#ef4444'},
+                {name:'On-Time',value:po.ontime_count,fill:'#10b981'},
+              ]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2}
+                label={({percent}:any)=>`${(percent*100).toFixed(0)}%`} labelLine={false}
+                style={{fontSize:11, fontWeight:600, fill:'#fff'}}>
               </Pie>
               <Tooltip />
+              <Legend verticalAlign="bottom" iconType="circle" wrapperStyle={{fontSize:11}}/>
             </PieChart>
           </ResponsiveContainer>
           <div className="text-[11px] text-slate-500 mt-2">{po.late_count} of {po.lines} POs late · {po.in_full_count} delivered in full · {po.short_count} short-shipped</div>
