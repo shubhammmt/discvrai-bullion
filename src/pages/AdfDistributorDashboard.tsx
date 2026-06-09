@@ -250,6 +250,8 @@ const OverviewTab = () => {
 const SalesTab = () => {
   const itemData = sales.top_items.map((i:any)=>({ name:i.item_short, sales:i.sales, cases:i.cases }));
   const chainData = sales.top_chains.map((c:any)=>({ name:c['Retailer Chain Name'], sales:c['Sales Dollars'] }));
+  const tableRows = useMemo(()=> sales.top_items.map((i:any)=>({ sku:i.item_short, sales:i.sales, cases:i.cases, ppc: i.sales/Math.max(i.cases,1) })), []);
+  const { sorted, key, dir, toggle } = useSort(tableRows, 'sales' as any, 'desc');
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
@@ -262,29 +264,29 @@ const SalesTab = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <Card>
           <CardTitle icon={<Package className="w-4 h-4 text-blue-600"/>}>Top SKUs — sales vs cases</CardTitle>
-          <ResponsiveContainer width="100%" height={300}>
-            <ComposedChart data={itemData} margin={{left:0,right:8,bottom:60}}>
+          <ResponsiveContainer width="100%" height={360}>
+            <ComposedChart data={itemData} margin={{left:0,right:20,top:10,bottom:90}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
-              <XAxis dataKey="name" tick={{fontSize:9}} angle={-30} textAnchor="end" interval={0} height={70}/>
-              <YAxis yAxisId="l" tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)} />
-              <YAxis yAxisId="r" orientation="right" tick={{fontSize:10}} />
-              <Tooltip />
-              <Legend wrapperStyle={{fontSize:11}}/>
+              <XAxis dataKey="name" tick={{fontSize:9}} angle={-35} textAnchor="end" interval={0} height={100}/>
+              <YAxis yAxisId="l" tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)} label={{value:'Sales ($)',angle:-90,position:'insideLeft',style:{fontSize:10,fill:'#64748b'}}}/>
+              <YAxis yAxisId="r" orientation="right" tick={{fontSize:10}} label={{value:'Cases',angle:90,position:'insideRight',style:{fontSize:10,fill:'#64748b'}}}/>
+              <Tooltip formatter={(v:any,k:any)=>k==='sales'?fmtMoneyFull(v as number):fmtNum(v as number)}/>
+              <Legend verticalAlign="top" align="right" wrapperStyle={{fontSize:11,paddingBottom:8}}/>
               <RBar yAxisId="l" dataKey="sales" fill="#3b82f6" name="Sales $" radius={[3,3,0,0]} />
-              <Line yAxisId="r" type="monotone" dataKey="cases" stroke="#ef4444" strokeWidth={2} name="Cases shipped"/>
+              <Line yAxisId="r" type="monotone" dataKey="cases" stroke="#ef4444" strokeWidth={2} name="Cases shipped" dot={{r:3}}/>
             </ComposedChart>
           </ResponsiveContainer>
         </Card>
 
         <Card>
           <CardTitle icon={<Building2 className="w-4 h-4 text-emerald-600"/>}>Top 10 chains</CardTitle>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chainData} layout="vertical" margin={{left:8,right:8}}>
+          <ResponsiveContainer width="100%" height={360}>
+            <BarChart data={chainData} layout="vertical" margin={{left:8,right:40,top:5,bottom:5}}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9"/>
               <XAxis type="number" tick={{fontSize:10}} tickFormatter={(v)=>fmtMoney(v)} />
               <YAxis dataKey="name" type="category" width={160} tick={{fontSize:10}}/>
               <Tooltip formatter={(v:any)=>fmtMoneyFull(v as number)} />
-              <RBar dataKey="sales" fill="#10b981" radius={[0,4,4,0]} />
+              <RBar dataKey="sales" fill="#10b981" radius={[0,4,4,0]} label={{position:'right',fontSize:10,fill:'#475569',formatter:(v:any)=>fmtMoney(v)}}/>
             </BarChart>
           </ResponsiveContainer>
         </Card>
@@ -294,21 +296,21 @@ const SalesTab = () => {
         <CardTitle icon={<FileText className="w-4 h-4 text-slate-600"/>}>Full SKU table</CardTitle>
         <div className="overflow-auto max-h-80 border border-slate-100 rounded">
           <table className="w-full text-[12px]">
-            <thead className="bg-slate-50 sticky top-0">
-              <tr className="text-left text-slate-600">
-                <th className="px-2 py-1.5">SKU</th>
-                <th className="px-2 py-1.5 text-right">Sales</th>
-                <th className="px-2 py-1.5 text-right">Cases</th>
-                <th className="px-2 py-1.5 text-right">$/case</th>
+            <thead className="bg-slate-50 sticky top-0 z-10">
+              <tr>
+                <SortTh active={key==='sku'} dir={dir} onClick={()=>toggle('sku' as any)}>SKU</SortTh>
+                <SortTh active={key==='sales'} dir={dir} align="right" onClick={()=>toggle('sales' as any)}>Sales</SortTh>
+                <SortTh active={key==='cases'} dir={dir} align="right" onClick={()=>toggle('cases' as any)}>Cases</SortTh>
+                <SortTh active={key==='ppc'} dir={dir} align="right" onClick={()=>toggle('ppc' as any)}>$/case</SortTh>
               </tr>
             </thead>
             <tbody>
-              {sales.top_items.map((i:any)=>(
-                <tr key={i.item_short} className="border-t border-slate-100">
-                  <td className="px-2 py-1.5">{i.item_short}</td>
+              {sorted.map((i:any)=>(
+                <tr key={i.sku} className="border-t border-slate-100">
+                  <td className="px-2 py-1.5">{i.sku}</td>
                   <td className="px-2 py-1.5 text-right font-medium">{fmtMoneyFull(i.sales)}</td>
                   <td className="px-2 py-1.5 text-right">{fmtNum(i.cases)}</td>
-                  <td className="px-2 py-1.5 text-right text-slate-500">${(i.sales/i.cases).toFixed(2)}</td>
+                  <td className="px-2 py-1.5 text-right text-slate-500">${i.ppc.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
