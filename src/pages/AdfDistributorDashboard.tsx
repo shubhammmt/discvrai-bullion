@@ -3,7 +3,8 @@ import raw from '@/data/adfDistributorData.json';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   LayoutDashboard, BarChart3, Package, Truck, Sparkles, AlertTriangle, Building2,
-  Clock, MapPin, Bot, Send, Brain, TrendingDown, AlertCircle, Database, FileText, Layers
+  Clock, MapPin, Bot, Send, Brain, TrendingDown, AlertCircle, Database, FileText, Layers,
+  ArrowUp, ArrowDown, ArrowUpDown
 } from 'lucide-react';
 import {
   BarChart, Bar as RBar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -11,6 +12,39 @@ import {
 } from 'recharts';
 
 const data: any = raw;
+
+// ---------- Sortable table helpers ----------
+type SortDir = 'asc' | 'desc';
+function useSort<T>(rows: T[], initialKey: keyof T, initialDir: SortDir = 'desc') {
+  const [key, setKey] = useState<keyof T>(initialKey);
+  const [dir, setDir] = useState<SortDir>(initialDir);
+  const sorted = useMemo(() => {
+    const copy = [...rows];
+    copy.sort((a: any, b: any) => {
+      const av = a[key], bv = b[key];
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      if (typeof av === 'number' && typeof bv === 'number') return dir === 'asc' ? av - bv : bv - av;
+      return dir === 'asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+    });
+    return copy;
+  }, [rows, key, dir]);
+  const toggle = (k: keyof T) => {
+    if (k === key) setDir(dir === 'asc' ? 'desc' : 'asc');
+    else { setKey(k); setDir(typeof (rows[0] as any)?.[k] === 'number' ? 'desc' : 'asc'); }
+  };
+  return { sorted, key, dir, toggle };
+}
+
+const SortTh: React.FC<{ active: boolean; dir: SortDir; align?: 'left'|'right'; onClick: () => void; children: React.ReactNode }> = ({ active, dir, align='left', onClick, children }) => (
+  <th onClick={onClick} className={`px-2 py-1.5 cursor-pointer select-none hover:bg-slate-100 ${align==='right'?'text-right':'text-left'}`}>
+    <span className={`inline-flex items-center gap-1 ${active?'text-slate-900':'text-slate-600'}`}>
+      {children}
+      {active ? (dir==='asc' ? <ArrowUp className="w-3 h-3"/> : <ArrowDown className="w-3 h-3"/>) : <ArrowUpDown className="w-3 h-3 text-slate-300"/>}
+    </span>
+  </th>
+);
 
 // ---------- helpers ----------
 const fmtMoney = (n: number) => n >= 1000 ? `$${(n/1000).toFixed(1)}K` : `$${Math.round(n)}`;
