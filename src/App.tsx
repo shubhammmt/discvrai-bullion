@@ -226,6 +226,7 @@ import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
+import GovEnterpriseDeck from './pages/GovEnterpriseDeck';
 import AdvisorPitch from './pages/AdvisorPitch';
 import RAKSapPitch from './pages/RAKSapPitch';
 import BajajFinservDeck from './pages/BajajFinservDeck';
@@ -370,6 +371,7 @@ const AppContent = () => {
                         location.pathname === '/pitch/schlumberger' ||
                         location.pathname === '/pitch/walchandnagar' ||
                          location.pathname === '/pitch/enterprise' ||
+                         location.pathname === '/pitch/enterprise/gov' ||
                          location.pathname === '/pitch/enterprise-lite' ||
                          location.pathname === '/pitch/bajaj-finserv' ||
                          location.pathname === '/pitch/discvrai-platform' ||
@@ -619,6 +621,7 @@ const AppContent = () => {
                   <Route path="/pitch/schlumberger" element={<SchlumbergerDeck />} />
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
                   <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
+                  <Route path="/pitch/enterprise/gov" element={<GovEnterpriseDeck />} />
                   <Route path="/pitch/advisor" element={<AdvisorPitch />} />
                   <Route path="/pitch/rak-sap" element={<RAKSapPitch />} />
                    <Route path="/pitch/enterprise-lite" element={<EnterpriseDeckLite />} />
