@@ -370,6 +370,7 @@ const AppContent = () => {
                         location.pathname === '/pitch/schlumberger' ||
                         location.pathname === '/pitch/walchandnagar' ||
                          location.pathname === '/pitch/enterprise' ||
+                         location.pathname === '/pitch/enterprise/gov' ||
                          location.pathname === '/pitch/enterprise-lite' ||
                          location.pathname === '/pitch/bajaj-finserv' ||
                          location.pathname === '/pitch/discvrai-platform' ||
