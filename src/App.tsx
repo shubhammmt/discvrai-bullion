@@ -226,6 +226,7 @@ import AsianEnergyDeck from './pages/AsianEnergyDeck';
 import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
+import GovEnterpriseDeck from './pages/GovEnterpriseDeck';
 import AdvisorPitch from './pages/AdvisorPitch';
 import RAKSapPitch from './pages/RAKSapPitch';
 import BajajFinservDeck from './pages/BajajFinservDeck';
