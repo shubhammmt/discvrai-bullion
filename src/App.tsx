@@ -227,6 +227,7 @@ import SchlumbergerDeck from './pages/SchlumbergerDeck';
 import WalchandnagarDeck from './pages/WalchandnagarDeck';
 import GenericEnterpriseDeck from './pages/GenericEnterpriseDeck';
 import GovEnterpriseDeck from './pages/GovEnterpriseDeck';
+import AluminaCopDashboard from './pages/AluminaCopDashboard';
 import AdvisorPitch from './pages/AdvisorPitch';
 import RAKSapPitch from './pages/RAKSapPitch';
 import BajajFinservDeck from './pages/BajajFinservDeck';
@@ -622,6 +623,8 @@ const AppContent = () => {
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
                   <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
                   <Route path="/pitch/enterprise/gov" element={<GovEnterpriseDeck />} />
+                  <Route path="/alumina-cop" element={<AluminaCopDashboard />} />
+                  <Route path="/dashboards/alumina-cop" element={<AluminaCopDashboard />} />
                   <Route path="/pitch/advisor" element={<AdvisorPitch />} />
                   <Route path="/pitch/rak-sap" element={<RAKSapPitch />} />
                    <Route path="/pitch/enterprise-lite" element={<EnterpriseDeckLite />} />
