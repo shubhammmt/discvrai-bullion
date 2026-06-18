@@ -623,6 +623,8 @@ const AppContent = () => {
                   <Route path="/pitch/walchandnagar" element={<WalchandnagarDeck />} />
                   <Route path="/pitch/enterprise" element={<GenericEnterpriseDeck />} />
                   <Route path="/pitch/enterprise/gov" element={<GovEnterpriseDeck />} />
+                  <Route path="/alumina-cop" element={<AluminaCopDashboard />} />
+                  <Route path="/dashboards/alumina-cop" element={<AluminaCopDashboard />} />
                   <Route path="/pitch/advisor" element={<AdvisorPitch />} />
                   <Route path="/pitch/rak-sap" element={<RAKSapPitch />} />
                    <Route path="/pitch/enterprise-lite" element={<EnterpriseDeckLite />} />
