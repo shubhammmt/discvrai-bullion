@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import raw from '@/data/copDashboardData.json';
 import {
   LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, Legend,
@@ -7,7 +7,8 @@ import {
 import {
   Factory, TrendingUp, TrendingDown, DollarSign, Gauge, Package, Calendar,
   Download, Moon, Sun, Sparkles, AlertTriangle, ArrowUpRight, ArrowDownRight,
-  Activity, Layers, Droplets, Flame, Zap
+  Activity, Layers, Droplets, Flame, Zap, IndianRupee, LineChart as LineIcon,
+  Target, Beaker, BarChart3, GitBranch, ShieldCheck
 } from 'lucide-react';
 
 type Row = typeof raw[number];
@@ -18,19 +19,45 @@ const pct = (n: number, d = 1) => (n == null ? '—' : (n * 100).toFixed(d) + '%
 
 function avg(a: number[]) { return a.length ? a.reduce((s, x) => s + x, 0) / a.length : 0; }
 function ma(arr: number[], w = 7) {
-  return arr.map((_, i) => {
-    const s = Math.max(0, i - w + 1);
-    return avg(arr.slice(s, i + 1));
-  });
+  return arr.map((_, i) => avg(arr.slice(Math.max(0, i - w + 1), i + 1)));
 }
+function pctChange(a: number, b: number) { return b ? ((a - b) / b) * 100 : 0; }
+function corr(x: number[], y: number[]) {
+  const n = Math.min(x.length, y.length);
+  if (n < 2) return 0;
+  const mx = avg(x), my = avg(y);
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) { num += (x[i]-mx)*(y[i]-my); dx += (x[i]-mx)**2; dy += (y[i]-my)**2; }
+  return dx && dy ? num/Math.sqrt(dx*dy) : 0;
+}
+function corrLabel(c: number) {
+  const a = Math.abs(c);
+  if (a > 0.7) return c > 0 ? 'Strong +' : 'Strong −';
+  if (a > 0.4) return c > 0 ? 'Positive' : 'Negative';
+  if (a > 0.15) return c > 0 ? 'Weak +' : 'Weak −';
+  return 'Neutral';
+}
+
+const COMPARE_MODES = ['Daily','MTD','QTD','YTD','PoP','QoQ','YoY'] as const;
+type Compare = typeof COMPARE_MODES[number];
 
 export default function AluminaCopDashboard() {
   const all = raw as Row[];
   const [dark, setDark] = useState(true);
   const [from, setFrom] = useState(all[0].date);
   const [to, setTo] = useState(all[all.length - 1].date);
+  const [compare, setCompare] = useState<Compare>('Daily');
+  const [productView, setProductView] = useState<'Combined'|'Hydrate'|'Calcined'>('Combined');
+  const [causticView, setCausticView] = useState<'Combined'|'Chemical'|'Non-Chemical'>('Combined');
 
   const rows = useMemo(() => all.filter(r => r.date >= from && r.date <= to), [all, from, to]);
+  // Previous comparable window (same length immediately before `from`)
+  const prevRows = useMemo(() => {
+    const idxFrom = all.findIndex(r => r.date >= from);
+    const len = rows.length;
+    const start = Math.max(0, idxFrom - len);
+    return all.slice(start, idxFrom);
+  }, [all, from, rows.length]);
 
   // KPIs
   const k = useMemo(() => {
@@ -51,13 +78,41 @@ export default function AluminaCopDashboard() {
     };
   }, [rows]);
 
+  // Variance vs previous comparable window
+  const variance = useMemo(() => {
+    if (!prevRows.length) return null;
+    const a = (k:keyof Row)=>avg(rows.map(r=>Number(r[k])));
+    const p = (k:keyof Row)=>avg(prevRows.map(r=>Number(r[k])));
+    return {
+      hydrate: pctChange(a('hydrate'), p('hydrate')),
+      calcined: pctChange(a('calcined'), p('calcined')),
+      recovery: pctChange(a('recovery'), p('recovery')),
+      cop: pctChange(a('total_cop'), p('total_cop')),
+      stock: pctChange(a('closing_stock'), p('closing_stock')),
+      alumina_index: pctChange(a('alumina_index' as any), p('alumina_index' as any)),
+      fx: pctChange(a('fx_rate' as any), p('fx_rate' as any)),
+      bauxite: pctChange(a('bauxite_cost'), p('bauxite_cost')),
+      conv: pctChange(a('conv_cost'), p('conv_cost')),
+    };
+  }, [rows, prevRows, k]);
+
   // Series
   const hydMa = useMemo(() => ma(rows.map(r => r.hydrate)), [rows]);
   const calMa = useMemo(() => ma(rows.map(r => r.calcined)), [rows]);
+  const idxMa = useMemo(() => ma(rows.map(r => (r as any).alumina_index ?? 0)), [rows]);
+  const fxMa  = useMemo(() => ma(rows.map(r => (r as any).fx_rate ?? 0)), [rows]);
 
   const prod = rows.map((r, i) => ({
     date: r.date.slice(5), hydrate: r.hydrate, calcined: r.calcined,
     hyd_ma: Math.round(hydMa[i]), cal_ma: Math.round(calMa[i]),
+  }));
+
+  const market = rows.map((r, i) => ({
+    date: r.date.slice(5),
+    Index: (r as any).alumina_index,
+    Index_MA: +idxMa[i].toFixed(1),
+    FX: (r as any).fx_rate,
+    FX_MA: +fxMa[i].toFixed(2),
   }));
 
   const bauxiteMix = rows.map(r => ({
@@ -70,75 +125,164 @@ export default function AluminaCopDashboard() {
 
   const cost = rows.map(r => ({
     date: r.date.slice(5),
-    Bauxite: r.bauxite_cost, Steam: r.steam_cost, Power: r.power_cost, COP: r.total_cop,
+    Bauxite: r.bauxite_cost, Conversion: (r as any).conv_cost, Steam: r.steam_cost, Power: r.power_cost, COP: r.total_cop,
   }));
 
   const inv = rows.map(r => ({
-    date: r.date.slice(5), stock: r.closing_stock, days: r.stock_days,
-    OMC: r.omc_stock, Andru: r.andru_stock, Imported: r.imported_stock, RTA: r.rta_stock,
+    date: r.date.slice(5),
+    Domestic: (r as any).domestic_stock,
+    Imported: r.imported_stock,
+    dom_days: (r as any).dom_stock_days,
+    imp_days: (r as any).imp_stock_days,
+    days: r.stock_days,
   }));
 
   const qual = rows.map(r => ({
     date: r.date.slice(5),
     THA: +(r.tha * 100).toFixed(2),
     Moisture: +(r.moisture * 100).toFixed(2),
+    RS: +((r as any).rs * 100).toFixed(2),
     Recovery: +(r.recovery * 100).toFixed(2),
   }));
 
+  const caustic = rows.map(r => ({
+    date: r.date.slice(5),
+    Chemical: (r as any).chem_caustic_cost,
+    'Non-Chemical': (r as any).non_chem_caustic_cost,
+    Combined: r.caustic_cost,
+  }));
+
+  const convRatio = rows.map(r => ({ date: r.date.slice(5), Actual: (r as any).conv_ratio, Target: 3.33 }));
+
   // Cost contribution (avg)
   const contrib = useMemo(() => {
-    const sum = (k: keyof Row) => avg(rows.map(r => Number(r[k])));
+    const sum = (kk: keyof Row) => avg(rows.map(r => Number((r as any)[kk])));
     const parts = [
       { name: 'Bauxite', value: sum('bauxite_cost'), color: '#06b6d4' },
-      { name: 'Caustic', value: sum('caustic_cost'), color: '#8b5cf6' },
+      { name: 'Conversion', value: sum('conv_cost' as any), color: '#a855f7' },
       { name: 'Power', value: sum('power_cost'), color: '#f59e0b' },
       { name: 'Steam', value: sum('steam_cost'), color: '#ef4444' },
-      { name: 'Lime', value: sum('lime_cost'), color: '#10b981' },
       { name: 'Furnace Oil', value: sum('fo_cost'), color: '#f97316' },
       { name: 'Non-Commodity', value: sum('non_comm_cost'), color: '#64748b' },
+      { name: 'Lime', value: sum('lime_cost'), color: '#10b981' },
     ];
     return parts.map(p => ({ ...p, value: +p.value.toFixed(1) }));
   }, [rows]);
+
+  // Recovery driver correlations & contribution
+  const drivers = useMemo(() => {
+    const tha = rows.map(r => r.tha);
+    const moi = rows.map(r => r.moisture);
+    const rs  = rows.map(r => (r as any).rs);
+    const rec = rows.map(r => r.recovery);
+    const cop = rows.map(r => r.total_cop);
+    const cTHA = corr(tha, rec);
+    const cMoi = corr(moi, rec);
+    const cRS  = corr(rs, rec);
+    const cRecCop = corr(rec, cop);
+    // contribution to recovery delta: weight by |corr * delta|
+    if (rows.length < 2) return { cTHA, cMoi, cRS, cRecCop, parts: [], recDelta: 0 };
+    const first = rows[0], last = rows[rows.length-1];
+    const dTHA = (last.tha - first.tha);
+    const dMoi = (last.moisture - first.moisture);
+    const dRS  = ((last as any).rs - (first as any).rs);
+    const recDelta = (last.recovery - first.recovery) * 100;
+    const raw = [
+      { name: 'THA', val: Math.abs(cTHA * dTHA), dir: cTHA*dTHA, color: '#06b6d4' },
+      { name: 'Moisture', val: Math.abs(cMoi * dMoi), dir: cMoi*dMoi, color: '#f59e0b' },
+      { name: 'RS', val: Math.abs(cRS * dRS), dir: cRS*dRS, color: '#ef4444' },
+    ];
+    const tot = raw.reduce((s,x)=>s+x.val,0) || 1;
+    const parts = raw.map(x => ({ ...x, share: +(x.val/tot*100).toFixed(0) }));
+    return { cTHA, cMoi, cRS, cRecCop, parts, recDelta };
+  }, [rows]);
+
+  // Recovery driver score (0-100). THA helps, Moisture/RS hurt.
+  const driverScore = useMemo(() => {
+    if (!rows.length) return { score: 0, prev: 0, status: 'Watch' };
+    const sc = (arr: Row[]) => {
+      const tha = avg(arr.map(r=>r.tha));         // ~0.40-0.42 good
+      const moi = avg(arr.map(r=>r.moisture));    // lower better
+      const rs  = avg(arr.map(r=>(r as any).rs)); // lower better
+      const rec = avg(arr.map(r=>r.recovery));
+      const sTHA = Math.max(0, Math.min(1, (tha-0.38)/0.06));
+      const sMoi = Math.max(0, Math.min(1, 1 - (moi-0.08)/0.06));
+      const sRS  = Math.max(0, Math.min(1, 1 - (rs-0.018)/0.018));
+      const sRec = Math.max(0, Math.min(1, (rec-0.88)/0.05));
+      return Math.round((sTHA*0.25 + sMoi*0.25 + sRS*0.25 + sRec*0.25)*100);
+    };
+    const score = sc(rows);
+    const prev = prevRows.length ? sc(prevRows) : score;
+    const status = score>=80?'Excellent':score>=65?'Good':score>=50?'Watch':'Critical';
+    return { score, prev, status };
+  }, [rows, prevRows]);
+
+  // Quality score (0-100) for KPI
+  const qualityScore = useMemo(() => {
+    if (!rows.length) return 0;
+    const tha = avg(rows.map(r=>r.tha));
+    const moi = avg(rows.map(r=>r.moisture));
+    const rs  = avg(rows.map(r=>(r as any).rs));
+    const sTHA = Math.max(0, Math.min(1, (tha-0.38)/0.06));
+    const sMoi = Math.max(0, Math.min(1, 1 - (moi-0.08)/0.06));
+    const sRS  = Math.max(0, Math.min(1, 1 - (rs-0.018)/0.018));
+    return Math.round((sTHA + sMoi + sRS)/3 * 100);
+  }, [rows]);
+
+  // Conversion ratio summary
+  const convSummary = useMemo(() => {
+    const a = avg(rows.map(r => (r as any).conv_ratio));
+    return { actual: +a.toFixed(2), target: 3.33, variance: +(((a-3.33)/3.33)*100).toFixed(1) };
+  }, [rows]);
+
+  // Inventory health
+  const invHealth = (days: number) => days >= 8 ? { color:'emerald', label:'Healthy'} : days >= 5 ? { color:'amber', label:'Monitor'} : { color:'rose', label:'Critical'};
 
   // AI insights
   const insights = useMemo(() => {
     const list: { tone: 'pos' | 'neg' | 'warn' | 'info'; title: string; body: string }[] = [];
     if (rows.length < 2) return list;
     const first = rows[0], last = rows[rows.length - 1];
-    const hyDelta = ((last.hydrate - first.hydrate) / first.hydrate) * 100;
+    const hyDelta = pctChange(last.hydrate, first.hydrate);
     list.push({
       tone: hyDelta >= 0 ? 'pos' : 'neg',
       title: `Hydrate output ${hyDelta >= 0 ? 'up' : 'down'} ${Math.abs(hyDelta).toFixed(1)}% over period`,
-      body: `Moved from ${fmt(first.hydrate)} MT to ${fmt(last.hydrate)} MT. 7-day MA now ${fmt(hydMa[hydMa.length - 1])} MT.`
+      body: `Moved ${fmt(first.hydrate)}→${fmt(last.hydrate)} MT. 7d MA ${fmt(hydMa[hydMa.length - 1])} MT.`
     });
-    const copDelta = ((last.total_cop - first.total_cop) / first.total_cop) * 100;
+    const calDelta = pctChange(last.calcined, first.calcined);
+    list.push({
+      tone: calDelta >= 0 ? 'pos' : 'info',
+      title: `Calcined alumina ${calDelta>=0?'grew':'eased'} ${Math.abs(calDelta).toFixed(1)}% QoQ-equivalent`,
+      body: `End-of-period output ${fmt(last.calcined)} MT vs start ${fmt(first.calcined)} MT.`
+    });
+    const fxDelta = pctChange((last as any).fx_rate, (first as any).fx_rate);
+    list.push({
+      tone: fxDelta > 1 ? 'warn' : 'info',
+      title: `Exchange rate ${fxDelta>=0?'+':''}${fxDelta.toFixed(2)}% MTD`,
+      body: `INR/USD moved ${(first as any).fx_rate}→${(last as any).fx_rate}, lifting landed bauxite cost on imports.`
+    });
+    const idxDelta = pctChange((last as any).alumina_index, (first as any).alumina_index);
+    list.push({
+      tone: idxDelta > 0 ? 'pos' : 'info',
+      title: `Alumina index ${idxDelta>=0?'+':''}${idxDelta.toFixed(1)}% while conversion ${pctChange(last.conv_cost as any, first.conv_cost as any).toFixed(1)}%`,
+      body: `Index ${(first as any).alumina_index}→${(last as any).alumina_index} $/MT. Conversion cost relatively contained.`
+    });
+    const copDelta = pctChange(last.total_cop, first.total_cop);
     list.push({
       tone: copDelta > 2 ? 'warn' : copDelta < -2 ? 'pos' : 'info',
       title: `Total COP ${copDelta >= 0 ? '+' : ''}${copDelta.toFixed(1)}% vs start`,
-      body: `Largest cost driver: ${contrib[0].name} at $${contrib[0].value}/MT avg. Power averaged $${avg(rows.map(r => r.power_cost)).toFixed(0)}/MT.`
+      body: `Largest driver: ${contrib[0].name} at $${contrib[0].value}/MT avg.`
     });
-    const minDays = Math.min(...rows.map(r => r.stock_days));
+    const impDays = (last as any).imp_stock_days;
+    if (impDays <= 7) list.push({ tone:'warn', title:`Imported bauxite to reach threshold in ${impDays} days`, body:`Initiate replenishment PO; FX exposure elevated.` });
     list.push({
-      tone: minDays <= 5 ? 'warn' : 'info',
-      title: `Usable bauxite stock low: ${minDays} days minimum`,
-      body: `Threshold is 6 days. ${rows.filter(r => r.stock_days <= 5).length} days breached safety floor — recommend expediting OMC/Andru lifts.`
-    });
-    const impAvg = avg(rows.map(r => r.imp_pct)) * 100;
-    list.push({
-      tone: impAvg > 55 ? 'warn' : 'info',
-      title: `Imported bauxite mix at ${impAvg.toFixed(0)}% avg`,
-      body: `Domestic (OMC+Andru) at ${(avg(rows.map(r => r.omc_pct + r.andru_pct)) * 100).toFixed(0)}%. FX & freight exposure remains material.`
-    });
-    const recAvg = avg(rows.map(r => r.recovery)) * 100;
-    list.push({
-      tone: recAvg >= 91 ? 'pos' : 'warn',
-      title: `Overall recovery ${recAvg.toFixed(2)}%`,
-      body: `THA averaged ${(avg(rows.map(r => r.tha)) * 100).toFixed(2)}%, moisture ${(avg(rows.map(r => r.moisture)) * 100).toFixed(2)}%. Recovery correlates inversely with moisture spikes.`
+      tone: drivers.recDelta >= 0 ? 'pos' : 'warn',
+      title: `Recovery ${drivers.recDelta>=0?'improved':'declined'} ${Math.abs(drivers.recDelta).toFixed(2)} pp`,
+      body: `Top contributors — ${drivers.parts.map(p=>`${p.name} ${p.share}%`).join(' · ')}.`
     });
     return list;
-  }, [rows, hydMa, contrib]);
+  }, [rows, hydMa, contrib, drivers]);
 
-  // Export CSV
   const exportCsv = () => {
     const headers = Object.keys(rows[0] || {});
     const csv = [headers.join(','), ...rows.map(r => headers.map(h => (r as any)[h]).join(','))].join('\n');
@@ -155,6 +299,10 @@ export default function AluminaCopDashboard() {
     sub: 'text-slate-500', grid: '#e2e8f0', axis: '#64748b', tt: { background: '#fff', border: '1px solid #cbd5e1', color: '#0f172a' }
   };
 
+  const lastRow: any = rows[rows.length-1] || {};
+  const impHealth = invHealth((lastRow.imp_stock_days || 0));
+  const domHealth = invHealth((lastRow.dom_stock_days || 0));
+
   return (
     <div className={`min-h-screen ${T.bg} ${T.text} transition-colors`}>
       {/* Header */}
@@ -166,16 +314,20 @@ export default function AluminaCopDashboard() {
             </div>
             <div>
               <div className="text-base md:text-lg font-semibold leading-tight">Alumina COP Intelligence</div>
-              <div className={`text-[11px] ${T.sub}`}>Daily production · cost · recovery · inventory · AI insights</div>
+              <div className={`text-[11px] ${T.sub}`}>Production · cost · recovery · market · AI insights</div>
             </div>
+          </div>
+          <div className={`flex items-center gap-0.5 text-[11px] rounded-md border p-0.5 ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
+            {COMPARE_MODES.map(m => (
+              <button key={m} onClick={()=>setCompare(m)}
+                className={`px-2 py-1 rounded ${compare===m ? (dark?'bg-cyan-600 text-white':'bg-cyan-600 text-white') : T.sub}`}>{m}</button>
+            ))}
           </div>
           <div className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-md border ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
             <Calendar className="w-3.5 h-3.5" />
-            <input type="date" value={from} min={all[0].date} max={to} onChange={e => setFrom(e.target.value)}
-              className={`bg-transparent outline-none ${T.text}`} />
+            <input type="date" value={from} min={all[0].date} max={to} onChange={e => setFrom(e.target.value)} className={`bg-transparent outline-none ${T.text}`} />
             <span className={T.sub}>→</span>
-            <input type="date" value={to} min={from} max={all[all.length - 1].date} onChange={e => setTo(e.target.value)}
-              className={`bg-transparent outline-none ${T.text}`} />
+            <input type="date" value={to} min={from} max={all[all.length - 1].date} onChange={e => setTo(e.target.value)} className={`bg-transparent outline-none ${T.text}`} />
           </div>
           <button onClick={exportCsv} className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-md border ${dark ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'}`}>
             <Download className="w-3.5 h-3.5" /> Export
@@ -187,17 +339,85 @@ export default function AluminaCopDashboard() {
       </header>
 
       <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-6 space-y-6">
-        {/* KPIs */}
-        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <Kpi T={T} icon={Factory} label="Hydrate Alumina (avg/day)" value={`${fmt(k.hyd.avg)} MT`} delta={k.hyd.dod} hint={`Best ${fmt(k.hyd.best)} · Worst ${fmt(k.hyd.worst)}`} />
-          <Kpi T={T} icon={Layers} label="Calcined Alumina (avg/day)" value={`${fmt(k.cal.avg)} MT`} delta={k.cal.dod} hint={`Best ${fmt(k.cal.best)} · Worst ${fmt(k.cal.worst)}`} />
-          <Kpi T={T} icon={DollarSign} label="Total COP (avg)" value={`$${fmt(k.cop.avg)}/MT`} delta={k.cop.dod} invert hint="V2 sector cost" />
+
+        {/* Executive Summary KPIs */}
+        <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+          <Kpi T={T} icon={Factory} label="Hydrate (avg/day)" value={`${fmt(k.hyd.avg)} MT`} delta={k.hyd.dod} hint={`Best ${fmt(k.hyd.best)}`} />
+          <Kpi T={T} icon={Layers} label="Calcined (avg/day)" value={`${fmt(k.cal.avg)} MT`} delta={k.cal.dod} hint={`Best ${fmt(k.cal.best)}`} />
+          <Kpi T={T} icon={DollarSign} label="Total COP" value={`$${fmt(k.cop.avg)}/MT`} delta={k.cop.dod} invert hint="V2 sector cost" />
           <Kpi T={T} icon={Gauge} label="Recovery %" value={pct(k.rec.avg, 2)} hint="Target ≥ 91%" />
-          <Kpi T={T} icon={Package} label="Closing Bauxite Stock" value={`${fmt(k.stock)} KT`} hint="Latest day" />
+          <Kpi T={T} icon={Target} label="Conv. Ratio" value={`${convSummary.actual}`} delta={convSummary.variance} invert hint={`Target ${convSummary.target}`} />
+          <Kpi T={T} icon={ShieldCheck} label="Quality Score" value={`${qualityScore}/100`} hint="THA · Moisture · RS" />
+          <Kpi T={T} icon={GitBranch} label="Recovery Driver Score" value={`${driverScore.score}/100`} delta={driverScore.score - driverScore.prev} hint={driverScore.status} />
           <Kpi T={T} icon={Activity} label="Usable Stock Days" value={`${k.stockDays} d`} alert={k.stockDays <= 5} hint="Floor 6 days" />
         </section>
 
-        {/* AI Insights */}
+        {/* Variance ribbon (when compare mode != Daily) */}
+        {compare !== 'Daily' && variance && (
+          <section className={`rounded-xl border ${T.panel} p-4`}>
+            <div className="flex items-center gap-2 mb-3">
+              <BarChart3 className="w-4 h-4 text-cyan-400" />
+              <div className="text-sm font-semibold">{compare} comparison · {rows.length}d window vs prior {prevRows.length}d</div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2">
+              {([
+                ['Hydrate', variance.hydrate], ['Calcined', variance.calcined],
+                ['Recovery', variance.recovery, true], ['COP', variance.cop, false, true],
+                ['Stock', variance.stock], ['Alumina Idx', variance.alumina_index],
+                ['FX', variance.fx, false, true], ['Bauxite Cost', variance.bauxite, false, true],
+              ] as [string, number, boolean?, boolean?][]).map(([n, v, _gp, inv]) => {
+                const good = inv ? v < 0 : v > 0;
+                return (
+                  <div key={n} className={`rounded-lg border p-2 ${dark?'border-slate-800':'border-slate-200'}`}>
+                    <div className={`text-[10px] uppercase tracking-wider ${T.sub}`}>{n}</div>
+                    <div className={`text-sm font-bold ${good?'text-emerald-400':'text-rose-400'}`}>{v>=0?'+':''}{v.toFixed(1)}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* Market & Financial Intelligence */}
+        <section className="space-y-3">
+          <SectionHeader icon={LineIcon} title="Market & Financial Intelligence" sub="Alumina index · FX · landed bauxite & conversion" T={T} />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <Kpi T={T} icon={DollarSign} label="Alumina Index (latest)" value={`$${fmt((lastRow.alumina_index)||0,1)}`} delta={pctChange(lastRow.alumina_index, rows[0]?.alumina_index)} hint={`MTD avg $${fmt(avg(rows.map(r=>(r as any).alumina_index)),1)}`} />
+            <Kpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" value={`${fmt(lastRow.fx_rate,2)}`} delta={pctChange(lastRow.fx_rate, rows[0]?.fx_rate)} invert hint={`MTD avg ${fmt(avg(rows.map(r=>(r as any).fx_rate)),2)}`} />
+            <Kpi T={T} icon={Droplets} label="Bauxite Cost (avg)" value={`$${fmt(avg(rows.map(r=>r.bauxite_cost)))}/MT`} delta={variance?.bauxite} invert hint={`${((avg(rows.map(r=>r.bauxite_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP`} />
+            <Kpi T={T} icon={Flame} label="Conversion Cost (avg)" value={`$${fmt(avg(rows.map(r=>(r as any).conv_cost)))}/MT`} delta={variance?.conv} invert hint={`${((avg(rows.map(r=>(r as any).conv_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP`} />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Panel T={T} title="Alumina Price Index · daily + 7d MA" icon={LineIcon}>
+              <ResponsiveContainer width="100%" height={240}>
+                <ComposedChart data={market}>
+                  <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                  <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
+                  <YAxis stroke={T.axis} fontSize={11} domain={['dataMin-10','dataMax+10']} />
+                  <Tooltip contentStyle={T.tt as any} />
+                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Area dataKey="Index" name="Index $/MT" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.18} />
+                  <Line dataKey="Index_MA" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </Panel>
+            <Panel T={T} title="Exchange Rate · INR/USD" icon={IndianRupee}>
+              <ResponsiveContainer width="100%" height={240}>
+                <ComposedChart data={market}>
+                  <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                  <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
+                  <YAxis stroke={T.axis} fontSize={11} domain={['dataMin-0.3','dataMax+0.3']} />
+                  <Tooltip contentStyle={T.tt as any} />
+                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Area dataKey="FX" name="INR/USD" stroke="#a855f7" fill="#a855f7" fillOpacity={0.18} />
+                  <Line dataKey="FX_MA" name="MTD MA" stroke="#10b981" strokeWidth={2} dot={false} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </Panel>
+          </div>
+        </section>
+
+        {/* AI Insight Center */}
         <section className={`rounded-xl border ${T.panel} p-5`}>
           <div className="flex items-center gap-2 mb-4">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
@@ -205,7 +425,7 @@ export default function AluminaCopDashboard() {
             </div>
             <div>
               <div className="font-semibold">AI Insight Center</div>
-              <div className={`text-xs ${T.sub}`}>Auto-generated for plant head · CFO · COO</div>
+              <div className={`text-xs ${T.sub}`}>Production · quality · recovery · inventory · FX · index · conversion · COP drivers</div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -230,34 +450,48 @@ export default function AluminaCopDashboard() {
           </div>
         </section>
 
-        {/* Production Trends */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Panel T={T} title="Hydrate Alumina · daily + 7d MA" icon={Factory}>
-            <ResponsiveContainer width="100%" height={260}>
-              <ComposedChart data={prod}>
-                <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} />
-                <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="hydrate" name="Hydrate MT" fill="#06b6d4" radius={[3, 3, 0, 0]} />
-                <Line dataKey="hyd_ma" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </Panel>
-          <Panel T={T} title="Calcined Alumina · daily + 7d MA" icon={Layers}>
-            <ResponsiveContainer width="100%" height={260}>
-              <ComposedChart data={prod}>
-                <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} />
-                <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="calcined" name="Calcined MT" fill="#8b5cf6" radius={[3, 3, 0, 0]} />
-                <Line dataKey="cal_ma" name="7d MA" stroke="#10b981" strokeWidth={2} dot={false} />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </Panel>
+        {/* Product Category Analytics */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <SectionHeader icon={Factory} title="Product Category Analytics" sub="Hydrate vs Calcined alumina" T={T} />
+            <div className={`flex text-[11px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
+              {(['Combined','Hydrate','Calcined'] as const).map(v => (
+                <button key={v} onClick={()=>setProductView(v)} className={`px-2 py-1 rounded ${productView===v?'bg-cyan-600 text-white':T.sub}`}>{v}</button>
+              ))}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {(productView==='Combined'||productView==='Hydrate') && (
+              <Panel T={T} title="Hydrate Alumina · daily + 7d MA" icon={Factory}>
+                <ResponsiveContainer width="100%" height={240}>
+                  <ComposedChart data={prod}>
+                    <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
+                    <YAxis stroke={T.axis} fontSize={11} />
+                    <Tooltip contentStyle={T.tt as any} />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Bar dataKey="hydrate" name="Hydrate MT" fill="#06b6d4" radius={[3, 3, 0, 0]} />
+                    <Line dataKey="hyd_ma" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </Panel>
+            )}
+            {(productView==='Combined'||productView==='Calcined') && (
+              <Panel T={T} title="Calcined Alumina · daily + 7d MA" icon={Layers}>
+                <ResponsiveContainer width="100%" height={240}>
+                  <ComposedChart data={prod}>
+                    <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
+                    <YAxis stroke={T.axis} fontSize={11} />
+                    <Tooltip contentStyle={T.tt as any} />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Bar dataKey="calcined" name="Calcined MT" fill="#8b5cf6" radius={[3, 3, 0, 0]} />
+                    <Line dataKey="cal_ma" name="7d MA" stroke="#10b981" strokeWidth={2} dot={false} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </Panel>
+            )}
+          </div>
         </section>
 
         {/* Bauxite source + Cost contribution */}
@@ -291,7 +525,7 @@ export default function AluminaCopDashboard() {
         </section>
 
         {/* Cost trends */}
-        <Panel T={T} title="Cost analytics · Bauxite · Steam · Power · Total COP ($/MT)" icon={Flame}>
+        <Panel T={T} title="Cost analytics · Bauxite · Conversion · Steam · Power · Total COP ($/MT)" icon={Flame}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={cost}>
               <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
@@ -301,6 +535,7 @@ export default function AluminaCopDashboard() {
               <Tooltip contentStyle={T.tt as any} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Line yAxisId="l" dataKey="Bauxite" stroke="#06b6d4" strokeWidth={2} dot={false} />
+              <Line yAxisId="l" dataKey="Conversion" stroke="#a855f7" strokeWidth={2} dot={false} />
               <Line yAxisId="l" dataKey="Steam" stroke="#ef4444" strokeWidth={2} dot={false} />
               <Line yAxisId="l" dataKey="Power" stroke="#f59e0b" strokeWidth={2} dot={false} />
               <Line yAxisId="r" dataKey="COP" stroke="#8b5cf6" strokeWidth={2.5} dot={false} />
@@ -308,9 +543,74 @@ export default function AluminaCopDashboard() {
           </ResponsiveContainer>
         </Panel>
 
-        {/* Inventory + Quality */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Panel T={T} title="Inventory · closing stock & usable days" icon={Package}>
+        {/* Caustic split */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <SectionHeader icon={Beaker} title="Caustic Consumption Breakdown" sub="Chemical vs Non-Chemical" T={T} />
+            <div className={`flex text-[11px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
+              {(['Combined','Chemical','Non-Chemical'] as const).map(v => (
+                <button key={v} onClick={()=>setCausticView(v)} className={`px-2 py-1 rounded ${causticView===v?'bg-cyan-600 text-white':T.sub}`}>{v}</button>
+              ))}
+            </div>
+          </div>
+          <Panel T={T} title={`Caustic cost ($/MT) · ${causticView}`} icon={Beaker}>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={caustic}>
+                <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
+                <YAxis stroke={T.axis} fontSize={11} />
+                <Tooltip contentStyle={T.tt as any} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+                {causticView !== 'Non-Chemical' && causticView !== 'Combined' && (
+                  <Bar dataKey="Chemical" fill="#06b6d4" />
+                )}
+                {causticView !== 'Chemical' && causticView !== 'Combined' && (
+                  <Bar dataKey="Non-Chemical" fill="#f59e0b" />
+                )}
+                {causticView === 'Combined' && <>
+                  <Bar dataKey="Chemical" stackId="c" fill="#06b6d4" />
+                  <Bar dataKey="Non-Chemical" stackId="c" fill="#f59e0b" />
+                </>}
+              </BarChart>
+            </ResponsiveContainer>
+          </Panel>
+        </section>
+
+        {/* Conversion Matrix */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className={`rounded-xl border ${T.panel} p-4 lg:col-span-1`}>
+            <div className="flex items-center gap-2 mb-3"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-sm">Bauxite Conversion Ratio</div></div>
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              <Stat label="Actual" value={convSummary.actual.toFixed(2)} T={T} />
+              <Stat label="Target" value={convSummary.target.toFixed(2)} T={T} />
+              <Stat label="Variance" value={`${convSummary.variance>=0?'+':''}${convSummary.variance}%`} T={T} tone={convSummary.variance<=0?'pos':'warn'} />
+            </div>
+            <div className={`text-xs ${T.sub}`}>Status: <span className={convSummary.variance<=0?'text-emerald-400':'text-amber-400'}>{convSummary.variance<=0?'At/Below target':'Above target'}</span></div>
+            <div className={`text-xs mt-2 ${T.sub}`}>Conversion efficiency {variance && variance.conv<0?'improved':'softened'} {Math.abs(variance?.conv||0).toFixed(1)}% vs prior window.</div>
+          </div>
+          <Panel T={T} title="Conversion ratio trend (MT bauxite / MT alumina)" icon={Target} className="lg:col-span-2">
+            <ResponsiveContainer width="100%" height={220}>
+              <LineChart data={convRatio}>
+                <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
+                <YAxis stroke={T.axis} fontSize={11} domain={[3.0, 3.6]} />
+                <Tooltip contentStyle={T.tt as any} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Line dataKey="Actual" stroke="#06b6d4" strokeWidth={2.5} dot={false} />
+                <ReferenceLine y={3.33} stroke="#10b981" strokeDasharray="4 4" label={{ value:'Target 3.33', fill:'#10b981', fontSize: 10 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </Panel>
+        </section>
+
+        {/* Inventory enhanced */}
+        <section className="space-y-3">
+          <SectionHeader icon={Package} title="Inventory Health" sub="Domestic (OMC + Andru) vs Imported (Raw Import)" T={T} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <InvCard T={T} title="Domestic Bauxite (OMC + Andru)" stock={lastRow.domestic_stock||0} days={lastRow.dom_stock_days||0} health={domHealth} />
+            <InvCard T={T} title="Imported Bauxite (Raw Import)" stock={lastRow.imported_stock||0} days={lastRow.imp_stock_days||0} health={impHealth} />
+          </div>
+          <Panel T={T} title="Stock & usable days trend" icon={Package}>
             <ResponsiveContainer width="100%" height={280}>
               <ComposedChart data={inv}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
@@ -319,17 +619,18 @@ export default function AluminaCopDashboard() {
                 <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} label={{ value: 'Days', angle: 90, position: 'insideRight', fill: T.axis, fontSize: 10 }} />
                 <Tooltip contentStyle={T.tt as any} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar yAxisId="l" dataKey="OMC" stackId="s" fill="#06b6d4" />
-                <Bar yAxisId="l" dataKey="Andru" stackId="s" fill="#8b5cf6" />
+                <Bar yAxisId="l" dataKey="Domestic" stackId="s" fill="#06b6d4" />
                 <Bar yAxisId="l" dataKey="Imported" stackId="s" fill="#f59e0b" />
-                <Bar yAxisId="l" dataKey="RTA" stackId="s" fill="#64748b" />
                 <Line yAxisId="r" dataKey="days" name="Stock Days" stroke="#ef4444" strokeWidth={2.5} />
                 <ReferenceLine yAxisId="r" y={6} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Floor 6d', fill: '#ef4444', fontSize: 10 }} />
               </ComposedChart>
             </ResponsiveContainer>
           </Panel>
+        </section>
 
-          <Panel T={T} title="Quality vs Recovery · THA · Moisture · Recovery %" icon={Gauge}>
+        {/* Quality & Recovery Analytics */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <Panel T={T} title="Quality vs Recovery · THA · Moisture · RS · Recovery %" icon={Gauge} className="lg:col-span-2">
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={qual}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
@@ -340,13 +641,99 @@ export default function AluminaCopDashboard() {
                 <Legend wrapperStyle={{ fontSize: 11 }} />
                 <Line yAxisId="l" dataKey="THA" stroke="#06b6d4" strokeWidth={2} dot={false} />
                 <Line yAxisId="l" dataKey="Moisture" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                <Line yAxisId="l" dataKey="RS" stroke="#ef4444" strokeWidth={2} dot={false} />
                 <Line yAxisId="r" dataKey="Recovery" stroke="#10b981" strokeWidth={2.5} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </Panel>
+          <div className={`rounded-xl border ${T.panel} p-4`}>
+            <div className="flex items-center gap-2 mb-3"><ShieldCheck className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-sm">Quality Logic</div></div>
+            <ul className={`text-xs space-y-2 ${T.sub}`}>
+              <li><span className="text-emerald-400 font-semibold">↑ THA</span> → ↑ Recovery</li>
+              <li><span className="text-rose-400 font-semibold">↑ Moisture</span> → ↓ Recovery</li>
+              <li><span className="text-rose-400 font-semibold">↑ RS</span> → ↓ Recovery</li>
+            </ul>
+            <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-xs`}>
+              <div className={`uppercase tracking-wider text-[10px] ${T.sub}`}>Composite Quality Score</div>
+              <div className="text-2xl font-bold mt-1">{qualityScore}<span className={`text-sm ${T.sub}`}>/100</span></div>
+              <div className={`text-[11px] mt-1 ${T.sub}`}>THA {pct(avg(rows.map(r=>r.tha)),2)} · Moisture {pct(avg(rows.map(r=>r.moisture)),2)} · RS {pct(avg(rows.map(r=>(r as any).rs)),2)}</div>
+            </div>
+          </div>
         </section>
 
-        {/* Specific consumption heatmap-style table */}
+        {/* Recovery Driver Analysis */}
+        <section className="space-y-3">
+          <SectionHeader icon={GitBranch} title="Recovery Driver Analysis" sub="Bauxite Quality → Recovery → Conversion Cost → COP" T={T} />
+
+          {/* Flow */}
+          <div className={`rounded-xl border ${T.panel} p-5`}>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
+              <div className="space-y-2">
+                <FlowChip label="THA" sign="+" color="emerald" />
+                <FlowChip label="Moisture" sign="−" color="rose" />
+                <FlowChip label="RS" sign="−" color="rose" />
+              </div>
+              <div className="text-center text-2xl text-cyan-400 hidden md:block">→</div>
+              <div className={`rounded-lg border ${dark?'border-slate-700':'border-slate-200'} p-3 text-center`}>
+                <div className={`text-[10px] uppercase ${T.sub}`}>Recovery</div>
+                <div className="text-2xl font-bold text-emerald-400">{pct(k.rec.avg,2)}</div>
+                <div className={`text-[10px] ${T.sub}`}>target ≥ 91%</div>
+              </div>
+              <div className="text-center text-2xl text-cyan-400 hidden md:block">→</div>
+              <div className={`rounded-lg border ${dark?'border-slate-700':'border-slate-200'} p-3 text-center`}>
+                <div className={`text-[10px] uppercase ${T.sub}`}>Total COP</div>
+                <div className="text-2xl font-bold">${fmt(k.cop.avg)}</div>
+                <div className={`text-[10px] ${T.sub}`}>via conversion cost</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Scorecard + Contribution + Correlations */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <Panel T={T} title="Recovery Driver Scorecard" icon={ShieldCheck}>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <Stat T={T} label="Current THA" value={pct(avg(rows.map(r=>r.tha)),2)} />
+                <Stat T={T} label="Current Moisture" value={pct(avg(rows.map(r=>r.moisture)),2)} />
+                <Stat T={T} label="Current RS" value={pct(avg(rows.map(r=>(r as any).rs)),2)} />
+                <Stat T={T} label="Current Recovery" value={pct(k.rec.avg,2)} />
+                <Stat T={T} label="Target Recovery" value="91.00%" />
+                <Stat T={T} label="Recovery Variance" value={`${(k.rec.avg*100-91).toFixed(2)} pp`} tone={k.rec.avg*100>=91?'pos':'warn'} />
+              </div>
+              <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-xs`}>
+                <div className="flex justify-between"><span className={T.sub}>Driver Score</span><span className="font-bold">{driverScore.score}/100</span></div>
+                <div className="flex justify-between"><span className={T.sub}>Previous</span><span>{driverScore.prev}/100</span></div>
+                <div className="flex justify-between"><span className={T.sub}>Status</span><span className={driverScore.score>=80?'text-emerald-400':driverScore.score>=65?'text-cyan-400':driverScore.score>=50?'text-amber-400':'text-rose-400'}>{driverScore.status}</span></div>
+              </div>
+            </Panel>
+            <Panel T={T} title="Driver contribution to recovery delta" icon={BarChart3}>
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={drivers.parts} layout="vertical">
+                  <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                  <XAxis type="number" stroke={T.axis} fontSize={11} tickFormatter={(v)=>`${v}%`} />
+                  <YAxis type="category" dataKey="name" stroke={T.axis} fontSize={11} width={70} />
+                  <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`${v}%`} />
+                  <Bar dataKey="share" radius={[0,4,4,0]}>
+                    {drivers.parts.map((p:any,i:number)=><Cell key={i} fill={p.color} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              <div className={`text-[11px] ${T.sub} mt-1`}>Recovery moved {drivers.recDelta>=0?'+':''}{drivers.recDelta.toFixed(2)} pp over period.</div>
+            </Panel>
+            <Panel T={T} title="Correlation analytics" icon={Activity}>
+              <div className="space-y-2 text-xs">
+                <CorrRow T={T} label="THA vs Recovery" c={drivers.cTHA} />
+                <CorrRow T={T} label="Moisture vs Recovery" c={drivers.cMoi} />
+                <CorrRow T={T} label="RS vs Recovery" c={drivers.cRS} />
+                <CorrRow T={T} label="Recovery vs COP" c={drivers.cRecCop} />
+              </div>
+              <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[11px] ${T.sub}`}>
+                Higher recovery → lower bauxite consumption → lower conversion cost → lower COP.
+              </div>
+            </Panel>
+          </div>
+        </section>
+
+        {/* Specific consumption table */}
         <Panel T={T} title="Specific consumption · daily detail" icon={Zap}>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
@@ -376,7 +763,7 @@ export default function AluminaCopDashboard() {
         </Panel>
 
         <footer className={`text-center text-[11px] ${T.sub} py-4`}>
-          Alumina COP Intelligence · {rows.length} days · {from} → {to}
+          Alumina COP Intelligence · {rows.length} days · {from} → {to} · mode {compare}
         </footer>
       </main>
     </div>
@@ -414,6 +801,74 @@ function Panel({ T, title, icon: Icon, children, className = '' }: any) {
         <div className="font-semibold text-sm">{title}</div>
       </div>
       {children}
+    </div>
+  );
+}
+
+function SectionHeader({ icon: Icon, title, sub, T }: any) {
+  return (
+    <div className="flex items-center gap-2">
+      <Icon className="w-4 h-4 text-cyan-400" />
+      <div>
+        <div className="font-semibold text-sm">{title}</div>
+        {sub && <div className={`text-[11px] ${T.sub}`}>{sub}</div>}
+      </div>
+    </div>
+  );
+}
+
+function Stat({ T, label, value, tone }: any) {
+  const c = tone==='pos'?'text-emerald-400':tone==='warn'?'text-amber-400':'';
+  return (
+    <div className={`rounded-md border ${T?.panel||''} p-2`}>
+      <div className={`text-[10px] uppercase ${T?.sub||''}`}>{label}</div>
+      <div className={`text-sm font-bold ${c}`}>{value}</div>
+    </div>
+  );
+}
+
+function InvCard({ T, title, stock, days, health }: any) {
+  const colorMap: any = {
+    emerald: 'border-emerald-500/40 bg-emerald-500/5 text-emerald-400',
+    amber: 'border-amber-500/40 bg-amber-500/5 text-amber-400',
+    rose: 'border-rose-500/40 bg-rose-500/5 text-rose-400',
+  };
+  return (
+    <div className={`rounded-xl border ${T.panel} p-4`}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-sm font-semibold">{title}</div>
+        <span className={`text-[11px] px-2 py-0.5 rounded border ${colorMap[health.color]}`}>{health.label}</span>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <div className={`text-[10px] uppercase ${T.sub}`}>Current Stock</div>
+          <div className="text-xl font-bold">{fmt(stock)} KT</div>
+        </div>
+        <div>
+          <div className={`text-[10px] uppercase ${T.sub}`}>Stock Days Remaining</div>
+          <div className="text-xl font-bold">{days} d</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FlowChip({ label, sign, color }: any) {
+  const c = color==='emerald'?'text-emerald-400 border-emerald-500/40 bg-emerald-500/5':'text-rose-400 border-rose-500/40 bg-rose-500/5';
+  return (
+    <div className={`flex items-center justify-between rounded-md border px-3 py-1.5 ${c}`}>
+      <span className="text-sm font-semibold">{label}</span>
+      <span className="text-lg font-bold">{sign}</span>
+    </div>
+  );
+}
+
+function CorrRow({ T, label, c }: any) {
+  const tone = c>0.4?'text-emerald-400':c<-0.4?'text-rose-400':T.sub;
+  return (
+    <div className="flex items-center justify-between">
+      <span className={T.sub}>{label}</span>
+      <span className={`font-semibold ${tone}`}>{c.toFixed(2)} · {corrLabel(c)}</span>
     </div>
   );
 }
