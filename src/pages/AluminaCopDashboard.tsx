@@ -2,8 +2,7 @@ import React, { useMemo, useState } from 'react';
 import raw from '@/data/copDashboardData.json';
 import {
   LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, Legend,
-  ResponsiveContainer, CartesianGrid, ReferenceLine, ComposedChart, PieChart, Pie, Cell,
-  ScatterChart, Scatter
+  ResponsiveContainer, CartesianGrid, ReferenceLine, ComposedChart, PieChart, Pie, Cell
 } from 'recharts';
 import {
   Factory, TrendingUp, TrendingDown, DollarSign, Gauge, Package, Calendar,
