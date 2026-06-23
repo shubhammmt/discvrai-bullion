@@ -569,11 +569,11 @@ export default function AluminaCopDashboard() {
               <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} />
               <Tooltip contentStyle={T.tt as any} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Line yAxisId="l" dataKey="Bauxite" stroke="#06b6d4" strokeWidth={2} dot={false} />
-              <Line yAxisId="l" dataKey="Conversion" stroke="#a855f7" strokeWidth={2} dot={false} />
-              <Line yAxisId="l" dataKey="Steam" stroke="#ef4444" strokeWidth={2} dot={false} />
-              <Line yAxisId="l" dataKey="Power" stroke="#f59e0b" strokeWidth={2} dot={false} />
-              <Line yAxisId="r" dataKey="COP" stroke="#8b5cf6" strokeWidth={2.5} dot={false} />
+              <Line yAxisId="l" dataKey="Bauxite" stroke="#0369a1" strokeWidth={2.25} dot={false} />
+              <Line yAxisId="l" dataKey="Conversion" stroke="#16a34a" strokeWidth={2.25} strokeDasharray="6 3" dot={false} />
+              <Line yAxisId="l" dataKey="Steam" stroke="#dc2626" strokeWidth={2.25} dot={false} />
+              <Line yAxisId="l" dataKey="Power" stroke="#d97706" strokeWidth={2.25} strokeDasharray="2 3" dot={false} />
+              <Line yAxisId="r" dataKey="COP" stroke="#7c1d6f" strokeWidth={3} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </Panel>
