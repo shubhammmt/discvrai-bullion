@@ -389,8 +389,38 @@ export default function AluminaCopDashboard() {
             <Kpi T={T} icon={DollarSign} label="Alumina Index (latest)" value={`$${fmt((lastRow.alumina_index)||0,1)}`} delta={pctChange(lastRow.alumina_index, rows[0]?.alumina_index)} hint={`MTD avg $${fmt(avg(rows.map(r=>(r as any).alumina_index)),1)}`} />
             <Kpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" value={`${fmt(lastRow.fx_rate,2)}`} delta={pctChange(lastRow.fx_rate, rows[0]?.fx_rate)} invert hint={`MTD avg ${fmt(avg(rows.map(r=>(r as any).fx_rate)),2)}`} />
             <Kpi T={T} icon={Droplets} label="Bauxite Cost (avg)" value={`$${fmt(avg(rows.map(r=>r.bauxite_cost)))}/MT`} delta={variance?.bauxite} invert hint={`${((avg(rows.map(r=>r.bauxite_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP`} />
-            <Kpi T={T} icon={Flame} label="Conversion Cost (avg)" value={`$${fmt(avg(rows.map(r=>(r as any).conv_cost)))}/MT`} delta={variance?.conv} invert hint={`${((avg(rows.map(r=>(r as any).conv_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP`} />
+            <Kpi T={T} icon={Flame} label="Other Cost (avg)" value={`$${fmt(avg(rows.map(r=>(r as any).conv_cost)))}/MT`} delta={variance?.conv} invert hint={`${((avg(rows.map(r=>(r as any).conv_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP · ex-bauxite`} />
           </div>
+          {/* Other Cost breakdown */}
+          <div className={`rounded-xl border ${T.panel} p-3`}>
+            <div className="flex items-center justify-between mb-2">
+              <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
+              <div className="text-[11px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+              {[
+                { name: 'Power', k: 'power_cost', color: '#f59e0b' },
+                { name: 'Steam', k: 'steam_cost', color: '#ef4444' },
+                { name: 'Caustic', k: 'caustic_cost', color: '#8b5cf6' },
+                { name: 'Furnace Oil', k: 'fo_cost', color: '#f97316' },
+                { name: 'Lime', k: 'lime_cost', color: '#10b981' },
+                { name: 'Non-Commodity', k: 'non_comm_cost', color: '#64748b' },
+              ].map(c => {
+                const v = avg(rows.map(r => Number((r as any)[c.k]) || 0));
+                const total = ['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0);
+                const share = total ? (v/total)*100 : 0;
+                return (
+                  <div key={c.name} className={`rounded-lg border p-2 ${dark?'border-slate-800':'border-slate-200'}`}>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="w-2 h-2 rounded-full" style={{ background: c.color }} />
+                      <span className={`text-[10px] uppercase tracking-wider ${T.sub}`}>{c.name}</span>
+                    </div>
+                    <div className="text-sm font-bold">${fmt(v)}</div>
+                    <div className={`text-[10px] ${T.sub}`}>{share.toFixed(0)}% of other</div>
+                  </div>
+                );
+              })}
+            </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <Panel T={T} title="Alumina Price Index · daily + 7d MA" icon={LineIcon}>
               <ResponsiveContainer width="100%" height={240}>
