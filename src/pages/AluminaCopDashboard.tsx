@@ -309,8 +309,12 @@ export default function AluminaCopDashboard() {
       <header className={`sticky top-0 z-30 backdrop-blur ${dark ? 'bg-slate-950/85 border-slate-800' : 'bg-white/85 border-slate-200'} border-b`}>
         <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-3 mr-auto">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center">
-              <Factory className="w-5 h-5 text-white" />
+            <div className={`h-10 px-2 rounded-lg flex items-center justify-center ${dark ? 'bg-white' : 'bg-white border border-slate-200'}`}>
+              <img
+                src="https://d1rbiogke1jwo5.cloudfront.net/wp-content/themes/VedantaAluminiumAndPower/images/Vedanta-Aluminium-Metal-Limited-Logo.png"
+                alt="Vedanta Aluminium & Power"
+                className="h-7 w-auto object-contain"
+              />
             </div>
             <div>
               <div className="text-base md:text-lg font-semibold leading-tight">Alumina COP Intelligence</div>
