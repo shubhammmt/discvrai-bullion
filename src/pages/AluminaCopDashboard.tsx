@@ -674,10 +674,10 @@ export default function AluminaCopDashboard() {
                 <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} domain={[88, 93]} />
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `${v}%`} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Line yAxisId="l" dataKey="THA" stroke="#06b6d4" strokeWidth={2} dot={false} />
-                <Line yAxisId="l" dataKey="Moisture" stroke="#f59e0b" strokeWidth={2} dot={false} />
-                <Line yAxisId="l" dataKey="RS" stroke="#ef4444" strokeWidth={2} dot={false} />
-                <Line yAxisId="r" dataKey="Recovery" stroke="#10b981" strokeWidth={2.5} dot={false} />
+                <Line yAxisId="l" dataKey="THA" stroke="#1e3a8a" strokeWidth={2.25} dot={false} />
+                <Line yAxisId="l" dataKey="Moisture" stroke="#d97706" strokeWidth={2.25} strokeDasharray="6 3" dot={false} />
+                <Line yAxisId="l" dataKey="RS" stroke="#dc2626" strokeWidth={2.25} strokeDasharray="2 3" dot={false} />
+                <Line yAxisId="r" dataKey="Recovery" stroke="#15803d" strokeWidth={3} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </Panel>
