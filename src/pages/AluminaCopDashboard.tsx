@@ -789,7 +789,9 @@ export default function AluminaCopDashboard() {
                     <td className="py-1.5 px-2">{r.pw_sc}</td>
                     <td className="py-1.5 px-2">{r.fo_sc}</td>
                     <td className={`py-1.5 px-2 font-semibold ${r.total_cop > 400 ? 'text-amber-400' : ''}`}>${r.total_cop}</td>
-                    <td className={`py-1.5 px-2 font-semibold ${r.recovery < 0.91 ? 'text-rose-400' : 'text-emerald-400'}`}>{(r.recovery * 100).toFixed(2)}%</td>
+                    <td className="py-1.5 px-2">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${r.recovery < 0.91 ? 'bg-rose-500/15 text-rose-400 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30'}`}>{(r.recovery * 100).toFixed(2)}%</span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
