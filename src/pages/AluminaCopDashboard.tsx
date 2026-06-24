@@ -53,9 +53,12 @@ function daysInMonth(dateStr: string) {
 }
 function dayOfMonth(dateStr: string) { return new Date(dateStr).getDate(); }
 
-export default function AluminaCopDashboard() {
+type AluminaCopDashboardProps = { dark?: boolean; setDark?: (v: boolean) => void };
+export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkProp }: AluminaCopDashboardProps = {}) {
   const all = raw as Row[];
-  const [dark, setDark] = useState(true);
+  const [darkLocal, setDarkLocal] = useState(true);
+  const dark = darkProp ?? darkLocal;
+  const setDark = setDarkProp ?? setDarkLocal;
   const [from, setFrom] = useState(all[0].date);
   const [to, setTo] = useState(all[all.length - 1].date);
   const [compare, setCompare] = useState<Compare>('Daily');
