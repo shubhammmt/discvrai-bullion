@@ -516,6 +516,98 @@ export default function AluminaCopDashboard() {
 
       <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-6 space-y-6">
 
+        {/* Operations Command Center — answers the 3 biggest questions in 5–10s */}
+        {ops && (
+          <section className="space-y-3">
+            <SectionHeader icon={Activity} title="Operations Command Center" sub="Production gap · run rate vs ask rate · loss drivers" T={T} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {/* Card 1 — Production Status */}
+              <div className={`rounded-xl border ${T.panel} p-5`}>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Production Status</div></div>
+                  <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ring-1 ${
+                    ops.status === 'on' ? 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/40'
+                    : ops.status === 'warn' ? 'bg-amber-500/15 text-amber-300 ring-amber-500/40'
+                    : 'bg-rose-500/15 text-rose-300 ring-rose-500/40'
+                  }`}>{ops.status === 'on' ? '● ON TARGET' : ops.status === 'warn' ? '● WITHIN 5%' : '● BELOW TARGET'}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Current</div>
+                    <div className="text-3xl font-extrabold leading-tight">{fmt(ops.current)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>MT / day</div>
+                  </div>
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Target</div>
+                    <div className="text-3xl font-extrabold leading-tight">{fmt(ops.target)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>MT / day</div>
+                  </div>
+                </div>
+                <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} flex items-baseline justify-between`}>
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Gap</div>
+                    <div className={`text-2xl font-bold ${ops.gap >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{ops.gap >= 0 ? '+' : ''}{fmt(ops.gap)} MT</div>
+                  </div>
+                  <div className={`text-xl font-bold ${ops.gapPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{ops.gapPct >= 0 ? '+' : ''}{ops.gapPct.toFixed(1)}%</div>
+                </div>
+              </div>
+
+              {/* Card 2 — Run Rate vs Ask Rate */}
+              <div className={`rounded-xl border ${T.panel} p-5`}>
+                <div className="flex items-center gap-2 mb-3"><Gauge className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Run Rate vs Ask Rate</div></div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Current Run Rate</div>
+                    <div className="text-3xl font-extrabold">{fmt(ops.runRate)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>MT / day · 7d avg</div>
+                  </div>
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Required Ask Rate</div>
+                    <div className={`text-3xl font-extrabold ${ops.additional > 0 ? 'text-amber-300' : 'text-emerald-300'}`}>{fmt(ops.askRate)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>over {ops.remaining} days left</div>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <div className="flex items-center justify-between text-[12px] mb-1">
+                    <span className={T.sub}>Month attainment (projected)</span>
+                    <span className={`font-semibold ${ops.projAttain >= 99 ? 'text-emerald-400' : ops.projAttain >= 95 ? 'text-amber-300' : 'text-rose-400'}`}>{ops.projAttain.toFixed(1)}%</span>
+                  </div>
+                  <div className={`h-2 rounded-full overflow-hidden ${dark ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                    <div className={`h-full ${ops.projAttain >= 99 ? 'bg-emerald-500' : ops.projAttain >= 95 ? 'bg-amber-400' : 'bg-rose-500'}`} style={{ width: `${Math.min(100, ops.projAttain)}%` }} />
+                  </div>
+                </div>
+                <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[12px] flex justify-between`}>
+                  <span className={T.sub}>Additional needed</span>
+                  <span className={`font-bold ${ops.additional > 0 ? 'text-amber-300' : 'text-emerald-400'}`}>+{fmt(ops.additional)} MT/day</span>
+                </div>
+              </div>
+
+              {/* Card 3 — Production Loss Analysis */}
+              <div className={`rounded-xl border ${T.panel} p-5`}>
+                <div className="flex items-center gap-2 mb-3"><AlertTriangle className="w-4 h-4 text-amber-400" /><div className="font-semibold text-base">Why Production is Low</div></div>
+                {lossParts.length === 0 ? (
+                  <div className={`text-sm ${T.sub} py-6 text-center`}>Production at or above target — no material loss drivers.</div>
+                ) : (
+                  <div className="space-y-2">
+                    {lossParts.map(p => (
+                      <div key={p.name}>
+                        <div className="flex items-center justify-between text-[13px] mb-1">
+                          <span className="font-medium">{p.name}</span>
+                          <span className="font-bold">{p.share}%</span>
+                        </div>
+                        <div className={`h-2 rounded-full overflow-hidden ${dark ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                          <div className="h-full rounded-full" style={{ width: `${p.share}%`, background: p.color }} />
+                        </div>
+                      </div>
+                    ))}
+                    <div className={`text-[12px] ${T.sub} pt-2`}>Ranked contribution of quality, inventory & process drivers to current shortfall.</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Executive Summary KPIs */}
         <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
           <Kpi T={T} icon={Factory} label="Hydrate (avg/day)" value={`${fmt(k.hyd.avg)} MT`} delta={k.hyd.dod} hint={`Best ${fmt(k.hyd.best)}`} />
