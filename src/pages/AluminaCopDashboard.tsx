@@ -41,6 +41,18 @@ function corrLabel(c: number) {
 const COMPARE_MODES = ['Daily','MTD','QTD','YTD','PoP','QoQ','YoY'] as const;
 type Compare = typeof COMPARE_MODES[number];
 
+// Production target (combined hydrate + calcined)
+const TARGET_PROD = 7200; // MT/day
+// Landed cost multipliers by source vs basket weighted average
+const SOURCE_MULT: Record<string, number> = { OMC: 0.82, Andru: 0.94, Imported: 1.26, Other: 1.05 };
+const SOURCE_COLOR: Record<string, string> = { OMC: '#0369a1', Andru: '#16a34a', Imported: '#d97706', Other: '#64748b' };
+
+function daysInMonth(dateStr: string) {
+  const d = new Date(dateStr);
+  return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+}
+function dayOfMonth(dateStr: string) { return new Date(dateStr).getDate(); }
+
 export default function AluminaCopDashboard() {
   const all = raw as Row[];
   const [dark, setDark] = useState(true);
