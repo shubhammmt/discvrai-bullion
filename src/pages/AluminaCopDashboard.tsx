@@ -318,10 +318,10 @@ export default function AluminaCopDashboard() {
             </div>
             <div>
               <div className="text-base md:text-lg font-semibold leading-tight">Alumina COP Intelligence</div>
-              <div className={`text-[11px] ${T.sub}`}>Production · cost · recovery · market · AI insights</div>
+              <div className={`text-[13px] ${T.sub}`}>Production · cost · recovery · market · AI insights</div>
             </div>
           </div>
-          <div className={`flex items-center gap-0.5 text-[11px] rounded-md border p-0.5 ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
+          <div className={`flex items-center gap-0.5 text-[13px] rounded-md border p-0.5 ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
             {COMPARE_MODES.map(m => (
               <button key={m} onClick={()=>setCompare(m)}
                 className={`px-2 py-1 rounded ${compare===m ? (dark?'bg-cyan-600 text-white':'bg-cyan-600 text-white') : T.sub}`}>{m}</button>
@@ -373,7 +373,7 @@ export default function AluminaCopDashboard() {
                 const good = inv ? v < 0 : v > 0;
                 return (
                   <div key={n} className={`rounded-lg border p-2 ${dark?'border-slate-800':'border-slate-200'}`}>
-                    <div className={`text-[10px] uppercase tracking-wider ${T.sub}`}>{n}</div>
+                    <div className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{n}</div>
                     <div className={`text-sm font-bold ${good?'text-emerald-400':'text-rose-400'}`}>{v>=0?'+':''}{v.toFixed(1)}%</div>
                   </div>
                 );
@@ -394,8 +394,8 @@ export default function AluminaCopDashboard() {
           {/* Other Cost breakdown */}
           <div className={`rounded-xl border ${T.panel} p-3`}>
             <div className="flex items-center justify-between mb-2">
-              <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
-              <div className="text-[11px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
+              <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
+              <div className="text-[13px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
               {[
@@ -413,10 +413,10 @@ export default function AluminaCopDashboard() {
                   <div key={c.name} className={`rounded-lg border p-2 ${dark?'border-slate-800':'border-slate-200'}`}>
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-2 h-2 rounded-full" style={{ background: c.color }} />
-                      <span className={`text-[10px] uppercase tracking-wider ${T.sub}`}>{c.name}</span>
+                      <span className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{c.name}</span>
                     </div>
                     <div className="text-sm font-bold">${fmt(v)}</div>
-                    <div className={`text-[10px] ${T.sub}`}>{share.toFixed(0)}% of other</div>
+                    <div className={`text-[12px] ${T.sub}`}>{share.toFixed(0)}% of other</div>
                   </div>
                 );
               })}
@@ -427,10 +427,10 @@ export default function AluminaCopDashboard() {
               <ResponsiveContainer width="100%" height={240}>
                 <ComposedChart data={market}>
                   <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                  <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                  <YAxis stroke={T.axis} fontSize={11} domain={['dataMin-10','dataMax+10']} />
+                  <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                  <YAxis stroke={T.axis} fontSize={13} domain={['dataMin-10','dataMax+10']} />
                   <Tooltip contentStyle={T.tt as any} />
-                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Legend wrapperStyle={{ fontSize: 13 }} />
                   <Area dataKey="Index" name="Index $/MT" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.18} />
                   <Line dataKey="Index_MA" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
                 </ComposedChart>
@@ -440,10 +440,10 @@ export default function AluminaCopDashboard() {
               <ResponsiveContainer width="100%" height={240}>
                 <ComposedChart data={market}>
                   <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                  <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                  <YAxis stroke={T.axis} fontSize={11} domain={['dataMin-0.3','dataMax+0.3']} />
+                  <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                  <YAxis stroke={T.axis} fontSize={13} domain={['dataMin-0.3','dataMax+0.3']} />
                   <Tooltip contentStyle={T.tt as any} />
-                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Legend wrapperStyle={{ fontSize: 13 }} />
                   <Area dataKey="FX" name="INR/USD" stroke="#a855f7" fill="#a855f7" fillOpacity={0.18} />
                   <Line dataKey="FX_MA" name="MTD MA" stroke="#10b981" strokeWidth={2} dot={false} />
                 </ComposedChart>
@@ -489,7 +489,7 @@ export default function AluminaCopDashboard() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <SectionHeader icon={Factory} title="Product Category Analytics" sub="Hydrate vs Calcined alumina" T={T} />
-            <div className={`flex text-[11px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
+            <div className={`flex text-[13px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
               {(['Combined','Hydrate','Calcined'] as const).map(v => (
                 <button key={v} onClick={()=>setProductView(v)} className={`px-2 py-1 rounded ${productView===v?'bg-cyan-600 text-white':T.sub}`}>{v}</button>
               ))}
@@ -501,10 +501,10 @@ export default function AluminaCopDashboard() {
                 <ResponsiveContainer width="100%" height={240}>
                   <ComposedChart data={prod}>
                     <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                    <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                    <YAxis stroke={T.axis} fontSize={11} />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                    <YAxis stroke={T.axis} fontSize={13} />
                     <Tooltip contentStyle={T.tt as any} />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Legend wrapperStyle={{ fontSize: 13 }} />
                     <Bar dataKey="hydrate" name="Hydrate MT" fill="#06b6d4" radius={[3, 3, 0, 0]} />
                     <Line dataKey="hyd_ma" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
                   </ComposedChart>
@@ -516,10 +516,10 @@ export default function AluminaCopDashboard() {
                 <ResponsiveContainer width="100%" height={240}>
                   <ComposedChart data={prod}>
                     <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                    <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                    <YAxis stroke={T.axis} fontSize={11} />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                    <YAxis stroke={T.axis} fontSize={13} />
                     <Tooltip contentStyle={T.tt as any} />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Legend wrapperStyle={{ fontSize: 13 }} />
                     <Bar dataKey="calcined" name="Calcined MT" fill="#8b5cf6" radius={[3, 3, 0, 0]} />
                     <Line dataKey="cal_ma" name="7d MA" stroke="#10b981" strokeWidth={2} dot={false} />
                   </ComposedChart>
@@ -535,10 +535,10 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={280}>
               <AreaChart data={bauxiteMix} stackOffset="expand">
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis stroke={T.axis} fontSize={13} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `${v}%`} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Area dataKey="OMC" stackId="1" stroke="#06b6d4" fill="#06b6d4" />
                 <Area dataKey="Andru" stackId="1" stroke="#8b5cf6" fill="#8b5cf6" />
                 <Area dataKey="Imported" stackId="1" stroke="#f59e0b" fill="#f59e0b" />
@@ -553,7 +553,7 @@ export default function AluminaCopDashboard() {
                   {contrib.map((c, i) => <Cell key={i} fill={c.color} />)}
                 </Pie>
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `$${v}/MT`} />
-                <Legend wrapperStyle={{ fontSize: 10 }} />
+                <Legend wrapperStyle={{ fontSize: 12 }} />
               </PieChart>
             </ResponsiveContainer>
           </Panel>
@@ -564,11 +564,11 @@ export default function AluminaCopDashboard() {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={cost}>
               <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-              <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-              <YAxis yAxisId="l" stroke={T.axis} fontSize={11} />
-              <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} />
+              <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+              <YAxis yAxisId="l" stroke={T.axis} fontSize={13} />
+              <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={13} />
               <Tooltip contentStyle={T.tt as any} />
-              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Legend wrapperStyle={{ fontSize: 13 }} />
               <Line yAxisId="l" dataKey="Bauxite" stroke="#0369a1" strokeWidth={2.25} dot={false} />
               <Line yAxisId="l" dataKey="Conversion" stroke="#16a34a" strokeWidth={2.25} strokeDasharray="6 3" dot={false} />
               <Line yAxisId="l" dataKey="Steam" stroke="#dc2626" strokeWidth={2.25} dot={false} />
@@ -582,7 +582,7 @@ export default function AluminaCopDashboard() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <SectionHeader icon={Beaker} title="Caustic Consumption Breakdown" sub="Chemical vs Non-Chemical" T={T} />
-            <div className={`flex text-[11px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
+            <div className={`flex text-[13px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
               {(['Combined','Chemical','Non-Chemical'] as const).map(v => (
                 <button key={v} onClick={()=>setCausticView(v)} className={`px-2 py-1 rounded ${causticView===v?'bg-cyan-600 text-white':T.sub}`}>{v}</button>
               ))}
@@ -592,10 +592,10 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={caustic}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis stroke={T.axis} fontSize={13} />
                 <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 {causticView !== 'Non-Chemical' && causticView !== 'Combined' && (
                   <Bar dataKey="Chemical" fill="#06b6d4" />
                 )}
@@ -614,7 +614,7 @@ export default function AluminaCopDashboard() {
         {/* Conversion Matrix */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className={`rounded-xl border ${T.panel} p-4 lg:col-span-1`}>
-            <div className="flex items-center gap-2 mb-3"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-sm">Bauxite Conversion Ratio</div></div>
+            <div className="flex items-center gap-2 mb-3"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Bauxite Conversion Ratio</div></div>
             <div className="grid grid-cols-3 gap-2 mb-3">
               <Stat label="Actual" value={convSummary.actual.toFixed(2)} T={T} />
               <Stat label="Target" value={convSummary.target.toFixed(2)} T={T} />
@@ -627,12 +627,12 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={convRatio}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} domain={[3.0, 3.6]} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis stroke={T.axis} fontSize={13} domain={[3.0, 3.6]} />
                 <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Line dataKey="Actual" stroke="#06b6d4" strokeWidth={2.5} dot={false} />
-                <ReferenceLine y={3.33} stroke="#10b981" strokeDasharray="4 4" label={{ value:'Target 3.33', fill:'#10b981', fontSize: 10 }} />
+                <ReferenceLine y={3.33} stroke="#10b981" strokeDasharray="4 4" label={{ value:'Target 3.33', fill:'#10b981', fontSize: 12 }} />
               </LineChart>
             </ResponsiveContainer>
           </Panel>
@@ -649,15 +649,15 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={280}>
               <ComposedChart data={inv}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis yAxisId="l" stroke={T.axis} fontSize={11} label={{ value: 'KT', angle: -90, position: 'insideLeft', fill: T.axis, fontSize: 10 }} />
-                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} label={{ value: 'Days', angle: 90, position: 'insideRight', fill: T.axis, fontSize: 10 }} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis yAxisId="l" stroke={T.axis} fontSize={13} label={{ value: 'KT', angle: -90, position: 'insideLeft', fill: T.axis, fontSize: 12 }} />
+                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={13} label={{ value: 'Days', angle: 90, position: 'insideRight', fill: T.axis, fontSize: 12 }} />
                 <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Bar yAxisId="l" dataKey="Domestic" stackId="s" fill="#06b6d4" />
                 <Bar yAxisId="l" dataKey="Imported" stackId="s" fill="#f59e0b" />
                 <Line yAxisId="r" dataKey="days" name="Stock Days" stroke="#ef4444" strokeWidth={2.5} />
-                <ReferenceLine yAxisId="r" y={6} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Floor 6d', fill: '#ef4444', fontSize: 10 }} />
+                <ReferenceLine yAxisId="r" y={6} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Floor 6d', fill: '#ef4444', fontSize: 12 }} />
               </ComposedChart>
             </ResponsiveContainer>
           </Panel>
@@ -669,11 +669,11 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={qual}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis yAxisId="l" stroke={T.axis} fontSize={11} />
-                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} domain={[88, 93]} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis yAxisId="l" stroke={T.axis} fontSize={13} />
+                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={13} domain={[88, 93]} />
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `${v}%`} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Line yAxisId="l" dataKey="THA" stroke="#1e3a8a" strokeWidth={2.25} dot={false} />
                 <Line yAxisId="l" dataKey="Moisture" stroke="#d97706" strokeWidth={2.25} strokeDasharray="6 3" dot={false} />
                 <Line yAxisId="l" dataKey="RS" stroke="#dc2626" strokeWidth={2.25} strokeDasharray="2 3" dot={false} />
@@ -682,16 +682,16 @@ export default function AluminaCopDashboard() {
             </ResponsiveContainer>
           </Panel>
           <div className={`rounded-xl border ${T.panel} p-4`}>
-            <div className="flex items-center gap-2 mb-3"><ShieldCheck className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-sm">Quality Logic</div></div>
+            <div className="flex items-center gap-2 mb-3"><ShieldCheck className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Quality Logic</div></div>
             <ul className={`text-xs space-y-2 ${T.sub}`}>
               <li><span className="text-emerald-400 font-semibold">↑ THA</span> → ↑ Recovery</li>
               <li><span className="text-rose-400 font-semibold">↑ Moisture</span> → ↓ Recovery</li>
               <li><span className="text-rose-400 font-semibold">↑ RS</span> → ↓ Recovery</li>
             </ul>
             <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-xs`}>
-              <div className={`uppercase tracking-wider text-[10px] ${T.sub}`}>Composite Quality Score</div>
+              <div className={`uppercase tracking-wider text-[12px] ${T.sub}`}>Composite Quality Score</div>
               <div className="text-2xl font-bold mt-1">{qualityScore}<span className={`text-sm ${T.sub}`}>/100</span></div>
-              <div className={`text-[11px] mt-1 ${T.sub}`}>THA {pct(avg(rows.map(r=>r.tha)),2)} · Moisture {pct(avg(rows.map(r=>r.moisture)),2)} · RS {pct(avg(rows.map(r=>(r as any).rs)),2)}</div>
+              <div className={`text-[13px] mt-1 ${T.sub}`}>THA {pct(avg(rows.map(r=>r.tha)),2)} · Moisture {pct(avg(rows.map(r=>r.moisture)),2)} · RS {pct(avg(rows.map(r=>(r as any).rs)),2)}</div>
             </div>
           </div>
         </section>
@@ -710,15 +710,15 @@ export default function AluminaCopDashboard() {
               </div>
               <div className="text-center text-2xl text-cyan-400 hidden md:block">→</div>
               <div className={`rounded-lg border ${dark?'border-slate-700':'border-slate-200'} p-3 text-center`}>
-                <div className={`text-[10px] uppercase ${T.sub}`}>Recovery</div>
+                <div className={`text-[12px] uppercase ${T.sub}`}>Recovery</div>
                 <div className="text-2xl font-bold text-emerald-400">{pct(k.rec.avg,2)}</div>
-                <div className={`text-[10px] ${T.sub}`}>target ≥ 91%</div>
+                <div className={`text-[12px] ${T.sub}`}>target ≥ 91%</div>
               </div>
               <div className="text-center text-2xl text-cyan-400 hidden md:block">→</div>
               <div className={`rounded-lg border ${dark?'border-slate-700':'border-slate-200'} p-3 text-center`}>
-                <div className={`text-[10px] uppercase ${T.sub}`}>Total COP</div>
+                <div className={`text-[12px] uppercase ${T.sub}`}>Total COP</div>
                 <div className="text-2xl font-bold">${fmt(k.cop.avg)}</div>
-                <div className={`text-[10px] ${T.sub}`}>via conversion cost</div>
+                <div className={`text-[12px] ${T.sub}`}>via conversion cost</div>
               </div>
             </div>
           </div>
@@ -744,15 +744,15 @@ export default function AluminaCopDashboard() {
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={drivers.parts} layout="vertical">
                   <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                  <XAxis type="number" stroke={T.axis} fontSize={11} tickFormatter={(v)=>`${v}%`} />
-                  <YAxis type="category" dataKey="name" stroke={T.axis} fontSize={11} width={70} />
+                  <XAxis type="number" stroke={T.axis} fontSize={13} tickFormatter={(v)=>`${v}%`} />
+                  <YAxis type="category" dataKey="name" stroke={T.axis} fontSize={13} width={70} />
                   <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`${v}%`} />
                   <Bar dataKey="share" radius={[0,4,4,0]}>
                     {drivers.parts.map((p:any,i:number)=><Cell key={i} fill={p.color} />)}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-              <div className={`text-[11px] ${T.sub} mt-1`}>Recovery moved {drivers.recDelta>=0?'+':''}{drivers.recDelta.toFixed(2)} pp over period.</div>
+              <div className={`text-[13px] ${T.sub} mt-1`}>Recovery moved {drivers.recDelta>=0?'+':''}{drivers.recDelta.toFixed(2)} pp over period.</div>
             </Panel>
             <Panel T={T} title="Correlation analytics" icon={Activity}>
               <div className="space-y-2 text-xs">
@@ -761,7 +761,7 @@ export default function AluminaCopDashboard() {
                 <CorrRow T={T} label="RS vs Recovery" c={drivers.cRS} />
                 <CorrRow T={T} label="Recovery vs COP" c={drivers.cRecCop} />
               </div>
-              <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[11px] ${T.sub}`}>
+              <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[13px] ${T.sub}`}>
                 Higher recovery → lower bauxite consumption → lower conversion cost → lower COP.
               </div>
             </Panel>
@@ -775,7 +775,7 @@ export default function AluminaCopDashboard() {
               <thead className={dark ? 'text-slate-400' : 'text-slate-500'}>
                 <tr className={`border-b ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
                   {['Date', 'Bauxite SC', 'Caustic SC', 'Lime SC', 'Steam SC', 'Power SC', 'FO SC', 'COP $/MT', 'Recovery %'].map(h =>
-                    <th key={h} className="text-left py-2 px-2 font-medium uppercase tracking-wider text-[10px]">{h}</th>)}
+                    <th key={h} className="text-left py-2 px-2 font-medium uppercase tracking-wider text-[12px]">{h}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -790,7 +790,7 @@ export default function AluminaCopDashboard() {
                     <td className="py-1.5 px-2">{r.fo_sc}</td>
                     <td className={`py-1.5 px-2 font-semibold ${r.total_cop > 400 ? 'text-amber-400' : ''}`}>${r.total_cop}</td>
                     <td className="py-1.5 px-2">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${r.recovery < 0.91 ? 'bg-rose-500/15 text-rose-400 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30'}`}>{(r.recovery * 100).toFixed(2)}%</span>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[13px] font-semibold ${r.recovery < 0.91 ? 'bg-rose-500/15 text-rose-400 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30'}`}>{(r.recovery * 100).toFixed(2)}%</span>
                     </td>
                   </tr>
                 ))}
@@ -799,7 +799,7 @@ export default function AluminaCopDashboard() {
           </div>
         </Panel>
 
-        <footer className={`text-center text-[11px] ${T.sub} py-4`}>
+        <footer className={`text-center text-[13px] ${T.sub} py-4`}>
           Alumina COP Intelligence · {rows.length} days · {from} → {to} · mode {compare}
         </footer>
       </main>
@@ -817,15 +817,15 @@ function Kpi({ T, icon: Icon, label, value, delta, hint, invert, alert }: any) {
           <Icon className="w-4 h-4" />
         </div>
         {showDelta && (
-          <span className={`inline-flex items-center gap-0.5 text-[11px] font-semibold px-1.5 py-0.5 rounded ${good ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'}`}>
+          <span className={`inline-flex items-center gap-0.5 text-[13px] font-semibold px-1.5 py-0.5 rounded ${good ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'}`}>
             {delta > 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
             {Math.abs(delta).toFixed(1)}%
           </span>
         )}
       </div>
-      <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>{label}</div>
-      <div className="text-lg md:text-xl font-bold mt-0.5">{value}</div>
-      {hint && <div className={`text-[10px] ${T.sub} mt-0.5`}>{hint}</div>}
+      <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>{label}</div>
+      <div className="text-2xl md:text-3xl font-bold mt-0.5">{value}</div>
+      {hint && <div className={`text-[12px] ${T.sub} mt-0.5`}>{hint}</div>}
     </div>
   );
 }
@@ -835,7 +835,7 @@ function Panel({ T, title, icon: Icon, children, className = '' }: any) {
     <div className={`rounded-xl border ${T.panel} p-4 ${className}`}>
       <div className="flex items-center gap-2 mb-3">
         {Icon && <Icon className="w-4 h-4 text-cyan-400" />}
-        <div className="font-semibold text-sm">{title}</div>
+        <div className="font-semibold text-base">{title}</div>
       </div>
       {children}
     </div>
@@ -847,8 +847,8 @@ function SectionHeader({ icon: Icon, title, sub, T }: any) {
     <div className="flex items-center gap-2">
       <Icon className="w-4 h-4 text-cyan-400" />
       <div>
-        <div className="font-semibold text-sm">{title}</div>
-        {sub && <div className={`text-[11px] ${T.sub}`}>{sub}</div>}
+        <div className="font-semibold text-base">{title}</div>
+        {sub && <div className={`text-[13px] ${T.sub}`}>{sub}</div>}
       </div>
     </div>
   );
@@ -858,7 +858,7 @@ function Stat({ T, label, value, tone }: any) {
   const c = tone==='pos'?'text-emerald-400':tone==='warn'?'text-amber-400':'';
   return (
     <div className={`rounded-md border ${T?.panel||''} p-2`}>
-      <div className={`text-[10px] uppercase ${T?.sub||''}`}>{label}</div>
+      <div className={`text-[12px] uppercase ${T?.sub||''}`}>{label}</div>
       <div className={`text-sm font-bold ${c}`}>{value}</div>
     </div>
   );
@@ -874,15 +874,15 @@ function InvCard({ T, title, stock, days, health }: any) {
     <div className={`rounded-xl border ${T.panel} p-4`}>
       <div className="flex items-center justify-between mb-2">
         <div className="text-sm font-semibold">{title}</div>
-        <span className={`text-[11px] px-2 py-0.5 rounded border ${colorMap[health.color]}`}>{health.label}</span>
+        <span className={`text-[13px] px-2 py-0.5 rounded border ${colorMap[health.color]}`}>{health.label}</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <div className={`text-[10px] uppercase ${T.sub}`}>Current Stock</div>
+          <div className={`text-[12px] uppercase ${T.sub}`}>Current Stock</div>
           <div className="text-xl font-bold">{fmt(stock)} KT</div>
         </div>
         <div>
-          <div className={`text-[10px] uppercase ${T.sub}`}>Stock Days Remaining</div>
+          <div className={`text-[12px] uppercase ${T.sub}`}>Stock Days Remaining</div>
           <div className="text-xl font-bold">{days} d</div>
         </div>
       </div>
