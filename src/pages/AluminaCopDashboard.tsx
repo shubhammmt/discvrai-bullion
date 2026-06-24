@@ -254,7 +254,7 @@ export default function AluminaCopDashboard() {
   const ops = useMemo(() => {
     if (!rows.length) return null as any;
     const last: any = rows[rows.length - 1];
-    const current = (last.hydrate || 0) + (last.calcined || 0);
+    const current = (last.hydrate || 0);
     const target = TARGET_PROD;
     const gap = current - target;
     const gapPct = (gap / target) * 100;
@@ -264,12 +264,12 @@ export default function AluminaCopDashboard() {
     const dom = dayOfMonth(last.date);
     const remaining = Math.max(1, dim - dom);
     const mtdRows = rows.filter(r => r.date.slice(0, 7) === month);
-    const achieved = mtdRows.reduce((s, r: any) => s + (r.hydrate || 0) + (r.calcined || 0), 0);
+    const achieved = mtdRows.reduce((s, r: any) => s + (r.hydrate || 0), 0);
     const monthTarget = target * dim;
     const need = Math.max(0, monthTarget - achieved);
     const askRate = need / remaining;
     const tail = mtdRows.slice(-7);
-    const runRate = avg(tail.map((r: any) => (r.hydrate || 0) + (r.calcined || 0)));
+    const runRate = avg(tail.map((r: any) => (r.hydrate || 0)));
     const additional = Math.max(0, askRate - runRate);
     const projected = achieved + runRate * remaining;
     const projAttain = monthTarget ? (projected / monthTarget) * 100 : 0;
