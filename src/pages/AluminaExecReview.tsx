@@ -6,8 +6,10 @@ import {
 } from 'recharts';
 import {
   TrendingUp, TrendingDown, Download, Sparkles, AlertTriangle,
-  Flame, Beaker, Factory,
+  Factory, Beaker,
 } from 'lucide-react';
+
+const FX_RATE = 94.71;
 
 const fmt = (n: number | null | undefined, d = 0) =>
   n == null || isNaN(n as number)
@@ -23,13 +25,60 @@ const variance = (act: number, ref: number, dir: FavDir = 'lower') => {
   return { v, pctv, good };
 };
 
+type Theme = ReturnType<typeof buildTheme>;
+function buildTheme(dark: boolean) {
+  return dark
+    ? {
+        dark: true,
+        page: 'bg-slate-950 text-slate-100',
+        panel: 'border-slate-700 bg-slate-900/70',
+        panelSoft: 'border-slate-700/70 bg-slate-900/80',
+        sub: 'text-slate-300',
+        muted: 'text-slate-400',
+        title: 'text-white',
+        thBg: 'bg-slate-800/80 text-slate-200',
+        rowBorder: 'border-slate-800/70',
+        zebra: 'bg-slate-900/60',
+        sectionBg: 'bg-slate-950/95',
+        sectionBorder: 'border-amber-500/60',
+        chip: 'bg-amber-500/20 text-amber-300 ring-amber-500/40',
+        accentTxt: 'text-amber-300',
+        grid: '#1e293b',
+        axis: '#cbd5e1',
+        ttBg: '#0f172a',
+        ttBorder: '#334155',
+        ttTxt: '#fff',
+      }
+    : {
+        dark: false,
+        page: 'bg-slate-50 text-slate-900',
+        panel: 'border-slate-200 bg-white',
+        panelSoft: 'border-slate-200 bg-white',
+        sub: 'text-slate-600',
+        muted: 'text-slate-500',
+        title: 'text-slate-900',
+        thBg: 'bg-slate-100 text-slate-700',
+        rowBorder: 'border-slate-200',
+        zebra: 'bg-slate-50',
+        sectionBg: 'bg-slate-50/95',
+        sectionBorder: 'border-amber-500/70',
+        chip: 'bg-amber-100 text-amber-800 ring-amber-300',
+        accentTxt: 'text-amber-700',
+        grid: '#e2e8f0',
+        axis: '#475569',
+        ttBg: '#fff',
+        ttBorder: '#cbd5e1',
+        ttTxt: '#0f172a',
+      };
+}
+
 function Pill({ good, children }: { good: boolean; children: React.ReactNode }) {
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[13px] font-semibold tabular-nums ring-1 ${
         good
-          ? 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/30'
-          : 'bg-rose-500/15 text-rose-300 ring-rose-500/30'
+          ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-emerald-500/30'
+          : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 ring-rose-500/30'
       }`}
     >
       {good ? <TrendingDown className="h-3 w-3" /> : <TrendingUp className="h-3 w-3" />}
@@ -39,51 +88,62 @@ function Pill({ good, children }: { good: boolean; children: React.ReactNode }) 
 }
 
 function KpiTile({
-  label, value, unit, sub, varianceLabel, good, footer, accent,
+  T, label, value, unit, sub, varianceLabel, good, footer, status,
 }: {
+  T: Theme;
   label: string; value: string; unit?: string; sub?: string;
-  varianceLabel?: string; good?: boolean; footer?: React.ReactNode; accent?: string;
+  varianceLabel?: string; good?: boolean; footer?: React.ReactNode;
+  status?: 'pos' | 'neg' | 'neutral';
 }) {
+  // Color-coded accent border
+  const accent =
+    status === 'pos' ? 'border-l-4 border-l-emerald-500 ring-1 ring-emerald-500/20'
+    : status === 'neg' ? 'border-l-4 border-l-rose-500 ring-1 ring-rose-500/20'
+    : 'border-l-4 border-l-amber-500 ring-1 ring-amber-500/20';
+  const valueColor =
+    status === 'pos' ? 'text-emerald-600 dark:text-emerald-300'
+    : status === 'neg' ? 'text-rose-600 dark:text-rose-300'
+    : T.title;
   return (
-    <div className="rounded-xl border border-slate-700/70 bg-slate-900/80 p-4 shadow-inner">
+    <div className={`rounded-xl border ${T.panelSoft} ${accent} p-4 shadow-sm`}>
       <div className="flex items-center justify-between">
-        <div className="text-[13px] font-semibold uppercase tracking-wider text-slate-300">{label}</div>
+        <div className={`text-[12px] font-semibold uppercase tracking-wider ${T.sub}`}>{label}</div>
         {varianceLabel && <Pill good={!!good}>{varianceLabel}</Pill>}
       </div>
       <div className="mt-2 flex items-baseline gap-2">
-        <div className={`text-3xl font-extrabold tabular-nums leading-none ${accent ?? 'text-white'}`}>{value}</div>
-        {unit && <div className="text-sm font-semibold text-slate-400">{unit}</div>}
+        <div className={`text-[34px] font-extrabold tabular-nums leading-none ${valueColor}`}>{value}</div>
+        {unit && <div className={`text-sm font-semibold ${T.muted}`}>{unit}</div>}
       </div>
-      {sub && <div className="mt-1 text-[13px] text-slate-300">{sub}</div>}
-      {footer && <div className="mt-3 border-t border-slate-700/60 pt-2 text-[12px] text-slate-300">{footer}</div>}
+      {sub && <div className={`mt-1 text-[13px] ${T.sub}`}>{sub}</div>}
+      {footer && <div className={`mt-3 border-t ${T.rowBorder} pt-2 text-[12px] ${T.sub}`}>{footer}</div>}
     </div>
   );
 }
 
-function SectionHeader({ n, title, sub }: { n: string; title: string; sub?: string }) {
+function SectionHeader({ T, n, title, sub }: { T: Theme; n: string; title: string; sub?: string }) {
   return (
-    <div className="sticky top-12 z-10 -mx-1 mt-6 mb-3 flex items-end justify-between border-b-2 border-amber-500/60 bg-slate-950/95 px-1 py-2 backdrop-blur">
+    <div className={`-mx-1 mt-6 mb-3 flex items-end justify-between border-b-2 ${T.sectionBorder} px-1 py-2`}>
       <div className="flex items-baseline gap-3">
-        <span className="rounded bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-300 ring-1 ring-amber-500/40">{n}</span>
-        <h2 className="text-xl font-bold tracking-tight text-white">{title}</h2>
+        <span className={`rounded px-2 py-0.5 text-xs font-bold ring-1 ${T.chip}`}>{n}</span>
+        <h2 className={`text-xl font-bold tracking-tight ${T.title}`}>{title}</h2>
       </div>
-      {sub && <div className="text-xs uppercase tracking-wider text-slate-400">{sub}</div>}
+      {sub && <div className={`text-xs uppercase tracking-wider ${T.muted}`}>{sub}</div>}
     </div>
   );
 }
 
-const TH = ({ children, right }: { children: React.ReactNode; right?: boolean }) => (
+const TH = ({ T, children, right }: { T: Theme; children: React.ReactNode; right?: boolean }) => (
   <th
-    className={`whitespace-nowrap border-b border-slate-700 bg-slate-800/80 px-3 py-2 text-[12px] font-bold uppercase tracking-wider text-slate-200 ${
+    className={`whitespace-nowrap border-b ${T.rowBorder} ${T.thBg} px-3 py-2 text-[12px] font-bold uppercase tracking-wider ${
       right ? 'text-right' : 'text-left'
     }`}
   >
     {children}
   </th>
 );
-const TD = ({ children, right, bold, mono }: { children: React.ReactNode; right?: boolean; bold?: boolean; mono?: boolean }) => (
+const TD = ({ T, children, right, bold, mono }: { T: Theme; children: React.ReactNode; right?: boolean; bold?: boolean; mono?: boolean }) => (
   <td
-    className={`whitespace-nowrap border-b border-slate-800/70 px-3 py-2 text-[14px] text-slate-100 ${right ? 'text-right' : 'text-left'} ${
+    className={`whitespace-nowrap border-b ${T.rowBorder} px-3 py-2 text-[14px] ${T.title} ${right ? 'text-right' : 'text-left'} ${
       bold ? 'font-bold' : ''
     } ${mono ? 'tabular-nums' : ''}`}
   >
@@ -97,34 +157,55 @@ type LRow = {
   dir: FavDir; decimals?: number; bold?: boolean;
 };
 
-export default function AluminaExecReview() {
+type Props = { dark?: boolean };
+
+export default function AluminaExecReview({ dark = true }: Props) {
+  const T = buildTheme(dark);
   const lnjTotal = lnj.lnj_total as unknown as Record<string, LRow>;
   const specs = lnj.specifics as unknown as Record<string, LRow>;
-  const fx = lnj.fx;
   const period = lnj.period;
   const mix = lnj.mix_mtd as Record<string, { consumption_kt: number; share: number; prev_share: number }>;
-  const quality = lnj.quality as Record<string, { fy25: number; prev: number; budget: number; mtd: number; current: number; uom: string }>;
+  // Quality data kept for the Quality Impact card context but no composite score is computed.
 
-  // --- KPI ribbon (Section 1)
+  // --- KPI ribbon (simplified to production + cost only)
   const hyd = lnjTotal['Hydrate Production'];
   const cal = lnjTotal['Calcined Production'];
   const cop = lnjTotal['COP'];
   const bx = lnjTotal['Bauxite Cost'];
   const cv = lnjTotal['Conversion Cost'];
   const rec = specs['Recovery'];
-  const cr = specs['Conversion Ratio'];
-
-  // Stock days from inventory KT / typical daily consumption (~37 KT/day)
-  const stockDaysCurr = (lnj.inventory_kt['Total Inventory'] / 37);
 
   const ribbon = [
-    { label: 'Hydrate Production', value: fmt(hyd.current, 2), unit: 'KT', sub: `MTD ${fmt(hyd.mtd, 2)} · Tgt ${fmt(hyd.mtd_target, 2)}`, v: variance(hyd.mtd, hyd.mtd_target, 'higher') },
-    { label: 'Calcined Production', value: fmt(cal.current, 2), unit: 'KT', sub: `MTD ${fmt(cal.mtd, 2)} · Tgt ${fmt(cal.mtd_target, 2)}`, v: variance(cal.mtd, cal.mtd_target, 'higher') },
-    { label: 'Total COP', value: fmt(cop.mtd, 1), unit: '$/t', sub: `Tgt ${fmt(cop.mtd_target, 1)} · Bud ${fmt(cop.budget, 1)}`, v: variance(cop.mtd, cop.mtd_target, 'lower') },
-    { label: 'Recovery', value: rec.current.toFixed(2), unit: '%', sub: `MTD ${rec.mtd.toFixed(2)}% · Tgt ${rec.mtd_target.toFixed(2)}%`, v: variance(rec.mtd, rec.mtd_target, 'higher') },
-    { label: 'Conversion Ratio', value: cr.current.toFixed(3), unit: 'T/T', sub: `MTD ${cr.mtd.toFixed(3)} · Tgt ${cr.mtd_target.toFixed(3)}`, v: variance(cr.mtd, cr.mtd_target, 'lower') },
-    { label: 'Quality Score', value: ((quality['Feed THA'].current) - (quality['Feed RS'].current * 2) - (quality['Feed Moisture'].current * 0.5)).toFixed(2), unit: 'idx', sub: `THA ${quality['Feed THA'].current}% · RS ${quality['Feed RS'].current}%`, v: variance(quality['Feed THA'].current, quality['Feed THA'].budget, 'higher') },
-    { label: 'Stock Days', value: stockDaysCurr.toFixed(1), unit: 'days', sub: `Inventory ${lnj.inventory_kt['Total Inventory']} KT`, v: variance(stockDaysCurr, 7, 'higher') },
+    {
+      label: 'Hydrate Production', value: fmt(hyd.current, 2), unit: 'Tonnes',
+      sub: `MTD ${fmt(hyd.mtd, 2)} · Tgt ${fmt(hyd.mtd_target, 2)}`,
+      v: variance(hyd.mtd, hyd.mtd_target, 'higher'),
+    },
+    {
+      label: 'Calcined Production', value: fmt(cal.current, 2), unit: 'Tonnes',
+      sub: `MTD ${fmt(cal.mtd, 2)} · Tgt ${fmt(cal.mtd_target, 2)}`,
+      v: variance(cal.mtd, cal.mtd_target, 'higher'),
+    },
+    {
+      label: 'Total COP', value: fmt(cop.mtd, 1), unit: '$/Tonne',
+      sub: `Tgt ${fmt(cop.mtd_target, 1)} · Bud ${fmt(cop.budget, 1)}`,
+      v: variance(cop.mtd, cop.mtd_target, 'lower'),
+    },
+    {
+      label: 'Recovery', value: rec.current.toFixed(2), unit: '%',
+      sub: `MTD ${rec.mtd.toFixed(2)}% · Tgt ${rec.mtd_target.toFixed(2)}%`,
+      v: variance(rec.mtd, rec.mtd_target, 'higher'),
+    },
+    {
+      label: 'Bauxite Cost', value: fmt(bx.mtd, 1), unit: '$/Tonne',
+      sub: `Tgt ${fmt(bx.mtd_target, 1)} · Bud ${fmt(bx.budget, 1)}`,
+      v: variance(bx.mtd, bx.mtd_target, 'lower'),
+    },
+    {
+      label: 'Conversion Cost', value: fmt(cv.mtd, 1), unit: '$/Tonne',
+      sub: `Tgt ${fmt(cv.mtd_target, 1)} · Bud ${fmt(cv.budget, 1)}`,
+      v: variance(cv.mtd, cv.mtd_target, 'lower'),
+    },
   ];
 
   // Section 4: production loss waterfall (derived from gap)
@@ -150,7 +231,7 @@ export default function AluminaExecReview() {
   ];
   const wtdLanded = sourceRows.reduce((s, r) => s + r.share * r.landed, 0) / Math.max(1, sourceRows.reduce((s, r) => s + r.share, 0));
 
-  // Section 13: 12-month trend (synthesized — last point uses real MTD)
+  // Section 12: 12-month trend (synthesized — last point uses real MTD)
   const trendMonths = useMemo(() => {
     const labels = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
     return labels.map((mo, i) => {
@@ -163,22 +244,18 @@ export default function AluminaExecReview() {
         recovery: isLast ? rec.mtd : 90.5 + Math.sin(i * 0.5) * 0.6 + seed * 0.4,
         bauxite: isLast ? bx.mtd : 200 + Math.sin(i * 0.9) * 10 + i,
         conversion: isLast ? cv.mtd : 135 - Math.cos(i * 0.7) * 5,
-        stock_days: isLast ? stockDaysCurr : 6 + Math.sin(i * 0.4) * 1.5,
       };
     });
-  }, [hyd, cop, rec, bx, cv, stockDaysCurr]);
+  }, [hyd, cop, rec, bx, cv]);
 
-  const caustic = lnjTotal['  Caustic'];
-  const fo = lnjTotal['  Furnace Oil'];
-
-  // Insights
+  // Insights (caustic/HFO mentions removed — now in COP Intelligence)
   const insights = [
-    `Recovery at ${rec.mtd.toFixed(2)}% (MTD) vs target ${rec.mtd_target.toFixed(2)}% — ${rec.mtd >= rec.mtd_target ? 'on track' : `${(rec.mtd_target - rec.mtd).toFixed(2)}pp gap, est. COP impact +$${((rec.mtd_target - rec.mtd) * 2.4).toFixed(1)}/t`}.`,
-    `Imported bauxite share at ${mix.Imported.share.toFixed(1)}% vs prev month ${mix.Imported.prev_share.toFixed(1)}% — landed cost weighted at $${wtdLanded.toFixed(1)}/t.`,
-    `Caustic rate $${caustic.mtd.toFixed(2)}/t (MTD) vs prev $${caustic.prev.toFixed(2)}/t — ${caustic.mtd <= caustic.prev ? 'favorable' : 'unfavorable'} variance of ${((caustic.mtd - caustic.prev) / caustic.prev * 100).toFixed(1)}%.`,
-    `HFO rate $${fo.mtd.toFixed(2)}/t (MTD) vs target $${fo.mtd_target.toFixed(2)}/t — ${fo.mtd <= fo.mtd_target ? 'within' : `${((fo.mtd - fo.mtd_target) / fo.mtd_target * 100).toFixed(1)}% above`} target.`,
+    `Recovery at ${rec.mtd.toFixed(2)}% (MTD) vs target ${rec.mtd_target.toFixed(2)}% — ${rec.mtd >= rec.mtd_target ? 'on track' : `${(rec.mtd_target - rec.mtd).toFixed(2)}pp gap, est. COP impact +$${((rec.mtd_target - rec.mtd) * 2.4).toFixed(1)}/Tonne`}.`,
+    `Imported bauxite share at ${mix.Imported.share.toFixed(1)}% vs prev month ${mix.Imported.prev_share.toFixed(1)}% — landed cost weighted at $${wtdLanded.toFixed(1)}/Tonne.`,
     `Hydrate MTD ${hyd.mtd.toFixed(2)} KT vs MTD target ${hyd.mtd_target.toFixed(2)} KT — month-end forecast ${hyd.forecast?.toFixed(2)} KT vs BP ${hyd.budget.toFixed(2)} KT.`,
-    `Stock cover at ${stockDaysCurr.toFixed(1)} days (Total Inventory ${lnj.inventory_kt['Total Inventory']} KT) — ${stockDaysCurr < 5 ? 'below safe threshold' : 'within safe band'}.`,
+    `Conversion Cost MTD $${cv.mtd.toFixed(2)}/Tonne vs MTD target $${cv.mtd_target.toFixed(2)}/Tonne — variance ${((cv.mtd - cv.mtd_target) / cv.mtd_target * 100).toFixed(1)}%.`,
+    `Bauxite Cost MTD $${bx.mtd.toFixed(2)}/Tonne vs BP $${bx.budget.toFixed(2)}/Tonne — ${(bx.mtd <= bx.budget ? 'within' : 'above')} budget.`,
+    `Total COP at $${cop.mtd.toFixed(1)}/Tonne vs MTD target $${cop.mtd_target.toFixed(1)}/Tonne — biggest drivers: bauxite mix, recovery, conversion stack.`,
   ];
 
   // CSV export
@@ -189,8 +266,9 @@ export default function AluminaExecReview() {
     Object.entries(lnjTotal).filter(([name]) => !name.startsWith('_')).forEach(([name, r]) => {
       const vT = variance(r.mtd, r.mtd_target, r.dir);
       const vB = variance(r.mtd, r.budget, r.dir);
+      const renamed = name.trim() === 'Other Cost' ? 'Conversion Cost' : name.trim();
       lines.push([
-        name.trim(), r.uom,
+        renamed, r.uom,
         r.current?.toFixed(r.decimals ?? 0),
         r.mtd?.toFixed(r.decimals ?? 0),
         r.mtd_target?.toFixed(r.decimals ?? 0),
@@ -210,46 +288,47 @@ export default function AluminaExecReview() {
   const renderLnjRow = (name: string, r: LRow) => {
     const vT = variance(r.mtd, r.mtd_target, r.dir);
     const vB = variance(r.mtd, r.budget, r.dir);
+    const display = name.trim() === 'Other Cost' ? 'Conversion Cost' : name;
     return (
-      <tr key={name} className={r.bold ? 'bg-slate-900/60' : ''}>
-        <TD bold={r.bold}>{name}</TD>
-        <TD>{r.uom}</TD>
-        <TD right mono bold={r.bold}>{fmt(r.current, r.decimals ?? 0)}</TD>
-        <TD right mono>{fmt(r.mtd, r.decimals ?? 0)}</TD>
-        <TD right mono>{fmt(r.mtd_target, r.decimals ?? 0)}</TD>
-        <TD right mono>{fmt(r.budget, r.decimals ?? 0)}</TD>
-        <TD right mono>{fmt(r.prev, r.decimals ?? 0)}</TD>
-        <TD right><Pill good={vT.good}>{vT.pctv >= 0 ? '+' : ''}{vT.pctv.toFixed(1)}%</Pill></TD>
-        <TD right><Pill good={vB.good}>{vB.pctv >= 0 ? '+' : ''}{vB.pctv.toFixed(1)}%</Pill></TD>
+      <tr key={name} className={r.bold ? T.zebra : ''}>
+        <TD T={T} bold={r.bold}>{display}</TD>
+        <TD T={T}>{r.uom}</TD>
+        <TD T={T} right mono bold={r.bold}>{fmt(r.current, r.decimals ?? 0)}</TD>
+        <TD T={T} right mono>{fmt(r.mtd, r.decimals ?? 0)}</TD>
+        <TD T={T} right mono>{fmt(r.mtd_target, r.decimals ?? 0)}</TD>
+        <TD T={T} right mono>{fmt(r.budget, r.decimals ?? 0)}</TD>
+        <TD T={T} right mono>{fmt(r.prev, r.decimals ?? 0)}</TD>
+        <TD T={T} right><Pill good={vT.good}>{vT.pctv >= 0 ? '+' : ''}{vT.pctv.toFixed(1)}%</Pill></TD>
+        <TD T={T} right><Pill good={vB.good}>{vB.pctv >= 0 ? '+' : ''}{vB.pctv.toFixed(1)}%</Pill></TD>
       </tr>
     );
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      {/* Top bar */}
-      <div className="border-b border-slate-800 bg-slate-900/80 px-5 py-3">
+    <div className={`min-h-screen transition-colors ${T.page}`}>
+      {/* Page sub-header (FX, export) */}
+      <div className={`border-b ${T.rowBorder} ${dark ? 'bg-slate-900/60' : 'bg-white'} px-5 py-3`}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Factory className="h-6 w-6 text-amber-400" />
+            <Factory className={`h-6 w-6 ${T.accentTxt}`} />
             <div>
-              <div className="text-xs uppercase tracking-widest text-amber-400">Vedanta Aluminium · Lanjigarh</div>
-              <h1 className="text-xl font-bold text-white">Executive Review · Monthly Management Report</h1>
-              <div className="text-[11px] text-slate-400">Source: LNJ_Total · Period {period.from} → {period.to}</div>
+              <div className={`text-xs uppercase tracking-widest ${T.accentTxt}`}>Executive Review</div>
+              <h1 className={`text-xl font-bold ${T.title}`}>Monthly Management Report</h1>
+              <div className={`text-[11px] ${T.muted}`}>Source: LNJ_Total · Period {period.from} → {period.to}</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5">
-              <div className="text-[11px] uppercase tracking-wider text-slate-400">MTD AVG Exchange Rate</div>
+            <div className={`rounded-lg border ${T.panel} px-3 py-1.5`}>
+              <div className={`text-[11px] uppercase tracking-wider ${T.muted}`}>Exchange Rate (Today)</div>
               <div className="flex items-baseline gap-2">
-                <div className="text-2xl font-extrabold tabular-nums text-amber-300">₹{fx.mtd_avg.toFixed(2)}</div>
-                <div className="text-xs text-slate-400">Current ₹{fx.current.toFixed(2)}</div>
+                <div className={`text-2xl font-extrabold tabular-nums ${T.accentTxt}`}>₹{FX_RATE.toFixed(2)}</div>
+                <div className={`text-xs ${T.muted}`}>INR / USD</div>
               </div>
             </div>
-            <button onClick={exportCSV} className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700">
+            <button onClick={exportCSV} className={`inline-flex items-center gap-2 rounded-lg border ${T.panel} px-3 py-2 text-sm font-semibold ${T.title} hover:opacity-90`}>
               <Download className="h-4 w-4" /> Export
             </button>
-            <button onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm font-semibold text-amber-200 hover:bg-amber-500/20">
+            <button onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm font-semibold text-amber-600 dark:text-amber-200 hover:bg-amber-500/20">
               PDF
             </button>
           </div>
@@ -257,61 +336,70 @@ export default function AluminaExecReview() {
       </div>
 
       <div className="mx-auto max-w-[1500px] px-5 py-5">
-        {/* SECTION 1 */}
-        <SectionHeader n="01" title="Executive Summary" sub="Live KPI ribbon · MTD basis" />
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
+        {/* SECTION 1 — KPI Ribbon */}
+        <SectionHeader T={T} n="01" title="Executive Summary" sub="Production &amp; cost · MTD basis" />
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
           {ribbon.map(r => (
-            <KpiTile key={r.label} label={r.label} value={r.value} unit={r.unit} sub={r.sub}
-              good={r.v.good} varianceLabel={`${r.v.pctv >= 0 ? '+' : ''}${r.v.pctv.toFixed(1)}%`} />
+            <KpiTile
+              key={r.label}
+              T={T}
+              label={r.label}
+              value={r.value}
+              unit={r.unit}
+              sub={r.sub}
+              good={r.v.good}
+              status={r.v.good ? 'pos' : 'neg'}
+              varianceLabel={`${r.v.pctv >= 0 ? '+' : ''}${r.v.pctv.toFixed(1)}%`}
+            />
           ))}
         </div>
 
         {/* SECTION 2 */}
-        <SectionHeader n="02" title="LNJ Total View" sub="Management variance matrix" />
-        <div className="overflow-x-auto rounded-xl border border-slate-700">
+        <SectionHeader T={T} n="02" title="LNJ Total View" sub="Management variance matrix" />
+        <div className={`overflow-x-auto rounded-xl border ${T.panel}`}>
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <TH>Particulars</TH><TH>UOM</TH>
-                <TH right>Current (FTD)</TH><TH right>MTD</TH><TH right>MTD Target</TH>
-                <TH right>BP Target</TH><TH right>Prev Month</TH>
-                <TH right>Var vs Tgt</TH><TH right>Var vs Bud</TH>
+                <TH T={T}>Particulars</TH><TH T={T}>UOM</TH>
+                <TH T={T} right>Current (FTD)</TH><TH T={T} right>MTD</TH><TH T={T} right>MTD Target</TH>
+                <TH T={T} right>BP Target</TH><TH T={T} right>Prev Month</TH>
+                <TH T={T} right>Var vs Tgt</TH><TH T={T} right>Var vs Bud</TH>
               </tr>
             </thead>
             <tbody>
               {Object.entries(lnjTotal).filter(([n]) => !n.startsWith('_')).map(([n, r]) => renderLnjRow(n, r))}
-              <tr><td colSpan={9} className="bg-slate-800/60 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-300">Specific Consumption · Recovery · Conversion</td></tr>
+              <tr><td colSpan={9} className={`${T.thBg} px-3 py-1.5 text-xs font-bold uppercase tracking-wider ${T.accentTxt}`}>Specific Consumption · Recovery · Conversion</td></tr>
               {Object.entries(specs).map(([n, r]) => renderLnjRow(n, r))}
             </tbody>
           </table>
         </div>
 
         {/* SECTION 3 */}
-        <SectionHeader n="03" title="Production Performance" sub="Can we still achieve target?" />
+        <SectionHeader T={T} n="03" title="Production Performance" sub="Can we still achieve target?" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {[
             { name: 'Hydrate Alumina', r: hyd },
             { name: 'Calcined Alumina', r: cal },
           ].map(p => {
             const remaining = Math.max(1, (p.r.forecast ?? p.r.budget) - p.r.mtd);
-            const askRate = remaining * 1000 / Math.max(1, 31 - 28); // remaining KT over remaining days proxy
+            const askRate = remaining * 1000 / Math.max(1, 31 - 28);
             const gap = p.r.mtd - p.r.mtd_target;
             return (
-              <div key={p.name} className="rounded-xl border border-slate-700 bg-slate-900/70 p-4">
+              <div key={p.name} className={`rounded-xl border ${T.panel} p-4`}>
                 <div className="mb-3 flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white">{p.name}</h3>
+                  <h3 className={`text-lg font-bold ${T.title}`}>{p.name}</h3>
                   <Pill good={gap >= 0}>{gap >= 0 ? '+' : ''}{fmt(gap, 2)} KT vs MTD Target</Pill>
                 </div>
                 <div className="grid grid-cols-4 gap-3">
-                  <div><div className="text-[11px] uppercase text-slate-400">Current (FTD)</div><div className="text-2xl font-bold tabular-nums text-white">{fmt(p.r.current, 2)}</div></div>
-                  <div><div className="text-[11px] uppercase text-slate-400">MTD</div><div className="text-2xl font-bold tabular-nums text-white">{fmt(p.r.mtd, 2)}</div></div>
-                  <div><div className="text-[11px] uppercase text-slate-400">MTD Target</div><div className="text-2xl font-bold tabular-nums text-amber-300">{fmt(p.r.mtd_target, 2)}</div></div>
-                  <div><div className="text-[11px] uppercase text-slate-400">Ask Rate (MT/d)</div><div className="text-2xl font-bold tabular-nums text-emerald-300">{fmt(askRate, 0)}</div></div>
+                  <div><div className={`text-[11px] uppercase ${T.muted}`}>Current (FTD)</div><div className={`text-2xl font-bold tabular-nums ${T.title}`}>{fmt(p.r.current, 2)}</div></div>
+                  <div><div className={`text-[11px] uppercase ${T.muted}`}>MTD</div><div className={`text-2xl font-bold tabular-nums ${T.title}`}>{fmt(p.r.mtd, 2)}</div></div>
+                  <div><div className={`text-[11px] uppercase ${T.muted}`}>MTD Target</div><div className={`text-2xl font-bold tabular-nums ${T.accentTxt}`}>{fmt(p.r.mtd_target, 2)}</div></div>
+                  <div><div className={`text-[11px] uppercase ${T.muted}`}>Ask Rate (Tonnes/Day)</div><div className="text-2xl font-bold tabular-nums text-emerald-500 dark:text-emerald-300">{fmt(askRate, 0)}</div></div>
                 </div>
-                <div className="mt-3 grid grid-cols-3 gap-3 border-t border-slate-700 pt-3 text-[13px]">
-                  <div><span className="text-slate-400">BP Target</span><div className="font-semibold text-white">{fmt(p.r.budget, 2)} KT</div></div>
-                  <div><span className="text-slate-400">Month-End Forecast</span><div className="font-semibold text-white">{fmt(p.r.forecast, 2)} KT</div></div>
-                  <div><span className="text-slate-400">Prev Month</span><div className="font-semibold text-white">{fmt(p.r.prev, 2)} KT</div></div>
+                <div className={`mt-3 grid grid-cols-3 gap-3 border-t ${T.rowBorder} pt-3 text-[13px]`}>
+                  <div><span className={T.muted}>BP Target</span><div className={`font-semibold ${T.title}`}>{fmt(p.r.budget, 2)} KT</div></div>
+                  <div><span className={T.muted}>Month-End Forecast</span><div className={`font-semibold ${T.title}`}>{fmt(p.r.forecast, 2)} KT</div></div>
+                  <div><span className={T.muted}>Prev Month</span><div className={`font-semibold ${T.title}`}>{fmt(p.r.prev, 2)} KT</div></div>
                 </div>
               </div>
             );
@@ -319,32 +407,32 @@ export default function AluminaExecReview() {
         </div>
 
         {/* SECTION 4 */}
-        <SectionHeader n="04" title="Reasons For Low Production" sub="Ranked driver impact" />
+        <SectionHeader T={T} n="04" title="Reasons For Low Production" sub="Ranked driver impact" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <div className="lg:col-span-2 overflow-x-auto rounded-xl border border-slate-700">
+          <div className={`lg:col-span-2 overflow-x-auto rounded-xl border ${T.panel}`}>
             <table className="w-full text-sm">
-              <thead><tr><TH>Driver</TH><TH right>Impact %</TH><TH right>Loss (KT)</TH><TH right>COP Impact ($/t)</TH></tr></thead>
+              <thead><tr><TH T={T}>Driver</TH><TH T={T} right>Impact %</TH><TH T={T} right>Loss (Tonnes)</TH><TH T={T} right>COP Impact ($/Tonne)</TH></tr></thead>
               <tbody>
                 {lossItems.map(l => (
                   <tr key={l.name}>
-                    <TD bold>{l.name}</TD>
-                    <TD right mono>
+                    <TD T={T} bold>{l.name}</TD>
+                    <TD T={T} right mono>
                       <div className="inline-flex items-center gap-2">
-                        <div className="h-2 w-24 rounded bg-slate-800">
-                          <div className="h-2 rounded bg-rose-400" style={{ width: `${l.impactPct * 2.5}%` }} />
+                        <div className={`h-2 w-24 rounded ${dark ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                          <div className="h-2 rounded bg-rose-500" style={{ width: `${l.impactPct * 2.5}%` }} />
                         </div>{l.impactPct}%
                       </div>
                     </TD>
-                    <TD right mono>{l.impactKt.toFixed(2)}</TD>
-                    <TD right mono>+{l.impactCop.toFixed(1)}</TD>
+                    <TD T={T} right mono>{(l.impactKt * 1000).toFixed(0)}</TD>
+                    <TD T={T} right mono>+{l.impactCop.toFixed(1)}</TD>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
-            <div className="flex items-center gap-2 text-amber-300"><Sparkles className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">AI Explanation</span></div>
-            <p className="mt-2 text-[14px] leading-relaxed text-slate-200">
+            <div className="flex items-center gap-2 text-amber-600 dark:text-amber-300"><Sparkles className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">AI Explanation</span></div>
+            <p className={`mt-2 text-[14px] leading-relaxed ${T.title}`}>
               Hydrate MTD <b>{hyd.mtd.toFixed(2)} KT</b> vs target <b>{hyd.mtd_target.toFixed(2)} KT</b> — gap of <b>{(hyd.mtd - hyd.mtd_target).toFixed(2)} KT</b>.
               Plant utilization and recovery loss together account for ~54% of the shortfall. Recovery at <b>{rec.mtd.toFixed(2)}%</b> (target {rec.mtd_target.toFixed(2)}%) is the largest single COP driver.
               Shifting bauxite mix toward higher-THA OMC/Andru sources will simultaneously lift recovery and reduce caustic consumption.
@@ -352,25 +440,52 @@ export default function AluminaExecReview() {
           </div>
         </div>
 
-        {/* SECTION 5 */}
-        <SectionHeader n="05" title="Bauxite Procurement Review" sub="Source-wise matrix" />
-        <div className="overflow-x-auto rounded-xl border border-slate-700">
+        {/* SECTION 5 — Quality Impact Intelligence (replaces Composite Quality Score) */}
+        <SectionHeader T={T} n="05" title="Quality Impact Intelligence" sub="How bauxite quality moves COP" />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {[
+            { label: 'THA Impact', accent: 'rose', direction: '↓ 1%', cop: '+$4–5/Tonne', body: 'Every 1% decrease in Total Hydrate Alumina (THA) raises COP by approximately $4–5 per Tonne via lower recovery and higher caustic load.' },
+            { label: 'RSA Impact', accent: 'rose', direction: '↑ 1%', cop: '+$15/Tonne', body: 'Every 1% increase in Reactive Silica (RSA) raises COP by approximately $15 per Tonne — the single most damaging quality lever.' },
+            { label: 'Moisture Impact', accent: 'amber', direction: '↑ 1%', cop: '+$3/Tonne', body: 'Every 1% increase in feed moisture raises COP by approximately $3 per Tonne via additional steam and energy load.' },
+          ].map(q => {
+            const bd =
+              q.accent === 'rose' ? 'border-l-4 border-l-rose-500 ring-1 ring-rose-500/20'
+              : 'border-l-4 border-l-amber-500 ring-1 ring-amber-500/20';
+            return (
+              <div key={q.label} className={`rounded-xl border ${T.panel} ${bd} p-4`}>
+                <div className="flex items-center gap-2">
+                  <Beaker className={`h-4 w-4 ${T.accentTxt}`} />
+                  <div className={`text-[12px] font-bold uppercase tracking-wider ${T.sub}`}>{q.label}</div>
+                </div>
+                <div className="mt-3 flex items-baseline gap-3">
+                  <div className={`text-3xl font-extrabold tabular-nums ${T.title}`}>{q.direction}</div>
+                  <div className="text-lg font-bold text-rose-500 dark:text-rose-300">→ COP {q.cop}</div>
+                </div>
+                <p className={`mt-3 text-[13px] leading-relaxed ${T.sub}`}>{q.body}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* SECTION 6 — Bauxite procurement */}
+        <SectionHeader T={T} n="06" title="Bauxite Procurement Review" sub="Source-wise matrix" />
+        <div className={`overflow-x-auto rounded-xl border ${T.panel}`}>
           <table className="w-full text-sm">
-            <thead><tr><TH>Source</TH><TH right>Consumption (KT)</TH><TH right>Share %</TH><TH right>THA %</TH><TH right>RS %</TH><TH right>Moisture %</TH><TH right>Landed $/t</TH><TH>Status</TH></tr></thead>
+            <thead><tr><TH T={T}>Source</TH><TH T={T} right>Consumption (Tonnes)</TH><TH T={T} right>Share %</TH><TH T={T} right>THA %</TH><TH T={T} right>RS %</TH><TH T={T} right>Moisture %</TH><TH T={T} right>Landed $/Tonne</TH><TH T={T}>Status</TH></tr></thead>
             <tbody>
               {sourceRows.map(s => {
                 const best = s.landed === Math.min(...sourceRows.map(x => x.landed));
                 const worst = s.landed === Math.max(...sourceRows.map(x => x.landed));
                 return (
                   <tr key={s.src}>
-                    <TD bold>{s.src}</TD>
-                    <TD right mono>{s.kt.toFixed(2)}</TD>
-                    <TD right mono>{s.share.toFixed(2)}%</TD>
-                    <TD right mono>{s.tha.toFixed(2)}</TD>
-                    <TD right mono>{s.rs.toFixed(2)}</TD>
-                    <TD right mono>{s.moisture.toFixed(2)}</TD>
-                    <TD right mono bold>${s.landed}</TD>
-                    <TD>{best && <Pill good>Best</Pill>}{worst && <Pill good={false}>Worst</Pill>}</TD>
+                    <TD T={T} bold>{s.src}</TD>
+                    <TD T={T} right mono>{(s.kt * 1000).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</TD>
+                    <TD T={T} right mono>{s.share.toFixed(2)}%</TD>
+                    <TD T={T} right mono>{s.tha.toFixed(2)}</TD>
+                    <TD T={T} right mono>{s.rs.toFixed(2)}</TD>
+                    <TD T={T} right mono>{s.moisture.toFixed(2)}</TD>
+                    <TD T={T} right mono bold>${s.landed}</TD>
+                    <TD T={T}>{best && <Pill good>Best</Pill>}{worst && <Pill good={false}>Worst</Pill>}</TD>
                   </tr>
                 );
               })}
@@ -378,12 +493,12 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 6 */}
-        <SectionHeader n="06" title="Landed Bauxite Cost" sub="Source-wise breakdown" />
+        {/* SECTION 7 */}
+        <SectionHeader T={T} n="07" title="Landed Bauxite Cost" sub="Source-wise breakdown" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <div className="lg:col-span-2 overflow-x-auto rounded-xl border border-slate-700">
+          <div className={`lg:col-span-2 overflow-x-auto rounded-xl border ${T.panel}`}>
             <table className="w-full text-sm">
-              <thead><tr><TH>Source</TH><TH right>Receipt $/t</TH><TH right>Logistics $/t</TH><TH right>Handling $/t</TH><TH right>Landed $/t</TH><TH right>Var vs Bauxite Tgt</TH></tr></thead>
+              <thead><tr><TH T={T}>Source</TH><TH T={T} right>Receipt $/Tonne</TH><TH T={T} right>Logistics $/Tonne</TH><TH T={T} right>Handling $/Tonne</TH><TH T={T} right>Landed $/Tonne</TH><TH T={T} right>Var vs BP</TH></tr></thead>
               <tbody>
                 {sourceRows.map(s => {
                   const receipt = Math.round(s.landed * 0.78);
@@ -392,12 +507,12 @@ export default function AluminaExecReview() {
                   const vBud = ((s.landed - bx.budget) / bx.budget) * 100;
                   return (
                     <tr key={s.src}>
-                      <TD bold>{s.src}</TD>
-                      <TD right mono>{receipt}</TD>
-                      <TD right mono>{logistics}</TD>
-                      <TD right mono>{handling}</TD>
-                      <TD right mono bold>${s.landed}</TD>
-                      <TD right><Pill good={vBud <= 0}>{vBud >= 0 ? '+' : ''}{vBud.toFixed(1)}%</Pill></TD>
+                      <TD T={T} bold>{s.src}</TD>
+                      <TD T={T} right mono>{receipt}</TD>
+                      <TD T={T} right mono>{logistics}</TD>
+                      <TD T={T} right mono>{handling}</TD>
+                      <TD T={T} right mono bold>${s.landed}</TD>
+                      <TD T={T} right><Pill good={vBud <= 0}>{vBud >= 0 ? '+' : ''}{vBud.toFixed(1)}%</Pill></TD>
                     </tr>
                   );
                 })}
@@ -405,48 +520,49 @@ export default function AluminaExecReview() {
             </table>
           </div>
           <KpiTile
+            T={T}
             label="Weighted Avg Landed Cost"
             value={`$${wtdLanded.toFixed(1)}`}
-            unit="/t"
-            sub={`Bauxite Cost MTD $${bx.mtd.toFixed(2)}/t`}
-            footer={<div className="flex items-center justify-between"><span>vs BP $${bx.budget.toFixed(0)}</span><Pill good={bx.mtd <= bx.budget}>{((bx.mtd - bx.budget) / bx.budget * 100).toFixed(1)}%</Pill></div>}
-            accent="text-amber-300"
+            unit="/Tonne"
+            sub={`Bauxite Cost MTD $${bx.mtd.toFixed(2)}/Tonne`}
+            status={bx.mtd <= bx.budget ? 'pos' : 'neg'}
+            footer={<div className="flex items-center justify-between"><span>vs BP ${bx.budget.toFixed(0)}</span><Pill good={bx.mtd <= bx.budget}>{((bx.mtd - bx.budget) / bx.budget * 100).toFixed(1)}%</Pill></div>}
           />
         </div>
 
-        {/* SECTION 7 */}
-        <SectionHeader n="07" title="Bauxite Mix" sub="What mix is driving today's COP?" />
+        {/* SECTION 8 */}
+        <SectionHeader T={T} n="08" title="Bauxite Mix" sub="What mix is driving today's COP?" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className="overflow-x-auto rounded-xl border border-slate-700">
+          <div className={`overflow-x-auto rounded-xl border ${T.panel}`}>
             <table className="w-full text-sm">
-              <thead><tr><TH>Source</TH><TH right>MTD %</TH><TH right>Prev Month %</TH><TH right>Δ pp</TH><TH right>Consumption (KT)</TH></tr></thead>
+              <thead><tr><TH T={T}>Source</TH><TH T={T} right>MTD %</TH><TH T={T} right>Prev Month %</TH><TH T={T} right>Δ pp</TH><TH T={T} right>Consumption (Tonnes)</TH></tr></thead>
               <tbody>
                 {Object.entries(mix).map(([name, m]) => {
                   const d = m.share - m.prev_share;
                   const goodDir = name === 'Imported' ? d <= 0 : d >= 0;
                   return (
                     <tr key={name}>
-                      <TD bold>{name}</TD>
-                      <TD right mono bold>{m.share.toFixed(2)}%</TD>
-                      <TD right mono>{m.prev_share.toFixed(2)}%</TD>
-                      <TD right><Pill good={goodDir}>{d >= 0 ? '+' : ''}{d.toFixed(2)}pp</Pill></TD>
-                      <TD right mono>{m.consumption_kt.toFixed(2)}</TD>
+                      <TD T={T} bold>{name}</TD>
+                      <TD T={T} right mono bold>{m.share.toFixed(2)}%</TD>
+                      <TD T={T} right mono>{m.prev_share.toFixed(2)}%</TD>
+                      <TD T={T} right><Pill good={goodDir}>{d >= 0 ? '+' : ''}{d.toFixed(2)}pp</Pill></TD>
+                      <TD T={T} right mono>{(m.consumption_kt * 1000).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</TD>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
-          <div className="rounded-xl border border-slate-700 bg-slate-900/70 p-3">
+          <div className={`rounded-xl border ${T.panel} p-3`}>
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={[
                 { d: 'Prev Month', OMC: mix.OMC.prev_share, Andru: mix.Andru.prev_share, Imported: mix.Imported.prev_share },
                 { d: 'MTD',        OMC: mix.OMC.share,      Andru: mix.Andru.share,      Imported: mix.Imported.share },
               ]}>
-                <CartesianGrid stroke="#1e293b" vertical={false} />
-                <XAxis dataKey="d" tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid #334155', color: '#fff' }} />
+                <CartesianGrid stroke={T.grid} vertical={false} />
+                <XAxis dataKey="d" tick={{ fill: T.axis, fontSize: 12 }} />
+                <YAxis tick={{ fill: T.axis, fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: T.ttBg, border: `1px solid ${T.ttBorder}`, color: T.ttTxt }} />
                 <Legend />
                 <Bar dataKey="OMC" stackId="a" fill="#0369a1" />
                 <Bar dataKey="Andru" stackId="a" fill="#16a34a" />
@@ -456,22 +572,22 @@ export default function AluminaExecReview() {
           </div>
         </div>
 
-        {/* SECTION 8 */}
-        <SectionHeader n="08" title="Conversion Cost Review" />
-        <div className="overflow-x-auto rounded-xl border border-slate-700">
+        {/* SECTION 9 — Conversion Cost */}
+        <SectionHeader T={T} n="09" title="Conversion Cost Review" />
+        <div className={`overflow-x-auto rounded-xl border ${T.panel}`}>
           <table className="w-full text-sm">
-            <thead><tr><TH>Component</TH><TH right>Current (FTD)</TH><TH right>MTD</TH><TH right>MTD Target</TH><TH right>BP Target</TH><TH right>Variance</TH></tr></thead>
+            <thead><tr><TH T={T}>Component</TH><TH T={T} right>Current (FTD)</TH><TH T={T} right>MTD</TH><TH T={T} right>MTD Target</TH><TH T={T} right>BP Target</TH><TH T={T} right>Variance</TH></tr></thead>
             <tbody>
               {(['  Caustic','  Lime','  Steam','  Power','  Furnace Oil','  Non Commodity Cost'] as const).map(k => {
                 const r = lnjTotal[k]; const v = variance(r.mtd, r.mtd_target, 'lower');
                 return (
                   <tr key={k}>
-                    <TD bold>{k.trim()}</TD>
-                    <TD right mono>{r.current.toFixed(2)}</TD>
-                    <TD right mono>{r.mtd.toFixed(2)}</TD>
-                    <TD right mono>{r.mtd_target.toFixed(2)}</TD>
-                    <TD right mono>{r.budget.toFixed(2)}</TD>
-                    <TD right><Pill good={v.good}>{v.pctv >= 0 ? '+' : ''}{v.pctv.toFixed(1)}%</Pill></TD>
+                    <TD T={T} bold>{k.trim()}</TD>
+                    <TD T={T} right mono>{r.current.toFixed(2)}</TD>
+                    <TD T={T} right mono>{r.mtd.toFixed(2)}</TD>
+                    <TD T={T} right mono>{r.mtd_target.toFixed(2)}</TD>
+                    <TD T={T} right mono>{r.budget.toFixed(2)}</TD>
+                    <TD T={T} right><Pill good={v.good}>{v.pctv >= 0 ? '+' : ''}{v.pctv.toFixed(1)}%</Pill></TD>
                   </tr>
                 );
               })}
@@ -479,53 +595,22 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 9 + 10 */}
-        <SectionHeader n="09" title="Caustic & HFO Rate Monitors" sub="Real-time commodity rates" />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-slate-700 bg-gradient-to-br from-slate-900 to-slate-950 p-5">
-            <div className="flex items-center gap-2 text-emerald-300"><Beaker className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">Caustic Rate</span></div>
-            <div className="mt-3 flex items-baseline gap-3">
-              <div className="text-6xl font-extrabold tabular-nums text-white">${caustic.mtd.toFixed(2)}</div>
-              <div className="text-lg font-semibold text-slate-300">/t (MTD)</div>
-            </div>
-            <div className="mt-2 flex items-center gap-3 text-sm">
-              <span className="text-slate-400">Current</span>
-              <span className="text-2xl font-bold tabular-nums text-amber-300">${caustic.current.toFixed(2)}</span>
-              <Pill good={caustic.mtd <= caustic.prev}>vs Prev {((caustic.mtd - caustic.prev) / caustic.prev * 100).toFixed(1)}%</Pill>
-            </div>
-            <div className="mt-3 text-xs text-slate-400">MTD Target ${caustic.mtd_target.toFixed(2)} · BP ${caustic.budget.toFixed(2)} · Prev Month ${caustic.prev.toFixed(2)}</div>
-          </div>
-          <div className="rounded-xl border border-slate-700 bg-gradient-to-br from-slate-900 to-slate-950 p-5">
-            <div className="flex items-center gap-2 text-orange-300"><Flame className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">HFO Rate</span></div>
-            <div className="mt-3 flex items-baseline gap-3">
-              <div className="text-6xl font-extrabold tabular-nums text-white">${fo.mtd.toFixed(2)}</div>
-              <div className="text-lg font-semibold text-slate-300">/t (MTD)</div>
-            </div>
-            <div className="mt-2 flex items-center gap-3 text-sm">
-              <span className="text-slate-400">Current</span>
-              <span className="text-2xl font-bold tabular-nums text-amber-300">${fo.current.toFixed(2)}</span>
-              <Pill good={fo.mtd <= fo.prev}>vs Prev {((fo.mtd - fo.prev) / fo.prev * 100).toFixed(1)}%</Pill>
-            </div>
-            <div className="mt-3 text-xs text-slate-400">MTD Target ${fo.mtd_target.toFixed(2)} · BP ${fo.budget.toFixed(2)} · Prev Month ${fo.prev.toFixed(2)}</div>
-          </div>
-        </div>
-
-        {/* SECTION 11 */}
-        <SectionHeader n="11" title="Operational KPI Review" sub="Best Ever vs Current MTD" />
-        <div className="overflow-x-auto rounded-xl border border-slate-700">
+        {/* SECTION 10 — Operational KPIs */}
+        <SectionHeader T={T} n="10" title="Operational KPI Review" sub="Best Ever vs Current MTD" />
+        <div className={`overflow-x-auto rounded-xl border ${T.panel}`}>
           <table className="w-full text-sm">
-            <thead><tr><TH>KPI</TH><TH>UoM</TH><TH right>Best Ever</TH><TH>Period</TH><TH right>Current MTD</TH><TH right>Var from Best</TH><TH right>Impact on COP ($/t)</TH></tr></thead>
+            <thead><tr><TH T={T}>KPI</TH><TH T={T}>UoM</TH><TH T={T} right>Best Ever</TH><TH T={T}>Period</TH><TH T={T} right>Current MTD</TH><TH T={T} right>Var from Best</TH><TH T={T} right>Impact on COP ($/Tonne)</TH></tr></thead>
             <tbody>
               {lnj.operational_best_vs_current.map(r => {
                 const dv = ((r.current_mtd - r.best_ever) / r.best_ever) * 100;
                 return (
                   <tr key={r.kpi}>
-                    <TD bold>{r.kpi}</TD><TD>{r.uom}</TD>
-                    <TD right mono>{r.best_ever.toFixed(2)}</TD>
-                    <TD>{r.best_period}</TD>
-                    <TD right mono>{r.current_mtd.toFixed(2)}</TD>
-                    <TD right><Pill good={dv <= 0}>{dv >= 0 ? '+' : ''}{dv.toFixed(1)}%</Pill></TD>
-                    <TD right mono>{r.impact_cop >= 0 ? '+' : ''}${r.impact_cop.toFixed(2)}</TD>
+                    <TD T={T} bold>{r.kpi}</TD><TD T={T}>{r.uom}</TD>
+                    <TD T={T} right mono>{r.best_ever.toFixed(2)}</TD>
+                    <TD T={T}>{r.best_period}</TD>
+                    <TD T={T} right mono>{r.current_mtd.toFixed(2)}</TD>
+                    <TD T={T} right><Pill good={dv <= 0}>{dv >= 0 ? '+' : ''}{dv.toFixed(1)}%</Pill></TD>
+                    <TD T={T} right mono>{r.impact_cop >= 0 ? '+' : ''}${r.impact_cop.toFixed(2)}</TD>
                   </tr>
                 );
               })}
@@ -533,24 +618,24 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 12 */}
-        <SectionHeader n="12" title="Procurement Performance" />
-        <div className="overflow-x-auto rounded-xl border border-slate-700">
+        {/* SECTION 11 — Procurement */}
+        <SectionHeader T={T} n="11" title="Procurement Performance" />
+        <div className={`overflow-x-auto rounded-xl border ${T.panel}`}>
           <table className="w-full text-sm">
-            <thead><tr><TH>Commodity</TH><TH>UoM</TH><TH right>Best Receipt</TH><TH right>Best Consumption</TH><TH right>Current Receipt</TH><TH right>Current Consumption</TH><TH right>Variance</TH></tr></thead>
+            <thead><tr><TH T={T}>Commodity</TH><TH T={T}>UoM</TH><TH T={T} right>Best Receipt</TH><TH T={T} right>Best Consumption</TH><TH T={T} right>Current Receipt</TH><TH T={T} right>Current Consumption</TH><TH T={T} right>Variance</TH></tr></thead>
             <tbody>
               {lnj.procurement.map(r => {
                 const ref = r.best_receipt || 1;
                 const v = ((r.current_receipt - ref) / ref) * 100;
                 return (
                   <tr key={r.commodity}>
-                    <TD bold>{r.commodity}</TD>
-                    <TD>{r.uom}</TD>
-                    <TD right mono>{r.best_receipt.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
-                    <TD right mono>{r.best_consumption.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
-                    <TD right mono bold>{r.current_receipt.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
-                    <TD right mono>{r.current_consumption.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
-                    <TD right><Pill good={v <= 0}>{v >= 0 ? '+' : ''}{v.toFixed(1)}%</Pill></TD>
+                    <TD T={T} bold>{r.commodity}</TD>
+                    <TD T={T}>{r.uom}</TD>
+                    <TD T={T} right mono>{r.best_receipt.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD T={T} right mono>{r.best_consumption.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD T={T} right mono bold>{r.current_receipt.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD T={T} right mono>{r.current_consumption.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD T={T} right><Pill good={v <= 0}>{v >= 0 ? '+' : ''}{v.toFixed(1)}%</Pill></TD>
                   </tr>
                 );
               })}
@@ -558,56 +643,55 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 13 */}
-        <SectionHeader n="13" title="Monthly Trend Review" sub="Last 12 months · MTD anchored" />
+        {/* SECTION 12 — Trend */}
+        <SectionHeader T={T} n="12" title="Monthly Trend Review" sub="Last 12 months · MTD anchored" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="px-2 pb-1 text-sm font-bold text-slate-200">Production (MT/d) vs COP ($/t)</div>
+          <div className={`rounded-xl border ${T.panel} p-3`}>
+            <div className={`px-2 pb-1 text-sm font-bold ${T.title}`}>Production (Tonnes/Day) vs COP ($/Tonne)</div>
             <ResponsiveContainer width="100%" height={240}>
               <ComposedChart data={trendMonths}>
-                <CartesianGrid stroke="#1e293b" />
-                <XAxis dataKey="month" tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <YAxis yAxisId="left" tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid #334155', color: '#fff' }} />
+                <CartesianGrid stroke={T.grid} />
+                <XAxis dataKey="month" tick={{ fill: T.axis, fontSize: 12 }} />
+                <YAxis yAxisId="left" tick={{ fill: T.axis, fontSize: 12 }} />
+                <YAxis yAxisId="right" orientation="right" tick={{ fill: T.axis, fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: T.ttBg, border: `1px solid ${T.ttBorder}`, color: T.ttTxt }} />
                 <Legend />
-                <Bar yAxisId="left" dataKey="production" fill="#0369a1" name="Production MT/d" />
-                <Line yAxisId="right" type="monotone" dataKey="cop" stroke="#f59e0b" strokeWidth={2.5} name="COP $/t" />
+                <Bar yAxisId="left" dataKey="production" fill="#0369a1" name="Production Tonnes/Day" />
+                <Line yAxisId="right" type="monotone" dataKey="cop" stroke="#f59e0b" strokeWidth={2.5} name="COP $/Tonne" />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
-          <div className="rounded-xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="px-2 pb-1 text-sm font-bold text-slate-200">Recovery · Bauxite · Conversion · Stock Days</div>
+          <div className={`rounded-xl border ${T.panel} p-3`}>
+            <div className={`px-2 pb-1 text-sm font-bold ${T.title}`}>Recovery · Bauxite · Conversion</div>
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={trendMonths}>
-                <CartesianGrid stroke="#1e293b" />
-                <XAxis dataKey="month" tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#cbd5e1', fontSize: 12 }} />
-                <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid #334155', color: '#fff' }} />
+                <CartesianGrid stroke={T.grid} />
+                <XAxis dataKey="month" tick={{ fill: T.axis, fontSize: 12 }} />
+                <YAxis tick={{ fill: T.axis, fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: T.ttBg, border: `1px solid ${T.ttBorder}`, color: T.ttTxt }} />
                 <Legend />
                 <Line type="monotone" dataKey="recovery" stroke="#15803d" strokeWidth={2.5} name="Recovery %" />
-                <Line type="monotone" dataKey="bauxite" stroke="#0369a1" strokeWidth={2.5} name="Bauxite $/t" />
-                <Line type="monotone" dataKey="conversion" stroke="#dc2626" strokeWidth={2.5} name="Conversion $/t" />
-                <Line type="monotone" dataKey="stock_days" stroke="#a855f7" strokeWidth={2.5} name="Stock Days" />
+                <Line type="monotone" dataKey="bauxite" stroke="#0369a1" strokeWidth={2.5} name="Bauxite $/Tonne" />
+                <Line type="monotone" dataKey="conversion" stroke="#dc2626" strokeWidth={2.5} name="Conversion $/Tonne" />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* SECTION 14 */}
-        <SectionHeader n="14" title="Actionable Insights" sub="AI-generated executive summary" />
+        {/* SECTION 13 — Insights */}
+        <SectionHeader T={T} n="13" title="Actionable Insights" sub="AI-generated executive summary" />
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {insights.map((t, i) => (
-            <div key={i} className="rounded-xl border border-slate-700 bg-slate-900/70 p-4">
-              <div className="flex items-center gap-2 text-amber-300">
+            <div key={i} className={`rounded-xl border ${T.panel} p-4`}>
+              <div className="flex items-center gap-2 text-amber-600 dark:text-amber-300">
                 <AlertTriangle className="h-4 w-4" /><span className="text-xs font-bold uppercase tracking-wider">Insight {i + 1}</span>
               </div>
-              <p className="mt-2 text-[14px] leading-relaxed text-slate-100">{t}</p>
+              <p className={`mt-2 text-[14px] leading-relaxed ${T.title}`}>{t}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 border-t border-slate-800 pt-4 text-center text-xs text-slate-500">
+        <div className={`mt-8 border-t ${T.rowBorder} pt-4 text-center text-xs ${T.muted}`}>
           Vedanta Aluminium Lanjigarh · Executive Review · Source: LNJ_Total · {period.from} → {period.to}
         </div>
       </div>

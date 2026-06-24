@@ -53,9 +53,12 @@ function daysInMonth(dateStr: string) {
 }
 function dayOfMonth(dateStr: string) { return new Date(dateStr).getDate(); }
 
-export default function AluminaCopDashboard() {
+type AluminaCopDashboardProps = { dark?: boolean; setDark?: (v: boolean) => void };
+export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkProp }: AluminaCopDashboardProps = {}) {
   const all = raw as Row[];
-  const [dark, setDark] = useState(true);
+  const [darkLocal, setDarkLocal] = useState(true);
+  const dark = darkProp ?? darkLocal;
+  const setDark = setDarkProp ?? setDarkLocal;
   const [from, setFrom] = useState(all[0].date);
   const [to, setTo] = useState(all[all.length - 1].date);
   const [compare, setCompare] = useState<Compare>('Daily');
@@ -478,7 +481,7 @@ export default function AluminaCopDashboard() {
   return (
     <div className={`min-h-screen ${T.bg} ${T.text} transition-colors`}>
       {/* Header */}
-      <header className={`sticky top-0 z-30 backdrop-blur ${dark ? 'bg-slate-950/85 border-slate-800' : 'bg-white/85 border-slate-200'} border-b`}>
+      <header className={`sticky top-[52px] z-30 backdrop-blur ${dark ? 'bg-slate-950/85 border-slate-800' : 'bg-white/85 border-slate-200'} border-b`}>
         <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-3 mr-auto">
             <div className={`h-10 px-2 rounded-lg flex items-center justify-center ${dark ? 'bg-white' : 'bg-white border border-slate-200'}`}>
@@ -654,7 +657,7 @@ export default function AluminaCopDashboard() {
             <BigKpi T={T} icon={DollarSign} label="Alumina Index" unit="$" mtd={fmt(commodities.alumina.mtdAvg,1)} current={fmt(commodities.alumina.cur,1)} prevMtd={fmt(commodities.alumina.prev,1)} change={commodities.alumina.change} />
             <BigKpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" unit="" mtd={fmt(commodities.fx.mtdAvg,2)} current={fmt(commodities.fx.cur,2)} prevMtd={fmt(commodities.fx.prev,2)} change={commodities.fx.change} invert />
             <BigKpi T={T} icon={Droplets} label="Bauxite Cost (landed)" unit="$" mtd={fmt(landed.weighted)} current={fmt(lastRow.bauxite_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>r.bauxite_cost))) : null} change={variance?.bauxite} invert />
-            <BigKpi T={T} icon={Flame} label="Other Cost" unit="$" mtd={fmt(avg(rows.map(r=>(r as any).conv_cost)))} current={fmt((lastRow as any).conv_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>(r as any).conv_cost))) : null} change={variance?.conv} invert />
+            <BigKpi T={T} icon={Flame} label="Conversion Cost" unit="$" mtd={fmt(avg(rows.map(r=>(r as any).conv_cost)))} current={fmt((lastRow as any).conv_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>(r as any).conv_cost))) : null} change={variance?.conv} invert />
           </div>
 
           {/* Landed Bauxite Cost by Source */}
@@ -750,10 +753,10 @@ export default function AluminaCopDashboard() {
             </div>
           </div>
 
-          {/* Other Cost breakdown */}
+          {/* Conversion Cost breakdown */}
           <div className={`rounded-xl border ${T.panel} p-3`}>
             <div className="flex items-center justify-between mb-2">
-              <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
+              <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>Conversion Cost breakdown · avg $/MT</div>
               <div className="text-[13px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
@@ -815,7 +818,10 @@ export default function AluminaCopDashboard() {
         <section className="space-y-3">
           <SectionHeader icon={Beaker} title="Commodity Intelligence" sub="Current rate · MTD average · vs prior period" T={T} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {[commodities.caustic, commodities.hfo].map((c) => (
+            {[commodities.caustic, commodities.hfo].map((c) => {
+              const FX = 94.71;
+              const fmtInr = (v: number) => `₹${(v * FX).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+              return (
               <div key={c.key} className={`rounded-xl border ${T.panel} p-4`}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
@@ -824,8 +830,8 @@ export default function AluminaCopDashboard() {
                     </div>
                     <div>
                       <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>{c.label}</div>
-                      <div className="text-2xl font-extrabold leading-tight">${fmt(c.mtdAvg)}</div>
-                      <div className={`text-[12px] ${T.sub}`}>MTD Average · $/MT</div>
+                      <div className="text-2xl font-extrabold leading-tight">{fmtInr(c.mtdAvg)}</div>
+                      <div className={`text-[12px] ${T.sub}`}>MTD Average · ₹/Tonne</div>
                     </div>
                   </div>
                   <span className={`text-[12px] font-bold px-2 py-0.5 rounded ${c.change >= 0 ? 'bg-rose-500/15 text-rose-300 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30'}`}>
@@ -834,20 +840,21 @@ export default function AluminaCopDashboard() {
                 </div>
                 <div className="flex items-end justify-between gap-3 mt-2">
                   <div className="text-[12px] space-y-0.5">
-                    <div className="flex gap-2"><span className={T.sub}>Current</span><span className="font-semibold">${fmt(c.cur)}</span></div>
-                    <div className="flex gap-2"><span className={T.sub}>Prev period</span><span>${fmt(c.prev)}</span></div>
+                    <div className="flex gap-2"><span className={T.sub}>Current</span><span className="font-semibold">{fmtInr(c.cur)}/T</span></div>
+                    <div className="flex gap-2"><span className={T.sub}>Prev period</span><span>{fmtInr(c.prev)}/T</span></div>
                   </div>
                   <div className="flex-1 max-w-[55%]">
                     <ResponsiveContainer width="100%" height={56}>
                       <AreaChart data={c.spark}>
                         <Area dataKey="v" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.25} strokeWidth={1.75} />
-                        <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`$${v}`} />
+                        <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`₹${Math.round(Number(v)*FX).toLocaleString('en-IN')}/T`} />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
