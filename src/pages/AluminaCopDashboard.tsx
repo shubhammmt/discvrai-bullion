@@ -1206,6 +1206,32 @@ export default function AluminaCopDashboard() {
   );
 }
 
+function BigKpi({ T, icon: Icon, label, unit = '', mtd, current, prevMtd, change, invert }: any) {
+  const hasChange = typeof change === 'number' && isFinite(change);
+  const good = invert ? change < 0 : change > 0;
+  return (
+    <div className={`rounded-xl border ${T.panel} p-4`}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="w-9 h-9 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+          <Icon className="w-4 h-4" />
+        </div>
+        {hasChange && (
+          <span className={`text-[12px] font-semibold px-1.5 py-0.5 rounded ${good ? 'text-emerald-300 bg-emerald-500/15' : 'text-rose-300 bg-rose-500/15'}`}>
+            {change >= 0 ? '+' : ''}{change.toFixed(2)}%
+          </span>
+        )}
+      </div>
+      <div className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{label}</div>
+      <div className="text-3xl md:text-4xl font-extrabold mt-1 leading-tight">{unit}{mtd}</div>
+      <div className={`text-[12px] mt-1 ${T.sub}`}>MTD Average</div>
+      <div className={`mt-2 pt-2 border-t ${T.panel.includes('slate-900') ? 'border-slate-800' : 'border-slate-200'} text-[12px] space-y-0.5`}>
+        <div className="flex justify-between"><span className={T.sub}>Current</span><span className="font-semibold">{unit}{current}</span></div>
+        <div className="flex justify-between"><span className={T.sub}>Prev MTD avg</span><span>{prevMtd != null ? `${unit}${prevMtd}` : '—'}</span></div>
+      </div>
+    </div>
+  );
+}
+
 function Kpi({ T, icon: Icon, label, value, delta, hint, invert, alert }: any) {
   const showDelta = typeof delta === 'number' && isFinite(delta);
   const good = invert ? delta < 0 : delta > 0;
