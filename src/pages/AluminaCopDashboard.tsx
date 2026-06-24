@@ -293,10 +293,10 @@ export default function AluminaCopDashboard() {
 
   const T = dark ? {
     bg: 'bg-slate-950', panel: 'bg-slate-900/60 border-slate-800', text: 'text-slate-100',
-    sub: 'text-slate-400', grid: '#1e293b', axis: '#64748b', tt: { background: '#0f172a', border: '1px solid #334155', color: '#e2e8f0' }
+    sub: 'text-slate-300', grid: '#1e293b', axis: '#64748b', tt: { background: '#0f172a', border: '1px solid #334155', color: '#e2e8f0' }
   } : {
     bg: 'bg-slate-50', panel: 'bg-white border-slate-200', text: 'text-slate-900',
-    sub: 'text-slate-500', grid: '#e2e8f0', axis: '#64748b', tt: { background: '#fff', border: '1px solid #cbd5e1', color: '#0f172a' }
+    sub: 'text-slate-600', grid: '#e2e8f0', axis: '#64748b', tt: { background: '#fff', border: '1px solid #cbd5e1', color: '#0f172a' }
   };
 
   const lastRow: any = rows[rows.length-1] || {};
