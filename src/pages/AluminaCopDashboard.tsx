@@ -657,7 +657,7 @@ export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkPr
             <BigKpi T={T} icon={DollarSign} label="Alumina Index" unit="$" mtd={fmt(commodities.alumina.mtdAvg,1)} current={fmt(commodities.alumina.cur,1)} prevMtd={fmt(commodities.alumina.prev,1)} change={commodities.alumina.change} />
             <BigKpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" unit="" mtd={fmt(commodities.fx.mtdAvg,2)} current={fmt(commodities.fx.cur,2)} prevMtd={fmt(commodities.fx.prev,2)} change={commodities.fx.change} invert />
             <BigKpi T={T} icon={Droplets} label="Bauxite Cost (landed)" unit="$" mtd={fmt(landed.weighted)} current={fmt(lastRow.bauxite_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>r.bauxite_cost))) : null} change={variance?.bauxite} invert />
-            <BigKpi T={T} icon={Flame} label="Other Cost" unit="$" mtd={fmt(avg(rows.map(r=>(r as any).conv_cost)))} current={fmt((lastRow as any).conv_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>(r as any).conv_cost))) : null} change={variance?.conv} invert />
+            <BigKpi T={T} icon={Flame} label="Conversion Cost" unit="$" mtd={fmt(avg(rows.map(r=>(r as any).conv_cost)))} current={fmt((lastRow as any).conv_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>(r as any).conv_cost))) : null} change={variance?.conv} invert />
           </div>
 
           {/* Landed Bauxite Cost by Source */}
@@ -753,10 +753,10 @@ export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkPr
             </div>
           </div>
 
-          {/* Other Cost breakdown */}
+          {/* Conversion Cost breakdown */}
           <div className={`rounded-xl border ${T.panel} p-3`}>
             <div className="flex items-center justify-between mb-2">
-              <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
+              <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>Conversion Cost breakdown · avg $/MT</div>
               <div className="text-[13px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
