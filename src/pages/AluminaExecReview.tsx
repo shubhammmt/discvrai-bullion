@@ -1,32 +1,18 @@
-import React, { useMemo, useState } from 'react';
-import raw from '@/data/copDashboardData.json';
+import React, { useMemo } from 'react';
+import lnj from '@/data/lnjReviewData.json';
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, Legend,
-  ResponsiveContainer, CartesianGrid, ComposedChart, Cell,
+  ResponsiveContainer, CartesianGrid, ComposedChart,
 } from 'recharts';
 import {
   TrendingUp, TrendingDown, Download, Sparkles, AlertTriangle,
-  Target as TargetIcon, Flame, Beaker, Activity, Factory,
+  Flame, Beaker, Factory,
 } from 'lucide-react';
 
-type Row = typeof raw[number];
-
-const fmt = (n: number, d = 0) =>
-  n == null || isNaN(n) ? '—' : Number(n).toLocaleString('en-IN', { maximumFractionDigits: d, minimumFractionDigits: d });
-const pct = (n: number, d = 1) => (n == null || isNaN(n) ? '—' : (n * 100).toFixed(d) + '%');
-const avg = (a: number[]) => (a.length ? a.reduce((s, x) => s + x, 0) / a.length : 0);
-const sum = (a: number[]) => a.reduce((s, x) => s + x, 0);
-
-// MTD AVG fx and current fx (per spec)
-const FX_MTD = 84.11;
-const FX_CURR = 84.32;
-
-// Targets / budgets (derived from LNJ_Total reference workbook, scaled to daily MT)
-const TGT_HYD_DAILY = 11675; // KT 350/month -> ~11.67 KT/day -> using daily MT scale to existing data
-const TGT_CAL_DAILY = 11385;
-// Existing data hydrate is in MT/day around 6.5-7.2k; we keep its scale.
-const TARGET_HYDRATE_MT = 7200;
-const TARGET_CALCINED_MT = 7000;
+const fmt = (n: number | null | undefined, d = 0) =>
+  n == null || isNaN(n as number)
+    ? '—'
+    : Number(n).toLocaleString('en-IN', { maximumFractionDigits: d, minimumFractionDigits: d });
 
 type FavDir = 'lower' | 'higher';
 const variance = (act: number, ref: number, dir: FavDir = 'lower') => {
@@ -76,7 +62,7 @@ function KpiTile({
 
 function SectionHeader({ n, title, sub }: { n: string; title: string; sub?: string }) {
   return (
-    <div className="sticky top-0 z-10 -mx-1 mt-2 mb-3 flex items-end justify-between border-b-2 border-amber-500/60 bg-slate-950/95 px-1 py-2 backdrop-blur">
+    <div className="sticky top-12 z-10 -mx-1 mt-6 mb-3 flex items-end justify-between border-b-2 border-amber-500/60 bg-slate-950/95 px-1 py-2 backdrop-blur">
       <div className="flex items-baseline gap-3">
         <span className="rounded bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-300 ring-1 ring-amber-500/40">{n}</span>
         <h2 className="text-xl font-bold tracking-tight text-white">{title}</h2>
@@ -105,167 +91,114 @@ const TD = ({ children, right, bold, mono }: { children: React.ReactNode; right?
   </td>
 );
 
+type LRow = {
+  uom: string;
+  fy25?: number; prev: number; budget: number; forecast?: number; mtd_target: number; mtd: number; current: number;
+  dir: FavDir; decimals?: number; bold?: boolean;
+};
+
 export default function AluminaExecReview() {
-  const all = raw as Row[];
-  const [from] = useState(all[0].date);
-  const [to] = useState(all[all.length - 1].date);
+  const lnjTotal = lnj.lnj_total as unknown as Record<string, LRow>;
+  const specs = lnj.specifics as unknown as Record<string, LRow>;
+  const fx = lnj.fx;
+  const period = lnj.period;
+  const mix = lnj.mix_mtd as Record<string, { consumption_kt: number; share: number; prev_share: number }>;
+  const quality = lnj.quality as Record<string, { fy25: number; prev: number; budget: number; mtd: number; current: number; uom: string }>;
 
-  const rows = useMemo(() => all.filter(r => r.date >= from && r.date <= to), [all, from, to]);
-  const last = rows[rows.length - 1];
-  const prev = rows[rows.length - 2] ?? last;
-  // Treat first 15 as "previous month" proxy and last 15 as current month for variance demos
-  const mid = Math.floor(rows.length / 2);
-  const prevMonth = rows.slice(0, mid);
-  const mtd = rows.slice(mid);
+  // --- KPI ribbon (Section 1)
+  const hyd = lnjTotal['Hydrate Production'];
+  const cal = lnjTotal['Calcined Production'];
+  const cop = lnjTotal['COP'];
+  const bx = lnjTotal['Bauxite Cost'];
+  const cv = lnjTotal['Conversion Cost'];
+  const rec = specs['Recovery'];
+  const cr = specs['Conversion Ratio'];
 
-  const m = useMemo(() => {
-    const a = (arr: number[]) => avg(arr);
-    return {
-      hyd_curr: last.hydrate,
-      hyd_mtd: a(mtd.map(r => r.hydrate)),
-      hyd_prev: a(prevMonth.map(r => r.hydrate)),
-      cal_curr: last.calcined,
-      cal_mtd: a(mtd.map(r => r.calcined)),
-      cal_prev: a(prevMonth.map(r => r.calcined)),
-      cop_curr: last.total_cop,
-      cop_mtd: a(mtd.map(r => r.total_cop)),
-      cop_prev: a(prevMonth.map(r => r.total_cop)),
-      bx_curr: last.bauxite_cost,
-      bx_mtd: a(mtd.map(r => r.bauxite_cost)),
-      bx_prev: a(prevMonth.map(r => r.bauxite_cost)),
-      cv_curr: last.conv_cost,
-      cv_mtd: a(mtd.map(r => r.conv_cost)),
-      cv_prev: a(prevMonth.map(r => r.conv_cost)),
-      rec_curr: last.recovery,
-      rec_mtd: a(mtd.map(r => r.recovery)),
-      rec_prev: a(prevMonth.map(r => r.recovery)),
-      cr_curr: last.conv_ratio,
-      cr_mtd: a(mtd.map(r => r.conv_ratio)),
-      cr_prev: a(prevMonth.map(r => r.conv_ratio)),
-      caustic_curr: last.caustic_cost,
-      caustic_mtd: a(mtd.map(r => r.caustic_cost)),
-      caustic_prev: a(prevMonth.map(r => r.caustic_cost)),
-      lime_curr: last.lime_cost,
-      lime_mtd: a(mtd.map(r => r.lime_cost)),
-      steam_curr: last.steam_cost,
-      steam_mtd: a(mtd.map(r => r.steam_cost)),
-      power_curr: last.power_cost,
-      power_mtd: a(mtd.map(r => r.power_cost)),
-      fo_curr: last.fo_cost,
-      fo_mtd: a(mtd.map(r => r.fo_cost)),
-      nc_curr: last.non_comm_cost,
-      nc_mtd: a(mtd.map(r => r.non_comm_cost)),
-      stock_curr: last.stock_days,
-      stock_mtd: a(mtd.map(r => r.stock_days)),
-      tha_curr: last.tha,
-      tha_mtd: a(mtd.map(r => r.tha)),
-      mo_curr: last.moisture,
-      mo_mtd: a(mtd.map(r => r.moisture)),
-      rs_curr: last.rsio2,
-      rs_mtd: a(mtd.map(r => r.rsio2)),
-    };
-  }, [rows]);
+  // Stock days from inventory KT / typical daily consumption (~37 KT/day)
+  const stockDaysCurr = (lnj.inventory_kt['Total Inventory'] / 37);
 
-  // LNJ-style master table rows
-  type LRow = {
-    label: string; unit: string; curr: number; mtd: number; target: number; budget: number; prev: number; dir: FavDir;
-    decimals?: number; bold?: boolean;
-  };
-  const lnj: LRow[] = [
-    { label: 'Hydrate Production', unit: 'MT/day', curr: m.hyd_curr, mtd: m.hyd_mtd, target: 7200, budget: 7000, prev: m.hyd_prev, dir: 'higher', bold: true },
-    { label: 'Calcined Production', unit: 'MT/day', curr: m.cal_curr, mtd: m.cal_mtd, target: 7000, budget: 6800, prev: m.cal_prev, dir: 'higher', bold: true },
-    { label: 'COP', unit: '$/t', curr: m.cop_curr, mtd: m.cop_mtd, target: 360, budget: 355, prev: m.cop_prev, dir: 'lower', bold: true },
-    { label: 'Bauxite Cost', unit: '$/t', curr: m.bx_curr, mtd: m.bx_mtd, target: 218, budget: 215, prev: m.bx_prev, dir: 'lower' },
-    { label: 'Conversion Cost', unit: '$/t', curr: m.cv_curr, mtd: m.cv_mtd, target: 142, budget: 140, prev: m.cv_prev, dir: 'lower' },
-    { label: '  Caustic', unit: '$/t', curr: m.caustic_curr, mtd: m.caustic_mtd, target: 37, budget: 36.5, prev: m.caustic_prev, dir: 'lower', decimals: 1 },
-    { label: '  Lime', unit: '$/t', curr: m.lime_curr, mtd: m.lime_mtd, target: 3.5, budget: 3.4, prev: avg(prevMonth.map(r => r.lime_cost)), dir: 'lower', decimals: 1 },
-    { label: '  Steam', unit: '$/t', curr: m.steam_curr, mtd: m.steam_mtd, target: 28.9, budget: 28.5, prev: avg(prevMonth.map(r => r.steam_cost)), dir: 'lower', decimals: 1 },
-    { label: '  Power', unit: '$/t', curr: m.power_curr, mtd: m.power_mtd, target: 13.5, budget: 13.2, prev: avg(prevMonth.map(r => r.power_cost)), dir: 'lower', decimals: 1 },
-    { label: '  Furnace Oil', unit: '$/t', curr: m.fo_curr, mtd: m.fo_mtd, target: 34.6, budget: 33.5, prev: avg(prevMonth.map(r => r.fo_cost)), dir: 'lower', decimals: 1 },
-    { label: '  Non Commodity Cost', unit: '$/t', curr: m.nc_curr, mtd: m.nc_mtd, target: 25.4, budget: 24.8, prev: avg(prevMonth.map(r => r.non_comm_cost)), dir: 'lower', decimals: 1 },
-    { label: 'Coal Cost', unit: 'Rs/GCV', curr: 0.98, mtd: 1.05, target: 1.10, budget: 1.15, prev: 1.12, dir: 'lower', decimals: 2 },
-  ];
-  const specs: LRow[] = [
-    { label: 'Bauxite SC', unit: 'T/T', curr: last.bx_sc, mtd: avg(mtd.map(r => r.bx_sc)), target: 3.12, budget: 2.92, prev: avg(prevMonth.map(r => r.bx_sc)), dir: 'lower', decimals: 3 },
-    { label: 'Caustic SC', unit: 'kg/T', curr: last.cs_sc, mtd: avg(mtd.map(r => r.cs_sc)), target: 82, budget: 79, prev: avg(prevMonth.map(r => r.cs_sc)), dir: 'lower', decimals: 1 },
-    { label: 'Steam SC', unit: 'T/T', curr: last.st_sc, mtd: avg(mtd.map(r => r.st_sc)), target: 1.88, budget: 1.62, prev: avg(prevMonth.map(r => r.st_sc)), dir: 'lower', decimals: 3 },
-    { label: 'Power SC', unit: 'kWh/T', curr: last.pw_sc, mtd: avg(mtd.map(r => r.pw_sc)), target: 211, budget: 214, prev: avg(prevMonth.map(r => r.pw_sc)), dir: 'lower', decimals: 1 },
-    { label: 'FO SC', unit: 'kg/T', curr: last.fo_sc, mtd: avg(mtd.map(r => r.fo_sc)), target: 71.3, budget: 69.3, prev: avg(prevMonth.map(r => r.fo_sc)), dir: 'lower', decimals: 1 },
-    { label: 'Recovery', unit: '%', curr: last.recovery * 100, mtd: m.rec_mtd * 100, target: 91, budget: 92, prev: m.rec_prev * 100, dir: 'higher', decimals: 2, bold: true },
-    { label: 'Conversion Ratio', unit: 'T/T', curr: last.conv_ratio, mtd: m.cr_mtd, target: 1.92, budget: 1.90, prev: m.cr_prev, dir: 'lower', decimals: 3, bold: true },
+  const ribbon = [
+    { label: 'Hydrate Production', value: fmt(hyd.current, 2), unit: 'KT', sub: `MTD ${fmt(hyd.mtd, 2)} · Tgt ${fmt(hyd.mtd_target, 2)}`, v: variance(hyd.mtd, hyd.mtd_target, 'higher') },
+    { label: 'Calcined Production', value: fmt(cal.current, 2), unit: 'KT', sub: `MTD ${fmt(cal.mtd, 2)} · Tgt ${fmt(cal.mtd_target, 2)}`, v: variance(cal.mtd, cal.mtd_target, 'higher') },
+    { label: 'Total COP', value: fmt(cop.mtd, 1), unit: '$/t', sub: `Tgt ${fmt(cop.mtd_target, 1)} · Bud ${fmt(cop.budget, 1)}`, v: variance(cop.mtd, cop.mtd_target, 'lower') },
+    { label: 'Recovery', value: rec.current.toFixed(2), unit: '%', sub: `MTD ${rec.mtd.toFixed(2)}% · Tgt ${rec.mtd_target.toFixed(2)}%`, v: variance(rec.mtd, rec.mtd_target, 'higher') },
+    { label: 'Conversion Ratio', value: cr.current.toFixed(3), unit: 'T/T', sub: `MTD ${cr.mtd.toFixed(3)} · Tgt ${cr.mtd_target.toFixed(3)}`, v: variance(cr.mtd, cr.mtd_target, 'lower') },
+    { label: 'Quality Score', value: ((quality['Feed THA'].current) - (quality['Feed RS'].current * 2) - (quality['Feed Moisture'].current * 0.5)).toFixed(2), unit: 'idx', sub: `THA ${quality['Feed THA'].current}% · RS ${quality['Feed RS'].current}%`, v: variance(quality['Feed THA'].current, quality['Feed THA'].budget, 'higher') },
+    { label: 'Stock Days', value: stockDaysCurr.toFixed(1), unit: 'days', sub: `Inventory ${lnj.inventory_kt['Total Inventory']} KT`, v: variance(stockDaysCurr, 7, 'higher') },
   ];
 
-  // Production gap
-  const askRate = useMemo(() => {
-    const remain = Math.max(1, 30 - rows.length);
-    const need = TARGET_HYDRATE_MT * 30 - sum(rows.map(r => r.hydrate));
-    return Math.max(0, need / remain);
-  }, [rows]);
+  // Section 4: production loss waterfall (derived from gap)
+  const mtdGapHyd = hyd.mtd - hyd.mtd_target; // KT
+  const lossItems = [
+    { name: 'Plant Utilization', impactPct: 32, impactKt: Math.abs(mtdGapHyd) * 0.32, impactCop: 4.2 },
+    { name: 'Recovery Loss',      impactPct: 22, impactKt: Math.abs(mtdGapHyd) * 0.22, impactCop: 6.8 },
+    { name: 'Quality Issues (THA/RS)', impactPct: 14, impactKt: Math.abs(mtdGapHyd) * 0.14, impactCop: 3.1 },
+    { name: 'Steam Consumption',  impactPct: 11, impactKt: Math.abs(mtdGapHyd) * 0.11, impactCop: 2.4 },
+    { name: 'Power Consumption',  impactPct: 8,  impactKt: Math.abs(mtdGapHyd) * 0.08, impactCop: 1.6 },
+    { name: 'Inventory Constraints', impactPct: 6, impactKt: Math.abs(mtdGapHyd) * 0.06, impactCop: 0.9 },
+    { name: 'Maintenance',        impactPct: 4,  impactKt: Math.abs(mtdGapHyd) * 0.04, impactCop: 0.6 },
+    { name: 'Other Operational',  impactPct: 3,  impactKt: Math.abs(mtdGapHyd) * 0.03, impactCop: 0.4 },
+  ];
 
-  // Loss contributors
-  const lossItems = useMemo(() => {
-    const items = [
-      { name: 'Plant Utilization', impactPct: 32, impactMt: 220, impactCop: 4.2 },
-      { name: 'Recovery Loss', impactPct: 22, impactMt: 150, impactCop: 6.8 },
-      { name: 'Quality Issues (THA/RS)', impactPct: 14, impactMt: 95, impactCop: 3.1 },
-      { name: 'Steam Consumption', impactPct: 11, impactMt: 75, impactCop: 2.4 },
-      { name: 'Power Consumption', impactPct: 8, impactMt: 55, impactCop: 1.6 },
-      { name: 'Inventory Constraints', impactPct: 6, impactMt: 40, impactCop: 0.9 },
-      { name: 'Maintenance', impactPct: 4, impactMt: 28, impactCop: 0.6 },
-      { name: 'Other Operational', impactPct: 3, impactMt: 20, impactCop: 0.4 },
-    ];
-    return items;
-  }, []);
-
-  // Source-wise
+  // Section 5 / 6 / 7: source matrix
   const sourceRows = [
-    { src: 'OMC', vol: avg(mtd.map(r => r.omc_pct)) * 100, tha: 40.1, rs: 2.9, moisture: 8.5, landed: 178, contrib: avg(mtd.map(r => r.omc_pct)) * 100 },
-    { src: 'Andru', vol: avg(mtd.map(r => r.andru_pct)) * 100, tha: 39.6, rs: 2.6, moisture: 7.8, landed: 204, contrib: avg(mtd.map(r => r.andru_pct)) * 100 },
-    { src: 'Imported', vol: avg(mtd.map(r => r.imp_pct)) * 100, tha: 41.5, rs: 1.9, moisture: 9.2, landed: 273, contrib: avg(mtd.map(r => r.imp_pct)) * 100 },
-    { src: 'EGA', vol: 1.2, tha: 42.0, rs: 1.6, moisture: 9.5, landed: 286, contrib: 1.2 },
-    { src: 'Other', vol: avg(mtd.map(r => r.other_pct ?? 0)) * 100, tha: 38.8, rs: 3.1, moisture: 10.1, landed: 228, contrib: avg(mtd.map(r => r.other_pct ?? 0)) * 100 },
+    { src: 'OMC',      share: mix.OMC.share, prev_share: mix.OMC.prev_share, tha: 40.14, rs: 3.01, moisture: 8.50, landed: 178, kt: mix.OMC.consumption_kt },
+    { src: 'Andru',    share: mix.Andru.share, prev_share: mix.Andru.prev_share, tha: 39.60, rs: 2.60, moisture: 7.80, landed: 204, kt: mix.Andru.consumption_kt },
+    { src: 'Imported', share: mix.Imported.share, prev_share: mix.Imported.prev_share, tha: 41.50, rs: 1.90, moisture: 9.20, landed: 273, kt: mix.Imported.consumption_kt },
+    { src: 'EGA',      share: 0.05, prev_share: 0.10, tha: 42.0, rs: 1.6, moisture: 9.5, landed: 286, kt: 0.05 },
+    { src: 'Other',    share: 0.0,  prev_share: 0.0,  tha: 38.8, rs: 3.1, moisture: 10.1, landed: 228, kt: 0 },
   ];
-  const wtdLanded = sourceRows.reduce((s, r) => s + r.vol * r.landed, 0) / Math.max(1, sourceRows.reduce((s, r) => s + r.vol, 0));
+  const wtdLanded = sourceRows.reduce((s, r) => s + r.share * r.landed, 0) / Math.max(1, sourceRows.reduce((s, r) => s + r.share, 0));
 
-  // 12-month trend (synthesized from data slices)
+  // Section 13: 12-month trend (synthesized — last point uses real MTD)
   const trendMonths = useMemo(() => {
     const labels = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
     return labels.map((mo, i) => {
       const seed = i / 11;
+      const isLast = i === 11;
       return {
         month: mo,
-        production: 6800 + Math.sin(i * 0.7) * 250 + seed * 200,
-        cop: 365 - Math.sin(i * 0.6) * 8 + (1 - seed) * 4,
-        recovery: 90.4 + Math.sin(i * 0.5) * 0.6 + seed * 0.5,
-        bauxite: 210 + Math.sin(i * 0.9) * 6,
-        conversion: 145 - Math.cos(i * 0.7) * 5,
-        stock_days: 7 + Math.sin(i * 0.4) * 1.5,
+        production: isLast ? hyd.mtd * 1000 / 30 : 9500 + Math.sin(i * 0.7) * 600 + seed * 400,
+        cop: isLast ? cop.mtd : 360 - Math.sin(i * 0.6) * 8 + (1 - seed) * 5,
+        recovery: isLast ? rec.mtd : 90.5 + Math.sin(i * 0.5) * 0.6 + seed * 0.4,
+        bauxite: isLast ? bx.mtd : 200 + Math.sin(i * 0.9) * 10 + i,
+        conversion: isLast ? cv.mtd : 135 - Math.cos(i * 0.7) * 5,
+        stock_days: isLast ? stockDaysCurr : 6 + Math.sin(i * 0.4) * 1.5,
       };
     });
-  }, []);
+  }, [hyd, cop, rec, bx, cv, stockDaysCurr]);
 
+  const caustic = lnjTotal['  Caustic'];
+  const fo = lnjTotal['  Furnace Oil'];
+
+  // Insights
   const insights = [
-    `Recovery at ${(m.rec_mtd * 100).toFixed(2)}% (MTD) — ${m.rec_mtd >= 0.91 ? 'above' : `${((0.91 - m.rec_mtd) * 100).toFixed(2)}pp short of`} 91% target; ${m.rec_mtd < 0.91 ? `est. COP impact +$${(((0.91 - m.rec_mtd) * 100) * 2.4).toFixed(1)}/t` : 'no additional COP impact'}.`,
-    `Imported bauxite share at ${(avg(mtd.map(r => r.imp_pct)) * 100).toFixed(1)}% vs prev month ${(avg(prevMonth.map(r => r.imp_pct)) * 100).toFixed(1)}% — driving landed cost up by $${((avg(mtd.map(r => r.bauxite_cost)) - avg(prevMonth.map(r => r.bauxite_cost))) || 0).toFixed(1)}/t.`,
-    `Caustic rate $${m.caustic_mtd.toFixed(1)}/t (MTD) vs prev $${m.caustic_prev.toFixed(1)}/t — ${m.caustic_mtd > m.caustic_prev ? 'unfavorable' : 'favorable'} variance.`,
-    `Hydrate run rate ${fmt(m.hyd_mtd)} MT/day vs target ${fmt(TARGET_HYDRATE_MT)} — ask rate ${fmt(askRate)} MT/day to recover monthly target.`,
-    `Stock cover at ${m.stock_mtd.toFixed(1)} days (MTD) — ${m.stock_mtd < 7 ? 'below safe threshold of 7 days' : 'within safe band'}.`,
+    `Recovery at ${rec.mtd.toFixed(2)}% (MTD) vs target ${rec.mtd_target.toFixed(2)}% — ${rec.mtd >= rec.mtd_target ? 'on track' : `${(rec.mtd_target - rec.mtd).toFixed(2)}pp gap, est. COP impact +$${((rec.mtd_target - rec.mtd) * 2.4).toFixed(1)}/t`}.`,
+    `Imported bauxite share at ${mix.Imported.share.toFixed(1)}% vs prev month ${mix.Imported.prev_share.toFixed(1)}% — landed cost weighted at $${wtdLanded.toFixed(1)}/t.`,
+    `Caustic rate $${caustic.mtd.toFixed(2)}/t (MTD) vs prev $${caustic.prev.toFixed(2)}/t — ${caustic.mtd <= caustic.prev ? 'favorable' : 'unfavorable'} variance of ${((caustic.mtd - caustic.prev) / caustic.prev * 100).toFixed(1)}%.`,
+    `HFO rate $${fo.mtd.toFixed(2)}/t (MTD) vs target $${fo.mtd_target.toFixed(2)}/t — ${fo.mtd <= fo.mtd_target ? 'within' : `${((fo.mtd - fo.mtd_target) / fo.mtd_target * 100).toFixed(1)}% above`} target.`,
+    `Hydrate MTD ${hyd.mtd.toFixed(2)} KT vs MTD target ${hyd.mtd_target.toFixed(2)} KT — month-end forecast ${hyd.forecast?.toFixed(2)} KT vs BP ${hyd.budget.toFixed(2)} KT.`,
+    `Stock cover at ${stockDaysCurr.toFixed(1)} days (Total Inventory ${lnj.inventory_kt['Total Inventory']} KT) — ${stockDaysCurr < 5 ? 'below safe threshold' : 'within safe band'}.`,
   ];
 
+  // CSV export
   const exportCSV = () => {
     const lines: string[] = [];
     lines.push('LNJ Total View');
-    lines.push(['Particulars','UOM','Current','MTD','Target','Budget','Prev Month','Var vs Tgt','Var vs Bud'].join(','));
-    [...lnj, ...specs].forEach(r => {
+    lines.push(['Particulars','UOM','Current (FTD)','MTD','MTD Target','BP Target','Prev Month','Forecast','Var vs Tgt %','Var vs Bud %'].join(','));
+    Object.entries(lnjTotal).forEach(([name, r]) => {
+      const vT = variance(r.mtd, r.mtd_target, r.dir);
+      const vB = variance(r.mtd, r.budget, r.dir);
       lines.push([
-        r.label.trim(), r.unit,
-        r.curr?.toFixed(r.decimals ?? 0),
+        name.trim(), r.uom,
+        r.current?.toFixed(r.decimals ?? 0),
         r.mtd?.toFixed(r.decimals ?? 0),
-        r.target?.toFixed(r.decimals ?? 0),
+        r.mtd_target?.toFixed(r.decimals ?? 0),
         r.budget?.toFixed(r.decimals ?? 0),
         r.prev?.toFixed(r.decimals ?? 0),
-        variance(r.curr, r.target, r.dir).pctv.toFixed(1) + '%',
-        variance(r.curr, r.budget, r.dir).pctv.toFixed(1) + '%',
+        r.forecast?.toFixed(r.decimals ?? 0),
+        vT.pctv.toFixed(1) + '%',
+        vB.pctv.toFixed(1) + '%',
       ].join(','));
     });
     const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
@@ -274,16 +207,23 @@ export default function AluminaExecReview() {
     a.href = url; a.download = 'executive_review.csv'; a.click();
   };
 
-  // ---- KPI Ribbon
-  const ribbon = [
-    { label: 'Hydrate Production', value: fmt(m.hyd_curr), unit: 'MT', target: `Tgt ${fmt(TARGET_HYDRATE_MT)}`, v: variance(m.hyd_curr, TARGET_HYDRATE_MT, 'higher') },
-    { label: 'Calcined Production', value: fmt(m.cal_curr), unit: 'MT', target: `Tgt ${fmt(TARGET_CALCINED_MT)}`, v: variance(m.cal_curr, TARGET_CALCINED_MT, 'higher') },
-    { label: 'Total COP', value: fmt(m.cop_curr), unit: '$/t', target: 'Tgt 360', v: variance(m.cop_curr, 360, 'lower') },
-    { label: 'Recovery', value: (last.recovery * 100).toFixed(2), unit: '%', target: 'Tgt 91.0%', v: variance(last.recovery * 100, 91, 'higher') },
-    { label: 'Conversion Ratio', value: last.conv_ratio.toFixed(3), unit: 'T/T', target: 'Tgt 1.920', v: variance(last.conv_ratio, 1.92, 'lower') },
-    { label: 'Quality Score', value: ((last.tha * 100 - last.rsio2 * 100 - last.moisture * 50)).toFixed(1), unit: 'idx', target: 'Tgt 35.0', v: variance(((last.tha * 100 - last.rsio2 * 100 - last.moisture * 50)), 35, 'higher') },
-    { label: 'Stock Days', value: last.stock_days.toFixed(1), unit: 'days', target: 'Tgt 7.0', v: variance(last.stock_days, 7, 'higher') },
-  ];
+  const renderLnjRow = (name: string, r: LRow) => {
+    const vT = variance(r.mtd, r.mtd_target, r.dir);
+    const vB = variance(r.mtd, r.budget, r.dir);
+    return (
+      <tr key={name} className={r.bold ? 'bg-slate-900/60' : ''}>
+        <TD bold={r.bold}>{name}</TD>
+        <TD>{r.uom}</TD>
+        <TD right mono bold={r.bold}>{fmt(r.current, r.decimals ?? 0)}</TD>
+        <TD right mono>{fmt(r.mtd, r.decimals ?? 0)}</TD>
+        <TD right mono>{fmt(r.mtd_target, r.decimals ?? 0)}</TD>
+        <TD right mono>{fmt(r.budget, r.decimals ?? 0)}</TD>
+        <TD right mono>{fmt(r.prev, r.decimals ?? 0)}</TD>
+        <TD right><Pill good={vT.good}>{vT.pctv >= 0 ? '+' : ''}{vT.pctv.toFixed(1)}%</Pill></TD>
+        <TD right><Pill good={vB.good}>{vB.pctv >= 0 ? '+' : ''}{vB.pctv.toFixed(1)}%</Pill></TD>
+      </tr>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -295,26 +235,21 @@ export default function AluminaExecReview() {
             <div>
               <div className="text-xs uppercase tracking-widest text-amber-400">Vedanta Aluminium · Lanjigarh</div>
               <h1 className="text-xl font-bold text-white">Executive Review · Monthly Management Report</h1>
+              <div className="text-[11px] text-slate-400">Source: LNJ_Total · Period {period.from} → {period.to}</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5">
               <div className="text-[11px] uppercase tracking-wider text-slate-400">MTD AVG Exchange Rate</div>
               <div className="flex items-baseline gap-2">
-                <div className="text-2xl font-extrabold tabular-nums text-amber-300">₹{FX_MTD.toFixed(2)}</div>
-                <div className="text-xs text-slate-400">Current ₹{FX_CURR.toFixed(2)}</div>
+                <div className="text-2xl font-extrabold tabular-nums text-amber-300">₹{fx.mtd_avg.toFixed(2)}</div>
+                <div className="text-xs text-slate-400">Current ₹{fx.current.toFixed(2)}</div>
               </div>
             </div>
-            <button
-              onClick={exportCSV}
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700"
-            >
+            <button onClick={exportCSV} className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700">
               <Download className="h-4 w-4" /> Export
             </button>
-            <button
-              onClick={() => window.print()}
-              className="inline-flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm font-semibold text-amber-200 hover:bg-amber-500/20"
-            >
+            <button onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm font-semibold text-amber-200 hover:bg-amber-500/20">
               PDF
             </button>
           </div>
@@ -322,124 +257,73 @@ export default function AluminaExecReview() {
       </div>
 
       <div className="mx-auto max-w-[1500px] px-5 py-5">
-        {/* SECTION 1 – Executive Summary */}
-        <SectionHeader n="01" title="Executive Summary" sub="Live KPI ribbon" />
+        {/* SECTION 1 */}
+        <SectionHeader n="01" title="Executive Summary" sub="Live KPI ribbon · MTD basis" />
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
           {ribbon.map(r => (
-            <KpiTile
-              key={r.label}
-              label={r.label}
-              value={r.value}
-              unit={r.unit}
-              sub={r.target}
-              good={r.v.good}
-              varianceLabel={`${r.v.pctv >= 0 ? '+' : ''}${r.v.pctv.toFixed(1)}%`}
-            />
+            <KpiTile key={r.label} label={r.label} value={r.value} unit={r.unit} sub={r.sub}
+              good={r.v.good} varianceLabel={`${r.v.pctv >= 0 ? '+' : ''}${r.v.pctv.toFixed(1)}%`} />
           ))}
         </div>
 
-        {/* SECTION 2 – LNJ Total View */}
+        {/* SECTION 2 */}
         <SectionHeader n="02" title="LNJ Total View" sub="Management variance matrix" />
         <div className="overflow-x-auto rounded-xl border border-slate-700">
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <TH>Particulars</TH>
-                <TH>UOM</TH>
-                <TH right>Current Day</TH>
-                <TH right>MTD</TH>
-                <TH right>Target</TH>
-                <TH right>Budget</TH>
-                <TH right>Prev Month</TH>
-                <TH right>Var vs Target</TH>
-                <TH right>Var vs Budget</TH>
+                <TH>Particulars</TH><TH>UOM</TH>
+                <TH right>Current (FTD)</TH><TH right>MTD</TH><TH right>MTD Target</TH>
+                <TH right>BP Target</TH><TH right>Prev Month</TH>
+                <TH right>Var vs Tgt</TH><TH right>Var vs Bud</TH>
               </tr>
             </thead>
             <tbody>
-              {lnj.map(r => {
-                const vT = variance(r.curr, r.target, r.dir);
-                const vB = variance(r.curr, r.budget, r.dir);
-                return (
-                  <tr key={r.label} className={r.bold ? 'bg-slate-900/60' : ''}>
-                    <TD bold={r.bold}>{r.label}</TD>
-                    <TD>{r.unit}</TD>
-                    <TD right mono bold={r.bold}>{fmt(r.curr, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.mtd, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.target, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.budget, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.prev, r.decimals ?? 0)}</TD>
-                    <TD right><Pill good={vT.good}>{vT.pctv >= 0 ? '+' : ''}{vT.pctv.toFixed(1)}%</Pill></TD>
-                    <TD right><Pill good={vB.good}>{vB.pctv >= 0 ? '+' : ''}{vB.pctv.toFixed(1)}%</Pill></TD>
-                  </tr>
-                );
-              })}
+              {Object.entries(lnjTotal).map(([n, r]) => renderLnjRow(n, r))}
               <tr><td colSpan={9} className="bg-slate-800/60 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-300">Specific Consumption · Recovery · Conversion</td></tr>
-              {specs.map(r => {
-                const vT = variance(r.curr, r.target, r.dir);
-                const vB = variance(r.curr, r.budget, r.dir);
-                return (
-                  <tr key={r.label} className={r.bold ? 'bg-slate-900/60' : ''}>
-                    <TD bold={r.bold}>{r.label}</TD>
-                    <TD>{r.unit}</TD>
-                    <TD right mono bold={r.bold}>{fmt(r.curr, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.mtd, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.target, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.budget, r.decimals ?? 0)}</TD>
-                    <TD right mono>{fmt(r.prev, r.decimals ?? 0)}</TD>
-                    <TD right><Pill good={vT.good}>{vT.pctv >= 0 ? '+' : ''}{vT.pctv.toFixed(1)}%</Pill></TD>
-                    <TD right><Pill good={vB.good}>{vB.pctv >= 0 ? '+' : ''}{vB.pctv.toFixed(1)}%</Pill></TD>
-                  </tr>
-                );
-              })}
+              {Object.entries(specs).map(([n, r]) => renderLnjRow(n, r))}
             </tbody>
           </table>
         </div>
 
-        {/* SECTION 3 – Production Performance */}
+        {/* SECTION 3 */}
         <SectionHeader n="03" title="Production Performance" sub="Can we still achieve target?" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {[
-            { name: 'Hydrate Alumina', curr: m.hyd_curr, mtd: m.hyd_mtd, target: TARGET_HYDRATE_MT },
-            { name: 'Calcined Alumina', curr: m.cal_curr, mtd: m.cal_mtd, target: TARGET_CALCINED_MT },
+            { name: 'Hydrate Alumina', r: hyd },
+            { name: 'Calcined Alumina', r: cal },
           ].map(p => {
-            const achieved = p === undefined ? 0 : sum(rows.map(r => p.name.includes('Hydrate') ? r.hydrate : r.calcined));
-            const remain = Math.max(1, 30 - rows.length);
-            const need = p.target * 30 - achieved;
-            const ask = Math.max(0, need / remain);
-            const expectedMonth = Math.round(p.mtd * 30);
-            const gap = expectedMonth - p.target * 30;
+            const remaining = Math.max(1, (p.r.forecast ?? p.r.budget) - p.r.mtd);
+            const askRate = remaining * 1000 / Math.max(1, 31 - 28); // remaining KT over remaining days proxy
+            const gap = p.r.mtd - p.r.mtd_target;
             return (
               <div key={p.name} className="rounded-xl border border-slate-700 bg-slate-900/70 p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className="text-lg font-bold text-white">{p.name}</h3>
-                  <Pill good={gap >= 0}>{gap >= 0 ? '+' : ''}{fmt(gap)} MT month gap</Pill>
+                  <Pill good={gap >= 0}>{gap >= 0 ? '+' : ''}{fmt(gap, 2)} KT vs MTD Target</Pill>
                 </div>
                 <div className="grid grid-cols-4 gap-3">
-                  <div><div className="text-[11px] uppercase text-slate-400">Current</div><div className="text-2xl font-bold tabular-nums text-white">{fmt(p.curr)}</div></div>
-                  <div><div className="text-[11px] uppercase text-slate-400">MTD Avg</div><div className="text-2xl font-bold tabular-nums text-white">{fmt(p.mtd)}</div></div>
-                  <div><div className="text-[11px] uppercase text-slate-400">Target/day</div><div className="text-2xl font-bold tabular-nums text-amber-300">{fmt(p.target)}</div></div>
-                  <div><div className="text-[11px] uppercase text-slate-400">Ask Rate</div><div className={`text-2xl font-bold tabular-nums ${ask > p.target * 1.05 ? 'text-rose-300' : 'text-emerald-300'}`}>{fmt(ask)}</div></div>
+                  <div><div className="text-[11px] uppercase text-slate-400">Current (FTD)</div><div className="text-2xl font-bold tabular-nums text-white">{fmt(p.r.current, 2)}</div></div>
+                  <div><div className="text-[11px] uppercase text-slate-400">MTD</div><div className="text-2xl font-bold tabular-nums text-white">{fmt(p.r.mtd, 2)}</div></div>
+                  <div><div className="text-[11px] uppercase text-slate-400">MTD Target</div><div className="text-2xl font-bold tabular-nums text-amber-300">{fmt(p.r.mtd_target, 2)}</div></div>
+                  <div><div className="text-[11px] uppercase text-slate-400">Ask Rate (MT/d)</div><div className="text-2xl font-bold tabular-nums text-emerald-300">{fmt(askRate, 0)}</div></div>
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-3 border-t border-slate-700 pt-3 text-[13px]">
-                  <div><span className="text-slate-400">Run Rate</span><div className="font-semibold text-white">{fmt(p.mtd)} MT/d</div></div>
-                  <div><span className="text-slate-400">Required Daily</span><div className="font-semibold text-white">{fmt(ask)} MT/d</div></div>
-                  <div><span className="text-slate-400">Expected Month-End</span><div className="font-semibold text-white">{fmt(expectedMonth)} MT</div></div>
+                  <div><span className="text-slate-400">BP Target</span><div className="font-semibold text-white">{fmt(p.r.budget, 2)} KT</div></div>
+                  <div><span className="text-slate-400">Month-End Forecast</span><div className="font-semibold text-white">{fmt(p.r.forecast, 2)} KT</div></div>
+                  <div><span className="text-slate-400">Prev Month</span><div className="font-semibold text-white">{fmt(p.r.prev, 2)} KT</div></div>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* SECTION 4 – Production Loss */}
+        {/* SECTION 4 */}
         <SectionHeader n="04" title="Reasons For Low Production" sub="Ranked driver impact" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2 overflow-x-auto rounded-xl border border-slate-700">
             <table className="w-full text-sm">
-              <thead>
-                <tr>
-                  <TH>Driver</TH><TH right>Impact %</TH><TH right>Production Loss (MT)</TH><TH right>COP Impact ($/t)</TH>
-                </tr>
-              </thead>
+              <thead><tr><TH>Driver</TH><TH right>Impact %</TH><TH right>Loss (KT)</TH><TH right>COP Impact ($/t)</TH></tr></thead>
               <tbody>
                 {lossItems.map(l => (
                   <tr key={l.name}>
@@ -448,11 +332,10 @@ export default function AluminaExecReview() {
                       <div className="inline-flex items-center gap-2">
                         <div className="h-2 w-24 rounded bg-slate-800">
                           <div className="h-2 rounded bg-rose-400" style={{ width: `${l.impactPct * 2.5}%` }} />
-                        </div>
-                        {l.impactPct}%
+                        </div>{l.impactPct}%
                       </div>
                     </TD>
-                    <TD right mono>{fmt(l.impactMt)}</TD>
+                    <TD right mono>{l.impactKt.toFixed(2)}</TD>
                     <TD right mono>+{l.impactCop.toFixed(1)}</TD>
                   </tr>
                 ))}
@@ -462,23 +345,18 @@ export default function AluminaExecReview() {
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
             <div className="flex items-center gap-2 text-amber-300"><Sparkles className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">AI Explanation</span></div>
             <p className="mt-2 text-[14px] leading-relaxed text-slate-200">
-              Plant utilization and recovery loss together account for <b>54%</b> of the production shortfall. Recovery at{' '}
-              <b>{(m.rec_mtd * 100).toFixed(2)}%</b> is the single largest COP driver, contributing approximately{' '}
-              <b>$6.8/t</b> to total cost. Quality drift in feed THA and rising RS levels are the upstream root cause —
-              shifting bauxite mix toward higher-THA sources will simultaneously lift recovery and reduce caustic consumption.
+              Hydrate MTD <b>{hyd.mtd.toFixed(2)} KT</b> vs target <b>{hyd.mtd_target.toFixed(2)} KT</b> — gap of <b>{(hyd.mtd - hyd.mtd_target).toFixed(2)} KT</b>.
+              Plant utilization and recovery loss together account for ~54% of the shortfall. Recovery at <b>{rec.mtd.toFixed(2)}%</b> (target {rec.mtd_target.toFixed(2)}%) is the largest single COP driver.
+              Shifting bauxite mix toward higher-THA OMC/Andru sources will simultaneously lift recovery and reduce caustic consumption.
             </p>
           </div>
         </div>
 
-        {/* SECTION 5 – Bauxite Procurement Review */}
+        {/* SECTION 5 */}
         <SectionHeader n="05" title="Bauxite Procurement Review" sub="Source-wise matrix" />
         <div className="overflow-x-auto rounded-xl border border-slate-700">
           <table className="w-full text-sm">
-            <thead>
-              <tr>
-                <TH>Source</TH><TH right>Volume %</TH><TH right>THA %</TH><TH right>RS %</TH><TH right>Moisture %</TH><TH right>Landed $/t</TH><TH right>Contribution %</TH><TH>Status</TH>
-              </tr>
-            </thead>
+            <thead><tr><TH>Source</TH><TH right>Consumption (KT)</TH><TH right>Share %</TH><TH right>THA %</TH><TH right>RS %</TH><TH right>Moisture %</TH><TH right>Landed $/t</TH><TH>Status</TH></tr></thead>
             <tbody>
               {sourceRows.map(s => {
                 const best = s.landed === Math.min(...sourceRows.map(x => x.landed));
@@ -486,16 +364,13 @@ export default function AluminaExecReview() {
                 return (
                   <tr key={s.src}>
                     <TD bold>{s.src}</TD>
-                    <TD right mono>{s.vol.toFixed(1)}%</TD>
-                    <TD right mono>{s.tha.toFixed(1)}</TD>
-                    <TD right mono>{s.rs.toFixed(1)}</TD>
-                    <TD right mono>{s.moisture.toFixed(1)}</TD>
+                    <TD right mono>{s.kt.toFixed(2)}</TD>
+                    <TD right mono>{s.share.toFixed(2)}%</TD>
+                    <TD right mono>{s.tha.toFixed(2)}</TD>
+                    <TD right mono>{s.rs.toFixed(2)}</TD>
+                    <TD right mono>{s.moisture.toFixed(2)}</TD>
                     <TD right mono bold>${s.landed}</TD>
-                    <TD right mono>{s.contrib.toFixed(1)}%</TD>
-                    <TD>
-                      {best && <Pill good>Best</Pill>}
-                      {worst && <Pill good={false}>Worst</Pill>}
-                    </TD>
+                    <TD>{best && <Pill good>Best</Pill>}{worst && <Pill good={false}>Worst</Pill>}</TD>
                   </tr>
                 );
               })}
@@ -503,23 +378,18 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 6 – Landed Bauxite Cost */}
+        {/* SECTION 6 */}
         <SectionHeader n="06" title="Landed Bauxite Cost" sub="Source-wise breakdown" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2 overflow-x-auto rounded-xl border border-slate-700">
             <table className="w-full text-sm">
-              <thead>
-                <tr>
-                  <TH>Source</TH><TH right>Receipt $/t</TH><TH right>Logistics $/t</TH><TH right>Handling $/t</TH><TH right>Landed $/t</TH><TH right>Var vs Budget</TH><TH right>Var vs Prev Month</TH>
-                </tr>
-              </thead>
+              <thead><tr><TH>Source</TH><TH right>Receipt $/t</TH><TH right>Logistics $/t</TH><TH right>Handling $/t</TH><TH right>Landed $/t</TH><TH right>Var vs Bauxite Tgt</TH></tr></thead>
               <tbody>
                 {sourceRows.map(s => {
                   const receipt = Math.round(s.landed * 0.78);
                   const logistics = Math.round(s.landed * 0.16);
                   const handling = s.landed - receipt - logistics;
-                  const vBud = ((s.landed - 210) / 210) * 100;
-                  const vPrev = ((s.landed - (s.landed - 4)) / (s.landed - 4)) * 100;
+                  const vBud = ((s.landed - bx.budget) / bx.budget) * 100;
                   return (
                     <tr key={s.src}>
                       <TD bold>{s.src}</TD>
@@ -528,7 +398,6 @@ export default function AluminaExecReview() {
                       <TD right mono>{handling}</TD>
                       <TD right mono bold>${s.landed}</TD>
                       <TD right><Pill good={vBud <= 0}>{vBud >= 0 ? '+' : ''}{vBud.toFixed(1)}%</Pill></TD>
-                      <TD right><Pill good={vPrev <= 0}>{vPrev >= 0 ? '+' : ''}{vPrev.toFixed(1)}%</Pill></TD>
                     </tr>
                   );
                 })}
@@ -539,40 +408,29 @@ export default function AluminaExecReview() {
             label="Weighted Avg Landed Cost"
             value={`$${wtdLanded.toFixed(1)}`}
             unit="/t"
-            sub="Across all sources (MTD)"
-            footer={
-              <div className="flex items-center justify-between">
-                <span>vs Budget $210</span>
-                <Pill good={wtdLanded <= 210}>{((wtdLanded - 210) / 210 * 100).toFixed(1)}%</Pill>
-              </div>
-            }
+            sub={`Bauxite Cost MTD $${bx.mtd.toFixed(2)}/t`}
+            footer={<div className="flex items-center justify-between"><span>vs BP $${bx.budget.toFixed(0)}</span><Pill good={bx.mtd <= bx.budget}>{((bx.mtd - bx.budget) / bx.budget * 100).toFixed(1)}%</Pill></div>}
             accent="text-amber-300"
           />
         </div>
 
-        {/* SECTION 7 – Bauxite Mix */}
+        {/* SECTION 7 */}
         <SectionHeader n="07" title="Bauxite Mix" sub="What mix is driving today's COP?" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="overflow-x-auto rounded-xl border border-slate-700">
             <table className="w-full text-sm">
-              <thead>
-                <tr><TH>Source</TH><TH right>Current %</TH><TH right>MTD %</TH><TH right>Prev Month %</TH><TH right>Δ pp</TH></tr>
-              </thead>
+              <thead><tr><TH>Source</TH><TH right>MTD %</TH><TH right>Prev Month %</TH><TH right>Δ pp</TH><TH right>Consumption (KT)</TH></tr></thead>
               <tbody>
-                {[
-                  ['OMC', last.omc_pct, avg(mtd.map(r => r.omc_pct)), avg(prevMonth.map(r => r.omc_pct))],
-                  ['Andru', last.andru_pct, avg(mtd.map(r => r.andru_pct)), avg(prevMonth.map(r => r.andru_pct))],
-                  ['Imported', last.imp_pct, avg(mtd.map(r => r.imp_pct)), avg(prevMonth.map(r => r.imp_pct))],
-                  ['Others', last.other_pct ?? 0, avg(mtd.map(r => r.other_pct ?? 0)), avg(prevMonth.map(r => r.other_pct ?? 0))],
-                ].map((row: any) => {
-                  const d = ((row[2] - row[3]) * 100);
+                {Object.entries(mix).map(([name, m]) => {
+                  const d = m.share - m.prev_share;
+                  const goodDir = name === 'Imported' ? d <= 0 : d >= 0;
                   return (
-                    <tr key={row[0]}>
-                      <TD bold>{row[0]}</TD>
-                      <TD right mono>{(row[1] * 100).toFixed(1)}%</TD>
-                      <TD right mono bold>{(row[2] * 100).toFixed(1)}%</TD>
-                      <TD right mono>{(row[3] * 100).toFixed(1)}%</TD>
-                      <TD right><Pill good={row[0] === 'Imported' ? d <= 0 : d >= 0}>{d >= 0 ? '+' : ''}{d.toFixed(1)}pp</Pill></TD>
+                    <tr key={name}>
+                      <TD bold>{name}</TD>
+                      <TD right mono bold>{m.share.toFixed(2)}%</TD>
+                      <TD right mono>{m.prev_share.toFixed(2)}%</TD>
+                      <TD right><Pill good={goodDir}>{d >= 0 ? '+' : ''}{d.toFixed(2)}pp</Pill></TD>
+                      <TD right mono>{m.consumption_kt.toFixed(2)}</TD>
                     </tr>
                   );
                 })}
@@ -581,7 +439,10 @@ export default function AluminaExecReview() {
           </div>
           <div className="rounded-xl border border-slate-700 bg-slate-900/70 p-3">
             <ResponsiveContainer width="100%" height={240}>
-              <BarChart data={mtd.slice(-10).map(r => ({ d: r.date.slice(5), OMC: r.omc_pct * 100, Andru: r.andru_pct * 100, Imported: r.imp_pct * 100, Other: (r.other_pct ?? 0) * 100 }))}>
+              <BarChart data={[
+                { d: 'Prev Month', OMC: mix.OMC.prev_share, Andru: mix.Andru.prev_share, Imported: mix.Imported.prev_share },
+                { d: 'MTD',        OMC: mix.OMC.share,      Andru: mix.Andru.share,      Imported: mix.Imported.share },
+              ]}>
                 <CartesianGrid stroke="#1e293b" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: '#cbd5e1', fontSize: 12 }} />
                 <YAxis tick={{ fill: '#cbd5e1', fontSize: 12 }} />
@@ -590,36 +451,26 @@ export default function AluminaExecReview() {
                 <Bar dataKey="OMC" stackId="a" fill="#0369a1" />
                 <Bar dataKey="Andru" stackId="a" fill="#16a34a" />
                 <Bar dataKey="Imported" stackId="a" fill="#d97706" />
-                <Bar dataKey="Other" stackId="a" fill="#64748b" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* SECTION 8 – Conversion Cost Review */}
+        {/* SECTION 8 */}
         <SectionHeader n="08" title="Conversion Cost Review" />
         <div className="overflow-x-auto rounded-xl border border-slate-700">
           <table className="w-full text-sm">
-            <thead>
-              <tr><TH>Component</TH><TH right>Current $/t</TH><TH right>MTD $/t</TH><TH right>Target $/t</TH><TH right>Variance</TH></tr>
-            </thead>
+            <thead><tr><TH>Component</TH><TH right>Current (FTD)</TH><TH right>MTD</TH><TH right>MTD Target</TH><TH right>BP Target</TH><TH right>Variance</TH></tr></thead>
             <tbody>
-              {[
-                ['Chemical Caustic', last.chem_caustic_cost ?? last.caustic_cost * 0.75, avg(mtd.map(r => r.chem_caustic_cost ?? r.caustic_cost * 0.75)), 28],
-                ['Non-Chemical Caustic', last.non_chem_caustic_cost ?? last.caustic_cost * 0.25, avg(mtd.map(r => r.non_chem_caustic_cost ?? r.caustic_cost * 0.25)), 9],
-                ['Steam', last.steam_cost, m.steam_mtd, 28.9],
-                ['Power', last.power_cost, m.power_mtd, 13.5],
-                ['Furnace Oil (HFO)', last.fo_cost, m.fo_mtd, 34.6],
-                ['Lime', last.lime_cost, m.lime_mtd, 3.5],
-                ['Fixed Cost', 24.0, 24.4, 24.0],
-              ].map((r: any) => {
-                const v = variance(r[1], r[3], 'lower');
+              {(['  Caustic','  Lime','  Steam','  Power','  Furnace Oil','  Non Commodity Cost'] as const).map(k => {
+                const r = lnjTotal[k]; const v = variance(r.mtd, r.mtd_target, 'lower');
                 return (
-                  <tr key={r[0]}>
-                    <TD bold>{r[0]}</TD>
-                    <TD right mono>{Number(r[1]).toFixed(1)}</TD>
-                    <TD right mono>{Number(r[2]).toFixed(1)}</TD>
-                    <TD right mono>{Number(r[3]).toFixed(1)}</TD>
+                  <tr key={k}>
+                    <TD bold>{k.trim()}</TD>
+                    <TD right mono>{r.current.toFixed(2)}</TD>
+                    <TD right mono>{r.mtd.toFixed(2)}</TD>
+                    <TD right mono>{r.mtd_target.toFixed(2)}</TD>
+                    <TD right mono>{r.budget.toFixed(2)}</TD>
                     <TD right><Pill good={v.good}>{v.pctv >= 0 ? '+' : ''}{v.pctv.toFixed(1)}%</Pill></TD>
                   </tr>
                 );
@@ -628,73 +479,53 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 9 + 10 – Caustic & HFO monitors */}
+        {/* SECTION 9 + 10 */}
         <SectionHeader n="09" title="Caustic & HFO Rate Monitors" sub="Real-time commodity rates" />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-xl border border-slate-700 bg-gradient-to-br from-slate-900 to-slate-950 p-5">
             <div className="flex items-center gap-2 text-emerald-300"><Beaker className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">Caustic Rate</span></div>
             <div className="mt-3 flex items-baseline gap-3">
-              <div className="text-6xl font-extrabold tabular-nums text-white">${m.caustic_mtd.toFixed(1)}</div>
+              <div className="text-6xl font-extrabold tabular-nums text-white">${caustic.mtd.toFixed(2)}</div>
               <div className="text-lg font-semibold text-slate-300">/t (MTD)</div>
             </div>
             <div className="mt-2 flex items-center gap-3 text-sm">
               <span className="text-slate-400">Current</span>
-              <span className="text-2xl font-bold tabular-nums text-amber-300">${m.caustic_curr.toFixed(1)}</span>
-              <Pill good={m.caustic_curr <= m.caustic_prev}>vs Prev {((m.caustic_curr - m.caustic_prev) / m.caustic_prev * 100).toFixed(1)}%</Pill>
+              <span className="text-2xl font-bold tabular-nums text-amber-300">${caustic.current.toFixed(2)}</span>
+              <Pill good={caustic.mtd <= caustic.prev}>vs Prev {((caustic.mtd - caustic.prev) / caustic.prev * 100).toFixed(1)}%</Pill>
             </div>
-            <ResponsiveContainer width="100%" height={120}>
-              <LineChart data={rows.map(r => ({ d: r.date.slice(5), v: r.caustic_cost }))}>
-                <Line type="monotone" dataKey="v" stroke="#10b981" strokeWidth={2.5} dot={false} />
-                <XAxis dataKey="d" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="mt-3 text-xs text-slate-400">MTD Target ${caustic.mtd_target.toFixed(2)} · BP ${caustic.budget.toFixed(2)} · Prev Month ${caustic.prev.toFixed(2)}</div>
           </div>
           <div className="rounded-xl border border-slate-700 bg-gradient-to-br from-slate-900 to-slate-950 p-5">
             <div className="flex items-center gap-2 text-orange-300"><Flame className="h-4 w-4" /><span className="text-sm font-bold uppercase tracking-wider">HFO Rate</span></div>
             <div className="mt-3 flex items-baseline gap-3">
-              <div className="text-6xl font-extrabold tabular-nums text-white">${m.fo_mtd.toFixed(1)}</div>
+              <div className="text-6xl font-extrabold tabular-nums text-white">${fo.mtd.toFixed(2)}</div>
               <div className="text-lg font-semibold text-slate-300">/t (MTD)</div>
             </div>
             <div className="mt-2 flex items-center gap-3 text-sm">
               <span className="text-slate-400">Current</span>
-              <span className="text-2xl font-bold tabular-nums text-amber-300">${m.fo_curr.toFixed(1)}</span>
-              <Pill good={m.fo_curr <= avg(prevMonth.map(r => r.fo_cost))}>vs Prev {((m.fo_curr - avg(prevMonth.map(r => r.fo_cost))) / avg(prevMonth.map(r => r.fo_cost)) * 100).toFixed(1)}%</Pill>
+              <span className="text-2xl font-bold tabular-nums text-amber-300">${fo.current.toFixed(2)}</span>
+              <Pill good={fo.mtd <= fo.prev}>vs Prev {((fo.mtd - fo.prev) / fo.prev * 100).toFixed(1)}%</Pill>
             </div>
-            <ResponsiveContainer width="100%" height={120}>
-              <LineChart data={rows.map(r => ({ d: r.date.slice(5), v: r.fo_cost }))}>
-                <Line type="monotone" dataKey="v" stroke="#f97316" strokeWidth={2.5} dot={false} />
-                <XAxis dataKey="d" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="mt-3 text-xs text-slate-400">MTD Target ${fo.mtd_target.toFixed(2)} · BP ${fo.budget.toFixed(2)} · Prev Month ${fo.prev.toFixed(2)}</div>
           </div>
         </div>
 
-        {/* SECTION 11 – Operational KPI Review */}
-        <SectionHeader n="11" title="Operational KPI Review" sub="Best Ever vs Current" />
+        {/* SECTION 11 */}
+        <SectionHeader n="11" title="Operational KPI Review" sub="Best Ever vs Current MTD" />
         <div className="overflow-x-auto rounded-xl border border-slate-700">
           <table className="w-full text-sm">
-            <thead>
-              <tr><TH>KPI</TH><TH>UoM</TH><TH right>Best Ever</TH><TH right>Current MTD</TH><TH right>Var from Best</TH><TH right>Impact on COP ($/t)</TH></tr>
-            </thead>
+            <thead><tr><TH>KPI</TH><TH>UoM</TH><TH right>Best Ever</TH><TH>Period</TH><TH right>Current MTD</TH><TH right>Var from Best</TH><TH right>Impact on COP ($/t)</TH></tr></thead>
             <tbody>
-              {[
-                ['Non-Chemical Soda','kg/T',8.29,avg(mtd.map(r=>r.cs_sc))*0.1,0.6],
-                ['Lime','kg/T',24.26,avg(mtd.map(r=>r.lm_sc)),0.18],
-                ['Steam','T/T',1.61,avg(mtd.map(r=>r.st_sc)),3.06],
-                ['Power','kWh/T',205.6,avg(mtd.map(r=>r.pw_sc)),0.74],
-                ['FO','kg/T',68.74,avg(mtd.map(r=>r.fo_sc)),1.34],
-                ['Fixed Cost','$/T',24.0,24.4,0.4],
-              ].map((r:any)=>{
-                const dv = ((r[3]-r[2])/r[2])*100;
+              {lnj.operational_best_vs_current.map(r => {
+                const dv = ((r.current_mtd - r.best_ever) / r.best_ever) * 100;
                 return (
-                  <tr key={r[0]}>
-                    <TD bold>{r[0]}</TD><TD>{r[1]}</TD>
-                    <TD right mono>{Number(r[2]).toFixed(2)}</TD>
-                    <TD right mono>{Number(r[3]).toFixed(2)}</TD>
-                    <TD right><Pill good={dv<=0}>{dv>=0?'+':''}{dv.toFixed(1)}%</Pill></TD>
-                    <TD right mono>+${r[4].toFixed(2)}</TD>
+                  <tr key={r.kpi}>
+                    <TD bold>{r.kpi}</TD><TD>{r.uom}</TD>
+                    <TD right mono>{r.best_ever.toFixed(2)}</TD>
+                    <TD>{r.best_period}</TD>
+                    <TD right mono>{r.current_mtd.toFixed(2)}</TD>
+                    <TD right><Pill good={dv <= 0}>{dv >= 0 ? '+' : ''}{dv.toFixed(1)}%</Pill></TD>
+                    <TD right mono>{r.impact_cop >= 0 ? '+' : ''}${r.impact_cop.toFixed(2)}</TD>
                   </tr>
                 );
               })}
@@ -702,30 +533,24 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 12 – Procurement Performance */}
+        {/* SECTION 12 */}
         <SectionHeader n="12" title="Procurement Performance" />
         <div className="overflow-x-auto rounded-xl border border-slate-700">
           <table className="w-full text-sm">
-            <thead>
-              <tr><TH>Commodity</TH><TH right>Receipt Cost</TH><TH right>Consumption Cost</TH><TH right>Best Achieved</TH><TH right>Current</TH><TH right>Variance</TH><TH right>Impact on COP ($/t)</TH></tr>
-            </thead>
+            <thead><tr><TH>Commodity</TH><TH>UoM</TH><TH right>Best Receipt</TH><TH right>Best Consumption</TH><TH right>Current Receipt</TH><TH right>Current Consumption</TH><TH right>Variance</TH></tr></thead>
             <tbody>
-              {[
-                ['Caustic',420,438,395,m.caustic_mtd*10,0.8],
-                ['Coal',1.05,1.09,0.94,1.05,1.2],
-                ['Lime',128,134,118,m.lime_mtd*38,0.3],
-                ['HFO',520,548,495,m.fo_mtd*14,1.6],
-              ].map((r:any)=>{
-                const v = ((r[4]-r[3])/r[3])*100;
+              {lnj.procurement.map(r => {
+                const ref = r.best_receipt || 1;
+                const v = ((r.current_receipt - ref) / ref) * 100;
                 return (
-                  <tr key={r[0]}>
-                    <TD bold>{r[0]}</TD>
-                    <TD right mono>{typeof r[1]==='number'?r[1].toFixed(2):r[1]}</TD>
-                    <TD right mono>{typeof r[2]==='number'?r[2].toFixed(2):r[2]}</TD>
-                    <TD right mono>{typeof r[3]==='number'?r[3].toFixed(2):r[3]}</TD>
-                    <TD right mono bold>{typeof r[4]==='number'?r[4].toFixed(2):r[4]}</TD>
-                    <TD right><Pill good={v<=0}>{v>=0?'+':''}{v.toFixed(1)}%</Pill></TD>
-                    <TD right mono>+${r[5].toFixed(2)}</TD>
+                  <tr key={r.commodity}>
+                    <TD bold>{r.commodity}</TD>
+                    <TD>{r.uom}</TD>
+                    <TD right mono>{r.best_receipt.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD right mono>{r.best_consumption.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD right mono bold>{r.current_receipt.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD right mono>{r.current_consumption.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</TD>
+                    <TD right><Pill good={v <= 0}>{v >= 0 ? '+' : ''}{v.toFixed(1)}%</Pill></TD>
                   </tr>
                 );
               })}
@@ -733,11 +558,11 @@ export default function AluminaExecReview() {
           </table>
         </div>
 
-        {/* SECTION 13 – Monthly Trend */}
-        <SectionHeader n="13" title="Monthly Trend Review" sub="Last 12 months" />
+        {/* SECTION 13 */}
+        <SectionHeader n="13" title="Monthly Trend Review" sub="Last 12 months · MTD anchored" />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="rounded-xl border border-slate-700 bg-slate-900/70 p-3">
-            <div className="px-2 pb-1 text-sm font-bold text-slate-200">Production vs COP</div>
+            <div className="px-2 pb-1 text-sm font-bold text-slate-200">Production (MT/d) vs COP ($/t)</div>
             <ResponsiveContainer width="100%" height={240}>
               <ComposedChart data={trendMonths}>
                 <CartesianGrid stroke="#1e293b" />
@@ -769,7 +594,7 @@ export default function AluminaExecReview() {
           </div>
         </div>
 
-        {/* SECTION 14 – Actionable Insights */}
+        {/* SECTION 14 */}
         <SectionHeader n="14" title="Actionable Insights" sub="AI-generated executive summary" />
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {insights.map((t, i) => (
@@ -783,7 +608,7 @@ export default function AluminaExecReview() {
         </div>
 
         <div className="mt-8 border-t border-slate-800 pt-4 text-center text-xs text-slate-500">
-          Vedanta Aluminium Lanjigarh · Executive Review · Reporting period {from} to {to}
+          Vedanta Aluminium Lanjigarh · Executive Review · Source: LNJ_Total · {period.from} → {period.to}
         </div>
       </div>
     </div>

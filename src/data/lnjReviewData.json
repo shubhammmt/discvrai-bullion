@@ -1,0 +1,64 @@
+{
+  "period": { "from": "2026-03-01", "to": "2026-03-31", "current_day_label": "FTD" },
+  "fx": { "mtd_avg": 84.11, "current": 84.32 },
+  "lnj_total": {
+    "_columns": ["FY25", "PrevMonth_Feb", "BP_Target", "MonthEnd_Forecast", "MTD_Target", "MTD", "Current_FTD"],
+    "Hydrate Production":   { "uom": "KT",    "fy25": 2023.27, "prev": 287.50, "budget": 294.99, "forecast": 349.87, "mtd_target": 341.25, "mtd": 307.37, "current": 8.41,  "dir": "higher", "decimals": 2, "bold": true },
+    "Calcined Production":  { "uom": "KT",    "fy25": 1974.88, "prev": 280.72, "budget": 317.00, "forecast": 350.55, "mtd_target": 340.45, "mtd": 329.72, "current": 9.08,  "dir": "higher", "decimals": 2, "bold": true },
+    "COP":                  { "uom": "$/t",   "fy25": 355.49,  "prev": 360.09, "budget": 299.49, "forecast": 358.43, "mtd_target": 357.86, "mtd": 354.80, "current": 362.13, "dir": "lower", "decimals": 2, "bold": true },
+    "Bauxite Cost":         { "uom": "$/t",   "fy25": 182.14,  "prev": 219.51, "budget": 174.39, "forecast": 215.32, "mtd_target": 215.19, "mtd": 214.18, "current": 224.17, "dir": "lower", "decimals": 2 },
+    "Conversion Cost":      { "uom": "$/t",   "fy25": 173.35,  "prev": 140.59, "budget": 125.10, "forecast": 143.12, "mtd_target": 142.67, "mtd": 140.62, "current": 137.96, "dir": "lower", "decimals": 2 },
+    "  Caustic":            { "uom": "$/t",   "fy25": 47.42,   "prev": 39.66,  "budget": 36.59,  "forecast": 36.94,  "mtd_target": 37.01,  "mtd": 34.15,  "current": 28.12,  "dir": "lower", "decimals": 2 },
+    "  Lime":               { "uom": "$/t",   "fy25": 3.35,    "prev": 2.59,   "budget": 4.19,   "forecast": 3.46,   "mtd_target": 3.45,   "mtd": 3.24,   "current": 2.20,   "dir": "lower", "decimals": 2 },
+    "  Steam":              { "uom": "$/t",   "fy25": 29.15,   "prev": 22.73,  "budget": 21.71,  "forecast": 28.97,  "mtd_target": 28.87,  "mtd": 23.33,  "current": 20.35,  "dir": "lower", "decimals": 2 },
+    "  Power":              { "uom": "$/t",   "fy25": 14.77,   "prev": 11.12,  "budget": 10.08,  "forecast": 13.68,  "mtd_target": 13.49,  "mtd": 12.04,  "current": 10.12,  "dir": "lower", "decimals": 2 },
+    "  Furnace Oil":        { "uom": "$/t",   "fy25": 44.04,   "prev": 33.29,  "budget": 33.50,  "forecast": 34.65,  "mtd_target": 34.65,  "mtd": 39.36,  "current": 42.38,  "dir": "lower", "decimals": 2 },
+    "  Non Commodity Cost": { "uom": "$/t",   "fy25": 34.62,   "prev": 31.20,  "budget": 24.83,  "forecast": 25.42,  "mtd_target": 25.20,  "mtd": 28.49,  "current": 34.79,  "dir": "lower", "decimals": 2 },
+    "Coal Cost":            { "uom": "Rs/GCV","fy25": 1.20,    "prev": 1.10,   "budget": 1.15,   "forecast": 1.10,   "mtd_target": 1.10,   "mtd": 0.98,   "current": 0.95,   "dir": "lower", "decimals": 2 }
+  },
+  "specifics": {
+    "Bauxite SC":         { "uom": "T/T",    "prev": 3.191, "budget": 2.919, "forecast": 3.120, "mtd_target": 3.118, "mtd": 3.128, "current": 3.025, "dir": "lower", "decimals": 3 },
+    "Caustic SC (incl NC)":{ "uom": "kg/T",  "prev": 87.44, "budget": 78.94, "forecast": 82.24, "mtd_target": 82.35, "mtd": 76.16, "current": 62.86, "dir": "lower", "decimals": 2 },
+    "Non Chemical Soda":  { "uom": "kg/T",   "prev": 7.05,  "budget": 10.63, "forecast": 10.54, "mtd_target": 10.52, "mtd": 6.78,  "current": 8.99,  "dir": "lower", "decimals": 2 },
+    "Steam SC":           { "uom": "T/T",    "prev": 1.849, "budget": 1.623, "forecast": 1.883, "mtd_target": 1.886, "mtd": 1.850, "current": 2.070, "dir": "lower", "decimals": 3 },
+    "Power SC":           { "uom": "kWh/T",  "prev": 212.72,"budget": 213.92,"forecast": 211.19,"mtd_target": 211.26,"mtd": 218.61,"current": 243.79,"dir": "lower", "decimals": 2 },
+    "Lime SC":            { "uom": "kg/MT",  "prev": 19.55, "budget": 30.00, "forecast": 25.07, "mtd_target": 25.02, "mtd": 23.42, "current": 15.58, "dir": "lower", "decimals": 2 },
+    "FO SC":              { "uom": "kg/T",   "prev": 70.78, "budget": 69.29, "forecast": 71.27, "mtd_target": 71.27, "mtd": 71.09, "current": 74.15, "dir": "lower", "decimals": 2 },
+    "Recovery":           { "uom": "%",      "prev": 90.66, "budget": 92.00, "forecast": 91.00, "mtd_target": 91.00, "mtd": 90.95, "current": 91.18, "dir": "higher","decimals": 2, "bold": true },
+    "Conversion Ratio":   { "uom": "T/T",    "prev": 1.926, "budget": 1.900, "forecast": 1.920, "mtd_target": 1.920, "mtd": 1.918, "current": 1.905, "dir": "lower", "decimals": 3, "bold": true }
+  },
+  "quality": {
+    "Feed THA":      { "fy25": 39.72, "prev": 39.27, "budget": 40.51, "mtd": 39.55, "current": 40.56, "uom": "%" },
+    "Feed RS":       { "fy25": 2.91,  "prev": 3.07,  "budget": 2.41,  "mtd": 2.69,  "current": 2.14,  "uom": "%" },
+    "Feed Moisture": { "fy25": 9.61,  "prev": 9.18,  "budget": 8.08,  "mtd": 8.75,  "current": 7.99,  "uom": "%" }
+  },
+  "mix_mtd": {
+    "OMC":     { "consumption_kt": 243.93, "share": 25.39, "prev_share": 28.49 },
+    "Andru":   { "consumption_kt": 216.46, "share": 22.55, "prev_share": 18.75 },
+    "Imported":{ "consumption_kt": 500.67, "share": 52.06, "prev_share": 52.77 }
+  },
+  "inventory_kt": {
+    "Total Inventory": 156.69,
+    "OMC": 3.88,
+    "EGA (Excluding Carpet)": 0.05,
+    "Ashapura": 0,
+    "RTA": 125.75,
+    "Andru": 27.00,
+    "Other Domestic": 0,
+    "Carpet": 0
+  },
+  "operational_best_vs_current": [
+    { "kpi": "Non-Chemical Soda", "uom": "kg/T",  "best_ever": 8.29,   "best_period": "Q4'25", "current_mtd": 6.78,   "impact_cop": -0.70 },
+    { "kpi": "Lime",              "uom": "kg/T",  "best_ever": 24.26,  "best_period": "Q2'20", "current_mtd": 23.42,  "impact_cop": -0.12 },
+    { "kpi": "Steam",             "uom": "T/T",   "best_ever": 1.614,  "best_period": "Q4'24", "current_mtd": 1.850,  "impact_cop": 3.06 },
+    { "kpi": "Power",             "uom": "kWh/T", "best_ever": 205.61, "best_period": "Q1'21", "current_mtd": 218.61, "impact_cop": 0.74 },
+    { "kpi": "FO",                "uom": "kg/T",  "best_ever": 68.74,  "best_period": "Q4'24", "current_mtd": 71.09,  "impact_cop": 1.34 },
+    { "kpi": "Fixed Cost",        "uom": "$/T",   "best_ever": 24.00,  "best_period": "Q1'21", "current_mtd": 28.49,  "impact_cop": 4.49 }
+  ],
+  "procurement": [
+    { "commodity": "HFO",     "best_receipt": 40559.60, "best_consumption": 0,        "current_receipt": 46081,    "current_consumption": 0,        "uom": "Rs/T" },
+    { "commodity": "Caustic", "best_receipt": 40559.60, "best_consumption": 38487.62, "current_receipt": 41167.05, "current_consumption": 40003.24, "uom": "Rs/T" },
+    { "commodity": "Coal",    "best_receipt": 0.67,     "best_consumption": 0.83,     "current_receipt": 1.10,     "current_consumption": 1.10,     "uom": "Rs/GCV" },
+    { "commodity": "Lime",    "best_receipt": 6030.01,  "best_consumption": 6189.17,  "current_receipt": 12380.38, "current_consumption": 11991.77, "uom": "Rs/T" }
+  ]
+}
