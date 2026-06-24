@@ -649,12 +649,107 @@ export default function AluminaCopDashboard() {
         {/* Market & Financial Intelligence */}
         <section className="space-y-3">
           <SectionHeader icon={LineIcon} title="Market & Financial Intelligence" sub="Alumina index · FX · landed bauxite & conversion" T={T} />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Kpi T={T} icon={DollarSign} label="Alumina Index (latest)" value={`$${fmt((lastRow.alumina_index)||0,1)}`} delta={pctChange(lastRow.alumina_index, rows[0]?.alumina_index)} hint={`MTD avg $${fmt(avg(rows.map(r=>(r as any).alumina_index)),1)}`} />
-            <Kpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" value={`${fmt(lastRow.fx_rate,2)}`} delta={pctChange(lastRow.fx_rate, rows[0]?.fx_rate)} invert hint={`MTD avg ${fmt(avg(rows.map(r=>(r as any).fx_rate)),2)}`} />
-            <Kpi T={T} icon={Droplets} label="Bauxite Cost (avg)" value={`$${fmt(avg(rows.map(r=>r.bauxite_cost)))}/MT`} delta={variance?.bauxite} invert hint={`${((avg(rows.map(r=>r.bauxite_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP`} />
-            <Kpi T={T} icon={Flame} label="Other Cost (avg)" value={`$${fmt(avg(rows.map(r=>(r as any).conv_cost)))}/MT`} delta={variance?.conv} invert hint={`${((avg(rows.map(r=>(r as any).conv_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP · ex-bauxite`} />
+          {/* MTD-first headline cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <BigKpi T={T} icon={DollarSign} label="Alumina Index" unit="$" mtd={fmt(commodities.alumina.mtdAvg,1)} current={fmt(commodities.alumina.cur,1)} prevMtd={fmt(commodities.alumina.prev,1)} change={commodities.alumina.change} />
+            <BigKpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" unit="" mtd={fmt(commodities.fx.mtdAvg,2)} current={fmt(commodities.fx.cur,2)} prevMtd={fmt(commodities.fx.prev,2)} change={commodities.fx.change} invert />
+            <BigKpi T={T} icon={Droplets} label="Bauxite Cost (landed)" unit="$" mtd={fmt(landed.weighted)} current={fmt(lastRow.bauxite_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>r.bauxite_cost))) : null} change={variance?.bauxite} invert />
+            <BigKpi T={T} icon={Flame} label="Other Cost" unit="$" mtd={fmt(avg(rows.map(r=>(r as any).conv_cost)))} current={fmt((lastRow as any).conv_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>(r as any).conv_cost))) : null} change={variance?.conv} invert />
           </div>
+
+          {/* Landed Bauxite Cost by Source */}
+          <div className={`rounded-xl border ${T.panel} p-4`}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><Droplets className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Landed Bauxite Cost · by source</div></div>
+              <div className="text-[12px]"><span className={T.sub}>Weighted avg </span><span className="font-bold">${fmt(landed.weighted)}/MT</span></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
+              <div className="lg:col-span-2">
+                <div className="overflow-hidden rounded-lg border ${dark?'border-slate-800':'border-slate-200'}">
+                  <table className="w-full text-[13px]">
+                    <thead className={dark ? 'text-slate-300 bg-slate-900/60' : 'text-slate-600 bg-slate-100'}>
+                      <tr>
+                        <th className="text-left py-2 px-3 font-semibold">Source</th>
+                        <th className="text-right py-2 px-3 font-semibold">Landed $/MT</th>
+                        <th className="text-right py-2 px-3 font-semibold">Share %</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {landed.sources.map(s => (
+                        <tr key={s.name} className={`border-t ${dark?'border-slate-800':'border-slate-200'}`}>
+                          <td className="py-2.5 px-3">
+                            <span className="inline-flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />
+                              <span className="font-semibold">{s.name}</span>
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-bold">${fmt(s.cost)}</td>
+                          <td className={`py-2.5 px-3 text-right ${T.sub}`}>{s.share.toFixed(1)}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-[12px]">
+                  {landed.top && (
+                    <div className={`rounded-md border ${dark?'border-rose-500/30 bg-rose-500/5':'border-rose-200 bg-rose-50'} p-2`}>
+                      <div className={T.sub}>Highest cost</div>
+                      <div className="font-bold text-rose-400">{landed.top.name} · ${fmt(landed.top.cost)}/MT</div>
+                    </div>
+                  )}
+                  {landed.low && (
+                    <div className={`rounded-md border ${dark?'border-emerald-500/30 bg-emerald-500/5':'border-emerald-200 bg-emerald-50'} p-2`}>
+                      <div className={T.sub}>Lowest cost</div>
+                      <div className="font-bold text-emerald-400">{landed.low.name} · ${fmt(landed.low.cost)}/MT</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="lg:col-span-3">
+                <ResponsiveContainer width="100%" height={240}>
+                  <LineChart data={landed.trend}>
+                    <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                    <YAxis stroke={T.axis} fontSize={13} />
+                    <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`$${v}/MT`} />
+                    <Legend wrapperStyle={{ fontSize: 13 }} />
+                    <Line dataKey="OMC" stroke={SOURCE_COLOR.OMC} strokeWidth={2.25} dot={false} />
+                    <Line dataKey="Andru" stroke={SOURCE_COLOR.Andru} strokeWidth={2.25} dot={false} />
+                    <Line dataKey="Imported" stroke={SOURCE_COLOR.Imported} strokeWidth={2.5} dot={false} />
+                    <Line dataKey="Other" stroke={SOURCE_COLOR.Other} strokeWidth={2.25} strokeDasharray="4 3" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Bauxite Mix summary chips */}
+          <div className={`rounded-xl border ${T.panel} p-4`}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><Layers className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Bauxite Mix · current vs previous period</div></div>
+              <div className={`text-[12px] ${T.sub}`}>shares averaged over selected window</div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {(['OMC','Andru','Imported','Other'] as const).map(n => {
+                const cur = mixSummary.cur[n], prv = mixSummary.prev[n];
+                const ch = cur - prv;
+                return (
+                  <div key={n} className={`rounded-lg border p-3 ${dark?'border-slate-800':'border-slate-200'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-2.5 h-2.5 rounded-full" style={{ background: SOURCE_COLOR[n] }} />
+                      <span className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{n}</span>
+                    </div>
+                    <div className="text-2xl font-extrabold">{cur.toFixed(0)}%</div>
+                    <div className={`text-[12px] mt-1 flex items-center gap-2 ${T.sub}`}>
+                      <span>prev {prv.toFixed(0)}%</span>
+                      <span className={`font-semibold ${ch >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{ch >= 0 ? '+' : ''}{ch.toFixed(1)} pp</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Other Cost breakdown */}
           <div className={`rounded-xl border ${T.panel} p-3`}>
             <div className="flex items-center justify-between mb-2">
