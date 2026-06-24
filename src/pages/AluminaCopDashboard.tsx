@@ -250,6 +250,126 @@ export default function AluminaCopDashboard() {
   // Inventory health
   const invHealth = (days: number) => days >= 8 ? { color:'emerald', label:'Healthy'} : days >= 5 ? { color:'amber', label:'Monitor'} : { color:'rose', label:'Critical'};
 
+  // --- Operations Command Center: production status + ask rate + loss waterfall
+  const ops = useMemo(() => {
+    if (!rows.length) return null as any;
+    const last: any = rows[rows.length - 1];
+    const current = (last.hydrate || 0) + (last.calcined || 0);
+    const target = TARGET_PROD;
+    const gap = current - target;
+    const gapPct = (gap / target) * 100;
+    const status = gapPct >= -1 ? 'on' : gapPct >= -5 ? 'warn' : 'critical';
+    const month = last.date.slice(0, 7);
+    const dim = daysInMonth(last.date);
+    const dom = dayOfMonth(last.date);
+    const remaining = Math.max(1, dim - dom);
+    const mtdRows = rows.filter(r => r.date.slice(0, 7) === month);
+    const achieved = mtdRows.reduce((s, r: any) => s + (r.hydrate || 0) + (r.calcined || 0), 0);
+    const monthTarget = target * dim;
+    const need = Math.max(0, monthTarget - achieved);
+    const askRate = need / remaining;
+    const tail = mtdRows.slice(-7);
+    const runRate = avg(tail.map((r: any) => (r.hydrate || 0) + (r.calcined || 0)));
+    const additional = Math.max(0, askRate - runRate);
+    const projected = achieved + runRate * remaining;
+    const projAttain = monthTarget ? (projected / monthTarget) * 100 : 0;
+    return { current, target, gap, gapPct, status, askRate, runRate, additional, achieved, monthTarget, projAttain, remaining, dim, dom };
+  }, [rows]);
+
+  // --- Production loss contribution waterfall (vs current shortfall)
+  const lossParts = useMemo(() => {
+    if (!ops || ops.gap >= 0 || !rows.length) return [] as any[];
+    const last: any = rows[rows.length - 1];
+    const items = [
+      { name: 'Low THA',              raw: Math.max(0, 0.42 - last.tha) * 100,        color: '#1e3a8a' },
+      { name: 'High Moisture',        raw: Math.max(0, last.moisture - 0.09) * 100,   color: '#d97706' },
+      { name: 'High RS',              raw: Math.max(0, (last.rs || 0) - 0.018) * 1000, color: '#dc2626' },
+      { name: 'Inventory constraint', raw: Math.max(0, 6 - (last.stock_days || 0)) * 0.6, color: '#64748b' },
+      { name: 'Conversion efficiency',raw: Math.max(0, (last.conv_ratio || 0) - 3.33) * 5, color: '#a855f7' },
+      { name: 'Recovery loss',        raw: Math.max(0, 0.91 - last.recovery) * 200,   color: '#15803d' },
+    ];
+    const tot = items.reduce((s, x) => s + x.raw, 0) || 1;
+    return items
+      .map(x => ({ ...x, share: +(x.raw / tot * 100).toFixed(0) }))
+      .filter(x => x.share > 0)
+      .sort((a, b) => b.share - a.share);
+  }, [rows, ops]);
+
+  // --- Landed bauxite cost by source (weighted avg preserved)
+  const landed = useMemo(() => {
+    if (!rows.length) return { sources: [] as any[], weighted: 0, trend: [] as any[], top: null as any, low: null as any };
+    const calc = (r: any) => {
+      const w =
+        SOURCE_MULT.OMC * r.omc_pct +
+        SOURCE_MULT.Andru * r.andru_pct +
+        SOURCE_MULT.Imported * r.imp_pct +
+        SOURCE_MULT.Other * (r.other_pct || 0);
+      const base = r.bauxite_cost / (w || 1);
+      return {
+        OMC: base * SOURCE_MULT.OMC,
+        Andru: base * SOURCE_MULT.Andru,
+        Imported: base * SOURCE_MULT.Imported,
+        Other: base * SOURCE_MULT.Other,
+      };
+    };
+    const arr = rows.map(calc);
+    const A = (k: string) => avg(arr.map((x: any) => x[k]));
+    const shares = {
+      OMC: avg(rows.map(r => r.omc_pct)) * 100,
+      Andru: avg(rows.map(r => r.andru_pct)) * 100,
+      Imported: avg(rows.map(r => r.imp_pct)) * 100,
+      Other: avg(rows.map(r => (r as any).other_pct || 0)) * 100,
+    };
+    const sources = (['OMC', 'Andru', 'Imported', 'Other'] as const).map(n => ({
+      name: n, cost: +A(n).toFixed(1), share: +shares[n].toFixed(1), color: SOURCE_COLOR[n],
+    }));
+    const weighted = avg(rows.map(r => r.bauxite_cost));
+    const trend = rows.map((r, i) => ({
+      date: r.date.slice(5),
+      OMC: +arr[i].OMC.toFixed(1),
+      Andru: +arr[i].Andru.toFixed(1),
+      Imported: +arr[i].Imported.toFixed(1),
+      Other: +arr[i].Other.toFixed(1),
+    }));
+    const ranked = [...sources].sort((a, b) => b.cost - a.cost);
+    return { sources, weighted, trend, top: ranked[0], low: ranked[ranked.length - 1] };
+  }, [rows]);
+
+  // --- Bauxite mix summary (current vs previous window)
+  const mixSummary = useMemo(() => {
+    const c = (arr: Row[]) => ({
+      OMC: avg(arr.map(r => r.omc_pct)) * 100,
+      Andru: avg(arr.map(r => r.andru_pct)) * 100,
+      Imported: avg(arr.map(r => r.imp_pct)) * 100,
+      Other: avg(arr.map(r => (r as any).other_pct || 0)) * 100,
+    });
+    return { cur: c(rows), prev: prevRows.length ? c(prevRows) : c(rows) };
+  }, [rows, prevRows]);
+
+  // --- Commodity intelligence (caustic, HFO): current, MTD avg, vs prev MTD avg
+  const commodities = useMemo(() => {
+    const lastDate = (rows[rows.length - 1]?.date) || '';
+    const month = lastDate.slice(0, 7);
+    const mtd = rows.filter(r => r.date.slice(0, 7) === month);
+    const prevMtd = prevRows.length ? prevRows : mtd;
+    const build = (k: string, label: string, unit: string) => {
+      const cur = Number((rows[rows.length - 1] as any)?.[k] || 0);
+      const mtdAvg = avg(mtd.map((r: any) => Number(r[k]) || 0));
+      const prev = avg(prevMtd.map((r: any) => Number(r[k]) || 0));
+      const change = prev ? ((mtdAvg - prev) / prev) * 100 : 0;
+      const spark = rows.slice(-14).map((r: any) => ({ d: r.date.slice(5), v: Number(r[k]) || 0 }));
+      return { key: k, label, unit, cur, mtdAvg, prev, change, spark };
+    };
+    return {
+      caustic: build('caustic_cost', 'Caustic', '$'),
+      hfo: build('fo_cost', 'HFO (Furnace Oil)', '$'),
+      alumina: build('alumina_index', 'Alumina Index', '$'),
+      fx: build('fx_rate', 'INR / USD', '₹'),
+    };
+  }, [rows, prevRows]);
+
+
+
   // AI insights
   const insights = useMemo(() => {
     const list: { tone: 'pos' | 'neg' | 'warn' | 'info'; title: string; body: string }[] = [];
