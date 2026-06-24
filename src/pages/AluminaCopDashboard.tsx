@@ -481,7 +481,7 @@ export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkPr
   return (
     <div className={`min-h-screen ${T.bg} ${T.text} transition-colors`}>
       {/* Header */}
-      <header className={`sticky top-0 z-30 backdrop-blur ${dark ? 'bg-slate-950/85 border-slate-800' : 'bg-white/85 border-slate-200'} border-b`}>
+      <header className={`sticky top-[52px] z-30 backdrop-blur ${dark ? 'bg-slate-950/85 border-slate-800' : 'bg-white/85 border-slate-200'} border-b`}>
         <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-3 mr-auto">
             <div className={`h-10 px-2 rounded-lg flex items-center justify-center ${dark ? 'bg-white' : 'bg-white border border-slate-200'}`}>
