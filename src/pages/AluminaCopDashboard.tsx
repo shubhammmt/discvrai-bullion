@@ -818,7 +818,10 @@ export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkPr
         <section className="space-y-3">
           <SectionHeader icon={Beaker} title="Commodity Intelligence" sub="Current rate · MTD average · vs prior period" T={T} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {[commodities.caustic, commodities.hfo].map((c) => (
+            {[commodities.caustic, commodities.hfo].map((c) => {
+              const FX = 94.71;
+              const fmtInr = (v: number) => `₹${(v * FX).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+              return (
               <div key={c.key} className={`rounded-xl border ${T.panel} p-4`}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
@@ -827,8 +830,8 @@ export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkPr
                     </div>
                     <div>
                       <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>{c.label}</div>
-                      <div className="text-2xl font-extrabold leading-tight">${fmt(c.mtdAvg)}</div>
-                      <div className={`text-[12px] ${T.sub}`}>MTD Average · $/MT</div>
+                      <div className="text-2xl font-extrabold leading-tight">{fmtInr(c.mtdAvg)}</div>
+                      <div className={`text-[12px] ${T.sub}`}>MTD Average · ₹/Tonne</div>
                     </div>
                   </div>
                   <span className={`text-[12px] font-bold px-2 py-0.5 rounded ${c.change >= 0 ? 'bg-rose-500/15 text-rose-300 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30'}`}>
@@ -837,20 +840,21 @@ export default function AluminaCopDashboard({ dark: darkProp, setDark: setDarkPr
                 </div>
                 <div className="flex items-end justify-between gap-3 mt-2">
                   <div className="text-[12px] space-y-0.5">
-                    <div className="flex gap-2"><span className={T.sub}>Current</span><span className="font-semibold">${fmt(c.cur)}</span></div>
-                    <div className="flex gap-2"><span className={T.sub}>Prev period</span><span>${fmt(c.prev)}</span></div>
+                    <div className="flex gap-2"><span className={T.sub}>Current</span><span className="font-semibold">{fmtInr(c.cur)}/T</span></div>
+                    <div className="flex gap-2"><span className={T.sub}>Prev period</span><span>{fmtInr(c.prev)}/T</span></div>
                   </div>
                   <div className="flex-1 max-w-[55%]">
                     <ResponsiveContainer width="100%" height={56}>
                       <AreaChart data={c.spark}>
                         <Area dataKey="v" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.25} strokeWidth={1.75} />
-                        <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`$${v}`} />
+                        <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`₹${Math.round(Number(v)*FX).toLocaleString('en-IN')}/T`} />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
