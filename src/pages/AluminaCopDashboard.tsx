@@ -412,8 +412,48 @@ export default function AluminaCopDashboard() {
       title: `Recovery ${drivers.recDelta>=0?'improved':'declined'} ${Math.abs(drivers.recDelta).toFixed(2)} pp`,
       body: `Top contributors — ${drivers.parts.map(p=>`${p.name} ${p.share}%`).join(' · ')}.`
     });
+
+    // --- New executive insights
+    if (ops) {
+      list.push({
+        tone: ops.status === 'on' ? 'pos' : ops.status === 'warn' ? 'warn' : 'neg',
+        title: `Production is running ${ops.gapPct >= 0 ? '+' : ''}${ops.gapPct.toFixed(1)}% vs target`,
+        body: `Current ${fmt(ops.current)} MT/day vs target ${fmt(ops.target)} MT/day. Ask rate ${fmt(ops.askRate)} MT/day for ${ops.remaining} remaining days.`
+      });
+      list.push({
+        tone: ops.additional > 200 ? 'warn' : 'info',
+        title: `Required ask rate ${fmt(ops.askRate)} MT/day to hit monthly target`,
+        body: `Run rate (7d) ${fmt(ops.runRate)} MT/day. Additional ${fmt(ops.additional)} MT/day needed. Projected attainment ${ops.projAttain.toFixed(1)}%.`
+      });
+    }
+    if (lossParts.length) {
+      const top2 = lossParts.slice(0, 2).map(p => `${p.name} ${p.share}%`).join(' · ');
+      list.push({ tone: 'warn', title: `Top production shortfall drivers — ${top2}`, body: `Ranked contribution to current gap vs ${TARGET_PROD} MT/day target.` });
+    }
+    if (landed.top && landed.low) {
+      list.push({
+        tone: 'info',
+        title: `Imported bauxite is the ${landed.top.name === 'Imported' ? 'highest' : 'a'} landed cost source at $${fmt(landed.sources.find(s=>s.name==='Imported')?.cost||0)}/MT`,
+        body: `Weighted landed avg $${fmt(landed.weighted)}/MT. Lowest source: ${landed.low.name} at $${fmt(landed.low.cost)}/MT.`
+      });
+    }
+    const cau = commodities.caustic, hfo = commodities.hfo;
+    list.push({
+      tone: cau.cur > cau.mtdAvg ? 'warn' : 'info',
+      title: `Caustic ${cau.cur >= cau.mtdAvg ? 'above' : 'below'} MTD average by ${Math.abs(((cau.cur-cau.mtdAvg)/(cau.mtdAvg||1))*100).toFixed(1)}%`,
+      body: `Current $${fmt(cau.cur)}/MT · MTD avg $${fmt(cau.mtdAvg)}/MT · vs prev ${cau.change>=0?'+':''}${cau.change.toFixed(1)}%.`
+    });
+    list.push({
+      tone: hfo.change < 0 ? 'pos' : 'info',
+      title: `HFO ${hfo.change >= 0 ? 'increased' : 'reduced'} ${Math.abs(hfo.change).toFixed(1)}% vs previous period`,
+      body: `Current $${fmt(hfo.cur)}/MT · MTD avg $${fmt(hfo.mtdAvg)}/MT.`
+    });
+    // sort: warn/neg first
+    const rank: any = { warn: 0, neg: 1, pos: 2, info: 3 };
+    list.sort((a, b) => (rank[a.tone] ?? 9) - (rank[b.tone] ?? 9));
     return list;
-  }, [rows, hydMa, contrib, drivers]);
+  }, [rows, hydMa, contrib, drivers, ops, lossParts, landed, commodities]);
+
 
   const exportCsv = () => {
     const headers = Object.keys(rows[0] || {});
