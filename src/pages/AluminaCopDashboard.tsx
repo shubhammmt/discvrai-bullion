@@ -41,6 +41,18 @@ function corrLabel(c: number) {
 const COMPARE_MODES = ['Daily','MTD','QTD','YTD','PoP','QoQ','YoY'] as const;
 type Compare = typeof COMPARE_MODES[number];
 
+// Production target (combined hydrate + calcined)
+const TARGET_PROD = 7200; // MT/day
+// Landed cost multipliers by source vs basket weighted average
+const SOURCE_MULT: Record<string, number> = { OMC: 0.82, Andru: 0.94, Imported: 1.26, Other: 1.05 };
+const SOURCE_COLOR: Record<string, string> = { OMC: '#0369a1', Andru: '#16a34a', Imported: '#d97706', Other: '#64748b' };
+
+function daysInMonth(dateStr: string) {
+  const d = new Date(dateStr);
+  return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+}
+function dayOfMonth(dateStr: string) { return new Date(dateStr).getDate(); }
+
 export default function AluminaCopDashboard() {
   const all = raw as Row[];
   const [dark, setDark] = useState(true);
@@ -238,6 +250,126 @@ export default function AluminaCopDashboard() {
   // Inventory health
   const invHealth = (days: number) => days >= 8 ? { color:'emerald', label:'Healthy'} : days >= 5 ? { color:'amber', label:'Monitor'} : { color:'rose', label:'Critical'};
 
+  // --- Operations Command Center: production status + ask rate + loss waterfall
+  const ops = useMemo(() => {
+    if (!rows.length) return null as any;
+    const last: any = rows[rows.length - 1];
+    const current = (last.hydrate || 0);
+    const target = TARGET_PROD;
+    const gap = current - target;
+    const gapPct = (gap / target) * 100;
+    const status = gapPct >= -1 ? 'on' : gapPct >= -5 ? 'warn' : 'critical';
+    const month = last.date.slice(0, 7);
+    const dim = daysInMonth(last.date);
+    const dom = dayOfMonth(last.date);
+    const remaining = Math.max(1, dim - dom);
+    const mtdRows = rows.filter(r => r.date.slice(0, 7) === month);
+    const achieved = mtdRows.reduce((s, r: any) => s + (r.hydrate || 0), 0);
+    const monthTarget = target * dim;
+    const need = Math.max(0, monthTarget - achieved);
+    const askRate = need / remaining;
+    const tail = mtdRows.slice(-7);
+    const runRate = avg(tail.map((r: any) => (r.hydrate || 0)));
+    const additional = Math.max(0, askRate - runRate);
+    const projected = achieved + runRate * remaining;
+    const projAttain = monthTarget ? (projected / monthTarget) * 100 : 0;
+    return { current, target, gap, gapPct, status, askRate, runRate, additional, achieved, monthTarget, projAttain, remaining, dim, dom };
+  }, [rows]);
+
+  // --- Production loss contribution waterfall (vs current shortfall)
+  const lossParts = useMemo(() => {
+    if (!ops || ops.gap >= 0 || !rows.length) return [] as any[];
+    const last: any = rows[rows.length - 1];
+    const items = [
+      { name: 'Low THA',              raw: Math.max(0, 0.42 - last.tha) * 100,        color: '#1e3a8a' },
+      { name: 'High Moisture',        raw: Math.max(0, last.moisture - 0.09) * 100,   color: '#d97706' },
+      { name: 'High RS',              raw: Math.max(0, (last.rs || 0) - 0.018) * 1000, color: '#dc2626' },
+      { name: 'Inventory constraint', raw: Math.max(0, 6 - (last.stock_days || 0)) * 0.6, color: '#64748b' },
+      { name: 'Conversion efficiency',raw: Math.max(0, (last.conv_ratio || 0) - 3.33) * 5, color: '#a855f7' },
+      { name: 'Recovery loss',        raw: Math.max(0, 0.91 - last.recovery) * 200,   color: '#15803d' },
+    ];
+    const tot = items.reduce((s, x) => s + x.raw, 0) || 1;
+    return items
+      .map(x => ({ ...x, share: +(x.raw / tot * 100).toFixed(0) }))
+      .filter(x => x.share > 0)
+      .sort((a, b) => b.share - a.share);
+  }, [rows, ops]);
+
+  // --- Landed bauxite cost by source (weighted avg preserved)
+  const landed = useMemo(() => {
+    if (!rows.length) return { sources: [] as any[], weighted: 0, trend: [] as any[], top: null as any, low: null as any };
+    const calc = (r: any) => {
+      const w =
+        SOURCE_MULT.OMC * r.omc_pct +
+        SOURCE_MULT.Andru * r.andru_pct +
+        SOURCE_MULT.Imported * r.imp_pct +
+        SOURCE_MULT.Other * (r.other_pct || 0);
+      const base = r.bauxite_cost / (w || 1);
+      return {
+        OMC: base * SOURCE_MULT.OMC,
+        Andru: base * SOURCE_MULT.Andru,
+        Imported: base * SOURCE_MULT.Imported,
+        Other: base * SOURCE_MULT.Other,
+      };
+    };
+    const arr = rows.map(calc);
+    const A = (k: string) => avg(arr.map((x: any) => x[k]));
+    const shares = {
+      OMC: avg(rows.map(r => r.omc_pct)) * 100,
+      Andru: avg(rows.map(r => r.andru_pct)) * 100,
+      Imported: avg(rows.map(r => r.imp_pct)) * 100,
+      Other: avg(rows.map(r => (r as any).other_pct || 0)) * 100,
+    };
+    const sources = (['OMC', 'Andru', 'Imported', 'Other'] as const).map(n => ({
+      name: n, cost: +A(n).toFixed(1), share: +shares[n].toFixed(1), color: SOURCE_COLOR[n],
+    }));
+    const weighted = avg(rows.map(r => r.bauxite_cost));
+    const trend = rows.map((r, i) => ({
+      date: r.date.slice(5),
+      OMC: +arr[i].OMC.toFixed(1),
+      Andru: +arr[i].Andru.toFixed(1),
+      Imported: +arr[i].Imported.toFixed(1),
+      Other: +arr[i].Other.toFixed(1),
+    }));
+    const ranked = [...sources].sort((a, b) => b.cost - a.cost);
+    return { sources, weighted, trend, top: ranked[0], low: ranked[ranked.length - 1] };
+  }, [rows]);
+
+  // --- Bauxite mix summary (current vs previous window)
+  const mixSummary = useMemo(() => {
+    const c = (arr: Row[]) => ({
+      OMC: avg(arr.map(r => r.omc_pct)) * 100,
+      Andru: avg(arr.map(r => r.andru_pct)) * 100,
+      Imported: avg(arr.map(r => r.imp_pct)) * 100,
+      Other: avg(arr.map(r => (r as any).other_pct || 0)) * 100,
+    });
+    return { cur: c(rows), prev: prevRows.length ? c(prevRows) : c(rows) };
+  }, [rows, prevRows]);
+
+  // --- Commodity intelligence (caustic, HFO): current, MTD avg, vs prev MTD avg
+  const commodities = useMemo(() => {
+    const lastDate = (rows[rows.length - 1]?.date) || '';
+    const month = lastDate.slice(0, 7);
+    const mtd = rows.filter(r => r.date.slice(0, 7) === month);
+    const prevMtd = prevRows.length ? prevRows : mtd;
+    const build = (k: string, label: string, unit: string) => {
+      const cur = Number((rows[rows.length - 1] as any)?.[k] || 0);
+      const mtdAvg = avg(mtd.map((r: any) => Number(r[k]) || 0));
+      const prev = avg(prevMtd.map((r: any) => Number(r[k]) || 0));
+      const change = prev ? ((mtdAvg - prev) / prev) * 100 : 0;
+      const spark = rows.slice(-14).map((r: any) => ({ d: r.date.slice(5), v: Number(r[k]) || 0 }));
+      return { key: k, label, unit, cur, mtdAvg, prev, change, spark };
+    };
+    return {
+      caustic: build('caustic_cost', 'Caustic', '$'),
+      hfo: build('fo_cost', 'HFO (Furnace Oil)', '$'),
+      alumina: build('alumina_index', 'Alumina Index', '$'),
+      fx: build('fx_rate', 'INR / USD', '₹'),
+    };
+  }, [rows, prevRows]);
+
+
+
   // AI insights
   const insights = useMemo(() => {
     const list: { tone: 'pos' | 'neg' | 'warn' | 'info'; title: string; body: string }[] = [];
@@ -280,8 +412,48 @@ export default function AluminaCopDashboard() {
       title: `Recovery ${drivers.recDelta>=0?'improved':'declined'} ${Math.abs(drivers.recDelta).toFixed(2)} pp`,
       body: `Top contributors — ${drivers.parts.map(p=>`${p.name} ${p.share}%`).join(' · ')}.`
     });
+
+    // --- New executive insights
+    if (ops) {
+      list.push({
+        tone: ops.status === 'on' ? 'pos' : ops.status === 'warn' ? 'warn' : 'neg',
+        title: `Production is running ${ops.gapPct >= 0 ? '+' : ''}${ops.gapPct.toFixed(1)}% vs target`,
+        body: `Current ${fmt(ops.current)} MT/day vs target ${fmt(ops.target)} MT/day. Ask rate ${fmt(ops.askRate)} MT/day for ${ops.remaining} remaining days.`
+      });
+      list.push({
+        tone: ops.additional > 200 ? 'warn' : 'info',
+        title: `Required ask rate ${fmt(ops.askRate)} MT/day to hit monthly target`,
+        body: `Run rate (7d) ${fmt(ops.runRate)} MT/day. Additional ${fmt(ops.additional)} MT/day needed. Projected attainment ${ops.projAttain.toFixed(1)}%.`
+      });
+    }
+    if (lossParts.length) {
+      const top2 = lossParts.slice(0, 2).map(p => `${p.name} ${p.share}%`).join(' · ');
+      list.push({ tone: 'warn', title: `Top production shortfall drivers — ${top2}`, body: `Ranked contribution to current gap vs ${TARGET_PROD} MT/day target.` });
+    }
+    if (landed.top && landed.low) {
+      list.push({
+        tone: 'info',
+        title: `Imported bauxite is the ${landed.top.name === 'Imported' ? 'highest' : 'a'} landed cost source at $${fmt(landed.sources.find(s=>s.name==='Imported')?.cost||0)}/MT`,
+        body: `Weighted landed avg $${fmt(landed.weighted)}/MT. Lowest source: ${landed.low.name} at $${fmt(landed.low.cost)}/MT.`
+      });
+    }
+    const cau = commodities.caustic, hfo = commodities.hfo;
+    list.push({
+      tone: cau.cur > cau.mtdAvg ? 'warn' : 'info',
+      title: `Caustic ${cau.cur >= cau.mtdAvg ? 'above' : 'below'} MTD average by ${Math.abs(((cau.cur-cau.mtdAvg)/(cau.mtdAvg||1))*100).toFixed(1)}%`,
+      body: `Current $${fmt(cau.cur)}/MT · MTD avg $${fmt(cau.mtdAvg)}/MT · vs prev ${cau.change>=0?'+':''}${cau.change.toFixed(1)}%.`
+    });
+    list.push({
+      tone: hfo.change < 0 ? 'pos' : 'info',
+      title: `HFO ${hfo.change >= 0 ? 'increased' : 'reduced'} ${Math.abs(hfo.change).toFixed(1)}% vs previous period`,
+      body: `Current $${fmt(hfo.cur)}/MT · MTD avg $${fmt(hfo.mtdAvg)}/MT.`
+    });
+    // sort: warn/neg first
+    const rank: any = { warn: 0, neg: 1, pos: 2, info: 3 };
+    list.sort((a, b) => (rank[a.tone] ?? 9) - (rank[b.tone] ?? 9));
     return list;
-  }, [rows, hydMa, contrib, drivers]);
+  }, [rows, hydMa, contrib, drivers, ops, lossParts, landed, commodities]);
+
 
   const exportCsv = () => {
     const headers = Object.keys(rows[0] || {});
@@ -293,10 +465,10 @@ export default function AluminaCopDashboard() {
 
   const T = dark ? {
     bg: 'bg-slate-950', panel: 'bg-slate-900/60 border-slate-800', text: 'text-slate-100',
-    sub: 'text-slate-400', grid: '#1e293b', axis: '#64748b', tt: { background: '#0f172a', border: '1px solid #334155', color: '#e2e8f0' }
+    sub: 'text-slate-300', grid: '#1e293b', axis: '#64748b', tt: { background: '#0f172a', border: '1px solid #334155', color: '#e2e8f0' }
   } : {
     bg: 'bg-slate-50', panel: 'bg-white border-slate-200', text: 'text-slate-900',
-    sub: 'text-slate-500', grid: '#e2e8f0', axis: '#64748b', tt: { background: '#fff', border: '1px solid #cbd5e1', color: '#0f172a' }
+    sub: 'text-slate-600', grid: '#e2e8f0', axis: '#64748b', tt: { background: '#fff', border: '1px solid #cbd5e1', color: '#0f172a' }
   };
 
   const lastRow: any = rows[rows.length-1] || {};
@@ -318,10 +490,10 @@ export default function AluminaCopDashboard() {
             </div>
             <div>
               <div className="text-base md:text-lg font-semibold leading-tight">Alumina COP Intelligence</div>
-              <div className={`text-[11px] ${T.sub}`}>Production · cost · recovery · market · AI insights</div>
+              <div className={`text-[13px] ${T.sub}`}>Production · cost · recovery · market · AI insights</div>
             </div>
           </div>
-          <div className={`flex items-center gap-0.5 text-[11px] rounded-md border p-0.5 ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
+          <div className={`flex items-center gap-0.5 text-[13px] rounded-md border p-0.5 ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
             {COMPARE_MODES.map(m => (
               <button key={m} onClick={()=>setCompare(m)}
                 className={`px-2 py-1 rounded ${compare===m ? (dark?'bg-cyan-600 text-white':'bg-cyan-600 text-white') : T.sub}`}>{m}</button>
@@ -343,6 +515,98 @@ export default function AluminaCopDashboard() {
       </header>
 
       <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-6 space-y-6">
+
+        {/* Operations Command Center — answers the 3 biggest questions in 5–10s */}
+        {ops && (
+          <section className="space-y-3">
+            <SectionHeader icon={Activity} title="Operations Command Center" sub="Production gap · run rate vs ask rate · loss drivers" T={T} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {/* Card 1 — Production Status */}
+              <div className={`rounded-xl border ${T.panel} p-5`}>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Production Status</div></div>
+                  <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ring-1 ${
+                    ops.status === 'on' ? 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/40'
+                    : ops.status === 'warn' ? 'bg-amber-500/15 text-amber-300 ring-amber-500/40'
+                    : 'bg-rose-500/15 text-rose-300 ring-rose-500/40'
+                  }`}>{ops.status === 'on' ? '● ON TARGET' : ops.status === 'warn' ? '● WITHIN 5%' : '● BELOW TARGET'}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Current</div>
+                    <div className="text-3xl font-extrabold leading-tight">{fmt(ops.current)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>MT / day</div>
+                  </div>
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Target</div>
+                    <div className="text-3xl font-extrabold leading-tight">{fmt(ops.target)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>MT / day</div>
+                  </div>
+                </div>
+                <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} flex items-baseline justify-between`}>
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Gap</div>
+                    <div className={`text-2xl font-bold ${ops.gap >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{ops.gap >= 0 ? '+' : ''}{fmt(ops.gap)} MT</div>
+                  </div>
+                  <div className={`text-xl font-bold ${ops.gapPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{ops.gapPct >= 0 ? '+' : ''}{ops.gapPct.toFixed(1)}%</div>
+                </div>
+              </div>
+
+              {/* Card 2 — Run Rate vs Ask Rate */}
+              <div className={`rounded-xl border ${T.panel} p-5`}>
+                <div className="flex items-center gap-2 mb-3"><Gauge className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Run Rate vs Ask Rate</div></div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Current Run Rate</div>
+                    <div className="text-3xl font-extrabold">{fmt(ops.runRate)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>MT / day · 7d avg</div>
+                  </div>
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Required Ask Rate</div>
+                    <div className={`text-3xl font-extrabold ${ops.additional > 0 ? 'text-amber-300' : 'text-emerald-300'}`}>{fmt(ops.askRate)}</div>
+                    <div className={`text-[12px] ${T.sub}`}>over {ops.remaining} days left</div>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <div className="flex items-center justify-between text-[12px] mb-1">
+                    <span className={T.sub}>Month attainment (projected)</span>
+                    <span className={`font-semibold ${ops.projAttain >= 99 ? 'text-emerald-400' : ops.projAttain >= 95 ? 'text-amber-300' : 'text-rose-400'}`}>{ops.projAttain.toFixed(1)}%</span>
+                  </div>
+                  <div className={`h-2 rounded-full overflow-hidden ${dark ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                    <div className={`h-full ${ops.projAttain >= 99 ? 'bg-emerald-500' : ops.projAttain >= 95 ? 'bg-amber-400' : 'bg-rose-500'}`} style={{ width: `${Math.min(100, ops.projAttain)}%` }} />
+                  </div>
+                </div>
+                <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[12px] flex justify-between`}>
+                  <span className={T.sub}>Additional needed</span>
+                  <span className={`font-bold ${ops.additional > 0 ? 'text-amber-300' : 'text-emerald-400'}`}>+{fmt(ops.additional)} MT/day</span>
+                </div>
+              </div>
+
+              {/* Card 3 — Production Loss Analysis */}
+              <div className={`rounded-xl border ${T.panel} p-5`}>
+                <div className="flex items-center gap-2 mb-3"><AlertTriangle className="w-4 h-4 text-amber-400" /><div className="font-semibold text-base">Why Production is Low</div></div>
+                {lossParts.length === 0 ? (
+                  <div className={`text-sm ${T.sub} py-6 text-center`}>Production at or above target — no material loss drivers.</div>
+                ) : (
+                  <div className="space-y-2">
+                    {lossParts.map(p => (
+                      <div key={p.name}>
+                        <div className="flex items-center justify-between text-[13px] mb-1">
+                          <span className="font-medium">{p.name}</span>
+                          <span className="font-bold">{p.share}%</span>
+                        </div>
+                        <div className={`h-2 rounded-full overflow-hidden ${dark ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                          <div className="h-full rounded-full" style={{ width: `${p.share}%`, background: p.color }} />
+                        </div>
+                      </div>
+                    ))}
+                    <div className={`text-[12px] ${T.sub} pt-2`}>Ranked contribution of quality, inventory & process drivers to current shortfall.</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Executive Summary KPIs */}
         <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
@@ -373,7 +637,7 @@ export default function AluminaCopDashboard() {
                 const good = inv ? v < 0 : v > 0;
                 return (
                   <div key={n} className={`rounded-lg border p-2 ${dark?'border-slate-800':'border-slate-200'}`}>
-                    <div className={`text-[10px] uppercase tracking-wider ${T.sub}`}>{n}</div>
+                    <div className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{n}</div>
                     <div className={`text-sm font-bold ${good?'text-emerald-400':'text-rose-400'}`}>{v>=0?'+':''}{v.toFixed(1)}%</div>
                   </div>
                 );
@@ -385,17 +649,112 @@ export default function AluminaCopDashboard() {
         {/* Market & Financial Intelligence */}
         <section className="space-y-3">
           <SectionHeader icon={LineIcon} title="Market & Financial Intelligence" sub="Alumina index · FX · landed bauxite & conversion" T={T} />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Kpi T={T} icon={DollarSign} label="Alumina Index (latest)" value={`$${fmt((lastRow.alumina_index)||0,1)}`} delta={pctChange(lastRow.alumina_index, rows[0]?.alumina_index)} hint={`MTD avg $${fmt(avg(rows.map(r=>(r as any).alumina_index)),1)}`} />
-            <Kpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" value={`${fmt(lastRow.fx_rate,2)}`} delta={pctChange(lastRow.fx_rate, rows[0]?.fx_rate)} invert hint={`MTD avg ${fmt(avg(rows.map(r=>(r as any).fx_rate)),2)}`} />
-            <Kpi T={T} icon={Droplets} label="Bauxite Cost (avg)" value={`$${fmt(avg(rows.map(r=>r.bauxite_cost)))}/MT`} delta={variance?.bauxite} invert hint={`${((avg(rows.map(r=>r.bauxite_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP`} />
-            <Kpi T={T} icon={Flame} label="Other Cost (avg)" value={`$${fmt(avg(rows.map(r=>(r as any).conv_cost)))}/MT`} delta={variance?.conv} invert hint={`${((avg(rows.map(r=>(r as any).conv_cost))/avg(rows.map(r=>r.total_cop)))*100).toFixed(0)}% of COP · ex-bauxite`} />
+          {/* MTD-first headline cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <BigKpi T={T} icon={DollarSign} label="Alumina Index" unit="$" mtd={fmt(commodities.alumina.mtdAvg,1)} current={fmt(commodities.alumina.cur,1)} prevMtd={fmt(commodities.alumina.prev,1)} change={commodities.alumina.change} />
+            <BigKpi T={T} icon={IndianRupee} label="Exchange Rate (INR/USD)" unit="" mtd={fmt(commodities.fx.mtdAvg,2)} current={fmt(commodities.fx.cur,2)} prevMtd={fmt(commodities.fx.prev,2)} change={commodities.fx.change} invert />
+            <BigKpi T={T} icon={Droplets} label="Bauxite Cost (landed)" unit="$" mtd={fmt(landed.weighted)} current={fmt(lastRow.bauxite_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>r.bauxite_cost))) : null} change={variance?.bauxite} invert />
+            <BigKpi T={T} icon={Flame} label="Other Cost" unit="$" mtd={fmt(avg(rows.map(r=>(r as any).conv_cost)))} current={fmt((lastRow as any).conv_cost||0)} prevMtd={prevRows.length ? fmt(avg(prevRows.map(r=>(r as any).conv_cost))) : null} change={variance?.conv} invert />
           </div>
+
+          {/* Landed Bauxite Cost by Source */}
+          <div className={`rounded-xl border ${T.panel} p-4`}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><Droplets className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Landed Bauxite Cost · by source</div></div>
+              <div className="text-[12px]"><span className={T.sub}>Weighted avg </span><span className="font-bold">${fmt(landed.weighted)}/MT</span></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
+              <div className="lg:col-span-2">
+                <div className="overflow-hidden rounded-lg border ${dark?'border-slate-800':'border-slate-200'}">
+                  <table className="w-full text-[13px]">
+                    <thead className={dark ? 'text-slate-300 bg-slate-900/60' : 'text-slate-600 bg-slate-100'}>
+                      <tr>
+                        <th className="text-left py-2 px-3 font-semibold">Source</th>
+                        <th className="text-right py-2 px-3 font-semibold">Landed $/MT</th>
+                        <th className="text-right py-2 px-3 font-semibold">Share %</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {landed.sources.map(s => (
+                        <tr key={s.name} className={`border-t ${dark?'border-slate-800':'border-slate-200'}`}>
+                          <td className="py-2.5 px-3">
+                            <span className="inline-flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />
+                              <span className="font-semibold">{s.name}</span>
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-right font-bold">${fmt(s.cost)}</td>
+                          <td className={`py-2.5 px-3 text-right ${T.sub}`}>{s.share.toFixed(1)}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-[12px]">
+                  {landed.top && (
+                    <div className={`rounded-md border ${dark?'border-rose-500/30 bg-rose-500/5':'border-rose-200 bg-rose-50'} p-2`}>
+                      <div className={T.sub}>Highest cost</div>
+                      <div className="font-bold text-rose-400">{landed.top.name} · ${fmt(landed.top.cost)}/MT</div>
+                    </div>
+                  )}
+                  {landed.low && (
+                    <div className={`rounded-md border ${dark?'border-emerald-500/30 bg-emerald-500/5':'border-emerald-200 bg-emerald-50'} p-2`}>
+                      <div className={T.sub}>Lowest cost</div>
+                      <div className="font-bold text-emerald-400">{landed.low.name} · ${fmt(landed.low.cost)}/MT</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="lg:col-span-3">
+                <ResponsiveContainer width="100%" height={240}>
+                  <LineChart data={landed.trend}>
+                    <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                    <YAxis stroke={T.axis} fontSize={13} />
+                    <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`$${v}/MT`} />
+                    <Legend wrapperStyle={{ fontSize: 13 }} />
+                    <Line dataKey="OMC" stroke={SOURCE_COLOR.OMC} strokeWidth={2.25} dot={false} />
+                    <Line dataKey="Andru" stroke={SOURCE_COLOR.Andru} strokeWidth={2.25} dot={false} />
+                    <Line dataKey="Imported" stroke={SOURCE_COLOR.Imported} strokeWidth={2.5} dot={false} />
+                    <Line dataKey="Other" stroke={SOURCE_COLOR.Other} strokeWidth={2.25} strokeDasharray="4 3" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Bauxite Mix summary chips */}
+          <div className={`rounded-xl border ${T.panel} p-4`}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><Layers className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Bauxite Mix · current vs previous period</div></div>
+              <div className={`text-[12px] ${T.sub}`}>shares averaged over selected window</div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {(['OMC','Andru','Imported','Other'] as const).map(n => {
+                const cur = mixSummary.cur[n], prv = mixSummary.prev[n];
+                const ch = cur - prv;
+                return (
+                  <div key={n} className={`rounded-lg border p-3 ${dark?'border-slate-800':'border-slate-200'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-2.5 h-2.5 rounded-full" style={{ background: SOURCE_COLOR[n] }} />
+                      <span className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{n}</span>
+                    </div>
+                    <div className="text-2xl font-extrabold">{cur.toFixed(0)}%</div>
+                    <div className={`text-[12px] mt-1 flex items-center gap-2 ${T.sub}`}>
+                      <span>prev {prv.toFixed(0)}%</span>
+                      <span className={`font-semibold ${ch >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{ch >= 0 ? '+' : ''}{ch.toFixed(1)} pp</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Other Cost breakdown */}
           <div className={`rounded-xl border ${T.panel} p-3`}>
             <div className="flex items-center justify-between mb-2">
-              <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
-              <div className="text-[11px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
+              <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>Other Cost breakdown · avg $/MT</div>
+              <div className="text-[13px] font-semibold">Total ${fmt(['power_cost','steam_cost','fo_cost','non_comm_cost','lime_cost','caustic_cost'].reduce((s,k)=>s+avg(rows.map(r=>Number((r as any)[k])||0)),0))}/MT</div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
               {[
@@ -413,10 +772,10 @@ export default function AluminaCopDashboard() {
                   <div key={c.name} className={`rounded-lg border p-2 ${dark?'border-slate-800':'border-slate-200'}`}>
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-2 h-2 rounded-full" style={{ background: c.color }} />
-                      <span className={`text-[10px] uppercase tracking-wider ${T.sub}`}>{c.name}</span>
+                      <span className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{c.name}</span>
                     </div>
                     <div className="text-sm font-bold">${fmt(v)}</div>
-                    <div className={`text-[10px] ${T.sub}`}>{share.toFixed(0)}% of other</div>
+                    <div className={`text-[12px] ${T.sub}`}>{share.toFixed(0)}% of other</div>
                   </div>
                 );
               })}
@@ -427,10 +786,10 @@ export default function AluminaCopDashboard() {
               <ResponsiveContainer width="100%" height={240}>
                 <ComposedChart data={market}>
                   <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                  <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                  <YAxis stroke={T.axis} fontSize={11} domain={['dataMin-10','dataMax+10']} />
+                  <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                  <YAxis stroke={T.axis} fontSize={13} domain={['dataMin-10','dataMax+10']} />
                   <Tooltip contentStyle={T.tt as any} />
-                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Legend wrapperStyle={{ fontSize: 13 }} />
                   <Area dataKey="Index" name="Index $/MT" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.18} />
                   <Line dataKey="Index_MA" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
                 </ComposedChart>
@@ -440,15 +799,55 @@ export default function AluminaCopDashboard() {
               <ResponsiveContainer width="100%" height={240}>
                 <ComposedChart data={market}>
                   <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                  <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                  <YAxis stroke={T.axis} fontSize={11} domain={['dataMin-0.3','dataMax+0.3']} />
+                  <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                  <YAxis stroke={T.axis} fontSize={13} domain={['dataMin-0.3','dataMax+0.3']} />
                   <Tooltip contentStyle={T.tt as any} />
-                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Legend wrapperStyle={{ fontSize: 13 }} />
                   <Area dataKey="FX" name="INR/USD" stroke="#a855f7" fill="#a855f7" fillOpacity={0.18} />
                   <Line dataKey="FX_MA" name="MTD MA" stroke="#10b981" strokeWidth={2} dot={false} />
                 </ComposedChart>
               </ResponsiveContainer>
             </Panel>
+          </div>
+        </section>
+
+        {/* Commodity Intelligence */}
+        <section className="space-y-3">
+          <SectionHeader icon={Beaker} title="Commodity Intelligence" sub="Current rate · MTD average · vs prior period" T={T} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {[commodities.caustic, commodities.hfo].map((c) => (
+              <div key={c.key} className={`rounded-xl border ${T.panel} p-4`}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                      {c.key === 'caustic_cost' ? <Beaker className="w-4 h-4" /> : <Flame className="w-4 h-4" />}
+                    </div>
+                    <div>
+                      <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>{c.label}</div>
+                      <div className="text-2xl font-extrabold leading-tight">${fmt(c.mtdAvg)}</div>
+                      <div className={`text-[12px] ${T.sub}`}>MTD Average · $/MT</div>
+                    </div>
+                  </div>
+                  <span className={`text-[12px] font-bold px-2 py-0.5 rounded ${c.change >= 0 ? 'bg-rose-500/15 text-rose-300 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30'}`}>
+                    {c.change >= 0 ? '+' : ''}{c.change.toFixed(2)}%
+                  </span>
+                </div>
+                <div className="flex items-end justify-between gap-3 mt-2">
+                  <div className="text-[12px] space-y-0.5">
+                    <div className="flex gap-2"><span className={T.sub}>Current</span><span className="font-semibold">${fmt(c.cur)}</span></div>
+                    <div className="flex gap-2"><span className={T.sub}>Prev period</span><span>${fmt(c.prev)}</span></div>
+                  </div>
+                  <div className="flex-1 max-w-[55%]">
+                    <ResponsiveContainer width="100%" height={56}>
+                      <AreaChart data={c.spark}>
+                        <Area dataKey="v" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.25} strokeWidth={1.75} />
+                        <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`$${v}`} />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -489,7 +888,7 @@ export default function AluminaCopDashboard() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <SectionHeader icon={Factory} title="Product Category Analytics" sub="Hydrate vs Calcined alumina" T={T} />
-            <div className={`flex text-[11px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
+            <div className={`flex text-[13px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
               {(['Combined','Hydrate','Calcined'] as const).map(v => (
                 <button key={v} onClick={()=>setProductView(v)} className={`px-2 py-1 rounded ${productView===v?'bg-cyan-600 text-white':T.sub}`}>{v}</button>
               ))}
@@ -501,10 +900,10 @@ export default function AluminaCopDashboard() {
                 <ResponsiveContainer width="100%" height={240}>
                   <ComposedChart data={prod}>
                     <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                    <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                    <YAxis stroke={T.axis} fontSize={11} />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                    <YAxis stroke={T.axis} fontSize={13} />
                     <Tooltip contentStyle={T.tt as any} />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Legend wrapperStyle={{ fontSize: 13 }} />
                     <Bar dataKey="hydrate" name="Hydrate MT" fill="#06b6d4" radius={[3, 3, 0, 0]} />
                     <Line dataKey="hyd_ma" name="7d MA" stroke="#f59e0b" strokeWidth={2} dot={false} />
                   </ComposedChart>
@@ -516,10 +915,10 @@ export default function AluminaCopDashboard() {
                 <ResponsiveContainer width="100%" height={240}>
                   <ComposedChart data={prod}>
                     <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                    <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                    <YAxis stroke={T.axis} fontSize={11} />
+                    <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                    <YAxis stroke={T.axis} fontSize={13} />
                     <Tooltip contentStyle={T.tt as any} />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Legend wrapperStyle={{ fontSize: 13 }} />
                     <Bar dataKey="calcined" name="Calcined MT" fill="#8b5cf6" radius={[3, 3, 0, 0]} />
                     <Line dataKey="cal_ma" name="7d MA" stroke="#10b981" strokeWidth={2} dot={false} />
                   </ComposedChart>
@@ -535,10 +934,10 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={280}>
               <AreaChart data={bauxiteMix} stackOffset="expand">
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis stroke={T.axis} fontSize={13} tickFormatter={(v) => `${Math.round(v * 100)}%`} />
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `${v}%`} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Area dataKey="OMC" stackId="1" stroke="#06b6d4" fill="#06b6d4" />
                 <Area dataKey="Andru" stackId="1" stroke="#8b5cf6" fill="#8b5cf6" />
                 <Area dataKey="Imported" stackId="1" stroke="#f59e0b" fill="#f59e0b" />
@@ -553,7 +952,7 @@ export default function AluminaCopDashboard() {
                   {contrib.map((c, i) => <Cell key={i} fill={c.color} />)}
                 </Pie>
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `$${v}/MT`} />
-                <Legend wrapperStyle={{ fontSize: 10 }} />
+                <Legend wrapperStyle={{ fontSize: 12 }} />
               </PieChart>
             </ResponsiveContainer>
           </Panel>
@@ -564,11 +963,11 @@ export default function AluminaCopDashboard() {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={cost}>
               <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-              <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-              <YAxis yAxisId="l" stroke={T.axis} fontSize={11} />
-              <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} />
+              <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+              <YAxis yAxisId="l" stroke={T.axis} fontSize={13} />
+              <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={13} />
               <Tooltip contentStyle={T.tt as any} />
-              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Legend wrapperStyle={{ fontSize: 13 }} />
               <Line yAxisId="l" dataKey="Bauxite" stroke="#0369a1" strokeWidth={2.25} dot={false} />
               <Line yAxisId="l" dataKey="Conversion" stroke="#16a34a" strokeWidth={2.25} strokeDasharray="6 3" dot={false} />
               <Line yAxisId="l" dataKey="Steam" stroke="#dc2626" strokeWidth={2.25} dot={false} />
@@ -582,7 +981,7 @@ export default function AluminaCopDashboard() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <SectionHeader icon={Beaker} title="Caustic Consumption Breakdown" sub="Chemical vs Non-Chemical" T={T} />
-            <div className={`flex text-[11px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
+            <div className={`flex text-[13px] rounded-md border p-0.5 ${dark?'border-slate-800':'border-slate-200'}`}>
               {(['Combined','Chemical','Non-Chemical'] as const).map(v => (
                 <button key={v} onClick={()=>setCausticView(v)} className={`px-2 py-1 rounded ${causticView===v?'bg-cyan-600 text-white':T.sub}`}>{v}</button>
               ))}
@@ -592,10 +991,10 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={caustic}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis stroke={T.axis} fontSize={13} />
                 <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 {causticView !== 'Non-Chemical' && causticView !== 'Combined' && (
                   <Bar dataKey="Chemical" fill="#06b6d4" />
                 )}
@@ -614,7 +1013,7 @@ export default function AluminaCopDashboard() {
         {/* Conversion Matrix */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className={`rounded-xl border ${T.panel} p-4 lg:col-span-1`}>
-            <div className="flex items-center gap-2 mb-3"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-sm">Bauxite Conversion Ratio</div></div>
+            <div className="flex items-center gap-2 mb-3"><Target className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Bauxite Conversion Ratio</div></div>
             <div className="grid grid-cols-3 gap-2 mb-3">
               <Stat label="Actual" value={convSummary.actual.toFixed(2)} T={T} />
               <Stat label="Target" value={convSummary.target.toFixed(2)} T={T} />
@@ -627,12 +1026,12 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={convRatio}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis stroke={T.axis} fontSize={11} domain={[3.0, 3.6]} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis stroke={T.axis} fontSize={13} domain={[3.0, 3.6]} />
                 <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Line dataKey="Actual" stroke="#06b6d4" strokeWidth={2.5} dot={false} />
-                <ReferenceLine y={3.33} stroke="#10b981" strokeDasharray="4 4" label={{ value:'Target 3.33', fill:'#10b981', fontSize: 10 }} />
+                <ReferenceLine y={3.33} stroke="#10b981" strokeDasharray="4 4" label={{ value:'Target 3.33', fill:'#10b981', fontSize: 12 }} />
               </LineChart>
             </ResponsiveContainer>
           </Panel>
@@ -649,15 +1048,15 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={280}>
               <ComposedChart data={inv}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis yAxisId="l" stroke={T.axis} fontSize={11} label={{ value: 'KT', angle: -90, position: 'insideLeft', fill: T.axis, fontSize: 10 }} />
-                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} label={{ value: 'Days', angle: 90, position: 'insideRight', fill: T.axis, fontSize: 10 }} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis yAxisId="l" stroke={T.axis} fontSize={13} label={{ value: 'KT', angle: -90, position: 'insideLeft', fill: T.axis, fontSize: 12 }} />
+                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={13} label={{ value: 'Days', angle: 90, position: 'insideRight', fill: T.axis, fontSize: 12 }} />
                 <Tooltip contentStyle={T.tt as any} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Bar yAxisId="l" dataKey="Domestic" stackId="s" fill="#06b6d4" />
                 <Bar yAxisId="l" dataKey="Imported" stackId="s" fill="#f59e0b" />
                 <Line yAxisId="r" dataKey="days" name="Stock Days" stroke="#ef4444" strokeWidth={2.5} />
-                <ReferenceLine yAxisId="r" y={6} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Floor 6d', fill: '#ef4444', fontSize: 10 }} />
+                <ReferenceLine yAxisId="r" y={6} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Floor 6d', fill: '#ef4444', fontSize: 12 }} />
               </ComposedChart>
             </ResponsiveContainer>
           </Panel>
@@ -669,11 +1068,11 @@ export default function AluminaCopDashboard() {
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={qual}>
                 <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                <XAxis dataKey="date" stroke={T.axis} fontSize={11} />
-                <YAxis yAxisId="l" stroke={T.axis} fontSize={11} />
-                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={11} domain={[88, 93]} />
+                <XAxis dataKey="date" stroke={T.axis} fontSize={13} />
+                <YAxis yAxisId="l" stroke={T.axis} fontSize={13} />
+                <YAxis yAxisId="r" orientation="right" stroke={T.axis} fontSize={13} domain={[88, 93]} />
                 <Tooltip contentStyle={T.tt as any} formatter={(v: any) => `${v}%`} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
                 <Line yAxisId="l" dataKey="THA" stroke="#1e3a8a" strokeWidth={2.25} dot={false} />
                 <Line yAxisId="l" dataKey="Moisture" stroke="#d97706" strokeWidth={2.25} strokeDasharray="6 3" dot={false} />
                 <Line yAxisId="l" dataKey="RS" stroke="#dc2626" strokeWidth={2.25} strokeDasharray="2 3" dot={false} />
@@ -682,16 +1081,16 @@ export default function AluminaCopDashboard() {
             </ResponsiveContainer>
           </Panel>
           <div className={`rounded-xl border ${T.panel} p-4`}>
-            <div className="flex items-center gap-2 mb-3"><ShieldCheck className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-sm">Quality Logic</div></div>
+            <div className="flex items-center gap-2 mb-3"><ShieldCheck className="w-4 h-4 text-cyan-400" /><div className="font-semibold text-base">Quality Logic</div></div>
             <ul className={`text-xs space-y-2 ${T.sub}`}>
               <li><span className="text-emerald-400 font-semibold">↑ THA</span> → ↑ Recovery</li>
               <li><span className="text-rose-400 font-semibold">↑ Moisture</span> → ↓ Recovery</li>
               <li><span className="text-rose-400 font-semibold">↑ RS</span> → ↓ Recovery</li>
             </ul>
             <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-xs`}>
-              <div className={`uppercase tracking-wider text-[10px] ${T.sub}`}>Composite Quality Score</div>
+              <div className={`uppercase tracking-wider text-[12px] ${T.sub}`}>Composite Quality Score</div>
               <div className="text-2xl font-bold mt-1">{qualityScore}<span className={`text-sm ${T.sub}`}>/100</span></div>
-              <div className={`text-[11px] mt-1 ${T.sub}`}>THA {pct(avg(rows.map(r=>r.tha)),2)} · Moisture {pct(avg(rows.map(r=>r.moisture)),2)} · RS {pct(avg(rows.map(r=>(r as any).rs)),2)}</div>
+              <div className={`text-[13px] mt-1 ${T.sub}`}>THA {pct(avg(rows.map(r=>r.tha)),2)} · Moisture {pct(avg(rows.map(r=>r.moisture)),2)} · RS {pct(avg(rows.map(r=>(r as any).rs)),2)}</div>
             </div>
           </div>
         </section>
@@ -710,15 +1109,15 @@ export default function AluminaCopDashboard() {
               </div>
               <div className="text-center text-2xl text-cyan-400 hidden md:block">→</div>
               <div className={`rounded-lg border ${dark?'border-slate-700':'border-slate-200'} p-3 text-center`}>
-                <div className={`text-[10px] uppercase ${T.sub}`}>Recovery</div>
+                <div className={`text-[12px] uppercase ${T.sub}`}>Recovery</div>
                 <div className="text-2xl font-bold text-emerald-400">{pct(k.rec.avg,2)}</div>
-                <div className={`text-[10px] ${T.sub}`}>target ≥ 91%</div>
+                <div className={`text-[12px] ${T.sub}`}>target ≥ 91%</div>
               </div>
               <div className="text-center text-2xl text-cyan-400 hidden md:block">→</div>
               <div className={`rounded-lg border ${dark?'border-slate-700':'border-slate-200'} p-3 text-center`}>
-                <div className={`text-[10px] uppercase ${T.sub}`}>Total COP</div>
+                <div className={`text-[12px] uppercase ${T.sub}`}>Total COP</div>
                 <div className="text-2xl font-bold">${fmt(k.cop.avg)}</div>
-                <div className={`text-[10px] ${T.sub}`}>via conversion cost</div>
+                <div className={`text-[12px] ${T.sub}`}>via conversion cost</div>
               </div>
             </div>
           </div>
@@ -744,15 +1143,15 @@ export default function AluminaCopDashboard() {
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={drivers.parts} layout="vertical">
                   <CartesianGrid stroke={T.grid} strokeDasharray="3 3" />
-                  <XAxis type="number" stroke={T.axis} fontSize={11} tickFormatter={(v)=>`${v}%`} />
-                  <YAxis type="category" dataKey="name" stroke={T.axis} fontSize={11} width={70} />
+                  <XAxis type="number" stroke={T.axis} fontSize={13} tickFormatter={(v)=>`${v}%`} />
+                  <YAxis type="category" dataKey="name" stroke={T.axis} fontSize={13} width={70} />
                   <Tooltip contentStyle={T.tt as any} formatter={(v:any)=>`${v}%`} />
                   <Bar dataKey="share" radius={[0,4,4,0]}>
                     {drivers.parts.map((p:any,i:number)=><Cell key={i} fill={p.color} />)}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-              <div className={`text-[11px] ${T.sub} mt-1`}>Recovery moved {drivers.recDelta>=0?'+':''}{drivers.recDelta.toFixed(2)} pp over period.</div>
+              <div className={`text-[13px] ${T.sub} mt-1`}>Recovery moved {drivers.recDelta>=0?'+':''}{drivers.recDelta.toFixed(2)} pp over period.</div>
             </Panel>
             <Panel T={T} title="Correlation analytics" icon={Activity}>
               <div className="space-y-2 text-xs">
@@ -761,7 +1160,7 @@ export default function AluminaCopDashboard() {
                 <CorrRow T={T} label="RS vs Recovery" c={drivers.cRS} />
                 <CorrRow T={T} label="Recovery vs COP" c={drivers.cRecCop} />
               </div>
-              <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[11px] ${T.sub}`}>
+              <div className={`mt-3 pt-3 border-t ${dark?'border-slate-800':'border-slate-200'} text-[13px] ${T.sub}`}>
                 Higher recovery → lower bauxite consumption → lower conversion cost → lower COP.
               </div>
             </Panel>
@@ -775,7 +1174,7 @@ export default function AluminaCopDashboard() {
               <thead className={dark ? 'text-slate-400' : 'text-slate-500'}>
                 <tr className={`border-b ${dark ? 'border-slate-800' : 'border-slate-200'}`}>
                   {['Date', 'Bauxite SC', 'Caustic SC', 'Lime SC', 'Steam SC', 'Power SC', 'FO SC', 'COP $/MT', 'Recovery %'].map(h =>
-                    <th key={h} className="text-left py-2 px-2 font-medium uppercase tracking-wider text-[10px]">{h}</th>)}
+                    <th key={h} className="text-left py-2 px-2 font-medium uppercase tracking-wider text-[12px]">{h}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -790,7 +1189,7 @@ export default function AluminaCopDashboard() {
                     <td className="py-1.5 px-2">{r.fo_sc}</td>
                     <td className={`py-1.5 px-2 font-semibold ${r.total_cop > 400 ? 'text-amber-400' : ''}`}>${r.total_cop}</td>
                     <td className="py-1.5 px-2">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${r.recovery < 0.91 ? 'bg-rose-500/15 text-rose-400 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30'}`}>{(r.recovery * 100).toFixed(2)}%</span>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[13px] font-semibold ${r.recovery < 0.91 ? 'bg-rose-500/15 text-rose-400 ring-1 ring-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30'}`}>{(r.recovery * 100).toFixed(2)}%</span>
                     </td>
                   </tr>
                 ))}
@@ -799,10 +1198,36 @@ export default function AluminaCopDashboard() {
           </div>
         </Panel>
 
-        <footer className={`text-center text-[11px] ${T.sub} py-4`}>
+        <footer className={`text-center text-[13px] ${T.sub} py-4`}>
           Alumina COP Intelligence · {rows.length} days · {from} → {to} · mode {compare}
         </footer>
       </main>
+    </div>
+  );
+}
+
+function BigKpi({ T, icon: Icon, label, unit = '', mtd, current, prevMtd, change, invert }: any) {
+  const hasChange = typeof change === 'number' && isFinite(change);
+  const good = invert ? change < 0 : change > 0;
+  return (
+    <div className={`rounded-xl border ${T.panel} p-4`}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="w-9 h-9 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+          <Icon className="w-4 h-4" />
+        </div>
+        {hasChange && (
+          <span className={`text-[12px] font-semibold px-1.5 py-0.5 rounded ${good ? 'text-emerald-300 bg-emerald-500/15' : 'text-rose-300 bg-rose-500/15'}`}>
+            {change >= 0 ? '+' : ''}{change.toFixed(2)}%
+          </span>
+        )}
+      </div>
+      <div className={`text-[12px] uppercase tracking-wider ${T.sub}`}>{label}</div>
+      <div className="text-3xl md:text-4xl font-extrabold mt-1 leading-tight">{unit}{mtd}</div>
+      <div className={`text-[12px] mt-1 ${T.sub}`}>MTD Average</div>
+      <div className={`mt-2 pt-2 border-t ${T.panel.includes('slate-900') ? 'border-slate-800' : 'border-slate-200'} text-[12px] space-y-0.5`}>
+        <div className="flex justify-between"><span className={T.sub}>Current</span><span className="font-semibold">{unit}{current}</span></div>
+        <div className="flex justify-between"><span className={T.sub}>Prev MTD avg</span><span>{prevMtd != null ? `${unit}${prevMtd}` : '—'}</span></div>
+      </div>
     </div>
   );
 }
@@ -817,15 +1242,15 @@ function Kpi({ T, icon: Icon, label, value, delta, hint, invert, alert }: any) {
           <Icon className="w-4 h-4" />
         </div>
         {showDelta && (
-          <span className={`inline-flex items-center gap-0.5 text-[11px] font-semibold px-1.5 py-0.5 rounded ${good ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'}`}>
+          <span className={`inline-flex items-center gap-0.5 text-[13px] font-semibold px-1.5 py-0.5 rounded ${good ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'}`}>
             {delta > 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
             {Math.abs(delta).toFixed(1)}%
           </span>
         )}
       </div>
-      <div className={`text-[11px] uppercase tracking-wider ${T.sub}`}>{label}</div>
-      <div className="text-lg md:text-xl font-bold mt-0.5">{value}</div>
-      {hint && <div className={`text-[10px] ${T.sub} mt-0.5`}>{hint}</div>}
+      <div className={`text-[13px] uppercase tracking-wider ${T.sub}`}>{label}</div>
+      <div className="text-2xl md:text-3xl font-bold mt-0.5">{value}</div>
+      {hint && <div className={`text-[12px] ${T.sub} mt-0.5`}>{hint}</div>}
     </div>
   );
 }
@@ -835,7 +1260,7 @@ function Panel({ T, title, icon: Icon, children, className = '' }: any) {
     <div className={`rounded-xl border ${T.panel} p-4 ${className}`}>
       <div className="flex items-center gap-2 mb-3">
         {Icon && <Icon className="w-4 h-4 text-cyan-400" />}
-        <div className="font-semibold text-sm">{title}</div>
+        <div className="font-semibold text-base">{title}</div>
       </div>
       {children}
     </div>
@@ -847,8 +1272,8 @@ function SectionHeader({ icon: Icon, title, sub, T }: any) {
     <div className="flex items-center gap-2">
       <Icon className="w-4 h-4 text-cyan-400" />
       <div>
-        <div className="font-semibold text-sm">{title}</div>
-        {sub && <div className={`text-[11px] ${T.sub}`}>{sub}</div>}
+        <div className="font-semibold text-base">{title}</div>
+        {sub && <div className={`text-[13px] ${T.sub}`}>{sub}</div>}
       </div>
     </div>
   );
@@ -858,7 +1283,7 @@ function Stat({ T, label, value, tone }: any) {
   const c = tone==='pos'?'text-emerald-400':tone==='warn'?'text-amber-400':'';
   return (
     <div className={`rounded-md border ${T?.panel||''} p-2`}>
-      <div className={`text-[10px] uppercase ${T?.sub||''}`}>{label}</div>
+      <div className={`text-[12px] uppercase ${T?.sub||''}`}>{label}</div>
       <div className={`text-sm font-bold ${c}`}>{value}</div>
     </div>
   );
@@ -874,15 +1299,15 @@ function InvCard({ T, title, stock, days, health }: any) {
     <div className={`rounded-xl border ${T.panel} p-4`}>
       <div className="flex items-center justify-between mb-2">
         <div className="text-sm font-semibold">{title}</div>
-        <span className={`text-[11px] px-2 py-0.5 rounded border ${colorMap[health.color]}`}>{health.label}</span>
+        <span className={`text-[13px] px-2 py-0.5 rounded border ${colorMap[health.color]}`}>{health.label}</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <div className={`text-[10px] uppercase ${T.sub}`}>Current Stock</div>
+          <div className={`text-[12px] uppercase ${T.sub}`}>Current Stock</div>
           <div className="text-xl font-bold">{fmt(stock)} KT</div>
         </div>
         <div>
-          <div className={`text-[10px] uppercase ${T.sub}`}>Stock Days Remaining</div>
+          <div className={`text-[12px] uppercase ${T.sub}`}>Stock Days Remaining</div>
           <div className="text-xl font-bold">{days} d</div>
         </div>
       </div>
