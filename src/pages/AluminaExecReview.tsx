@@ -186,7 +186,7 @@ export default function AluminaExecReview() {
     const lines: string[] = [];
     lines.push('LNJ Total View');
     lines.push(['Particulars','UOM','Current (FTD)','MTD','MTD Target','BP Target','Prev Month','Forecast','Var vs Tgt %','Var vs Bud %'].join(','));
-    Object.entries(lnjTotal).forEach(([name, r]) => {
+    Object.entries(lnjTotal).filter(([name]) => !name.startsWith('_')).forEach(([name, r]) => {
       const vT = variance(r.mtd, r.mtd_target, r.dir);
       const vB = variance(r.mtd, r.budget, r.dir);
       lines.push([
@@ -279,7 +279,7 @@ export default function AluminaExecReview() {
               </tr>
             </thead>
             <tbody>
-              {Object.entries(lnjTotal).map(([n, r]) => renderLnjRow(n, r))}
+              {Object.entries(lnjTotal).filter(([n]) => !n.startsWith('_')).map(([n, r]) => renderLnjRow(n, r))}
               <tr><td colSpan={9} className="bg-slate-800/60 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-300">Specific Consumption · Recovery · Conversion</td></tr>
               {Object.entries(specs).map(([n, r]) => renderLnjRow(n, r))}
             </tbody>
